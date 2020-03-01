@@ -172,13 +172,14 @@ function(itk_fetch_module _name _description)
     set(MODULE_COMPLIANCE_LEVEL ${DEFAULT_MODULE_COMPLIANCE_LEVEL})
   endif()
 
-  if(MODULE_COMPLIANCE_LEVEL GREATER_EQUAL ITK_MINIMUM_COMPLIANCE_LEVEL)
+  if(${MODULE_COMPLIANCE_LEVEL} GREATER_EQUAL ${ITK_MINIMUM_COMPLIANCE_LEVEL})
     set(Module_${_name}_VALID ON)
   else()
     set(Module_${_name}_VALID OFF)
   endif()
-  #message(WARNING "MODULE_VALID:${Module_${_name}_VALID}:${MODULE_COMPLIANCE_LEVEL}>=${ITK_MINIMUM_COMPLIANCE_LEVEL}")
-  cmake_dependent_option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF "MODULE_COMPLIANCE_LEVEL GREATER_EQUAL ITK_MINIMUM_COMPLIANCE_LEVEL" OFF)
+  # message(INFO " MODULE_VALID Module_${_name}:${Module_${_name}_VALID}:${MODULE_COMPLIANCE_LEVEL}>=${ITK_MINIMUM_COMPLIANCE_LEVEL}")
+  cmake_dependent_option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF "Module_${_name}_VALID" OFF)
+  set(Module_${_name}_REMOTE_COMPLIANCE_LEVEL ${MODULE_COMPLIANCE_LEVEL} CACHE INTERNAL "Variable to indicate the Module_${_name} compliance level")
   mark_as_advanced(Module_${_name})
 
   # Fetch_$_remote_module} is deprecated. To maintain backward compatibility:
@@ -215,6 +216,9 @@ function(itk_fetch_module _name _description)
     mark_as_advanced(REMOTE_GIT_TAG_${_name})
     # Show remote module options if building.
     set_property(CACHE REMOTE_GIT_TAG_${_name} PROPERTY TYPE STRING)
+    if(DEFINED Module_${_name}_BUILD_EXAMPLES)
+      set_property(CACHE Module_${_name}_BUILD_EXAMPLES PROPERTY TYPE BOOL)
+    endif()
 
     _fetch_with_git("${GIT_EXECUTABLE}"
       "${_fetch_options_GIT_REPOSITORY}"
@@ -223,8 +227,14 @@ function(itk_fetch_module _name _description)
       )
   else()
     # Hide remote module options if not building.
-    if(REMOTE_GIT_TAG_${_name})
+    if(DEFINED REMOTE_GIT_TAG_${_name})
       set_property(CACHE REMOTE_GIT_TAG_${_name} PROPERTY TYPE INTERNAL)
+    endif()
+    if(DEFINED Module_${_name})
+      set_property(CACHE Module_${_name} PROPERTY TYPE INTERNAL)
+    endif()
+    if(DEFINED Module_${_name}_BUILD_EXAMPLES)
+      set_property(CACHE Module_${_name}_BUILD_EXAMPLES PROPERTY TYPE INTERNAL)
     endif()
   endif()
 endfunction()

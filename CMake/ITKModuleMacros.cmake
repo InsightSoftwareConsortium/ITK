@@ -332,11 +332,13 @@ macro(itk_module_test)
 endmacro()
 
 macro(itk_module_examples)
-  set(_build_examples_default OFF)
-  if(BUILD_EXAMPLES OR ITK_BUILD_EXAMPLES)
-    set(_build_examples_default ON)
-  endif()
-  set(Module_${itk-module}_BUILD_EXAMPLES ${_build_examples_default} CACHE BOOL "Build the examples for Module_${itk-module}")
+  #Some modules have examples, and those should be hidden if the module is disabled, or examples are not requested
+  cmake_dependent_option(Module_${itk-module}_BUILD_EXAMPLES
+    "Build the examples for Module_${itk-module}"
+    ON
+    "BUILD_EXAMPLES OR ITK_BUILD_EXAMPLES;Module_${itk-module}"
+    OFF
+  )
   if(Module_${itk-module}_BUILD_EXAMPLES)
     if(ITK_SOURCE_DIR)
       # If configuration is done from within ITK,

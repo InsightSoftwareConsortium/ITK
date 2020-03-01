@@ -94,8 +94,11 @@ include(${ITK_SOURCE_DIR}/CMake/ITKGroups.cmake)
 # Provide an option for each module.
 foreach(itk-module ${ITK_MODULES_ALL})
   if(NOT ${itk-module}_IS_TEST)
-    option(Module_${itk-module} "Request building ${itk-module}" OFF)
-    mark_as_advanced(Module_${itk-module})
+    # Remote modules parsing will set the compliance level, so do not overwrite that option here
+    if(NOT DEFINED Module_${itk-module}_REMOTE_COMPLIANCE_LEVEL)
+      option(Module_${itk-module} "Request building ${itk-module} (non-remote)" OFF)
+      mark_as_advanced(Module_${itk-module})
+    endif()
     if(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT)
       set(ITK_MODULE_${itk-module}_IN_DEFAULT 0)
     else()
