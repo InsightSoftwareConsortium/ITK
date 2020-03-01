@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,62 +24,61 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-int BoneMorphometryFeaturesImageFilterInstantiationTest( int argc, char *argv[] )
+int
+BoneMorphometryFeaturesImageFilterInstantiationTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0]
-      << " inputImageFile"
-      << " maskImageFile"
-      << " outputImageFile"<< std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImageFile"
+              << " maskImageFile"
+              << " outputImageFile" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   constexpr unsigned int ImageDimension = 3;
   constexpr unsigned int VectorComponentDimension = 5;
 
   // Declare types
   using InputPixelType = float;
-  using InputImageType = itk::Image< InputPixelType, ImageDimension >;
-  using ReaderType = itk::ImageFileReader< InputImageType >;
+  using InputImageType = itk::Image<InputPixelType, ImageDimension>;
+  using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  using OutputPixelComponentType  = float;
-  using OutputPixelType = itk::Vector< OutputPixelComponentType, VectorComponentDimension >;
-  using OutputImageType = itk::Image< OutputPixelType, ImageDimension >;
+  using OutputPixelComponentType = float;
+  using OutputPixelType = itk::Vector<OutputPixelComponentType, VectorComponentDimension>;
+  using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[1] );
+  reader->SetFileName(argv[1]);
 
   // Create and set up a maskReader
   ReaderType::Pointer maskReader = ReaderType::New();
-  maskReader->SetFileName( argv[2] );
+  maskReader->SetFileName(argv[2]);
 
   // Create the filter
   using FilterType = itk::BoneMorphometryFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter,
-   BoneMorphometryFeaturesImageFilter, ImageToImageFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BoneMorphometryFeaturesImageFilter, ImageToImageFilter);
 
-  filter->SetInput( reader->GetOutput() );
+  filter->SetInput(reader->GetOutput());
 
-  filter->SetMaskImage( maskReader->GetOutput() );
-  ITK_TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
+  filter->SetMaskImage(maskReader->GetOutput());
+  ITK_TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
 
-  filter->SetThreshold( 1300 );
-  ITK_TEST_SET_GET_VALUE( 1300, filter->GetThreshold() );
+  filter->SetThreshold(1300);
+  ITK_TEST_SET_GET_VALUE(1300, filter->GetThreshold());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // Create and set up a writer
-  using WriterType = itk::ImageFileWriter< OutputImageType >;
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName(argv[3]);
+  writer->SetInput(filter->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

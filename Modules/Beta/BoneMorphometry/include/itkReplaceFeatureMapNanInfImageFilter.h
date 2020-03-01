@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
 
-//useful filters
+// useful filters
 #include <itkVectorIndexSelectionCastImageFilter.h>
 #include <itkMinimumMaximumImageFilter.h>
 #include <itkMaskImageFilter.h>
@@ -47,18 +47,17 @@ namespace itk
  * \ingroup BoneMorphometry
  *
  */
-template< typename TImage >
-class ITK_TEMPLATE_EXPORT ReplaceFeatureMapNanInfImageFilter:
-public ImageToImageFilter< TImage, TImage >
+template <typename TImage>
+class ITK_TEMPLATE_EXPORT ReplaceFeatureMapNanInfImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReplaceFeatureMapNanInfImageFilter);
 
   /** Standard Self type alias. */
   using Self = ReplaceFeatureMapNanInfImageFilter;
-  using Superclass = ImageToImageFilter< TImage, TImage>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TImage, TImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -67,7 +66,6 @@ public:
   itkTypeMacro(ReplaceFeatureMapNanInfImageFilter, ImageToImageFilter);
 
 protected:
-
   /** Input Image related type alias. */
   using ImagePointer = typename TImage::Pointer;
   using RegionType = typename TImage::RegionType;
@@ -76,31 +74,33 @@ protected:
   using PixelType = typename TImage::PixelType;
 
   /** Type to use for computations. */
-  using RealType = typename NumericTraits< PixelType >::ScalarRealType;
+  using RealType = typename NumericTraits<PixelType>::ScalarRealType;
 
   /** Intermediate Image related type alias. */
-  using InterImageType =  itk::Image< RealType, TImage::ImageDimension >;
-  using InterIteratorType = itk::ImageRegionConstIterator< InterImageType >;
+  using InterImageType = itk::Image<RealType, TImage::ImageDimension>;
+  using InterIteratorType = itk::ImageRegionConstIterator<InterImageType>;
 
   ReplaceFeatureMapNanInfImageFilter();
-  ~ReplaceFeatureMapNanInfImageFilter() override  = default;
+  ~ReplaceFeatureMapNanInfImageFilter() override = default;
 
-  using IndexSelectionFiterType = VectorIndexSelectionCastImageFilter< TImage , InterImageType >;
-  using MinMaxImageFilterType = MinimumMaximumImageFilter< InterImageType >;
-  using MaskImageFilterType = MaskImageFilter< InterImageType , InterImageType >;
+  using IndexSelectionFiterType = VectorIndexSelectionCastImageFilter<TImage, InterImageType>;
+  using MinMaxImageFilterType = MinimumMaximumImageFilter<InterImageType>;
+  using MaskImageFilterType = MaskImageFilter<InterImageType, InterImageType>;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  typename  IndexSelectionFiterType::Pointer   m_IndexSelectionFiter;
+  typename IndexSelectionFiterType::Pointer m_IndexSelectionFiter;
 
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkReplaceFeatureMapNanInfImageFilter.hxx"
+#  include "itkReplaceFeatureMapNanInfImageFilter.hxx"
 #endif
 
 #endif // itkReplaceFeatureMapNanInfImageFilter_h

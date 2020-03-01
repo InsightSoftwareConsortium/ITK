@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,7 +35,8 @@ namespace itk
  * trabecular number [TbN] and Bone Surface to Bone Volume ration [BSBV] for each voxel of
  * a given image and a mask image if provided. The output image can then be  displayed by using colormaps.
  *
- * BoneMorphometryFeaturesImageFilter computes bone morphometry features maps. The filter is able to compute the following features:
+ * BoneMorphometryFeaturesImageFilter computes bone morphometry features maps. The filter is able to compute the
+ * following features:
  * -# the percent bone volume [BVTV]
  * -# the trabecular thickness [TbTh]
  * -# the trabecular separation [TbSp]
@@ -59,20 +60,19 @@ namespace itk
  * \ingroup BoneMorphometry
  *
  */
-template< typename TInputImage,
+template <typename TInputImage,
           typename TOutputImage,
-          typename TMaskImage = Image< unsigned char, TInputImage::ImageDimension> >
-class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesImageFilter:
-public ImageToImageFilter< TInputImage, TOutputImage >
+          typename TMaskImage = Image<unsigned char, TInputImage::ImageDimension>>
+class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoneMorphometryFeaturesImageFilter);
 
   /** Standard Self type alias. */
   using Self = BoneMorphometryFeaturesImageFilter;
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage>;
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -91,20 +91,20 @@ public:
   using MaskImagePointer = typename TMaskImage::Pointer;
 
   /** Output related type alias. */
-  using OutputImagePointer = typename TOutputImage::Pointer; 
+  using OutputImagePointer = typename TOutputImage::Pointer;
   using OutputRegionType = typename TOutputImage::RegionType;
   using OutputPixelType = typename TOutputImage::PixelType;
-  using OutputRealType = typename NumericTraits< OutputPixelType >::ScalarRealType;
+  using OutputRealType = typename NumericTraits<OutputPixelType>::ScalarRealType;
 
   /** NeighborhoodIterator type alias. */
-  using BoundaryConditionType = ConstantBoundaryCondition< TInputImage >;
-  using NeighborhoodIteratorType = ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >;
+  using BoundaryConditionType = ConstantBoundaryCondition<TInputImage>;
+  using NeighborhoodIteratorType = ConstNeighborhoodIterator<TInputImage, BoundaryConditionType>;
   using NeighborhoodRadiusType = typename NeighborhoodIteratorType::RadiusType;
   using NeighborhoodOffsetType = typename NeighborhoodIteratorType::OffsetType;
   using NeighborIndexType = typename NeighborhoodIteratorType::NeighborIndexType;
 
   /** Type to use for computations. */
-  using RealType = typename NumericTraits< PixelType >::RealType;
+  using RealType = typename NumericTraits<PixelType>::RealType;
 
   /** Methods to set/get the mask image */
   itkSetInputMacro(MaskImage, TMaskImage);
@@ -123,8 +123,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro( InputPixelDimensionCheck,
-                   ( Concept::SameDimension<TInputImage::ImageDimension, 3u>) );
+  itkConceptMacro(InputPixelDimensionCheck, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
   // End concept checking
 #endif
 
@@ -133,27 +132,31 @@ protected:
   ~BoneMorphometryFeaturesImageFilter() override = default;
 
   /** Do final mean and variance computation from data accumulated in threads. */
-  void GenerateOutputInformation() override;
+  void
+  GenerateOutputInformation() override;
 
   /** Multi-thread version GenerateData. */
-  virtual void DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
-  bool IsInsideNeighborhood(const NeighborhoodOffsetType &iteratedOffset);
-  bool IsInsideMaskRegion(const IndexType &imageIndex, const typename TMaskImage::SizeType &maskSize);
+  bool
+  IsInsideNeighborhood(const NeighborhoodOffsetType & iteratedOffset);
+  bool
+  IsInsideMaskRegion(const IndexType & imageIndex, const typename TMaskImage::SizeType & maskSize);
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-
-  //Inputs
-  RealType                m_Threshold;
-  NeighborhoodRadiusType  m_NeighborhoodRadius;
+  // Inputs
+  RealType               m_Threshold;
+  NeighborhoodRadiusType m_NeighborhoodRadius;
 
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoneMorphometryFeaturesImageFilter.hxx"
+#  include "itkBoneMorphometryFeaturesImageFilter.hxx"
 #endif
 
 #endif // itkBoneMorphometryFeaturesImageFilter_h
