@@ -18,6 +18,12 @@ itk_module(
     ITKSpatialObjects
     ITKTransform
   TEST_DEPENDS
+    ITKImageFunction
+    ITKImageGradient
+    ITKOptimizers
+    ITKRegistrationCommon
+    ITKSpatialObjects
+    ITKTransform
     ITKTestKernel
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
