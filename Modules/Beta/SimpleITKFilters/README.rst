@@ -7,7 +7,7 @@ ITKSimpleITKFilters
     :alt:    Build Status
 
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-    :target: https://github.com/InsightSoftwareConsortium/ITKTotalVariation/blob/master/LICENSE
+    :target: https://github.com/InsightSoftwareConsortium/ITKSimpleITKFilters/blob/master/LICENSE)
     :alt: License
 
 This module contains a collection of additional ITK Filters used by SimpleITK. These filter are useful to SimpleITK in that they may wrap existing ITK filters with an interface expected by SimpleITK, or may add important basic filters needed for completeness.
