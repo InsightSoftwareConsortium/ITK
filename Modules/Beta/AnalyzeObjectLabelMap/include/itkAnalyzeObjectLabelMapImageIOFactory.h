@@ -29,6 +29,7 @@
 namespace itk
 {
 /** \class AnalyzeObjectLabelMapImageIOFactory
+ *  \ingroup AnalyzeObjectLabelMap
  *  \ingroup AnalyzeObjectMapIO
  *  \brief Create instances of AnalyzeObjectLabelMapImageIO objects using an object factory.
  */

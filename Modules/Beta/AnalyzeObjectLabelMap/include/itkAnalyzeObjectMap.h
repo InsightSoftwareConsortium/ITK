@@ -33,6 +33,7 @@ namespace itk
 using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
 
 /** \class AnalyzeObjectMap
+ *  \ingroup AnalyzeObjectLabelMap
  *  \ingroup AnalyzeObjectMapIO
  *  \brief A class that is an image with functions that let the user change aspects of the class.  This
  * is a templated class where most everything will depend on the Image type that is used.

@@ -38,8 +38,8 @@ using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
 constexpr int NumberOfRunLengthElementsPerRead = 1;
 
 /** \class AnalyzeObjectLabelMapImageIO
- *   \ingroup AnalyzeObjectMapIO
- *
+ *  \ingroup AnalyzeObjectLabelMap
+ *  \ingroup AnalyzeObjectMapIO
  */
 class AnalyzeObjectLabelMap_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
 {

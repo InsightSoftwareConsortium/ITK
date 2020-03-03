@@ -48,6 +48,7 @@ constexpr int VERSION7{20050829};
 
 /**
  * \class AnalyzeObjectEntry
+ * \ingroup AnalyzeObjectLabelMap
  * \ingroup AnalyzeObjectMapIO
  * \brief This class encapsulates a single object in an Analyze object file
  */
