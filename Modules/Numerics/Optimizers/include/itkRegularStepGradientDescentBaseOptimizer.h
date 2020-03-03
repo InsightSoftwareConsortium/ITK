@@ -31,11 +31,11 @@ namespace itk
 class RegularStepGradientDescentBaseOptimizerEnums
 {
 public:
-  /** \class StopConditionRegularStepGradientDescentBaseOptimizer
+  /** \class StopCondition
    *
    * \ingroup ITKOptimizers
    * Codes of stopping conditions. */
-  enum class StopConditionRegularStepGradientDescentBaseOptimizer : uint8_t
+  enum class StopCondition : uint8_t
   {
     GradientMagnitudeTolerance = 1,
     StepTooSmall = 2,
@@ -47,9 +47,7 @@ public:
 };
 // Define how to print enumeration
 extern ITKOptimizers_EXPORT std::ostream &
-                            operator<<(
-  std::ostream &                                                                                           out,
-  const RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer value);
+                            operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizerEnums::StopCondition value);
 
 /** \class RegularStepGradientDescentBaseOptimizer
  * \brief Implement a gradient descent optimizer
@@ -74,23 +72,16 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(RegularStepGradientDescentBaseOptimizer, SingleValuedNonLinearOptimizer);
 
-  using StopConditionRegularStepGradientDescentBaseOptimizerEnum =
-    RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer;
+  using StopConditionEnum = RegularStepGradientDescentBaseOptimizerEnums::StopCondition;
 #if !defined(ITK_LEGACY_REMOVE)
   // We need to expose the enum values at the class level
   // for backwards compatibility
-  static constexpr StopConditionRegularStepGradientDescentBaseOptimizerEnum GradientMagnitudeTolerance =
-    StopConditionRegularStepGradientDescentBaseOptimizerEnum::GradientMagnitudeTolerance;
-  static constexpr StopConditionRegularStepGradientDescentBaseOptimizerEnum StepTooSmall =
-    StopConditionRegularStepGradientDescentBaseOptimizerEnum::StepTooSmall;
-  static constexpr StopConditionRegularStepGradientDescentBaseOptimizerEnum ImageNotAvailable =
-    StopConditionRegularStepGradientDescentBaseOptimizerEnum::ImageNotAvailable;
-  static constexpr StopConditionRegularStepGradientDescentBaseOptimizerEnum CostFunctionError =
-    StopConditionRegularStepGradientDescentBaseOptimizerEnum::CostFunctionError;
-  static constexpr StopConditionRegularStepGradientDescentBaseOptimizerEnum MaximumNumberOfIterations =
-    StopConditionRegularStepGradientDescentBaseOptimizerEnum::MaximumNumberOfIterations;
-  static constexpr StopConditionRegularStepGradientDescentBaseOptimizerEnum Unknown =
-    StopConditionRegularStepGradientDescentBaseOptimizerEnum::Unknown;
+  static constexpr StopConditionEnum GradientMagnitudeTolerance = StopConditionEnum::GradientMagnitudeTolerance;
+  static constexpr StopConditionEnum StepTooSmall = StopConditionEnum::StepTooSmall;
+  static constexpr StopConditionEnum ImageNotAvailable = StopConditionEnum::ImageNotAvailable;
+  static constexpr StopConditionEnum CostFunctionError = StopConditionEnum::CostFunctionError;
+  static constexpr StopConditionEnum MaximumNumberOfIterations = StopConditionEnum::MaximumNumberOfIterations;
+  static constexpr StopConditionEnum Unknown = StopConditionEnum::Unknown;
 #endif
   /** Specify whether to minimize or maximize the cost function. */
   itkSetMacro(Maximize, bool);
@@ -144,7 +135,7 @@ public:
   itkGetConstReferenceMacro(NumberOfIterations, SizeValueType);
   itkGetConstReferenceMacro(GradientMagnitudeTolerance, double);
   itkGetConstMacro(CurrentIteration, unsigned int);
-  itkGetConstReferenceMacro(StopCondition, StopConditionRegularStepGradientDescentBaseOptimizerEnum);
+  itkGetConstReferenceMacro(StopCondition, StopConditionEnum);
   itkGetConstReferenceMacro(Value, MeasureType);
   itkGetConstReferenceMacro(Gradient, DerivativeType);
 
@@ -184,18 +175,18 @@ protected:
   DerivativeType m_Gradient;
   DerivativeType m_PreviousGradient;
 
-  bool                                                     m_Stop{ false };
-  bool                                                     m_Maximize;
-  MeasureType                                              m_Value;
-  double                                                   m_GradientMagnitudeTolerance;
-  double                                                   m_MaximumStepLength;
-  double                                                   m_MinimumStepLength;
-  double                                                   m_CurrentStepLength;
-  double                                                   m_RelaxationFactor;
-  StopConditionRegularStepGradientDescentBaseOptimizerEnum m_StopCondition;
-  SizeValueType                                            m_NumberOfIterations;
-  SizeValueType                                            m_CurrentIteration;
-  std::ostringstream                                       m_StopConditionDescription;
+  bool               m_Stop{ false };
+  bool               m_Maximize;
+  MeasureType        m_Value;
+  double             m_GradientMagnitudeTolerance;
+  double             m_MaximumStepLength;
+  double             m_MinimumStepLength;
+  double             m_CurrentStepLength;
+  double             m_RelaxationFactor;
+  StopConditionEnum  m_StopCondition;
+  SizeValueType      m_NumberOfIterations;
+  SizeValueType      m_CurrentIteration;
+  std::ostringstream m_StopConditionDescription;
 };
 } // end namespace itk
 
