@@ -36,6 +36,7 @@ namespace itk
 class AnalyzeObjectLabelMap_EXPORT AnalyzeObjectLabelMapImageIOFactory : public ObjectFactoryBase
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeObjectLabelMapImageIOFactory);
   /** Standard class type alias. */
   using Self = AnalyzeObjectLabelMapImageIOFactory;
   using Superclass = ObjectFactoryBase;
@@ -69,10 +70,6 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-private:
-  AnalyzeObjectLabelMapImageIOFactory(const Self &) = delete; // purposely not implemented
-  void
-  operator=(const Self &) = delete; // purposely not implemented
 };
 
 } // end namespace itk
