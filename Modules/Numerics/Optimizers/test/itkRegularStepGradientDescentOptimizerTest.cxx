@@ -279,26 +279,19 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
   }
 
   // Test streaming enumeration for
-  // RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer elements
-  const std::set<
-    itk::RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer>
-    allStopConditionRegularStepGradientDescentBaseOptimizer{
-      itk::RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
-        GradientMagnitudeTolerance,
-      itk::RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
-        StepTooSmall,
-      itk::RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
-        ImageNotAvailable,
-      itk::RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
-        CostFunctionError,
-      itk::RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::
-        MaximumNumberOfIterations,
-      itk::RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer::Unknown
-    };
-  for (const auto & ee : allStopConditionRegularStepGradientDescentBaseOptimizer)
+  // RegularStepGradientDescentBaseOptimizerEnums::StopCondition elements
+  const std::set<itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition> allStopCondition{
+    itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::GradientMagnitudeTolerance,
+    itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::StepTooSmall,
+    itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::ImageNotAvailable,
+    itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::CostFunctionError,
+    itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::MaximumNumberOfIterations,
+    itk::RegularStepGradientDescentBaseOptimizerEnums::StopCondition::Unknown
+  };
+  for (const auto & ee : allStopCondition)
   {
     std::cout << "STREAMED ENUM VALUE "
-                 "RegularStepGradientDescentBaseOptimizerEnums::StopConditionRegularStepGradientDescentBaseOptimizer: "
+                 "RegularStepGradientDescentBaseOptimizerEnums::StopCondition: "
               << ee << std::endl;
   }
 
