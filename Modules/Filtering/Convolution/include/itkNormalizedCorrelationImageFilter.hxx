@@ -22,7 +22,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -33,6 +33,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
 {
   this->ProcessObject::SetNthInput(1, const_cast<TMaskImage *>(mask));
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType>
@@ -146,6 +147,8 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
 
   faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
@@ -198,6 +201,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
 
         ++bit;
         ++it;
+        progress.CompletedPixel();
       }
     }
     else
@@ -212,7 +216,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
           // Compute the normalized correlation at this pixel.  The
           // template has already been normalized to mean zero and norm 1.
           // This simplifies the calculation to being just the correlation
-          // of the image neighborhod with the template, normalized by a
+          // of the image neighborhood with the template, normalized by a
           // function of the image neighborhood.
           sum = 0.0;
           sumOfSquares = 0.0;
@@ -239,6 +243,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
         ++bit;
         ++it;
         ++mit;
+        progress.CompletedPixel();
       }
     }
   }

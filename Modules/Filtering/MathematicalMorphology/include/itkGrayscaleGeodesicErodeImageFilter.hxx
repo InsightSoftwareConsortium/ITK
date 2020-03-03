@@ -24,7 +24,7 @@
 #include "itkNumericTraits.h"
 #include "itkGrayscaleGeodesicErodeImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkProgressAccumulator.h"
 #include "itkIterationReporter.h"
 #include "itkImageRegionIterator.h"
@@ -40,6 +40,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GrayscaleGeodesicE
   this->SetNumberOfRequiredInputs(2);
   m_FullyConnected = false;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -270,6 +271,8 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   // Set up the boundary condition to have no upwind derivatives
   ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
 
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
+
   // Neighborhood iterator.  Let's use a shaped neighborhood so we can
   // restrict the access to face connected neighbors. This iterator
   // will be applied to the marker image.
@@ -368,6 +371,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
       ++oIt;
       ++markerIt;
       ++maskIt;
+      progress.CompletedPixel();
     }
   }
 }

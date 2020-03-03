@@ -21,7 +21,7 @@
 #include "itkScalarToRGBColormapImageFilter.h"
 
 #include "itkImageRegionIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 #include "itkRedColormapFunction.h"
 #include "itkGreenColormapFunction.h"
@@ -58,6 +58,7 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::ScalarToRGBColormapIm
 
   this->m_UseInputImageExtremaForScaling = true;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 
   using DefaultColormapType = Function::GreyColormapFunction<InputImagePixelType, OutputImagePixelType>;
 
@@ -102,6 +103,8 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput();
 
+  TotalProgressReporter progressReporter(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
+
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
   // and output images to be different dimensions
@@ -120,6 +123,7 @@ ScalarToRGBColormapImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
     outputIt.Set(this->m_Colormap->operator()(inputIt.Get()));
     ++inputIt;
     ++outputIt;
+    progressReporter.CompletedPixel();
   }
 }
 

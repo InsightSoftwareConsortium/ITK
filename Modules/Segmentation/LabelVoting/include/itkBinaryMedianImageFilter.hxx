@@ -24,7 +24,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 #include <vector>
 #include <algorithm>
@@ -38,6 +38,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::BinaryMedianImageFilter()
   m_Radius.Fill(1);
   m_ForegroundValue = NumericTraits<InputPixelType>::max();
   m_BackgroundValue = NumericTraits<InputPixelType>::ZeroValue();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -108,6 +109,8 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
   for (fit = faceList.begin(); fit != faceList.end(); ++fit)
@@ -148,6 +151,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

@@ -21,7 +21,7 @@
 #include "itkTestingExtractSliceImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -32,6 +32,7 @@ template <typename TInputImage, typename TOutputImage>
 ExtractSliceImageFilter<TInputImage, TOutputImage>::ExtractSliceImageFilter()
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 
@@ -252,6 +253,8 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const TInputImage * inputPtr = this->GetInput();
   TOutputImage *      outputPtr = this->GetOutput();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
@@ -269,6 +272,7 @@ ExtractSliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     outIt.Set(static_cast<OutputImagePixelType>(inIt.Get()));
     ++outIt;
     ++inIt;
+    progress.CompletedPixel();
   }
 }
 

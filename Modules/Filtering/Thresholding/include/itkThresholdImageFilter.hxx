@@ -32,7 +32,7 @@
 #include "itkImageScanlineIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 
@@ -47,6 +47,7 @@ ThresholdImageFilter<TImage>::ThresholdImageFilter()
 {
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TImage>
@@ -95,15 +96,11 @@ template <typename TImage>
 void
 ThresholdImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if (size0 == 0)
-  {
-    return;
-  }
-
   // Get the input and output pointers
   InputImagePointer  inputPtr = this->GetInput();
   OutputImagePointer outputPtr = this->GetOutput(0);
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Define/declare an iterator that will walk the output region for this
   // thread.
@@ -134,6 +131,7 @@ ThresholdImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegio
     }
     inIt.NextLine();
     outIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

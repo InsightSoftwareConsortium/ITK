@@ -21,7 +21,7 @@
 #include "itkSaltAndPepperNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -32,6 +32,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::SaltAndPepperNoiseImag
   , m_PepperValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -66,6 +67,8 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerat
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   while (!inputIt.IsAtEnd())
   {
     while (!inputIt.IsAtEndOfLine())
@@ -93,6 +96,7 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerat
     }
     inputIt.NextLine();
     outputIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

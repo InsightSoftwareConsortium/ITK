@@ -15,52 +15,40 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
 //----------------------------------------------------------------------------
-ProgressReporter::ProgressReporter(ProcessObject * filter,
-                                   ThreadIdType    threadId,
-                                   SizeValueType   numberOfPixels,
-                                   SizeValueType   numberOfUpdates,
-                                   float           initialProgress,
-                                   float           progressWeight)
+TotalProgressReporter::TotalProgressReporter(ProcessObject * filter,
+                                             SizeValueType   totalNumberOfPixels,
+                                             SizeValueType   numberOfUpdates,
+                                             float           progressWeight)
   : m_Filter(filter)
-  , m_ThreadId(threadId)
   , m_CurrentPixel(0)
-  , m_InitialProgress(initialProgress)
   , m_ProgressWeight(progressWeight)
 {
   // Make sure we have at least one pixel.
-  const float numPixels = (numberOfPixels > 0) ? static_cast<float>(numberOfPixels) : 1.0F;
+  const float numPixels = std::max(static_cast<float>(totalNumberOfPixels), 1.0f);
+
   // We cannot update more times than there are pixels.
-  const float numUpdates = (numberOfUpdates > numberOfPixels) ? numPixels : static_cast<float>(numberOfUpdates);
+  const float numUpdates = std::min(numPixels, static_cast<float>(numberOfUpdates));
 
   // Calculate the interval for updates.
   m_PixelsPerUpdate = static_cast<SizeValueType>(numPixels / numUpdates);
   m_InverseNumberOfPixels = 1.0f / numPixels;
 
-  // Only thread 0 should update progress. (But all threads need to
-  // count pixels so they can check the abort flag.)
-  if (m_ThreadId == 0 && m_Filter)
-  {
-    // Set the progress to initial progress.  The filter is just starting.
-    m_Filter->UpdateProgress(m_InitialProgress);
-  }
-
   m_PixelsBeforeUpdate = m_PixelsPerUpdate;
 }
 
 //----------------------------------------------------------------------------
-ProgressReporter::~ProgressReporter()
+TotalProgressReporter::~TotalProgressReporter()
 {
-  // Only thread 0 should update progress.
-  if (m_ThreadId == 0 && m_Filter)
+  SizeValueType pixelRemnants = m_PixelsPerUpdate - m_PixelsBeforeUpdate;
+
+  if (pixelRemnants != 0 && m_Filter)
   {
-    // Set the progress to the end of its current range.  The filter has
-    // finished.
-    m_Filter->UpdateProgress(m_InitialProgress + m_ProgressWeight);
+    m_Filter->IncrementProgress(pixelRemnants * m_InverseNumberOfPixels * m_ProgressWeight);
   }
 }
 } // end namespace itk

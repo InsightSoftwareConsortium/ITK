@@ -33,7 +33,7 @@
 #include "itkMath.h"
 #include "itkContinuousIndex.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -45,6 +45,7 @@ SliceImageFilter<TInputImage, TOutputImage>::SliceImageFilter()
   m_Stop.Fill(NumericTraits<IndexValueType>::max());
   m_Step.Fill(1);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -121,6 +122,8 @@ SliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   const typename TInputImage::SizeType &  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TInputImage::IndexType & inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
@@ -152,6 +155,7 @@ SliceImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     // Copy the input pixel to the output
     outIt.Set(inputPtr->GetPixel(srcIndex));
     ++outIt;
+    progress.CompletedPixel();
   }
 }
 

@@ -33,6 +33,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkMath.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -49,6 +50,7 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::StretchIntensityImageFil
   , m_OutputMaximum(NumericTraits<OutputPixelType>::max())
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -103,6 +105,8 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   const TInputImage * inputPtr = this->GetInput();
   TOutputImage *      outputPtr = this->GetOutput(0);
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   InputImageRegionType inputRegionForThread = outputRegionForThread;
 
   ImageRegionConstIterator<TInputImage> inputIt(inputPtr, inputRegionForThread);
@@ -125,6 +129,7 @@ StretchIntensityImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
 
     ++inputIt;
     ++outputIt;
+    progress.CompletedPixel();
   }
 }
 

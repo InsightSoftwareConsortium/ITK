@@ -21,6 +21,7 @@
 #include "itkJoinSeriesImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkImageAlgorithm.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -29,6 +30,7 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::JoinSeriesImageFilter()
 
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -234,10 +236,13 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   TOutputImage * output = this->GetOutput();
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   for (IndexValueType idx = begin; idx < end; ++idx)
   {
     outputRegion.SetIndex(InputImageDimension, idx);
     ImageAlgorithm::Copy(this->GetInput(idx), output, inputRegion, outputRegion);
+    progress.Completed(outputRegion.GetNumberOfPixels());
   }
 }
 

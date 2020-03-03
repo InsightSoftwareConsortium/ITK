@@ -20,7 +20,7 @@
 
 #include "itkBinShrinkImageFilter.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include <numeric>
 #include <functional>
 
@@ -35,6 +35,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::BinShrinkImageFilter()
     m_ShrinkFactors[j] = 1;
   }
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -138,7 +139,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     }
   }
 
-  // allocate acumulate line
+  // allocate accumulate line
   const size_t          ln = outputRegionForThread.GetSize(0);
   AccumulatePixelType * accBuffer = nullptr;
   accBuffer = new AccumulatePixelType[ln];
@@ -155,6 +156,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     const size_t numSamples = std::accumulate(
       this->GetShrinkFactors().cbegin(), this->GetShrinkFactors().cend(), size_t(1), std::multiplies<size_t>());
     const double inumSamples = 1.0 / (double)numSamples;
+
+    TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
     while (!outputIterator.IsAtEnd())
     {
@@ -207,6 +210,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       }
 
       outputIterator.NextLine();
+      progress.Completed(outputRegionForThread.GetSize()[0]);
     }
   }
   catch (...)

@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkMath.h"
 
 #if !defined(ITK_LEGACY_REMOVE)
@@ -42,6 +42,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::VectorExpandImageFilter()
 
   m_Interpolator = static_cast<InterpolatorType *>(interp.GetPointer());
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 
@@ -115,6 +116,8 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using OutputIterator = ImageRegionIteratorWithIndex<TOutputImage>;
   OutputIterator outIt(outputPtr, outputRegionForThread);
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Define a few indices that will be used to translate from an input
   // pixel to and output pixel
   typename TOutputImage::IndexType               outputIndex;
@@ -156,6 +159,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       itkExceptionMacro(<< "Interpolator outside buffer should never occur ");
     }
     ++outIt;
+    progress.CompletedPixel();
   }
 }
 

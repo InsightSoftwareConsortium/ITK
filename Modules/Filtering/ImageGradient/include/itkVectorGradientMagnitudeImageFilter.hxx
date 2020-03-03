@@ -23,7 +23,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkCastImageFilter.h"
 
 #include "itkMath.h"
@@ -48,6 +48,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Vector
     m_SqrtComponentWeights[i] = static_cast<TRealType>(1.0);
   }
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>
@@ -221,6 +222,8 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType::iterator fit;
   fit = faceList.begin();
 
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
+
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
   // conditions.
@@ -241,6 +244,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
           it.Set(this->EvaluateAtNeighborhood3D(bit));
           ++bit;
           ++it;
+          progress.CompletedPixel();
         }
       }
       else
@@ -250,6 +254,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
           it.Set(this->EvaluateAtNeighborhood(bit));
           ++bit;
           ++it;
+          progress.CompletedPixel();
         }
       }
     }
@@ -260,6 +265,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
         it.Set(this->NonPCEvaluateAtNeighborhood(bit));
         ++bit;
         ++it;
+        progress.CompletedPixel();
       }
     }
   }

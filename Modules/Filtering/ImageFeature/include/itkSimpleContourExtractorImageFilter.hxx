@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkSimpleContourExtractorImageFilter.h"
 
 namespace itk
@@ -36,6 +36,7 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::SimpleContourExtra
   , m_OutputBackgroundValue(NumericTraits<OutputPixelType>::ZeroValue())
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -60,6 +61,8 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   faceList = bC(input, outputRegionForThread, this->GetRadius());
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
+
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
@@ -110,6 +113,7 @@ SimpleContourExtractorImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
 
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

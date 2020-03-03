@@ -26,6 +26,7 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
 #include "itkShapedImageNeighborhoodRange.h"
+#include "itkTotalProgressReporter.h"
 
 #include <vector>
 #include <algorithm>
@@ -36,6 +37,7 @@ template <typename TInputImage, typename TOutputImage>
 MedianImageFilter<TInputImage, TOutputImage>::MedianImageFilter()
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -44,8 +46,8 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   // Allocate output
-  typename OutputImageType::Pointer     output = this->GetOutput();
-  typename InputImageType::ConstPointer input = this->GetInput();
+  OutputImageType *      output = this->GetOutput();
+  const InputImageType * input = this->GetInput();
 
   const auto radius = this->GetRadius();
 
@@ -62,8 +64,10 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   std::vector<InputPixelType> pixels(neighborhoodSize);
   const auto                  medianIterator = pixels.begin() + (neighborhoodSize / 2);
 
-  const auto nonBoundaryRegion = calculatorResult.GetNonBoundaryRegion();
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
+  const auto nonBoundaryRegion = calculatorResult.GetNonBoundaryRegion();
   if (!nonBoundaryRegion.GetSize().empty())
   {
     // Process the non-boundary subregion, using a faster pixel access policy without boundary extrapolation.
@@ -79,6 +83,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       std::nth_element(pixels.begin(), medianIterator, pixels.end());
       *outputIterator = *medianIterator;
       ++outputIterator;
+      progress.CompletedPixel();
     }
   }
 
@@ -97,6 +102,7 @@ MedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       std::nth_element(pixels.begin(), medianIterator, pixels.end());
       *outputIterator = *medianIterator;
       ++outputIterator;
+      progress.CompletedPixel();
     }
   }
 }

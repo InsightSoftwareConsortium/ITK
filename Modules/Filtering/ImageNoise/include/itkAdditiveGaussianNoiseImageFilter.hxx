@@ -20,7 +20,7 @@
 
 #include "itkAdditiveGaussianNoiseImageFilter.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkNormalVariateGenerator.h"
 
 namespace itk
@@ -31,6 +31,7 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::AdditiveGaussianNoi
 
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -40,6 +41,8 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGene
 {
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput(0);
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Create a random generator per thread
   IndexValueType indSeed = 0;
@@ -76,6 +79,7 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGene
     }
     inputIt.NextLine();
     outputIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

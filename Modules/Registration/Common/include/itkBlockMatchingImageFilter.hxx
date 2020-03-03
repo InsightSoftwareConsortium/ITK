@@ -22,6 +22,7 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include <limits>
+#include "itkMultiThreaderBase.h"
 
 
 namespace itk

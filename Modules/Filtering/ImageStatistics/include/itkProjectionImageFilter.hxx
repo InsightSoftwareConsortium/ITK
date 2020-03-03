@@ -21,7 +21,7 @@
 #include "itkProjectionImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
 
 namespace itk
@@ -281,6 +281,8 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
   // instantiate the accumulator
   AccumulatorType accumulator = this->NewAccumulator(projectionSize);
 
+  TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
+
   // ok, everything is ready... lets the linear iterator do its job !
   while (!iIt.IsAtEnd())
   {
@@ -329,6 +331,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
     outputImage->SetPixel(oIdx, static_cast<OutputPixelType>(accumulator.GetValue()));
 
     iIt.NextLine();
+    progress.CompletedPixel();
   }
 }
 

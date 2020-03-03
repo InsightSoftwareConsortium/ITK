@@ -23,7 +23,7 @@
 #include "itkVectorNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -98,6 +98,8 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
   faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
   typename FaceListType::iterator fit;
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   ImageRegionIterator<OutputImageType> it;
 
   // Process non-boundary region and then each of the boundary faces.
@@ -113,6 +115,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
       it.Value() = smartInnerProduct(bit, m_Operator);
       ++bit;
       ++it;
+      progress.CompletedPixel();
     }
   }
 }

@@ -22,7 +22,7 @@
 #include "itkGridImageSource.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -37,6 +37,7 @@ GridImageSource<TOutputImage>::GridImageSource()
 
   this->m_KernelFunction = dynamic_cast<KernelFunctionType *>(GaussianKernelFunction<double>::New().GetPointer());
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TOutputImage>
@@ -93,6 +94,8 @@ GridImageSource<TOutputImage>::DynamicThreadedGenerateData(const ImageRegionType
 {
   ImageType * output = this->GetOutput(0);
 
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
+
   ImageRegionIteratorWithIndex<ImageType> It(output, outputRegionForThread);
 
   for (It.GoToBegin(); !It.IsAtEnd(); ++It)
@@ -104,6 +107,7 @@ GridImageSource<TOutputImage>::DynamicThreadedGenerateData(const ImageRegionType
       val *= this->m_PixelArrays->GetElement(i)[index[i]];
     }
     It.Set(static_cast<PixelType>(m_Scale * val));
+    progress.CompletedPixel();
   }
 }
 

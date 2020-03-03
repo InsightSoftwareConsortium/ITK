@@ -114,11 +114,7 @@ public:
 #endif
 
 protected:
-  GradientMagnitudeImageFilter()
-  {
-    m_UseImageSpacing = true;
-    this->DynamicMultiThreadingOn();
-  }
+  GradientMagnitudeImageFilter();
 
   ~GradientMagnitudeImageFilter() override = default;
 
@@ -141,7 +137,7 @@ protected:
   PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{ true };
 };
 } // end namespace itk
 

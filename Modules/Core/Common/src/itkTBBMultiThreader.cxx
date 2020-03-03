@@ -19,6 +19,7 @@
 #include "itkTBBMultiThreader.h"
 #include "itkNumericTraits.h"
 #include "itkProcessObject.h"
+#include "itkTotalProgressReporter.h"
 #include <iostream>
 #include <atomic>
 #include <thread>
@@ -94,14 +95,13 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
                                     ArrayThreadingFunctorType aFunc,
                                     ProcessObject *           filter)
 {
-  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
+
+  ProgressReporter progressStartEnd(filter, 0, 1);
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    unsigned                   count = lastIndexPlus1 - firstIndex;
-    std::atomic<SizeValueType> progress(0);
-    std::thread::id            callingThread = std::this_thread::get_id();
-    tbb::task_scheduler_init   tbb_init(m_MaximumNumberOfThreads);
+    const unsigned           count = lastIndexPlus1 - firstIndex;
+    tbb::task_scheduler_init tbb_init(m_MaximumNumberOfThreads);
     // we request grain size of 1 and simple_partitioner to ensure there is no chunking
     tbb::parallel_for(
       tbb::blocked_range<SizeValueType>(firstIndex, lastIndexPlus1, 1),
@@ -109,19 +109,11 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
         // Make sure that TBB did not call us with a block of "threads"
         // but rather with only one "thread" to handle
         itkAssertInDebugAndIgnoreInReleaseMacro(r.begin() + 1 == r.end());
-        MultiThreaderBase::HandleFilterProgress(filter);
+        TotalProgressReporter progress(filter, count, 100);
 
         aFunc(r.begin()); // invoke the function
 
-        if (filter)
-        {
-          ++progress;
-          // make sure we are updating progress only from the thead which invoked us
-          if (callingThread == std::this_thread::get_id())
-          {
-            filter->UpdateProgress(float(progress) / count);
-          }
-        }
+        progress.CompletedPixel();
       },
       tbb::simple_partitioner());
   }
@@ -129,9 +121,6 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
   {
     aFunc(firstIndex);
   }
-  // else nothing needs to be executed
-
-  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 
 } // namespace itk
@@ -222,13 +211,13 @@ TBBMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
                                           ThreadingFunctorType funcP,
                                           ProcessObject *      filter)
 {
-  MultiThreaderBase::HandleFilterProgress(filter, 0.0f);
+  ProgressReporter progressStartEnd(filter, 0, 1);
 
-  if (m_NumberOfWorkUnits == 1) // no multi-threading wanted
+  if (m_NumberOfWorkUnits == 1)
   {
     funcP(index, size);
   }
-  else // normal multi-threading
+  else
   {
     ImageIORegion region(dimension);
     for (unsigned d = 0; d < dimension; d++)
@@ -236,28 +225,17 @@ TBBMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
       region.SetIndex(d, index[d]);
       region.SetSize(d, size[d]);
     }
-    TBBImageRegionSplitter regionSplitter = region; // use copy constructor
+    TBBImageRegionSplitter regionSplitter = region;
 
-    std::atomic<SizeValueType> pixelProgress = { 0 };
-    SizeValueType              totalCount = region.GetNumberOfPixels();
-    std::thread::id            callingThread = std::this_thread::get_id();
-    tbb::task_scheduler_init   tbb_init(m_MaximumNumberOfThreads);
+    const SizeValueType      totalCount = region.GetNumberOfPixels();
+    tbb::task_scheduler_init tbb_init(m_MaximumNumberOfThreads);
     tbb::parallel_for(regionSplitter, [&](TBBImageRegionSplitter regionToProcess) {
-      MultiThreaderBase::HandleFilterProgress(filter);
+      TotalProgressReporter progress(filter, totalCount, 100);
+
       funcP(&regionToProcess.GetIndex()[0], &regionToProcess.GetSize()[0]);
-      if (filter) // filter is provided, update progress
-      {
-        SizeValueType pixelCount = regionToProcess.GetNumberOfPixels();
-        pixelProgress += pixelCount;
-        // make sure we are updating progress only from the thead which invoked filter->Update();
-        if (callingThread == std::this_thread::get_id())
-        {
-          filter->UpdateProgress(float(pixelProgress) / totalCount);
-        }
-      }
+
+      progress.Completed(regionToProcess.GetNumberOfPixels());
     }); // we implicitly use auto_partitioner for load balancing
   }
-
-  MultiThreaderBase::HandleFilterProgress(filter, 1.0f);
 }
 } // namespace itk

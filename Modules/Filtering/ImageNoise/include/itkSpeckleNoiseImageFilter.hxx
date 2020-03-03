@@ -22,7 +22,7 @@
 #include "itkSpeckleNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -32,6 +32,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::SpeckleNoiseImageFilter()
 
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
@@ -65,6 +66,8 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   // Choose the value of the gamma distribution so that the mean is 1 and the
   // variance depends on the standard deviation
@@ -113,6 +116,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     }
     inputIt.NextLine();
     outputIt.NextLine();
+    progress.Completed(outputRegionForThread.GetSize()[0]);
   }
 }
 

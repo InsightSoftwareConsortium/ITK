@@ -21,7 +21,7 @@
 #include "itkCheckerBoardImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -31,6 +31,7 @@ CheckerBoardImageFilter<TImage>::CheckerBoardImageFilter()
 {
   m_CheckerPattern.Fill(4);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TImage>
@@ -69,6 +70,8 @@ CheckerBoardImageFilter<TImage>::DynamicThreadedGenerateData(const ImageRegionTy
   outItr.GoToBegin();
   in1Itr.GoToBegin();
   in2Itr.GoToBegin();
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   typename InputImageType::SizeType size = input2Ptr->GetLargestPossibleRegion().GetSize();
 
@@ -110,6 +113,7 @@ CheckerBoardImageFilter<TImage>::DynamicThreadedGenerateData(const ImageRegionTy
     ++outItr;
     ++in1Itr;
     ++in2Itr;
+    progress.CompletedPixel();
   }
 }
 

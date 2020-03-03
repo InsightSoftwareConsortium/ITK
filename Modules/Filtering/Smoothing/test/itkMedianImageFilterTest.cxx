@@ -19,7 +19,7 @@
 #include "itkRandomImageSource.h"
 #include "itkMedianImageFilter.h"
 #include "itkTextOutput.h"
-
+#include "itkSimpleFilterWatcher.h"
 
 int
 itkMedianImageFilterTest(int, char *[])
@@ -36,7 +36,7 @@ itkMedianImageFilterTest(int, char *[])
   random->SetMax(1000.0);
 
   FloatImage2DType::SizeValueType randomSize[2];
-  randomSize[0] = randomSize[1] = 8;
+  randomSize[0] = randomSize[1] = 25;
   random->SetSize(randomSize);
 
   FloatImage2DType::SpacingValueType spacing[2] = { 0.7, 2.1 };
@@ -52,36 +52,14 @@ itkMedianImageFilterTest(int, char *[])
 
   // define the neighborhood size used for the median filter (5x5)
   FloatImage2DType::SizeType neighRadius;
-  neighRadius[0] = 1;
-  neighRadius[1] = 1;
+  neighRadius[0] = 5;
+  neighRadius[1] = 5;
   median->SetRadius(neighRadius);
 
+  itk::SimpleFilterWatcher watcher(median, "To watch progress updates");
   // run the algorithm
   median->Update();
 
-  itk::ImageRegionIterator<FloatImage2DType> it;
-  it = itk::ImageRegionIterator<FloatImage2DType>(random->GetOutput(), random->GetOutput()->GetBufferedRegion());
-  std::cout << "Input image" << std::endl;
-  unsigned int i;
-  for (i = 1; !it.IsAtEnd(); ++i, ++it)
-  {
-    std::cout << "\t" << it.Get();
-    if ((i % 8) == 0)
-    {
-      std::cout << std::endl;
-    }
-  }
-
-  std::cout << "Output image" << std::endl;
-  it = itk::ImageRegionIterator<FloatImage2DType>(median->GetOutput(), median->GetOutput()->GetBufferedRegion());
-  for (i = 1; !it.IsAtEnd(); ++i, ++it)
-  {
-    std::cout << "\t" << it.Get();
-    if ((i % 8) == 0)
-    {
-      std::cout << std::endl;
-    }
-  }
 
   // Test the itkGetConstReferenceMacro
   const FloatImage2DType::SizeType & radius = median->GetRadius();

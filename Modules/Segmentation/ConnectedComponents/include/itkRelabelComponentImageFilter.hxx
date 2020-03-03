@@ -26,9 +26,17 @@
 #include "itkImageScanlineIterator.h"
 #include <map>
 #include <utility>
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
+template <typename TInputImage, typename TOutputImage>
+RelabelComponentImageFilter<TInputImage, TOutputImage>::RelabelComponentImageFilter()
+{
+  this->InPlaceOff();
+  this->ThreaderUpdateProgressOff();
+}
+
 template <typename TInputImage, typename TOutputImage>
 void
 RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -55,6 +63,9 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::ParallelComputeLabels(co
   // walk the input
   ImageScanlineConstIterator<InputImageType> it(this->GetInput(), inputRegionForThread);
 
+  auto                  inputRequestedRegion = this->GetInput()->GetRequestedRegion();
+  TotalProgressReporter report(this, inputRequestedRegion.GetNumberOfPixels(), 100, 0.5f);
+
   MapType localSizeMap;
 
   auto mapIt = localSizeMap.end();
@@ -78,6 +89,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::ParallelComputeLabels(co
       // increment the iterator
       ++it;
     }
+    report.Completed(inputRequestedRegion.GetSize(0));
     it.NextLine();
   }
 
@@ -129,11 +141,10 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   // Walk the entire input image and compute used labels and the number of each label.
-  ProgressTransformer progressTransformer1(0.0f, 0.5f, this);
   this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
     input->GetRequestedRegion(),
     [this](const RegionType & inputRegion) { this->ParallelComputeLabels(inputRegion); },
-    progressTransformer1.GetProcessObject());
+    nullptr);
 
 
   // Construct an array of the label, component information pair to sort
@@ -219,10 +230,12 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->AllocateOutputs();
 
   // In parallel apply the relabling map
-  ProgressTransformer progressTransformer2(0.5f, 1.0f, this);
   this->GetMultiThreader()->template ParallelizeImageRegion<ImageDimension>(
     output->GetRequestedRegion(),
     [this, &relabelMap](const RegionType & outputRegionForThread) {
+      auto                  outputRequestedRegion = this->GetOutput()->GetRequestedRegion();
+      TotalProgressReporter report(this, outputRequestedRegion.GetNumberOfPixels(), 100, 0.5f);
+
       ImageScanlineIterator<OutputImageType>     oit(this->GetOutput(), outputRegionForThread);
       ImageScanlineConstIterator<InputImageType> it(this->GetInput(), outputRegionForThread);
 
@@ -247,11 +260,12 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
           ++oit;
           ++it;
         }
+        report.Completed(outputRequestedRegion.GetSize(0));
         oit.NextLine();
         it.NextLine();
       }
     },
-    progressTransformer2.GetProcessObject());
+    nullptr);
 }
 
 template <typename TInputImage, typename TOutputImage>

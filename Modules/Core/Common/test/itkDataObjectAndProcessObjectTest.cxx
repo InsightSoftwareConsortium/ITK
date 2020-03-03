@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 #include "itkNumericTraits.h"
 #include "itkIntTypes.h"
-
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -192,7 +192,7 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   // EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ){}
 
   // TODO: doesn't do anything for now, but should probably do something even without
-  // input nor outout
+  // input nor output
   mtime = process->GetMTime();
   process->ResetPipeline();
   ITK_TEST_SET_GET_VALUE(mtime, process->GetMTime());

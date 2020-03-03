@@ -22,7 +22,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include <vector>
 
 namespace itk
@@ -742,6 +742,8 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using OutputIterator = ImageRegionIterator<TOutputImage>;
   using InputIterator = ImageRegionConstIterator<TInputImage>;
 
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
+
   int                  oddRegionArray[ImageDimension];
   OutputImageIndexType currentOutputIndex;
   InputImageIndexType  currentInputIndex;
@@ -762,6 +764,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       if (inputRegion == outputRegion) // this is an inner region which only needs to be copied
       {
         ImageAlgorithm::Copy(inputPtr, outputPtr, inputRegion, outputRegion);
+        progress.Completed(outputRegion.GetNumberOfPixels());
       }
       else // this is a padding region, which might need exponential decay
       {
@@ -789,6 +792,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
           const typename OutputImageType::PixelType outVal(RealPixelType(inIt.Get()) * decayFactor);
 
           outIt.Set(outVal);
+          progress.CompletedPixel();
         }
       }
     }

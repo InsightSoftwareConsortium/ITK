@@ -21,7 +21,7 @@
 #include "itkLabelOverlapMeasuresImageFilter.h"
 
 #include "itkImageRegionConstIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {

@@ -23,7 +23,7 @@
 #include <climits>
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkMath.h"
 
@@ -38,6 +38,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::ObjectMorpholog
 
   m_UseBoundaryCondition = false;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 
   m_ObjectValue = NumericTraits<PixelType>::OneValue();
 }
@@ -130,6 +131,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
   faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
 
+
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
 
   // Setup the kernel that spans the immediate neighbors of the current
@@ -137,6 +139,8 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   // pixel, i.e., is a boundary pixel
   RadiusType bKernelSize;
   bKernelSize.Fill(1);
+
+  TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   OutputNeighborhoodIteratorType oSNIter;
   InputNeighborhoodIteratorType  iSNIter;
@@ -164,6 +168,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
       }
       ++iSNIter;
       ++oSNIter;
+      progress.CompletedPixel();
     }
   }
 }

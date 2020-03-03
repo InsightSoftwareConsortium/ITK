@@ -21,7 +21,7 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -46,6 +46,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpVector
 
   m_Interpolator = static_cast<InterpolatorType *>(interp.GetPointer());
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 
@@ -144,7 +145,9 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThr
   OutputImagePointer       outputPtr = this->GetOutput();
   DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
 
+
   ImageRegionIteratorWithIndex<OutputImageType> outputIt(outputPtr, outputRegionForThread);
+  TotalProgressReporter                         progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   ImageRegionIterator<DisplacementFieldType> fieldIt(fieldPtr, outputRegionForThread);
 
@@ -184,6 +187,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThr
     }
     ++outputIt;
     ++fieldIt;
+    progress.CompletedPixel();
   }
 }
 

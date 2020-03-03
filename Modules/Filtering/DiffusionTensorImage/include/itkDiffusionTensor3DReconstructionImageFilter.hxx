@@ -25,7 +25,7 @@
 #include "itkArray.h"
 #include "itkImageMaskSpatialObject.h"
 #include "vnl/vnl_vector.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -50,6 +50,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   m_BValue = 1.0;
   m_MaskImagePresent = false;
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TReferenceImagePixelType,
@@ -192,6 +193,8 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
   // 2. If the Gradients have been specified in a single multi-component image,
   // one iterator will suffice to do the same.
 
+  TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
+
   if (m_GradientImageTypeEnumeration ==
       DiffusionTensor3DReconstructionImageFilterEnums::GradientImageFormat::GradientIsInManyImages)
   {
@@ -290,6 +293,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       oit.Set(tensor);
       ++oit;
       ++it;
+      progress.CompletedPixel();
     }
 
     for (unsigned int i = 0; i < gradientItContainer.size(); i++)
@@ -397,6 +401,7 @@ DiffusionTensor3DReconstructionImageFilter<TReferenceImagePixelType,
       oit.Set(tensor);
       ++oit; // Output (reconstructed tensor image) iterator
       ++git; // Gradient  image iterator
+      progress.CompletedPixel();
     }
   }
 }

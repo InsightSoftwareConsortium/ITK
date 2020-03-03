@@ -20,7 +20,7 @@
 
 #include "itkBinaryGeneratorImageFilter.h"
 #include "itkImageScanlineIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 
 namespace itk
@@ -32,6 +32,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::BinaryGene
   this->SetNumberOfRequiredInputs(2);
   this->InPlaceOff();
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
@@ -178,14 +179,11 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
   // We use dynamic_cast since inputs are stored as DataObjects. The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
-  const auto *        inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
-  const auto *        inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
-  TOutputImage *      outputPtr = this->GetOutput(0);
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if (size0 == 0)
-  {
-    return;
-  }
+  const auto *   inputPtr1 = dynamic_cast<const TInputImage1 *>(ProcessObject::GetInput(0));
+  const auto *   inputPtr2 = dynamic_cast<const TInputImage2 *>(ProcessObject::GetInput(1));
+  TOutputImage * outputPtr = this->GetOutput(0);
+
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
   if (inputPtr1 && inputPtr2)
   {
@@ -206,6 +204,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
       inputIt1.NextLine();
       inputIt2.NextLine();
       outputIt.NextLine();
+      progress.Completed(outputRegionForThread.GetSize()[0]);
     }
   }
   else if (inputPtr1)
@@ -225,6 +224,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
       }
       inputIt1.NextLine();
       outputIt.NextLine();
+      progress.Completed(outputRegionForThread.GetSize()[0]);
     }
   }
   else if (inputPtr2)
@@ -244,6 +244,7 @@ BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>::DynamicThr
       }
       inputIt2.NextLine();
       outputIt.NextLine();
+      progress.Completed(outputRegionForThread.GetSize()[0]);
     }
   }
   else

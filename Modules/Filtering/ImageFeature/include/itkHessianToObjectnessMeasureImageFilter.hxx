@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkSymmetricEigenAnalysis.h"
 #include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 #include "itkMath.h"
 
@@ -35,6 +36,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::HessianToObjec
 
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -55,6 +57,8 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
 {
   OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
+
+  TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels(), 1000);
 
   // Calculator for computation of the eigen values
   using CalculatorType = SymmetricEigenAnalysisFixedDimension<ImageDimension, InputPixelType, EigenValueArrayType>;
@@ -94,6 +98,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
       oit.Set(NumericTraits<OutputPixelType>::ZeroValue());
       ++it;
       ++oit;
+      progress.CompletedPixel();
       continue;
     }
 
@@ -169,6 +174,7 @@ HessianToObjectnessMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreade
 
     ++it;
     ++oit;
+    progress.CompletedPixel();
   }
 }
 

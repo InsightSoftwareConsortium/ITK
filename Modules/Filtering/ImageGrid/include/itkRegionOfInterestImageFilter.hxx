@@ -21,7 +21,7 @@
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkImageAlgorithm.h"
 #include "itkObjectFactory.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 #include "itkImage.h"
 
 namespace itk
@@ -31,6 +31,7 @@ template <typename TInputImage, typename TOutputImage>
 RegionOfInterestImageFilter<TInputImage, TOutputImage>::RegionOfInterestImageFilter()
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -108,6 +109,8 @@ RegionOfInterestImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   const TInputImage * inputPtr = this->GetInput();
   TOutputImage *      outputPtr = this->GetOutput();
 
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
   inputRegionForThread.SetSize(outputRegionForThread.GetSize());
@@ -121,6 +124,7 @@ RegionOfInterestImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateD
   inputRegionForThread.SetIndex(start);
 
   ImageAlgorithm::Copy(inputPtr, outputPtr, inputRegionForThread, outputRegionForThread);
+  progress.Completed(outputRegionForThread.GetNumberOfPixels());
 }
 
 template <typename TInputImage, typename TOutputImage>

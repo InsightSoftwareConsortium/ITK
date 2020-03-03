@@ -22,7 +22,7 @@
 
 #include "itkImageAlgorithm.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -32,6 +32,7 @@ HalfToFullHermitianImageFilter<TInputImage>::HalfToFullHermitianImageFilter()
 {
   this->ActualXDimensionIsOddOff();
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage>
@@ -109,9 +110,14 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
   // Copy the non-reflected region.
   OutputImageRegionType copyRegion(outputRegionForThread);
   bool                  copy = copyRegion.Crop(inputRegion);
+
+  // Set up the ProgressReporter.
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
   if (copy)
   {
     ImageAlgorithm::Copy(inputPtr.GetPointer(), outputPtr.GetPointer(), copyRegion, copyRegion);
+    progress.Completed(copyRegion.GetNumberOfPixels());
   }
 
   // Now copy the redundant complex conjugate region, if there is one
@@ -147,6 +153,7 @@ HalfToFullHermitianImageFilter<TInputImage>::DynamicThreadedGenerateData(
       }
 
       oIt.Set(std::conj(inputPtr->GetPixel(index)));
+      progress.CompletedPixel();
     }
   }
 }

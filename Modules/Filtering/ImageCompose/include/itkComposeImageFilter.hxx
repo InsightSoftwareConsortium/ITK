@@ -20,7 +20,7 @@
 
 #include "itkComposeImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -33,6 +33,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::ComposeImageFilter()
   nbOfComponents = std::max(1, nbOfComponents); // require at least one input
   this->SetNumberOfRequiredInputs(nbOfComponents);
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 //----------------------------------------------------------------------------
@@ -111,6 +112,9 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
 {
   typename OutputImageType::Pointer outputImage = static_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
 
+
+  TotalProgressReporter progress(this, outputImage->GetRequestedRegion().GetNumberOfPixels());
+
   ImageRegionIterator<OutputImageType> oit(outputImage, outputRegionForThread);
   oit.GoToBegin();
 
@@ -132,6 +136,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
     ComputeOutputPixel(pix, inputItContainer);
     oit.Set(pix);
     ++oit;
+    progress.CompletedPixel();
   }
 }
 } // end namespace itk

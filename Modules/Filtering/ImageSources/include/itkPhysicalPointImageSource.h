@@ -64,7 +64,11 @@ public:
   itkNewMacro(Self);
 
 protected:
-  PhysicalPointImageSource() { this->DynamicMultiThreadingOn(); };
+  PhysicalPointImageSource()
+  {
+    this->DynamicMultiThreadingOn();
+    this->ThreaderUpdateProgressOff();
+  };
   ~PhysicalPointImageSource() override = default;
 
   void
