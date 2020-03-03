@@ -55,8 +55,8 @@ public:
   /** Initializes a parametrized line of direction \a direction and origin \a origin.
     * \warning the vector direction is assumed to be normalized.
     */
-  EIGEN_DEVICE_FUNC ParametrizedLine(const VectorType& origin, const VectorType& direction)
-    : m_origin(origin), m_direction(direction) {}
+  EIGEN_DEVICE_FUNC ParametrizedLine(const VectorType& o, const VectorType& d)
+    : m_origin(o), m_direction(d) {}
 
   template <int OtherOptions>
   EIGEN_DEVICE_FUNC explicit ParametrizedLine(const Hyperplane<_Scalar, _AmbientDim, OtherOptions>& hyperplane);

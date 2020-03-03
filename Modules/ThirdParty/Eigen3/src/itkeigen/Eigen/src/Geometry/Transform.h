@@ -939,9 +939,9 @@ Transform<Scalar,Dim,Mode,Options>::pretranslate(const MatrixBase<OtherDerived> 
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename RotationType>
 EIGEN_DEVICE_FUNC Transform<Scalar,Dim,Mode,Options>&
-Transform<Scalar,Dim,Mode,Options>::rotate(const RotationType& rotation)
+Transform<Scalar,Dim,Mode,Options>::rotate(const RotationType& r)
 {
-  linearExt() *= internal::toRotationMatrix<Scalar,Dim>(rotation);
+  linearExt() *= internal::toRotationMatrix<Scalar,Dim>(r);
   return *this;
 }
 
@@ -955,9 +955,9 @@ Transform<Scalar,Dim,Mode,Options>::rotate(const RotationType& rotation)
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename RotationType>
 EIGEN_DEVICE_FUNC Transform<Scalar,Dim,Mode,Options>&
-Transform<Scalar,Dim,Mode,Options>::prerotate(const RotationType& rotation)
+Transform<Scalar,Dim,Mode,Options>::prerotate(const RotationType& r)
 {
-  m_matrix.template block<Dim,HDim>(0,0) = internal::toRotationMatrix<Scalar,Dim>(rotation)
+  m_matrix.template block<Dim,HDim>(0,0) = internal::toRotationMatrix<Scalar,Dim>(r)
                                          * m_matrix.template block<Dim,HDim>(0,0);
   return *this;
 }
@@ -1076,19 +1076,19 @@ Transform<Scalar,Dim,Mode,Options>::rotation() const
   */
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename RotationMatrixType, typename ScalingMatrixType>
-EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeRotationScaling(RotationMatrixType *rotation, ScalingMatrixType *scaling) const
+EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeRotationScaling(RotationMatrixType *r, ScalingMatrixType *s) const
 {
   JacobiSVD<LinearMatrixType> svd(linear(), ComputeFullU | ComputeFullV);
 
   Scalar x = (svd.matrixU() * svd.matrixV().adjoint()).determinant(); // so x has absolute value 1
   VectorType sv(svd.singularValues());
   sv.coeffRef(0) *= x;
-  if(scaling) scaling->lazyAssign(svd.matrixV() * sv.asDiagonal() * svd.matrixV().adjoint());
-  if(rotation)
+  if(s) s->lazyAssign(svd.matrixV() * sv.asDiagonal() * svd.matrixV().adjoint());
+  if(r)
   {
     LinearMatrixType m(svd.matrixU());
     m.col(0) /= x;
-    rotation->lazyAssign(m * svd.matrixV().adjoint());
+    r->lazyAssign(m * svd.matrixV().adjoint());
   }
 }
 
@@ -1105,19 +1105,19 @@ EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeRotationScalin
   */
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename ScalingMatrixType, typename RotationMatrixType>
-EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeScalingRotation(ScalingMatrixType *scaling, RotationMatrixType *rotation) const
+EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeScalingRotation(ScalingMatrixType *s, RotationMatrixType *r) const
 {
   JacobiSVD<LinearMatrixType> svd(linear(), ComputeFullU | ComputeFullV);
 
   Scalar x = (svd.matrixU() * svd.matrixV().adjoint()).determinant(); // so x has absolute value 1
   VectorType sv(svd.singularValues());
   sv.coeffRef(0) *= x;
-  if(scaling) scaling->lazyAssign(svd.matrixU() * sv.asDiagonal() * svd.matrixU().adjoint());
-  if(rotation)
+  if(s) s->lazyAssign(svd.matrixU() * sv.asDiagonal() * svd.matrixU().adjoint());
+  if(r)
   {
     LinearMatrixType m(svd.matrixU());
     m.col(0) /= x;
-    rotation->lazyAssign(m * svd.matrixV().adjoint());
+    r->lazyAssign(m * svd.matrixV().adjoint());
   }
 }
 
@@ -1127,12 +1127,12 @@ EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeScalingRotatio
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename PositionDerived, typename OrientationType, typename ScaleDerived>
 EIGEN_DEVICE_FUNC Transform<Scalar,Dim,Mode,Options>&
-Transform<Scalar,Dim,Mode,Options>::fromPositionOrientationScale(const MatrixBase<PositionDerived> &position,
-  const OrientationType& orientation, const MatrixBase<ScaleDerived> &scale)
+Transform<Scalar,Dim,Mode,Options>::fromPositionOrientationScale(const MatrixBase<PositionDerived> &p,
+  const OrientationType& o, const MatrixBase<ScaleDerived> &s)
 {
-  linear() = internal::toRotationMatrix<Scalar,Dim>(orientation);
-  linear() *= scale.asDiagonal();
-  translation() = position;
+  linear() = internal::toRotationMatrix<Scalar,Dim>(o);
+  linear() *= s.asDiagonal();
+  translation() = p;
   makeAffine();
   return *this;
 }

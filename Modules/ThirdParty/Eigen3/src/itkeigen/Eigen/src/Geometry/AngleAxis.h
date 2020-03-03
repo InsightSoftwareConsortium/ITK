@@ -77,7 +77,7 @@ public:
     *          represents an invalid rotation. */
   template<typename Derived>
   EIGEN_DEVICE_FUNC 
-  inline AngleAxis(const Scalar& angle, const MatrixBase<Derived>& axis) : m_axis(axis), m_angle(angle) {}
+  inline AngleAxis(const Scalar& an, const MatrixBase<Derived>& ax) : m_axis(ax), m_angle(an) {}
   /** Constructs and initialize the angle-axis rotation from a quaternion \a q.
     * This function implicitly normalizes the quaternion \a q.
     */

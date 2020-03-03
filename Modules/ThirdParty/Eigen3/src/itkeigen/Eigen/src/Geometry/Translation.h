@@ -68,7 +68,7 @@ public:
     m_coeffs.z() = sz;
   }
   /** Constructs and initialize the translation transformation from a vector of translation coefficients */
-  EIGEN_DEVICE_FUNC explicit inline Translation(const VectorType& vector) : m_coeffs(vector) {}
+  EIGEN_DEVICE_FUNC explicit inline Translation(const VectorType& v) : m_coeffs(v) {}
 
   /** \brief Retruns the x-translation by value. **/
   EIGEN_DEVICE_FUNC inline Scalar x() const { return m_coeffs.x(); }
