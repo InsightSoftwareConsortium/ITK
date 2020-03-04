@@ -347,6 +347,13 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  void
+  BeforeStreamedGenerateData() override
+  {
+    this->AllocateOutputs();
+    m_LabelStatistics.clear();
+  }
+
   /** Do final mean and variance computation from data accumulated in threads.
    */
   void
