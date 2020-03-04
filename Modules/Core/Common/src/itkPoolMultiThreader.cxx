@@ -41,25 +41,15 @@ namespace
 class ExceptionHandler
 {
 public:
+  // This class follows the rule of zero
+
   template <typename TFunction>
-  explicit ExceptionHandler(const TFunction & function)
+  void
+  TryAndCatch(const TFunction & function)
   {
     try
     {
       function();
-    }
-    catch (...)
-    {
-      m_FirstCaughtException = std::current_exception();
-    }
-  }
-
-  void
-  TryToGetFuture(PoolMultiThreader::ThreadPoolInfoStruct & threadPoolInfo)
-  {
-    try
-    {
-      threadPoolInfo.Future.get();
     }
     catch (...)
     {
@@ -148,13 +138,14 @@ PoolMultiThreader::SingleMethodExecute()
   // Now, the parent thread calls this->SingleMethod() itself
   m_ThreadInfoArray[0].UserData = m_SingleData;
   m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
-  ExceptionHandler exceptionHandler([this] { m_SingleMethod(&m_ThreadInfoArray[0]); });
+  ExceptionHandler exceptionHandler;
+  exceptionHandler.TryAndCatch([this] { m_SingleMethod(&m_ThreadInfoArray[0]); });
 
   // The parent thread has finished SingleMethod()
   // so now it waits for each of the other work units to finish
   for (threadLoop = 1; threadLoop < m_NumberOfWorkUnits; ++threadLoop)
   {
-    exceptionHandler.TryToGetFuture(m_ThreadInfoArray[threadLoop]);
+    exceptionHandler.TryAndCatch([this, threadLoop] { m_ThreadInfoArray[threadLoop].Future.get(); });
   }
 
   exceptionHandler.RethrowFirstCaughtException();
@@ -193,15 +184,19 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
     ProgressReporter reporter(filter, 0, workUnit);
 
     // execute this thread's share
-    ExceptionHandler exceptionHandler([lambda, firstIndex, chunkSize] { lambda(firstIndex, firstIndex + chunkSize); });
-    reporter.CompletedPixel();
+    ExceptionHandler exceptionHandler;
+    exceptionHandler.TryAndCatch([lambda, firstIndex, chunkSize, &reporter] {
+      lambda(firstIndex, firstIndex + chunkSize);
+      reporter.CompletedPixel();
+    });
 
     // now wait for the other computations to finish
     for (SizeValueType i = 1; i < workUnit; i++)
     {
-      reporter.CompletedPixel();
-
-      exceptionHandler.TryToGetFuture(m_ThreadInfoArray[i]);
+      exceptionHandler.TryAndCatch([this, i, &reporter] {
+        m_ThreadInfoArray[i].Future.get();
+        reporter.CompletedPixel();
+      });
     }
 
     exceptionHandler.RethrowFirstCaughtException();
@@ -268,13 +263,19 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
       total = splitter->GetSplit(0, splitCount, iRegion);
 
       // execute this thread's share
-      ExceptionHandler exceptionHandler([funcP, iRegion] { funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]); });
+      ExceptionHandler exceptionHandler;
+      exceptionHandler.TryAndCatch([funcP, iRegion, &reporter] {
+        funcP(&iRegion.GetIndex()[0], &iRegion.GetSize()[0]);
+        reporter.CompletedPixel();
+      });
 
       // now wait for the other computations to finish
       for (ThreadIdType i = 1; i < splitCount; i++)
       {
-        exceptionHandler.TryToGetFuture(m_ThreadInfoArray[i]);
-        reporter.CompletedPixel();
+        exceptionHandler.TryAndCatch([this, i, &reporter] {
+          m_ThreadInfoArray[i].Future.get();
+          reporter.CompletedPixel();
+        });
       }
 
       exceptionHandler.RethrowFirstCaughtException();
