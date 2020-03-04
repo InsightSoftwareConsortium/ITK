@@ -57,6 +57,23 @@ public:
   /** Destructor sets progress to 1 because the filter has finished.  */
   ~TotalProgressReporter();
 
+  /** Check if the filter has the ProcessObject::AbortGenerateData
+   * flag set. If true than an ProcessAborted exception will be thrown.
+   */
+  void
+  CheckAbortGenerateData()
+  {
+    // all threads needs to check the abort flag
+    if (m_Filter && m_Filter->GetAbortGenerateData())
+    {
+      std::string    msg;
+      ProcessAborted e(__FILE__, __LINE__);
+      msg += "Object " + std::string(m_Filter->GetNameOfClass()) + ": AbortGenerateDataOn";
+      e.SetDescription(msg);
+      throw e;
+    }
+  }
+
   /** Called by a filter once per pixel.  */
   void
   CompletedPixel()
@@ -71,15 +88,7 @@ public:
       {
         m_Filter->IncrementProgress(m_PixelsPerUpdate * m_InverseNumberOfPixels * m_ProgressWeight);
 
-        // all threads needs to check the abort flag
-        if (m_Filter->GetAbortGenerateData())
-        {
-          std::string    msg;
-          ProcessAborted e(__FILE__, __LINE__);
-          msg += "Object " + std::string(m_Filter->GetNameOfClass()) + ": AbortGenerateDataOn";
-          e.SetDescription(msg);
-          throw e;
-        }
+        this->CheckAbortGenerateData();
       }
     }
   }
@@ -102,15 +111,7 @@ public:
       {
         m_Filter->IncrementProgress(numberOfUpdates * m_PixelsPerUpdate * m_InverseNumberOfPixels * m_ProgressWeight);
 
-        // all threads needs to check the abort flag
-        if (m_Filter->GetAbortGenerateData())
-        {
-          std::string    msg;
-          ProcessAborted e(__FILE__, __LINE__);
-          msg += "Object " + std::string(m_Filter->GetNameOfClass()) + ": AbortGenerateDataOn";
-          e.SetDescription(msg);
-          throw e;
-        }
+        this->CheckAbortGenerateData();
       }
     }
     else

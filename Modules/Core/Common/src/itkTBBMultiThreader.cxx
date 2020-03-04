@@ -110,6 +110,7 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
         // but rather with only one "thread" to handle
         itkAssertInDebugAndIgnoreInReleaseMacro(r.begin() + 1 == r.end());
         TotalProgressReporter progress(filter, count, 100);
+        progress.CheckAbortGenerateData();
 
         aFunc(r.begin()); // invoke the function
 
@@ -231,6 +232,7 @@ TBBMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
     tbb::task_scheduler_init tbb_init(m_MaximumNumberOfThreads);
     tbb::parallel_for(regionSplitter, [&](TBBImageRegionSplitter regionToProcess) {
       TotalProgressReporter progress(filter, totalCount, 100);
+      progress.CheckAbortGenerateData();
 
       funcP(&regionToProcess.GetIndex()[0], &regionToProcess.GetSize()[0]);
 
