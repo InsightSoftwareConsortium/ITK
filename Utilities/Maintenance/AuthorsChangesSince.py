@@ -135,7 +135,7 @@ with open(changelog_file, 'a') as fp:
 print('Remote module:')
 for remote in changed_remotes.split():
     module_name = remote.split('/')[-1].split('.')[0]
-    if module_name == 'SphinxExamples':
+    if module_name == 'SphinxExamples' or module_name == 'CMakeLists':
         continue
     print(module_name)
     os.chdir(itk_dir)
