@@ -806,7 +806,7 @@ To generate the changelog by running
    ./Utilities/Maintenance/AuthorsChangesSince.py $old_version
 ```
 
-The log is generated at */tmp/AuthorsChangesSince/Changelog.txt*.
+The log is generated at */tmp/AuthorsChangesSince/Changelog.md*.
 
 The count of recent authors is found in the script output, and a list of new authors
 are found at */tmp/AuthorsChangesSince/NewAuthors.txt*.
