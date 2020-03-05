@@ -10,8 +10,8 @@
 #--   - [ ] All requirements of Levels 4,3,2,1
 #--
 #-- ## Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
-#--   - [ ] Meets all ITK code style standards
-#--   - [ ] No external requirements beyond those needed by ITK proper
+#--   - [X ] Meets all ITK code style standards
+#--   - [X] No external requirements beyond those needed by ITK proper
 #--   - [ ] Builds and passes tests on all supported platforms within 1 month of each core tagged release
 #--            - [ ] Windows Shared Library Build with Visual Studio
 #--            - [ ] Mac with clang compiller
@@ -22,9 +22,9 @@
 #--   - [ ] All requirements of Levels 3,2,1
 #--
 #-- ## Compliance Level 3 star (Quality beta code)
-#--   - [ ] API | executable interface is considered mostly stable and feature complete
-#--   - [ ] 10% C0-code coverage demonstrated for testing suite
-#--   - [ ] Some tests exist and pass on at least some platform
+#--   - [X] API | executable interface is considered mostly stable and feature complete
+#--   - [X] 10% C0-code coverage demonstrated for testing suite
+#--   - [X] Some tests exist and pass on at least some platform
 #--   - [X] All requirements of Levels 2,1
 #--
 #-- ## Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance )
@@ -48,6 +48,6 @@ itk_fetch_module(SimpleITKFilters
   implementations designed for SimpleITK's requirements. Currently it
   contains a discrete hessian, and a composite filter to compute objectness."
   MODULE_COMPLIANCE_LEVEL 2
-  GIT_REPOSITORY ${git_protocol}://github.com/SimpleITK/ITKSimpleITKFilters.git
-  GIT_TAG d0afddea095dd89d7b820b9db313cad2aef2d908
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKSimpleITKFilters.git
+  GIT_TAG d67058d605a4a57674e5bc756a389cf7040dcc6d
   )
