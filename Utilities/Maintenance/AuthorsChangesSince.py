@@ -80,17 +80,117 @@ scratch_dir = Path('/tmp/AuthorsChangesSince')
 if not scratch_dir.exists():
     os.makedirs(scratch_dir)
 
-changelog_file = scratch_dir / 'Changelog.txt'
+def format_shortlog(log, commit_link_prefix):
+    output = ''
+
+    current_author = ''
+    current_author_output = ''
+    bug_fixes = []
+    platform_fixes = []
+    doc_updates = []
+    enhancements = []
+    performance_improvements = []
+    style_changes = []
+    misc_changes = []
+    def formatted_current_author():
+        current_author_output = ''
+        if enhancements:
+            current_author_output += '\n#### Enhancements\n\n'
+            for line, commit in enhancements:
+                current_author_output += '- {0}'.format(line)
+                current_author_output += ' ([{0}]({1}{0}))\n'.format(commit, commit_link_prefix)
+
+        if performance_improvements:
+            current_author_output += '\n#### Performance Improvements\n\n'
+            for line, commit in performance_improvements:
+                current_author_output += '- {0}'.format(line)
+                current_author_output += ' ([{0}]({1}{0}))\n'.format(commit, commit_link_prefix)
+
+        if doc_updates:
+            current_author_output += '\n#### Documentation Updates\n\n'
+            for line, commit in doc_updates:
+                current_author_output += '- {0}'.format(line)
+                current_author_output += ' ([{0}]({1}{0}))\n'.format(commit, commit_link_prefix)
+
+        if platform_fixes:
+            current_author_output += '\n#### Platform Fixes\n\n'
+            for line, commit in platform_fixes:
+                current_author_output += '- {0}'.format(line)
+                current_author_output += ' ([{0}]({1}{0}))\n'.format(commit, commit_link_prefix)
+
+        if bug_fixes:
+            current_author_output += '\n#### Bug Fixes\n\n'
+            for line, commit in bug_fixes:
+                current_author_output += '- {0}'.format(line)
+                current_author_output += ' ([{0}]({1}{0}))\n'.format(commit, commit_link_prefix)
+
+        if style_changes:
+            current_author_output += '\n#### Style Changes\n\n'
+            for line, commit in style_changes:
+                current_author_output += '- {0}'.format(line)
+                current_author_output += ' ([{0}]({1}{0}))\n'.format(commit, commit_link_prefix)
+
+        if misc_changes:
+            current_author_output += '\n#### Miscellaneous Changes\n\n'
+            for line, commit in misc_changes:
+                current_author_output += '- {0}'.format(line)
+                current_author_output += ' ([{0}]({1}{0}))\n'.format(commit, commit_link_prefix)
+        current_author_output += '\n\n'
+        return current_author_output
+
+    for line in log.split('\n'):
+        if not line:
+            #$ blank
+            pass
+        elif line[:3] != '   ':
+            if current_author:
+                output += formatted_current_author()
+            current_author = line
+            output += '### ' + current_author + '\n'
+            bug_fixes = []
+            platform_fixes = []
+            doc_updates = []
+            enhancements = []
+            performance_improvements = []
+            style_changes = []
+            misc_changes = []
+        else:
+            prefix = line.split(':')[0].strip()
+            commit = line.split(':')[-1]
+            if prefix == 'BUG':
+                description = line.split(':')[1]
+                bug_fixes.append((description, commit))
+            elif prefix == 'COMP':
+                description = line.split(':')[1]
+                platform_fixes.append((description, commit))
+            elif prefix == 'DOC':
+                description = line.split(':')[1]
+                doc_updates.append((description, commit))
+            elif prefix == 'ENH':
+                description = line.split(':')[1]
+                enhancements.append((description, commit))
+            elif prefix == 'PERF':
+                description = line.split(':')[1]
+                performance_improvements.append((description, commit))
+            elif prefix == 'STYLE':
+                description = line.split(':')[1]
+                style_changes.append((description, commit))
+            else:
+                description = line.split(':')[1]
+                misc_changes.append((description, commit))
+    output += formatted_current_author()
+
+    return output
+changelog_file = scratch_dir / 'Changelog.md'
 with open(changelog_file, 'w') as fp:
     fp.write('')
-def write_changelog(repo_name, git_revision):
-    log = subprocess.check_output('git shortlog --topo-order --no-merges {0}'.format(git_revision), shell=True).decode('utf-8')
+def write_changelog(repo_name, commit_link_prefix, git_revision):
+    log = subprocess.check_output('git shortlog --format=%s:%h --topo-order --no-merges {0}'.format(git_revision), shell=True).decode('utf-8')
+    formatted_log = format_shortlog(log, commit_link_prefix)
     with open(changelog_file, 'a') as fp:
         fp.write('{0} Changes Since {1}\n'.format(repo_name, revision))
         fp.write('---------------------------------------------\n\n')
-        fp.write('```\n')
-        fp.write(log)
-        fp.write('```\n')
+        fp.write(formatted_log)
         fp.write('\n\n')
 
 revision_time = subprocess.check_output('git show -s --format="%ci" {0}^{{commit}}'.format(revision), shell=True)
@@ -102,7 +202,8 @@ itk_dir = Path(os.path.dirname(os.path.abspath(__file__))) / '..' / '..'
 update_previous_authors(revision)
 update_recent_authors(revision + '..')
 update_authors_with_email(revision + '..')
-write_changelog('ITK', revision + '..')
+commit_link_prefix = 'https://github.com/InsightSoftwareConsortium/ITK/commit/'
+write_changelog('ITK', commit_link_prefix, revision + '..')
 
 # ITKExamples Repository
 os.chdir(scratch_dir)
@@ -113,7 +214,8 @@ os.chdir(examples_dir)
 update_previous_authors('--until="{0}"'.format(revision_time))
 update_recent_authors('--since="{0}"'.format(revision_time))
 update_authors_with_email('--since="{0}"'.format(revision_time))
-write_changelog('ITK Examples', '--since="{0}"'.format(revision_time))
+commit_link_prefix = 'https://github.com/InsightSoftwareConsortium/ITKExamples/commit/'
+write_changelog('ITK Examples', commit_link_prefix, '--since="{0}"'.format(revision_time))
 
 # ITKSoftwareGuide Repository
 os.chdir(scratch_dir)
@@ -124,7 +226,8 @@ os.chdir(examples_dir)
 update_previous_authors('--until="{0}"'.format(revision_time))
 update_recent_authors('--since="{0}"'.format(revision_time))
 update_authors_with_email('--since="{0}"'.format(revision_time))
-write_changelog('ITK Software Guide', '--since="{0}"'.format(revision_time))
+commit_link_prefix = 'https://github.com/InsightSoftwareConsortium/ITKSoftwareGuide/commit/'
+write_changelog('ITK Software Guide', commit_link_prefix, '--since="{0}"'.format(revision_time))
 
 # Remote modules
 os.chdir(itk_dir)
@@ -168,12 +271,12 @@ for remote in changed_remotes.split():
     update_recent_authors('{0}..{1}'.format(remote_old_tag, remote_new_tag))
     update_authors_with_email('{0}..{1}'.format(remote_old_tag, remote_new_tag))
 
-    log = subprocess.check_output('git shortlog --topo-order --no-merges {0}..{1}'.format(remote_old_tag, remote_new_tag), shell=True).decode('utf-8')
+    log = subprocess.check_output('git shortlog --format=%s:%h --topo-order --no-merges {0}..{1}'.format(remote_old_tag, remote_new_tag), shell=True).decode('utf-8')
+    commit_link_prefix = remote_repo.replace('.git', '') + '/commit/'
+    formatted_log = format_shortlog(log, commit_link_prefix)
     with open(changelog_file, 'a') as fp:
-        fp.write('*{0}*:\n'.format(module_name))
-        fp.write('```\n')
-        fp.write(log)
-        fp.write('```\n')
+        fp.write('## {0}:\n'.format(module_name))
+        fp.write(formatted_log)
         fp.write('\n')
 
 os.chdir(scratch_dir)
