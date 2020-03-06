@@ -22,6 +22,28 @@
 #include "itkImageAlgorithm.h"
 #include "itkTransform.h"
 
+template <unsigned InputDimension>
+class TestTransform
+{
+public:
+  using InputPointType = itk::Point<double, InputDimension>;
+  using OutputPointType = itk::Point<double, 2>;
+  OutputPointType
+  TransformPoint(const InputPointType & inputPoint) const
+  {
+    OutputPointType outputPoint;
+    outputPoint.Fill(0.0);
+    // if InputPoint Dimension < 2 then embed point in 2D space
+    // else project the point to 2D space.
+    for (unsigned d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)
+    {
+      outputPoint[d] = inputPoint[d];
+    }
+    return outputPoint;
+  }
+};
+
+
 int
 itkImageTest(int, char *[])
 {
@@ -140,6 +162,63 @@ itkImageTest(int, char *[])
   {
     std::cerr << "EnlargeRegionOverBox test failed: "
               << "boxRegion: " << boxRegion << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  using Image3D = itk::Image<float, 3>;
+  Image3D::Pointer     volume = Image3D::New();
+  Image3D::SpacingType spacingVol;
+  spacingVol.Fill(1);
+  Image3D::PointType originVol;
+  originVol.Fill(0);
+  Image3D::DirectionType directionVol;
+  directionVol.SetIdentity();
+  volume->SetSpacing(spacingVol);
+  volume->SetOrigin(originVol);
+  volume->SetDirection(directionVol);
+
+  Image3D::RegionType cuboid;
+  Image3D::IndexType  indexCuboid;
+  indexCuboid.Fill(0);
+  Image3D::SizeType sizeCuboid;
+  sizeCuboid[0] = 1;
+  sizeCuboid[1] = 2;
+  sizeCuboid[2] = 3;
+  cuboid.SetIndex(indexCuboid);
+  cuboid.SetSize(sizeCuboid);
+  volume->SetRegions(cuboid);
+
+  using ProjectionTransformType = TestTransform<Image3D::ImageDimension>;
+  ProjectionTransformType * projectionTrasform = new ProjectionTransformType;
+
+  Image::RegionType rectangleRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
+    volume->GetLargestPossibleRegion(), volume.GetPointer(), imageRef.GetPointer(), projectionTrasform);
+
+  delete projectionTrasform;
+  Image::IndexType correctRectangleIndex;
+  correctRectangleIndex.Fill(0);
+  Image::SizeType correctRectangleSize;
+  correctRectangleSize[0] = 1;
+  correctRectangleSize[1] = 2;
+  if (!(rectangleRegion.GetIndex() == correctRectangleIndex) || !(rectangleRegion.GetSize() == correctRectangleSize))
+  {
+    std::cerr << "EnlargeRegionOverBox test for projecting transform failed: "
+              << "rectangle Region: " << rectangleRegion << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  using TestIdentityTransformType = TestTransform<Image::ImageDimension>;
+  TestIdentityTransformType * testIdentityTrasform = new TestIdentityTransformType;
+
+  Image::RegionType tesBoxRegion = itk::ImageAlgorithm::EnlargeRegionOverBox(
+    image->GetLargestPossibleRegion(), image.GetPointer(), imageRef.GetPointer(), testIdentityTrasform);
+
+  delete testIdentityTrasform;
+
+  if (!(tesBoxRegion.GetIndex() == correctIndex) || !(tesBoxRegion.GetSize() == correctSize))
+  {
+    std::cerr << "EnlargeRegionOverBox test for test Identity failed: "
+              << "rectangle Region: " << tesBoxRegion << std::endl;
     return EXIT_FAILURE;
   }
 

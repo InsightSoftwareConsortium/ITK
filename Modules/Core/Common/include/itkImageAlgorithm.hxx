@@ -197,24 +197,27 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
 {
   typename OutputImageType::RegionType outputRegion;
 
-  // Get the index of the corners of the input region,
-  // map them to physical space, and convert them
-  // to index for this image.
-  // The region has 2^ImageDimension corners, each
-  // of them either on the inferior or superior edge
+  // Get the index of the corners of the input region, map them to input physical space.
+  // Convert input physical corners to output physical corners using transform
+  // and finally map output physical corners to index of output image.
+  // The input region has 2^ImageDimension corners, each
+  // of which is either on the inferior or superior edge
   // along each dimension.
-  unsigned int numberOfCorners = 1;
-  for (unsigned int dim = 0; dim < OutputImageType::ImageDimension; ++dim)
+  unsigned int numberOfInputCorners = 1;
+  for (unsigned int dim = 0; dim < InputImageType::ImageDimension; ++dim)
   {
-    numberOfCorners *= 2;
+    numberOfInputCorners *= 2;
   }
-  using ContinuousIndexType = ContinuousIndex<double, OutputImageType::ImageDimension>;
-  std::vector<ContinuousIndexType> corners(numberOfCorners);
+  using ContinuousInputIndexType = ContinuousIndex<double, InputImageType::ImageDimension>;
+  using ContinuousOutputIndexType = ContinuousIndex<double, OutputImageType::ImageDimension>;
 
-  for (unsigned int count = 0; count < numberOfCorners; ++count)
+  std::vector<ContinuousOutputIndexType> outputCorners(numberOfInputCorners);
+
+
+  for (unsigned int count = 0; count < numberOfInputCorners; ++count)
   {
-    ContinuousIndexType currentCornerIndex;
-    currentCornerIndex.Fill(0);
+    ContinuousInputIndexType currentInputCornerIndex;
+    currentInputCornerIndex.Fill(0);
     unsigned int localCount = count;
 
     // For each dimension, set the current index to either
@@ -223,28 +226,41 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
     // be taken into account, including the half-pixel border,
     // we start half a pixel before index 0 and stop half a pixel
     // after size
-    for (unsigned int dim = 0; dim < OutputImageType::ImageDimension; ++dim)
+    for (unsigned int dim = 0; dim < InputImageType::ImageDimension; ++dim)
     {
       if (localCount % 2)
       {
-        currentCornerIndex[dim] = inputRegion.GetIndex(dim) + inputRegion.GetSize(dim) + 0.5;
+        currentInputCornerIndex[dim] = inputRegion.GetIndex(dim) + inputRegion.GetSize(dim) + 0.5;
       }
       else
       {
-        currentCornerIndex[dim] = inputRegion.GetIndex(dim) - 0.5;
+        currentInputCornerIndex[dim] = inputRegion.GetIndex(dim) - 0.5;
       }
 
       localCount /= 2;
     }
 
-    using PointType = Point<SpacePrecisionType, OutputImageType::ImageDimension>;
-    PointType point;
-    inputImage->TransformContinuousIndexToPhysicalPoint(currentCornerIndex, point);
+    using InputPointType = Point<SpacePrecisionType, InputImageType::ImageDimension>;
+    using OutputPointType = Point<SpacePrecisionType, OutputImageType::ImageDimension>;
+    InputPointType  inputPoint;
+    OutputPointType outputPoint;
+    inputImage->TransformContinuousIndexToPhysicalPoint(currentInputCornerIndex, inputPoint);
     if (transform != nullptr)
     {
-      point = transform->TransformPoint(point);
+      outputPoint = transform->TransformPoint(inputPoint);
     }
-    outputImage->TransformPhysicalPointToContinuousIndex(point, corners[count]);
+    else
+    {
+      // if InputDimension < OutputDimension then embed point in Output space.
+      // else if InputDimension == OutputDimension copy the points.
+      // else if InputDimension > OutputDimension project the point to first N-Dimensions of Output space.
+      outputPoint.Fill(0.0);
+      for (unsigned d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)
+      {
+        outputPoint[d] = inputPoint[d];
+      }
+    }
+    outputImage->TransformPhysicalPointToContinuousIndex(outputPoint, outputCorners[count]);
   }
 
   // Compute a rectangular region from the vector of corner indexes
@@ -255,14 +271,14 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
 
     // For each dimension, set the output index to the minimum
     // of the corners' indexes, and the output size to their maximum
-    for (unsigned int count = 0; count < numberOfCorners; ++count)
+    for (unsigned int count = 0; count < numberOfInputCorners; ++count)
     {
-      auto continuousIndexFloor = Math::Floor<IndexValueType>(corners[count][dim]);
+      auto continuousIndexFloor = Math::Floor<IndexValueType>(outputCorners[count][dim]);
       if (continuousIndexFloor < outputRegion.GetIndex(dim))
       {
         outputRegion.SetIndex(dim, continuousIndexFloor);
       }
-      auto continuousIndexCeil = Math::Ceil<IndexValueType>(corners[count][dim]);
+      auto continuousIndexCeil = Math::Ceil<IndexValueType>(outputCorners[count][dim]);
       if (continuousIndexCeil > static_cast<IndexValueType>(outputRegion.GetSize(dim)))
       {
         outputRegion.SetSize(dim, continuousIndexCeil);
