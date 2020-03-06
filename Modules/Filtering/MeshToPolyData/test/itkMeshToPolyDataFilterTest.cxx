@@ -78,37 +78,37 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
   using FilterType = itk::MeshToPolyDataFilter< MeshType >;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, MeshToPolyDataFilter, ProcessObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, MeshToPolyDataFilter, ProcessObject );
 
   filter->SetInput( meshReader->GetOutput() );
 
   ShowProgress::Pointer showProgress = ShowProgress::New();
   filter->AddObserver( itk::ProgressEvent(), showProgress );
 
-  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   using PolyDataType = FilterType::PolyDataType;
   PolyDataType::ConstPointer polyData = filter->GetOutput();
 
-  TEST_EXPECT_EQUAL( polyData->GetNumberOfPoints(), 2903 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetNumberOfPoints(), 2903 );
 
   PolyDataType::PointsContainer::ConstPointer points = polyData->GetPoints();
-  TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[0], 3.71636, 10, 1e-4 ) );
-  TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[1], 2.34339, 10, 1e-4 ) );
-  TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[2], 0.0, 10, 1e-4 ) );
+  ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[0], 3.71636, 10, 1e-4 ) );
+  ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[1], 2.34339, 10, 1e-4 ) );
+  ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[2], 0.0, 10, 1e-4 ) );
 
-  TEST_EXPECT_EQUAL( polyData->GetVertices()->size(), 0 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetVertices()->size(), 0 );
 
-  TEST_EXPECT_EQUAL( polyData->GetLines()->size(), 0 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetLines()->size(), 0 );
 
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->size(), 15593 );
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 0 ), 4 );
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 1 ), 250 );
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 2 ), 251 );
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 3 ), 210 );
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 4 ), 252 );
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 5 ), 4 );
-  TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 6 ), 252 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->size(), 15593 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 0 ), 4 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 1 ), 250 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 2 ), 251 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 3 ), 210 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 4 ), 252 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 5 ), 4 );
+  ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 6 ), 252 );
 
   return EXIT_SUCCESS;
 }

@@ -45,7 +45,7 @@ int itkPolyDataTest( int, char *[] )
 
   for( unsigned int dim = 0; dim < PointDimension; ++dim )
     {
-    TEST_SET_GET_VALUE( point[dim], polyData->GetPoint( 1 )[dim] );
+    ITK_TEST_SET_GET_VALUE( point[dim], polyData->GetPoint( 1 )[dim] );
     }
 
   point[0] = 3.0;
@@ -54,12 +54,12 @@ int itkPolyDataTest( int, char *[] )
   polyData->SetPoint( 2, point );
   for( unsigned int dim = 0; dim < PointDimension; ++dim )
     {
-    TEST_SET_GET_VALUE( point[dim], polyData->GetPoint( 2 )[dim] );
+    ITK_TEST_SET_GET_VALUE( point[dim], polyData->GetPoint( 2 )[dim] );
     }
   polyData->SetPoint( 1, point );
   for( unsigned int dim = 0; dim < PointDimension; ++dim )
     {
-    TEST_SET_GET_VALUE( point[dim], polyData->GetPoint( 1 )[dim] );
+    ITK_TEST_SET_GET_VALUE( point[dim], polyData->GetPoint( 1 )[dim] );
     }
 
   PolyDataType::CellsContainer::Pointer vertices = PolyDataType::CellsContainer::New();
@@ -68,7 +68,7 @@ int itkPolyDataTest( int, char *[] )
   vertices->InsertElement( 2, 1 );
   vertices->InsertElement( 3, 7 );
   polyData->SetVertices( vertices );
-  TEST_SET_GET_VALUE( vertices.GetPointer(), polyData->GetVertices() );
+  ITK_TEST_SET_GET_VALUE( vertices.GetPointer(), polyData->GetVertices() );
 
   PolyDataType::CellsContainer::Pointer lines = PolyDataType::CellsContainer::New();
   lines->InsertElement( 0, 2 );
@@ -78,7 +78,7 @@ int itkPolyDataTest( int, char *[] )
   lines->InsertElement( 4, 7 );
   lines->InsertElement( 5, 8 );
   polyData->SetLines( lines );
-  TEST_SET_GET_VALUE( lines.GetPointer(), polyData->GetLines() );
+  ITK_TEST_SET_GET_VALUE( lines.GetPointer(), polyData->GetLines() );
 
   PolyDataType::CellsContainer::Pointer polygons = PolyDataType::CellsContainer::New();
   polygons->InsertElement( 0, 4 );
@@ -92,7 +92,7 @@ int itkPolyDataTest( int, char *[] )
   polygons->InsertElement( 8, 10 );
   polygons->InsertElement( 9, 11 );
   polyData->SetPolygons( polygons );
-  TEST_SET_GET_VALUE( polygons.GetPointer(), polyData->GetPolygons() );
+  ITK_TEST_SET_GET_VALUE( polygons.GetPointer(), polyData->GetPolygons() );
 
   PolyDataType::CellsContainer::Pointer triangleStrips = PolyDataType::CellsContainer::New();
   triangleStrips->InsertElement( 0, 3 );
@@ -104,7 +104,7 @@ int itkPolyDataTest( int, char *[] )
   triangleStrips->InsertElement( 6, 9 );
   triangleStrips->InsertElement( 7, 10 );
   polyData->SetTriangleStrips( triangleStrips );
-  TEST_SET_GET_VALUE( triangleStrips.GetPointer(), polyData->GetTriangleStrips() );
+  ITK_TEST_SET_GET_VALUE( triangleStrips.GetPointer(), polyData->GetTriangleStrips() );
 
   PolyDataType::PointDataContainer::Pointer pointDataContainer = PolyDataType::PointDataContainer::New();
   pointDataContainer->InsertElement( 0, 2.0 );
@@ -112,10 +112,10 @@ int itkPolyDataTest( int, char *[] )
   polyData->SetPointData( pointDataContainer );
   double pointData;
   polyData->GetPointData( 1, &pointData );
-  TEST_SET_GET_VALUE( 7.0, pointData );
+  ITK_TEST_SET_GET_VALUE( 7.0, pointData );
   polyData->SetPointData( 2, 9.9 );
   polyData->GetPointData( 2, &pointData );
-  TEST_SET_GET_VALUE( 9.9, pointData );
+  ITK_TEST_SET_GET_VALUE( 9.9, pointData );
 
   PolyDataType::CellDataContainer::Pointer cellDataContainer = PolyDataType::CellDataContainer::New();
   cellDataContainer->InsertElement( 0, 2.0 );
@@ -123,12 +123,12 @@ int itkPolyDataTest( int, char *[] )
   polyData->SetCellData( cellDataContainer );
   double cellData;
   polyData->GetCellData( 1, &cellData );
-  TEST_SET_GET_VALUE( 7.0, cellData );
+  ITK_TEST_SET_GET_VALUE( 7.0, cellData );
   polyData->SetCellData( 2, 9.9 );
   polyData->GetCellData( 2, &cellData );
-  TEST_SET_GET_VALUE( 9.9, cellData );
+  ITK_TEST_SET_GET_VALUE( 9.9, cellData );
 
-  EXERCISE_BASIC_OBJECT_METHODS( polyData, PolyData, DataObject );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS( polyData, PolyData, DataObject );
 
   return EXIT_SUCCESS;
 }
