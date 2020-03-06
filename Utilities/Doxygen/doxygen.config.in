@@ -257,7 +257,7 @@ ALIASES  = starteraliasnotused="@par not used"
 ALIASES += wiki="\par Wiki Examples:<br> ^^ \li <a href=\"https://www.itk.org/Wiki/ITK/Examples\">All Media Wiki Examples</a> ^^"
 ALIASES += wikiexample{2}=" \li <a href=\"https://www.itk.org/Wiki/ITK/Examples/\1\">\2</a> ^^"
 ALIASES += endwiki="^^ ^^ ^^"
-ALIASES += sphinx="\par ITK Sphinx Examples:<br> ^^ \par \li <a href=\"https://itk.org/ITKExamples\">All ITK Sphinx Examples</a> ^^"
+ALIASES += sphinx="\par ITK Sphinx Examples:<br> ^^ \li <a href=\"https://itk.org/ITKExamples\">All ITK Sphinx Examples</a> ^^"
 ALIASES += sphinxexample{2}="\li <a href=\"https://itk.org/ITKExamples/src/\1/Documentation.html\">\2</a> ^^"
 ALIASES += endsphinx="^^ ^^ ^^"
 
