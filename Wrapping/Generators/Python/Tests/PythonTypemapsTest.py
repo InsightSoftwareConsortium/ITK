@@ -28,6 +28,14 @@ idx.Fill(12)
 size = itk.Size[2]()
 size.Fill(12)
 
+size_equal = itk.Size[2]()
+size_equal.Fill(12)
+assert size_equal == size
+
+size_not_equal = itk.Size[2]()
+size_not_equal.Fill(11)
+assert size_not_equal != size
+
 t = (12, 12)
 
 l = [12, 12]

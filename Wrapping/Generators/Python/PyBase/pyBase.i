@@ -801,6 +801,10 @@ str = str
             msg << "swig_name (" << *self << ")";
             return msg.str();
         }
+        %pythoncode %{
+    def __eq__(self, other):
+        return tuple(self) == tuple(other)
+        %}
     }
 
 %enddef
