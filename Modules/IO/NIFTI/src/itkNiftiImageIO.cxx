@@ -1708,7 +1708,7 @@ NiftiImageIO ::WriteImageInformation()
 
 namespace
 {
-void
+static void
 Normalize(std::vector<double> & x)
 {
   double sum = 0.0;
@@ -1727,6 +1727,56 @@ Normalize(std::vector<double> & x)
     i = i / sum;
   }
 }
+
+// These helpful routines
+// http://callumhay.blogspot.com/2010/10/decomposing-affine-transforms.html
+// are used to check the status of the sform matrix.
+
+/**
+ * @brief Determine whether this matrix represents an affine transform or not.
+ * @return true if this matrix is an affine transform, false if not.
+ */
+static bool
+IsAffine(const mat44 & nifti_mat)
+{
+  const vnl_matrix_fixed<float, 4, 4> mat(&(nifti_mat.m[0][0]));
+  // First make sure the bottom row meets the condition that it is (0, 0, 0, 1)
+  {
+    float bottom_row_error = std::fabs(mat[3][3] - 1.0f);
+    for (int i = 0; i < 3; ++i)
+    {
+      bottom_row_error += fabs(mat[3][i]);
+    }
+    if (bottom_row_error > std::numeric_limits<float>::epsilon())
+    {
+      return false;
+    }
+  }
+  // Get the inverse of this matrix:
+  // Make sure the matrix is invertible to begin with...
+  if (fabs(vnl_determinant(mat)) <= 1e-5)
+  {
+    return false;
+  }
+
+  // Calculate the inverse and seperate the inverse translation component
+  // and the top 3x3 part of the inverse matrix
+  const vnl_matrix_fixed<float, 4, 4> inv4x4Matrix = vnl_matrix_inverse<float>(mat.as_matrix()).as_matrix();
+  const vnl_vector_fixed<float, 3>    inv4x4Translation(inv4x4Matrix[0][3], inv4x4Matrix[1][3], inv4x4Matrix[2][3]);
+  const vnl_matrix_fixed<float, 3, 3> inv4x4Top3x3 = inv4x4Matrix.extract(3, 3, 0, 0);
+
+  // Grab just the top 3x3 matrix
+  const vnl_matrix_fixed<float, 3, 3> top3x3Matrix = mat.extract(3, 3, 0, 0);
+  const vnl_matrix_fixed<float, 3, 3> invTop3x3Matrix = vnl_matrix_inverse<float>(top3x3Matrix.as_matrix()).as_matrix();
+  const vnl_vector_fixed<float, 3>    inv3x3Translation = -(invTop3x3Matrix * mat.get_column(3).extract(3));
+
+  // Make sure we adhere to the conditions of a 4x4 invertible affine transform matrix
+  const float     diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
+  const float     diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
+  constexpr float normed_tolerance_matrix_close = 1e-2;
+  return !((diff_matrix_array_one_norm > normed_tolerance_matrix_close) ||
+           (diff_vector_translation_one_norm > normed_tolerance_matrix_close));
+}
 } // namespace
 
 void
@@ -1735,7 +1785,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
   typedef SpatialOrientationAdapter OrientAdapterType;
   // in the case of an Analyze75 file, use old analyze orient method.
   // but this could be a nifti file without qform and sform
-  if (this->m_NiftiImage->qform_code == 0 && this->m_NiftiImage->sform_code == 0)
+  if (this->m_NiftiImage->qform_code == NIFTI_XFORM_UNKNOWN && this->m_NiftiImage->sform_code == NIFTI_XFORM_UNKNOWN)
   {
     m_Origin[0] = 0.0;
     if (dims > 1)
@@ -1750,7 +1800,6 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
     if (this->m_NiftiImage->nifti_type == 0 && this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeITK4 &&
         this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeITK4Warning)
     { // only do this for Analyze file format
-      SpatialOrientationAdapter::DirectionType   dir;
       SpatialOrientationAdapter::OrientationType orient;
       switch (this->m_NiftiImage->analyze75_orient)
       {
@@ -1776,8 +1825,8 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
           orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
           break;
       }
-      dir = OrientAdapterType().ToDirectionCosines(orient);
-      const int max_defined_orientation_dims = (dims > 3) ? 3 : dims;
+      const SpatialOrientationAdapter::DirectionType dir = OrientAdapterType().ToDirectionCosines(orient);
+      const int                                      max_defined_orientation_dims = (dims > 3) ? 3 : dims;
       for (int d = 0; d < max_defined_orientation_dims; d++)
       {
         std::vector<double> direction(dims, 0.0);
@@ -1792,21 +1841,136 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
     return;
   }
 
-  // not an Analyze file, but this route will be taken when ITK4 Analyze behaviour is needed
-  // scale image data based on slope/intercept
-  //
-  // qform or sform
-  //
-  mat44 theMat;
-  if (this->m_NiftiImage->qform_code > 0)
-  {
-    theMat = this->m_NiftiImage->qto_xyz;
-  }
-  //    else if(this->m_NiftiImage->sform_code > 0)
-  else
-  {
-    theMat = this->m_NiftiImage->sto_xyz;
-  }
+  const mat44 theMat = [this]() -> mat44 {
+    // Check if qform and sform are nearly the same element by element of matrix
+    // If true this is sufficient, but is not necessary. It is a very common case
+    // so check it first.
+    // Commonly the 4x4 double precision dicom information is stored in
+    // the 4x4 single precision sform fields, and that original representation
+    // is converted (with lossy conversoin) into the qform representation.
+    const bool qform_sform_are_similar = [=]() -> bool {
+      vnl_matrix_fixed<float, 4, 4> sto_xyz{ &(this->m_NiftiImage->sto_xyz.m[0][0]) };
+      vnl_matrix_fixed<float, 4, 4> qto_xyz{ &(this->m_NiftiImage->qto_xyz.m[0][0]) };
+
+      // First check rotation matrix components to ensure that they are similar;
+      const auto srotation_scale = sto_xyz.extract(3, 3, 0, 0);
+      const auto qrotation_scale = qto_xyz.extract(3, 3, 0, 0);
+      if (!srotation_scale.is_equal(qrotation_scale, 1e-5))
+      {
+        return false;
+      }
+
+      // Second check that the translations are the same with very small tolerance;
+      if ((sto_xyz.get_column(3) - qto_xyz.get_column(3)).one_norm() > 1e-7)
+      {
+        return false;
+      }
+      // Last check that the bottom rows are the same with very small tolerance
+      if ((sto_xyz.get_row(3) - qto_xyz.get_row(3)).one_norm() > 1e-7)
+      {
+        return false;
+      }
+      return true;
+    }();
+
+    bool prefer_sform_over_qform = qform_sform_are_similar;
+    // If the qform and sform to_xyz representations are not numerically very similar,
+    // use a more in-depth evaluation
+    if (!prefer_sform_over_qform || this->m_NiftiImage->sform_code != NIFTI_XFORM_UNKNOWN)
+    {
+      const bool sform_decomposable_without_skew = [this]() -> bool {
+        if (!IsAffine(this->m_NiftiImage->sto_xyz))
+        {
+          return false;
+        }
+        else
+        {
+          const vnl_matrix_fixed<float, 4, 4> sto_xyz{ &(this->m_NiftiImage->sto_xyz.m[0][0]) };
+          // vnl_vector_fixed<float, 3>                          translation;
+          vnl_matrix_fixed<float, 3, 3> rotation = sto_xyz.extract(3, 3, 0, 0);
+          {
+            // Ensure that the scales are approximately the same for spacing directions
+            vnl_vector_fixed<float, 3> scale;
+            scale[0] = rotation.get_column(0).magnitude();
+            constexpr float large_value_tolerance = 1e-3; // Numerical precision of sform is not very good
+            if (std::fabs(this->m_NiftiImage->dx - scale[0]) > large_value_tolerance)
+            {
+              return false;
+            }
+            scale[1] = rotation.get_column(1).magnitude();
+            if (std::fabs(this->m_NiftiImage->dy - scale[1]) > large_value_tolerance)
+            {
+              return false;
+            }
+            scale[2] = rotation.get_column(2).magnitude();
+            if (std::fabs(this->m_NiftiImage->dz - scale[2]) > large_value_tolerance)
+            {
+              return false;
+            }
+          }
+          // Remove scale from columns
+          for (int i = 0; i < 3; ++i)
+          {
+            rotation.set_column(i, rotation.get_column(i).normalize());
+          }
+
+          // Only orthonormal matricies have transpose as inverse
+          const vnl_matrix_fixed<float, 3, 3> candidate_identity = rotation * rotation.transpose();
+          const bool                          is_orthonormal = candidate_identity.is_identity(1.0e-4);
+          return is_orthonormal;
+        }
+      }();
+
+      // The sform can more closely match the DICOM representation of directions.
+      // NOTE: DICOM uses double precision and NIFTI uses single precision.
+      // While the qform is constrained to be orthonormal, qform introduces a
+      // lossy conversion due to mathematical representation differences that
+      // occasionally can be problematic when developing algorithms that must
+      // very precisely match the original dicom physical space representation
+      // for DICOM to/from qform representation
+      if (sform_decomposable_without_skew)
+      {
+        // Use sform for direction if qform intent is unknown, and sform intent is known and orthonormal.
+        if (this->m_NiftiImage->qform_code == NIFTI_XFORM_UNKNOWN &&
+            this->m_NiftiImage->sform_code != NIFTI_XFORM_UNKNOWN)
+        {
+          prefer_sform_over_qform = true;
+        }
+        // Use sform if it is labeled as SCANNER_ANAT format and is orthonormal.
+        else if (this->m_NiftiImage->sform_code == NIFTI_XFORM_SCANNER_ANAT)
+        {
+          prefer_sform_over_qform = true;
+        }
+        else if (this->m_NiftiImage->qform_code != NIFTI_XFORM_UNKNOWN &&
+                 this->m_NiftiImage->sform_code != NIFTI_XFORM_UNKNOWN)
+        {
+          // If sform and qform are similar, or intent is SCANNER_ANAT, prefer sform's higher numerical precision
+          const bool sform_and_qform_are_very_similar = [this]() -> bool {
+            const vnl_matrix_fixed<float, 4, 4> sform_as_matrix{ &(this->m_NiftiImage->sto_xyz.m[0][0]) };
+            const vnl_matrix_fixed<float, 4, 4> qform_as_matrix{ &(this->m_NiftiImage->qto_xyz.m[0][0]) };
+
+            // if sform_as_matrix * inv(qform_as_matrix) is approximately and identity matrix,
+            // then they are very similar.
+            const vnl_matrix_fixed<float, 4, 4> is_ident = sform_as_matrix * qform_as_matrix.transpose();
+            const bool                          matricies_are_similar = is_ident.is_identity(1.0e-4);
+            return matricies_are_similar;
+          }();
+          prefer_sform_over_qform = sform_and_qform_are_very_similar;
+        }
+      } // sform is orthonormal
+    }   // sform not NIFTI_XFORM_UNKNOWN
+
+    if (prefer_sform_over_qform)
+    {
+      return this->m_NiftiImage->sto_xyz;
+    }
+    else if (this->m_NiftiImage->qform_code != NIFTI_XFORM_UNKNOWN)
+    {
+      return this->m_NiftiImage->qto_xyz;
+    }
+
+    itkGenericExceptionMacro("ITK only supports orthonormal direction cosines.  No orthonormal definition found!")
+  }();
 
   //
   // set origin
@@ -1898,7 +2062,7 @@ NiftiImageIO::getSFormCodeFromDictionary() const
   {
     return std::stoi(temp.c_str());
   }
-  return NIFTI_XFORM_UNKNOWN; // Guess NIFTI_XFORM_UNKNOWN to indicate that only qform is relevant.
+  return NIFTI_XFORM_SCANNER_ANAT; // Both qform and sform are the same when writing, so use the same code as qform.
 }
 
 void
@@ -1906,7 +2070,11 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
 {
   //
   // use NIFTI method 2
+  // NOTE: The original documentation from 2005 has largely been ignored by many packages
+  //       due to the increased numerical imprecision of qfrom with respect to representing
+  //       dicom direction cosine information.
   // https://nifti.nimh.nih.gov/nifti-1/documentation/nifti1fields/nifti1fields_pages/qsform_brief_usage
+  // https://nifti.nimh.nih.gov/nifti-1/documentation/nifti1fields/nifti1fields_pages/qsform.html
   this->m_NiftiImage->qform_code = this->getQFormCodeFromDictionary();
   this->m_NiftiImage->sform_code = this->getSFormCodeFromDictionary();
 
@@ -1996,7 +2164,8 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   this->m_NiftiImage->qto_ijk = nifti_mat44_inverse(this->m_NiftiImage->qto_xyz);
 
   this->m_NiftiImage->pixdim[0] = this->m_NiftiImage->qfac;
-  //  this->m_NiftiImage->sform_code = 0;
+  this->m_NiftiImage->qform_code = NIFTI_XFORM_SCANNER_ANAT;
+  this->m_NiftiImage->sform_code = NIFTI_XFORM_SCANNER_ANAT;
 }
 
 void
