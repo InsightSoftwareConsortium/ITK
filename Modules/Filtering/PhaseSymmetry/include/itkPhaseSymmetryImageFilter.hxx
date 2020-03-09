@@ -58,7 +58,7 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
 
   // Create 2 initialze wavelengths
   m_Wavelengths.SetSize(2, InputImageDimension);
-  for (int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; i++)
   {
     m_Wavelengths(0, i) = 10.0;
     m_Wavelengths(1, i) = 20.0;
@@ -66,9 +66,9 @@ PhaseSymmetryImageFilter<TInputImage, TOutputImage>::PhaseSymmetryImageFilter()
 
   // Set basic orientations
   m_Orientations.SetSize(InputImageDimension, InputImageDimension);
-  for (int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; i++)
   {
-    for (int j = 0; j < InputImageDimension; j++)
+    for (unsigned int j = 0; j < InputImageDimension; j++)
     {
       if (i == j)
       {
