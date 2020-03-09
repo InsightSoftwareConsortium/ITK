@@ -3,7 +3,7 @@
 thirdparty_module_name='PNG'
 
 upstream_git_url='git://git.code.sf.net/p/libpng/code'
-upstream_git_branch='libpng16'
+upstream_git_branch='libpng-1.6.31-signed'
 
 snapshot_author_name='LIBPNG Upstream'
 snapshot_author_email='png-mng-implement@lists.sourceforge.net'
