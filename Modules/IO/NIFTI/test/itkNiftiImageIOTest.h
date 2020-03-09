@@ -217,9 +217,9 @@ MakeNiftiImage()
     }
     std::string sform_temp = "";
     if (!itk::ExposeMetaData<std::string>(thisDic, "sform_code_name", sform_temp) ||
-        sform_temp != "NIFTI_XFORM_UNKNOWN")
+        sform_temp != "NIFTI_XFORM_SCANNER_ANAT")
     {
-      std::cerr << "ERROR: sform code not recovered from file properly:  'NIFTI_XFORM_UNKNOWN' != '" << sform_temp
+      std::cerr << "ERROR: sform code not recovered from file properly:  'NIFTI_XFORM_SCANNER_ANAT' != '" << sform_temp
                 << "'" << std::endl;
       return EXIT_FAILURE;
     }
