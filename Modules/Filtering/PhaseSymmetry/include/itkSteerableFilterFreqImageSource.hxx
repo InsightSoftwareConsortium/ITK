@@ -121,7 +121,7 @@ SteerableFilterFreqImageSource<TOutputImage>::DynamicThreadedGenerateData(
     radius = 0;
     dotProduct = 0;
 
-    for (int i = 0; i < TOutputImage::ImageDimension; i++)
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
     {
       dist[i] = (double(index[i]) - centerPoint[i]) / double(m_Size[i]);
       dotProduct = dotProduct + m_Orientation[i] * dist[i];
