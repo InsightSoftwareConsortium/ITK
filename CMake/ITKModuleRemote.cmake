@@ -172,15 +172,23 @@ function(itk_fetch_module _name _description)
     set(MODULE_COMPLIANCE_LEVEL ${DEFAULT_MODULE_COMPLIANCE_LEVEL})
   endif()
 
+  set(Module_${_name}_REMOTE_COMPLIANCE_LEVEL ${MODULE_COMPLIANCE_LEVEL} CACHE INTERNAL "Variable to indicate the Module_${_name} compliance level")
+
+  if(NOT DEFINED Module_${_name} )
+    option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF)
+  else()
+    # If Module_${_name} is set manually, put it's value in the CACHE
+    option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" ${Module_${_name}})
+  endif()
+
   if(${MODULE_COMPLIANCE_LEVEL} GREATER_EQUAL ${ITK_MINIMUM_COMPLIANCE_LEVEL})
     set(Module_${_name}_VALID ON)
+    mark_as_advanced(CLEAR Module_${_name})
   else()
     set(Module_${_name}_VALID OFF)
+    mark_as_advanced(FORCE Module_${_name})
   endif()
   # message(INFO " MODULE_VALID Module_${_name}:${Module_${_name}_VALID}:${MODULE_COMPLIANCE_LEVEL}>=${ITK_MINIMUM_COMPLIANCE_LEVEL}")
-  cmake_dependent_option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF "Module_${_name}_VALID" OFF)
-  set(Module_${_name}_REMOTE_COMPLIANCE_LEVEL ${MODULE_COMPLIANCE_LEVEL} CACHE INTERNAL "Variable to indicate the Module_${_name} compliance level")
-  mark_as_advanced(Module_${_name})
 
   # Fetch_$_remote_module} is deprecated. To maintain backward compatibility:
   if(Fetch_${_name})
@@ -229,9 +237,6 @@ function(itk_fetch_module _name _description)
     # Hide remote module options if not building.
     if(DEFINED REMOTE_GIT_TAG_${_name})
       set_property(CACHE REMOTE_GIT_TAG_${_name} PROPERTY TYPE INTERNAL)
-    endif()
-    if(DEFINED Module_${_name})
-      set_property(CACHE Module_${_name} PROPERTY TYPE INTERNAL)
     endif()
     if(DEFINED Module_${_name}_BUILD_EXAMPLES)
       set_property(CACHE Module_${_name}_BUILD_EXAMPLES PROPERTY TYPE INTERNAL)
