@@ -49,13 +49,13 @@ public:
 namespace itk
 {
 /**
- *\class SignedDanielssonDistanceMapImageFilter
+ * \class SignedDanielssonDistanceMapImageFilter
+ * \brief This filter computes the signed distance map of the input
+ * image as an approximation with pixel accuracy to the Euclidean
+ * distance.
  *
  * This class is parameterized over the type of the input image
  * and the type of the output image.
- *
- * This filter computes the distance map of the input image
- * as an approximation with pixel accuracy to the Euclidean distance.
  *
  * For purposes of evaluating the signed distance map, the input is assumed
  * to be binary composed of pixels with value 0 and non-zero.

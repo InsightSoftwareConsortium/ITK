@@ -24,8 +24,9 @@ namespace itk
 {
 /**
  * \class LaplacianImageFilter
+ * \brief This filter computes the Laplacian of a scalar-valued image.
  *
- * This filter computes the Laplacian of a scalar-valued image. The Laplacian
+ * The Laplacian
  * is an isotropic measure of the 2nd spatial derivative of an image. The
  * Laplacian of an image highlights regions of rapid intensity change and is
  * therefore often used for edge detection.  Often, the Laplacian is applied to
