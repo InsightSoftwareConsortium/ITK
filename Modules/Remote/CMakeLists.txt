@@ -1,7 +1,7 @@
 # Functions to fetch remote modules.
 include(ITKModuleRemote)
 
-set(ITK_MINIMUM_COMPLIANCE_LEVEL "4" CACHE STRING "Minimum compliance level [5,4,3,2,1,0] for selecting ITK modules.")
+set(ITK_MINIMUM_COMPLIANCE_LEVEL "3" CACHE STRING "Minimum compliance level [5,4,3,2,1,0] for selecting ITK modules.")
 set_property(CACHE PROPERTY STRINGS ITK_MINIMUM_COMPLIANCE_LEVEL "5" "4" "3" "2" "1" "0")
 mark_as_advanced(CLEAR ITK_MINIMUM_COMPLIANCE_LEVEL)
 
