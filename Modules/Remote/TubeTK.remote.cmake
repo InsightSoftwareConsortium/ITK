@@ -49,5 +49,5 @@ itk_fetch_module(TubeTK
 "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKTubeTK.git
-  GIT_TAG a6d1ed624e453b32199f71b2e1d18fb63737dcfe
+  GIT_TAG 4b6b3651959f4017fce1dfdfc24c2e169c84ff0b
   )
