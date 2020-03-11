@@ -52,7 +52,7 @@ See Also
 License
 -------
 
-This code is copyrighted by the Insight Software Consortium, and it is
+This code is copyrighted by the NumFOCUS, and it is
 distributed under the Apache 2 license.
 
 Acknowledgements
