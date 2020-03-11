@@ -24,14 +24,13 @@
 namespace itk
 {
 /**
- *\class DanielssonDistanceMapImageFilter
+ * \class DanielssonDistanceMapImageFilter
+ * \brief This filter computes the distance map of the input image
+ * as an approximation with pixel accuracy to the Euclidean distance.
  *
  * \tparam TInputImage Input Image Type
  * \tparam TOutputImage Output Image Type
  * \tparam TVoronoiImage Voronoi Image Type. Note the default value is TInputImage.
- *
- * \brief This filter computes the distance map of the input image
- * as an approximation with pixel accuracy to the Euclidean distance.
  *
  * The input is assumed to contain numeric codes defining objects.
  * The filter will produce as output the following images:

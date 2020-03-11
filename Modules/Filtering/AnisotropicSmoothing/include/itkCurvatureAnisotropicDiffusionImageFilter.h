@@ -25,11 +25,11 @@ namespace itk
 {
 /**
  * \class CurvatureAnisotropicDiffusionImageFilter
+ * \brief This filter performs anisotropic diffusion on a scalar
+ * itk::Image using the modified curvature diffusion equation (MCDE).
  *
- * This filter performs anisotropic diffusion on a scalar itk::Image using the
- * modified curvature diffusion equation (MCDE) implemented in
- * itkCurvatureNDAnisotropicDiffusionFunction.  For detailed information on
- * anisotropic diffusion and the MCDE see itkAnisotropicDiffusionFunction and
+ * For detailed information on anisotropic diffusion and the MCDE see
+ * itkAnisotropicDiffusionFunction and
  * itkCurvatureNDAnisotropicDiffusionFunction.
  *
  * \par Inputs and Outputs
