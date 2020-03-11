@@ -50,7 +50,8 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>::SupportsPeakInterpolationMeth
   PeakInterpolationMethodEnum method) const
 {
   if (method == PeakInterpolationMethodEnum::None ||
-      method == PeakInterpolationMethodEnum::Parabolic | method == PeakInterpolationMethodEnum::Cosine)
+      method == PeakInterpolationMethodEnum::Parabolic ||
+      method == PeakInterpolationMethodEnum::Cosine)
   {
     return true;
   }

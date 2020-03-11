@@ -103,7 +103,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
             const std::string &                       inputPath,
             const std::string &                       outFilename,
             bool                                      varyPaddingMethods,
-            uint8_t                                   peakMethodToUse,
+            int                                       peakMethodToUse,
             bool                                      loadIntoMemory,
             unsigned                                  streamSubdivisions,
             bool                                      writeTransformFiles,
@@ -233,12 +233,13 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
       }
     }
 
-    for (auto peakMethod: itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods)
+    std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+    if (peakMethodToUse >= 0)
     {
-      if (peakMethodToUse >= 0)
-      {
-        peakMethod = static_cast<PeakInterpolationType>(peakMethodToUse);
-      }
+      interpolationMethods = { static_cast<PeakInterpolationType>(peakMethodToUse) };
+    }
+    for (auto peakMethod: interpolationMethods)
+    {
       montage->SetPeakInterpolationMethod(peakMethod);
       std::cout << "    PeakMethod " << peakMethod << std::endl;
       itk::SimpleFilterWatcher fw(montage, "montage");
@@ -257,7 +258,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
         if (writeTransformFiles)
         {
           std::ostringstream ostrm;
-          ostrm << outFilename << padMethod << "_" << peakMethod << "_Tr_" << t << ".tfm";
+          ostrm << outFilename << static_cast< int >( padMethod ) << "_" << static_cast< int >( peakMethod ) << "_Tr_" << t << ".tfm";
           WriteTransform(regTr, ostrm.str());
         }
         regPos[t] = regTr->GetOffset();
@@ -392,7 +393,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
         // resampleF->DebugOn(); //generate an image of contributing regions
         // MetaImage format supports streaming
         std::ostringstream ostrm;
-        ostrm << outFilename << padMethod << "_" << peakMethod << ".mha";
+        ostrm << outFilename << static_cast< int >( padMethod ) << "_" << static_cast< int >( peakMethod ) << ".mha";
         w->SetFileName(ostrm.str());
         // w->UseCompressionOn();
         w->SetNumberOfStreamDivisions(streamSubdivisions);
