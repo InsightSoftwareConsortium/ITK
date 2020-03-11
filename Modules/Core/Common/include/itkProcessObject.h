@@ -921,7 +921,8 @@ protected:
     {
       return std::numeric_limits<uint32_t>::max();
     }
-    return static_cast<double>(f) * std::numeric_limits<uint32_t>::max();
+    double temp = static_cast<double>(f) * std::numeric_limits<uint32_t>::max();
+    return static_cast<uint32_t>(temp);
   };
 
   /** These ivars are made protected so filters like itkStreamingImageFilter
