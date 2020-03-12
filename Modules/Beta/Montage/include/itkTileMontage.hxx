@@ -82,10 +82,10 @@ TileMontage<TImageType, TCoordinate>::PrintSelf(std::ostream & os, Indent indent
   os << indent << "Position Tolerance: " << m_PositionTolerance << std::endl;
 
   auto nullCount = std::count(m_Filenames.begin(), m_Filenames.end(), std::string());
-  os << indent << "Filenames (filled/capcity): " << m_Filenames.size() - nullCount << "/" << m_Filenames.size()
+  os << indent << "Filenames (filled/capacity): " << m_Filenames.size() - nullCount << "/" << m_Filenames.size()
      << std::endl;
   nullCount = std::count(m_FFTCache.begin(), m_FFTCache.end(), nullptr);
-  os << indent << "FFTCache (filled/capcity): " << m_FFTCache.size() - nullCount << "/" << m_FFTCache.size()
+  os << indent << "FFTCache (filled/capacity): " << m_FFTCache.size() - nullCount << "/" << m_FFTCache.size()
      << std::endl;
 
   os << indent << "MinInner: " << m_MinInner << std::endl;

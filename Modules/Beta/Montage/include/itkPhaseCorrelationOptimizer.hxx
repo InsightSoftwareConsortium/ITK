@@ -20,7 +20,7 @@
 
 #include "itkPhaseCorrelationOptimizer.h"
 
-#ifndef NDEBUG
+//#ifndef NDEBUG
 #  include "itkImageFileWriter.h"
 
 namespace
@@ -43,15 +43,15 @@ WriteDebug(const TImage * out, const char * filename)
   }
 }
 } // namespace
-#else
-namespace
-{
-template <typename TImage>
-void
-WriteDebug(TImage *, const char *)
-{}
-} // namespace
-#endif
+//#else
+//namespace
+//{
+//template <typename TImage>
+//void
+//WriteDebug(TImage *, const char *)
+//{}
+//} // namespace
+//#endif
 
 namespace itk
 {
