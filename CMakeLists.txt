@@ -535,53 +535,8 @@ endif()
 install(FILES "LICENSE" "NOTICE" "README.md" DESTINATION ${ITK_INSTALL_DOC_DIR} COMPONENT Runtime)
 
 if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
-  # Prefer to use more robust FindPython3 module if greater than cmake 3.12.0
-  if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.12.0")
-    # Use of PythonInterp and PythonLibs is deprecated since cmake version 3.12.0
-    # Only use deprecated mechanisms for older versions of cmake
-    set(Python_ADDITIONAL_VERSIONS 3.9 3.8 3.7 3.6 3.5)
-    find_package(PythonInterp)
-    if(ITK_WRAP_PYTHON)
-      find_package(PythonLibs REQUIRED)
-      # check for version mismatch.
-      if(PYTHONLIBS_FOUND AND PYTHONINTERP_FOUND
-          AND NOT(PYTHON_VERSION_STRING VERSION_EQUAL PYTHONLIBS_VERSION_STRING))
-        message(FATAL_ERROR "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
-      endif()
-    endif()
-    if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
-      # if python version is less than 3.5, unset so that it appears that no python version is found.
-      # to emulate the same behavior as find(Python3 ..) from cmake 3.12.0+
-      unset(PYTHON_EXECUTABLE)
-      unset(PYTHONINTERP_FOUND)
-      unset(PYTHON_VERSION_STRING)
-      unset(PYTHON_INCLUDE_DIRS)
-    else()
-      ## For forward compatibility with cmake 3.12.0 or greater, emulate variable names from FindPython3.cmake
-      set(Python3_EXECUTABLE ${PYTHON_EXECUTABLE})
-      set(Python3_Interpreter_FOUND ${PYTHONINTERP_FOUND})
-      set(Python3_VERSION ${PYTHON_VERSION_STRING})
-
-      set(Python3_Development_FOUND ${PYTHONLIBS_FOUND})
-      set(Python3_INCLUDE_DIRS ${PYTHON_INCLUDE_DIRS})
-      set(Python3_LIBRARIES    ${PYTHON_LIBRARIES})
-    endif()
-  else()
-    if(ITK_WRAP_PYTHON)
-      if(DEFINED Python3_EXECUTABLE)
-        set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
-      endif()
-      find_package(Python3 COMPONENTS Interpreter Development)
-      set(Python3_EXECUTABLE ${_specified_Python3_EXECUTABLE} CACHE INTERNAL
-        "Path to the Python interpreter" FORCE)
-    else()
-      find_package(Python3 COMPONENTS Interpreter)
-    endif()
-    if(NOT Python3_EXECUTABLE AND _Python3_EXECUTABLE)
-      set(Python3_EXECUTABLE ${_Python3_EXECUTABLE} CACHE INTERNAL
-        "Path to the Python interpreter" FORCE)
-    endif()
-  endif()
+  set(PYTHON_DEVELOPMENT_REQUIRED ${ITK_WRAP_PYTHON})
+  include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKSetPython3Vars.cmake)
 
   if(ITK_WRAP_PYTHON AND Python3_VERSION VERSION_LESS 3.5)
     message(FATAL_ERROR "Python versions less than 3.5 are not supported for wrapping. Python version: \"${Python3_VERSION}\".")
