@@ -127,9 +127,18 @@ public:
   GraftOutput(DataObject * output);
 
 
-  // Change the acces from protected to public to expose streaming option
-  using Superclass::SetNumberOfStreamDivisions;
-  using Superclass::GetNumberOfStreamDivisions;
+  // Change the access from protected to public to expose streaming option, a using statement can not be used due to
+  // limitations of wrapping.
+  void
+  SetNumberOfStreamDivisions(unsigned int n) override
+  {
+    Superclass::SetNumberOfStreamDivisions(n);
+  }
+  unsigned int
+  GetNumberOfStreamDivisions() const override
+  {
+    return Superclass::GetNumberOfStreamDivisions();
+  }
 
 protected:
   ImageToHistogramFilter();
