@@ -330,9 +330,18 @@ public:
   void
   SetHistogramParameters(const int numBins, RealType lowerBound, RealType upperBound);
 
-  // Change the acces from protected to public to expose streaming option
-  using Superclass::SetNumberOfStreamDivisions;
-  using Superclass::GetNumberOfStreamDivisions;
+  // Change the access from protected to public to expose streaming option, a using statement can not be used due to
+  // limitations of wrapping.
+  void
+  SetNumberOfStreamDivisions(unsigned int n) override
+  {
+    Superclass::SetNumberOfStreamDivisions(n);
+  }
+  unsigned int
+  GetNumberOfStreamDivisions() const override
+  {
+    return Superclass::GetNumberOfStreamDivisions();
+  }
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
