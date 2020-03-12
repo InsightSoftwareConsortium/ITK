@@ -448,6 +448,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
       m_ComplexOptimizer->Update();
       offset = m_ComplexOptimizer->GetOffsets()[0];
     }
+    std::cout << "OFFFSET: " << offset << std::endl;
     phaseCorrelation->Graft(m_IFFT->GetOutput());
 
     if (m_FixedImageFFT.IsNull())

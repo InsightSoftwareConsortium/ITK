@@ -233,7 +233,12 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
       }
     }
 
-    std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+    // std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+    std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = {
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::None,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Parabolic,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine
+    };
     if (peakMethodToUse >= 0)
     {
       interpolationMethods = { static_cast<PeakInterpolationType>(peakMethodToUse) };

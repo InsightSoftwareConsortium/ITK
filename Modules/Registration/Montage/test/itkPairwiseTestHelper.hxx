@@ -104,17 +104,14 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
 
   using RealOptimizerType = itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>;
   typename RealOptimizerType::Pointer realPCMOptimizer = RealOptimizerType::New();
-  typename RealOptimizerType::SamplePeakOptimizerType::Pointer realSamplePeakOptimizer = realPCMOptimizer->GetModifiableSamplePeakOptimizer();
-  realSamplePeakOptimizer->SetPixelDistanceTolerance(positionTolerance);
+  realPCMOptimizer->SetPixelDistanceTolerance(positionTolerance);
 
   using ComplexOptimizerType = itk::PhaseFrequencyCorrelationOptimizer<PhaseCorrelationMethodType>;
   typename ComplexOptimizerType::Pointer complexPCMOptimizer = ComplexOptimizerType::New();
-  typename ComplexOptimizerType::SamplePeakOptimizerType::Pointer complexSamplePeakOptimizer = complexPCMOptimizer->GetModifiableSamplePeakOptimizer();
-  complexSamplePeakOptimizer->SetPixelDistanceTolerance(positionTolerance);
+  complexPCMOptimizer->SetPixelDistanceTolerance(positionTolerance);
 
   using PeakInterpolationType =
     typename OptimizerType::PeakInterpolationMethodEnum;
-  using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
 
   for (auto peakMethod: itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods)
   {
@@ -126,6 +123,7 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
   unsigned count = 0;
   for (auto peakMethod: itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods)
   {
+    std::cout << "\nTESTING WITH PEAK INTERPOLATION METHOD: " << peakMethod << std::endl;
     if (realPCMOptimizer->SupportsPeakInterpolationMethod(peakMethod))
     {
       realPCMOptimizer->SetPeakInterpolationMethod(peakMethod);

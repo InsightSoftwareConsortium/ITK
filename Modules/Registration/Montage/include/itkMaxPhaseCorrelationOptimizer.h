@@ -23,24 +23,6 @@
 namespace itk
 {
 
-/** \class MaxPhaseCorrelationOptimizerEnums
- * \ingroup Montage
- */
-class MaxPhaseCorrelationOptimizerEnums
-{
-public:
-  /** \class PeakInterpolationMethod
-   *  \brief Different methods of interpolation the phase correlation peak.
-   *  \ingroup Montage */
-  enum class PeakInterpolationMethod : uint8_t
-  {
-    None = 0,
-    Parabolic,
-    Cosine,
-    Last = Cosine
-  };
-};
-
 /** \class MaxPhaseCorrelationOptimizer
  *  \brief Implements basic shift estimation from position of maximum peak.
  *
@@ -109,6 +91,28 @@ public:
 
   bool
   SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const override;
+
+  using MaxCalculatorType = NMinimaMaximaImageCalculator<ImageType>;
+  using IndexContainerType = typename MaxCalculatorType::IndexVector;
+
+  const IndexContainerType & GetMaxIndices() const
+  {
+    return this->m_SamplePeakOptimizer->GetMaxIndices();
+  }
+
+  const ImageType * GetAdjustedInput() const
+  {
+    return this->m_SamplePeakOptimizer->GetAdjustedInput();
+  }
+
+  SizeValueType GetPixelDistanceTolerance() const
+  {
+    return this->m_SamplePeakOptimizer->GetPixelDistanceTolerance();
+  }
+  void SetPixelDistanceTolerance(SizeValueType tolerance)
+  {
+    return this->m_SamplePeakOptimizer->SetPixelDistanceTolerance(tolerance);
+  }
 
 protected:
   MaxPhaseCorrelationOptimizer() = default;

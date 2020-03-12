@@ -41,14 +41,19 @@ public:
   {
     None = 0,
     Parabolic,
-    Cosine
+    Cosine,
+    WeightedMeanPhase,
+    PhaseFrequencySlope,
   };
 
   // For iteration
   static constexpr std::initializer_list<PeakInterpolationMethod> AllPeakInterpolationMethods =
   {
+    PeakInterpolationMethod::None,
     PeakInterpolationMethod::Parabolic,
     PeakInterpolationMethod::Cosine,
+    PeakInterpolationMethod::WeightedMeanPhase,
+    // PeakInterpolationMethod::PhaseFrequencySlope
   };
 };
 

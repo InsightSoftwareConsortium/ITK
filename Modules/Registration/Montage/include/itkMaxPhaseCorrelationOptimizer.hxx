@@ -162,6 +162,7 @@ MaxPhaseCorrelationOptimizer<TRegistrationMethod>::ComputeOffset()
         {
           this->m_Offsets[offsetIndex][i] = mirrorOffset;
         }
+        std::cout << "MAX Phase GENERATED: " << this->m_Offsets[offsetIndex] << std::endl;
       } // for ImageDimension
     }   // for offsetIndex
   }

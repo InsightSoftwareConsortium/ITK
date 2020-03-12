@@ -19,6 +19,10 @@
 #define itkPhaseFrequencyCorrelationOptimizer_h
 
 #include "itkSamplePeakCorrelationOptimizer.h"
+#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkCyclicShiftImageFilter.h"
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkFFTPadImageFilter.h"
 
 namespace itk
 {
@@ -28,13 +32,19 @@ namespace itk
  *  This class is templated over the type of registration method in which it has
  *  to be plugged in.
  *
- *  Operates on complex correlation surface, so when set to the registration method,
+ *  When set to the registration method,
  *  it should be get back by
  *  PhaseCorrelationImageRegistrationMethod::GetComplexOptimizer() method.
  *
  *  The optimizer finds the maximum peak by SamplePeakCorrelationOptimizer.
  *  If interpolation method is None, the shift is estimated with pixel-level
- *  precision. Otherwise the requested interpolation method is used.
+ *  precision. If the interpolation method is Parabolic or Cosine, the peak is
+ *  estimated by fitting these function around the peak. If the interpolation
+ *  method is WeightedMeanPhase or PhaseFrequencySlope, for efficiency, these
+ *  methods are used the first PhaseInterpolated number of peaks, and Parabolic
+ *  interpolation is used for the remaining peaks.
+ *
+ *  The WeightedMeanPhase and PhaseFrequencySlope are implemented.
  *
  * \ingroup Montage
  */
@@ -78,17 +88,31 @@ public:
   const ConfidenceVector &
   GetConfidences() const override
   {
-    return this->m_SamplePeakOptimizer->GetConfidences();
+    return this->m_MaxPhaseOptimizer->GetConfidences();
   }
 
-  using SamplePeakOptimizerType = SamplePeakCorrelationOptimizer<TRegistrationMethod>;
-  itkGetModifiableObjectMacro(SamplePeakOptimizer, SamplePeakOptimizerType);
+  using MaxPhaseOptimizerType = MaxPhaseCorrelationOptimizer<TRegistrationMethod>;
+  itkGetModifiableObjectMacro(MaxPhaseOptimizer, MaxPhaseOptimizerType);
 
   bool
   SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const override;
 
+  /** Number of peaks to use phase-based sub-sample interpolation with the
+   * WeightedMeanPhase or PhaseFrequencySlope methods. */
+  itkGetConstMacro(PhaseInterpolated, unsigned int);
+  itkSetMacro(PhaseInterpolated, unsigned int);
+
+  SizeValueType GetPixelDistanceTolerance() const
+  {
+    return this->m_MaxPhaseOptimizer->GetPixelDistanceTolerance();
+  }
+  void SetPixelDistanceTolerance(SizeValueType tolerance)
+  {
+    return this->m_MaxPhaseOptimizer->SetPixelDistanceTolerance(tolerance);
+  }
+
 protected:
-  PhaseFrequencyCorrelationOptimizer() = default;
+  PhaseFrequencyCorrelationOptimizer();
   virtual ~PhaseFrequencyCorrelationOptimizer() = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -98,7 +122,18 @@ protected:
   ComputeOffset() override;
 
 private:
-  typename SamplePeakOptimizerType::Pointer m_SamplePeakOptimizer = SamplePeakOptimizerType::New();
+  typename MaxPhaseOptimizerType::Pointer m_MaxPhaseOptimizer = MaxPhaseOptimizerType::New();
+
+  using CyclicShiftFilterType = CyclicShiftImageFilter< typename TRegistrationMethod::RealImageType >;
+  typename CyclicShiftFilterType::Pointer m_CyclicShiftFilter = CyclicShiftFilterType::New();
+
+  unsigned int m_PhaseInterpolated {1};
+
+  using PadFilterType = FFTPadImageFilter< typename TRegistrationMethod::RealImageType, typename TRegistrationMethod::RealImageType >;
+  typename PadFilterType::Pointer m_PadFilter = PadFilterType::New();
+
+  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< typename TRegistrationMethod::RealImageType >;
+  typename FFTFilterType::Pointer m_FFTFilter = FFTFilterType::New();
 };
 
 } // end namespace itk
