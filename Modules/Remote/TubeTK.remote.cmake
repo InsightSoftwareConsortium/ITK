@@ -48,6 +48,6 @@ itk_fetch_module(TubeTK
  "http://www.tubetk.org
 "
   MODULE_COMPLIANCE_LEVEL 3
-  GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKTubeTK.git
-  GIT_TAG 4b6b3651959f4017fce1dfdfc24c2e169c84ff0b
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTubeTK.git
+  GIT_TAG e3eb8677e802812c06a4a3fe19f39d3c6756cf59
   )
