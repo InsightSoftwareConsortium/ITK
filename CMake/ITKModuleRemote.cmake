@@ -157,11 +157,11 @@ endfunction()
 #    [GIT_REPOSITORY url]            # URL of git repo
 #    [GIT_TAG tag]                   # Git branch name, commit id or tag
 #
-# An CMake variable REMOTE_GIT_TAG_${_name} can be set
+# An CMake variable Module_${name}_GIT_TAG can be set
 # in to override the value in the remote module configuration file.
-# The intent of the REMOTE_GIT_TAG_${_name} variable override is to
+# The intent of the Module_${name}_GIT_TAG variable override is to
 # facilitate testing of remote module branch behaviors without
-# requiring changes to the ITK code base. If REMOTE_GIT_TAG_${name} is
+# requiring changes to the ITK code base. If Module_${name}_GIT_TAG is
 # "" then no git fetch or update will be performed.
 function(itk_fetch_module _name _description)
   include(CMakeParseArguments)
@@ -215,16 +215,16 @@ function(itk_fetch_module _name _description)
 
     set(REMOTE_GIT_TAG "${_fetch_options_GIT_TAG}")
 
-    if( DEFINED REMOTE_GIT_TAG_${_name} AND NOT "${REMOTE_GIT_TAG_${_name}}" STREQUAL "${_fetch_options_GIT_TAG}")
+    if( DEFINED Module_${_name}_GIT_TAG AND NOT "${Module_${_name}_GIT_TAG}" STREQUAL "${_fetch_options_GIT_TAG}")
       set(REMOTE_GIT_TAG "${REMOTE_GIT_TAG_${_name}}")
       message(STATUS "NOTE: Using override 'REMOTE_GIT_TAG_${_name}=${REMOTE_GIT_TAG}'\n"
                      "      instead of value 'GIT_TAG=${_fetch_options_GIT_TAG}'\n"
                      "      specified in file ${ITK_SOURCE_DIR}/Modules/Remote/${_name}.remote.cmake'")
     endif()
-    set(REMOTE_GIT_TAG_${_name} "${REMOTE_GIT_TAG}" CACHE STRING "Override default GIT_TAG value for remote module ${_name}")
-    mark_as_advanced(REMOTE_GIT_TAG_${_name})
+    set(Module_${_name}_GIT_TAG "${REMOTE_GIT_TAG}" CACHE STRING "Override default GIT_TAG value for remote module ${_name}")
+    mark_as_advanced(Module_${_name}_GIT_TAG)
     # Show remote module options if building.
-    set_property(CACHE REMOTE_GIT_TAG_${_name} PROPERTY TYPE STRING)
+    set_property(CACHE Module_${_name}_GIT_TAG PROPERTY TYPE STRING)
     if(DEFINED Module_${_name}_BUILD_EXAMPLES)
       set_property(CACHE Module_${_name}_BUILD_EXAMPLES PROPERTY TYPE BOOL)
     endif()
