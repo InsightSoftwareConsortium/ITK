@@ -161,7 +161,8 @@ endfunction()
 # in to override the value in the remote module configuration file.
 # The intent of the REMOTE_GIT_TAG_${_name} variable override is to
 # facilitate testing of remote module branch behaviors without
-# requiring changes to the ITK code base.
+# requiring changes to the ITK code base. If REMOTE_GIT_TAG_${name} is
+# "" then no git fetch or update will be performed.
 function(itk_fetch_module _name _description)
   include(CMakeParseArguments)
   cmake_parse_arguments(_fetch_options "" "MODULE_COMPLIANCE_LEVEL;GIT_REPOSITORY;GIT_TAG" "" ${ARGN})
@@ -228,11 +229,13 @@ function(itk_fetch_module _name _description)
       set_property(CACHE Module_${_name}_BUILD_EXAMPLES PROPERTY TYPE BOOL)
     endif()
 
-    _fetch_with_git("${GIT_EXECUTABLE}"
-      "${_fetch_options_GIT_REPOSITORY}"
-      "${REMOTE_GIT_TAG}"
-      "${ITK_SOURCE_DIR}/Modules/Remote/${_name}"
-      )
+    if (NOT REMOTE_GIT_TAG STREQUAL "")
+      _fetch_with_git("${GIT_EXECUTABLE}"
+        "${_fetch_options_GIT_REPOSITORY}"
+        "${REMOTE_GIT_TAG}"
+        "${ITK_SOURCE_DIR}/Modules/Remote/${_name}"
+        )
+    endif()
   else()
     # Hide remote module options if not building.
     if(DEFINED REMOTE_GIT_TAG_${_name})
