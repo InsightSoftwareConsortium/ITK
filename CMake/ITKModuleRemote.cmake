@@ -216,8 +216,8 @@ function(itk_fetch_module _name _description)
     set(REMOTE_GIT_TAG "${_fetch_options_GIT_TAG}")
 
     if( DEFINED Module_${_name}_GIT_TAG AND NOT "${Module_${_name}_GIT_TAG}" STREQUAL "${_fetch_options_GIT_TAG}")
-      set(REMOTE_GIT_TAG "${REMOTE_GIT_TAG_${_name}}")
-      message(STATUS "NOTE: Using override 'REMOTE_GIT_TAG_${_name}=${REMOTE_GIT_TAG}'\n"
+      set(REMOTE_GIT_TAG "${Module_${_name}_GIT_TAG}")
+      message(STATUS "NOTE: Using override 'Module_${_name}_GIT_TAG=${REMOTE_GIT_TAG}'\n"
                      "      instead of value 'GIT_TAG=${_fetch_options_GIT_TAG}'\n"
                      "      specified in file ${ITK_SOURCE_DIR}/Modules/Remote/${_name}.remote.cmake'")
     endif()
@@ -238,8 +238,8 @@ function(itk_fetch_module _name _description)
     endif()
   else()
     # Hide remote module options if not building.
-    if(DEFINED REMOTE_GIT_TAG_${_name})
-      set_property(CACHE REMOTE_GIT_TAG_${_name} PROPERTY TYPE INTERNAL)
+    if(DEFINED Module_${_name}_GIT_TAG)
+      set_property(CACHE Module_${_name}_GIT_TAG PROPERTY TYPE INTERNAL)
     endif()
     if(DEFINED Module_${_name}_BUILD_EXAMPLES)
       set_property(CACHE Module_${_name}_BUILD_EXAMPLES PROPERTY TYPE INTERNAL)
