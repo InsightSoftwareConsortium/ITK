@@ -628,7 +628,7 @@ public:
       }
     Own = own;
     Length = numel;
-    assert( Internal == 0 );
+    assert( Internal == nullptr );
     if( own ) // make a copy:
       {
       Internal = new ArrayType[numel];

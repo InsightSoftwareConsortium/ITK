@@ -127,6 +127,7 @@ namespace gdcm
 // private:
 { "1.3.12.2.1107.5.9.1" , "Siemens Non-image IOD Modules"}, // CSA Non-Image Storage
 { "1.2.392.200036.9125.1.1.2" , "Fuji Private CR Image IOD Modules"}, // 
+{ "1.2.392.200036.9125.1.1.4" , "Fuji Private Mammo CR Image IOD Modules"}, // 
 
 { nullptr, nullptr }
 };
@@ -187,7 +188,7 @@ SOPClassUIDToIOD::SOPClassUIDToIODType& SOPClassUIDToIOD::GetSOPClassUIDToIOD(un
   if( i < SOPClassUIDToIOD::GetNumberOfSOPClassToIOD() )
     return SOPClassUIDToIODStrings[i];
   // else return the {0x0, 0x0} sentinel:
-  assert( *SOPClassUIDToIODStrings[ SOPClassUIDToIOD::GetNumberOfSOPClassToIOD() ] == 0 );
+  assert( *SOPClassUIDToIODStrings[ SOPClassUIDToIOD::GetNumberOfSOPClassToIOD() ] == nullptr );
   return SOPClassUIDToIODStrings[ SOPClassUIDToIOD::GetNumberOfSOPClassToIOD() ];
 
 }

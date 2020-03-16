@@ -41,7 +41,7 @@ public :
   virtual void Print(std::ostream& os) const;
 
   /** Return the StringName associated with the event. */
-  virtual const char * GetEventName(void) const = 0;
+  virtual const char * GetEventName() const = 0;
 
   /** Check if given event matches or derives from this event. */
   virtual bool CheckEvent(const Event*) const = 0;

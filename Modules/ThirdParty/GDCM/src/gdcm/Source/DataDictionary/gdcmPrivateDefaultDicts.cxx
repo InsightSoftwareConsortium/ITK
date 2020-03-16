@@ -2825,10 +2825,10 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x0011,0x0016,"GEMS_GDXE_FALCON_04",VR::LT,VM::VM1,"Processing Debug Info",false },
   {0x0011,0x0017,"GEMS_GDXE_FALCON_04",VR::CS,VM::VM1,"Override mode",false },
   {0x0011,0x0019,"GEMS_GDXE_FALCON_04",VR::DS,VM::VM1,"Film Speed Selection",false },
-  {0x0011,0x0027,"GEMS_GDXE_FALCON_04",VR::UN,VM::VM1,"?",false },
-  {0x0011,0x0028,"GEMS_GDXE_FALCON_04",VR::UN,VM::VM1,"?",false },
-  {0x0011,0x0029,"GEMS_GDXE_FALCON_04",VR::UN,VM::VM1,"?",false },
-  {0x0011,0x0030,"GEMS_GDXE_FALCON_04",VR::UN,VM::VM1,"?",false },
+  {0x0011,0x0027,"GEMS_GDXE_FALCON_04",VR::FL,VM::VM1,"?",false },
+  {0x0011,0x0028,"GEMS_GDXE_FALCON_04",VR::FL,VM::VM1,"?",false },
+  {0x0011,0x0029,"GEMS_GDXE_FALCON_04",VR::SL,VM::VM1,"?",false },
+  {0x0011,0x0030,"GEMS_GDXE_FALCON_04",VR::SL,VM::VM1,"?",false },
   {0x0011,0x0031,"GEMS_GDXE_FALCON_04",VR::IS,VM::VM8,"Detected Field of View",false },
   {0x0011,0x0032,"GEMS_GDXE_FALCON_04",VR::IS,VM::VM8,"Adjusted Field of View",false },
   {0x0011,0x0033,"GEMS_GDXE_FALCON_04",VR::DS,VM::VM1,"Detected Exposure Index",false },
@@ -5241,6 +5241,13 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x0021,0x0010,"PRIVATE ORIGINAL ATTRIBUTES",VR::LO,VM::VM1,"Replacement Originator Name",false },
   {0x0021,0x0012,"PRIVATE ORIGINAL ATTRIBUTES",VR::LO,VM::VM1,"Replacement Reason",false },
   {0x0021,0x0070,"PRIVATE ORIGINAL ATTRIBUTES",VR::PN,VM::VM1_n,"Original Operators'Name",false },
+  {0x2007,0x00b4,"Philips EV Imaging DD 017",VR::FL,VM::VM2,"?",false },
+  {0x2007,0x00ba,"Philips EV Imaging DD 017",VR::FD,VM::VM1,"?",false },
+  {0x2007,0x00bb,"Philips EV Imaging DD 017",VR::FD,VM::VM1,"?",false },
+  {0x2007,0x00bc,"Philips EV Imaging DD 017",VR::SL,VM::VM1,"?",false },
+  {0x2007,0x00d0,"Philips EV Imaging DD 017",VR::FD,VM::VM1,"?",false },
+  {0x2007,0x00d1,"Philips EV Imaging DD 017",VR::FD,VM::VM1,"?",false },
+  {0x2007,0x00d2,"Philips EV Imaging DD 017",VR::SL,VM::VM1,"?",false },
   {0x2007,0x00c1,"Philips EV Imaging DD 017",VR::UI,VM::VM1,"? SOP Instance UID ?",false },
   {0x2007,0x00c2,"Philips EV Imaging DD 017",VR::DA,VM::VM1,"?",false },
   {0x2007,0x00c3,"Philips EV Imaging DD 017",VR::TM,VM::VM1,"?",false },
@@ -5248,12 +5255,13 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x2007,0x0000,"Philips EV Imaging DD 019",VR::LO,VM::VM1,"?",false },
   {0x2007,0x0001,"Philips EV Imaging DD 019",VR::UT,VM::VM1,"?",false },
   {0x2007,0x0004,"Philips EV Imaging DD 021",VR::SL,VM::VM1,"Vol Seg Edit Connectivity",false },
-  //{0x2007,0x0051,"Philips EV Imaging DD 021",VR::SS,VM::VM1,"??",false },
-  {0x2007,0x0000,"Philips EV Imaging DD 022",VR::ST,VM::VM1,"",false },
+  {0x2007,0x0051,"Philips EV Imaging DD 021",VR::US_SS,VM::VM1,"?US or SS?",false },
+  {0x2007,0x0000,"Philips EV Imaging DD 022",VR::ST,VM::VM1,"?",false },
+  {0x2007,0x0001,"Philips EV Imaging DD 022",VR::LO,VM::VM2,"?",false },
   {0x2007,0x0012,"Philips EV Imaging DD 022",VR::LO,VM::VM1,"Volume Sequence Capture",false },
   {0x2007,0x0017,"Philips EV Imaging DD 022",VR::UI,VM::VM1,"Original SOP Instance",false },
-  {0x2007,0x0033,"Philips EV Imaging DD 022",VR::LO,VM::VM1,"",false },
-  {0x2007,0x0034,"Philips EV Imaging DD 022",VR::CS,VM::VM1,"",false },
+  {0x2007,0x0033,"Philips EV Imaging DD 022",VR::LO,VM::VM1,"?",false },
+  {0x2007,0x0034,"Philips EV Imaging DD 022",VR::CS,VM::VM1,"?",false },
   {0x7777,0x0001,"Philips EnVisor",VR::DA,VM::VM1,"Date 3D/PanView internal 'dataset' file was acquired",false },
   {0x7777,0x0002,"Philips EnVisor",VR::CS,VM::VM1,"Type of 3D or PanView",false },
   {0x7777,0x0003,"Philips EnVisor",VR::LO,VM::VM1,"Internal 3D/PanView software version number",false },
@@ -10413,7 +10421,7 @@ void PrivateDict::LoadDefault()
    {
 //   if( n.group % 2 != 0 )
      {
-     assert( n.owner != 0 );
+     assert( n.owner != nullptr );
      assert( n.name );
      assert( n.group % 2 != 0 || n.group == 0xffff );
      assert( n.element <= 0xff || n.element == 0xffff );

@@ -93,12 +93,12 @@ protected:
   bool ImageNumberOrdering( FileList *fileList );
   bool FileNameOrdering( FileList *fileList );
 
-  typedef struct {
+  using Rule = struct RuleStructure{
     uint16_t group;
     uint16_t elem;
     std::string value;
     int op;
-  } Rule;
+  };
   typedef std::vector<Rule> SerieRestrictions;
 
   typedef std::map<std::string, FileList *> SingleSerieUIDFileSetmap;

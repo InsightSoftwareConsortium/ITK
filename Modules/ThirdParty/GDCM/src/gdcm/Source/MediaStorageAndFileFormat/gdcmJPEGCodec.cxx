@@ -101,7 +101,7 @@ void JPEGCodec::SetupJPEGBitCodec(int bit)
 {
   BitSample = bit;
   delete Internal; Internal = nullptr;
-  assert( Internal == NULL );
+  assert( Internal == nullptr );
   // what should I do with those single bit images ?
   if ( BitSample <= 8 )
     {

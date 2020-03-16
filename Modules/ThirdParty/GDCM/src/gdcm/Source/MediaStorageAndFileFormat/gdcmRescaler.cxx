@@ -146,7 +146,7 @@ static inline PixelFormat::ScalarType ComputeBestFit(const PixelFormat &pf, doub
       {
       st = PixelFormat::UINT32;
       }
-    else if( max <= std::numeric_limits<uint64_t>::max() )
+    else if( max <= static_cast<double>(std::numeric_limits<uint64_t>::max()) )
       {
       // very large value in Rescale Slope ?
       return PixelFormat::FLOAT64;
@@ -174,8 +174,8 @@ static inline PixelFormat::ScalarType ComputeBestFit(const PixelFormat &pf, doub
       {
       st = PixelFormat::INT32;
       }
-    else if( max <= std::numeric_limits<int64_t>::max()
-      && min >= std::numeric_limits<int64_t>::min() )
+    else if( max <= static_cast<double>(std::numeric_limits<int64_t>::max())
+      && min >= static_cast<double>(std::numeric_limits<int64_t>::min() ) )
       {
       // very large value in Rescale Slope ?
       return PixelFormat::FLOAT64;
@@ -425,8 +425,8 @@ static PixelFormat ComputeInverseBestFitFromMinMax(/*const PixelFormat &pf,*/ do
     dmax = (_min - intercept ) / slope;
     }
   assert( dmin <= dmax );
-  assert( dmax <= std::numeric_limits<int64_t>::max() );
-  assert( dmin >= std::numeric_limits<int64_t>::min() );
+  assert( dmax <= static_cast<double>(std::numeric_limits<int64_t>::max() ) );
+  assert( dmin >= static_cast<double>(std::numeric_limits<int64_t>::min() ) );
   /*
    * Tricky: what happen in the case where floating point approximate dmax as: 65535.000244081035
    * Take for instance: _max = 64527, intercept = -1024, slope = 1.000244140625
