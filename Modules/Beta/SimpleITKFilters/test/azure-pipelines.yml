@@ -8,6 +8,10 @@ trigger:
   branches:
     include:
     - master
+pr:
+  branches:
+    include:
+      - '*'
 
 jobs:
 
