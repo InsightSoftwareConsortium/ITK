@@ -94,10 +94,10 @@ public:
     UNKNOWN = 0,
     Right = 2, // 0b0010
     Left = 3,
-    Posterior = 4, // back - 0b0100
-    Anterior = 5,  // front
-    Inferior = 8,  // below - 0b1000
-    Superior = 9   // above
+    Posterior = 4, ///< back - 0b0100
+    Anterior = 5,  ///< front
+    Inferior = 8,  ///< bottom - 0b1000
+    Superior = 9   ///< above
   };
 
   enum class CoordinateMajornessTermsEnum : uint8_t
