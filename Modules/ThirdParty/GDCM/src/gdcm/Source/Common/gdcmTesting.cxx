@@ -79,7 +79,7 @@ const char * const * Testing::GetMediaStorageDataFile(unsigned int file)
 {
   if( file < Testing::GetNumberOfMediaStorageDataFiles() ) return gdcmMediaStorageDataFiles[file];
   // else return the {0x0, 0x0} sentinel:
-  assert( *gdcmMediaStorageDataFiles[ Testing::GetNumberOfMediaStorageDataFiles() ] == 0 );
+  assert( *gdcmMediaStorageDataFiles[ Testing::GetNumberOfMediaStorageDataFiles() ] == nullptr );
   return gdcmMediaStorageDataFiles[ Testing::GetNumberOfMediaStorageDataFiles() ];
 }
 const char * Testing::GetMediaStorageFromFile(const char *filepath)
@@ -119,7 +119,7 @@ const char * const * Testing::GetMD5DataImage(unsigned int file)
 {
   if( file < Testing::GetNumberOfMD5DataImages() ) return gdcmMD5DataImages[file];
   // else return the {0x0, 0x0} sentinel:
-  assert( *gdcmMD5DataImages[ Testing::GetNumberOfMD5DataImages() ] == 0 );
+  assert( *gdcmMD5DataImages[ Testing::GetNumberOfMD5DataImages() ] == nullptr );
   return gdcmMD5DataImages[ Testing::GetNumberOfMD5DataImages() ];
 }
 
@@ -447,6 +447,7 @@ static const LossyFile gdcmLossyFilenames[] = {
 { 0,"FUJI-ffff-MONO1-J2K.dcm" },
 { 0,"JPEGLosslessSeNonZero.dcm" },
 { 1,"US-YBR_FULL_422-EVRLE.dcm" },
+{ 0,"Osirix10vs8BitsStored.dcm" },
 { 0, nullptr }
 };
 

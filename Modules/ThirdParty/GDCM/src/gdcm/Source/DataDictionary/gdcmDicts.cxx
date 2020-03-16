@@ -60,7 +60,7 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
     }
   else if( tag.IsPublic() )
     {
-    assert( owner == NULL );
+    assert( owner == nullptr );
     return PublicDict.GetDictEntry(tag);
     }
   else
@@ -92,7 +92,7 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
         assert( !tag.IsIllegal() );
         assert( tag.GetElement() ); // Not a group length !
         assert( tag.IsPrivate() );
-        assert( owner == 0x0 );
+        assert( owner == nullptr );
           {
           static const char pc[] = "Private Creator";
           static const char kw[] = "PrivateCreator";

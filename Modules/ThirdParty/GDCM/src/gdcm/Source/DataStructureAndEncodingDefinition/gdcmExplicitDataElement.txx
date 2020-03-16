@@ -385,7 +385,7 @@ const std::ostream &ExplicitDataElement::Write(std::ostream &os) const
   if( TagField == itemDelItem )
     {
     assert(0);
-    assert( ValueField == 0 );
+    assert( ValueField == nullptr );
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
     if( ValueLengthField != 0 )
       {
