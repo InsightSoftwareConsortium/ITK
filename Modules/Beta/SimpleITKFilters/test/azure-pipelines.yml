@@ -24,7 +24,7 @@ jobs:
         cxxCompiler: g++
         compilerInitialization: ''
       macOS:
-        imageName: 'macos-10.13'
+        imageName: 'macos-10.14'
         cCompiler: clang
         cxxCompiler: clang++
         compilerInitialization: ''
