@@ -5,7 +5,6 @@
 # If the cmake variable "PYTHON_DEVELOPMENT_REQUIRED" is set to ON
 # then the development environments are found.
 
-# Prefer to use more robust FindPython3 module if greater than cmake 3.12.0
 if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.12.0")
   # Use of PythonInterp and PythonLibs is deprecated since cmake version 3.12.0
   # Only use deprecated mechanisms for older versions of cmake
