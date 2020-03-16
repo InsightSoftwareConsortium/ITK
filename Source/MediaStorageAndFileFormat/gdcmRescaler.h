@@ -52,13 +52,13 @@ namespace gdcm
  * Example: Let say input is FLOAT64, and we want UINT16 as ouput, we would do:
  *
  *\code
- *  Rescaler ir;
- *  ir.SetIntercept( 0 );
- *  ir.SetSlope( 5.6789 );
- *  ir.SetPixelFormat( FLOAT64 );
- *  ir.SetMinMaxForPixelType( ((PixelFormat)UINT16).GetMin(), ((PixelFormat)UINT16).GetMax() );
- *  ir.InverseRescale(output,input,numberofbytes );
- *\endcode
+    Rescaler ir;
+    ir.SetIntercept( 0 );
+    ir.SetSlope( 5.6789 );
+    ir.SetPixelFormat( FLOAT64 );
+    ir.SetMinMaxForPixelType( ((PixelFormat)UINT16).GetMin(), ((PixelFormat)UINT16).GetMax() );
+    ir.InverseRescale(output,input,numberofbytes );
+  \endcode
  *
  * \note handle floating point transformation back and forth to integer
  * properly (no loss)

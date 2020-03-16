@@ -434,6 +434,13 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
               i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
               i->GetPixelFormat().SetBitsStored( cpf.GetBitsStored() );
               }
+            else if( cpf.GetBitsStored() < pf.GetBitsStored() )
+              {
+              Bitmap *i = const_cast<Bitmap*>(this);
+              gdcmWarningMacro( "Encapsulated stream has more bits actually stored on disk. correcting." );
+              i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
+              i->GetPixelFormat().SetBitsStored( cpf.GetBitsStored() );
+              }
             }
           }
         }
@@ -732,6 +739,37 @@ bool Bitmap::TryJPEGLSCodec(char *buffer, bool &lossyflag) const
       {
       gdcmErrorMacro( "EVIL file, it is declared as lossless but is in fact lossy." );
       }
+      const PixelFormat & cpf = codec.GetPixelFormat();
+      const PixelFormat & pf = GetPixelFormat();
+      if( cpf.GetBitsAllocated() == pf.GetBitsAllocated() )
+        {
+        if( cpf.GetPixelRepresentation() == pf.GetPixelRepresentation() )
+          {
+          if( cpf.GetSamplesPerPixel() == pf.GetSamplesPerPixel() )
+            {
+            if( cpf.GetBitsStored() < pf.GetBitsStored() )
+              {
+              Bitmap *i = const_cast<Bitmap*>(this);
+              gdcmWarningMacro( "Encapsulated stream has fewer bits actually stored on disk. correcting." );
+              i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
+              i->GetPixelFormat().SetBitsStored( cpf.GetBitsStored() );
+              }
+            else if( cpf.GetBitsStored() > pf.GetBitsStored() )
+              {
+              Bitmap *i = const_cast<Bitmap*>(this);
+              gdcmWarningMacro( "Encapsulated stream has more bits actually stored on disk. correcting." );
+              i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
+              i->GetPixelFormat().SetBitsStored( cpf.GetBitsStored() );
+              }
+            }
+          }
+        }
+      else
+        {
+        gdcmWarningMacro( "Bits Allocated are different. This is pretty bad using info from codestream" );
+        Bitmap *i = const_cast<Bitmap*>(this);
+        i->SetPixelFormat( codec.GetPixelFormat() );
+        }
 
     return r;
     }
@@ -803,6 +841,14 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
               {
               Bitmap *i = const_cast<Bitmap*>(this);
               gdcmWarningMacro( "Encapsulated stream has fewer bits actually stored on disk. correcting." );
+              i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
+              i->GetPixelFormat().SetBitsStored( cpf.GetBitsStored() );
+              }
+            else if( cpf.GetBitsStored() > pf.GetBitsStored() )
+              {
+              Bitmap *i = const_cast<Bitmap*>(this);
+              gdcmWarningMacro( "Encapsulated stream has more bits actually stored on disk. correcting." );
+              i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
               i->GetPixelFormat().SetBitsStored( cpf.GetBitsStored() );
               }
             }

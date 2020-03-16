@@ -369,7 +369,7 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
   assert( r == (VR::VRType)(1 << (p-start)) );
 #else // old version not optimized
   VRType r = VR::VR_END;
-  for (int i = 1; VRStrings[i] != NULL; i++)
+  for (int i = 1; VRStrings[i] != nullptr; i++)
     {
     const char *ref = VRStrings[i];
     // Use lazy evaluation instead of strncmp

@@ -76,7 +76,7 @@ Global::Global()
 {
   if(++GlobalCount == 1)
     {
-    assert( Internals == NULL ); // paranoid
+    assert( Internals == nullptr ); // paranoid
     Internals = new GlobalInternal;
     assert( Internals->GlobalDicts.IsEmpty() );
     // Fill in with default values now !
@@ -102,7 +102,7 @@ Global::~Global()
 
 bool Global::LoadResourcesFiles()
 {
-  assert( Internals != NULL ); // paranoid
+  assert( Internals != nullptr ); // paranoid
   const char *filename = Locate( "Part3.xml" );
   if( filename )
     {

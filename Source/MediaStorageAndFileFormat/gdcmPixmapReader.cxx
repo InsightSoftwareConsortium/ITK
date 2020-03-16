@@ -616,7 +616,8 @@ bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldat
     isacrnema = true;
     const char *str = ds.GetDataElement( trecognitioncode ).GetByteValue()->GetPointer();
     assert( strncmp( str, "ACR-NEMA", strlen( "ACR-NEMA" ) ) == 0 ||
-      strncmp( str, "ACRNEMA", strlen( "ACRNEMA" ) ) == 0 );
+      strncmp( str, "ACRNEMA", strlen( "ACRNEMA" ) ) == 0 ||
+      strncmp( str, "MIPS 2.0", strlen( "MIPS 2.0" ) ) == 0 );
     (void)str;//warning removal
     }
 

@@ -624,7 +624,7 @@ public:
     else {
       // TODO rewrite this stupid code:
       assert( Length == 0 );
-      assert( Internal == 0 );
+      assert( Internal == nullptr );
       assert( Save == false );
       Length = len / sizeof(Type);
       //assert( (len / sizeof(Type)) * sizeof(Type) == len );
@@ -658,7 +658,7 @@ public:
       const Type* array = (const Type*)bv->GetVoidPointer();
       if( array ) {
         assert( array ); // That would be bad...
-        assert( Internal == 0 );
+        assert( Internal == nullptr );
         SetArray(array, bv->GetLength() ); }
       }
     else
@@ -763,7 +763,7 @@ protected:
       const Type* array = (const Type*)bv->GetPointer();
       if( array ) {
         assert( array ); // That would be bad...
-        assert( Internal == 0 );
+        assert( Internal == nullptr );
         SetArray(array, bv->GetLength() ); }
       }
     else

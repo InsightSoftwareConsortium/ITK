@@ -145,6 +145,9 @@ static const char *MSStrings[] = {
   "1.2.840.10008.5.1.4.1.1.128.1", // Legacy Converted Enhanced PET Image Storage
   "1.2.840.10008.5.1.4.1.1.13.1.4", // Breast Projection X-Ray Image Storage - For Presentation
   "1.2.840.10008.5.1.4.1.1.13.1.5", // Breast Projection X-Ray Image Storage - For Processing
+  "1.2.840.10008.5.1.1.30",  // HardcopyColorImageStorage
+  "1.2.840.10008.5.1.4.1.1.4.3", // EnhancedMRColorImageStorage
+  "1.2.392.200036.9125.1.1.4", // FujiPrivateMammoCRImageStorage (aka FUJI MAMMO CR Storage)
 
   nullptr
 };
@@ -328,11 +331,14 @@ static const MSModalityType MSModalityTypes[] = {
   {"DX", 3, false},// XRay3DCraniofacialImageStorage
   {"IVOCT", 3, false},// IVOCTForPresentation,
   {"IVOCT", 3, false},// IVCOTForProcessing,
-  {"CT", 3, false},//LegacyConvertedEnhancedCTImageStorage,
-  {"MR", 3, false},//LegacyConvertedEnhancedMRImageStorage,
-  {"PT", 3, false},//LegacyConvertedEnhancedPETImageStorage,
-  {"MG", 3, false},//BreastProjectionXRayImageStorageForPresentation
-  {"MG", 3, false},//BreastProjectionXRayImageStorageForProcessing
+  {"CT", 3, false},// LegacyConvertedEnhancedCTImageStorage,
+  {"MR", 3, false},// LegacyConvertedEnhancedMRImageStorage,
+  {"PT", 3, false},// LegacyConvertedEnhancedPETImageStorage,
+  {"MG", 3, false},// BreastProjectionXRayImageStorageForPresentation
+  {"MG", 3, false},// BreastProjectionXRayImageStorageForProcessing
+  {"HC", 2, false},// HardcopyGrayscaleImageStorage
+  {"MR", 3, false},// EnhancedMRColorImageStorage
+  {"MG", 2, false},// FujiPrivateMammoCRImageStorage
   {nullptr, 0, false} //MS_END
 };
 

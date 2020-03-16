@@ -54,9 +54,9 @@ class Exception : public std::exception
                                  const unsigned int lineNumber,
                                  const char* const func)
   {
-    assert(desc != NULL);
-    assert(file != NULL);
-    assert(func != NULL);
+    assert(desc != nullptr);
+    assert(file != nullptr);
+    assert(func != nullptr);
     std::ostringstream oswhat;
     oswhat << file << ":" << lineNumber << " (" << func << "):\n";
     oswhat << desc;

@@ -173,7 +173,7 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
     return false;
     }
 
-  // http://www.itk.org/pipermail/insight-users/2003-September/004762.html
+  // https://www.itk.org/pipermail/insight-users/2003-September/004762.html
   // Compute normal:
   // The steps I take when reconstructing a volume are these: First,
   // calculate the slice normal from IOP:
