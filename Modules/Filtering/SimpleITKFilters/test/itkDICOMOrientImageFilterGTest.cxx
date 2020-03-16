@@ -94,7 +94,7 @@ TEST(DICOMOrientImageFilter, Streaming)
 
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetOutput()->GetBufferedRegion().GetSize(), itk::Size<3>({ { 1, 2, 3 } }));
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::RAS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::RAS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 1, 0 } }));
   {
@@ -124,7 +124,7 @@ TEST(DICOMOrientImageFilter, Values)
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
 
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 0, 0 } }));
   {
@@ -139,7 +139,7 @@ TEST(DICOMOrientImageFilter, Values)
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
 
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::RAS);
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 1, 0 } }));
   {
@@ -155,13 +155,13 @@ TEST(DICOMOrientImageFilter, Values)
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::RIP);
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::LIA);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::LIA);
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 2, 1 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 1, 1 } }));
   {
@@ -177,7 +177,7 @@ TEST(DICOMOrientImageFilter, Values)
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::IRP);
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 2, 0, 1 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 1, 0 } }));
 
@@ -185,68 +185,68 @@ TEST(DICOMOrientImageFilter, Values)
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::SLA);
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 2, 0, 1 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 0, 1 } }));
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::RPI);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 0, 1 } }));
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::LAI);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
   EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 1, 1 } }));
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::LAS);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::PRI);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::PLS);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::ALS);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::IPR);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::SAL);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::PIR);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::ASR);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::ASL);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
-  EXPECT_EQ(filter->GetGivenCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
 }
 
 

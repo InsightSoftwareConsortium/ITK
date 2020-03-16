@@ -188,7 +188,7 @@ public:
   /** Get the orientation codes that defines the input coordinate transform.
    *
    *  This value changed during the execution of the Update in the pipeline. */
-  itkGetEnumMacro(GivenCoordinateOrientation, OrientationEnum);
+  itkGetEnumMacro(InputCoordinateOrientation, OrientationEnum);
 
   itkGetEnumMacro(DesiredCoordinateOrientation, OrientationEnum);
   void
@@ -257,7 +257,7 @@ protected:
 
 
   void
-  SetGivenCoordinateOrientation(OrientationEnum newCode);
+  SetInputCoordinateOrientation(OrientationEnum newCode);
 
 
   /** Single-threaded version of GenerateData. This filter delegates
@@ -279,7 +279,7 @@ private:
     m_StringToCode[str] = code;
   }
 
-  OrientationEnum m_GivenCoordinateOrientation{ OrientationEnum::LPS };
+  OrientationEnum m_InputCoordinateOrientation{ OrientationEnum::LPS };
   OrientationEnum m_DesiredCoordinateOrientation{ OrientationEnum::LPS };
   bool            m_UseImageDirection{ true };
 
