@@ -240,11 +240,11 @@ DICOMOrientImageFilter<TInputImage>::DeterminePermutationsAndFlips(const Orienta
 
 template <typename TInputImage>
 void
-DICOMOrientImageFilter<TInputImage>::SetGivenCoordinateOrientation(OrientationEnum newCode)
+DICOMOrientImageFilter<TInputImage>::SetInputCoordinateOrientation(OrientationEnum newCode)
 {
-  m_GivenCoordinateOrientation = newCode;
+  m_InputCoordinateOrientation = newCode;
 
-  this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
+  this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_InputCoordinateOrientation);
 }
 
 template <typename TInputImage>
@@ -254,7 +254,7 @@ DICOMOrientImageFilter<TInputImage>::SetDesiredCoordinateOrientation(Orientation
   if (m_DesiredCoordinateOrientation != newCode)
   {
     m_DesiredCoordinateOrientation = newCode;
-    this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_GivenCoordinateOrientation);
+    this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_InputCoordinateOrientation);
     this->Modified();
   }
 }
@@ -394,7 +394,7 @@ DICOMOrientImageFilter<TInputImage>::GenerateOutputInformation()
   if (m_UseImageDirection)
   {
     // Compute the GivenOrientation from the image's direction cosines
-    this->SetGivenCoordinateOrientation(Self::DirectionCosinesToOrientation(inputPtr->GetDirection()));
+    this->SetInputCoordinateOrientation(Self::DirectionCosinesToOrientation(inputPtr->GetDirection()));
   }
 
   using PermuteFilterType = PermuteAxesImageFilter<ImageType>;
@@ -424,8 +424,8 @@ DICOMOrientImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent)
   auto axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
   os << indent << "Desired Coordinate Orientation: " << static_cast<long>(this->GetDesiredCoordinateOrientation())
      << " (" << (*axes).second << ")" << std::endl;
-  axes = m_CodeToString.find(m_GivenCoordinateOrientation);
-  os << indent << "Given Coordinate Orientation: " << static_cast<long>(this->GetGivenCoordinateOrientation()) << " ("
+  axes = m_CodeToString.find(m_InputCoordinateOrientation);
+  os << indent << "Given Coordinate Orientation: " << static_cast<long>(this->GetInputCoordinateOrientation()) << " ("
      << (*axes).second << ")" << std::endl;
   os << indent << "Use Image Direction: " << m_UseImageDirection << std::endl;
   os << indent << "Permute Axes: " << m_PermuteOrder << std::endl;
