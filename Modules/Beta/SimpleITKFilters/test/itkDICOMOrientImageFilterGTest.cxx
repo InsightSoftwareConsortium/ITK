@@ -82,7 +82,7 @@ TEST(DICOMOrientImageFilter, Streaming)
 
 
   using OrientFilterType = itk::DICOMOrientImageFilter<ImageType>;
-  using PermuiteArrayType = OrientFilterType::PermuteOrderArrayType;
+  using PermuteArrayType = OrientFilterType::PermuteOrderArrayType;
   using FlipArrayType = OrientFilterType::FlipAxesArrayType;
   auto filter = OrientFilterType::New();
   filter->SetInput(sourceFilter->GetOutput());
@@ -95,8 +95,8 @@ TEST(DICOMOrientImageFilter, Streaming)
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetOutput()->GetBufferedRegion().GetSize(), itk::Size<3>({ { 1, 2, 3 } }));
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::RAS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 1, 0 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuteArrayType({ 0, 1, 2 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 1, 1, 0 }));
   {
     ImageType::DirectionType d;
     d.SetIdentity();
@@ -125,8 +125,8 @@ TEST(DICOMOrientImageFilter, Values)
 
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 0, 0 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 0, 1, 2 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 0, 0, 0 }));
   {
     ImageType::DirectionType d;
     d.SetIdentity();
@@ -140,8 +140,8 @@ TEST(DICOMOrientImageFilter, Values)
 
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::RAS);
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 1, 0 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 0, 1, 2 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 1, 1, 0 }));
   {
     ImageType::DirectionType d;
     d.Fill(0.0);
@@ -162,8 +162,8 @@ TEST(DICOMOrientImageFilter, Values)
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::LIA);
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 2, 1 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 1, 1 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 0, 2, 1 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 0, 1, 1 }));
   {
     ImageType::DirectionType d;
     d.Fill(0.0);
@@ -178,30 +178,30 @@ TEST(DICOMOrientImageFilter, Values)
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::IRP);
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 2, 0, 1 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 1, 0 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 2, 0, 1 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 1, 1, 0 }));
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::SLA);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetDesiredCoordinateOrientation(), OrientFilterType::OrientationEnum::SLA);
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 2, 0, 1 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 0, 1 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 2, 0, 1 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 0, 0, 1 }));
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::RPI);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 1, 0, 1 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 0, 1, 2 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 1, 0, 1 }));
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::LAI);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
   EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
-  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ { 0, 1, 2 } }));
-  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ { 0, 1, 1 } }));
+  EXPECT_EQ(filter->GetPermuteOrder(), PermuiteArrayType({ 0, 1, 2 }));
+  EXPECT_EQ(filter->GetFlipAxes(), FlipArrayType({ 0, 1, 1 }));
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::LAS);
   filter->UpdateLargestPossibleRegion();
