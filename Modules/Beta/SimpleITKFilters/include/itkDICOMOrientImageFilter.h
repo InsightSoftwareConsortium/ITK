@@ -32,17 +32,15 @@ namespace itk
  * pixels may change.
  *
  *
- * DICOMOrientImageFilter depends on a set of constants that describe all possible
- * labeled according to the following scheme:
- * Directions are labeled in terms of following pairs:
+ * DICOMOrientImageFilter depends on a set of constants that describe all possible labels. Directions are labeled in
+ * terms of following pairs:
  *   - Left and Right (Subject's left and right)
  *   - Anterior and Posterior (Subject's front and back)
  *   - Inferior and Superior (Subject's bottom and top, i.e. feet and head)
  *
- * The initials of these directions are used in a 3 letter code in the
- * enumerated type OrientationEnum.
- * The initials are given fastest moving index first, second fastest second,
- * third fastest third.
+ * The initials of these directions are used in a 3 letter code in the enumerated type OrientationEnum. The initials are
+ * given fastest moving index first, second fastest second, third fastest third, where the label's direction indicates
+ * increasing values.
  *
  * An ITK image with an identity direction cosine matrix is in LPS (Left, Posterior, Superior) orientation as defined by
  * the DICOM standard.
@@ -55,11 +53,8 @@ namespace itk
  * \end{Bmatrix}
  * \f]
  *
- * The output orientation is specified with SetDesiredCoordinateOrientation. The
- * given coordinate orientation is computed from the input image's direction
- * cosine matrix.
- *
- *
+ * The output orientation is specified with SetDesiredCoordinateOrientation. The input coordinate orientation is
+ * computed from the input image's direction cosine matrix.
  *
  * \ingroup SimpleFilters
  */
@@ -76,7 +71,6 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
-
   using ImageType = TInputImage;
   using ImagePointer = typename ImageType::Pointer;
   using ImageConstPointer = typename ImageType::ConstPointer;
@@ -187,19 +181,18 @@ public:
 
   /** Get the orientation codes that defines the input coordinate transform.
    *
-   *  This value changed during the execution of the Update in the pipeline. */
+   *  This value changes during the execution of the Update in the pipeline. */
   itkGetEnumMacro(InputCoordinateOrientation, OrientationEnum);
 
+  /** Set/Get the desired coordinate orientation for the output image */
   itkGetEnumMacro(DesiredCoordinateOrientation, OrientationEnum);
   void
   SetDesiredCoordinateOrientation(OrientationEnum newCode);
-
   inline void
   SetDesiredCoordinateDirection(const typename ImageType::DirectionType & DesiredDirection)
   {
     SetDesiredCoordinateOrientation(Self::DirectionCosinesToOrientation(DesiredDirection));
   }
-
   inline void
   SetDesiredCoordinateDirection(const std::string & desired)
   {
@@ -220,10 +213,16 @@ public:
   static OrientationEnum
   DirectionCosinesToOrientation(const DirectionType & dir);
 
-  /** Get axes permute order. */
+  /** Get axes permute order.
+   *
+   * This value is computed during Update.
+   * */
   itkGetConstReferenceMacro(PermuteOrder, PermuteOrderArrayType);
 
-  /** Get flip axes. */
+  /** Get flip axes.
+   *
+   * This value is computed during Update.
+   * */
   itkGetConstReferenceMacro(FlipAxes, FlipAxesArrayType);
 
 
@@ -266,8 +265,6 @@ protected:
   GenerateData() override;
 
 private:
-  std::string
-  GetMajorAxisFromPatientRelativeDirectionCosine(double x, double y, double z);
 
   inline void
   helperAddCode(const std::string & str, OrientationEnum code)
@@ -281,7 +278,6 @@ private:
 
   OrientationEnum m_InputCoordinateOrientation{ OrientationEnum::LPS };
   OrientationEnum m_DesiredCoordinateOrientation{ OrientationEnum::LPS };
-  bool            m_UseImageDirection{ true };
 
   PermuteOrderArrayType m_PermuteOrder;
   FlipAxesArrayType     m_FlipAxes;
