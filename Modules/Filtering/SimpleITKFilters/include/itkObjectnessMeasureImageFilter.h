@@ -54,9 +54,7 @@ namespace itk
  *     V_{\sigma}=
  *     \begin{cases}
  *      (1-e^{-\frac{R_A^2}{2\alpha^2}}) \cdot e^{\frac{R_B^2}{2\beta^2}} \cdot (1-e^{-\frac{S^2}{2\gamma^2}}) &
- * \text{if } \lambda_2<0 \text{ and } \lambda_3<0 \text{,}\\ 0 & \text{otherwise}
- *    \end{cases}
- *  \f]
+ * \text{if } \lambda_2<0 \text{ and } \lambda_3<0 \text{,}\\ 0 & \text{otherwise} \end{cases} \f]
  *
  * \par References
  * Antiga, L. Generalizing vesselness with respect to dimensionality and shape. https://hdl.handle.net/1926/576
