@@ -34,8 +34,8 @@ itkObjectnessMeasureImageFilterTest(int argc, char * argv[])
   const char * inputImageFileName = argv[1];
   const char * outputImageFileName = argv[2];
 
-  const unsigned int objectDimension = (argc >= 3) ? (argv[3]) : 3;
-  const bool         brightObject = (argc >= 4) ? strto(argv[4]) : true;
+  const unsigned int objectDimension = (argc >= 3) ? atoi(argv[3]) : 3;
+  const bool         brightObject = (argc >= 4) ? atoi(argv[4]) : true;
   constexpr double   alphaValue = 0.5;
   constexpr double   betaValue = 0.5;
   constexpr double   gammaValue = 0.5;
