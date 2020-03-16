@@ -23,29 +23,30 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-int itkObjectnessMeasureImageFilterTest(int argc, char *argv[])
+int
+itkObjectnessMeasureImageFilterTest(int argc, char * argv[])
 {
-  if( argc < 3 )
-    {
+  if (argc < 3)
+  {
     std::cerr << "Usage: " << argv[0] << " inputImage outputImage [ObjectDimension] [Bright/Dark]" << std::endl;
     return EXIT_FAILURE;
-    }
-  const char *inputImageFileName = argv[1];
-  const char *outputImageFileName  = argv[2];
+  }
+  const char * inputImageFileName = argv[1];
+  const char * outputImageFileName = argv[2];
 
-  const unsigned int objectDimension = (argc >= 3) ? atoi(argv[3]) : 3;
-  const bool brightObject = (argc >= 4) ? atoi(argv[4]) : true;
-  constexpr double alphaValue = 0.5;
-  constexpr double betaValue = 0.5;
-  constexpr double gammaValue = 0.5;
+  const unsigned int objectDimension = (argc >= 3) ? (argv[3]) : 3;
+  const bool         brightObject = (argc >= 4) ? strto(argv[4]) : true;
+  constexpr double   alphaValue = 0.5;
+  constexpr double   betaValue = 0.5;
+  constexpr double   gammaValue = 0.5;
 
   constexpr unsigned int Dimension = 2;
   using PixelType = double;
-  using ImageType = itk::Image< PixelType, Dimension >;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( inputImageFileName );
+  reader->SetFileName(inputImageFileName);
 
   using SmoothingFilterType = itk::SmoothingRecursiveGaussianImageFilter<ImageType, ImageType>;
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
@@ -53,7 +54,7 @@ int itkObjectnessMeasureImageFilterTest(int argc, char *argv[])
   smoothing->SetInput(reader->GetOutput());
 
   using FilterType = itk::ObjectnessMeasureImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter =  FilterType::New();
+  FilterType::Pointer filter = FilterType::New();
   filter->SetInput(smoothing->GetOutput());
   filter->SetAlpha(alphaValue);
   filter->SetBeta(betaValue);
@@ -67,7 +68,7 @@ int itkObjectnessMeasureImageFilterTest(int argc, char *argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName( outputImageFileName );
+  writer->SetFileName(outputImageFileName);
   writer->Update();
 
   return EXIT_SUCCESS;

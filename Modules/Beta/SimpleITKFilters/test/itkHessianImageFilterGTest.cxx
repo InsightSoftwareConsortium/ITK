@@ -28,18 +28,21 @@ namespace Math = itk::Math;
 namespace
 {
 
-class HessianImageFilterFixture
-  : public ::testing::Test
+class HessianImageFilterFixture : public ::testing::Test
 {
 public:
   HessianImageFilterFixture() {}
   ~HessianImageFilterFixture() override {}
 
 protected:
-  void SetUp() override {}
-  void TearDown() override {}
+  void
+  SetUp() override
+  {}
+  void
+  TearDown() override
+  {}
 
-  template<unsigned int D, typename TPixelType = float >
+  template <unsigned int D, typename TPixelType = float>
   struct FixtureUtilities
   {
     static const unsigned int Dimension = D;
@@ -55,52 +58,51 @@ protected:
 
     static const unsigned int imageSize = 25;
 
-    static typename ImageType::Pointer CreateImage(void)
-      {
-        typename ImageType::Pointer image = ImageType::New();
+    static typename ImageType::Pointer
+    CreateImage(void)
+    {
+      typename ImageType::Pointer image = ImageType::New();
 
-        typename ImageType::SizeType size;
-        size.Fill(imageSize);
+      typename ImageType::SizeType size;
+      size.Fill(imageSize);
 
-        image->SetRegions(typename ImageType::RegionType(size));
-        image->Allocate();
-        image->FillBuffer(0);
+      image->SetRegions(typename ImageType::RegionType(size));
+      image->Allocate();
+      image->FillBuffer(0);
 
-        return image;
-      }
+      return image;
+    }
 
-    static typename ImageType::Pointer CreateGaussianImage(void)
-      {
+    static typename ImageType::Pointer
+    CreateGaussianImage(void)
+    {
 
-        using GaussianSourceType = itk::GaussianImageSource<ImageType>;
+      using GaussianSourceType = itk::GaussianImageSource<ImageType>;
 
-        typename GaussianSourceType::Pointer gaussianSource = GaussianSourceType::New();
+      typename GaussianSourceType::Pointer gaussianSource = GaussianSourceType::New();
 
-        typename ImageType::SizeType size;
-        size.Fill(imageSize);
+      typename ImageType::SizeType size;
+      size.Fill(imageSize);
 
-        typename ImageType::SpacingType spacing(1.0);
+      typename ImageType::SpacingType spacing(1.0);
 
-        gaussianSource->SetSize( size );
-        gaussianSource->SetSpacing( spacing );
-        gaussianSource->SetMean( itk::FixedArray< double, Dimension>( (imageSize-1)/2.0 ) );
-        gaussianSource->SetSigma( itk::FixedArray< double, Dimension>( 10.0 ) );
-        gaussianSource->SetNormalized( true );
+      gaussianSource->SetSize(size);
+      gaussianSource->SetSpacing(spacing);
+      gaussianSource->SetMean(itk::FixedArray<double, Dimension>((imageSize - 1) / 2.0));
+      gaussianSource->SetSigma(itk::FixedArray<double, Dimension>(10.0));
+      gaussianSource->SetNormalized(true);
 
-        gaussianSource->Print(std::cout);
-        gaussianSource->Update();
+      gaussianSource->Print(std::cout);
+      gaussianSource->Update();
 
-        return gaussianSource->GetOutput();
-      }
-
+      return gaussianSource->GetOutput();
+    }
   };
-
-
 };
-}
+} // namespace
 
 
-TEST_F(HessianImageFilterFixture,BasicMethods)
+TEST_F(HessianImageFilterFixture, BasicMethods)
 {
   using Utils = FixtureUtilities<2>;
 
@@ -108,35 +110,36 @@ TEST_F(HessianImageFilterFixture,BasicMethods)
 
 
   std::ostringstream oss;
-  filter->Print( oss );
+  filter->Print(oss);
 
-  EXPECT_EQ( "HessianImageFilter", filter->GetNameOfClass() );
-  EXPECT_EQ( "ImageToImageFilter", filter->Superclass::GetNameOfClass() );
+  EXPECT_EQ("HessianImageFilter", filter->GetNameOfClass());
+  EXPECT_EQ("ImageToImageFilter", filter->Superclass::GetNameOfClass());
 }
 
-namespace {
-
-template<typename T>
-itk::FixedArray<T,3> MakeFixedArray(T v1, T v2, T v3)
+namespace
 {
-  const T a[] = {v1,v2,v3};
-  return itk::FixedArray<T,3>(a);
-}
 
-template<typename T>
-itk::FixedArray<T,6> MakeFixedArray(T v1, T v2, T v3,
-                                    T v4, T v5,
-                                    T v6)
+template <typename T>
+itk::FixedArray<T, 3>
+MakeFixedArray(T v1, T v2, T v3)
 {
-  const T a[] = {v1,v2,v3,v4,v5,v6};
-  return itk::FixedArray<T,6>(a);
+  const T a[] = { v1, v2, v3 };
+  return itk::FixedArray<T, 3>(a);
+}
+
+template <typename T>
+itk::FixedArray<T, 6>
+MakeFixedArray(T v1, T v2, T v3, T v4, T v5, T v6)
+{
+  const T a[] = { v1, v2, v3, v4, v5, v6 };
+  return itk::FixedArray<T, 6>(a);
 }
 
 
-}
+} // namespace
 
 
-TEST_F(HessianImageFilterFixture,ValueTest_3D)
+TEST_F(HessianImageFilterFixture, ValueTest_3D)
 {
   using Utils = FixtureUtilities<3>;
 
@@ -151,27 +154,21 @@ TEST_F(HessianImageFilterFixture,ValueTest_3D)
   Utils::HessianImageType::Pointer output = filter->GetOutput();
 
 
-  std::cout << "Value: " << image->GetPixel(MakeIndex(11,12,12)) << std::endl;
-  std::cout << "Value: " << image->GetPixel(MakeIndex(12,12,12)) << std::endl;
-  std::cout << "Value: " << image->GetPixel(MakeIndex(13,12,12)) << std::endl;
-  std::cout << "Value: " << image->GetPixel(MakeIndex(14,12,12)) << std::endl;
+  std::cout << "Value: " << image->GetPixel(MakeIndex(11, 12, 12)) << std::endl;
+  std::cout << "Value: " << image->GetPixel(MakeIndex(12, 12, 12)) << std::endl;
+  std::cout << "Value: " << image->GetPixel(MakeIndex(13, 12, 12)) << std::endl;
+  std::cout << "Value: " << image->GetPixel(MakeIndex(14, 12, 12)) << std::endl;
 
-  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-0.0001615,0.0,0.0,
-                                        -0.0001615,0.0,
-                                        -0.0001615),
-                         output->GetPixel(MakeIndex(12,12,12)),
-                         1e-6);
+  ITK_EXPECT_VECTOR_NEAR(
+    MakeFixedArray(-0.0001615, 0.0, 0.0, -0.0001615, 0.0, -0.0001615), output->GetPixel(MakeIndex(12, 12, 12)), 1e-6);
 
-  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-0.00014602,0.0,0.0,
-                                        -0.00014602,0.0,
-                                        -0.00014602),
-                         output->GetPixel(MakeIndex(10,10,10)),
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-0.00014602, 0.0, 0.0, -0.00014602, 0.0, -0.00014602),
+                         output->GetPixel(MakeIndex(10, 10, 10)),
                          1e-5);
-
 }
 
 
-TEST_F(HessianImageFilterFixture,ValueTest_2D)
+TEST_F(HessianImageFilterFixture, ValueTest_2D)
 {
   using Utils = FixtureUtilities<2>;
 
@@ -180,10 +177,10 @@ TEST_F(HessianImageFilterFixture,ValueTest_2D)
   Utils::ImageType::Pointer image(Utils::CreateImage());
 
 
-  for(unsigned int i = 0; i < Utils::imageSize;++i )
-    {
-    image->SetPixel(MakeIndex(10,i), 1);
-    }
+  for (unsigned int i = 0; i < Utils::imageSize; ++i)
+  {
+    image->SetPixel(MakeIndex(10, i), 1);
+  }
 
   using Utils = FixtureUtilities<2>;
 
@@ -193,25 +190,16 @@ TEST_F(HessianImageFilterFixture,ValueTest_2D)
 
   Utils::HessianImageType::Pointer output = filter->GetOutput();
 
-  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0,0.0,0.0),
-                         output->GetPixel(MakeIndex(10,10)),
-                         1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0, 0.0, 0.0), output->GetPixel(MakeIndex(10, 10)), 1e-6);
 
-  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0,0.0,0.0),
-                         output->GetPixel(MakeIndex(10,0)),
-                         1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-2.0, 0.0, 0.0), output->GetPixel(MakeIndex(10, 0)), 1e-6);
 
-  image->SetSpacing(MakeVector(10.0,2.0));
+  image->SetSpacing(MakeVector(10.0, 2.0));
   image->Modified();
 
   filter->Update();
 
-  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-.02,0.0,0.0),
-                         output->GetPixel(MakeIndex(10,10)),
-                         1e-6);
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-.02, 0.0, 0.0), output->GetPixel(MakeIndex(10, 10)), 1e-6);
 
-  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-.02,0.0,0.0),
-                         output->GetPixel(MakeIndex(10,0)),
-                         1e-6);
-
+  ITK_EXPECT_VECTOR_NEAR(MakeFixedArray(-.02, 0.0, 0.0), output->GetPixel(MakeIndex(10, 0)), 1e-6);
 }

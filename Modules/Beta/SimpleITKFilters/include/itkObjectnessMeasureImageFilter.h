@@ -53,10 +53,8 @@ namespace itk
  *  \f[
  *     V_{\sigma}=
  *     \begin{cases}
- *      (1-e^{-\frac{R_A^2}{2\alpha^2}}) \cdot e^{\frac{R_B^2}{2\beta^2}} \cdot (1-e^{-\frac{S^2}{2\gamma^2}}) & \text{if } \lambda_2<0 \text{ and } \lambda_3<0 \text{,}\\
- *      0 & \text{otherwise}
- *    \end{cases}
- *  \f]
+ *      (1-e^{-\frac{R_A^2}{2\alpha^2}}) \cdot e^{\frac{R_B^2}{2\beta^2}} \cdot (1-e^{-\frac{S^2}{2\gamma^2}}) &
+ * \text{if } \lambda_2<0 \text{ and } \lambda_3<0 \text{,}\\ 0 & \text{otherwise} \end{cases} \f]
  *
  * \par References
  * Antiga, L. Generalizing vesselness with respect to dimensionality and shape. https://hdl.handle.net/1926/576
@@ -72,9 +70,8 @@ namespace itk
  *
  * \ingroup SimpleITKFilters
  */
-template< typename TInputImage, typename TOutputImage >
-class ObjectnessMeasureImageFilter
-  : public ImageToImageFilter< TInputImage, TOutputImage >
+template <typename TInputImage, typename TOutputImage>
+class ObjectnessMeasureImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ObjectnessMeasureImageFilter);
@@ -82,10 +79,10 @@ public:
   /** Standard class type alias. */
   using Self = ObjectnessMeasureImageFilter;
 
-  using Superclass = ImageToImageFilter< TInputImage, TOutputImage >;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
 
-  using Pointer = SmartPointer< Self >;
-  using ConstPointer = SmartPointer< const Self >;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   using InputImageType = typename Superclass::InputImageType;
   using OutputImageType = typename Superclass::OutputImageType;
@@ -145,11 +142,14 @@ protected:
   ~ObjectnessMeasureImageFilter() override;
 
 
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   double       m_Alpha;
@@ -158,14 +158,13 @@ private:
   unsigned int m_ObjectDimension;
   bool         m_BrightObject;
   bool         m_ScaleObjectnessMeasure;
-
 };
 
-}
+} // namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkObjectnessMeasureImageFilter.hxx"
+#  include "itkObjectnessMeasureImageFilter.hxx"
 #endif
 
 #endif // itkObjectnessMeasureImageFilter_h

@@ -39,19 +39,18 @@ namespace itk
  * \ingroup SimpleITKFilters
  */
 template <typename TInputImage,
-          typename TOutputImage = Image< SymmetricSecondRankTensor<
-                                           typename NumericTraits< typename TInputImage::PixelType >::RealType,
-                                           TInputImage::ImageDimension >,
-                                         TInputImage::ImageDimension > >
-class HessianImageFilter :
-    public ImageToImageFilter< TInputImage, TOutputImage>
+          typename TOutputImage =
+            Image<SymmetricSecondRankTensor<typename NumericTraits<typename TInputImage::PixelType>::RealType,
+                                            TInputImage::ImageDimension>,
+                  TInputImage::ImageDimension>>
+class HessianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(HessianImageFilter);
 
   /** Standard type alias */
   using Self = HessianImageFilter;
-  using Superclass = ImageToImageFilter<TInputImage,TOutputImage>;
+  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -62,41 +61,40 @@ public:
 
   /** Type of the output Image */
   using OutputImageType = TOutputImage;
-  using OutputPixelType = typename          OutputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
 
- /** Run-time type information (and related methods).   */
-  itkTypeMacro( HessianImageFilter, ImageToImageFilter );
+  /** Run-time type information (and related methods).   */
+  itkTypeMacro(HessianImageFilter, ImageToImageFilter);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  void GenerateInputRequestedRegion() override;
+  void
+  GenerateInputRequestedRegion() override;
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
-  itkConceptMacro(InputHasNumericTraitsCheck,
-                  (Concept::HasNumericTraits<PixelType>));
-  itkConceptMacro(OutputHasPixelTraitsCheck,
-                  (Concept::HasPixelTraits<OutputPixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
+  itkConceptMacro(OutputHasPixelTraitsCheck, (Concept::HasPixelTraits<OutputPixelType>));
   /** End concept checking */
 #endif
 
 protected:
+  HessianImageFilter(void);
 
-  HessianImageFilter( void );
-
-  void DynamicThreadedGenerateData(const OutputImageRegionType& outputRegionForThread) override;
+  void
+  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
 } // end namespace itk
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHessianImageFilter.hxx"
+#  include "itkHessianImageFilter.hxx"
 #endif
 
 
-#endif //itkHessianImageFilter_h
+#endif // itkHessianImageFilter_h

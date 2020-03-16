@@ -19,46 +19,47 @@
 #include "itkGaussianImageSource.h"
 #include "itkImageFileReader.h"
 
-int itkHessianImageFilterTest( int , char *[] )
+int
+itkHessianImageFilterTest(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
-  using ImageType = itk::Image< float, Dimension >;
+  using ImageType = itk::Image<float, Dimension>;
 
   constexpr unsigned int imageSize = 64;
 
   ImageType::SizeType size;
-  size.Fill( imageSize );
+  size.Fill(imageSize);
 
   ImageType::SpacingType spacing;
-  spacing.Fill( 1.0 );
+  spacing.Fill(1.0);
   spacing[0] = 1.0;
 
   using GaussianSourceType = itk::GaussianImageSource<ImageType>;
   GaussianSourceType::Pointer gaussianSource = GaussianSourceType::New();
-  gaussianSource->SetSize( size );
-  gaussianSource->SetSpacing( spacing );
-  gaussianSource->SetMean( itk::FixedArray< double, Dimension>( imageSize/2 ) );
-  gaussianSource->SetSigma( itk::FixedArray< double, Dimension>( 10.0 ) );
-  gaussianSource->SetNormalized( false );
-  gaussianSource->SetScale( 1.0 ); // dark blob
+  gaussianSource->SetSize(size);
+  gaussianSource->SetSpacing(spacing);
+  gaussianSource->SetMean(itk::FixedArray<double, Dimension>(imageSize / 2));
+  gaussianSource->SetSigma(itk::FixedArray<double, Dimension>(10.0));
+  gaussianSource->SetNormalized(false);
+  gaussianSource->SetScale(1.0); // dark blob
 
-  using HessianFilterType = itk::HessianImageFilter< ImageType >;
+  using HessianFilterType = itk::HessianImageFilter<ImageType>;
   HessianFilterType::Pointer hessian = HessianFilterType::New();
-  hessian->SetInput( gaussianSource->GetOutput() );
+  hessian->SetInput(gaussianSource->GetOutput());
   hessian->Update();
 
-  HessianFilterType:: OutputPixelType H;
+  HessianFilterType::OutputPixelType H;
 
   ImageType::IndexType idx;
-  idx.Fill( imageSize/2 );
-  H = hessian->GetOutput()->GetPixel( idx );
+  idx.Fill(imageSize / 2);
+  H = hessian->GetOutput()->GetPixel(idx);
 
 
   --idx[0];
-  std::cout << hessian->GetOutput()->GetPixel( idx ) << std::endl;
+  std::cout << hessian->GetOutput()->GetPixel(idx) << std::endl;
 
   --idx[1];
-  std::cout << hessian->GetOutput()->GetPixel( idx )  << std::endl;
+  std::cout << hessian->GetOutput()->GetPixel(idx) << std::endl;
 
   return 0;
 }

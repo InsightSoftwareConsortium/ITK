@@ -27,78 +27,71 @@
 namespace itk
 {
 
-template< typename TInputImage, typename TOutputImage >
-ObjectnessMeasureImageFilter< TInputImage,TOutputImage >
-::ObjectnessMeasureImageFilter() :
-  m_Alpha( 0.5 ),
-  m_Beta( 0.5 ),
-  m_Gamma( 5.0 ),
-  m_ObjectDimension( 1 ),
-  m_BrightObject( true ),
-  m_ScaleObjectnessMeasure( true )
-{
-}
+template <typename TInputImage, typename TOutputImage>
+ObjectnessMeasureImageFilter<TInputImage, TOutputImage>::ObjectnessMeasureImageFilter()
+  : m_Alpha(0.5)
+  , m_Beta(0.5)
+  , m_Gamma(5.0)
+  , m_ObjectDimension(1)
+  , m_BrightObject(true)
+  , m_ScaleObjectnessMeasure(true)
+{}
 
-template< typename TInputImage, typename TOutputImage >
-ObjectnessMeasureImageFilter< TInputImage,TOutputImage >
-::~ObjectnessMeasureImageFilter()
-{
-}
+template <typename TInputImage, typename TOutputImage>
+ObjectnessMeasureImageFilter<TInputImage, TOutputImage>::~ObjectnessMeasureImageFilter()
+{}
 
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ObjectnessMeasureImageFilter< TInputImage,TOutputImage >
-::EnlargeOutputRequestedRegion(DataObject *output)
+ObjectnessMeasureImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ObjectnessMeasureImageFilter< TInputImage,TOutputImage >
-::GenerateData()
+ObjectnessMeasureImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-// Create a process accumulator for tracking the progress of this minipipeline
+  // Create a process accumulator for tracking the progress of this minipipeline
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
-  progress->SetMiniPipelineFilter( this );
+  progress->SetMiniPipelineFilter(this);
 
   typename InputImageType::Pointer localInput = InputImageType::New();
-  localInput->Graft( this->GetInput() );
+  localInput->Graft(this->GetInput());
 
   using HessianFilterType = HessianImageFilter<InputImageType>;
   using HessianImageType = typename HessianFilterType::OutputImageType;
 
   typename HessianFilterType::Pointer hessianFilter = HessianFilterType::New();
 
-  hessianFilter->SetInput( localInput );
+  hessianFilter->SetInput(localInput);
 
-  using ObjectnessFilterType = HessianToObjectnessMeasureImageFilter< HessianImageType, OutputImageType >;
+  using ObjectnessFilterType = HessianToObjectnessMeasureImageFilter<HessianImageType, OutputImageType>;
 
   typename ObjectnessFilterType::Pointer objectnessFilter = ObjectnessFilterType::New();
 
-  objectnessFilter->SetInput( hessianFilter->GetOutput() );
+  objectnessFilter->SetInput(hessianFilter->GetOutput());
 
-  objectnessFilter->SetAlpha( m_Alpha );
-  objectnessFilter->SetBeta( m_Beta );
-  objectnessFilter->SetGamma( m_Gamma );
-  objectnessFilter->SetScaleObjectnessMeasure( m_ScaleObjectnessMeasure );
-  objectnessFilter->SetObjectDimension( m_ObjectDimension );
-  objectnessFilter->SetBrightObject( m_BrightObject);
+  objectnessFilter->SetAlpha(m_Alpha);
+  objectnessFilter->SetBeta(m_Beta);
+  objectnessFilter->SetGamma(m_Gamma);
+  objectnessFilter->SetScaleObjectnessMeasure(m_ScaleObjectnessMeasure);
+  objectnessFilter->SetObjectDimension(m_ObjectDimension);
+  objectnessFilter->SetBrightObject(m_BrightObject);
 
-  progress->RegisterInternalFilter( hessianFilter, 0.5f );
-  progress->RegisterInternalFilter( objectnessFilter, 0.5f );
+  progress->RegisterInternalFilter(hessianFilter, 0.5f);
+  progress->RegisterInternalFilter(objectnessFilter, 0.5f);
 
 
-  objectnessFilter->GraftOutput( this->GetOutput() );
+  objectnessFilter->GraftOutput(this->GetOutput());
   objectnessFilter->Update();
   this->GraftOutput(objectnessFilter->GetOutput());
 }
 
-template< typename TInputImage, typename TOutputImage >
+template <typename TInputImage, typename TOutputImage>
 void
-ObjectnessMeasureImageFilter< TInputImage,TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+ObjectnessMeasureImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -110,5 +103,5 @@ ObjectnessMeasureImageFilter< TInputImage,TOutputImage >
   os << indent << "BrightObject: " << m_BrightObject << std::endl;
 }
 
-}
+} // namespace itk
 #endif // itkObjectnessMeasureImageFilter_hxx
