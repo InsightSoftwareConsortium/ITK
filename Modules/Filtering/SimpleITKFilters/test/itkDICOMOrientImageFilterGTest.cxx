@@ -305,21 +305,21 @@ TEST(DICOMOrientImageFilter, DirectionFromString)
 
   auto filter = OrientFilterType::New();
 
-  filter->SetDesiredCoordinateDirection("LPS");
+  filter->SetDesiredCoordinateOrientation("LPS");
   EXPECT_EQ(OrientFilterType::OrientationEnum::LPS, filter->GetDesiredCoordinateOrientation());
 
-  filter->SetDesiredCoordinateDirection("PSL");
+  filter->SetDesiredCoordinateOrientation("PSL");
   EXPECT_EQ(OrientFilterType::OrientationEnum::PSL, filter->GetDesiredCoordinateOrientation());
 
-  filter->SetDesiredCoordinateDirection("SLP");
+  filter->SetDesiredCoordinateOrientation("SLP");
   EXPECT_EQ(OrientFilterType::OrientationEnum::SLP, filter->GetDesiredCoordinateOrientation());
 
-  filter->SetDesiredCoordinateDirection("RAI");
+  filter->SetDesiredCoordinateOrientation("RAI");
   EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetDesiredCoordinateOrientation());
 
-  filter->SetDesiredCoordinateDirection("AIR");
+  filter->SetDesiredCoordinateOrientation("AIR");
   EXPECT_EQ(OrientFilterType::OrientationEnum::AIR, filter->GetDesiredCoordinateOrientation());
 
-  filter->SetDesiredCoordinateDirection("IRA");
+  filter->SetDesiredCoordinateOrientation("IRA");
   EXPECT_EQ(OrientFilterType::OrientationEnum::IRA, filter->GetDesiredCoordinateOrientation());
 }
