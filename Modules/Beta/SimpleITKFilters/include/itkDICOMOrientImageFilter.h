@@ -189,12 +189,7 @@ public:
   void
   SetDesiredCoordinateOrientation(OrientationEnum newCode);
   inline void
-  SetDesiredCoordinateDirection(const typename ImageType::DirectionType & DesiredDirection)
-  {
-    SetDesiredCoordinateOrientation(Self::DirectionCosinesToOrientation(DesiredDirection));
-  }
-  inline void
-  SetDesiredCoordinateDirection(const std::string & desired)
+  SetDesiredCoordinateOrientation(const std::string & desired)
   {
     auto            iter = m_StringToCode.find(desired);
     OrientationEnum desiredEnum = OrientationEnum::INVALID;
@@ -207,6 +202,13 @@ public:
       itkWarningMacro("Invalid desired coordinate direction string: \"" << desired << "\"!");
     }
     this->SetDesiredCoordinateOrientation(desiredEnum);
+  }
+
+  /** Set Get the desired coordinate orientation from a direction matrix. */
+  inline void
+  SetDesiredCoordinateDirection(const typename ImageType::DirectionType & DesiredDirection)
+  {
+    SetDesiredCoordinateOrientation(Self::DirectionCosinesToOrientation(DesiredDirection));
   }
 
 
