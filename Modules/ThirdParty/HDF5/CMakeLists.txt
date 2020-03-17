@@ -1,6 +1,12 @@
 project(ITKHDF5)
 set(ITKHDF5_THIRD_PARTY 1)
 
+# Reset BUILD_SHARED_LIBS to ITK_BUILD_SHARED_LIBS
+# that keeps track of the initial state of the root
+# project BUILD_SHARED_LIBS option (which could be
+# modified before reaching this point)
+set(BUILD_SHARED_LIBS ${ITK_BUILD_SHARED_LIBS})
+
 if (BUILD_SHARED_LIBS)
    add_definitions(-DH5_BUILT_AS_DYNAMIC_LIB=1)
 endif()
