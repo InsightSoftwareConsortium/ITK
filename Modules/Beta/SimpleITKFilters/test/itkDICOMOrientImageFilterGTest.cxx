@@ -323,3 +323,44 @@ TEST(DICOMOrientImageFilter, DirectionFromString)
   filter->SetDesiredCoordinateOrientation("IRA");
   EXPECT_EQ(OrientFilterType::OrientationEnum::IRA, filter->GetDesiredCoordinateOrientation());
 }
+
+
+TEST(DICOMOrientImageFilter, InvalidOrientation)
+{
+
+  using ImageType = itk::Image<int16_t, 3>;
+  using OrientFilterType = itk::DICOMOrientImageFilter<ImageType>;
+
+  ImageType::DirectionType dRAI;
+  dRAI.SetIdentity();
+
+  dRAI.Fill(0.0);
+  dRAI(0, 0) = -1.0;
+  dRAI(1, 1) = -1.0;
+  dRAI(2, 2) = -1.0;
+
+  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, OrientFilterType::DirectionCosinesToOrientation(dRAI));
+
+  auto sourceFilter = itk::RandomImageSource<ImageType>::New();
+  sourceFilter->SetMin(-1000);
+  sourceFilter->SetMax(1000);
+  sourceFilter->SetSize({ 5, 6, 7 });
+  sourceFilter->SetDirection(dRAI);
+  sourceFilter->UpdateLargestPossibleRegion();
+
+  auto filter = OrientFilterType::New();
+  filter ->SetInput(sourceFilter->GetOutput());
+
+  filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::INVALID);
+  EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetDesiredCoordinateOrientation());
+  filter->Update();
+  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation() );
+
+  filter = OrientFilterType::New();
+  filter ->SetInput(sourceFilter->GetOutput());
+  filter->SetDesiredCoordinateOrientation("");
+  EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetDesiredCoordinateOrientation());
+  filter->Update();
+  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation() );
+
+}
