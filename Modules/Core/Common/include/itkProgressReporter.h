@@ -74,7 +74,7 @@ public:
   ~ProgressReporter();
 
   /** Check if the filter has the ProcessObject::AbortGenerateData
-   * flag set. If true than an ProcessAborted exception will be thrown.
+   * flag set. If true, then a ProcessAborted exception will be thrown.
    */
   void
   CheckAbortGenerateData()
