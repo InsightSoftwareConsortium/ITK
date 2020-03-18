@@ -250,54 +250,6 @@ TEST(DICOMOrientImageFilter, Values)
 }
 
 
-TEST(DICOMOrientImageFilter, DirectionCosinesToOrientation)
-{
-  using ImageType = itk::Image<float, 3>;
-  using OrientFilterType = itk::DICOMOrientImageFilter<ImageType>;
-
-  ImageType::DirectionType d;
-  d.SetIdentity();
-
-  EXPECT_EQ(OrientFilterType::OrientationEnum::LPS, OrientFilterType::DirectionCosinesToOrientation(d));
-
-  d.Fill(0.0);
-  d(0, 0) = -1.0;
-  d(1, 1) = -1.0;
-  d(2, 2) = -1.0;
-  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, OrientFilterType::DirectionCosinesToOrientation(d));
-
-  d.Fill(0.0);
-  d(2, 0) = 1;
-  d(0, 1) = 1;
-  d(1, 2) = 1;
-  EXPECT_EQ(OrientFilterType::OrientationEnum::SLP, OrientFilterType::DirectionCosinesToOrientation(d));
-
-  d.Fill(0.0);
-  d(1, 0) = 1;
-  d(2, 1) = 1;
-  d(0, 2) = 1;
-  EXPECT_EQ(OrientFilterType::OrientationEnum::PSL, OrientFilterType::DirectionCosinesToOrientation(d));
-
-  d.Fill(0.0);
-  d(0, 0) = 1;
-  d(2, 1) = 1;
-  d(1, 2) = 1;
-  EXPECT_EQ(OrientFilterType::OrientationEnum::LSP, OrientFilterType::DirectionCosinesToOrientation(d));
-
-  d.Fill(0.0);
-  d(1, 0) = 1;
-  d(0, 1) = 1;
-  d(2, 2) = 1;
-  EXPECT_EQ(OrientFilterType::OrientationEnum::PLS, OrientFilterType::DirectionCosinesToOrientation(d));
-
-  d.Fill(0.0);
-  d(2, 0) = 1;
-  d(1, 1) = 1;
-  d(0, 2) = 1;
-  EXPECT_EQ(OrientFilterType::OrientationEnum::SPL, OrientFilterType::DirectionCosinesToOrientation(d));
-}
-
-
 TEST(DICOMOrientImageFilter, DirectionFromString)
 {
   using ImageType = itk::Image<float, 3>;
@@ -339,7 +291,7 @@ TEST(DICOMOrientImageFilter, InvalidOrientation)
   dRAI(1, 1) = -1.0;
   dRAI(2, 2) = -1.0;
 
-  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, OrientFilterType::DirectionCosinesToOrientation(dRAI));
+  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, itk::DICOMOrientation::DirectionCosinesToOrientation(dRAI));
 
   auto sourceFilter = itk::RandomImageSource<ImageType>::New();
   sourceFilter->SetMin(-1000);
@@ -349,18 +301,173 @@ TEST(DICOMOrientImageFilter, InvalidOrientation)
   sourceFilter->UpdateLargestPossibleRegion();
 
   auto filter = OrientFilterType::New();
-  filter ->SetInput(sourceFilter->GetOutput());
+  filter->SetInput(sourceFilter->GetOutput());
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::INVALID);
   EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetDesiredCoordinateOrientation());
   filter->Update();
-  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation() );
+  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation());
 
   filter = OrientFilterType::New();
-  filter ->SetInput(sourceFilter->GetOutput());
+  filter->SetInput(sourceFilter->GetOutput());
   filter->SetDesiredCoordinateOrientation("");
   EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetDesiredCoordinateOrientation());
   filter->Update();
-  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation() );
+  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation());
+}
 
+TEST(DICOMOrientation, ConstructionAndValues)
+{
+  using itk::DICOMOrientation;
+  using OE = DICOMOrientation::OrientationEnum;
+  using CE = DICOMOrientation::CoordinateEnum;
+  using ImageType = itk::Image<float, 3>;
+
+  ImageType::DirectionType d;
+
+  DICOMOrientation do1(OE::LPS);
+
+  EXPECT_EQ("LPS", do1.GetAsString());
+  EXPECT_EQ(CE::Left, do1.GetPrimaryTerm());
+  EXPECT_EQ(CE::Posterior, do1.GetSecondaryTerm());
+  EXPECT_EQ(CE::Superior, do1.GetTertiaryTerm());
+  EXPECT_EQ(OE::LPS, do1.GetAsOrientation());
+
+  d.SetIdentity();
+  EXPECT_EQ(d, do1.GetAsDirection());
+
+
+  do1 = DICOMOrientation("RAS");
+
+  EXPECT_EQ("RAS", do1.GetAsString());
+  EXPECT_EQ(CE::Right, do1.GetPrimaryTerm());
+  EXPECT_EQ(CE::Anterior, do1.GetSecondaryTerm());
+  EXPECT_EQ(CE::Superior, do1.GetTertiaryTerm());
+  EXPECT_EQ(OE::RAS, do1.GetAsOrientation());
+
+  d.Fill(0.0);
+  d(0, 0) = -1.0;
+  d(1, 1) = -1.0;
+  d(2, 2) = 1.0;
+  EXPECT_EQ(d, do1.GetAsDirection());
+
+  do1 = DICOMOrientation(OE::PIR);
+
+  EXPECT_EQ("PIR", do1.GetAsString());
+  EXPECT_EQ(CE::Posterior, do1.GetPrimaryTerm());
+  EXPECT_EQ(CE::Inferior, do1.GetSecondaryTerm());
+  EXPECT_EQ(CE::Right, do1.GetTertiaryTerm());
+  EXPECT_EQ(OE::PIR, do1.GetAsOrientation());
+
+  d.Fill(0.0);
+  d(1, 0) = 1.0;
+  d(2, 1) = -1.0;
+  d(0, 2) = -1.0;
+  EXPECT_EQ(d, do1.GetAsDirection());
+
+  DICOMOrientation do2(d);
+
+  EXPECT_EQ("PIR", do2.GetAsString());
+  EXPECT_EQ(CE::Posterior, do2.GetPrimaryTerm());
+  EXPECT_EQ(CE::Inferior, do2.GetSecondaryTerm());
+  EXPECT_EQ(CE::Right, do2.GetTertiaryTerm());
+  EXPECT_EQ(OE::PIR, do2.GetAsOrientation());
+
+  EXPECT_EQ(d, do2.GetAsDirection());
+}
+
+TEST(DICOMOrientation, DirectionCosinesToOrientation)
+{
+  using itk::DICOMOrientation;
+  using OE = DICOMOrientation::OrientationEnum;
+  using ImageType = itk::Image<float, 3>;
+  ImageType::DirectionType d;
+  d.SetIdentity();
+
+  EXPECT_EQ(OE::LPS, DICOMOrientation::DirectionCosinesToOrientation(d));
+
+  d.Fill(0.0);
+  d(0, 0) = -1.0;
+  d(1, 1) = -1.0;
+  d(2, 2) = -1.0;
+  EXPECT_EQ(OE::RAI, DICOMOrientation::DirectionCosinesToOrientation(d));
+
+  d.Fill(0.0);
+  d(2, 0) = 1;
+  d(0, 1) = 1;
+  d(1, 2) = 1;
+  EXPECT_EQ(OE::SLP, DICOMOrientation::DirectionCosinesToOrientation(d));
+
+  d.Fill(0.0);
+  d(1, 0) = 1;
+  d(2, 1) = 1;
+  d(0, 2) = 1;
+  EXPECT_EQ(OE::PSL, DICOMOrientation::DirectionCosinesToOrientation(d));
+
+  d.Fill(0.0);
+  d(0, 0) = 1;
+  d(2, 1) = 1;
+  d(1, 2) = 1;
+  EXPECT_EQ(OE::LSP, DICOMOrientation::DirectionCosinesToOrientation(d));
+
+  d.Fill(0.0);
+  d(1, 0) = 1;
+  d(0, 1) = 1;
+  d(2, 2) = 1;
+  EXPECT_EQ(OE::PLS, DICOMOrientation::DirectionCosinesToOrientation(d));
+
+  d.Fill(0.0);
+  d(2, 0) = 1;
+  d(1, 1) = 1;
+  d(0, 2) = 1;
+  EXPECT_EQ(OE::SPL, DICOMOrientation::DirectionCosinesToOrientation(d));
+}
+
+
+TEST(DICOMOrientation, OrientationToDirectionCosines)
+{
+  using itk::DICOMOrientation;
+  using ImageType = itk::Image<float, 3>;
+  using OE = DICOMOrientation::OrientationEnum;
+
+  ImageType::DirectionType d;
+  d.SetIdentity();
+
+  EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::LPS));
+
+  d.Fill(0.0);
+  d(0, 0) = -1.0;
+  d(1, 1) = -1.0;
+  d(2, 2) = -1.0;
+  EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::RAI));
+
+  d.Fill(0.0);
+  d(2, 0) = 1;
+  d(0, 1) = 1;
+  d(1, 2) = 1;
+  EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::SLP));
+
+  d.Fill(0.0);
+  d(1, 0) = 1;
+  d(2, 1) = 1;
+  d(0, 2) = 1;
+  EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::PSL));
+
+  d.Fill(0.0);
+  d(0, 0) = 1;
+  d(2, 1) = 1;
+  d(1, 2) = 1;
+  EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::LSP));
+
+  d.Fill(0.0);
+  d(1, 0) = 1;
+  d(0, 1) = 1;
+  d(2, 2) = 1;
+  EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::PLS));
+
+  d.Fill(0.0);
+  d(2, 0) = 1;
+  d(1, 1) = 1;
+  d(0, 2) = 1;
+  EXPECT_EQ(d, DICOMOrientation::OrientationToDirectionCosines(OE::SPL));
 }

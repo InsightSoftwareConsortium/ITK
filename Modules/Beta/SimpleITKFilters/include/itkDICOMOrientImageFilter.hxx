@@ -23,65 +23,13 @@
 #include "itkFlipImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkProgressAccumulator.h"
-#include "itkSpatialOrientationAdapter.h"
 
 namespace itk
 {
+
 template <typename TInputImage>
 DICOMOrientImageFilter<TInputImage>::DICOMOrientImageFilter()
-  : m_FlipAxes(false)
 {
-
-  // Map between axis string labels and SpatialOrientation
-  helperAddCode("RIP", OrientationEnum::RIP);
-  helperAddCode("LIP", OrientationEnum::LIP);
-  helperAddCode("RSP", OrientationEnum::RSP);
-  helperAddCode("LSP", OrientationEnum::LSP);
-  helperAddCode("RIA", OrientationEnum::RIA);
-  helperAddCode("LIA", OrientationEnum::LIA);
-  helperAddCode("RSA", OrientationEnum::RSA);
-  helperAddCode("LSA", OrientationEnum::LSA);
-  helperAddCode("IRP", OrientationEnum::IRP);
-  helperAddCode("ILP", OrientationEnum::ILP);
-  helperAddCode("SRP", OrientationEnum::SRP);
-  helperAddCode("SLP", OrientationEnum::SLP);
-  helperAddCode("IRA", OrientationEnum::IRA);
-  helperAddCode("ILA", OrientationEnum::ILA);
-  helperAddCode("SRA", OrientationEnum::SRA);
-  helperAddCode("SLA", OrientationEnum::SLA);
-  helperAddCode("RPI", OrientationEnum::RPI);
-  helperAddCode("LPI", OrientationEnum::LPI);
-  helperAddCode("RAI", OrientationEnum::RAI);
-  helperAddCode("LAI", OrientationEnum::LAI);
-  helperAddCode("RPS", OrientationEnum::RPS);
-  helperAddCode("LPS", OrientationEnum::LPS);
-  helperAddCode("RAS", OrientationEnum::RAS);
-  helperAddCode("LAS", OrientationEnum::LAS);
-  helperAddCode("PRI", OrientationEnum::PRI);
-  helperAddCode("PLI", OrientationEnum::PLI);
-  helperAddCode("ARI", OrientationEnum::ARI);
-  helperAddCode("ALI", OrientationEnum::ALI);
-  helperAddCode("PRS", OrientationEnum::PRS);
-  helperAddCode("PLS", OrientationEnum::PLS);
-  helperAddCode("ARS", OrientationEnum::ARS);
-  helperAddCode("ALS", OrientationEnum::ALS);
-  helperAddCode("IPR", OrientationEnum::IPR);
-  helperAddCode("SPR", OrientationEnum::SPR);
-  helperAddCode("IAR", OrientationEnum::IAR);
-  helperAddCode("SAR", OrientationEnum::SAR);
-  helperAddCode("IPL", OrientationEnum::IPL);
-  helperAddCode("SPL", OrientationEnum::SPL);
-  helperAddCode("IAL", OrientationEnum::IAL);
-  helperAddCode("SAL", OrientationEnum::SAL);
-  helperAddCode("PIR", OrientationEnum::PIR);
-  helperAddCode("PSR", OrientationEnum::PSR);
-  helperAddCode("AIR", OrientationEnum::AIR);
-  helperAddCode("ASR", OrientationEnum::ASR);
-  helperAddCode("PIL", OrientationEnum::PIL);
-  helperAddCode("PSL", OrientationEnum::PSL);
-  helperAddCode("AIL", OrientationEnum::AIL);
-  helperAddCode("ASL", OrientationEnum::ASL);
-
 
   for (unsigned int dimension = 0; dimension < ImageDimension; ++dimension)
   {
@@ -103,49 +51,10 @@ DICOMOrientImageFilter<TInputImage>::GenerateInputRequestedRegion()
   }
 }
 
-template <typename TInputImage>
-typename DICOMOrientImageFilter<TInputImage>::OrientationEnum
-DICOMOrientImageFilter<TInputImage>::DirectionCosinesToOrientation(const DirectionType & dir)
-{
-  // NOTE: This method was based off of itk::SpatialObjectAdaptor::FromDirectionCosines
-  // but it is DIFFERENT in the meaning of direction in terms of sign-ness.
-  CoordinateEnum terms[3] = { CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN };
-
-  for (unsigned i = 0; i < 3; i++)
-  {
-
-    const unsigned dominant_axis = Function::Max3(dir[0][i], dir[1][i], dir[2][i]);
-
-    const unsigned dominate_sgn = Math::sgn(dir[dominant_axis][i]);
-
-    switch (dominant_axis)
-    {
-      case 0: {
-        // When the dominate axis sign is positive, assign the coordinate for the direction we are increasing towards.
-        // ITK is in LPS, so that is the positive direction
-        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Left : CoordinateEnum::Right;
-        break;
-      }
-      case 1: {
-        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Posterior : CoordinateEnum::Anterior;
-        break;
-      }
-      case 2: {
-        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Superior : CoordinateEnum::Inferior;
-        break;
-      }
-      default:
-        itkGenericExceptionMacro("Unexpected Axis")
-    }
-  }
-
-  return static_cast<OrientationEnum>(toOrientation(terms[0], terms[1], terms[2]));
-}
 
 template <typename TInputImage>
 void
-DICOMOrientImageFilter<TInputImage>::DeterminePermutationsAndFlips(const OrientationEnum desired,
-                                                                   const OrientationEnum given)
+DICOMOrientImageFilter<TInputImage>::DeterminePermutationsAndFlips(DICOMOrientation desired, DICOMOrientation given)
 {
   for (unsigned int j = 0; j < ImageDimension; j++)
   {
@@ -154,51 +63,34 @@ DICOMOrientImageFilter<TInputImage>::DeterminePermutationsAndFlips(const Orienta
 
   m_FlipAxes.Fill(false);
 
+  constexpr unsigned int CodeAxisDir = 0x1;
 
-  // 3-dimensional version of code system only. The 3-axis testing is unrolled.
-  constexpr unsigned int NumDims = 3; // InputImageDimension is
-                                      // regarded as 3.
-
-  constexpr unsigned CodeField = 0xF;
-
-  constexpr unsigned int CodeAxisField = 14; // 3 bits wide, above the
-                                             // 0-place bit.
-  constexpr unsigned int CodeAxisIncreasingField = 1;
-
-  const unsigned int desired_codes[] = {
-    (static_cast<unsigned int>(desired) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) &
-      CodeField,
-    (static_cast<unsigned int>(desired) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) &
-      CodeField,
-    (static_cast<unsigned int>(desired) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor)) &
-      CodeField
-  };
-  const unsigned int given_codes[] = {
-    (static_cast<unsigned int>(given) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::PrimaryMinor)) & CodeField,
-    (static_cast<unsigned int>(given) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::SecondaryMinor)) &
-      CodeField,
-    (static_cast<unsigned int>(given) >> static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor)) & CodeField
-  };
+  const DICOMOrientation::CoordinateEnum desired_codes[] = { desired.GetPrimaryTerm(),
+                                                             desired.GetSecondaryTerm(),
+                                                             desired.GetTertiaryTerm() };
+  const DICOMOrientation::CoordinateEnum given_codes[] = { given.GetPrimaryTerm(),
+                                                           given.GetSecondaryTerm(),
+                                                           given.GetTertiaryTerm() };
 
   // i, j, k will be the indexes in the Majorness code of the axes to flip;
   // they encode the axes as the reader will find them, 0 is the lowest order
   // axis of whatever spatial interpretation, and 2 is the highest order axis.
   //  Perhaps rename them moving_image_reader_axis_i, etc.
 
-  for (unsigned int i = 0; i < NumDims - 1; i++)
+  for (unsigned int i = 0; i < ImageDimension - 1; i++)
   {
-    if ((desired_codes[i] & CodeAxisField) != (given_codes[i] & CodeAxisField))
+    if (!DICOMOrientation::SameOrientationAxes(given_codes[i], desired_codes[i]))
     {
-      for (unsigned int j = 0; j < NumDims; j++)
+      for (unsigned int j = 0; j < ImageDimension; j++)
       {
-        if ((given_codes[i] & CodeAxisField) == (desired_codes[j] & CodeAxisField))
+        if (DICOMOrientation::SameOrientationAxes(given_codes[i], desired_codes[j]))
         {
           if (i == j)
           {
             // Axis i is already in place
             continue;
           }
-          else if ((given_codes[j] & CodeAxisField) == (desired_codes[i] & CodeAxisField))
+          if (DICOMOrientation::SameOrientationAxes(given_codes[j], desired_codes[i]))
           {
             // The cyclic permutation (i j) applies. Therefore the remainder
             // is (k), i.e., stationary
@@ -208,9 +100,10 @@ DICOMOrientImageFilter<TInputImage>::DeterminePermutationsAndFlips(const Orienta
           else
           {
             // work out an (i j k) cyclic permutation
-            for (unsigned int k = 0; k < NumDims; k++)
+            for (unsigned int k = 0; k < ImageDimension; k++)
             {
-              if ((given_codes[j] & CodeAxisField) == (desired_codes[k] & CodeAxisField))
+
+              if (DICOMOrientation::SameOrientationAxes(given_codes[j], desired_codes[k]))
               {
                 // At this point, we can pick off (i j k)
                 m_PermuteOrder[i] = k;
@@ -228,10 +121,10 @@ DICOMOrientImageFilter<TInputImage>::DeterminePermutationsAndFlips(const Orienta
     }
   }
 
-  for (unsigned int i = 0; i < NumDims; i++)
+  for (unsigned int i = 0; i < ImageDimension; i++)
   {
     const unsigned int j = m_PermuteOrder[i];
-    if ((given_codes[j] & CodeAxisIncreasingField) != (desired_codes[i] & CodeAxisIncreasingField))
+    if ((static_cast<uint8_t>(given_codes[j]) & CodeAxisDir) != (static_cast<uint8_t>(desired_codes[i]) & CodeAxisDir))
     {
       m_FlipAxes[i] = true;
     }
@@ -257,6 +150,20 @@ DICOMOrientImageFilter<TInputImage>::SetDesiredCoordinateOrientation(Orientation
     this->DeterminePermutationsAndFlips(m_DesiredCoordinateOrientation, m_InputCoordinateOrientation);
     this->Modified();
   }
+}
+
+
+template <typename TInputImage>
+void
+DICOMOrientImageFilter<TInputImage>::SetDesiredCoordinateOrientation(const std::string & desired)
+{
+  DICOMOrientation o(desired);
+
+  if ( OrientationEnum(o) == OrientationEnum::INVALID)
+  {
+    itkWarningMacro("Invalid desired coordinate direction string: \"" << desired << "\"!");
+  }
+  this->SetDesiredCoordinateOrientation(o);
 }
 
 template <typename TInputImage>
@@ -364,7 +271,7 @@ DICOMOrientImageFilter<TInputImage>::GenerateOutputInformation()
 
 
   // Compute the GivenOrientation from the image's direction cosines
-  this->SetInputCoordinateOrientation(Self::DirectionCosinesToOrientation(inputPtr->GetDirection()));
+  this->SetInputCoordinateOrientation(DICOMOrientation(inputPtr->GetDirection()).GetAsOrientation());
 
   using PermuteFilterType = PermuteAxesImageFilter<ImageType>;
   using FlipFilterType = FlipImageFilter<ImageType>;
@@ -390,12 +297,10 @@ DICOMOrientImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent)
 {
   Superclass::PrintSelf(os, indent);
 
-  auto axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
   os << indent << "Desired Coordinate Orientation: " << static_cast<long>(this->GetDesiredCoordinateOrientation())
-     << " (" << (*axes).second << ")" << std::endl;
-  axes = m_CodeToString.find(m_InputCoordinateOrientation);
+     << " (" << this->GetDesiredCoordinateOrientation() << ")" << std::endl;
   os << indent << "Input Coordinate Orientation: " << static_cast<long>(this->GetInputCoordinateOrientation()) << " ("
-     << (*axes).second << ")" << std::endl;
+     << this->GetInputCoordinateOrientation() << ")" << std::endl;
   os << indent << "Permute Axes: " << m_PermuteOrder << std::endl;
   os << indent << "Flip Axes: " << m_FlipAxes << std::endl;
 }

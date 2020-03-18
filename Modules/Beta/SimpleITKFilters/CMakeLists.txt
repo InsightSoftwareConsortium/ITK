@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10.2)
 project(SimpleITKFilters)
 
-#set(SimpleITKFilters_LIBRARIES SimpleITKFilters)
+set(SimpleITKFilters_LIBRARIES SimpleITKFilters)
 
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK REQUIRED)
