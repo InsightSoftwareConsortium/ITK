@@ -1,6 +1,6 @@
 project(SimpleITKFilters)
 
-#set(SimpleITKFilters_LIBRARIES SimpleITKFilters)
+set(SimpleITKFilters_LIBRARIES SimpleITKFilters)
 
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK REQUIRED)
