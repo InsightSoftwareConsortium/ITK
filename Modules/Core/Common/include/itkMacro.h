@@ -65,6 +65,13 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
+/** The `do {} while(0)`  idiom is commonly employed for
+ *  allowing a macro to be used anywhere that a statement
+ *  is expected, and to enforce consistent use of ; after
+ *  macro */
+// clang-format off
+#  define ITK_NOOP_STATEMENT    do {} while(0)
+// clang-format on
 
 // Define ITK_PRAGMA macro.
 //
@@ -386,12 +393,13 @@ extern ITKCommon_EXPORT void
 OutputWindowDisplayDebugText(const char *);
 } // end namespace itk
 
+// The itkDebugStatement is to be used to protect code that is only used in the itkDebugMacro
 /** This macro is used to print debug (or other information). They are
  * also used to catch errors, etc. Example usage looks like:
  * itkDebugMacro(<< "this is debug info" << this->SomeVariable); */
 #if defined(NDEBUG)
-#  define itkDebugMacro(x)
-#  define itkDebugStatement(x)
+#  define itkDebugMacro(x) ITK_NOOP_STATEMENT
+#  define itkDebugStatement(x) ITK_NOOP_STATEMENT
 #else
 #  define itkDebugMacro(x)                                                                                             \
     do                                                                                                                 \
@@ -425,8 +433,6 @@ OutputWindowDisplayDebugText(const char *);
     }                                                                                                                  \
   } while (0)
 
-// The itkDebugStatement is to be used ot protect code that is only
-// used in the itkDebugMacro
 #define itkWarningStatement(x) x
 
 #if defined(ITK_CPP_FUNCTION)
@@ -598,10 +604,10 @@ OutputWindowDisplayDebugText(const char *);
 //         that are conditionally compiled only when ITK_LEGACY_REMOVE
 //         is off.
 #if defined(ITK_LEGACY_SILENT)
-#  define itkLegacyBodyMacro(method, version)
-#  define itkLegacyReplaceBodyMacro(method, version, replace)
-#  define itkGenericLegacyBodyMacro(method, version)
-#  define itkGenericLegacyReplaceBodyMacro(method, version, replace)
+#  define itkLegacyBodyMacro(method, version) ITK_NOOP_STATEMENT
+#  define itkLegacyReplaceBodyMacro(method, version, replace) ITK_NOOP_STATEMENT
+#  define itkGenericLegacyBodyMacro(method, version) ITK_NOOP_STATEMENT
+#  define itkGenericLegacyReplaceBodyMacro(method, version, replace) ITK_NOOP_STATEMENT
 #else
 #  define itkLegacyBodyMacro(method, version)                                                                          \
     itkWarningMacro(#method " was deprecated for ITK " #version " and will be removed in a future version.")
@@ -734,7 +740,7 @@ compilers.
 #ifndef NDEBUG
 #  define itkAssertInDebugAndIgnoreInReleaseMacro(X) assert(X)
 #else
-#  define itkAssertInDebugAndIgnoreInReleaseMacro(X)
+#  define itkAssertInDebugAndIgnoreInReleaseMacro(X) ITK_NOOP_STATEMENT
 #endif
 
 
@@ -781,6 +787,7 @@ compilers.
     return itkDynamicCastInDebugMode<const type *>(this->ProcessObject::GetInput(#name));                              \
   }
 
+// clang-format off
 /** Set a decorated input. This defines the Set"name"() and a Set"name"Input() method */
 #define itkSetDecoratedInputMacro(name, type)                                                                          \
   virtual void Set##name##Input(const SimpleDataObjectDecorator<type> * _arg)                                          \
@@ -800,11 +807,17 @@ compilers.
     const DecoratorType * oldInput =                                                                                   \
       itkDynamicCastInDebugMode<const DecoratorType *>(this->ProcessObject::GetInput(#name));                          \
     CLANG_PRAGMA_PUSH                                                                                                  \
-    CLANG_SUPPRESS_Wfloat_equal if (oldInput && oldInput->Get() == _arg) CLANG_PRAGMA_POP { return; }                  \
+    CLANG_SUPPRESS_Wfloat_equal                                                                                        \
+    if (oldInput && oldInput->Get() == _arg)                                                                           \
+    {                                                                                                                  \
+      return;                                                                                                          \
+    }                                                                                                                  \
+    CLANG_PRAGMA_POP                                                                                                   \
     typename DecoratorType::Pointer newInput = DecoratorType::New();                                                   \
     newInput->Set(_arg);                                                                                               \
     this->Set##name##Input(newInput);                                                                                  \
   }
+// clang-format on
 
 /** Set a decorated input. This defines the Set"name"() and Set"name"Input() method */
 #define itkGetDecoratedInputMacro(name, type)                                                                          \
@@ -889,19 +902,21 @@ compilers.
   itkSetDecoratedObjectInputMacro(name, type) itkGetDecoratedObjectInputMacro(name, type)
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
+// clang-format off
 #define itkSetMacro(name, type)                                                                                        \
   virtual void Set##name(const type _arg)                                                                              \
   {                                                                                                                    \
     itkDebugMacro("setting " #name " to " << _arg);                                                                    \
     CLANG_PRAGMA_PUSH                                                                                                  \
-    CLANG_SUPPRESS_Wfloat_equal if (this->m_##name != _arg)                                                            \
+    CLANG_SUPPRESS_Wfloat_equal                                                                                        \
+    if (this->m_##name != _arg)                                                                                        \
     {                                                                                                                  \
       this->m_##name = _arg;                                                                                           \
       this->Modified();                                                                                                \
     }                                                                                                                  \
     CLANG_PRAGMA_POP                                                                                                   \
   }
-
+// clang-format on
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
 #define itkGetMacro(name, type)                                                                                        \
   virtual type Get##name() { return this->m_##name; }
@@ -970,6 +985,7 @@ compilers.
 #define itkGetStringMacro(name)                                                                                        \
   virtual const char * Get##name() const { return this->m_##name.c_str(); }
 
+// clang-format off
 /** Set built-in type where value is constrained between min/max limits.
  * Create member Set"name"() (e.q., SetRadius()). \#defines are
  * convenience for clamping open-ended values. */
@@ -979,14 +995,17 @@ compilers.
     const type temp_extrema = (_arg < min ? min : (_arg > max ? max : _arg));                                          \
     itkDebugMacro("setting " << #name " to " << _arg);                                                                 \
     CLANG_PRAGMA_PUSH                                                                                                  \
-    CLANG_SUPPRESS_Wfloat_equal if (this->m_##name != temp_extrema)                                                    \
+    CLANG_SUPPRESS_Wfloat_equal                                                                                        \
+    if (this->m_##name != temp_extrema)                                                                                \
     {                                                                                                                  \
       this->m_##name = temp_extrema;                                                                                   \
       this->Modified();                                                                                                \
     }                                                                                                                  \
     CLANG_PRAGMA_POP                                                                                                   \
   }
+// clang-format on
 
+// clang-format off
 // NOTE: warning: comparing floating point with == or != is unsafe [-Wfloat-equal]
 /** Set pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
@@ -997,13 +1016,15 @@ compilers.
   {                                                                                                                    \
     itkDebugMacro("setting " << #name " to " << _arg);                                                                 \
     CLANG_PRAGMA_PUSH                                                                                                  \
-    CLANG_SUPPRESS_Wfloat_equal if (this->m_##name != _arg)                                                            \
+    CLANG_SUPPRESS_Wfloat_equal                                                                                        \
+    if (this->m_##name != _arg)                                                                                        \
     {                                                                                                                  \
       this->m_##name = _arg;                                                                                           \
       this->Modified();                                                                                                \
     }                                                                                                                  \
     CLANG_PRAGMA_POP                                                                                                   \
   }
+// clang-format on
 
 /** Get a smart pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()).
@@ -1090,6 +1111,7 @@ compilers.
   virtual void name##On() { this->Set##name(true); }                                                                   \
   virtual void name##Off() { this->Set##name(false); }
 
+// clang-format off
 /** General set vector macro creates a single method that copies specified
  * number of values into object.
  * Examples: void SetColor(c,3) */
@@ -1100,7 +1122,12 @@ compilers.
     for (i = 0; i < count; i++)                                                                                        \
     {                                                                                                                  \
       CLANG_PRAGMA_PUSH                                                                                                \
-      CLANG_SUPPRESS_Wfloat_equal if (data[i] != this->m_##name[i]) CLANG_PRAGMA_POP { break; }                        \
+      CLANG_SUPPRESS_Wfloat_equal                                                                                      \
+      if (data[i] != this->m_##name[i])                                                                                \
+      {                                                                                                                \
+        break;                                                                                                         \
+      }                                                                                                                \
+      CLANG_PRAGMA_POP                                                                                                 \
     }                                                                                                                  \
     if (i < count)                                                                                                     \
     {                                                                                                                  \
@@ -1111,6 +1138,7 @@ compilers.
       }                                                                                                                \
     }                                                                                                                  \
   }
+// clang-format on
 
 /** Get vector macro. Returns pointer to type (i.e., array of type).
  * This is for efficiency. */
