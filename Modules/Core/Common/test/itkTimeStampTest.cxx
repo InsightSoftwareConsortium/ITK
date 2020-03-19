@@ -24,7 +24,7 @@
 // A helper struct for the test, the idea is to have one timestamp per thread.
 // To ease the writing of the test, we use  MultiThreaderBase::SingleMethodExecute
 // with an array of timestamps in the shared data
-using TimeStampTestHelper = struct
+using TimeStampTestHelper = struct TimeStampTestHelperStruct
 {
   std::vector<itk::TimeStamp> timestamps;
   std::vector<unsigned long>  counters;
