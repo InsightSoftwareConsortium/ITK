@@ -168,6 +168,8 @@ protected:
   void
   SetInputCoordinateOrientation(OrientationEnum newCode);
 
+  void
+  VerifyPreconditions() ITKv5_CONST override;
 
   /** Single-threaded version of GenerateData. This filter delegates
    * to PermuteAxesImageFilter and FlipImageFilter. */
@@ -175,7 +177,7 @@ protected:
   GenerateData() override;
 
 private:
-  DICOMOrientation m_InputCoordinateOrientation{ OrientationEnum::LPS };
+  DICOMOrientation m_InputCoordinateOrientation{ OrientationEnum::INVALID };
   DICOMOrientation m_DesiredCoordinateOrientation{ OrientationEnum::LPS };
 
   PermuteOrderArrayType m_PermuteOrder{ { 0, 1, 2 } };

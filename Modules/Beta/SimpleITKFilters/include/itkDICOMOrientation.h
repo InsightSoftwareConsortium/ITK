@@ -145,6 +145,10 @@ public:
 #undef ITK_ORIENTATIONENUM
 
 
+  /** \brief Initialize with CoordinateEnum's from separate axes.
+   *
+   * If multiple CorrdinateEnums are from the same axes then the Orientation value is INVALID.
+   */
   DICOMOrientation(CoordinateEnum primary, CoordinateEnum secondary, CoordinateEnum tertiary);
 
   DICOMOrientation(OrientationEnum orientation)
@@ -155,7 +159,7 @@ public:
     : m_Value(DirectionCosinesToOrientation(d))
   {}
 
-  explicit DICOMOrientation(const std::string & str);
+  explicit DICOMOrientation(std::string str);
 
   operator OrientationEnum() const { return m_Value; }
 
@@ -199,7 +203,7 @@ public:
   static bool
   SameOrientationAxes(CoordinateEnum a, CoordinateEnum b)
   {
-    const unsigned int AxisField = 0xE; // b1110, make lowest bit
+    const unsigned int AxisField = 0xE; // b1110, mask lowest bit
     return (static_cast<uint8_t>(a) & AxisField) == (static_cast<uint8_t>(b) & AxisField);
   }
 

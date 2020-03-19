@@ -260,13 +260,13 @@ TEST(DICOMOrientImageFilter, DirectionFromString)
   filter->SetDesiredCoordinateOrientation("LPS");
   EXPECT_EQ(OrientFilterType::OrientationEnum::LPS, filter->GetDesiredCoordinateOrientation());
 
-  filter->SetDesiredCoordinateOrientation("PSL");
+  filter->SetDesiredCoordinateOrientation("PsL");
   EXPECT_EQ(OrientFilterType::OrientationEnum::PSL, filter->GetDesiredCoordinateOrientation());
 
   filter->SetDesiredCoordinateOrientation("SLP");
   EXPECT_EQ(OrientFilterType::OrientationEnum::SLP, filter->GetDesiredCoordinateOrientation());
 
-  filter->SetDesiredCoordinateOrientation("RAI");
+  filter->SetDesiredCoordinateOrientation("rAI");
   EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetDesiredCoordinateOrientation());
 
   filter->SetDesiredCoordinateOrientation("AIR");
@@ -305,16 +305,17 @@ TEST(DICOMOrientImageFilter, InvalidOrientation)
 
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::INVALID);
   EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetDesiredCoordinateOrientation());
-  filter->Update();
-  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation());
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
+  EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetInputCoordinateOrientation());
 
   filter = OrientFilterType::New();
   filter->SetInput(sourceFilter->GetOutput());
   filter->SetDesiredCoordinateOrientation("");
   EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetDesiredCoordinateOrientation());
-  filter->Update();
-  EXPECT_EQ(OrientFilterType::OrientationEnum::RAI, filter->GetInputCoordinateOrientation());
+  EXPECT_THROW(filter->Update(), itk::ExceptionObject);
+  EXPECT_EQ(OrientFilterType::OrientationEnum::INVALID, filter->GetInputCoordinateOrientation());
 }
+
 
 TEST(DICOMOrientation, ConstructionAndValues)
 {
@@ -351,6 +352,16 @@ TEST(DICOMOrientation, ConstructionAndValues)
   d(2, 2) = 1.0;
   EXPECT_EQ(d, do1.GetAsDirection());
 
+
+  do1 = DICOMOrientation("rai");
+
+  EXPECT_EQ("RAI", do1.GetAsString());
+  EXPECT_EQ(CE::Right, do1.GetPrimaryTerm());
+  EXPECT_EQ(CE::Anterior, do1.GetSecondaryTerm());
+  EXPECT_EQ(CE::Inferior, do1.GetTertiaryTerm());
+  EXPECT_EQ(OE::RAI, do1.GetAsOrientation());
+
+
   do1 = DICOMOrientation(OE::PIR);
 
   EXPECT_EQ("PIR", do1.GetAsString());
@@ -375,6 +386,7 @@ TEST(DICOMOrientation, ConstructionAndValues)
 
   EXPECT_EQ(d, do2.GetAsDirection());
 }
+
 
 TEST(DICOMOrientation, DirectionCosinesToOrientation)
 {

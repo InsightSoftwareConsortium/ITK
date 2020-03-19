@@ -271,7 +271,8 @@ DICOMOrientImageFilter<TInputImage>::GenerateOutputInformation()
 
 
   // Compute the GivenOrientation from the image's direction cosines
-  this->SetInputCoordinateOrientation(DICOMOrientation(inputPtr->GetDirection()).GetAsOrientation());
+  const DICOMOrientation inputOrientation(inputPtr->GetDirection());
+  this->SetInputCoordinateOrientation(inputOrientation.GetAsOrientation());
 
   using PermuteFilterType = PermuteAxesImageFilter<ImageType>;
   using FlipFilterType = FlipImageFilter<ImageType>;
@@ -289,6 +290,19 @@ DICOMOrientImageFilter<TInputImage>::GenerateOutputInformation()
   flip->UpdateOutputInformation();
 
   outputPtr->CopyInformation(flip->GetOutput());
+}
+
+
+template <typename TInputImage>
+void
+DICOMOrientImageFilter<TInputImage>::VerifyPreconditions() ITKv5_CONST
+{
+  Superclass::VerifyPreconditions();
+
+  if (this->m_DesiredCoordinateOrientation == OrientationEnum::INVALID)
+  {
+    itkExceptionMacro(<<"DesiredCoordinateOrientation is 'INVALID'.")
+  }
 }
 
 template <typename TInputImage>

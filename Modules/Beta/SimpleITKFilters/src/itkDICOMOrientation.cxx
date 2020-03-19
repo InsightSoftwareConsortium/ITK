@@ -27,19 +27,21 @@ namespace itk
 
 DICOMOrientation::DICOMOrientation(CoordinateEnum primary, CoordinateEnum secondary, CoordinateEnum tertiary)
 {
-if (SameOrientationAxes(primary, secondary) || SameOrientationAxes(primary, tertiary) ||
-SameOrientationAxes(secondary, tertiary))
-{
-m_Value = OrientationEnum::INVALID;
-}
-else{
-m_Value = static_cast<OrientationEnum>(toOrientation(primary, secondary, tertiary));
-}
+  if (SameOrientationAxes(primary, secondary) || SameOrientationAxes(primary, tertiary) ||
+      SameOrientationAxes(secondary, tertiary))
+  {
+    m_Value = OrientationEnum::INVALID;
+  }
+  else
+  {
+    m_Value = static_cast<OrientationEnum>(toOrientation(primary, secondary, tertiary));
+  }
 }
 
-DICOMOrientation::DICOMOrientation(const std::string & str)
+DICOMOrientation::DICOMOrientation(std::string str)
   : m_Value(OrientationEnum::INVALID)
 {
+  std::transform(str.begin(), str.end(), str.begin(), ::toupper);
   const std::map<std::string, typename DICOMOrientation::OrientationEnum> & stringToCode = GetStringToCode();
   auto                                                                      iter = stringToCode.find(str);
   if (iter != stringToCode.end())
@@ -203,10 +205,8 @@ DICOMOrientation::OrientationToDirectionCosines(OrientationEnum orientationEnum)
 {
   const DICOMOrientation o(orientationEnum);
 
-  CoordinateEnum terms[Dimension] = { o.GetPrimaryTerm(),
-                                      o.GetSecondaryTerm(),
-                                      o.GetTertiaryTerm() };
-  DirectionType direction;
+  CoordinateEnum terms[Dimension] = { o.GetPrimaryTerm(), o.GetSecondaryTerm(), o.GetTertiaryTerm() };
+  DirectionType  direction;
   direction.Fill(0.0);
 
   for (unsigned int i = 0; i < Dimension; ++i)
@@ -227,7 +227,7 @@ DICOMOrientation::OrientationToDirectionCosines(OrientationEnum orientationEnum)
       case CoordinateEnum::Superior:
         direction[2][i] = 1 * sign;
         break;
-      default:
+      case CoordinateEnum::UNKNOWN:
         break;
     }
   }
@@ -244,7 +244,7 @@ operator<<(std::ostream & out, typename DICOMOrientation::OrientationEnum value)
 
 
 std::ostream &
-operator<<(std::ostream & out, const DICOMOrientation &orientation)
+operator<<(std::ostream & out, const DICOMOrientation & orientation)
 {
   return (out << orientation.GetAsString());
 }
