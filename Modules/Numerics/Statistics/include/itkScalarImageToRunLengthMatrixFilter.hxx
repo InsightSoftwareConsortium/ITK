@@ -256,15 +256,16 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
         output->GetIndex(run, hIndex);
         output->IncreaseFrequencyOfIndex(hIndex, 1);
 
-        itkDebugStatement(typename HistogramType::IndexType tempMeasurementIndex;)
-          itkDebugStatement(output->GetIndex(run, tempMeasurementIndex);) itkDebugMacro(
-            "centerIndex<->index: " << static_cast<int>(centerPixelIntensity) << "@" << centerIndex << "<->"
-                                    << static_cast<int>(pixelIntensity) << "@" << index << ", Bin# "
-                                    << tempMeasurementIndex << ", Measurement: (" << run[0] << ", " << run[1] << ")"
-                                    << ", Center bin [" << this->GetOutput()->GetBinMinFromValue(0, run[0]) << ","
-                                    << this->GetOutput()->GetBinMaxFromValue(0, run[0]) << "]"
-                                    << "~[" << this->GetOutput()->GetBinMinFromValue(1, run[1]) << ","
-                                    << this->GetOutput()->GetBinMaxFromValue(1, run[1]) << "]" << std::endl);
+        itkDebugStatement(typename HistogramType::IndexType tempMeasurementIndex);
+        itkDebugStatement(output->GetIndex(run, tempMeasurementIndex));
+        itkDebugMacro("centerIndex<->index: " << static_cast<int>(centerPixelIntensity) << "@" << centerIndex << "<->"
+                                              << static_cast<int>(pixelIntensity) << "@" << index << ", Bin# "
+                                              << tempMeasurementIndex << ", Measurement: (" << run[0] << ", " << run[1]
+                                              << ")"
+                                              << ", Center bin [" << this->GetOutput()->GetBinMinFromValue(0, run[0])
+                                              << "," << this->GetOutput()->GetBinMaxFromValue(0, run[0]) << "]"
+                                              << "~[" << this->GetOutput()->GetBinMinFromValue(1, run[1]) << ","
+                                              << this->GetOutput()->GetBinMaxFromValue(1, run[1]) << "]" << std::endl);
       }
     }
   }
