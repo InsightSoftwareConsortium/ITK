@@ -38,9 +38,10 @@ DICOMOrientation::DICOMOrientation(CoordinateEnum primary, CoordinateEnum second
   }
 }
 
-DICOMOrientation::DICOMOrientation(const std::string & str)
+DICOMOrientation::DICOMOrientation(std::string str)
   : m_Value(OrientationEnum::INVALID)
 {
+  std::transform(str.begin(), str.end(), str.begin(), ::toupper);
   const std::map<std::string, typename DICOMOrientation::OrientationEnum> & stringToCode = GetStringToCode();
   auto                                                                      iter = stringToCode.find(str);
   if (iter != stringToCode.end())
@@ -229,7 +230,7 @@ DICOMOrientation::OrientationToDirectionCosines(OrientationEnum orientationEnum)
       case CoordinateEnum::Superior:
         direction[2][i] = 1 * sign;
         break;
-      default:
+      case CoordinateEnum::UNKNOWN:
         break;
     }
   }
