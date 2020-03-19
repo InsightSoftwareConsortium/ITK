@@ -38,9 +38,7 @@ VideoIOFactory::CreateVideoIO(IOModeEnum mode, const char * arg)
     }
     else
     {
-      itkSpecializedMessageExceptionMacro(ExceptionObject,
-                                          "VideoIO factory did not return "
-                                          "a VideoIOBase");
+      itkGenericExceptionMacro("VideoIO factory did not return a VideoIOBase");
     }
   }
 

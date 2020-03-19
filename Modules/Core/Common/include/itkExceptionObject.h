@@ -48,6 +48,7 @@ namespace itk
 class ITKCommon_EXPORT ExceptionObject : public std::exception
 {
 public:
+  static constexpr const char * const default_exception_message = "Generic ExceptionObject";
   using Superclass = std::exception;
   /** Various types of constructors.  Note that these functions will be
    * called when children are instantiated.  The default constructor and
@@ -57,10 +58,10 @@ public:
                            unsigned int lineNumber = 0,
                            const char * desc = "None",
                            const char * loc = "Unknown");
-  explicit ExceptionObject(const std::string & file,
-                           unsigned int        lineNumber = 0,
-                           const std::string & desc = "None",
-                           const std::string & loc = "Unknown");
+  explicit ExceptionObject(std::string  file,
+                           unsigned int lineNumber = 0,
+                           std::string  desc = "None",
+                           std::string  loc = "Unknown");
   ExceptionObject(const ExceptionObject & orig) noexcept;
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
