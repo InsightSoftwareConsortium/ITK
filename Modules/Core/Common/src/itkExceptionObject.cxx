@@ -137,11 +137,9 @@ ExceptionObject::ExceptionObject(const char * file, unsigned int lineNumber, con
                                                             loc == nullptr ? "" : loc))
 {}
 
-ExceptionObject::ExceptionObject(const std::string & file,
-                                 unsigned int        lineNumber,
-                                 const std::string & desc,
-                                 const std::string & loc)
-  : m_ExceptionData(ReferenceCountedExceptionData::ConstNew(file, lineNumber, desc, loc))
+ExceptionObject::ExceptionObject(std::string file, unsigned int lineNumber, std::string desc, std::string loc)
+  : m_ExceptionData(
+      ReferenceCountedExceptionData::ConstNew(std::move(file), lineNumber, std::move(desc), std::move(loc)))
 {}
 
 ExceptionObject::ExceptionObject(const ExceptionObject & orig) noexcept

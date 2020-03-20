@@ -152,7 +152,7 @@ Int2EigenValueOrderEnum(const uint8_t value)
     default:
       break;
   }
-  itkGenericExceptionMacro(<< "Error: Invalid value for conversion.")
+  itkGenericExceptionMacro(<< "Error: Invalid value for conversion.");
 }
 
 #if !defined(ITK_LEGACY_REMOVE)

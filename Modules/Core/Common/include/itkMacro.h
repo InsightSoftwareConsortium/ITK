@@ -447,62 +447,58 @@ OutputWindowDisplayDebugText(const char *);
 #  define ITK_LOCATION "unknown"
 #endif
 
-/** The exception macro is used to print error information (i.e., usually
- * a condition that results in program failure). Example usage looks like:
- * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
-#define itkExceptionMacro(x)                                                                                           \
-  {                                                                                                                    \
-    std::ostringstream message;                                                                                        \
-    message << "itk::ERROR: " << this->GetNameOfClass() << "(" << this << "): " x;                                     \
-    ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);                                \
-    throw e_; /* Explicit naming to work around Intel compiler bug.  */                                                \
-  }
-
-#define itkGenericExceptionMacro(x)                                                                                    \
-  {                                                                                                                    \
-    std::ostringstream message;                                                                                        \
-    message << "itk::ERROR: " x;                                                                                       \
-    ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);                                \
-    throw e_; /* Explicit naming to work around Intel compiler bug.  */                                                \
-  }
-
 #define itkDeclareExceptionMacro(newexcp, parentexcp, whatmessage)                                                     \
   namespace itk                                                                                                        \
   {                                                                                                                    \
   class newexcp : public parentexcp                                                                                    \
   {                                                                                                                    \
   public:                                                                                                              \
-    newexcp(const char * file, unsigned int lineNumber)                                                                \
-      : parentexcp(file, lineNumber)                                                                                   \
-    {                                                                                                                  \
-      this->SetDescription(whatmessage);                                                                               \
-    }                                                                                                                  \
-    newexcp(const std::string & file, unsigned int lineNumber)                                                         \
-      : parentexcp(file, lineNumber)                                                                                   \
-    {                                                                                                                  \
-      this->SetDescription(whatmessage);                                                                               \
-    }                                                                                                                  \
+    /* default message provides backward compatibility for a given exception type */                                   \
+    static constexpr const char * const default_exception_message = whatmessage;                                       \
+    explicit newexcp(const char * file,                                                                                \
+                     unsigned int lineNumber = 0,                                                                      \
+                     const char * desc = "None",                                                                       \
+                     const char * loc = "Unknown")                                                                     \
+      : parentexcp(std::string{ file }, lineNumber, std::string{ desc }, std::string{ loc })                           \
+    {}                                                                                                                 \
+    explicit newexcp(std::string  file,                                                                                \
+                     unsigned int lineNumber = 0,                                                                      \
+                     std::string  desc = std::string{ "None" },                                                        \
+                     std::string  loc = std::string{ "Unknown" })                                                      \
+      : parentexcp(std::move(file), lineNumber, std::move(desc), std::move(loc))                                       \
+    {}                                                                                                                 \
     itkTypeMacro(newexcp, parentexcp);                                                                                 \
   };                                                                                                                   \
   }
 
-#define itkSpecializedExceptionMacro(exceptiontype)                                                                    \
-  {                                                                                                                    \
-    ::itk::exceptiontype e_(__FILE__, __LINE__);                                                                       \
-    e_.SetLocation(ITK_LOCATION);                                                                                      \
-    throw e_; /* Explicit naming to work around Intel compiler bug.  */                                                \
-  }
 
-#define itkSpecializedMessageExceptionMacro(exceptiontype, x)                                                          \
+#define itkSpecializedMessageExceptionMacro(ExceptionType, x)                                                          \
   {                                                                                                                    \
-    ::itk::exceptiontype e_(__FILE__, __LINE__);                                                                       \
-    std::ostringstream   message;                                                                                      \
+    std::ostringstream message;                                                                                        \
     message << "itk::ERROR: " x;                                                                                       \
-    e_.SetDescription(message.str().c_str());                                                                          \
-    e_.SetLocation(ITK_LOCATION);                                                                                      \
-    throw e_; /* Explicit naming to work around Intel compiler bug.  */                                                \
+    throw ::itk::ExceptionType(                                                                                        \
+      std::string{ __FILE__ }, __LINE__, std::string{ message.str() }, std::string{ ITK_LOCATION });                   \
   }
 
+#define itkSpecializedExceptionMacro(ExceptionType)                                                                    \
+  {                                                                                                                    \
+    itkSpecializedMessageExceptionMacro(ExceptionType,                                                                 \
+                                        "itk::ERROR: " << ::itk::ExceptionType::default_exception_message)             \
+  }
+
+/** The itkExceptionMacro macro is used to print error information (i.e., usually
+ * a condition that results in program failure). Example usage looks like:
+ * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
+#define itkExceptionMacro(x)                                                                                           \
+  {                                                                                                                    \
+    itkSpecializedMessageExceptionMacro(ExceptionObject,                                                               \
+                                        "itk::ERROR: " << this->GetNameOfClass() << "(" << this << "): " x);           \
+  }
+
+#define itkGenericExceptionMacro(x)                                                                                    \
+  {                                                                                                                    \
+    itkSpecializedMessageExceptionMacro(ExceptionObject, x);                                                           \
+  }
 
 #define itkGenericOutputMacro(x)                                                                                       \
   {                                                                                                                    \
@@ -1303,5 +1299,4 @@ itkDynamicCastInDebugMode(TSource x)
   return static_cast<TTarget>(x);
 #endif
 }
-
 #endif // end of itkMacro.h
