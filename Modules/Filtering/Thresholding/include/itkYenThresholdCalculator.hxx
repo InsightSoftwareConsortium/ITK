@@ -44,14 +44,14 @@ YenThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   unsigned int size = histogram->GetSize(0);
 
-  int                 threshold;
-  int                 ih, it;
-  double              crit;
-  double              max_crit;
-  std::vector<double> norm_histo(size); // normalized histogram
-  std::vector<double> P1(size);         // cumulative normalized histogram
-  std::vector<double> P1_sq(size);
-  std::vector<double> P2_sq(size);
+  typename HistogramType::InstanceIdentifier threshold = 0;
+  int                                        ih, it;
+  double                                     crit;
+  double                                     max_crit;
+  std::vector<double>                        norm_histo(size); // normalized histogram
+  std::vector<double>                        P1(size);         // cumulative normalized histogram
+  std::vector<double>                        P1_sq(size);
+  std::vector<double>                        P2_sq(size);
 
   int total = histogram->GetTotalFrequency();
 
@@ -79,7 +79,6 @@ YenThresholdCalculator<THistogram, TOutput>::GenerateData()
   }
 
   // Find the threshold that maximizes the criterion
-  threshold = -1;
   max_crit = itk::NumericTraits<double>::NonpositiveMin();
   for (it = 0; (unsigned)it < size; it++)
   {

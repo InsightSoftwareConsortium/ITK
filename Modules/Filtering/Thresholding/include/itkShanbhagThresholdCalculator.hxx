@@ -44,19 +44,19 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   unsigned int size = histogram->GetSize(0);
 
-  const double        tolerance = 2.220446049250313E-16;
-  int                 threshold;
-  int                 ih, it;
-  int                 first_bin;
-  int                 last_bin;
-  double              term;
-  double              tot_ent;          // total entropy
-  double              min_ent;          // max entropy
-  double              ent_back;         // entropy of the background pixels at a given threshold
-  double              ent_obj;          // entropy of the object pixels at a given threshold
-  std::vector<double> norm_histo(size); // normalized histogram
-  std::vector<double> P1(size);         // cumulative normalized histogram
-  std::vector<double> P2(size);
+  const double                               tolerance = 2.220446049250313E-16;
+  typename HistogramType::InstanceIdentifier threshold = 0;
+  int                                        ih, it;
+  int                                        first_bin;
+  int                                        last_bin;
+  double                                     term;
+  double                                     tot_ent;          // total entropy
+  double                                     min_ent;          // max entropy
+  double                                     ent_back;         // entropy of the background pixels at a given threshold
+  double                                     ent_obj;          // entropy of the object pixels at a given threshold
+  std::vector<double>                        norm_histo(size); // normalized histogram
+  std::vector<double>                        P1(size);         // cumulative normalized histogram
+  std::vector<double>                        P2(size);
 
   int total = histogram->GetTotalFrequency();
 
@@ -97,7 +97,6 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Calculate the total entropy each gray-level and find the threshold that
   // maximizes it
-  threshold = -1;
   min_ent = itk::NumericTraits<double>::max();
 
   for (it = first_bin; it <= last_bin; it++)
