@@ -113,7 +113,7 @@ protected:
   void
   GenerateData() override
   {
-    auto calc = static_cast<CalculatorType *>(this->GetModifiableCalculator());
+    auto calc = static_cast<CalculatorType *>(this->GetCalculator());
     calc->SetReturnBinMidpoint(m_ReturnBinMidpoint);
     this->Superclass::GenerateData();
   }

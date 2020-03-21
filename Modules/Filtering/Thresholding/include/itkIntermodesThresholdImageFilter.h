@@ -19,7 +19,7 @@
 #ifndef itkIntermodesThresholdImageFilter_h
 #define itkIntermodesThresholdImageFilter_h
 
-#include "itkHistogramThresholdImageFilter.h"
+#include "itkHistogramThresholdImageFilterBase.h"
 #include "itkIntermodesThresholdCalculator.h"
 
 namespace itk
@@ -50,14 +50,14 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
-class IntermodesThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
+class IntermodesThresholdImageFilter : public HistogramThresholdImageFilterBase<TInputImage, TOutputImage, TMaskImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(IntermodesThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = IntermodesThresholdImageFilter;
-  using Superclass = HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>;
+  using Superclass = HistogramThresholdImageFilterBase<TInputImage, TOutputImage, TMaskImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(IntermodesThresholdImageFilter, HistogramThresholdImageFilter);
+  itkTypeMacro(IntermodesThresholdImageFilter, HistogramThresholdImageFilterBase);
 
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
@@ -90,61 +90,62 @@ public:
   using MaskIndexType = typename MaskImageType::IndexType;
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
-  using HistogramType = typename Superclass::HistogramType;
-  using CalculatorType = IntermodesThresholdCalculator<HistogramType, InputPixelType>;
+  using ValueType = typename NumericTraits<InputPixelType>::ValueType;
+  using ValueRealType = typename NumericTraits<ValueType>::RealType;
+  using HistogramType = Statistics::Histogram<ValueRealType>;
+  using HistogramPointer = typename HistogramType::Pointer;
+  using HistogramConstPointer = typename HistogramType::ConstPointer;
+  using HistogramSizeType = typename HistogramType::SizeType;
+  using HistogramMeasurementType = typename HistogramType::MeasurementType;
+  using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
+
+  using IntermodesCalculatorType = IntermodesThresholdCalculator<HistogramType, InputPixelType>;
+  using IntermodesCalculatorPointer = typename IntermodesCalculatorType::Pointer;
+
+  using CalculatorType = typename Superclass::CalculatorType;
+
+  /** Set/Get the calculator to use to compute the threshold */
+  void
+  SetCalculator(CalculatorType * calculator) override;
+  CalculatorType *
+  GetCalculator() override;
 
   void
-  SetMaximumSmoothingIterations(SizeValueType maxSmoothingIterations)
-  {
-    m_IntermodesCalculator->SetMaximumSmoothingIterations(maxSmoothingIterations);
-  }
+  SetMaximumSmoothingIterations(SizeValueType maxSmoothingIterations);
 
   SizeValueType
-  GetMaximumSmoothingIterations()
-  {
-    return (m_IntermodesCalculator->GetMaximumSmoothingIterations());
-  }
+  GetMaximumSmoothingIterations();
 
   /** Select whether midpoint (intermode=true) or minimum between
      peaks is used. */
   void
-  SetUseInterMode(bool useIntermode)
-  {
-    m_IntermodesCalculator->SetUseInterMode(useIntermode);
-  }
+  SetUseInterMode(bool useIntermode);
 
   bool
-  GetUseInterMode()
-  {
-    return (m_IntermodesCalculator->GetUseInterMode());
-  }
+  GetUseInterMode();
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
 
 protected:
-  IntermodesThresholdImageFilter()
-  {
-    m_IntermodesCalculator = CalculatorType::New();
-    this->SetCalculator(m_IntermodesCalculator);
-    m_IntermodesCalculator->SetMaximumSmoothingIterations(10000);
-    m_IntermodesCalculator->SetUseInterMode(true);
-  }
+  IntermodesThresholdImageFilter();
   ~IntermodesThresholdImageFilter() override = default;
 
   void
-  PrintSelf(std::ostream & os, Indent indent) const override
-  {
-    Superclass::PrintSelf(os, indent);
+  VerifyPreconditions() ITKv5_CONST override;
 
-    itkPrintSelfObjectMacro(IntermodesCalculator);
-  }
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  typename CalculatorType::Pointer m_IntermodesCalculator;
+  IntermodesCalculatorPointer m_Calculator;
 };
 
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkIntermodesThresholdImageFilter.hxx"
+#endif
 
 #endif
