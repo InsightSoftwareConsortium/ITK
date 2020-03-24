@@ -36,7 +36,7 @@ namespace itk
  * \ingroup MultiThreaded
  * \ingroup ITKImageFeature
  *
- * \spihnx
+ * \sphinx
  * \sphinxexample{Filtering/ImageFeature/ComputeLaplacian,Compute Laplacian}
  * \endsphinx
  */

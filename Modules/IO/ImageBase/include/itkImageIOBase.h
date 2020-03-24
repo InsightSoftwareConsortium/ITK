@@ -274,7 +274,7 @@ public:
    * represent the default compressor. If string identifier is not
    * recognized a warning is produced and the default is used.
    *
-   * \nb These compression hints may be ignored if the ImageIO does
+   * \note These compression hints may be ignored if the ImageIO does
    * not support compression or the compression is not enabled.
    **/
   virtual void
