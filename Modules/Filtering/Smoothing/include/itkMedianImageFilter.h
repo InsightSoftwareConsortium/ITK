@@ -46,7 +46,7 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Filtering/Smoothing/ApplyMedianFilter,Median Filter Of An Image}
- * \sphihnxexample{Filtering/Smoothing/MedianFilteringOfAnRGBImage,Median Filter Of An RGB Image}
+ * \sphinxexample{Filtering/Smoothing/MedianFilteringOfAnRGBImage,Median Filter Of An RGB Image}
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>

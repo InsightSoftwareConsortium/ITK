@@ -46,7 +46,7 @@ namespace itk
  * \sphinx
  * \sphinxexample{Filtering/Convolution/NormalizedCorrelation,Normalized Correlation}
  * \sphinxexample{Filtering/Convolution/NormalizedCorrelationOfMaskedImage,Normalized Correlation Of Masked Image}
- * \sphinxexmaple{Filtering/Convolution/ColorNormalizedCorrelation,Color Normalized Operation}
+ * \sphinxexample{Filtering/Convolution/ColorNormalizedCorrelation,Color Normalized Operation}
  * \endsphinx
  */
 template <typename TInputImage,

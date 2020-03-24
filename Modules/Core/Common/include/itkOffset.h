@@ -58,7 +58,7 @@ namespace itk
  * \ingroup ITKCommon
  *
  * \sphinx
- * \sphinxexamples{Core/Common/AddOffsetToIndex,Add Offset To Index}
+ * \sphinxexample{Core/Common/AddOffsetToIndex,Add Offset To Index}
  * \endsphinx
  */
 

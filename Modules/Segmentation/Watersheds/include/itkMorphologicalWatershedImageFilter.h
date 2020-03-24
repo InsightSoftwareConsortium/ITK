@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKWatersheds
  *
  * \sphinx
- * \sphinexample{Segmentation/Watersheds/MorphologicalWatershedSegmentation,Morphological Watershed Segmentation}
+ * \sphinxexample{Segmentation/Watersheds/MorphologicalWatershedSegmentation,Morphological Watershed Segmentation}
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>

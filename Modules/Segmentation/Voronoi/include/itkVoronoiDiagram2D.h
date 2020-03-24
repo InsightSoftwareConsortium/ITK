@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKVoronoi
  *
  * \sphinx
- * \sphinexample{Segmentation/Voronoi/VoronoiDiagram,Voronoi Diagram}
+ * \sphinxexample{Segmentation/Voronoi/VoronoiDiagram,Voronoi Diagram}
  * \endsphinx
  */
 template <typename TCoordType>

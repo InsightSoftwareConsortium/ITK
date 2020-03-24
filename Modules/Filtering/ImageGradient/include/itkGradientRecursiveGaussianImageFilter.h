@@ -49,7 +49,7 @@ namespace itk
  * \sphinxexample{Filtering/ImageGradient/ApplyGradientRecursiveGaussianWithVectorInput,Apply
  * GradientRecursiveGaussianImageFilter on Image with Vector type}
  * \sphinxexample{Filtering/ImageGradient/ImplementationOfSnakes,Implementation Of Snakes}
- * \endsphimx
+ * \endsphinx
  */
 template <
   typename TInputImage,
