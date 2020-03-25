@@ -1,7 +1,7 @@
 {
   "creators": [
     {
-      "affiliation": "Google Inc, Kitware Inc, University of North Carolina at Chapel Hill, Université de Rennes 1, Universidad Industrial de Santander",
+      "affiliation": "Google Inc, Kitware Inc, University of North Carolina at Chapel Hill, Universit\u00e9 de Rennes 1, Universidad Industrial de Santander",
       "name": "Ibanez, Luis",
       "orcid": "0000-0003-2712-8584"
     },
@@ -86,7 +86,7 @@
     },
     {
       "affiliation": "Kitware Inc, University of Siegen",
-      "name": "Zukić, Dženan",
+      "name": "Zuki\u0107, D\u017eenan",
       "orcid": "0000-0002-9546-9703"
     },
     {
@@ -107,11 +107,6 @@
       "name": "Popoff, Michka"
     },
     {
-      "affiliation": "University of California Irvine, University of Virginia, Washington University in Saint Louis, Brigham Young University",
-      "name": "Tustison, Nick",
-      "orcid": "0000-0001-9418-5103"
-    },
-    {
       "name": "Hart, Gabe"
     },
     {
@@ -128,6 +123,11 @@
     },
     {
       "name": "Enquobahrie, Andinet"
+    },
+    {
+      "affiliation": "University of California Irvine, University of Virginia, Washington University in Saint Louis, Brigham Young University",
+      "name": "Tustison, Nick",
+      "orcid": "0000-0001-9418-5103"
     },
     {
       "name": "Pathak, Sayan"
@@ -169,11 +169,11 @@
       "name": "Audette, Michel"
     },
     {
-      "name": "Foskey, Mark"
-    },
-    {
       "name": "Hernandez-Cerdan, Pablo",
       "orcid": "0000-0002-1689-3451"
+    },
+    {
+      "name": "Foskey, Mark"
     },
     {
       "name": "Hughett, Paul"
@@ -268,12 +268,12 @@
       "name": "maekclena"
     },
     {
-      "name": "P. Awate, Suyash"
-    },
-    {
       "affiliation": "Tufts University School of Medicine",
       "name": "Vigneault, Davis",
       "orcid": "0000-0003-3798-9812"
+    },
+    {
+      "name": "P. Awate, Suyash"
     },
     {
       "name": "Reynolds, Patrick"
@@ -288,6 +288,11 @@
       "name": "Venkatram, Raghu"
     },
     {
+      "affiliation": "University of Lyon, CREATIS",
+      "name": "Rit, Simon",
+      "orcid": "0000-0003-2530-1013"
+    },
+    {
       "name": "Zygmunt, Kris"
     },
     {
@@ -295,11 +300,6 @@
     },
     {
       "name": "Davis, Brad"
-    },
-    {
-      "affiliation": "University of Lyon, CREATIS",
-      "name": "Rit, Simon",
-      "orcid": "0000-0003-2530-1013"
     },
     {
       "name": "Antiga, Luca"
@@ -326,23 +326,23 @@
       "name": "Kaucic, Robert"
     },
     {
+      "name": "Yaniv, Ziv",
+      "orcid": "0000-0003-0315-7727"
+    },
+    {
       "name": "D. Hanwell, Marcus"
     },
     {
       "name": "Magnotta, Vincent"
     },
     {
-        "name": "Yaniv, Ziv",
-      "orcid": "0000-0003-0315-7727"
-    },
-    {
       "name": "Bertel, Fran\u00e7ois"
     },
     {
-      "name": "Hipwell, John"
+      "name": "Greer, Hastings"
     },
     {
-      "name": "Greer, Hastings"
+      "name": "Hipwell, John"
     },
     {
       "name": "Chandrashekara, Raghavendra"
