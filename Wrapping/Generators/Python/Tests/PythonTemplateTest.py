@@ -212,7 +212,7 @@ def pixel_type_from_IO(pixel, component, dimension):
 dimensions = [2, 3]
 component_type_dic= {"float":itk.F, "double":itk.D,
         "unsigned_char":itk.UC, "unsigned_short":itk.US, "unsigned_int":itk.UI,
-        "unsigned_long":itk.UL, "char":itk.SC, "short":itk.SS,
+        "unsigned_long":itk.UL, "unsigned_long_long":itk.ULL, "char":itk.SC, "short":itk.SS,
         "int":itk.SI, "long":itk.SL, "bool":itk.B}
 pixel_types = ['scalar', 'rgb', 'rgba', 'offset', 'vector', 'point',
                'covariant_vector', 'symmetric_second_rank_tensor',
