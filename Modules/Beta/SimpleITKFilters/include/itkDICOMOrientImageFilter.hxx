@@ -29,8 +29,8 @@ namespace itk
 
 template <typename TInputImage>
 DICOMOrientImageFilter<TInputImage>::DICOMOrientImageFilter()
+  : m_FlipAxes{false}
 {
-
   for (unsigned int dimension = 0; dimension < ImageDimension; ++dimension)
   {
     this->m_PermuteOrder[dimension] = dimension;

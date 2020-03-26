@@ -180,8 +180,8 @@ private:
   DICOMOrientation m_InputCoordinateOrientation{ OrientationEnum::INVALID };
   DICOMOrientation m_DesiredCoordinateOrientation{ OrientationEnum::LPS };
 
-  PermuteOrderArrayType m_PermuteOrder{ { 0, 1, 2 } };
-  FlipAxesArrayType     m_FlipAxes{ { false, false, false } };
+  PermuteOrderArrayType m_PermuteOrder;
+  FlipAxesArrayType     m_FlipAxes;
 
 }; // end of class
 
