@@ -18,7 +18,7 @@ endif()
 # the superclass
 itk_wrap_class(std::numeric_limits EXPLICIT_SPECIALIZATION)
   # the basic types
-  foreach(t UC US UI UL SC SS SI SL F D LD B)
+  foreach(t UC US UI UL ULL SC SS SI SL F D LD B)
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach()
 itk_end_wrap_class()
@@ -26,7 +26,7 @@ itk_end_wrap_class()
 
 itk_wrap_class("itk::NumericTraits" EXPLICIT_SPECIALIZATION)
   # the basic types
-  foreach(t UC US UI UL SC SS SI SL F D LD B)
+  foreach(t UC US UI UL ULL SC SS SI SL F D LD B)
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach()
 
