@@ -44,17 +44,17 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   unsigned int size = histogram->GetSize(0);
 
-  int                 threshold = -1;
-  int                 ih, it;
-  int                 first_bin;
-  int                 last_bin;
-  double              tot_ent;          // total entropy
-  double              max_ent;          // max entropy
-  double              ent_back;         // entropy of the background pixels at a given threshold
-  double              ent_obj;          // entropy of the object pixels at a given threshold
-  std::vector<double> norm_histo(size); // normalized histogram
-  std::vector<double> P1(size);         // cumulative normalized histogram
-  std::vector<double> P2(size);
+  typename HistogramType::InstanceIdentifier threshold = 0;
+  int                                        ih, it;
+  int                                        first_bin;
+  int                                        last_bin;
+  double                                     tot_ent;          // total entropy
+  double                                     max_ent;          // max entropy
+  double                                     ent_back;         // entropy of the background pixels at a given threshold
+  double                                     ent_obj;          // entropy of the object pixels at a given threshold
+  std::vector<double>                        norm_histo(size); // normalized histogram
+  std::vector<double>                        P1(size);         // cumulative normalized histogram
+  std::vector<double>                        P2(size);
 
   const double tolerance = itk::NumericTraits<double>::epsilon();
 

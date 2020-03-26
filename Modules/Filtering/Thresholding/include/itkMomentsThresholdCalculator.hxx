@@ -44,10 +44,10 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   unsigned int size = histogram->GetSize(0);
 
-  double total = histogram->GetTotalFrequency();
-  double m0 = 1.0, m1 = 0.0, m2 = 0.0, m3 = 0.0, sum = 0.0, p0 = 0.0;
-  double cd, c0, c1, z0, z1; // auxiliary variables
-  int    threshold = -1;
+  double                                     total = histogram->GetTotalFrequency();
+  double                                     m0 = 1.0, m1 = 0.0, m2 = 0.0, m3 = 0.0, sum = 0.0, p0 = 0.0;
+  double                                     cd, c0, c1, z0, z1; // auxiliary variables
+  typename HistogramType::InstanceIdentifier threshold = 0;
 
   std::vector<double> histo(size);
   for (unsigned i = 0; i < size; i++)
