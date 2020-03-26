@@ -197,6 +197,17 @@ protected:
   void
   GenerateData() override;
 
+
+  void
+  VerifyPreconditions() ITKv5_CONST override
+  {
+    Superclass::VerifyPreconditions();
+    if (m_Calculator.IsNull())
+    {
+      itkExceptionMacro(<< "No threshold calculator set.");
+    }
+  }
+
 private:
   OutputPixelType   m_InsideValue;
   OutputPixelType   m_OutsideValue;

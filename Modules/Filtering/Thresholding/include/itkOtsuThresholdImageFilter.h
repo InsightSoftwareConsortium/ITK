@@ -118,6 +118,17 @@ protected:
     this->Superclass::GenerateData();
   }
 
+  void
+  VerifyPreconditions() ITKv5_CONST override
+  {
+    Superclass::VerifyPreconditions();
+    if (dynamic_cast<const CalculatorType *>(Superclass::GetCalculator()) == nullptr)
+    {
+      itkExceptionMacro(<< "Invalid OtsuThresholdCalculator.");
+    }
+  }
+
+
 private:
 #if defined(ITKV4_COMPATIBILITY)
   bool m_ReturnBinMidpoint{ true };
