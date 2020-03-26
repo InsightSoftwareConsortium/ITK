@@ -32,8 +32,8 @@ ImageRegionConstIteratorWithIndex<TImage>::operator++()
   this->m_Remaining = false;
   for (unsigned int in = 0; in < TImage::ImageDimension; in++)
   {
-    this->m_PositionIndex[in]++;
-    if (this->m_PositionIndex[in] < this->m_EndIndex[in])
+    const IndexValueType positionIndex = ++this->m_PositionIndex[in];
+    if (positionIndex < this->m_EndIndex[in])
     {
       this->m_Position += this->m_OffsetTable[in];
       this->m_Remaining = true;
