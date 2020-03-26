@@ -59,10 +59,6 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
-  if (m_Calculator.IsNull())
-  {
-    itkExceptionMacro(<< "No threshold calculator set.");
-  }
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
