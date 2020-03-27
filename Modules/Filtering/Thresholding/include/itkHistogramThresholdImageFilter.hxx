@@ -19,7 +19,6 @@
 #define itkHistogramThresholdImageFilter_hxx
 #include "itkHistogramThresholdImageFilter.h"
 
-#include "itkImageToHistogramFilter.h"
 #include "itkMaskedImageToHistogramFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkMaskImageFilter.h"
@@ -57,45 +56,50 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::HistogramT
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
+HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::SetUpHistogramGenerator(
+  HistogramGeneratorPointer histogramGenerator)
+{
+  histogramGenerator->SetInput(this->GetInput());
+  histogramGenerator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+  typename HistogramType::SizeType hsize(this->GetInput()->GetNumberOfComponentsPerPixel());
+  hsize.Fill(this->GetNumberOfHistogramBins());
+  histogramGenerator->SetHistogramSize(hsize);
+  histogramGenerator->SetAutoMinimumMaximum(this->GetAutoMinimumMaximum());
+}
+
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+void
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
   typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  using HistogramGeneratorType = itk::Statistics::ImageToHistogramFilter<InputImageType>;
-  typename HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  HistogramGeneratorPointer histogramGenerator = HistogramGeneratorType::New();
 
-  using MaskedHistogramGeneratorType = itk::Statistics::MaskedImageToHistogramFilter<InputImageType, MaskImageType>;
-  typename MaskedHistogramGeneratorType::Pointer maskedhistogramGenerator = MaskedHistogramGeneratorType::New();
+  using MaskedHistogramGeneratorType = Statistics::MaskedImageToHistogramFilter<InputImageType, MaskImageType>;
+  typename MaskedHistogramGeneratorType::Pointer maskedHistogramGenerator = MaskedHistogramGeneratorType::New();
 
   if (this->GetMaskImage())
   {
-    maskedhistogramGenerator->SetInput(this->GetInput());
-    maskedhistogramGenerator->SetMaskImage(this->GetMaskImage());
-    maskedhistogramGenerator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-    typename HistogramType::SizeType hsize(this->GetInput()->GetNumberOfComponentsPerPixel());
-    hsize.Fill(this->GetNumberOfHistogramBins());
-    maskedhistogramGenerator->SetHistogramSize(hsize);
-    maskedhistogramGenerator->SetAutoMinimumMaximum(this->GetAutoMinimumMaximum());
-    maskedhistogramGenerator->SetMaskValue(this->GetMaskValue());
-    progress->RegisterInternalFilter(maskedhistogramGenerator, .4f);
+    this->SetUpHistogramGenerator(maskedHistogramGenerator);
 
-    m_Calculator->SetInput(maskedhistogramGenerator->GetOutput());
-    m_Calculator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
+    maskedHistogramGenerator->SetMaskImage(this->GetMaskImage());
+    maskedHistogramGenerator->SetMaskValue(this->GetMaskValue());
+
+    progress->RegisterInternalFilter(maskedHistogramGenerator, .4f);
+
+    m_Calculator->SetInput(maskedHistogramGenerator->GetOutput());
   }
   else
   {
-    histogramGenerator->SetInput(this->GetInput());
-    histogramGenerator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
-    typename HistogramType::SizeType hsize(this->GetInput()->GetNumberOfComponentsPerPixel());
-    hsize.Fill(this->GetNumberOfHistogramBins());
-    histogramGenerator->SetHistogramSize(hsize);
-    histogramGenerator->SetAutoMinimumMaximum(this->GetAutoMinimumMaximum());
+    this->SetUpHistogramGenerator(histogramGenerator);
+
     progress->RegisterInternalFilter(histogramGenerator, .4f);
 
     m_Calculator->SetInput(histogramGenerator->GetOutput());
-    m_Calculator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   }
+
+  m_Calculator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(m_Calculator, .2f);
 
   using ThresholderType = BinaryThresholdImageFilter<TInputImage, TOutputImage>;
