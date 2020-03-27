@@ -94,8 +94,8 @@ public:
   using CalculatorType = IntermodesThresholdCalculator<HistogramType, InputPixelType>;
 
 
-  itkSetMacro(MaxSmoothingIterations, SizeValueType);
-  itkGetMacro(MaxSmoothingIterations, SizeValueType);
+  itkSetMacro(MaximumSmoothingIterations, SizeValueType);
+  itkGetMacro(MaximumSmoothingIterations, SizeValueType);
 
   /** Select whether midpoint (intermode=true) or minimum between
      peaks is used. */
@@ -111,7 +111,7 @@ protected:
   IntermodesThresholdImageFilter()
   {
     auto calculator = CalculatorType::New();
-    calculator->SetMaximumSmoothingIterations(m_MaxSmoothingIterations);
+    calculator->SetMaximumSmoothingIterations(m_MaximumSmoothingIterations);
     calculator->SetUseInterMode(m_UseInterMode);
     Superclass::SetCalculator(calculator);
   }
@@ -131,7 +131,7 @@ protected:
   GenerateData() override
   {
     auto calculator = static_cast<CalculatorType *>(this->Superclass::GetModifiableCalculator());
-    calculator->SetMaximumSmoothingIterations(m_MaxSmoothingIterations);
+    calculator->SetMaximumSmoothingIterations(m_MaximumSmoothingIterations);
     calculator->SetUseInterMode(m_UseInterMode);
     this->Superclass::GenerateData();
   }
@@ -141,12 +141,12 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-    os << indent << "MaxSmoothingIterations: " << m_MaxSmoothingIterations << std::endl;
-    os << indent << "UseIterMode: " << m_UseInterMode << std::endl;
+    os << indent << "MaximumSmoothingIterations: " << m_MaximumSmoothingIterations << std::endl;
+    os << indent << "UseInterMode: " << m_UseInterMode << std::endl;
   }
 
 private:
-  SizeValueType m_MaxSmoothingIterations{ 1000 };
+  SizeValueType m_MaximumSmoothingIterations{ 1000 };
   bool          m_UseInterMode{ true };
 };
 
