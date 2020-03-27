@@ -93,31 +93,15 @@ public:
   using HistogramType = typename Superclass::HistogramType;
   using CalculatorType = IntermodesThresholdCalculator<HistogramType, InputPixelType>;
 
-  void
-  SetMaximumSmoothingIterations(SizeValueType maxSmoothingIterations)
-  {
-    m_IntermodesCalculator->SetMaximumSmoothingIterations(maxSmoothingIterations);
-  }
 
-  SizeValueType
-  GetMaximumSmoothingIterations()
-  {
-    return (m_IntermodesCalculator->GetMaximumSmoothingIterations());
-  }
+  itkSetMacro(MaxSmoothingIterations, SizeValueType);
+  itkGetMacro(MaxSmoothingIterations, SizeValueType);
 
   /** Select whether midpoint (intermode=true) or minimum between
      peaks is used. */
-  void
-  SetUseInterMode(bool useIntermode)
-  {
-    m_IntermodesCalculator->SetUseInterMode(useIntermode);
-  }
-
-  bool
-  GetUseInterMode()
-  {
-    return (m_IntermodesCalculator->GetUseInterMode());
-  }
+  itkSetMacro(UseInterMode, bool);
+  itkGetConstReferenceMacro(UseInterMode, bool);
+  itkBooleanMacro(UseInterMode);
 
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
@@ -126,23 +110,44 @@ public:
 protected:
   IntermodesThresholdImageFilter()
   {
-    m_IntermodesCalculator = CalculatorType::New();
-    this->SetCalculator(m_IntermodesCalculator);
-    m_IntermodesCalculator->SetMaximumSmoothingIterations(10000);
-    m_IntermodesCalculator->SetUseInterMode(true);
+    auto calculator = CalculatorType::New();
+    calculator->SetMaximumSmoothingIterations(m_MaxSmoothingIterations);
+    calculator->SetUseInterMode(m_UseInterMode);
+    Superclass::SetCalculator(calculator);
   }
   ~IntermodesThresholdImageFilter() override = default;
+
+  void
+  VerifyPreconditions() ITKv5_CONST override
+  {
+    Superclass::VerifyPreconditions();
+    if (dynamic_cast<const CalculatorType *>(Superclass::GetCalculator()) == nullptr)
+    {
+      itkExceptionMacro(<< "Invalid IntermodesCalculator.");
+    }
+  }
+
+  void
+  GenerateData() override
+  {
+    auto calculator = static_cast<CalculatorType *>(this->Superclass::GetModifiableCalculator());
+    calculator->SetMaximumSmoothingIterations(m_MaxSmoothingIterations);
+    calculator->SetUseInterMode(m_UseInterMode);
+    this->Superclass::GenerateData();
+  }
+
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override
   {
     Superclass::PrintSelf(os, indent);
-
-    itkPrintSelfObjectMacro(IntermodesCalculator);
+    os << indent << "MaxSmoothingIterations: " << m_MaxSmoothingIterations << std::endl;
+    os << indent << "UseIterMode: " << m_UseInterMode << std::endl;
   }
 
 private:
-  typename CalculatorType::Pointer m_IntermodesCalculator;
+  SizeValueType m_MaxSmoothingIterations{ 1000 };
+  bool          m_UseInterMode{ true };
 };
 
 } // end namespace itk
