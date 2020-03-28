@@ -20,6 +20,7 @@
 #define itkHistogramThresholdImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkImageToHistogramFilter.h"
 #include "itkHistogram.h"
 #include "itkHistogramThresholdCalculator.h"
 
@@ -111,6 +112,9 @@ public:
   using CalculatorType = HistogramThresholdCalculator<HistogramType, InputPixelType>;
   using CalculatorPointer = typename CalculatorType::Pointer;
 
+  using HistogramGeneratorType = Statistics::ImageToHistogramFilter<InputImageType>;
+  using HistogramGeneratorPointer = typename HistogramGeneratorType::Pointer;
+
   /** Image related type alias. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int OutputImageDimension = OutputImageType::ImageDimension;
@@ -197,6 +201,9 @@ protected:
   void
   GenerateData() override;
 
+  /** Set up the histogram generator. */
+  void
+  SetUpHistogramGenerator(HistogramGeneratorPointer histogramGenerator);
 
   void
   VerifyPreconditions() ITKv5_CONST override
