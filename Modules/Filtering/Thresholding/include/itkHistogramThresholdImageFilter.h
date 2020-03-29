@@ -201,10 +201,6 @@ protected:
   void
   GenerateData() override;
 
-  /** Set up the histogram generator. */
-  void
-  SetUpHistogramGenerator(HistogramGeneratorPointer histogramGenerator);
-
   void
   VerifyPreconditions() ITKv5_CONST override
   {
@@ -216,6 +212,10 @@ protected:
   }
 
 private:
+  /** Set up the histogram generator. */
+  void
+  SetUpHistogramGenerator(HistogramGeneratorPointer histogramGenerator);
+
   OutputPixelType   m_InsideValue;
   OutputPixelType   m_OutsideValue;
   InputPixelType    m_Threshold;
