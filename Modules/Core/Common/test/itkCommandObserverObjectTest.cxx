@@ -283,6 +283,28 @@ testDeleteEventThrow()
   return EXIT_SUCCESS;
 }
 
+int
+testLambdaCommand()
+{
+  // check the case where an exception in thrown in the DeleteEvent
+  itk::Object::Pointer o = itk::Object::New();
+
+  int cnt = 0;
+  o->AddObserver(itk::AnyEvent(), [&cnt](const itk::EventObject &) { ++cnt; });
+
+  auto & objRef = *o.GetPointer();
+  o->AddObserver(itk::AnyEvent(), [&objRef](const itk::EventObject & event) {
+    std::cout << "Object: " << objRef.GetNameOfClass() << " Event: " << event << std::endl;
+  });
+
+  o->InvokeEvent(itk::AnyEvent());
+
+  ITK_TEST_EXPECT_EQUAL(1, cnt);
+
+  return EXIT_SUCCESS;
+}
+
+
 } // end namespace
 
 
@@ -295,6 +317,7 @@ itkCommandObserverObjectTest(int, char *[])
   ret &= (testCommandConstObject() == EXIT_SUCCESS);
   ret &= (testCommandRecursiveObject() == EXIT_SUCCESS);
   ret &= (testDeleteEventThrow() == EXIT_SUCCESS);
+  ret &= (testLambdaCommand() == EXIT_SUCCESS);
 
   return ret ? EXIT_SUCCESS : EXIT_FAILURE;
 }
