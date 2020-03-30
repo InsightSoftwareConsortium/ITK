@@ -71,4 +71,30 @@ CStyleCommand::Execute(const Object * caller, const EventObject & event)
     m_ConstCallback(caller, event, m_ClientData);
   }
 }
+
+
+FunctionCommand::FunctionCommand() = default;
+
+FunctionCommand::~FunctionCommand() = default;
+
+void
+FunctionCommand::SetCallback(FunctionObjectType f)
+{
+  m_FunctionObject = std::move(f);
+}
+
+
+void
+FunctionCommand::Execute(Object *, const EventObject & event)
+{
+  m_FunctionObject(event);
+}
+
+void
+FunctionCommand::Execute(const Object *, const EventObject & event)
+{
+  m_FunctionObject(event);
+}
+
+
 } // namespace itk
