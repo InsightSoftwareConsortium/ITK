@@ -621,7 +621,10 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
       case 12:
       case 16:
       case 32:
-        depixdata.SetVR( VR::OW );
+        if( depixdata.GetSequenceOfFragments() )
+          depixdata.SetVR( VR::OB );
+        else
+          depixdata.SetVR( VR::OW );
         break;
       default:
         assert( 0 && "should not happen" );
