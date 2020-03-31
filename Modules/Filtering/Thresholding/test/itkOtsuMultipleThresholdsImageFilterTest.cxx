@@ -22,58 +22,64 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
+#include "itkTestingMacros.h"
+
 
 int
 itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFile outputImageFile";
-    std::cerr << " numberOfHistogramBins";
-    std::cerr << " numberOfThresholds";
-    std::cerr << " labelOffset";
-    std::cerr << " [valleyEmphasis]";
-    std::cerr << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
+              << " outputImageFile"
+              << " numberOfHistogramBins"
+              << " numberOfThresholds"
+              << " labelOffset"
+              << " [valleyEmphasis]"
+              << " [returnBinMidpoint]" << std::endl;
     return EXIT_FAILURE;
   }
+
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = short;
   using InternalPixelType = unsigned short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image<InputPixelType, 2>;
-  using InternalImageType = itk::Image<InternalPixelType, 2>;
-  using OutputImageType = itk::Image<OutputPixelType, 2>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using InternalImageType = itk::Image<InternalPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using FilterType = itk::OtsuMultipleThresholdsImageFilter<InputImageType, InternalImageType>;
   using RescaleType = itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
 
+  // Set up the reader
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  using FilterType = itk::OtsuMultipleThresholdsImageFilter<InputImageType, InternalImageType>;
   FilterType::Pointer filter = FilterType::New();
-
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OtsuMultipleThresholdsImageFilter, ImageToImageFilter);
-
-  RescaleType::Pointer rescaler = RescaleType::New();
-  WriterType::Pointer  writer = WriterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  // Set up the reader
-  reader->SetFileName(argv[1]);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OtsuMultipleThresholdsImageFilter, ImageToImageFilter);
 
+  // Set up the filter parameters
 
 #if defined(ITKV4_COMPATIBILITY)
   ITK_TEST_EXPECT_TRUE(filter->GetReturnBinMidpoint());
 #else
   ITK_TEST_EXPECT_TRUE(!filter->GetReturnBinMidpoint());
 #endif
-  filter->ReturnBinMidpointOff();
 
-  // Set up the filter parameters
-  filter->SetInput(reader->GetOutput());
+  filter->ReturnBinMidpointOff();
 
   auto numberOfHistogramBins = static_cast<itk::SizeValueType>(std::stoi(argv[3]));
   filter->SetNumberOfHistogramBins(numberOfHistogramBins);
@@ -99,22 +105,39 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
     ITK_TEST_SET_GET_BOOLEAN(filter, ReturnBinMidpoint, returnBinMidpoint);
   }
 
+  FilterType::ThresholdVectorType thresholds = filter->GetThresholds();
+  std::cout << "filter->GetThresholds(): ";
+  for (unsigned int i = 0; i < thresholds.size(); i++)
+  {
+    std::cout << itk::NumericTraits<FilterType::InputPixelType>::PrintType(thresholds[i]) << " ";
+  }
+  std::cout << std::endl;
+
+
+  filter->SetInput(reader->GetOutput());
+
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   // Rescale the image so that it can be seen.  The output of the
   // filter contains labels that are numbered sequentially, so the
   // image looks nearly uniform unless there are a large number of labels.
+  //
+  using RescaleType = itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
+  RescaleType::Pointer rescaler = RescaleType::New();
   rescaler->SetInput(filter->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   // Write out the test image
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(rescaler->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

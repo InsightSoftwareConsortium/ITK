@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkIntermodesThresholdImageFilter.h"
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -26,52 +25,103 @@
 int
 itkIntermodesMaskedThresholdImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc != 9)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFile maskImageFile outputImageFile";
-    std::cerr << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
+              << " maskImageFile"
+              << " outputImageFile"
+              << " maskOutput"
+              << " maskValue"
+              << " maximumSmoothingIterations"
+              << " useInterMode"
+              << " expectedThreshold" << std::endl;
     return EXIT_FAILURE;
   }
+
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image<InputPixelType, 2>;
-  using OutputImageType = itk::Image<OutputPixelType, 2>;
-
-  using FilterType = itk::IntermodesThresholdImageFilter<InputImageType, OutputImageType, OutputImageType>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  using MaskReaderType = itk::ImageFileReader<OutputImageType>;
-
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
   ReaderType::Pointer reader = ReaderType::New();
-  FilterType::Pointer filter = FilterType::New();
-  WriterType::Pointer writer = WriterType::New();
+  reader->SetFileName(argv[1]);
 
-  MaskReaderType::Pointer maskreader = MaskReaderType::New();
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  using MaskReaderType = itk::ImageFileReader<OutputImageType>;
+  MaskReaderType::Pointer maskReader = MaskReaderType::New();
+  maskReader->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(maskReader->Update());
+
+
+  using FilterType = itk::IntermodesThresholdImageFilter<InputImageType, OutputImageType, OutputImageType>;
+  FilterType::Pointer filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, IntermodesThresholdImageFilter, HistogramThresholdImageFilter);
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  filter->SetInsideValue(255);
-  ITK_TEST_SET_GET_VALUE(255, filter->GetInsideValue());
+  auto insideValue = static_cast<FilterType::OutputPixelType>(255);
+  filter->SetInsideValue(insideValue);
+  ITK_TEST_SET_GET_VALUE(insideValue, filter->GetInsideValue());
 
-  filter->SetOutsideValue(0);
-  ITK_TEST_SET_GET_VALUE(0, filter->GetOutsideValue());
+  auto outsideValue = static_cast<FilterType::OutputPixelType>(0);
+  filter->SetOutsideValue(outsideValue);
+  ITK_TEST_SET_GET_VALUE(outsideValue, filter->GetOutsideValue());
 
-  reader->SetFileName(argv[1]);
-  maskreader->SetFileName(argv[2]);
+  bool maskOutput = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, MaskOutput, maskOutput);
+
+  auto maskValue = static_cast<FilterType::MaskPixelType>(std::stod(argv[5]));
+  filter->SetMaskValue(maskValue);
+  ITK_TEST_SET_GET_VALUE(maskValue, filter->GetMaskValue());
+
+  unsigned long maximumSmoothingIterations = std::stoi(argv[6]);
+  filter->SetMaximumSmoothingIterations(maximumSmoothingIterations);
+  ITK_TEST_SET_GET_VALUE(maximumSmoothingIterations, filter->GetMaximumSmoothingIterations());
+
+  bool useInterMode = static_cast<bool>(std::stoi(argv[7]));
+  filter->SetUseInterMode(useInterMode);
+  ITK_TEST_SET_GET_VALUE(useInterMode, filter->GetUseInterMode());
+
+
   filter->SetInput(reader->GetOutput());
-  filter->SetMaskImage(maskreader->GetOutput());
-  // filter->SetNumberOfHistogramBins (std::stoi(argv[3]));
-  writer->SetInput(filter->GetOutput());
-  filter->Update();
-  std::cout << "Computed Threshold is: "
-            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold()) << std::endl;
-  writer->SetFileName(argv[3]);
-  writer->Update();
+  filter->SetMaskImage(maskReader->GetOutput());
+  // filter->SetNumberOfHistogramBins(std::stoi(argv[3]));
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
+  // Regression test: compare computed threshold
+  FilterType::InputPixelType expectedThreshold = std::stod(argv[8]);
+  FilterType::InputPixelType resultThreshold = filter->GetThreshold();
+  if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetThreshold()" << std::endl;
+    std::cerr << "Expected: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(expectedThreshold)
+              << ", but got: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(resultThreshold)
+              << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Write output image
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(filter->GetOutput());
+  writer->SetFileName(argv[3]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

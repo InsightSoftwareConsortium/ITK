@@ -127,15 +127,12 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   labelerFilter->SetLabelOffset(offset);
   ITK_TEST_SET_GET_VALUE(offset, labelerFilter->GetLabelOffset());
 
-  try
-  {
-    labelerFilter->Update();
-    labelerFilter->SetFunctor(labelerFilter->GetFunctor());
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(labelerFilter->SetFunctor(labelerFilter->GetFunctor()));
+
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(labelerFilter->Update());
+
 
   // Check if labels coincide with expected labels
   bool passed = true;
@@ -162,7 +159,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
 
   if (!passed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cout << "Test failed!" << std::endl;
     std::cout << labelerFilter << std::endl;
     return EXIT_FAILURE;
   }
@@ -185,11 +182,11 @@ itkThresholdLabelerImageFilterTest(int, char *[])
 
   if (testStatusRealTypeThresholds == EXIT_SUCCESS && testStatusNotRealTypeThresholds == EXIT_SUCCESS)
   {
-    std::cout << "TEST FINISHED SUCCESSFULLY!" << std::endl;
+    std::cout << "Test finished." << std::endl;
   }
   else
   {
-    std::cout << "TEST FAILED!" << std::endl;
+    std::cerr << "Test failed!" << std::endl;
     testStatus = EXIT_FAILURE;
   }
 

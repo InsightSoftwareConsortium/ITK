@@ -20,73 +20,78 @@
 #include "itkImageFileWriter.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
-itkBinaryThresholdImageFilterTest2(int ac, char * av[])
+itkBinaryThresholdImageFilterTest2(int argc, char * argv[])
 {
-  if (ac < 4)
+  if (argc != 4)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage1 InputImage2 OutputImage\n";
-    return -1;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage1"
+              << " inputImage2"
+              << " outputImage" << std::endl;
+    return EXIT_FAILURE;
   }
 
   // Threshold one image based on the statistics of another image
   //
-  //
 
   // Define the dimension of the images
-  constexpr unsigned int ImageDimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   // Declare the types of the images
-  using ImageType = itk::Image<unsigned char, ImageDimension>;
-  using FloatImageType = itk::Image<double, ImageDimension>;
+  using InputPixelType = double;
+  using OutputPixelType = unsigned char;
 
-  // File reader and writer
-  using ReaderType = itk::ImageFileReader<FloatImageType>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+
+  using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   ReaderType::Pointer reader2 = ReaderType::New();
-  reader2->SetFileName(av[2]);
+  reader2->SetFileName(argv[2]);
 
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(av[3]);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
+
 
   // Declare the filter types
-  using StatisticsType = itk::StatisticsImageFilter<FloatImageType>;
-  using ThresholdType = itk::BinaryThresholdImageFilter<FloatImageType, ImageType>;
+  using StatisticsType = itk::StatisticsImageFilter<InputImageType>;
+  using ThresholdType = itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>;
 
   // Create the filters
   StatisticsType::Pointer statistics = StatisticsType::New();
   ThresholdType::Pointer  threshold = ThresholdType::New();
 
-  // connect the standard pipeline connections
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(threshold, BinaryThresholdImageFilter, UnaryFunctorImageFilter);
+
+
+  // Set up the standard pipeline connections
   statistics->SetInput(reader2->GetOutput());
   threshold->SetInput(reader->GetOutput());
 
-  // print before assigning thresholds
-  threshold->Print(std::cout);
-
-  // now connect the inputs and outputs that are decorated scalars
   threshold->SetUpperThresholdInput(statistics->GetMeanOutput());
-  threshold->SetLowerThresholdInput(statistics->GetMinimumOutput());
+  ITK_TEST_SET_GET_VALUE(statistics->GetMeanOutput(), threshold->GetUpperThresholdInput());
 
-  // connect the writer
+  threshold->SetLowerThresholdInput(statistics->GetMinimumOutput());
+  ITK_TEST_SET_GET_VALUE(statistics->GetMinimumOutput(), threshold->GetLowerThresholdInput());
+
+
+  // Write the output
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(argv[3]);
   writer->SetInput(threshold->GetOutput());
 
-  // Execute the filter
-  try
-  {
-    writer->Update();
-  }
-  catch (...)
-  {
-    std::cerr << "Caught an unexpected exception. " << std::endl;
-    std::cerr << "Test failed. " << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

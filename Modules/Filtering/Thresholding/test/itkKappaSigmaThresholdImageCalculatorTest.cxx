@@ -24,72 +24,67 @@
 int
 itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc != 6)
   {
-    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << std::endl;
-    std::cerr << "inputImage numberOfIterations sigmaFactor expectedThreshold" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage"
+              << " maskValue"
+              << " sigmaFactor"
+              << " numberOfIterations"
+              << " expectedThreshold" << std::endl;
     return EXIT_FAILURE;
   }
 
-  using PixelType = signed short;
   constexpr unsigned int Dimension = 2;
+
+  using PixelType = signed short;
 
   using ImageType = itk::Image<PixelType, Dimension>;
   using MaskType = itk::Image<unsigned char, Dimension>;
+
   using ReaderType = itk::ImageFileReader<ImageType>;
-
   ReaderType::Pointer reader = ReaderType::New();
-
   reader->SetFileName(argv[1]);
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  // Create and initialize the calculator
   using CalculatorType = itk::KappaSigmaThresholdImageCalculator<ImageType, MaskType>;
-
-  std::cout << "Testing Kappa Sigma Image Calulator:\n";
-
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  /* Create and initialize the calculator */
   CalculatorType::Pointer calculator = CalculatorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, KappaSigmaThresholdImageCalculator, Object);
+
+
+  auto maskValue = static_cast<CalculatorType::MaskPixelType>(std::stod(argv[3]));
+  calculator->SetMaskValue(maskValue);
+  ITK_TEST_SET_GET_VALUE(maskValue, calculator->GetMaskValue());
+
+  auto sigmaFactor = static_cast<double>(std::stod(argv[4]));
+  calculator->SetSigmaFactor(sigmaFactor);
+  ITK_TEST_SET_GET_VALUE(sigmaFactor, calculator->GetSigmaFactor());
+
+  auto numberOfIterations = static_cast<unsigned>(std::stoi(argv[5]));
+  calculator->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, calculator->GetNumberOfIterations());
+
   calculator->SetImage(reader->GetOutput());
-  calculator->SetNumberOfIterations(std::stoi(argv[2]));
-  calculator->SetSigmaFactor(std::stod(argv[3]));
-  calculator->SetMaskValue(255);
-
-  // Exercise Get methods
-  std::cout << "Number of iterations = " << calculator->GetNumberOfIterations() << std::endl;
-  std::cout << "Sigma factor         = " << calculator->GetSigmaFactor() << std::endl;
-  std::cout << "Mask value           = " << calculator->GetMaskValue() << std::endl;
-
 
   calculator->Compute();
 
-  PixelType threshold = calculator->GetOutput();
-
-  std::cout << "calculator: " << calculator;
-  std::cout << "Threshold: " << threshold;
-  std::cout << std::endl;
-
-  // Note that this notion of "expected" value is only for regression testing of the class.
-  // In a typical usage of this class, you will simply take the calculator->GetOutput().
-  PixelType expectedThreshold = std::stoi(argv[4]);
-
-  if (itk::Math::abs(expectedThreshold - threshold) > 1e-3)
+  // Regression test: compare computed threshold
+  CalculatorType::InputPixelType expectedThreshold = std::stod(argv[5]);
+  CalculatorType::InputPixelType resultThreshold = calculator->GetOutput();
+  double                         tolerance = 1e-3;
+  if (!itk::Math::FloatAlmostEqual((double)expectedThreshold, (double)resultThreshold, 10, tolerance))
   {
-    std::cerr << "Test failed" << std::endl;
-    std::cerr << "Expected threshold = " << expectedThreshold << std::endl;
-    std::cerr << "bu Found threshold = " << threshold << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetOutput()" << std::endl;
+    std::cerr << "Expected: " << itk::NumericTraits<CalculatorType::InputPixelType>::PrintType(expectedThreshold)
+              << ", but got: " << itk::NumericTraits<CalculatorType::InputPixelType>::PrintType(resultThreshold)
+              << std::endl;
     return EXIT_FAILURE;
   }
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

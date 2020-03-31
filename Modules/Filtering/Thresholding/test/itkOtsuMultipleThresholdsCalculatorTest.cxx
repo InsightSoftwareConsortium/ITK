@@ -19,14 +19,24 @@
 #include "itkOtsuMultipleThresholdsCalculator.h"
 #include "itkTestingMacros.h"
 
+
 int
-itkOtsuMultipleThresholdsCalculatorTest(int, char *[])
+itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " valleyEmphasis" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   using MeasurementType = float;
   using HistogramType = itk::Statistics::Histogram<MeasurementType>;
+
   HistogramType::Pointer histogram = HistogramType::New();
 
-  // initialize histogram
+  // Initialize histogram
   HistogramType::SizeType              size;
   HistogramType::MeasurementVectorType lowerBound;
   HistogramType::MeasurementVectorType upperBound;
@@ -40,7 +50,7 @@ itkOtsuMultipleThresholdsCalculatorTest(int, char *[])
 
   histogram->Initialize(size, lowerBound, upperBound);
 
-  // create vector of values.
+  // Create vector of values
   using ValuesVectorType = std::vector<MeasurementType>;
   ValuesVectorType values;
   values.push_back(8.0);
@@ -50,22 +60,22 @@ itkOtsuMultipleThresholdsCalculatorTest(int, char *[])
 
   MeasurementType range = 2.0;
 
-  // create histogram with samples at values +- range.
+  // Create histogram with samples at values +- range
   for (HistogramType::Iterator iter = histogram->Begin(); iter != histogram->End(); ++iter)
   {
     HistogramType::MeasurementType measurement = iter.GetMeasurementVector()[0];
 
-    for (float value : values)
+    for (ValuesVectorType::const_iterator viter = values.begin(); viter != values.end(); ++viter)
     {
-      if (measurement > (value - range) && measurement < (value + range))
+      if (measurement > (*viter - range) && measurement < (*viter + range))
       {
         iter.SetFrequency(1);
       }
     }
   }
 
-  // Compute numberOfValues - 1 thresholds.
-  size_t numberOfThresholds = values.size() - 1;
+  // Compute numberOfValues - 1 thresholds
+  auto numberOfThresholds = values.size() - 1;
 
   using OtsuMultipleThresholdCalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
 
@@ -80,37 +90,32 @@ itkOtsuMultipleThresholdsCalculatorTest(int, char *[])
   otsuThresholdCalculator->SetInputHistogram(histogram);
   otsuThresholdCalculator->SetNumberOfThresholds(numberOfThresholds);
 
-  try
-  {
-    otsuThresholdCalculator->Compute();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-  }
-  otsuThresholdCalculator->Print(std::cout);
+  otsuThresholdCalculator->SetInputHistogram(histogram.GetPointer());
+
+  otsuThresholdCalculator->SetNumberOfThresholds(numberOfThresholds);
+  ITK_TEST_SET_GET_VALUE(numberOfThresholds, otsuThresholdCalculator->GetNumberOfThresholds());
+
+  bool valleyEmphasis = std::stoi(argv[1]);
+  ITK_TEST_SET_GET_BOOLEAN(otsuThresholdCalculator, ValleyEmphasis, valleyEmphasis);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(otsuThresholdCalculator->Compute());
+
 
   OtsuMultipleThresholdCalculatorType::OutputType otsuThresholds = otsuThresholdCalculator->GetOutput();
 
-  bool passed = true;
-
-  // Check if thresholds correctly separate values.
+  // Check if thresholds correctly separate values
   for (unsigned long j = 0; j < numberOfThresholds; ++j)
   {
     if (otsuThresholds[j] < values[j] || otsuThresholds[j] > values[j + 1])
     {
-      passed = false;
-      break;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in GetOutput() at threshold: " << j << std::endl;
+      std::cerr << "Expected value to be between: " << values[j] << " and " << values[j + 1]
+                << ", but got: " << otsuThresholds[j] << std::endl;
+      return EXIT_FAILURE;
     }
   }
 
-  if (!passed)
-  {
-    std::cout << "Test failed." << std::endl;
-    std::cout << otsuThresholdCalculator << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
