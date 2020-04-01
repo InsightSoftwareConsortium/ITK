@@ -191,7 +191,7 @@ RelabelComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       if (outputLabel == NumericTraits<OutputPixelType>::max())
       {
-        itkExceptionMacro("Output range exceeded!");
+        itkExceptionMacro("Output voxel range exceeded for relabeling.  Too many objects of sufficient size found!");
       }
       // map for input labels to output labels (Note we use i+1 in the
       // map since index 0 is the background)
