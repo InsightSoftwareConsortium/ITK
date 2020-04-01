@@ -299,7 +299,7 @@ def GetImageViewFromArray(arr, is_vector=False):
     """
     return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector)
 
-image_view_from_array = GetImageFromArray
+image_view_from_array = GetImageViewFromArray
 
 def _GetArrayFromVnlObject(vnl_object, function):
     """Get an array with the content of vnl_object
