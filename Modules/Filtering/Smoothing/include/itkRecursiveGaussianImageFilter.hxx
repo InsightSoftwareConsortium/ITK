@@ -342,7 +342,29 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
   Superclass::PrintSelf(os, indent);
 
   os << "Sigma: " << m_Sigma << std::endl;
-  os << "Order: " << m_Order << std::endl;
+  switch (m_Order)
+  {
+    case GaussianOrderEnum::ZeroOrder:
+    {
+      os << "Order: Zero" << std::endl;
+      break;
+    }
+    case GaussianOrderEnum::FirstOrder:
+    {
+      os << "Order: First" << std::endl;
+      break;
+    }
+    case GaussianOrderEnum::SecondOrder:
+    {
+      os << "Order: Second" << std::endl;
+      break;
+    }
+    default:
+    {
+      os << "Order: Undefined" << std::endl;
+      break;
+    }
+  }
   os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
 }
 } // end namespace itk
