@@ -439,9 +439,7 @@ def image_from_xarray(data_array):
     if ordered_dims != tuple(spatial_dims):
         raise ValueError('Spatial dimensions do not have the required order: ' + str(ordered_dims))
 
-    is_vector = False
-    if spatial_dimension < len(data_array.dims):
-        is_vector = True
+    is_vector = 'c' in data_array.dims
     itk_image = itk.image_view_from_array(data_array.values, is_vector=is_vector)
 
     origin = [0.0]*spatial_dimension
