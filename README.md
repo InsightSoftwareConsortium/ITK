@@ -99,5 +99,5 @@ To cite ITK, please reference, as appropriate:
 
 Once your work has been published, please create a pull request to add
 the publication to the
-[ITKBibliography.bib](https://github.com/InsightSoftwareConsortium/insightsoftwareconsortium.org/blob/insightsoftwareconsortium-org/citations/ITKBibliography.bib)
+[ITKBibliography.bib](https://github.com/InsightSoftwareConsortium/insightsoftwareconsortium.org/blob/master/static/citations-visualization/ITKBibliography.bib)
 file.
