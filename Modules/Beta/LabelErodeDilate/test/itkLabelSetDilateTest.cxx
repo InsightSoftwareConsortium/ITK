@@ -22,11 +22,11 @@
 #include "itkLabelSetDilateImageFilter.h"
 #include "read_info.cxx"
 
-template <class MaskPixType, int dim>
+template <class MaskPixType, int Dim>
 int
 doDilate(char * In, char * Out, int radius)
 {
-  using MaskImType = typename itk::Image<MaskPixType, dim>;
+  using MaskImType = typename itk::Image<MaskPixType, Dim>;
 
   // load
   using ReaderType = typename itk::ImageFileReader<MaskImType>;
