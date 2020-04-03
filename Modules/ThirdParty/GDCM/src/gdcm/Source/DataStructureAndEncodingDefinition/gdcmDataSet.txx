@@ -421,7 +421,9 @@ namespace gdcm_ns
         }
       else if( /*pe.GetLastElement().GetTag() == Tag(0xffd8,0xffe0) &&*/ de.GetTag() == Tag(0x7fe0,0x0010) && de.IsUndefinedLength() )
         {
+        // Bug_Siemens_PrivateIconNoItem.dcm
         // PET-GE-dicomwrite-PixelDataSQUN.dcm
+        // PET-GE-dicomwrite-PixelDataSQUNv2.dcm
         // some bozo crafted an undefined length Pixel Data but is actually
         // defined length. Since inside SQ/Item it should be possible to
         // compute the proper length
