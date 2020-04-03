@@ -79,19 +79,12 @@ itkHashTableTest(int, char *[])
   lookup(Set, "apple");
   lookup(Set, "durian");
 
-  Set.begin();
-  Set.end();
-  Set.size();
-  Set.max_size();
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
   if (Set.empty())
     std::cout << "Set is empty." << std::endl;
-  Set.bucket_count();
   Set.rehash(50);
   Set.insert("the horror");
-  Set.count("apple");
-  Set.find("kiwi");
   auto                        hsh_it = Set.begin();
   HashSetType::const_iterator hst_const_it;
   hst_const_it = Set.end();
@@ -120,20 +113,13 @@ itkHashTableTest(int, char *[])
   std::cout << "june      -> " << months["june"] << std::endl;
   std::cout << "november  -> " << months["november"] << std::endl;
 
-  months.begin();
-  months.end();
-  months.size();
-  months.max_size();
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
   if (months.empty())
     std::cout << "Set is empty." << std::endl;
-  months.bucket_count();
   months.rehash(50);
   HashMapType::value_type p("psychotic break", 2);
   months.insert(p);
-  months.count("january");
-  months.find("june");
   auto                        map_it = months.begin();
   HashMapType::const_iterator map_const_it;
   map_const_it = months.end();
