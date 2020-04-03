@@ -47,14 +47,6 @@ typedef __int64             h5_stat_size_t;
 #define HDmkdir(S,M)        _mkdir(S)
 #define HDnanosleep(N, O)   Wnanosleep(N, O)
 #define HDoff_t             __int64
-/* _O_BINARY must be set in Windows to avoid CR-LF <-> LF EOL
- * transformations when performing I/O. Note that this will
- * produce Unix-style text files, though.
- *
- * Also note that the variadic macro is using a VC++ extension
- * where the comma is dropped if nothing is passed to the ellipsis.
- */
-#define HDopen(S,F,...)       _open(S, F | _O_BINARY, __VA_ARGS__)
 #define HDread(F,M,Z)       _read(F,M,Z)
 #define HDrmdir(S)          _rmdir(S)
 #define HDsetvbuf(F,S,M,Z)  setvbuf(F,S,M,(Z>1?Z:2))
@@ -76,6 +68,15 @@ typedef __int64             h5_stat_size_t;
     #define HDstrtoull(S,R,N)   _strtoui64(S,R,N)
   #endif /* H5_HAVE_STRTOULL */
 #endif /* MSC_VER < 1800 */
+
+/* _O_BINARY must be set in Windows to avoid CR-LF <-> LF EOL
+ * transformations when performing I/O. Note that this will
+ * produce Unix-style text files, though.
+ *
+ * Also note that the variadic macro is using a VC++ extension
+ * where the comma is dropped if nothing is passed to the ellipsis.
+ */
+#define HDopen(S,F,...)       _open(S, F | _O_BINARY, __VA_ARGS__)
 
 /*
  * The (void*) cast just avoids a compiler warning in H5_HAVE_VISUAL_STUDIO
@@ -106,6 +107,9 @@ struct timespec
 #define HDroundf(V)         Wroundf(V)
 #endif /* MSC_VER < 1700 */
 
+#else
+// For MinGW, etc.
+#define HDopen(S,F,M)       _open(S, F | _O_BINARY, M)
 #endif /* H5_HAVE_VISUAL_STUDIO */
 
 
