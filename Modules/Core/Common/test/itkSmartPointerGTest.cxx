@@ -142,6 +142,13 @@ TEST(SmartPointer, EmptyAndNull)
   // This does not work with VS14 2015
   //  EXPECT_TRUE( ptr == 0 );
   //  EXPECT_TRUE( 0 == ptr );
+
+  // Excercise pointer assignment
+  Derived2::Pointer      p1 = Derived2::New();
+  Derived2::Pointer      p2 = p1;
+  Derived2::ConstPointer cp1 = p1;
+  Derived2::ConstPointer cp2(p1);
+  Derived2::ConstPointer cp3{ p1 };
 }
 
 
