@@ -148,6 +148,7 @@ static const char *MSStrings[] = {
   "1.2.840.10008.5.1.1.30",  // HardcopyColorImageStorage
   "1.2.840.10008.5.1.4.1.1.4.3", // EnhancedMRColorImageStorage
   "1.2.392.200036.9125.1.1.4", // FujiPrivateMammoCRImageStorage (aka FUJI MAMMO CR Storage)
+  "1.2.840.10008.5.1.4.1.1.77.1.5.2", // Ophthalmic Photography 16 Bit Image Storage
 
   nullptr
 };
@@ -323,7 +324,7 @@ static const MSModalityType MSModalityTypes[] = {
   {"ES", 2, false},// VLEndoscopicImageStorage
   {"MG", 3, false},// BreastTomosynthesisImageStorage
   {"CR", 2, false},// FujiPrivateCRImageStorage
-  {"OP", 2, false},// OphthalmicPhotography8BitImageStorage
+  {"OP", 3, false},// OphthalmicPhotography8BitImageStorage
   {"OPT", 3, false},// OphthalmicTomographyImageStorage
   {"GM", 3, false},// VLMicroscopicImageStorage
   {"PT", 3, false},//EnhancedPETImageStorage,
@@ -339,6 +340,7 @@ static const MSModalityType MSModalityTypes[] = {
   {"HC", 2, false},// HardcopyGrayscaleImageStorage
   {"MR", 3, false},// EnhancedMRColorImageStorage
   {"MG", 2, false},// FujiPrivateMammoCRImageStorage
+  {"OP", 3, false},// OphthalmicPhotography16BitImageStorage
   {nullptr, 0, false} //MS_END
 };
 
