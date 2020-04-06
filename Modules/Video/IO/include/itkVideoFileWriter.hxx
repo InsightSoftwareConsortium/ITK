@@ -253,7 +253,7 @@ VideoFileWriter<TInputVideoStream>::InitializeOutputParameters()
   const VideoStreamType * input = this->GetInput();
 
   // Set dimensions
-  m_Dimensions.empty();
+  m_Dimensions.clear();
   typename FrameType::SizeType size = input->GetFrameLargestPossibleSpatialRegion(frameNum).GetSize();
   for (unsigned int i = 0; i < FrameType::ImageDimension; ++i)
   {

@@ -97,7 +97,7 @@ jobs:
     timeoutInMinutes: 0
     cancelTimeoutInMinutes: 300
     pool:
-      vmImage: 'Ubuntu-16.04'
+      vmImage: 'Ubuntu-18.04'
 
     steps:
       - checkout: self
