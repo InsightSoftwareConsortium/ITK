@@ -77,7 +77,6 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType                  threadId)
 {
-  RealType value;
 
   ImageRegionConstIterator<TInputImage> it(this->m_InputImage, outputRegionForThread);
   ImageRegionIterator<TOutputImage>     ot(this->m_OutputImage, outputRegionForThread);
@@ -88,13 +87,13 @@ ShiftScaleImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   // shift and scale the input pixels
   while (!it.IsAtEnd())
   {
-    value = (static_cast<RealType>(it.Get()) + m_Shift) * m_Scale;
+    const RealType value = (static_cast<RealType>(it.Get()) + m_Shift) * m_Scale;
     if (value < NumericTraits<OutputImagePixelType>::NonpositiveMin())
     {
       ot.Set(NumericTraits<OutputImagePixelType>::NonpositiveMin());
       m_ThreadUnderflow[threadId]++;
     }
-    else if (value > NumericTraits<OutputImagePixelType>::max())
+    else if (value > static_cast<RealType>(NumericTraits<OutputImagePixelType>::max()))
     {
       ot.Set(NumericTraits<OutputImagePixelType>::max());
       m_ThreadOverflow[threadId]++;
