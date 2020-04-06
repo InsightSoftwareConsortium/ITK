@@ -18,7 +18,6 @@
 
 #include "itkMetaImageIO.h"
 #include "itkSpatialOrientationAdapter.h"
-#include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMath.h"
@@ -570,24 +569,22 @@ MetaImageIO ::WriteImageInformation()
       continue;
     }
     // try for common scalar types
-    std::ostringstream        strs;
-    double                    dval = 0.0;
-    float                     fval = 0.0F;
-    long                      lval = 0L;
-    unsigned long             ulval = 0L;
-    long long                 llval = 0LL;
-    unsigned long long        ullval = 0uLL;
-    int                       ival = 0;
-    unsigned                  uval = 0;
-    short                     shval = 0;
-    unsigned short            ushval = 0;
-    char                      cval = 0;
-    unsigned char             ucval = 0;
-    bool                      bval = false;
-    std::vector<double>       vval(0);
-    itk::Matrix<double, 2, 2> m2val;
-    itk::Matrix<double, 3, 3> m3val;
-    std::string               value = "";
+    std::ostringstream  strs;
+    double              dval = 0.0;
+    float               fval = 0.0F;
+    long                lval = 0L;
+    unsigned long       ulval = 0L;
+    long long           llval = 0LL;
+    unsigned long long  ullval = 0uLL;
+    int                 ival = 0;
+    unsigned            uval = 0;
+    short               shval = 0;
+    unsigned short      ushval = 0;
+    char                cval = 0;
+    unsigned char       ucval = 0;
+    bool                bval = false;
+    std::vector<double> vval(0);
+    std::string         value = "";
     if (ExposeMetaData<std::string>(metaDict, *keyIt, value))
     {
       strs << value;
@@ -653,33 +650,11 @@ MetaImageIO ::WriteImageInformation()
       }
       strs << vval[i];
     }
-    else if (ExposeMetaData<itk::Matrix<double, 2, 2>>(metaDict, *keyIt, m2val))
+    else if (WriteMatrixInMetaData<1>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<2>(strs, metaDict, *keyIt) ||
+             WriteMatrixInMetaData<3>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<4>(strs, metaDict, *keyIt) ||
+             WriteMatrixInMetaData<5>(strs, metaDict, *keyIt) || WriteMatrixInMetaData<6>(strs, metaDict, *keyIt))
     {
-      for (unsigned int i = 0; i < 2; ++i)
-      {
-        for (unsigned int j = 0; j < 2; ++j)
-        {
-          strs << m2val[i][j];
-          if (i != 1 && j != 1)
-          {
-            strs << " ";
-          }
-        }
-      }
-    }
-    else if (ExposeMetaData<itk::Matrix<double, 3, 3>>(metaDict, *keyIt, m3val))
-    {
-      for (unsigned int i = 0; i < 3; ++i)
-      {
-        for (unsigned int j = 0; j < 3; ++j)
-        {
-          strs << m3val[i][j];
-          if (i != 2 && j != 2)
-          {
-            strs << " ";
-          }
-        }
-      }
+      // Nothing to do, everything is done in WriteMatrixInMetaData
     }
 
     value = strs.str();
