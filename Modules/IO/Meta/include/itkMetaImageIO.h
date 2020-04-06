@@ -23,6 +23,7 @@
 #include <fstream>
 #include "itkImageIOBase.h"
 #include "itkSingletonMacro.h"
+#include "itkMetaDataObject.h"
 #include "metaObject.h"
 #include "metaImage.h"
 
@@ -186,6 +187,9 @@ protected:
   ~MetaImageIO() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
+  template <unsigned int VNRows, unsigned int VNColumns = VNRows>
+  bool
+  WriteMatrixInMetaData(std::ostringstream & strs, const MetaDataDictionary & metaDict, const std::string & metaString);
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/
@@ -197,6 +201,32 @@ private:
 
   static unsigned int * m_DefaultDoublePrecision;
 };
+
+template <unsigned int VNRows, unsigned int VNColumns>
+bool
+MetaImageIO::WriteMatrixInMetaData(std::ostringstream &       strs,
+                                   const MetaDataDictionary & metaDict,
+                                   const std::string &        metaString)
+{
+  itk::Matrix<double, VNRows, VNColumns> mval;
+  if (ExposeMetaData<itk::Matrix<double, VNRows, VNColumns>>(metaDict, metaString, mval))
+  {
+    for (unsigned int i = 0; i < VNRows; ++i)
+    {
+      for (unsigned int j = 0; j < VNColumns; ++j)
+      {
+        strs << mval[i][j];
+        if (i != VNRows - 1 || j != VNColumns - 1)
+        {
+          strs << " ";
+        }
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
 } // end namespace itk
 
 #endif // itkMetaImageIO_h
