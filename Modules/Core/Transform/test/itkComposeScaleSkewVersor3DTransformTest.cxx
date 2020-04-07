@@ -535,18 +535,53 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     }
     std::cout << "SetMatrix() points check Passed !" << std::endl;
 
-#if 0 // TODO: Need to instrument inverse of ScaleVersor3DTransform
+    TransformType::Pointer tInverse = TransformType::New();
+    if (!transform->GetInverse(tInverse))
+    {
+      std::cout << "Cannot create inverse transform" << std::endl;
+      return EXIT_FAILURE;
+    }
+    std::cout << "translation: " << transform;
+    std::cout << "translationInverse: " << tInverse;
+
+    std::cout << "Testing jacobian" << std::endl;
+    TransformType::InputPointType pnt;
+    pnt[0] = 10;
+    pnt[1] = 20;
+    pnt[2] = -10;
+    TransformType::Pointer idT = TransformType::New();
+    for (unsigned int mc = 0; mc < np; ++mc)
+    {
+      std::cout << "Testing parameter #" << mc << std::endl;
+      idT->SetIdentity();
+      ParametersType params = idT->GetParameters();
+      params[mc] = 0.1;
+      idT->SetParameters(params);
+      TransformType::InputPointType pntT = idT->TransformPoint(pnt);
+      TransformType::JacobianType   jacob;
+      idT->ComputeJacobianWithRespectToParameters(pnt, jacob);
+      for (unsigned int i = 0; i < np; ++i)
       {
-      TransformType::Pointer tInverse = TransformType::New();
-      if(!transform->GetInverse(tInverse))
+        ParametersType params1 = params;
+        params1[i] += epsilon;
+        idT->SetParameters(params1);
+        TransformType::InputPointType pnt1 = idT->TransformPoint(pnt);
+        ParametersType                params2 = params;
+        params2[i] -= epsilon;
+        idT->SetParameters(params2);
+        TransformType::InputPointType pnt2 = idT->TransformPoint(pnt);
+        for (unsigned int d = 0; d < 3; ++d)
         {
-        std::cout << "Cannot create inverse transform" << std::endl;
-        return EXIT_FAILURE;
+          double pntDiff = (pnt1[d] - pnt2[d]) / (2 * epsilon);
+          if (fabs(pntDiff - jacob[d][i]) > fabs(0.1 * pntDiff))
+          {
+            std::cout << "Ideal = " << pntDiff << "  Jacob = " << jacob[d][i] << std::endl;
+            std::cout << "Jacobian not matching finite difference." << std::endl;
+            return EXIT_FAILURE;
+          }
         }
-      std::cout << "translation: " << transform;
-      std::cout << "translationInverse: " << tInverse;
       }
-#endif
+    }
   }
   std::cout << std::endl << "Test PASSED ! " << std::endl;
 

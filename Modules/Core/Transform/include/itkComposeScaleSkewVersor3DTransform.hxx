@@ -306,71 +306,111 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::PrintSelf(std::ostream 
 template <typename TParametersValueType>
 void
 ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(
-  const InputPointType & itkNotUsed(p),
-  JacobianType &         itkNotUsed(jacobian)) const
+  const InputPointType & p,
+  JacobianType &         jacobian) const
 {
-  // This document how the jacobian can be computed for certain parameters;
-  //   however, the proper computation of the scale and skew parameters is
-  //   now given or computed, so ultimately an exception is thrown.
+  // Jacobian computed via
+  // pip install sympy
+  //
+  // from sympy import Derivative, simplify
+  // from sympy import symbols
+  // from sympy.matrices import Matrix
+  // x0, x1, x2, v0, v1, v2, w, o0, o1, o2, s0, s1, s2, k0, k1, k2 =
+  //        symbols('x0 x1 x2 v0 v1 v2 w o0 o1 o2 s0 s1 s2 k0 k1 k2')
+  // M = Matrix([[1-2*(v1*v1+v2*v2), 2*(v0*v1-v2*w), 2*(v0*v2+v1*w), o0],
+  //        [2*(v0*v1+v2*w), 1-2*(v0*v0+v2*v2), 2*(v1*v2-v0*w), o1],
+  //        [2*(v0*v2-v1*w), 2*(v1*v2+v0*w), 1-2*(v0*v0+v1*v1), o2],
+  //        [0, 0, 0, 1]])
+  // # Quaterion to Matrix from:
+  // #  https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
+  // S = Matrix([[s0, 0, 0, 0], [0, s1, 0, 0], [0, 0, s2, 0], [0, 0, 0, 1]])
+  // K = Matrix([[1, k0, k1, 0], [0, 1, k2, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
+  // x = Matrix(4,1,[x0,x1,x2,1])
+  // f = M*S*K*x
+  // fx = Derivative(f,v1)  # substitute v0, v2, s0 etc for v1 to list all equs.
+  // simplify(fx)
+  //
 
-  /*
   using ValueType = typename VersorType::ValueType;
 
   // compute derivatives with respect to rotation
-  const ValueType vx = this->GetVersor().GetX();
-  const ValueType vy = this->GetVersor().GetY();
-  const ValueType vz = this->GetVersor().GetZ();
-  const ValueType vw = this->GetVersor().GetW();
+  const ValueType v0 = this->GetVersor().GetX();
+  const ValueType v1 = this->GetVersor().GetY();
+  const ValueType v2 = this->GetVersor().GetZ();
+  const ValueType w = this->GetVersor().GetW();
+
+  const ValueType s0 = this->GetScale()[0];
+  const ValueType s1 = this->GetScale()[1];
+  const ValueType s2 = this->GetScale()[2];
+
+  const ValueType k0 = this->GetSkew()[0];
+  const ValueType k1 = this->GetSkew()[1];
+  const ValueType k2 = this->GetSkew()[2];
+
+  const double x0 = p[0] - this->GetCenter()[0];
+  const double x1 = p[1] - this->GetCenter()[1];
+  const double x2 = p[2] - this->GetCenter()[2];
 
   jacobian.SetSize(3, this->GetNumberOfLocalParameters());
   jacobian.Fill(0.0);
 
-  const double px = p[0] - this->GetCenter()[0];
-  const double py = p[1] - this->GetCenter()[1];
-  const double pz = p[2] - this->GetCenter()[2];
-
-  const double vxx = vx * vx;
-  const double vyy = vy * vy;
-  const double vzz = vz * vz;
-  const double vww = vw * vw;
-
-  const double vxy = vx * vy;
-  const double vxz = vx * vz;
-  const double vxw = vx * vw;
-
-  const double vyz = vy * vz;
-  const double vyw = vy * vw;
-
-  const double vzw = vz * vw;
+  double v0v0 = v0 * v0;
+  double v0v1 = v0 * v1;
+  double v0v2 = v0 * v2;
+  double v0w = v0 * w;
+  double v1v1 = v1 * v1;
+  double v1v2 = v1 * v2;
+  double v1w = v1 * w;
+  double v2v2 = v2 * v2;
+  double v2w = v2 * w;
 
   // compute Jacobian with respect to quaternion parameters
-  jacobian[0][0] = 2.0 * ((vyw + vxz) * py + (vzw - vxy) * pz) / vw;
-  jacobian[1][0] = 2.0 * ((vyw - vxz) * px - 2 * vxw * py + (vxx - vww) * pz) / vw;
-  jacobian[2][0] = 2.0 * ((vzw + vxy) * px + (vww - vxx) * py - 2 * vxw * pz) / vw;
+  jacobian[0][0] = 2 * s1 * v1 * x1 + x2 * (2 * k2 * s1 * v1 + 2 * s2 * v2);
+  jacobian[1][0] =
+    2 * s0 * v1 * x0 + x1 * (2 * k0 * s0 * v1 - 4 * s1 * v0) - x2 * (-2 * k1 * s0 * v1 + 4 * k2 * s1 * v0 + 2 * s2 * w);
+  jacobian[2][0] =
+    2 * s0 * v2 * x0 + 2 * x1 * (k0 * s0 * v2 + s1 * w) + x2 * (2 * k1 * s0 * v2 + 2 * k2 * s1 * w - 4 * s2 * v0);
 
-  jacobian[0][1] = 2.0 * (-2 * vyw * px + (vxw + vyz) * py + (vww - vyy) * pz) / vw;
-  jacobian[1][1] = 2.0 * ((vxw - vyz) * px + (vzw + vxy) * pz) / vw;
-  jacobian[2][1] = 2.0 * ((vyy - vww) * px + (vzw - vxy) * py - 2 * vyw * pz) / vw;
+  jacobian[0][1] = -4 * s0 * v1 * x0 - x1 * (4 * k0 * s0 * v1 - 2 * s1 * v0) +
+                   x2 * (-4 * k1 * s0 * v1 + 2 * k2 * s1 * v0 + 2 * s2 * w);
+  jacobian[1][1] = 2 * k0 * s0 * v0 * x1 + 2 * s0 * v0 * x0 - x2 * (-2 * k1 * s0 * v0 - 2 * s2 * v2);
+  jacobian[2][1] =
+    -2 * s0 * w * x0 + 2 * x1 * (-k0 * s0 * w + s1 * v2) + x2 * (-2 * k1 * s0 * w + 2 * k2 * s1 * v2 - 4 * s2 * v1);
 
-  jacobian[0][2] = 2.0 * (-2 * vzw * px + (vzz - vww) * py + (vxw - vyz) * pz) / vw;
-  jacobian[1][2] = 2.0 * ((vww - vzz) * px - 2 * vzw * py + (vyw + vxz) * pz) / vw;
-  jacobian[2][2] = 2.0 * ((vxw + vyz) * px + (vyw - vxz) * py) / vw;
+  jacobian[0][2] =
+    -4 * s0 * v2 * x0 - x1 * (4 * k0 * s0 * v2 + 2 * s1 * w) + x2 * (-4 * k1 * s0 * v2 - 2 * k2 * s1 * w + 2 * s2 * v0);
+  jacobian[1][2] =
+    2 * s0 * w * x0 + x1 * (2 * k0 * s0 * w - 4 * s1 * v2) - x2 * (-2 * k1 * s0 * w + 4 * k2 * s1 * v2 - 2 * s2 * v1);
+  jacobian[2][2] = 2 * s0 * v0 * x0 + 2 * x1 * (k0 * s0 * v0 + s1 * v1) + x2 * (2 * k1 * s0 * v0 + 2 * k2 * s1 * v1);
 
   jacobian[0][3] = 1.0;
   jacobian[1][4] = 1.0;
   jacobian[2][5] = 1.0;
 
-  jacobian[0][6] = px; // These are incorrect!
-  jacobian[1][7] = py;
-  jacobian[2][8] = pz;
+  jacobian[0][6] =
+    -k0 * x1 * (2 * v1v1 + 2 * v2v2 - 1) - k1 * x2 * (2 * v1v1 + 2 * v2v2 - 1) - x0 * (2 * v1v1 + 2 * v2v2 - 1);
+  jacobian[1][6] = 2 * k0 * x1 * (v0v1 + v2w) + 2 * k1 * x2 * (v0v1 + v2w) + 2 * x0 * (v0v1 + v2w);
+  jacobian[2][6] = 2 * k0 * x1 * (v0v2 - v1w) + 2 * k1 * x2 * (v0v2 - v1w) + 2 * x0 * (v0v2 - v1w);
 
-  jacobian[0][9] = px; // These are incorrect!
-  jacobian[1][10] = py;
-  jacobian[2][11] = pz;
-  */
+  jacobian[0][7] = 2 * k2 * x2 * (v0v1 - v2w) - x1 * (-2 * v0v1 + 2 * v2w);
+  jacobian[1][7] = -k2 * x2 * (2 * v0v0 + 2 * v2v2 - 1) + x1 * (-2 * v0v0 - 2 * v2v2 + 1);
+  jacobian[2][7] = 2 * k2 * x2 * (v0w + v1v2) + 2 * x1 * (v0w + v1v2);
 
-  itkExceptionMacro(<< "Computing the Jacobian of a ComposeScaleSkewVersor3D"
-                    << " transform is not supported at this time.");
+  jacobian[0][8] = x2 * (2 * v0v2 + 2 * v1w);
+  jacobian[1][8] = -x2 * (2 * v0w - 2 * v1v2);
+  jacobian[2][8] = x2 * (-2 * v0v0 - 2 * v1v1 + 1);
+
+  jacobian[0][9] = -s0 * x1 * (2 * v1v1 + 2 * v2v2 - 1);
+  jacobian[1][9] = 2 * s0 * x1 * (v0v1 + v2w);
+  jacobian[2][9] = 2 * s0 * x1 * (v0v2 - v1w);
+
+  jacobian[0][10] = -s0 * x2 * (2 * v1v1 + 2 * v2v2 - 1);
+  jacobian[1][10] = 2 * s0 * x2 * (v0v1 + v2w);
+  jacobian[2][10] = 2 * s0 * x2 * (v0v2 - v1w);
+
+  jacobian[0][11] = 2 * s1 * x2 * (v0v1 - v2w);
+  jacobian[1][11] = -s1 * x2 * (2 * v0v0 + 2 * v2v2 - 1);
+  jacobian[2][11] = 2 * s1 * x2 * (v0w + v1v2);
 }
 
 } // namespace itk
