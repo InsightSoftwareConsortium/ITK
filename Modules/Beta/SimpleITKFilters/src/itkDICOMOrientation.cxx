@@ -54,12 +54,14 @@ DICOMOrientation::DICOMOrientation(std::string str)
 const std::string &
 DICOMOrientation::GetAsString() const
 {
-  auto iter = GetCodeToString().find(m_Value);
-  if (iter != GetCodeToString().end())
-  {
-    GetCodeToString().find(OrientationEnum::INVALID);
-  }
-  return iter->second;
+  const auto & codeToString = GetCodeToString();
+  auto iter = codeToString.find(m_Value);
+  if (iter != codeToString.end())
+    {
+    return iter->second;
+    }
+  assert( codeToString.find(OrientationEnum::INVALID) != codeToString.end());
+  return codeToString.find(OrientationEnum::INVALID)->second;
 }
 
 

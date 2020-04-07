@@ -385,6 +385,13 @@ TEST(DICOMOrientation, ConstructionAndValues)
   EXPECT_EQ(OE::PIR, do2.GetAsOrientation());
 
   EXPECT_EQ(d, do2.GetAsDirection());
+
+  DICOMOrientation do3("something invalid");
+  EXPECT_EQ("INVALID", do3.GetAsString());
+  EXPECT_EQ(CE::UNKNOWN, do3.GetPrimaryTerm());
+  EXPECT_EQ(CE::UNKNOWN, do3.GetSecondaryTerm());
+  EXPECT_EQ(CE::UNKNOWN, do3.GetTertiaryTerm());
+  EXPECT_EQ(OE::INVALID, do3.GetAsOrientation());
 }
 
 
