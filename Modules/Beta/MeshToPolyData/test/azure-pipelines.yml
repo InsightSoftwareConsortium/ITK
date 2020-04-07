@@ -1,6 +1,6 @@
 variables:
-  ITKGitTag: v5.1rc02
-  ITKPythonGitTag: v5.1rc02
+  ITKGitTag: v5.1rc03
+  ITKPythonGitTag: v5.1rc03
   CMakeBuildType: Release
 
 trigger:
@@ -19,20 +19,20 @@ jobs:
   strategy:
     matrix:
       Linux:
-        imageName: 'ubuntu-16.04'
+        imageName: 'ubuntu-18.04'
         cCompiler: gcc
         cxxCompiler: g++
         compilerInitialization: ''
       macOS:
-        imageName: 'macos-10.13'
+        imageName: 'macos-10.15'
         cCompiler: clang
         cxxCompiler: clang++
         compilerInitialization: ''
       Windows:
-        imageName: 'vs2017-win2016'
+        imageName: 'windows-2019'
         cCompiler: cl.exe
         cxxCompiler: cl.exe
-        compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
+        compilerInitialization: 'call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"'
 
   pool:
     vmImage: $(imageName)
@@ -58,7 +58,9 @@ jobs:
     displayName: 'Install build dependencies'
 
   - script: |
-      git clone --depth 5 --branch $(ITKGitTag) https://github.com/InsightSoftwareConsortium/ITK.git
+      git clone https://github.com/InsightSoftwareConsortium/ITK.git
+      cd ITK
+      git checkout $(ITKGitTag)
     workingDirectory: $(Agent.BuildDirectory)
     displayName: 'Download ITK'
 
@@ -148,7 +150,7 @@ jobs:
   cancelTimeoutInMinutes: 300
   displayName: "Build Linux Python packages"
   pool:
-    vmImage: 'Ubuntu-16.04'
+    vmImage: 'Ubuntu-18.04'
 
   steps:
   - script: |
@@ -172,7 +174,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: 'macos-10.14'
+    vmImage: 'macos-10.15'
 
   steps:
   - script: |
@@ -196,7 +198,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: 'vs2017-win2016'
+    vmImage: 'windows-2019'
 
   steps:
   - script: |
@@ -204,7 +206,7 @@ jobs:
     displayName: 'Fetch build script'
 
   - script: |
-      call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+      call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
       set ITK_PACKAGE_VERSION=$(ITKPythonGitTag)
       set CC=cl.exe
       set CXX=cl.exe
