@@ -572,10 +572,10 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
         TransformType::InputPointType pnt2 = idT->TransformPoint(pnt);
         for (unsigned int d = 0; d < 3; ++d)
         {
-          double diff = (pnt1[d] - pnt2[d]) / (2 * epsilon);
-          if (fabs(diff - jacob[d][i]) > fabs(0.1 * diff))
+          double pntDiff = (pnt1[d] - pnt2[d]) / (2 * epsilon);
+          if (fabs(pntDiff - jacob[d][i]) > fabs(0.1 * pntDiff))
           {
-            std::cout << "Ideal = " << diff << "  Jacob = " << jacob[d][i] << std::endl;
+            std::cout << "Ideal = " << pntDiff << "  Jacob = " << jacob[d][i] << std::endl;
             std::cout << "Jacobian not matching finite difference." << std::endl;
             return EXIT_FAILURE;
           }

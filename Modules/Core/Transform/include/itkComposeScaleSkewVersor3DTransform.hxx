@@ -310,19 +310,24 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithResp
   JacobianType &         jacobian) const
 {
   // Jacobian computed via
-  // pip install pysym
-  // from sympy import Function, Derivative, simplify, Transpose
-  // from sympy import symbols from sympy.matrices import Matrix, eye, zeros, ones, diag
-  // x0, x1, x2, v0, v1, v2, w, o0, o1, o2, s0, s1, s2, k0, k1, k2 = symbols('x0 x1 x2 v0 v1 v2 w o0 o1 o2 s0 s1 s2 k0
-  // k1 k2') M = Matrix([[1-2*(v1*v1+v2*v2), 2*(v0*v1-v2*w), 2*(v0*v2+v1*w), o0],
+  // pip install sympy
+  //
+  // from sympy import Derivative, simplify
+  // from sympy import symbols
+  // from sympy.matrices import Matrix
+  // x0, x1, x2, v0, v1, v2, w, o0, o1, o2, s0, s1, s2, k0, k1, k2 =
+  //        symbols('x0 x1 x2 v0 v1 v2 w o0 o1 o2 s0 s1 s2 k0 k1 k2')
+  // M = Matrix([[1-2*(v1*v1+v2*v2), 2*(v0*v1-v2*w), 2*(v0*v2+v1*w), o0],
   //        [2*(v0*v1+v2*w), 1-2*(v0*v0+v2*v2), 2*(v1*v2-v0*w), o1],
   //        [2*(v0*v2-v1*w), 2*(v1*v2+v0*w), 1-2*(v0*v0+v1*v1), o2],
   //        [0, 0, 0, 1]])
+  // # Quaterion to Matrix from:
+  // #  https://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToMatrix/index.htm
   // S = Matrix([[s0, 0, 0, 0], [0, s1, 0, 0], [0, 0, s2, 0], [0, 0, 0, 1]])
   // K = Matrix([[1, k0, k1, 0], [0, 1, k2, 0], [0, 0, 1, 0], [0, 0, 0, 1]])
   // x = Matrix(4,1,[x0,x1,x2,1])
   // f = M*S*K*x
-  // fx = Derivative(f,v1)
+  // fx = Derivative(f,v1)  # substitute v0, v2, s0 etc for v1 to list all equs.
   // simplify(fx)
   //
 
@@ -333,10 +338,6 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithResp
   const ValueType v1 = this->GetVersor().GetY();
   const ValueType v2 = this->GetVersor().GetZ();
   const ValueType w = this->GetVersor().GetW();
-
-  const ValueType o0 = this->GetOffset()[0];
-  const ValueType o1 = this->GetOffset()[1];
-  const ValueType o2 = this->GetOffset()[2];
 
   const ValueType s0 = this->GetScale()[0];
   const ValueType s1 = this->GetScale()[1];
@@ -357,12 +358,9 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::ComputeJacobianWithResp
   double v0v1 = v0 * v1;
   double v0v2 = v0 * v2;
   double v0w = v0 * w;
-  double v1v0 = v1 * v0;
   double v1v1 = v1 * v1;
   double v1v2 = v1 * v2;
   double v1w = v1 * w;
-  double v2v0 = v2 * v0;
-  double v2v1 = v2 * v1;
   double v2v2 = v2 * v2;
   double v2w = v2 * w;
 
