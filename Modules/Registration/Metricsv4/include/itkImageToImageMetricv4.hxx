@@ -206,15 +206,15 @@ typename ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInterna
 {
   this->m_ComputeDerivative = false;
 
-  DerivativeType derivative;
-  this->m_DerivativeResult = &derivative;
+  DerivativeType local_derivative;
+  this->m_DerivativeResult = &local_derivative;
   this->InitializeForIteration();
 
   // Do the threaded processing using the appropriate
   // GetValueAndDerivativeThreader. Results get written to
   // member vars.
   this->GetValueAndDerivativeExecute();
-
+  this->m_DerivativeResult = nullptr; // Pointer to temporary local_derivative is invalid after function return
   return this->m_Value;
 }
 
