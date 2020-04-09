@@ -734,7 +734,7 @@ protected:
   FixedImageGradientCalculatorPointer  m_FixedImageGradientCalculator;
   MovingImageGradientCalculatorPointer m_MovingImageGradientCalculator;
 
-  /** Derivative results holder. User a raw pointer so we can point it
+  /** Derivative results holder. Uses a raw pointer so we can point it
    * to a user-provided object. This is used in internal methods so
    * the user-provided variable does not have to be passed around. It also enables
    * safely sharing a derivative object between metrics during multi-variate
