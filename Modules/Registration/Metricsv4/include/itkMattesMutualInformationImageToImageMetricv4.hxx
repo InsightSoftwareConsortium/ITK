@@ -352,23 +352,23 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
     this->m_ThreaderFixedImageMarginalPDF[0][bin] /= totalMassOfPDF;
   }
 
+  static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
+  const PDFValueType            nFactor = 1.0 / (this->m_MovingImageBinSize * this->GetNumberOfValidPoints());
+
+  // Setup pointer to point to the first bin
+  const JointPDFValueType * jointPDFPtr = this->m_ThreaderJointPDF[0]->GetBufferPointer();
+
+  auto const temp_num_histogram_bins = this->m_NumberOfHistogramBins;
   /**
    * Compute the metric by double summation over histogram.
    */
-
-  // Setup pointer to point to the first bin
-  JointPDFValueType * jointPDFPtr = this->m_ThreaderJointPDF[0]->GetBufferPointer();
-
-  // Initialize sum to zero
   PDFValueType sum = 0.0;
-
-  const PDFValueType nFactor = 1.0 / (this->m_MovingImageBinSize * this->GetNumberOfValidPoints());
-
-  static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
-  for (unsigned int fixedIndex = 0; fixedIndex < this->m_NumberOfHistogramBins; ++fixedIndex)
+  for (unsigned int fixedIndex = 0; fixedIndex < temp_num_histogram_bins; ++fixedIndex)
   {
     const PDFValueType fixedImagePDFValue = this->m_ThreaderFixedImageMarginalPDF[0][fixedIndex];
-    for (unsigned int movingIndex = 0; movingIndex < this->m_NumberOfHistogramBins; ++movingIndex, jointPDFPtr++)
+    const PDFValueType logFixedImagePDFValue = std::log(fixedImagePDFValue);
+    for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins;
+         ++movingIndex, ++jointPDFPtr /* GOTO NEXT BIN */)
     {
       const PDFValueType movingImagePDFValue = this->m_MovingImageMarginalPDF[movingIndex];
       const PDFValueType jointPDFValue = *(jointPDFPtr);
@@ -382,7 +382,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
 
       if (fixedImagePDFValue > closeToZero)
       {
-        sum += jointPDFValue * (pRatio - std::log(fixedImagePDFValue));
+        sum += jointPDFValue * (pRatio - logFixedImagePDFValue);
       }
 
       if (this->GetComputeDerivative())
