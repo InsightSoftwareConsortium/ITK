@@ -210,7 +210,7 @@ Run the update script:
 Commit the result:
 
 ```sh
-  git add -- .zenodo
+  git add -- .zenodo.json
   git commit -m "DOC: Update .zenodo"
 ```
 
@@ -501,9 +501,8 @@ git reset --hard HEAD
 git checkout release
 git pull
 git clean -fdx
-# Open a VS2017 x64 SDK 8.1 Native Tools Command Prompt
+# Open a x64 Native Tools Command Prompt for VS 2019
 cd C:\P\IPP
-set PATH=C:\cmake-3.16.4\bin;%PATH%
 set PATH=C:\P\doxygen;%PATH%
 C:\Python36-x64\python.exe ./scripts/windows_build_wheels.py
 # Back in Git Bash...
