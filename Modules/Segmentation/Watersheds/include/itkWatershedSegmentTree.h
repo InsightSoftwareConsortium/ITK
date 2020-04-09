@@ -74,7 +74,7 @@ public:
   using ValueType = typename DequeType::value_type;
 
   /** Boolean comparison functor for use in sorting functions.  */
-  struct merge_comp : public std::binary_function<bool, const merge_t &, const merge_t &>
+  struct merge_comp
   {
     merge_comp() = default;
     bool
@@ -85,7 +85,7 @@ public:
   };
 
   /** Boolean comparison functor for use in sorting functions.   */
-  struct sort_comp : public std::binary_function<bool, const merge_t &, const merge_t &>
+  struct sort_comp
   {
     bool
     operator()(const merge_t & a, const merge_t & b)
