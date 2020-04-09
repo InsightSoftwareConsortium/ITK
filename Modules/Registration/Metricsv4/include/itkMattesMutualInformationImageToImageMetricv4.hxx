@@ -347,9 +347,10 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   {
     itkExceptionMacro("Fixed image marginal PDF summed to zero");
   }
+  const PDFValueType inv_totalMassOfPDF = 1.0 / totalMassOfPDF;
   for (unsigned int bin = 0; bin < this->m_NumberOfHistogramBins; ++bin)
   {
-    this->m_ThreaderFixedImageMarginalPDF[0][bin] /= totalMassOfPDF;
+    this->m_ThreaderFixedImageMarginalPDF[0][bin] *= inv_totalMassOfPDF;
   }
 
   static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
