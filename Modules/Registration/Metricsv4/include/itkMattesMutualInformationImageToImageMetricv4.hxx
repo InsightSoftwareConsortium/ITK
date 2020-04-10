@@ -327,10 +327,8 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   const auto &                l_JointPDF = this->m_ThreaderJointPDF[0];
   std::vector<PDFValueType> & l_FixedImageMarginalPDF = this->m_ThreaderFixedImageMarginalPDF[0];
 
-  std::fill(this->m_MovingImageMarginalPDF.begin(), this->m_MovingImageMarginalPDF.end(), 0.0F);
-
-  /* MovingMarginalPDF          JointPDF
-   *                     -------------------
+  /* FixedMarginalPDF         JointPDF
+   *      (j)            -------------------
    *   [ 3 ]             |  1  |  2  |  0  |
    *                       ---   ---   ---
    *   [ 5 ]             |  4  |  1  |  0  |
@@ -338,41 +336,30 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
    *   [ 0 ]             |  0  |  0  |  0  |
    *                     -------------------
    *
-   *                       [ 5 ] [ 3 ] [ 0 ]    <-- FixedMarginalPDF
+   *                       [ 5 ] [ 3 ] [ 0 ]  (i)  <-- MovingMarginalPDF
    */
-  JointPDFValueType * pdfPtr = l_JointPDF->GetBufferPointer();
-  for (unsigned int i = 0; i < this->m_NumberOfHistogramBins; ++i)
-  {
-    PDFValueType * movingMarginalPtr = &(m_MovingImageMarginalPDF[0]);
-    for (unsigned int j = 0; j < this->m_NumberOfHistogramBins; j++)
-    {
-      *(pdfPtr) *= normalizationFactor;
-      *(movingMarginalPtr++) += *(pdfPtr++);
-    }
-  }
-  // Collect some results
-  PDFValueType totalMassOfPDF = 0.0;
-  for (unsigned int i = 0; i < this->m_NumberOfHistogramBins; ++i)
-  {
-    totalMassOfPDF += l_FixedImageMarginalPDF[i];
-  }
-  if (totalMassOfPDF != this->m_JointPDFSum)
-  {
-    std::cout << "ERROR " << totalMassOfPDF << " != " << this->m_JointPDFSum << std::endl;
-  }
 
-  // Normalize the fixed image marginal PDF
-  if (totalMassOfPDF > 0.0)
+  auto nomalize_labmda = [&normalizationFactor](const JointPDFValueType & c) -> JointPDFValueType {
+    return c * normalizationFactor;
+  };
+  const size_t        number_of_JointPDF_bins = this->m_NumberOfHistogramBins * this->m_NumberOfHistogramBins;
+  JointPDFValueType * pdfPtr = l_JointPDF->GetBufferPointer();
+  std::transform(pdfPtr, pdfPtr + number_of_JointPDF_bins, pdfPtr, nomalize_labmda);
+  std::transform(
+    l_FixedImageMarginalPDF.cbegin(), l_FixedImageMarginalPDF.cend(), l_FixedImageMarginalPDF.begin(), nomalize_labmda);
   {
-    const PDFValueType inv_totalMassOfPDF = 1.0 / totalMassOfPDF;
-    for (unsigned int bin = 0; bin < this->m_NumberOfHistogramBins; ++bin)
+    size_t curr_col = 0;
+    for (auto & currMarginalBin : this->m_MovingImageMarginalPDF)
     {
-      l_FixedImageMarginalPDF[bin] *= inv_totalMassOfPDF;
+      currMarginalBin = 0;
+      const auto start = pdfPtr + curr_col++;
+      const auto stop = pdfPtr + number_of_JointPDF_bins;
+      for (auto colptr = start; colptr < stop; colptr += this->m_NumberOfHistogramBins)
+      {
+        currMarginalBin += *colptr;
+      }
+      currMarginalBin *= normalizationFactor;
     }
-  }
-  else
-  {
-    itkExceptionMacro("Fixed image marginal PDF summed to zero");
   }
 
   static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
