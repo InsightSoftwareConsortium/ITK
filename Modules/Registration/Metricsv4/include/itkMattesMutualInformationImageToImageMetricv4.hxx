@@ -365,9 +365,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
   const PDFValueType            nFactor = 1.0 / (this->m_MovingImageBinSize * this->GetNumberOfValidPoints());
 
-  // Setup pointer to point to the first bin
-  const JointPDFValueType * jointPDFPtr = l_JointPDF->GetBufferPointer();
-
   auto const temp_num_histogram_bins = this->m_NumberOfHistogramBins;
   /**
    * Compute the metric by double summation over histogram.
@@ -377,37 +374,36 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   {
     const PDFValueType fixedImageMarginalPDFValue = l_FixedImageMarginalPDF[fixedIndex];
 
-    const bool isNotNearZerofixedImageMarginalPDFValue = (fixedImageMarginalPDFValue > closeToZero);
-    // NOTE: if isNotNearZerofixedImageMarginalPDFValue is false, logfixedImageMarginalPDFValue is never used
-    //       The common case is that it is used, so only perform std::log(fixedImageMarginalPDFValue one time
-    const PDFValueType logfixedImageMarginalPDFValue = (isNotNearZerofixedImageMarginalPDFValue)
-                                                         ? std::log(fixedImageMarginalPDFValue)
-                                                         : std::numeric_limits<PDFValueType>::max();
+    // If fixedImageMarginalPDFValue is <= closeToZero, then the entire row of values is <= closeToZero, so
+    // by definition, each of the individual jointPDFVlaue's must also be close to zero in the line below!
+    if (fixedImageMarginalPDFValue > closeToZero)
     {
-      for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins;
-           ++movingIndex, ++jointPDFPtr /* GOTO NEXT BIN */)
+      // NOTE: If fixedImageMarginalPDFValue <=> closeToZero, logfixedImageMarginalPDFValue is never used
+      //       The common case is that it is used, so perform std::log(fixedImageMarginalPDFValue) one time
+      const PDFValueType logfixedImageMarginalPDFValue = std::log(fixedImageMarginalPDFValue);
+      // Setup pointer to point to the first bin of this row in the jointPDF
+      const JointPDFValueType * jointPDFRowPtr = l_JointPDF->GetBufferPointer() + fixedIndex * temp_num_histogram_bins;
+      for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins; ++movingIndex)
       {
         const PDFValueType & movingImageMarginalPDF = this->m_MovingImageMarginalPDF[movingIndex];
-        const PDFValueType & jointPDFValue = *(jointPDFPtr);
+        const PDFValueType   jointPDFValue = *(jointPDFRowPtr++); /* Get Value and goto next bin in row */
+
         // check for non-zero bin contribution, if movingImageMarginalPDF <= closeToZero, then so is joinPDFValue
-        if (movingImageMarginalPDF > closeToZero && jointPDFValue > closeToZero)
+        if (movingImageMarginalPDF > closeToZero &&
+            jointPDFValue > closeToZero) //<-- This check is always false if not isNotNearZerofixedImageMarginalPDFValue
         {
           const PDFValueType pRatio = std::log(jointPDFValue / movingImageMarginalPDF);
-          if (isNotNearZerofixedImageMarginalPDFValue)
-          {
-            sum += jointPDFValue * (pRatio - logfixedImageMarginalPDFValue);
-          }
+          sum += jointPDFValue * (pRatio - logfixedImageMarginalPDFValue);
 
           if (this->GetComputeDerivative())
           {
             if (!this->HasLocalSupport())
             {
               // Collect global derivative contributions
-
-              // move joint pdf derivative pointer to the right position
               JointPDFValueType const * derivPtr = this->m_JointPDFDerivatives->GetBufferPointer() +
                                                    (fixedIndex * this->m_JointPDFDerivatives->GetOffsetTable()[2]) +
                                                    (movingIndex * this->m_JointPDFDerivatives->GetOffsetTable()[1]);
+              // move joint pdf derivative pointer to the right position
               for (unsigned int parameter = 0, lastParameter = this->GetNumberOfLocalParameters();
                    parameter < lastParameter;
                    ++parameter, derivPtr++)
