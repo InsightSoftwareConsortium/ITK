@@ -27,14 +27,16 @@ vxl_doxy.pl      crlf=input
 zap.pl           crlf=input
 
 
-# Custom attribute to mark sources as using our C++/C code style.
+# Custom attribute to mark sources as using our C++/C/Python code style.
 [attr]our-c-style  whitespace=tab-in-indent,no-lf-at-eof  hooks.style=KWStyle,clangformat
+[attr]our-py-style whitespace=tab-in-indent,no-lf-at-eof  format.flake8
 
 *.c              our-c-style
 *.h              our-c-style
 *.cxx            our-c-style
 *.hxx            our-c-style
 *.txx            our-c-style
+*.py             our-py-style
 *.txt            whitespace=tab-in-indent,no-lf-at-eof
 *.cmake          whitespace=tab-in-indent,no-lf-at-eof
 
