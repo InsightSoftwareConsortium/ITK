@@ -366,54 +366,53 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   PDFValueType sum = 0.0;
   for (unsigned int fixedIndex = 0; fixedIndex < temp_num_histogram_bins; ++fixedIndex)
   {
-    const PDFValueType fixedImagePDFValue = this->m_ThreaderFixedImageMarginalPDF[0][fixedIndex];
-    const PDFValueType logFixedImagePDFValue = std::log(fixedImagePDFValue);
-    for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins;
-         ++movingIndex, ++jointPDFPtr /* GOTO NEXT BIN */)
+    const PDFValueType fixedImageMarginalPDFValue = this->m_ThreaderFixedImageMarginalPDF[0][fixedIndex];
     {
-      const PDFValueType movingImagePDFValue = this->m_MovingImageMarginalPDF[movingIndex];
-      const PDFValueType jointPDFValue = *(jointPDFPtr);
-
-      // check for non-zero bin contribution
-      if (!(jointPDFValue > closeToZero && movingImagePDFValue > closeToZero))
+      for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins;
+           ++movingIndex, ++jointPDFPtr /* GOTO NEXT BIN */)
       {
-        continue;
-      }
-      const PDFValueType pRatio = std::log(jointPDFValue / movingImagePDFValue);
-
-      if (fixedImagePDFValue > closeToZero)
-      {
-        sum += jointPDFValue * (pRatio - logFixedImagePDFValue);
-      }
-
-      if (this->GetComputeDerivative())
-      {
-        if (!this->HasLocalSupport())
+        const PDFValueType movingImageMarginalPDF = this->m_MovingImageMarginalPDF[movingIndex];
+        const PDFValueType jointPDFValue = *(jointPDFPtr);
+        // check for non-zero bin contribution
+        if (jointPDFValue > closeToZero && movingImageMarginalPDF > closeToZero)
         {
-          // Collect global derivative contributions
-
-          // move joint pdf derivative pointer to the right position
-          JointPDFValueType const * derivPtr = this->m_JointPDFDerivatives->GetBufferPointer() +
-                                               (fixedIndex * this->m_JointPDFDerivatives->GetOffsetTable()[2]) +
-                                               (movingIndex * this->m_JointPDFDerivatives->GetOffsetTable()[1]);
-          for (unsigned int parameter = 0, lastParameter = this->GetNumberOfLocalParameters();
-               parameter < lastParameter;
-               ++parameter, derivPtr++)
+          const PDFValueType pRatio = std::log(jointPDFValue / movingImageMarginalPDF);
+          if (fixedImageMarginalPDFValue > closeToZero)
           {
-            // Ref: eqn 23 of Thevenaz & Unser paper [3]
-            (*(this->m_DerivativeResult))[parameter] += (*derivPtr) * pRatio;
-          } // end for-loop over parameters
-        }
-        else
-        {
-          // Collect the pRatio per pdf indices.
-          // Will be applied subsequently to local-support derivative
-          const OffsetValueType index = movingIndex + (fixedIndex * this->m_NumberOfHistogramBins);
-          this->m_PRatioArray[index] = pRatio * nFactor;
-        }
-      }
-    } // end for-loop over moving index
-  }   // end for-loop over fixed index
+            const PDFValueType logfixedImageMarginalPDFValue = std::log(fixedImageMarginalPDFValue);
+            sum += jointPDFValue * (pRatio - logfixedImageMarginalPDFValue);
+          }
+
+          if (this->GetComputeDerivative())
+          {
+            if (!this->HasLocalSupport())
+            {
+              // Collect global derivative contributions
+
+              // move joint pdf derivative pointer to the right position
+              JointPDFValueType const * derivPtr = this->m_JointPDFDerivatives->GetBufferPointer() +
+                                                   (fixedIndex * this->m_JointPDFDerivatives->GetOffsetTable()[2]) +
+                                                   (movingIndex * this->m_JointPDFDerivatives->GetOffsetTable()[1]);
+              for (unsigned int parameter = 0, lastParameter = this->GetNumberOfLocalParameters();
+                   parameter < lastParameter;
+                   ++parameter, derivPtr++)
+              {
+                // Ref: eqn 23 of Thevenaz & Unser paper [3]
+                (*(this->m_DerivativeResult))[parameter] += (*derivPtr) * pRatio;
+              } // end for-loop over parameters
+            }
+            else
+            {
+              // Collect the pRatio per pdf indices.
+              // Will be applied subsequently to local-support derivative
+              const OffsetValueType index = movingIndex + (fixedIndex * this->m_NumberOfHistogramBins);
+              this->m_PRatioArray[index] = pRatio * nFactor;
+            }
+          }
+        } // end if( jointPDFValue > closeToZero && movingImageMarginalPDF > closeToZero )
+      }   // end for-loop over moving index
+    }     // end conditional for fixedmarginalPDF > close to zero
+  }       // end for-loop over fixed index
 
   // Apply the pRatio and sum the per-window derivative
   // contributions, in the local-support case.
