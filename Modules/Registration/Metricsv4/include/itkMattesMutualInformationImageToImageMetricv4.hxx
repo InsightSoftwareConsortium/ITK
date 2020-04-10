@@ -377,21 +377,24 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   {
     const PDFValueType fixedImageMarginalPDFValue = l_FixedImageMarginalPDF[fixedIndex];
 
-    // const bool         isNotNearZerofixedImageMarginalPDFValue = (fixedImageMarginalPDFValue > closeToZero);
-    // if (isNotNearZerofixedImageMarginalPDFValue)
+    const bool isNotNearZerofixedImageMarginalPDFValue = (fixedImageMarginalPDFValue > closeToZero);
+    // NOTE: if isNotNearZerofixedImageMarginalPDFValue is false, logfixedImageMarginalPDFValue is never used
+    //       The common case is that it is used, so only perform std::log(fixedImageMarginalPDFValue one time
+    const PDFValueType logfixedImageMarginalPDFValue = (isNotNearZerofixedImageMarginalPDFValue)
+                                                         ? std::log(fixedImageMarginalPDFValue)
+                                                         : std::numeric_limits<PDFValueType>::max();
     {
       for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins;
            ++movingIndex, ++jointPDFPtr /* GOTO NEXT BIN */)
       {
-        const PDFValueType movingImageMarginalPDF = this->m_MovingImageMarginalPDF[movingIndex];
-        const PDFValueType jointPDFValue = *(jointPDFPtr);
-        // check for non-zero bin contribution
-        if (jointPDFValue > closeToZero && movingImageMarginalPDF > closeToZero)
+        const PDFValueType & movingImageMarginalPDF = this->m_MovingImageMarginalPDF[movingIndex];
+        const PDFValueType & jointPDFValue = *(jointPDFPtr);
+        // check for non-zero bin contribution, if movingImageMarginalPDF <= closeToZero, then so is joinPDFValue
+        if (movingImageMarginalPDF > closeToZero && jointPDFValue > closeToZero)
         {
           const PDFValueType pRatio = std::log(jointPDFValue / movingImageMarginalPDF);
-          if (fixedImageMarginalPDFValue > closeToZero)
+          if (isNotNearZerofixedImageMarginalPDFValue)
           {
-            const PDFValueType logfixedImageMarginalPDFValue = std::log(fixedImageMarginalPDFValue);
             sum += jointPDFValue * (pRatio - logfixedImageMarginalPDFValue);
           }
 
