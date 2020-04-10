@@ -557,8 +557,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
       ParametersType params = idT->GetParameters();
       params[mc] = 0.1;
       idT->SetParameters(params);
-      TransformType::InputPointType pntT = idT->TransformPoint(pnt);
-      TransformType::JacobianType   jacob;
+      TransformType::JacobianType jacob;
       idT->ComputeJacobianWithRespectToParameters(pnt, jacob);
       for (unsigned int i = 0; i < np; ++i)
       {
