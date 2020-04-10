@@ -307,22 +307,40 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TInternalComputationValueType,
                                             TMetricTraits>::ComputeResults() const
 {
+  if (this->GetNumberOfValidPoints() == 0)
+  {
+    itkExceptionMacro("All samples map outside moving image buffer. "
+                      "The images do not sufficiently "
+                      "overlap. They need to be initialized to have more overlap before this "
+                      "metric will work. For instance, you can align the image centers by translation."
+                      << std::endl);
+  }
   if (this->m_JointPDFSum < itk::NumericTraits<PDFValueType>::epsilon())
   {
     itkExceptionMacro("Joint PDF summed to zero");
   }
+  const PDFValueType normalizationFactor = 1.0 / this->m_JointPDFSum;
+
+  // Create aliases to make variable name intent more clear
+  // At this point the multiple thread partial values have been merged into
+  // the zero'th element of the m_ThreaderJointPDF and m_ThreaderFixedImageMarginalPDF.
+  const auto &                l_JointPDF = this->m_ThreaderJointPDF[0];
+  std::vector<PDFValueType> & l_FixedImageMarginalPDF = this->m_ThreaderFixedImageMarginalPDF[0];
 
   std::fill(this->m_MovingImageMarginalPDF.begin(), this->m_MovingImageMarginalPDF.end(), 0.0F);
 
-  // Collect some results
-  PDFValueType totalMassOfPDF = 0.0;
-  for (unsigned int i = 0; i < this->m_NumberOfHistogramBins; ++i)
-  {
-    totalMassOfPDF += this->m_ThreaderFixedImageMarginalPDF[0][i];
-  }
-
-  const PDFValueType  normalizationFactor = 1.0 / this->m_JointPDFSum;
-  JointPDFValueType * pdfPtr = this->m_ThreaderJointPDF[0]->GetBufferPointer();
+  /* MovingMarginalPDF          JointPDF
+   *                     -------------------
+   *   [ 3 ]             |  1  |  2  |  0  |
+   *                       ---   ---   ---
+   *   [ 5 ]             |  4  |  1  |  0  |
+   *                       ---   ---   ---
+   *   [ 0 ]             |  0  |  0  |  0  |
+   *                     -------------------
+   *
+   *                       [ 5 ] [ 3 ] [ 0 ]    <-- FixedMarginalPDF
+   */
+  JointPDFValueType * pdfPtr = l_JointPDF->GetBufferPointer();
   for (unsigned int i = 0; i < this->m_NumberOfHistogramBins; ++i)
   {
     PDFValueType * movingMarginalPtr = &(m_MovingImageMarginalPDF[0]);
@@ -332,32 +350,36 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       *(movingMarginalPtr++) += *(pdfPtr++);
     }
   }
-
-  if (this->GetNumberOfValidPoints() == 0)
+  // Collect some results
+  PDFValueType totalMassOfPDF = 0.0;
+  for (unsigned int i = 0; i < this->m_NumberOfHistogramBins; ++i)
   {
-    itkExceptionMacro("All samples map outside moving image buffer. "
-                      "The images do not sufficiently "
-                      "overlap. They need to be initialized to have more overlap before this "
-                      "metric will work. For instance, you can align the image centers by translation."
-                      << std::endl);
+    totalMassOfPDF += l_FixedImageMarginalPDF[i];
+  }
+  if (totalMassOfPDF != this->m_JointPDFSum)
+  {
+    std::cout << "ERROR " << totalMassOfPDF << " != " << this->m_JointPDFSum << std::endl;
   }
 
   // Normalize the fixed image marginal PDF
-  if (totalMassOfPDF == 0.0)
+  if (totalMassOfPDF > 0.0)
+  {
+    const PDFValueType inv_totalMassOfPDF = 1.0 / totalMassOfPDF;
+    for (unsigned int bin = 0; bin < this->m_NumberOfHistogramBins; ++bin)
+    {
+      l_FixedImageMarginalPDF[bin] *= inv_totalMassOfPDF;
+    }
+  }
+  else
   {
     itkExceptionMacro("Fixed image marginal PDF summed to zero");
-  }
-  const PDFValueType inv_totalMassOfPDF = 1.0 / totalMassOfPDF;
-  for (unsigned int bin = 0; bin < this->m_NumberOfHistogramBins; ++bin)
-  {
-    this->m_ThreaderFixedImageMarginalPDF[0][bin] *= inv_totalMassOfPDF;
   }
 
   static constexpr PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
   const PDFValueType            nFactor = 1.0 / (this->m_MovingImageBinSize * this->GetNumberOfValidPoints());
 
   // Setup pointer to point to the first bin
-  const JointPDFValueType * jointPDFPtr = this->m_ThreaderJointPDF[0]->GetBufferPointer();
+  const JointPDFValueType * jointPDFPtr = l_JointPDF->GetBufferPointer();
 
   auto const temp_num_histogram_bins = this->m_NumberOfHistogramBins;
   /**
@@ -366,7 +388,10 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   PDFValueType sum = 0.0;
   for (unsigned int fixedIndex = 0; fixedIndex < temp_num_histogram_bins; ++fixedIndex)
   {
-    const PDFValueType fixedImageMarginalPDFValue = this->m_ThreaderFixedImageMarginalPDF[0][fixedIndex];
+    const PDFValueType fixedImageMarginalPDFValue = l_FixedImageMarginalPDF[fixedIndex];
+
+    // const bool         isNotNearZerofixedImageMarginalPDFValue = (fixedImageMarginalPDFValue > closeToZero);
+    // if (isNotNearZerofixedImageMarginalPDFValue)
     {
       for (unsigned int movingIndex = 0; movingIndex < temp_num_histogram_bins;
            ++movingIndex, ++jointPDFPtr /* GOTO NEXT BIN */)
