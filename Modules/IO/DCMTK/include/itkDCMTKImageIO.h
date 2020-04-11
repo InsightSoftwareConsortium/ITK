@@ -31,6 +31,7 @@ namespace itk
 /**\class DCMTKImageIOEnums
  * \brief Enums used by the DCMTKImageIO class
  * \ingroup IOFilters
+ * \ingroup ITKIODCMTK
  */
 class DCMTKImageIOEnums
 {
@@ -38,6 +39,7 @@ public:
   /**
    *\class LogLevel
    * \ingroup IOFilters
+   * \ingroup ITKIODCMTK
    * enum for DCMTK log level.  These are defined here without
    *  reference to DCMTK library enumerations, to avoid including
    * dcmtk headers in this header.
