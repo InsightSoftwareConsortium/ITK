@@ -194,3 +194,13 @@ if(UNIX)
     target_link_libraries(ITKCommon LINK_PUBLIC ${CMAKE_DL_LIBS})
   endif()
 endif()
+
+if(ITK_USE_TBB)
+  # https://software.intel.com/en-us/node/506139
+  # The macro TBB_DEPRECATED controls deprecated features.
+  #      Define it to 0 to remove deprecated Intel® Threading Building Blocks (Intel® TBB) 2.1 interfaces.
+  target_compile_definitions( ITKCommon PUBLIC TBB_DEPRECATED=0)
+  # The macro TBB_USE_CAPTURED_EXCEPTION controls rethrow of exceptions within the library.
+  #      Define TBB_USE_CAPTURED_EXCEPTION=0 to request rethrow of the exact exception.
+  target_compile_definitions( ITKCommon PUBLIC TBB_USE_CAPTURED_EXCEPTION=0)
+endif()
