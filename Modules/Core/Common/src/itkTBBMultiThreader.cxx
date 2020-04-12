@@ -24,7 +24,22 @@
 #include <atomic>
 #include <thread>
 #include "tbb/parallel_for.h"
-#include "tbb/task_scheduler_init.h"
+
+#include "tbb/global_control.h"
+// From tbb/examples/common/utility/get_default_num_threads.h
+namespace tbb_utility
+{
+inline int
+get_default_num_threads()
+{
+#if __TBB_MIC_OFFLOAD
+#  pragma offload target(mic) out(default_num_threads)
+#endif // __TBB_MIC_OFFLOAD
+  static const size_t default_num_threads =
+    tbb::global_control::active_value(tbb::global_control::max_allowed_parallelism);
+  return static_cast<int>(default_num_threads);
+}
+} // namespace tbb_utility
 
 namespace itk
 {
@@ -59,7 +74,20 @@ TBBMultiThreader::SingleMethodExecute()
     itkExceptionMacro(<< "No single method set!");
   }
 
-  tbb::task_scheduler_init tbb_init(m_MaximumNumberOfThreads);
+  // Construct TBB static context with only m_MaximumNumberOfThreads threads
+  // https://software.intel.com/en-us/node/589744
+  // Total parallelism that TBB can utilize
+  // is limited by the current active global_control object
+  // for the dynamic extension of the given scope.
+  // ( instantiation of "global_control" object pushes the
+  //   value onto active head of the FIFO stack for 'max_allowed_parallelism'
+  //   type, and destruction of the "global_control" object pops
+  //   the 'max_allowed_parallelism' type and returns the active value
+  //   to it's original state.
+  tbb::global_control l_SingleMethodExecute_tbb_global_context(
+    tbb::global_control::max_allowed_parallelism,
+    std::min<int>(tbb_utility::get_default_num_threads(), m_MaximumNumberOfThreads));
+
   // we request grain size of 1 and simple_partitioner to ensure there is no chunking
   tbb::parallel_for(
     tbb::blocked_range<int>(0, m_NumberOfWorkUnits, 1),
@@ -100,8 +128,11 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    const unsigned           count = lastIndexPlus1 - firstIndex;
-    tbb::task_scheduler_init tbb_init(m_MaximumNumberOfThreads);
+    const unsigned      count = lastIndexPlus1 - firstIndex;
+    tbb::global_control l_ParallelizeArray_tbb_global_context(
+      tbb::global_control::max_allowed_parallelism,
+      std::min<int>(tbb_utility::get_default_num_threads(), m_MaximumNumberOfThreads));
+
     // we request grain size of 1 and simple_partitioner to ensure there is no chunking
     tbb::parallel_for(
       tbb::blocked_range<SizeValueType>(firstIndex, lastIndexPlus1, 1),
@@ -228,8 +259,11 @@ TBBMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
     }
     TBBImageRegionSplitter regionSplitter = region;
 
-    const SizeValueType      totalCount = region.GetNumberOfPixels();
-    tbb::task_scheduler_init tbb_init(m_MaximumNumberOfThreads);
+    const SizeValueType totalCount = region.GetNumberOfPixels();
+    tbb::global_control l_ParallelizeImageRegion_tbb_global_context(
+      tbb::global_control::max_allowed_parallelism,
+      std::min<int>(tbb_utility::get_default_num_threads(), m_MaximumNumberOfThreads));
+
     tbb::parallel_for(regionSplitter, [&](TBBImageRegionSplitter regionToProcess) {
       TotalProgressReporter progress(filter, totalCount, 100);
       progress.CheckAbortGenerateData();
