@@ -21,9 +21,19 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
 #include "itkProgressReporter.h"
+#include "gdcmSerieHelper.h"
 
 namespace itk
 {
+
+
+GDCMSeriesFileNames::GDCMSeriesFileNames()
+  : m_SerieHelper{ new gdcm::SerieHelper() }
+{}
+
+GDCMSeriesFileNames::~GDCMSeriesFileNames() = default;
+
+
 void
 GDCMSeriesFileNames::SetInputDirectory(const char * name)
 {
@@ -33,6 +43,12 @@ GDCMSeriesFileNames::SetInputDirectory(const char * name)
   }
   std::string fname = name;
   this->SetInputDirectory(fname);
+}
+
+void
+GDCMSeriesFileNames::AddSeriesRestriction(const std::string & tag)
+{
+  m_SerieHelper->AddRestriction(tag);
 }
 
 void

@@ -22,8 +22,13 @@
 #include "itkObjectFactory.h"
 #include "itkMacro.h"
 #include <vector>
-#include "gdcmSerieHelper.h"
 #include "ITKIOGDCMExport.h"
+
+// forward declaration, to remove compile dependency on GDCM library
+namespace gdcm
+{
+class SerieHelper;
+}
 
 namespace itk
 {
@@ -162,10 +167,7 @@ public:
    * \warning User need to set SetUseSeriesDetails(true)
    */
   void
-  AddSeriesRestriction(const std::string & tag)
-  {
-    m_SerieHelper->AddRestriction(tag);
-  }
+  AddSeriesRestriction(const std::string & tag);
 
   /** Parse any sequences in the DICOM file. Defaults to false
    *  to skip sequences. This makes loading DICOM files faster when
@@ -184,8 +186,8 @@ public:
   itkBooleanMacro(LoadPrivateTags);
 
 protected:
-  GDCMSeriesFileNames() = default;
-  ~GDCMSeriesFileNames() override { delete m_SerieHelper; }
+  GDCMSeriesFileNames();
+  ~GDCMSeriesFileNames() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -201,7 +203,7 @@ private:
   FileNamesContainerType m_OutputFileNames;
 
   /** Internal structure to order serie from one directory */
-  gdcm::SerieHelper * m_SerieHelper = new gdcm::SerieHelper();
+  std::unique_ptr<gdcm::SerieHelper> m_SerieHelper;
 
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs;
