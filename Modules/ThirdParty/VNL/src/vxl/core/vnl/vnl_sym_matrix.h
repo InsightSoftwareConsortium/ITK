@@ -28,13 +28,13 @@ class VNL_EXPORT vnl_sym_matrix
 {
  public:
   //: Construct an empty symmetric matrix.
-  vnl_sym_matrix(): data_(nullptr), index_(nullptr), nn_(0) {}
+   vnl_sym_matrix() : data_(nullptr), index_(nullptr) {}
 
-  //: Construct a symmetric matrix of size nn by nn.
-  explicit vnl_sym_matrix(unsigned nn):
-  data_(vnl_c_vector<T>::allocate_T(nn * (nn + 1) / 2)),
-  index_(vnl_c_vector<T>::allocate_Tptr(nn)),
-  nn_(nn) { setup_index(); }
+   //: Construct a symmetric matrix of size nn by nn.
+   explicit vnl_sym_matrix(unsigned nn)
+       : data_(vnl_c_vector<T>::allocate_T(nn * (nn + 1) / 2)),
+         index_(vnl_c_vector<T>::allocate_Tptr(nn)), nn_(nn) {
+     setup_index(); }
 
   //: Construct a symmetric matrix with elements equal to data
   // Value should be stored row-wise, and contain the
@@ -220,9 +220,8 @@ inline vnl_sym_matrix<T>::vnl_sym_matrix(vnl_matrix<T> const& that):
 }
 
 template <class T>
-inline vnl_sym_matrix<T>::vnl_sym_matrix(vnl_sym_matrix<T> const& that):
-  data_(nullptr), index_(nullptr), nn_(0)
-{
+inline vnl_sym_matrix<T>::vnl_sym_matrix(vnl_sym_matrix<T> const &that)
+    : data_(nullptr), index_(nullptr) {
   set_size(that.rows());
   update(that);
 }

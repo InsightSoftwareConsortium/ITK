@@ -79,8 +79,8 @@ class VNL_EXPORT vnl_rational
   using int_type = std::int64_t;
 
  private:
-  int_type num_; //!< Numerator portion
-  int_type den_; //!< Denominator portion
+   int_type num_{0L}; //!< Numerator portion
+   int_type den_{1L}; //!< Denominator portion
 
  public:
    // Helper type alias to be used for SFINAE.
@@ -94,19 +94,19 @@ class VNL_EXPORT vnl_rational
   //  The only input which is not allowed is (0,0);
   //  the denominator is allowed to be 0, to represent +Inf or -Inf.
 
-  inline vnl_rational()
-    : num_(0L), den_(1L) { normalize(); }
+   inline vnl_rational() { normalize(); }
 
-  inline vnl_rational(int_type num)
-    : num_(num), den_(1L) { assert(num!=0||den_!=0); normalize(); }
+   inline vnl_rational(int_type num) : num_(num) {
+     assert(num != 0 || den_ != 0);
+     normalize();
+   }
   inline vnl_rational(int_type num, int_type den)
     : num_(num), den_(den) { assert(num!=0||den!=0); normalize(); }
 
   //: Implicitly converts a signed or unsigned integer to a rational.
-  template <typename T, typename SFINAE =
-    typename std::enable_if<std::is_integral<T>::value>::type>
-  inline vnl_rational(const T num)
-    : num_{ static_cast<int_type>(num) }, den_{1} {}
+  template <typename T, typename SFINAE = typename std::enable_if<
+                            std::is_integral<T>::value>::type>
+  inline vnl_rational(const T num) : num_{static_cast<int_type>(num)} {}
 
   //: Creates a rational from a double.
   //  This is done by computing the continued fraction approximation for d.
@@ -267,11 +267,8 @@ class VNL_EXPORT vnl_rational
     return r;
   }
   inline operator int_type() const { return truncate(); }
-  inline operator int_type() { return truncate(); }
   inline operator float() const { return ((float)num_)/((float)den_); }
-  inline operator float() { return ((float)num_)/((float)den_); }
   inline operator double() const { return ((double)num_)/((double)den_); }
-  inline operator double() { return ((double)num_)/((double)den_); }
 
   //: Calculate greatest common divisor of two integers.
   //  Used to simplify rational number.

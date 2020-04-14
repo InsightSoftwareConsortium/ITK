@@ -79,7 +79,7 @@ class VNL_EXPORT vnl_vector
   friend class vnl_matrix<T>;
 
   //: Creates an empty vector. O(1).
-  vnl_vector() {}
+  vnl_vector() = default;
 
   //: Creates a vector containing n uninitialized elements.
   explicit vnl_vector(size_t len);

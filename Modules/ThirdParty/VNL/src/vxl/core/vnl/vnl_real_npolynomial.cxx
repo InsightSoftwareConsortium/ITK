@@ -6,9 +6,11 @@
 //
 //  Implements a polynomial with N variables
 
+#include <cassert>
 #include <iostream>
 #include <sstream>
-#include <cassert>
+#include <utility>
+
 #include "vnl_real_npolynomial.h"
 
 //: Constructor
@@ -25,14 +27,15 @@
 //         [1 2];
 // \endverbatim
 
-vnl_real_npolynomial::vnl_real_npolynomial(const vnl_vector<double> & c, const vnl_matrix<unsigned int> & p)
-  : coeffs_(c)
-  , polyn_(p)
-  , nvar_(p.cols())
-  , nterms_(p.rows())
-  , ideg_(p.max_value())
+vnl_real_npolynomial::vnl_real_npolynomial(vnl_vector<double> c,
+                                           const vnl_matrix<unsigned int> &p)
+    : coeffs_{std::move(c)}
+    , polyn_(p)
+    , nvar_{p.cols()}
+    , nterms_{p.rows()}
+    , ideg_{p.max_value()}
 {
-  assert(c.size() == p.rows());
+  assert(coeffs_.size() == polyn_.rows());
   simplify();
 }
 

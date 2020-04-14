@@ -109,7 +109,7 @@ public:
   fptr3 func3{ nullptr };
   void * param1{ nullptr };
   void * param2{ nullptr };
-  node() {}
+  node() = default;
 };
 
 void

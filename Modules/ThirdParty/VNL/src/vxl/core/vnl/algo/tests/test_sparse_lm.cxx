@@ -1,5 +1,7 @@
-#include <iostream>
 #include <cassert>
+#include <iostream>
+#include <utility>
+
 #include "testlib/testlib_test.h"
 #include "vnl/vnl_sparse_lst_sqr_function.h"
 #include <vnl/algo/vnl_sparse_lm.h>
@@ -104,15 +106,11 @@ camera_diff(const vnl_vector<double> & a1, const vnl_vector<double> & a2)
 class bundle_2d : public vnl_sparse_lst_sqr_function
 {
 public:
-  bundle_2d(unsigned int num_cam,
-            unsigned int num_pts,
-            const vnl_vector<double> & data,
-            const std::vector<std::vector<bool>> & xmask,
-            UseGradient g = use_gradient,
-            UseWeights w = no_weights)
-    : vnl_sparse_lst_sqr_function(num_cam, 3, num_pts, 2, 0, xmask, 1, g, w)
-    , data_(data)
-  {}
+  bundle_2d(unsigned int num_cam, unsigned int num_pts, vnl_vector<double> data,
+            const std::vector<std::vector<bool>> &xmask,
+            UseGradient g = use_gradient, UseWeights w = no_weights)
+      : vnl_sparse_lst_sqr_function(num_cam, 3, num_pts, 2, 0, xmask, 1, g, w),
+        data_(std::move(data)) {}
 
   void
   fij(int i,
@@ -341,14 +339,12 @@ test_prob1()
 class bundle_2d_shared : public vnl_sparse_lst_sqr_function
 {
 public:
-  bundle_2d_shared(unsigned int num_cam,
-                   unsigned int num_pts,
-                   const vnl_vector<double> & data,
-                   const std::vector<std::vector<bool>> & xmask,
+  bundle_2d_shared(unsigned int num_cam, unsigned int num_pts,
+                   vnl_vector<double> data,
+                   const std::vector<std::vector<bool>> &xmask,
                    UseGradient g = use_gradient)
-    : vnl_sparse_lst_sqr_function(num_cam, 3, num_pts, 2, 1, xmask, 1, g)
-    , data_(data)
-  {}
+      : vnl_sparse_lst_sqr_function(num_cam, 3, num_pts, 2, 1, xmask, 1, g),
+        data_(std::move(data)) {}
 
   void
   fij(int i,

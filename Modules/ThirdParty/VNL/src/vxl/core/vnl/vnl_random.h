@@ -28,14 +28,14 @@ class VNL_EXPORT vnl_random
     unsigned long linear_congruential_previous;
     unsigned long mz_seed_array[vnl_random_array_size];
     unsigned long mz_array[vnl_random_array_size];
-    unsigned int mz_array_position;
-    int mz_borrow;
+    unsigned int mz_array_position{0UL};
+    int mz_borrow{0};
     unsigned long linear_congruential_lrand32();
 
     double mz_previous_normal;
-    int mz_previous_normal_flag;
+    int mz_previous_normal_flag{0};
 
- public:
+  public:
     //: Default constructor.
     // Initializes the random number generator non-deterministically.
     // i.e. it will generate a different series of random numbers each

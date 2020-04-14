@@ -18,11 +18,8 @@ using Data = unsigned short;
 //: Creates a zero vnl_bignum.
 
 vnl_bignum::vnl_bignum()
-  : count(0)
-  , sign(1)
-  , data(nullptr)
-{}
 
+    = default;
 
 //: Creates a vnl_bignum from a single-precision floating point number.
 

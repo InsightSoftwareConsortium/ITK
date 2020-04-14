@@ -8,6 +8,8 @@
 
 using int_type = vnl_rational::int_type;
 
+static constexpr double maxint_as_double = static_cast<double>(vnl_numeric_traits<int_type>::maxval);
+
 template <typename FloatingType>
 inline void
 makeNumDen(FloatingType d, int_type & num_, int_type & den_)
@@ -68,8 +70,9 @@ vnl_rational::operator*=(vnl_rational const & r)
   a = r.numerator() / a;
   b = r.denominator() / b;
   // find out whether overflow would occur; in that case, return approximate result
-  double n = double(a) * double(num_), d = double(b) * double(den_);
-  if (n < vnl_numeric_traits<int_type>::maxval && d < vnl_numeric_traits<int_type>::maxval)
+  double n = double(a) * double(num_);
+  double d = double(b) * double(den_);
+  if (n < maxint_as_double && d < maxint_as_double)
   {
     num_ *= a;
     den_ *= b;
@@ -91,7 +94,7 @@ vnl_rational::operator*=(int_type r)
   r /= a;
   // find out whether overflow would occur; in that case, return approximate result
   double n = double(r) * double(num_);
-  if (n < vnl_numeric_traits<int_type>::maxval)
+  if (n < maxint_as_double)
   {
     num_ *= r;
     normalize();
@@ -116,7 +119,7 @@ vnl_rational::operator/=(vnl_rational const & r)
   b = r.denominator() / b;
   // find out whether overflow would occur; in that case, return approximate result
   double n = double(b) * double(num_), d = double(a) * double(den_);
-  if (n < vnl_numeric_traits<int_type>::maxval && d < vnl_numeric_traits<int_type>::maxval)
+  if (n < maxint_as_double && d < maxint_as_double)
   {
     num_ *= b;
     den_ *= a;
@@ -140,7 +143,7 @@ vnl_rational::operator/=(int_type r)
   r /= a;
   // find out whether overflow would occur; in that case, return approximate result
   double d = double(r) * double(den_);
-  if (d < vnl_numeric_traits<int_type>::maxval)
+  if (d < maxint_as_double)
   {
     den_ *= r;
     normalize();

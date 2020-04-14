@@ -17,7 +17,7 @@ void vsl_b_write(vsl_b_ostream & os, const vnl_vector_fixed<T,n> & p)
   constexpr short io_version_no = 2;
   vsl_b_write(os, io_version_no);
   vsl_b_write(os, p.size());
-  if (p.size())
+  if (!p.empty())
     vsl_block_binary_write(os, p.data_block(), p.size());
 }
 
