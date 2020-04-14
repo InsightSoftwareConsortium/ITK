@@ -76,11 +76,11 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
 
 protected:
-  LabelSetDilateImageFilter() { this->DynamicMultiThreadingOn(); }
+  LabelSetDilateImageFilter() { this->DynamicMultiThreadingOff(); }
   ~LabelSetDilateImageFilter() override = default;
 
   void
-  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
 private:
   using DistanceImageType = typename Superclass::DistanceImageType;

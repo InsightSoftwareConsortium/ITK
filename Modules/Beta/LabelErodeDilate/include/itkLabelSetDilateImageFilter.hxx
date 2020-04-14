@@ -31,9 +31,33 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 void
-LabelSetDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+LabelSetDilateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
+    // compute the number of rows first, so we can setup a progress reporter
+    typename std::vector< unsigned int > NumberOfRows;
+    InputSizeType size   = outputRegionForThread.GetSize();
+
+    for ( unsigned int i = 0; i < InputImageDimension; i++ )
+    {
+        NumberOfRows.push_back(1);
+        for ( unsigned int d = 0; d < InputImageDimension; d++ )
+        {
+            if ( d != i )
+            {
+                NumberOfRows[i] *= size[d];
+            }
+        }
+    }
+    float progressPerDimension = 1.0 / ImageDimension;
+
+    auto *progress = new ProgressReporter(this,
+                                          threadId,
+                                          NumberOfRows[this->m_CurrentDimension],
+                                          30,
+                                          this->m_CurrentDimension * progressPerDimension,
+                                          progressPerDimension);
+
   // this is where the work happens. We use a distance image with
   // floating point pixel to perform the parabolic operations. The
   // input image specifies the size of the SE at each location. These
@@ -90,6 +114,7 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
           inputIterator,
           outputDistIterator,
           outputIterator,
+          *progress,
           LineLength,
           this->m_CurrentDimension,
           this->m_MagnitudeSign,
@@ -107,6 +132,7 @@ LabelSetDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
                                              inputDistIterator,
                                              outputDistIterator,
                                              outputIterator,
+                                             *progress,
                                              LineLength,
                                              this->m_CurrentDimension,
                                              this->m_MagnitudeSign,
