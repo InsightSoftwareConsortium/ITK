@@ -49,7 +49,7 @@ namespace itk
  * Australia.  <Richard.Beare@monash.edu>
  *
  **/
-template <typename TInputImage, bool doOpen, typename TOutputImage = TInputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicOpenCloseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

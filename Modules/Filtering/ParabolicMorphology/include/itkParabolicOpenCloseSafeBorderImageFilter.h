@@ -29,7 +29,7 @@
 
 namespace itk
 {
-template <typename TInputImage, bool doOpen, typename TOutputImage = TInputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage = TInputImage>
 class ITK_EXPORT ParabolicOpenCloseSafeBorderImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -149,7 +149,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using MorphFilterType = ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>;
+  using MorphFilterType = ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>;
   using PadFilterType = ConstantPadImageFilter<TInputImage, TInputImage>;
   using CropFilterType = CropImageFilter<TOutputImage, TOutputImage>;
   using StatsFilterType = StatisticsImageFilter<InputImageType>;

@@ -23,9 +23,9 @@
 
 namespace itk
 {
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData()
+ParabolicOpenCloseSafeBorderImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateData()
 {
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
 
@@ -66,7 +66,7 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Gene
     m_PadFilt->SetPadUpperBound(Bounds);
 
     // need to select between opening and closing here
-    if (doOpen)
+    if (DoOpen)
     {
       // m_PadFilt->SetConstant(NumericTraits<InputPixelType>::max());
       m_PadFilt->SetConstant(m_StatsFilt->GetMaximum());
@@ -113,9 +113,9 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Gene
   }
 }
 
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Modified() const
+ParabolicOpenCloseSafeBorderImageFilter<TInputImage, DoOpen, TOutputImage>::Modified() const
 {
   Superclass::Modified();
   m_MorphFilt->Modified();
@@ -125,9 +125,9 @@ ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::Modi
 }
 
 ///////////////////////////////////
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseSafeBorderImageFilter<TInputImage, doOpen, TOutputImage>::PrintSelf(std::ostream & os,
+ParabolicOpenCloseSafeBorderImageFilter<TInputImage, DoOpen, TOutputImage>::PrintSelf(std::ostream & os,
                                                                                       Indent         indent) const
 {
   os << indent << "SafeBorder: " << m_SafeBorder << std::endl;

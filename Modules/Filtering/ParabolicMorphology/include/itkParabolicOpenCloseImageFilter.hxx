@@ -35,13 +35,13 @@
 
 namespace itk
 {
-template <typename TInputImage, bool doOpen, typename TOutputImage>
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ParabolicOpenCloseImageFilter()
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ParabolicOpenCloseImageFilter()
 {
   this->SetNumberOfRequiredOutputs(1);
   this->SetNumberOfRequiredInputs(1);
   // needs to be selected according to erosion/dilation
-  if (doOpen)
+  if (DoOpen)
   {
     // erosion then dilation
     m_Extreme1 = NumericTraits<PixelType>::max();
@@ -67,9 +67,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ParabolicOpenC
   this->DynamicMultiThreadingOff();
 }
 
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 unsigned int
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::SplitRequestedRegion(
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::SplitRequestedRegion(
   unsigned int            i,
   unsigned int            num,
   OutputImageRegionType & splitRegion)
@@ -126,9 +126,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::SplitRequested
   return maxThreadIdUsed + 1;
 }
 
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::SetScale(ScalarRealType scale)
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::SetScale(ScalarRealType scale)
 {
   RadiusType s;
 
@@ -137,9 +137,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::SetScale(Scala
 }
 
 #if 1
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateInputRequestedRegion() throw(
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateInputRequestedRegion() throw(
   InvalidRequestedRegionError)
 {
   // call the superclass' implementation of this method. this should
@@ -157,9 +157,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateInputR
 #endif
 
 #if 1
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   auto * out = dynamic_cast<TOutputImage *>(output);
 
@@ -171,9 +171,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::EnlargeOutputR
 
 #endif
 
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData()
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateData()
 {
   ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
 
@@ -261,9 +261,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::GenerateData()
 
 ////////////////////////////////////////////////////////////
 
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenerateData(
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType                  threadId)
 {
@@ -325,7 +325,7 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenera
         unsigned long LineLength = region.GetSize()[0];
         RealType      image_scale = this->GetInput()->GetSpacing()[0];
 
-        doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !doOpen>(
+        doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !DoOpen>(
           inputIterator,
           outputIterator,
           *progress,
@@ -362,7 +362,7 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenera
         unsigned long LineLength = region.GetSize()[m_CurrentDimension];
         RealType      image_scale = this->GetInput()->GetSpacing()[m_CurrentDimension];
 
-        doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !doOpen>(
+        doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, !DoOpen>(
           inputIteratorStage2,
           outputIterator,
           *progress,
@@ -386,7 +386,7 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenera
       unsigned long LineLength = region.GetSize()[m_CurrentDimension];
       RealType      image_scale = this->GetInput()->GetSpacing()[m_CurrentDimension];
 
-      doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doOpen>(
+      doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, DoOpen>(
         inputIteratorStage2,
         outputIterator,
         *progress,
@@ -402,9 +402,9 @@ ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::ThreadedGenera
   }
 }
 
-template <typename TInputImage, bool doOpen, typename TOutputImage>
+template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, doOpen, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   if (m_UseImageSpacing)
