@@ -55,7 +55,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ParabolicE
   m_UseImageSpacing = false;
   m_ParabolicAlgorithm = INTERSECTION;
 
-  this->DynamicMultiThreadingOn();
+  this->DynamicMultiThreadingOff();
 }
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
@@ -192,9 +192,35 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::GenerateDa
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread,
+  ThreadIdType                  threadId)
 {
+  // compute the number of rows first, so we can setup a progress reporter
+  typename std::vector<unsigned int> NumberOfRows;
+  InputSizeType                      size = outputRegionForThread.GetSize();
+
+  for (unsigned int i = 0; i < InputImageDimension; i++)
+  {
+    NumberOfRows.push_back(1);
+    for (unsigned int d = 0; d < InputImageDimension; d++)
+    {
+      if (d != i)
+      {
+        NumberOfRows[i] *= size[d];
+      }
+    }
+  }
+  float progressPerDimension = 1.0 / ImageDimension;
+
+  auto * progress = new ProgressReporter(this,
+                                         threadId,
+                                         NumberOfRows[m_CurrentDimension],
+                                         30,
+                                         m_CurrentDimension * progressPerDimension,
+                                         progressPerDimension);
+
+
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
 
@@ -228,6 +254,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::DynamicThr
       doOneDimension<InputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doDilate>(
         inputIterator,
         outputIterator,
+        *progress,
         LineLength,
         0,
         this->m_MagnitudeSign,
@@ -266,6 +293,7 @@ ParabolicErodeDilateImageFilter<TInputImage, doDilate, TOutputImage>::DynamicThr
       doOneDimension<OutputConstIteratorType, OutputIteratorType, RealType, OutputPixelType, doDilate>(
         inputIteratorStage2,
         outputIterator,
+        *progress,
         LineLength,
         m_CurrentDimension,
         this->m_MagnitudeSign,

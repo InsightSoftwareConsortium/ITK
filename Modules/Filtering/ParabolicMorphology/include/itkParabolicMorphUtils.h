@@ -20,6 +20,8 @@
 
 #include <itkArray.h>
 
+#include "itkProgressReporter.h"
+
 namespace itk
 {
 // contact point algorithm
@@ -177,16 +179,17 @@ DoLineIntAlg(LineBufferType &  LineBuf,
 
 template <typename TInIter, typename TOutIter, typename RealType, typename OutputPixelType, bool doDilate>
 void
-doOneDimension(TInIter &      inputIterator,
-               TOutIter &     outputIterator,
-               const long     LineLength,
-               const unsigned direction,
-               const int      m_MagnitudeSign,
-               const bool     m_UseImageSpacing,
-               const RealType m_Extreme,
-               const RealType image_scale,
-               const RealType Sigma,
-               int            ParabolicAlgorithmChoice)
+doOneDimension(TInIter &          inputIterator,
+               TOutIter &         outputIterator,
+               ProgressReporter & progress,
+               const long         LineLength,
+               const unsigned     direction,
+               const int          m_MagnitudeSign,
+               const bool         m_UseImageSpacing,
+               const RealType     m_Extreme,
+               const RealType     image_scale,
+               const RealType     Sigma,
+               int                ParabolicAlgorithmChoice)
 {
   enum ParabolicAlgorithm
   {
@@ -261,6 +264,7 @@ doOneDimension(TInIter &      inputIterator,
       // now onto the next line
       inputIterator.NextLine();
       outputIterator.NextLine();
+      progress.CompletedPixel();
     }
   }
   else
@@ -306,6 +310,7 @@ doOneDimension(TInIter &      inputIterator,
       // now onto the next line
       inputIterator.NextLine();
       outputIterator.NextLine();
+      progress.CompletedPixel();
     }
   }
 }
