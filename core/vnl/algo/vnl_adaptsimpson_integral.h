@@ -12,7 +12,7 @@ class VNL_ALGO_EXPORT vnl_adaptsimpson_integral : public vnl_definite_integral
 {
  private:
   //: used to wrap the function class to an ordinary function.
-  static double int_fnct_(double* x);
+   static double int_fnct_(double *x);
 
  protected:
 

@@ -103,7 +103,10 @@ vnl_matrix_fixed<T, M, O> vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T
 template <class T, unsigned int num_rows, unsigned int num_cols>
 class VNL_EXPORT vnl_matrix_fixed
 {
-  T data_[num_rows][num_cols]; // Local storage
+ private:
+   static constexpr size_t num_elements = num_rows*num_cols;
+   static constexpr size_t num_bytes = num_elements*sizeof(T);
+   T data_[num_rows][num_cols]; // Local storage
 
  public:
   typedef vnl_matrix_fixed<T,num_rows,num_cols> self;
@@ -140,16 +143,13 @@ class VNL_EXPORT vnl_matrix_fixed
   //: Construct an m*n matrix and fill with value
   explicit vnl_matrix_fixed(T value)
   {
-    T* p = data_[0];
-    unsigned int n = num_rows * num_cols;
-    while (n--)
-      *p++ = value;
+    std::fill_n(data_[0],num_elements,value);
   }
 
   //: Construct an m*n Matrix and copy data into it row-wise.
   explicit vnl_matrix_fixed(const T* datablck)
   {
-    std::memcpy(data_[0], datablck, num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], datablck, num_bytes);
   }
 
   //: Construct an m*n Matrix and copy rhs into it.
@@ -157,7 +157,7 @@ class VNL_EXPORT vnl_matrix_fixed
   vnl_matrix_fixed(const vnl_matrix<T>& rhs)
   {
     assert(rhs.rows() == num_rows && rhs.columns() == num_cols);
-    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_bytes);
   }
 
 
@@ -173,18 +173,18 @@ class VNL_EXPORT vnl_matrix_fixed
 
   //: Return the total number of elements stored by the matrix.
   // This equals rows() * cols()
-  inline unsigned int size() const { return num_rows*num_cols; }
+  constexpr unsigned int size() const { return num_elements; }
 
   //: Return the number of rows.
-  inline unsigned int rows() const { return num_rows; }
+  constexpr unsigned int rows() const { return num_rows; }
 
   //: Return the number of columns.
   // A synonym for columns().
-  inline unsigned int cols() const { return num_cols; }
+  constexpr unsigned int cols() const { return num_cols; }
 
   //: Return the number of columns.
   // A synonym for cols().
-  inline unsigned int columns() const { return num_cols; }
+  constexpr unsigned int columns() const { return num_cols; }
 
   //: set element
   inline void put (unsigned r, unsigned c, T const& v)

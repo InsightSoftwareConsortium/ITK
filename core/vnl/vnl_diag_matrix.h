@@ -17,8 +17,10 @@
 //   Jan.2011 - Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 
-#include <iosfwd>
 #include <cassert>
+#include <iosfwd>
+#include <utility>
+
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif
@@ -57,7 +59,7 @@ class VNL_EXPORT vnl_diag_matrix
 
   //: Construct a diagonal matrix from a vnl_vector.
   //  The vector elements become the diagonal elements.
-  vnl_diag_matrix(vnl_vector<T> const& that): diagonal_(that) {}
+  vnl_diag_matrix(vnl_vector<T> that) : diagonal_(std::move(that)) {}
 
   // Operations----------------------------------------------------------------
 

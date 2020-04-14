@@ -29,6 +29,8 @@
 //   20 Aug 2011 - Peter Vanroose - internal repr change: coeff vector reversed
 // \endverbatim
 
+#include <utility>
+
 #include <vector>
 #include <iosfwd>
 #ifdef _MSC_VER
@@ -59,7 +61,9 @@ class VNL_EXPORT vnl_polynomial
   // as opposed to the C array constructor!
   // An assertion makes sure that the input vector is in normalised form, i.e.,
   // that it is either empty or that the highest order coefficient is nonzero.
-  vnl_polynomial(std::vector<T> const& a): coeffs_(a) { assert(a.begin()==a.end() || a.back() != T(0)); }
+   vnl_polynomial(std::vector<T> a) : coeffs_(std::move(a)) {
+     assert(a.begin() == a.end() || a.back() != T(0));
+   }
 
   //: Initialize polynomial from C array, highest order first.
   // The parameter \p len is the number of coefficients passed in,

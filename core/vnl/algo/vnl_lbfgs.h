@@ -68,7 +68,7 @@ class VNL_ALGO_EXPORT vnl_lbfgs : public vnl_nonlinear_minimizer
 
  private:
   void init_parameters();
-  vnl_cost_function* f_;
+  vnl_cost_function *f_{nullptr};
   //  vnl_lbfgs() {} // default constructor makes no sense
   // does too.  Can set values for parameters.
 };

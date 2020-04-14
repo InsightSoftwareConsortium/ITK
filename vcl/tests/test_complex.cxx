@@ -11,7 +11,7 @@
 
 std::complex<double> doublify(std::complex<float> const &z)
 {
-  return std::complex<double>(std::real(z), std::imag(z));
+  return {std::real(z), std::imag(z)};
 }
 
 

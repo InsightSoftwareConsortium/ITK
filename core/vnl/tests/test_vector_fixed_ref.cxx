@@ -23,7 +23,7 @@ test_vector_fixed_ref()
   {
     constexpr double bulk_data_array[4]{ 1.0, 2.0, 3.0, 4.0 };
     vnl_vector_fixed<double, 4> initial_fixed_size_matrix(bulk_data_array);
-    vnl_vector_ref<double> ref_to_data{ initial_fixed_size_matrix.as_ref() };
+    vnl_vector_ref<double> ref_to_data( initial_fixed_size_matrix.as_ref() );
 
     TEST("vnl_vector_ref{ vnl_vector_fixed } share data pointer",
          initial_fixed_size_matrix.data_block() == ref_to_data.data_block(),

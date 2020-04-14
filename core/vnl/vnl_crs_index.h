@@ -30,7 +30,7 @@ class VNL_EXPORT vnl_crs_index
   typedef std::vector<idx_pair> sparse_vector;
 
   //: Constructor - default
-  vnl_crs_index() : num_cols_(0), col_idx_(), row_ptr_() {}
+  vnl_crs_index() : col_idx_(), row_ptr_() {}
 
   //: Constructor - from a binary mask
   vnl_crs_index(const std::vector<std::vector<bool> >& mask);
@@ -60,11 +60,11 @@ class VNL_EXPORT vnl_crs_index
 
  private:
   //: The number of columns in the matrix
-  unsigned int num_cols_;
-  //: The column for each non-zero element
-  std::vector<int> col_idx_;
-  //: The index of the first non-zero element in each row
-  std::vector<int> row_ptr_;
+   unsigned int num_cols_{0};
+   //: The column for each non-zero element
+   std::vector<int> col_idx_;
+   //: The index of the first non-zero element in each row
+   std::vector<int> row_ptr_;
 };
 
 #endif // vnl_crs_index_h_
