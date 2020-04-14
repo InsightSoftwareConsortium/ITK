@@ -20,6 +20,7 @@
 
 #include <itkArray.h>
 
+#include "itkProgressReporter.h"
 #include <vector>
 namespace itk
 {
@@ -236,6 +237,7 @@ void
 doOneDimensionErodeFirstPass(TInIter &      inputIterator,
                              TOutDistIter & outputIterator,
                              TOutLabIter &  outputLabIterator,
+                             ProgressReporter & progress,
                              const unsigned LineLength,
                              const unsigned direction,
                              const int      m_MagnitudeSign,
@@ -364,6 +366,7 @@ doOneDimensionErodeFirstPass(TInIter &      inputIterator,
     // now onto the next line
     inputIterator.NextLine();
     outputIterator.NextLine();
+    progress.CompletedPixel();
   }
 }
 
@@ -372,6 +375,7 @@ void
 doOneDimensionDilateFirstPass(TInIter &      inputIterator,
                               TOutDistIter & outputIterator,
                               TOutLabIter &  outputLabIterator,
+                              ProgressReporter & progress,
                               const unsigned LineLength,
                               const unsigned direction,
                               const int      m_MagnitudeSign,
@@ -444,6 +448,7 @@ doOneDimensionDilateFirstPass(TInIter &      inputIterator,
     inputIterator.NextLine();
     outputIterator.NextLine();
     outputLabIterator.NextLine();
+    progress.CompletedPixel();
   }
 }
 
@@ -453,6 +458,7 @@ doOneDimensionErode(TInIter &      inputIterator,
                     TDistIter &    inputDistIterator,
                     TOutDistIter & outputDistIterator,
                     TOutLabIter &  outputLabIterator,
+                    ProgressReporter & progress,
                     const unsigned LineLength,
                     const unsigned direction,
                     const int      m_MagnitudeSign,
@@ -583,6 +589,7 @@ doOneDimensionErode(TInIter &      inputIterator,
     inputIterator.NextLine();
     inputDistIterator.NextLine();
     outputDistIterator.NextLine();
+    progress.CompletedPixel();
   }
 }
 
@@ -592,6 +599,7 @@ doOneDimensionDilate(TInIter &      inputIterator,
                      TDistIter &    inputDistIterator,
                      TOutDistIter & outputDistIterator,
                      TOutLabIter &  outputLabIterator,
+                     ProgressReporter & progress,
                      const unsigned LineLength,
                      const unsigned direction,
                      const int      m_MagnitudeSign,
@@ -663,6 +671,7 @@ doOneDimensionDilate(TInIter &      inputIterator,
     outputLabIterator.NextLine();
     inputDistIterator.NextLine();
     outputDistIterator.NextLine();
+    progress.CompletedPixel();
   }
 }
 } // namespace LabSet

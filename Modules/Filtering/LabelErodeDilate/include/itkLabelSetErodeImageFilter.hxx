@@ -31,8 +31,8 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 void
-LabelSetErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+LabelSetErodeImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   // this is where the work happens. We use a distance image with
   // floating point pixel to perform the parabolic operations. The
@@ -42,6 +42,29 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
   // line copy.
   // Similarly, the thresholding on output needs to be integrated
   // with the last processing stage.
+
+  typename std::vector< unsigned int > NumberOfRows;
+  InputSizeType size   = outputRegionForThread.GetSize();
+
+  for ( unsigned int i = 0; i < InputImageDimension; i++ )
+  {
+      NumberOfRows.push_back(1);
+      for ( unsigned int d = 0; d < InputImageDimension; d++ )
+      {
+          if ( d != i )
+          {
+              NumberOfRows[i] *= size[d];
+          }
+      }
+  }
+  float progressPerDimension = 1.0 / ImageDimension;
+
+  auto *progress = new ProgressReporter(this,
+                                        threadId,
+                                        NumberOfRows[this->m_CurrentDimension],
+                                        30,
+                                        this->m_CurrentDimension * progressPerDimension,
+                                        progressPerDimension);
 
   using InputConstIteratorType = ImageLinearConstIteratorWithIndex<TInputImage>;
   using OutputIteratorType = ImageLinearIteratorWithIndex<TOutputImage>;
@@ -86,6 +109,7 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
           inputIterator,
           outputDistIterator,
           outputIterator,
+          *progress,
           LineLength,
           this->m_CurrentDimension,
           this->m_MagnitudeSign,
@@ -105,6 +129,7 @@ LabelSetErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
                                             inputDistIterator,
                                             outputDistIterator,
                                             outputIterator,
+                                            *progress,
                                             LineLength,
                                             this->m_CurrentDimension,
                                             this->m_MagnitudeSign,
