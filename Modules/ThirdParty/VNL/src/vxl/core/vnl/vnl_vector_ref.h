@@ -42,7 +42,7 @@ class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
 
   //: Destructor
   // Prevents base destructor from releasing memory we don't own
-  virtual ~vnl_vector_ref() = default;
+  ~vnl_vector_ref() override = default;
 
   //: Reference to self to make non-const temporaries.
   // This is intended for passing vnl_vector_fixed objects to
@@ -75,8 +75,6 @@ class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
   vnl_vector_ref<T> as_ref() { return *this; }
   const vnl_vector_ref<T> as_ref() const { return *this; }
   vnl_vector<T> as_vector() const { return vnl_vector<T>(this->data_block(), this->size()); }
-
-  explicit operator vnl_vector<T>() const { return this->as_vector(); }
 };
 
 //: Create a reference vector with part of an existing vector.

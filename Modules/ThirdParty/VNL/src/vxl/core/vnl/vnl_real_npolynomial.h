@@ -60,44 +60,51 @@ class VNL_EXPORT vnl_real_npolynomial
   //: degrees of every term for every variable
   vnl_matrix<unsigned int> polyn_;
   //: number of variables = # columns of polyn_
-  unsigned int             nvar_;
+  unsigned int nvar_{0};
   //: number of terms of polynomial
-  unsigned int             nterms_;
+  unsigned int nterms_{0};
   //: max. degree of polynomial
-  unsigned int             ideg_;
+  unsigned int ideg_{0};
 
   friend class vnl_rnpoly_solve;
 
  public:
 
   // Constructor-----------------------------------------------------------------
-  vnl_real_npolynomial() : coeffs_(), polyn_(), nvar_(0), nterms_(0), ideg_(0) {} // don't use this: only here for the STL vector class.
+   vnl_real_npolynomial()
+       : coeffs_(), polyn_() {
+   } // don't use this: only here for the STL vector class.
 
-  //: Construct the polynomial with coefficients vector c and with exponents matrix p
-  vnl_real_npolynomial(const vnl_vector<double>& c, const vnl_matrix<unsigned int>& p);
+   //: Construct the polynomial with coefficients vector c and with exponents
+   //matrix p
+   vnl_real_npolynomial(vnl_vector<double> c,
+                        const vnl_matrix<unsigned int> &p);
 
-  // Computations--------------------------------------------------------------
+   // Computations--------------------------------------------------------------
 
-  //: Evaluate the polynomial at x.
-  double eval(const vnl_vector<double>& x);
-  //: Evaluate the derivative of the polynomial at x with respect to the ith variable.
-  double deval(const vnl_vector<double>& x, unsigned int i);
-  //: Evaluate the gradient of the polynomial at x.
-  vnl_vector<double> deval(const vnl_vector<double>& x);
-  //: Differentiate the polynomial with respect to the ith variable.
-  vnl_real_npolynomial deriv(unsigned int i);
+   //: Evaluate the polynomial at x.
+   double eval(const vnl_vector<double> &x);
+   //: Evaluate the derivative of the polynomial at x with respect to the ith
+   //variable.
+   double deval(const vnl_vector<double> &x, unsigned int i);
+   //: Evaluate the gradient of the polynomial at x.
+   vnl_vector<double> deval(const vnl_vector<double> &x);
+   //: Differentiate the polynomial with respect to the ith variable.
+   vnl_real_npolynomial deriv(unsigned int i);
 
-  vnl_real_npolynomial operator-() const; // unary minus
-  vnl_real_npolynomial operator+(vnl_real_npolynomial const& ) const;
-  vnl_real_npolynomial operator-(vnl_real_npolynomial const& ) const;
-  vnl_real_npolynomial operator*(vnl_real_npolynomial const& ) const;
-  vnl_real_npolynomial& operator+=(vnl_real_npolynomial const& rhs);
-  vnl_real_npolynomial& operator-=(vnl_real_npolynomial const& rhs);
-  vnl_real_npolynomial& operator*=(vnl_real_npolynomial const& rhs);
-  vnl_real_npolynomial operator+(double ) const;
-  vnl_real_npolynomial operator-(double P) const { return operator+(-P); }
-  vnl_real_npolynomial operator*(double ) const;
-  vnl_real_npolynomial& operator*=(double P) { coeffs_ *= P; return *this; }
+   vnl_real_npolynomial operator-() const; // unary minus
+   vnl_real_npolynomial operator+(vnl_real_npolynomial const &) const;
+   vnl_real_npolynomial operator-(vnl_real_npolynomial const &) const;
+   vnl_real_npolynomial operator*(vnl_real_npolynomial const &) const;
+   vnl_real_npolynomial &operator+=(vnl_real_npolynomial const &rhs);
+   vnl_real_npolynomial &operator-=(vnl_real_npolynomial const &rhs);
+   vnl_real_npolynomial &operator*=(vnl_real_npolynomial const &rhs);
+   vnl_real_npolynomial operator+(double) const;
+   vnl_real_npolynomial operator-(double P) const { return operator+(-P); }
+   vnl_real_npolynomial operator*(double) const;
+   vnl_real_npolynomial &operator*=(double P) {
+     coeffs_ *= P;
+     return *this; }
   vnl_real_npolynomial operator/(double P) const { return operator*(1.0/P); }
   vnl_real_npolynomial& operator/=(double P) { return operator*=(1.0/P); }
   friend VNL_EXPORT std::ostream& operator<<(std::ostream& , vnl_real_npolynomial const& );

@@ -74,23 +74,25 @@ template <class T>
 class VNL_EXPORT vnl_sparse_matrix_pair
 {
  public:
-  unsigned int first;
-  T second;
+   unsigned int first{0};
+   T second;
 
-  //: Constructs a pair with null values
-  vnl_sparse_matrix_pair() : first(0), second(T(0)) {}
+   //: Constructs a pair with null values
+   vnl_sparse_matrix_pair() : second(T(0)) {}
 
-  //: Constructs a pair with position a and value b
-  vnl_sparse_matrix_pair(unsigned int const& a, T const& b) : first(a), second(b) {}
+   //: Constructs a pair with position a and value b
+   vnl_sparse_matrix_pair(unsigned int const &a, T const &b)
+       : first(a), second(b) {}
 
-  vnl_sparse_matrix_pair(const vnl_sparse_matrix_pair<T>& o) : first(o.first), second(o.second) {}
+   vnl_sparse_matrix_pair(const vnl_sparse_matrix_pair<T> &o)
+       : first(o.first), second(o.second) {}
 
-  vnl_sparse_matrix_pair<T>& operator=(vnl_sparse_matrix_pair const &o) {
-    if (&o != this) {
-      first = o.first;
-      second = o.second;
-    }
-    return *this;
+   vnl_sparse_matrix_pair<T> &operator=(vnl_sparse_matrix_pair const &o) {
+     if (&o != this) {
+       first = o.first;
+       second = o.second;
+     }
+     return *this;
   }
 
   struct less

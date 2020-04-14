@@ -21,7 +21,7 @@ void vsl_b_write(vsl_b_ostream & os, const vnl_matrix<T> & p)
   vsl_b_write(os, p.cols());
 
   // Calling p.begin() on empty matrix causes segfault
-  if (p.size()>0)
+  if (!p.empty())
     vsl_block_binary_write(os, p.begin(), p.size());
 }
 

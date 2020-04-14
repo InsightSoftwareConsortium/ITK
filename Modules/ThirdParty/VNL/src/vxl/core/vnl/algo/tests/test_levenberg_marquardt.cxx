@@ -1,7 +1,9 @@
 // @author fsm
+#include <cassert>
 #include <cmath>
 #include <iostream>
-#include <cassert>
+#include <utility>
+
 #include "vnl/vnl_double_2.h"
 
 #include "testlib/testlib_test.h"
@@ -37,12 +39,13 @@ struct vnl_rosenbrock : public vnl_least_squares_function
 
 struct linear_est : public vnl_least_squares_function
 {
-  linear_est(vnl_matrix<double> const & A, vnl_vector<double> const & b, bool with_grad)
-    : vnl_least_squares_function(A.cols(), A.rows(), with_grad ? use_gradient : no_gradient)
-    , A_(A)
-    , b_(b)
+  linear_est(vnl_matrix<double> const &A, vnl_vector<double> b, bool with_grad)
+      : vnl_least_squares_function(A.cols(), A.rows(),
+                                   with_grad ? use_gradient : no_gradient)
+      , A_(A)
+      , b_(std::move(b))
   {
-    assert(A.rows() == b.size());
+    assert(A_.rows() == b_.size());
   }
 
   void

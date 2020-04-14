@@ -49,10 +49,7 @@ class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
       const_cast<T *>(other.data_block()), false)
   { }
 
-  //vnl_matrix base class is not no_except, so derived class can not be either
-  vnl_matrix_ref(vnl_matrix_ref<T> &&) = default;
-
-  ~vnl_matrix_ref() = default;
+  ~vnl_matrix_ref() override = default;
 
   //: Copy and move constructor from vnl_matrix_ref<T> is disallowed by default
   // due to other constructor definitions.
@@ -60,8 +57,6 @@ class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
   //  because it does not define external memory to be managed.
   vnl_matrix_ref & operator=( vnl_matrix_ref<T> const& ) = delete;
   vnl_matrix_ref & operator=( vnl_matrix_ref<T> && ) = delete;
-
-  explicit operator vnl_matrix<T>() const { return vnl_matrix<T>{*this}; };
 
   //: Reference to self to make non-const temporaries.
   // This is intended for passing vnl_matrix_fixed objects to

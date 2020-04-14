@@ -149,9 +149,9 @@ class VNL_EXPORT vnl_bignum
  private:
   using Counter = unsigned short;
   using Data = unsigned short;
-  unsigned short count; // Number of data elements (never 0 except for "0")
-  int sign;             // Sign of vnl_bignum (+1 or -1, nothing else!!)
-  unsigned short* data; // Pointer to data value
+  unsigned short count{0}; // Number of data elements (never 0 except for "0")
+  int sign{1};             // Sign of vnl_bignum (+1 or -1, nothing else!!)
+  unsigned short *data{nullptr}; // Pointer to data value
 
   // Provides the absolute value and the sign of the constructor argument.
   template <typename T, bool is_signed = std::is_signed<T>::value>

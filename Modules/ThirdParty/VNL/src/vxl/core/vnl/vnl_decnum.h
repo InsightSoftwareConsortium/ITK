@@ -85,21 +85,25 @@
 class VNL_EXPORT vnl_decnum
 {
  private:
-  char sign_;      // Sign of vnl_decnum ('+' or '-'; for zero and NaN, the sign is ' ')
-  std::string data_;// The decimal mantissa data (absolute value)
-                   // data_ consists of decimals (0-9) only, guaranteed without
-                   // leading zero. This holds even for zero: represented by "".
-                   // The only exceptions are "Inf" and "NaN".
-  long exp_;       // The exponent; nonnegative for integers. Zero for Inf and NaN.
+   char sign_{' '}; // Sign of vnl_decnum ('+' or '-'; for zero and NaN, the
+                    // sign is ' ')
+   std::string
+       data_; // The decimal mantissa data (absolute value)
+              // data_ consists of decimals (0-9) only, guaranteed without
+              // leading zero. This holds even for zero: represented by "".
+              // The only exceptions are "Inf" and "NaN".
+   long exp_{
+       0L}; // The exponent; nonnegative for integers. Zero for Inf and NaN.
 
-  // private constructor: arguments should satisfy the above constraints
-  vnl_decnum(char s, std::string  d, long e) : sign_(s), data_(std::move(d)), exp_(e) {}
+   // private constructor: arguments should satisfy the above constraints
+   vnl_decnum(char s, std::string d, long e)
+       : sign_(s), data_(std::move(d)), exp_(e) {}
  public:
   std::string data() const { return data_; }
   char       sign() const { return sign_; }
   long       exp () const { return exp_; }
   //: Default constructor - creates the number zero.
-  vnl_decnum() : sign_(' '), data_(""), exp_(0L) {}
+  vnl_decnum() : data_("") {}
   // Copy constructor
   vnl_decnum(vnl_decnum const& r) = default;
   //: Constructor from string

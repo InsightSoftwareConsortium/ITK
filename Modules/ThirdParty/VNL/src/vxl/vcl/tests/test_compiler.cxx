@@ -17,8 +17,7 @@ struct X
   static X<T> *pl;
 };
 
-template <class T>
-X<T>::X()  { }
+template <class T> X<T>::X() = default;
 
 // definition (not specialization) of static template member.
 template <class T>
@@ -33,7 +32,7 @@ struct A
 {
   int x{0};
   mutable int y{0};
-  A()  { }
+  A() = default;
   void f() { ++ x; }
   void g() const { ++ y; }
 };

@@ -62,9 +62,7 @@ vnl_random::operator=(const vnl_random & r)
 }
 
 vnl_random::vnl_random()
-  : mz_array_position(0UL)
-  , mz_borrow(0)
-  , mz_previous_normal_flag(0)
+
 {
   reseed();
 }
