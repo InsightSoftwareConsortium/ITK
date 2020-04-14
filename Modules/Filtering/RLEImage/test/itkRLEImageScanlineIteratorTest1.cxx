@@ -46,7 +46,7 @@ TestConstPixelAccess(const itk::RLEImage<TPixel, VImageDimension, CounterType> &
 
 
 int
-itkImageScanlineIteratorTest1(int, char *[])
+itkRLEImageScanlineIteratorTest1(int, char *[])
 {
   itk::RLEImage<itk::Vector<unsigned short, 5>>::Pointer o3 = itk::RLEImage<itk::Vector<unsigned short, 5>>::New();
 

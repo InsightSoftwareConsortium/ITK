@@ -24,7 +24,7 @@
 #include <ctime>
 
 int
-itkIteratorTests(int, char *[])
+itkIteratorTestsForRLEImage(int, char *[])
 {
   std::cout << "Creating an image" << std::endl;
   using ScalarImage = itk::RLEImage<unsigned short>;

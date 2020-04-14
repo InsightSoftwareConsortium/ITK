@@ -1,6 +1,17 @@
 itk_module_test()
 
-set(RLEImageTests itkRLEImageTest.cxx)
+set(
+  RLEImageTests
+  itkRLEImageTest.cxx
+  itkRegionOfInterestRLEImageFilterTest.cxx
+  itkIteratorTestsForRLEImage.cxx
+  itkRLEImageIteratorsForwardBackwardTest.cxx
+  itkRLEImageIteratorTest.cxx
+  itkRLEImageIteratorWithIndexTest.cxx
+  itkRLEImageRegionConstIteratorWithOnlyIndexTest.cxx
+  itkRLEImageRegionIteratorTest.cxx
+  itkRLEImageScanlineIteratorTest1.cxx
+)
 
 createtestdriver( RLEImage "${RLEImage-Test_LIBRARIES}" "${RLEImageTests}" )
 
@@ -14,20 +25,55 @@ target_link_libraries(runFromIDE ${RLEImage-Test_LIBRARIES})
 add_executable(rleStats rleStats.cxx)
 target_link_libraries(rleStats ${RLEImage-Test_LIBRARIES})
 
-add_executable(
-  iteratorTests
-  itkRegionOfInterestImageFilterTest.cxx
-  itkIteratorTests.cxx
-  itkImageIteratorsForwardBackwardTest.cxx
-  itkImageIteratorTest.cxx
-  itkImageIteratorWithIndexTest.cxx
-  itkImageRegionConstIteratorWithOnlyIndexTest.cxx
-  itkImageRegionIteratorTest.cxx
-  itkImageScanlineIteratorTest1.cxx
-  iteratorTests.cxx
+itk_add_test(
+  NAME itkIteratorTestsForRLEImage
+  COMMAND
+    RLEImageTestDriver
+    itkIteratorTestsForRLEImage
 )
-target_link_libraries(iteratorTests "${RLEImage-Test_LIBRARIES}")
-itk_add_test(NAME RLEImageiteratorTests COMMAND iteratorTests)
+itk_add_test(
+  NAME itkRegionOfInterestRLEImageFilterTest
+  COMMAND
+    RLEImageTestDriver
+    itkRegionOfInterestRLEImageFilterTest
+)
+itk_add_test(
+  NAME itkRLEImageIteratorsForwardBackwardTest
+  COMMAND
+    RLEImageTestDriver
+    itkRLEImageIteratorsForwardBackwardTest
+)
+itk_add_test(
+  NAME itkRLEImageIteratorTest
+  COMMAND
+    RLEImageTestDriver
+    itkRLEImageIteratorTest
+    itkRLEImageIteratorWithIndexTest
+)
+itk_add_test(
+  NAME itkRLEImageIteratorWithIndexTest
+  COMMAND
+    RLEImageTestDriver
+    itkRLEImageIteratorWithIndexTest
+)
+itk_add_test(
+  NAME itkRLEImageRegionConstIteratorWithOnlyIndexTest
+  COMMAND
+    RLEImageTestDriver
+    itkRLEImageRegionConstIteratorWithOnlyIndexTest
+)
+itk_add_test(
+  NAME itkRLEImageRegionIteratorTest
+  COMMAND
+    RLEImageTestDriver
+    itkRLEImageRegionIteratorTest
+)
+itk_add_test(
+  NAME itkRLEImageScanlineIteratorTest1
+  COMMAND
+    RLEImageTestDriver
+    itkRLEImageScanlineIteratorTest1
+)
 
 function(ReadWriteTest ImageName Ext) # optional: big
   set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}.${Ext}")

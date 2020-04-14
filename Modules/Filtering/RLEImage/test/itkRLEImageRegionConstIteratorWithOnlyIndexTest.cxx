@@ -21,7 +21,7 @@
 #include "itkRLEImage.h"
 
 template <typename TImage>
-class itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester
+class itkRLEImageRegionConstIteratorWithOnlyIndexTestIteratorTester
 {
 public:
   using ImageType = TImage;
@@ -29,7 +29,7 @@ public:
 
   using ConstIteratorType = itk::ImageRegionConstIteratorWithOnlyIndex<ImageType>;
 
-  itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester()
+  itkRLEImageRegionConstIteratorWithOnlyIndexTestIteratorTester()
   {
     m_Image = ImageType::New();
 
@@ -185,7 +185,7 @@ private:
 };
 
 int
-itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
+itkRLEImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
 {
   bool testPassed = true; // let's be optimistic
 
@@ -194,7 +194,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
 
   {
     std::cout << "Testing with Image< char, 3 >... " << std::endl;
-    itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::RLEImage<char>> Tester;
+    itkRLEImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::RLEImage<char>> Tester;
     if (Tester.TestConstIterator() == false)
     {
       testPassed = false;
@@ -203,7 +203,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
 
   {
     std::cout << "Testing with ImageBase< 2 >... " << std::endl;
-    itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::ImageBase<2>> Tester;
+    itkRLEImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::ImageBase<2>> Tester;
     if (Tester.TestConstIterator() == false)
     {
       testPassed = false;
@@ -212,7 +212,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
 
   {
     std::cout << "Testing with ImageBase< 3 >... " << std::endl;
-    itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::ImageBase<3>> Tester;
+    itkRLEImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::ImageBase<3>> Tester;
     if (Tester.TestConstIterator() == false)
     {
       testPassed = false;

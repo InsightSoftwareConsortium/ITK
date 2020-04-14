@@ -46,7 +46,7 @@ TestConstPixelAccess(const itk::RLEImage<T> & in, itk::RLEImage<T> & out)
 
 
 int
-itkImageRegionIteratorTest(int, char *[])
+itkRLEImageRegionIteratorTest(int, char *[])
 {
   std::cout << "Creating an image" << std::endl;
   itk::RLEImage<itk::Vector<unsigned short, 5>>::Pointer o3 = itk::RLEImage<itk::Vector<unsigned short, 5>>::New();

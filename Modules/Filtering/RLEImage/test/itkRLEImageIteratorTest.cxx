@@ -43,7 +43,7 @@ TestConstPixelAccess(const itk::RLEImage<T> & in, itk::RLEImage<T> & out)
 
 
 int
-itkImageIteratorTest(int, char *[])
+itkRLEImageIteratorTest(int, char *[])
 {
   constexpr unsigned int ImageDimension = 3;
 
