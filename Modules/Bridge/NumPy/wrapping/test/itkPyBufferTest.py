@@ -57,6 +57,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         diff = ScalarDiffFilter.GetTotalDifference()
 
         self.assertEqual(0, diff)
+        assert(hasattr(convertedscalarImage, 'base'))
 
     def test_NumPyBridge_itkScalarImageDeepCopy(self):
         "Try to convert all pixel types to NumPy array view with a deep copy"

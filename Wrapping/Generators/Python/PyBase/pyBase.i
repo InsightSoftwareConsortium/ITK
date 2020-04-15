@@ -412,6 +412,10 @@ str = str
         }
 
         %pythoncode %{
+            def _SetBase(self, base):
+                """Internal method to keep a reference when creating a view of a NumPy array."""
+                self.base = base
+
             def SetDirection(self, direction):
                 import itkHelpers
                 if itkHelpers.is_arraylike(direction):
