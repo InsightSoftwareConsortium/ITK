@@ -21,7 +21,6 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
-#include "itkImportImageFilter.h"
 #include "itkDefaultConvertPixelTraits.h"
 
 
@@ -65,7 +64,7 @@ public:
   /** Image dimension. */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
-  using OutputImagePointer = typename Image<PixelType, ImageDimension>::Pointer;
+  using OutputImagePointer = typename TImage::Pointer;
 
   /**
    * Get an Array with the content of the image buffer
