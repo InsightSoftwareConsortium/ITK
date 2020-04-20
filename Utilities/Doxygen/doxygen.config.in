@@ -870,8 +870,7 @@ EXCLUDE                = "@ITK_SOURCE_DIR@/Modules/ThirdParty/" \
                          "@ITK_SOURCE_DIR@/Modules/Core/Common/itkNumericTraits.h" \
                          "@ITK_SOURCE_DIR@/Modules/Core/Common/itkMathDetail.h" \
                          "@ITK_SOURCE_DIR@/Modules/Core/IO/itkPixelData.h" \
-                         "@ITK_SOURCE_DIR@/Modules/Core/IO/itkAnalyzeDbh.h" \
-                         "@ITK_SOURCE_DIR@/Modules/Remote/"
+                         "@ITK_SOURCE_DIR@/Modules/Core/IO/itkAnalyzeDbh.h"
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
