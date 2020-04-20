@@ -69,6 +69,7 @@ typedef __int64             h5_stat_size_t;
   #endif /* H5_HAVE_STRTOULL */
 #endif /* MSC_VER < 1800 */
 
+#ifdef _MSC_VER
 /* _O_BINARY must be set in Windows to avoid CR-LF <-> LF EOL
  * transformations when performing I/O. Note that this will
  * produce Unix-style text files, though.
@@ -77,6 +78,7 @@ typedef __int64             h5_stat_size_t;
  * where the comma is dropped if nothing is passed to the ellipsis.
  */
 #define HDopen(S,F,...)       _open(S, F | _O_BINARY, __VA_ARGS__)
+#endif
 
 /*
  * The (void*) cast just avoids a compiler warning in H5_HAVE_VISUAL_STUDIO
@@ -107,10 +109,11 @@ struct timespec
 #define HDroundf(V)         Wroundf(V)
 #endif /* MSC_VER < 1700 */
 
-#else
+#endif /* H5_HAVE_VISUAL_STUDIO */
+#ifndef _MSC_VER
 // For MinGW, etc.
 #define HDopen(S,F,M)       _open(S, F | _O_BINARY, M)
-#endif /* H5_HAVE_VISUAL_STUDIO */
+#endif
 
 
 #ifdef __cplusplus
