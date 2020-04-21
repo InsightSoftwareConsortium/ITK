@@ -81,10 +81,6 @@
         inverts the indexing scheme, the Image representation will be the
         same for an array and its transpose. If flipping is desired, see
         *numpy.reshape*.
-
-        Warning: No copy of the data is performed. Using an image
-        view after its source array has been deleted can results in corrupt values
-        or a segfault.
         """
 
         if not HAVE_NUMPY:
@@ -102,6 +98,9 @@
                 imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-1:0:-1], ndarr.shape[0] )
         elif ndarr.ndim in ( 2, 3 ):
             imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[::-1], 1)
+
+        # Keep a reference
+        imgview._SetBase(ndarr)
 
         return imgview
 

@@ -20,6 +20,8 @@
 
 #include "itkPyBuffer.h"
 
+#include "itkImportImageContainer.h"
+
 namespace itk
 {
 
@@ -153,20 +155,19 @@ PyBuffer<TImage>::_GetImageViewFromArray(PyObject * arr, PyObject * shape, PyObj
   SpacingType spacing;
   spacing.Fill(1.0);
 
-  using ImporterType = ImportImageFilter<PixelType, ImageDimension>;
+  using InternalPixelType = typename TImage::InternalPixelType;
+  using ImporterType = ImportImageContainer<SizeValueType, InternalPixelType>;
   typename ImporterType::Pointer importer = ImporterType::New();
-  importer->SetRegion(region);
-  importer->SetOrigin(origin);
-  importer->SetSpacing(spacing);
-  const bool importImageFilterWillOwnTheBuffer = false;
-
-  PixelType * data = (PixelType *)buffer;
-
+  constexpr bool                 importImageFilterWillOwnTheBuffer = false;
+  InternalPixelType *            data = (InternalPixelType *)buffer;
   importer->SetImportPointer(data, numberOfPixels, importImageFilterWillOwnTheBuffer);
 
-  importer->Update();
-  OutputImagePointer output = importer->GetOutput();
-  output->DisconnectPipeline();
+  OutputImagePointer output = TImage::New();
+  output->SetRegions(region);
+  output->SetOrigin(origin);
+  output->SetSpacing(spacing);
+  output->SetPixelContainer(importer);
+  output->SetNumberOfComponentsPerPixel(numberOfComponents);
 
   Py_DECREF(shapeseq);
   PyBuffer_Release(&pyBuffer);
