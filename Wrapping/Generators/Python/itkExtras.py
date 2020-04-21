@@ -405,10 +405,10 @@ def xarray_from_image(image):
     spatial_dims = ('x', 'y', 'z')
     coords = {}
     for index, dim in enumerate(spatial_dims[:spatial_dimension]):
-        coords[dim] = np.arange(origin[index],
-                                origin[index] + size[index]*spacing[index],
-                                spacing[index],
-                                dtype=np.float64)
+        coords[dim] = np.linspace(origin[index],
+                                  origin[index] + (size[index]-1)*spacing[index],
+                                  size[index],
+                                  dtype=np.float64)
 
     dims = list(reversed(spatial_dims[:spatial_dimension]))
     components = image.GetNumberOfComponentsPerPixel()
