@@ -8,10 +8,6 @@
         indexing. This is the reverse of how indices are specified in ITK,
         i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
         algorithms in NumPy / SciPy.
-
-        Warning: No copy of the data is performed. Using an array
-        view after its source image has been deleted can results in corrupt values
-        or a segfault.
         """
 
         if not HAVE_NUMPY:
@@ -37,11 +33,12 @@
             shape = shape[::-1]
 
         pixelType     = "@PixelType@"
-        numpydatatype = _get_numpy_pixelid(pixelType)
+        numpy_dtype = _get_numpy_pixelid(pixelType)
         memview       = itkPyBuffer@PyBufferTypes@._GetArrayViewFromImage(image)
-        ndarrview  = numpy.asarray(memview).view(dtype = numpydatatype).reshape(shape).view(numpy.ndarray)
+        ndarr_view  = np.asarray(memview).view(dtype = numpy_dtype).reshape(shape).view(np.ndarray)
+        itk_view = NDArrayITKBase(ndarr_view, image)
 
-        return ndarrview
+        return itk_view
 
     GetArrayViewFromImage = staticmethod(GetArrayViewFromImage)
 
@@ -59,7 +56,7 @@
         arrayView = itkPyBuffer@PyBufferTypes@.GetArrayViewFromImage(image, keep_axes, update)
 
         # perform deep copy of the image buffer
-        arr = numpy.array(arrayView, copy=True)
+        arr = np.array(arrayView, copy=True)
 
         return arr
 
@@ -77,10 +74,10 @@
         C-order indexing, i.e. k,j,i, the image Size will have the dimensions
         reversed from the array shape.
 
-        Therefore, since the *numpy.transpose* operator on a 2D array simply
+        Therefore, since the *np.transpose* operator on a 2D array simply
         inverts the indexing scheme, the Image representation will be the
         same for an array and its transpose. If flipping is desired, see
-        *numpy.reshape*.
+        *np.reshape*.
         """
 
         if not HAVE_NUMPY:
@@ -89,7 +86,7 @@
         assert ndarr.ndim in ( 2, 3, 4 ), \
             "Only arrays of 2, 3 or 4 dimensions are supported."
         if not ndarr.flags['C_CONTIGUOUS'] and not ndarr.flags['F_CONTIGUOUS']:
-            ndarr = numpy.ascontiguousarray(ndarr)
+            ndarr = np.ascontiguousarray(ndarr)
 
         if ( ndarr.ndim == 3 and is_vector ) or (ndarr.ndim == 4):
             if( ndarr.flags['C_CONTIGUOUS'] ):
@@ -120,10 +117,10 @@
         C-order indexing, i.e. k,j,i, the image Size will have the dimensions
         reversed from the array shape.
 
-        Therefore, since the *numpy.transpose* operator on a 2D array simply
+        Therefore, since the *np.transpose* operator on a 2D array simply
         inverts the indexing scheme, the Image representation will be the
         same for an array and its transpose. If flipping is desired, see
-        *numpy.reshape*.
+        *np.reshape*.
         """
 
         # Create a temporary image view of the array

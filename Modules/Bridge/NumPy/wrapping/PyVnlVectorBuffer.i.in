@@ -2,12 +2,7 @@
     %pythoncode %{
 
     def GetArrayViewFromVnlVector(vnl_vector):
-        """  Get a NumPy array view of a VNL vector.
-
-        Warning: No copy of the data is performed. Using an array
-        view after its source vector has been deleted can results in corrupt values
-        or a segfault.
-        """
+        """Get a NumPy array view of a VNL vector."""
 
         if not HAVE_NUMPY:
             raise ImportError('Numpy not available.')
@@ -16,11 +11,12 @@
         shape   = [itksize]
 
         pixelType     = "@PixelType@"
-        numpydatatype = _get_numpy_pixelid(pixelType)
+        numpy_dtype = _get_numpy_pixelid(pixelType)
         memview       = itkPyVnl@PyVnlTypes@._GetArrayViewFromVnlVector(vnl_vector)
-        ndarrview  = numpy.asarray(memview).view(dtype = numpydatatype).reshape(shape).view(numpy.ndarray)
+        ndarr_view  = np.asarray(memview).view(dtype = numpy_dtype).reshape(shape).view(np.ndarray)
+        itk_view = NDArrayITKBase(ndarr_view, vnl_vector)
 
-        return ndarrview
+        return itk_view
 
     GetArrayViewFromVnlVector = staticmethod(GetArrayViewFromVnlVector)
 
@@ -33,7 +29,7 @@
         arrayView = itkPyVnl@PyVnlTypes@.GetArrayViewFromVnlVector(vnl_vector)
 
         # perform deep copy of the buffer
-        return numpy.array(arrayView, copy=True)
+        return np.array(arrayView, copy=True)
 
     GetArrayFromVnlVector = staticmethod(GetArrayFromVnlVector)
 
@@ -51,7 +47,7 @@
         assert ndarr.ndim == 1 , \
             "Only arrays of 1 dimension are supported."
 
-        ndarr = numpy.ascontiguousarray(ndarr)
+        ndarr = np.ascontiguousarray(ndarr)
         vec = itkPyVnl@PyVnlTypes@._GetVnlVectorFromArray( ndarr, ndarr.shape)
 
         return vec
@@ -59,12 +55,7 @@
     GetVnlVectorFromArray = staticmethod(GetVnlVectorFromArray)
 
     def GetArrayViewFromVnlMatrix(vnl_matrix):
-        """  Get a NumPy array view of a VNL matrix.
-
-        Warning: No copy of the data is performed. Using an array
-        view after its source matrix has been deleted can results in corrupt values
-        or a segfault.
-        """
+        """Get a NumPy array view of a VNL matrix."""
 
         if not HAVE_NUMPY:
             raise ImportError('Numpy not available.')
@@ -75,11 +66,13 @@
         shape   = [rows,cols]
 
         pixelType     = "@PixelType@"
-        numpydatatype = _get_numpy_pixelid(pixelType)
+        numpy_dtype = _get_numpy_pixelid(pixelType)
         memview       = itkPyVnl@PyVnlTypes@._GetArrayViewFromVnlMatrix(vnl_matrix)
-        ndarrview  = numpy.asarray(memview).view(dtype = numpydatatype).reshape(shape).view(numpy.ndarray)
+        ndarr_view  = np.asarray(memview).view(dtype = numpy_dtype).reshape(shape).view(np.ndarray)
 
-        return ndarrview
+        itk_view = NDArrayITKBase(ndarr_view, vnl_matrix)
+
+        return itk_view
 
     GetArrayViewFromVnlMatrix = staticmethod(GetArrayViewFromVnlMatrix)
 
@@ -92,7 +85,7 @@
         arrayView = itkPyVnl@PyVnlTypes@.GetArrayViewFromVnlMatrix(vnl_matrix)
 
         # perform deep copy of the buffer
-        return numpy.array(arrayView, copy=True)
+        return np.array(arrayView, copy=True)
 
     GetArrayFromVnlMatrix = staticmethod(GetArrayFromVnlMatrix)
 
@@ -111,7 +104,7 @@
         assert ndarr.ndim == 2 , \
             "Only arrays of 2 dimensions are supported."
 
-        ndarr = numpy.ascontiguousarray(ndarr)
+        ndarr = np.ascontiguousarray(ndarr)
         mat = itkPyVnl@PyVnlTypes@._GetVnlMatrixFromArray( ndarr, ndarr.shape)
 
         return mat
