@@ -483,6 +483,7 @@ class itkTemplate(object):
                 return keys_second
             return keys_first
 
+        input_type = None
         if 'ttype' in kwargs and keys:
             # Convert `ttype` argument to `tuple` as filter keys are tuples.
             # Note that the function `itk.template()` which returns the template
@@ -514,8 +515,9 @@ class itkTemplate(object):
         if len(keys) == 0:
             if not input_type:
                 raise RuntimeError("""No suitable template parameter can be found.
-Please specify an input via the first argument or via one of the following
-keyword arguments: %s""" % ", ".join(primary_input_methods))
+
+Please specify an input via the first argument, the 'ttype' keyword parameter,
+or via one of the following keyword arguments: %s""" % ", ".join(primary_input_methods))
             else:
                 raise TemplateTypeError(self, input_type)
         return self[list(keys)[0]].New(*args, **kwargs)
