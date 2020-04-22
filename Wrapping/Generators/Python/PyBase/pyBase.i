@@ -1,4 +1,4 @@
-%module pyBasePython
+%module(package="itk") pyBasePython
 
 %include <exception.i>
 %include <typemaps.i>

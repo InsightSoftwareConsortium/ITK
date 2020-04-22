@@ -700,7 +700,7 @@ class SwigInputGenerator(object):
             headerFile.write("#ifdef SWIG%s\n" % lang)
             if lang == "PYTHON":
                 # Also, release the GIL
-                headerFile.write("%%module(threads=\"1\") %s%s\n" % (self.moduleName, lang.title()))
+                headerFile.write("%%module(package=\"itk\",threads=\"1\") %s%s\n" % (self.moduleName, lang.title()))
                 headerFile.write('%feature("nothreadallow");\n')
             else:
                 headerFile.write("%%module %s%s\n" % (self.moduleName, lang.title()))
