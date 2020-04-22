@@ -325,7 +325,7 @@ class itkTemplate(object):
             # In the case of itk class instance, get the class
             name = param.__class__.__name__
             isclass = inspect.isclass(param)
-            if not isclass and name[:3] == 'itk' and name != "itkCType":
+            if not isclass and name[:3] == 'itk' and name != 'itkCType':
                 param = param.__class__
 
             # append the parameter to the list. If it's not a supported type,
@@ -360,7 +360,9 @@ class itkTemplate(object):
         modules = itkBase.lazy_attributes[name]
         for module in modules:
             # find the module's name in sys.modules, or create a new module so named
-            this_module = sys.modules.setdefault(module, types.ModuleType(module))
+            swig_module_name = 'itk.' + module + 'Python'
+            this_module = sys.modules.setdefault(swig_module_name,
+                    itkBase._create_itk_module(module))
             namespace = {}
             if not hasattr(this_module, '__templates_loaded'):
                 itkBase.LoadModule(module, namespace)
