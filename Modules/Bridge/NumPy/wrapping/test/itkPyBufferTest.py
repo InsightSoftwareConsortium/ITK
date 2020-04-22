@@ -46,6 +46,9 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         scalarImage.Allocate();
 
         scalarndarr           = itk.PyBuffer[ScalarImageType].GetArrayViewFromImage(scalarImage)
+        self.assertTrue(hasattr(scalarndarr, 'itk_base'))
+        self.assertTrue(scalarndarr.itk_base, scalarImage)
+        self.assertTrue(isinstance(scalarndarr, np.ndarray))
         convertedscalarImage  = itk.PyBuffer[ScalarImageType].GetImageViewFromArray(scalarndarr)
 
         ScalarDiffFilterType  = itk.ComparisonImageFilter[ScalarImageType, ScalarImageType]

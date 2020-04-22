@@ -2,7 +2,19 @@
 
 HAVE_NUMPY = True
 try:
-  import numpy
+  import numpy as np
+  class NDArrayITKBase(np.ndarray):
+      """A numpy array that provides a view on the data associated with an optional itk "base" object."""
+
+      def __new__(cls, input_array, itk_base=None):
+          obj = np.asarray(input_array).view(cls)
+          obj.itk_base = itk_base
+          return obj
+
+      def __array_finalize__(self, obj):
+          if obj is None: return
+          self.itk_base = getattr(obj, 'itk_base', None)
+
 except ImportError:
   HAVE_NUMPY = False
 
@@ -12,21 +24,21 @@ def _get_numpy_pixelid(itk_Image_type):
     if not HAVE_NUMPY:
         raise ImportError('Numpy not available.')
     # This is a Mapping from numpy array types to itk pixel types.
-    _np_itk = {"UC":numpy.uint8,
-               "US":numpy.uint16,
-               "UI":numpy.uint32,
-               "UL":numpy.uint64,
-               "SC":numpy.int8,
-               "SS":numpy.int16,
-               "SI":numpy.int32,
-               "SL":numpy.int64,
-               "F":numpy.float32,
-               "D":numpy.float64,
+    _np_itk = {"UC":np.uint8,
+               "US":np.uint16,
+               "UI":np.uint32,
+               "UL":np.uint64,
+               "SC":np.int8,
+               "SS":np.int16,
+               "SI":np.int32,
+               "SL":np.int64,
+               "F":np.float32,
+               "D":np.float64,
                 }
     import os
     if os.name == 'nt':
-        _np_itk['UL'] = numpy.uint32
-        _np_itk['SL'] = numpy.int32
+        _np_itk['UL'] = np.uint32
+        _np_itk['SL'] = np.int32
     try:
         return _np_itk[itk_Image_type]
     except KeyError as e:
