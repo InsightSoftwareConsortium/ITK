@@ -288,7 +288,12 @@ H5D__efl_read(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed")
         if(H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name")
+#if defined(H5_HAVE_WIN32_API) && !defined(_MSC_VER)
+/* With MinGW, pass the required third argument to the HDopen macro, which is ignored by _open. */
+        if((fd = HDopen(full_name, O_RDONLY, NULL)) < 0)
+#else
         if((fd = HDopen(full_name, O_RDONLY)) < 0)
+#endif
             HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL, "unable to open external raw data file")
         if(HDlseek(fd, (HDoff_t)(efl->slot[u].offset + (HDoff_t)skip), SEEK_SET) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_SEEKERROR, FAIL, "unable to seek in external raw data file")
