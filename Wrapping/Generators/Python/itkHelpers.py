@@ -86,7 +86,7 @@ def accept_numpy_array_like_xarray(image_filter):
                             data_array = itk.xarray_from_image(value)
                             output_list[index] = data_array
                         else:
-                            array = itk.array_from_image(value)
+                            array = itk.array_view_from_image(value)
                             output_list[index] = array
                 return tuple(output_list)
             else:
@@ -94,7 +94,7 @@ def accept_numpy_array_like_xarray(image_filter):
                     if have_xarray_input:
                         output = itk.xarray_from_image(output)
                     else:
-                        output = itk.array_from_image(output)
+                        output = itk.array_view_from_image(output)
                 return output
         else:
             return image_filter(*args, **kwargs)
