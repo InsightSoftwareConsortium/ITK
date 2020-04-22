@@ -268,6 +268,8 @@ def _GetImageFromArray(arr, function, is_vector):
         raise ImportError('Numpy not available.')
     import itk
     PixelType = _get_itk_pixelid(arr)
+    Dimension = arr.ndim
+    ImageType = itk.Image[PixelType, Dimension]
     if is_vector:
         Dimension = arr.ndim - 1
         if arr.flags['C_CONTIGUOUS']:
@@ -281,9 +283,6 @@ def _GetImageFromArray(arr, function, is_vector):
                 ImageType = itk.Image[ itk.RGBAPixel[itk.UC], Dimension ]
         else:
             ImageType = itk.Image[ itk.Vector[PixelType, VectorDimension] , Dimension]
-    else:
-        Dimension = arr.ndim
-        ImageType = itk.Image[PixelType, Dimension]
     templatedFunction = getattr(itk.PyBuffer[ImageType], function)
     return templatedFunction(arr, is_vector)
 
