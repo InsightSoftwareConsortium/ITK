@@ -92,20 +92,9 @@ public:
   // End concept checking
 #endif
 
-  /** Set the marker image */
-  void
-  SetMarkerImage(TMarkerImage * input)
-  {
-    // Process object is not const-correct so the const casting is required.
-    this->SetNthInput(1, const_cast<TMarkerImage *>(input));
-  }
-
-  /** Get the marker image */
-  MarkerImageType *
-  GetMarkerImage()
-  {
-    return static_cast<MarkerImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
-  }
+  /** Set/Get the marker image */
+  itkSetInputMacro(MarkerImage, MarkerImageType);
+  itkGetInputMacro(MarkerImage, MarkerImageType);
 
   /** Set the input image */
   void

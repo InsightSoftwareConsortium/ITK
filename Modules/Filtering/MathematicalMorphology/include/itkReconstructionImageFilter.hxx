@@ -33,6 +33,9 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::ReconstructionIm
 {
   m_FullyConnected = false;
   m_UseInternalCopy = true;
+
+  this->SetPrimaryInputName("MarkerImage");
+  this->AddRequiredInputName("MaskImage", 1);
 }
 
 template <typename TInputImage, typename TOutputImage, typename TCompare>
@@ -60,36 +63,6 @@ void
 ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::EnlargeOutputRequestedRegion(DataObject *)
 {
   this->GetOutput()->SetRequestedRegion(this->GetOutput()->GetLargestPossibleRegion());
-}
-
-template <typename TInputImage, typename TOutputImage, typename TCompare>
-void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::SetMarkerImage(const MarkerImageType * markerImage)
-{
-  // Process object is not const-correct so the const casting is required.
-  this->SetNthInput(0, const_cast<MarkerImageType *>(markerImage));
-}
-
-template <typename TInputImage, typename TOutputImage, typename TCompare>
-const typename ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::MarkerImageType *
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GetMarkerImage()
-{
-  return this->GetInput(0);
-}
-
-template <typename TInputImage, typename TOutputImage, typename TCompare>
-void
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::SetMaskImage(const MaskImageType * maskImage)
-{
-  // Process object is not const-correct so the const casting is required.
-  this->SetNthInput(1, const_cast<MaskImageType *>(maskImage));
-}
-
-template <typename TInputImage, typename TOutputImage, typename TCompare>
-const typename ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::MaskImageType *
-ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GetMaskImage()
-{
-  return this->GetInput(1);
 }
 
 // a version that takes a padded copy of mask and marker
