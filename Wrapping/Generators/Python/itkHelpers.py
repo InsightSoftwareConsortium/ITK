@@ -56,7 +56,7 @@ def accept_numpy_array_like_xarray(image_filter):
                     have_xarray_input = True
                     image = itk.image_from_xarray(arg)
                     args_list[index] = image
-            elif is_arraylike(arg):
+            elif not isinstance(arg, itk.Object) and is_arraylike(arg):
                 have_array_input = True
                 array = np.asarray(arg)
                 image = itk.image_view_from_array(array)
@@ -69,7 +69,7 @@ def accept_numpy_array_like_xarray(image_filter):
                     have_xarray_input = True
                     image = itk.image_from_xarray(value)
                     kwargs[key] = image
-                elif is_arraylike(value):
+                elif not isinstance(value, itk.Object) and is_arraylike(value):
                     have_array_input = True
                     array = np.asarray(value)
                     image = itk.image_view_from_array(array)

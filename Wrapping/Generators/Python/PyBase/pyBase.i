@@ -416,6 +416,42 @@ str = str
                 """Internal method to keep a reference when creating a view of a NumPy array."""
                 self.base = base
 
+            @property
+            def ndim(self):
+                """Equivalant to the np.ndarray ndim attribute when converted
+                to an image with itk.array_view_from_image."""
+                spatial_dims = self.GetImageDimension()
+                if self.GetNumberOfComponentsPerPixel() > 1:
+                    return spatial_dims + 1
+                else:
+                    return spatial_dims
+
+            @property
+            def shape(self):
+                """Equivalant to the np.ndarray shape attribute when converted
+                to an image with itk.array_view_from_image."""
+                itksize = self.GetLargestPossibleRegion().GetSize()
+                dim = len(itksize)
+                result = [int(itksize[idx]) for idx in range(dim)]
+
+                if(self.GetNumberOfComponentsPerPixel() > 1):
+                    result = [self.GetNumberOfComponentsPerPixel(), ] + result
+                result.reverse()
+                return tuple(result)
+
+            @property
+            def dtype(self):
+                """Equivalant to the np.ndarray dtype attribute when converted
+                to an image with itk.array_view_from_image."""
+                import itk
+                first_template_arg = itk.template(self)[1][0]
+                if hasattr(first_template_arg, 'dtype'):
+                    return first_template_arg.dtype
+                else:
+                    # Multi-component pixel types, e.g. Vector,
+                    # CovariantVector, etc.
+                    return itk.template(first_template_arg)[1][0].dtype
+
             def SetDirection(self, direction):
                 import itkHelpers
                 if itkHelpers.is_arraylike(direction):

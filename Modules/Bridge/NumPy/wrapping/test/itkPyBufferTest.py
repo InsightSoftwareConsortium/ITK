@@ -58,6 +58,9 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
 
         self.assertEqual(0, diff)
         assert(hasattr(convertedscalarImage, 'base'))
+        self.assertEqual(scalarndarr.ndim, convertedscalarImage.ndim)
+        self.assertEqual(scalarndarr.dtype, convertedscalarImage.dtype)
+        self.assertTupleEqual(scalarndarr.shape, convertedscalarImage.shape)
 
     def test_NumPyBridge_itkScalarImageDeepCopy(self):
         "Try to convert all pixel types to NumPy array view with a deep copy"
@@ -104,6 +107,9 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         vectorndarr           = itk.PyBuffer[VectorImageType].GetArrayViewFromImage(vectorImage)
 
         convertedvectorImage  = itk.PyBuffer[VectorImageType].GetImageViewFromArray(vectorndarr, is_vector=True)
+        self.assertEqual(vectorndarr.ndim, convertedvectorImage.ndim)
+        self.assertEqual(vectorndarr.dtype, convertedvectorImage.dtype)
+        self.assertTupleEqual(vectorndarr.shape, convertedvectorImage.shape)
 
     def test_NumPyBridge_itkRGBImage(self):
         "Try to convert an RGB ITK image to NumPy array view"
@@ -124,6 +130,9 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         rgbndarr              = itk.PyBuffer[RGBImageType].GetArrayViewFromImage(rgbImage)
 
         convertedRGBImage     = itk.PyBuffer[RGBImageType].GetImageViewFromArray(rgbndarr, is_vector=True)
+        self.assertEqual(rgbndarr.ndim, convertedRGBImage.ndim)
+        self.assertEqual(rgbndarr.dtype, convertedRGBImage.dtype)
+        self.assertTupleEqual(rgbndarr.shape, convertedRGBImage.shape)
 
     def test_NumPyBridge_itkRGBAImage(self):
         "Try to convert an RGBA ITK image to NumPy array view"
@@ -144,6 +153,9 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         rgbandarr             = itk.PyBuffer[RGBAImageType].GetArrayViewFromImage(rgbaImage)
 
         convertedRGBAImage    = itk.PyBuffer[RGBAImageType].GetImageViewFromArray(rgbandarr, is_vector=True)
+        self.assertEqual(rgbandarr.ndim, convertedRGBAImage.ndim)
+        self.assertEqual(rgbandarr.dtype, convertedRGBAImage.dtype)
+        self.assertTupleEqual(rgbandarr.shape, convertedRGBAImage.shape)
 
     def test_NumPyBridge_itkVectorPixelImage(self):
         "Try to convert an ITK image with vector pixels to NumPy array view"
@@ -164,6 +176,9 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         vectorndarr           = itk.PyBuffer[VectorImageType].GetArrayViewFromImage(vectorImage)
 
         convertedVectorImage  = itk.PyBuffer[VectorImageType].GetImageViewFromArray(vectorndarr, is_vector=True)
+        self.assertEqual(vectorndarr.ndim, convertedVectorImage.ndim)
+        self.assertEqual(vectorndarr.dtype, convertedVectorImage.dtype)
+        self.assertTupleEqual(vectorndarr.shape, convertedVectorImage.shape)
 
     def test_NumPyBridge_FortranOrder(self):
         "Try to convert an ITK image to / from a NumPy array with Fortran order"
