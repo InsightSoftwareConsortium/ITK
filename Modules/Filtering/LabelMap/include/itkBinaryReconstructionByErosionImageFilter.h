@@ -128,21 +128,13 @@ public:
   itkSetMacro(ForegroundValue, OutputImagePixelType);
   itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
-  /** Set the marker image */
-  void
-  SetMarkerImage(const InputImageType * input);
+  /** Set/Get the marker image */
+  itkSetInputMacro(MarkerImage, InputImageType);
+  itkGetInputMacro(MarkerImage, InputImageType);
 
-  /** Get the marker image */
-  InputImageType *
-  GetMarkerImage();
-
-  /** Set the mask image */
-  void
-  SetMaskImage(const InputImageType * input);
-
-  /** Get the mask image */
-  InputImageType *
-  GetMaskImage();
+  /** Set/Get the mask image */
+  itkSetInputMacro(MaskImage, InputImageType);
+  itkGetInputMacro(MaskImage, InputImageType);
 
 protected:
   BinaryReconstructionByErosionImageFilter();

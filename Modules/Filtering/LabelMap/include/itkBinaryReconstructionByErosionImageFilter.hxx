@@ -37,36 +37,6 @@ BinaryReconstructionByErosionImageFilter<TInputImage>::BinaryReconstructionByEro
 
 template <typename TInputImage>
 void
-BinaryReconstructionByErosionImageFilter<TInputImage>::SetMarkerImage(const InputImageType * input)
-{
-  // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput("MarkerImage", const_cast<InputImageType *>(input));
-}
-
-template <typename TInputImage>
-typename BinaryReconstructionByErosionImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByErosionImageFilter<TInputImage>::GetMarkerImage()
-{
-  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MarkerImage")));
-}
-
-template <typename TInputImage>
-void
-BinaryReconstructionByErosionImageFilter<TInputImage>::SetMaskImage(const InputImageType * input)
-{
-  // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput("MaskImage", const_cast<InputImageType *>(input));
-}
-
-template <typename TInputImage>
-typename BinaryReconstructionByErosionImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByErosionImageFilter<TInputImage>::GetMaskImage()
-{
-  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MaskImage")));
-}
-
-template <typename TInputImage>
-void
 BinaryReconstructionByErosionImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
