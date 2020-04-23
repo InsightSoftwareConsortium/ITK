@@ -37,36 +37,6 @@ BinaryReconstructionByDilationImageFilter<TInputImage>::BinaryReconstructionByDi
 
 template <typename TInputImage>
 void
-BinaryReconstructionByDilationImageFilter<TInputImage>::SetMarkerImage(const InputImageType * input)
-{
-  // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput("MarkerImage", const_cast<InputImageType *>(input));
-}
-
-template <typename TInputImage>
-typename BinaryReconstructionByDilationImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByDilationImageFilter<TInputImage>::GetMarkerImage()
-{
-  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MarkerImage")));
-}
-
-template <typename TInputImage>
-void
-BinaryReconstructionByDilationImageFilter<TInputImage>::SetMaskImage(const InputImageType * input)
-{
-  // Process object is not const-correct, so the const casting is required.
-  this->ProcessObject::SetInput("MaskImage", const_cast<InputImageType *>(input));
-}
-
-template <typename TInputImage>
-typename BinaryReconstructionByDilationImageFilter<TInputImage>::InputImageType *
-BinaryReconstructionByDilationImageFilter<TInputImage>::GetMaskImage()
-{
-  return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput("MaskImage")));
-}
-
-template <typename TInputImage>
-void
 BinaryReconstructionByDilationImageFilter<TInputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
