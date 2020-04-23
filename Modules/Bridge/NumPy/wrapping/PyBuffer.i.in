@@ -22,15 +22,13 @@
 
         itksize = image.GetLargestPossibleRegion().GetSize()
         dim     = len(itksize)
-        shape   = []
-        for idx in range(dim):
-            shape.append(int(itksize[idx]))
+        shape   = [int(itksize[idx]) for idx in range(dim)]
 
         if(image.GetNumberOfComponentsPerPixel() > 1):
             shape = [image.GetNumberOfComponentsPerPixel(), ] + shape
 
         if keep_axes == False:
-            shape = shape[::-1]
+            shape.reverse()
 
         pixelType     = "@PixelType@"
         numpy_dtype = _get_numpy_pixelid(pixelType)

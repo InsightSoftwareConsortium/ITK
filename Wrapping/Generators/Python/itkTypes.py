@@ -16,13 +16,20 @@
 #
 #==========================================================================*/
 
+import os
+HAVE_NUMPY = True
+try:
+  import numpy as np
+except ImportError:
+  HAVE_NUMPY = False
 
 class itkCType:
     __cTypes__ = {}
 
-    def __init__(self, name, shortName):
+    def __init__(self, name, short_name, np_dtype=None):
         self.name = name
-        self.short_name = shortName
+        self.short_name = short_name
+        self.dtype = np_dtype
 
         itkCType.__cTypes__[self.name] = self
 
@@ -49,17 +56,37 @@ class itkCType:
     GetCType = staticmethod(GetCType)
 
 
-F = itkCType("float", "F")
-D = itkCType("double", "D")
-LD = itkCType("long double", "LD")
-UC = itkCType("unsigned char", "UC")
-US = itkCType("unsigned short", "US")
-UI = itkCType("unsigned int", "UI")
-UL = itkCType("unsigned long", "UL")
-ULL = itkCType("unsigned long long", "ULL")
-SC = itkCType("signed char", "SC")
-SS = itkCType("signed short", "SS")
-SI = itkCType("signed int", "SI")
-SL = itkCType("signed long", "SL")
-SLL = itkCType("signed long long", "SLL")
-B = itkCType("bool", "B")
+if HAVE_NUMPY:
+    F = itkCType("float", "F", np.float32)
+    D = itkCType("double", "D", np.float64)
+    LD = itkCType("long double", "LD", np.float128)
+    UC = itkCType("unsigned char", "UC", np.uint8)
+    US = itkCType("unsigned short", "US", np.uint16)
+    UI = itkCType("unsigned int", "UI", np.uint32)
+    if os.name == 'nt':
+        UL = itkCType("unsigned long", "UL", np.uintl32)
+        SL = itkCType("signed long", "SL", np.intl32)
+    else:
+        UL = itkCType("unsigned long", "UL", np.uint64)
+        SL = itkCType("signed long", "SL", np.int64)
+    ULL = itkCType("unsigned long long", "ULL", np.uint64)
+    SC = itkCType("signed char", "SC", np.int8)
+    SS = itkCType("signed short", "SS", np.int16)
+    SI = itkCType("signed int", "SI", np.int32)
+    SLL = itkCType("signed long long", "SLL", np.int64)
+    B = itkCType("bool", "B", np.bool)
+else:
+    F = itkCType("float", "F")
+    D = itkCType("double", "D")
+    LD = itkCType("long double", "LD")
+    UC = itkCType("unsigned char", "UC")
+    US = itkCType("unsigned short", "US")
+    UI = itkCType("unsigned int", "UI")
+    UL = itkCType("unsigned long", "UL")
+    ULL = itkCType("unsigned long long", "ULL")
+    SC = itkCType("signed char", "SC")
+    SS = itkCType("signed short", "SS")
+    SI = itkCType("signed int", "SI")
+    SL = itkCType("signed long", "SL")
+    SLL = itkCType("signed long long", "SLL")
+    B = itkCType("bool", "B")
