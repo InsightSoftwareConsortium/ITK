@@ -59,16 +59,17 @@ class itkCType:
 if HAVE_NUMPY:
     F = itkCType("float", "F", np.float32)
     D = itkCType("double", "D", np.float64)
-    LD = itkCType("long double", "LD", np.float128)
     UC = itkCType("unsigned char", "UC", np.uint8)
     US = itkCType("unsigned short", "US", np.uint16)
     UI = itkCType("unsigned int", "UI", np.uint32)
     if os.name == 'nt':
-        UL = itkCType("unsigned long", "UL", np.uintl32)
-        SL = itkCType("signed long", "SL", np.intl32)
+        UL = itkCType("unsigned long", "UL", np.uint32)
+        SL = itkCType("signed long", "SL", np.int32)
+        LD = itkCType("long double", "LD")
     else:
         UL = itkCType("unsigned long", "UL", np.uint64)
         SL = itkCType("signed long", "SL", np.int64)
+        LD = itkCType("long double", "LD", np.float128)
     ULL = itkCType("unsigned long long", "ULL", np.uint64)
     SC = itkCType("signed char", "SC", np.int8)
     SS = itkCType("signed short", "SS", np.int16)
