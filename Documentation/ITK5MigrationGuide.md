@@ -580,6 +580,19 @@ explicit `static_cast`'s may be required in migrated code.
 Common enums used in classes across the toolkit are now available in the
 `itk::CommonEnums` class.
 
+As a consequence of improved enum support, a new library binary to provide
+enum class `operator<<` definitions is required for many ITK modules that were
+previously header-only. As a result, remote modules may encounter build-time
+link errors such as:
+
+```
+itk::RecursiveGaussianImageFilter<itk::Image<float, 3u>, itk::Image<float, 3u> >::PrintSelf(std::ostream&, itk::Indent) const: error: undefined reference to 'itk::operator<<(std::ostream&, itk::RecursiveGaussianImageFilterEnums::GaussianOrder)' `itk::CommonEnums` class.
+```
+
+To resolve these errors, update the remote module's dependency specification in
+`itk-module.cmake`. List the dependent module under `DEPENDS` instead of
+`COMPILE_DEPENDS`; this will link to the new dependent library.
+
 Update scripts
 --------------
 
