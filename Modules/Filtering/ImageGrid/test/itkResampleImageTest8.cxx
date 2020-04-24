@@ -111,7 +111,7 @@ protected:
   ProjectTransform()
     : Transform<double, 3, 2>(0)
   {}
-  ~ProjectTransform() = default;
+  ~ProjectTransform() override = default;
 
 }; // class ProjectTransform
 
