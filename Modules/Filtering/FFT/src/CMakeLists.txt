@@ -1,7 +1,8 @@
-set(ITKFFT_SRCS
-  itkFFTWGlobalConfiguration.cxx
-  itkComplexToComplexFFTImageFilter.cxx
-  )
+set(ITKFFT_SRCS itkComplexToComplexFFTImageFilter.cxx)
+
+if( ITK_USE_FFTWF OR ITK_USE_FFTWD AND NOT ITK_USE_CUFFTW)
+  list(APPEND ITKFFT_SRCS itkFFTWGlobalConfiguration.cxx )
+endif()
 
 itk_module_add_library(ITKFFT ${ITKFFT_SRCS})
 
