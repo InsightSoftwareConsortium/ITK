@@ -21,7 +21,7 @@
 #include "itkPDEDeformableRegistrationFilter.h"
 #include "itkMeanSquareRegistrationFunction.h"
 
-#if !defined(ITK_USE_CUFFTW) && defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
+#if !defined(ITK_USE_CUFFTW) && (defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD))
 #  include "fftw3.h"
 
 namespace itk
