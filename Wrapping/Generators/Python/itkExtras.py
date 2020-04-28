@@ -456,6 +456,73 @@ def image_from_xarray(data_array):
 
     return itk_image
 
+def vtk_image_from_image(image):
+    """Convert an itk.Image to a vtk.vtkImageData."""
+    import itk
+    import vtk
+    from vtk.util.numpy_support import numpy_to_vtk
+
+    array = itk.array_view_from_image(image)
+
+    vtk_image = vtk.vtkImageData()
+    data_array = numpy_to_vtk(array.reshape(-1))
+    data_array.SetNumberOfComponents(image.GetNumberOfComponentsPerPixel())
+    data_array.SetName('Scalars')
+    # Always set Scalars for (future?) multi-component volume rendering
+    vtk_image.GetPointData().SetScalars(data_array)
+    dim = image.GetImageDimension()
+    spacing = [1.0,] * 3
+    spacing[:dim] = image.GetSpacing()
+    vtk_image.SetSpacing(spacing)
+    origin = [0.0,] * 3
+    origin[:dim] = image.GetOrigin()
+    vtk_image.SetOrigin(origin)
+    dims = [1,] * 3
+    dims[:dim] = itk.size(image)
+    vtk_image.SetDimensions(dims)
+    # Todo: Add Direction with VTK 9
+    if image.GetImageDimension() == 3:
+        PixelType = itk.template(image)[1][0]
+        if PixelType == itk.Vector:
+            vtk_image.GetPointData().SetVectors(data_array)
+        elif PixelType == itk.CovariantVector:
+            vtk_image.GetPointData().SetVectors(data_array)
+        elif PixelType == itk.SymmetricSecondRankTensor:
+            vtk_image.GetPointData().SetTensors(data_array)
+        elif PixelType == itk.DiffusionTensor3D:
+            vtk_image.GetPointData().SetTensors(data_array)
+    return vtk_image
+
+def image_from_vtk_image(vtk_image):
+    """Convert a vtk.vtkImageData to an itk.Image."""
+    import itk
+    from vtk.util.numpy_support import vtk_to_numpy
+
+    point_data = vtk_image.GetPointData()
+    array = vtk_to_numpy(point_data.GetScalars())
+    array = array.reshape(-1)
+    is_vector = point_data.GetScalars().GetNumberOfComponents() != 1
+    dims = list(vtk_image.GetDimensions())
+    if is_vector and dims[-1] == 1:
+        # 2D
+        dims = dims[:2]
+        dims.reverse()
+        dims.append(point_data.GetScalars().GetNumberOfComponents())
+    else:
+        dims.reverse()
+    array.shape = tuple(dims)
+    image = itk.image_view_from_array(array, is_vector)
+
+    dim = image.GetImageDimension()
+    spacing = [1.0] * dim
+    spacing[:dim] = vtk_image.GetSpacing()[:dim]
+    image.SetSpacing(spacing)
+    origin = [0.0] * dim
+    origin[:dim] = vtk_image.GetOrigin()[:dim]
+    image.SetOrigin(origin)
+    # Todo: Add Direction with VTK 9
+    return image
+
 # return an image
 from itkTemplate import image, output
 
