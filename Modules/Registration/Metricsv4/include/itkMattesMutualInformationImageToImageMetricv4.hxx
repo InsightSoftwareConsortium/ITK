@@ -358,7 +358,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
       {
         currMarginalBin += *colptr;
       }
-      currMarginalBin *= normalizationFactor;
     }
   }
 
