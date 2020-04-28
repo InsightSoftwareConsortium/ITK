@@ -390,3 +390,28 @@ try:
 except ImportError:
     print('xarray not imported. Skipping xarray conversion tests')
     pass
+
+# vtk conversion
+try:
+    import vtk
+    import numpy as np
+    print('Testing vtk conversion')
+
+    image = itk.image_from_array(np.random.rand(2,3,4))
+    vtk_image = itk.vtk_image_from_image(image)
+    image_round = itk.image_from_vtk_image(vtk_image)
+    assert(np.array_equal(itk.origin(image), itk.origin(image_round)))
+    assert(np.array_equal(itk.spacing(image), itk.spacing(image_round)))
+    assert(np.array_equal(itk.size(image), itk.size(image_round)))
+    assert(np.array_equal(itk.array_view_from_image(image), itk.array_view_from_image(image_round)))
+
+    image = itk.image_from_array(np.random.rand(5,4,2).astype(np.float32), is_vector=True)
+    vtk_image = itk.vtk_image_from_image(image)
+    image_round = itk.image_from_vtk_image(vtk_image)
+    assert(np.array_equal(itk.origin(image), itk.origin(image_round)))
+    assert(np.array_equal(itk.spacing(image), itk.spacing(image_round)))
+    assert(np.array_equal(itk.size(image), itk.size(image_round)))
+    assert(np.array_equal(itk.array_view_from_image(image), itk.array_view_from_image(image_round)))
+except ImportError:
+    print('vtk not imported. Skipping vtk conversion tests')
+    pass
