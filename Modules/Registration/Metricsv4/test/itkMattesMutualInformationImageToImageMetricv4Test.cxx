@@ -386,6 +386,22 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
     transformer->SetParameters(parameters2Minus);
     const typename MetricType::MeasureType measure2Minus = metric->GetValue();
 
+    const typename MetricType::MeasureType new_values[4]{ measure1Plus, measure1Minus, measure2Plus, measure2Minus };
+    const typename MetricType::MeasureType known_values[4]{
+      -1.297994750907097, -1.297995377157083, -1.297994448222851, -1.297995700722833
+    };
+
+    for (size_t v = 0; v < 4; ++v)
+    {
+      constexpr double max_percent_diff_in_metric = 0.05;
+      if (itk::Math::abs(itk::Math::abs(new_values[v] / known_values[v]) - 1.0) > max_percent_diff_in_metric)
+      {
+        std::cout << "\t[FAILED] known values for metric values not computed correctly." << std::setprecision(16)
+                  << new_values[v] << " != " << known_values[v] << std::endl;
+        testFailed = true;
+      }
+    }
+
     // Computing second order derivative to get a handle on
     // stability of estimates from the metric
     const double secondOrderApproxDerivative = -1.0 *
