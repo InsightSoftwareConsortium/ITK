@@ -11,11 +11,11 @@
 #--
 #-- ## Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
 #--   - [ ] Meets all ITK code style standards
-#--   - [ ] No external requirements beyond those needed by ITK proper
-#--   - [ ] Builds and passes tests on all supported platforms within 1 month of each core tagged release
-#--            - [ ] Windows Shared Library Build with Visual Studio
-#--            - [ ] Mac with clang compiller
-#--            - [ ] Linux with gcc compiler
+#--   - [X] No external requirements beyond those needed by ITK proper
+#--   - [X] Builds and passes tests on all supported platforms within 1 month of each core tagged release
+#--            - [X] Windows Shared Library Build with Visual Studio
+#--            - [X] Mac with clang compiller
+#--            - [X] Linux with gcc compiler
 #--   - [X] Active developer community dedicated to maintaining code-base
 #--   - [ ] 75% code coverage demonstrated for testing suite
 #--   - [X] Continuous integration testing performed
@@ -49,5 +49,5 @@ itk_fetch_module(TubeTK
 "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTubeTK.git
-  GIT_TAG "d9f08724e7b6fa275f501c91bc07d46fd4615e58"
+  GIT_TAG "08f29e55cc0384855d8d2c70b2628c405a7c25d2"
   )
