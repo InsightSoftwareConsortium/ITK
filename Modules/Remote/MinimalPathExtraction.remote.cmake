@@ -47,5 +47,5 @@ itk_fetch_module(MinimalPathExtraction
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMinimalPathExtraction.git
-  GIT_TAG 164c0176f8e066977e6017201174b21cfa7b5273
+  GIT_TAG 059c6bcd234ff215c9c0daa860f8cdd5750b49c7
   )
