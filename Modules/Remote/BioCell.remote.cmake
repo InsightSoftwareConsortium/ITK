@@ -48,5 +48,5 @@ It also has classes to represent a cell genome,
 whose expression is modeled by differential equations."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBioCell.git
-  GIT_TAG 47a23387fbcac5402b8f9a2bb896344be648f499
+  GIT_TAG 1d394ab80f94bfaea32dd9806f8806ce7101e683
   )
