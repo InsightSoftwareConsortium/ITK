@@ -13,6 +13,8 @@ ITKMeshToPolyData
     :target: https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData/blob/master/LICENSE)
     :alt: License
 
+.. image:: https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData/workflows/Build,%20test,%20package/badge.svg
+
 Overview
 --------
 
