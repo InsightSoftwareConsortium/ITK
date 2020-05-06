@@ -274,3 +274,20 @@ TEST(FixedArray, IteratorIncrementReturnValue)
   Check_iterators_increment_return_value<double, 2>();
   Check_iterators_increment_return_value<int, 3>();
 }
+
+// Tests data() and size() works
+TEST(FixedArray, StdMemberFunctionsWork)
+{
+  using FixedArrayType = itk::FixedArray<double, 3>;
+  auto d3arr = FixedArrayType(3);
+  d3arr[0] = 1;
+  d3arr[1] = 2;
+  d3arr[2] = 3;
+  // size
+  EXPECT_EQ(d3arr.size(), 3);
+  // const and non-const data
+  const auto cdata = d3arr.data();
+  EXPECT_EQ(cdata[0], 1);
+  d3arr.data()[0] = 10;
+  EXPECT_EQ(cdata[0], 10);
+}

@@ -317,6 +317,18 @@ public:
     return m_InternalArray;
   }
 
+  ValueType *
+  data()
+  {
+    return m_InternalArray;
+  }
+
+  const ValueType *
+  data() const
+  {
+    return m_InternalArray;
+  }
+
   /** Get various iterators to the array. */
   Iterator
   Begin();
@@ -410,9 +422,14 @@ public:
     return this->crend();
   }
 
+  /** Size of the container */
   SizeType
   Size() const;
 
+  SizeType
+  size() const;
+
+  /** Set all the elements of the container to the input value. */
   void
   Fill(const ValueType &);
 
