@@ -253,8 +253,8 @@ ScancoImageIO ::InitializeHeader()
 {
   memset(this->m_Version, 0, 18);
   memset(this->m_PatientName, 0, 42);
-  memset(this->CreationDate, 0, 32);
-  memset(this->ModificationDate, 0, 32);
+  memset(this->m_CreationDate, 0, 32);
+  memset(this->m_ModificationDate, 0, 32);
   this->ScanDimensionsPixels[0] = 0;
   this->ScanDimensionsPixels[1] = 0;
   this->ScanDimensionsPixels[2] = 0;
@@ -457,7 +457,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   month = ((month > 12 || month < 1) ? 0 : month);
   static const char * months[] = { "XXX", "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
                                    "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
-  sprintf(this->CreationDate,
+  sprintf(this->m_CreationDate,
           "%d-%s-%d %02d:%02d:%02d.%03d",
           (day % 100),
           months[month],
@@ -466,7 +466,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
           (minute % 100),
           (second % 100),
           (milli % 1000));
-  sprintf(this->ModificationDate,
+  sprintf(this->m_ModificationDate,
           "%d-%s-%d %02d:%02d:%02d.%03d",
           (day % 100),
           months[month],
@@ -779,14 +779,14 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       if (skey == "Time")
       {
         valuelen = (valuelen > 31 ? 31 : valuelen);
-        strncpy(this->ModificationDate, value, valuelen);
-        this->ModificationDate[valuelen] = '\0';
+        strncpy(this->m_ModificationDate, value, valuelen);
+        this->m_ModificationDate[valuelen] = '\0';
       }
       else if (skey == "Original Creation-Date")
       {
         valuelen = (valuelen > 31 ? 31 : valuelen);
-        strncpy(this->CreationDate, value, valuelen);
-        this->CreationDate[valuelen] = '\0';
+        strncpy(this->m_CreationDate, value, valuelen);
+        this->m_CreationDate[valuelen] = '\0';
       }
       else if (skey == "Orig-ISQ-Dim-p")
       {

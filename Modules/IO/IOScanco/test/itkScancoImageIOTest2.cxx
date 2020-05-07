@@ -101,6 +101,8 @@ itkScancoImageIOTest2(int argc, char * argv[])
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetEnergy(), 45.0, 6, 1e-3));
   std::cout << "Intensity: \t\t" << scancoIO->GetIntensity() << std::endl;
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetIntensity(), 0.177, 6, 1e-3));
+  std::cout << "CreationDate: \t" << scancoIO->GetCreationDate() << std::endl;
+  std::cout << "ModificationDate: \t" << scancoIO->GetModificationDate() << std::endl;
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<ImageType>;

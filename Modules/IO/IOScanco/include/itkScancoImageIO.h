@@ -228,6 +228,30 @@ public:
     this->Modified();
   }
 
+  const char *
+  GetCreationDate() const
+  {
+    return this->m_CreationDate;
+  }
+  void
+  SetCreationDate(const char * version)
+  {
+    strcpy(this->m_CreationDate, version);
+    this->Modified();
+  }
+
+  const char *
+  GetModificationDate() const
+  {
+    return this->m_ModificationDate;
+  }
+  void
+  SetModificationDate(const char * version)
+  {
+    strcpy(this->m_ModificationDate, version);
+    this->Modified();
+  }
+
   itkGetConstMacro(Energy, double);
   itkSetMacro(Energy, double);
 
@@ -305,8 +329,8 @@ private:
   char   m_PatientName[42];
   int    m_PatientIndex;
   int    m_ScannerID;
-  char   CreationDate[32];
-  char   ModificationDate[32];
+  char   m_CreationDate[32];
+  char   m_ModificationDate[32];
   int    ScanDimensionsPixels[3];
   double ScanDimensionsPhysical[3];
   double m_SliceThickness;
