@@ -1,9 +1,7 @@
 ITKMeshToPolyData
 =================================
 
-.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKMeshToPolyData?branchName=master
-    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=2&branchName=master
-    :alt: Build status
+.. image:: https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData/workflows/Build,%20test,%20package/badge.svg
 
 .. image:: https://img.shields.io/pypi/v/itk-meshtopolydata.svg
     :target: https://pypi.python.org/pypi/itk-meshtopolydata
@@ -12,8 +10,6 @@ ITKMeshToPolyData
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
     :target: https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData/blob/master/LICENSE)
     :alt: License
-
-.. image:: https://github.com/InsightSoftwareConsortium/ITKMeshToPolyData/workflows/Build,%20test,%20package/badge.svg
 
 Overview
 --------
