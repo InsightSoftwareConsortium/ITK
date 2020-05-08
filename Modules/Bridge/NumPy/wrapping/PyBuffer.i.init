@@ -15,6 +15,21 @@ try:
           if obj is None: return
           self.itk_base = getattr(obj, 'itk_base', None)
 
+      def __reduce_ex__(self, protocol):
+          if protocol >= 5:
+              return type(self)._reconstruct, (PickleBuffer(self),), None
+          else:
+              return type(self)._reconstruct, (bytearray(self),)
+
+      @classmethod
+      def _reconstruct(cls, obj):
+         with memoryview(obj) as m:
+            # Get a handle over the original buffer object
+            obj = m.obj
+            print('within reconstruct')
+            print(cls, type(obj))
+            if type(obj) is np.ndarray: return obj
+            else: return np.asarray(obj)
 except ImportError:
   HAVE_NUMPY = False
 
