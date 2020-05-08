@@ -210,7 +210,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
   // Sum per thread
   MultiThreaderBase::New()->ParallelizeArray(
-    (PointIdentifier)0, (PointIdentifier)ranges.size(), sumNeighborhoodValues, nullptr);
+    0, ranges.size(), sumNeighborhoodValues, nullptr);
   // Join sums
   CompensatedSummation<MeasureType> value = 0;
   for (unsigned int i = 0; i < threadValues.size(); i++)
@@ -386,7 +386,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
   // Sum per thread
   MultiThreaderBase::New()->ParallelizeArray(
-    (PointIdentifier)0, (PointIdentifier)ranges.size(), sumNeighborhoodValues, nullptr);
+    0, ranges.size(), sumNeighborhoodValues, nullptr);
 
   // Sum thread results
   CompensatedSummation<MeasureType> value = 0;
