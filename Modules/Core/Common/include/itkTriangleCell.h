@@ -150,10 +150,15 @@ public:
   TriangleCell()
     : m_PointIds(NumberOfPoints, NumericTraits<PointIdentifier>::max())
   {}
-#if defined(__GNUC__) && (__GNUC__ > 5) || defined(__clang__)
-  ~TriangleCell() override = default;
-#else
+#if defined(__GNUC__)
+  // A bug in some versions of the GCC and Clang compilers
+  // result in an ICE or linker error when "= default" is requested.
+  // This was observed in at least gcc 4.8 and 5.4.0, and
+  // AppleClang 7.0.2 and 8.0.0. Probably others too.
+  // "= default" doesn't gain us much, so just don't use it here.
   ~TriangleCell() override{};
+#else
+  ~TriangleCell() override = default;
 #endif
 
 protected:
