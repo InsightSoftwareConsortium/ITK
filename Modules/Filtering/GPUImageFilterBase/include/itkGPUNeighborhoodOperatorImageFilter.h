@@ -41,7 +41,7 @@ namespace itk
  */
 
 /** Create a helper GPU Kernel class for GPUNeighborhoodOperatorImageFilter */
-itkGPUKernelClassMacro(GPUNeighborhoodOperatorImageFilterKernel);
+class itkGPUKernelClassMacro(GPUNeighborhoodOperatorImageFilterKernel);
 
 template <typename TInputImage,
           typename TOutputImage,

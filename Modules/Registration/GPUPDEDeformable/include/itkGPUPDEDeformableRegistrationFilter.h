@@ -73,7 +73,7 @@ namespace itk
  */
 
 /** Create a helper GPU Kernel class for GPUPDEDeformableRegistrationFilter */
-itkGPUKernelClassMacro(GPUPDEDeformableRegistrationFilterKernel);
+class itkGPUKernelClassMacro(GPUPDEDeformableRegistrationFilterKernel);
 
 template <typename TFixedImage,
           typename TMovingImage,

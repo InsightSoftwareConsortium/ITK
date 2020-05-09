@@ -1146,22 +1146,16 @@ compilers.
  * provides the GPU kernel source code as a const char*
  */
 #define itkGPUKernelClassMacro(kernel)                                                                                 \
-  /**\class kernel \                                                                                                   \
-   * Workaround KWstyle bug \                                                                                          \
-   * \ingroup ITKCommon \                                                                                              \
-   */                                                                                                                  \
-  class kernel                                                                                                         \
+  kernel                                                                                                               \
   {                                                                                                                    \
   public:                                                                                                              \
-    static const char *                                                                                                \
-    GetOpenCLSource();                                                                                                 \
+    static const char * GetOpenCLSource();                                                                             \
                                                                                                                        \
   private:                                                                                                             \
     kernel();                                                                                                          \
     virtual ~kernel();                                                                                                 \
     kernel(const kernel &);                                                                                            \
-    void                                                                                                               \
-    operator=(const kernel &);                                                                                         \
+    void operator=(const kernel &);                                                                                    \
   };
 
 #define itkGetOpenCLSourceFromKernelMacro(kernel)                                                                      \

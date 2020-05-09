@@ -24,7 +24,7 @@
 namespace itk
 {
 /** Create a helper GPU Kernel class for GPUDenseFiniteDifferenceImageFilter */
-itkGPUKernelClassMacro(GPUDenseFiniteDifferenceImageFilterKernel);
+class ITKGPUFiniteDifference_EXPORT itkGPUKernelClassMacro(GPUDenseFiniteDifferenceImageFilterKernel);
 
 /**
  * \class GPUDenseFiniteDifferenceImageFilter
