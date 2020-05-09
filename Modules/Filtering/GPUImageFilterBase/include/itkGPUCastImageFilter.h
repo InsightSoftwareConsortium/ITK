@@ -29,7 +29,7 @@ namespace itk
 {
 
 /** Create a helper GPU Kernel class for GPUCastImageFilter */
-itkGPUKernelClassMacro(GPUCastImageFilterKernel);
+class itkGPUKernelClassMacro(GPUCastImageFilterKernel);
 
 /** \class GPUCastImageFilter
  * \brief GPU version of CastImageFilter.
