@@ -29,7 +29,7 @@ namespace itk
  * \brief FIXME     Add documentation here
  * \ingroup SubdivisionQuadEdgeMeshFilter
  */
-template <typename TInputMesh, typename TOutputMesh>
+template <typename TInputMesh, typename TOutputMesh = TInputMesh>
 class LinearTriangleEdgeCellSubdivisionQuadEdgeMeshFilter
   : public TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
