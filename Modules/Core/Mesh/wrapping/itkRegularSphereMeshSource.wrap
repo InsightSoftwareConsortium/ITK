@@ -1,0 +1,9 @@
+itk_wrap_include("itkMesh.h")
+
+itk_wrap_class("itk::RegularSphereMeshSource" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${WRAP_ITK_REAL})
+      itk_wrap_template("M${ITKM_${t}}${d}" "itk::Mesh< ${ITKT_${t}},${d} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
