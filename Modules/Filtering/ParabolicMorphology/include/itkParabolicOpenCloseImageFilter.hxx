@@ -139,8 +139,7 @@ ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::SetScale(Scala
 #if 1
 template <typename TInputImage, bool DoOpen, typename TOutputImage>
 void
-ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateInputRequestedRegion() throw(
-  InvalidRequestedRegionError)
+ParabolicOpenCloseImageFilter<TInputImage, DoOpen, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region

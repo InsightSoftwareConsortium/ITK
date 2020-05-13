@@ -156,7 +156,7 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
 
   void
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError) override;
+  GenerateInputRequestedRegion() override;
 
   // Override since the filter produces the entire dataset.
   void
