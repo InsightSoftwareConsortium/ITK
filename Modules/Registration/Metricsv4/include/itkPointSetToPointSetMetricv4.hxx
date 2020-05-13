@@ -183,7 +183,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 
   PointIdentifierRanges                          ranges = this->CreateRanges();
   std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
-  std::function<void(SizeValueType)>              sumNeighborhoodValues =
+  std::function<void(SizeValueType)>             sumNeighborhoodValues =
     [this, &threadValues, &ranges, &virtualTransformedPointSet, &fixedTransformedPointSet](SizeValueType rangeIndex) {
       CompensatedSummation<MeasureType> threadValue = 0;
       PixelType                         pixel;
@@ -281,7 +281,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
   std::vector<CompensatedSummation<MeasureType>> threadValues(ranges.size());
   using CompensatedDerivative = typename std::vector<CompensatedSummation<ParametersValueType>>;
   std::vector<CompensatedDerivative> threadDerivatives(ranges.size());
-  std::function<void(SizeValueType)>  sumNeighborhoodValues =
+  std::function<void(SizeValueType)> sumNeighborhoodValues =
     [this, &derivative, &threadDerivatives, &threadValues, &ranges, &calculateValue, &numberOfLocalParameters](
       SizeValueType rangeIndex) {
       // Use STL container to make sure no unesecarry checks are performed
