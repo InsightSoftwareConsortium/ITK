@@ -46,12 +46,12 @@ MetaArrow(const char *_headerName)
 
 //
 MetaArrow::
-MetaArrow(const MetaArrow *_Arrow)
+MetaArrow(const MetaArrow *_arrow)
 :MetaObject()
 {
   if(META_DEBUG)  std::cout << "MetaArrow()" << std::endl;
   Clear();
-  CopyInfo(_Arrow);
+  CopyInfo(_arrow);
 }
 
 MetaArrow::

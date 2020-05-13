@@ -183,7 +183,7 @@ public:
 
   bool OptionExistsByMinusTag(std::string minusTag);
 
-  bool Parse(int argc, char* argv[]);
+  bool Parse(int argc, char** const argv);
 
   /** Given an XML buffer fill in the command line arguments */
   bool ParseXML(const char* buffer);

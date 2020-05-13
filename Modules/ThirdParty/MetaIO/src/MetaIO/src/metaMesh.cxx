@@ -83,9 +83,9 @@ MetaMesh()
   if(META_DEBUG) std::cout << "MetaMesh()" << std::endl;
   m_NPoints = 0;
 
-  for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
+  for(auto & i : m_CellListArray)
     {
-    m_CellListArray[i] = nullptr;
+    i = nullptr;
     }
   Clear();
 }
@@ -98,9 +98,9 @@ MetaMesh(const char *_headerName)
   if(META_DEBUG)  std::cout << "MetaMesh()" << std::endl;
   m_NPoints = 0;
 
-  for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
+  for(auto & i : m_CellListArray)
     {
-    m_CellListArray[i] = nullptr;
+    i = nullptr;
     }
   Clear();
   Read(_headerName);
@@ -113,9 +113,9 @@ MetaMesh(const MetaMesh *_mesh)
 {
   if(META_DEBUG)  std::cout << "MetaMesh()" << std::endl;
   m_NPoints = 0;
-  for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
+  for(auto & i : m_CellListArray)
     {
-    m_CellListArray[i] = nullptr;
+    i = nullptr;
     }
   Clear();
   CopyInfo(_mesh);
@@ -130,9 +130,9 @@ MetaMesh(unsigned int dim)
 {
   if(META_DEBUG) std::cout << "MetaMesh()" << std::endl;
   m_NPoints = 0;
-  for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
+  for(auto & i : m_CellListArray)
     {
-    m_CellListArray[i] = nullptr;
+    i = nullptr;
     }
   Clear();
 }
@@ -142,10 +142,10 @@ MetaMesh::
 ~MetaMesh()
 {
   Clear();
-  for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
+  for(auto & i : m_CellListArray)
     {
-    delete m_CellListArray[i];
-    m_CellListArray[i] = nullptr;
+    delete i;
+    i = nullptr;
     }
 
   M_Destroy();
@@ -240,21 +240,21 @@ Clear()
 }
 
   // Initialize the new array
-  for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
+  for(auto & i : m_CellListArray)
     {
-    if(m_CellListArray[i])
+    if(i)
       {
       // Delete the list of pointers to cells.
-      CellListType::iterator it_cell = m_CellListArray[i]->begin();
-      while(it_cell != m_CellListArray[i]->end())
+      CellListType::iterator it_cell = i->begin();
+      while(it_cell != i->end())
       {
         MeshCell* cell = *it_cell;
         ++it_cell;
         delete cell;
       }
-      delete m_CellListArray[i];
+      delete i;
       }
-    m_CellListArray[i] = new CellListType;
+    i = new CellListType;
     }
 
   m_PointList.clear();
@@ -353,9 +353,9 @@ M_SetupWriteFields()
   m_Fields.push_back(mF);
 
   unsigned int numberOfCellTypes = 0;
-  for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
+  for(auto & i : m_CellListArray)
     {
-    if(m_CellListArray[i]->size()>0)
+    if(!i->empty())
       {
       numberOfCellTypes++;
       }
@@ -1237,7 +1237,7 @@ M_Write()
   // Loop trough the array of cell types and write them if they exists
   for(unsigned int i=0;i<MET_NUM_CELL_TYPES;i++)
     {
-    if(m_CellListArray[i]->size()>0)
+    if(!m_CellListArray[i]->empty())
       {
       // clear the fields and add new fields for a new write
       MetaObject::ClearFields();

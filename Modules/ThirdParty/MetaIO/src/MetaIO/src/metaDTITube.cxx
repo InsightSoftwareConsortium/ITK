@@ -108,12 +108,12 @@ MetaDTITube(const char *_headerName)
 
 
 MetaDTITube::
-MetaDTITube(const MetaDTITube *_DTITube)
+MetaDTITube(const MetaDTITube *_dtiTube)
 :MetaObject()
 {
   if(META_DEBUG)  std::cout << "MetaDTITube()" << std::endl;
   Clear();
-  CopyInfo(_DTITube);
+  CopyInfo(_dtiTube);
 }
 
 
@@ -332,7 +332,7 @@ M_SetupWriteFields()
     ++itFields;
     }
 
-  if(m_PointDim.size()>0)
+  if(!m_PointDim.empty())
     {
     mF = new MET_FieldRecordType;
     MET_InitWriteField(mF, "PointDim", MET_STRING,

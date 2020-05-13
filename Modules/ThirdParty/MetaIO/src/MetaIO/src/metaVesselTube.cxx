@@ -57,8 +57,8 @@ MetaVesselTube(const char *_headerName)
 
 
 MetaVesselTube::
-MetaVesselTube(const MetaVesselTube *_VesselTube)
-:MetaTube(_VesselTube)
+MetaVesselTube(const MetaVesselTube *_vesselTube)
+:MetaTube(_vesselTube)
 {
   if(META_DEBUG)
     {

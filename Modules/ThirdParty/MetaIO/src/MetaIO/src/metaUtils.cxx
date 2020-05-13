@@ -532,7 +532,7 @@ std::streamoff MET_UncompressStream(std::ifstream * stream,
   // Try to find the current seek position in the compressed
   // and uncompressed stream from the compressionTable
   // The table is stored in order
-  if(compressionTable->offsetList.size()>0)
+  if(!compressionTable->offsetList.empty())
     {
     MET_CompressionOffsetListType::const_iterator it = compressionTable->offsetList.end();
     --it;
@@ -1010,7 +1010,7 @@ static bool MET_IsComplete(std::vector<MET_FieldRecordType *> * fields)
 //
 bool MET_Read(std::istream &fp,
               std::vector<MET_FieldRecordType *> * fields,
-              char _MET_SeperatorChar, bool oneLine, bool display_warnings,
+              char _met_SeperatorChar, bool oneLine, bool display_warnings,
               std::vector<MET_FieldRecordType *> * newFields)
 {
 
@@ -1020,7 +1020,7 @@ bool MET_Read(std::istream &fp,
 
   std::vector<MET_FieldRecordType *>::iterator fieldIter;
 
-  MET_SeperatorChar = _MET_SeperatorChar;
+  MET_SeperatorChar = _met_SeperatorChar;
 
   bool found;
 
@@ -1268,9 +1268,9 @@ static std::string convert_ulonglong_to_string(MET_ULONG_LONG_TYPE val)
 //
 bool MET_Write(std::ostream &fp,
                std::vector<MET_FieldRecordType *> * fields,
-               char _MET_SeperatorChar)
+               char _met_SeperatorChar)
 {
-  MET_SeperatorChar = _MET_SeperatorChar;
+  MET_SeperatorChar = _met_SeperatorChar;
 
   int j;
   std::vector<MET_FieldRecordType *>::iterator fieldIter;

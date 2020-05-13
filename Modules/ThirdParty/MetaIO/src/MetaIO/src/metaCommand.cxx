@@ -392,7 +392,7 @@ GetValueAsBool(std::string optionName,
                std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = optionName;
     }
@@ -432,7 +432,7 @@ GetValueAsBool(Option option,
                std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = option.name;
     }
@@ -454,7 +454,7 @@ GetValueAsBool(Option option,
       }
     ++itField;
     }
-  return 0;
+  return false;
 }
 
 /** Return the value of the option as a float */
@@ -463,7 +463,7 @@ GetValueAsFloat(std::string optionName,
                 std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = optionName;
     }
@@ -494,7 +494,7 @@ GetValueAsFloat(Option option,
                 std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = option.name;
     }
@@ -517,7 +517,7 @@ GetValueAsInt(std::string optionName,
               std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = optionName;
     }
@@ -548,7 +548,7 @@ GetValueAsInt(Option option,
               std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = option.name;
     }
@@ -571,7 +571,7 @@ GetValueAsString(std::string optionName,
                  std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = optionName;
     }
@@ -602,7 +602,7 @@ GetValueAsString(Option option,
                  std::string fieldName)
 {
   std::string fieldname = fieldName;
-  if(fieldName == "")
+  if(fieldName.empty())
     {
     fieldname = option.name;
     }
@@ -688,12 +688,12 @@ ListOptions()
     std::cout << "Option #" << i << std::endl;
     std::cout << "   Name: " <<  (*it).name.c_str()
                         << std::endl;
-    if((*it).tag.size() > 0)
+    if(!(*it).tag.empty())
       {
       std::cout << "   Tag: " << (*it).tag.c_str()
                           << std::endl;
       }
-    if((*it).longtag.size() > 0)
+    if(!(*it).longtag.empty())
       {
       std::cout << "   LongTag: " << (*it).longtag.c_str()
                           << std::endl;
@@ -875,7 +875,7 @@ void MetaCommand::WriteXMLOptionToCout(std::string optionName,
 
   std::vector<Field>::const_iterator itField = (*it).fields.begin();
 
-  std::string optionType = "";
+  std::string optionType;
 
   if((*itField).type == MetaCommand::STRING
      && ( (*itField).externaldata == MetaCommand::DATA_IN
@@ -897,7 +897,7 @@ void MetaCommand::WriteXMLOptionToCout(std::string optionName,
     }
   else
     {
-    optionType = this->TypeToString((*itField).type).c_str();
+    optionType = this->TypeToString((*itField).type);
     }
 
   std::cout << "<" << optionType.c_str()
@@ -908,7 +908,7 @@ void MetaCommand::WriteXMLOptionToCout(std::string optionName,
                       << std::endl;
   // Label is the description for now
   std::string label = (*it).label;
-  if(label.size()==0)
+  if(label.empty())
     {
     label = (*it).name;
     }
@@ -917,12 +917,12 @@ void MetaCommand::WriteXMLOptionToCout(std::string optionName,
                       << std::endl;
   std::cout << "<description>" << (*it).description.c_str()
                       << "</description>" << std::endl;
-  if((*it).tag.size()>0) // use the single by default flag if any
+  if(!(*it).tag.empty()) // use the single by default flag if any
     {
     std::cout << "<flag>" << (*it).tag.c_str() << "</flag>"
                         << std::endl;
     }
-  else if((*it).longtag.size()>0)
+  else if(!(*it).longtag.empty())
     {
     std::cout << "<longflag>" << (*it).longtag.c_str() << "</longflag>"
                         << std::endl;
@@ -933,7 +933,7 @@ void MetaCommand::WriteXMLOptionToCout(std::string optionName,
     index++;
     }
 
-  if((*itField).value.size()>0)
+  if(!(*itField).value.empty())
     {
     std::cout << "<default>" << (*itField).value.c_str() << "</default>"
                         << std::endl;
@@ -1003,7 +1003,7 @@ void MetaCommand::ListOptionsSlicerXML()
     std::cout << "  <label>" << (*itGroup).name.c_str()
                         <<  "</label>" <<  std::endl;
 
-    if((*itGroup).description.size() == 0)
+    if((*itGroup).description.empty())
       {
       std::cout << "  <description>" << (*itGroup).name.c_str()
                           << "</description>" <<  std::endl;
@@ -1049,7 +1049,7 @@ void MetaCommand::ListOptionsSlicerXML()
 
       if(!optionIsGrouped)
         {
-        this->WriteXMLOptionToCout((*it).name.c_str(),index);
+        this->WriteXMLOptionToCout((*it).name,index);
         }
       ++it;
       } // end loop option
@@ -1095,7 +1095,7 @@ ParseXML(const char* buffer)
   m_OptionVector.clear();
   std::string buf = this->GetXML(buffer,"option",0);
   long pos = 0;
-  while(buf.size() > 0)
+  while(!buf.empty())
     {
     Option option;
     option.userDefined = false;
@@ -1212,7 +1212,7 @@ ListOptionsSimplified(bool extended)
   it = m_OptionVector.begin();
   while(it != m_OptionVector.end())
     {
-    if((*it).tag.size() > 0 || (*it).longtag.size() > 0)
+    if(!(*it).tag.empty() || !(*it).longtag.empty())
       {
       ntags++;
       }
@@ -1252,8 +1252,8 @@ ListOptionsSimplified(bool extended)
     it = m_OptionVector.begin();
     while(it != m_OptionVector.end())
       {
-      if( (count == 1 && ( (*it).tag.size() > 0 || (*it).longtag.size() > 0 ))
-         || (count == 2 && ( (*it).tag.size() == 0 && (*it).longtag.size() == 0 )) )
+      if( (count == 1 && ( !(*it).tag.empty() || !(*it).longtag.empty() ))
+         || (count == 2 && ( (*it).tag.empty() && (*it).longtag.empty() )) )
         {
         if(!(*it).required)
           {
@@ -1263,11 +1263,11 @@ ListOptionsSimplified(bool extended)
           {
           std::cout << "   ";
           }
-        if((*it).tag.size() > 0)
+        if(!(*it).tag.empty())
           {
           std::cout << "-" << (*it).tag.c_str() << " ";
           }
-        if((*it).longtag.size() > 0)
+        if(!(*it).longtag.empty())
           {
           std::cout << "--" << (*it).longtag.c_str() << " ";
           }
@@ -1307,23 +1307,23 @@ ListOptionsSimplified(bool extended)
           }
         std::cout << std::endl;
 
-        if((*it).description.size()>0)
+        if(!(*it).description.empty())
           {
           std::cout << "      = " << (*it).description.c_str();
           std::cout << std::endl;
           itField = (*it).fields.begin();
           while(itField != (*it).fields.end())
             {
-            if((*itField).description.size() > 0
-               || (*itField).value.size() > 0)
+            if(!(*itField).description.empty()
+               || !(*itField).value.empty())
               {
               std::cout << "        With: "
                                   << (*itField).name.c_str();
-              if((*itField).description.size() > 0)
+              if(!(*itField).description.empty())
                 {
                 std::cout << " = " << (*itField).description.c_str();
                 }
-              if((*itField).value.size() > 0)
+              if(!(*itField).value.empty())
                 {
                 std::cout << " (Default = "
                                     << (*itField).value.c_str() << ")";
@@ -1448,7 +1448,7 @@ ExportGAD(bool dynamic)
     options = m_ParsedOptionVector;
     }
 
-  if(m_Name=="")
+  if(m_Name.empty())
     {
     std::cout << "Set the name of the application using SetName()"
                         << std::endl;
@@ -1578,7 +1578,7 @@ ExportGAD(bool dynamic)
     file << "   <group name=\"" << (*it).name.c_str();
     file << "\" syntax=\"";
 
-    if((*it).tag.size()>0)
+    if(!(*it).tag.empty())
       {
       file << "-" << (*it).tag.c_str() << " ";
       }
@@ -1622,12 +1622,12 @@ ExportGAD(bool dynamic)
       file << "\" type=\"" << this->TypeToString((*itFields).type).c_str();
       file << "\"";
 
-      if((*itFields).rangeMin != "")
+      if(!(*itFields).rangeMin.empty())
         {
         file << " rangeMin=\"" << (*itFields).rangeMin.c_str() << "\"";
         }
 
-      if((*itFields).rangeMax != "")
+      if(!(*itFields).rangeMax.empty())
         {
         file << " rangeMax=\"" << (*itFields).rangeMax.c_str() << "\"";
         }
@@ -1698,7 +1698,7 @@ ExportGAD(bool dynamic)
 
 
 /** Parse the command line */
-bool MetaCommand::Parse(int argc, char* argv[])
+bool MetaCommand::Parse(int argc, char** const argv)
 {
   m_GotXMLFlag = false;
   m_ExecutableName = argv[0];
@@ -1719,7 +1719,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
   // Fill in the results
   m_ParsedOptionVector.clear();
   bool inArgument = false;
-  std::string tag = "";
+  std::string tag;
   std::string args;
 
   unsigned long currentField = 0; // current field position
@@ -1728,7 +1728,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
   unsigned int optionalValuesRemaining=0;
   bool isComplete = false; // check if the option should be parse until
                            // the next tag is found
-  std::string completeString = "";
+  std::string completeString;
 
   bool exportGAD = false;
   for(unsigned int i=1;i<(unsigned int)argc;i++)
@@ -1912,7 +1912,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
       bool found = false;
       while(it != m_OptionVector.end())
         {
-        if((pos >= currentField) && ((*it).tag=="" && (*it).longtag==""))
+        if((pos >= currentField) && ((*it).tag.empty() && (*it).longtag.empty()))
           {
           currentOption = pos;
           valuesRemaining = static_cast<unsigned int>((*it).fields.size());
@@ -1938,7 +1938,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
     // We collect the values
     if(isComplete && (int)i<argc)
       {
-      if(completeString.size()==0)
+      if(completeString.empty())
         {
         completeString = argv[i];
         }
@@ -2061,7 +2061,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
       bool defined = true;
       while(itFields != (*it).fields.end())
         {
-        if((*itFields).value == "")
+        if((*itFields).value.empty())
           {
           defined = false;
           }
@@ -2070,7 +2070,7 @@ bool MetaCommand::Parse(int argc, char* argv[])
 
       if(!defined)
         {
-        if((*it).tag.size()>0 || (*it).longtag.size()>0)
+        if(!(*it).tag.empty() || !(*it).longtag.empty())
           {
           std::cout << "Field " << (*it).tag.c_str()
                               << " is required but not defined"
@@ -2108,16 +2108,16 @@ bool MetaCommand::Parse(int argc, char* argv[])
       if(((*itFields).type == INT ||
         (*itFields).type == FLOAT ||
         (*itFields).type == CHAR)
-        && ((*itFields).value != "")
+        && (!(*itFields).value.empty())
         )
         {
         // Check the range min
         if(
-          (((*itFields).rangeMin != "")
+          ((!(*itFields).rangeMin.empty())
           && (atof((*itFields).rangeMin.c_str())
               > atof((*itFields).value.c_str())))
           ||
-          (((*itFields).rangeMax != "")
+          ((!(*itFields).rangeMax.empty())
           && (atof((*itFields).rangeMax.c_str())
               < atof((*itFields).value.c_str())))
           )

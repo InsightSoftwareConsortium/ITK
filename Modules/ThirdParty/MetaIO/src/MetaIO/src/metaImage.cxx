@@ -1158,7 +1158,7 @@ M_GetTagValue(const std::string & buffer, const char* tag) const
     }
 
   // Get the element data filename
-  std::string value = "";
+  std::string value;
   bool firstspace = true;
   size_t index = pos2+1;
   while(index<buffer.size()
@@ -1185,7 +1185,7 @@ CanRead(const char *_headerName) const
 {
   // First check the extension
   std::string fname = _headerName;
-  if(  fname == "" )
+  if(  fname.empty() )
     {
     return false;
     }
@@ -1214,7 +1214,7 @@ CanRead(const char *_headerName) const
   // Now check the file content
   std::ifstream inputStream;
 
-  openReadStream(inputStream, fname.c_str());
+  openReadStream(inputStream, fname);
 
   if( inputStream.fail() )
     {
@@ -1524,7 +1524,7 @@ ReadStream(int _nDims,
         {
         std::string tempFName(fName);
         tempFName += extensions[ii];
-        openReadStream(*readStreamTemp,tempFName.c_str());
+        openReadStream(*readStreamTemp,tempFName);
         if(readStreamTemp->is_open())
           {
           if(ii > 0)
@@ -2042,8 +2042,8 @@ bool  MetaImage::
 M_WriteElementsROI(std::ofstream * _fstream,
                    const void * _data,
                    std::streampos _dataPos,
-                   int * _indexMin,
-                   int* _indexMax )
+                   const int * _indexMin,
+                   const int* _indexMax )
 {
   const char* data = static_cast<const char*>(_data);
 
@@ -3067,7 +3067,7 @@ bool MetaImage::ReadROIStream(int * _indexMin, int * _indexMax,
         {
         std::string tempFName(fName);
         tempFName += extensions[ii];
-        openReadStream(*readStreamTemp,tempFName.c_str());
+        openReadStream(*readStreamTemp,tempFName);
         if(readStreamTemp->is_open())
           {
           if(ii > 0)
