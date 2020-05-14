@@ -66,7 +66,8 @@ main(int argc, char ** argv)
   if (argc < 3)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile  outputVectorImageFile " << std::endl;
+    std::cerr << argv[0] << " inputImageFile  outputVectorImageFile "
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -114,7 +115,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::GradientRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
+    itk::GradientRecursiveGaussianImageFilter<InputImageType,
+                                              OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -192,9 +194,9 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we execute the pipeline by invoking \code{Update()} on the writer.
-  //  The call is placed in a \code{try/catch} block in case exceptions are
-  //  thrown.
+  //  Finally we execute the pipeline by invoking \code{Update()} on the
+  //  writer. The call is placed in a \code{try/catch} block in case
+  //  exceptions are thrown.
   //
   //  Software Guide : EndLatex
 

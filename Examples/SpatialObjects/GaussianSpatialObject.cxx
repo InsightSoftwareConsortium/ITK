@@ -21,9 +21,9 @@
 // \index{itk::GaussianSpatialObject}
 //
 // This example shows how to create a \doxygen{GaussianSpatialObject} which
-// defines a Gaussian in a N-dimensional space. This object is particularly useful
-// to query the value at a point in physical space.
-// Let's begin by including the appropriate header file.
+// defines a Gaussian in a N-dimensional space. This object is particularly
+// useful to query the value at a point in physical space. Let's begin by
+// including the appropriate header file.
 //
 // Software Guide : EndLatex
 

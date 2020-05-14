@@ -397,9 +397,11 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  VertexVisitorInterfaceType::Pointer vertexVisitor = VertexVisitorInterfaceType::New();
+  VertexVisitorInterfaceType::Pointer vertexVisitor =
+    VertexVisitorInterfaceType::New();
 
-  LineVisitorInterfaceType::Pointer lineVisitor = LineVisitorInterfaceType::New();
+  LineVisitorInterfaceType::Pointer lineVisitor =
+    LineVisitorInterfaceType::New();
 
   TriangleVisitorInterfaceType::Pointer triangleVisitor =
     TriangleVisitorInterfaceType::New();
@@ -412,8 +414,8 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Remember that the LineVisitor requires the pointer to the mesh object
-  //  since it needs to get access to actual point coordinates. This is done by
-  //  invoking the \code{SetMesh()} method defined above.
+  //  since it needs to get access to actual point coordinates. This is done
+  //  by invoking the \code{SetMesh()} method defined above.
   //
   //  Software Guide : EndLatex
 

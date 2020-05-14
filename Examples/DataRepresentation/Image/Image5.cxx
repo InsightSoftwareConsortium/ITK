@@ -186,13 +186,16 @@ main(int argc, char * argv[])
 
   for (unsigned int z = 0; z < size[2]; z++)
   {
-    const double dz = static_cast<double>(z) - static_cast<double>(size[2]) / 2.0;
+    const double dz =
+      static_cast<double>(z) - static_cast<double>(size[2]) / 2.0;
     for (unsigned int y = 0; y < size[1]; y++)
     {
-      const double dy = static_cast<double>(y) - static_cast<double>(size[1]) / 2.0;
+      const double dy =
+        static_cast<double>(y) - static_cast<double>(size[1]) / 2.0;
       for (unsigned int x = 0; x < size[0]; x++)
       {
-        const double dx = static_cast<double>(x) - static_cast<double>(size[0]) / 2.0;
+        const double dx =
+          static_cast<double>(x) - static_cast<double>(size[0]) / 2.0;
         const double d2 = dx * dx + dy * dy + dz * dz;
         *it++ = (d2 < radius2) ? 255 : 0;
       }
@@ -203,12 +206,13 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The buffer is passed to the \code{ImportImageFilter} with the
-  // \code{SetImportPointer()} method. Note that the last argument of this method
-  // specifies who will be responsible for deleting the memory block once it
-  // is no longer in use. A \code{false} value indicates that the
+  // \code{SetImportPointer()} method. Note that the last argument of this
+  // method specifies who will be responsible for deleting the memory block
+  // once it is no longer in use. A \code{false} value indicates that the
   // \code{ImportImageFilter} will not try to delete the buffer when its
-  // destructor is called. A \code{true} value, on the other hand, will allow the
-  // filter to delete the memory block upon destruction of the import filter.
+  // destructor is called. A \code{true} value, on the other hand, will allow
+  // the filter to delete the memory block upon destruction of the import
+  // filter.
   //
   // For the \code{ImportImageFilter} to appropriately delete the
   // memory block, the memory must be allocated with the C++
@@ -230,7 +234,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // Finally, we can connect the output of this filter to a pipeline.
-  // For simplicity we just use a writer here, but it could be any other filter.
+  // For simplicity we just use a writer here, but it could be any other
+  // filter.
   //
   // Software Guide : EndLatex
 

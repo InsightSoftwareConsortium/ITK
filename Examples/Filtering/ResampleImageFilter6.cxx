@@ -55,7 +55,8 @@ main(int argc, char * argv[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<ImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator(interpolator);

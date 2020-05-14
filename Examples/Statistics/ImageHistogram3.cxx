@@ -20,14 +20,15 @@
 //
 // By now, you are probably thinking that the statistics framework in ITK is
 // too complex for simply computing histograms from images. Here we illustrate
-// that the benefit for this complexity is the power that these methods provide
-// for dealing with more complex and realistic uses of image statistics than the
-// trivial 256-bin histogram of 8-bit images that most software packages
-// provide. One of such cases is the computation of histograms from
-// multi-component images such as Vector images and color images.
+// that the benefit for this complexity is the power that these methods
+// provide for dealing with more complex and realistic uses of image
+// statistics than the trivial 256-bin histogram of 8-bit images that most
+// software packages provide. One of such cases is the computation of
+// histograms from multi-component images such as Vector images and color
+// images.
 //
-// This example shows how to compute the histogram of an RGB image by using the
-// helper class \code{ImageToHistogramFilter}.  In this first example we
+// This example shows how to compute the histogram of an RGB image by using
+// the helper class \code{ImageToHistogramFilter}.  In this first example we
 // compute the histogram of each channel independently.
 //
 // We start by including the header of the
@@ -54,15 +55,16 @@ main(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  ImageHistogram3  inputRGBImageFileName " << std::endl;
+    std::cerr << "Usage :  ImageHistogram3  inputRGBImageFileName "
+              << std::endl;
     return EXIT_FAILURE;
   }
 
 
   // Software Guide : BeginLatex
   //
-  // The type of the RGB image is defined by first instantiating a RGBPixel and
-  // then using the image dimension specification.
+  // The type of the RGB image is defined by first instantiating a RGBPixel
+  // and then using the image dimension specification.
   //
   // \index{itk::Statistics!Color Images}
   //
@@ -107,7 +109,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
+  using HistogramFilterType =
+    itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -116,14 +119,14 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The parameters of the histogram must be defined now. Probably the most
-  // important one is the arrangement of histogram bins. This is provided to the
-  // histogram through a size array. The type of the array can be taken from the
-  // traits of the \code{HistogramFilterType} type. We create one instance of
-  // the size object and fill in its content. In this particular case, the three
-  // components of the size array will correspond to the number of bins used for
-  // each one of the RGB components in the color image. The following lines show
-  // how to define a histogram on the red component of the image while
-  // disregarding the green and blue components.
+  // important one is the arrangement of histogram bins. This is provided to
+  // the histogram through a size array. The type of the array can be taken
+  // from the traits of the \code{HistogramFilterType} type. We create one
+  // instance of the size object and fill in its content. In this particular
+  // case, the three components of the size array will correspond to the
+  // number of bins used for each one of the RGB components in the color
+  // image. The following lines show how to define a histogram on the red
+  // component of the image while disregarding the green and blue components.
   //
   // Software Guide : EndLatex
 
@@ -153,11 +156,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Finally, we must specify the upper and lower bounds for the histogram. This
-  // can either be done manually using the \code{SetHistogramBinMinimum()} and
-  // \code{SetHistogramBinMaximum()} methods or it can be done automatically by
-  // calling \code{SetHistogramAutoMinimumMaximum( true )}. Here we use the
-  // manual method.
+  // Finally, we must specify the upper and lower bounds for the histogram.
+  // This can either be done manually using the
+  // \code{SetHistogramBinMinimum()} and \code{SetHistogramBinMaximum()}
+  // methods or it can be done automatically by calling
+  // \code{SetHistogramAutoMinimumMaximum( true )}. Here we use the manual
+  // method.
   //
   // Software Guide : EndLatex
 
@@ -199,10 +203,11 @@ main(int argc, char * argv[])
   // We can now access the results of the histogram computation by declaring a
   // pointer to histogram and getting its value from the filter using the
   // \code{GetOutput()} method. Note that here we use a \code{const
-  // HistogramType} pointer instead of a const smart pointer because we are sure
-  // that the filter is not going to be destroyed while we access the values
-  // of the histogram. Depending on what you are doing, it may be safer to assign
-  // the histogram to a const smart pointer as shown in previous examples.
+  // HistogramType} pointer instead of a const smart pointer because we are
+  // sure that the filter is not going to be destroyed while we access the
+  // values of the histogram. Depending on what you are doing, it may be safer
+  // to assign the histogram to a const smart pointer as shown in previous
+  // examples.
   //
   // \index{itk::Statistics::ImageTohistogramFilter!GetOutput()}
   //
@@ -217,10 +222,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Just for the sake of exercising the experimental method~\cite{Popper2002}, we
-  // verify that the resulting histogram actually have the size that we requested
-  // when we configured the filter. This can be done by invoking the
-  // \code{Size()} method of the histogram and printing out the result.
+  // Just for the sake of exercising the experimental
+  // method~\cite{Popper2002}, we verify that the resulting histogram actually
+  // have the size that we requested when we configured the filter. This can
+  // be done by invoking the \code{Size()} method of the histogram and
+  // printing out the result.
   //
   // \index{itk::Statistics::Histogram!Size()}
   //
@@ -235,14 +241,14 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Strictly speaking, the histogram computed here is the joint histogram of the
-  // three RGB components. However, given that we set the resolution of the green
-  // and blue channels to be just one bin, the histogram is in practice
-  // representing just the red channel.  In the general case, we can alway access
-  // the frequency of a particular channel in a joint histogram, thanks to the
-  // fact that the histogram class offers a \code{GetFrequency()} method that
-  // accepts a channel as argument. This is illustrated in the following lines of
-  // code.
+  // Strictly speaking, the histogram computed here is the joint histogram of
+  // the three RGB components. However, given that we set the resolution of
+  // the green and blue channels to be just one bin, the histogram is in
+  // practice representing just the red channel.  In the general case, we can
+  // alway access the frequency of a particular channel in a joint histogram,
+  // thanks to the fact that the histogram class offers a
+  // \code{GetFrequency()} method that accepts a channel as argument. This is
+  // illustrated in the following lines of code.
   //
   // \index{itk::Statistics::Histogram!GetFrequency()}
   //
@@ -263,11 +269,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In order to reinforce the concepts presented above, we modify now the setup
-  // of the histogram filter in order to compute the histogram of the green
-  // channel instead of the red one. This is done by simply changing the number
-  // of bins desired on each channel and invoking the computation of the
-  // filter again by calling the \code{Update()} method.
+  // In order to reinforce the concepts presented above, we modify now the
+  // setup of the histogram filter in order to compute the histogram of the
+  // green channel instead of the red one. This is done by simply changing the
+  // number of bins desired on each channel and invoking the computation of
+  // the filter again by calling the \code{Update()} method.
   //
   // Software Guide : EndLatex
 
@@ -284,8 +290,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The result can be verified now by setting the desired channel to green and
-  // invoking the \code{GetFrequency()} method.
+  // The result can be verified now by setting the desired channel to green
+  // and invoking the \code{GetFrequency()} method.
   //
   // Software Guide : EndLatex
 
@@ -304,8 +310,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // To finalize the example, we do the same computation for the case of the blue
-  // channel.
+  // To finalize the example, we do the same computation for the case of the
+  // blue channel.
   //
   // Software Guide : EndLatex
 

@@ -28,10 +28,10 @@
 // This example shows how to use the Markov Random Field approach for
 // classifying the pixel of a scalar image.
 //
-// The  \subdoxygen{Statistics}{MRFImageFilter} is used for refining an initial
-// classification by introducing the spatial coherence of the labels. The user
-// should provide two images as input. The first image is the one to be
-// classified while the second image is an image of labels representing an
+// The  \subdoxygen{Statistics}{MRFImageFilter} is used for refining an
+// initial classification by introducing the spatial coherence of the labels.
+// The user should provide two images as input. The first image is the one to
+// be classified while the second image is an image of labels representing an
 // initial classification.
 //
 // Software Guide : EndLatex
@@ -40,8 +40,8 @@
 // Software Guide : BeginLatex
 //
 // The following headers are related to reading input images, writing the
-// output image, and making the necessary conversions between scalar and vector
-// images.
+// output image, and making the necessary conversions between scalar and
+// vector images.
 //
 // Software Guide : EndLatex
 
@@ -56,7 +56,8 @@
 
 // Software Guide : BeginLatex
 //
-// The following headers are related to the statistical classification classes.
+// The following headers are related to the statistical classification
+// classes.
 //
 // Software Guide : EndLatex
 
@@ -90,7 +91,8 @@ main(int argc, char * argv[])
 
   constexpr unsigned int numberOfArgumentsBeforeMeans = 7;
 
-  if (static_cast<unsigned int>(argc) < numberOfClasses + numberOfArgumentsBeforeMeans)
+  if (static_cast<unsigned int>(argc) <
+      numberOfClasses + numberOfArgumentsBeforeMeans)
   {
     std::cerr << "Error: " << std::endl;
     std::cerr << numberOfClasses << " classes have been specified ";
@@ -102,12 +104,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // First we define the pixel type and dimension of the image that we intend to
-  // classify. With this image type we can also declare the
-  // \doxygen{ImageFileReader} needed for reading the input image, create one and
-  // set its input filename. In this particular case we choose to use
-  // \code{signed short} as pixel type, which is typical for MicroMRI and CT data
-  // sets.
+  // First we define the pixel type and dimension of the image that we intend
+  // to classify. With this image type we can also declare the
+  // \doxygen{ImageFileReader} needed for reading the input image, create one
+  // and set its input filename. In this particular case we choose to use
+  // \code{signed short} as pixel type, which is typical for MicroMRI and CT
+  // data sets.
   //
   // Software Guide : EndLatex
 
@@ -126,9 +128,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // As a second step we define the pixel type and dimension of the image of
-  // labels that provides the initial classification of the pixels from the first
-  // image. This initial labeled image can be the output of a K-Means method like
-  // the one illustrated in section \ref{sec:KMeansClassifier}.
+  // labels that provides the initial classification of the pixels from the
+  // first image. This initial labeled image can be the output of a K-Means
+  // method like the one illustrated in section \ref{sec:KMeansClassifier}.
   //
   // Software Guide : EndLatex
 
@@ -160,9 +162,11 @@ main(int argc, char * argv[])
 
   using ArrayImageType = itk::Image<ArrayPixelType, Dimension>;
 
-  using ScalarToArrayFilterType = itk::ComposeImageFilter<ImageType, ArrayImageType>;
+  using ScalarToArrayFilterType =
+    itk::ComposeImageFilter<ImageType, ArrayImageType>;
 
-  ScalarToArrayFilterType::Pointer scalarToArrayFilter = ScalarToArrayFilterType::New();
+  ScalarToArrayFilterType::Pointer scalarToArrayFilter =
+    ScalarToArrayFilterType::New();
   scalarToArrayFilter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
@@ -171,8 +175,8 @@ main(int argc, char * argv[])
   //
   // With the input image type \code{ImageType} and labeled image type
   // \code{LabelImageType} we instantiate the type of the
-  // \doxygen{MRFImageFilter} that will apply the Markov Random Field algorithm
-  // in order to refine the pixel classification.
+  // \doxygen{MRFImageFilter} that will apply the Markov Random Field
+  // algorithm in order to refine the pixel classification.
   //
   // Software Guide : EndLatex
 
@@ -188,9 +192,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We set now some of the parameters for the MRF filter. In particular, the
-  // number of classes to be used during the classification, the maximum number
-  // of iterations to be run in this filter and the error tolerance that will be
-  // used as a criterion for convergence.
+  // number of classes to be used during the classification, the maximum
+  // number of iterations to be run in this filter and the error tolerance
+  // that will be used as a criterion for convergence.
   //
   // Software Guide : EndLatex
 
@@ -204,11 +208,11 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The smoothing factor represents the tradeoff between fidelity to the
-  // observed image and the smoothness of the segmented image. Typical smoothing
-  // factors have values between 1~5. This factor will multiply the weights that
-  // define the influence of neighbors on the classification of a given pixel.
-  // The higher the value, the more uniform will be the regions resulting from
-  // the classification refinement.
+  // observed image and the smoothness of the segmented image. Typical
+  // smoothing factors have values between 1~5. This factor will multiply the
+  // weights that define the influence of neighbors on the classification of a
+  // given pixel. The higher the value, the more uniform will be the regions
+  // resulting from the classification refinement.
   //
   // Software Guide : EndLatex
 
@@ -219,11 +223,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Given that the MRF filter need to continually relabel the pixels, it needs
-  // access to a set of membership functions that will measure to what degree
-  // every pixel belongs to a particular class.  The classification is performed
-  // by the \doxygen{ImageClassifierBase} class, that is instantiated using the
-  // type of the input vector image and the type of the labeled image.
+  // Given that the MRF filter need to continually relabel the pixels, it
+  // needs access to a set of membership functions that will measure to what
+  // degree every pixel belongs to a particular class.  The classification is
+  // performed by the \doxygen{ImageClassifierBase} class, that is
+  // instantiated using the type of the input vector image and the type of the
+  // labeled image.
   //
   // Software Guide : EndLatex
 
@@ -231,17 +236,19 @@ main(int argc, char * argv[])
   using SupervisedClassifierType =
     itk::ImageClassifierBase<ArrayImageType, LabelImageType>;
 
-  SupervisedClassifierType::Pointer classifier = SupervisedClassifierType::New();
+  SupervisedClassifierType::Pointer classifier =
+    SupervisedClassifierType::New();
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
   //
-  // The classifier need a decision rule to be set by the user. Note that we must
-  // use \code{GetPointer()} in the call of the \code{SetDecisionRule()} method
-  // because we are passing a SmartPointer, and smart pointer cannot perform
-  // polymorphism, we must then extract the raw pointer that is associated to the
-  // smart pointer. This extraction is done with the GetPointer() method.
+  // The classifier need a decision rule to be set by the user. Note that we
+  // must use \code{GetPointer()} in the call of the \code{SetDecisionRule()}
+  // method because we are passing a SmartPointer, and smart pointer cannot
+  // perform polymorphism, we must then extract the raw pointer that is
+  // associated to the smart pointer. This extraction is done with the
+  // GetPointer() method.
   //
   // Software Guide : EndLatex
 
@@ -274,7 +281,8 @@ main(int argc, char * argv[])
   MembershipFunctionType::CentroidType centroid(1);
   for (unsigned int i = 0; i < numberOfClasses; i++)
   {
-    MembershipFunctionPointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionPointer membershipFunction =
+      MembershipFunctionType::New();
 
     centroid[0] = std::stod(argv[i + numberOfArgumentsBeforeMeans]);
 
@@ -310,14 +318,14 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // and we set the neighborhood radius that will define the size of the clique
-  // to be used in the computation of the neighbors' influence in the
-  // classification of any given pixel. Note that despite the fact that we call
-  // this a radius, it is actually the half size of an hypercube. That is, the
-  // actual region of influence will not be circular but rather an N-Dimensional
-  // box. For example, a neighborhood radius of 2 in a 3D image will result in a
-  // clique of size 5x5x5 pixels, and a radius of 1 will result in a clique of
-  // size 3x3x3 pixels.
+  // and we set the neighborhood radius that will define the size of the
+  // clique to be used in the computation of the neighbors' influence in the
+  // classification of any given pixel. Note that despite the fact that we
+  // call this a radius, it is actually the half size of an hypercube. That
+  // is, the actual region of influence will not be circular but rather an
+  // N-Dimensional box. For example, a neighborhood radius of 2 in a 3D image
+  // will result in a clique of size 5x5x5 pixels, and a radius of 1 will
+  // result in a clique of size 3x3x3 pixels.
   //
   // Software Guide : EndLatex
 
@@ -329,13 +337,13 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We should now set the weights used for the neighbors. This is done by
-  // passing an array of values that contains the linear sequence of weights for
-  // the neighbors. For example, in a neighborhood of size 3x3x3, we should
-  // provide a linear array of 9 weight values. The values are packaged in a
-  // \code{std::vector} and are supposed to be \code{double}. The following lines
-  // illustrate a typical set of values for a 3x3x3 neighborhood. The array is
-  // arranged and then passed to the filter by using the method
-  // \code{SetMRFNeighborhoodWeight()}.
+  // passing an array of values that contains the linear sequence of weights
+  // for the neighbors. For example, in a neighborhood of size 3x3x3, we
+  // should provide a linear array of 9 weight values. The values are packaged
+  // in a \code{std::vector} and are supposed to be \code{double}. The
+  // following lines illustrate a typical set of values for a 3x3x3
+  // neighborhood. The array is arranged and then passed to the filter by
+  // using the method \code{SetMRFNeighborhoodWeight()}.
   //
   // Software Guide : EndLatex
 
@@ -355,11 +363,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We now scale weights so that the smoothing function and the image fidelity
-  // functions have comparable value. This is necessary since the label
-  // image and the input image can have different dynamic ranges. The fidelity
-  // function is usually computed using a distance function, such as the
-  // \doxygen{DistanceToCentroidMembershipFunction} or one of the other
+  // We now scale weights so that the smoothing function and the image
+  // fidelity functions have comparable value. This is necessary since the
+  // label image and the input image can have different dynamic ranges. The
+  // fidelity function is usually computed using a distance function, such as
+  // the \doxygen{DistanceToCentroidMembershipFunction} or one of the other
   // membership functions. They tend to have values in the order of the means
   // specified.
   //
@@ -382,7 +390,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Finally, the classifier class is connected to the Markof Random Fields filter.
+  // Finally, the classifier class is connected to the Markof Random Fields
+  // filter.
   //
   // Software Guide : EndLatex
 
@@ -393,12 +402,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The output image produced by the \doxygen{MRFImageFilter} has the same pixel
-  // type as the labeled input image. In the following lines we use the
+  // The output image produced by the \doxygen{MRFImageFilter} has the same
+  // pixel type as the labeled input image. In the following lines we use the
   // \code{OutputImageType} in order to instantiate the type of a
-  // \doxygen{ImageFileWriter}. Then create one, and connect it to the output of
-  // the classification filter after passing it through an intensity rescaler
-  // to rescale it to an 8 bit dynamic range
+  // \doxygen{ImageFileWriter}. Then create one, and connect it to the output
+  // of the classification filter after passing it through an intensity
+  // rescaler to rescale it to an 8 bit dynamic range
   //
   // Software Guide : EndLatex
 
@@ -409,7 +418,8 @@ main(int argc, char * argv[])
   // Rescale outputs to the dynamic range of the display
   using RescaledOutputImageType = itk::Image<unsigned char, Dimension>;
   using RescalerType =
-    itk::RescaleIntensityImageFilter<OutputImageType, RescaledOutputImageType>;
+    itk::RescaleIntensityImageFilter<OutputImageType,
+                                     RescaledOutputImageType>;
 
   RescalerType::Pointer intensityRescaler = RescalerType::New();
   intensityRescaler->SetOutputMinimum(0);
@@ -429,9 +439,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We are now ready for triggering the execution of the pipeline. This is done
-  // by simply invoking the \code{Update()} method in the writer. This call will
-  // propagate the update request to the reader and then to the MRF filter.
+  // We are now ready for triggering the execution of the pipeline. This is
+  // done by simply invoking the \code{Update()} method in the writer. This
+  // call will propagate the update request to the reader and then to the MRF
+  // filter.
   //
   // Software Guide : EndLatex
 

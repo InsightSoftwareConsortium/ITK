@@ -62,8 +62,8 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The finite difference calculations
-  // in this algorithm require floating point values.  Hence, we define the image
-  // pixel type to be \code{float} and the file reader will
+  // in this algorithm require floating point values.  Hence, we define the
+  // image pixel type to be \code{float} and the file reader will
   // automatically cast fixed-point data to \code{float}.
   //
   // We declare the iterator types using the image type as
@@ -110,9 +110,10 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  //  We can now create a neighborhood iterator to range over the output of the
-  //  reader. For Sobel edge-detection in 2D, we need a square iterator that
-  //  extends one pixel away from the neighborhood center in every dimension.
+  //  We can now create a neighborhood iterator to range over the output of
+  //  the reader. For Sobel edge-detection in 2D, we need a square iterator
+  //  that extends one pixel away from the neighborhood center in every
+  //  dimension.
   //
   //  Software Guide : EndLatex
 
@@ -143,8 +144,8 @@ main(int argc, char ** argv)
   // Sobel edge detection uses weighted finite difference calculations to
   // construct an edge magnitude image.  Normally the edge magnitude is the
   // root sum of squares of partial derivatives in all directions, but for
-  // simplicity this example only calculates the $x$ component. The result is a
-  // derivative image biased toward maximally vertical edges.
+  // simplicity this example only calculates the $x$ component. The result is
+  // a derivative image biased toward maximally vertical edges.
   //
   // The finite differences are computed from pixels at six locations in the
   // neighborhood.  In this example, we use the iterator \code{GetPixel()}
@@ -169,8 +170,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // It is equivalent to use the six corresponding integer array indices instead.
-  // For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are
+  // It is equivalent to use the six corresponding integer array indices
+  // instead. For example, the offsets \code{(-1,-1)} and \code{(1, -1)} are
   // equivalent to the integer indices \code{0} and \code{2}, respectively.
   //
   // The calculations are done in a \code{for} loop that moves the input and
@@ -193,9 +194,9 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The last step is to write the output buffer to an image file.  Writing is
-  // done inside a \code{try/catch} block to handle any exceptions.  The output
-  // is rescaled to intensity range $[0, 255]$ and cast to unsigned char so that
-  // it can be saved and visualized as a PNG image.
+  // done inside a \code{try/catch} block to handle any exceptions.  The
+  // output is rescaled to intensity range $[0, 255]$ and cast to unsigned
+  // char so that it can be saved and visualized as a PNG image.
   //
   // Software Guide : EndLatex
 
@@ -204,7 +205,8 @@ main(int argc, char ** argv)
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 
@@ -239,9 +241,8 @@ main(int argc, char ** argv)
   // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1a}
   // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators1b}
   // \itkcaption[Sobel edge detection results]{Applying the Sobel operator in
-  // different orientations to an MRI image (left) produces $x$ (center) and $y$
-  // (right) derivative images.}
-  // \protect\label{fig:NeighborhoodExamples1}
+  // different orientations to an MRI image (left) produces $x$ (center) and
+  // $y$ (right) derivative images.} \protect\label{fig:NeighborhoodExamples1}
   // \end{figure}
   //
   // Software Guide : EndLatex

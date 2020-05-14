@@ -86,10 +86,11 @@ main(int argc, char * argv[])
   // define arithmetic operation filters
   using AdditionFilterType =
     itk::ConstrainedValueAdditionImageFilter<ImageType, ImageType, ImageType>;
-  using SubtractionFilterType =
-    itk::ConstrainedValueDifferenceImageFilter<ImageType, ImageType, ImageType>;
+  using SubtractionFilterType = itk::
+    ConstrainedValueDifferenceImageFilter<ImageType, ImageType, ImageType>;
   // define rescaling filter
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   // Create structuring element
   StructuringElementType structuringElement;
@@ -140,7 +141,8 @@ main(int argc, char * argv[])
   internalAddition->SetInput1(reader->GetOutput());
   internalAddition->SetInput2(topHat->GetOutput());
 
-  SubtractionFilterType::Pointer imageEnhancement = SubtractionFilterType::New();
+  SubtractionFilterType::Pointer imageEnhancement =
+    SubtractionFilterType::New();
   imageEnhancement->SetInput1(internalAddition->GetOutput());
   imageEnhancement->SetInput2(bottomHat->GetOutput());
   rescaleFilter->SetInput(imageEnhancement->GetOutput());

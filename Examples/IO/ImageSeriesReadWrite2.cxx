@@ -18,13 +18,14 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how to read a series of 2D slices from independent
-//  files in order to compose a volume. The class \doxygen{ImageSeriesReader}
-//  is used for this purpose. This class works in combination with a generator
-//  of filenames that will provide a list of files to be read. In this
-//  particular example we use the \doxygen{RegularExpressionSeriesFileNames} class as
-//  filename generator. This generator uses a regular expression for generating a list
-//  of filenames. The filenames are then ordered according to sub expression.
+//  This example illustrates how to read a series of 2D slices from
+//  independent files in order to compose a volume. The class
+//  \doxygen{ImageSeriesReader} is used for this purpose. This class works in
+//  combination with a generator of filenames that will provide a list of
+//  files to be read. In this particular example we use the
+//  \doxygen{RegularExpressionSeriesFileNames} class as filename generator.
+//  This generator uses a regular expression for generating a list of
+//  filenames. The filenames are then ordered according to sub expression.
 //
 // Regular expressions are a powerful,  compact mechanism for parsing strings.
 // Expressions consist of the following metacharacters:
@@ -59,8 +60,8 @@
 // series  one through nine.
 //
 //
-// In order to use the RegularExpressionSeriesFileNames class we should include
-// the following headers as shown.
+// In order to use the RegularExpressionSeriesFileNames class we should
+// include the following headers as shown.
 //
 //  \index{itk::ImageSeriesReader!header}
 //  \index{itk::RegularExpressionSeriesFileNames!header}
@@ -133,7 +134,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Then, we declare the filenames generator type and create one instance of it.
+  // Then, we declare the filenames generator type and create one instance of
+  // it.
   //
   // Software Guide : EndLatex
 
@@ -147,8 +149,8 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The filenames generator requires us to provide a pattern of text for the
-  // regular expression, the sorting expression, as well as the directory where
-  // the files are stored.
+  // regular expression, the sorting expression, as well as the directory
+  // where the files are stored.
   //
   // Software Guide : EndLatex
 
@@ -161,10 +163,10 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The ImageIO object that actually performs the read process is now connected
-  //  to the ImageSeriesReader. This is the safest way of making sure that we use
-  //  an ImageIO object that is appropriate for the type of files that we want to
-  //  read.
+  //  The ImageIO object that actually performs the read process is now
+  //  connected to the ImageSeriesReader. This is the safest way of making
+  //  sure that we use an ImageIO object that is appropriate for the type of
+  //  files that we want to read.
   //
   //  Software Guide : EndLatex
 
@@ -174,8 +176,9 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The filenames of the input files must be provided to the reader. While the
-  //  writer is instructed to write the same volume dataset in a single file.
+  //  The filenames of the input files must be provided to the reader. While
+  //  the writer is instructed to write the same volume dataset in a single
+  //  file.
   //
   //
   //  Software Guide : EndLatex
@@ -201,8 +204,8 @@ main(int argc, char ** argv)
   //
   //  Finally, execution of the pipeline can be triggered by invoking the
   //  Update() method in the writer. This call must be placed in a try/catch
-  //  block since exceptions be potentially be thrown in the process of reading
-  //  or writing the images.
+  //  block since exceptions be potentially be thrown in the process of
+  //  reading or writing the images.
   //
   //  Software Guide : EndLatex
 

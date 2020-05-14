@@ -18,11 +18,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example shows how to use the \doxygen{ImageLinearIteratorWithIndex} for
-// computing the mean across time of a 4D image where the first three
+// This example shows how to use the \doxygen{ImageLinearIteratorWithIndex}
+// for computing the mean across time of a 4D image where the first three
 // dimensions correspond to spatial coordinates and the fourth dimension
-// corresponds to time. The result of the mean across time is to be stored in a
-// 3D image.
+// corresponds to time. The result of the mean across time is to be stored in
+// a 3D image.
 //
 // \index{Iterators!and 4D images}
 // \index{ImageLinearIteratorWithIndex!4D images}
@@ -44,7 +44,8 @@ main(int argc, char * argv[])
   {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " input4DImageFile output3DImageFile" << std::endl;
+    std::cerr << argv[0] << " input4DImageFile output3DImageFile"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -167,7 +168,8 @@ main(int argc, char * argv[])
       sum += it.Get();
       ++it;
     }
-    MeanType mean = static_cast<MeanType>(sum) / static_cast<MeanType>(timeLength);
+    MeanType mean =
+      static_cast<MeanType>(sum) / static_cast<MeanType>(timeLength);
 
     index3D[0] = index4D[0];
     index3D[1] = index4D[1];

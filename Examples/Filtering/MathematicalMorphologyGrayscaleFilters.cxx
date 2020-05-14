@@ -57,7 +57,8 @@ main(int argc, char * argv[])
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  ";
-    std::cerr << " outputImageFileErosion  outputImageFileDilation" << std::endl;
+    std::cerr << " outputImageFileErosion  outputImageFileDilation"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -108,18 +109,22 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The structuring element type is then used along with the input and output
-  //  image types for instantiating the type of the filters.
+  //  The structuring element type is then used along with the input and
+  //  output image types for instantiating the type of the filters.
   //
   //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
-  using ErodeFilterType = itk::
-    GrayscaleErodeImageFilter<InputImageType, OutputImageType, StructuringElementType>;
+  using ErodeFilterType =
+    itk::GrayscaleErodeImageFilter<InputImageType,
+                                   OutputImageType,
+                                   StructuringElementType>;
 
-  using DilateFilterType = itk::
-    GrayscaleDilateImageFilter<InputImageType, OutputImageType, StructuringElementType>;
+  using DilateFilterType =
+    itk::GrayscaleDilateImageFilter<InputImageType,
+                                    OutputImageType,
+                                    StructuringElementType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -151,11 +156,11 @@ main(int argc, char * argv[])
   //  The structuring element is not a reference counted class. Thus it is
   //  created as a C++ stack object instead of using \code{New()} and
   //  SmartPointers. The radius of the neighborhood associated with the
-  //  structuring element is defined with the \code{SetRadius()} method and the
-  //  \code{CreateStructuringElement()} method is invoked in order to initialize the
-  //  operator.  The resulting structuring element is passed to the
-  //  mathematical morphology filter through the \code{SetKernel()} method, as
-  //  illustrated below.
+  //  structuring element is defined with the \code{SetRadius()} method and
+  //  the \code{CreateStructuringElement()} method is invoked in order to
+  //  initialize the operator.  The resulting structuring element is passed to
+  //  the mathematical morphology filter through the \code{SetKernel()}
+  //  method, as illustrated below.
   //
   //  \index{itk::BinaryBallStructuringElement!SetRadius()}
   //  \index{itk::BinaryBallStructuringElement!CreateStructuringElement()}
@@ -189,8 +194,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  A grayscale image is provided as input to the filters. This image might be,
-  //  for example, the output of a reader.
+  //  A grayscale image is provided as input to the filters. This image might
+  //  be, for example, the output of a reader.
   //
   //  Software Guide : EndLatex
 
@@ -227,8 +232,8 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleErosionOutput}
   // \includegraphics[width=0.32\textwidth]{MathematicalMorphologyGrayscaleDilationOutput}
-  // \itkcaption[Effect of erosion and dilation in a grayscale image.]{Effect of
-  // erosion and dilation in a grayscale image.}
+  // \itkcaption[Effect of erosion and dilation in a grayscale image.]{Effect
+  // of erosion and dilation in a grayscale image.}
   // \label{fig:MathematicalMorphologyGrayscaleFilters}
   // \end{figure}
   //

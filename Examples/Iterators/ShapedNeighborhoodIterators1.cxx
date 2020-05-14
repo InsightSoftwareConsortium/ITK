@@ -23,11 +23,12 @@
 
 // Software Guide : BeginLatex
 //
-// This example uses \doxygen{ShapedNeighborhoodIterator} to implement a binary
-// erosion algorithm.  If we think of an image $I$ as a set of pixel indices,
-// then erosion of $I$ by a smaller set $E$, called the \emph{structuring
-// element}, is the set of all indices at locations $x$ in $I$ such that when
-// $E$ is positioned at $x$, every element in $E$ is also contained in $I$.
+// This example uses \doxygen{ShapedNeighborhoodIterator} to implement a
+// binary erosion algorithm.  If we think of an image $I$ as a set of pixel
+// indices, then erosion of $I$ by a smaller set $E$, called the
+// \emph{structuring element}, is the set of all indices at locations $x$ in
+// $I$ such that when $E$ is positioned at $x$, every element in $E$ is also
+// contained in $I$.
 //
 // This type of algorithm is easy to implement with shaped neighborhood
 // iterators because we can use the iterator itself as the structuring element
@@ -59,9 +60,9 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Since we are working with binary images in this example, an \code{unsigned
-  // char} pixel type will do.  The image and iterator types are defined using
-  // the pixel type.
+  // Since we are working with binary images in this example, an
+  // \code{unsigned char} pixel type will do.  The image and iterator types
+  // are defined using the pixel type.
   //
   // Software Guide : EndLatex
 
@@ -97,19 +98,19 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // Refer to the examples in Section~\ref{sec:itkNeighborhoodIterator} or the
-  // source code of this example for a description of how to read the input image
-  // and allocate a matching output image.
+  // source code of this example for a description of how to read the input
+  // image and allocate a matching output image.
   //
-  // The size of the structuring element is read from the command line and used
-  // to define a radius for the shaped neighborhood iterator.  Using the method
-  // developed in section~\ref{sec:itkNeighborhoodIterator} to minimize bounds
-  // checking, the iterator itself is not initialized until entering the
-  // main processing loop.
+  // The size of the structuring element is read from the command line and
+  // used to define a radius for the shaped neighborhood iterator.  Using the
+  // method developed in section~\ref{sec:itkNeighborhoodIterator} to minimize
+  // bounds checking, the iterator itself is not initialized until entering
+  // the main processing loop.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  unsigned int                               element_radius = ::std::stoi(argv[3]);
+  unsigned int element_radius = ::std::stoi(argv[3]);
   ShapedNeighborhoodIteratorType::RadiusType radius;
   radius.Fill(element_radius);
   // Software Guide : EndCodeSnippet
@@ -129,7 +130,8 @@ main(int argc, char ** argv)
   FaceCalculatorType::FaceListType           faceList;
   FaceCalculatorType::FaceListType::iterator fit;
 
-  faceList = faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
+  faceList =
+    faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -151,13 +153,13 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The outer loop of the algorithm is structured as in previous neighborhood
-  // iterator examples.  Each region in the face list is processed in turn.  As each new
-  // region is processed, the input and output iterators are initialized on that
-  // region.
+  // iterator examples.  Each region in the face list is processed in turn. As
+  // each new region is processed, the input and output iterators are
+  // initialized on that region.
   //
   // The shaped iterator that ranges over the input is our structuring element
-  // and its active stencil must be created accordingly.  For this example, the
-  // structuring element is shaped like a circle of radius
+  // and its active stencil must be created accordingly.  For this example,
+  // the structuring element is shaped like a circle of radius
   // \code{element\_radius}.  Each of the appropriate neighborhood offsets is
   // activated in the double \code{for} loop.
   //
@@ -169,8 +171,8 @@ main(int argc, char ** argv)
     ShapedNeighborhoodIteratorType it(radius, reader->GetOutput(), *fit);
     out = IteratorType(output, *fit);
 
-    // Creates a circular structuring element by activating all the pixels less
-    // than radius distance from the center of the neighborhood.
+    // Creates a circular structuring element by activating all the pixels
+    // less than radius distance from the center of the neighborhood.
 
     for (float y = -rad; y <= rad; y++)
     {
@@ -191,12 +193,13 @@ main(int argc, char ** argv)
 
     // Software Guide : BeginLatex
     //
-    // The inner loop, which implements the erosion algorithm, is fairly simple.
-    // The \code{for} loop steps the input and output iterators through their
-    // respective images.  At each step, the active stencil of the shaped iterator
-    // is traversed to determine whether all pixels underneath the stencil contain
-    // the foreground value, i.e. are contained within the set $I$.  Note the use
-    // of the stencil iterator, \code{ci}, in performing this check.
+    // The inner loop, which implements the erosion algorithm, is fairly
+    // simple. The \code{for} loop steps the input and output iterators
+    // through their respective images.  At each step, the active stencil of
+    // the shaped iterator is traversed to determine whether all pixels
+    // underneath the stencil contain the foreground value, i.e. are contained
+    // within the set $I$.  Note the use of the stencil iterator, \code{ci},
+    // in performing this check.
     //
     // Software Guide : EndLatex
 

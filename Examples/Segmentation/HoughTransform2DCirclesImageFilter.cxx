@@ -56,9 +56,11 @@ main(int argc, char * argv[])
     std::cerr << " radius Max " << std::endl;
     std::cerr << " sweep Angle (default = 0)" << std::endl;
     std::cerr << " SigmaGradient (default = 1) " << std::endl;
-    std::cerr << " variance of the accumulator blurring (default = 5) " << std::endl;
-    std::cerr << " radius of the disk to remove from the accumulator (default = 10) "
+    std::cerr << " variance of the accumulator blurring (default = 5) "
               << std::endl;
+    std::cerr
+      << " radius of the disk to remove from the accumulator (default = 10) "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -118,7 +120,8 @@ main(int argc, char * argv[])
     itk::HoughTransform2DCirclesImageFilter<PixelType,
                                             AccumulatorPixelType,
                                             RadiusPixelType>;
-  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
+  HoughTransformFilterType::Pointer houghFilter =
+    HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -220,7 +223,8 @@ main(int argc, char * argv[])
   {
     std::cout << "Center: ";
     std::cout << (*itCircles)->GetCenterInObjectSpace() << std::endl;
-    std::cout << "Radius: " << (*itCircles)->GetRadiusInObjectSpace()[0] << std::endl;
+    std::cout << "Radius: " << (*itCircles)->GetRadiusInObjectSpace()[0]
+              << std::endl;
     // Software Guide : EndCodeSnippet
 
     //  Software Guide : BeginLatex
@@ -230,15 +234,18 @@ main(int argc, char * argv[])
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    for (double angle = 0; angle <= itk::Math::twopi; angle += itk::Math::pi / 60.0)
+    for (double angle = 0; angle <= itk::Math::twopi;
+         angle += itk::Math::pi / 60.0)
     {
       const HoughTransformFilterType::CircleType::PointType centerPoint =
         (*itCircles)->GetCenterInObjectSpace();
       using IndexValueType = ImageType::IndexType::IndexValueType;
       localIndex[0] = itk::Math::Round<IndexValueType>(
-        centerPoint[0] + (*itCircles)->GetRadiusInObjectSpace()[0] * std::cos(angle));
+        centerPoint[0] +
+        (*itCircles)->GetRadiusInObjectSpace()[0] * std::cos(angle));
       localIndex[1] = itk::Math::Round<IndexValueType>(
-        centerPoint[1] + (*itCircles)->GetRadiusInObjectSpace()[0] * std::sin(angle));
+        centerPoint[1] +
+        (*itCircles)->GetRadiusInObjectSpace()[0] * std::sin(angle));
       OutputImageType::RegionType outputRegion =
         localOutputImage->GetLargestPossibleRegion();
 

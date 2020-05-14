@@ -24,8 +24,9 @@
 //
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} performs anisotropic
-//  diffusion on an image using a modified curvature diffusion equation (MCDE).
+//  The \doxygen{CurvatureAnisotropicDiffusionImageFilter} performs
+//  anisotropic diffusion on an image using a modified curvature diffusion
+//  equation (MCDE).
 //
 //  MCDE does not exhibit the edge enhancing properties of classic anisotropic
 //  diffusion, which can under certain conditions undergo a ``negative''
@@ -66,7 +67,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file.
+//  The first step required for using this filter is to include its header
+//  file.
 //
 //  \index{itk::Curvature\-Anisotropic\-Diffusion\-Image\-Filter!header}
 //
@@ -84,8 +86,9 @@ main(int argc, char * argv[])
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile ";
-    std::cerr << "numberOfIterations  timeStep  conductance useImageSpacingon/off"
-              << std::endl;
+    std::cerr
+      << "numberOfIterations  timeStep  conductance useImageSpacingon/off"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -123,7 +126,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::CurvatureAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
+    itk::CurvatureAnisotropicDiffusionImageFilter<InputImageType,
+                                                  OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -185,16 +189,17 @@ main(int argc, char * argv[])
   //  Typical values for the time step are 0.125 in $2D$ images and 0.0625 in
   //  $3D$ images. The number of iterations can be usually around $5$, more
   //  iterations will result in further smoothing and will increase the
-  //  computing time linearly. The conductance parameter is usually around $3.0$.
+  //  computing time linearly. The conductance parameter is usually around
+  //  $3.0$.
   //
   //  Software Guide : EndLatex
 
 
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the curvature flow filter.
+  //  If the output of this filter has been connected to other filters down
+  //  the pipeline, updating any of the downstream filters would have
+  //  triggered the execution of this one. For example, a writer filter could
+  //  have been used after the curvature flow filter.
   //
 
   using WritePixelType = unsigned char;
@@ -220,8 +225,8 @@ main(int argc, char * argv[])
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{CurvatureAnisotropicDiffusionImageFilterOutput}
-  // \itkcaption[CurvatureAnisotropicDiffusionImageFilter output]{Effect of the
-  // CurvatureAnisotropicDiffusionImageFilter on a slice from a MRI Proton
+  // \itkcaption[CurvatureAnisotropicDiffusionImageFilter output]{Effect of
+  // the CurvatureAnisotropicDiffusionImageFilter on a slice from a MRI Proton
   // Density image  of the brain.}
   // \label{fig:CurvatureAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}

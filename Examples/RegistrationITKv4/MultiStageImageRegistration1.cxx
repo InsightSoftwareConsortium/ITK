@@ -30,11 +30,12 @@
 //  This example illustrates the use of more complex components of the
 //  registration framework. In particular, it introduces a multistage,
 //  multi-resolution approach to run a multi-modal registration process
-//  using two linear \doxygen{TranslationTransform} and \doxygen{AffineTransform}.
-//  Also, it shows the use of \emph{Scale Estimators}
-//  for fine-tuning the scale parameters of the optimizer when an Affine
-//  transform is used. The \doxygen{RegistrationParameterScalesFromPhysicalShift}
-//  filter is used for automatic estimation of the parameters scales.
+//  using two linear \doxygen{TranslationTransform} and
+//  \doxygen{AffineTransform}. Also, it shows the use of \emph{Scale
+//  Estimators} for fine-tuning the scale parameters of the optimizer when an
+//  Affine transform is used. The
+//  \doxygen{RegistrationParameterScalesFromPhysicalShift} filter is used for
+//  automatic estimation of the parameters scales.
 //
 // \index{itk::ImageRegistrationMethodv4!AffineTransform}
 // \index{itk::ImageRegistrationMethodv4!Scaling parameter space}
@@ -113,15 +114,18 @@ public:
     const auto * registration = static_cast<const RegistrationType *>(object);
 
     unsigned int currentLevel = registration->GetCurrentLevel();
-    typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
-      registration->GetShrinkFactorsPerDimension(currentLevel);
+    typename RegistrationType::ShrinkFactorsPerDimensionContainerType
+      shrinkFactors =
+        registration->GetShrinkFactorsPerDimension(currentLevel);
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
       registration->GetSmoothingSigmasPerLevel();
 
     std::cout << "-------------------------------------" << std::endl;
-    std::cout << " Current multi-resolution level = " << currentLevel << std::endl;
+    std::cout << " Current multi-resolution level = " << currentLevel
+              << std::endl;
     std::cout << "    shrink factor = " << shrinkFactors << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel]
+              << std::endl;
     std::cout << std::endl;
   }
 };
@@ -159,8 +163,8 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << "  " << m_CumulativeIterationIndex++
-              << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << "  "
+              << m_CumulativeIterationIndex++ << std::endl;
   }
 
 private:
@@ -196,10 +200,10 @@ main(int argc, char * argv[])
   //  The configuration of the registration method at each stage closely
   //  follows the procedure in the previous section.
   //
-  //  In early stages we can use simpler transforms and more aggressive optimization
-  //  parameters to take big steps toward the optimal value. Then, at the final
-  //  stage we can have a more complex transform to do fine adjustments of the final
-  //  parameters.
+  //  In early stages we can use simpler transforms and more aggressive
+  //  optimization parameters to take big steps toward the optimal value.
+  //  Then, at the final stage we can have a more complex transform to do fine
+  //  adjustments of the final parameters.
   //
   //  A possible scheme is to use a simple translation transform for initial
   //  coarse registration levels and upgrade to an affine transform at the
@@ -207,9 +211,10 @@ main(int argc, char * argv[])
   //  Since we have two different types of transforms, we can use a multistage
   //  registration approach as shown in the current example.
   //
-  //  First we need to configure the registration components of the initial stage.
-  //  The instantiation of the transform type requires only the
-  //  dimension of the space and the type used for representing space coordinates.
+  //  First we need to configure the registration components of the initial
+  //  stage. The instantiation of the transform type requires only the
+  //  dimension of the space and the type used for representing space
+  //  coordinates.
   //
   //  \index{itk::TranslationTransform!Instantiation}
   //
@@ -232,15 +237,17 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using TOptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  using TRegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TTransformType>;
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                     MovingImageType>;
+  using TRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType,
+                                                           MovingImageType,
+                                                           TTransformType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  Then, all the components are instantiated using their \code{New()} method
-  //  and connected to the registration object as in previous examples.
+  //  Then, all the components are instantiated using their \code{New()}
+  //  method and connected to the registration object as in previous examples.
   //
   //  Software Guide : EndLatex
 
@@ -254,10 +261,10 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The output transform of the registration process will be constructed
-  //  internally in the registration filter since the related \emph{TransformType}
-  //  is already passed to the registration method as a template parameter.
-  //  However, we should provide an initial moving transform for the
-  //  registration method if needed.
+  //  internally in the registration filter since the related
+  //  \emph{TransformType} is already passed to the registration method as a
+  //  template parameter. However, we should provide an initial moving
+  //  transform for the registration method if needed.
   //
   //  \index{itk::TranslationTransform!New()}
   //  \index{itk::TranslationTransform!Pointer}
@@ -271,7 +278,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  After setting the initial parameters, the initial transform can be
-  //  passed to the registration filter by \code{SetMovingInitialTransform()} method.
+  //  passed to the registration filter by \code{SetMovingInitialTransform()}
+  //  method.
   //
   //  \index{itk::Image\-Registration\-Methodv4!SetMovingInitialTransform()}
   //
@@ -302,15 +310,18 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using CompositeTransformType = itk::CompositeTransform<double, Dimension>;
-  CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  CompositeTransformType::Pointer compositeTransform =
+    CompositeTransformType::New();
   compositeTransform->AddTransform(movingInitTx);
   // Software Guide : EndCodeSnippet
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -346,8 +357,8 @@ main(int argc, char * argv[])
 
   if (argc > 7)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     transMetric->SetNumberOfHistogramBins(std::stoi(argv[7]));
   }
 
@@ -372,19 +383,21 @@ main(int argc, char * argv[])
   CommandIterationUpdate::Pointer observer1 = CommandIterationUpdate::New();
   transOptimizer->AddObserver(itk::IterationEvent(), observer1);
 
-  // Create the Registration interface observer and register it with the registration
-  // method.
+  // Create the Registration interface observer and register it with the
+  // registration method.
   //
-  using TranslationCommandType = RegistrationInterfaceCommand<TRegistrationType>;
+  using TranslationCommandType =
+    RegistrationInterfaceCommand<TRegistrationType>;
   TranslationCommandType::Pointer command1 = TranslationCommandType::New();
-  transRegistration->AddObserver(itk::MultiResolutionIterationEvent(), command1);
+  transRegistration->AddObserver(itk::MultiResolutionIterationEvent(),
+                                 command1);
 
   //  Software Guide : BeginLatex
   //
-  //  Once all the registration components are in place, we trigger the registration
-  //  process by calling \code{Update()} and add the result output transform to the
-  //  final composite transform, so this composite transform can be used to initialize
-  //  the next registration stage.
+  //  Once all the registration components are in place, we trigger the
+  //  registration process by calling \code{Update()} and add the result
+  //  output transform to the final composite transform, so this composite
+  //  transform can be used to initialize the next registration stage.
   //
   //  Software Guide : EndLatex
 
@@ -392,9 +405,10 @@ main(int argc, char * argv[])
   try
   {
     transRegistration->Update();
-    std::cout << "Optimizer stop condition: "
-              << transRegistration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout
+      << "Optimizer stop condition: "
+      << transRegistration->GetOptimizer()->GetStopConditionDescription()
+      << std::endl;
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -403,19 +417,20 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  compositeTransform->AddTransform(transRegistration->GetModifiableTransform());
+  compositeTransform->AddTransform(
+    transRegistration->GetModifiableTransform());
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  Now we can upgrade to an Affine transform as the second stage of registration
-  //  process.
-  //  The AffineTransform is a linear transformation that maps lines into
-  //  lines. It can be used to represent translations, rotations, anisotropic
-  //  scaling, shearing or any combination of them. Details about the affine
-  //  transform can be seen in Section~\ref{sec:AffineTransform}.
-  //  The instantiation of the transform type requires only the dimension of the
-  //  space and the type used for representing space coordinates.
+  //  Now we can upgrade to an Affine transform as the second stage of
+  //  registration process. The AffineTransform is a linear transformation
+  //  that maps lines into lines. It can be used to represent translations,
+  //  rotations, anisotropic scaling, shearing or any combination of them.
+  //  Details about the affine transform can be seen in
+  //  Section~\ref{sec:AffineTransform}. The instantiation of the transform
+  //  type requires only the dimension of the space and the type used for
+  //  representing space coordinates.
   //
   //  \index{itk::AffineTransform!Instantiation}
   //
@@ -427,21 +442,23 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We also use a different optimizer in configuration of the second stage while
-  //  the metric is kept the same as before.
+  //  We also use a different optimizer in configuration of the second stage
+  //  while the metric is kept the same as before.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using AOptimizerType = itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
-  using ARegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, ATransformType>;
+  using AOptimizerType =
+    itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
+  using ARegistrationType = itk::ImageRegistrationMethodv4<FixedImageType,
+                                                           MovingImageType,
+                                                           ATransformType>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  //  Again all the components are instantiated using their \code{New()} method
-  //  and connected to the registration object like in previous stages.
+  //  Again all the components are instantiated using their \code{New()}
+  //  method and connected to the registration object like in previous stages.
   //
   // Software Guide : EndLatex
 
@@ -455,8 +472,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   //  The current stage can be initialized using the initial transform of the
-  //  registration and the result transform of the previous stage, so that both
-  //  are concatenated into the composite transform.
+  //  registration and the result transform of the previous stage, so that
+  //  both are concatenated into the composite transform.
   //
   // Software Guide : EndLatex
 
@@ -472,8 +489,8 @@ main(int argc, char * argv[])
 
   if (argc > 7)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     affineMetric->SetNumberOfHistogramBins(std::stoi(argv[7]));
   }
 
@@ -485,11 +502,11 @@ main(int argc, char * argv[])
   //  In Affine transforms, the center of rotation is defined by the fixed
   //  parameters set, which are set by default to [0, 0].
   //  However, consider a situation where the
-  //  origin of the virtual space, in which the registration is run, is far away
-  //  from the zero origin. In such cases, leaving the center of rotation
-  //  as the default value can make the optimization process unstable. Therefore,
-  //  we are always interested to set the center of rotation to the center of virtual
-  //  space which is usually the fixed image space.
+  //  origin of the virtual space, in which the registration is run, is far
+  //  away from the zero origin. In such cases, leaving the center of rotation
+  //  as the default value can make the optimization process unstable.
+  //  Therefore, we are always interested to set the center of rotation to the
+  //  center of virtual space which is usually the fixed image space.
   //
   //  Note that either center of gravity or geometrical center can be used
   //  as the center of rotation. In this example center of rotation is set
@@ -530,7 +547,8 @@ main(int argc, char * argv[])
   centerFixed[0] = fixedOrigin[0] + fixedSpacing[0] * fixedSize[0] / 2.0;
   centerFixed[1] = fixedOrigin[1] + fixedSpacing[1] * fixedSize[1] / 2.0;
 
-  const unsigned int numberOfFixedParameters = affineTx->GetFixedParameters().Size();
+  const unsigned int numberOfFixedParameters =
+    affineTx->GetFixedParameters().Size();
   ATransformType::ParametersType fixedParameters(numberOfFixedParameters);
   for (unsigned int i = 0; i < numberOfFixedParameters; ++i)
   {
@@ -564,8 +582,8 @@ main(int argc, char * argv[])
   //  interval.  Parameters associated with translations, on the other hand,
   //  tend to have much higher values, typically on the order of $10.0$ to
   //  $100.0$. This difference in dynamic range negatively affects the
-  //  performance of gradient descent optimizers. ITK provides some mechanisms to
-  //  compensate for such differences in values among the parameters when
+  //  performance of gradient descent optimizers. ITK provides some mechanisms
+  //  to compensate for such differences in values among the parameters when
   //  they are passed to the optimizer.
   //
   //  The first mechanism consists of providing an
@@ -613,32 +631,32 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Based on the above discussion, we need much smaller scales for translation
-  //  parameters of vector $\bf{T}$ ($T_x$, $T_y$) compared to the parameters
-  //  of matrix $\bf{M}$ ($M_{11}$, $M_{12}$, $M_{21}$, $M_{22}$).
+  //  Based on the above discussion, we need much smaller scales for
+  //  translation parameters of vector $\bf{T}$ ($T_x$, $T_y$) compared to the
+  //  parameters of matrix $\bf{M}$ ($M_{11}$, $M_{12}$, $M_{21}$, $M_{22}$).
   //  However, it is not easy to have an intuitive estimation of all parameter
   //  scales when we have to deal with a large parameter space.
   //
   //  Fortunately, ITKv4 provides a framework for automated parameter scaling.
   //  \doxygen{RegistrationParameterScalesEstimator} vastly reduces the
-  //  difficulty of tuning parameters for different transform/metric combinations.
-  //  Parameter scales are estimated by analyzing the result of a small parameter
-  //  update on the change in the magnitude of physical space deformation induced
-  //  by the transformation.
+  //  difficulty of tuning parameters for different transform/metric
+  //  combinations. Parameter scales are estimated by analyzing the result of
+  //  a small parameter update on the change in the magnitude of physical
+  //  space deformation induced by the transformation.
   //
-  //  The impact from a unit change of a parameter may be defined in multiple ways,
-  //  such as the maximum shift of voxels in index or physical space, or the average
-  //  norm of transform Jacobian.
-  //  Filters \doxygen{RegistrationParameterScalesFromPhysicalShift}
-  //  and \doxygen{RegistrationParameterScalesFromIndexShift} use the first definition
-  //  to estimate the scales, while the
-  //  \doxygen{RegistrationParameterScalesFromJacobian} filter estimates scales based on
-  //  the later definition. In all methods, the goal is to rescale the transform
-  //  parameters such that a unit change of each \emph{scaled parameter} will have the
-  //  same impact on deformation.
+  //  The impact from a unit change of a parameter may be defined in multiple
+  //  ways, such as the maximum shift of voxels in index or physical space, or
+  //  the average norm of transform Jacobian. Filters
+  //  \doxygen{RegistrationParameterScalesFromPhysicalShift} and
+  //  \doxygen{RegistrationParameterScalesFromIndexShift} use the first
+  //  definition to estimate the scales, while the
+  //  \doxygen{RegistrationParameterScalesFromJacobian} filter estimates
+  //  scales based on the later definition. In all methods, the goal is to
+  //  rescale the transform parameters such that a unit change of each
+  //  \emph{scaled parameter} will have the same impact on deformation.
   //
-  //  In this example the first filter is chosen to estimate the parameter scales. The
-  //  scales estimator will then be passed to optimizer.
+  //  In this example the first filter is chosen to estimate the parameter
+  //  scales. The scales estimator will then be passed to optimizer.
   //
   //  Software Guide : EndLatex
 
@@ -715,19 +733,20 @@ main(int argc, char * argv[])
   affineRegistration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel2);
   // Software Guide : EndCodeSnippet
 
-  // Create the Registration interface observer and register it with the registration
-  // object.
+  // Create the Registration interface observer and register it with the
+  // registration object.
   using AffineCommandType = RegistrationInterfaceCommand<ARegistrationType>;
   AffineCommandType::Pointer command2 = AffineCommandType::New();
-  affineRegistration->AddObserver(itk::MultiResolutionIterationEvent(), command2);
+  affineRegistration->AddObserver(itk::MultiResolutionIterationEvent(),
+                                  command2);
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we trigger the registration process by calling \code{Update()} and
-  //  add the output transform of the last stage to the
-  //  composite transform. This composite transform will be considered as
-  //  the final transform of this multistage registration process and will be
-  //  used by the resampler to resample the moving image in to the virtual domain
+  //  Finally we trigger the registration process by calling \code{Update()}
+  //  and add the output transform of the last stage to the composite
+  //  transform. This composite transform will be considered as the final
+  //  transform of this multistage registration process and will be used by
+  //  the resampler to resample the moving image in to the virtual domain
   //  space (fixed image space if there is no fixed initial transform).
   //
   //  Software Guide : EndLatex
@@ -736,9 +755,10 @@ main(int argc, char * argv[])
   try
   {
     affineRegistration->Update();
-    std::cout << "Optimizer stop condition: "
-              << affineRegistration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout
+      << "Optimizer stop condition: "
+      << affineRegistration->GetOptimizer()->GetStopConditionDescription()
+      << std::endl;
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -747,16 +767,18 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  compositeTransform->AddTransform(affineRegistration->GetModifiableTransform());
+  compositeTransform->AddTransform(
+    affineRegistration->GetModifiableTransform());
   // Software Guide : EndCodeSnippet
 
-  std::cout << "\nInitial parameters of the registration process: " << std::endl
+  std::cout << "\nInitial parameters of the registration process: "
+            << std::endl
             << movingInitTx->GetParameters() << std::endl;
 
   std::cout << "\nTranslation parameters after registration: " << std::endl
             << transOptimizer->GetCurrentPosition() << std::endl
-            << " Last LearningRate: " << transOptimizer->GetCurrentStepLength()
-            << std::endl;
+            << " Last LearningRate: "
+            << transOptimizer->GetCurrentStepLength() << std::endl;
 
   std::cout << "\nAffine parameters after registration: " << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
@@ -777,9 +799,9 @@ main(int argc, char * argv[])
   //  have unit-spacing and are shown in Figure
   //  \ref{fig:FixedMovingMultiStageImageRegistration1}.
   //
-  //  The registration converges after $5$ iterations in the translation stage.
-  //  Also, in the second stage, the registration converges after $46$ iterations
-  //  in the first level, and $6$ iterations in the second level.
+  //  The registration converges after $5$ iterations in the translation
+  //  stage. Also, in the second stage, the registration converges after $46$
+  //  iterations in the first level, and $6$ iterations in the second level.
   //  The final results when printed as an array of parameters are:
   //
   //  \begin{verbatim}
@@ -823,8 +845,8 @@ main(int argc, char * argv[])
   //  matrix. The value is $9.975$ degrees, which is approximately the
   //  intentional misalignment of $10.0$ degrees.
   //
-  //  Also, let's compute the total translation values resulting from initial transform,
-  //  translation transform, and the Affine transform together.
+  //  Also, let's compute the total translation values resulting from initial
+  //  transform, translation transform, and the Affine transform together.
   //
   //  In $X$ direction:
   //  \begin{equation}
@@ -857,7 +879,8 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform(compositeTransform);
@@ -877,7 +900,8 @@ main(int argc, char * argv[])
 
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer     writer = WriterType::New();

@@ -22,16 +22,16 @@
 //  a 3D image using the \doxygen{RecursiveGaussianImageFilter}.
 //
 //  It's good to be able to compute the raw derivative without any smoothing,
-//  but this can be problematic in a medical imaging scenario, when images will
-//  often have a certain amount of noise. It's almost always more desirable to
-//  include a smoothing step first, where an image is convolved with a Gaussian
-//  kernel in whichever directions the user desires a derivative. The nature of
-//  the Gaussian kernel makes it easy to combine these two steps into one,
-//  using an infinite impulse response (IIR) filter. In this example, all the
-//  second derivatives are computed independently in the same way, as if they
-//  were intended to be used for building the Hessian matrix of the image (a
-//  square matrix of second-order derivatives of an image, which is useful in
-//  many image processing techniques).
+//  but this can be problematic in a medical imaging scenario, when images
+//  will often have a certain amount of noise. It's almost always more
+//  desirable to include a smoothing step first, where an image is convolved
+//  with a Gaussian kernel in whichever directions the user desires a
+//  derivative. The nature of the Gaussian kernel makes it easy to combine
+//  these two steps into one, using an infinite impulse response (IIR) filter.
+//  In this example, all the second derivatives are computed independently in
+//  the same way, as if they were intended to be used for building the Hessian
+//  matrix of the image (a square matrix of second-order derivatives of an
+//  image, which is useful in many image processing techniques).
 //
 //  Software Guide : EndLatex
 
@@ -78,10 +78,10 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Using these definitions, define the image types, reader and writer types,
-  //  and duplicator types, which are templated over the pixel types and
-  //  dimension.  Then, instantiate the reader, writer, and duplicator with
-  //  the \code{New()} method.
+  //  Using these definitions, define the image types, reader and writer
+  //  types, and duplicator types, which are templated over the pixel types
+  //  and dimension.  Then, instantiate the reader, writer, and duplicator
+  //  with the \code{New()} method.
   //
   // Software Guide : EndLatex
 
@@ -121,11 +121,11 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Here we create three new filters. For each derivative we take, we will
-  //  want to smooth in that direction first. So after the filters are created,
-  //  each is given a dimension, and set to (in this example) the same sigma.
-  //  Note that here, $\sigma$ represents the standard deviation, whereas the
-  //  \doxygen{DiscreteGaussianImageFilter} exposes the \code{SetVariance}
-  //  method.
+  //  want to smooth in that direction first. So after the filters are
+  //  created, each is given a dimension, and set to (in this example) the
+  //  same sigma. Note that here, $\sigma$ represents the standard deviation,
+  //  whereas the \doxygen{DiscreteGaussianImageFilter} exposes the
+  //  \code{SetVariance} method.
   //
   //  Software Guide : EndLatex
 
@@ -187,9 +187,9 @@ main(int argc, char * argv[])
   //  derivative. We can now take advantage of the pipeline architecture and,
   //  without much hassle, switch the direction of \code{gc} and \code{gb},
   //  so that \code{gc} now takes the derivatives in the $y$-direction. Now we
-  //  only need to call \code{Update()} on \code{gc} to re-run the entire pipeline
-  //  from \code{ga} to \code{gc}, obtaining the second-order derivative in the
-  //  $y$-direction, which is commonly notated $I_{yy}$.
+  //  only need to call \code{Update()} on \code{gc} to re-run the entire
+  //  pipeline from \code{ga} to \code{gc}, obtaining the second-order
+  //  derivative in the $y$-direction, which is commonly notated $I_{yy}$.
   //
   // Software Guide : EndLatex
 
@@ -210,8 +210,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Now we switch the directions of \code{gc} with that of \code{ga} in order
-  //  to take the derivatives in the $x$-direction. This will give us $I_{xx}$.
+  //  Now we switch the directions of \code{gc} with that of \code{ga} in
+  //  order to take the derivatives in the $x$-direction. This will give us
+  //  $I_{xx}$.
   //
   //  Software Guide : EndLatex
 

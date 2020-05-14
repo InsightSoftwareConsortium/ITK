@@ -45,8 +45,8 @@
 // \doxygen{VectorGradientMagnitudeImageFilter} is used to generate the
 // height function.  We begin by including all preprocessing filter header
 // files and the header file for the WatershedImageFilter.  We
-// use the vector versions of these filters because the input dataset is a color
-// image.
+// use the vector versions of these filters because the input dataset is a
+// color image.
 //
 //
 // Software Guide : EndLatex
@@ -70,9 +70,10 @@ main(int argc, char * argv[])
   {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage outputImage conductanceTerm diffusionIterations "
-                 "lowerThreshold outputScaleLevel gradientMode "
-              << std::endl;
+    std::cerr
+      << " inputImage outputImage conductanceTerm diffusionIterations "
+         "lowerThreshold outputScaleLevel gradientMode "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -151,7 +152,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientMagnitudeFilterType::Pointer gradient = GradientMagnitudeFilterType::New();
+  GradientMagnitudeFilterType::Pointer gradient =
+    GradientMagnitudeFilterType::New();
   gradient->SetUsePrincipleComponents(std::stoi(argv[7]));
   // Software Guide : EndCodeSnippet
 
@@ -188,9 +190,12 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ColormapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
+  using ColormapFunctorType =
+    itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
   using ColormapFilterType =
-    itk::UnaryFunctorImageFilter<LabeledImageType, RGBImageType, ColormapFunctorType>;
+    itk::UnaryFunctorImageFilter<LabeledImageType,
+                                 RGBImageType,
+                                 ColormapFunctorType>;
   ColormapFilterType::Pointer colormapper = ColormapFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -234,13 +239,13 @@ main(int argc, char * argv[])
 // \includegraphics[width=0.32\textwidth]{VisibleWomanEyeSlice}
 // \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output1}
 // \includegraphics[width=0.32\textwidth]{WatershedSegmentation1Output2}
-// \itkcaption[Watershed segmentation output]{Segmented section of Visible Human
-// female head and neck cryosection data.  At left is the original image.  The
-// image in the middle was generated with parameters: conductance = 2.0,
-// iterations = 10, threshold = 0.0, level = 0.05, principal components = on.
-// The image on the right was generated with parameters: conductance = 2.0,
-// iterations = 10, threshold = 0.001, level = 0.15, principal components =
-// off. } \label{fig:outputWatersheds} \end{figure}
+// \itkcaption[Watershed segmentation output]{Segmented section of Visible
+// Human female head and neck cryosection data.  At left is the original
+// image.  The image in the middle was generated with parameters: conductance
+// = 2.0, iterations = 10, threshold = 0.0, level = 0.05, principal components
+// = on. The image on the right was generated with parameters: conductance
+// = 2.0, iterations = 10, threshold = 0.001, level = 0.15, principal
+// components = off. } \label{fig:outputWatersheds} \end{figure}
 //
 //
 // Tuning the filter parameters for any particular application is a process

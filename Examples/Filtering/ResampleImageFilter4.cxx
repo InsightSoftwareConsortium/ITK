@@ -55,7 +55,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -77,7 +78,8 @@ main(int argc, char * argv[])
 
   const double angleInDegrees = std::stod(argv[3]);
 
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -100,7 +102,8 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<InputImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator(interpolator);
@@ -121,7 +124,8 @@ main(int argc, char * argv[])
 
   const InputImageType::SpacingType & spacing = inputImage->GetSpacing();
   const InputImageType::PointType &   origin = inputImage->GetOrigin();
-  InputImageType::SizeType size = inputImage->GetLargestPossibleRegion().GetSize();
+  InputImageType::SizeType            size =
+    inputImage->GetLargestPossibleRegion().GetSize();
 
   filter->SetOutputOrigin(origin);
   filter->SetOutputSpacing(spacing);
@@ -148,8 +152,8 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceBorder20}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput10}
-  // \itkcaption[Effect of the Resample filter rotating an image]{Effect of the
-  // resample filter rotating an image.}
+  // \itkcaption[Effect of the Resample filter rotating an image]{Effect of
+  // the resample filter rotating an image.}
   // \label{fig:ResampleImageFilterOutput10}
   // \end{figure}
   //

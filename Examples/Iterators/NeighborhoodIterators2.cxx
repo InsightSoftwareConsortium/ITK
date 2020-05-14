@@ -25,13 +25,13 @@
 // Software Guide : BeginLatex
 //
 // In this example, the Sobel edge-detection routine is rewritten using
-// convolution filtering.  Convolution filtering is a standard image processing
-// technique that can be implemented numerically as the inner product of all
-// image neighborhoods with a convolution kernel \cite{Gonzalez1993}
-// \cite{Castleman1996}.  In ITK, we use a class of objects called
-// \emph{neighborhood operators} as convolution kernels and a special function
-// object called \doxygen{NeighborhoodInnerProduct} to calculate inner
-// products.
+// convolution filtering.  Convolution filtering is a standard image
+// processing technique that can be implemented numerically as the inner
+// product of all image neighborhoods with a convolution kernel
+// \cite{Gonzalez1993} \cite{Castleman1996}.  In ITK, we use a class of
+// objects called \emph{neighborhood operators} as convolution kernels and a
+// special function object called \doxygen{NeighborhoodInnerProduct} to
+// calculate inner products.
 //
 // The basic ITK convolution filtering routine is to step through the image
 // with a neighborhood iterator and use NeighborhoodInnerProduct to
@@ -61,7 +61,8 @@ main(int argc, char ** argv)
   {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile direction" << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile direction"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -97,13 +98,13 @@ main(int argc, char ** argv)
   // \index{convolution!operators}
   // \index{iterators!neighborhood!and convolution}
   //
-  // Refer to the previous example for a description of reading the input image and
-  // setting up the output image and iterator.
+  // Refer to the previous example for a description of reading the input
+  // image and setting up the output image and iterator.
   //
   // The following code creates a Sobel operator.  The Sobel operator requires
-  // a direction for its partial derivatives.  This direction is read from the command
-  // line. Changing the direction of the derivatives changes the bias of the edge
-  // detection, i.e. maximally vertical or maximally horizontal.
+  // a direction for its partial derivatives.  This direction is read from the
+  // command line. Changing the direction of the derivatives changes the bias
+  // of the edge detection, i.e. maximally vertical or maximally horizontal.
   //
   // Software Guide : EndLatex
 
@@ -115,10 +116,10 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // The neighborhood iterator is initialized as before, except that now it takes
-  // its radius directly from the radius of the Sobel operator.  The inner
-  // product function object is templated over image type and requires no
-  // initialization.
+  // The neighborhood iterator is initialized as before, except that now it
+  // takes its radius directly from the radius of the Sobel operator.  The
+  // inner product function object is templated over image type and requires
+  // no initialization.
   //
   // Software Guide : EndLatex
 
@@ -132,10 +133,10 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Using the Sobel operator, inner product, and neighborhood iterator objects,
-  // we can now write a very simple \code{for} loop for performing convolution
-  // filtering.  As before, out-of-bounds pixel values are supplied automatically
-  // by the iterator.
+  // Using the Sobel operator, inner product, and neighborhood iterator
+  // objects, we can now write a very simple \code{for} loop for performing
+  // convolution filtering.  As before, out-of-bounds pixel values are
+  // supplied automatically by the iterator.
   //
   // Software Guide : EndLatex
 
@@ -149,9 +150,10 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The output is rescaled and written as in the previous example.  Applying
-  // this example in the $x$ and $y$ directions produces the images at the center
-  // and right of Figure~\ref{fig:NeighborhoodExamples1}. Note that x-direction
-  // operator produces the same output image as in the previous example.
+  // this example in the $x$ and $y$ directions produces the images at the
+  // center and right of Figure~\ref{fig:NeighborhoodExamples1}. Note that
+  // x-direction operator produces the same output image as in the previous
+  // example.
   //
   // Software Guide : EndLatex
 
@@ -159,7 +161,8 @@ main(int argc, char ** argv)
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 

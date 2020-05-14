@@ -18,11 +18,12 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example introduces the use of the \doxygen{AntiAliasBinaryImageFilter}. This
-//  filter expect a binary mask as input, and using Level Sets it smooths the
-//  image by keeping the edge of the structure within 1 pixel distance from the
-//  original location. It is usually desirable to run this filter before
-//  extracting isocontour with surface extraction methods.
+//  This example introduces the use of the
+//  \doxygen{AntiAliasBinaryImageFilter}. This filter expect a binary mask as
+//  input, and using Level Sets it smooths the image by keeping the edge of
+//  the structure within 1 pixel distance from the original location. It is
+//  usually desirable to run this filter before extracting isocontour with
+//  surface extraction methods.
 //
 //  \index{itk::AntiAliasBinaryImageFilter|textbf}
 //
@@ -37,7 +38,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required for using this filter is to include its header
+//  file
 //
 //  \index{itk::AntiAliasBinaryImageFilter!header}
 //
@@ -56,7 +58,8 @@ main(int argc, char * argv[])
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " inputImage outputImageDoublePixelType ";
-    std::cerr << " outputImage8BitsPixelType [RMS] [numberOfIterations]" << std::endl;
+    std::cerr << " outputImage8BitsPixelType [RMS] [numberOfIterations]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -101,16 +104,18 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CastToRealFilterType = itk::CastImageFilter<CharImageType, RealImageType>;
+  using CastToRealFilterType =
+    itk::CastImageFilter<CharImageType, RealImageType>;
   // Software Guide : EndCodeSnippet
 
-  using RescaleFilter = itk::RescaleIntensityImageFilter<RealImageType, CharImageType>;
+  using RescaleFilter =
+    itk::RescaleIntensityImageFilter<RealImageType, CharImageType>;
 
 
   //  Software Guide : BeginLatex
   //
-  //  The \doxygen{AntiAliasBinaryImageFilter} is instantiated using the float image
-  //  type.
+  //  The \doxygen{AntiAliasBinaryImageFilter} is instantiated using the float
+  //  image type.
   //
   //  \index{itk::AntiAliasBinaryImageFilter|textbf}
   //
@@ -175,7 +180,8 @@ main(int argc, char * argv[])
     std::cout << err << std::endl;
     return EXIT_FAILURE;
   }
-  std::cout << "Completed in " << antiAliasFilter->GetNumberOfIterations() << std::endl;
+  std::cout << "Completed in " << antiAliasFilter->GetNumberOfIterations()
+            << std::endl;
 
   // Software Guide : EndCodeSnippet
 

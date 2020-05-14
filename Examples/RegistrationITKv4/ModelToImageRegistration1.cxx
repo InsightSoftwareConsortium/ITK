@@ -34,9 +34,10 @@
 //
 //  Let's look first at the classes required to support
 //  SpatialObject. In this example we use the
-//  \doxygen{EllipseSpatialObject} as the basic shape components and we use the
-//  \doxygen{GroupSpatialObject} to group them together as a representation of
-//  a more complex shape. Their respective headers are included below.
+//  \doxygen{EllipseSpatialObject} as the basic shape components and we use
+//  the \doxygen{GroupSpatialObject} to group them together as a
+//  representation of a more complex shape. Their respective headers are
+//  included below.
 //
 //  \index{itk::EllipseSpatialObject!header}
 //  \index{itk::GroupSpatialObject!header}
@@ -72,8 +73,8 @@
 //
 //  A metric is defined to evaluate the fitness between the
 //  SpatialObject and the Image. The base class for this
-//  type of metric is the \doxygen{ImageToSpatialObjectMetric}, whose header is
-//  included below.
+//  type of metric is the \doxygen{ImageToSpatialObjectMetric}, whose header
+//  is included below.
 //
 //  \index{itk::Image\-To\-Spatial\-Object\-Metric!header}
 //
@@ -139,8 +140,8 @@
 //  Software Guide : BeginLatex
 //
 //  As in previous registration examples, it is important to
-//  track the evolution of the optimizer as it progresses through the parameter
-//  space.  This is done by using the Command/Observer paradigm.  The
+//  track the evolution of the optimizer as it progresses through the
+//  parameter space.  This is done by using the Command/Observer paradigm. The
 //  following lines of code implement the \doxygen{Command} observer that
 //  monitors the progress of the registration. The code is quite
 //  similar to what we have used in previous registration examples.
@@ -248,7 +249,8 @@ class SimpleImageToSpatialObjectMetric
 public:
   /** Standard class type aliases. */
   using Self = SimpleImageToSpatialObjectMetric;
-  using Superclass = itk::ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>;
+  using Superclass =
+    itk::ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
 
@@ -273,14 +275,17 @@ public:
   {
     if (!this->m_FixedImage)
     {
-      std::cout << "Please set the image before the moving spatial object" << std::endl;
+      std::cout << "Please set the image before the moving spatial object"
+                << std::endl;
       return;
     }
     this->m_MovingSpatialObject = object;
     m_PointList.clear();
-    using myIteratorType = itk::ImageRegionConstIteratorWithIndex<TFixedImage>;
+    using myIteratorType =
+      itk::ImageRegionConstIteratorWithIndex<TFixedImage>;
 
-    myIteratorType it(this->m_FixedImage, this->m_FixedImage->GetBufferedRegion());
+    myIteratorType it(this->m_FixedImage,
+                      this->m_FixedImage->GetBufferedRegion());
 
     itk::Point<double, 2> point;
 
@@ -602,7 +607,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  using GaussianFilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
+  using GaussianFilterType =
+    itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
   //  Software Guide : EndCodeSnippet
 
@@ -637,8 +643,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Below we instantiate the type of the
-  //  \doxygen{ImageToSpatialObjectRegistrationMethod} method and instantiate a
-  //  registration object with the \code{New()} method. Note that the
+  //  \doxygen{ImageToSpatialObjectRegistrationMethod} method and instantiate
+  //  a registration object with the \code{New()} method. Note that the
   //  registration type is templated over the Image and the
   //  SpatialObject types. The spatial object in this case is the
   //  group of spatial objects.
@@ -680,7 +686,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<ImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   // Software Guide : EndCodeSnippet
 
@@ -765,8 +772,8 @@ main(int argc, char * argv[])
   //  As in previous registration examples, we take care to normalize the
   //  dynamic range of the different transform parameters. In particular, the
   //  we must compensate for the ranges of the angle and translations of the
-  //  Euler2DTransform. In order to achieve this goal, we provide an array of scales to
-  //  the optimizer.
+  //  Euler2DTransform. In order to achieve this goal, we provide an array of
+  //  scales to the optimizer.
   //
   //  Software Guide : EndLatex
 
@@ -787,8 +794,8 @@ main(int argc, char * argv[])
   //
   //  Here we instantiate the Command object that will act as an
   //  observer of the registration method and print out parameters at each
-  //  iteration. Earlier, we defined this command as a class templated over the
-  //  optimizer type. Once it is created with the \code{New()} method, we
+  //  iteration. Earlier, we defined this command as a class templated over
+  //  the optimizer type. Once it is created with the \code{New()} method, we
   //  connect the optimizer to the command.
   //
   //  Software Guide : EndLatex
@@ -805,8 +812,8 @@ main(int argc, char * argv[])
   //  All the components are plugged into the
   //  ImageToSpatialObjectRegistrationMethod object. The typical
   //  \code{Set()} methods are used here. Note the use of the
-  //  \code{SetMovingSpatialObject()} method for connecting the spatial object.
-  //  We provide the blurred version of the original synthetic binary
+  //  \code{SetMovingSpatialObject()} method for connecting the spatial
+  //  object. We provide the blurred version of the original synthetic binary
   //  image as the input image.
   //
   //  \index{itk::Image\-To\-Spatial\-Object\-Registration\-Method!SetFixedImage()}
@@ -831,15 +838,16 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The initial set of transform parameters is passed to the registration
-  //  method using the \code{SetInitialTransformParameters()} method. Note that
-  //  since our original model is already registered with the synthetic image,
-  //  we introduce an artificial mis-registration in order to initialize
-  //  the optimization at some point away from the optimal value.
+  //  method using the \code{SetInitialTransformParameters()} method. Note
+  //  that since our original model is already registered with the synthetic
+  //  image, we introduce an artificial mis-registration in order to
+  //  initialize the optimization at some point away from the optimal value.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::ParametersType initialParameters(transform->GetNumberOfParameters());
+  TransformType::ParametersType initialParameters(
+    transform->GetNumberOfParameters());
 
   initialParameters[0] = 0.2; // Angle
   initialParameters[1] = 7.0; // Offset X
@@ -852,12 +860,12 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Due to the character of the metric used to evaluate the fitness
-  //  between the spatial object and the image, we must tell the optimizer that
-  //  we are interested in finding the maximum value of the metric. Some
-  //  metrics associate low numeric values with good matching, while others associate
-  //  high numeric values with good matching. The \code{MaximizeOn()} and
-  //  \code{MaximizeOff()} methods allow the user to deal with both types of
-  //  metrics.
+  //  between the spatial object and the image, we must tell the optimizer
+  //  that we are interested in finding the maximum value of the metric. Some
+  //  metrics associate low numeric values with good matching, while others
+  //  associate high numeric values with good matching. The
+  //  \code{MaximizeOn()} and \code{MaximizeOff()} methods allow the user to
+  //  deal with both types of metrics.
   //
   //  \index{itk::Optimizer!MaximizeOn()}
   //  \index{itk::Optimizer!MaximizeOff()}

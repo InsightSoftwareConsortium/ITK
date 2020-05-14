@@ -58,7 +58,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  numberOfRepetitions"
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFile  numberOfRepetitions"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -95,7 +96,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::BinomialBlurImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::BinomialBlurImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -108,10 +110,10 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another filter. Here,
-  //  an image reader is used as the source. The number of repetitions is set with
-  //  the \code{SetRepetitions()} method. Computation time will
-  //  increase linearly with the number of repetitions selected. Finally, the
-  //  filter can be executed by calling the \code{Update()} method.
+  //  an image reader is used as the source. The number of repetitions is set
+  //  with the \code{SetRepetitions()} method. Computation time will increase
+  //  linearly with the number of repetitions selected. Finally, the filter
+  //  can be executed by calling the \code{Update()} method.
   //
   //  \index{itk::BinomialBlurImageFilter!Update()}
   //  \index{itk::BinomialBlurImageFilter!SetInput()}

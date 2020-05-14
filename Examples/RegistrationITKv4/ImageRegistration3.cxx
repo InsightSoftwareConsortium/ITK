@@ -104,8 +104,8 @@ public:
 
   //  Software Guide : BeginLatex
   //
-  //  The following type alias declares the type of the SmartPointer capable of
-  //  holding a reference to this object.
+  //  The following type alias declares the type of the SmartPointer capable
+  //  of holding a reference to this object.
   //
   //  Software Guide : EndLatex
 
@@ -187,9 +187,9 @@ public:
   //  Software Guide : BeginLatex
   //
   // Finally we get to the heart of the observer, the \code{Execute()} method.
-  // Two arguments are passed to this method. The first argument is the pointer
-  // to the object that invoked the event. The second argument is the event that
-  // was invoked.
+  // Two arguments are passed to this method. The first argument is the
+  // pointer to the object that invoked the event. The second argument is the
+  // event that was invoked.
   //
   //  Software Guide : EndLatex
 
@@ -217,15 +217,16 @@ public:
 
     //  Software Guide : BeginLatex
     //
-    //  The next step is to verify that the event invoked is actually the one in
-    //  which we are interested. This is checked using the RTTI\footnote{RTTI
-    //  stands for: Run-Time Type Information} support. The \code{CheckEvent()}
-    //  method allows us to compare the actual type of two events.  In this case
-    //  we compare the type of the received event with an IterationEvent. The
-    //  comparison will return true if \code{event} is of type
-    //  \code{IterationEvent} or derives from \code{IterationEvent}.  If we find
-    //  that the event is not of the expected type then the \code{Execute()}
-    //  method of this command observer should return without any further action.
+    //  The next step is to verify that the event invoked is actually the one
+    //  in which we are interested. This is checked using the
+    //  RTTI\footnote{RTTI stands for: Run-Time Type Information} support. The
+    //  \code{CheckEvent()} method allows us to compare the actual type of two
+    //  events.  In this case we compare the type of the received event with
+    //  an IterationEvent. The comparison will return true if \code{event} is
+    //  of type \code{IterationEvent} or derives from \code{IterationEvent}.
+    //  If we find that the event is not of the expected type then the
+    //  \code{Execute()} method of this command observer should return without
+    //  any further action.
     //
     // \index{itk::EventObject!CheckEvent}
     //
@@ -244,9 +245,9 @@ public:
     //  If the event matches the type we are looking for, we are ready to
     //  query data from the optimizer. Here, for example, we get the current
     //  number of iterations, the current value of the cost function and the
-    //  current position on the parameter space. All of these values are printed
-    //  to the standard output. You could imagine more elaborate actions like
-    //  updating a GUI or refreshing a visualization pipeline.
+    //  current position on the parameter space. All of these values are
+    //  printed to the standard output. You could imagine more elaborate
+    //  actions like updating a GUI or refreshing a visualization pipeline.
     //
     //  Software Guide : EndLatex
 
@@ -289,8 +290,8 @@ main(int argc, char * argv[])
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
 
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
   using MetricType =
     itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
@@ -307,8 +308,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -447,15 +450,15 @@ main(int argc, char * argv[])
   //   19 = 0.00516378 : [12.99928608126834, 17.000045636412015]
   //   20 = 0.000228075 : [13.00123653240422, 16.999943471681494]
   //  \end{verbatim}
-  //  You can verify from the code in the \code{Execute()} method that the first
-  //  column is the iteration number, the second column is the metric value and
-  //  the third and fourth columns are the parameters of the transform, which
-  //  is a $2D$ translation transform in this case. By tracking these values as
-  //  the registration progresses, you will be able to determine whether the
-  //  optimizer is advancing in the right direction and whether the step-length
-  //  is reasonable or not.  That will allow you to interrupt the registration
-  //  process and fine-tune parameters without having to wait until the
-  //  optimizer stops by itself.
+  //  You can verify from the code in the \code{Execute()} method that the
+  //  first column is the iteration number, the second column is the metric
+  //  value and the third and fourth columns are the parameters of the
+  //  transform, which is a $2D$ translation transform in this case. By
+  //  tracking these values as the registration progresses, you will be able
+  //  to determine whether the optimizer is advancing in the right direction
+  //  and whether the step-length is reasonable or not.  That will allow you
+  //  to interrupt the registration process and fine-tune parameters without
+  //  having to wait until the optimizer stops by itself.
   //
   //  Software Guide : EndLatex
 
@@ -479,7 +482,8 @@ main(int argc, char * argv[])
 
   // Prepare the resampling filter in order to map the moving image.
   //
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -502,7 +506,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 

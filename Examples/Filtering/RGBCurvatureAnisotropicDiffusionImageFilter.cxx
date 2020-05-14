@@ -30,7 +30,8 @@
 //  \doxygen{VectorCurvatureAnisotropicDiffusionImageFilter} on an image with
 //  \doxygen{RGBPixel} type.
 //
-//  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!RGB Images}
+//  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!RGB
+//  Images}
 //
 //  Software Guide : EndLatex
 
@@ -104,8 +105,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The filter type is now instantiated and a filter object is created by the
-  //  \code{New()} method.
+  //  The filter type is now instantiated and a filter object is created by
+  //  the \code{New()} method.
   //
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!instantiation}
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!New()}
@@ -115,7 +116,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::VectorCurvatureAnisotropicDiffusionImageFilter<InputImageType, InputImageType>;
+    itk::VectorCurvatureAnisotropicDiffusionImageFilter<InputImageType,
+                                                        InputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -144,8 +146,8 @@ main(int argc, char * argv[])
   //  This filter requires two parameters: the number of iterations to be
   //  performed and the time step used in the computation of the level set
   //  evolution. These parameters are set using the methods
-  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.  The filter
-  //  can be executed by invoking \code{Update()}.
+  //  \code{SetNumberOfIterations()} and \code{SetTimeStep()} respectively.
+  //  The filter can be executed by invoking \code{Update()}.
   //
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!Update()}
   //  \index{itk::Vector\-Curvature\-Anisotropic\-Diffusion\-Image\-Filter!SetTimeStep()}
@@ -225,8 +227,8 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{RGBGradientAnisotropicDiffusionImageFilterOutput2}
   // \includegraphics[width=0.32\textwidth]{RGBCurvatureAnisotropicDiffusionImageFilterOutput2}
   // \itkcaption[Various Anisotropic Diffusion compared] {Comparison between
-  // the gradient (center) and curvature (right) Anisotropic Diffusion filters.
-  // Original image at left.}
+  // the gradient (center) and curvature (right) Anisotropic Diffusion
+  // filters. Original image at left.}
   // \label{fig:ComparisionGradientCurvatureRGBAnisotropicDiffusion}
   // \end{figure}
   //

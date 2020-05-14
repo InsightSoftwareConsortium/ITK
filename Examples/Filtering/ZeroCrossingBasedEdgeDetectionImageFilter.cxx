@@ -57,7 +57,8 @@ main(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   outputImageFile variance maxerror"
+    std::cerr << argv[0]
+              << "  inputImageFile   outputImageFile variance maxerror"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -89,14 +90,15 @@ main(int argc, char * argv[])
   writer->SetFileName(argv[2]);
 
   using FilterType =
-    itk::ZeroCrossingBasedEdgeDetectionImageFilter<InputImageType, OutputImageType>;
+    itk::ZeroCrossingBasedEdgeDetectionImageFilter<InputImageType,
+                                                   OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
 
   //  Software Guide : BeginLatex
   //
-  //  The filter requires two parameters. First the value of the variance to be
-  //  used by the Gaussian smoothing stage. This value is provided in the
+  //  The filter requires two parameters. First the value of the variance to
+  //  be used by the Gaussian smoothing stage. This value is provided in the
   //  method \code{SetVariance} and it is given in pixel units. Second the
   //  filter expects the acceptable error for computing the approximation to
   //  the Gaussian kernel. This error is expected to be in the range between 0

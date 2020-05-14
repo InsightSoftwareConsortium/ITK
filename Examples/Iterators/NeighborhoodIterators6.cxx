@@ -33,12 +33,12 @@
 // such as these can be efficiently written using the random access
 // capabilities of the neighborhood iterator.
 //
-// The following example finds local minima.  Given a seed point, we can search
-// the neighborhood of that point and pick the smallest value $m$.  While $m$
-// is not at the center of our current neighborhood, we move in the direction
-// of $m$ and repeat the analysis.  Eventually we discover a local minimum and
-// stop.  This algorithm is made trivially simple in ND using an ITK
-// neighborhood iterator.
+// The following example finds local minima.  Given a seed point, we can
+// search the neighborhood of that point and pick the smallest value $m$.
+// While $m$ is not at the center of our current neighborhood, we move in the
+// direction of $m$ and repeat the analysis.  Eventually we discover a local
+// minimum and stop.  This algorithm is made trivially simple in ND using an
+// ITK neighborhood iterator.
 //
 // To illustrate the process, we create an image that descends everywhere to a
 // single minimum:  a positive distance transform to a point.  The details of
@@ -64,9 +64,11 @@ main(int argc, char ** argv)
   using ImageType = itk::Image<PixelType, 2>;
   using NeighborhoodIteratorType = itk::NeighborhoodIterator<ImageType>;
 
-  using FastMarchingFilterType = itk::FastMarchingImageFilter<ImageType, ImageType>;
+  using FastMarchingFilterType =
+    itk::FastMarchingImageFilter<ImageType, ImageType>;
 
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching =
+    FastMarchingFilterType::New();
 
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
@@ -123,8 +125,8 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The variable \code{input} is the pointer to the distance transform image.
-  // The local minimum algorithm is initialized with a seed point read from the
-  // command line.
+  // The local minimum algorithm is initialized with a seed point read from
+  // the command line.
   //
   // Software Guide : EndLatex
 
@@ -136,7 +138,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Next we create the neighborhood iterator and position it at the seed point.
+  // Next we create the neighborhood iterator and position it at the seed
+  // point.
   //
   // Software Guide : EndLatex
 
@@ -150,12 +153,12 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Searching for the local minimum involves finding the minimum in the current
-  // neighborhood, then shifting the neighborhood in the direction of that
-  // minimum.  The \code{for} loop below records the \doxygen{Offset} of the
-  // minimum neighborhood pixel.  The neighborhood iterator is then moved using
-  // that offset.  When a local minimum is detected, \code{flag} will remain
-  // false and the \code{while} loop will exit.  Note that this code is
+  // Searching for the local minimum involves finding the minimum in the
+  // current neighborhood, then shifting the neighborhood in the direction of
+  // that minimum.  The \code{for} loop below records the \doxygen{Offset} of
+  // the minimum neighborhood pixel.  The neighborhood iterator is then moved
+  // using that offset.  When a local minimum is detected, \code{flag} will
+  // remain false and the \code{while} loop will exit.  Note that this code is
   // valid for an image of any dimensionality.
   //
   // Software Guide : EndLatex
@@ -189,8 +192,8 @@ main(int argc, char ** argv)
   //
   // Figure~\ref{fig:NeighborhoodExample6} shows the results of the algorithm
   // for several seed points.  The white line is the path of the iterator from
-  // the seed point to the minimum in the center of the image.  The effect of the
-  // additive noise is visible as the small perturbations in the paths.
+  // the seed point to the minimum in the center of the image.  The effect of
+  // the additive noise is visible as the small perturbations in the paths.
   //
   // \begin{figure} \centering
   // \includegraphics[width=0.3\textwidth]{NeighborhoodIterators6a}
@@ -209,7 +212,8 @@ main(int argc, char ** argv)
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 

@@ -175,7 +175,8 @@ main()
 
   for (int index = 0; index < subsample->Size(); ++index)
   {
-    std::cout << "instance identifier = " << subsample->GetInstanceIdentifier(index)
+    std::cout << "instance identifier = "
+              << subsample->GetInstanceIdentifier(index)
               << "\t measurement vector = "
               << subsample->GetMeasurementVectorByIndex(index) << std::endl;
   }
@@ -194,7 +195,8 @@ main()
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Size = " << subsample->Size() << std::endl;
-  std::cout << "Total frequency = " << subsample->GetTotalFrequency() << std::endl;
+  std::cout << "Total frequency = " << subsample->GetTotalFrequency()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -208,7 +210,8 @@ main()
   // Software Guide : BeginCodeSnippet
   subsample->Clear();
   std::cout << "Size = " << subsample->Size() << std::endl;
-  std::cout << "Total frequency = " << subsample->GetTotalFrequency() << std::endl;
+  std::cout << "Total frequency = " << subsample->GetTotalFrequency()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

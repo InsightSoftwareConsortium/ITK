@@ -185,7 +185,8 @@ main()
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Size = " << sample->Size() << std::endl;
-  std::cout << "Total frequency = " << sample->GetTotalFrequency() << std::endl;
+  std::cout << "Total frequency = " << sample->GetTotalFrequency()
+            << std::endl;
   // Software Guide : EndCodeSnippet
   return EXIT_SUCCESS;
 }

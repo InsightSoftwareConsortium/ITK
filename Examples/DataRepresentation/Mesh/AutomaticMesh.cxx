@@ -42,8 +42,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The header files of all the cell types involved should be loaded along with
-//  the header file of the mesh class.
+//  The header files of all the cell types involved should be loaded along
+//  with the header file of the mesh class.
 //
 //  \index{itk::AutomaticTopologyMeshSource!header}
 //

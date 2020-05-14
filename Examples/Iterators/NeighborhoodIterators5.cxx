@@ -37,12 +37,12 @@
 // Suppose, for example, that we want to take partial derivatives in the $y$
 // direction of a neighborhood, but offset those derivatives by one pixel
 // position along the positive $x$ direction.  For a $3\times3$, 2D
-// neighborhood iterator, we can construct an \code{std::slice}, \code{(start =
-// 2, stride = 3, end = 8)}, that represents the neighborhood offsets $(1,
-// -1)$, $(1, 0)$, $(1, 1)$ (see Figure~\ref{fig:NeighborhoodIteratorFig2}). If we
-// pass this slice as an extra argument to the
-// \doxygen{NeighborhoodInnerProduct} function, then the inner product is taken
-// only along that slice.  This ``sliced'' inner product with a 1D
+// neighborhood iterator, we can construct an \code{std::slice}, \code{(start
+// = 2, stride = 3, end = 8)}, that represents the neighborhood offsets $(1,
+// -1)$, $(1, 0)$, $(1, 1)$ (see Figure~\ref{fig:NeighborhoodIteratorFig2}).
+// If we pass this slice as an extra argument to the
+// \doxygen{NeighborhoodInnerProduct} function, then the inner product is
+// taken only along that slice.  This ``sliced'' inner product with a 1D
 // \doxygen{DerivativeOperator} gives the desired derivative.
 //
 // The previous separable Gaussian filtering example can be rewritten using
@@ -63,7 +63,8 @@ main(int argc, char ** argv)
   {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile sigma" << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile sigma"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -105,9 +106,9 @@ main(int argc, char ** argv)
 
   // Software Guide: BeginLatex
   //
-  // The first difference between this example and the previous example is that
-  // the Gaussian operator is only initialized once.  Its direction is not
-  // important because it is only a 1D array of coefficients.
+  // The first difference between this example and the previous example is
+  // that the Gaussian operator is only initialized once.  Its direction is
+  // not important because it is only a 1D array of coefficients.
   //
   // Software Guide: EndLatex
 
@@ -136,11 +137,11 @@ main(int argc, char ** argv)
   // The inner product and face calculator are defined for the main processing
   // loop as before, but now the iterator is reinitialized each iteration with
   // the square \code{radius} instead of the radius of the operator.  The
-  // inner product is taken using a slice along the axial direction corresponding
-  // to the current iteration.  Note the use of \code{GetSlice()} to return the
-  // proper slice from the iterator itself.  \code{GetSlice()} can only be used
-  // to return the slice along the complete extent of the axial direction of a
-  // neighborhood.
+  // inner product is taken using a slice along the axial direction
+  // corresponding to the current iteration.  Note the use of
+  // \code{GetSlice()} to return the proper slice from the iterator itself.
+  // \code{GetSlice()} can only be used to return the slice along the complete
+  // extent of the axial direction of a neighborhood.
   //
   // Software Guide : EndLatex
 
@@ -173,13 +174,14 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // This technique produces exactly the same results as the previous example.  A
-  // little experimentation, however, will reveal that it is less efficient since
-  // the neighborhood iterator is keeping track of extra, unused pixel locations
-  // for each iteration, while the previous example only references those pixels
-  // that it needs.  In cases, however, where an algorithm takes multiple
-  // derivatives or convolution products over the same neighborhood, slice-based
-  // processing can increase efficiency and simplify the implementation.
+  // This technique produces exactly the same results as the previous example.
+  // A little experimentation, however, will reveal that it is less efficient
+  // since the neighborhood iterator is keeping track of extra, unused pixel
+  // locations for each iteration, while the previous example only references
+  // those pixels that it needs.  In cases, however, where an algorithm takes
+  // multiple derivatives or convolution products over the same neighborhood,
+  // slice-based processing can increase efficiency and simplify the
+  // implementation.
   //
   // Software Guide : EndLatex
 
@@ -187,7 +189,8 @@ main(int argc, char ** argv)
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 

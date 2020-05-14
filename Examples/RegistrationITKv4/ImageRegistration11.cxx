@@ -18,10 +18,10 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to combine the MutualInformation metric with an
-// Evolutionary algorithm for optimization.  Evolutionary algorithms are
-// naturally well-suited for optimizing the Mutual Information metric given its
-// random and noisy behavior.
+// This example illustrates how to combine the MutualInformation metric with
+// an Evolutionary algorithm for optimization.  Evolutionary algorithms are
+// naturally well-suited for optimizing the Mutual Information metric given
+// its random and noisy behavior.
 //
 // The structure of the example is almost identical to the one illustrated in
 // ImageRegistration4. Therefore we focus here on the setup that is
@@ -135,7 +135,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                     MovingImageType>;
   // Software Guide : EndCodeSnippet
 
   TransformType::Pointer    transform = TransformType::New();
@@ -164,13 +165,14 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  As our previous discussion in section ~\ref{sec:MultiModalityRegistrationMattes},
-  //  only a subsample of the virtual domain is needed to evaluate the metric.
-  //  The number of spatial samples to be used depends on the content of the image, and
-  //  the user can define the sampling percentage and the way that sampling operation
-  //  is managed by the registration framework as follows. Sampling startegy can
-  //  can be defined as \code{REGULAR} or \code{RANDOM}, while the default value
-  //  is \code{NONE}.
+  //  As our previous discussion in section
+  //  ~\ref{sec:MultiModalityRegistrationMattes}, only a subsample of the
+  //  virtual domain is needed to evaluate the metric. The number of spatial
+  //  samples to be used depends on the content of the image, and the user can
+  //  define the sampling percentage and the way that sampling operation is
+  //  managed by the registration framework as follows. Sampling startegy can
+  //  can be defined as \code{REGULAR} or \code{RANDOM}, while the default
+  //  value is \code{NONE}.
   //
   //  Software Guide : EndLatex
 
@@ -185,8 +187,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -313,8 +317,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  This example is executed using the same multi-modality images as
-  //  in the previous one.  The registration converges after $24$ iterations and
-  //  produces the following results:
+  //  in the previous one.  The registration converges after $24$ iterations
+  //  and produces the following results:
   //
   //  \begin{verbatim}
   //  Translation X = 13.1719
@@ -326,7 +330,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -344,7 +349,8 @@ main(int argc, char * argv[])
 
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer     writer = WriterType::New();

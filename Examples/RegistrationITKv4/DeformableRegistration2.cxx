@@ -63,9 +63,10 @@ protected:
   using VectorPixelType = itk::Vector<float, 2>;
   using DisplacementFieldType = itk::Image<VectorPixelType, 2>;
 
-  using RegistrationFilterType = itk::DemonsRegistrationFilter<InternalImageType,
-                                                               InternalImageType,
-                                                               DisplacementFieldType>;
+  using RegistrationFilterType =
+    itk::DemonsRegistrationFilter<InternalImageType,
+                                  InternalImageType,
+                                  DisplacementFieldType>;
 
 public:
   void
@@ -118,8 +119,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -137,12 +140,15 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   using InternalImageType = itk::Image<InternalPixelType, Dimension>;
-  using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using FixedImageCasterType =
+    itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType =
     itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  FixedImageCasterType::Pointer fixedImageCaster =
+    FixedImageCasterType::New();
+  MovingImageCasterType::Pointer movingImageCaster =
+    MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
@@ -150,9 +156,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The demons algorithm relies on the assumption that pixels representing the
-  // same homologous point on an object have the same intensity on both the
-  // fixed and moving images to be registered. In this example, we will
+  // The demons algorithm relies on the assumption that pixels representing
+  // the same homologous point on an object have the same intensity on both
+  // the fixed and moving images to be registered. In this example, we will
   // preprocess the moving image to match the intensity between the images
   // using the \doxygen{HistogramMatchingImageFilter}.
   //
@@ -175,8 +181,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // For this example, we set the moving image as the source or input image and
-  // the fixed image as the reference image.
+  // For this example, we set the moving image as the source or input image
+  // and the fixed image as the reference image.
   //
   // \index{itk::HistogramMatchingImageFilter!SetInput()}
   // \index{itk::HistogramMatchingImageFilter!SetSourceImage()}
@@ -233,9 +239,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using VectorPixelType = itk::Vector<float, Dimension>;
   using DisplacementFieldType = itk::Image<VectorPixelType, Dimension>;
-  using RegistrationFilterType = itk::DemonsRegistrationFilter<InternalImageType,
-                                                               InternalImageType,
-                                                               DisplacementFieldType>;
+  using RegistrationFilterType =
+    itk::DemonsRegistrationFilter<InternalImageType,
+                                  InternalImageType,
+                                  DisplacementFieldType>;
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -294,10 +301,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ResampleImageFilter} can be used to warp the moving image with
-  // the output deformation field. The default interpolator of the
-  // \doxygen{ResampleImageFilter}, is used but specification of the output image
-  // spacing and origin are required.
+  // The \doxygen{ResampleImageFilter} can be used to warp the moving image
+  // with the output deformation field. The default interpolator of the
+  // \doxygen{ResampleImageFilter}, is used but specification of the output
+  // image spacing and origin are required.
   //
   // \index{itk::ResampleImageFilter}
   // \index{itk::ResampleImageFilter!SetInput()}
@@ -358,8 +365,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Let's execute this example using the rat lung data from the previous example.
-  // The associated data files can be found in \code{Examples/Data}:
+  // Let's execute this example using the rat lung data from the previous
+  // example. The associated data files can be found in \code{Examples/Data}:
   //
   // \begin{itemize}
   // \item \code{RatLungSlice1.mha}
@@ -369,8 +376,8 @@ main(int argc, char * argv[])
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardBefore}
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardAfter}
-  // \itkcaption[Demon's deformable registration output]{Checkerboard comparisons
-  // before and after demons-based deformable registration.}
+  // \itkcaption[Demon's deformable registration output]{Checkerboard
+  // comparisons before and after demons-based deformable registration.}
   // \label{fig:DeformableRegistration2Output}
   // \end{figure}
   //
@@ -403,9 +410,9 @@ main(int argc, char * argv[])
 
     // Software Guide : BeginLatex
     //
-    // Note that the file format used for writing the deformation field must be
-    // capable of representing multiple components per pixel. This is the case
-    // for the MetaImage and VTK file formats for example.
+    // Note that the file format used for writing the deformation field must
+    // be capable of representing multiple components per pixel. This is the
+    // case for the MetaImage and VTK file formats for example.
     //
     // Software Guide : EndLatex
   }
@@ -419,9 +426,10 @@ main(int argc, char * argv[])
 
     VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
 
-    VectorImage2DType::RegionType region2D = vectorImage2D->GetBufferedRegion();
-    VectorImage2DType::IndexType  index2D = region2D.GetIndex();
-    VectorImage2DType::SizeType   size2D = region2D.GetSize();
+    VectorImage2DType::RegionType region2D =
+      vectorImage2D->GetBufferedRegion();
+    VectorImage2DType::IndexType index2D = region2D.GetIndex();
+    VectorImage2DType::SizeType  size2D = region2D.GetSize();
 
 
     using Vector3DType = itk::Vector<float, 3>;
@@ -429,7 +437,8 @@ main(int argc, char * argv[])
 
     using VectorImage3DWriterType = itk::ImageFileWriter<VectorImage3DType>;
 
-    VectorImage3DWriterType::Pointer writer3D = VectorImage3DWriterType::New();
+    VectorImage3DWriterType::Pointer writer3D =
+      VectorImage3DWriterType::New();
 
     VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
 

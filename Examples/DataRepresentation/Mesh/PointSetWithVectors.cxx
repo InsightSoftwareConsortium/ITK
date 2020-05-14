@@ -21,15 +21,15 @@
 //  This example illustrates how a point set can be parameterized to manage a
 //  particular pixel type. It is quite common to associate vector values with
 //  points for producing geometric representations.  The following code shows
-//  how vector values can be used as the pixel type on the PointSet class.  The
+//  how vector values can be used as the pixel type on the PointSet class. The
 //  \doxygen{Vector} class is used here as the pixel type. This class is
 //  appropriate for representing the relative position between two points. It
 //  could then be used to manage displacements, for example.
 //
 //  \index{itk::PointSet!Vector pixels}
 //
-//  In order to use the vector class it is necessary to include its header file
-//  along with the header of the point set.
+//  In order to use the vector class it is necessary to include its header
+//  file along with the header of the point set.
 //
 //  Software Guide : EndLatex
 
@@ -72,8 +72,8 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Then we use the PixelType (which are actually Vectors) to instantiate the
-  //  PointSet type and subsequently create a PointSet object.
+  //  Then we use the PixelType (which are actually Vectors) to instantiate
+  //  the PointSet type and subsequently create a PointSet object.
   //
   //  Software Guide : EndLatex
 
@@ -120,9 +120,9 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  We can now visit all the points and use the vector on the pixel values to
-  //  apply a displacement on the points. This is along the spirit of what a
-  //  deformable model could do at each one of its iterations.
+  //  We can now visit all the points and use the vector on the pixel values
+  //  to apply a displacement on the points. This is along the spirit of what
+  //  a deformable model could do at each one of its iterations.
   //
   //  \index{itk::PointSet!PointIterator}
   //  \index{itk::PointSet!GetPoints()}

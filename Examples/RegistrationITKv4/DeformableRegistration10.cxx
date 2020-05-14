@@ -58,9 +58,10 @@ protected:
     InternalImageType,
     InternalImageType,
     DisplacementFieldType,
-    itk::FastSymmetricForcesDemonsRegistrationFunction<InternalImageType,
-                                                       InternalImageType,
-                                                       DisplacementFieldType>>;
+    itk::FastSymmetricForcesDemonsRegistrationFunction<
+      InternalImageType,
+      InternalImageType,
+      DisplacementFieldType>>;
 
 public:
   void
@@ -102,20 +103,25 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
   using InternalPixelType = float;
   using InternalImageType = itk::Image<InternalPixelType, Dimension>;
-  using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using FixedImageCasterType =
+    itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType =
     itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  FixedImageCasterType::Pointer fixedImageCaster =
+    FixedImageCasterType::New();
+  MovingImageCasterType::Pointer movingImageCaster =
+    MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
@@ -136,9 +142,10 @@ main(int argc, char * argv[])
     InternalImageType,
     InternalImageType,
     DisplacementFieldType,
-    itk::FastSymmetricForcesDemonsRegistrationFunction<InternalImageType,
-                                                       InternalImageType,
-                                                       DisplacementFieldType>>;
+    itk::FastSymmetricForcesDemonsRegistrationFunction<
+      InternalImageType,
+      InternalImageType,
+      DisplacementFieldType>>;
 
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
   filter->SetTimeStep(1);
@@ -187,7 +194,8 @@ main(int argc, char * argv[])
   // Write warped image out to file
   using OutputPixelType = unsigned short;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer     writer = WriterType::New();

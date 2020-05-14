@@ -146,14 +146,16 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
-  FixedImageReaderType::Pointer fixedImageReader = FixedImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
   fixedImageReader->SetFileName(argv[1]);
   fixedImageReader->Update();
   FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
   FixedImageType::RegionType   fixedRegion = fixedImage->GetBufferedRegion();
 
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
   movingImageReader->SetFileName(argv[2]);
   movingImageReader->Update();
   MovingImageType::ConstPointer movingImage = movingImageReader->GetOutput();
@@ -198,7 +200,8 @@ main(int argc, char * argv[])
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] =
       fixedImage->GetSpacing()[i] *
-      static_cast<double>(fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1);
+      static_cast<double>(
+        fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1);
   }
   meshSize.Fill(numberOfGridNodesInOneDimension - SplineOrder);
 
@@ -222,7 +225,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndCodeSnippet
 
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                     MovingImageType>;
   MetricType::Pointer metric = MetricType::New();
   metric->SetNumberOfHistogramBins(32);
   metric->SetUseMovingImageGradientFilter(false);
@@ -233,7 +237,7 @@ main(int argc, char * argv[])
   OptimizerType::Pointer optimizer = OptimizerType::New();
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int                numParameters = transform->GetNumberOfParameters();
+  const unsigned int numParameters = transform->GetNumberOfParameters();
   OptimizerType::BoundSelectionType boundSelect(numParameters);
   OptimizerType::BoundValueType     upperBound(numParameters);
   OptimizerType::BoundValueType     lowerBound(numParameters);
@@ -258,7 +262,8 @@ main(int argc, char * argv[])
   CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
-  // One level registration is performed using the shrink factor 1 and smoothing sigma 1
+  // One level registration is performed using the shrink factor 1 and
+  // smoothing sigma 1
   //
   constexpr unsigned int numberOfLevels = 1;
 
@@ -300,7 +305,8 @@ main(int argc, char * argv[])
     if (outputOptimizer.IsNotNull())
     {
       std::cout << "Optimizer stop condition = "
-                << outputOptimizer->GetStopConditionDescription() << std::endl;
+                << outputOptimizer->GetStopConditionDescription()
+                << std::endl;
     }
     else
     {
@@ -315,15 +321,16 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // While the registration filter is run, it updates the output transform parameters
-  // with the final registration parameters
+  // While the registration filter is run, it updates the output transform
+  // parameters with the final registration parameters
   OptimizerType::ParametersType finalParameters = transform->GetParameters();
 
   // Report the time and memory taken by the registration
   chronometer.Report(std::cout);
   memorymeter.Report(std::cout);
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -345,7 +352,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -373,7 +381,9 @@ main(int argc, char * argv[])
   }
 
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 

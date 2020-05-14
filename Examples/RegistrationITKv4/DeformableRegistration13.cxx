@@ -118,8 +118,8 @@ main(int argc, char * argv[])
   }
 
   // For consistent results when regression testing.
-  itk::Statistics::MersenneTwisterRandomVariateGenerator ::GetInstance()->SetSeed(
-    121212);
+  itk::Statistics::MersenneTwisterRandomVariateGenerator ::GetInstance()
+    ->SetSeed(121212);
 
   constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned char;
@@ -131,9 +131,9 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  We instantiate now the type of the \code{BSplineTransform}
-  //  using as template parameters the type for coordinates representation, the
-  //  dimension of the space, and the order of the BSpline. We also intantiate
-  //  the type of the optimizer.
+  //  using as template parameters the type for coordinates representation,
+  //  the dimension of the space, and the order of the BSpline. We also
+  //  intantiate the type of the optimizer.
   //
   //  \index{BSplineTransform!New}
   //  \index{BSplineTransform!Instantiation}
@@ -154,9 +154,11 @@ main(int argc, char * argv[])
 
 
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
+    itk::MattesMutualInformationImageToImageMetric<FixedImageType,
+                                                   MovingImageType>;
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
   using RegistrationType =
     itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
@@ -178,8 +180,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -208,7 +212,8 @@ main(int argc, char * argv[])
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] =
       fixedImage->GetSpacing()[i] *
-      static_cast<double>(fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1);
+      static_cast<double>(
+        fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1);
   }
   meshSize.Fill(numberOfGridNodesInOneDimension - SplineOrder);
 
@@ -260,19 +265,19 @@ main(int argc, char * argv[])
   if (argc > 7)
   {
     // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
+    // computing the derivatives of the joint PDF with respect to the
+    // Transform parameters, or doing it by progressively accumulating
+    // contributions from each bin in the joint PDF.
     metric->SetUseExplicitPDFDerivatives(std::stoi(argv[7]));
   }
 
   if (argc > 8)
   {
-    // Define whether to cache the BSpline weights and indexes corresponding to
-    // each one of the samples used to compute the metric. Enabling caching will
-    // make the algorithm run faster but it will have a cost on the amount of memory
-    // that needs to be allocated. This option is only relevant when using the
-    // BSplineTransform.
+    // Define whether to cache the BSpline weights and indexes corresponding
+    // to each one of the samples used to compute the metric. Enabling caching
+    // will make the algorithm run faster but it will have a cost on the
+    // amount of memory that needs to be allocated. This option is only
+    // relevant when using the BSplineTransform.
     metric->SetUseCachingOfBSplineWeights(std::stoi(argv[8]));
   }
 
@@ -315,7 +320,8 @@ main(int argc, char * argv[])
   transform->SetParameters(finalParameters);
 
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -337,7 +343,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -365,7 +372,9 @@ main(int argc, char * argv[])
   }
 
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 

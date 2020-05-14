@@ -18,13 +18,13 @@
 
 //  Software Guide : BeginLatex
 //
-//  One of the most common image processing operations performed in the Fourier
-//  Domain is the masking of the spectrum in order to eliminate a range of
-//  spatial frequencies from the input image. This operation is typically
-//  performed by taking the input image, computing its Fourier transform using
-//  a FFT filter, masking the resulting image in the Fourier domain with a
-//  mask, and finally taking the result of the masking and computing its
-//  inverse Fourier transform.
+//  One of the most common image processing operations performed in the
+//  Fourier Domain is the masking of the spectrum in order to eliminate a
+//  range of spatial frequencies from the input image. This operation is
+//  typically performed by taking the input image, computing its Fourier
+//  transform using a FFT filter, masking the resulting image in the Fourier
+//  domain with a mask, and finally taking the result of the masking and
+//  computing its inverse Fourier transform.
 //
 //  This typical process is illustrated in the example below.
 //
@@ -70,8 +70,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The first decision to make is related to the pixel type and dimension of the
-  // images on which we want to compute the Fourier transform.
+  // The first decision to make is related to the pixel type and dimension of
+  // the images on which we want to compute the Fourier transform.
   //
   // Software Guide : EndLatex
 
@@ -85,8 +85,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Then we select the pixel type to use for the mask image and instantiate the
-  // image type of the mask.
+  // Then we select the pixel type to use for the mask image and instantiate
+  // the image type of the mask.
   //
   // Software Guide : EndLatex
 
@@ -98,9 +98,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Both the input image and the mask image can be read from files or could be
-  // obtained as the output of a preprocessing pipeline. We omit here the details
-  // of reading the image since the process is quite standard.
+  // Both the input image and the mask image can be read from files or could
+  // be obtained as the output of a preprocessing pipeline. We omit here the
+  // details of reading the image since the process is quite standard.
   //
   // Software Guide : EndLatex
 
@@ -116,9 +116,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // Now the \doxygen{VnlForwardFFTImageFilter} can be instantiated.
-  // Like most ITK filters, the FFT filter is instantiated using the full image type.
-  // By not setting the output image type, we decide to use the default one provided
-  // by the filter. Using this type we construct one instance of the filter.
+  // Like most ITK filters, the FFT filter is instantiated using the full
+  // image type. By not setting the output image type, we decide to use the
+  // default one provided by the filter. Using this type we construct one
+  // instance of the filter.
   //
   // Software Guide : EndLatex
 
@@ -135,8 +136,9 @@ main(int argc, char * argv[])
   //
   // Since our purpose is to perform filtering in the frequency domain by
   // altering the weights of the image spectrum, we need a filter that will
-  // mask the Fourier transform of the input image with a binary image. Note that the
-  // type of the spectral image is taken here from the traits of the FFT filter.
+  // mask the Fourier transform of the input image with a binary image. Note
+  // that the type of the spectral image is taken here from the traits of the
+  // FFT filter.
   //
   // Software Guide : EndLatex
 
@@ -165,8 +167,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // For the purpose of verifying the aspect of the spectrum after being filtered
-  // with the mask, we can write out the output of the Mask filter to a file.
+  // For the purpose of verifying the aspect of the spectrum after being
+  // filtered with the mask, we can write out the output of the Mask filter to
+  // a file.
   //
   // Software Guide : EndLatex
 
@@ -181,9 +184,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The output of the mask filter will contain the \emph{filtered} spectrum
-  // of the input image. We must then apply an inverse Fourier transform on it in
-  // order to obtain the filtered version of the input image. For that purpose we
-  // create another instance of the FFT filter.
+  // of the input image. We must then apply an inverse Fourier transform on it
+  // in order to obtain the filtered version of the input image. For that
+  // purpose we create another instance of the FFT filter.
   //
   // Software Guide : EndLatex
 
@@ -222,8 +225,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The result of the filtering can now be saved into an image file, or be
-  // passed to a subsequent processing pipeline. Here we simply write it out to
-  // an image file.
+  // passed to a subsequent processing pipeline. Here we simply write it out
+  // to an image file.
   //
   // Software Guide : EndLatex
 
@@ -248,8 +251,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Note that this example is just a minimal illustration of the multiple types
-  // of processing that are possible in the Fourier domain.
+  // Note that this example is just a minimal illustration of the multiple
+  // types of processing that are possible in the Fourier domain.
   //
   //  Software Guide : EndLatex
 

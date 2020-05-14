@@ -40,7 +40,8 @@
 // This a great advantage over the previous versions of ITK, as
 // in ITKv3 we had to use a different filter
 // (\doxygen{MultiResolutionImageRegistrationMethod})
-// to run a multi-resolution process. Also, we had to use image pyramids filters
+// to run a multi-resolution process. Also, we had to use image pyramids
+// filters
 // (\doxygen{MultiResolutionPyramidImageFilter}) for creating the sequence of
 // downsampled images. Hence, you can see how ITKv4 framework is
 // more user-friendly in more complex situations.
@@ -81,8 +82,8 @@
 // \center
 // \includegraphics[width=\textwidth]{MultiResRegistrationConcept}
 // \itkcaption[Conceptual representation of Multi-Resolution
-// registration]{Conceptual representation of the multi-resolution registration
-// process.} \label{fig:MultiResRegistrationConcept} \end{figure}
+// registration]{Conceptual representation of the multi-resolution
+// registration process.} \label{fig:MultiResRegistrationConcept} \end{figure}
 //
 // Software Guide : EndLatex
 
@@ -100,8 +101,8 @@
 // where ImageRegistrationMethodv4 invokes a
 // \code{MultiResolutionIterationEvent()}. The registration components can
 // be changed by implementing a \doxygen{Command} which responds to the
-// event. A brief description of the interaction between events and commands was
-// previously presented in Section \ref{sec:MonitoringImageRegistration}.
+// event. A brief description of the interaction between events and commands
+// was previously presented in Section \ref{sec:MonitoringImageRegistration}.
 //
 // We will illustrate this mechanism by changing the parameters of the
 // optimizer between each resolution level by way of a simple interface
@@ -209,8 +210,9 @@ public:
     // Software Guide : EndCodeSnippet
 
     unsigned int currentLevel = registration->GetCurrentLevel();
-    typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
-      registration->GetShrinkFactorsPerDimension(currentLevel);
+    typename RegistrationType::ShrinkFactorsPerDimensionContainerType
+      shrinkFactors =
+        registration->GetShrinkFactorsPerDimension(currentLevel);
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
       registration->GetSmoothingSigmasPerLevel();
 
@@ -224,15 +226,16 @@ public:
     // Software Guide : BeginLatex
     //
     // If this is the first resolution level we set the learning rate
-    // (representing the first step size) and the minimum step length (representing
-    // the convergence criterion) to large values.  At each subsequent resolution
-    // level, we will reduce the minimum step length by a factor of 5 in order to
-    // allow the optimizer to focus on progressively smaller regions. The learning
-    // rate is set up to the current step length. In this way, when the
-    // optimizer is reinitialized at the beginning of the registration process for
-    // the next level, the step length will simply start with the last value used
-    // for the previous level. This will guarantee the continuity of the path
-    // taken by the optimizer through the parameter space.
+    // (representing the first step size) and the minimum step length
+    // (representing the convergence criterion) to large values.  At each
+    // subsequent resolution level, we will reduce the minimum step length by
+    // a factor of 5 in order to allow the optimizer to focus on progressively
+    // smaller regions. The learning rate is set up to the current step
+    // length. In this way, when the optimizer is reinitialized at the
+    // beginning of the registration process for the next level, the step
+    // length will simply start with the last value used for the previous
+    // level. This will guarantee the continuity of the path taken by the
+    // optimizer through the parameter space.
     //
     // Software Guide : EndLatex
 
@@ -245,7 +248,8 @@ public:
     else
     {
       optimizer->SetLearningRate(optimizer->GetCurrentStepLength());
-      optimizer->SetMinimumStepLength(optimizer->GetMinimumStepLength() * 0.2);
+      optimizer->SetMinimumStepLength(optimizer->GetMinimumStepLength() *
+                                      0.2);
     }
     // Software Guide : EndCodeSnippet
   }
@@ -253,8 +257,9 @@ public:
   // Software Guide : BeginLatex
   //
   // Another version of the \code{Execute()} method accepting a \code{const}
-  // input object is also required since this method is defined as pure virtual
-  // in the base class.  This version simply returns without taking any action.
+  // input object is also required since this method is defined as pure
+  // virtual in the base class.  This version simply returns without taking
+  // any action.
   //
   // Software Guide : EndLatex
 
@@ -330,7 +335,7 @@ main(int argc, const char * argv[])
   const std::string fixedImageFile = argv[1];
   const std::string movingImageFile = argv[2];
   const std::string outImagefile = argv[3];
-  const PixelType   backgroundGrayLevel = (argc > 4) ? std::stoi(argv[4]) : 100;
+  const PixelType backgroundGrayLevel = (argc > 4) ? std::stoi(argv[4]) : 100;
   const std::string checkerBoardBefore = (argc > 5) ? argv[5] : "";
   const std::string checkerBoardAfter = (argc > 6) ? argv[6] : "";
   const int         numberOfBins = (argc > 7) ? std::stoi(argv[7]) : 0;
@@ -356,9 +361,10 @@ main(int argc, const char * argv[])
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
 
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                     MovingImageType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
   //  All the components are instantiated using their \code{New()} method
   //  and connected to the registration object as in previous example.
@@ -374,8 +380,10 @@ main(int argc, const char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(fixedImageFile);
   movingImageReader->SetFileName(movingImageFile);
@@ -399,8 +407,8 @@ main(int argc, const char * argv[])
 
   if (argc > 7)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     metric->SetNumberOfHistogramBins(numberOfBins);
   }
 
@@ -556,7 +564,8 @@ main(int argc, const char * argv[])
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -577,7 +586,8 @@ main(int argc, const char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -639,9 +649,9 @@ main(int argc, const char * argv[])
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration1Output}
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration1CheckerboardBefore}
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration1CheckerboardAfter}
-  // \itkcaption[Multi-Resolution registration input images]{Mapped moving image
-  // (left) and composition of fixed and moving images before (center) and
-  // after (right) registration.}
+  // \itkcaption[Multi-Resolution registration input images]{Mapped moving
+  // image (left) and composition of fixed and moving images before (center)
+  // and after (right) registration.}
   // \label{fig:MultiResImageRegistration1Output}
   // \end{figure}
   //

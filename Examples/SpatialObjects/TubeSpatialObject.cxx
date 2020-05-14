@@ -158,11 +158,14 @@ main(int, char *[])
   {
     std::cout << std::endl;
     std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+              << std::endl;
     std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
     std::cout << "Tangent: " << (*it).GetTangentInObjectSpace() << std::endl;
-    std::cout << "First Normal: " << (*it).GetNormal1InObjectSpace() << std::endl;
-    std::cout << "Second Normal: " << (*it).GetNormal2InObjectSpace() << std::endl;
+    std::cout << "First Normal: " << (*it).GetNormal1InObjectSpace()
+              << std::endl;
+    std::cout << "Second Normal: " << (*it).GetNormal2InObjectSpace()
+              << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     it++;
     i++;

@@ -52,7 +52,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma " << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  sigma "
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -98,7 +99,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::SmoothingRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
+    itk::SmoothingRecursiveGaussianImageFilter<InputImageType,
+                                               OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -206,9 +208,9 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput3}
   // \includegraphics[width=0.44\textwidth]{SmoothingRecursiveGaussianImageFilterOutput5}
   // \itkcaption[SmoothingRecursiveGaussianImageFilter output]{Effect of the
-  // SmoothingRecursiveGaussianImageFilter on a slice from a MRI proton density image of
-  // the brain.} \label{fig:SmoothingRecursiveGaussianImageFilterInputOutput}
-  // \end{figure}
+  // SmoothingRecursiveGaussianImageFilter on a slice from a MRI proton
+  // density image of the brain.}
+  // \label{fig:SmoothingRecursiveGaussianImageFilterInputOutput} \end{figure}
   //
   //  Figure \ref{fig:SmoothingRecursiveGaussianImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of

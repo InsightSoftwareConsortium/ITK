@@ -35,7 +35,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile  outputImageFile component" << std::endl;
+    std::cerr << argv[0] << " inputImageFile  outputImageFile component"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -149,7 +149,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -235,8 +236,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The sampling grid of the output space is specified with the spacing along
-  //  each dimension and the origin.
+  //  The sampling grid of the output space is specified with the spacing
+  //  along each dimension and the origin.
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
@@ -306,15 +307,14 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{ResampleImageFilterOutput1}
-  // \itkcaption[Effect of the Resample filter]{Effect of the resample filter.}
-  // \label{fig:ResampleImageFilterOutput1}
-  // \end{figure}
+  // \itkcaption[Effect of the Resample filter]{Effect of the resample
+  // filter.} \label{fig:ResampleImageFilterOutput1} \end{figure}
   //
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterOutput1Analysis}
-  // \itkcaption[Analysis of resampling in common coordinate system]{Analysis of
-  // the resample image done in a common coordinate system.}
+  // \itkcaption[Analysis of resampling in common coordinate system]{Analysis
+  // of the resample image done in a common coordinate system.}
   // \label{fig:ResampleImageFilterOutput1Analysis}
   // \end{figure}
   //

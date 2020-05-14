@@ -19,11 +19,12 @@
 /**
  * This is a fully working example of SAX-based reader for the ITK object
  * itk::ParticleSwarmOptimizer. It performs the same function as
- * ParticleSwarmOptimizerDOMReader; however, the traditional SAX (Simple API for XML) is
- * used during the reading process, which is more complicated and error prone.
+ * ParticleSwarmOptimizerDOMReader; however, the traditional SAX (Simple API
+ * for XML) is used during the reading process, which is more complicated and
+ * error prone.
  *
- * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML
- * format for the PSO object.
+ * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of
+ * our XML format for the PSO object.
  */
 
 #ifndef itkParticleSwarmOptimizerSAXReader_h
@@ -38,7 +39,8 @@
 namespace itk
 {
 
-class ParticleSwarmOptimizerSAXReader : public XMLReader<ParticleSwarmOptimizer>
+class ParticleSwarmOptimizerSAXReader
+  : public XMLReader<ParticleSwarmOptimizer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXReader);
@@ -94,7 +96,8 @@ protected:
 
   /** Process tag 'optimizer' attributes. */
   void
-  ProcessOptimizerAttributes(const char ** atts, ParticleSwarmOptimizer * opt);
+  ProcessOptimizerAttributes(const char **            atts,
+                             ParticleSwarmOptimizer * opt);
 
   /** Process tag 'bound' attributes. */
   void

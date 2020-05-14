@@ -54,29 +54,35 @@ usage()
 {
   std::cerr << "\n";
   std::cerr << "Usage: DRR <options> [input]\n";
-  std::cerr
-    << "  calculates the Digitally Reconstructed Radiograph from a volume. \n\n";
+  std::cerr << "  calculates the Digitally Reconstructed Radiograph from a "
+               "volume. \n\n";
   std::cerr << " where <options> is one or more of the following:\n\n";
   std::cerr << "  <-h>                    Display (this) usage information\n";
   std::cerr << "  <-v>                    Verbose output [default: no]\n";
-  std::cerr << "  <-res float float>      Pixel spacing of the output image [default: "
+  std::cerr << "  <-res float float>      Pixel spacing of the output image "
+               "[default: "
                "1x1mm]  \n";
+  std::cerr << "  <-size int int>         Dimension of the output image "
+               "[default: 501x501]  \n";
   std::cerr
-    << "  <-size int int>         Dimension of the output image [default: 501x501]  \n";
-  std::cerr << "  <-sid float>            Distance of ray source (focal point) "
-               "[default: 400mm]\n";
-  std::cerr << "  <-t float float float>  Translation parameter of the camera \n";
-  std::cerr << "  <-rx float>             Rotation around x,y,z axis in degrees \n";
+    << "  <-sid float>            Distance of ray source (focal point) "
+       "[default: 400mm]\n";
+  std::cerr
+    << "  <-t float float float>  Translation parameter of the camera \n";
+  std::cerr
+    << "  <-rx float>             Rotation around x,y,z axis in degrees \n";
   std::cerr << "  <-ry float>\n";
   std::cerr << "  <-rz float>\n";
+  std::cerr << "  <-normal float float>   The 2D projection normal position "
+               "[default: 0x0mm]\n";
   std::cerr
-    << "  <-normal float float>   The 2D projection normal position [default: 0x0mm]\n";
-  std::cerr << "  <-cor float float float> The centre of rotation relative to centre "
-               "of volume\n";
+    << "  <-cor float float float> The centre of rotation relative to centre "
+       "of volume\n";
   std::cerr << "  <-threshold float>      Threshold [default: 0]\n";
   std::cerr << "  <-o file>               Output image filename\n\n";
   std::cerr << "                          by  thomas@hartkens.de\n";
-  std::cerr << "                          and john.hipwell@kcl.ac.uk (CISG London)\n\n";
+  std::cerr << "                          and john.hipwell@kcl.ac.uk (CISG "
+               "London)\n\n";
   exit(1);
 }
 
@@ -388,22 +394,23 @@ main(int argc, char * argv[])
 
       InputImageType::IndexType idx = iterate.GetIndex();
 
-      if ((idx[0] >= 6) && (idx[0] <= 54) && (idx[1] >= 6) && (idx[1] <= 54) &&
-          (idx[2] >= 6) && (idx[2] <= 54)
+      if ((idx[0] >= 6) && (idx[0] <= 54) && (idx[1] >= 6) &&
+          (idx[1] <= 54) && (idx[2] >= 6) && (idx[2] <= 54)
 
-          &&
-          ((((idx[0] <= 11) || (idx[0] >= 49)) && ((idx[1] <= 11) || (idx[1] >= 49)))
+          && ((((idx[0] <= 11) || (idx[0] >= 49)) &&
+               ((idx[1] <= 11) || (idx[1] >= 49)))
 
-           || (((idx[0] <= 11) || (idx[0] >= 49)) && ((idx[2] <= 11) || (idx[2] >= 49)))
+              || (((idx[0] <= 11) || (idx[0] >= 49)) &&
+                  ((idx[2] <= 11) || (idx[2] >= 49)))
 
-           ||
-           (((idx[1] <= 11) || (idx[1] >= 49)) && ((idx[2] <= 11) || (idx[2] >= 49)))))
+              || (((idx[1] <= 11) || (idx[1] >= 49)) &&
+                  ((idx[2] <= 11) || (idx[2] >= 49)))))
       {
         iterate.Set(10);
       }
 
-      else if ((idx[0] >= 18) && (idx[0] <= 42) && (idx[1] >= 18) && (idx[1] <= 42) &&
-               (idx[2] >= 18) && (idx[2] <= 42)
+      else if ((idx[0] >= 18) && (idx[0] <= 42) && (idx[1] >= 18) &&
+               (idx[1] <= 42) && (idx[2] >= 18) && (idx[2] <= 42)
 
                && ((((idx[0] <= 23) || (idx[0] >= 37)) &&
                     ((idx[1] <= 23) || (idx[1] >= 37)))
@@ -549,22 +556,22 @@ main(int argc, char * argv[])
 
   if (verbose)
   {
-    std::cout << "Image size: " << imSize[0] << ", " << imSize[1] << ", " << imSize[2]
-              << std::endl
-              << "   resolution: " << imRes[0] << ", " << imRes[1] << ", " << imRes[2]
-              << std::endl
+    std::cout << "Image size: " << imSize[0] << ", " << imSize[1] << ", "
+              << imSize[2] << std::endl
+              << "   resolution: " << imRes[0] << ", " << imRes[1] << ", "
+              << imRes[2] << std::endl
               << "   origin: " << imOrigin[0] << ", " << imOrigin[1] << ", "
               << imOrigin[2] << std::endl
-              << "   center: " << center[0] << ", " << center[1] << ", " << center[2]
-              << std::endl
+              << "   center: " << center[0] << ", " << center[1] << ", "
+              << center[2] << std::endl
               << "Transform: " << transform << std::endl;
   }
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // The \code{RayCastInterpolateImageFunction} is instantiated and passed the transform
-  // object. The \code{RayCastInterpolateImageFunction} uses this
+  // The \code{RayCastInterpolateImageFunction} is instantiated and passed the
+  // transform object. The \code{RayCastInterpolateImageFunction} uses this
   // transform to reposition the x-ray source such that the DRR image
   // and x-ray source move as one around the input volume. This coupling
   // mimics the rigid geometry of the x-ray gantry.
@@ -572,7 +579,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InterpolatorType = itk::RayCastInterpolateImageFunction<InputImageType, double>;
+  using InterpolatorType =
+    itk::RayCastInterpolateImageFunction<InputImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   interpolator->SetTransform(transform);
   // Software Guide : EndCodeSnippet
@@ -611,8 +619,8 @@ main(int argc, char * argv[])
 
   if (verbose)
   {
-    std::cout << "Focal Point: " << focalpoint[0] << ", " << focalpoint[1] << ", "
-              << focalpoint[2] << std::endl;
+    std::cout << "Focal Point: " << focalpoint[0] << ", " << focalpoint[1]
+              << ", " << focalpoint[2] << std::endl;
   }
 
   // Software Guide : BeginLatex
@@ -659,11 +667,11 @@ main(int argc, char * argv[])
 
   if (verbose)
   {
-    std::cout << "Output image size: " << size[0] << ", " << size[1] << ", " << size[2]
-              << std::endl;
+    std::cout << "Output image size: " << size[0] << ", " << size[1] << ", "
+              << size[2] << std::endl;
 
-    std::cout << "Output image spacing: " << spacing[0] << ", " << spacing[1] << ", "
-              << spacing[2] << std::endl;
+    std::cout << "Output image spacing: " << spacing[0] << ", " << spacing[1]
+              << ", " << spacing[2] << std::endl;
   }
 
   // Software Guide : BeginLatex
@@ -689,8 +697,8 @@ main(int argc, char * argv[])
 
   if (verbose)
   {
-    std::cout << "Output image origin: " << origin[0] << ", " << origin[1] << ", "
-              << origin[2] << std::endl;
+    std::cout << "Output image origin: " << origin[0] << ", " << origin[1]
+              << ", " << origin[2] << std::endl;
   }
 
   // create writer

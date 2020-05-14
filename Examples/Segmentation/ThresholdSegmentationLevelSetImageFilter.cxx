@@ -62,8 +62,8 @@
 // \begin{figure} \center
 // \includegraphics[width=0.8\textwidth]{ThresholdSegmentationLevelSetImageFilterCollaborationDiagram1}
 // \itkcaption[ThresholdSegmentationLevelSetImageFilter collaboration
-// diagram]{Collaboration diagram for the ThresholdSegmentationLevelSetImageFilter
-// applied to a segmentation task.}
+// diagram]{Collaboration diagram for the
+// ThresholdSegmentationLevelSetImageFilter applied to a segmentation task.}
 // \label{fig:ThresholdSegmentationLevelSetImageFilterDiagram}
 // \end{figure}
 //
@@ -71,7 +71,8 @@
 // \includegraphics[width=6.5cm]{ThresholdSegmentationLevelSetImageFilterFigure1}
 // \itkcaption[Propagation term for threshold-based level set segmentation]
 // {Propagation term for threshold-based level set segmentation.
-// From Equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
+// From
+// Equation~\ref{eqn:ThresholdSegmentationLevelSetImageFilterPropagationTerm}.
 // \label{fig:ThresholdSegmentationSpeedTerm}}
 // \end{figure}
 //
@@ -86,8 +87,8 @@
 // the image processing pipeline is constructed. The initial surface is
 // generated using the fast marching filter.  The output of the segmentation
 // filter is passed to a \doxygen{BinaryThresholdImageFilter} to create a
-// binary representation of the segmented object.  Let's start by including the
-// appropriate header file.
+// binary representation of the segmented object.  Let's start by including
+// the appropriate header file.
 //
 // Software Guide : EndLatex
 
@@ -162,7 +163,8 @@ main(int argc, char * argv[])
   using FastMarchingFilterType =
     itk::FastMarchingImageFilter<InternalImageType, InternalImageType>;
 
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching =
+    FastMarchingFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -173,9 +175,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ThresholdSegmentationLevelSetImageFilterType =
-    itk::ThresholdSegmentationLevelSetImageFilter<InternalImageType, InternalImageType>;
-  ThresholdSegmentationLevelSetImageFilterType::Pointer thresholdSegmentation =
-    ThresholdSegmentationLevelSetImageFilterType::New();
+    itk::ThresholdSegmentationLevelSetImageFilter<InternalImageType,
+                                                  InternalImageType>;
+  ThresholdSegmentationLevelSetImageFilterType::Pointer
+    thresholdSegmentation =
+      ThresholdSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -277,15 +281,15 @@ main(int argc, char * argv[])
   seedPosition[1] = std::stoi(argv[4]);
 
   //  Nodes are created as stack variables and initialized with a value and an
-  //  \doxygen{Index} position. Note that here we assign the value of minus the
-  //  user-provided distance to the unique node of the seeds passed to the
+  //  \doxygen{Index} position. Note that here we assign the value of minus
+  //  the user-provided distance to the unique node of the seeds passed to the
   //  FastMarchingImageFilter. In this way, the value will increment
-  //  as the front is propagated, until it reaches the zero value corresponding
-  //  to the contour. After this, the front will continue propagating until it
-  //  fills up the entire image. The initial distance is taken here from the
-  //  command line arguments. The rule of thumb for the user is to select this
-  //  value as the distance from the seed points at which he want the initial
-  //  contour to be.
+  //  as the front is propagated, until it reaches the zero value
+  //  corresponding to the contour. After this, the front will continue
+  //  propagating until it fills up the entire image. The initial distance is
+  //  taken here from the command line arguments. The rule of thumb for the
+  //  user is to select this value as the distance from the seed points at
+  //  which he want the initial contour to be.
 
   const double initialDistance = std::stod(argv[5]);
 
@@ -319,11 +323,11 @@ main(int argc, char * argv[])
 
   //  The FastMarchingImageFilter requires the user to specify the size of the
   //  image to be produced as output. This is done using the
-  //  \code{SetOutputRegion()} method. Note that the size is obtained here from
-  //  the output image of the smoothing filter. The size of this image is valid
-  //  only after the \code{Update()} methods of this filter has been called
-  //  directly or indirectly. Other image parameters such as Origin, Spacing
-  //  and Direction are set in a similar manner.
+  //  \code{SetOutputRegion()} method. Note that the size is obtained here
+  //  from the output image of the smoothing filter. The size of this image is
+  //  valid only after the \code{Update()} methods of this filter has been
+  //  called directly or indirectly. Other image parameters such as Origin,
+  //  Spacing and Direction are set in a similar manner.
 
 
   //  Software Guide : BeginLatex
@@ -355,14 +359,15 @@ main(int argc, char * argv[])
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << thresholdSegmentation->GetNumberOfIterations()
-            << std::endl;
-  std::cout << "Max. RMS error: " << thresholdSegmentation->GetMaximumRMSError()
-            << std::endl;
+  std::cout << "Max. no. iterations: "
+            << thresholdSegmentation->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. RMS error: "
+            << thresholdSegmentation->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: "
             << thresholdSegmentation->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << thresholdSegmentation->GetRMSChange() << std::endl;
+  std::cout << "RMS change: " << thresholdSegmentation->GetRMSChange()
+            << std::endl;
 
 
   // We write out some intermediate images for debugging.  These images can

@@ -113,8 +113,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -132,12 +134,15 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   using InternalImageType = itk::Image<InternalPixelType, Dimension>;
-  using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using FixedImageCasterType =
+    itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType =
     itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  FixedImageCasterType::Pointer fixedImageCaster =
+    FixedImageCasterType::New();
+  MovingImageCasterType::Pointer movingImageCaster =
+    MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
@@ -154,11 +159,11 @@ main(int argc, char * argv[])
   //
   // \index{itk::HistogramMatchingImageFilter}
   //
-  // The basic idea is to match the histograms of the two images at a user-specified
-  // number of quantile values. For robustness, the histograms are matched so that the
-  // background pixels are excluded from both histograms. For MR images, a simple
-  // procedure is to exclude all gray values smaller than the mean gray value of the
-  // image.
+  // The basic idea is to match the histograms of the two images at a
+  // user-specified number of quantile values. For robustness, the histograms
+  // are matched so that the background pixels are excluded from both
+  // histograms. For MR images, a simple procedure is to exclude all gray
+  // values smaller than the mean gray value of the image.
   //
   // Software Guide : EndLatex
 
@@ -171,8 +176,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // For this example, we set the moving image as the source or input image and
-  // the fixed image as the reference image.
+  // For this example, we set the moving image as the source or input image
+  // and the fixed image as the reference image.
   //
   // \index{itk::HistogramMatchingImageFilter!SetInput()}
   // \index{itk::HistogramMatchingImageFilter!SetSourceImage()}
@@ -291,8 +296,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ResampleImageFilter} can be used to warp the moving image with
-  // the output deformation field. The \doxygen{ResampleImageFilter}
+  // The \doxygen{ResampleImageFilter} can be used to warp the moving image
+  // with the output deformation field. The \doxygen{ResampleImageFilter}
   // requires specifications for the input image to be resampled: an
   // input image interpolator, a transform, and the output image's
   // meta-data can be set from a reference image.
@@ -311,7 +316,8 @@ main(int argc, char * argv[])
                                               InterpolatorPrecisionType,
                                               TransformPrecisionType>;
   using InterpolatorType =
-    itk::LinearInterpolateImageFunction<MovingImageType, InterpolatorPrecisionType>;
+    itk::LinearInterpolateImageFunction<MovingImageType,
+                                        InterpolatorPrecisionType>;
   WarperType::Pointer       warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
@@ -346,7 +352,8 @@ main(int argc, char * argv[])
   // Write warped image out to file
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer     writer = WriterType::New();
@@ -361,8 +368,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Let's execute this example using the rat lung data from the previous example.
-  // The associated data files can be found in \code{Examples/Data}:
+  // Let's execute this example using the rat lung data from the previous
+  // example. The associated data files can be found in \code{Examples/Data}:
   //
   // \begin{itemize}
   // \item \code{RatLungSlice1.mha}
@@ -372,8 +379,8 @@ main(int argc, char * argv[])
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardBefore}
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardAfter}
-  // \itkcaption[Demon's deformable registration output]{Checkerboard comparisons
-  // before and after demons-based deformable registration.}
+  // \itkcaption[Demon's deformable registration output]{Checkerboard
+  // comparisons before and after demons-based deformable registration.}
   // \label{fig:DeformableRegistration5Output}
   // \end{figure}
   //
@@ -405,9 +412,9 @@ main(int argc, char * argv[])
 
     // Software Guide : BeginLatex
     //
-    // Note that the file format used for writing the deformation field must be
-    // capable of representing multiple components per pixel. This is the case
-    // for the MetaImage and VTK file formats.
+    // Note that the file format used for writing the deformation field must
+    // be capable of representing multiple components per pixel. This is the
+    // case for the MetaImage and VTK file formats.
     //
     // Software Guide : EndLatex
   }
@@ -421,9 +428,10 @@ main(int argc, char * argv[])
 
     VectorImage2DType::ConstPointer vectorImage2D = filter->GetOutput();
 
-    VectorImage2DType::RegionType region2D = vectorImage2D->GetBufferedRegion();
-    VectorImage2DType::IndexType  index2D = region2D.GetIndex();
-    VectorImage2DType::SizeType   size2D = region2D.GetSize();
+    VectorImage2DType::RegionType region2D =
+      vectorImage2D->GetBufferedRegion();
+    VectorImage2DType::IndexType index2D = region2D.GetIndex();
+    VectorImage2DType::SizeType  size2D = region2D.GetSize();
 
 
     using Vector3DType = itk::Vector<float, 3>;
@@ -431,7 +439,8 @@ main(int argc, char * argv[])
 
     using VectorImage3DWriterType = itk::ImageFileWriter<VectorImage3DType>;
 
-    VectorImage3DWriterType::Pointer writer3D = VectorImage3DWriterType::New();
+    VectorImage3DWriterType::Pointer writer3D =
+      VectorImage3DWriterType::New();
 
     VectorImage3DType::Pointer vectorImage3D = VectorImage3DType::New();
 

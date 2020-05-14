@@ -56,7 +56,8 @@ main(int argc, char * argv[])
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastingFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
+  using CastingFilterType =
+    itk::CastImageFilter<InternalImageType, OutputImageType>;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
 
@@ -71,11 +72,13 @@ main(int argc, char * argv[])
 
   using CurvatureFlowImageFilterType =
     itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>;
-  CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
+  CurvatureFlowImageFilterType::Pointer smoothing =
+    CurvatureFlowImageFilterType::New();
 
   using ConnectedFilterType =
     itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>;
-  ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer confidenceConnected =
+    ConnectedFilterType::New();
 
   smoothing->SetInput(reader->GetOutput());
   confidenceConnected->SetInput(smoothing->GetOutput());

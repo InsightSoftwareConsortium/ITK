@@ -30,7 +30,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required for using this filter is to include its header
+//  file
 //
 //  \index{itk::SpatialObjectToImageFilter!header}
 //
@@ -46,9 +47,9 @@
 //
 //  This filter takes as input a SpatialObject. However, SpatialObject can be
 //  grouped together in a hierarchical structure in order to produce more
-//  complex shapes. In this case, we illustrate how to aggregate multiple basic
-//  shapes. We should, therefore, include the headers of the individual elementary
-//  SpatialObjects.
+//  complex shapes. In this case, we illustrate how to aggregate multiple
+//  basic shapes. We should, therefore, include the headers of the individual
+//  elementary SpatialObjects.
 //
 //  \index{itk::EllipseSpatialObject!header}
 //
@@ -106,8 +107,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Using the same dimension, we instantiate the types of the elementary
-  //  SpatialObjects that we plan to group, and we instantiate as well the type
-  //  of the SpatialObject that will hold the group together.
+  //  SpatialObjects that we plan to group, and we instantiate as well the
+  //  type of the SpatialObject that will hold the group together.
   //
   //  Software Guide : EndLatex
 
@@ -300,12 +301,13 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  By default, the filter will rasterize the aggregation of elementary
-  //  shapes and will assign a pixel value to locations that fall inside of any
-  //  of the elementary shapes, and a different pixel value to locations that
-  //  fall outside of all of the elementary shapes. It is possible, however, to
-  //  generate richer images if we allow the filter to use the values that the
-  //  elementary spatial objects return via their \code{ValueAt} methods. This
-  //  is what we choose to do in this example, by using the following code.
+  //  shapes and will assign a pixel value to locations that fall inside of
+  //  any of the elementary shapes, and a different pixel value to locations
+  //  that fall outside of all of the elementary shapes. It is possible,
+  //  however, to generate richer images if we allow the filter to use the
+  //  values that the elementary spatial objects return via their
+  //  \code{ValueAt} methods. This is what we choose to do in this example, by
+  //  using the following code.
   //
   //  Software Guide : EndLatex
 
@@ -330,8 +332,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Finally we are ready to run the filter. We use the typical invocation of
-  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter} in
-  //  order to save the generated image into a file.
+  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter}
+  //  in order to save the generated image into a file.
   //
   //  Software Guide : EndLatex
 

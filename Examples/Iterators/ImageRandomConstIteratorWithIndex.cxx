@@ -23,21 +23,22 @@
 // location in its image region.
 //
 // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!sample size}
-// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!begin and end positions}
+// \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!begin and end
+// positions}
 //
 // The user must specify a sample size when creating this iterator. The sample
 // size, rather than a specific image index, defines the end position for the
 // iterator.  \code{IsAtEnd()} returns
 // \code{true} when the current sample number equals the sample size.
-// \code{IsAtBegin()} returns \code{true} when the current sample number equals
-// zero.  An important difference from other image iterators is that
+// \code{IsAtBegin()} returns \code{true} when the current sample number
+// equals zero.  An important difference from other image iterators is that
 // ImageRandomConstIteratorWithIndex may visit the same pixel
 //  more than once.
 //
 // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|(}
 // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!and statistics}
-// Let's use the random iterator to estimate some simple image statistics. The next
-// example calculates an estimate of the arithmetic mean of pixel values.
+// Let's use the random iterator to estimate some simple image statistics. The
+// next example calculates an estimate of the arithmetic mean of pixel values.
 //
 // First, include the appropriate header and declare pixel and image types.
 //
@@ -90,9 +91,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The input image has been read as \code{inputImage}.  We now create an
-  // iterator with a number of samples set by command line argument. The call to
-  // \code{ReinitializeSeed} seeds the random number generator.  The iterator is
-  // initialized over the entire valid image region.
+  // iterator with a number of samples set by command line argument. The call
+  // to \code{ReinitializeSeed} seeds the random number generator.  The
+  // iterator is initialized over the entire valid image region.
   //
   //  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!SetNumberOfSamples()}
   //  \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!ReinitializeSeed()}
@@ -106,7 +107,8 @@ main(int argc, char * argv[])
 
   // Software Guide: BeginLatex
   //
-  // Now take the specified number of samples and calculate their average value.
+  // Now take the specified number of samples and calculate their average
+  // value.
   //
   // Software Guide : EndLatex
 
@@ -119,7 +121,8 @@ main(int argc, char * argv[])
   mean = mean / ::std::stod(argv[2]);
 
   // Software Guide : EndCodeSnippet
-  std::cout << "Mean estimate with " << argv[2] << " samples is " << mean << std::endl;
+  std::cout << "Mean estimate with " << argv[2] << " samples is " << mean
+            << std::endl;
 
   // Software Guide : BeginLatex
   //
@@ -131,19 +134,18 @@ main(int argc, char * argv[])
   // \begin{center}
   // \begin{tabular}[]{rc|c|c|c}
   // & \multicolumn{4}{c}{\emph{Sample Size}} \\  & \code{\textbf{10}} &
-  // \code{\textbf{100}} & \code{\textbf{1000}} & \code{\textbf{10000}} \\ \cline{2-5}
-  // \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\ \code{RatLungSlice2.mha}
-  // & 46.7 & 47.5 & 47.4 & 47.6  \\ \code{BrainT1Slice.png}
-  // & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
-  // \itkcaption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean image pixel
-  // value using the ImageRandomConstIteratorWithIndex at different sample
-  // sizes.}
-  // \end{center}
+  // \code{\textbf{100}} & \code{\textbf{1000}} & \code{\textbf{10000}} \\
+  // \cline{2-5} \code{RatLungSlice1.mha} & 50.5 & 52.4 & 53.0 & 52.4 \\
+  // \code{RatLungSlice2.mha} & 46.7 & 47.5 & 47.4 & 47.6  \\
+  // \code{BrainT1Slice.png} & 47.2 & 64.1 & 68.0 & 67.8  \\ \end{tabular}
+  // \itkcaption[ImageRandomConstIteratorWithIndex usage]{Estimates of mean
+  // image pixel value using the ImageRandomConstIteratorWithIndex at
+  // different sample sizes.} \end{center}
   // \label{tab:ImageRandomConstIteratorWithIndexExample}
   // \end{table}
   //
-  // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of using|)}
-  // Software Guide : EndLatex
+  // \index{itk::Image\-Random\-Const\-Iterator\-With\-Index!example of
+  // using|)} Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }

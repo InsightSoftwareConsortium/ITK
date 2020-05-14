@@ -28,9 +28,10 @@
 //  The following section illustrates the use of filters that perform basic
 //  mathematical morphology operations on binary images. The
 //  \doxygen{BinaryErodeImageFilter} and \doxygen{BinaryDilateImageFilter} are
-//  described here. The filter names clearly specify the type of image on which
-//  they operate.  The header files required to construct a simple example of
-//  the use of the mathematical morphology filters are included below.
+//  described here. The filter names clearly specify the type of image on
+//  which they operate.  The header files required to construct a simple
+//  example of the use of the mathematical morphology filters are included
+//  below.
 //
 //  \index{itk::BinaryDilateImageFilter!header}
 //  \index{itk::BinaryErodeImageFilter!header}
@@ -114,18 +115,21 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The structuring element type is then used along with the input and output
-  //  image types for instantiating the type of the filters.
+  //  The structuring element type is then used along with the input and
+  //  output image types for instantiating the type of the filters.
   //
   //  Software Guide : EndLatex
 
 
   // Software Guide : BeginCodeSnippet
-  using ErodeFilterType = itk::
-    BinaryErodeImageFilter<InputImageType, OutputImageType, StructuringElementType>;
+  using ErodeFilterType = itk::BinaryErodeImageFilter<InputImageType,
+                                                      OutputImageType,
+                                                      StructuringElementType>;
 
-  using DilateFilterType = itk::
-    BinaryDilateImageFilter<InputImageType, OutputImageType, StructuringElementType>;
+  using DilateFilterType =
+    itk::BinaryDilateImageFilter<InputImageType,
+                                 OutputImageType,
+                                 StructuringElementType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -158,11 +162,11 @@ main(int argc, char * argv[])
   //  The structuring element is not a reference counted class. Thus it is
   //  created as a C++ stack object instead of using \code{New()} and
   //  SmartPointers. The radius of the neighborhood associated with the
-  //  structuring element is defined with the \code{SetRadius()} method and the
-  //  \code{CreateStructuringElement()} method is invoked in order to
+  //  structuring element is defined with the \code{SetRadius()} method and
+  //  the \code{CreateStructuringElement()} method is invoked in order to
   //  initialize the operator.  The resulting structuring element is passed to
-  //  the mathematical morphology filter through the \code{SetKernel()} method,
-  //  as illustrated below.
+  //  the mathematical morphology filter through the \code{SetKernel()}
+  //  method, as illustrated below.
   //
   //  \index{itk::BinaryBallStructuringElement!SetRadius()}
   //  \index{itk::BinaryBallStructuringElement!CreateStructuringElement()}

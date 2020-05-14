@@ -71,7 +71,8 @@ main(int argc, char ** argv)
   {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile sigma" << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile sigma"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -114,9 +115,10 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // The Gaussian operator, like the Sobel operator, is instantiated with a pixel
-  // type and a dimensionality.  Additionally, we set the variance of the
-  // Gaussian, which has been read from the command line as standard deviation.
+  // The Gaussian operator, like the Sobel operator, is instantiated with a
+  // pixel type and a dimensionality.  Additionally, we set the variance of
+  // the Gaussian, which has been read from the command line as standard
+  // deviation.
   //
   // Software Guide : EndLatex
 
@@ -128,17 +130,17 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The only further changes from the previous example are in the main loop.
-  // Once again we use the results from face calculator to construct a loop that
-  // processes boundary and non-boundary image regions separately.  Separable
-  // convolution, however, requires an additional, outer loop over all the image
-  // dimensions.  The direction of the Gaussian operator is reset at each
-  // iteration of the outer loop using the new dimension.  The iterators change
-  // direction to match because they are initialized with the radius of the
-  // Gaussian operator.
+  // Once again we use the results from face calculator to construct a loop
+  // that processes boundary and non-boundary image regions separately.
+  // Separable convolution, however, requires an additional, outer loop over
+  // all the image dimensions.  The direction of the Gaussian operator is
+  // reset at each iteration of the outer loop using the new dimension.  The
+  // iterators change direction to match because they are initialized with the
+  // radius of the Gaussian operator.
   //
-  // Input and output buffers are swapped at each iteration so that the output of
-  // the previous iteration becomes the input for the current iteration. The swap
-  // is not performed on the last iteration.
+  // Input and output buffers are swapped at each iteration so that the output
+  // of the previous iteration becomes the input for the current iteration.
+  // The swap is not performed on the last iteration.
   //
   // Software Guide : EndLatex
 
@@ -149,12 +151,13 @@ main(int argc, char ** argv)
     gaussianOperator.SetDirection(i);
     gaussianOperator.CreateDirectional();
 
-    faceList =
-      faceCalculator(input, output->GetRequestedRegion(), gaussianOperator.GetRadius());
+    faceList = faceCalculator(
+      input, output->GetRequestedRegion(), gaussianOperator.GetRadius());
 
     for (fit = faceList.begin(); fit != faceList.end(); ++fit)
     {
-      it = NeighborhoodIteratorType(gaussianOperator.GetRadius(), input, *fit);
+      it =
+        NeighborhoodIteratorType(gaussianOperator.GetRadius(), input, *fit);
 
       out = IteratorType(output, *fit);
 
@@ -178,8 +181,8 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The output is rescaled and written as in the previous examples.
-  // Figure~\ref{fig:NeighborhoodExample4} shows the results of Gaussian blurring
-  // the image \code{Examples/Data/BrainT1Slice.png} using increasing
+  // Figure~\ref{fig:NeighborhoodExample4} shows the results of Gaussian
+  // blurring the image \code{Examples/Data/BrainT1Slice.png} using increasing
   // kernel widths.
   //
   // \begin{figure}
@@ -190,10 +193,10 @@ main(int argc, char ** argv)
   // \includegraphics[width=0.23\textwidth]{NeighborhoodIterators4d}
   // \itkcaption[Gaussian blurring by convolution filtering]{Results of
   // convolution filtering with a Gaussian kernel of increasing standard
-  // deviation $\sigma$ (from left to right, $\sigma = 0$, $\sigma = 1$, $\sigma
-  // = 2$, $\sigma = 5$).  Increased blurring reduces contrast and changes the
-  // average intensity value of the image, which causes the image to appear
-  // brighter when rescaled.}
+  // deviation $\sigma$ (from left to right, $\sigma = 0$, $\sigma = 1$,
+  // $\sigma = 2$, $\sigma = 5$).  Increased blurring reduces contrast and
+  // changes the average intensity value of the image, which causes the image
+  // to appear brighter when rescaled.}
   // \protect\label{fig:NeighborhoodExample4}
   // \end{figure}
   //
@@ -203,7 +206,8 @@ main(int argc, char ** argv)
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
 

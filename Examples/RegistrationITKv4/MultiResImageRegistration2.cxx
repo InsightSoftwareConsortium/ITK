@@ -101,8 +101,8 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << "  " << m_CumulativeIterationIndex++
-              << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << "  "
+              << m_CumulativeIterationIndex++ << std::endl;
   }
 
 private:
@@ -153,8 +153,10 @@ public:
     }
     else
     {
-      optimizer->SetMaximumStepLength(optimizer->GetMaximumStepLength() / 4.0);
-      optimizer->SetMinimumStepLength(optimizer->GetMinimumStepLength() / 10.0);
+      optimizer->SetMaximumStepLength(optimizer->GetMaximumStepLength() /
+                                      4.0);
+      optimizer->SetMinimumStepLength(optimizer->GetMinimumStepLength() /
+                                      10.0);
     }
   }
   void
@@ -191,9 +193,9 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The configuration of the registration method in this example closely
-  //  follows the procedure in the previous section. The main changes involve the
-  //  construction and initialization of the transform. The instantiation of
-  //  the transform type requires only the dimension of the space and the
+  //  follows the procedure in the previous section. The main changes involve
+  //  the construction and initialization of the transform. The instantiation
+  //  of the transform type requires only the dimension of the space and the
   //  type used for representing space coordinates.
   //
   //  \index{itk::AffineTransform!Instantiation}
@@ -207,13 +209,15 @@ main(int argc, char * argv[])
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<InternalImageType, double>;
-  using MetricType = itk::MattesMutualInformationImageToImageMetric<InternalImageType,
-                                                                    InternalImageType>;
+  using MetricType =
+    itk::MattesMutualInformationImageToImageMetric<InternalImageType,
+                                                   InternalImageType>;
 
   using OptimizerScalesType = OptimizerType::ScalesType;
 
   using RegistrationType =
-    itk::MultiResolutionImageRegistrationMethod<InternalImageType, InternalImageType>;
+    itk::MultiResolutionImageRegistrationMethod<InternalImageType,
+                                                InternalImageType>;
 
   OptimizerType::Pointer    optimizer = OptimizerType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
@@ -243,14 +247,18 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
-  using FixedCastFilterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
-  using MovingCastFilterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
+  using FixedCastFilterType =
+    itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using MovingCastFilterType =
+    itk::CastImageFilter<MovingImageType, InternalImageType>;
   FixedCastFilterType::Pointer  fixedCaster = FixedCastFilterType::New();
   MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
 
@@ -262,23 +270,27 @@ main(int argc, char * argv[])
 
   fixedCaster->Update();
 
-  registration->SetFixedImageRegion(fixedCaster->GetOutput()->GetBufferedRegion());
+  registration->SetFixedImageRegion(
+    fixedCaster->GetOutput()->GetBufferedRegion());
 
   //  Software Guide : BeginLatex
   //
   //  One of the easiest ways of preparing a consistent set of parameters for
   //  the transform is to use the \doxygen{CenteredTransformInitializer}. Once
   //  the transform is initialized, we can invoke its \code{GetParameters()}
-  //  method to extract the array of parameters. Finally the array is passed to
-  //  the registration method using its \code{SetInitialTransformParameters()}
-  //  method.
+  //  method to extract the array of parameters. Finally the array is passed
+  //  to the registration method using its
+  //  \code{SetInitialTransformParameters()} method.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
   initializer->SetMovingImage(movingImageReader->GetOutput());
@@ -369,23 +381,23 @@ main(int argc, char * argv[])
 
   if (argc > 8)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     metric->SetNumberOfHistogramBins(std::stoi(argv[8]));
   }
 
   if (argc > 9)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     metric->SetNumberOfSpatialSamples(std::stoi(argv[9]));
   }
 
   //  Software Guide : BeginLatex
   //
-  //  Given that the Mattes Mutual Information metric uses a random iterator in
-  //  order to collect the samples from the images, it is usually convenient to
-  //  initialize the seed of the random number generator.
+  //  Given that the Mattes Mutual Information metric uses a random iterator
+  //  in order to collect the samples from the images, it is usually
+  //  convenient to initialize the seed of the random number generator.
   //
   //  \index{itk::Mattes\-Mutual\-Information\-Image\-To\-Image\-Metric!ReinitializeSeed()}
   //
@@ -398,9 +410,9 @@ main(int argc, char * argv[])
   if (argc > 7)
   {
     // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
+    // computing the derivatives of the joint PDF with respect to the
+    // Transform parameters, or doing it by progressively accumulating
+    // contributions from each bin in the joint PDF.
     metric->SetUseExplicitPDFDerivatives(std::stoi(argv[7]));
   }
 
@@ -449,8 +461,8 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Optimizer Stopping Condition = " << optimizer->GetStopCondition()
-            << std::endl;
+  std::cout << "Optimizer Stopping Condition = "
+            << optimizer->GetStopCondition() << std::endl;
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType finalParameters = registration->GetLastTransformParameters();
@@ -513,7 +525,8 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -541,7 +554,8 @@ main(int argc, char * argv[])
 
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer     writer = WriterType::New();
@@ -560,11 +574,10 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2Output}
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2CheckerboardBefore}
   // \includegraphics[width=0.32\textwidth]{MultiResImageRegistration2CheckerboardAfter}
-  // \itkcaption[Multi-Resolution Registration Input Images]{Mapped moving image
-  // (left) and composition of fixed and moving images before (center) and
-  // after (right) multi-resolution registration with the AffineTransform class.}
-  // \label{fig:MultiResImageRegistration2Output}
-  // \end{figure}
+  // \itkcaption[Multi-Resolution Registration Input Images]{Mapped moving
+  // image (left) and composition of fixed and moving images before (center)
+  // and after (right) multi-resolution registration with the AffineTransform
+  // class.} \label{fig:MultiResImageRegistration2Output} \end{figure}
   //
   //  The result of resampling the moving image is shown in the left image
   //  of Figure \ref{fig:MultiResImageRegistration2Output}. The center and

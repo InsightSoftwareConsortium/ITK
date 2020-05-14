@@ -18,15 +18,17 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how to read a series of 2D slices from independent
-//  files in order to compose a volume. The class \doxygen{ImageSeriesReader}
-//  is used for this purpose. This class works in combination with a generator
-//  of filenames that will provide a list of files to be read. In this
-//  particular example we use the \doxygen{NumericSeriesFileNames} class as a
-//  filename generator. This generator uses a \code{printf} style of string format
-//  with a ``\code{\%d}'' field that will be successively replaced by a number specified
-//  by the user. Here we will use a format like ``\code{file\%03d.png}'' for reading
-//  PNG files named file001.png, file002.png, file003.png... and so on.
+//  This example illustrates how to read a series of 2D slices from
+//  independent files in order to compose a volume. The class
+//  \doxygen{ImageSeriesReader} is used for this purpose. This class works in
+//  combination with a generator of filenames that will provide a list of
+//  files to be read. In this particular example we use the
+//  \doxygen{NumericSeriesFileNames} class as a filename generator. This
+//  generator uses a \code{printf} style of string format with a
+//  ``\code{\%d}'' field that will be successively replaced by a number
+//  specified by the user. Here we will use a format like
+//  ``\code{file\%03d.png}'' for reading PNG files named file001.png,
+//  file002.png, file003.png... and so on.
 //
 //  This requires the following headers as shown.
 //
@@ -51,7 +53,8 @@ main(int argc, char ** argv)
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " firstSliceValue lastSliceValue  outputImageFile "
+    std::cerr << argv[0]
+              << " firstSliceValue lastSliceValue  outputImageFile "
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -99,7 +102,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // Then, we declare the filename generator type and create one instance of it.
+  // Then, we declare the filename generator type and create one instance of
+  // it.
   //
   // Software Guide : EndLatex
 
@@ -113,8 +117,8 @@ main(int argc, char ** argv)
   // Software Guide : BeginLatex
   //
   // The filename generator requires us to provide a pattern of text for the
-  // filenames, and numbers for the initial value, last value and increment to be
-  // used for generating the names of the files.
+  // filenames, and numbers for the initial value, last value and increment to
+  // be used for generating the names of the files.
   //
   // Software Guide : EndLatex
 
@@ -128,10 +132,10 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The ImageIO object that actually performs the read process is now connected
-  //  to the ImageSeriesReader. This is the safest way of making sure that we use
-  //  an ImageIO object that is appropriate for the type of files that we want to
-  //  read.
+  //  The ImageIO object that actually performs the read process is now
+  //  connected to the ImageSeriesReader. This is the safest way of making
+  //  sure that we use an ImageIO object that is appropriate for the type of
+  //  files that we want to read.
   //
   //  Software Guide : EndLatex
 
@@ -141,8 +145,9 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The filenames of the input files must be provided to the reader, while the
-  //  writer is instructed to write the same volume dataset in a single file.
+  //  The filenames of the input files must be provided to the reader, while
+  //  the writer is instructed to write the same volume dataset in a single
+  //  file.
   //
   //
   //  Software Guide : EndLatex
