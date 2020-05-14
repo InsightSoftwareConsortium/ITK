@@ -26,8 +26,8 @@
 //  measurement the volume of a tumor, or providing guidance for surgery.
 //
 //  The following example illustrates the use of the ChangeInformation image
-//  filter in the context of generating synthetic inputs for image registration
-//  tests.
+//  filter in the context of generating synthetic inputs for image
+//  registration tests.
 //
 //  \index{itk::ChangeInformationImageFilter}
 //

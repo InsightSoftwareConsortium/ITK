@@ -42,7 +42,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<CharImageType>;
   using WriterType = itk::ImageFileWriter<CharImageType>;
 
-  using RescaleFilter = itk::RescaleIntensityImageFilter<CharImageType, CharImageType>;
+  using RescaleFilter =
+    itk::RescaleIntensityImageFilter<CharImageType, CharImageType>;
 
   using LaplacianSharpeningFilter =
     itk::LaplacianSharpeningImageFilter<CharImageType, CharImageType>;
@@ -55,7 +56,8 @@ main(int argc, char * argv[])
 
   // Setting the ITK pipeline filter
 
-  LaplacianSharpeningFilter::Pointer lapFilter = LaplacianSharpeningFilter::New();
+  LaplacianSharpeningFilter::Pointer lapFilter =
+    LaplacianSharpeningFilter::New();
 
   reader->SetFileName(inputFilename);
   writer->SetFileName(outputFilename);

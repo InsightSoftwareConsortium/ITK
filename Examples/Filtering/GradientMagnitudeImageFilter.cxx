@@ -42,7 +42,8 @@
 //  \end{picture}
 //  \end{center}
 //
-//  then adding the sum of their squares and computing the square root of the sum.
+//  then adding the sum of their squares and computing the square root of the
+//  sum.
 //
 //  This filter will work on images of any dimension thanks to the internal
 //  use of \doxygen{NeighborhoodIterator} and \doxygen{NeighborhoodOperator}.
@@ -117,7 +118,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::GradientMagnitudeImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::GradientMagnitudeImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -210,17 +212,18 @@ main(int argc, char * argv[])
   //
   //  Figure \ref{fig:GradientMagnitudeImageFilterInputOutput} illustrates the
   //  effect of the gradient magnitude filter on a MRI proton density image of
-  //  the brain. The figure shows the sensitivity of this filter to noisy data.
+  //  the brain. The figure shows the sensitivity of this filter to noisy
+  //  data.
   //
-  //  Attention should be paid to the image type chosen to represent the output
-  //  image since the dynamic range of the gradient magnitude image is usually
-  //  smaller than the dynamic range of the input image. As always, there are
-  //  exceptions to this rule, for example, synthetic images that contain high
-  //  contrast objects.
+  //  Attention should be paid to the image type chosen to represent the
+  //  output image since the dynamic range of the gradient magnitude image is
+  //  usually smaller than the dynamic range of the input image. As always,
+  //  there are exceptions to this rule, for example, synthetic images that
+  //  contain high contrast objects.
   //
-  //  This filter does not apply any smoothing to the image before computing the
-  //  gradients. The results can therefore be very sensitive to noise and may
-  //  not be the best choice for scale-space analysis.
+  //  This filter does not apply any smoothing to the image before computing
+  //  the gradients. The results can therefore be very sensitive to noise and
+  //  may not be the best choice for scale-space analysis.
   //
   //  Software Guide : EndLatex
 

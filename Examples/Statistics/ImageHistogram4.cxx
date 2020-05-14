@@ -18,15 +18,16 @@
 
 // Software Guide : BeginLatex
 //
-// The statistics framework in ITK has been designed for managing multi-variate
-// statistics in a natural way. The \subdoxygen{Statistics}{Histogram} class
-// reflects this concept clearly since it is a N-variable joint histogram. This
-// nature of the Histogram class is exploited in the following example in order
-// to build the joint histogram of a color image encoded in RGB values.
+// The statistics framework in ITK has been designed for managing
+// multi-variate statistics in a natural way. The
+// \subdoxygen{Statistics}{Histogram} class reflects this concept clearly
+// since it is a N-variable joint histogram. This nature of the Histogram
+// class is exploited in the following example in order to build the joint
+// histogram of a color image encoded in RGB values.
 //
 // Note that the same treatment could be applied further to any vector image
-// thanks to the generic programming approach used in the implementation of the
-// statistical framework.
+// thanks to the generic programming approach used in the implementation of
+// the statistical framework.
 //
 // The most relevant class in this example is the
 // \subdoxygen{Statistics}{ImageToHistogramFilter}. This class will take
@@ -36,9 +37,9 @@
 //
 // In this example we compute the joint histogram of the three channels of an
 // RGB image. Our output histogram will be equivalent to a 3D array of bins.
-// This histogram could be used further for feeding a segmentation method based
-// on statistical pattern recognition. Such method was actually used during the
-// generation of the image in the cover of the Software Guide.
+// This histogram could be used further for feeding a segmentation method
+// based on statistical pattern recognition. Such method was actually used
+// during the generation of the image in the cover of the Software Guide.
 //
 // The first step is to include the header files for the histogram filter,
 // the RGB pixel type and the Image.
@@ -118,7 +119,8 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
+  using HistogramFilterType =
+    itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
   HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -129,9 +131,9 @@ main(int argc, char * argv[])
   // The resolution at which the statistics of each one of the color component
   // will be evaluated is defined by setting the number of bins along every
   // component in the joint histogram. For this purpose we take the
-  // \code{HistogramSizeType} trait from the filter and use it to instantiate a
-  // \code{size} variable. We set in this variable the number of bins to use for
-  // each component of the color image.
+  // \code{HistogramSizeType} trait from the filter and use it to instantiate
+  // a \code{size} variable. We set in this variable the number of bins to use
+  // for each component of the color image.
   //
   // Software Guide : EndLatex
 
@@ -231,8 +233,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We can verify that the computed histogram has the requested size by invoking
-  // its \code{Size()} method.
+  // We can verify that the computed histogram has the requested size by
+  // invoking its \code{Size()} method.
   //
   // Software Guide : EndLatex
 
@@ -245,8 +247,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The values of the histogram can now be saved into a file by walking through
-  // all of the histogram bins and pushing them into a std::ofstream.
+  // The values of the histogram can now be saved into a file by walking
+  // through all of the histogram bins and pushing them into a std::ofstream.
   //
   // Software Guide : EndLatex
 
@@ -269,7 +271,8 @@ main(int argc, char * argv[])
     {
       HistogramType::IndexType index;
       index = histogram->GetIndex(itr.GetInstanceIdentifier());
-      std::cout << "Index = " << index << ", Frequency = " << frequency << std::endl;
+      std::cout << "Index = " << index << ", Frequency = " << frequency
+                << std::endl;
     }
     ++itr;
   }
@@ -280,10 +283,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Note that here the histogram is saved as a block of memory in a raw file. At
-  // this point you can use visualization software in order to explore the
-  // histogram in a display that would be equivalent to a scatter plot of the RGB
-  // components of the input color image.
+  // Note that here the histogram is saved as a block of memory in a raw file.
+  // At this point you can use visualization software in order to explore the
+  // histogram in a display that would be equivalent to a scatter plot of the
+  // RGB components of the input color image.
   //
   // Software Guide : EndLatex
 

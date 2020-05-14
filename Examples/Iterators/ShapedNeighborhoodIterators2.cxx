@@ -79,7 +79,8 @@ main(int argc, char ** argv)
   ShapedNeighborhoodIteratorType::RadiusType radius;
   radius.Fill(element_radius);
 
-  faceList = faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
+  faceList =
+    faceCalculator(reader->GetOutput(), output->GetRequestedRegion(), radius);
 
   IteratorType out;
   const auto   rad = static_cast<float>(element_radius);
@@ -92,8 +93,8 @@ main(int argc, char ** argv)
     ShapedNeighborhoodIteratorType it(radius, reader->GetOutput(), *fit);
     out = IteratorType(output, *fit);
 
-    // Creates a circular structuring element by activating all the pixels less
-    // than radius distance from the center of the neighborhood.
+    // Creates a circular structuring element by activating all the pixels
+    // less than radius distance from the center of the neighborhood.
     for (float y = -rad; y <= rad; y++)
     {
       for (float x = -rad; x <= rad; x++)
@@ -113,8 +114,8 @@ main(int argc, char ** argv)
     // Software Guide : BeginLatex
     //
     // The logic of the inner loop can be rewritten to perform
-    // dilation.  Dilation of the set $I$ by $E$ is the set of all $x$ such that
-    // $E$ positioned at $x$ contains at least one element in $I$.
+    // dilation.  Dilation of the set $I$ by $E$ is the set of all $x$ such
+    // that $E$ positioned at $x$ contains at least one element in $I$.
     //
     // Software Guide : EndLatex
 
@@ -159,13 +160,12 @@ main(int argc, char ** argv)
   // \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1b}
   // \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1c}
   // \includegraphics[width=0.18\textwidth]{ShapedNeighborhoodIterators1d}
-  // \itkcaption[Binary image morphology]{The effects of morphological operations
-  // on a binary image using a circular structuring element of size 4.  From left
-  // to right are the original image, erosion, dilation, opening, and closing.
-  // The opening operation is erosion of the image followed by dilation.  Closing
-  // is dilation of the image followed by erosion.}
-  // \protect\label{fig:ShapedNeighborhoodExample2}
-  // \end{figure}
+  // \itkcaption[Binary image morphology]{The effects of morphological
+  // operations on a binary image using a circular structuring element of
+  // size 4.  From left to right are the original image, erosion, dilation,
+  // opening, and closing. The opening operation is erosion of the image
+  // followed by dilation.  Closing is dilation of the image followed by
+  // erosion.} \protect\label{fig:ShapedNeighborhoodExample2} \end{figure}
   //
   // Software Guide : EndLatex
 

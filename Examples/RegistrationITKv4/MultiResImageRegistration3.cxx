@@ -17,7 +17,8 @@
  *=========================================================================*/
 
 //
-// This example is the 3D version of the 2D example in MultiResImageRegistration1.cxx
+// This example is the 3D version of the 2D example in
+// MultiResImageRegistration1.cxx
 //
 
 #include "itkMultiResolutionImageRegistrationMethod.h"
@@ -80,8 +81,10 @@ public:
     }
     else
     {
-      optimizer->SetMaximumStepLength(optimizer->GetMaximumStepLength() / 4.0);
-      optimizer->SetMinimumStepLength(optimizer->GetMinimumStepLength() / 10.0);
+      optimizer->SetMaximumStepLength(optimizer->GetMaximumStepLength() /
+                                      4.0);
+      optimizer->SetMinimumStepLength(optimizer->GetMinimumStepLength() /
+                                      10.0);
     }
   }
 
@@ -160,15 +163,19 @@ main(int argc, char * argv[])
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<InternalImageType, double>;
-  using MetricType = itk::MattesMutualInformationImageToImageMetric<InternalImageType,
-                                                                    InternalImageType>;
+  using MetricType =
+    itk::MattesMutualInformationImageToImageMetric<InternalImageType,
+                                                   InternalImageType>;
   using RegistrationType =
-    itk::MultiResolutionImageRegistrationMethod<InternalImageType, InternalImageType>;
+    itk::MultiResolutionImageRegistrationMethod<InternalImageType,
+                                                InternalImageType>;
 
   using FixedImagePyramidType =
-    itk::MultiResolutionPyramidImageFilter<InternalImageType, InternalImageType>;
+    itk::MultiResolutionPyramidImageFilter<InternalImageType,
+                                           InternalImageType>;
   using MovingImagePyramidType =
-    itk::MultiResolutionPyramidImageFilter<InternalImageType, InternalImageType>;
+    itk::MultiResolutionPyramidImageFilter<InternalImageType,
+                                           InternalImageType>;
 
 
   //  All the components are instantiated using their \code{New()} method
@@ -180,8 +187,10 @@ main(int argc, char * argv[])
   RegistrationType::Pointer registration = RegistrationType::New();
   MetricType::Pointer       metric = MetricType::New();
 
-  FixedImagePyramidType::Pointer  fixedImagePyramid = FixedImagePyramidType::New();
-  MovingImagePyramidType::Pointer movingImagePyramid = MovingImagePyramidType::New();
+  FixedImagePyramidType::Pointer fixedImagePyramid =
+    FixedImagePyramidType::New();
+  MovingImagePyramidType::Pointer movingImagePyramid =
+    MovingImagePyramidType::New();
 
   registration->SetOptimizer(optimizer);
   registration->SetTransform(transform);
@@ -194,15 +203,19 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
 
-  using FixedCastFilterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
-  using MovingCastFilterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
+  using FixedCastFilterType =
+    itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using MovingCastFilterType =
+    itk::CastImageFilter<MovingImageType, InternalImageType>;
 
   FixedCastFilterType::Pointer  fixedCaster = FixedCastFilterType::New();
   MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
@@ -216,7 +229,8 @@ main(int argc, char * argv[])
 
   fixedCaster->Update();
 
-  registration->SetFixedImageRegion(fixedCaster->GetOutput()->GetBufferedRegion());
+  registration->SetFixedImageRegion(
+    fixedCaster->GetOutput()->GetBufferedRegion());
 
 
   using ParametersType = RegistrationType::ParametersType;
@@ -233,15 +247,15 @@ main(int argc, char * argv[])
 
   if (argc > 8)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     metric->SetNumberOfHistogramBins(std::stoi(argv[8]));
   }
 
   if (argc > 9)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     metric->SetNumberOfSpatialSamples(std::stoi(argv[9]));
   }
 
@@ -251,9 +265,9 @@ main(int argc, char * argv[])
   if (argc > 7)
   {
     // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
+    // computing the derivatives of the joint PDF with respect to the
+    // Transform parameters, or doing it by progressively accumulating
+    // contributions from each bin in the joint PDF.
     metric->SetUseExplicitPDFDerivatives(std::stoi(argv[7]));
   }
 
@@ -308,7 +322,8 @@ main(int argc, char * argv[])
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue << std::endl;
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -339,7 +354,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 

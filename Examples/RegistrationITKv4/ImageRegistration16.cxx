@@ -18,8 +18,9 @@
 
 // Software Guide : BeginLatex
 //
-//  This example illustrates how to do registration with a 2D Translation Transform,
-//  the Normalized Mutual Information metric and the Amoeba optimizer.
+//  This example illustrates how to do registration with a 2D Translation
+//  Transform, the Normalized Mutual Information metric and the Amoeba
+//  optimizer.
 //
 // Software Guide : EndLatex
 
@@ -104,13 +105,15 @@ main(int argc, char * argv[])
   using TransformType = itk::TranslationTransform<double, Dimension>;
 
   using OptimizerType = itk::AmoebaOptimizer;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType =
     itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
 
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
+    itk::MattesMutualInformationImageToImageMetric<FixedImageType,
+                                                   MovingImageType>;
 
 
   TransformType::Pointer    transform = TransformType::New();
@@ -156,9 +159,9 @@ main(int argc, char * argv[])
   if (argc > 6)
   {
     // Define whether to calculate the metric derivative by explicitly
-    // computing the derivatives of the joint PDF with respect to the Transform
-    // parameters, or doing it by progressively accumulating contributions from
-    // each bin in the joint PDF.
+    // computing the derivatives of the joint PDF with respect to the
+    // Transform parameters, or doing it by progressively accumulating
+    // contributions from each bin in the joint PDF.
     metric->SetUseExplicitPDFDerivatives(std::stoi(argv[6]));
   }
 
@@ -169,8 +172,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -209,8 +214,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The AmoebaOptimizer moves a simplex around the cost surface.  Here we set
-  //  the initial size of the simplex (5 units in each of the parameters)
+  //  The AmoebaOptimizer moves a simplex around the cost surface.  Here we
+  //  set the initial size of the simplex (5 units in each of the parameters)
   //
   //  Software Guide : EndLatex
 
@@ -294,7 +299,8 @@ main(int argc, char * argv[])
   std::cout << " Metric value  = " << bestValue << std::endl;
 
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 

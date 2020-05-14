@@ -29,7 +29,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " DicomDirectory  outputFileName sigma [seriesName] "
+    std::cerr << argv[0]
+              << " DicomDirectory  outputFileName sigma [seriesName] "
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -118,7 +119,8 @@ main(int argc, char * argv[])
     }
 
 
-    using FilterType = itk::SmoothingRecursiveGaussianImageFilter<ImageType, ImageType>;
+    using FilterType =
+      itk::SmoothingRecursiveGaussianImageFilter<ImageType, ImageType>;
 
     FilterType::Pointer filter = FilterType::New();
 

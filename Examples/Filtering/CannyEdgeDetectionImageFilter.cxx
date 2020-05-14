@@ -19,21 +19,22 @@
 //  Software Guide : BeginLatex
 //
 //  This example introduces the use of the
-//  \doxygen{CannyEdgeDetectionImageFilter}. Canny edge detection is widely used for
-//  edge detection since it is the optimal solution satisfying the constraints
-//  of good sensitivity, localization and noise robustness.  To achieve this
-//  end, Canny edge detection is implemented internally as a multi-stage
-//  algorithm, which involves Gaussian smoothing to remove noise, calculation
-//  of gradient magnitudes to localize edge features, non-maximum suppression
-//  to remove suprious features, and finally thresholding to yield a binary image.
-//  Though the specifics of this internal pipeline are largely abstracted from
-//  the user of the class, it is nonetheless beneficial to have a general
-//  understanding of these components so that parameters can be appropriately
-//  adjusted.
+//  \doxygen{CannyEdgeDetectionImageFilter}. Canny edge detection is widely
+//  used for edge detection since it is the optimal solution satisfying the
+//  constraints of good sensitivity, localization and noise robustness.  To
+//  achieve this end, Canny edge detection is implemented internally as a
+//  multi-stage algorithm, which involves Gaussian smoothing to remove noise,
+//  calculation of gradient magnitudes to localize edge features, non-maximum
+//  suppression to remove suprious features, and finally thresholding to yield
+//  a binary image. Though the specifics of this internal pipeline are largely
+//  abstracted from the user of the class, it is nonetheless beneficial to
+//  have a general understanding of these components so that parameters can be
+//  appropriately adjusted.
 //
 //  \index{itk::CannyEdgeDetectionImageFilter|textbf}
 //
-//  The first step required for using this filter is to include its header file.
+//  The first step required for using this filter is to include its header
+//  file.
 //
 //  \index{itk::CannyEdgeDetectionImageFilter!header}
 //
@@ -113,13 +114,14 @@ main(int argc, char * argv[])
   //
   //  The \code{CharImageType} image is cast to and from \code{RealImageType}
   //  using \doxygen{CastImageFilter} and \code{RescaleIntensityImageFilter},
-  //  respectively; both the input and output of \code{CannyEdgeDetectionImageFilter}
-  //  are \code{RealImageType}.
+  //  respectively; both the input and output of
+  //  \code{CannyEdgeDetectionImageFilter} are \code{RealImageType}.
   //
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  using CastToRealFilterType = itk::CastImageFilter<CharImageType, RealImageType>;
+  using CastToRealFilterType =
+    itk::CastImageFilter<CharImageType, RealImageType>;
   using CannyFilterType =
     itk::CannyEdgeDetectionImageFilter<RealImageType, RealImageType>;
   using RescaleFilterType =
@@ -146,12 +148,12 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In this example, three parameters of the Canny edge detection
-  //  filter may be set via the \code{SetVariance()}, \code{SetUpperThreshold()},
-  //  and \code{SetLowerThreshold()} methods.  Based on the previous discussion
-  //  of the steps in the internal pipeline, we understand that
-  //  \code{variance} adjusts the amount of Gaussian smoothing and
-  //  \code{upperThreshold} and \code{lowerThreshold} control which edges are
-  //  selected in the final step.
+  //  filter may be set via the \code{SetVariance()},
+  //  \code{SetUpperThreshold()}, and \code{SetLowerThreshold()} methods.
+  //  Based on the previous discussion of the steps in the internal pipeline,
+  //  we understand that \code{variance} adjusts the amount of Gaussian
+  //  smoothing and \code{upperThreshold} and \code{lowerThreshold} control
+  //  which edges are selected in the final step.
   //
   //  Software Guide : EndLatex
 
@@ -164,9 +166,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Finally, \code{Update()} is called on \code{writer} to trigger excecution
-  //  of the pipeline.  As usual, the call is wrapped in a \code{try/catch}
-  //  block.
+  //  Finally, \code{Update()} is called on \code{writer} to trigger
+  //  excecution of the pipeline.  As usual, the call is wrapped in a
+  //  \code{try/catch} block.
   //
   //  Software Guide : EndLatex
 

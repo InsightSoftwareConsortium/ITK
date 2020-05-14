@@ -50,9 +50,11 @@ main(int argc, char * argv[])
     std::cerr << " inputImage " << std::endl;
     std::cerr << " outputImage" << std::endl;
     std::cerr << " numberOfLines " << std::endl;
-    std::cerr << " variance of the accumulator blurring (default = 5) " << std::endl;
-    std::cerr << " radius of the disk to remove from the accumulator (default = 10) "
+    std::cerr << " variance of the accumulator blurring (default = 5) "
               << std::endl;
+    std::cerr
+      << " radius of the disk to remove from the accumulator (default = 10) "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -107,13 +109,15 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CastingFilterType = itk::CastImageFilter<ImageType, AccumulatorImageType>;
+  using CastingFilterType =
+    itk::CastImageFilter<ImageType, AccumulatorImageType>;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
   std::cout << "Applying gradient magnitude filter" << std::endl;
 
   using GradientFilterType =
-    itk::GradientMagnitudeImageFilter<AccumulatorImageType, AccumulatorImageType>;
+    itk::GradientMagnitudeImageFilter<AccumulatorImageType,
+                                      AccumulatorImageType>;
   GradientFilterType::Pointer gradFilter = GradientFilterType::New();
 
   caster->SetInput(localImage);
@@ -152,9 +156,11 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   std::cout << "Computing Hough Map" << std::endl;
   using HoughTransformFilterType =
-    itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType, AccumulatorPixelType>;
+    itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
+                                          AccumulatorPixelType>;
 
-  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
+  HoughTransformFilterType::Pointer houghFilter =
+    HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -227,7 +233,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using LineIterator = HoughTransformFilterType::LinesListType::const_iterator;
+  using LineIterator =
+    HoughTransformFilterType::LinesListType::const_iterator;
   LineIterator itLines = lines.begin();
   while (itLines != lines.end())
   {
@@ -242,7 +249,8 @@ main(int argc, char * argv[])
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    using LinePointListType = HoughTransformFilterType::LineType::LinePointListType;
+    using LinePointListType =
+      HoughTransformFilterType::LineType::LinePointListType;
 
     LinePointListType                 pointsList = (*itLines)->GetPoints();
     LinePointListType::const_iterator itPoints = pointsList.begin();
@@ -268,7 +276,8 @@ main(int argc, char * argv[])
 
     // Software Guide : BeginCodeSnippet
     ImageType::IndexType localIndex;
-    itk::Size<2>         size = localOutputImage->GetLargestPossibleRegion().GetSize();
+    itk::Size<2>         size =
+      localOutputImage->GetLargestPossibleRegion().GetSize();
     float diag = std::sqrt((float)(size[0] * size[0] + size[1] * size[1]));
 
     for (auto i = static_cast<int>(-diag); i < static_cast<int>(diag); i++)

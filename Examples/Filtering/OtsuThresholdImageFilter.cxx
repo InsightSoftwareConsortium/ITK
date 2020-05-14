@@ -49,8 +49,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The next step is to decide which pixel types to use for the input and output
-  //  images, and to define the image dimension.
+  //  The next step is to decide which pixel types to use for the input and
+  //  output images, and to define the image dimension.
   //
   //  Software Guide : EndLatex
 
@@ -82,7 +82,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::OtsuThresholdImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::OtsuThresholdImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -115,8 +116,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Both the filter and the reader are created by invoking their \code{New()}
-  //  methods and assigning the result to \doxygen{SmartPointer}s.
+  //  Both the filter and the reader are created by invoking their
+  //  \code{New()} methods and assigning the result to
+  //  \doxygen{SmartPointer}s.
   //
   //  Software Guide : EndLatex
 
@@ -173,9 +175,9 @@ main(int argc, char * argv[])
   //
   //  Execution of the filter is triggered by invoking the \code{Update()}
   //  method, which we wrap in a \code{try/catch} block.  If the filter's
-  //  output has been passed as input to subsequent filters, the \code{Update()}
-  //  call on any downstream filters in the pipeline will indirectly trigger
-  //  the update of this filter.
+  //  output has been passed as input to subsequent filters, the
+  //  \code{Update()} call on any downstream filters in the pipeline will
+  //  indirectly trigger the update of this filter.
   //
   //  Software Guide : EndLatex
 

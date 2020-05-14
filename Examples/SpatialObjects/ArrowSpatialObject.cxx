@@ -46,9 +46,10 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // The position of the arrow in the object (local) coordinate frame is defined
-  // using the \code{SetPositionInObjectSpace()} method. By default the position
-  // is set to the origin of the space.  This is the "tip" of the arrow.
+  // The position of the arrow in the object (local) coordinate frame is
+  // defined using the \code{SetPositionInObjectSpace()} method. By default
+  // the position is set to the origin of the space.  This is the "tip" of the
+  // arrow.
   //
   // Software Guide : EndLatex
 
@@ -62,8 +63,8 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // The length of the arrow in the local coordinate frame is done using the
-  // \code{SetLengthInObjectSpace()} method. By default the length is set to 1.
-  // This is the euclidean distance spanned by the arrow's tail from its
+  // \code{SetLengthInObjectSpace()} method. By default the length is set
+  // to 1. This is the euclidean distance spanned by the arrow's tail from its
   // tip (position).
   //
   // Software Guide : EndLatex

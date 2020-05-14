@@ -33,8 +33,9 @@
 // extends from the origin to the upper boundary of $R$. The origin can be
 // moved to any position along the lower boundary of $R$.
 //
-// Several additional methods are defined for this iterator to control movement
-// of the iterator along the line $\ell$ and movement of the origin of $\ell$.
+// Several additional methods are defined for this iterator to control
+// movement of the iterator along the line $\ell$ and movement of the origin
+// of $\ell$.
 //
 // %Might need a figure here to describe this iterator.
 //
@@ -45,15 +46,17 @@
 // \item \textbf{\code{NextLine()}} Moves the iterator to the beginning pixel
 // location of the next line in the image.  The origin of the next line is
 // determined by incrementing the current origin along the fastest increasing
-// dimension of the subspace of the image that excludes the selected dimension.
+// dimension of the subspace of the image that excludes the selected
+// dimension.
 //
 //
 // \index{itk::ImageLinearIteratorWithIndex!PreviousLine()}
 //
-// \item \textbf{\code{PreviousLine()}} Moves the iterator to the \emph{last valid
-// pixel location} in the previous line. The origin of the previous line is
-// determined by decrementing the current origin along the fastest increasing
-// dimension of the subspace of the image that excludes the selected dimension.
+// \item \textbf{\code{PreviousLine()}} Moves the iterator to the \emph{last
+// valid pixel location} in the previous line. The origin of the previous line
+// is determined by decrementing the current origin along the fastest
+// increasing dimension of the subspace of the image that excludes the
+// selected dimension.
 //
 // \index{itk::ImageLinearIteratorWithIndex!GoToBeginOfLine()}
 //
@@ -119,7 +122,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The RGB image and pixel types are defined as in the previous example.  The
+  // The RGB image and pixel types are defined as in the previous example. The
   // ImageLinearIteratorWithIndex class and its const version each have
   // single template parameters, the image type.
   //
@@ -155,8 +158,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // After reading the input image, we allocate an output image that of the same
-  // size, spacing, and origin.
+  // After reading the input image, we allocate an output image that of the
+  // same size, spacing, and origin.
   //
   // Software Guide : EndLatex
 
@@ -169,10 +172,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Next we create the two iterators.  The const iterator walks the input image,
-  // and the non-const iterator walks the output image.  The iterators are
-  // initialized over the same region.  The direction of iteration is set to 0,
-  // the $x$ dimension.
+  // Next we create the two iterators.  The const iterator walks the input
+  // image, and the non-const iterator walks the output image.  The iterators
+  // are initialized over the same region.  The direction of iteration is set
+  // to 0, the $x$ dimension.
   //
   // Software Guide : EndLatex
 

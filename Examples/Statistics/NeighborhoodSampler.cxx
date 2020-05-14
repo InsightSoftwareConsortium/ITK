@@ -23,9 +23,9 @@
 //
 // When we want to create an \subdoxygen{Statistics}{Subsample} object that
 // includes only the measurement vectors within a radius from a center in a
-// sample, we can use the \subdoxygen{Statistics}{NeighborhoodSampler}. In this
-// example, we will use the \subdoxygen{Statistics}{ListSample} as the input
-// sample.
+// sample, we can use the \subdoxygen{Statistics}{NeighborhoodSampler}. In
+// this example, we will use the \subdoxygen{Statistics}{ListSample} as the
+// input sample.
 //
 // We include the header files for the ListSample and the
 // NeighborhoodSampler classes.
@@ -64,7 +64,8 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementType = int;
   constexpr unsigned int MeasurementVectorLength = 2;
-  using MeasurementVectorType = itk::Vector<MeasurementType, MeasurementVectorLength>;
+  using MeasurementVectorType =
+    itk::Vector<MeasurementType, MeasurementVectorLength>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize(MeasurementVectorLength);

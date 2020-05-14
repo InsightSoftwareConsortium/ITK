@@ -27,17 +27,18 @@
 //  $N$-dimensional version of the classic Perona-Malik anisotropic diffusion
 //  equation for scalar-valued images \cite{Perona1990}.
 //
-//  The conductance term for this implementation is chosen as a function of the
-//  gradient magnitude of the image at each point, reducing the strength of
-//  diffusion at edge pixels.
+//  The conductance term for this implementation is chosen as a function of
+//  the gradient magnitude of the image at each point, reducing the strength
+//  of diffusion at edge pixels.
 //
 //  \begin{equation}
-//  C(\mathbf{x}) = e^{-(\frac{\parallel \nabla U(\mathbf{x}) \parallel}{K})^2}
-//  \end{equation}
+//  C(\mathbf{x}) = e^{-(\frac{\parallel \nabla U(\mathbf{x})
+//  \parallel}{K})^2} \end{equation}
 //
 //  The numerical implementation of this equation is similar to that described
-//  in the Perona-Malik paper \cite{Perona1990}, but uses a more robust technique
-//  for gradient magnitude estimation and has been generalized to $N$-dimensions.
+//  in the Perona-Malik paper \cite{Perona1990}, but uses a more robust
+//  technique for gradient magnitude estimation and has been generalized to
+//  $N$-dimensions.
 //
 //  \index{itk::Gradient\-Anisotropic\-Diffusion\-Image\-Filter}
 //
@@ -108,7 +109,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::GradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
+    itk::GradientAnisotropicDiffusionImageFilter<InputImageType,
+                                                 OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -209,8 +211,9 @@ main(int argc, char * argv[])
   //
   //  Figure \ref{fig:GradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
-  //  the brain. In this example the filter was run with a time step of $0.25$,
-  //  and $5$ iterations.  The figure shows how homogeneous regions are
+  //  the brain. In this example the filter was run with a time step of
+  //  $0.25$, and $5$ iterations.  The figure shows how homogeneous regions
+  //  are
   // smoothed and edges are preserved.
   //
   //  \relatedClasses

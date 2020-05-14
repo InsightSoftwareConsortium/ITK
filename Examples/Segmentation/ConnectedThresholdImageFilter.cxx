@@ -47,9 +47,9 @@
 // \index{itk::ConnectedThresholdImageFilter}
 // \index{itk::ConnectedThresholdImageFilter!header}
 //
-// The criterion used by the \code{ConnectedThresholdImageFilter} is based on an
-// interval of intensity values provided by the user. Lower and upper threshold
-// values should be provided. The region-growing algorithm includes
+// The criterion used by the \code{ConnectedThresholdImageFilter} is based on
+// an interval of intensity values provided by the user. Lower and upper
+// threshold values should be provided. The region-growing algorithm includes
 // those pixels whose intensities are inside the interval.
 //
 // \begin{equation}
@@ -100,8 +100,9 @@ main(int argc, char * argv[])
   {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage  outputImage seedX seedY lowerThreshold upperThreshold"
-              << std::endl;
+    std::cerr
+      << " inputImage  outputImage seedX seedY lowerThreshold upperThreshold"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -123,7 +124,8 @@ main(int argc, char * argv[])
 
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastingFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
+  using CastingFilterType =
+    itk::CastImageFilter<InternalImageType, OutputImageType>;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
   // We instantiate reader and writer types
@@ -160,7 +162,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
+  CurvatureFlowImageFilterType::Pointer smoothing =
+    CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -184,7 +187,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer connectedThreshold = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer connectedThreshold =
+    ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -210,8 +214,8 @@ main(int argc, char * argv[])
   //
   //  \code{CurvatureFlowImageFilter} requires a couple of parameters.
   //  The following are typical values for $2D$ images. However, these
-  //  values may have to be adjusted depending on the amount of noise present in
-  //  the input image.
+  //  values may have to be adjusted depending on the amount of noise present
+  //  in the input image.
   //
   //  Software Guide : EndLatex
 
@@ -225,9 +229,9 @@ main(int argc, char * argv[])
   //
   //  We now set the lower and upper threshold values.  Any pixel whose value
   //  is between \code{lowerThreshold} and \code{upperThreshold} will be
-  //  included in the region, and any pixel whose value is outside will be excluded.
-  //  Setting these values too close together will be too restrictive
-  //  for the region to grow; setting them too far apart will
+  //  included in the region, and any pixel whose value is outside will be
+  //  excluded. Setting these values too close together will be too
+  //  restrictive for the region to grow; setting them too far apart will
   //  cause the region to engulf the image.
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetUpper()}
@@ -263,8 +267,8 @@ main(int argc, char * argv[])
   //
   //  The algorithm must be initialized by setting a seed point (i.e., the
   //  \doxygen{Index} of the pixel from which the region will grow) using the
-  //  \code{SetSeed()} method.  It is convenient to initialize with a point in a
-  //  \emph{typical} region of the anatomical structure to be segmented.
+  //  \code{SetSeed()} method.  It is convenient to initialize with a point in
+  //  a \emph{typical} region of the anatomical structure to be segmented.
   //
   //  \index{itk::ConnectedThresholdImageFilter!SetSeed()}
   //
@@ -309,8 +313,8 @@ main(int argc, char * argv[])
   //  \code{Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations and defining
   //  values for the lower and upper thresholds.
-  //  Figure~\ref{fig:ConnectedThresholdOutput} illustrates several examples of
-  //  segmentation. The parameters used are presented in
+  //  Figure~\ref{fig:ConnectedThresholdOutput} illustrates several examples
+  //  of segmentation. The parameters used are presented in
   //  Table~\ref{tab:ConnectedThresholdOutput}.
   //
   //  \begin{table}
@@ -319,9 +323,10 @@ main(int argc, char * argv[])
   //  \hline
   //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline
   //  White matter & $(60,116)$ & 150 & 180 & Second from left in Figure
-  //  \ref{fig:ConnectedThresholdOutput} \\ \hline Ventricle    & $(81,112)$ & 210 & 250
-  //  & Third  from left in Figure \ref{fig:ConnectedThresholdOutput} \\ \hline Gray
-  //  matter  & $(107,69)$ & 180 & 210 & Fourth from left in Figure
+  //  \ref{fig:ConnectedThresholdOutput} \\ \hline Ventricle    & $(81,112)$ &
+  //  210 & 250 & Third  from left in Figure
+  //  \ref{fig:ConnectedThresholdOutput} \\ \hline Gray matter  & $(107,69)$ &
+  //  180 & 210 & Fourth from left in Figure
   //  \ref{fig:ConnectedThresholdOutput} \\ \hline \end{tabular} \end{center}
   //  \itkcaption[ConnectedThreshold example parameters]{Parameters used for
   //  segmenting some brain structures shown in

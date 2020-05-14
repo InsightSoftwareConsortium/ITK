@@ -50,7 +50,8 @@ main(int argc, char * argv[])
   writer->SetFileName(argv[2]);
 
 
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetDefaultPixelValue(0);

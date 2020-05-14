@@ -100,13 +100,15 @@ main(int argc, char * argv[])
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
   using RegistrationType =
     itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
   using MetricType =
-    itk::GradientDifferenceImageToImageMetric<FixedImageType, MovingImageType>;
+    itk::GradientDifferenceImageToImageMetric<FixedImageType,
+                                              MovingImageType>;
 
   TransformType::Pointer    transform = TransformType::New();
   OptimizerType::Pointer    optimizer = OptimizerType::New();
@@ -126,8 +128,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -135,9 +139,11 @@ main(int argc, char * argv[])
   registration->SetFixedImage(fixedImageReader->GetOutput());
   registration->SetMovingImage(movingImageReader->GetOutput());
 
-  fixedImageReader->Update(); // This is needed to make the BufferedRegion below valid.
+  fixedImageReader
+    ->Update(); // This is needed to make the BufferedRegion below valid.
 
-  registration->SetFixedImageRegion(fixedImageReader->GetOutput()->GetBufferedRegion());
+  registration->SetFixedImageRegion(
+    fixedImageReader->GetOutput()->GetBufferedRegion());
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters(transform->GetNumberOfParameters());
@@ -196,7 +202,8 @@ main(int argc, char * argv[])
 
   std::cout << "Registration done !" << std::endl;
   std::cout << "Optimizer stop condition = "
-            << registration->GetOptimizer()->GetStopConditionDescription() << std::endl;
+            << registration->GetOptimizer()->GetStopConditionDescription()
+            << std::endl;
   std::cout << "Number of iterations = " << numberOfIterations << std::endl;
   std::cout << "Translation along X  = " << TranslationAlongX << std::endl;
   std::cout << "Translation along Y  = " << TranslationAlongY << std::endl;
@@ -205,7 +212,8 @@ main(int argc, char * argv[])
 
   // Prepare the resampling filter in order to map the moving image.
   //
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -233,7 +241,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 

@@ -23,19 +23,19 @@
 //  parametric coordinate of its points are computed from a Fourier Series.
 //
 //  In this example we illustrate how a curve that is initially defined by a
-//  set of points in space can be represented in terms for Fourier Descriptors.
-//  This representation is useful for several purposes. For example, it
-//  provides a mechanmism for interpolating values among the points, it
-//  provides a way of analyzing the smoothness of the curve.  In this particular
-//  example we will focus on this second application of the Fourier Descriptors.
+//  set of points in space can be represented in terms for Fourier
+//  Descriptors. This representation is useful for several purposes. For
+//  example, it provides a mechanmism for interpolating values among the
+//  points, it provides a way of analyzing the smoothness of the curve.  In
+//  this particular example we will focus on this second application of the
+//  Fourier Descriptors.
 //
 //  The first operation that we should use in this context is the computation
-//  of the discrete fourier transform of the point coordinates. The coordinates
-//  of the points are considered to be independent functions and each one is
-//  decomposed in a Fourier Series. In this section we will use $t$ as the
-//  parameter of the curve, and will assume that it goes from $0$ to $1$ and
-//  cycles as we go around the closed curve. //
-//  \begin{equation}
+//  of the discrete fourier transform of the point coordinates. The
+//  coordinates of the points are considered to be independent functions and
+//  each one is decomposed in a Fourier Series. In this section we will use
+//  $t$ as the parameter of the curve, and will assume that it goes from $0$
+//  to $1$ and cycles as we go around the closed curve. // \begin{equation}
 //  \textbf{V(t)} = \left( X(t), Y(t) \right)
 //  \end{equation}
 //
@@ -47,17 +47,17 @@
 //  V(t) = \sum_{k=0}^{N} \exp(-\frac{2 k \pi \textbf{i}}{N}) F_k
 //  \end{equation}
 //
-//  Where the set of coefficients $F_k$ is the discrete spectrum of the complex
-//  function $V(t)$. These coefficients are in general complex numbers and both
-//  their magnitude and phase must be considered in any further analysis of the
-//  spectrum.
+//  Where the set of coefficients $F_k$ is the discrete spectrum of the
+//  complex function $V(t)$. These coefficients are in general complex numbers
+//  and both their magnitude and phase must be considered in any further
+//  analysis of the spectrum.
 //
 //  Software Guide : EndLatex
 
 //  Software Guide : BeginLatex
 //
-//  The class \code{vnl\_fft\_1d} is the VNL class that computes such transform.
-//  In order to use it, we should include its header file first.
+//  The class \code{vnl\_fft\_1d} is the VNL class that computes such
+//  transform. In order to use it, we should include its header file first.
 //
 //  Software Guide : EndLatex
 
@@ -142,10 +142,10 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  This class will compute the Fast Fourier transform of the input and it will
-  //  return it in the same array. We must therefore copy the original data into
-  //  an auxiliary array that will in its turn contain the results of the
-  //  transform.
+  //  This class will compute the Fast Fourier transform of the input and it
+  //  will return it in the same array. We must therefore copy the original
+  //  data into an auxiliary array that will in its turn contain the results
+  //  of the transform.
   //
   //  Software Guide : EndLatex
 
@@ -162,8 +162,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const auto powerOfTwo = (unsigned int)std::ceil(std::log((double)(numberOfPoints)) /
-                                                  std::log((double)(2.0)));
+  const auto powerOfTwo = (unsigned int)std::ceil(
+    std::log((double)(numberOfPoints)) / std::log((double)(2.0)));
 
   const unsigned int spectrumSize = 1 << powerOfTwo;
 
@@ -193,8 +193,8 @@ main(int argc, char * argv[])
   //
   // Fill in the rest of the input with zeros. This padding may have
   // undesirable effects on the spectrum if the signal is not attenuated to
-  // zero close to their boundaries. Instead of zero-padding we could have used
-  // repetition of the last value or mirroring of the signal.
+  // zero close to their boundaries. Instead of zero-padding we could have
+  // used repetition of the last value or mirroring of the signal.
   //
   //  Software Guide : EndLatex
 

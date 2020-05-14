@@ -92,9 +92,9 @@ main(int argc, char * argv[])
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
 
-  // The types of each one of the components in the registration methods should
-  // be instantiated. First, we select the image dimension and the type for
-  // representing image pixels.
+  // The types of each one of the components in the registration methods
+  // should be instantiated. First, we select the image dimension and the type
+  // for representing image pixels.
   //
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
@@ -137,8 +137,8 @@ main(int argc, char * argv[])
   metric->MeasureMatchesOff();
 
 
-  //  Each component is now connected to the instance of the registration method.
-  //  \index{itk::RegistrationMethod!SetMetric()}
+  //  Each component is now connected to the instance of the registration
+  //  method. \index{itk::RegistrationMethod!SetMetric()}
   //  \index{itk::RegistrationMethod!SetOptimizer()}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //  \index{itk::RegistrationMethod!SetFixedImage()}
@@ -153,8 +153,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -171,11 +173,11 @@ main(int argc, char * argv[])
   //  of the fixed image as input to the metric computation. This region is
   //  defined by the \code{SetFixedImageRegion()} method.  You could use this
   //  feature to reduce the computational time of the registration or to avoid
-  //  unwanted objects present in the image affecting the registration outcome.
-  //  In this example we use the full available content of the image. This
-  //  region is identified by the \code{BufferedRegion} of the fixed image.
-  //  Note that for this region to be valid the reader must first invoke its
-  //  \code{Update()} method.
+  //  unwanted objects present in the image affecting the registration
+  //  outcome. In this example we use the full available content of the image.
+  //  This region is identified by the \code{BufferedRegion} of the fixed
+  //  image. Note that for this region to be valid the reader must first
+  //  invoke its \code{Update()} method.
   //
   //  \index{itk::ImageRegistrationMethod!SetFixedImageRegion()}
   //  \index{itk::Image!GetBufferedRegion()}
@@ -183,7 +185,8 @@ main(int argc, char * argv[])
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  registration->SetFixedImageRegion(fixedImageReader->GetOutput()->GetBufferedRegion());
+  registration->SetFixedImageRegion(
+    fixedImageReader->GetOutput()->GetBufferedRegion());
 
 
   //
@@ -191,9 +194,12 @@ main(int argc, char * argv[])
   // rotation is set to the center of mass of the object in the fixed image.
   //
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
 
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
 
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
@@ -251,7 +257,8 @@ main(int argc, char * argv[])
 
 
   optimizer->SetParametersConvergenceTolerance(1e-4); // about 0.005 degrees
-  optimizer->SetFunctionConvergenceTolerance(1e-6);   // variation in metric value
+  optimizer->SetFunctionConvergenceTolerance(
+    1e-6); // variation in metric value
 
   optimizer->SetMaximumNumberOfIterations(200);
 
@@ -275,7 +282,8 @@ main(int argc, char * argv[])
   //
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate19::Pointer observer = CommandIterationUpdate19::New();
+  CommandIterationUpdate19::Pointer observer =
+    CommandIterationUpdate19::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
 
@@ -290,8 +298,8 @@ main(int argc, char * argv[])
     // print out the initial metric value.  need to initialize the
     // registration method to force all the connections to be established.
     registration->Initialize();
-    std::cout << "Initial Metric value  = " << metric->GetValue(initialParameters)
-              << std::endl;
+    std::cout << "Initial Metric value  = "
+              << metric->GetValue(initialParameters) << std::endl;
 
     // run the registration
     registration->Update();
@@ -313,8 +321,8 @@ main(int argc, char * argv[])
 
   //
   //  The result of the registration process is an array of parameters that
-  //  defines the spatial transformation in an unique way. This final result is
-  //  obtained using the \code{GetLastTransformParameters()} method.
+  //  defines the spatial transformation in an unique way. This final result
+  //  is obtained using the \code{GetLastTransformParameters()} method.
   //
   //  \index{itk::RegistrationMethod!GetLastTransformParameters()}
   //
@@ -333,10 +341,11 @@ main(int argc, char * argv[])
   const unsigned int numberOfIterations =
     optimizer->GetOptimizer()->get_num_evaluations();
 
-  //  The value of the image metric corresponding to the last set of parameters
-  //  can be obtained with the \code{GetValue()} method of the optimizer. Since
-  //  the AmoebaOptimizer does not yet support a call to GetValue(), we will
-  //  simply re-evaluate the metric at the final parameters.
+  //  The value of the image metric corresponding to the last set of
+  //  parameters can be obtained with the \code{GetValue()} method of the
+  //  optimizer. Since the AmoebaOptimizer does not yet support a call to
+  //  GetValue(), we will simply re-evaluate the metric at the final
+  //  parameters.
   //
   const double bestValue = metric->GetValue(finalParameters);
 
@@ -357,7 +366,8 @@ main(int argc, char * argv[])
   //  the output type since it is likely that the transformed moving image
   //  will be compared with the fixed image.
   //
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   //  A transform of the same type used in the registration process should be
   //  created and initialized with the parameters resulting from the
@@ -402,7 +412,8 @@ main(int argc, char * argv[])
   //
   using OutputPixelType = unsigned short;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   //  The filters are created by invoking their \code{New()}
@@ -430,7 +441,9 @@ main(int argc, char * argv[])
   //  pixels of its input images.
   //
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
   difference->SetInput1(fixedImageReader->GetOutput());

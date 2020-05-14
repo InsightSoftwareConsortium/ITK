@@ -67,7 +67,8 @@ main(int argc, char * argv[])
   using InputPixelType = float;
   using OutputComponentPixelType = float;
 
-  using OutputPixelType = itk::CovariantVector<OutputComponentPixelType, Dimension>;
+  using OutputPixelType =
+    itk::CovariantVector<OutputComponentPixelType, Dimension>;
   // Software Guide : EndCodeSnippet
 
 
@@ -97,7 +98,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::GradientRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
+    itk::GradientRecursiveGaussianImageFilter<InputImageType,
+                                              OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 

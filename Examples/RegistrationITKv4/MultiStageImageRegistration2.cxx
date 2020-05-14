@@ -32,10 +32,11 @@
 //  part, identical to the previous multistage example. The main difference
 //  is that no initial transform is used, and the output of the first stage
 //  is directly linked to the second stage, and the whole registration process
-//  is triggered only once by calling \code{Update()} after the last stage stage.
+//  is triggered only once by calling \code{Update()} after the last stage
+//  stage.
 //
-//  We will focus on the most relevent changes in current code and skip all the
-//  similar parts already explained in the previous example.
+//  We will focus on the most relevent changes in current code and skip all
+//  the similar parts already explained in the previous example.
 //
 // \index{itk::ImageRegistrationMethodv4!Multi-Stage}
 //
@@ -111,15 +112,18 @@ public:
     }
 
     unsigned int currentLevel = registration->GetCurrentLevel();
-    typename RegistrationType::ShrinkFactorsPerDimensionContainerType shrinkFactors =
-      registration->GetShrinkFactorsPerDimension(currentLevel);
+    typename RegistrationType::ShrinkFactorsPerDimensionContainerType
+      shrinkFactors =
+        registration->GetShrinkFactorsPerDimension(currentLevel);
     typename RegistrationType::SmoothingSigmasArrayType smoothingSigmas =
       registration->GetSmoothingSigmasPerLevel();
 
     std::cout << "-------------------------------------" << std::endl;
-    std::cout << " Current multi-resolution level = " << currentLevel << std::endl;
+    std::cout << " Current multi-resolution level = " << currentLevel
+              << std::endl;
     std::cout << "    shrink factor = " << shrinkFactors << std::endl;
-    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel] << std::endl;
+    std::cout << "    smoothing sigma = " << smoothingSigmas[currentLevel]
+              << std::endl;
     std::cout << std::endl;
   }
 };
@@ -162,8 +166,8 @@ public:
     }
     std::cout << optimizer->GetCurrentIteration() << "   ";
     std::cout << optimizer->GetValue() << "   ";
-    std::cout << optimizer->GetCurrentPosition() << "  " << m_CumulativeIterationIndex++
-              << std::endl;
+    std::cout << optimizer->GetCurrentPosition() << "  "
+              << m_CumulativeIterationIndex++ << std::endl;
   }
 
 private:
@@ -200,18 +204,19 @@ main(int argc, char * argv[])
   using TTransformType = itk::TranslationTransform<double, Dimension>;
   using TOptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                     MovingImageType>;
   using TRegistrationType =
     itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
   //
-  //  Type definitions are the same as previous example with an important subtle
-  //  change: the transform type is not passed to the
-  //  registration method as a template parameter anymore. In this case, the
-  //  registration filter will consider the transform base class
-  //  \doxygen{Transform} as the type of its output transform.
+  //  Type definitions are the same as previous example with an important
+  //  subtle change: the transform type is not passed to the registration
+  //  method as a template parameter anymore. In this case, the registration
+  //  filter will consider the transform base class \doxygen{Transform} as the
+  //  type of its output transform.
   //
   //  Software Guide : EndLatex
 
@@ -227,12 +232,12 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Instead of passing the transform type, we create an explicit instantiation
-  //  of the transform object outside of the registration filter, and connect
-  //  that to the registration object using the \code{SetInitialTransform()} method.
-  //  Also, by calling \code{InPlaceOn()} method, this transform object will be
-  //  the output transform of the registration filter or will be grafted to the
-  //  output.
+  //  Instead of passing the transform type, we create an explicit
+  //  instantiation of the transform object outside of the registration
+  //  filter, and connect that to the registration object using the
+  //  \code{SetInitialTransform()} method. Also, by calling \code{InPlaceOn()}
+  //  method, this transform object will be the output transform of the
+  //  registration filter or will be grafted to the output.
   //
   //  Software Guide : EndLatex
 
@@ -252,8 +257,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -264,13 +271,13 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  As in the previous example, the first stage is run using only one level of
-  //  registration at a coarse resolution level. However, notice that we
-  //  do not need to update the translation registration filter at this
-  //  step since the output of this stage will be directly connected to the
-  //  initial input of the next stage. Due to ITK's pipeline structure,
-  //  when we call the \code{Update()} at the last stage, the first stage
-  //  will be updated as well.
+  //  As in the previous example, the first stage is run using only one level
+  //  of registration at a coarse resolution level. However, notice that we do
+  //  not need to update the translation registration filter at this step
+  //  since the output of this stage will be directly connected to the initial
+  //  input of the next stage. Due to ITK's pipeline structure, when we call
+  //  the \code{Update()} at the last stage, the first stage will be updated
+  //  as well.
   //
   //  Software Guide : EndLatex
 
@@ -292,8 +299,8 @@ main(int argc, char * argv[])
 
   if (argc > 7)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     transMetric->SetNumberOfHistogramBins(std::stoi(argv[7]));
   }
 
@@ -309,23 +316,25 @@ main(int argc, char * argv[])
 
   // Create the Command interface observer and register it with the optimizer.
   //
-  using TranslationCommandType = RegistrationInterfaceCommand<TRegistrationType>;
+  using TranslationCommandType =
+    RegistrationInterfaceCommand<TRegistrationType>;
   TranslationCommandType::Pointer command1 = TranslationCommandType::New();
-  transRegistration->AddObserver(itk::MultiResolutionIterationEvent(), command1);
+  transRegistration->AddObserver(itk::MultiResolutionIterationEvent(),
+                                 command1);
 
   //  Software Guide : BeginLatex
   //
-  //  Now we upgrade to an Affine transform as the second stage of registration
-  //  process,
-  //  and as before, we initially define and instantiate different components of the
-  //  current registration stage. We have used a new optimizer but the same
-  //  metric in new configurations.
+  //  Now we upgrade to an Affine transform as the second stage of
+  //  registration process, and as before, we initially define and instantiate
+  //  different components of the current registration stage. We have used a
+  //  new optimizer but the same metric in new configurations.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using ATransformType = itk::AffineTransform<double, Dimension>;
-  using AOptimizerType = itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
+  using AOptimizerType =
+    itk::ConjugateGradientLineSearchOptimizerv4Template<double>;
   using ARegistrationType =
     itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   // Software Guide : EndCodeSnippet
@@ -340,8 +349,8 @@ main(int argc, char * argv[])
   //
   //  Then, all components are instantiated using their \code{New()} method
   //  and connected to the registration object among the transform type.
-  //  Despite the previous example, here we use the fixed image's center of mass
-  //  to initialize the fixed parameters of the Affine transform.
+  //  Despite the previous example, here we use the fixed image's center of
+  //  mass to initialize the fixed parameters of the Affine transform.
   //  \doxygen{ImageMomentsCalculator} filter is used for this purpose.
   //
   //  Software Guide : EndLatex
@@ -356,8 +365,8 @@ main(int argc, char * argv[])
   affineMetric->SetNumberOfHistogramBins(24);
   if (argc > 7)
   {
-    // optionally, override the values with numbers taken from the command line
-    // arguments.
+    // optionally, override the values with numbers taken from the command
+    // line arguments.
     affineMetric->SetNumberOfHistogramBins(std::stoi(argv[7]));
   }
 
@@ -365,9 +374,11 @@ main(int argc, char * argv[])
   FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   // Software Guide : BeginCodeSnippet
-  using FixedImageCalculatorType = itk::ImageMomentsCalculator<FixedImageType>;
+  using FixedImageCalculatorType =
+    itk::ImageMomentsCalculator<FixedImageType>;
 
-  FixedImageCalculatorType::Pointer fixedCalculator = FixedImageCalculatorType::New();
+  FixedImageCalculatorType::Pointer fixedCalculator =
+    FixedImageCalculatorType::New();
   fixedCalculator->SetImage(fixedImage);
   fixedCalculator->Compute();
 
@@ -377,15 +388,16 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  // Then, we initialize the fixed parameters (center of rotation) in the Affine
-  // transform and connect that to the registration object.
+  // Then, we initialize the fixed parameters (center of rotation) in the
+  // Affine transform and connect that to the registration object.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   ATransformType::Pointer affineTx = ATransformType::New();
 
-  const unsigned int numberOfFixedParameters = affineTx->GetFixedParameters().Size();
+  const unsigned int numberOfFixedParameters =
+    affineTx->GetFixedParameters().Size();
   ATransformType::ParametersType fixedParameters(numberOfFixedParameters);
   for (unsigned int i = 0; i < numberOfFixedParameters; ++i)
   {
@@ -469,14 +481,16 @@ main(int argc, char * argv[])
   //
   using AffineCommandType = RegistrationInterfaceCommand<ARegistrationType>;
   AffineCommandType::Pointer command2 = AffineCommandType::New();
-  affineRegistration->AddObserver(itk::MultiResolutionIterationEvent(), command2);
+  affineRegistration->AddObserver(itk::MultiResolutionIterationEvent(),
+                                  command2);
 
   //  Software Guide : BeginLatex
   //
   //  Once all the registration components are in place,
-  //  finally we trigger the whole registration process, including two cascaded
-  //  registration stages, by calling \code{Update()} on the registration
-  //  filter of the last stage, which causes both stages be updated.
+  //  finally we trigger the whole registration process, including two
+  //  cascaded registration stages, by calling \code{Update()} on the
+  //  registration filter of the last stage, which causes both stages be
+  //  updated.
   //
   //  Software Guide : EndLatex
 
@@ -484,9 +498,10 @@ main(int argc, char * argv[])
   try
   {
     affineRegistration->Update();
-    std::cout << "Optimizer stop condition: "
-              << affineRegistration->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout
+      << "Optimizer stop condition: "
+      << affineRegistration->GetOptimizer()->GetStopConditionDescription()
+      << std::endl;
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -508,17 +523,20 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using CompositeTransformType = itk::CompositeTransform<double, Dimension>;
-  CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  CompositeTransformType::Pointer compositeTransform =
+    CompositeTransformType::New();
   compositeTransform->AddTransform(translationTx);
   compositeTransform->AddTransform(affineTx);
   // Software Guide : EndCodeSnippet
 
-  std::cout << " Translation transform parameters after registration: " << std::endl
+  std::cout << " Translation transform parameters after registration: "
+            << std::endl
             << transOptimizer->GetCurrentPosition() << std::endl
-            << " Last LearningRate: " << transOptimizer->GetCurrentStepLength()
-            << std::endl;
+            << " Last LearningRate: "
+            << transOptimizer->GetCurrentStepLength() << std::endl;
 
-  std::cout << " Affine transform parameters after registration: " << std::endl
+  std::cout << " Affine transform parameters after registration: "
+            << std::endl
             << affineOptimizer->GetCurrentPosition() << std::endl
             << " Last LearningRate: " << affineOptimizer->GetLearningRate()
             << std::endl;
@@ -540,7 +558,8 @@ main(int argc, char * argv[])
   //  [0.9860, -0.1742, 0.1751, 0.9862, 0.9219, 0.8023]
   //  \end{verbatim}
   //
-  //  Let's reorder the Affine array of parameters again as coefficients of matrix
+  //  Let's reorder the Affine array of parameters again as coefficients of
+  //  matrix
   //  $\bf{M}$ and vector $\bf{T}$. They can now be seen as
   //
   //  \begin{equation}
@@ -560,7 +579,8 @@ main(int argc, char * argv[])
   //  $10.02$ degrees is the rotation value computed from the affine matrix
   //  parameters, which approximately equals the intentional misalignment.
   //
-  //  Also for the total translation value resulted from both transforms, we have:
+  //  Also for the total translation value resulted from both transforms, we
+  //  have:
   //
   //  In $X$ direction:
   //  \begin{equation}
@@ -571,11 +591,13 @@ main(int argc, char * argv[])
   //  15.1814 + 0.8023 = 15.9837
   //  \end{equation}
   //
-  //  These results closely match the true misalignment introduced in the moving image.
+  //  These results closely match the true misalignment introduced in the
+  //  moving image.
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform(compositeTransform);
@@ -595,7 +617,8 @@ main(int argc, char * argv[])
 
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer     writer = WriterType::New();

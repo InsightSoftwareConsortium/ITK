@@ -23,8 +23,8 @@ namespace itk
 
 /**
  * This function is called automatically when update functions are performed.
- * It should fill the contents of the intermediate DOM object by pulling information
- * from the input object.
+ * It should fill the contents of the intermediate DOM object by pulling
+ * information from the input object.
  */
 void
 ParticleSwarmOptimizerDOMWriter::GenerateData(DOMNodeType * outputdom,
@@ -35,18 +35,18 @@ ParticleSwarmOptimizerDOMWriter::GenerateData(DOMNodeType * outputdom,
   const InputType * input = this->GetInput();
 
   // In general users should not remove the constness of the input object when
-  // generating the corresponding XML DOM; however, some "Get" methods of PSO used here
-  // do not have the "const" modifier due to the use of itkGetMacro instead of
-  // itkGetConstMacro, so we have to use a workaround here by temporarily removing the
-  // constness of the input object, but users should never modify the input object
-  // during the writing process.
+  // generating the corresponding XML DOM; however, some "Get" methods of PSO
+  // used here do not have the "const" modifier due to the use of itkGetMacro
+  // instead of itkGetConstMacro, so we have to use a workaround here by
+  // temporarily removing the constness of the input object, but users should
+  // never modify the input object during the writing process.
   auto * ipobj = const_cast<ParticleSwarmOptimizer *>(input);
 
   outputdom->SetName("optimizer");
   outputdom->SetAttribute("type", "ParticleSwarmOptimizer");
 
-  // use a StringObject instead of a std::string in order to pickup the right overloaded
-  // "operator<<()" functions for writing PSO data to strings
+  // use a StringObject instead of a std::string in order to pickup the right
+  // overloaded "operator<<()" functions for writing PSO data to strings
   FancyString s;
 
   logger->Info("writing NumberOfParticles ...\n");
@@ -97,8 +97,9 @@ ParticleSwarmOptimizerDOMWriter::GenerateData(DOMNodeType * outputdom,
   outputdom->AddChildAtEnd(nodeptols);
   s << ClearContent
     << (Array<double>)ipobj
-         ->GetParametersConvergenceTolerance(); // the casting is necessary to select
-                                                // the right templated function
+         ->GetParametersConvergenceTolerance(); // the casting is necessary to
+                                                // select the right templated
+                                                // function
   nodeptols->AddTextChildAtEnd(s);
 
   logger->Info("writing FunctionConvergenceTolerance ...\n");

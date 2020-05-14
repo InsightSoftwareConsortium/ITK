@@ -19,9 +19,9 @@
 //  Software Guide : BeginLatex
 //
 //  The following example illustrates how to use the
-//  \doxygen{BSplineInterpolateImageFunction} for resampling an image.  In this
-//  particular case an \doxygen{AffineTransform} is used to map the input space
-//  into the output space.
+//  \doxygen{BSplineInterpolateImageFunction} for resampling an image.  In
+//  this particular case an \doxygen{AffineTransform} is used to map the input
+//  space into the output space.
 //
 //  \index{itk::AffineTransform!resampling}
 //
@@ -51,7 +51,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -75,13 +76,15 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The Resampling filter is instantiated and created just like in previous examples.
-  //  The Transform is instantiated and connected to the resampling filter.
+  //  The Resampling filter is instantiated and created just like in previous
+  //  examples. The Transform is instantiated and connected to the resampling
+  //  filter.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -101,7 +104,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InterpolatorType = itk::BSplineInterpolateImageFunction<InputImageType, double>;
+  using InterpolatorType =
+    itk::BSplineInterpolateImageFunction<InputImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator(interpolator);
@@ -118,10 +122,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   reader->Update();
-  const InputImageType::SpacingType &   spacing = reader->GetOutput()->GetSpacing();
-  const InputImageType::PointType &     origin = reader->GetOutput()->GetOrigin();
-  const InputImageType::DirectionType & direction = reader->GetOutput()->GetDirection();
-  InputImageType::SizeType              size =
+  const InputImageType::SpacingType & spacing =
+    reader->GetOutput()->GetSpacing();
+  const InputImageType::PointType & origin = reader->GetOutput()->GetOrigin();
+  const InputImageType::DirectionType & direction =
+    reader->GetOutput()->GetDirection();
+  InputImageType::SizeType size =
     reader->GetOutput()->GetLargestPossibleRegion().GetSize();
   filter->SetOutputOrigin(origin);
   filter->SetOutputSpacing(spacing);

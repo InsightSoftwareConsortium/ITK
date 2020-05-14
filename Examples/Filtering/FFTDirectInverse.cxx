@@ -116,10 +116,12 @@ main(int argc, char * argv[])
   // Do the inverse transform = forward transform / num voxels
   using invFFTFilterType = itk::VnlInverseFFTImageFilter<ComplexImageType>;
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
-  fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
+  fftoutput->SetInput(
+    fftinput->GetOutput()); // try to recover the input image
 
   // undo the padding
-  using ResampleOutType = itk::ResampleImageFilter<WorkImageType, IOImageType>;
+  using ResampleOutType =
+    itk::ResampleImageFilter<WorkImageType, IOImageType>;
   ResampleOutType::Pointer outputResampler = ResampleOutType::New();
   outputResampler->SetDefaultPixelValue(0);
   outputResampler->SetSize(inputsize);

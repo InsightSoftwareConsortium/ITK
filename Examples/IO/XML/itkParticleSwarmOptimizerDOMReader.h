@@ -18,14 +18,15 @@
 
 /**
  * This is a fully working example of DOM-based reader for the ITK object
- * itk::ParticleSwarmOptimizer. To demonstrate the power and flexibility of the new
- * DOM-based object reading, we formulate our XML format for the PSO object in a special
- * way, e.g. using children and text nodes (instead of attributes) for some data fields.
- * This may not be the favouriate way for some users, but users can always define their
- * own XML format, and customize this implementation.
+ * itk::ParticleSwarmOptimizer. To demonstrate the power and flexibility of
+ * the new DOM-based object reading, we formulate our XML format for the PSO
+ * object in a special way, e.g. using children and text nodes (instead of
+ * attributes) for some data fields. This may not be the favouriate way for
+ * some users, but users can always define their own XML format, and customize
+ * this implementation.
  *
- * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML
- * format for the PSO object.
+ * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of
+ * our XML format for the PSO object.
  */
 
 #ifndef itkParticleSwarmOptimizerDOMReader_h
@@ -37,7 +38,8 @@
 namespace itk
 {
 
-class ParticleSwarmOptimizerDOMReader : public DOMReader<ParticleSwarmOptimizer>
+class ParticleSwarmOptimizerDOMReader
+  : public DOMReader<ParticleSwarmOptimizer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerDOMReader);
@@ -58,9 +60,9 @@ protected:
   ParticleSwarmOptimizerDOMReader() = default;
 
   /**
-   * This function is called automatically when update functions are performed.
-   * It should fill the contents of the output object by pulling information from the
-   * intermediate DOM object.
+   * This function is called automatically when update functions are
+   * performed. It should fill the contents of the output object by pulling
+   * information from the intermediate DOM object.
    */
   void
   GenerateData(const DOMNodeType * inputdom, const void *) override;

@@ -20,24 +20,26 @@
  * This interactive example program demonstrates:
  * - how to read a DOM object from an XML file;
  * - how to write a DOM object to an XML file; and
- * - how to use the Find("QueryString") function to get the nodes of interest by
- * interactively navigating through the XML document.
+ * - how to use the Find("QueryString") function to get the nodes of interest
+ * by interactively navigating through the XML document.
  *
- * The Find() function finds a child or sibling or relative using a query string or
- * path. A QueryString consists of multiple following items that are separated by '/':
+ * The Find() function finds a child or sibling or relative using a query
+ * string or path. A QueryString consists of multiple following items that are
+ * separated by '/':
  *     -[n]           : an older sibling by distance 1 (when omitted) or n
  *     +[n]           : a younger sibling by distance 1 (when omitted) or n
  *     n              : a child at index n
- *     <tag>[:n]      : a child at index 0 (when omitted) or n after filtering children
- * with a tag name
- *     ![:n]          : a child at index 0 (when omitted) or n within all text children
+ *     <tag>[:n]      : a child at index 0 (when omitted) or n after filtering
+ * children with a tag name
+ *     ![:n]          : a child at index 0 (when omitted) or n within all text
+ * children
  *     :<id>          : a child by id
  *     .              : current node
  *     ..             : parent node
  *     /<rpath>       : absolute path (denote apath), search from the root
  *
- * An example XML file has been provided for this testing, which can be found at
- * [ITK_HOME]/Testing/Data/InputXML/test.xml.
+ * An example XML file has been provided for this testing, which can be found
+ * at [ITK_HOME]/Testing/Data/InputXML/test.xml.
  */
 
 #include "itkDOMNodeXMLReader.h"
@@ -64,8 +66,8 @@ main(int argc, char * argv[])
     itk::DOMNode::Pointer dom = reader->GetOutput();
 
     // the following code demonstrates the DOM function Find("QueryString");
-    // it navigates through the loaded XML document by typing a query string on the
-    // console and displaying the returned result.
+    // it navigates through the loaded XML document by typing a query string
+    // on the console and displaying the returned result.
     itk::DOMNode::Pointer dom1 = dom;
     std::string           query = "";
     do

@@ -46,8 +46,9 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using ImageType = itk::Image<unsigned char, 2>;
   using RandomImageSourceType = itk::RandomImageSource<ImageType>;
-  RandomImageSourceType::Pointer randomImageSource = RandomImageSourceType::New();
-  ImageType::SizeValueType       size[2];
+  RandomImageSourceType::Pointer randomImageSource =
+    RandomImageSourceType::New();
+  ImageType::SizeValueType size[2];
   size[0] = 10;
   size[1] = 10;
   randomImageSource->SetSize(size);
@@ -74,7 +75,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Then we can create the \doxygen{SpatialObjectToImageStatisticsCalculator}.
+  // Then we can create the
+  // \doxygen{SpatialObjectToImageStatisticsCalculator}.
   //
   // Software Guide : EndLatex
 
@@ -96,8 +98,9 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We also pass the SpatialObject. The statistics will be computed inside the
-  // SpatialObject (Internally the calculator is using the \code{IsInside()} function).
+  // We also pass the SpatialObject. The statistics will be computed inside
+  // the SpatialObject (Internally the calculator is using the
+  // \code{IsInside()} function).
   //
   // Software Guide : EndLatex
 
@@ -107,10 +110,9 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // At the end we trigger the computation via the \code{Update()} function and we
-  // can retrieve the mean and the covariance matrix using \code{GetMean()}
-  // and \code{GetCovarianceMatrix()}
-  // respectively.
+  // At the end we trigger the computation via the \code{Update()} function
+  // and we can retrieve the mean and the covariance matrix using
+  // \code{GetMean()} and \code{GetCovarianceMatrix()} respectively.
   //
   // Software Guide : EndLatex
 

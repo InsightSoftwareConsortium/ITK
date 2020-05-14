@@ -27,8 +27,9 @@
 //  filter computes the value of each output pixel by finding the statistical
 //  mean of the neighborhood of the corresponding input pixel.  The following
 //  figure illustrates the local effect of the MeanImageFilter in a $2D$
-//  case. The statistical mean of the neighborhood on the left is passed as the
-//  output value associated with the pixel at the center of the neighborhood.
+//  case. The statistical mean of the neighborhood on the left is passed as
+//  the output value associated with the pixel at the center of the
+//  neighborhood.
 //
 //  \begin{center}
 //  \begin{picture}(200,46)
@@ -90,8 +91,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and, with
-  //  them, the image types can be instantiated.
+  //  Then the pixel types for input and output image must be defined and,
+  //  with them, the image types can be instantiated.
   //
   //  Software Guide : EndLatex
 
@@ -180,9 +181,9 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{MeanImageFilterOutput}
-  // \itkcaption[Effect of the MedianImageFilter]{Effect of the MeanImageFilter on a
-  // slice from a MRI proton density brain image.} \label{fig:MeanImageFilterOutput}
-  // \end{figure}
+  // \itkcaption[Effect of the MedianImageFilter]{Effect of the
+  // MeanImageFilter on a slice from a MRI proton density brain image.}
+  // \label{fig:MeanImageFilterOutput} \end{figure}
   //
   //  Figure \ref{fig:MeanImageFilterOutput} illustrates the effect of this
   //  filter on a slice of MRI brain image using neighborhood radii of

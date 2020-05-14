@@ -37,10 +37,11 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // A \code{GroupSpatialObject} is templated over the dimension of the
-  // space which requires all the objects referenced by the \code{GroupSpatialObject} to
-  // have the same dimension.
+  // space which requires all the objects referenced by the
+  // \code{GroupSpatialObject} to have the same dimension.
   //
-  // First we define some type definitions and we create the \code{GroupSpatialObject}.
+  // First we define some type definitions and we create the
+  // \code{GroupSpatialObject}.
   //
   // Software Guide : EndLatex
 
@@ -80,12 +81,12 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We can query the number of object in the \code{GroupSpatialObject} with the
-  // \code{GetNumberOfObjects()} function. This function takes two optional
-  // arguments: the depth at which we should count the number of objects
-  // (default is set to infinity) and the name of the object to count (default
-  // is set to ITK\_NULLPTR).  This allows the user to count, for example, only
-  // ellipses.
+  // We can query the number of object in the \code{GroupSpatialObject} with
+  // the \code{GetNumberOfObjects()} function. This function takes two
+  // optional arguments: the depth at which we should count the number of
+  // objects (default is set to infinity) and the name of the object to count
+  // (default is set to ITK\_NULLPTR).  This allows the user to count, for
+  // example, only ellipses.
   //
   // Software Guide : EndLatex
 
@@ -102,7 +103,8 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Object in the GroupSpatialObject with an ID == 2: " << std::endl;
+  std::cout << "Object in the GroupSpatialObject with an ID == 2: "
+            << std::endl;
   scene->GetObjectById(2)->Print(std::cout);
   // Software Guide : EndCodeSnippet
 
@@ -119,15 +121,16 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // The list of current objects in the \code{GroupSpatialObject} can be retrieved
-  // using the \code{GetChildren()} method.  Like the
+  // The list of current objects in the \code{GroupSpatialObject} can be
+  // retrieved using the \code{GetChildren()} method.  Like the
   // \code{GetNumberOfChildren()} method, \code{GetChildren()} can take two
   // arguments: a search depth and a matching name.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GroupSpatialObjectType::ObjectListType * myObjectList = scene->GetChildren();
+  GroupSpatialObjectType::ObjectListType * myObjectList =
+    scene->GetChildren();
   std::cout << "Number of children in the GroupSpatialObject = ";
   std::cout << myObjectList->size() << std::endl;
   // Software Guide : EndCodeSnippet
@@ -137,8 +140,8 @@ main(int, char *[])
   //
   // In some cases, it is useful to define the hierarchy by using
   // \code{ParentId()} and the current identification number. This results in
-  // having a flat list of SpatialObjects in the \code{GroupSpatialObject}. Therefore,
-  // the \code{GroupSpatialObject} provides the
+  // having a flat list of SpatialObjects in the \code{GroupSpatialObject}.
+  // Therefore, the \code{GroupSpatialObject} provides the
   // \code{FixParentChildHierarchyUsingParentIds()} method which
   // reorganizes the Parent-Child hierarchy based on identification numbers.
   //

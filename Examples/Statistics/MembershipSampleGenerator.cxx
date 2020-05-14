@@ -110,7 +110,8 @@ main()
   // Software Guide : BeginCodeSnippet
   using MembershipSampleType = itk::Statistics::MembershipSample<SampleType>;
 
-  MembershipSampleType::Pointer membershipSample = MembershipSampleType::New();
+  MembershipSampleType::Pointer membershipSample =
+    MembershipSampleType::New();
 
   membershipSample->SetSample(sample);
   membershipSample->SetNumberOfClasses(2);
@@ -186,7 +187,8 @@ main()
   // Software Guide : BeginCodeSnippet
   MembershipSampleType::ClassSampleType::Pointer classSample =
     membershipSample->GetClassSample(0);
-  MembershipSampleType::ClassSampleType::Iterator c_iter = classSample->Begin();
+  MembershipSampleType::ClassSampleType::Iterator c_iter =
+    classSample->Begin();
   while (c_iter != classSample->End())
   {
     std::cout << "instance identifier = " << c_iter.GetInstanceIdentifier()

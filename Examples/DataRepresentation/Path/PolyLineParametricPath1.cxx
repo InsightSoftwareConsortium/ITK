@@ -22,10 +22,12 @@
 // This class will typically be used for representing in a concise way the
 // output of an image segmentation algorithm in 2D.  The
 // \code{PolyLineParametricPath} however could also be used for representing
-// any open or close curve in N-Dimensions as a linear piece-wise approximation.
+// any open or close curve in N-Dimensions as a linear piece-wise
+// approximation.
 //
 //
-// First, the header file of the \code{PolyLineParametricPath} class must be included.
+// First, the header file of the \code{PolyLineParametricPath} class must be
+// included.
 //
 // Software Guide : EndLatex
 
@@ -44,7 +46,8 @@ main(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: PolyLineParametricPath  inputImageFileName" << std::endl;
+    std::cerr << "Usage: PolyLineParametricPath  inputImageFileName"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

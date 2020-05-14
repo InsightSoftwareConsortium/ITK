@@ -42,8 +42,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  Next, we use \code{using} type alias to instantiate all necessary classes.  We
-//  define the image and element types we plan to use to solve a
+//  Next, we use \code{using} type alias to instantiate all necessary classes.
+//  We define the image and element types we plan to use to solve a
 //  two-dimensional registration problem.  We define multiple element
 //  types so that they can be used without recompiling the code.
 //
@@ -100,7 +100,8 @@ main(int argc, char * argv[])
   if (argc < 2)
   {
     std::cout << "Image file names missing" << std::endl;
-    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile" << std::endl;
+    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile"
+              << std::endl;
     return EXIT_FAILURE;
   }
   else
@@ -113,8 +114,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  In order to begin the registration, we declare an instance of the
-  //  \code{FEMRegistrationFilter} and set its parameters.  For simplicity, we will call
-  //  it \code{registrationFilter}.
+  //  \code{FEMRegistrationFilter} and set its parameters.  For simplicity, we
+  //  will call it \code{registrationFilter}.
   //
   //  Software Guide : EndLatex
 
@@ -159,7 +160,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    std::cerr << "Exception caught during reference file reading " << std::endl;
+    std::cerr << "Exception caught during reference file reading "
+              << std::endl;
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
   }
@@ -176,7 +178,8 @@ main(int argc, char * argv[])
 
 
   // Rescale the image intensities so that they fall between 0 and 255
-  using FilterType = itk::RescaleIntensityImageFilter<DiskImageType, ImageType>;
+  using FilterType =
+    itk::RescaleIntensityImageFilter<DiskImageType, ImageType>;
   FilterType::Pointer movingrescalefilter = FilterType::New();
   FilterType::Pointer fixedrescalefilter = FilterType::New();
 
@@ -195,7 +198,8 @@ main(int argc, char * argv[])
 
 
   // Histogram match the images
-  using HEFilterType = itk::HistogramMatchingImageFilter<ImageType, ImageType>;
+  using HEFilterType =
+    itk::HistogramMatchingImageFilter<ImageType, ImageType>;
   HEFilterType::Pointer IntensityEqualizeFilter = HEFilterType::New();
 
   IntensityEqualizeFilter->SetReferenceImage(fixedrescalefilter->GetOutput());

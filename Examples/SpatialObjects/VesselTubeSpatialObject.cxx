@@ -64,16 +64,17 @@ main(int, char *[])
   // \item The position of each point in the local coordinate system using the
   // \code{SetPositionInObjectSpace()} method.
   // \item The radius of the tube at this position using
-  // \code{SetRadiusInObjectSpace()}. \item The medialness value describing how the
-  // point lies in the middle of the vessel using \code{SetMedialness()}. \item The
-  // ridgeness value describing how the point lies on the ridge using
-  // \code{SetRidgeness()}. \item The branchness value describing if the point is a
-  // branch point using \code{SetBranchness()}. \item The three alpha values
-  // corresponding to the eigenvalues of the Hessian
+  // \code{SetRadiusInObjectSpace()}. \item The medialness value describing
+  // how the point lies in the middle of the vessel using
+  // \code{SetMedialness()}. \item The ridgeness value describing how the
+  // point lies on the ridge using \code{SetRidgeness()}. \item The branchness
+  // value describing if the point is a branch point using
+  // \code{SetBranchness()}. \item The three alpha values corresponding to the
+  // eigenvalues of the Hessian
   //  using \code{SetAlpha1()},\code{SetAlpha2()} and \code{SetAlpha3()}.
   // \item The mark value using \code{SetMark()}.
-  // \item The color of the point is set to red in this example with an opacity of 1.
-  // \end{enumerate}
+  // \item The color of the point is set to red in this example with an
+  // opacity of 1. \end{enumerate}
   //
   // Software Guide : EndLatex
 
@@ -144,7 +145,8 @@ main(int, char *[])
   {
     std::cout << std::endl;
     std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+              << std::endl;
     std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
     std::cout << "Medialness: " << (*it).GetMedialness() << std::endl;
     std::cout << "Ridgeness: " << (*it).GetRidgeness() << std::endl;

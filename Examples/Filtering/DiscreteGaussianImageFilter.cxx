@@ -37,18 +37,18 @@
 //  Gaussian function is discretized on a convolution kernel.  The size of the
 //  kernel is extended until there are enough discrete points in the Gaussian
 //  to ensure that a user-provided maximum error is not exceeded.  Since the
-//  size of the kernel is unknown a priori, it is necessary to impose a limit to
-//  its growth. The user can thus provide a value to be the maximum admissible
-//  size of the kernel. Discretization error is defined as the difference
-//  between the area under the discrete Gaussian curve (which has finite
-//  support) and the area under the continuous Gaussian.
+//  size of the kernel is unknown a priori, it is necessary to impose a limit
+//  to its growth. The user can thus provide a value to be the maximum
+//  admissible size of the kernel. Discretization error is defined as the
+//  difference between the area under the discrete Gaussian curve (which has
+//  finite support) and the area under the continuous Gaussian.
 //
 //  Gaussian kernels in ITK are constructed according to the theory of Tony
 //  Lindeberg \cite{Lindeberg1994} so that smoothing and derivative operations
-//  commute before and after discretization.  In other words, finite difference
-//  derivatives on an image $I$ that has been smoothed by convolution with the
-//  Gaussian are equivalent to finite differences computed on $I$ by convolving
-//  with a derivative of the Gaussian.
+//  commute before and after discretization.  In other words, finite
+//  difference derivatives on an image $I$ that has been smoothed by
+//  convolution with the Gaussian are equivalent to finite differences
+//  computed on $I$ by convolving with a derivative of the Gaussian.
 //
 //  \index{itk::DiscreteGaussianImageFilter}
 //
@@ -80,9 +80,10 @@ main(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << "  inputImageFile  outputImageFile  variance  maxKernelWidth "
-              << std::endl;
+    std::cerr
+      << argv[0]
+      << "  inputImageFile  outputImageFile  variance  maxKernelWidth "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -118,7 +119,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::DiscreteGaussianImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::DiscreteGaussianImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -149,9 +151,9 @@ main(int argc, char * argv[])
   //  The filter requires the user to provide a value for the variance
   //  associated with the Gaussian kernel. The method \code{SetVariance()} is
   //  used for this purpose. The discrete Gaussian is constructed as a
-  //  convolution kernel.  The maximum kernel size can be set by the user. Note
-  //  that the combination of variance and kernel-size values may result in a
-  //  truncated Gaussian kernel.
+  //  convolution kernel.  The maximum kernel size can be set by the user.
+  //  Note that the combination of variance and kernel-size values may result
+  //  in a truncated Gaussian kernel.
   //
   //  \index{itk::DiscreteGaussianImageFilter!SetVariance()}
   //  \index{itk::DiscreteGaussianImageFilter!SetMaximumKernelWidth()}
@@ -223,10 +225,11 @@ main(int argc, char * argv[])
   //  Figure~\ref{fig:DiscreteGaussianImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain.
   //
-  //  Note that large Gaussian variances will produce large convolution kernels
-  //  and correspondingly longer computation times.  Unless a high degree of
-  //  accuracy is required, it may be more desirable to use the approximating
-  //  \doxygen{RecursiveGaussianImageFilter} with large variances.
+  //  Note that large Gaussian variances will produce large convolution
+  //  kernels and correspondingly longer computation times.  Unless a high
+  //  degree of accuracy is required, it may be more desirable to use the
+  //  approximating \doxygen{RecursiveGaussianImageFilter} with large
+  //  variances.
   //
   //  Software Guide : EndLatex
 

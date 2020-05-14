@@ -217,9 +217,9 @@ main()
   // The introspective sort algorithm needs an additional argument that
   // specifies when to stop the introspective sort loop and sort the fragment
   // of the sample using the heap sort algorithm. Since we set the threshold
-  // value as \code{16}, when the sort loop reach the point where the number of
-  // measurement vectors in a sort loop is not greater than \code{16}, it will
-  // sort that fragment using the insert sort algorithm.
+  // value as \code{16}, when the sort loop reach the point where the number
+  // of measurement vectors in a sort loop is not greater than \code{16}, it
+  // will sort that fragment using the insert sort algorithm.
   //
   // Software Guide : EndLatex
 
@@ -244,8 +244,12 @@ main()
   // Software Guide : BeginCodeSnippet
   initializeSubsample(subsample, sample);
   SubsampleType::MeasurementType median =
-    itk::Statistics::Algorithm::QuickSelect<SubsampleType>(
-      subsample, activeDimension, 0, subsample->Size(), subsample->Size() / 2);
+    itk::Statistics::Algorithm::QuickSelect<SubsampleType>(subsample,
+                                                           activeDimension,
+                                                           0,
+                                                           subsample->Size(),
+                                                           subsample->Size() /
+                                                             2);
   std::cout << std::endl;
   std::cout << "Quick Select: median = " << median << std::endl;
   // Software Guide : EndCodeSnippet

@@ -41,9 +41,9 @@
 //  As with the previous example, the bulk of the effort in creating the image
 //  adaptor is associated with the definition of the pixel accessor class. In
 //  this case, the accessor converts a RGB vector to a scalar containing the
-//  red channel component. Note that in the following, we do not need to define
-//  the \code{Set()} method since we only expect the adaptor to be used for
-//  reading data from the image.
+//  red channel component. Note that in the following, we do not need to
+//  define the \code{Set()} method since we only expect the adaptor to be used
+//  for reading data from the image.
 //
 //  Software Guide : EndLatex
 
@@ -107,7 +107,8 @@ main(int argc, char * argv[])
   constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image<InputPixelType, Dimension>;
 
-  using ImageAdaptorType = itk::ImageAdaptor<ImageType, RedChannelPixelAccessor>;
+  using ImageAdaptorType =
+    itk::ImageAdaptor<ImageType, RedChannelPixelAccessor>;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   // Software Guide : EndCodeSnippet
@@ -137,10 +138,11 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  We create an \doxygen{RescaleIntensityImageFilter} and an
-  //  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel values
-  //  and send the extracted channel to an image file. Note that the image type
-  //  used for the rescaling filter is the \code{ImageAdaptorType} itself. That
-  //  is, the adaptor type is used in the same context as an image type.
+  //  \doxygen{ImageFileWriter} to rescale the dynamic range of the pixel
+  //  values and send the extracted channel to an image file. Note that the
+  //  image type used for the rescaling filter is the \code{ImageAdaptorType}
+  //  itself. That is, the adaptor type is used in the same context as an
+  //  image type.
   //
   //  Software Guide : EndLatex
 
@@ -198,8 +200,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  ImageAdaptors for the green and blue channels can easily be implemented by
-  //  modifying the pixel accessor of the red channel and then using the
+  //  ImageAdaptors for the green and blue channels can easily be implemented
+  //  by modifying the pixel accessor of the red channel and then using the
   //  new pixel accessor for instantiating the type of an image adaptor.
   //  The following define a green channel pixel accessor.
   //

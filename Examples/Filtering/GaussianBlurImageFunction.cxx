@@ -28,7 +28,8 @@ main(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile sigma maxKernelWidth"
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFile sigma maxKernelWidth"
               << std::endl;
     return EXIT_FAILURE;
   }

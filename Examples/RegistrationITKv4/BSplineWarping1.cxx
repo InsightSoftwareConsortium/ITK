@@ -18,7 +18,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how to deform a 2D image using a BSplineTransform.
+//  This example illustrates how to deform a 2D image using a
+//  BSplineTransform.
 //
 //  \index{BSplineTransform}
 //
@@ -132,11 +133,13 @@ main(int argc, char * argv[])
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
 
-  using FilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   FilterType::Pointer resampler = FilterType::New();
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
@@ -215,13 +218,15 @@ main(int argc, char * argv[])
   meshSize.Fill(numberOfGridNodes - SplineOrder);
 
   bsplineTransform->SetTransformDomainOrigin(fixedOrigin);
-  bsplineTransform->SetTransformDomainPhysicalDimensions(fixedPhysicalDimensions);
+  bsplineTransform->SetTransformDomainPhysicalDimensions(
+    fixedPhysicalDimensions);
   bsplineTransform->SetTransformDomainMeshSize(meshSize);
   bsplineTransform->SetTransformDomainDirection(fixedDirection);
 
 
   using ParametersType = TransformType::ParametersType;
-  const unsigned int numberOfParameters = bsplineTransform->GetNumberOfParameters();
+  const unsigned int numberOfParameters =
+    bsplineTransform->GetNumberOfParameters();
 
   const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
 
@@ -230,21 +235,23 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The B-spline grid should now be fed with coefficients at each node. Since
-  //  this is a two-dimensional grid, each node should receive two coefficients.
-  //  Each coefficient pair is representing a displacement vector at this node.
-  //  The coefficients can be passed to the B-spline in the form of an array where
-  //  the first set of elements are the first component of the displacements for
-  //  all the nodes, and the second set of elements is formed by the second
-  //  component of the displacements for all the nodes.
+  //  The B-spline grid should now be fed with coefficients at each node.
+  //  Since this is a two-dimensional grid, each node should receive two
+  //  coefficients. Each coefficient pair is representing a displacement
+  //  vector at this node. The coefficients can be passed to the B-spline in
+  //  the form of an array where the first set of elements are the first
+  //  component of the displacements for all the nodes, and the second set of
+  //  elements is formed by the second component of the displacements for all
+  //  the nodes.
   //
-  //  In this example we read such displacements from a file, but for convenience
-  //  we have written this file using the pairs of $(x,y)$ displacement for every
-  //  node. The elements read from the file should therefore be reorganized when
-  //  assigned to the elements of the array. We do this by storing all the odd
-  //  elements from the file in the first block of the array, and all the even
-  //  elements from the file in the second block of the array. Finally the array
-  //  is passed to the B-spline transform using the \code{SetParameters()} method.
+  //  In this example we read such displacements from a file, but for
+  //  convenience we have written this file using the pairs of $(x,y)$
+  //  displacement for every node. The elements read from the file should
+  //  therefore be reorganized when assigned to the elements of the array. We
+  //  do this by storing all the odd elements from the file in the first block
+  //  of the array, and all the even elements from the file in the second
+  //  block of the array. Finally the array is passed to the B-spline
+  //  transform using the \code{SetParameters()} method.
   //
   //  Software Guide : EndLatex
 
@@ -359,7 +366,8 @@ main(int argc, char * argv[])
     try
     {
       using TransformWriterType = itk::TransformFileWriter;
-      TransformWriterType::Pointer transformWriter = TransformWriterType::New();
+      TransformWriterType::Pointer transformWriter =
+        TransformWriterType::New();
       transformWriter->AddTransform(bsplineTransform);
       transformWriter->SetFileName(argv[6]);
       transformWriter->Update();

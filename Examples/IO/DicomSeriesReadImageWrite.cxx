@@ -43,10 +43,10 @@
 //
 //  Probably the most common representation of datasets in clinical
 //  applications is the one that uses sets of DICOM slices in order to compose
-//  tridimensional images. This is the case for CT, MRI and PET scanners. It is
-//  very common therefore for image analysists to have to process volumetric
-//  images that are stored in the form of a set of DICOM files belonging to a
-//  common DICOM series.
+//  tridimensional images. This is the case for CT, MRI and PET scanners. It
+//  is very common therefore for image analysists to have to process
+//  volumetric images that are stored in the form of a set of DICOM files
+//  belonging to a common DICOM series.
 //
 //  The following example illustrates how to use ITK functionalities in order
 //  to read a DICOM series into a volume and then save this volume in another
@@ -66,8 +66,8 @@ main(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " DicomDirectory  outputFileName  [seriesName]"
-              << std::endl;
+    std::cerr << "Usage: " << argv[0]
+              << " DicomDirectory  outputFileName  [seriesName]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -77,7 +77,8 @@ main(int argc, char * argv[])
   itk::DICOMImageIO2::Pointer dicomIO = itk::DICOMImageIO2::New();
 
   // Get the DICOM filenames from the directory
-  itk::DICOMSeriesFileNames::Pointer nameGenerator = itk::DICOMSeriesFileNames::New();
+  itk::DICOMSeriesFileNames::Pointer nameGenerator =
+    itk::DICOMSeriesFileNames::New();
   nameGenerator->SetDirectory(argv[1]);
 
 

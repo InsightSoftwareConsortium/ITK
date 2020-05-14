@@ -24,11 +24,11 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{GradientVectorFlowImageFilter} smooths multi-components images
-//  such as vector fields and color images by applying a computation of the
-//  diffusion equation.  A typical use of this filter is to smooth the vector
-//  field resulting from computing the gradient of an image, with the purpose
-//  of using the smoothed field in order to guide a deformable model.
+//  The \doxygen{GradientVectorFlowImageFilter} smooths multi-components
+//  images such as vector fields and color images by applying a computation of
+//  the diffusion equation.  A typical use of this filter is to smooth the
+//  vector field resulting from computing the gradient of an image, with the
+//  purpose of using the smoothed field in order to guide a deformable model.
 //
 //  The input image must be a multi-components images.
 //
@@ -151,9 +151,9 @@ main(int argc, char * argv[])
   //
   //  The GradientVectorFlow filter requires two parameters, the number of
   //  iterations to be performed and the noise level of the input image. The
-  //  noise level will be used to estimate the time step that should be used in
-  //  the computation of the diffusion. These two parameters are set using the
-  //  methods \code{SetNumberOfIterations()} and \code{SetNoiseLevel()}
+  //  noise level will be used to estimate the time step that should be used
+  //  in the computation of the diffusion. These two parameters are set using
+  //  the methods \code{SetNumberOfIterations()} and \code{SetNoiseLevel()}
   //  respectively.  Then the filter can be executed by invoking
   //  \code{Update()}.
   //
@@ -198,8 +198,8 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  // In order to visualize the resulting vector field you could use ParaView or
-  // VV (the 4D Slicer).
+  // In order to visualize the resulting vector field you could use ParaView
+  // or VV (the 4D Slicer).
 
   return EXIT_SUCCESS;
 }

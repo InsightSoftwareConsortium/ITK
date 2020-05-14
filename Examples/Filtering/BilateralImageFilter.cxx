@@ -61,7 +61,8 @@
 //  $c()$ and $s()$. The $c$ kernel can be described as
 //
 //  \begin{equation}
-//  c(\mathbf{x},\mathbf{w}) = e^{(\frac{ {\left|| \mathbf{x} - \mathbf{w} \right||}^2
+//  c(\mathbf{x},\mathbf{w}) = e^{(\frac{ {\left|| \mathbf{x} - \mathbf{w}
+//  \right||}^2
 //  }{\sigma^2_c} )} \end{equation}
 //
 //  where $\sigma_c$ is provided by the user and defines how close pixel
@@ -69,7 +70,8 @@
 //  output value.  The $s$ kernel is given by
 //
 //  \begin{equation}
-//  s(f(\mathbf{x}),f(\mathbf{w})) = e^{(\frac{ {( f(\mathbf{x}) - f(\mathbf{w})}^2
+//  s(f(\mathbf{x}),f(\mathbf{w})) = e^{(\frac{ {( f(\mathbf{x}) -
+//  f(\mathbf{w})}^2
 //  }{\sigma^2_s} )} \end{equation}
 //
 //  where $\sigma_s$ is provided by the user and defines how close the
@@ -105,7 +107,8 @@ main(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  domainSigma  rangeSigma"
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFile  domainSigma  rangeSigma"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -141,7 +144,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::BilateralImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::BilateralImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -166,12 +170,12 @@ main(int argc, char * argv[])
   //
   //  The Bilateral filter requires two parameters. First, we must specify the
   //  standard deviation $\sigma$ to be used for the Gaussian kernel on image
-  //  intensities. Second, the set of $\sigma$s to be used along each dimension
-  //  in the space domain. This second parameter is supplied as an array of
-  //  \code{float} or \code{double} values. The array dimension matches the
-  //  image dimension. This mechanism makes it possible to enforce more
-  //  coherence along some directions. For example, more smoothing can be done
-  //  along the $X$ direction than along the $Y$ direction.
+  //  intensities. Second, the set of $\sigma$s to be used along each
+  //  dimension in the space domain. This second parameter is supplied as an
+  //  array of \code{float} or \code{double} values. The array dimension
+  //  matches the image dimension. This mechanism makes it possible to enforce
+  //  more coherence along some directions. For example, more smoothing can be
+  //  done along the $X$ direction than along the $Y$ direction.
   //
   //  In the following code example, the $\sigma$ values are taken from the
   //  command line.  Note the use of \code{ImageType::ImageDimension} to get
@@ -242,10 +246,9 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{BilateralImageFilterOutput}
-  // \itkcaption[BilateralImageFilter output]{Effect of the BilateralImageFilter
-  // on a slice from a MRI proton density image  of the brain.}
-  // \label{fig:BilateralImageFilterInputOutput}
-  // \end{figure}
+  // \itkcaption[BilateralImageFilter output]{Effect of the
+  // BilateralImageFilter on a slice from a MRI proton density image  of the
+  // brain.} \label{fig:BilateralImageFilterInputOutput} \end{figure}
   //
   //  Figure \ref{fig:BilateralImageFilterInputOutput} illustrates the effect
   //  of this filter on a MRI proton density image of the brain. In this

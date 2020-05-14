@@ -66,8 +66,8 @@
 // considered for inclusion in the region.
 //
 // Let's look at the minimal code required to use this algorithm. First, the
-// following header defining the \doxygen{ConfidenceConnectedImageFilter} class
-// must be included.
+// following header defining the \doxygen{ConfidenceConnectedImageFilter}
+// class must be included.
 //
 // Software Guide : EndLatex
 
@@ -130,7 +130,8 @@ main(int argc, char * argv[])
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastingFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
+  using CastingFilterType =
+    itk::CastImageFilter<InternalImageType, OutputImageType>;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
 
@@ -167,7 +168,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
+  CurvatureFlowImageFilterType::Pointer smoothing =
+    CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -191,7 +193,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer confidenceConnected =
+    ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
