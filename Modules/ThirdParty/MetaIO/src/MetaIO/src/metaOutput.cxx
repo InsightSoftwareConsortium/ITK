@@ -357,7 +357,7 @@ std::string MetaOutput::GetHostip()
     address++;
 }
 
-  std::string m_ip = "";
+  std::string m_ip;
   if (m_numaddrs != 0)
 {
     memcpy(&addr, phe->h_addr_list[m_numaddrs-1], sizeof(struct in_addr));
@@ -427,7 +427,7 @@ std::string MetaOutput::GenerateXML(const char* filename)
       continue;
       }
 
-    typedef std::vector<MetaCommand::Field> CmdFieldVector;
+    using CmdFieldVector = std::vector<MetaCommand::Field>;
     CmdFieldVector::const_iterator itField = (*itInput).fields.begin();
     CmdFieldVector::const_iterator itFieldEnd = (*itInput).fields.end();
     while(itField != itFieldEnd)
@@ -449,11 +449,11 @@ std::string MetaOutput::GenerateXML(const char* filename)
         }
       buffer += " value=\"" + (*itField).value + "\"";
       buffer += " type=\"" + m_MetaCommand->TypeToString((*itField).type) + "\"";
-      if((*itField).rangeMin != "")
+      if(!(*itField).rangeMin.empty())
         {
         buffer += " rangeMin=\"" + (*itField).rangeMin + "\"";
         }
-      if((*itField).rangeMax != "")
+      if(!(*itField).rangeMax.empty())
         {
         buffer += " rangeMax=\"" + (*itField).rangeMax + "\"";
         }
@@ -485,7 +485,7 @@ std::string MetaOutput::GenerateXML(const char* filename)
     buffer += " type=\""+ this->TypeToString((*itOutput).type) + "\"";
 
     unsigned int index = 0;
-    typedef std::vector<std::string> VectorType;
+    using VectorType = std::vector<std::string>;
     VectorType::const_iterator itValue = (*itOutput).value.begin();
     while(itValue != (*itOutput).value.end())
       {
@@ -576,7 +576,7 @@ void MetaOutput::Write()
       if(dynamic_cast<MetaFileOutputStream*>(*itStream))
         {
         std::string filename = ((MetaFileOutputStream*)(*itStream))
-                                      ->GetFileName().c_str();
+                                      ->GetFileName();
         (*itStream)->Write(this->GenerateXML(filename.c_str()).c_str());
         }
       else

@@ -941,11 +941,11 @@ ElementSpacing(int _i, double _value)
 
 
 void  MetaObject::
-Name(const char *_Name)
+Name(const char *_name)
 {
-  if(_Name != nullptr)
+  if(_name != nullptr)
     {
-    strcpy(m_Name, _Name);
+    strcpy(m_Name, _name);
     }
 }
 
@@ -1957,7 +1957,7 @@ bool MetaObject
   MET_FieldRecordType* mFr = new MET_FieldRecordType;
   MET_InitReadField(mFr,_fieldName, _type, _required,_dependsOn,_length);
   m_UserDefinedReadFields.push_back(mFr);
-  return 1;
+  return true;
 }
 
 void MetaObject::M_PrepareNewReadStream()

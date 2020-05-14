@@ -390,11 +390,11 @@ Name() const
 }
 
 void  MetaForm::
-Name(const char *_Name)
+Name(const char *_name)
 {
-  if(_Name != nullptr)
+  if(_name != nullptr)
     {
-    strcpy(m_Name, _Name);
+    strcpy(m_Name, _name);
     }
   else
     {
