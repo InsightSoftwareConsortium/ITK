@@ -172,8 +172,8 @@ main(int argc, char * argv[])
   polygon->Update();
   // Software Guide : EndCodeSnippet
 
-  std::cout << "Polygon Perimeter = " << polygon->MeasurePerimeterInObjectSpace()
-            << std::endl;
+  std::cout << "Polygon Perimeter = "
+            << polygon->MeasurePerimeterInObjectSpace() << std::endl;
   std::cout << "Polygon Area      = " << polygon->MeasureAreaInObjectSpace()
             << std::endl;
 
@@ -191,8 +191,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Finally we are ready to run the filter. We use the typical invocation of
-  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter} in
-  //  order to save the generated image into a file.
+  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter}
+  //  in order to save the generated image into a file.
   //
   //  Software Guide : EndLatex
 

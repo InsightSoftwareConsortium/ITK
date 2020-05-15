@@ -118,21 +118,22 @@ main(int argc, char * argv[])
 
   using TransformType = itk::TranslationTransform<double, Dimension>;
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
   //  Software Guide : BeginLatex
   //
   //  In this example the image types and all registration components,
   //  except the metric, are declared as in Section
-  //  \ref{sec:IntroductionImageRegistration}. The Mattes mutual information metric type
-  //  is instantiated using the image types.
+  //  \ref{sec:IntroductionImageRegistration}. The Mattes mutual information
+  //  metric type is instantiated using the image types.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                     MovingImageType>;
   // Software Guide : EndCodeSnippet
 
   OptimizerType::Pointer    optimizer = OptimizerType::New();
@@ -196,8 +197,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -233,20 +236,21 @@ main(int argc, char * argv[])
   // function. The easy way of fine tuning this parameter is to start with
   // small values, probably in the range of $\{1.0,5.0\}$. Once the other
   // registration parameters have been tuned for producing convergence, you
-  // may want to revisit the learning rate and start increasing its value until
-  // you observe that the optimization becomes unstable.  The ideal value for
-  // this parameter is the one that results in a minimum number of iterations
-  // while still keeping a stable path on the parametric space of the
-  // optimization. Keep in mind that this parameter is a multiplicative factor
-  // applied on the gradient of the metric. Therefore, its effect on the
-  // optimizer step length is proportional to the metric values themselves.
-  // Metrics with large values will require you to use smaller values for the
-  // learning rate in order to maintain a similar optimizer behavior.
+  // may want to revisit the learning rate and start increasing its value
+  // until you observe that the optimization becomes unstable.  The ideal
+  // value for this parameter is the one that results in a minimum number of
+  // iterations while still keeping a stable path on the parametric space of
+  // the optimization. Keep in mind that this parameter is a multiplicative
+  // factor applied on the gradient of the metric. Therefore, its effect on
+  // the optimizer step length is proportional to the metric values
+  // themselves. Metrics with large values will require you to use smaller
+  // values for the learning rate in order to maintain a similar optimizer
+  // behavior.
   //
   // Whenever the regular step gradient descent optimizer encounters
-  // change in the direction of movement in the parametric space, it reduces the
-  // size of the step length. The rate at which the step length is reduced is
-  // controlled by a relaxation factor. The default value of the factor is
+  // change in the direction of movement in the parametric space, it reduces
+  // the size of the step length. The rate at which the step length is reduced
+  // is controlled by a relaxation factor. The default value of the factor is
   // $0.5$. This value, however may prove to be inadequate for noisy metrics
   // since they tend to induce erratic movements on the optimizers and
   // therefore result in many directional changes. In those
@@ -286,19 +290,20 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Instead of using the whole virtual domain (usually fixed image domain) for the
-  // registration, we can use a spatial sampled point set by supplying an arbitrary
-  // point list over which to evaluate the metric. The point list is expected to be in
-  // the \emph{fixed} image domain, and the points are transformed into the
-  // \emph{virtual} domain internally as needed. The user can define the point set via
-  // \code{SetFixedSampledPointSet()}, and the point set is used by calling
-  // \code{SetUsedFixedSampledPointSet()}.
+  // Instead of using the whole virtual domain (usually fixed image domain)
+  // for the registration, we can use a spatial sampled point set by supplying
+  // an arbitrary point list over which to evaluate the metric. The point list
+  // is expected to be in the \emph{fixed} image domain, and the points are
+  // transformed into the \emph{virtual} domain internally as needed. The user
+  // can define the point set via \code{SetFixedSampledPointSet()}, and the
+  // point set is used by calling \code{SetUsedFixedSampledPointSet()}.
   //
   // Also, instead of dealing with the metric directly, the user may define
-  // the sampling percentage and sampling strategy for the registration framework at
-  // each level. In this case, the registration filter manages the sampling operation
-  // over the fixed image space based on the input strategy (REGULAR, RANDOM) and passes
-  // the sampled point set to the metric internally.
+  // the sampling percentage and sampling strategy for the registration
+  // framework at each level. In this case, the registration filter manages
+  // the sampling operation over the fixed image space based on the input
+  // strategy (REGULAR, RANDOM) and passes the sampled point set to the metric
+  // internally.
   //
   // Software Guide : EndLatex
 
@@ -311,14 +316,15 @@ main(int argc, char * argv[])
   //
   // The number of spatial samples to be
   // used depends on the content of the image. If the images are smooth and do
-  // not contain many details, the number of spatial samples can usually be as low as
-  // $1\%$ of the total number of pixels in the fixed image. On the other hand, if the
-  // images are detailed, it may be necessary to use a much higher proportion, such as
-  // $20\%$ to $50\%$. Increasing the number of samples improves the smoothness of the
-  // metric, and therefore helps when this metric is used in conjunction with optimizers
-  // that rely of the continuity of the metric values. The trade-off, of course, is that
-  // a larger number of samples results in longer computation times per every evaluation
-  // of the metric.
+  // not contain many details, the number of spatial samples can usually be as
+  // low as $1\%$ of the total number of pixels in the fixed image. On the
+  // other hand, if the images are detailed, it may be necessary to use a much
+  // higher proportion, such as $20\%$ to $50\%$. Increasing the number of
+  // samples improves the smoothness of the metric, and therefore helps when
+  // this metric is used in conjunction with optimizers that rely of the
+  // continuity of the metric values. The trade-off, of course, is that a
+  // larger number of samples results in longer computation times per every
+  // evaluation of the metric.
   //
   // One mechanism for bringing the metric to its limit is to disable the
   // sampling and use all the pixels present in the FixedImageRegion. This can
@@ -350,10 +356,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In ITKv4, a single virtual domain or spatial sample point set is used for the
-  // all iterations of the registration process. The use of a single sample set results
-  // in a smooth cost function that can improve the functionality of
-  // the optimizer.
+  // In ITKv4, a single virtual domain or spatial sample point set is used for
+  // the all iterations of the registration process. The use of a single
+  // sample set results in a smooth cost function that can improve the
+  // functionality of the optimizer.
   //
   // The spatial point set is pseudo randomly generated. For
   // reproducible results an integer seed should set.
@@ -387,7 +393,8 @@ main(int argc, char * argv[])
   double TranslationAlongX = finalParameters[0];
   double TranslationAlongY = finalParameters[1];
 
-  // For stability reasons it may be desirable to round up the values of translation
+  // For stability reasons it may be desirable to round up the values of
+  // translation
   //
   unsigned int numberOfIterations = optimizer->GetCurrentIteration();
 
@@ -402,8 +409,8 @@ main(int argc, char * argv[])
   std::cout << " Translation Y = " << TranslationAlongY << std::endl;
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue << std::endl;
-  std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription()
-            << std::endl;
+  std::cout << " Stop Condition  = "
+            << optimizer->GetStopConditionDescription() << std::endl;
 
   //  Software Guide : BeginLatex
   //
@@ -419,9 +426,10 @@ main(int argc, char * argv[])
   //  \center
   //  \includegraphics[width=0.44\textwidth]{BrainT1SliceBorder20}
   //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y}
-  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image) and a
-  //  proton density MRI (moving image) are provided as input to the registration
-  //  method.} \label{fig:FixedMovingImageRegistration2} \end{figure}
+  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image)
+  //  and a proton density MRI (moving image) are provided as input to the
+  //  registration method.} \label{fig:FixedMovingImageRegistration2}
+  //  \end{figure}
   //
   //  The second image is the result of intentionally translating the image
   //  \code{Brain\-Proton\-Density\-Slice\-Border20.png} by $(13,17)$
@@ -434,12 +442,13 @@ main(int argc, char * argv[])
   //  Translation Y = 17.0006
   //  \end{verbatim}
   //
-  //  These values are a very close match to the true misalignment introduced in
-  //  the moving image.
+  //  These values are a very close match to the true misalignment introduced
+  //  in the moving image.
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -466,7 +475,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -487,11 +497,10 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4Output}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardBefore}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration4CheckerboardAfter}
-  // \itkcaption[MattesMutualInformationImageToImageMetricv4 output images]{The mapped
-  // moving image (left) and the composition of fixed and moving images before
-  // (center) and after (right) registration with Mattes mutual information.}
-  // \label{fig:ImageRegistration4Output}
-  // \end{figure}
+  // \itkcaption[MattesMutualInformationImageToImageMetricv4 output
+  // images]{The mapped moving image (left) and the composition of fixed and
+  // moving images before (center) and after (right) registration with Mattes
+  // mutual information.} \label{fig:ImageRegistration4Output} \end{figure}
   //
   //  The result of resampling the moving image is presented on the left of
   //  Figure \ref{fig:ImageRegistration4Output}. The center and right parts of
@@ -544,17 +553,17 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration4TraceTranslations2}
   // \includegraphics[width=0.6\textwidth,height=5cm]{ImageRegistration4TraceMetric}
-  // \itkcaption[MattesMutualInformationImageToImageMetricv4 output plots]{Sequence
-  // of translations and metric values at each iteration of the optimizer.}
-  // \label{fig:ImageRegistration4TraceTranslations}
+  // \itkcaption[MattesMutualInformationImageToImageMetricv4 output
+  // plots]{Sequence of translations and metric values at each iteration of
+  // the optimizer.} \label{fig:ImageRegistration4TraceTranslations}
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration4TraceTranslations} (upper-left) shows
-  //  the sequence of translations followed by the optimizer as it searched the
-  //  parameter space. The upper-right figure presents a closer look at the
-  //  convergence basin for the last iterations of the optimizer. The bottom of
-  //  the same figure shows the sequence of metric values computed as the
-  //  optimizer searched the parameter space.
+  //  the sequence of translations followed by the optimizer as it searched
+  //  the parameter space. The upper-right figure presents a closer look at
+  //  the convergence basin for the last iterations of the optimizer. The
+  //  bottom of the same figure shows the sequence of metric values computed
+  //  as the optimizer searched the parameter space.
   //
   //  Software Guide : EndLatex
 
@@ -568,8 +577,8 @@ main(int argc, char * argv[])
   // of different values for the number of bins, from $10$ to $30$. If you
   // repeat this experiment, you will notice that depending on the number of
   // bins used, the optimizer's path may get trapped early on in local minima.
-  // Figure \ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} shows the
-  // multiple paths that the optimizer took in the parametric space of the
+  // Figure \ref{fig:ImageRegistration4TraceTranslationsNumberOfBins} shows
+  // the multiple paths that the optimizer took in the parametric space of the
   // transform as a result of different selections on the number of bins used
   // by the Mattes Mutual Information metric. Note that many of the paths die
   // in local minima instead of reaching the extrema value on the upper right
@@ -622,8 +631,8 @@ main(int argc, char * argv[])
   //  Open Science is not just an abstract concept. Open Science is something
   //  to be practiced every day with the simple gesture of sharing information
   //  with your peers, and by providing all the tools that they need for
-  //  replicating the results that you are reporting. In Open Science, the only
-  //  bad results are those that can not be
+  //  replicating the results that you are reporting. In Open Science, the
+  //  only bad results are those that can not be
   //  replicated\footnote{\url{http://science.creativecommons.org/}}. Science
   //  is dead when people blindly trust authorities~\footnote{For example:
   //  Reviewers of Scientific Journals.} instead of verifying their statements

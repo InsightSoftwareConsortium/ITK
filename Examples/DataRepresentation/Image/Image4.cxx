@@ -26,13 +26,14 @@
 // position of the image in space with respect to some world coordinate
 // system are extremely important.
 //
-// Image origin, voxel directions (i.e. orientation), and spacing are fundamental to
-// many applications. Registration, for example, is performed in physical coordinates.
-// Improperly defined spacing, direction, and origins will result in inconsistent
-// results in such processes. Medical images with no spatial information should not be
-// used for medical diagnosis, image analysis, feature extraction, assisted radiation
-// therapy or image guided surgery. In other words, medical images lacking spatial
-// information are not only useless but also hazardous.
+// Image origin, voxel directions (i.e. orientation), and spacing are
+// fundamental to many applications. Registration, for example, is performed
+// in physical coordinates. Improperly defined spacing, direction, and origins
+// will result in inconsistent results in such processes. Medical images with
+// no spatial information should not be used for medical diagnosis, image
+// analysis, feature extraction, assisted radiation therapy or image guided
+// surgery. In other words, medical images lacking spatial information are not
+// only useless but also hazardous.
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{ImageOriginAndSpacing}
@@ -49,10 +50,10 @@
 // spacing is measured between the pixel centers and can be different along
 // each dimension. The image origin is associated with the coordinates of the
 // first pixel in the image.
-// For this simplified example, the voxel lattice is perfectly aligned with physical
-// space orientation, and the image direction is therefore an identity mapping. If the
-// voxel lattice samples were rotated with respect to physical space, then the image
-// direction would contain a rotation matrix.
+// For this simplified example, the voxel lattice is perfectly aligned with
+// physical space orientation, and the image direction is therefore an
+// identity mapping. If the voxel lattice samples were rotated with respect to
+// physical space, then the image direction would contain a rotation matrix.
 //
 // A \emph{pixel} is considered to be the
 // rectangular region surrounding the pixel center holding the data
@@ -80,8 +81,12 @@ main(int, char *[])
   using ImageType = itk::Image<unsigned short, Dimension>;
   ImageType::Pointer image = ImageType::New();
 
-  const ImageType::SizeType  size = { { 200, 200, 200 } }; // Size along {X,Y,Z}
-  const ImageType::IndexType start = { { 0, 0, 0 } };      // First index on {X,Y,Z}
+  const ImageType::SizeType size = {
+    { 200, 200, 200 }
+  }; // Size along {X,Y,Z}
+  const ImageType::IndexType start = {
+    { 0, 0, 0 }
+  }; // First index on {X,Y,Z}
 
   ImageType::RegionType region;
   region.SetSize(size);
@@ -97,8 +102,8 @@ main(int, char *[])
   // the spacing of the image, an array of the corresponding type must be
   // created.  The elements of the array should then be initialized with the
   // spacing between the centers of adjacent pixels. The following code
-  // illustrates the methods available in the \doxygen{Image} class for dealing
-  // with spacing and origin.
+  // illustrates the methods available in the \doxygen{Image} class for
+  // dealing with spacing and origin.
   //
   // \index{itk::Image!Spacing}
   //
@@ -131,8 +136,8 @@ main(int, char *[])
   // The spacing information can be retrieved from an image by using the
   // \code{GetSpacing()} method. This method returns a reference to a
   // \code{FixedArray}. The returned object can then be used to read the
-  // contents of the array. Note the use of the \code{const} keyword to indicate
-  // that the array will not be modified.
+  // contents of the array. Note the use of the \code{const} keyword to
+  // indicate that the array will not be modified.
   //
   //  Software Guide : EndLatex
 
@@ -184,25 +189,28 @@ main(int, char *[])
   const ImageType::PointType & origin = image->GetOrigin();
 
   std::cout << "Origin = ";
-  std::cout << origin[0] << ", " << origin[1] << ", " << origin[2] << std::endl;
+  std::cout << origin[0] << ", " << origin[1] << ", " << origin[2]
+            << std::endl;
 
   // Software Guide : EndCodeSnippet
 
-  // TODO: This example should really be written for a more complicated direction
-  // cosine. i.e. As the first index element increases, the 1st physical space
-  // decreases.
+  // TODO: This example should really be written for a more complicated
+  // direction cosine. i.e. As the first index element increases, the 1st
+  // physical space decreases.
 
   //  Software Guide : BeginLatex
   //
-  // The image direction matrix represents the orientation relationships between
-  // the image samples and physical space coordinate systems. The image direction
-  // matrix is an orthonormal matrix that describes the possible permutation of image
-  // index values and the rotational aspects that are needed to properly reconcile image
-  // index organization with physical space axis. The image directions is a $N x N$
-  // matrix where $N$ is the dimension of the image. An identity image direction
-  // indicates that increasing values of the 1st, 2nd, 3rd index element corresponds to
-  // increasing values of the 1st, 2nd and 3rd physical space axis respectively, and
-  // that the voxel samples are perfectly aligned with the physical space axis.
+  // The image direction matrix represents the orientation relationships
+  // between the image samples and physical space coordinate systems. The
+  // image direction matrix is an orthonormal matrix that describes the
+  // possible permutation of image index values and the rotational aspects
+  // that are needed to properly reconcile image index organization with
+  // physical space axis. The image directions is a $N x N$ matrix where $N$
+  // is the dimension of the image. An identity image direction indicates that
+  // increasing values of the 1st, 2nd, 3rd index element corresponds to
+  // increasing values of the 1st, 2nd and 3rd physical space axis
+  // respectively, and that the voxel samples are perfectly aligned with the
+  // physical space axis.
   //
   // The following code illustrates the creation and assignment of a variable
   // suitable for initializing the image direction with an identity.
@@ -238,10 +246,11 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Once the spacing, origin, and direction of the image samples have been initialized,
-  // the image will correctly map pixel indices to and from physical space coordinates.
-  // The following code illustrates how a point in physical space can be mapped into an
-  // image index for the purpose of reading the content of the closest pixel.
+  // Once the spacing, origin, and direction of the image samples have been
+  // initialized, the image will correctly map pixel indices to and from
+  // physical space coordinates. The following code illustrates how a point in
+  // physical space can be mapped into an image index for the purpose of
+  // reading the content of the closest pixel.
   //
   // First, a \doxygen{Point} type must be declared. The point type is
   // templated over the type used to represent coordinates and over the
@@ -307,7 +316,8 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const bool isInside = image->TransformPhysicalPointToIndex(point, pixelIndex);
+  const bool isInside =
+    image->TransformPhysicalPointToIndex(point, pixelIndex);
   if (isInside)
   {
     ImageType::PixelType pixelValue = image->GetPixel(pixelIndex);
@@ -328,8 +338,8 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The following example illustrates the mathematical relationships between
-  //  image index locations and its corresponding physical point representation
-  //  for a given Image.
+  //  image index locations and its corresponding physical point
+  //  representation for a given Image.
   //
   // \index{itk::Image!PhysicalPoint}
   // \index{itk::Image!Index}
@@ -357,8 +367,8 @@ main(int, char *[])
   //
   // \gdef\NL{\\}
   //
-  // For a given index $\vec{I}$ in 3D, the physical location $\vec{P}$ is calculated
-  // as following:
+  // For a given index $\vec{I}$ in 3D, the physical location $\vec{P}$ is
+  // calculated as following:
   //
   // \begin{equation}
   // \begin{pmatrix}
@@ -393,11 +403,12 @@ main(int, char *[])
   // \end{equation}
   // Where:\newline
   // $\vec{I}$: image space index.\newline
-  // $\vec{P}$: resulting physical space position of the image index $\vec{I}$.\newline
+  // $\vec{P}$: resulting physical space position of the image index
+  // $\vec{I}$.\newline
   // $\vec{O}$: physical space origin of the first image index.\newline
   // $\mathcal{D}$: direction cosines matrix (orthonormal). It represents the
-  // orientation relationship between the image and the physical space coordinate
-  // system.\newline
+  // orientation relationship between the image and the physical space
+  // coordinate system.\newline
   // $\vec{S}$: physical spacing between pixels of the same axis.
   // \newline
   //
@@ -439,8 +450,9 @@ main(int, char *[])
   SpacingMatrix(1, 1) = ImageSpacing[1];
   SpacingMatrix(2, 2) = ImageSpacing[2];
 
-  const ImageType::DirectionType & ImageDirectionCosines = image->GetDirection();
-  const ImageType::PointType &     ImageOrigin = image->GetOrigin();
+  const ImageType::DirectionType & ImageDirectionCosines =
+    image->GetDirection();
+  const ImageType::PointType & ImageOrigin = image->GetOrigin();
 
   using VectorType = itk::Vector<double, Dimension>;
   VectorType LeftEyeIndexVector;
@@ -455,7 +467,8 @@ main(int, char *[])
   std::cout << "===========================================" << std::endl;
   std::cout << "Spacing:: " << std::endl << SpacingMatrix << std::endl;
   std::cout << "===========================================" << std::endl;
-  std::cout << "DirectionCosines:: " << std::endl << ImageDirectionCosines << std::endl;
+  std::cout << "DirectionCosines:: " << std::endl
+            << ImageDirectionCosines << std::endl;
   std::cout << "===========================================" << std::endl;
   std::cout << "Origin:: " << std::endl << ImageOrigin << std::endl;
   std::cout << "===========================================" << std::endl;
@@ -468,9 +481,10 @@ main(int, char *[])
   {
     std::cout << "===========================================" << std::endl;
     std::cout << "Two results are identical as expected!" << std::endl;
-    std::cout << "The Left Eye from TransformIndexToPhysicalPoint is " << LeftEyePoint
+    std::cout << "The Left Eye from TransformIndexToPhysicalPoint is "
+              << LeftEyePoint << std::endl;
+    std::cout << "The Left Eye from Math is " << LeftEyePointByHand
               << std::endl;
-    std::cout << "The Left Eye from Math is " << LeftEyePointByHand << std::endl;
   }
 
   return EXIT_SUCCESS;

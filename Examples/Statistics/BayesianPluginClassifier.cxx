@@ -29,13 +29,15 @@
 // differs with the previous k-means clustering algorithms in several
 // ways. The biggest difference is that this classifier uses the
 // \subdoxygen{Statistics}{GaussianDensityFunction}s as membership functions
-// instead of the \subdoxygen{Statistics}{DistanceToCentroidMembershipFunction}.
-// Since the membership function is different, the membership function requires
-// a different set of parameters, mean vectors and covariance matrices. We
-// choose the \subdoxygen{Statistics}{CovarianceSampleFilter} (sample covariance)
-// for the estimation algorithms of the two parameters. If we want a more robust
-// estimation algorithm, we can replace this estimation algorithm with more
-// alternatives without changing other components in the classifier system.
+// instead of the
+// \subdoxygen{Statistics}{DistanceToCentroidMembershipFunction}. Since the
+// membership function is different, the membership function requires a
+// different set of parameters, mean vectors and covariance matrices. We
+// choose the \subdoxygen{Statistics}{CovarianceSampleFilter} (sample
+// covariance) for the estimation algorithms of the two parameters. If we want
+// a more robust estimation algorithm, we can replace this estimation
+// algorithm with more alternatives without changing other components in the
+// classifier system.
 //
 // It is a bad idea to use the same sample for test and training
 // (parameter estimation) of the parameters. However, for simplicity, in
@@ -44,8 +46,8 @@
 // \begin{figure}
 //   \centering
 //   \includegraphics[width=0.9\textwidth]{BayesianPluginClassifier}
-//   \itkcaption[Bayesian plug-in classifier for two Gaussian classes]{Bayesian
-//   plug-in classifier for two Gaussian classes.}
+//   \itkcaption[Bayesian plug-in classifier for two Gaussian
+//   classes]{Bayesian plug-in classifier for two Gaussian classes.}
 //  \protect\label{fig:BayesianPluginClassifier}
 // \end{figure}
 //
@@ -267,7 +269,8 @@ main(int, char *[])
   classifier->SetInput(sample);
   classifier->SetNumberOfClasses(2);
 
-  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorObjectType =
+    ClassifierType::ClassLabelVectorObjectType;
   using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
 
   ClassLabelVectorObjectType::Pointer classLabelVectorObject =
@@ -294,9 +297,9 @@ main(int, char *[])
   // parameters, the mean, set by the \code{SetMean()} method, and the
   // covariance, set by the \code{SetCovariance()} method. To plug-in two
   // distribution functions, we create a new instance of
-  // \code{MembershipFunctionVectorObjectType} and populate its internal vector
-  // with new instances of \code{MembershipFunction}
-  // (i.e. GaussianMembershipFunction). This is done by calling the \code{Get()}
+  // \code{MembershipFunctionVectorObjectType} and populate its internal
+  // vector with new instances of \code{MembershipFunction} (i.e.
+  // GaussianMembershipFunction). This is done by calling the \code{Get()}
   // method of \code{membershipFunctionVectorObject} to get the internal
   // vector, populating this vector with two new membership functions and then
   // calling
@@ -309,7 +312,8 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using MembershipFunctionVectorObjectType =
     ClassifierType::MembershipFunctionVectorObjectType;
-  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
+  using MembershipFunctionVectorType =
+    ClassifierType::MembershipFunctionVectorType;
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();
@@ -318,9 +322,11 @@ main(int, char *[])
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    MembershipFunctionType::Pointer membershipFunction = MembershipFunctionType::New();
+    MembershipFunctionType::Pointer membershipFunction =
+      MembershipFunctionType::New();
     membershipFunction->SetMean(covarianceEstimators[i]->GetMean());
-    membershipFunction->SetCovariance(covarianceEstimators[i]->GetCovarianceMatrix());
+    membershipFunction->SetCovariance(
+      covarianceEstimators[i]->GetCovarianceMatrix());
     membershipFunctionVector.push_back(membershipFunction);
   }
   membershipFunctionVectorObject->Set(membershipFunctionVector);
@@ -339,7 +345,8 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   const ClassifierType::MembershipSampleType * membershipSample =
     classifier->GetOutput();
-  ClassifierType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
+  ClassifierType::MembershipSampleType::ConstIterator iter =
+    membershipSample->Begin();
 
   while (iter != membershipSample->End())
   {

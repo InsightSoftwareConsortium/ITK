@@ -23,8 +23,8 @@
 //  defined on this base cell class can be invoked. In order to use methods
 //  that are specific to each cell type it is necessary to down-cast the
 //  pointer to the actual type of the cell.  This can be done safely by taking
-//  advantage of the \code{GetType()} method that allows to identify the actual
-//  type of a cell.
+//  advantage of the \code{GetType()} method that allows to identify the
+//  actual type of a cell.
 //
 //  Let's start by assuming a mesh defined with one tetrahedron and all its
 //  boundary faces. That is, four triangles, six edges and four vertices.

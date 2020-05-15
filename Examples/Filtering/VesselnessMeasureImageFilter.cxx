@@ -18,8 +18,8 @@
 
 // The example takes an image (say MRA image), computes the vesselness measure
 // of the image using the HessianRecursiveGaussianImageFilter and the
-// Hessian3DToVesselnessMeasureImageFilter. The goal is to detect bright tubular
-// structures in the image.
+// Hessian3DToVesselnessMeasureImageFilter. The goal is to detect bright
+// tubular structures in the image.
 
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
@@ -42,13 +42,14 @@ main(int argc, char * argv[])
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using HessianFilterType = itk::HessianRecursiveGaussianImageFilter<InputImageType>;
+  using HessianFilterType =
+    itk::HessianRecursiveGaussianImageFilter<InputImageType>;
   using VesselnessMeasureFilterType =
     itk::Hessian3DToVesselnessMeasureImageFilter<OutputPixelType>;
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  HessianFilterType::Pointer           hessianFilter = HessianFilterType::New();
+  HessianFilterType::Pointer hessianFilter = HessianFilterType::New();
   VesselnessMeasureFilterType::Pointer vesselnessFilter =
     VesselnessMeasureFilterType::New();
 

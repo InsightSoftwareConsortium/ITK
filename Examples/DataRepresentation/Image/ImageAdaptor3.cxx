@@ -93,9 +93,9 @@ private:
 //  Software Guide : BeginLatex
 //
 //  The \code{Get()} method simply returns the \emph{i}-th component of
-//  the vector as indicated by the index. The assignment operator transfers the
-//  value of the index member variable from one instance of the pixel accessor
-//  to another.
+//  the vector as indicated by the index. The assignment operator transfers
+//  the value of the index member variable from one instance of the pixel
+//  accessor to another.
 //
 //  Software Guide : EndLatex
 
@@ -120,11 +120,11 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  In order to test the pixel accessor, we generate an image of vectors using
-  //  the \doxygen{GradientRecursiveGaussianImageFilter}. This
-  //  filter produces an output image of \doxygen{CovariantVector} pixel type.
-  //  Covariant vectors are the natural representation for gradients since they
-  //  are the equivalent of normals to iso-values manifolds.
+  //  In order to test the pixel accessor, we generate an image of vectors
+  //  using the \doxygen{GradientRecursiveGaussianImageFilter}. This filter
+  //  produces an output image of \doxygen{CovariantVector} pixel type.
+  //  Covariant vectors are the natural representation for gradients since
+  //  they are the equivalent of normals to iso-values manifolds.
   //
   //  Software Guide : EndLatex
 
@@ -136,7 +136,8 @@ main(int argc, char * argv[])
   using VectorPixelType = itk::CovariantVector<float, Dimension>;
   using VectorImageType = itk::Image<VectorPixelType, Dimension>;
   using GradientFilterType =
-    itk::GradientRecursiveGaussianImageFilter<InputImageType, VectorImageType>;
+    itk::GradientRecursiveGaussianImageFilter<InputImageType,
+                                              VectorImageType>;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -151,7 +152,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ImageAdaptorType = itk::ImageAdaptor<VectorImageType, itk::VectorPixelAccessor>;
+  using ImageAdaptorType =
+    itk::ImageAdaptor<VectorImageType, itk::VectorPixelAccessor>;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   // Software Guide : EndCodeSnippet
@@ -232,9 +234,8 @@ main(int argc, char * argv[])
   // \itkcaption[Image Adaptor to Vector Image]{Using
   // ImageAdaptor to access components of a vector
   // image. The input image on the left was passed through a gradient image
-  // filter and the two components of the resulting vector image were extracted
-  // using an image adaptor.}
-  // \label{fig:ImageAdaptorToVectorImage}
+  // filter and the two components of the resulting vector image were
+  // extracted using an image adaptor.} \label{fig:ImageAdaptorToVectorImage}
   // \end{figure}
   //
   //  As in the previous example, we rescale the scalar image before writing

@@ -101,9 +101,11 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   SpatialObjectType::ChildrenListType * childrenList = object1->GetChildren();
-  std::cout << "object1 has " << childrenList->size() << " child" << std::endl;
+  std::cout << "object1 has " << childrenList->size() << " child"
+            << std::endl;
 
-  SpatialObjectType::ChildrenListType::const_iterator it = childrenList->begin();
+  SpatialObjectType::ChildrenListType::const_iterator it =
+    childrenList->begin();
   while (it != childrenList->end())
   {
     std::cout << "Name of the child of the object 1: ";
@@ -114,8 +116,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Do NOT forget to delete the list of children since the \code{GetChildren()}
-  // function creates an internal list.
+  // Do NOT forget to delete the list of children since the
+  // \code{GetChildren()} function creates an internal list.
   //
   // Software Guide : EndLatex
 
@@ -152,11 +154,11 @@ main(int, char *[])
   // The \code{Clear()} method erases all the information regarding the object
   // as well as the data. This method is usually overloaded by
   // derived classes.  Note that the Parent-Child relationships of the object
-  // are NOT reset when \code{Clear()} is called; however, the object-to-parent
-  // transform is reset to Identity.  As a result, \code{Update()} should be
-  // called before the object is re-used, to re-compute convenience member
-  // variables and values.  To remove the children of a node, use the
-  // \code{RemoveAllChildren()} function.
+  // are NOT reset when \code{Clear()} is called; however, the
+  // object-to-parent transform is reset to Identity.  As a result,
+  // \code{Update()} should be called before the object is re-used, to
+  // re-compute convenience member variables and values.  To remove the
+  // children of a node, use the \code{RemoveAllChildren()} function.
   //
   // Software Guide : EndLatex
 

@@ -96,8 +96,8 @@ main(int argc, char ** argv)
   //
   //  Note that the dimension of the image in memory should match that of
   //  the image in the file. There are a couple of special cases in which this
-  //  condition may be relaxed, but in general it is better to ensure that both
-  //  dimensions match.
+  //  condition may be relaxed, but in general it is better to ensure that
+  //  both dimensions match.
   //
   //  We can now instantiate the types of the reader and writer. These two
   //  classes are parameterized over the image type.
@@ -173,10 +173,11 @@ main(int argc, char ** argv)
   //  At first glance this may look like a quite useless program, but it is
   //  actually implementing a powerful file format conversion tool! The
   //  execution of the pipeline is triggered by the invocation of the
-  //  \code{Update()} methods in one of the final objects. In this case, the final
-  //  data pipeline object is the writer. It is a wise practice of defensive
-  //  programming to insert any \code{Update()} call inside a \code{try/catch} block
-  //  in case exceptions are thrown during the execution of the pipeline.
+  //  \code{Update()} methods in one of the final objects. In this case, the
+  //  final data pipeline object is the writer. It is a wise practice of
+  //  defensive programming to insert any \code{Update()} call inside a
+  //  \code{try/catch} block in case exceptions are thrown during the
+  //  execution of the pipeline.
   //
   //  Software Guide : EndLatex
 

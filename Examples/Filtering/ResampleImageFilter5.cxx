@@ -20,8 +20,8 @@
 //
 //  This example illustrates the use of the \doxygen{Similarity2DTransform}. A
 //  similarity transform involves rotation, translation and scaling. Since the
-//  parameterization of rotations is difficult to get in a generic $ND$ case, a
-//  particular implementation is available for $2D$.
+//  parameterization of rotations is difficult to get in a generic $ND$ case,
+//  a particular implementation is available for $2D$.
 //
 //
 //  Software Guide : EndLatex
@@ -52,7 +52,8 @@ main(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees  scale"
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFile  degrees  scale"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -76,7 +77,8 @@ main(int argc, char * argv[])
   const double angleInDegrees = std::stod(argv[3]);
   const double scale = std::stod(argv[4]);
 
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -110,7 +112,8 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<InputImageType, double>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator(interpolator);
@@ -125,10 +128,12 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   reader->Update();
-  const InputImageType::SpacingType &   spacing = reader->GetOutput()->GetSpacing();
-  const InputImageType::PointType &     origin = reader->GetOutput()->GetOrigin();
-  const InputImageType::DirectionType & direction = reader->GetOutput()->GetDirection();
-  InputImageType::SizeType              size =
+  const InputImageType::SpacingType & spacing =
+    reader->GetOutput()->GetSpacing();
+  const InputImageType::PointType & origin = reader->GetOutput()->GetOrigin();
+  const InputImageType::DirectionType & direction =
+    reader->GetOutput()->GetDirection();
+  InputImageType::SizeType size =
     reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   filter->SetOutputOrigin(origin);

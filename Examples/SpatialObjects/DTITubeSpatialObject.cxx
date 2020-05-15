@@ -23,9 +23,9 @@
 // \doxygen{DTITubeSpatialObject} derives from \doxygen{TubeSpatialObject}.
 // It represents a fiber tracts from Diffusion Tensor Imaging.
 // A DTITubeSpatialObject is described as a list of centerline points which
-// have a position, a radius, normals, the fractional anisotropy (FA) value, the ADC
-// value, the geodesic anisotropy (GA) value, the eigenvalues and vectors as well as the
-// full tensor matrix.
+// have a position, a radius, normals, the fractional anisotropy (FA) value,
+// the ADC value, the geodesic anisotropy (GA) value, the eigenvalues and
+// vectors as well as the full tensor matrix.
 //
 // Let's start by including the appropriate header file.
 //
@@ -68,9 +68,10 @@ main(int, char *[])
   // \code{SetRadiusInObjectSpace()}. \item The FA value using
   // \code{AddField(DTITubePointType::FA)}. \item The ADC value using
   // \code{AddField(DTITubePointType::ADC)}. \item The GA value using
-  // \code{AddField(DTITubePointType::GA)}. \item The full tensor matrix supposed to be
-  // symmetric definite positive value using \code{SetTensorMatrix()}. \item The color
-  // of the point is set to red in our case. \end{enumerate}
+  // \code{AddField(DTITubePointType::GA)}. \item The full tensor matrix
+  // supposed to be symmetric definite positive value using
+  // \code{SetTensorMatrix()}. \item The color of the point is set to red in
+  // our case. \end{enumerate}
   //
   // Software Guide : EndLatex
 
@@ -85,12 +86,15 @@ main(int, char *[])
     pnt[2] = i + 2;
     p.SetPositionInObjectSpace(pnt);
     p.SetRadiusInObjectSpace(1);
-    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA,
-               i);
-    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC,
+    p.AddField(
+      itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA,
+      i);
+    p.AddField(itk::DTITubeSpatialObjectPointEnums::
+                 DTITubeSpatialObjectPointField::ADC,
                2 * i);
-    p.AddField(itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA,
-               3 * i);
+    p.AddField(
+      itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA,
+      3 * i);
     p.AddField("Lambda1", 4 * i);
     p.AddField("Lambda2", 5 * i);
     p.AddField("Lambda3", 6 * i);
@@ -144,29 +148,28 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  DTITubeType::DTITubePointListType::const_iterator it = dtiTube->GetPoints().begin();
+  DTITubeType::DTITubePointListType::const_iterator it =
+    dtiTube->GetPoints().begin();
   i = 0;
   while (it != dtiTube->GetPoints().end())
   {
     std::cout << std::endl;
     std::cout << "Point #" << i << std::endl;
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+              << std::endl;
     std::cout << "Radius: " << (*it).GetRadiusInObjectSpace() << std::endl;
-    std::cout
-      << "FA: "
-      << (*it).GetField(
-           itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::FA)
-      << std::endl;
-    std::cout
-      << "ADC: "
-      << (*it).GetField(
-           itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::ADC)
-      << std::endl;
-    std::cout
-      << "GA: "
-      << (*it).GetField(
-           itk::DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField::GA)
-      << std::endl;
+    std::cout << "FA: "
+              << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
+                                  DTITubeSpatialObjectPointField::FA)
+              << std::endl;
+    std::cout << "ADC: "
+              << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
+                                  DTITubeSpatialObjectPointField::ADC)
+              << std::endl;
+    std::cout << "GA: "
+              << (*it).GetField(itk::DTITubeSpatialObjectPointEnums::
+                                  DTITubeSpatialObjectPointField::GA)
+              << std::endl;
     std::cout << "Lambda1: " << (*it).GetField("Lambda1") << std::endl;
     std::cout << "Lambda2: " << (*it).GetField("Lambda2") << std::endl;
     std::cout << "Lambda3: " << (*it).GetField("Lambda3") << std::endl;

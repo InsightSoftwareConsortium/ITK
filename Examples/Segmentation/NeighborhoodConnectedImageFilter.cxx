@@ -94,7 +94,8 @@ main(int argc, char * argv[])
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastingFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
+  using CastingFilterType =
+    itk::CastImageFilter<InternalImageType, OutputImageType>;
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
 
@@ -131,7 +132,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
+  CurvatureFlowImageFilterType::Pointer smoothing =
+    CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -144,7 +146,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ConnectedFilterType =
-    itk::NeighborhoodConnectedImageFilter<InternalImageType, InternalImageType>;
+    itk::NeighborhoodConnectedImageFilter<InternalImageType,
+                                          InternalImageType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -154,7 +157,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer neighborhoodConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer neighborhoodConnected =
+    ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -193,9 +197,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  \code{NeighborhoodConnectedImageFilter} requires that two main parameters
-  //  are specified. They are the lower and upper thresholds of the interval
-  //  in which intensity values must fall to be included in the
+  //  \code{NeighborhoodConnectedImageFilter} requires that two main
+  //  parameters are specified. They are the lower and upper thresholds of the
+  //  interval in which intensity values must fall to be included in the
   //  region. Setting these two values too close will not allow enough
   //  flexibility for the region to grow. Setting them too far apart will
   //  result in a region that engulfs the image.
@@ -291,32 +295,34 @@ main(int argc, char * argv[])
   //  \hline
   //  Structure & Seed Index & Lower & Upper & Output Image \\ \hline
   //  White matter & $(60,116)$ & 150 & 180 & Second from left in Figure
-  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} \\  \hline Ventricle    &
+  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} \\  \hline Ventricle &
   //  $(81,112)$ & 210 & 250 & Third  from left in Figure
-  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} \\  \hline Gray matter  &
+  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} \\  \hline Gray matter
+  //  &
   //  $(107,69)$ & 180 & 210 & Fourth from left in Figure
-  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} \\  \hline \end{tabular}
-  //  \end{center}
+  //  \ref{fig:NeighborhoodConnectedImageFilterOutput} \\  \hline
+  //  \end{tabular} \end{center}
   //
   // \begin{figure} \center
   // \includegraphics[width=0.24\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput1}
   // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput2}
   // \includegraphics[width=0.24\textwidth]{NeighborhoodConnectedImageFilterOutput3}
-  // \itkcaption[NeighborhoodConnected segmentation results ]{Segmentation results
-  // of the NeighborhoodConnectedImageFilter for various seed points.}
+  // \itkcaption[NeighborhoodConnected segmentation results ]{Segmentation
+  // results of the NeighborhoodConnectedImageFilter for various seed points.}
   // \label{fig:NeighborhoodConnectedImageFilterOutput}
   // \end{figure}
   //
-  //  As with the \code{ConnectedThresholdImageFilter} example, several seeds could
-  //  be provided to the filter by repetedly calling the \code{AddSeed()} method
-  //  with different indices.  Compare Figures
+  //  As with the \code{ConnectedThresholdImageFilter} example, several seeds
+  //  could be provided to the filter by repetedly calling the
+  //  \code{AddSeed()} method with different indices.  Compare Figures
   //  \ref{fig:NeighborhoodConnectedImageFilterOutput} and
   //  \ref{fig:ConnectedThresholdOutput}, demonstrating the outputs of
   //  \code{NeighborhoodConnectedThresholdImageFilter} and
-  //  \code{ConnectedThresholdImageFilter}, respectively.  It is instructive to adjust
-  //  the neighborhood radii and observe its effect on the smoothness of segmented
-  //  object borders, size of the segmented region, and computing time.
+  //  \code{ConnectedThresholdImageFilter}, respectively.  It is instructive
+  //  to adjust the neighborhood radii and observe its effect on the
+  //  smoothness of segmented object borders, size of the segmented region,
+  //  and computing time.
   //
   //  Software Guide : EndLatex
 

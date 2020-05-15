@@ -112,7 +112,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ConnectedFilterType =
-    itk::VectorConfidenceConnectedImageFilter<InputImageType, OutputImageType>;
+    itk::VectorConfidenceConnectedImageFilter<InputImageType,
+                                              OutputImageType>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -123,7 +124,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer confidenceConnected = ConnectedFilterType::New();
+  ConnectedFilterType::Pointer confidenceConnected =
+    ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -272,20 +274,22 @@ main(int argc, char * argv[])
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Structure & Seed Index & Multiplier & Iterations & Output Image \\ \hline
-  //  Rectum & $(70,120)$ & 7 & 1 & Second from left in Figure
-  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Rectum & $(23, 93)$ & 7 & 1 &
-  //  Third  from left in Figure \ref{fig:VectorConfidenceConnectedOutput} \\ \hline
-  //  Vitreo & $(66, 66)$ & 3 & 1 & Fourth from left in Figure
-  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline \end{tabular} \end{center}
+  //  Structure & Seed Index & Multiplier & Iterations & Output Image \\
+  //  \hline Rectum & $(70,120)$ & 7 & 1 & Second from left in Figure
+  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Rectum & $(23, 93)$
+  //  & 7 & 1 & Third  from left in Figure
+  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Vitreo & $(66, 66)$
+  //  & 3 & 1 & Fourth from left in Figure
+  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline \end{tabular}
+  //  \end{center}
   //
   // \begin{figure} \center
   // \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice}
   // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput1}
   // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput2}
   // \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput3}
-  // \itkcaption[VectorConfidenceConnected segmentation results]{Segmentation results of
-  // the VectorConfidenceConnected filter for various seed points.}
+  // \itkcaption[VectorConfidenceConnected segmentation results]{Segmentation
+  // results of the VectorConfidenceConnected filter for various seed points.}
   // \label{fig:VectorConfidenceConnectedOutput}
   // \end{figure}
   //
@@ -309,7 +313,8 @@ main(int argc, char * argv[])
   using CovarianceMatrixType = ConnectedFilterType::CovarianceMatrixType;
 
   const MeanVectorType &       mean = confidenceConnected->GetMean();
-  const CovarianceMatrixType & covariance = confidenceConnected->GetCovariance();
+  const CovarianceMatrixType & covariance =
+    confidenceConnected->GetCovariance();
 
   std::cout << "Mean vector = " << mean << std::endl;
   std::cout << "Covariance matrix = " << covariance << std::endl;

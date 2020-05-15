@@ -64,9 +64,10 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] "
-              << std::endl;
+    std::cerr
+      << argv[0]
+      << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -105,7 +106,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::LaplacianRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
+    itk::LaplacianRecursiveGaussianImageFilter<InputImageType,
+                                               OutputImageType>;
   // Software Guide : EndCodeSnippet
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -128,7 +130,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The option for normalizing across scale space can also be selected in this filter.
+  //  The option for normalizing across scale space can also be selected in
+  //  this filter.
   //
   //  \index{LaplacianRecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //

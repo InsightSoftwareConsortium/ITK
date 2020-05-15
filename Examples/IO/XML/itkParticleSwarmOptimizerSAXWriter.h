@@ -19,11 +19,11 @@
 /**
  * This is a fully working example of SAX-based writer for the ITK object
  * itk::ParticleSwarmOptimizer. It performs the same function as
- * ParticleSwarmOptimizerDOMWriter; however, this writer directly generates the output
- * XML document, which is more complicated and error prone.
+ * ParticleSwarmOptimizerDOMWriter; however, this writer directly generates
+ * the output XML document, which is more complicated and error prone.
  *
- * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of our XML
- * format for the PSO object.
+ * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example of
+ * our XML format for the PSO object.
  */
 
 #ifndef itkParticleSwarmOptimizerSAXWriter_h
@@ -35,7 +35,8 @@
 namespace itk
 {
 
-class ParticleSwarmOptimizerSAXWriter : public XMLWriterBase<ParticleSwarmOptimizer>
+class ParticleSwarmOptimizerSAXWriter
+  : public XMLWriterBase<ParticleSwarmOptimizer>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXWriter);

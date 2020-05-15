@@ -22,18 +22,20 @@
 //  particular with the concepts of the Fourier Transform and the numerical
 //  implementation of the Fast Fourier transform. If you are not familiar with
 //  these concepts you may want to consult first any of the many available
-//  introductory books to spectral analysis~\cite{Bracewell1999,Bracewell2004}.
+//  introductory books to spectral
+//  analysis~\cite{Bracewell1999,Bracewell2004}.
 //
-//  This example illustrates how to use the Fast Fourier Transform filter (FFT)
-//  for processing an image in the spectral domain. Given that FFT computation
-//  can be CPU intensive, there are multiple hardware specific implementations
-//  of FFT. It is convenient in many cases to delegate the actual computation
-//  of the transform to local available libraries. Particular examples of those
-//  libraries are fftw\footnote{http://www.fftw.org} and the VXL implementation
-//  of FFT. For this reason ITK provides a base abstract class that factorizes
-//  the interface to multiple specific implementations of FFT. This base class
-//  is the \doxygen{ForwardFFTImageFilter}, and two of its
-//  derived classes are \doxygen{VnlForwardFFTImageFilter} and
+//  This example illustrates how to use the Fast Fourier Transform filter
+//  (FFT) for processing an image in the spectral domain. Given that FFT
+//  computation can be CPU intensive, there are multiple hardware specific
+//  implementations of FFT. It is convenient in many cases to delegate the
+//  actual computation of the transform to local available libraries.
+//  Particular examples of those libraries are
+//  fftw\footnote{http://www.fftw.org} and the VXL implementation of FFT. For
+//  this reason ITK provides a base abstract class that factorizes the
+//  interface to multiple specific implementations of FFT. This base class is
+//  the \doxygen{ForwardFFTImageFilter}, and two of its derived classes are
+//  \doxygen{VnlForwardFFTImageFilter} and
 //  \doxygen{FFTWRealToComplexConjugateImageFilter}.
 //
 //
@@ -77,8 +79,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The first decision to make is related to the pixel type and dimension of the
-  // images on which we want to compute the Fourier transform.
+  // The first decision to make is related to the pixel type and dimension of
+  // the images on which we want to compute the Fourier transform.
   //
   // Software Guide : EndLatex
 
@@ -91,8 +93,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We use the same image type in order to instantiate the FFT filter, in this
-  // case the \doxygen{VnlForwardFFTImageFilter}. Once the filter type is
+  // We use the same image type in order to instantiate the FFT filter, in
+  // this case the \doxygen{VnlForwardFFTImageFilter}. Once the filter type is
   // instantiated, we can use it for creating one object by invoking the
   // \code{New()} method and assigning the result to a SmartPointer.
   //
@@ -121,9 +123,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The execution of the filter can be triggered by invoking the \code{Update()}
-  // method.  Since this invocation can eventually throw an exception, the call
-  // must be placed inside a try/catch block.
+  // The execution of the filter can be triggered by invoking the
+  // \code{Update()} method.  Since this invocation can eventually throw an
+  // exception, the call must be placed inside a try/catch block.
   //
   // Software Guide : EndLatex
 
@@ -143,10 +145,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // In general the output of the FFT filter will be a complex image. We can
-  // proceed to save this image in a file for further analysis. This can be done
-  // by simply instantiating an \doxygen{ImageFileWriter} using the trait of the
-  // output image from the FFT filter. We construct one instance of the writer
-  // and pass the output of the FFT filter as the input of the writer.
+  // proceed to save this image in a file for further analysis. This can be
+  // done by simply instantiating an \doxygen{ImageFileWriter} using the trait
+  // of the output image from the FFT filter. We construct one instance of the
+  // writer and pass the output of the FFT filter as the input of the writer.
   //
   // Software Guide : EndLatex
 
@@ -183,24 +185,25 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In addition to saving the complex image into a file, we could also extract
-  // its real and imaginary parts for further analysis. This can be done with the
-  // \doxygen{ComplexToRealImageFilter} and the
+  // In addition to saving the complex image into a file, we could also
+  // extract its real and imaginary parts for further analysis. This can be
+  // done with the \doxygen{ComplexToRealImageFilter} and the
   // \doxygen{ComplexToImaginaryImageFilter}.
   //
-  // We instantiate first the ImageFilter that will help us to extract the real
-  // part from the complex image.  The \code{ComplexToRealImageFilter} takes as
-  // its first template parameter the type of the complex image and as its second
-  // template parameter it takes the type of the output image pixel. We create
-  // one instance of this filter and connect as its input the output of the FFT
-  // filter.
+  // We instantiate first the ImageFilter that will help us to extract the
+  // real part from the complex image.  The \code{ComplexToRealImageFilter}
+  // takes as its first template parameter the type of the complex image and
+  // as its second template parameter it takes the type of the output image
+  // pixel. We create one instance of this filter and connect as its input the
+  // output of the FFT filter.
   //
   // \index{itk::ComplexToRealImageFilter}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using RealFilterType = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
+  using RealFilterType =
+    itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
 
   RealFilterType::Pointer realFilter = RealFilterType::New();
 
@@ -217,15 +220,16 @@ main(int argc, char * argv[])
   // Since the range of intensities in the Fourier domain can be quite
   // concentrated, it is convenient to rescale the image in order to
   // visualize it. For this purpose we instantiate a
-  // \doxygen{RescaleIntensityImageFilter} that will rescale the intensities of
-  // the \code{real} image into a range suitable for writing in a file. We also
-  // set the minimum and maximum values of the output to the range of the pixel
-  // type used for writing.
+  // \doxygen{RescaleIntensityImageFilter} that will rescale the intensities
+  // of the \code{real} image into a range suitable for writing in a file. We
+  // also set the minimum and maximum values of the output to the range of the
+  // pixel type used for writing.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
+  using RescaleFilterType =
+    itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
   RescaleFilterType::Pointer intensityRescaler = RescaleFilterType::New();
 
@@ -257,10 +261,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We can now instantiate the ImageFilter that will help us to extract the
-  // imaginary part from the complex image.  The filter that we use here is the
-  // \doxygen{ComplexToImaginaryImageFilter}. It takes as first template
-  // parameter the type of the complex image and as second template parameter it
-  // takes the type of the output image pixel. An instance of the filter is
+  // imaginary part from the complex image.  The filter that we use here is
+  // the \doxygen{ComplexToImaginaryImageFilter}. It takes as first template
+  // parameter the type of the complex image and as second template parameter
+  // it takes the type of the output image pixel. An instance of the filter is
   // created, and its input is connected to the output of the FFT filter.
   //
   // Software Guide : EndLatex
@@ -279,8 +283,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The Imaginary image can then be rescaled and saved into a file, just as we
-  // did with the Real part.
+  // The Imaginary image can then be rescaled and saved into a file, just as
+  // we did with the Real part.
   //
   // Software Guide : EndLatex
 

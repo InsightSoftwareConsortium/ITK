@@ -47,7 +47,8 @@ main(int argc, char * argv[])
   if (argc < 2)
   {
     std::cout << "Image file names missing" << std::endl;
-    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile" << std::endl;
+    std::cout << "Usage: " << argv[0] << " fixedImageFile movingImageFile"
+              << std::endl;
     return EXIT_FAILURE;
   }
   else
@@ -115,7 +116,8 @@ main(int argc, char * argv[])
 
 
   // Rescale the image intensities so that they fall between 0 and 255
-  using FilterType = itk::RescaleIntensityImageFilter<FileImageType, ImageType>;
+  using FilterType =
+    itk::RescaleIntensityImageFilter<FileImageType, ImageType>;
 
   FilterType::Pointer movingrescalefilter = FilterType::New();
   FilterType::Pointer fixedrescalefilter = FilterType::New();
@@ -135,7 +137,8 @@ main(int argc, char * argv[])
 
 
   // Histogram match the images
-  using HEFilterType = itk::HistogramMatchingImageFilter<ImageType, ImageType>;
+  using HEFilterType =
+    itk::HistogramMatchingImageFilter<ImageType, ImageType>;
   HEFilterType::Pointer IntensityEqualizeFilter = HEFilterType::New();
 
   IntensityEqualizeFilter->SetReferenceImage(fixedrescalefilter->GetOutput());
@@ -168,12 +171,13 @@ main(int argc, char * argv[])
   m = itk::fem::MaterialLinearElasticity::New();
   m->SetGlobalNumber(0);
   m->SetYoungsModulus(
-    registrationFilter->GetElasticity()); // Young's modulus used in the membrane
-  m->SetCrossSectionalArea(1.0);          // Cross-sectional area
-  m->SetThickness(1.0);                   // Thickness
-  m->SetMomentOfInertia(1.0);             // Moment of inertia
-  m->SetPoissonsRatio(0.);                // Poisson's ratio -- DONT CHOOSE 1.0!!
-  m->SetDensityHeatProduct(1.0);          // Density-Heat capacity product
+    registrationFilter
+      ->GetElasticity());        // Young's modulus used in the membrane
+  m->SetCrossSectionalArea(1.0); // Cross-sectional area
+  m->SetThickness(1.0);          // Thickness
+  m->SetMomentOfInertia(1.0);    // Moment of inertia
+  m->SetPoissonsRatio(0.);       // Poisson's ratio -- DONT CHOOSE 1.0!!
+  m->SetDensityHeatProduct(1.0); // Density-Heat capacity product
 
   // Create the element type
   ElementType::Pointer e1 = ElementType::New();

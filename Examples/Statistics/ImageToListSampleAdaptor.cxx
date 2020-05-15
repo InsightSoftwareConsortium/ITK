@@ -26,14 +26,14 @@
 // \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor|}
 // \index{itk::Statistics::Joint\-Domain\-Image\-To\-List\-Adaptor}
 //
-// In this example, we use the ImageToListSampleAdaptor class that requires the
-// input type of Image as the template argument. To users of the
+// In this example, we use the ImageToListSampleAdaptor class that requires
+// the input type of Image as the template argument. To users of the
 // ImageToListSampleAdaptor, the pixels of the input image are treated as
-// measurement vectors. The ImageToListSampleAdaptor is one of two adaptor classes
-// among the subclasses of the \subdoxygen{Statistics}{Sample}. That means an
-// ImageToListSampleAdaptor object does not store any real data. The data comes
-// from other ITK data container classes. In this case, an instance of the
-// Image class is the source of the data.
+// measurement vectors. The ImageToListSampleAdaptor is one of two adaptor
+// classes among the subclasses of the \subdoxygen{Statistics}{Sample}. That
+// means an ImageToListSampleAdaptor object does not store any real data. The
+// data comes from other ITK data container classes. In this case, an instance
+// of the Image class is the source of the data.
 //
 // To use an ImageToListSampleAdaptor object, include the header file for the
 // class.  Since we are using an adaptor, we also should include the header
@@ -47,9 +47,10 @@
 // cannot plug in an image of scalar pixels. However, if we
 // want to use an image of scalar pixels without the help from the
 // ComposeImageFilter, we can use the
-// \subdoxygen{Statistics}{ScalarImageToListSampleAdaptor} class that is derived
-// from the \subdoxygen{Statistics}{ImageToListSampleAdaptor}. The usage of the
-// ScalarImageToListSampleAdaptor is identical to that of the ImageToListSampleAdaptor.
+// \subdoxygen{Statistics}{ScalarImageToListSampleAdaptor} class that is
+// derived from the \subdoxygen{Statistics}{ImageToListSampleAdaptor}. The
+// usage of the ScalarImageToListSampleAdaptor is identical to that of the
+// ImageToListSampleAdaptor.
 //
 // Software Guide : EndLatex
 
@@ -113,7 +114,8 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementVectorType = itk::FixedArray<float, 1>;
   using ArrayImageType = itk::Image<MeasurementVectorType, 2>;
-  using CasterType = itk::ComposeImageFilter<FloatImage2DType, ArrayImageType>;
+  using CasterType =
+    itk::ComposeImageFilter<FloatImage2DType, ArrayImageType>;
 
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput(random->GetOutput());
@@ -130,7 +132,8 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SampleType = itk::Statistics::ImageToListSampleAdaptor<ArrayImageType>;
+  using SampleType =
+    itk::Statistics::ImageToListSampleAdaptor<ArrayImageType>;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 

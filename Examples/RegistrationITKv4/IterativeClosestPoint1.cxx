@@ -89,8 +89,9 @@ main(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Arguments Missing. " << std::endl;
-    std::cerr << "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile "
-              << std::endl;
+    std::cerr
+      << "Usage:  IterativeClosestPoint1   fixedPointsFile  movingPointsFile "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -139,8 +140,8 @@ main(int argc, char * argv[])
     pointId++;
   }
   fixedPointSet->SetPoints(fixedPointContainer);
-  std::cout << "Number of fixed Points = " << fixedPointSet->GetNumberOfPoints()
-            << std::endl;
+  std::cout << "Number of fixed Points = "
+            << fixedPointSet->GetNumberOfPoints() << std::endl;
 
   // Read the file containing coordinates of moving points.
   std::ifstream movingFile;
@@ -161,8 +162,8 @@ main(int argc, char * argv[])
     pointId++;
   }
   movingPointSet->SetPoints(movingPointContainer);
-  std::cout << "Number of moving Points = " << movingPointSet->GetNumberOfPoints()
-            << std::endl;
+  std::cout << "Number of moving Points = "
+            << movingPointSet->GetNumberOfPoints() << std::endl;
 
   // Software Guide : BeginLatex
   //
@@ -171,7 +172,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MetricType = itk::EuclideanDistancePointMetric<PointSetType, PointSetType>;
+  using MetricType =
+    itk::EuclideanDistancePointMetric<PointSetType, PointSetType>;
 
   MetricType::Pointer metric = MetricType::New();
   // Software Guide : EndCodeSnippet

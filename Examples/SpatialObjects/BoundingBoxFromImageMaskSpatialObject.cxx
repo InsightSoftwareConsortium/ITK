@@ -73,7 +73,8 @@ main(int argc, char * argv[])
   maskSO->Update();
 
   std::cout << "Bounding Box Region: "
-            << maskSO->GetMyBoundingBoxInWorldSpace()->GetBounds() << std::endl;
+            << maskSO->GetMyBoundingBoxInWorldSpace()->GetBounds()
+            << std::endl;
 
   return EXIT_SUCCESS;
 }

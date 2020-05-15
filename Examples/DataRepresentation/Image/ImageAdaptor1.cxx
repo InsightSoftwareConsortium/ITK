@@ -48,8 +48,9 @@
 // provide methods \code{Set()} and \code{Get()}, and define the types of
 // \code{InternalPixelType} and \code{ExternalPixelType}. The
 // \code{InternalPixelType} corresponds to the pixel type of the image to be
-// adapted (\code{unsigned char} in this example). The \code{ExternalPixelType}
-// corresponds to the pixel type we wish to emulate with the ImageAdaptor
+// adapted (\code{unsigned char} in this example). The
+// \code{ExternalPixelType} corresponds to the pixel type we wish to emulate
+// with the ImageAdaptor
 // (\code{float} in this case).
 //
 //  Software Guide : EndLatex
@@ -173,8 +174,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  // Although in this example, we are just performing a simple summation, the key
-  // concept is that access to pixels is performed as if the pixel is of type
+  // Although in this example, we are just performing a simple summation, the
+  // key concept is that access to pixels is performed as if the pixel is of
+  // type
   //  \code{float}. Additionally, it should be noted that the adaptor is used
   // as if it was an actual image and not as a filter. ImageAdaptors conform
   // to the same API as the  \doxygen{Image} class.

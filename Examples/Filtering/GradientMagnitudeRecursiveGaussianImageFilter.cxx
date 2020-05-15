@@ -45,8 +45,8 @@
 //  selects the value of $\sigma$.
 //
 //  Internally this is done by applying an IIR \footnote{Infinite Impulse
-//  Response} filter that approximates a convolution with the derivative of the
-//  Gaussian kernel.  Traditional convolution will produce a more accurate
+//  Response} filter that approximates a convolution with the derivative of
+//  the Gaussian kernel.  Traditional convolution will produce a more accurate
 //  result, but the IIR approach is much faster, especially using large
 //  $\sigma$s \cite{Deriche1990,Deriche1993}.
 //
@@ -83,7 +83,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   outputImageFile   sigma" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile   outputImageFile   sigma"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -127,7 +128,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::GradientMagnitudeRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
+    itk::GradientMagnitudeRecursiveGaussianImageFilter<InputImageType,
+                                                       OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -233,9 +235,9 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{GradientMagnitudeRecursiveGaussianImageFilterOutput3}
   // \includegraphics[width=0.44\textwidth]{GradientMagnitudeRecursiveGaussianImageFilterOutput5}
-  // \itkcaption[GradientMagnitudeRecursiveGaussianImageFilter output]{Effect of
-  // the GradientMagnitudeRecursiveGaussianImageFilter on a slice from a MRI
-  // proton density image of the brain.}
+  // \itkcaption[GradientMagnitudeRecursiveGaussianImageFilter output]{Effect
+  // of the GradientMagnitudeRecursiveGaussianImageFilter on a slice from a
+  // MRI proton density image of the brain.}
   // \label{fig:GradientMagnitudeRecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //

@@ -46,8 +46,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Next, we create a SpatialObjectWriter that is templated over the dimension
-  // of the object(s) we want to write.
+  // Next, we create a SpatialObjectWriter that is templated over the
+  // dimension of the object(s) we want to write.
   //
   // Software Guide : EndLatex
 
@@ -71,8 +71,8 @@ main(int, char *[])
   //
   // Finally, we set to the writer the object to write using the
   // \code{SetInput()} method and we set the name of the file with
-  // \code{SetFileName()} and call the \code{Update()} method to actually write
-  // the information.
+  // \code{SetFileName()} and call the \code{Update()} method to actually
+  // write the information.
   //
   // Software Guide : EndLatex
 
@@ -98,8 +98,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Next we set the name of the file to read using \code{SetFileName()} and we
-  // call the \code{Update()} method to read the file.
+  // Next we set the name of the file to read using \code{SetFileName()} and
+  // we call the \code{Update()} method to read the file.
   //
   // Software Guide : EndLatex
 

@@ -35,7 +35,8 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // \code{LandmarkSpatialObject} is templated over the dimension of the space.
+  // \code{LandmarkSpatialObject} is templated over the dimension of the
+  // space.
   //
   // Here we create a 3-dimensional landmark.
   //
@@ -63,8 +64,8 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // We are now ready to add points into the landmark. We first
-  // create a list of SpatialObjectPoint and for each point we set the position
-  // and the color.
+  // create a list of SpatialObjectPoint and for each point we set the
+  // position and the color.
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -86,8 +87,9 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // Then we add  the list to the object using the \code{SetPoints()} method.
-  // Calling \code{Update()} afterwards ensures that World Space representations
-  // are also updated to match changes in the SpatialObject's parameters.
+  // Calling \code{Update()} afterwards ensures that World Space
+  // representations are also updated to match changes in the SpatialObject's
+  // parameters.
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -97,8 +99,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // The current point list can be accessed using the \code{GetPoints()} method.
-  // The method returns a reference to the (STL) list.
+  // The current point list can be accessed using the \code{GetPoints()}
+  // method. The method returns a reference to the (STL) list.
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -109,7 +111,8 @@ main(int, char *[])
     landmark->GetPoints().begin();
   while (it != landmark->GetPoints().end())
   {
-    std::cout << "Position: " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Position: " << (*it).GetPositionInObjectSpace()
+              << std::endl;
     std::cout << "Color: " << (*it).GetColor() << std::endl;
     ++it;
   }

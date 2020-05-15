@@ -26,11 +26,10 @@
 //
 // \index{Iterators!speed}
 // The \doxygen{ImageRegionIterator} is optimized for
-// iteration speed and is the first choice for iterative, pixel-wise operations
-// when location in the image is not
-// important. ImageRegionIterator is the least specialized of the ITK
-// image iterator classes.  It implements all of the methods described in the
-// preceding section.
+// iteration speed and is the first choice for iterative, pixel-wise
+// operations when location in the image is not important. ImageRegionIterator
+// is the least specialized of the ITK image iterator classes.  It implements
+// all of the methods described in the preceding section.
 //
 // The following example illustrates the use of
 // \doxygen{ImageRegionConstIterator} and ImageRegionIterator.
@@ -59,7 +58,8 @@ main(int argc, char * argv[])
   {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile startX startY sizeX sizeY"
+    std::cerr << argv[0]
+              << " inputImageFile outputImageFile startX startY sizeX sizeY"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -86,9 +86,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Information about the subregion to copy is read from the command line. The
-  // subregion is defined by an \doxygen{ImageRegion} object, with a starting
-  // grid index and a size (Section~\ref{sec:ImageSection}).
+  // Information about the subregion to copy is read from the command line.
+  // The subregion is defined by an \doxygen{ImageRegion} object, with a
+  // starting grid index and a size (Section~\ref{sec:ImageSection}).
   //
   // Software Guide : EndLatex
 
@@ -111,9 +111,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The destination region in the output image is defined using the input region
-  // size, but a different start index.  The starting index for the destination
-  // region is the corner of the newly generated image.
+  // The destination region in the output image is defined using the input
+  // region size, but a different start index.  The starting index for the
+  // destination region is the corner of the newly generated image.
   //
   // Software Guide : EndLatex
 
@@ -161,9 +161,9 @@ main(int argc, char * argv[])
   // during the copying process.
   // In particular, the starting index of the output region
   // is now filled up with zero values and the coordinates of the physical
-  // origin are computed as a shift from the origin of the input image. This is
-  // quite important since it will allow us to later
-  // register the extracted region against the original image.
+  // origin are computed as a shift from the origin of the input image. This
+  // is quite important since it will allow us to later register the extracted
+  // region against the original image.
   //
   // Software Guide : EndLatex
 
@@ -171,8 +171,8 @@ main(int argc, char * argv[])
   ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions(outputRegion);
   const ImageType::SpacingType & spacing = reader->GetOutput()->GetSpacing();
-  const ImageType::PointType &   inputOrigin = reader->GetOutput()->GetOrigin();
-  double                         outputOrigin[Dimension];
+  const ImageType::PointType & inputOrigin = reader->GetOutput()->GetOrigin();
+  double                       outputOrigin[Dimension];
 
   for (unsigned int i = 0; i < Dimension; i++)
   {
@@ -188,12 +188,13 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // \index{Iterators!construction of} \index{Iterators!and image regions}
-  // The necessary images and region definitions are now in place.  All that is
-  // left to do is to create the iterators and perform the copy.  Note that image
-  // iterators are not accessed via smart pointers so they are light-weight
-  // objects that are instantiated on the stack.  Also notice how the input and
-  // output iterators are defined over the \emph{same corresponding region}.  Though the
-  // images are different sizes, they both contain the same target subregion.
+  // The necessary images and region definitions are now in place.  All that
+  // is left to do is to create the iterators and perform the copy.  Note that
+  // image iterators are not accessed via smart pointers so they are
+  // light-weight objects that are instantiated on the stack.  Also notice how
+  // the input and output iterators are defined over the \emph{same
+  // corresponding region}.  Though the images are different sizes, they both
+  // contain the same target subregion.
   //
   // Software Guide : EndLatex
 
@@ -243,14 +244,13 @@ main(int argc, char * argv[])
   //
   // Let's run this example on the image \code{FatMRISlice.png} found
   // in \code{Examples/Data}.  The command line arguments specify the
-  // input and output file names, then the $x$, $y$ origin and the $x$, $y$ size
-  // of the cropped subregion.
+  // input and output file names, then the $x$, $y$ origin and the $x$, $y$
+  // size of the cropped subregion.
   //
   // \small
   // \begin{verbatim}
-  // ImageRegionIterator FatMRISlice.png ImageRegionIteratorOutput.png 20 70 210 140
-  // \end{verbatim}
-  // \normalsize
+  // ImageRegionIterator FatMRISlice.png ImageRegionIteratorOutput.png 20 70
+  // 210 140 \end{verbatim} \normalsize
   //
   // The output is the cropped subregion shown in
   // Figure~\ref{fig:ImageRegionIteratorOutput}.
@@ -259,9 +259,10 @@ main(int argc, char * argv[])
   // \centering
   // \includegraphics[width=0.4\textwidth]{FatMRISlice}
   // \includegraphics[width=0.3\textwidth]{ImageRegionIteratorOutput}
-  // \itkcaption[Copying an image subregion using ImageRegionIterator]{Cropping a
-  // region from an image.  The original image is shown at left.  The image on
-  // the right is the result of applying the ImageRegionIterator example code.}
+  // \itkcaption[Copying an image subregion using
+  // ImageRegionIterator]{Cropping a region from an image.  The original image
+  // is shown at left.  The image on the right is the result of applying the
+  // ImageRegionIterator example code.}
   // \protect\label{fig:ImageRegionIteratorOutput}
   // \end{figure}
   //

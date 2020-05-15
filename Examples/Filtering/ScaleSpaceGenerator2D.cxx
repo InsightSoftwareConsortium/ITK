@@ -38,7 +38,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFileBase numberOfSlices"
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFileBase numberOfSlices"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -53,7 +54,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
   using FilterType =
-    itk::LaplacianRecursiveGaussianImageFilter<InputImageType, OutputImageType>;
+    itk::LaplacianRecursiveGaussianImageFilter<InputImageType,
+                                               OutputImageType>;
 
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -87,7 +89,8 @@ main(int argc, char * argv[])
   for (int slice = 0; slice < numberOfSlices; slice++)
   {
     std::ostringstream filename;
-    filename << argv[2] << std::setfill('0') << std::setw(3) << slice << ".mhd";
+    filename << argv[2] << std::setfill('0') << std::setw(3) << slice
+             << ".mhd";
     writer->SetFileName(filename.str());
 
     const float sigma = static_cast<float>(slice) / 10.0 + 1.0;
@@ -103,8 +106,8 @@ main(int argc, char * argv[])
   //  The set of images can now be loaded in a Viewer, such as VolView or
   //  ParaView, and iso-surfaces can be traced at the zero value. These
   //  surfaces will correspond to the zero-crossings of the laplacian and
-  //  therefore their stability along Scales will represent the significance of
-  //  these features as edges in the original image.
+  //  therefore their stability along Scales will represent the significance
+  //  of these features as edges in the original image.
   //
   //  Software Guide : EndLatex
 

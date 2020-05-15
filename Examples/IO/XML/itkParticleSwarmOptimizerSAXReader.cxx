@@ -43,9 +43,11 @@ ParticleSwarmOptimizerSAXReader::CanReadFile(const char * name)
  * Method called when a new xml tag start is encountered.
  */
 void
-ParticleSwarmOptimizerSAXReader::StartElement(const char * name, const char ** atts)
+ParticleSwarmOptimizerSAXReader::StartElement(const char *  name,
+                                              const char ** atts)
 {
-  if (itksys::SystemTools::Strucmp(name, "optimizer") == 0 && this->ContextIs("/"))
+  if (itksys::SystemTools::Strucmp(name, "optimizer") == 0 &&
+      this->ContextIs("/"))
   {
     this->ProcessOptimizerAttributes(atts, this->m_OutputObject);
   }
@@ -73,7 +75,8 @@ ParticleSwarmOptimizerSAXReader::StartElement(const char * name, const char ** a
     }
     this->ProcessBoundAttributes(atts, *bound);
   }
-  else if (itksys::SystemTools::Strucmp(name, "ParametersConvergenceTolerance") == 0 &&
+  else if (itksys::SystemTools::Strucmp(
+             name, "ParametersConvergenceTolerance") == 0 &&
            this->ContextIs("/optimizer"))
   {
     // nothing to do as it does not have attributes
@@ -91,7 +94,8 @@ ParticleSwarmOptimizerSAXReader::EndElement(const char * name)
   if (itksys::SystemTools::Strucmp(name, "optimizer") == 0 &&
       this->ContextIs("/optimizer"))
   {
-    // all children have been read, now incorporate them into the output object
+    // all children have been read, now incorporate them into the output
+    // object
     ParticleSwarmOptimizer::ParameterBoundsType bounds;
     for (size_t i = 0; i < this->m_LowerBound.size(); i++)
     {
@@ -110,7 +114,8 @@ ParticleSwarmOptimizerSAXReader::EndElement(const char * name)
   {
     // nothing to do as it does not have children
   }
-  else if (itksys::SystemTools::Strucmp(name, "ParametersConvergenceTolerance") == 0 &&
+  else if (itksys::SystemTools::Strucmp(
+             name, "ParametersConvergenceTolerance") == 0 &&
            this->ContextIs("/optimizer/ParametersConvergenceTolerance"))
   {
     // nothing to do as it does not have children
@@ -123,7 +128,8 @@ ParticleSwarmOptimizerSAXReader::EndElement(const char * name)
  * Method for handling the data inside an xml tag.
  */
 void
-ParticleSwarmOptimizerSAXReader::CharacterDataHandler(const char * inData, int inLength)
+ParticleSwarmOptimizerSAXReader::CharacterDataHandler(const char * inData,
+                                                      int          inLength)
 {
   if (this->ContextIs("/optimizer/ParametersConvergenceTolerance"))
   {
@@ -138,7 +144,8 @@ ParticleSwarmOptimizerSAXReader::CharacterDataHandler(const char * inData, int i
       data.push_back(value);
     }
 
-    Array<double> ptols(static_cast<Array<double>::SizeValueType>(data.size()));
+    Array<double> ptols(
+      static_cast<Array<double>::SizeValueType>(data.size()));
     for (unsigned int i = 0; i < data.size(); i++)
     {
       ptols[i] = data[i];
@@ -158,8 +165,8 @@ ParticleSwarmOptimizerSAXReader::ReadFile()
     if (!this->CanReadFile(this->m_Filename.c_str()))
     {
       // itkExceptionMacro does not accept a variable as the input,
-      // so the following is needed if we want to include the file name in the exception
-      // message
+      // so the following is needed if we want to include the file name in the
+      // exception message
       ExceptionObject e(__FILE__, __LINE__);
       std::string     message = "Cannot read from ";
       message += this->m_Filename;
@@ -202,7 +209,8 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
       iss >> nop;
       opt->SetNumberOfParticles(nop);
     }
-    else if (itksys::SystemTools::Strucmp(atts[i], "MaximumNumberOfIterations") == 0)
+    else if (itksys::SystemTools::Strucmp(atts[i],
+                                          "MaximumNumberOfIterations") == 0)
     {
       std::istringstream iss(atts[i + 1]);
       int                noi = 0;
@@ -223,21 +231,24 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
       iss >> gcoef;
       opt->SetGlobalCoefficient(gcoef);
     }
-    else if (itksys::SystemTools::Strucmp(atts[i], "PersonalCoefficient") == 0)
+    else if (itksys::SystemTools::Strucmp(atts[i], "PersonalCoefficient") ==
+             0)
     {
       std::istringstream iss(atts[i + 1]);
       double             pcoef = 0;
       iss >> pcoef;
       opt->SetPersonalCoefficient(pcoef);
     }
-    else if (itksys::SystemTools::Strucmp(atts[i], "FunctionConvergenceTolerance") == 0)
+    else if (itksys::SystemTools::Strucmp(
+               atts[i], "FunctionConvergenceTolerance") == 0)
     {
       std::istringstream iss(atts[i + 1]);
       double             ftol = 0;
       iss >> ftol;
       opt->SetFunctionConvergenceTolerance(ftol);
     }
-    else if (itksys::SystemTools::Strucmp(atts[i], "ConvergedPercentageToStop") == 0)
+    else if (itksys::SystemTools::Strucmp(atts[i],
+                                          "ConvergedPercentageToStop") == 0)
     {
       std::istringstream iss(atts[i + 1]);
       double             stoppercent = 0;
@@ -249,8 +260,9 @@ ParticleSwarmOptimizerSAXReader::ProcessOptimizerAttributes(
 
 /** Process tag 'bound' attributes. */
 void
-ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes(const char **         atts,
-                                                        std::vector<double> & bound)
+ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes(
+  const char **         atts,
+  std::vector<double> & bound)
 {
   // go over all the attribute-value pairs
   for (size_t i = 0; atts[i] != nullptr; i += 2)
@@ -275,7 +287,8 @@ ParticleSwarmOptimizerSAXReader::ProcessBoundAttributes(const char **         at
 
 /** Search for and return a particular attribute from the attribute list. */
 const char *
-ParticleSwarmOptimizerSAXReader::GetAttribute(const char ** atts, const char * key)
+ParticleSwarmOptimizerSAXReader::GetAttribute(const char ** atts,
+                                              const char *  key)
 {
   // go over all the attribute-value pairs
   for (size_t i = 0; atts[i] != nullptr; i += 2)

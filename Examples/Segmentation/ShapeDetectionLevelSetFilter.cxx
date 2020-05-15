@@ -82,8 +82,9 @@
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{ShapeDetectionCollaborationDiagram1}
-// \itkcaption[ShapeDetectionLevelSetImageFilter collaboration diagram]{Collaboration
-// diagram for the ShapeDetectionLevelSetImageFilter applied to a segmentation task.}
+// \itkcaption[ShapeDetectionLevelSetImageFilter collaboration
+// diagram]{Collaboration diagram for the ShapeDetectionLevelSetImageFilter
+// applied to a segmentation task.}
 // \label{fig:ShapeDetectionCollaborationDiagram}
 // \end{figure}
 //
@@ -271,7 +272,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using SmoothingFilterType =
-    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
+    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType,
+                                                  InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -358,7 +360,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching =
+    FastMarchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -372,8 +375,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ShapeDetectionFilterType =
-    itk::ShapeDetectionLevelSetImageFilter<InternalImageType, InternalImageType>;
-  ShapeDetectionFilterType::Pointer shapeDetection = ShapeDetectionFilterType::New();
+    itk::ShapeDetectionLevelSetImageFilter<InternalImageType,
+                                           InternalImageType>;
+  ShapeDetectionFilterType::Pointer shapeDetection =
+    ShapeDetectionFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -421,8 +426,9 @@ main(int argc, char * argv[])
   //  The GradientMagnitudeRecursiveGaussianImageFilter performs the
   //  equivalent of a convolution with a Gaussian kernel followed by a
   //  derivative operator. The sigma of this Gaussian can be used to control
-  //  the range of influence of the image edges. This filter has been discussed
-  //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
+  //  the range of influence of the image edges. This filter has been
+  //  discussed in
+  //  Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
   //
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //
@@ -615,7 +621,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  fastMarching->SetOutputSize(reader->GetOutput()->GetBufferedRegion().GetSize());
+  fastMarching->SetOutputSize(
+    reader->GetOutput()->GetBufferedRegion().GetSize());
   // Software Guide : EndCodeSnippet
 
 
@@ -698,22 +705,23 @@ main(int argc, char * argv[])
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations()
+  std::cout << "Max. no. iterations: "
+            << shapeDetection->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError()
             << std::endl;
-  std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
-  std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations()
-            << std::endl;
+  std::cout << "No. elpased iterations: "
+            << shapeDetection->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
 
   writer4->Update();
 
 
   // The following writer type is used to save the output of the time-crossing
-  // map in a file with apropiate pixel representation. The advantage of saving
-  // this image in native format is that it can be used with a viewer to help
-  // determine an appropriate threshold to be used on the output of the
-  // fastmarching filter.
+  // map in a file with apropiate pixel representation. The advantage of
+  // saving this image in native format is that it can be used with a viewer
+  // to help determine an appropriate threshold to be used on the output of
+  // the fastmarching filter.
   //
   using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
@@ -740,22 +748,23 @@ main(int argc, char * argv[])
   //  \code{Examples/Data}. We can easily segment the major anatomical
   //  structures by providing seeds in the appropriate locations.
   //  Table~\ref{tab:ShapeDetectionLevelSetFilterOutput} presents the
-  //  parameters used for some structures.  For all of the examples illustrated
-  //  in this table, the propagation scaling was set to $1.0$, and the
-  //  curvature scaling set to 0.05.
+  //  parameters used for some structures.  For all of the examples
+  //  illustrated in this table, the propagation scaling was set to $1.0$, and
+  //  the curvature scaling set to 0.05.
   //
   //  \begin{table}
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|c|c|}
   //  \hline
-  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ & Output
-  //  Image \\ \hline Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & First  in
-  //  Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline Right Ventricle &
+  //  Structure    & Seed Index & Distance & $\sigma$ & $\alpha$ & $\beta$ &
+  //  Output Image \\ \hline Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5
+  //  & 3.0  & First  in Figure \ref{fig:ShapeDetectionLevelSetFilterOutput2}
+  //  \\  \hline Right Ventricle &
   //  $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  & Second in Figure
-  //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline White matter    & $(56,
-  //  92)$ & 5.0 & 1.0 & -0.3 & 2.0  & Third  in Figure
-  //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline Gray matter     & $(40,
-  //  90)$ & 5.0 & 0.5 & -0.3 & 2.0  & Fourth in Figure
+  //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline White matter &
+  //  $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & Third  in Figure
+  //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline Gray matter &
+  //  $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & Fourth in Figure
   //  \ref{fig:ShapeDetectionLevelSetFilterOutput2} \\  \hline \end{tabular}
   //  \end{center}
   //  \itkcaption[ShapeDetection example parameters]{Parameters used for
@@ -770,26 +779,27 @@ main(int argc, char * argv[])
   //  intermediate outputs of the pipeline illustrated in
   //  Figure~\ref{fig:ShapeDetectionCollaborationDiagram}. They are from left
   //  to right: the output of the anisotropic diffusion filter, the gradient
-  //  magnitude of the smoothed image and the sigmoid of the gradient magnitude
-  //  which is finally used as the edge potential for the
+  //  magnitude of the smoothed image and the sigmoid of the gradient
+  //  magnitude which is finally used as the edge potential for the
   //  ShapeDetectionLevelSetImageFilter.
   //
   //  Notice that in Figure~\ref{fig:ShapeDetectionLevelSetFilterOutput2} the
   //  segmented shapes are rounder than in
-  //  Figure~\ref{fig:FastMarchingImageFilterOutput2} due to the effects of the
-  //  curvature term in the driving equation. As with the previous example,
-  //  segmentation of the gray matter is still problematic.
+  //  Figure~\ref{fig:FastMarchingImageFilterOutput2} due to the effects of
+  //  the curvature term in the driving equation. As with the previous
+  //  example, segmentation of the gray matter is still problematic.
   //
   // \begin{figure} \center
   // \includegraphics[height=0.40\textheight]{BrainProtonDensitySlice}
   // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1Smoothing}
   // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1GradientMagnitude}
   // \includegraphics[height=0.40\textheight]{ShapeDetectionLevelSetFilterOutput1Sigmoid}
-  // \itkcaption[ShapeDetectionLevelSetImageFilter intermediate output]{Images generated
-  // by the segmentation process based on the ShapeDetectionLevelSetImageFilter. From
-  // left to right and top to bottom: input image to be segmented, image smoothed with
-  // an edge-preserving smoothing filter, gradient magnitude of the smoothed image,
-  // sigmoid of the gradient magnitude. This last image, the sigmoid, is used to compute
+  // \itkcaption[ShapeDetectionLevelSetImageFilter intermediate output]{Images
+  // generated by the segmentation process based on the
+  // ShapeDetectionLevelSetImageFilter. From left to right and top to bottom:
+  // input image to be segmented, image smoothed with an edge-preserving
+  // smoothing filter, gradient magnitude of the smoothed image, sigmoid of
+  // the gradient magnitude. This last image, the sigmoid, is used to compute
   // the speed term for the front propagation.}
   // \label{fig:ShapeDetectionLevelSetFilterOutput}
   // \end{figure}
@@ -808,10 +818,11 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput2}
   // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput3}
   // \includegraphics[width=0.24\textwidth]{ShapeDetectionLevelSetFilterOutput4}
-  // \itkcaption[ShapeDetectionLevelSetImageFilter segmentations]{Images generated by
-  // the segmentation process based on the ShapeDetectionLevelSetImageFilter. From left
-  // to right: segmentation of the left ventricle, segmentation of the right ventricle,
-  // segmentation of the white matter, attempt of segmentation of the gray matter.}
+  // \itkcaption[ShapeDetectionLevelSetImageFilter segmentations]{Images
+  // generated by the segmentation process based on the
+  // ShapeDetectionLevelSetImageFilter. From left to right: segmentation of
+  // the left ventricle, segmentation of the right ventricle, segmentation of
+  // the white matter, attempt of segmentation of the gray matter.}
   // \label{fig:ShapeDetectionLevelSetFilterOutput2}
   // \end{figure}
   //

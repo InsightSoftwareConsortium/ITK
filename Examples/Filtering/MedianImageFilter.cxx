@@ -26,10 +26,10 @@
 //  The \doxygen{MedianImageFilter} is commonly used as a robust approach for
 //  noise reduction. This filter is particularly efficient against
 //  \emph{salt-and-pepper} noise. In other words, it is robust to the presence
-//  of gray-level outliers. MedianImageFilter computes the value of each output
-//  pixel as the statistical median of the neighborhood of values around the
-//  corresponding input pixel. The following figure illustrates the local
-//  effect of this filter in a $2D$ case. The statistical median of the
+//  of gray-level outliers. MedianImageFilter computes the value of each
+//  output pixel as the statistical median of the neighborhood of values
+//  around the corresponding input pixel. The following figure illustrates the
+//  local effect of this filter in a $2D$ case. The statistical median of the
 //  neighborhood on the left is passed as the output value associated with the
 //  pixel at the center of the neighborhood.
 //
@@ -181,14 +181,14 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{MedianImageFilterOutput}
-  // \itkcaption[Effect of the Median filter.]{Effect of the MedianImageFilter on a
-  // slice from a MRI proton density brain image.}
+  // \itkcaption[Effect of the Median filter.]{Effect of the MedianImageFilter
+  // on a slice from a MRI proton density brain image.}
   // \label{fig:MedianImageFilterOutput}
   // \end{figure}
   //
   //  Figure \ref{fig:MedianImageFilterOutput} illustrates the effect of the
-  //  MedianImageFilter filter on a slice of MRI brain image using a neighborhood radius
-  //  of
+  //  MedianImageFilter filter on a slice of MRI brain image using a
+  //  neighborhood radius of
   //  \(1,1\), which corresponds to a $ 3 \times 3 $ classical neighborhood.
   //  The filtered image demonstrates the moderate tendency of the median
   //  filter to preserve edges.

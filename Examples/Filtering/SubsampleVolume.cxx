@@ -58,7 +58,8 @@ main(int argc, char * argv[])
   if (argc < 6)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile factorX factorY factorZ"
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFile factorX factorY factorZ"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -66,8 +67,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We explicitly instantiate the pixel type and dimension of the input image,
-  // and the images that will be used internally for computing the resampling.
+  // We explicitly instantiate the pixel type and dimension of the input
+  // image, and the images that will be used internally for computing the
+  // resampling.
   //
   // Software Guide : EndLatex
 
@@ -94,8 +96,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In this particular case we take the factors for resampling directly from the
-  // command line arguments.
+  // In this particular case we take the factors for resampling directly from
+  // the command line arguments.
   //
   // Software Guide : EndLatex
 
@@ -122,13 +124,14 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // A casting filter is instantiated in order to convert the pixel type of the
-  // input image into the pixel type desired for computing the resampling.
+  // A casting filter is instantiated in order to convert the pixel type of
+  // the input image into the pixel type desired for computing the resampling.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CastFilterType = itk::CastImageFilter<InputImageType, InternalImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<InputImageType, InternalImageType>;
 
   CastFilterType::Pointer caster = CastFilterType::New();
 
@@ -138,9 +141,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The smoothing filter of choice is the \code{RecursiveGaussianImageFilter}.
-  // We create three of them in order to have the freedom of performing smoothing
-  // with different sigma values along each dimension.
+  // The smoothing filter of choice is the
+  // \code{RecursiveGaussianImageFilter}. We create three of them in order to
+  // have the freedom of performing smoothing with different sigma values
+  // along each dimension.
   //
   // Software Guide : EndLatex
 
@@ -169,8 +173,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The sigma values to use in the smoothing filters are computed based on the
-  // pixel spacing of the input image and the factors provided as arguments.
+  // The sigma values to use in the smoothing filters are computed based on
+  // the pixel spacing of the input image and the factors provided as
+  // arguments.
   //
   // Software Guide : EndLatex
 
@@ -190,9 +195,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We instruct each one of the smoothing filters to act along a particular
-  // direction of the image, and set them to use normalization across scale space
-  // in order to account for the reduction of intensity that accompanies the
-  // diffusion process associated with the Gaussian smoothing.
+  // direction of the image, and set them to use normalization across scale
+  // space in order to account for the reduction of intensity that accompanies
+  // the diffusion process associated with the Gaussian smoothing.
   //
   // Software Guide : EndLatex
 
@@ -209,8 +214,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The type of the resampling filter is instantiated using the internal image
-  // type and the output image type.
+  // The type of the resampling filter is instantiated using the internal
+  // image type and the output image type.
   //
   // Software Guide : EndLatex
 
@@ -224,9 +229,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Since the resampling is performed in the same physical extent of the input
-  // image, we select the IdentityTransform as the one to be used by the resampling
-  // filter.
+  // Since the resampling is performed in the same physical extent of the
+  // input image, we select the IdentityTransform as the one to be used by the
+  // resampling filter.
   //
   // Software Guide : EndLatex
 
@@ -242,10 +247,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The Linear interpolator is selected because it provides a good run-time
-  // performance.  For applications that require better precision you may want to
-  // replace this interpolator with the \doxygen{BSplineInterpolateImageFunction}
-  // interpolator or with the \doxygen{WindowedSincInterpolateImageFunction}
-  // interpolator.
+  // performance.  For applications that require better precision you may want
+  // to replace this interpolator with the
+  // \doxygen{BSplineInterpolateImageFunction} interpolator or with the
+  // \doxygen{WindowedSincInterpolateImageFunction} interpolator.
   //
   // Software Guide : EndLatex
 
@@ -260,9 +265,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The spacing to be used in the grid of the resampled image is computed using
-  // the input image spacing and the factors provided in the command line
-  // arguments.
+  // The spacing to be used in the grid of the resampled image is computed
+  // using the input image spacing and the factors provided in the command
+  // line arguments.
   //
   // Software Guide : EndLatex
 
@@ -279,8 +284,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The origin and direction of the input image are both preserved and passed to
-  // the output image.
+  // The origin and direction of the input image are both preserved and passed
+  // to the output image.
   //
   // Software Guide : EndLatex
 
@@ -299,7 +304,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  InputImageType::SizeType inputSize = inputImage->GetLargestPossibleRegion().GetSize();
+  InputImageType::SizeType inputSize =
+    inputImage->GetLargestPossibleRegion().GetSize();
 
   using SizeValueType = InputImageType::SizeType::SizeValueType;
 
@@ -327,9 +333,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // At this point we can trigger the execution of the resampling by calling the
-  // \code{Update()} method, or we can choose to pass the output of the resampling
-  // filter to another section of pipeline, for example, an image writer.
+  // At this point we can trigger the execution of the resampling by calling
+  // the \code{Update()} method, or we can choose to pass the output of the
+  // resampling filter to another section of pipeline, for example, an image
+  // writer.
   //
   // Software Guide : EndLatex
 

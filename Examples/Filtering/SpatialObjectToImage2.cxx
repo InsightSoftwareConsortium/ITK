@@ -47,8 +47,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  Then we include the header of the GaussianSpatialObject that we will use as
-//  elementary shape.
+//  Then we include the header of the GaussianSpatialObject that we will use
+//  as elementary shape.
 //
 //  \index{itk::GaussianSpatialObject!header}
 //
@@ -105,8 +105,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Using the same dimension, we instantiate the types of the elementary
-  //  SpatialObjects that we plan to group, and we instantiate as well the type
-  //  of the SpatialObject that will hold the group together.
+  //  SpatialObjects that we plan to group, and we instantiate as well the
+  //  type of the SpatialObject that will hold the group together.
   //
   //  Software Guide : EndLatex
 
@@ -266,11 +266,11 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  By default, the filter will rasterize the aggregation of elementary
-  //  shapes and will assign a pixel value to locations that fall inside of any
-  //  of the elementary shapes, and a different pixel value to locations that
-  //  fall outside of all of the elementary shapes. In this case, we actually
-  //  want the values of the Gaussians (MetaBalls) to be used in order produce
-  //  the equivalent of a smooth fusion effect among the shapes.
+  //  shapes and will assign a pixel value to locations that fall inside of
+  //  any of the elementary shapes, and a different pixel value to locations
+  //  that fall outside of all of the elementary shapes. In this case, we
+  //  actually want the values of the Gaussians (MetaBalls) to be used in
+  //  order produce the equivalent of a smooth fusion effect among the shapes.
   //
   //  Software Guide : EndLatex
 
@@ -285,8 +285,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Finally we are ready to run the filter. We use the typical invocation of
-  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter} in
-  //  order to save the generated image into a file.
+  //  the \code{Update} method, and we instantiate an \code{ImageFileWriter}
+  //  in order to save the generated image into a file.
   //
   //  Software Guide : EndLatex
 

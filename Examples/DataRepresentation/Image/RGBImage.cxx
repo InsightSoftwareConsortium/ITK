@@ -48,8 +48,8 @@ main(int, char * argv[])
   // Software Guide : BeginLatex
   //
   // The RGB pixel class is templated over a type used to represent each one
-  // of the red, green and blue pixel components. A typical instantiation of the
-  // templated class is as follows.
+  // of the red, green and blue pixel components. A typical instantiation of
+  // the templated class is as follows.
   //
   //  \index{itk::RGBPixel!Instantiation}
   //
@@ -112,11 +112,14 @@ main(int, char * argv[])
   // Software Guide : EndCodeSnippet
 
   std::cout << "Pixel values from GetRed,GetGreen,GetBlue:" << std::endl;
-  std::cout << "Red = " << itk::NumericTraits<PixelType::ValueType>::PrintType(red)
+  std::cout << "Red = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(red)
             << std::endl;
-  std::cout << "Green = " << itk::NumericTraits<PixelType::ValueType>::PrintType(green)
+  std::cout << "Green = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(green)
             << std::endl;
-  std::cout << "Blue = " << itk::NumericTraits<PixelType::ValueType>::PrintType(blue)
+  std::cout << "Blue = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(blue)
             << std::endl;
 
   // Software Guide : BeginLatex
@@ -132,11 +135,14 @@ main(int, char * argv[])
   blue = onePixel[2];  // extract Blue  component
 
   std::cout << "Pixel values:" << std::endl;
-  std::cout << "Red = " << itk::NumericTraits<PixelType::ValueType>::PrintType(red)
+  std::cout << "Red = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(red)
             << std::endl;
-  std::cout << "Green = " << itk::NumericTraits<PixelType::ValueType>::PrintType(green)
+  std::cout << "Green = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(green)
             << std::endl;
-  std::cout << "Blue = " << itk::NumericTraits<PixelType::ValueType>::PrintType(blue)
+  std::cout << "Blue = "
+            << itk::NumericTraits<PixelType::ValueType>::PrintType(blue)
             << std::endl;
 
   // Software Guide : EndCodeSnippet

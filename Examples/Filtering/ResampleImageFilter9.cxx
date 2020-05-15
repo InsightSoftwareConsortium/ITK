@@ -47,7 +47,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile_NearestNeighbor"
+    std::cerr << argv[0]
+              << "  inputImageFile  outputImageFile_NearestNeighbor"
               << "  outputImageFile_Linear " << std::endl;
     return EXIT_FAILURE;
   }
@@ -63,8 +64,9 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writerNearest = WriterType::New(); // writer for nearest neighbor
-  WriterType::Pointer writerLinear = WriterType::New();  // writer for linear
+  WriterType::Pointer writerNearest =
+    WriterType::New(); // writer for nearest neighbor
+  WriterType::Pointer writerLinear = WriterType::New(); // writer for linear
 
   reader->SetFileName(argv[1]);
   writerNearest->SetFileName(argv[2]);
@@ -78,10 +80,13 @@ main(int argc, char * argv[])
   // Interpolators
   using NearestInterpolatorType =
     itk::NearestNeighborInterpolateImageFunction<ImageType, double>;
-  NearestInterpolatorType::Pointer interpolatorNearest = NearestInterpolatorType::New();
+  NearestInterpolatorType::Pointer interpolatorNearest =
+    NearestInterpolatorType::New();
 
-  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
-  LinearInterpolatorType::Pointer interpolatorLinear = LinearInterpolatorType::New();
+  using LinearInterpolatorType =
+    itk::LinearInterpolateImageFunction<ImageType, double>;
+  LinearInterpolatorType::Pointer interpolatorLinear =
+    LinearInterpolatorType::New();
 
   nearestFilter->SetInterpolator(interpolatorNearest);
   linearFilter->SetInterpolator(interpolatorLinear);

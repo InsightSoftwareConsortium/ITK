@@ -23,7 +23,8 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to use the \doxygen{OtsuMultipleThresholdsCalculator}.
+// This example illustrates how to use the
+// \doxygen{OtsuMultipleThresholdsCalculator}.
 //
 // Software Guide : EndLatex
 
@@ -64,9 +65,9 @@ main(int argc, char * argv[])
   //
   // \code{OtsuMultipleThresholdsCalculator} calculates thresholds for a given
   // histogram so as to maximize the between-class variance. We use
-  // \code{ScalarImageToHistogramGenerator} to generate histograms. The histogram
-  // type defined by the generator is then used to instantiate the type of the
-  // Otsu threshold calculator.
+  // \code{ScalarImageToHistogramGenerator} to generate histograms. The
+  // histogram type defined by the generator is then used to instantiate the
+  // type of the Otsu threshold calculator.
   //
   // Software Guide : EndLatex
 
@@ -84,13 +85,14 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Once thresholds are computed we will use \code{BinaryThresholdImageFilter}
-  // to segment the input image.
+  // Once thresholds are computed we will use
+  // \code{BinaryThresholdImageFilter} to segment the input image.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -101,8 +103,9 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ScalarImageToHistogramGeneratorType::Pointer scalarImageToHistogramGenerator =
-    ScalarImageToHistogramGeneratorType::New();
+  ScalarImageToHistogramGeneratorType::Pointer
+    scalarImageToHistogramGenerator =
+      ScalarImageToHistogramGeneratorType::New();
 
   CalculatorType::Pointer calculator = CalculatorType::New();
   FilterType::Pointer     filter = FilterType::New();
@@ -180,7 +183,8 @@ main(int argc, char * argv[])
   // Get Thresholds
 
   // Software Guide : BeginCodeSnippet
-  const CalculatorType::OutputType & thresholdVector = calculator->GetOutput();
+  const CalculatorType::OutputType & thresholdVector =
+    calculator->GetOutput();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -198,11 +202,13 @@ main(int argc, char * argv[])
   InputPixelType upperThreshold;
 
   // Software Guide : BeginCodeSnippet
-  for (auto itNum = thresholdVector.begin(); itNum != thresholdVector.end(); ++itNum)
+  for (auto itNum = thresholdVector.begin(); itNum != thresholdVector.end();
+       ++itNum)
   {
     std::cout
       << "OtsuThreshold[" << (int)(itNum - thresholdVector.begin()) << "] = "
-      << static_cast<itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>(
+      << static_cast<
+           itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>(
            *itNum)
       << std::endl;
     // Software Guide : EndCodeSnippet

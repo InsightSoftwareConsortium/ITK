@@ -82,8 +82,8 @@ main(int argc, char ** argv)
   //
   //  Note that the dimension of the image in memory should match the one of
   //  the image in the file. There are a couple of special cases in which this
-  //  condition may be relaxed, but in general it is better to ensure that both
-  //  dimensions match.
+  //  condition may be relaxed, but in general it is better to ensure that
+  //  both dimensions match.
   //
   //  We can now instantiate the types of the reader and writer. These two
   //  classes are parameterized over the image type.
@@ -107,7 +107,8 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -176,9 +177,9 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we trigger the execution of the pipeline with the \code{Update()}
-  //  method on the writer. The output image will then be the scaled and cast
-  //  version of the input image.
+  //  Finally we trigger the execution of the pipeline with the
+  //  \code{Update()} method on the writer. The output image will then be the
+  //  scaled and cast version of the input image.
   //
   //  Software Guide : EndLatex
 

@@ -168,7 +168,8 @@ CompositeExampleImageFilter<TImage>::CompositeExampleImageFilter()
   m_ThresholdFilter->SetInput(m_GradientFilter->GetOutput());
   m_RescaleFilter = RescalerType::New();
   m_RescaleFilter->SetInput(m_ThresholdFilter->GetOutput());
-  m_RescaleFilter->SetOutputMinimum(NumericTraits<PixelType>::NonpositiveMin());
+  m_RescaleFilter->SetOutputMinimum(
+    NumericTraits<PixelType>::NonpositiveMin());
   m_RescaleFilter->SetOutputMaximum(NumericTraits<PixelType>::max());
 }
 //  Software Guide : EndCodeSnippet
@@ -187,18 +188,18 @@ CompositeExampleImageFilter<TImage>::CompositeExampleImageFilter()
 //  \doxygen{Image} pointer.
 //
 //  This implies that the composite filter must
-//  implement pipeline methods that indicate the \doxygen{ImageRegion}'s it requires
-//  and generates, like \code{GenerateInputRequestedRegion()},
+//  implement pipeline methods that indicate the \doxygen{ImageRegion}'s it
+//  requires and generates, like \code{GenerateInputRequestedRegion()},
 //  \code{GenerateOutputRequestedRegion()}, \code{GenerateOutputInformation()}
 //  and \code{EnlargeOutputRequestedRegion()}, according to the behavior of
 //  its component filters.
 //
 //  Next, graft the output of the last stage onto the output of the composite,
 //  which ensures the requested region is updated and the last stage populates
-//  the output buffer allocated by the composite filter. We force the composite
-//  pipeline to be processed by calling \code{Update()} on the final stage.
-//  Then, graft the output back onto the output of the enclosing filter, so
-//  it has the result available to the downstream filter.
+//  the output buffer allocated by the composite filter. We force the
+//  composite pipeline to be processed by calling \code{Update()} on the final
+//  stage. Then, graft the output back onto the output of the enclosing
+//  filter, so it has the result available to the downstream filter.
 //
 //  Software Guide : EndLatex
 
@@ -231,7 +232,8 @@ CompositeExampleImageFilter<TImage>::GenerateData()
 
 template <typename TImage>
 void
-CompositeExampleImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
+CompositeExampleImageFilter<TImage>::PrintSelf(std::ostream & os,
+                                               Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -246,9 +248,9 @@ CompositeExampleImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent)
 //
 //  It is important to note that in the above example, none of the internal
 //  details of the pipeline were exposed to users of the class.  The interface
-//  consisted of the Threshold parameter (which happened to change the value in
-//  the component filter) and the regular ImageToImageFilter interface.  This
-//  example pipeline is illustrated in
+//  consisted of the Threshold parameter (which happened to change the value
+//  in the component filter) and the regular ImageToImageFilter interface.
+//  This example pipeline is illustrated in
 //  Figure~\ref{fig:CompositeExamplePipeline}.
 //
 //  Software Guide : EndLatex

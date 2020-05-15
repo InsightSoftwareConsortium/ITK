@@ -68,7 +68,8 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementType = int;
   constexpr unsigned int MeasurementVectorLength = 2;
-  using MeasurementVectorType = itk::Vector<MeasurementType, MeasurementVectorLength>;
+  using MeasurementVectorType =
+    itk::Vector<MeasurementType, MeasurementVectorLength>;
 
   using ListSampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   ListSampleType::Pointer listSample = ListSampleType::New();
@@ -157,7 +158,8 @@ main()
   }
 
   std::cout << "Size = " << histogram->Size() << std::endl;
-  std::cout << "Total frequency = " << histogram->GetTotalFrequency() << std::endl;
+  std::cout << "Total frequency = " << histogram->GetTotalFrequency()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

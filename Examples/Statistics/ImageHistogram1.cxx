@@ -28,7 +28,8 @@
 // the histogram of the image.
 //
 // First, we need to include the headers for the
-// \subdoxygen{Statistics}{ImageToListSampleAdaptor} and the \doxygen{Image} classes.
+// \subdoxygen{Statistics}{ImageToListSampleAdaptor} and the \doxygen{Image}
+// classes.
 //
 // \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor!header}
 // \index{Statistics!Images}
@@ -83,8 +84,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Using the same image type we instantiate the type of the image reader that
-  // will provide the image source for our example.
+  // Using the same image type we instantiate the type of the image reader
+  // that will provide the image source for our example.
   //
   // Software Guide : EndLatex
 
@@ -98,12 +99,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Now we introduce the central piece of this example, which is the use of the
-  // adaptor that will present the \doxygen{Image} as if it was a list of
+  // Now we introduce the central piece of this example, which is the use of
+  // the adaptor that will present the \doxygen{Image} as if it was a list of
   // samples. We instantiate the type of the adaptor by using the actual image
   // type. Then construct the adaptor by invoking its \code{New()} method and
-  // assigning the result to the corresponding smart pointer. Finally we connect
-  // the output of the image reader to the input of the adaptor.
+  // assigning the result to the corresponding smart pointer. Finally we
+  // connect the output of the image reader to the input of the adaptor.
   //
   // \index{itk::Statistics::Scalar\-Image\-To\-List\-Adaptor!instantiation}
   //
@@ -120,11 +121,11 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // You must keep in mind that adaptors are not pipeline objects. This means
-  // that they do not propagate update calls. It is therefore your responsibility
-  // to make sure that you invoke the \code{Update()} method of the reader before
-  // you attempt to use the output of the adaptor. As usual, this must be done
-  // inside a try/catch block because the read operation can potentially throw
-  // exceptions.
+  // that they do not propagate update calls. It is therefore your
+  // responsibility to make sure that you invoke the \code{Update()} method of
+  // the reader before you attempt to use the output of the adaptor. As usual,
+  // this must be done inside a try/catch block because the read operation can
+  // potentially throw exceptions.
   //
   // Software Guide : EndLatex
 
@@ -164,14 +165,14 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We define now the characteristics of the Histogram that we want to compute.
-  // This typically includes the size of each one of the component, but given
-  // that in this simple example we are dealing with a scalar image, then our
-  // histogram will have a single component. For the sake of generality, however,
-  // we use the \code{HistogramType} as defined inside of the Generator type. We
-  // define also the marginal scale factor that will control the precision used
-  // when assigning values to histogram bins. Finally we invoke the
-  // \code{Update()} method in the filter.
+  // We define now the characteristics of the Histogram that we want to
+  // compute. This typically includes the size of each one of the component,
+  // but given that in this simple example we are dealing with a scalar image,
+  // then our histogram will have a single component. For the sake of
+  // generality, however, we use the \code{HistogramType} as defined inside of
+  // the Generator type. We define also the marginal scale factor that will
+  // control the precision used when assigning values to histogram bins.
+  // Finally we invoke the \code{Update()} method in the filter.
   //
   // Software Guide : EndLatex
 
@@ -198,8 +199,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Now we are ready for using the image histogram for any further processing.
-  // The histogram is obtained from the filter by invoking the
+  // Now we are ready for using the image histogram for any further
+  // processing. The histogram is obtained from the filter by invoking the
   // \code{GetOutput()} method.
   //
   // Software Guide : EndLatex
@@ -210,8 +211,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In this current example we simply print out the frequency values of all the
-  // bins in the image histogram.
+  // In this current example we simply print out the frequency values of all
+  // the bins in the image histogram.
   //
   // Software Guide : EndLatex
 

@@ -37,16 +37,17 @@
 // A similarity transform can be seen as a composition of rotations,
 // translations and uniform $\left(\text{isotropic}\right)$ scaling. It
 // preserves angles and maps lines into
-// lines. This transform is implemented in the toolkit as deriving from a rigid
-// $2D$ transform and with a scale parameter added.
+// lines. This transform is implemented in the toolkit as deriving from a
+// rigid $2D$ transform and with a scale parameter added.
 //
-// When using this transform, attention should be paid to the fact that scaling
-// and translations are not independent.  In the same way that rotations can
-// locally be seen as translations, scaling also results in local displacements.
-// Scaling is performed in general with respect to the origin of coordinates.
-// However, we already saw how ambiguous that could be in the case of
-// rotations. For this reason, this transform also allows users to setup a
-// specific center. This center is used both for rotation and scaling.
+// When using this transform, attention should be paid to the fact that
+// scaling and translations are not independent.  In the same way that
+// rotations can locally be seen as translations, scaling also results in
+// local displacements. Scaling is performed in general with respect to the
+// origin of coordinates. However, we already saw how ambiguous that could be
+// in the case of rotations. For this reason, this transform also allows users
+// to setup a specific center. This center is used both for rotation and
+// scaling.
 //
 //
 // \index{itk::Simularity2DTransform}
@@ -165,8 +166,8 @@ main(int argc, char * argv[])
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using MetricType =
     itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
   MetricType::Pointer       metric = MetricType::New();
   OptimizerType::Pointer    optimizer = OptimizerType::New();
@@ -193,8 +194,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -216,9 +219,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
 
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
 
   initializer->SetTransform(transform);
 
@@ -261,8 +267,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Now the initialized transform object will be set to the registration method,
-  //  and its initial parameters are used to initialize the registration process.
+  //  Now the initialized transform object will be set to the registration
+  //  method, and its initial parameters are used to initialize the
+  //  registration process.
   //
   //  Also, by calling the \code{InPlaceOn()} method, this initialized
   //  transform will be the output transform
@@ -307,9 +314,9 @@ main(int argc, char * argv[])
   //  We also set the ordinary parameters of the optimization method. In this
   //  case we are using a
   //  \doxygen{RegularStepGradientDescentOptimizerv4}. Below we define the
-  //  optimization parameters, i.e. initial learning rate (step length), minimal
-  //  step length and number of iterations. The last two act as stopping criteria
-  //  for the optimization.
+  //  optimization parameters, i.e. initial learning rate (step length),
+  //  minimal step length and number of iterations. The last two act as
+  //  stopping criteria for the optimization.
   //
   //  Software Guide : EndLatex
 
@@ -465,22 +472,22 @@ main(int argc, char * argv[])
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceAngle}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceScale}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration7TraceTranslations}
-  // \itkcaption[Simularity2DTransform registration plots]{Plots of the Metric,
-  // rotation angle, scale factor, and translations during
-  // the registration using
-  // Similarity2D transform.}
+  // \itkcaption[Simularity2DTransform registration plots]{Plots of the
+  // Metric, rotation angle, scale factor, and translations during the
+  // registration using Similarity2D transform.}
   // \label{fig:ImageRegistration7Plots}
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration7Plots} shows the plots of the main
-  //  output parameters of the registration process. The metric values at every
-  //  iteration are shown on the left. The rotation angle and scale factor values are
-  //  shown in the two center plots while the translation components of the registration
-  //  are presented in the plot on the right.
+  //  output parameters of the registration process. The metric values at
+  //  every iteration are shown on the left. The rotation angle and scale
+  //  factor values are shown in the two center plots while the translation
+  //  components of the registration are presented in the plot on the right.
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
   resampler->SetTransform(transform);
@@ -498,7 +505,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 

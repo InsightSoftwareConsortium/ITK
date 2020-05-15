@@ -30,7 +30,8 @@
 //  curvature anisotropic diffusion filter on an image with
 //  \doxygen{RGBPixel} type.
 //
-//  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!RGB Images}
+//  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!RGB
+//  Images}
 //
 //  Software Guide : EndLatex
 
@@ -104,8 +105,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The filter type is now instantiated and a filter object is created by the
-  //  \code{New()} method.
+  //  The filter type is now instantiated and a filter object is created by
+  //  the \code{New()} method.
   //
   //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!instantiation}
   //  \index{itk::Vector\-Gradient\-Anisotropic\-Diffusion\-Image\-Filter!New()}
@@ -115,7 +116,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::VectorGradientAnisotropicDiffusionImageFilter<InputImageType, InputImageType>;
+    itk::VectorGradientAnisotropicDiffusionImageFilter<InputImageType,
+                                                       InputImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -204,9 +206,9 @@ main(int argc, char * argv[])
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{VisibleWomanHeadSlice}
   // \includegraphics[width=0.44\textwidth]{RGBGradientAnisotropicDiffusionImageFilterOutput}
-  // \itkcaption[VectorGradientAnisotropicDiffusionImageFilter on RGB] {Effect of
-  // the VectorGradientAnisotropicDiffusionImageFilter on a RGB image from a
-  // cryogenic section of the Visible Woman data set.}
+  // \itkcaption[VectorGradientAnisotropicDiffusionImageFilter on RGB] {Effect
+  // of the VectorGradientAnisotropicDiffusionImageFilter on a RGB image from
+  // a cryogenic section of the Visible Woman data set.}
   // \label{fig:RGBVectorGradientAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
