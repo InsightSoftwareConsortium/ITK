@@ -31,14 +31,15 @@ template <class TInputImage, class TOutputImage>
 ShotNoiseImageFilter<TInputImage, TOutputImage>::ShotNoiseImageFilter()
 
 {
-  this->DynamicMultiThreadingOn();
+  this->DynamicMultiThreadingOff();
   this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
 void
-ShotNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+ShotNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread,
+  ThreadIdType)
 {
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput(0);

@@ -31,14 +31,15 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::SaltAndPepperNoiseImag
   : m_SaltValue(NumericTraits<OutputImagePixelType>::max())
   , m_PepperValue(NumericTraits<OutputImagePixelType>::NonpositiveMin())
 {
-  this->DynamicMultiThreadingOn();
+  this->DynamicMultiThreadingOff();
   this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
 void
-SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread,
+  ThreadIdType)
 {
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput(0);
