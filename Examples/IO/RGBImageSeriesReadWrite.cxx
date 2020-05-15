@@ -19,10 +19,11 @@
 //  Software Guide : BeginLatex
 //
 //  RGB images are commonly used for representing data acquired from cryogenic
-//  sections, optical microscopy and endoscopy. This example illustrates how to
-//  read RGB color images from a set of files containing individual 2D slices
-//  in order to compose a 3D color dataset. Then we will save it into a single
-//  3D file, and finally save it again as a set of 2D slices with other names.
+//  sections, optical microscopy and endoscopy. This example illustrates how
+//  to read RGB color images from a set of files containing individual 2D
+//  slices in order to compose a 3D color dataset. Then we will save it into a
+//  single 3D file, and finally save it again as a set of 2D slices with other
+//  names.
 //
 //  This requires the following headers as shown.
 //
@@ -97,9 +98,9 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // We use a NumericSeriesFileNames class in order to generate the filenames of
-  // the slices to be read. Later on in this example we will reuse this object in
-  // order to generate the filenames of the slices to be written.
+  // We use a NumericSeriesFileNames class in order to generate the filenames
+  // of the slices to be read. Later on in this example we will reuse this
+  // object in order to generate the filenames of the slices to be written.
   //
   // Software Guide : EndLatex
 
@@ -139,9 +140,9 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // The name of the volumetric output image is passed to the image writer, and
-  // we connect the output of the series reader to the input of the volumetric
-  // writer.
+  // The name of the volumetric output image is passed to the image writer,
+  // and we connect the output of the series reader to the input of the
+  // volumetric writer.
   //
   // Software Guide : EndLatex
 
@@ -154,8 +155,8 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Finally, execution of the pipeline can be triggered by invoking the
-  //  \code{Update()} method in the volumetric writer. This, of course, is done
-  //  from inside a try/catch block.
+  //  \code{Update()} method in the volumetric writer. This, of course, is
+  //  done from inside a try/catch block.
   //
   //  Software Guide : EndLatex
 
@@ -173,12 +174,12 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginLatex
   //
-  // We now proceed to save the same volumetric dataset as a set of slices. This
-  // is done only to illustrate the process for saving a volume as a series of 2D
-  // individual datasets. The type of the series writer must be instantiated
-  // taking into account that the input file is a 3D volume and the output files
-  // are 2D images.  Additionally, the output of the series reader is connected
-  // as input to the series writer.
+  // We now proceed to save the same volumetric dataset as a set of slices.
+  // This is done only to illustrate the process for saving a volume as a
+  // series of 2D individual datasets. The type of the series writer must be
+  // instantiated taking into account that the input file is a 3D volume and
+  // the output files are 2D images.  Additionally, the output of the series
+  // reader is connected as input to the series writer.
   //
   //  Software Guide : EndLatex
 

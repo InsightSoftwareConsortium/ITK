@@ -114,13 +114,14 @@ main(int argc, char * argv[])
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
 
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
 
   // Software Guide : BeginCodeSnippet
   using MetricType =
-    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
+    itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
+                                                     MovingImageType>;
   // Software Guide : EndCodeSnippet
 
   TransformType::Pointer    transform = TransformType::New();
@@ -150,8 +151,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -183,8 +186,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
   initializer->SetTransform(transform);
 
   initializer->SetFixedImage(fixedImageReader->GetOutput());
@@ -292,7 +298,8 @@ main(int argc, char * argv[])
   std::cout << " Metric value   = " << bestValue << std::endl;
 
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -311,7 +318,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 

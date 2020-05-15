@@ -34,8 +34,9 @@
 // \end{figure}
 //
 //  The MinMax curvature flow filter applies a variant of the curvature flow
-//  algorithm where diffusion is turned on or off depending of the scale of the
-//  noise that one wants to remove.  The evolution speed is switched between
+//  algorithm where diffusion is turned on or off depending of the scale of
+//  the noise that one wants to remove.  The evolution speed is switched
+//  between
 //  $\min(\kappa,0)$ and $\max(\kappa,0)$ such that:
 //
 //  \begin{equation}
@@ -84,8 +85,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required to use the \doxygen{MinMaxCurvatureFlowImageFilter}
-//  is to include its header file.
+//  The first step required to use the
+//  \doxygen{MinMaxCurvatureFlowImageFilter} is to include its header file.
 //
 //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!header}
 //
@@ -174,9 +175,9 @@ main(int argc, char * argv[])
   //  evolution. In addition, the radius of the neighborhood is also
   //  required. This last parameter is passed using the
   //  \code{SetStencilRadius()} method. Note that the radius is provided as an
-  //  integer number since it is referring to a number of pixels from the center
-  //  to the border of the neighborhood. Then the filter can be executed by
-  //  invoking \code{Update()}.
+  //  integer number since it is referring to a number of pixels from the
+  //  center to the border of the neighborhood. Then the filter can be
+  //  executed by invoking \code{Update()}.
   //
   //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!Update()}
   //  \index{itk::MinMax\-Curvature\-Flow\-Image\-Filter!SetTimeStep()}

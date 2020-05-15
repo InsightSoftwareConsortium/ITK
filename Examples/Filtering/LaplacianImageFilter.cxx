@@ -47,14 +47,19 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<CharImageType>;
   using WriterType = itk::ImageFileWriter<CharImageType>;
 
-  using CastToRealFilterType = itk::CastImageFilter<CharImageType, RealImageType>;
-  using CastToCharFilterType = itk::CastImageFilter<RealImageType, CharImageType>;
+  using CastToRealFilterType =
+    itk::CastImageFilter<CharImageType, RealImageType>;
+  using CastToCharFilterType =
+    itk::CastImageFilter<RealImageType, CharImageType>;
 
-  using RescaleFilter = itk::RescaleIntensityImageFilter<RealImageType, RealImageType>;
+  using RescaleFilter =
+    itk::RescaleIntensityImageFilter<RealImageType, RealImageType>;
 
-  using LaplacianFilter = itk::LaplacianImageFilter<RealImageType, RealImageType>;
+  using LaplacianFilter =
+    itk::LaplacianImageFilter<RealImageType, RealImageType>;
 
-  using ZeroCrossingFilter = itk::ZeroCrossingImageFilter<RealImageType, RealImageType>;
+  using ZeroCrossingFilter =
+    itk::ZeroCrossingImageFilter<RealImageType, RealImageType>;
 
   // Setting the IO
   ReaderType::Pointer reader = ReaderType::New();

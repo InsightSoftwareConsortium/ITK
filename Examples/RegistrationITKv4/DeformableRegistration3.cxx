@@ -22,18 +22,19 @@
 
 // Software Guide : BeginLatex
 //
-// This example demonstrates how to use a variant of the ``demons'' algorithm to
-// deformably register two images. This variant uses a different formulation
-// for computing the forces to be applied to the image in order to compute the
-// deformation fields. The variant uses both the gradient of the fixed image
-// and the gradient of the deformed moving image in order to compute the
-// forces. This mechanism for computing the forces introduces a symmetry with
-// respect to the choice of the fixed and moving images. This symmetry only
-// holds during the computation of one iteration of the PDE updates. It is
-// unlikely that total symmetry may be achieved by this mechanism for the
-// entire registration process.
+// This example demonstrates how to use a variant of the ``demons'' algorithm
+// to deformably register two images. This variant uses a different
+// formulation for computing the forces to be applied to the image in order to
+// compute the deformation fields. The variant uses both the gradient of the
+// fixed image and the gradient of the deformed moving image in order to
+// compute the forces. This mechanism for computing the forces introduces a
+// symmetry with respect to the choice of the fixed and moving images. This
+// symmetry only holds during the computation of one iteration of the PDE
+// updates. It is unlikely that total symmetry may be achieved by this
+// mechanism for the entire registration process.
 //
-// The first step for using this filter is to include the following header files.
+// The first step for using this filter is to include the following header
+// files.
 //
 // Software Guide : EndLatex
 
@@ -117,8 +118,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -136,12 +139,15 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using InternalPixelType = float;
   using InternalImageType = itk::Image<InternalPixelType, Dimension>;
-  using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
+  using FixedImageCasterType =
+    itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType =
     itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  FixedImageCasterType::Pointer fixedImageCaster =
+    FixedImageCasterType::New();
+  MovingImageCasterType::Pointer movingImageCaster =
+    MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
@@ -149,19 +155,19 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The demons algorithm relies on the assumption that pixels representing the
-  // same homologous point on an object have the same intensity on both the
-  // fixed and moving images to be registered. In this example, we will
+  // The demons algorithm relies on the assumption that pixels representing
+  // the same homologous point on an object have the same intensity on both
+  // the fixed and moving images to be registered. In this example, we will
   // preprocess the moving image to match the intensity between the images
   // using the \doxygen{HistogramMatchingImageFilter}.
   //
   // \index{itk::Histogram\-Matching\-Image\-Filter}
   //
-  // The basic idea is to match the histograms of the two images at a user-specified
-  // number of quantile values. For robustness, the histograms are matched so that the
-  // background pixels are excluded from both histograms. For MR images, a simple
-  // procedure is to exclude all gray values that are smaller than the mean gray value
-  // of the image.
+  // The basic idea is to match the histograms of the two images at a
+  // user-specified number of quantile values. For robustness, the histograms
+  // are matched so that the background pixels are excluded from both
+  // histograms. For MR images, a simple procedure is to exclude all gray
+  // values that are smaller than the mean gray value of the image.
   //
   // Software Guide : EndLatex
 
@@ -174,8 +180,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // For this example, we set the moving image as the source or input image and
-  // the fixed image as the reference image.
+  // For this example, we set the moving image as the source or input image
+  // and the fixed image as the reference image.
   //
   // \index{itk::Histogram\-Matching\-Image\-Filter!SetInput()}
   // \index{itk::Histogram\-Matching\-Image\-Filter!SetSourceImage()}
@@ -222,8 +228,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In the \doxygen{SymmetricForcesDemonsRegistrationFilter}, the deformation field is
-  // represented as an image whose pixels are floating point vectors.
+  // In the \doxygen{SymmetricForcesDemonsRegistrationFilter}, the deformation
+  // field is represented as an image whose pixels are floating point vectors.
   //
   // \index{itk::Symmetric\-Forces\-Demons\-Registration\-Filter}
   //
@@ -292,8 +298,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ResampleImageFilter} can be used to warp the moving image with
-  // the output deformation field. The \doxygen{ResampleImageFilter}
+  // The \doxygen{ResampleImageFilter} can be used to warp the moving image
+  // with the output deformation field. The \doxygen{ResampleImageFilter}
   // requires specifications for the input image to be resampled: an
   // input image interpolator, a transform and the output image's
   // meta-data can be set from a reference image.
@@ -312,7 +318,8 @@ main(int argc, char * argv[])
                                               InterpolatorPrecisionType,
                                               TransformPrecisionType>;
   using InterpolatorType =
-    itk::LinearInterpolateImageFunction<MovingImageType, InterpolatorPrecisionType>;
+    itk::LinearInterpolateImageFunction<MovingImageType,
+                                        InterpolatorPrecisionType>;
   WarperType::Pointer       warper = WarperType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
@@ -348,7 +355,8 @@ main(int argc, char * argv[])
   // Write warped image out to file
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer     writer = WriterType::New();
@@ -363,8 +371,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Let's execute this example using the rat lung data from the previous example.
-  // The associated data files can be found in \code{Examples/Data}:
+  // Let's execute this example using the rat lung data from the previous
+  // example. The associated data files can be found in \code{Examples/Data}:
   //
   // \begin{itemize}
   // \item \code{RatLungSlice1.mha}
@@ -374,8 +382,8 @@ main(int argc, char * argv[])
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardBefore}
   // \includegraphics[width=0.44\textwidth]{DeformableRegistration2CheckerboardAfter}
-  // \itkcaption[Demon's deformable registration output]{Checkerboard comparisons
-  // before and after demons-based deformable registration.}
+  // \itkcaption[Demon's deformable registration output]{Checkerboard
+  // comparisons before and after demons-based deformable registration.}
   // \label{fig:DeformableRegistration3Output}
   // \end{figure}
   //
@@ -409,9 +417,9 @@ main(int argc, char * argv[])
 
     // Software Guide : BeginLatex
     //
-    // Note that the file format used for writing the deformation field must be
-    // capable of representing multiple components per pixel. This is the case
-    // for the MetaImage and VTK file formats for example.
+    // Note that the file format used for writing the deformation field must
+    // be capable of representing multiple components per pixel. This is the
+    // case for the MetaImage and VTK file formats for example.
     //
     // Software Guide : EndLatex
   }

@@ -36,9 +36,10 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // \code{LineSpatialObject} is templated over the dimension of the space.
-  // A \code{LineSpatialObject} contains a list of \code{LineSpatialObjectPoint}s.
-  // A \code{LineSpatialObjectPoint} has a position, $n-1$ normals and a color.
-  // Each normal is expressed as a \doxygen{CovariantVector} of size N.
+  // A \code{LineSpatialObject} contains a list of
+  // \code{LineSpatialObjectPoint}s. A \code{LineSpatialObjectPoint} has a
+  // position, $n-1$ normals and a color. Each normal is expressed as a
+  // \doxygen{CovariantVector} of size N.
   //
   // First, we define some type definitions and we create our line.
   //
@@ -62,10 +63,9 @@ main(int, char *[])
   // also set the
   // color of each point to red.
   //
-  // The two normals are set using the \code{SetNormalInObjectSpace()} function;
-  // the first
-  // argument is the normal itself and the second argument is the index of the
-  // normal.
+  // The two normals are set using the \code{SetNormalInObjectSpace()}
+  // function; the first argument is the normal itself and the second argument
+  // is the index of the normal.
   //
   // Software Guide : EndLatex
 
@@ -98,9 +98,9 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Next, we set the name of the object using \code{SetName()}. We also set its
-  // identification number with \code{SetId()} and we set the list of points
-  // previously created.
+  // Next, we set the name of the object using \code{SetName()}. We also set
+  // its identification number with \code{SetId()} and we set the list of
+  // points previously created.
   //
   // Software Guide : EndLatex
 
@@ -140,10 +140,13 @@ main(int, char *[])
   LineType::LinePointListType::const_iterator it = Line->GetPoints().begin();
   while (it != Line->GetPoints().end())
   {
-    std::cout << "Position = " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Position = " << (*it).GetPositionInObjectSpace()
+              << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
-    std::cout << "First normal = " << (*it).GetNormalInObjectSpace(0) << std::endl;
-    std::cout << "Second normal = " << (*it).GetNormalInObjectSpace(1) << std::endl;
+    std::cout << "First normal = " << (*it).GetNormalInObjectSpace(0)
+              << std::endl;
+    std::cout << "Second normal = " << (*it).GetNormalInObjectSpace(1)
+              << std::endl;
     std::cout << std::endl;
     ++it;
   }

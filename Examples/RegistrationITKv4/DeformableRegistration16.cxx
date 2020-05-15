@@ -17,19 +17,18 @@
  *=========================================================================*/
 /*******************************************************************************
 
-  Abstract:  -  Multiresolution   demons registration - 4 multiresolution levels
-  Created: June 25 2008
-  Last Revision 7/9/2008
-  by Vidya Rajagopalan  on 7/9/2008
+  Abstract:  -  Multiresolution   demons registration - 4 multiresolution
+levels Created: June 25 2008 Last Revision 7/9/2008 by Vidya Rajagopalan  on
+7/9/2008
 
   Copyright (c) 2008, Bioimaging Systems Lab, Virginia Tech
   All rights reserved.
 
-  Redistribution and use in source and binary forms, with or without modification,
-  are permitted provided that the following conditions are met:
+  Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
 
-   * Redistributions of source code must retain the above copyright notice, this
-     list of conditions and the following disclaimer.
+   * Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.
    * Redistributions in binary form must reproduce the above copyright notice,
      this list of conditions and the following disclaimer in the documentation
      and/or other materials provided with the distribution.
@@ -45,15 +44,16 @@
   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-  IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
-  OF SUCH DAMAGE.
+  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
 *******************************************************************************/
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the
 // \doxygen{MultiResolutionPDEDeformableRegistration} class for performing
-// deformable registration of two $2D$ images using multiple resolution levels.
+// deformable registration of two $2D$ images using multiple resolution
+// levels.
 //
 // The MultiResolution filter drives a DemonsRegistrationFilter
 // at every level of resolution in the pyramid.
@@ -127,15 +127,17 @@ protected:
   using InternalImageType = itk::Image<InternalPixelType, 2>;
   using VectorPixelType = itk::Vector<float, 2>;
   using DisplacementFieldType = itk::Image<VectorPixelType, 2>;
-  using RegistrationFilterType = itk::DemonsRegistrationFilter<InternalImageType,
-                                                               InternalImageType,
-                                                               DisplacementFieldType>;
+  using RegistrationFilterType =
+    itk::DemonsRegistrationFilter<InternalImageType,
+                                  InternalImageType,
+                                  DisplacementFieldType>;
 
 public:
   void
   Execute(const itk::Object *, const itk::EventObject &) override
   {
-    std::cout << "Warning: The const Execute method shouldn't be called" << std::endl;
+    std::cout << "Warning: The const Execute method shouldn't be called"
+              << std::endl;
   }
 
   void
@@ -150,10 +152,11 @@ public:
     if (filter)
     {
       filter->SetMaximumRMSError(MaxRmsE[RmsCounter]);
-      std::cout << filter->GetMetric() << "  RMS Change: " << filter->GetRMSChange()
-                << std::endl;
+      std::cout << filter->GetMetric()
+                << "  RMS Change: " << filter->GetRMSChange() << std::endl;
 
-      std::cout << "Level Tolerance=  " << filter->GetMaximumRMSError() << std::endl;
+      std::cout << "Level Tolerance=  " << filter->GetMaximumRMSError()
+                << std::endl;
     }
   }
 };
@@ -198,7 +201,8 @@ main(int argc, char * argv[])
   if (argc != 5)
   {
     std::cerr << "usage: " << std::endl;
-    std::cerr << argv[0] << " fixedImage movingImage registeredImage deformationField"
+    std::cerr << argv[0]
+              << " fixedImage movingImage registeredImage deformationField"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -246,9 +250,10 @@ main(int argc, char * argv[])
 
   using DisplacementFieldType = itk::Image<VectorPixelType, Dimension>;
 
-  using RegistrationFilterType = itk::DemonsRegistrationFilter<InternalImageType,
-                                                               InternalImageType,
-                                                               DisplacementFieldType>;
+  using RegistrationFilterType =
+    itk::DemonsRegistrationFilter<InternalImageType,
+                                  InternalImageType,
+                                  DisplacementFieldType>;
 
   RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
 

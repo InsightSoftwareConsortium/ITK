@@ -50,7 +50,8 @@ main(int argc, char * argv[])
   using ScalarType = double;
   constexpr unsigned int Dimension = 3;
 
-  using CompositeTransformType = itk::CompositeTransform<ScalarType, Dimension>;
+  using CompositeTransformType =
+    itk::CompositeTransform<ScalarType, Dimension>;
   CompositeTransformType::Pointer composite = CompositeTransformType::New();
 
   using AffineTransformType = itk::AffineTransform<ScalarType, Dimension>;
@@ -64,7 +65,8 @@ main(int argc, char * argv[])
   constexpr unsigned int SplineOrder = 5;
   using BSplineTransformType =
     itk::BSplineTransform<ScalarType, Dimension, SplineOrder>;
-  using BSplineTransformFType = itk::BSplineTransform<float, Dimension, SplineOrder>;
+  using BSplineTransformFType =
+    itk::BSplineTransform<float, Dimension, SplineOrder>;
 
   // By default only BSpline transforms of order 3 are registered.
   // Manually register this order 5 bspline for both float and double
@@ -82,7 +84,8 @@ main(int argc, char * argv[])
   bspline->SetTransformDomainOrigin(origin);
   bspline->SetTransformDomainPhysicalDimensions(dimensions);
 
-  BSplineTransformType::ParametersType parameters(bspline->GetNumberOfParameters());
+  BSplineTransformType::ParametersType parameters(
+    bspline->GetNumberOfParameters());
   bspline->SetParameters(parameters);
   bspline->SetIdentity();
 
@@ -143,7 +146,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using ReadScalarType = float;
 
-  using TransformReaderType = itk::TransformFileReaderTemplate<ReadScalarType>;
+  using TransformReaderType =
+    itk::TransformFileReaderTemplate<ReadScalarType>;
   TransformReaderType::Pointer reader = TransformReaderType::New();
   // Software Guide : EndCodeSnippet
 
@@ -175,10 +179,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The transform reader is templated and it returns a list
-  // of \doxygen{Transform}'s. Even thought the reader instantiate the appropriate
-  // transform class when reading the file, it is up to the user to
-  // do the approriate cast.
-  // To get the output list of transform we use the GetTransformList() function.
+  // of \doxygen{Transform}'s. Even thought the reader instantiate the
+  // appropriate transform class when reading the file, it is up to the user
+  // to do the approriate cast. To get the output list of transform we use the
+  // GetTransformList() function.
   //
   // Software Guide : EndLatex
 
@@ -190,13 +194,14 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We then use an STL iterator to go through the list of transforms. We show here
-  // how to do the proper casting of the resulting transform.
+  // We then use an STL iterator to go through the list of transforms. We show
+  // here how to do the proper casting of the resulting transform.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ReadCompositeTransformType = itk::CompositeTransform<ReadScalarType, Dimension>;
+  using ReadCompositeTransformType =
+    itk::CompositeTransform<ReadScalarType, Dimension>;
   auto it = transforms->begin();
   if (!strcmp((*it)->GetNameOfClass(), "CompositeTransform"))
   {

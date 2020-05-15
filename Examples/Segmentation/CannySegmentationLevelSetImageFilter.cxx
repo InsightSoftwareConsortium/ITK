@@ -155,7 +155,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using DiffusionFilterType =
-    itk::GradientAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
+    itk::GradientAnisotropicDiffusionImageFilter<InternalImageType,
+                                                 InternalImageType>;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations(5);
   diffusion->SetTimeStep(0.125);
@@ -171,7 +172,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using CannySegmentationLevelSetImageFilterType =
-    itk::CannySegmentationLevelSetImageFilter<InternalImageType, InternalImageType>;
+    itk::CannySegmentationLevelSetImageFilter<InternalImageType,
+                                              InternalImageType>;
   CannySegmentationLevelSetImageFilterType::Pointer cannySegmentation =
     CannySegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -279,14 +281,15 @@ main(int argc, char * argv[])
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << cannySegmentation->GetNumberOfIterations()
-            << std::endl;
+  std::cout << "Max. no. iterations: "
+            << cannySegmentation->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << cannySegmentation->GetMaximumRMSError()
             << std::endl;
   std::cout << std::endl;
-  std::cout << "No. elpased iterations: " << cannySegmentation->GetElapsedIterations()
+  std::cout << "No. elpased iterations: "
+            << cannySegmentation->GetElapsedIterations() << std::endl;
+  std::cout << "RMS change: " << cannySegmentation->GetRMSChange()
             << std::endl;
-  std::cout << "RMS change: " << cannySegmentation->GetRMSChange() << std::endl;
 
   //  Software Guide : BeginLatex
   //
@@ -314,8 +317,8 @@ main(int argc, char * argv[])
   //  applying the CannySegmentationLevelSetImageFilter to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from
-  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}, $15$ iterations of
-  //  the CannySegmentationLevelSetImageFilter, and the
+  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}, $15$
+  //  iterations of the CannySegmentationLevelSetImageFilter, and the
   //  CannySegmentationLevelSetImageFilter run to convergence.}
   //  \label{fig:CannySegmentationLevelSetImageFilter}
   //  \end{figure}
@@ -336,12 +339,12 @@ main(int argc, char * argv[])
 
     //  Software Guide : BeginLatex
     //
-    // In some cases it is interesting to take a direct look at the speed image
-    // used internally by this filter. This may help for setting the correct
-    // parameters for driving the segmentation. In order to obtain such speed
-    // image, the method \code{GenerateSpeedImage()} should be invoked first.
-    // Then we can recover the speed image with the \code{GetSpeedImage()} method
-    // as illustrated in the following lines.
+    // In some cases it is interesting to take a direct look at the speed
+    // image used internally by this filter. This may help for setting the
+    // correct parameters for driving the segmentation. In order to obtain
+    // such speed image, the method \code{GenerateSpeedImage()} should be
+    // invoked first. Then we can recover the speed image with the
+    // \code{GetSpeedImage()} method as illustrated in the following lines.
     //
     //  \index{itk::Canny\-Segmentation\-LevelSet\-Image\-Filter!GenerateSpeedImage()}
     //  \index{itk::Segmentation\-LevelSet\-ImageFilter!GenerateSpeedImage()}
@@ -353,7 +356,8 @@ main(int argc, char * argv[])
     //  Software Guide : BeginCodeSnippet
     cannySegmentation->GenerateSpeedImage();
 
-    using SpeedImageType = CannySegmentationLevelSetImageFilterType::SpeedImageType;
+    using SpeedImageType =
+      CannySegmentationLevelSetImageFilterType::SpeedImageType;
     using SpeedWriterType = itk::ImageFileWriter<SpeedImageType>;
     SpeedWriterType::Pointer speedWriter = SpeedWriterType::New();
 
@@ -369,7 +373,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & excep)
     {
-      std::cerr << "Exception caught ! while writing the speed image" << std::endl;
+      std::cerr << "Exception caught ! while writing the speed image"
+                << std::endl;
       std::cerr << "Filename : " << speedImageFileName << std::endl;
       std::cerr << excep << std::endl;
       return EXIT_FAILURE;

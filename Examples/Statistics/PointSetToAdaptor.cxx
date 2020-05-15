@@ -23,14 +23,14 @@
 //
 // \index{itk::Sample!PointSetToListSampleAdaptor}
 //
-// \subdoxygen{Statistics}{PointSetToListSampleAdaptor} class requires the type
-// of input \doxygen{PointSet} object. The \doxygen{PointSet} class is an
+// \subdoxygen{Statistics}{PointSetToListSampleAdaptor} class requires the
+// type of input \doxygen{PointSet} object. The \doxygen{PointSet} class is an
 // associative data container. Each point in a \code{PointSet} object can have
 // its associated data value (optional). For the statistics subsystem, current
-// implementation of \code{PointSetToListSampleAdaptor} takes only the point part
-// into consideration. In other words, the measurement vectors from a
-// \code{PointSetToListSampleAdaptor} object are points from the \code{PointSet}
-// object that is plugged-into the adaptor object.
+// implementation of \code{PointSetToListSampleAdaptor} takes only the point
+// part into consideration. In other words, the measurement vectors from a
+// \code{PointSetToListSampleAdaptor} object are points from the
+// \code{PointSet} object that is plugged-into the adaptor object.
 //
 // To use, an \doxygen{PointSetToListSampleAdaptor} object, we include the
 // header file for the class.
@@ -58,8 +58,8 @@ main()
 {
   // Software Guide : BeginLatex
   //
-  // We assume you already know how to create an \doxygen{PointSet} object. The
-  // following code snippet will create a 2D image of float pixels filled
+  // We assume you already know how to create an \doxygen{PointSet} object.
+  // The following code snippet will create a 2D image of float pixels filled
   // with random values.
   //
   // Software Guide :EndLatex
@@ -96,8 +96,8 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementVectorType = itk::FixedArray<float, 1>;
   using ArrayPointSetType = itk::PointSet<MeasurementVectorType, 2>;
-  using CasterType =
-    itk::ScalarToArrayCastPointSetFilter<FloatPointSet2DType, ArrayPointSetType>;
+  using CasterType = itk::ScalarToArrayCastPointSetFilter<FloatPointSet2DType,
+                                                          ArrayPointSetType>;
 
   CasterType::Pointer caster = CasterType::New();
   caster->SetInput(random->GetOutput());
@@ -114,7 +114,8 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using SampleType = itk::Statistics::PointSetToListSampleAdaptor<ArrayPointSetType>;
+  using SampleType =
+    itk::Statistics::PointSetToListSampleAdaptor<ArrayPointSetType>;
   SampleType::Pointer sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 

@@ -63,7 +63,8 @@ main(int argc, char ** argv)
   if (argc < 3)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " input3DImageFile  output2DImageFile " << std::endl;
+    std::cerr << argv[0] << " input3DImageFile  output2DImageFile "
+              << std::endl;
     std::cerr << " sliceNumber " << std::endl;
     return EXIT_FAILURE;
   }
@@ -71,8 +72,8 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  Image types are defined below. Note that the input image type is $3D$ and
-  //  the output image type is $2D$.
+  //  Image types are defined below. Note that the input image type is $3D$
+  //  and the output image type is $2D$.
   //
   //  Software Guide : EndLatex
 
@@ -87,8 +88,8 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
-  //  are instantiated using the image types.
+  //  The types for the \doxygen{ImageFileReader} and
+  //  \doxygen{ImageFileWriter} are instantiated using the image types.
   //
   //  Software Guide : EndLatex
 
@@ -264,9 +265,9 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we execute the pipeline by invoking \code{Update()} on the writer. The
-  //  call is placed in a \code{try/catch} block in case exceptions are
-  //  thrown.
+  //  Finally we execute the pipeline by invoking \code{Update()} on the
+  //  writer. The call is placed in a \code{try/catch} block in case
+  //  exceptions are thrown.
   //
   //  Software Guide : EndLatex
 

@@ -41,8 +41,8 @@
 //
 //  The whole process is illustrated in Figure
 //  \ref{fig:ResampleImageFilterTransformComposition1}. In order to correctly
-//  interpret the process of the ResampleImageFilter you should be aware of the
-//  origin and spacing settings of both the input and output images.
+//  interpret the process of the ResampleImageFilter you should be aware of
+//  the origin and spacing settings of both the input and output images.
 //
 //  \index{itk::ResampleImageFilter!Image internal transform}
 //
@@ -93,7 +93,8 @@ main(int argc, char * argv[])
   writer->SetFileName(argv[2]);
 
 
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   using TransformType = itk::AffineTransform<double, Dimension>;
@@ -137,7 +138,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We will preserve the orientation of the input image by using the following call.
+  //  We will preserve the orientation of the input image by using the
+  //  following call.
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
@@ -398,8 +400,8 @@ main(int argc, char * argv[])
   // \begin{figure}
   // \center
   // \includegraphics[width=\textwidth]{ResampleImageFilterTransformComposition4}
-  // \itkcaption[ResampleImageFilter and output image spacing]{Effect of selecting
-  // the spacing on the output image.}
+  // \itkcaption[ResampleImageFilter and output image spacing]{Effect of
+  // selecting the spacing on the output image.}
   // \label{fig:ResampleImageFilterTransformComposition4}
   // \end{figure}
   //
@@ -442,9 +444,9 @@ main(int argc, char * argv[])
   //  as viewed with a naive image viewer (left) and with a correct image
   //  viewer (right).
   //
-  //  The following code is used to transform this non-unit spacing input image
-  //  into another non-unit spacing image located at a non-zero origin. The
-  //  comparison between input and output in a common reference system is
+  //  The following code is used to transform this non-unit spacing input
+  //  image into another non-unit spacing image located at a non-zero origin.
+  //  The comparison between input and output in a common reference system is
   //  presented in figure \ref{fig:ResampleImageFilterTransformComposition5}.
   //
   //  Software Guide : EndLatex
@@ -527,8 +529,8 @@ main(int argc, char * argv[])
   //
   //  Note also that the discretization of the image is more visible on the
   //  output presented on the right side of Figure
-  //  \ref{fig:ResampleImageFilterTransformComposition5} due to the choice of a
-  //  low resolution---just $40 \times 45$ pixels.
+  //  \ref{fig:ResampleImageFilterTransformComposition5} due to the choice of
+  //  a low resolution---just $40 \times 45$ pixels.
   //
   //  Software Guide : EndLatex
 

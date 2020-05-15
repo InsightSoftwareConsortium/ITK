@@ -113,7 +113,8 @@ main(int argc, char * argv[])
 
 
   using GradientFilterType =
-    itk::GradientRecursiveGaussianImageFilter<InputImageType, VectorImageType>;
+    itk::GradientRecursiveGaussianImageFilter<InputImageType,
+                                              VectorImageType>;
   GradientFilterType::Pointer gradient = GradientFilterType::New();
 
 
@@ -169,15 +170,16 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
 
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the curvature flow filter.
+  //  If the output of this filter has been connected to other filters down
+  //  the pipeline, updating any of the downstream filters would have
+  //  triggered the execution of this one. For example, a writer filter could
+  //  have been used after the curvature flow filter.
   //
   using OutputPixelType = float;
   using OutputImageType = itk::Image<OutputPixelType, 2>;
   using ComponentFilterType =
-    itk::VectorIndexSelectionCastImageFilter<VectorImageType, OutputImageType>;
+    itk::VectorIndexSelectionCastImageFilter<VectorImageType,
+                                             OutputImageType>;
   ComponentFilterType::Pointer component = ComponentFilterType::New();
 
   // Select the component to extract.
@@ -212,13 +214,14 @@ main(int argc, char * argv[])
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterInput}
   // \includegraphics[width=0.44\textwidth]{VectorGradientAnisotropicDiffusionImageFilterOutput}
-  // \itkcaption[VectorGradientAnisotropicDiffusionImageFilter output]{Effect of
-  // the VectorGradientAnisotropicDiffusionImageFilter on the $X$ component of
-  // the gradient from a MRI proton density brain image.}
+  // \itkcaption[VectorGradientAnisotropicDiffusionImageFilter output]{Effect
+  // of the VectorGradientAnisotropicDiffusionImageFilter on the $X$ component
+  // of the gradient from a MRI proton density brain image.}
   // \label{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
+  //  Figure
+  //  \ref{fig:VectorGradientAnisotropicDiffusionImageFilterInputOutput}
   //  illustrates the effect of this filter on a MRI proton density image of
   //  the brain. The images show the $X$ component of the gradient before
   //  (left) and after (right) the application of the filter. In this example

@@ -74,7 +74,8 @@ main(int argc, char * argv[])
   constexpr unsigned short NUMBANDS = 1;
   constexpr unsigned short NDIMENSION = 3;
 
-  using VecImageType = itk::Image<itk::Vector<unsigned short, NUMBANDS>, NDIMENSION>;
+  using VecImageType =
+    itk::Image<itk::Vector<unsigned short, NUMBANDS>, NDIMENSION>;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -165,14 +166,17 @@ main(int argc, char * argv[])
     stat::MahalanobisDistanceMembershipFunction<VecImagePixelType>;
   using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
-  using MembershipFunctionPointerVector = std::vector<MembershipFunctionPointer>;
+  using MembershipFunctionPointerVector =
+    std::vector<MembershipFunctionPointer>;
 
   //----------------------------------------------------------------------
   // Set the image model estimator (train the class models)
   //----------------------------------------------------------------------
 
-  using ImageGaussianModelEstimatorType = itk::
-    ImageGaussianModelEstimator<VecImageType, MembershipFunctionType, ClassImageType>;
+  using ImageGaussianModelEstimatorType =
+    itk::ImageGaussianModelEstimator<VecImageType,
+                                     MembershipFunctionType,
+                                     ClassImageType>;
 
   ImageGaussianModelEstimatorType::Pointer applyEstimateModel =
     ImageGaussianModelEstimatorType::New();
@@ -219,7 +223,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ClassifierType = itk::ImageClassifierBase<VecImageType, ClassImageType>;
+  using ClassifierType =
+    itk::ImageClassifierBase<VecImageType, ClassImageType>;
   using ClassifierPointer = ClassifierType::Pointer;
   ClassifierPointer myClassifier = ClassifierType::New();
   // Software Guide : EndCodeSnippet
@@ -244,16 +249,18 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using GibbsPriorFilterType = itk::RGBGibbsPriorFilter<VecImageType, ClassImageType>;
-  GibbsPriorFilterType::Pointer applyGibbsImageFilter = GibbsPriorFilterType::New();
+  using GibbsPriorFilterType =
+    itk::RGBGibbsPriorFilter<VecImageType, ClassImageType>;
+  GibbsPriorFilterType::Pointer applyGibbsImageFilter =
+    GibbsPriorFilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Set the MRF labeller parameters
   //  Software Guide : BeginLatex
   //
   //  The parameters for the Gibbs prior filter are defined
-  //  below. \code{NumberOfClasses} indicates how many different objects are in
-  //  the image.  The maximum number of iterations is the number of
+  //  below. \code{NumberOfClasses} indicates how many different objects are
+  //  in the image.  The maximum number of iterations is the number of
   //  minimization steps.  \code{ClusterSize} sets the lower limit on the
   //  object's size.  The boundary gradient is the estimate of the variance
   //  between objects and background at the boundary region.
@@ -309,8 +316,8 @@ main(int argc, char * argv[])
   //  \end{verbatim}
   //  \normalsize
   //
-  //  \code{brainweb89train} is a training image that helps to estimate the object
-  //  statistics.
+  //  \code{brainweb89train} is a training image that helps to estimate the
+  //  object statistics.
   //
   //  Note that in order to successfully segment other images, one has to
   //  create suitable training images for them. We can also segment color

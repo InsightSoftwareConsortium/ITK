@@ -44,7 +44,8 @@ main(int argc, char ** argv)
   if (argc < 3)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputRGBImageFile  outputRGBImageFile " << std::endl;
+    std::cerr << argv[0] << " inputRGBImageFile  outputRGBImageFile "
+              << std::endl;
     return EXIT_FAILURE;
   }
 

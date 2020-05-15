@@ -24,7 +24,7 @@
 // \doxygen{ImageLinearIteratorWithIndex} from iteration along lines to
 // iteration along both lines \emph{and planes} in an image.
 // A \emph{slice} is a 2D
-// plane spanned by two vectors pointing along orthogonal coordinate axes.  The
+// plane spanned by two vectors pointing along orthogonal coordinate axes. The
 // slice orientation of the slice iterator is defined by specifying its two
 // spanning axes.
 //
@@ -76,21 +76,21 @@
 //
 // \index{itk::Image\-Slice\-Iterator\-With\-Index!example of using|(}
 // The next code example calculates the maximum intensity projection along one
-// of the coordinate axes of an image volume.  The algorithm is straightforward
-// using ImageSliceIteratorWithIndex because we can coordinate
+// of the coordinate axes of an image volume.  The algorithm is
+// straightforward using ImageSliceIteratorWithIndex because we can coordinate
 // movement through a slice of the 3D input image with movement through the 2D
 // planar output.
 //
 // Here is how the algorithm works.  For each 2D slice of the input, iterate
-// through all the pixels line by line. Copy a pixel value to the corresponding
-// position in the 2D output image if it is larger than the value already
-// contained there.  When all slices have been processed, the output image is
-// the desired maximum intensity projection.
+// through all the pixels line by line. Copy a pixel value to the
+// corresponding position in the 2D output image if it is larger than the
+// value already contained there.  When all slices have been processed, the
+// output image is the desired maximum intensity projection.
 //
-// We include a header for the const version of the slice iterator. For writing
-// values to the 2D projection image, we use the linear iterator from the
-// previous section.  The linear iterator is chosen because it can be set to
-// follow the same path in its underlying 2D image that the slice iterator
+// We include a header for the const version of the slice iterator. For
+// writing values to the 2D projection image, we use the linear iterator from
+// the previous section.  The linear iterator is chosen because it can be set
+// to follow the same path in its underlying 2D image that the slice iterator
 // follows over each slice of the 3D image.
 //
 // Software Guide : EndLatex
@@ -113,16 +113,17 @@ main(int argc, char * argv[])
   {
     std::cerr << "Missing parameters. " << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile projectionDirection"
+    std::cerr << argv[0]
+              << " inputImageFile outputImageFile projectionDirection"
               << std::endl;
     return EXIT_FAILURE;
   }
 
   // Software Guide : BeginLatex
   //
-  // The pixel type is defined as \code{unsigned short}.  For this application,
-  // we need two image types, a 3D image for the input, and a 2D image for the
-  // intensity projection.
+  // The pixel type is defined as \code{unsigned short}.  For this
+  // application, we need two image types, a 3D image for the input, and a 2D
+  // image for the intensity projection.
   //
   // Software Guide : EndLatex
 
@@ -140,7 +141,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using LinearIteratorType = itk::ImageLinearIteratorWithIndex<ImageType2D>;
-  using SliceIteratorType = itk::ImageSliceConstIteratorWithIndex<ImageType3D>;
+  using SliceIteratorType =
+    itk::ImageSliceConstIteratorWithIndex<ImageType3D>;
   // Software Guide : EndCodeSnippet
 
   using ReaderType = itk::ImageFileReader<ImageType3D>;
@@ -163,10 +165,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The projection direction is read from the command line. The projection image
-  // will be the size of the 2D plane orthogonal to the projection direction.
-  // Its spanning vectors are the two remaining coordinate axes in the volume.
-  // These axes are recorded in the \code{direction} array.
+  // The projection direction is read from the command line. The projection
+  // image will be the size of the 2D plane orthogonal to the projection
+  // direction. Its spanning vectors are the two remaining coordinate axes in
+  // the volume. These axes are recorded in the \code{direction} array.
   //
   // Software Guide : EndLatex
 
@@ -188,12 +190,13 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \code{direction} array is now used to define the projection image size
-  // based on the input image size.  The output image is created so that its
-  // common dimension(s) with the input image are the same size.  For example,
-  // if we project along the $x$ axis of the input, the size and origin of the
-  // $y$ axes of the input and output will match.  This makes the code slightly
-  // more complicated, but prevents a counter-intuitive rotation of the output.
+  // The \code{direction} array is now used to define the projection image
+  // size based on the input image size.  The output image is created so that
+  // its common dimension(s) with the input image are the same size.  For
+  // example, if we project along the $x$ axis of the input, the size and
+  // origin of the $y$ axes of the input and output will match.  This makes
+  // the code slightly more complicated, but prevents a counter-intuitive
+  // rotation of the output.
   //
   // Software Guide : EndLatex
 
@@ -240,13 +243,13 @@ main(int argc, char * argv[])
 
   // Software Guide: BeginLatex
   //
-  // Now we are ready to compute the projection.  The first step is to initialize
-  // all of the projection values to their nonpositive minimum value.  The
-  // projection values are then updated row by row from the first slice of the
-  // input.  At the end of the first slice, the input iterator steps to the first
-  // row in the next slice, while the output iterator, whose underlying image
-  // consists of only one slice, rewinds to its first row.  The process repeats
-  // until the last slice of the input is processed.
+  // Now we are ready to compute the projection.  The first step is to
+  // initialize all of the projection values to their nonpositive minimum
+  // value.  The projection values are then updated row by row from the first
+  // slice of the input.  At the end of the first slice, the input iterator
+  // steps to the first row in the next slice, while the output iterator,
+  // whose underlying image consists of only one slice, rewinds to its first
+  // row.  The process repeats until the last slice of the input is processed.
   //
   // Software Guide : EndLatex
 
@@ -307,8 +310,9 @@ main(int argc, char * argv[])
   // \begin{figure}
   // \centering
   // \includegraphics[width=0.4\textwidth]{ImageSliceIteratorWithIndexOutput}
-  // \itkcaption[Maximum intensity projection using ImageSliceIteratorWithIndex]{The
-  // maximum intensity projection through three slices of a volume.}
+  // \itkcaption[Maximum intensity projection using
+  // ImageSliceIteratorWithIndex]{The maximum intensity projection through
+  // three slices of a volume.}
   // \protect\label{fig:ImageSliceIteratorWithIndexOutput}
   // \end{figure}
   //

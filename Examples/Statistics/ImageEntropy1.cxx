@@ -72,8 +72,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The pixel type and dimension of the image are explicitly declared and then
-  // used for instantiating the image type.
+  // The pixel type and dimension of the image are explicitly declared and
+  // then used for instantiating the image type.
   //
   // Software Guide : EndLatex
 
@@ -104,8 +104,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The image type is used as template parameter for instantiating the histogram
-  // generator.
+  // The image type is used as template parameter for instantiating the
+  // histogram generator.
   //
   // Software Guide : EndLatex
 
@@ -113,17 +113,18 @@ main(int argc, char * argv[])
   using HistogramGeneratorType =
     itk::Statistics::ScalarImageToHistogramGenerator<ImageType>;
 
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  HistogramGeneratorType::Pointer histogramGenerator =
+    HistogramGeneratorType::New();
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
   //
   // The parameters of the desired histogram are defined, including the
-  // number of bins and the marginal scale. For convenience in this example, we
-  // read the number of bins from the command line arguments. In this way we can
-  // easily experiment with different values for the number of bins and see how
-  // that choice affects the computation of the entropy.
+  // number of bins and the marginal scale. For convenience in this example,
+  // we read the number of bins from the command line arguments. In this way
+  // we can easily experiment with different values for the number of bins and
+  // see how that choice affects the computation of the entropy.
   //
   // Software Guide : EndLatex
 
@@ -137,8 +138,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We can then connect as input the output image from a reader and trigger the
-  // histogram computation by invoking the \code{Compute()} method in the
+  // We can then connect as input the output image from a reader and trigger
+  // the histogram computation by invoking the \code{Compute()} method in the
   // generator.
   //
   // Software Guide : EndLatex
@@ -180,15 +181,15 @@ main(int argc, char * argv[])
   //
   // We proceed now to compute the \emph{estimation} of entropy given the
   // histogram. The first conceptual jump to be done here is to assume that
-  // the histogram, which is the simple count of frequency of occurrence for the
-  // gray scale values of the image pixels, can be normalized in order to estimate
-  // the probability density function \textbf{PDF} of the actual statistical
-  // distribution of pixel values.
+  // the histogram, which is the simple count of frequency of occurrence for
+  // the gray scale values of the image pixels, can be normalized in order to
+  // estimate the probability density function \textbf{PDF} of the actual
+  // statistical distribution of pixel values.
   //
-  //  First we declare an iterator that will visit all the bins in the histogram.
-  //  Then we obtain the total number of counts using the
-  //  \code{GetTotalFrequency()} method, and we initialize the entropy variable
-  //  to zero.
+  //  First we declare an iterator that will visit all the bins in the
+  //  histogram. Then we obtain the total number of counts using the
+  //  \code{GetTotalFrequency()} method, and we initialize the entropy
+  //  variable to zero.
   //
   // Software Guide : EndLatex
 
@@ -205,16 +206,16 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We start now visiting every bin and estimating the probability of a pixel to
-  // have a value in the range of that bin. The base 2 logarithm of that
+  // We start now visiting every bin and estimating the probability of a pixel
+  // to have a value in the range of that bin. The base 2 logarithm of that
   // probability is computed, and then weighted by the probability in order to
-  // compute the expected amount of information for any given pixel. Note that a
-  // minimum value is imposed for the probability in order to avoid computing
-  // logarithms of zeros.
+  // compute the expected amount of information for any given pixel. Note that
+  // a minimum value is imposed for the probability in order to avoid
+  // computing logarithms of zeros.
   //
-  //  Note that the $\log{(2)}$ factor is used to convert the natural logarithm
-  //  in to a logarithm of base 2, and makes it possible to report the entropy
-  //  in its natural unit: the bit.
+  //  Note that the $\log{(2)}$ factor is used to convert the natural
+  //  logarithm in to a logarithm of base 2, and makes it possible to report
+  //  the entropy in its natural unit: the bit.
   //
   // Software Guide : EndLatex
 
@@ -235,11 +236,11 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // The result of this sum is considered to be our estimation of the image
-  // entropy. Note that the Entropy value will change depending on the number of
-  // histogram bins that we use for computing the histogram. This is particularly
-  // important when dealing with images whose pixel values have dynamic ranges so
-  // large that our number of bins will always underestimate the variability of
-  // the data.
+  // entropy. Note that the Entropy value will change depending on the number
+  // of histogram bins that we use for computing the histogram. This is
+  // particularly important when dealing with images whose pixel values have
+  // dynamic ranges so large that our number of bins will always underestimate
+  // the variability of the data.
   //
   // Software Guide : EndLatex
 
@@ -256,8 +257,8 @@ main(int argc, char * argv[])
   // \item \code{Examples/Data/BrainProtonDensitySlice.png}
   // \end{itemize}
   //
-  // results in the following values of entropy for different values of number of
-  // histogram bins.
+  // results in the following values of entropy for different values of number
+  // of histogram bins.
   //
   // \begin{center}
   // \begin{tabular}{|l|r|r|r|r|r|}

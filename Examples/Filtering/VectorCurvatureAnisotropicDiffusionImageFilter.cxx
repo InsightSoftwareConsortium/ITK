@@ -24,8 +24,8 @@
 //  \ref{sec:CurvatureAnisotropicDiffusionImageFilter}.
 //
 //  Typically in vector-valued diffusion, vector components are diffused
-//  independently of one another using a conductance term that is linked across
-//  the components.
+//  independently of one another using a conductance term that is linked
+//  across the components.
 //
 //  This filter is designed to process images of \doxygen{Vector} type.  The
 //  code relies on various type alias and overloaded operators defined in
@@ -114,7 +114,8 @@ main(int argc, char * argv[])
 
 
   using GradientFilterType =
-    itk::GradientRecursiveGaussianImageFilter<InputImageType, VectorImageType>;
+    itk::GradientRecursiveGaussianImageFilter<InputImageType,
+                                              VectorImageType>;
 
   GradientFilterType::Pointer gradient = GradientFilterType::New();
 
@@ -171,15 +172,16 @@ main(int argc, char * argv[])
 
 
   //
-  //  If the output of this filter has been connected to other filters down the
-  //  pipeline, updating any of the downstream filters would have triggered the
-  //  execution of this one. For example, a writer filter could have been used
-  //  after the curvature flow filter.
+  //  If the output of this filter has been connected to other filters down
+  //  the pipeline, updating any of the downstream filters would have
+  //  triggered the execution of this one. For example, a writer filter could
+  //  have been used after the curvature flow filter.
   //
   using OutputPixelType = float;
   using OutputImageType = itk::Image<OutputPixelType, 2>;
   using ComponentFilterType =
-    itk::VectorIndexSelectionCastImageFilter<VectorImageType, OutputImageType>;
+    itk::VectorIndexSelectionCastImageFilter<VectorImageType,
+                                             OutputImageType>;
   ComponentFilterType::Pointer component = ComponentFilterType::New();
 
   // Select the component to extract.
@@ -216,8 +218,8 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterInput}
   // \includegraphics[width=0.44\textwidth]{VectorCurvatureAnisotropicDiffusionImageFilterOutput}
   // \itkcaption[VectorCurvatureAnisotropicDiffusionImageFilter output]{Effect
-  // of the VectorCurvatureAnisotropicDiffusionImageFilter on the $X$ component
-  // of the gradient from a MRIproton density brain image.}
+  // of the VectorCurvatureAnisotropicDiffusionImageFilter on the $X$
+  // component of the gradient from a MRIproton density brain image.}
   // \label{fig:VectorCurvatureAnisotropicDiffusionImageFilterInputOutput}
   // \end{figure}
   //

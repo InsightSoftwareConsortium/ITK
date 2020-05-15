@@ -18,8 +18,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how to read a single DICOM slice and write it back
-//  with some changed header information as another DICOM slice. Header
+//  This example illustrates how to read a single DICOM slice and write it
+//  back with some changed header information as another DICOM slice. Header
 //  Key/Value pairs can be specified on the command line. The keys are defined
 //  in the file
 //
@@ -29,9 +29,9 @@
 //  operation. The header contains fundamental information about the patient
 //  and therefore its consistency must be protected from any data corruption.
 //  Before attempting to modify the DICOM headers of your files, you must make
-//  sure that you have a very good reason for doing so, and that you can ensure
-//  that this information change will not result in a lower quality of health
-//  care being delivered to the patient.
+//  sure that you have a very good reason for doing so, and that you can
+//  ensure that this information change will not result in a lower quality of
+//  health care being delivered to the patient.
 //
 //  \index{DICOM!Changing Headers}
 //
@@ -42,8 +42,8 @@
 // We must start by including the relevant header files. Here we include the
 // image reader, image writer, the image, the metadata dictionary and its
 // entries, the metadata objects and the GDCMImageIO. The metadata dictionary
-// is the data container that stores all the entries from the DICOM header once
-// the DICOM image file is read into an ITK image.
+// is the data container that stores all the entries from the DICOM header
+// once the DICOM image file is read into an ITK image.
 //
 // Software Guide : EndLatex
 
@@ -64,7 +64,8 @@ main(int argc, char * argv[])
 
   if (argc < 5)
   {
-    std::cerr << "Usage: " << argv[0] << " DicomImage OutputDicomImage Entry Value\n";
+    std::cerr << "Usage: " << argv[0]
+              << " DicomImage OutputDicomImage Entry Value\n";
     return EXIT_FAILURE;
   }
 
@@ -84,8 +85,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We instantiate the reader type by using the image type as template
-  // parameter. An instance of the reader is created and the file name to be read
-  // is taken from the command line arguments.
+  // parameter. An instance of the reader is created and the file name to be
+  // read is taken from the command line arguments.
   //
   // Software Guide : EndLatex
 
@@ -148,12 +149,13 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // Now we access the entries in the metadata dictionary, and for particular
-  // key values we assign a new content to the entry. This is done here by taking
-  // \{key,value\} pairs from the command line arguments. The relevant method is
-  // \code{EncapsulateMetaData} that takes the dictionary and for a given key
-  // provided by \code{entryId}, replaces the current value with the content of
-  // the \code{value} variable. This is repeated for every potential pair present
-  // in the command line arguments.
+  // key values we assign a new content to the entry. This is done here by
+  // taking
+  // \{key,value\} pairs from the command line arguments. The relevant method
+  // is \code{EncapsulateMetaData} that takes the dictionary and for a given
+  // key provided by \code{entryId}, replaces the current value with the
+  // content of the \code{value} variable. This is repeated for every
+  // potential pair present in the command line arguments.
   //
   // Software Guide : EndLatex
 
@@ -168,13 +170,14 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Now that the dictionary has been updated, we proceed to save the image. This
-  // output image will have the modified data associated with its DICOM header.
+  // Now that the dictionary has been updated, we proceed to save the image.
+  // This output image will have the modified data associated with its DICOM
+  // header.
   //
-  // Using the image type, we instantiate a writer type and construct a writer.
-  // A short pipeline between the reader and the writer is connected. The
-  // filename to write is taken from the command line arguments. The image IO
-  // object is connected to the writer.
+  // Using the image type, we instantiate a writer type and construct a
+  // writer. A short pipeline between the reader and the writer is connected.
+  // The filename to write is taken from the command line arguments. The image
+  // IO object is connected to the writer.
   //
   // Software Guide : EndLatex
 
@@ -191,7 +194,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Execution of the writer is triggered by invoking the \code{Update()} method.
+  // Execution of the writer is triggered by invoking the \code{Update()}
+  // method.
   //
   // Software Guide : EndLatex
 
@@ -211,9 +215,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Remember again, that modifying the header entries of a DICOM file involves
-  // very serious risks for patients and therefore must be done with extreme
-  // caution.
+  // Remember again, that modifying the header entries of a DICOM file
+  // involves very serious risks for patients and therefore must be done with
+  // extreme caution.
   //
   // Software Guide : EndLatex
 

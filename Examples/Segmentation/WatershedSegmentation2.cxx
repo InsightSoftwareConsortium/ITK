@@ -18,9 +18,9 @@
 
 // Software Guide : BeginLatex
 //
-// The following example illustrates how to preprocess and segment images using
-// the \doxygen{WatershedImageFilter} for the particular case of grayscale
-// scalar image.
+// The following example illustrates how to preprocess and segment images
+// using the \doxygen{WatershedImageFilter} for the particular case of
+// grayscale scalar image.
 //
 // Software Guide : EndLatex
 
@@ -101,12 +101,15 @@ main(int argc, char * argv[])
   //  into a color image (random color attribution).
   //
 
-  using ColormapFunctorType = itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
+  using ColormapFunctorType =
+    itk::Functor::ScalarToRGBPixelFunctor<unsigned long>;
 
   using LabeledImageType = WatershedFilterType::OutputImageType;
 
   using ColormapFilterType =
-    itk::UnaryFunctorImageFilter<LabeledImageType, RGBImageType, ColormapFunctorType>;
+    itk::UnaryFunctorImageFilter<LabeledImageType,
+                                 RGBImageType,
+                                 ColormapFunctorType>;
 
   ColormapFilterType::Pointer colorMapFilter = ColormapFilterType::New();
 

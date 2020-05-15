@@ -76,9 +76,10 @@ main(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << "  inputImageFile  outputImageFile  numberOfIterations  timeStep"
-              << std::endl;
+    std::cerr
+      << argv[0]
+      << "  inputImageFile  outputImageFile  numberOfIterations  timeStep"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -120,7 +121,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::CurvatureFlowImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::CurvatureFlowImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -239,8 +241,8 @@ main(int argc, char * argv[])
   // \end{figure}
   //
   //  Figure \ref{fig:CurvatureFlowImageFilterInputOutput} illustrates the
-  //  effect of this filter on a MRI proton density image of the brain. In this
-  //  example the filter was run with a time step of $0.25$ and $10$
+  //  effect of this filter on a MRI proton density image of the brain. In
+  //  this example the filter was run with a time step of $0.25$ and $10$
   //  iterations.  The figure shows how homogeneous regions are smoothed and
   //  edges are preserved.
   //

@@ -22,22 +22,22 @@
 //    ARGUMENTS:    2 2
 //  Software Guide : EndCommandLineArgs
 //
-//    BinaryThresholdImageFilterOutput.png was obtained from the BinaryThreshold
-//    ImageFilter example.
+//    BinaryThresholdImageFilterOutput.png was obtained from the
+//    BinaryThreshold ImageFilter example.
 //
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{BinaryMedianImageFilter} is commonly used as a robust approach
-//  for noise reduction. BinaryMedianImageFilter computes the value of each
-//  output pixel as the statistical median of the neighborhood of values around
-//  the corresponding input pixel. When the input images are binary, the
-//  implementation can be optimized by simply counting the number of pixels
-//  ON/OFF around the current pixel.
+//  The \doxygen{BinaryMedianImageFilter} is commonly used as a robust
+//  approach for noise reduction. BinaryMedianImageFilter computes the value
+//  of each output pixel as the statistical median of the neighborhood of
+//  values around the corresponding input pixel. When the input images are
+//  binary, the implementation can be optimized by simply counting the number
+//  of pixels ON/OFF around the current pixel.
 //
-//  This filter will work on images of any dimension thanks to the internal use
-//  of \doxygen{NeighborhoodIterator} and \doxygen{NeighborhoodOperator}. The
-//  size of the neighborhood over which the median is computed can be set by
-//  the user.
+//  This filter will work on images of any dimension thanks to the internal
+//  use of \doxygen{NeighborhoodIterator} and \doxygen{NeighborhoodOperator}.
+//  The size of the neighborhood over which the median is computed can be set
+//  by the user.
 //
 //  \index{itk::BinaryMedianImageFilter}
 //
@@ -111,7 +111,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::BinaryMedianImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::BinaryMedianImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -178,8 +179,8 @@ main(int argc, char * argv[])
   //  the BinaryMedianImageFilter filter on a slice of MRI brain image using a
   //  neighborhood radius of \(2,2\), which corresponds to a $ 5 \times 5 $
   //  classical neighborhood.  The filtered image demonstrates the capability
-  //  of this filter for reducing noise both in the background and foreground of
-  //  the image, as well as smoothing the contours of the regions.
+  //  of this filter for reducing noise both in the background and foreground
+  //  of the image, as well as smoothing the contours of the regions.
   //
   //  Software Guide : EndLatex
 

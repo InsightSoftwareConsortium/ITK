@@ -81,8 +81,9 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // We can then query if a point is inside the group using the
-  // \code{IsInsideInWorldSpace()} function. We need to specify in this case that
-  // we want to consider all the hierarchy, therefore we set the depth to 2.
+  // \code{IsInsideInWorldSpace()} function. We need to specify in this case
+  // that we want to consider all the hierarchy, therefore we set the depth
+  // to 2.
   //
   // Software Guide : EndLatex
 
@@ -90,7 +91,8 @@ main(int, char *[])
   GroupType::PointType point;
   point.Fill(10);
   std::cout << "Is my point " << point
-            << " inside?: " << myGroup->IsInsideInWorldSpace(point, 2) << std::endl;
+            << " inside?: " << myGroup->IsInsideInWorldSpace(point, 2)
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

@@ -56,7 +56,8 @@
 
 using MeasurementVectorType = itk::Vector<float, 3>;
 
-class ExampleWeightFunction : public itk::FunctionBase<MeasurementVectorType, double>
+class ExampleWeightFunction
+  : public itk::FunctionBase<MeasurementVectorType, double>
 {
 public:
   /** Standard class type aliases. */
@@ -181,7 +182,8 @@ main()
   weightedCovarianceAlgorithm->Update();
 
   std::cout << "Sample weighted covariance = " << std::endl;
-  std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix() << std::endl;
+  std::cout << weightedCovarianceAlgorithm->GetCovarianceMatrix()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -196,7 +198,8 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ExampleWeightFunction::Pointer weightFunction = ExampleWeightFunction::New();
+  ExampleWeightFunction::Pointer weightFunction =
+    ExampleWeightFunction::New();
 
   weightedMeanAlgorithm->SetWeightingFunction(weightFunction);
   weightedMeanAlgorithm->Update();

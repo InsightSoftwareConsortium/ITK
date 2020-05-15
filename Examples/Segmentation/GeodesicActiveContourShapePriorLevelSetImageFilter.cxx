@@ -26,9 +26,9 @@
 //
 // In \cite{Leventon2000}, Leventon \emph{et al.} extended the
 // geodesic active contours method with an additional shape-influenced term in
-// the driving PDE. The \doxygen{GeodesicActiveContourShapePriorLevelSetFilter}
-// is a generalization of Leventon's approach and its use is illustrated
-// in the following example.
+// the driving PDE. The
+// \doxygen{GeodesicActiveContourShapePriorLevelSetFilter} is a generalization
+// of Leventon's approach and its use is illustrated in the following example.
 //
 // To support shape-guidance, the generic level set
 // equation (Eqn(~\ref{eqn:LevelSetEquation})) is extended to incorporate a
@@ -51,35 +51,37 @@
 // images: the first is an initial level set and the second a feature image
 // that represents the image edge potential. The configuration of this
 // example is quite similar to the example in
-// Section~\ref{sec:GeodesicActiveContourImageFilter} and hence the description
-// will focus on the new objects involved in the segmentation process as shown
-// in Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}.
+// Section~\ref{sec:GeodesicActiveContourImageFilter} and hence the
+// description will focus on the new objects involved in the segmentation
+// process as shown in
+// Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}.
 //
 // \begin{figure} \center
 // \includegraphics[width=\textwidth]{GeodesicActiveContourShapePriorCollaborationDiagram}
-// \itkcaption[GeodesicActiveContourShapePriorLevelSetImageFilter collaboration
-// diagram]{Collaboration diagram for the
-// GeodesicActiveContourShapePriorLevelSetImageFilter applied to a segmentation task.}
+// \itkcaption[GeodesicActiveContourShapePriorLevelSetImageFilter
+// collaboration diagram]{Collaboration diagram for the
+// GeodesicActiveContourShapePriorLevelSetImageFilter applied to a
+// segmentation task.}
 // \label{fig:GeodesicActiveContourShapePriorCollaborationDiagram}
 // \end{figure}
 //
 // The process pipeline begins with centering the input image using the
-// the \doxygen{ChangeInformationImageFilter} to simplify the estimation of the pose
-// of the shape, to be explained later.
-// The centered image is then smoothed using non-linear diffusion to
-// remove noise and the gradient magnitude is computed from the smoothed image.
-// For simplicity, this example uses the \doxygen{BoundedReciprocalImageFilter}
-// to produce the edge potential image.
+// the \doxygen{ChangeInformationImageFilter} to simplify the estimation of
+// the pose of the shape, to be explained later. The centered image is then
+// smoothed using non-linear diffusion to remove noise and the gradient
+// magnitude is computed from the smoothed image. For simplicity, this example
+// uses the \doxygen{BoundedReciprocalImageFilter} to produce the edge
+// potential image.
 //
-// The \doxygen{FastMarchingImageFilter} creates an initial level set using three
-// user specified seed positions and a initial contour radius. Three seeds are
-// used in this example to facilitate the segmentation of long narrow objects
-// in a smaller number of iterations.
-// The output of the FastMarchingImageFilter is passed
-// as the input to the GeodesicActiveContourShapePriorLevelSetImageFilter.
-// At then end of the segmentation process, the output level set is passed
-// to the \doxygen{BinaryThresholdImageFilter} to produce a binary mask
-// representing the segmented object.
+// The \doxygen{FastMarchingImageFilter} creates an initial level set using
+// three user specified seed positions and a initial contour radius. Three
+// seeds are used in this example to facilitate the segmentation of long
+// narrow objects in a smaller number of iterations. The output of the
+// FastMarchingImageFilter is passed as the input to the
+// GeodesicActiveContourShapePriorLevelSetImageFilter. At then end of the
+// segmentation process, the output level set is passed to the
+// \doxygen{BinaryThresholdImageFilter} to produce a binary mask representing
+// the segmented object.
 //
 // The remaining objects in
 // Figure~\ref{fig:GeodesicActiveContourShapePriorCollaborationDiagram}
@@ -141,8 +143,8 @@
 //
 // Given the numerous parameters involved in tuning this segmentation method
 // it is not uncommon for a segmentation process to
-// run for several minutes and still produce an unsatisfactory result. For debugging
-// purposes it is quite helpful to track the evolution of the
+// run for several minutes and still produce an unsatisfactory result. For
+// debugging purposes it is quite helpful to track the evolution of the
 // segmentation as it progresses. The following defines a
 // custom \doxygen{Command} class
 // for monitoring the RMS change and shape parameters at each iteration.
@@ -266,7 +268,8 @@ main(int argc, char * argv[])
   //  instantiated using the internal image type.
   //
   using SmoothingFilterType =
-    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
+    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType,
+                                                  InternalImageType>;
 
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
 
@@ -293,7 +296,8 @@ main(int argc, char * argv[])
   //  Next we construct one filter of this class using the \code{New()}
   //  method.
   //
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching =
+    FastMarchingFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -305,8 +309,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using GeodesicActiveContourFilterType =
-    itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType,
-                                                            InternalImageType>;
+    itk::GeodesicActiveContourShapePriorLevelSetImageFilter<
+      InternalImageType,
+      InternalImageType>;
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour =
     GeodesicActiveContourFilterType::New();
   // Software Guide : EndCodeSnippet
@@ -314,15 +319,17 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  // The \doxygen{ChangeInformationImageFilter} is the first filter in the preprocessing
-  // stage and is used to force the image origin to the center of the image.
+  // The \doxygen{ChangeInformationImageFilter} is the first filter in the
+  // preprocessing stage and is used to force the image origin to the center
+  // of the image.
   //
   //  \index{itk::ChangeInformationImageFilter!CenterImageOn()}
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CenterFilterType = itk::ChangeInformationImageFilter<InternalImageType>;
+  using CenterFilterType =
+    itk::ChangeInformationImageFilter<InternalImageType>;
 
   CenterFilterType::Pointer center = CenterFilterType::New();
   center->CenterImageOn();
@@ -345,9 +352,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  In the GeodesicActiveContourShapePriorLevelSetImageFilter, scaling parameters
-  //  are used to trade off between the propagation (inflation), the
-  //  curvature (smoothing), the advection, and the shape influence terms.
+  //  In the GeodesicActiveContourShapePriorLevelSetImageFilter, scaling
+  //  parameters are used to trade off between the propagation (inflation),
+  //  the curvature (smoothing), the advection, and the shape influence terms.
   //  These parameters are set
   //  using methods \code{SetPropagationScaling()},
   //  \code{SetCurvatureScaling()}, \code{SetAdvectionScaling()} and
@@ -392,12 +399,11 @@ main(int argc, char * argv[])
   //
   //  Each iteration, the current ``best-fit'' shape is estimated from the
   //  edge potential image and the current contour. To increase speed, only
-  //  information within the sparse field layers of the current contour is used
-  //  in the estimation. The default number of sparse field layers is
-  //  the same as
-  //  the ImageDimension which does not contain enough information to get
-  //  a reliable best-fit shape estimate. Thus, we override the default and
-  //  set the number of layers to 4.
+  //  information within the sparse field layers of the current contour is
+  //  used in the estimation. The default number of sparse field layers is the
+  //  same as the ImageDimension which does not contain enough information to
+  //  get a reliable best-fit shape estimate. Thus, we override the default
+  //  and set the number of layers to 4.
   //
   //  Software Guide : EndLatex
 
@@ -441,8 +447,9 @@ main(int argc, char * argv[])
   //  The GradientMagnitudeRecursiveGaussianImageFilter performs the
   //  equivalent of a convolution with a Gaussian kernel, followed by a
   //  derivative operator. The sigma of this Gaussian can be used to control
-  //  the range of influence of the image edges. This filter has been discussed
-  //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
+  //  the range of influence of the image edges. This filter has been
+  //  discussed in
+  //  Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
 
   const double sigma = std::stod(argv[10]);
   gradientMagnitude->SetSigma(sigma);
@@ -471,15 +478,15 @@ main(int argc, char * argv[])
 
 
   //  Nodes are created as stack variables and initialized with a value and an
-  //  \doxygen{Index} position. Note that here we assign the value of minus the
-  //  user-provided distance to the unique node of the seeds passed to the
+  //  \doxygen{Index} position. Note that here we assign the value of minus
+  //  the user-provided distance to the unique node of the seeds passed to the
   //  FastMarchingImageFilter. In this way, the value will increment
-  //  as the front is propagated, until it reaches the zero value corresponding
-  //  to the contour. After this, the front will continue propagating until it
-  //  fills up the entire image. The initial distance is taken here from the
-  //  command line arguments. The rule of thumb for the user is to select this
-  //  value as the distance from the seed points at which she want the initial
-  //  contour to be.
+  //  as the front is propagated, until it reaches the zero value
+  //  corresponding to the contour. After this, the front will continue
+  //  propagating until it fills up the entire image. The initial distance is
+  //  taken here from the command line arguments. The rule of thumb for the
+  //  user is to select this value as the distance from the seed points at
+  //  which she want the initial contour to be.
   const double initialDistance = std::stod(argv[9]);
 
   NodeType node;
@@ -524,8 +531,8 @@ main(int argc, char * argv[])
 
   //  Here we configure all the writers required to see the intermediate
   //  outputs of the pipeline. This is added here only for
-  //  pedagogical/debugging purposes. These intermediate output are normaly not
-  //  required. Only the output of the final thresholding filter should be
+  //  pedagogical/debugging purposes. These intermediate output are normaly
+  //  not required. Only the output of the final thresholding filter should be
   //  relevant.  Observing intermediate output is helpful in the process of
   //  fine tuning the parameters of filters in the pipeline.
   //
@@ -541,28 +548,32 @@ main(int argc, char * argv[])
 
   caster1->SetInput(smoothing->GetOutput());
   writer1->SetInput(caster1->GetOutput());
-  writer1->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput1.png");
+  writer1->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput1.png");
   caster1->SetOutputMinimum(0);
   caster1->SetOutputMaximum(255);
   writer1->Update();
 
   caster2->SetInput(gradientMagnitude->GetOutput());
   writer2->SetInput(caster2->GetOutput());
-  writer2->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput2.png");
+  writer2->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput2.png");
   caster2->SetOutputMinimum(0);
   caster2->SetOutputMaximum(255);
   writer2->Update();
 
   caster3->SetInput(reciprocal->GetOutput());
   writer3->SetInput(caster3->GetOutput());
-  writer3->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput3.png");
+  writer3->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput3.png");
   caster3->SetOutputMinimum(0);
   caster3->SetOutputMaximum(255);
   writer3->Update();
 
   caster4->SetInput(fastMarching->GetOutput());
   writer4->SetInput(caster4->GetOutput());
-  writer4->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput4.png");
+  writer4->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput4.png");
   caster4->SetOutputMinimum(0);
   caster4->SetOutputMaximum(255);
 
@@ -589,11 +600,10 @@ main(int argc, char * argv[])
   //  \psi^{*}(\mathbf{x}) = \mu(\mathbf{x}) + \sum_k \alpha_k u_k(\mathbf{x})
   //  \end{equation}
   //
-  //  where $\mu(\mathbf{x})$ is the mean signed distance computed from training
-  //  set of segmented objects and $u_k(\mathbf{x})$ are the first $K$ principal
-  //  components of the offset (signed distance - mean).
-  //  The coefficients $\{\alpha_k\}$ form the
-  //  set of \emph{shape} parameters.
+  //  where $\mu(\mathbf{x})$ is the mean signed distance computed from
+  //  training set of segmented objects and $u_k(\mathbf{x})$ are the first
+  //  $K$ principal components of the offset (signed distance - mean). The
+  //  coefficients $\{\alpha_k\}$ form the set of \emph{shape} parameters.
   //
   //  Given a set of training data, the \doxygen{ImagePCAShapeModelEstimator}
   //  can be used to obtain
@@ -621,7 +631,8 @@ main(int argc, char * argv[])
   //
   //  In this example, we will read the mean shape and
   //  principal mode images from file. We will assume that
-  //  the filenames of the mode images form a numeric series starting from index 0.
+  //  the filenames of the mode images form a numeric series starting from
+  //  index 0.
   //
   //  \index{itk::PCAShapeSignedDistanceFunction!SetMeanImage()}
   //  \index{itk::PCAShapeSignedDistanceFunction!SetPrincipalComponentsImages()}
@@ -766,8 +777,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // In this example, we will use the \doxygen{OnePlusOneEvolutionaryOptimizer}
-  // to optimize the cost function.
+  // In this example, we will use the
+  // \doxygen{OnePlusOneEvolutionaryOptimizer} to optimize the cost function.
   //
   // Software Guide : EndLatex
 
@@ -828,9 +839,9 @@ main(int argc, char * argv[])
   // Next, we specify the initial radius, the shrink and
   // grow mutation factors and termination criteria of the optimizer.
   // Since the best-fit shape is re-estimated each iteration of
-  // the curve evolution, we do not need to spend too much time finding the true
-  // minimizing solution each time; we only need to head towards it. As such,
-  // we only require a small number of optimizer iterations.
+  // the curve evolution, we do not need to spend too much time finding the
+  // true minimizing solution each time; we only need to head towards it. As
+  // such, we only require a small number of optimizer iterations.
   //
   //  \index{itk::OnePlusOneEvolutionaryOptimizer!Initialize()}
   //  \index{itk::OnePlusOneEvolutionaryOptimizer!SetEpsilon()}
@@ -851,15 +862,16 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Before starting the segmentation process we need to also supply the initial
-  // best-fit shape estimate. In this example, we start with the unrotated mean shape
-  // with the initial x- and y- translation specified through command-line
-  // arguments.
+  // Before starting the segmentation process we need to also supply the
+  // initial best-fit shape estimate. In this example, we start with the
+  // unrotated mean shape with the initial x- and y- translation specified
+  // through command-line arguments.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ShapeFunctionType::ParametersType parameters(shape->GetNumberOfParameters());
+  ShapeFunctionType::ParametersType parameters(
+    shape->GetNumberOfParameters());
   parameters.Fill(0.0);
   parameters[numberOfPCAModes + 1] = std::stod(argv[16]); // startX
   parameters[numberOfPCAModes + 2] = std::stod(argv[17]); // startY
@@ -907,14 +919,15 @@ main(int argc, char * argv[])
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetNumberOfIterations()
-            << std::endl;
-  std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError()
-            << std::endl;
+  std::cout << "Max. no. iterations: "
+            << geodesicActiveContour->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. RMS error: "
+            << geodesicActiveContour->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: "
             << geodesicActiveContour->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange() << std::endl;
+  std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange()
+            << std::endl;
   std::cout << "Parameters: " << geodesicActiveContour->GetCurrentParameters()
             << std::endl;
 
@@ -922,26 +935,29 @@ main(int argc, char * argv[])
 
 
   // The following writer type is used to save the output of the time-crossing
-  // map in a file with apropiate pixel representation. The advantage of saving
-  // this image in native format is that it can be used with a viewer to help
-  // determine an appropriate threshold to be used on the output of the
-  // fastmarching filter.
+  // map in a file with apropiate pixel representation. The advantage of
+  // saving this image in native format is that it can be used with a viewer
+  // to help determine an appropriate threshold to be used on the output of
+  // the fastmarching filter.
   //
   using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
   InternalWriterType::Pointer mapWriter = InternalWriterType::New();
   mapWriter->SetInput(fastMarching->GetOutput());
-  mapWriter->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput4.mha");
+  mapWriter->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput4.mha");
   mapWriter->Update();
 
   InternalWriterType::Pointer speedWriter = InternalWriterType::New();
   speedWriter->SetInput(reciprocal->GetOutput());
-  speedWriter->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput3.mha");
+  speedWriter->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput3.mha");
   speedWriter->Update();
 
   InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
   gradientWriter->SetInput(gradientMagnitude->GetOutput());
-  gradientWriter->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput2.mha");
+  gradientWriter->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput2.mha");
   gradientWriter->Update();
 
   // Also write out the initial and final best fit shape
@@ -956,12 +972,14 @@ main(int argc, char * argv[])
   shape->SetParameters(geodesicActiveContour->GetInitialParameters());
 
   thresholder->SetInput(evaluator->GetOutput());
-  writer->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput5.png");
+  writer->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput5.png");
   writer->Update();
 
   shape->SetParameters(geodesicActiveContour->GetCurrentParameters());
   evaluator->Modified();
-  writer->SetFileName("GeodesicActiveContourShapePriorImageFilterOutput6.png");
+  writer->SetFileName(
+    "GeodesicActiveContourShapePriorImageFilterOutput6.png");
   writer->Update();
 
 
@@ -971,25 +989,26 @@ main(int argc, char * argv[])
   // \code{BrainMidSagittalSlice.png}
   // (Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}, left)
   // from the \code{Examples/Data} directory.
-  // The aim here is to segment the corpus callosum from the image using a shape model
-  // defined by \code{CorpusCallosumMeanShape.mha} and the first three principal
-  // components \code{CorpusCallosumMode0.mha}, \code{CorpusCallosumMode1.mha} and
-  // \code{CorpusCallosumMode12.mha}. As shown in
-  // Figure~\ref{fig:CorpusCallosumPCAModes}, the first mode captures scaling, the
-  // second mode captures the shifting of mass between the rostrum and the splenium and
-  // the third mode captures the degree of curvature. Segmentation results with and
-  // without shape guidance are shown in
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
+  // The aim here is to segment the corpus callosum from the image using a
+  // shape model defined by \code{CorpusCallosumMeanShape.mha} and the first
+  // three principal components \code{CorpusCallosumMode0.mha},
+  // \code{CorpusCallosumMode1.mha} and \code{CorpusCallosumMode12.mha}. As
+  // shown in Figure~\ref{fig:CorpusCallosumPCAModes}, the first mode captures
+  // scaling, the second mode captures the shifting of mass between the
+  // rostrum and the splenium and the third mode captures the degree of
+  // curvature. Segmentation results with and without shape guidance are shown
+  // in Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
   //
   //
   // \begin{figure} \center
   // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5}
-  // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and initial
-  // model]{ The input image to the GeodesicActiveContourShapePriorLevelSetImageFilter
-  // is a synthesized MR-T1 mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm
-  // spacing) of the brain (left) and the initial best-fit shape (right) chosen to
-  // roughly overlap the corpus callosum in the image to be segmented.}
+  // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and
+  // initial model]{ The input image to the
+  // GeodesicActiveContourShapePriorLevelSetImageFilter is a synthesized MR-T1
+  // mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm spacing) of
+  // the brain (left) and the initial best-fit shape (right) chosen to roughly
+  // overlap the corpus callosum in the image to be segmented.}
   //
   // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput}
   // \end{figure}
@@ -1001,16 +1020,17 @@ main(int argc, char * argv[])
   // & $-3\sigma$ & mean & $+3\sigma$ \\ mode 0: &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0} &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0} \\ mode 1: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0} \\ mode
+  // 1: & \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1} &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1} \\ mode 2: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2} &
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1} \\ mode
+  // 2: & \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2} &
   // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2} \\ \end{tabular}
-  // \itkcaption[Corpus callosum PCA modes]{First three PCA modes of a low-resolution
-  // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model used in the
-  // shape guided geodesic active contours example.}
+  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2} \\
+  // \end{tabular} \itkcaption[Corpus callosum PCA modes]{First three PCA
+  // modes of a low-resolution
+  // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model
+  // used in the shape guided geodesic active contours example.}
   //
   // \label{fig:CorpusCallosumPCAModes}
   // \end{figure}
@@ -1018,23 +1038,24 @@ main(int argc, char * argv[])
   //
   //
   // A sigma value of $1.0$ was used to compute the image gradient and the
-  // propagation and shape prior scaling are respectively set to $0.5$ and $0.02$.
-  // An initial level set was created by placing one seed point in the
+  // propagation and shape prior scaling are respectively set to $0.5$ and
+  // $0.02$. An initial level set was created by placing one seed point in the
   // rostrum $(60,102)$, one in the splenium $(120, 85)$ and one
   // centrally in the body $(88,83)$ of the corpus callosum with
   // an initial radius of $6$ pixels at each seed position.
   // The best-fit shape was initially placed with a translation of
   // $(10,0)$mm so that it roughly overlapped
   // the corpus callosum in the image as shown in
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput} (right).
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}
+  // (right).
   //
   //
-  // From Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} it can be
-  // observed that without
-  // shape guidance (left), segmentation using geodesic active contour leaks in the
-  // regions where the corpus callosum blends into the surrounding brain tissues. With
-  // shape guidance (center), the segmentation is constrained by the global shape model
-  // to prevent leaking.
+  // From Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
+  // it can be observed that without shape guidance (left), segmentation using
+  // geodesic active contour leaks in the regions where the corpus callosum
+  // blends into the surrounding brain tissues. With shape guidance (center),
+  // the segmentation is constrained by the global shape model to prevent
+  // leaking.
   //
   // The final best-fit shape parameters after the segmentation process is:
   //
@@ -1043,25 +1064,27 @@ main(int argc, char * argv[])
   // \end{verbatim}
   //
   // and is shown in
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2} (right). Note
-  // that a $0.28$ radian ($15.8$ degree) rotation has been introduced to match the
-  // model to the corpus callosum in the image. Additionally, a negative weight for the
-  // first mode shrinks the size relative to the mean shape. A negative weight for the
-  // second mode shifts the mass to splenium, and a positive weight for the third mode
-  // increases the curvature. It can also be observed that the final segmentation is
-  // a combination of the best-fit shape with additional local deformation. The
-  // combination of both global and local shape allows the segmentation to capture fine
-  // details not represented in the shape model.
+  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
+  // (right). Note that a $0.28$ radian ($15.8$ degree) rotation has been
+  // introduced to match the model to the corpus callosum in the image.
+  // Additionally, a negative weight for the first mode shrinks the size
+  // relative to the mean shape. A negative weight for the second mode shifts
+  // the mass to splenium, and a positive weight for the third mode increases
+  // the curvature. It can also be observed that the final segmentation is a
+  // combination of the best-fit shape with additional local deformation. The
+  // combination of both global and local shape allows the segmentation to
+  // capture fine details not represented in the shape model.
   //
   //
   // \begin{figure} \center
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2}
   // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6}
-  // \itkcaption[GeodesicActiveContourShapePriorImageFilter segmentations]{Corpus
-  // callosum segmentation using geodesic active contours without (left) and with
-  // (center) shape guidance. The image on the right represents the best-fit shape at
-  // the end of the segmentation process.}
+  // \itkcaption[GeodesicActiveContourShapePriorImageFilter
+  // segmentations]{Corpus callosum segmentation using geodesic active
+  // contours without (left) and with (center) shape guidance. The image on
+  // the right represents the best-fit shape at the end of the segmentation
+  // process.}
   //
   // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
   // \end{figure}

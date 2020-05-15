@@ -21,12 +21,12 @@
 // This example illustrates the use of the \doxygen{BSplineTransform}
 // class for performing registration of two $3D$ images. The example code is
 // for the most part identical to the code presented in
-// Section~\ref{sec:BSplinesMultiGridImageRegistration}. The major difference is
-// that in this example we set the image dimension to 3 and replace the
-// \doxygen{LBFGSOptimizerv4} optimizer with the \doxygen{LBFGSBOptimizerv4}. We
-// made the modification because we found that LBFGS does not behave well when
-// the starting position is at or close to optimal; instead we used LBFGSB in
-// unconstrained mode.
+// Section~\ref{sec:BSplinesMultiGridImageRegistration}. The major difference
+// is that in this example we set the image dimension to 3 and replace the
+// \doxygen{LBFGSOptimizerv4} optimizer with the \doxygen{LBFGSBOptimizerv4}.
+// We made the modification because we found that LBFGS does not behave well
+// when the starting position is at or close to optimal; instead we used
+// LBFGSB in unconstrained mode.
 //
 //
 // \index{itk::BSplineTransform}
@@ -179,8 +179,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -264,7 +266,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const unsigned int numParameters = outputBSplineTransform->GetNumberOfParameters();
+  const unsigned int numParameters =
+    outputBSplineTransform->GetNumberOfParameters();
   OptimizerType::BoundSelectionType boundSelect(numParameters);
   OptimizerType::BoundValueType     upperBound(numParameters);
   OptimizerType::BoundValueType     lowerBound(numParameters);
@@ -313,7 +316,8 @@ main(int argc, char * argv[])
 
   // Finally we use the last transform in order to resample the image.
   //
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -330,7 +334,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -358,7 +363,9 @@ main(int argc, char * argv[])
   }
 
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
@@ -408,7 +415,8 @@ main(int argc, char * argv[])
   // Generate the explicit deformation field resulting from
   // the registration.
   using VectorPixelType = itk::Vector<float, ImageDimension>;
-  using DisplacementFieldImageType = itk::Image<VectorPixelType, ImageDimension>;
+  using DisplacementFieldImageType =
+    itk::Image<VectorPixelType, ImageDimension>;
 
   using DisplacementFieldGeneratorType =
     itk::TransformToDisplacementFieldFilter<DisplacementFieldImageType,

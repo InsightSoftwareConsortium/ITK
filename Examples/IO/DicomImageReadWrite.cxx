@@ -18,8 +18,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how to read a single DICOM slice and write it back
-//  as another DICOM slice. In the process an intensity rescaling is also
+//  This example illustrates how to read a single DICOM slice and write it
+//  back as another DICOM slice. In the process an intensity rescaling is also
 //  applied.
 //
 //  In order to read and write the slice we use the \doxygen{GDCMImageIO}
@@ -71,8 +71,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // With the image type we can instantiate the type of the reader, create one,
-  // and set the filename of the image to be read.
+  // With the image type we can instantiate the type of the reader, create
+  // one, and set the filename of the image to be read.
   //
   // Software Guide : EndLatex
 
@@ -86,8 +86,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // GDCMImageIO is an ImageIO class for reading and writing DICOM v3 and
-  // ACR/NEMA images. The GDCMImageIO object is constructed here and connected to
-  // the ImageFileReader.
+  // ACR/NEMA images. The GDCMImageIO object is constructed here and connected
+  // to the ImageFileReader.
   //
   // Software Guide : EndLatex
 
@@ -102,8 +102,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // At this point we can trigger the reading process by invoking the
-  // \code{Update()} method.  Since this reading process may eventually throw an
-  // exception, we place the invocation inside a \code{try/catch} block.
+  // \code{Update()} method.  Since this reading process may eventually throw
+  // an exception, we place the invocation inside a \code{try/catch} block.
   //
   // Software Guide : EndLatex
 
@@ -131,10 +131,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // First, we must instantiate an ImageFileWriter type. Then, we construct one,
-  // set the filename to be used for writing, and connect the input image to be
-  // written. Since in this example we write the image in different ways,
-  // and in each case use a different writer, we enumerated the variable
+  // First, we must instantiate an ImageFileWriter type. Then, we construct
+  // one, set the filename to be used for writing, and connect the input image
+  // to be written. Since in this example we write the image in different
+  // ways, and in each case use a different writer, we enumerated the variable
   // names of the writer objects as well as their types.
   //
   // Software Guide : EndLatex
@@ -150,11 +150,11 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We need to explicitly set the proper image IO (GDCMImageIO) to the writer
-  //  filter since the input DICOM dictionary is being passed along the writing
-  //  process. The dictionary contains all necessary information that a valid
-  //  DICOM file should contain, like Patient Name, Patient ID, Institution Name,
-  //  etc.
+  //  We need to explicitly set the proper image IO (GDCMImageIO) to the
+  //  writer filter since the input DICOM dictionary is being passed along the
+  //  writing process. The dictionary contains all necessary information that
+  //  a valid DICOM file should contain, like Patient Name, Patient ID,
+  //  Institution Name, etc.
   //
   //  Software Guide : EndLatex
 
@@ -211,8 +211,8 @@ main(int argc, char * argv[])
   //
   // We create a second writer object that will save the rescaled image into a
   // new file, which is not in DICOM format. This is done only for the sake of
-  // verifying the image against the one that will be saved in DICOM format later
-  // in this example.
+  // verifying the image against the one that will be saved in DICOM format
+  // later in this example.
   //
   // Software Guide : EndLatex
 
@@ -248,9 +248,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We proceed now to save the same rescaled image into a file in DICOM format.
-  // For this purpose we just need to set up a \doxygen{ImageFileWriter} and pass
-  // to it the rescaled image as input.
+  // We proceed now to save the same rescaled image into a file in DICOM
+  // format. For this purpose we just need to set up a
+  // \doxygen{ImageFileWriter} and pass to it the rescaled image as input.
   //
   // Software Guide : EndLatex
 
@@ -266,9 +266,9 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   // We now need to explicitly set the proper image IO (GDCMImageIO), but also
-  // we must tell the ImageFileWriter to not use the MetaDataDictionary from the
-  // input but from the GDCMImageIO since this is the one that contains the DICOM
-  // specific information
+  // we must tell the ImageFileWriter to not use the MetaDataDictionary from
+  // the input but from the GDCMImageIO since this is the one that contains
+  // the DICOM specific information
   //
   // The GDCMImageIO object will automatically detect the pixel type, in this
   // case \code{unsigned char} and it will update the DICOM header information

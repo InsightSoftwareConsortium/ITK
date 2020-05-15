@@ -109,7 +109,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::VectorIndexSelectionCastImageFilter<InputImageType, ComponentImageType>;
+    itk::VectorIndexSelectionCastImageFilter<InputImageType,
+                                             ComponentImageType>;
 
   FilterType::Pointer componentExtractor = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -119,8 +120,8 @@ main(int argc, char ** argv)
   //
   //  The VectorIndexSelectionCastImageFilter class requires us to specify
   //  which of the vector components is to be extracted from the vector image.
-  //  This is done with the \code{SetIndex()} method. In this example we obtain
-  //  this value from the command line arguments.
+  //  This is done with the \code{SetIndex()} method. In this example we
+  //  obtain this value from the command line arguments.
   //
   //  \index{itk::Vector\-Index\-Selection\-Cast\-Image\-Filter!SetIndex()}
   //
@@ -130,7 +131,8 @@ main(int argc, char ** argv)
 
   if (indexOfComponentToExtract >= Dimension)
   {
-    std::cerr << "You are requesting an index out of the range for the Vector dimension"
+    std::cerr << "You are requesting an index out of the range for the "
+                 "Vector dimension"
               << std::endl;
     std::cerr << "Vector dimension is = " << Dimension << std::endl;
     std::cerr << "but your requested index = " << indexOfComponentToExtract
@@ -239,8 +241,8 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Finally we execute the pipeline by invoking \code{Update()} on the
-  //  writer. The call is placed in a \code{try/catch} block in case exceptions
-  //  are thrown.
+  //  writer. The call is placed in a \code{try/catch} block in case
+  //  exceptions are thrown.
   //
   //  Software Guide : EndLatex
 

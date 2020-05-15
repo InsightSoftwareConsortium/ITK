@@ -67,20 +67,20 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
 
     ofs << "<optimizer type=\"ParticleSwarmOptimizer\"";
 
-    ofs << " NumberOfParticles=\"" << this->m_InputObject->GetNumberOfParticles()
-        << "\"";
+    ofs << " NumberOfParticles=\""
+        << this->m_InputObject->GetNumberOfParticles() << "\"";
 
     ofs << " MaximumNumberOfIterations=\""
         << this->m_InputObject->GetMaximalNumberOfIterations() << "\"";
 
-    ofs << " InertiaCoefficient=\"" << this->m_InputObject->GetInertiaCoefficient()
-        << "\"";
+    ofs << " InertiaCoefficient=\""
+        << this->m_InputObject->GetInertiaCoefficient() << "\"";
 
-    ofs << " GlobalCoefficient=\"" << this->m_InputObject->GetGlobalCoefficient()
-        << "\"";
+    ofs << " GlobalCoefficient=\""
+        << this->m_InputObject->GetGlobalCoefficient() << "\"";
 
-    ofs << " PersonalCoefficient=\"" << this->m_InputObject->GetPersonalCoefficient()
-        << "\"";
+    ofs << " PersonalCoefficient=\""
+        << this->m_InputObject->GetPersonalCoefficient() << "\"";
 
     ofs << " FunctionConvergenceTolerance=\""
         << this->m_InputObject->GetFunctionConvergenceTolerance() << "\"";
@@ -122,9 +122,11 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
 
     ofs << "  <ParametersConvergenceTolerance>";
 
-    Array<double> ptols = this->m_InputObject->GetParametersConvergenceTolerance();
+    Array<double> ptols =
+      this->m_InputObject->GetParametersConvergenceTolerance();
     // Note: The data-cast to unsigned int is required
-    //       because itk::Array only supports 'unsigned int' number of elements.
+    //       because itk::Array only supports 'unsigned int' number of
+    //       elements.
     for (unsigned int i = 0; i < ptols.GetSize(); i++)
     {
       ofs << " " << ptols[i];

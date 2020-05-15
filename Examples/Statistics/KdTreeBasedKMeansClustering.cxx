@@ -168,8 +168,8 @@ main()
   // \begin{figure}
   //   \center
   //   \includegraphics[width=0.8\textwidth]{TwoNormalDensityFunctionPlot}
-  //   \itkcaption[Two normal distributions plot]{Two normal distributions' probability
-  //   density plot
+  //   \itkcaption[Two normal distributions plot]{Two normal distributions'
+  //   probability density plot
   // (The means are 100 and 200, and the standard deviation is 30 )}
   //  \protect\label{fig:TwoNormalDensityFunctionPlot}
   // \end{figure}
@@ -303,7 +303,8 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using MembershipFunctionType =
-    itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
+    itk::Statistics::DistanceToCentroidMembershipFunction<
+      MeasurementVectorType>;
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
   DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
 
@@ -314,7 +315,8 @@ main()
   classifier->SetInput(sample);
   classifier->SetNumberOfClasses(2);
 
-  using ClassLabelVectorObjectType = ClassifierType::ClassLabelVectorObjectType;
+  using ClassLabelVectorObjectType =
+    ClassifierType::ClassLabelVectorObjectType;
   using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
   using ClassLabelType = ClassifierType::ClassLabelType;
 
@@ -338,10 +340,10 @@ main()
   //
   // In this example, the two clusters are modeled by two Euclidean distance
   // functions. The distance function (model) has only one parameter, its mean
-  // (centroid) set by the \code{SetCentroid()} method. To plug-in two distance
-  // functions, we create a MembershipFunctionVectorObject that contains a
-  // MembershipFunctionVector with two components and add it using the
-  // \code{SetMembershipFunctions} method. Then invocation of the
+  // (centroid) set by the \code{SetCentroid()} method. To plug-in two
+  // distance functions, we create a MembershipFunctionVectorObject that
+  // contains a MembershipFunctionVector with two components and add it using
+  // the \code{SetMembershipFunctions} method. Then invocation of the
   // \code{Update()} method will perform the classification.
   //
   // Software Guide : EndLatex
@@ -350,7 +352,8 @@ main()
 
   using MembershipFunctionVectorObjectType =
     ClassifierType::MembershipFunctionVectorObjectType;
-  using MembershipFunctionVectorType = ClassifierType::MembershipFunctionVectorType;
+  using MembershipFunctionVectorType =
+    ClassifierType::MembershipFunctionVectorType;
 
   MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();
@@ -360,8 +363,10 @@ main()
   int index = 0;
   for (unsigned int i = 0; i < 2; i++)
   {
-    MembershipFunctionType::Pointer membershipFunction = MembershipFunctionType::New();
-    MembershipFunctionType::CentroidType centroid(sample->GetMeasurementVectorSize());
+    MembershipFunctionType::Pointer membershipFunction =
+      MembershipFunctionType::New();
+    MembershipFunctionType::CentroidType centroid(
+      sample->GetMeasurementVectorSize());
     for (unsigned int j = 0; j < sample->GetMeasurementVectorSize(); j++)
     {
       centroid[j] = estimatedMeans[index++];
@@ -384,7 +389,8 @@ main()
   // Software Guide : BeginCodeSnippet
   const ClassifierType::MembershipSampleType * membershipSample =
     classifier->GetOutput();
-  ClassifierType::MembershipSampleType::ConstIterator iter = membershipSample->Begin();
+  ClassifierType::MembershipSampleType::ConstIterator iter =
+    membershipSample->Begin();
 
   while (iter != membershipSample->End())
   {

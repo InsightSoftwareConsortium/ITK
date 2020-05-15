@@ -43,8 +43,12 @@ main(int, char *[])
   ImageType::Pointer image = ImageType::New();
 
   // The image region should be initialized
-  const ImageType::SizeType  size = { { 200, 200, 200 } }; // Size along {X,Y,Z}
-  const ImageType::IndexType start = { { 0, 0, 0 } };      // First index on {X,Y,Z}
+  const ImageType::SizeType size = {
+    { 200, 200, 200 }
+  }; // Size along {X,Y,Z}
+  const ImageType::IndexType start = {
+    { 0, 0, 0 }
+  }; // First index on {X,Y,Z}
 
   ImageType::RegionType region;
   region.SetSize(size);
@@ -66,10 +70,10 @@ main(int, char *[])
   //
   // The following code illustrates the declaration of an index variable and
   // the assignment of values to each of its components. Please note that
-  // no \code{SmartPointer} is used to access the \code{Index}. This is because
-  // \code{Index} is a lightweight object that is not intended to be shared
-  // between objects. It is more efficient to produce multiple copies of
-  // these small objects than to share them using the SmartPointer
+  // no \code{SmartPointer} is used to access the \code{Index}. This is
+  // because \code{Index} is a lightweight object that is not intended to be
+  // shared between objects. It is more efficient to produce multiple copies
+  // of these small objects than to share them using the SmartPointer
   // mechanism.
   //
   // The following lines declare an instance of the index type and initialize
@@ -78,7 +82,9 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  const ImageType::IndexType pixelIndex = { { 27, 29, 37 } }; // Position of {X,Y,Z}
+  const ImageType::IndexType pixelIndex = {
+    { 27, 29, 37 }
+  }; // Position of {X,Y,Z}
   // Software Guide : EndCodeSnippet
 
 
@@ -114,9 +120,9 @@ main(int, char *[])
   // and not reference semantics. Hence, the method cannot be used to
   // modify image data values.
   //
-  // Remember that both \code{SetPixel()} and \code{GetPixel()} are inefficient
-  // and should only be used for debugging or for supporting interactions like
-  // querying pixel values by clicking with the mouse.
+  // Remember that both \code{SetPixel()} and \code{GetPixel()} are
+  // inefficient and should only be used for debugging or for supporting
+  // interactions like querying pixel values by clicking with the mouse.
   //
   // Software Guide : EndLatex
 

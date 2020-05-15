@@ -57,9 +57,9 @@
 //
 //  The parameter space of the \code{BSplineTransform} is composed by
 //  the set of all the deformations associated with the nodes of the BSpline
-//  grid.  This large number of parameters makes it possible to represent a wide
-//  variety of deformations, at the cost of requiring a
-//  significant amount of computation time.
+//  grid.  This large number of parameters makes it possible to represent a
+//  wide variety of deformations, at the cost of requiring a significant
+//  amount of computation time.
 //
 //  \index{itk::BSplineTransform!header}
 //
@@ -138,8 +138,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -209,9 +211,9 @@ main(int argc, char * argv[])
   //
   //  Calling \code{InPlaceOn()} means that the current initialized transform
   //  will optimized directly and is grafted to the output, so it can be
-  //  considered as the output transform object. Otherwise, the initial transform
-  //  will be copied or ``cloned'' to the output transform object, and the copied
-  //  object will be optimized during the registration process.
+  //  considered as the output transform object. Otherwise, the initial
+  //  transform will be copied or ``cloned'' to the output transform object,
+  //  and the copied object will be optimized during the registration process.
   //
   //  Software Guide : EndLatex
 
@@ -307,7 +309,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Let's execute this example using the rat lung images from the previous examples.
+  //  Let's execute this example using the rat lung images from the previous
+  //  examples.
   //
   // \begin{itemize}
   // \item \code{RatLungSlice1.mha}
@@ -327,7 +330,8 @@ main(int argc, char * argv[])
   std::cout << "Last Transform Parameters" << std::endl;
   std::cout << finalParameters << std::endl;
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -344,7 +348,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -372,7 +377,9 @@ main(int argc, char * argv[])
   }
 
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
@@ -422,7 +429,8 @@ main(int argc, char * argv[])
   // Generate the explicit deformation field resulting from
   // the registration.
   using VectorPixelType = itk::Vector<float, ImageDimension>;
-  using DisplacementFieldImageType = itk::Image<VectorPixelType, ImageDimension>;
+  using DisplacementFieldImageType =
+    itk::Image<VectorPixelType, ImageDimension>;
 
   using DisplacementFieldGeneratorType =
     itk::TransformToDisplacementFieldFilter<DisplacementFieldImageType,

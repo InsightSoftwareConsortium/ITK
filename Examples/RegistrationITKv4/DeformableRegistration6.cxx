@@ -189,8 +189,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -288,19 +290,22 @@ main(int argc, char * argv[])
   {
     fixedPhysicalDimensions[i] =
       fixedImage->GetSpacing()[i] *
-      static_cast<double>(fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1);
+      static_cast<double>(
+        fixedImage->GetLargestPossibleRegion().GetSize()[i] - 1);
   }
 
   // Create the transform adaptors specific to B-splines
   for (unsigned int level = 0; level < numberOfLevels; level++)
   {
-    using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
+    using ShrinkFilterType =
+      itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
     ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(shrinkFactorsPerLevel[level]);
     shrinkFilter->SetInput(fixedImage);
     shrinkFilter->Update();
 
-    // A good heuristic is to double the b-spline mesh resolution at each level
+    // A good heuristic is to double the b-spline mesh resolution at each
+    // level
     //
     TransformType::MeshSizeType requiredMeshSize;
     for (unsigned int d = 0; d < ImageDimension; d++)
@@ -308,7 +313,8 @@ main(int argc, char * argv[])
       requiredMeshSize[d] = meshSize[d] << level;
     }
 
-    using BSplineAdaptorType = itk::BSplineTransformParametersAdaptor<TransformType>;
+    using BSplineAdaptorType =
+      itk::BSplineTransformParametersAdaptor<TransformType>;
     BSplineAdaptorType::Pointer bsplineAdaptor = BSplineAdaptorType::New();
     bsplineAdaptor->SetTransform(outputBSplineTransform);
     bsplineAdaptor->SetRequiredTransformDomainMeshSize(requiredMeshSize);
@@ -362,7 +368,8 @@ main(int argc, char * argv[])
 
   // Finally we use the last transform in order to resample the image.
   //
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
@@ -379,7 +386,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -407,7 +415,9 @@ main(int argc, char * argv[])
   }
 
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
@@ -457,7 +467,8 @@ main(int argc, char * argv[])
   // Generate the explicit deformation field resulting from
   // the registration.
   using VectorPixelType = itk::Vector<float, ImageDimension>;
-  using DisplacementFieldImageType = itk::Image<VectorPixelType, ImageDimension>;
+  using DisplacementFieldImageType =
+    itk::Image<VectorPixelType, ImageDimension>;
 
   using DisplacementFieldGeneratorType =
     itk::TransformToDisplacementFieldFilter<DisplacementFieldImageType,

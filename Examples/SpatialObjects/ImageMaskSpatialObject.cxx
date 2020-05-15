@@ -117,9 +117,9 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We can then test if a physical \doxygen{Point} is inside or outside the mask image.
-  // This is particularly useful during the registration process when only a part
-  // of the image should be used to compute the metric.
+  // We can then test if a physical \doxygen{Point} is inside or outside the
+  // mask image. This is particularly useful during the registration process
+  // when only a part of the image should be used to compute the metric.
   //
   // Software Guide : EndLatex
 

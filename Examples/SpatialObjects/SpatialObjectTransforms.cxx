@@ -27,9 +27,10 @@
 // \begin{description}
 // \item[Object Space]. SpatialObjects have one primary coordinate space
 // that is readily available
-// to them, their \code{ObjectSpace}. This is the space in which the object was
-// inherently defined. No transforms are applied to the points/values that
-// get/set into this space. All children of an object are added into this space.
+// to them, their \code{ObjectSpace}. This is the space in which the object
+// was inherently defined. No transforms are applied to the points/values that
+// get/set into this space. All children of an object are added into this
+// space.
 //
 // \item[ObjectToParentTransform]. SpatialObjects have only one transform
 // that they directly control, their
@@ -60,8 +61,8 @@
 // transform from the object's \code{ObjectSpace} to \code{WorldSpace}.
 // This transform is
 // always invertible.   This call will cause all children objects to also
-// update their cached \code{ObjectToWorldTransform}.   This function should be
-// called on the top level object (via \code{Update()}) once all children
+// update their cached \code{ObjectToWorldTransform}.   This function should
+// be called on the top level object (via \code{Update()}) once all children
 // object's
 // \code{ObjectToParentTransform}s have been set.   This function should
 // be called
@@ -72,8 +73,8 @@
 // \code{ObjectToWorldTransform}.
 // It is the user's responsibility to call \code{Update()} (and thereby
 // \code{ProtectedComputeObjectToWorldTransform()}) when
-// necessary, prior to calling \code{GetObjectToWorldTransform()}, otherwise the
-// returned transform may be "stale."
+// necessary, prior to calling \code{GetObjectToWorldTransform()}, otherwise
+// the returned transform may be "stale."
 //
 // \item[SetObjectToWorldTransform()]: This function updates the object's
 // \code{ObjectToParentTransform}, using an inverse of the parent's cached
@@ -118,13 +119,13 @@ main(int, char *[])
   // This is done by setting the Scale of the \code{ObjectToParentTransform}.
   //
   // Note that this scaling would also apply to the children of object2,
-  // if it had children.  If you wish to scale an object, but not its children,
-  // then those children aren't actually ``children'', but they are siblings.  So,
-  // you should insert a \code{GroupSpatialObject} that holds both the object and
-  // its siblings as children.  Then you can manipulate the object's
-  // transform/scaling
-  // independent of its siblings in that group, and if you wish to transform
-  // the object and its simblings, you apply that transform to the group.
+  // if it had children.  If you wish to scale an object, but not its
+  // children, then those children aren't actually ``children'', but they are
+  // siblings.  So, you should insert a \code{GroupSpatialObject} that holds
+  // both the object and its siblings as children.  Then you can manipulate
+  // the object's transform/scaling independent of its siblings in that group,
+  // and if you wish to transform the object and its simblings, you apply that
+  // transform to the group.
   //
   // Software Guide : EndLatex
 
@@ -170,11 +171,11 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We can now display the \code{ObjectToWorldTransform} for both objects.  One
-  // should notice that the only valid members of the Affine
-  // transformation are a Matrix and an Offset. For instance, when we invoke the
-  // \code{Scale()} method the internal Matrix is recomputed to
-  // reflect this change.
+  // We can now display the \code{ObjectToWorldTransform} for both objects.
+  // One should notice that the only valid members of the Affine
+  // transformation are a Matrix and an Offset. For instance, when we invoke
+  // the \code{Scale()} method the internal Matrix is recomputed to reflect
+  // this change.
   //
   // The AffineTransform performs the following
   // computation
@@ -183,9 +184,9 @@ main(int, char *[])
   //  X' = R \cdot \left( S \cdot X - C \right) + C + V
   //  \end{equation}
   //
-  // Where $R$ is the rotation matrix, $S$ is a scaling factor, $C$ is the center
-  // of rotation and $V$ is a translation vector or offset.
-  // Therefore the affine matrix $M$ and the affine offset $T$ are defined as:
+  // Where $R$ is the rotation matrix, $S$ is a scaling factor, $C$ is the
+  // center of rotation and $V$ is a translation vector or offset. Therefore
+  // the affine matrix $M$ and the affine offset $T$ are defined as:
   //
   // \begin{equation}
   // M = R \cdot S
@@ -209,9 +210,11 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   std::cout << "object2 ObjectToParent Matrix: " << std::endl;
-  std::cout << object2->GetObjectToParentTransform()->GetMatrix() << std::endl;
+  std::cout << object2->GetObjectToParentTransform()->GetMatrix()
+            << std::endl;
   std::cout << "object2 ObjectToParent Offset: ";
-  std::cout << object2->GetObjectToParentTransform()->GetOffset() << std::endl;
+  std::cout << object2->GetObjectToParentTransform()->GetOffset()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -219,7 +222,8 @@ main(int, char *[])
   // Second, the \code{ObjectToWorldTransform} that is derived
   // from the parent-child hierarchy and the composition of the corresponding
   // \code{ObjectToParentTransform}s, computed by called to
-  // \code{Update()}, and cached for efficient subsequent use, for \code{object2}:
+  // \code{Update()}, and cached for efficient subsequent use, for
+  // \code{object2}:
   //
   // Software Guide : EndLatex
 
@@ -235,8 +239,8 @@ main(int, char *[])
   // We can also update an object's \code{ObjectToParentTransform} by
   // changing its \code{ObjectToWorldTransform} and then calling
   // \code{ComputeObjectToParentTransform()},
-  // which changes the \code{ObjectToParentTransform} so as to achieve the cached
-  // \code{ObjectToWorldTransform}.
+  // which changes the \code{ObjectToParentTransform} so as to achieve the
+  // cached \code{ObjectToWorldTransform}.
   //
   // Software Guide : EndLatex
 
@@ -244,7 +248,8 @@ main(int, char *[])
   TransformType::OffsetType Object1ToWorldOffset;
   Object1ToWorldOffset[0] = 3;
   Object1ToWorldOffset[1] = 3;
-  object1->GetModifiableObjectToWorldTransform()->SetOffset(Object1ToWorldOffset);
+  object1->GetModifiableObjectToWorldTransform()->SetOffset(
+    Object1ToWorldOffset);
   object1->ComputeObjectToParentTransform();
   // Software Guide : EndCodeSnippet
 
@@ -257,9 +262,11 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   std::cout << "object1 ObjectToParent Matrix: " << std::endl;
-  std::cout << object1->GetObjectToParentTransform()->GetMatrix() << std::endl;
+  std::cout << object1->GetObjectToParentTransform()->GetMatrix()
+            << std::endl;
   std::cout << "object1 ObjectToParent Offset: ";
-  std::cout << object1->GetObjectToParentTransform()->GetOffset() << std::endl;
+  std::cout << object1->GetObjectToParentTransform()->GetOffset()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -292,9 +299,11 @@ main(int, char *[])
   std::cout << "object2 ObjectToWorld Offset: ";
   std::cout << object2->GetObjectToWorldTransform()->GetOffset() << std::endl;
   std::cout << "object2 ObjectToParent Matrix: " << std::endl;
-  std::cout << object2->GetObjectToParentTransform()->GetMatrix() << std::endl;
+  std::cout << object2->GetObjectToParentTransform()->GetMatrix()
+            << std::endl;
   std::cout << "object2 ObjectToParent Offset: ";
-  std::cout << object2->GetObjectToParentTransform()->GetOffset() << std::endl;
+  std::cout << object2->GetObjectToParentTransform()->GetOffset()
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

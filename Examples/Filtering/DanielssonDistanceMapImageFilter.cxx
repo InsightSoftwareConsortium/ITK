@@ -71,9 +71,10 @@ main(int argc, char * argv[])
   //  Then we must decide what pixel types to use for the input and output
   //  images. Since the output will contain distances measured in pixels, the
   //  pixel type should be able to represent at least the width of the image,
-  //  or said in $N$-dimensional terms, the maximum extension along all the dimensions.
-  //  The input, output (distance map), and voronoi partition image types are
-  //  now defined using their respective pixel type and dimension.
+  //  or said in $N$-dimensional terms, the maximum extension along all the
+  //  dimensions. The input, output (distance map), and voronoi partition
+  //  image types are now defined using their respective pixel type and
+  //  dimension.
   //
   //  Software Guide : EndLatex
 
@@ -104,8 +105,9 @@ main(int argc, char * argv[])
   LabelerType::Pointer labeler = LabelerType::New();
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::
-    DanielssonDistanceMapImageFilter<InputImageType, OutputImageType, VoronoiImageType>;
+  using FilterType = itk::DanielssonDistanceMapImageFilter<InputImageType,
+                                                           OutputImageType,
+                                                           VoronoiImageType>;
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
@@ -189,9 +191,9 @@ main(int argc, char * argv[])
   //  Figure \ref{fig:DanielssonDistanceMapImageFilterInputOutput} illustrates
   //  the effect of this filter on a binary image with a set of points. The
   //  input image is shown at the left, and the distance map at the center and
-  //  the Voronoi partition at the right. This filter computes distance maps in
-  //  N-dimensions and is therefore capable of producing $N$-dimensional Voronoi
-  //  partitions.
+  //  the Voronoi partition at the right. This filter computes distance maps
+  //  in N-dimensions and is therefore capable of producing $N$-dimensional
+  //  Voronoi partitions.
   //
   //  \index{Voronoi partitions}
   //  \index{Voronoi partitions!itk::Danielsson\-Distance\-Map\-Image\-Filter}

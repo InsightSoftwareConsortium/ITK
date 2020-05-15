@@ -29,8 +29,8 @@
 
 // Software Guide : BeginLatex
 //
-// The header files for the series reader and the GDCM classes for image IO and
-// name generation should be included first.
+// The header files for the series reader and the GDCM classes for image IO
+// and name generation should be included first.
 //
 // Software Guide : EndLatex
 
@@ -51,8 +51,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  //  Next, we instantiate the type to be used for storing the image once it is
-  //  read into memory.
+  //  Next, we instantiate the type to be used for storing the image once it
+  //  is read into memory.
   //
   // Software Guide : EndLatex
 
@@ -65,8 +65,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We use the image type for instantiating the series reader type and then we
-  // construct one object of this class.
+  // We use the image type for instantiating the series reader type and then
+  // we construct one object of this class.
   //
   // Software Guide : EndLatex
 
@@ -93,9 +93,10 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // A GDCMSeriesFileNames is declared in order to generate the names of DICOM
-  // slices. We specify the directory with the \code{SetInputDirectory()} method
-  // and, in this case, take the directory name from the command line arguments.
-  // You could have obtained the directory name from a file dialog in a GUI.
+  // slices. We specify the directory with the \code{SetInputDirectory()}
+  // method and, in this case, take the directory name from the command line
+  // arguments. You could have obtained the directory name from a file dialog
+  // in a GUI.
   //
   // Software Guide : EndLatex
 
@@ -147,9 +148,9 @@ main(int argc, char * argv[])
   //
   // ITK internally queries GDCM and obtains all the DICOM tags from the file
   // headers. The tag values are stored in the \doxygen{MetaDataDictionary}
-  // which is a general-purpose container for \{key,value\} pairs. The Metadata
-  // dictionary can be recovered from any ImageIO class by invoking the
-  // \code{GetMetaDataDictionary()} method.
+  // which is a general-purpose container for \{key,value\} pairs. The
+  // Metadata dictionary can be recovered from any ImageIO class by invoking
+  // the \code{GetMetaDataDictionary()} method.
   //
   // \index{MetaDataDictionary}
   // \index{ImageIO!GetMetaDataDictionary()}
@@ -165,8 +166,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // In this example, we are only interested in the DICOM tags that can be
-  // represented as strings. Therefore, we declare a \doxygen{MetaDataObject} of
-  // string type in order to receive those particular values.
+  // represented as strings. Therefore, we declare a \doxygen{MetaDataObject}
+  // of string type in order to receive those particular values.
   //
   // \index{MetaDataDictionary!MetaDataObject}
   // \index{MetaDataDictionary!String entries}
@@ -180,9 +181,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The metadata dictionary is organized as a container with its corresponding
-  // iterators. We can therefore visit all its entries by first getting access to
-  // its \code{Begin()} and \code{End()} methods.
+  // The metadata dictionary is organized as a container with its
+  // corresponding iterators. We can therefore visit all its entries by first
+  // getting access to its \code{Begin()} and \code{End()} methods.
   //
   // \index{MetaDataDictionary!Begin()}
   // \index{MetaDataDictionary!End()}
@@ -200,11 +201,11 @@ main(int argc, char * argv[])
   //
   // We are now ready for walking through the list of DICOM tags. For this
   // purpose we use the iterators that we just declared. At every entry we
-  // attempt to convert it into a string entry by using the \code{dynamic\_cast}
-  // based on RTTI information\footnote{Run Time Type Information}. The
-  // dictionary is organized like a \code{std::map} structure, so we should use
-  // the \code{first} and \code{second} members of every entry in order
-  // to get access to the \{key,value\} pairs.
+  // attempt to convert it into a string entry by using the
+  // \code{dynamic\_cast} based on RTTI information\footnote{Run Time Type
+  // Information}. The dictionary is organized like a \code{std::map}
+  // structure, so we should use the \code{first} and \code{second} members of
+  // every entry in order to get access to the \{key,value\} pairs.
   //
   // Software Guide : EndLatex
 
@@ -229,10 +230,10 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  It is also possible to query for specific entries instead of reading all of
-  //  them as we did above. In this case, the user must provide the tag
-  //  identifier using the standard DICOM encoding. The identifier is stored in a
-  //  string and used as key in the dictionary.
+  //  It is also possible to query for specific entries instead of reading all
+  //  of them as we did above. In this case, the user must provide the tag
+  //  identifier using the standard DICOM encoding. The identifier is stored
+  //  in a string and used as key in the dictionary.
   //
   //  Software Guide : EndLatex
 
@@ -252,8 +253,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // Since the entry may or may not be of string type we must again use a
-  // \code{dynamic\_cast} in order to attempt to convert it to a string dictionary
-  // entry. If the conversion is successful, we can then print out its content.
+  // \code{dynamic\_cast} in order to attempt to convert it to a string
+  // dictionary entry. If the conversion is successful, we can then print out
+  // its content.
   //
   // Software Guide : EndLatex
 

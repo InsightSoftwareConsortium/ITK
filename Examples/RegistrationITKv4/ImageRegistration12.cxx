@@ -18,10 +18,11 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates the use of \code{SpatialObject}s as masks for selecting the
-// pixels that should contribute to the computation of Image Metrics. This
-// example is almost identical to ImageRegistration6 with the exception that
-// the \code{SpatialObject} masks are created and passed to the image metric.
+// This example illustrates the use of \code{SpatialObject}s as masks for
+// selecting the pixels that should contribute to the computation of Image
+// Metrics. This example is almost identical to ImageRegistration6 with the
+// exception that the \code{SpatialObject} masks are created and passed to the
+// image metric.
 //
 //
 // Software Guide : EndLatex
@@ -117,8 +118,8 @@ main(int argc, char * argv[])
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using MetricType =
     itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
   MetricType::Pointer       metric = MetricType::New();
   OptimizerType::Pointer    optimizer = OptimizerType::New();
@@ -133,8 +134,10 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -144,8 +147,11 @@ main(int argc, char * argv[])
   fixedImageReader->Update();
 
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
 
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
@@ -231,11 +237,11 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  As usual, the reader is triggered by invoking its \code{Update()} method.
-  //  Since this may eventually throw an exception, the call must be placed in
-  //  a \code{try/catch} block. Note that a full fledged application will place
-  //  this \code{try/catch} block at a much higher level, probably under the
-  //  control of the GUI.
+  //  As usual, the reader is triggered by invoking its \code{Update()}
+  //  method. Since this may eventually throw an exception, the call must be
+  //  placed in a \code{try/catch} block. Note that a full fledged application
+  //  will place this \code{try/catch} block at a much higher level, probably
+  //  under the control of the GUI.
   //
   //  Software Guide : EndLatex
 
@@ -379,7 +385,8 @@ main(int argc, char * argv[])
   std::cout << "Offset = " << std::endl << offset << std::endl;
   // Software Guide : EndCodeSnippet
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   TransformType::Pointer finalTransform = TransformType::New();
 
   finalTransform->SetParameters(finalParameters);
@@ -402,7 +409,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -416,7 +424,9 @@ main(int argc, char * argv[])
   writer->Update();
 
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 

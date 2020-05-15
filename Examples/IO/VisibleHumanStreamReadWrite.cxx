@@ -113,7 +113,8 @@ main(int argc, char * argv[])
   breader->SetFileNames(nameGenerator->GetFileNames());
   breader->SetImageIO(bimageio);
 
-  using ComposeRGBFilterType = itk::ComposeImageFilter<ImageType, RGB3DImageType>;
+  using ComposeRGBFilterType =
+    itk::ComposeImageFilter<ImageType, RGB3DImageType>;
   ComposeRGBFilterType::Pointer composeRGB = ComposeRGBFilterType::New();
   composeRGB->SetInput1(rreader->GetOutput());
   composeRGB->SetInput2(greader->GetOutput());
@@ -123,9 +124,9 @@ main(int argc, char * argv[])
   //   const int xyShrinkFactor = 3;
   //   using ShrinkImageFilterType = itk::ShrinkImageFilter<  RGB3DImageType,
   //   RGB3DImageType >; ShrinkImageFilterType::Pointer shrinker =
-  //   ShrinkImageFilterType::New(); shrinker->SetInput( composeRGB->GetOutput() );
-  //   shrinker->SetShrinkFactors(  xyShrinkFactor );
-  //   shrinker->SetShrinkFactor( 2, 1 );
+  //   ShrinkImageFilterType::New(); shrinker->SetInput(
+  //   composeRGB->GetOutput() ); shrinker->SetShrinkFactors(  xyShrinkFactor
+  //   ); shrinker->SetShrinkFactor( 2, 1 );
 
   // update output information to know propagate the size of the largest
   // possible region
@@ -137,11 +138,12 @@ main(int argc, char * argv[])
 
   // another interesting view
   //   RGB3DImageType::RegionType sagittalSlice =
-  //   shrinker->GetOutput()->GetLargestPossibleRegion(); sagittalSlice.SetIndex( 0,
-  //   1024 ); sagittalSlice.SetSize( 0, 0 );
+  //   shrinker->GetOutput()->GetLargestPossibleRegion();
+  //   sagittalSlice.SetIndex( 0, 1024 ); sagittalSlice.SetSize( 0, 0 );
 
   // create a 2D coronal slice from the volume
-  using ExtractFilterType = itk::ExtractImageFilter<RGB3DImageType, RGB2DImageType>;
+  using ExtractFilterType =
+    itk::ExtractImageFilter<RGB3DImageType, RGB2DImageType>;
   ExtractFilterType::Pointer extract = ExtractFilterType::New();
   // Note on direction cosines: Because our plane is in the xz-plane,
   // the default submatrix would be invalid, so we must use the identity
