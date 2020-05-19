@@ -77,6 +77,8 @@ public:
 
   using DataObjectPointerArraySizeType = typename Superclass::DataObjectPointerArraySizeType;
 
+  using Superclass::SetNthInput;
+
   virtual void
   SetNthInput(DataObjectPointerArraySizeType idx, const InputImageType * inputImage)
   {
