@@ -333,7 +333,7 @@ public:
   // Change the access from protected to public to expose streaming option, a using statement can not be used due to
   // limitations of wrapping.
   void
-  SetNumberOfStreamDivisions(unsigned int n) override
+  SetNumberOfStreamDivisions(const unsigned int n) override
   {
     Superclass::SetNumberOfStreamDivisions(n);
   }
