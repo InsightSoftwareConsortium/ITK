@@ -31,14 +31,15 @@ template <class TInputImage, class TOutputImage>
 SpeckleNoiseImageFilter<TInputImage, TOutputImage>::SpeckleNoiseImageFilter()
 
 {
-  this->DynamicMultiThreadingOn();
+  this->DynamicMultiThreadingOff();
   this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
 void
-SpeckleNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread,
+  ThreadIdType)
 {
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput(0);
