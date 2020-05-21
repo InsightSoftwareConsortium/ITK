@@ -57,17 +57,15 @@ itkAdditiveGaussianNoiseMeshFilterTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   TNoise::Pointer noise = TNoise::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS( noise,
-                                 AdditiveGaussianNoiseMeshFilter,
-                                 MeshToMeshFilter );
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(noise, AdditiveGaussianNoiseMeshFilter, MeshToMeshFilter);
 
-  noise->SetInput( sphere->GetOutput() );
-  noise->SetSeed( NOISE_SEED );
-  ITK_TEST_SET_GET_VALUE( NOISE_SEED, noise->GetSeed() );
-  noise->SetSigma( NOISE_SIGMA );
-  ITK_TEST_SET_GET_VALUE( NOISE_SIGMA, noise->GetSigma() );
-  noise->SetMean( NOISE_MEAN );
-  ITK_TEST_SET_GET_VALUE( NOISE_MEAN, noise->GetMean() );
+  noise->SetInput(sphere->GetOutput());
+  noise->SetSeed(NOISE_SEED);
+  ITK_TEST_SET_GET_VALUE(NOISE_SEED, noise->GetSeed());
+  noise->SetSigma(NOISE_SIGMA);
+  ITK_TEST_SET_GET_VALUE(NOISE_SIGMA, noise->GetSigma());
+  noise->SetMean(NOISE_MEAN);
+  ITK_TEST_SET_GET_VALUE(NOISE_MEAN, noise->GetMean());
 
   noise->Update();
 
