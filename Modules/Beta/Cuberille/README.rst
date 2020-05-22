@@ -3,10 +3,6 @@ ITKCuberille
 
 .. image:: https://github.com/InsightSoftwareConsortium/ITKCuberille/workflows/Build,%20test,%20package/badge.svg
 
-.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKCuberille?branchName=master
-   :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=6&branchName=master
-    :alt: Build status
-
 .. image:: https://img.shields.io/pypi/v/itk-cuberille.svg
     :target: https://pypi.python.org/pypi/itk-cuberille
     :alt: PyPI
