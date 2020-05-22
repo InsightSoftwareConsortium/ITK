@@ -1,0 +1,14 @@
+itk_wrap_include("itkPointSet.h")
+itk_wrap_include("itkDefaultStaticMeshTraits.h")
+
+itk_wrap_class("itk::PointSetToImageFilter" POINTER)
+    UNIQUE(mesh_types "${WRAP_ITK_SCALAR};D")
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+        foreach(t ${WRAP_ITK_SCALAR})
+            foreach(t2 ${mesh_types})
+                itk_wrap_template("PS${ITKM_${t2}}${d}${ITKM_I${t}${d}}"
+                    "itk::PointSet< ${ITKT_${t2}},${d} >, ${ITKT_I${t}${d}}")
+            endforeach()
+        endforeach()
+    endforeach()
+itk_end_wrap_class()
