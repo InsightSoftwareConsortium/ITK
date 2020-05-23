@@ -32,6 +32,7 @@
 #include "itkArray.h"
 #include "itkByteSwapper.h"
 #include "vnl/vnl_cross.h"
+#include "vnl/algo/vnl_determinant.h"
 
 #include "itkMetaDataObject.h"
 
@@ -1024,6 +1025,12 @@ GDCMImageIO::Write(const void * buffer)
     image.SetDirectionCosines(1, m_Direction[0][1]);
     if (m_Direction.size() == 3)
     {
+      double determinant = vnl_determinant(m_Direction[0].data(), m_Direction[1].data(), m_Direction[2].data());
+      if (determinant < 0)
+      {
+        itkExceptionMacro("DICOM writer does not support images with left-handed orientations. Please "
+                          "reorient the image to a right-handed orientation before saving it as a DICOM.");
+      }
       image.SetDirectionCosines(2, m_Direction[0][2]);
     }
     else
