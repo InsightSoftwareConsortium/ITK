@@ -18,7 +18,6 @@
 
 #define USE_BSPLINE_INTERPOLATOR 0
 #define USE_MARCHING_CUBES 0
-#define USE_QUAD_EDGE_MESH 1
 #define USE_DECIMATION 0
 
 #include "itkTimeProbe.h"
@@ -37,10 +36,11 @@
 #include "itkQuadEdgeMeshDecimationCriteria.h"
 #include "itkTestingMacros.h"
 
-
+template <typename ImageType, typename MeshType>
 int
-CuberilleTest01(int argc, char * argv[])
+CuberilleTest01Helper(int argc, char * argv[])
 {
+
   if (argc < 6)
   {
     std::cout << "Usage: " << argv[0];
@@ -51,17 +51,7 @@ CuberilleTest01(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // Typedefs
-  constexpr unsigned int Dimension = 3;
-  using PixelType = unsigned char;
-  // using PixelType = signed short;
-  using ImageType = itk::Image<PixelType, Dimension>;
-
-#if USE_QUAD_EDGE_MESH | USE_DECIMATION
-  using MeshType = itk::QuadEdgeMesh<PixelType, Dimension>;
-#else
-  using MeshType = itk::Mesh<PixelType, Dimension>;
-#endif
+  using PixelType = typename ImageType::PixelType;
   using ImageFileReaderType = itk::ImageFileReader<ImageType>;
   using MeshFileWriterType = itk::VTKPolyDataWriter<MeshType>;
 #if USE_BSPLINE_INTERPOLATOR
@@ -117,21 +107,21 @@ CuberilleTest01(int argc, char * argv[])
   }
 
   // Read input image
-  ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
+  const auto reader = ImageFileReaderType::New();
   reader->SetFileName(filenameInputImage);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->UpdateLargestPossibleRegion());
 
-  ImageType::Pointer input = reader->GetOutput();
+  typename ImageType::Pointer input = reader->GetOutput();
   input->DisconnectPipeline();
 
   // Create output mesh
-  MeshType::Pointer outputMesh = nullptr;
-  itk::TimeProbe    time;
+  typename MeshType::Pointer outputMesh = nullptr;
+  itk::TimeProbe             time;
 #if USE_MARCHING_CUBES
 
   // Create marching cubes mesh
-  BinaryThresholdFilterType::Pointer threshold = BinaryThresholdFilterType::New();
+  const auto threshold = BinaryThresholdFilterType::New();
   threshold->SetInput(input);
   threshold->SetLowerThreshold(IsoSurfaceValue);
   threshold->SetUpperThreshold(itk::NumericTraits<PixelType>::max());
@@ -139,7 +129,7 @@ CuberilleTest01(int argc, char * argv[])
   threshold->SetOutsideValue(itk::NumericTraits<PixelType>::Zero);
   threshold->UpdateLargestPossibleRegion();
 
-  MarchingCubesType::Pointer marching = MarchingCubesType::New();
+  const auto marching = MarchingCubesType::New();
   marching->SetInput(threshold->GetOutput());
 
   time.Start();
@@ -153,9 +143,7 @@ CuberilleTest01(int argc, char * argv[])
 #else
 
   // Create cuberille mesh filter
-  CuberilleType::Pointer cuberille = CuberilleType::New();
-
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(cuberille, CuberilleImageToMeshFilter, ImageToMeshFilter);
+  const auto cuberille = CuberilleType::New();
 
   // How long does it take to pre-calculate the array labels array?
 
@@ -172,19 +160,19 @@ CuberilleTest01(int argc, char * argv[])
   cuberille->SetIsoSurfaceValue(isoSurfaceValue);
   ITK_TEST_SET_GET_VALUE(isoSurfaceValue, cuberille->GetIsoSurfaceValue());
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  const auto   interpolator = InterpolatorType::New();
 #  if USE_BSPLINE_INTERPOLATOR
-  unsigned int              splineOrder = 3;
+  unsigned int splineOrder = 3;
   interpolator->SetSplineOrder(splineOrder);
 #  endif
   cuberille->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, cuberille->GetInterpolator());
 
   cuberille->SetGenerateTriangleFaces(generateTriangleFaces);
-  ITK_TEST_SET_GET_VALUE(generateTriangleFaces, cuberille->GetGenerateTriangleFaces());
+  ITK_TEST_SET_GET_BOOLEAN(cuberille, GenerateTriangleFaces, generateTriangleFaces);
 
   cuberille->SetProjectVerticesToIsoSurface(projectToIsoSurface);
-  ITK_TEST_SET_GET_VALUE(projectToIsoSurface, cuberille->GetProjectVerticesToIsoSurface());
+  ITK_TEST_SET_GET_BOOLEAN(cuberille, ProjectVerticesToIsoSurface, projectToIsoSurface);
 
   cuberille->SetProjectVertexSurfaceDistanceThreshold(surfaceDistanceThreshold);
   ITK_TEST_SET_GET_VALUE(surfaceDistanceThreshold, cuberille->GetProjectVertexSurfaceDistanceThreshold());
@@ -197,6 +185,8 @@ CuberilleTest01(int argc, char * argv[])
 
   cuberille->SetProjectVertexMaximumNumberOfSteps(maximumNumberOfSteps);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfSteps, cuberille->GetProjectVertexMaximumNumberOfSteps());
+
+  ITK_TEST_SET_GET_BOOLEAN(cuberille, SavePixelAsCellData, false);
 
   time.Start();
 
@@ -213,12 +203,12 @@ CuberilleTest01(int argc, char * argv[])
 #if USE_DECIMATION
   // Decimation
   using DecimationCriterionType = itk::NumberOfFacesCriterion<MeshType>;
-  DecimationCriterionType::Pointer decimateCriterion = DecimationCriterionType::New();
+  const auto decimateCriterion = DecimationCriterionType::New();
   decimateCriterion->SetTopologicalChange(false);
   decimateCriterion->SetNumberOfElements(2000);
 
   using DecimationType = itk::QuadricDecimationQuadEdgeMeshFilter<MeshType, MeshType, DecimationCriterionType>;
-  DecimationType::Pointer decimate = DecimationType::New();
+  const auto decimate = DecimationType::New();
   decimate->SetCriterion(decimateCriterion);
 
   decimate->SetInput(outputMesh);
@@ -227,7 +217,7 @@ CuberilleTest01(int argc, char * argv[])
 #endif
 
   // Write mesh
-  MeshFileWriterType::Pointer writer = MeshFileWriterType::New();
+  const auto writer = MeshFileWriterType::New();
 #if USE_DECIMATION
   writer->SetInput(decimate->GetOutput());
 #else
@@ -257,5 +247,40 @@ CuberilleTest01(int argc, char * argv[])
   }
 
   std::cout << "Test finished" << std::endl;
+  return EXIT_SUCCESS;
+}
+
+int
+CuberilleTest01(int argc, char * argv[])
+{
+
+  constexpr unsigned int Dimension = 3;
+  using PixelType = unsigned char;
+  using CoordinateType = double;
+  using QEMeshType = itk::QuadEdgeMesh<CoordinateType, Dimension>;
+  using MeshType = itk::Mesh<CoordinateType, Dimension>;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+  {
+    using CuberilleType = itk::CuberilleImageToMeshFilter<ImageType, MeshType>;
+    const auto cuberille = CuberilleType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(cuberille, CuberilleImageToMeshFilter, ImageToMeshFilter);
+  }
+
+  {
+    using CuberilleType = itk::CuberilleImageToMeshFilter<ImageType, QEMeshType>;
+    const auto cuberille = CuberilleType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(cuberille, CuberilleImageToMeshFilter, ImageToMeshFilter);
+  }
+
+  if (EXIT_FAILURE == CuberilleTest01Helper<ImageType, QEMeshType>(argc, argv))
+  {
+    return EXIT_FAILURE;
+  }
+  if (EXIT_FAILURE == CuberilleTest01Helper<ImageType, MeshType>(argc, argv))
+  {
+    return EXIT_FAILURE;
+  }
+
   return EXIT_SUCCESS;
 }

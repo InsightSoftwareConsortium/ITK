@@ -28,8 +28,9 @@
 
 const unsigned int Dimension = 3;
 using TPixel = unsigned char;
+using TCoordinate = double;
 using TImage = itk::Image<TPixel, Dimension>;
-using TMesh = itk::Mesh<double, Dimension>;
+using TMesh = itk::Mesh<TCoordinate, Dimension>;
 using TImageToMesh = itk::CuberilleImageToMeshFilter<TImage, TMesh>;
 using TInterp = itk::NearestNeighborInterpolateImageFunction<TImage>;
 
