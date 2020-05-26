@@ -24,6 +24,7 @@
 #include "itkSmoothingQuadEdgeMeshFilter.h"
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
+#include "itkTestingMacros.h"
 
 template <typename TTriangleEdgeCellSubdivisionFilter>
 int
@@ -39,20 +40,11 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
   using ReaderType = itk::MeshFileReader<InputMeshType>;
   using WriterType = itk::MeshFileWriter<OutputMeshType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  const auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  try
-  {
-    reader->Update();
-  }
-  catch (itk::ExceptionObject & exp)
-  {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << exp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  TriangleEdgeCellSubdivisionFilterPointer subdivision = TriangleEdgeCellSubdivisionFilterType::New();
+  const auto subdivision = TriangleEdgeCellSubdivisionFilterType::New();
 
   double edgeLengthThreshold = 1.0;
   if (argc >= 5)
@@ -60,18 +52,19 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
     edgeLengthThreshold = std::atof(argv[4]);
   }
 
-  SubdivisionCellContainer                             edgesToBeSubdivided;
-  typename InputMeshType::PointType                    pointArray[2];
-  typename InputMeshType::ConstPointer                 input = reader->GetOutput();
-  typename InputMeshType::CellsContainer::ConstPointer edges = input->GetEdgeCells();
-  for (typename InputMeshType::CellsContainer::ConstIterator eter = edges->Begin(); eter != edges->End(); ++eter)
+  SubdivisionCellContainer          edgesToBeSubdivided;
+  typename InputMeshType::PointType pointArray[2];
+  const auto                        input = reader->GetOutput();
+  const auto                        edges = input->GetEdgeCells();
+  for (auto eter = edges->Begin(); eter != edges->End(); ++eter)
   {
     auto * edge = dynamic_cast<typename InputMeshType::EdgeCellType *>(eter.Value());
     if (edge)
     {
       input->GetPoint(edge->PointIdsBegin()[0], &pointArray[0]);
       input->GetPoint(edge->PointIdsBegin()[1], &pointArray[1]);
-      if (static_cast<double>(pointArray[1].SquaredEuclideanDistanceTo(pointArray[0])) > edgeLengthThreshold)
+      const auto distance = static_cast<double>(pointArray[1].SquaredEuclideanDistanceTo(pointArray[0]));
+      if (distance > edgeLengthThreshold)
       {
         std::cout << "to be subdivided edge id = " << eter->Index() << std::endl;
         edgesToBeSubdivided.push_back(input->FindEdge(edge->PointIdsBegin()[0], edge->PointIdsBegin()[1]));
@@ -82,7 +75,7 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
   std::cout << "number of subdivided edges = " << edgesToBeSubdivided.size() << std::endl;
   subdivision->SetCellsToBeSubdivided(edgesToBeSubdivided);
   subdivision->SetInput(reader->GetOutput());
-  subdivision->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(subdivision->Update());
 
   bool smoothing = true;
   if (argc >= 6)
@@ -95,8 +88,8 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
     using OutputMeshSmoothingFilterType = itk::SmoothingQuadEdgeMeshFilter<OutputMeshType, OutputMeshType>;
     using OnesMatrixCoefficientsType = itk::OnesMatrixCoefficients<OutputMeshType>;
 
-    OnesMatrixCoefficientsType                      coef;
-    typename OutputMeshSmoothingFilterType::Pointer meshSmoothingFilter = OutputMeshSmoothingFilterType::New();
+    OnesMatrixCoefficientsType coef;
+    const auto                 meshSmoothingFilter = OutputMeshSmoothingFilterType::New();
     meshSmoothingFilter->SetInput(subdivision->GetOutput());
     meshSmoothingFilter->SetCoefficientsMethod(&coef);
     // FIXME: Smoothing with the Delaunay Conforming filter causes the following three test failures.
@@ -104,25 +97,15 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
     //  23 - itkLinearTriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest (SEGFAULT)
     //    meshSmoothingFilter->SetDelaunayConforming(1);
     meshSmoothingFilter->SetNumberOfIterations(1);
-    meshSmoothingFilter->Update();
+    ITK_TRY_EXPECT_NO_EXCEPTION(meshSmoothingFilter->Update());
 
     subdivision->GetOutput()->Graft(meshSmoothingFilter->GetOutput());
   }
 
-  typename WriterType::Pointer writer = WriterType::New();
+  const auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(subdivision->GetOutput());
-
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & exp)
-  {
-    std::cerr << "Exception thrown while writting the output file " << std::endl;
-    std::cerr << exp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
@@ -147,7 +130,7 @@ itkTriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
   using InputMeshType = itk::QuadEdgeMesh<MeshPixelType, Dimension>;
   using OutputMeshType = itk::QuadEdgeMesh<MeshPixelType, Dimension>;
 
-  using ButterflySubdivisionFilterType =
+  using ModifiedButterflySubdivisionFilterType =
     itk::ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter<InputMeshType, OutputMeshType>;
   using LinearSubdivisionFilterType =
     itk::LinearTriangleEdgeCellSubdivisionQuadEdgeMeshFilter<InputMeshType, OutputMeshType>;
@@ -161,11 +144,27 @@ itkTriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
     switch (type)
     {
       case 0:
-        return TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest<ButterflySubdivisionFilterType>(argc, argv);
+      {
+        const auto filter = ModifiedButterflySubdivisionFilterType::New();
+        ITK_EXERCISE_BASIC_OBJECT_METHODS(filter,
+                                          ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter,
+                                          TriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
+        return TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest<ModifiedButterflySubdivisionFilterType>(argc, argv);
+      }
       case 1:
+      {
+        const auto filter = LinearSubdivisionFilterType::New();
+        ITK_EXERCISE_BASIC_OBJECT_METHODS(
+          filter, LinearTriangleEdgeCellSubdivisionQuadEdgeMeshFilter, TriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
         return TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest<LinearSubdivisionFilterType>(argc, argv);
+      }
       case 2:
+      {
+        const auto filter = LoopSubdivisionFilterType::New();
+        ITK_EXERCISE_BASIC_OBJECT_METHODS(
+          filter, LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter, TriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
         return TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest<LoopSubdivisionFilterType>(argc, argv);
+      }
       default:
         std::cerr << "Invalid subdivision type : " << type << std::endl;
         return EXIT_FAILURE;
