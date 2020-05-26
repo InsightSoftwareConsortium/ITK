@@ -125,8 +125,8 @@
         imageView = itkPyBuffer@PyBufferTypes@.GetImageViewFromArray(ndarr, is_vector)
 
         # Duplicate the image to let it manage its own memory buffer
-        duplicator = itkImageDuplicator@PyBufferTypes@.New()
-        duplicator.SetInputImage(imageView)
+        import itk
+        duplicator = itk.ImageDuplicator.New(imageView)
         duplicator.Update()
         return duplicator.GetOutput()
 

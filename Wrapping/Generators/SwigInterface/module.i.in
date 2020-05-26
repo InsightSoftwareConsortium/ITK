@@ -41,7 +41,7 @@
 %module @WRAPPER_LIBRARY_NAME@Pike
 #endif
 #ifdef SWIGPYTHON
-%module @WRAPPER_LIBRARY_NAME@Python
+%module(package="itk") @WRAPPER_LIBRARY_NAME@Python
 #endif
 #ifdef SWIGR
 %module @WRAPPER_LIBRARY_NAME@R
