@@ -74,6 +74,8 @@ TriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
       cellsToBeSubdivided.push_back(9);
 
       subdivision->SetCellsToBeSubdivided(cellsToBeSubdivided);
+
+      ITK_TEST_EXPECT_EQUAL(7, subdivision->GetCellsToBeSubdivided().size());
     }
     else
     {
@@ -84,6 +86,8 @@ TriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
       subdivision->AddSubdividedCellId(5);
       subdivision->AddSubdividedCellId(6);
       subdivision->AddSubdividedCellId(9);
+
+      ITK_TEST_EXPECT_EQUAL(7, subdivision->GetCellsToBeSubdivided().size());
     }
   }
 
@@ -129,15 +133,22 @@ TriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 int
 itkTriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputMeshFile  outputMeshFile subdivisionType Resolution non-uniform" << std::endl;
-    std::cerr << " 0 : ModifiedButterfly " << std::endl;
-    std::cerr << " 1 : Linear " << std::endl;
-    std::cerr << " 2 : Loop " << std::endl;
-    std::cerr << " 3 : Squarethree " << std::endl;
+    std::cerr << "Error: Missing Parameters!" << std::endl;
+    std::cerr << "Usage: " << argv[0] << '\n';
+    std::cerr << "  inputMeshFile\n";
+    std::cerr << "  outputMeshFile\n";
+    std::cerr << "  subdivisionType\n";
+    std::cerr << "    0 : ModifiedButterfly\n";
+    std::cerr << "    1 : Linear\n";
+    std::cerr << "    2 : Loop\n";
+    std::cerr << "    3 : SquareThree\n";
+    std::cerr << "  [Resolution]\n";
+    std::cerr << "  [Adaptive]\n";
+    std::cerr << "    0 : AddSubdividedCellId\n";
+    std::cerr << "    1 : SetCellsToBeSubdivided\n";
+    std::cerr << std::flush;
     return EXIT_FAILURE;
   }
 
