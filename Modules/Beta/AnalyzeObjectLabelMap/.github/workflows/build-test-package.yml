@@ -1,0 +1,261 @@
+name: Build, test, package
+
+on: [push,pull_request]
+
+jobs:
+  build-test-cxx:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      max-parallel: 3
+      matrix:
+        os: [ubuntu-18.04, windows-2019, macos-10.15]
+        include:
+          - os: ubuntu-18.04
+            c-compiler: "gcc"
+            cxx-compiler: "g++"
+            itk-git-tag: "v5.1.0"
+            cmake-build-type: "MinSizeRel"
+          - os: windows-2019
+            c-compiler: "cl.exe"
+            cxx-compiler: "cl.exe"
+            itk-git-tag: "v5.1.0"
+            cmake-build-type: "Release"
+          - os: macos-10.15
+            c-compiler: "clang"
+            cxx-compiler: "clang++"
+            itk-git-tag: "v5.1.0"
+            cmake-build-type: "MinSizeRel"
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.7
+
+    - name: Install build dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install ninja
+
+    - name: Download ITK
+      run: |
+        cd ..
+        git clone https://github.com/InsightSoftwareConsortium/ITK.git
+        cd ITK
+        git checkout ${{ matrix.itk-git-tag }}
+
+    - name: Build ITK
+      if: matrix.os != 'windows-2019'
+      run: |
+        cd ..
+        mkdir ITK-build
+        cd ITK-build
+        cmake -DCMAKE_C_COMPILER:FILEPATH="${{ matrix.c-compiler }}" -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_CXX_COMPILER="${{ matrix.cxx-compiler }}" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.cmake-build-type }} -DBUILD_TESTING:BOOL=OFF -GNinja ../ITK
+        ninja
+
+    - name: Build ITK
+      if: matrix.os == 'windows-2019'
+      run: |
+        cd ..
+        mkdir ITK-build
+        cd ITK-build
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        cmake -DCMAKE_C_COMPILER:FILEPATH="${{ matrix.c-compiler }}" -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_CXX_COMPILER="${{ matrix.cxx-compiler }}" -DCMAKE_BUILD_TYPE:STRING=${{ matrix.cmake-build-type }} -DBUILD_TESTING:BOOL=OFF -GNinja ../ITK
+        ninja
+      shell: cmd
+
+    - name: Fetch CTest driver script
+      run: |
+        curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/dashboard/itk_common.cmake -O
+
+    - name: Configure CTest script
+      shell: bash
+      run: |
+        operating_system="${{ matrix.os }}"
+        cat > dashboard.cmake << EOF
+        set(CTEST_SITE "GitHubActions")
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/.." CTEST_DASHBOARD_ROOT)
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/" CTEST_SOURCE_DIRECTORY)
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/../build" CTEST_BINARY_DIRECTORY)
+        set(dashboard_source_name "${GITHUB_REPOSITORY}")
+        if(ENV{GITHUB_REF} MATCHES "master")
+          set(branch "-master")
+          set(dashboard_model "Continuous")
+        else()
+          set(branch "-${GITHUB_REF}")
+          set(dashboard_model "Experimental")
+        endif()
+        set(CTEST_BUILD_NAME "${GITHUB_REPOSITORY}-${operating_system}-\${branch}")
+        set(CTEST_UPDATE_VERSION_ONLY 1)
+        set(CTEST_TEST_ARGS \${CTEST_TEST_ARGS} PARALLEL_LEVEL \${PARALLEL_LEVEL})
+        set(CTEST_BUILD_CONFIGURATION "Release")
+        set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(CTEST_CUSTOM_WARNING_EXCEPTION
+          \${CTEST_CUSTOM_WARNING_EXCEPTION}
+          # macOS Azure VM Warning
+          "ld: warning: text-based stub file"
+          )
+        set(dashboard_no_clean 1)
+        set(ENV{CC} ${{ matrix.c-compiler }})
+        set(ENV{CXX} ${{ matrix.cxx-compiler }})
+        set(dashboard_cache "
+        ITK_DIR:PATH=\${CTEST_DASHBOARD_ROOT}/ITK-build
+        BUILD_TESTING:BOOL=ON
+        ")
+        string(TIMESTAMP build_date "%Y-%m-%d")
+        message("CDash Build Identifier: \${build_date} \${CTEST_BUILD_NAME}")
+        message("CTEST_SITE = \${CTEST_SITE}")
+        include(\${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
+        EOF
+        cat dashboard.cmake
+
+    - name: Build and test
+      if: matrix.os != 'windows-2019'
+      run: |
+        ctest -j 2 -V
+
+    - name: Build and test
+      if: matrix.os == 'windows-2019'
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        ctest -j 2 -V
+      shell: cmd
+
+#    TODO: Enable Python builds when Python wrapping errors are fixed in issue
+#    build-linux-python-packages:
+#    runs-on: ubuntu-18.04
+#    strategy:
+#      max-parallel: 2
+#      matrix:
+#        python-version: [35, 36, 37, 38]
+#        include:
+#          - itk-python-git-tag: "v5.1.0.post2"
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: 'Free up disk space'
+#        run: |
+#          # Workaround for https://github.com/actions/virtual-environments/issues/709
+#          df -h
+#          sudo apt-get clean
+#          sudo rm -rf "/usr/local/share/boost"
+#          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+#          df -h
+#
+#      - name: 'Fetch build script'
+#        run: |
+#          curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/dockcross-manylinux-download-cache-and-build-module-wheels.sh -O
+#          chmod u+x dockcross-manylinux-download-cache-and-build-module-wheels.sh
+#
+#      - name: 'Build 🐍 Python 📦 package'
+#        run: |
+#          export ITK_PACKAGE_VERSION=${{ matrix.itk-python-git-tag }}
+#          ./dockcross-manylinux-download-cache-and-build-module-wheels.sh cp${{ matrix.python-version }}
+#
+#      - name: Publish Python package as GitHub Artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: LinuxWheel${{ matrix.python-version }}
+#          path: dist
+#
+#  build-macos-python-packages:
+#    runs-on: macos-10.15
+#    strategy:
+#      max-parallel: 2
+#      matrix:
+#        include:
+#          - itk-python-git-tag: "v5.1.0.post2"
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: 'Fetch build script'
+#        run: |
+#          curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/macpython-download-cache-and-build-module-wheels.sh -O
+#          chmod u+x macpython-download-cache-and-build-module-wheels.sh
+#
+#      - name: 'Build 🐍 Python 📦 package'
+#        run: |
+#          export ITK_PACKAGE_VERSION=${{ matrix.itk-python-git-tag }}
+#          export MACOSX_DEPLOYMENT_TARGET=10.9
+#          ./macpython-download-cache-and-build-module-wheels.sh
+#
+#      - name: Publish Python package as GitHub Artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: MacOSWheels
+#          path: dist
+#
+#  build-windows-python-packages:
+#    runs-on: windows-2019
+#    strategy:
+#      max-parallel: 2
+#      matrix:
+#        python-version-minor: [5, 6, 7, 8]
+#        include:
+#          - itk-python-git-tag: "v5.1.0.post2"
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: 'Install Python'
+#        run: |
+#          $pythonArch = "64"
+#          $pythonVersion = "3.${{ matrix.python-version-minor }}"
+#          iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/scikit-build/scikit-ci-addons/master/windows/install-python.ps1'))
+#
+#      - name: 'Fetch build dependencies'
+#        shell: bash
+#        run: |
+#          curl -L "https://github.com/InsightSoftwareConsortium/ITKPythonBuilds/releases/download/${{ matrix.itk-python-git-tag }}/ITKPythonBuilds-windows.zip" -o "ITKPythonBuilds-windows.zip"
+#          7z x ITKPythonBuilds-windows.zip -o/c/P -aoa -r
+#          curl -L "https://data.kitware.com/api/v1/file/5c0ad59d8d777f2179dd3e9c/download" -o "doxygen-1.8.11.windows.bin.zip"
+#          7z x doxygen-1.8.11.windows.bin.zip -o/c/P/doxygen -aoa -r
+#          curl -L "https://data.kitware.com/api/v1/file/5bbf87ba8d777f06b91f27d6/download/grep-win.zip" -o "grep-win.zip"
+#          7z x grep-win.zip -o/c/P/grep -aoa -r
+#
+#      - name: 'Build 🐍 Python 📦 package'
+#        shell: cmd
+#        run: |
+#          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+#          set PATH="C:\P\grep;%PATH%"
+#          set CC=cl.exe
+#          set CXX=cl.exe
+#          C:\Python3${{ matrix.python-version-minor }}-x64\python.exe C:\P\IPP\scripts\windows_build_module_wheels.py --py-envs "3${{ matrix.python-version-minor }}-x64"
+#
+#      - name: Publish Python package as GitHub Artifact
+#        uses: actions/upload-artifact@v1
+#        with:
+#          name: WindowWheel3.${{ matrix.python-version-minor }}
+#          path: dist
+#
+#  publish-python-packages-to-pypi:
+#    needs:
+#      - build-linux-python-packages
+#      - build-macos-python-packages
+#      - build-windows-python-packages
+#    runs-on: ubuntu-18.04
+#
+#    steps:
+#      - name: Download Python Packages
+#        uses: actions/download-artifact@v2
+#
+#      - name: Prepare packages for upload
+#        run: |
+#          ls -R
+#          for d in */; do
+#            mv ${d}/*.whl .
+#          done
+#          mkdir dist
+#          mv *.whl dist/
+#          ls dist
+#
+#      - name: Publish 🐍 Python 📦 package to PyPI
+#        if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')
+#        uses: pypa/gh-action-pypi-publish@master
+#        with:
+#          user: __token__
+#          password: ${{ secrets.pypi_password }}
