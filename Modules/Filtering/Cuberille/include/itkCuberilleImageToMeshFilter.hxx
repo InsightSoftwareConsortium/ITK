@@ -682,15 +682,22 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
 {
 
   //  The commented code below iterates through all possible binary 2x2x2 regions,
-  //  runs connected components on the result.  The total number of foreground
+  //  and runs connected components on the result.  The total number of foreground
   //  connected components is equal to the number of vertices which must be
   //  replicated--these vertices are stored in the VertexMap.  One less than the
   //  number of the connected component is equal to the index of the corresponding
-  //  vertex in the VertexMap.  While it would be easily possible to generate this at
-  //  runtime, it could theoretically cause a significant performance hit in a
-  //  case where many instances of this class must be instantiated.  Therefore,
-  //  the values are hardcoded below.  The commented code was used to generate
-  //  the hardcoded values.
+  //  vertex in the VertexMap.
+  //
+  //  This method works for all but four of the 256 possible cases.  The failing
+  //  cases occur when there are two background pixels at opposite corners of the
+  //  2x2x2 region, and all remaining pixels are foreground.  In these cases,
+  //  there is only one connected component, but two vertices must be added.  These
+  //  cases are handled separately.
+  //
+  //  While it would be possible to generate this at runtime, it could theoretically
+  //  cause a significant performance hit in a case where many instances of this class
+  //  must be instantiated.  Therefore, the values are hardcoded below.  The commented
+  //  code was used to generate the hardcoded values.
   //
   //  NOTE: There was previously a bug in itk::ConnectedComponentImageFilter which
   //  caused the hardcoded values below to be incorrect, though this has since been
@@ -702,7 +709,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   //  using TImage = itk::Image<unsigned char, 3>;
   //  using TConnected = itk::ConnectedComponentImageFilter< TImage, TImage >;
   //
-  //  for (size_t mask = 0; mask < pow(2, 8); ++mask) {
+  //  for (size_t mask = 0; mask < std::pow(2, 8); ++mask) {
   //
   //    std::bitset<8> bitmask(mask);
   //
@@ -719,7 +726,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   //    image->Allocate();
   //    image->FillBuffer( 0 );
   //
-  //    for (size_t index = 0; index < pow(2, 3); ++index) {
+  //    for (size_t index = 0; index < std::pow(2, 3); ++index) {
   //      std::bitset<3> bitindex(index);
   //      image->SetPixel( {{bitindex[0], bitindex[1], bitindex[2]}}, bitmask[index] );
   //    }
@@ -731,7 +738,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   //
   //    TLabels labels;
   //
-  //    for (size_t index = 0; index < pow(2, 3); ++index) {
+  //    for (size_t index = 0; index < std::pow(2, 3); ++index) {
   //      std::bitset<3> bitindex(index);
   //      const auto component = connected->GetOutput()->GetPixel({{
   //        bitindex[0],
@@ -745,18 +752,22 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   //
   //  }
   //
-  //  for (size_t i = 0; i < pow(2,8); ++i) {
+  //  // Manually handle the corner cases, discussed above.
+  //
+  //  this->m_LabelsArray[126] = { -1, 0, 0, 1, 0, 1, 1, -1 };
+  //  this->m_LabelsArray[189] = { 0, -1, 1, 0, 1, 0, -1, 1 };
+  //  this->m_LabelsArray[219] = { 0, 1, -1, 0, 1, -1, 0, 1 };
+  //  this->m_LabelsArray[231] = { 1, 0, 0, -1, -1, 1, 1, 0 };
+  //
+  //  for (size_t i = 0; i < std::pow(2,8); ++i) {
   //    std::cout << "this->m_LabelsArray[" << i << "] ";
-  //    if (i < 10) std::cout << ' ';
-  //    if (i < 100) std::cout << ' ';
   //    std::cout << "= {";
-  //    for (size_t j = 0; j < pow(2,3); ++j) {
+  //    for (size_t j = 0; j < std::pow(2,3); ++j) {
   //      const auto k = static_cast<int>(this->m_LabelsArray[i][j]);
-  //      if (k >= 0) std::cout << ' ';
-  //      std::cout << k;
+  //      std::cout << ' ' << k;
   //      if (j != 7) std::cout << ',';
   //    }
-  //    std::cout << "};\n";
+  //    std::cout << " };\n";
   //  }
 
   this->m_LabelsArray[0] = { -1, -1, -1, -1, -1, -1, -1, -1 };
@@ -885,7 +896,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   this->m_LabelsArray[123] = { 0, 0, -1, 0, 0, 0, 0, -1 };
   this->m_LabelsArray[124] = { -1, -1, 0, 0, 0, 0, 0, -1 };
   this->m_LabelsArray[125] = { 0, -1, 0, 0, 0, 0, 0, -1 };
-  this->m_LabelsArray[126] = { -1, 0, 0, 0, 0, 0, 0, -1 };
+  this->m_LabelsArray[126] = { -1, 0, 0, 1, 0, 1, 1, -1 };
   this->m_LabelsArray[127] = { 0, 0, 0, 0, 0, 0, 0, -1 };
   this->m_LabelsArray[128] = { -1, -1, -1, -1, -1, -1, -1, 0 };
   this->m_LabelsArray[129] = { 0, -1, -1, -1, -1, -1, -1, 1 };
@@ -948,7 +959,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   this->m_LabelsArray[186] = { -1, 0, -1, 0, 0, 0, -1, 0 };
   this->m_LabelsArray[187] = { 0, 0, -1, 0, 0, 0, -1, 0 };
   this->m_LabelsArray[188] = { -1, -1, 0, 0, 0, 0, -1, 0 };
-  this->m_LabelsArray[189] = { 0, -1, 0, 0, 0, 0, -1, 0 };
+  this->m_LabelsArray[189] = { 0, -1, 1, 0, 1, 0, -1, 1 };
   this->m_LabelsArray[190] = { -1, 0, 0, 0, 0, 0, -1, 0 };
   this->m_LabelsArray[191] = { 0, 0, 0, 0, 0, 0, -1, 0 };
   this->m_LabelsArray[192] = { -1, -1, -1, -1, -1, -1, 0, 0 };
@@ -978,7 +989,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   this->m_LabelsArray[216] = { -1, -1, -1, 0, 0, -1, 0, 0 };
   this->m_LabelsArray[217] = { 0, -1, -1, 0, 0, -1, 0, 0 };
   this->m_LabelsArray[218] = { -1, 0, -1, 0, 0, -1, 0, 0 };
-  this->m_LabelsArray[219] = { 0, 0, -1, 0, 0, -1, 0, 0 };
+  this->m_LabelsArray[219] = { 0, 1, -1, 0, 1, -1, 0, 1 };
   this->m_LabelsArray[220] = { -1, -1, 0, 0, 0, -1, 0, 0 };
   this->m_LabelsArray[221] = { 0, -1, 0, 0, 0, -1, 0, 0 };
   this->m_LabelsArray[222] = { -1, 0, 0, 0, 0, -1, 0, 0 };
@@ -990,7 +1001,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   this->m_LabelsArray[228] = { -1, -1, 0, -1, -1, 0, 0, 0 };
   this->m_LabelsArray[229] = { 0, -1, 0, -1, -1, 0, 0, 0 };
   this->m_LabelsArray[230] = { -1, 0, 0, -1, -1, 0, 0, 0 };
-  this->m_LabelsArray[231] = { 0, 0, 0, -1, -1, 0, 0, 0 };
+  this->m_LabelsArray[231] = { 1, 0, 0, -1, -1, 1, 1, 0 };
   this->m_LabelsArray[232] = { -1, -1, -1, 0, -1, 0, 0, 0 };
   this->m_LabelsArray[233] = { 0, -1, -1, 1, -1, 1, 1, 1 };
   this->m_LabelsArray[234] = { -1, 0, -1, 0, -1, 0, 0, 0 };

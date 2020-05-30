@@ -7,6 +7,7 @@ set(
   CuberilleTest01.cxx
   CuberilleTest02.cxx
   CuberilleTest03.cxx
+  CuberilleTest04.cxx
 )
 
 createtestdriver(Cuberille "${Cuberille-Test_LIBRARIES}" "${CuberilleTests}")
@@ -344,4 +345,11 @@ itk_add_test(
   COMMAND
     ${itk-module}TestDriver
     CuberilleTest03
+)
+
+itk_add_test(
+  NAME CuberilleTestNonManifoldGeometry
+  COMMAND
+    ${itk-module}TestDriver
+    CuberilleTest04
 )
