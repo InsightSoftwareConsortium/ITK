@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 # This file demonstrates how to connect VTK and ITK pipelines together
 # in scripted languages with the new ConnectVTKITK wrapping functionality.
@@ -30,8 +30,9 @@
 
 import os
 import sys
-import InsightToolkit as itk
+
 import ConnectVTKITKPython as CVIPy
+import InsightToolkit as itk
 import vtk
 
 # VTK will read the PNG image for us
@@ -60,16 +61,19 @@ itkImporter = itk.itkVTKImageImportF2_New()
 CVIPy.ConnectVTKToITKF2(vtkExporter, itkImporter.GetPointer())
 
 # perform a canny edge detection and rescale the output
-canny  = itk.itkCannyEdgeDetectionImageFilterF2F2_New()
+canny = itk.itkCannyEdgeDetectionImageFilterF2F2_New()
 rescaler = itk.itkRescaleIntensityImageFilterF2US2_New()
 canny.SetInput(itkImporter.GetOutput())
 rescaler.SetInput(canny.GetOutput())
 rescaler.SetOutputMinimum(0)
 rescaler.SetOutputMaximum(65535)
 
+
 # this is to show off the new PyCommand functionality. :)
 def progressEvent():
-    print "%.0f%s done..." % (canny.GetProgress() * 100.0, '%')
+    print
+    "%.0f%s done..." % (canny.GetProgress() * 100.0, '%')
+
 
 pc = itk.itkPyCommand_New()
 pc.SetCommandCallable(progressEvent)
@@ -102,4 +106,5 @@ rescaler.Update()
 # write the file to disk...
 writer.Write()
 
-print "\n\nWrote testout.png to current directory."
+print
+"\n\nWrote testout.png to current directory."
