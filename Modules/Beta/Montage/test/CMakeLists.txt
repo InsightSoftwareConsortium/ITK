@@ -293,7 +293,7 @@ AddTestTi64raw(2)
 AddTestTi64raw(3)
 AddTestTi64raw(4)
 
-option(ITKMontage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
+option(Module_Montage_EnableFailingTests "Should we enable tests which are failing due to not-yet-resolved issues?" OFF)
 
 function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
   set(outDir ${TESTING_OUTPUT_PATH}/${tempDir}/)
@@ -303,7 +303,7 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
     itkMontageTruthCreator ${inputFile} ${outDir} ${ARGN}
     )
   set(regressionPart "")
-  if (ITKMontage_EnableFailingTests)
+  if (Module_Montage_EnableFailingTests)
     set(regressionPart --compare ${inputFile} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha)
   endif()
     
@@ -385,7 +385,7 @@ itk_add_test(NAME itkMontagePCMFiles-10-129
     -10.488
   )
 
-if (ITKMontage_EnableFailingTests)
+if (Module_Montage_EnableFailingTests)
 itk_add_test(NAME itkMontagePCMFilesS200_32_33
   COMMAND MontageTestDriver
   itkMontagePCMTestFiles
@@ -397,7 +397,7 @@ itk_add_test(NAME itkMontagePCMFilesS200_32_33
     74.09566
     7.614863315
   )
-endif() # ITKMontage_EnableFailingTests
+endif() # Module_Montage_EnableFailingTests
 
 itk_add_test(NAME itkMontagePCMFilesS200_33_67
   COMMAND MontageTestDriver
@@ -470,7 +470,7 @@ itk_add_test(NAME itkMontageGroundTruthMake${tempDir}
   itkMontageTruthCreator DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz} ${outDir} 4 8 3 25 15 50
   )
 set(regressionPart "")
-if (ITKMontage_EnableFailingTests)
+if (Module_Montage_EnableFailingTests)
   set(regressionPart --compare DATA{Input/DzZ_T1/DzZ_T1_orig.nhdr} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha)
 endif()
 itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
@@ -525,7 +525,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       0 1 1 5 0 0 1 0 1
     )
 
-  if (ITKMontage_EnableFailingTests) 
+  if (Module_Montage_EnableFailingTests) 
     itk_add_test(NAME itkMontagePCMFiles36_088
       COMMAND MontageTestDriver
       itkMontagePCMTestFiles
@@ -537,7 +537,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
         0.0
         0.0
     )
-  endif() # ITKMontage_EnableFailingTests
+  endif() # Module_Montage_EnableFailingTests
 endif()
 
 if (EXISTS "${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region1_10_Mosaic36/Ti-7Al_Region #1_10_Mosaic_36_p323.tif")
