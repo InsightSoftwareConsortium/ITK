@@ -37,6 +37,25 @@ DTITubeSpatialObjectPoint<TPointDimension>::DTITubeSpatialObjectPoint()
   m_TensorMatrix[5] = 1;
 }
 
+/** Copy Constructor */
+template <unsigned int TPointDimension>
+DTITubeSpatialObjectPoint<TPointDimension>::DTITubeSpatialObjectPoint(const DTITubeSpatialObjectPoint & other)
+  : Superclass(other)
+{
+  m_Fields.clear();
+  const FieldListType & fields = other.GetFields();
+  auto                  it = fields.begin();
+  while (it != fields.end())
+  {
+    this->AddField((*it).first.c_str(), (*it).second);
+    it++;
+  }
+  for (unsigned int i = 0; i < 6; i++)
+  {
+    m_TensorMatrix[i] = other.m_TensorMatrix[i];
+  }
+}
+
 template <unsigned int TPointDimension>
 void
 DTITubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const

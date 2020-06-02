@@ -61,7 +61,7 @@ class ITK_TEMPLATE_EXPORT DTITubeSpatialObjectPoint : public TubeSpatialObjectPo
 {
 public:
   using Self = DTITubeSpatialObjectPoint;
-  using Superclass = SpatialObjectPoint<TPointDimension>;
+  using Superclass = TubeSpatialObjectPoint<TPointDimension>;
   using PointType = Point<double, TPointDimension>;
   using VectorType = Vector<double, TPointDimension>;
   using CovariantVectorType = CovariantVector<double, TPointDimension>;
@@ -82,6 +82,9 @@ public:
   /** Constructor. This one defines the number of dimensions in the
    * DTITubeSpatialObjectPoint */
   DTITubeSpatialObjectPoint();
+
+  /** Copy Constructor */
+  DTITubeSpatialObjectPoint(const DTITubeSpatialObjectPoint & other);
 
   /** Default destructor. */
   ~DTITubeSpatialObjectPoint() override = default;
