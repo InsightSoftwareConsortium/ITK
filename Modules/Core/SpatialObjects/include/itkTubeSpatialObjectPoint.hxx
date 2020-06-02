@@ -43,6 +43,57 @@ TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint()
   m_Alpha3 = 0;
 }
 
+/** Copy constructor. */
+template <unsigned int TPointDimension>
+TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint(const Self & other) :
+  Superclass(other)
+{
+  this->SetRadiusInObjectSpace(other.GetRadiusInObjectSpace());
+  this->SetTangentInObjectSpace(other.GetTangentInObjectSpace());
+  this->SetNormal1InObjectSpace(other.GetNormal1InObjectSpace());
+  this->SetNormal2InObjectSpace(other.GetNormal2InObjectSpace());
+
+  this->SetRidgeness(other.GetRidgeness());
+  this->SetMedialness(other.GetMedialness());
+  this->SetBranchness(other.GetBranchness());
+  this->SetCurvature(other.GetCurvature());
+  this->SetLevelness(other.GetLevelness());
+  this->SetRoundness(other.GetRoundness());
+  this->SetIntensity(other.GetIntensity());
+  this->SetAlpha1(other.GetAlpha1());
+  this->SetAlpha2(other.GetAlpha2());
+  this->SetAlpha3(other.GetAlpha3());
+}
+
+/** Assignment operator. */
+template <unsigned int TPointDimension>
+typename TubeSpatialObjectPoint<TPointDimension>::Self &
+TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint & rhs)
+{
+  if (this != &rhs)
+  {
+    // superclass
+    Superclass::operator=(rhs);
+    // class
+    this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());
+    this->SetTangentInObjectSpace(rhs.GetTangentInObjectSpace());
+    this->SetNormal1InObjectSpace(rhs.GetNormal1InObjectSpace());
+    this->SetNormal2InObjectSpace(rhs.GetNormal2InObjectSpace());
+
+    this->SetRidgeness(rhs.GetRidgeness());
+    this->SetMedialness(rhs.GetMedialness());
+    this->SetBranchness(rhs.GetBranchness());
+    this->SetCurvature(rhs.GetCurvature());
+    this->SetLevelness(rhs.GetLevelness());
+    this->SetRoundness(rhs.GetRoundness());
+    this->SetIntensity(rhs.GetIntensity());
+    this->SetAlpha1(rhs.GetAlpha1());
+    this->SetAlpha2(rhs.GetAlpha2());
+    this->SetAlpha3(rhs.GetAlpha3());
+  }
+  return *this;
+}
+
 /** Get the radius */
 template <unsigned int TPointDimension>
 double
@@ -183,37 +234,6 @@ TubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent ind
   os << indent << "Alpha3: " << m_Alpha3 << std::endl;
 }
 
-template <unsigned int TPointDimension>
-typename TubeSpatialObjectPoint<TPointDimension>::Self &
-TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint & rhs)
-{
-  if (this != &rhs)
-  {
-    // Superclass
-    this->SetId(rhs.GetId());
-    this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
-    this->SetColor(rhs.GetColor());
-    this->SetSpatialObject(rhs.GetSpatialObject());
-
-    // class
-    this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());
-    this->SetTangentInObjectSpace(rhs.GetTangentInObjectSpace());
-    this->SetNormal1InObjectSpace(rhs.GetNormal1InObjectSpace());
-    this->SetNormal2InObjectSpace(rhs.GetNormal2InObjectSpace());
-
-    this->SetRidgeness(rhs.GetRidgeness());
-    this->SetMedialness(rhs.GetMedialness());
-    this->SetBranchness(rhs.GetBranchness());
-    this->SetCurvature(rhs.GetCurvature());
-    this->SetLevelness(rhs.GetLevelness());
-    this->SetRoundness(rhs.GetRoundness());
-    this->SetIntensity(rhs.GetIntensity());
-    this->SetAlpha1(rhs.GetAlpha1());
-    this->SetAlpha2(rhs.GetAlpha2());
-    this->SetAlpha3(rhs.GetAlpha3());
-  }
-  return *this;
-}
 } // end namespace itk
 
 #endif

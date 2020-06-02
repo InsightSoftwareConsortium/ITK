@@ -76,6 +76,32 @@ itkTubeSpatialObjectTest(int, char *[])
   p.SetRadiusInObjectSpace(1);
   p.Print(std::cout);
 
+  // Copy constructor of TubePointType
+  TubePointType p_copy(p);
+  std::cout << "TubeSpatialObjectPoint copy constructor...";
+  if (p_copy.GetPositionInObjectSpace() != p.GetPositionInObjectSpace())
+  {
+    std::cout << "[FAILED] doesn't set base class members" << std::endl;
+    return EXIT_FAILURE;
+  }
+  else
+  {
+    std::cout << "[PASSED]" << std::endl;
+  }
+
+  // Assignment operator of TubePointType
+  TubePointType p_assignment = p;
+  std::cout << "TubeSpatialObjectPoint assignment operator...";
+  if (p_assignment.GetPositionInObjectSpace() != p.GetPositionInObjectSpace())
+  {
+    std::cout << "[FAILED] TubeSpatialObjectPoint assignment operator doesn't set base class members" << std::endl;
+    return EXIT_FAILURE;
+  }
+  else
+  {
+    std::cout << "[PASSED]" << std::endl;
+  }
+
   tube1->SetPoints(list);
   tube1->Update();
 

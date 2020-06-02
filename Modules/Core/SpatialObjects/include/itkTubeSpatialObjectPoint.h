@@ -52,6 +52,13 @@ public:
   /** Default destructor. */
   ~TubeSpatialObjectPoint() override = default;
 
+  /** Copy constructor. */
+  TubeSpatialObjectPoint(const Self & other);
+
+  /** Copy one TubeSpatialObjectPoint to another */
+  Self &
+  operator=(const TubeSpatialObjectPoint & rhs);
+
   /** Get R */
   double
   GetRadiusInObjectSpace() const
@@ -259,10 +266,6 @@ public:
   {
     return m_Alpha3;
   }
-
-  /** Copy one TubeSpatialObjectPoint to another */
-  Self &
-  operator=(const TubeSpatialObjectPoint & rhs);
 
 protected:
   VectorType          m_TangentInObjectSpace;

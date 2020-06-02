@@ -44,8 +44,21 @@ template <unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT SpatialObjectPoint
 {
 public:
+  using Self = SpatialObjectPoint;
+  using SpatialObjectType = SpatialObject<TPointDimension>;
+  using PointType = Point<double, TPointDimension>;
+  using VectorType = vnl_vector<double>;
+  using ColorType = RGBAPixel<double>;
+
   /** Constructor. */
   SpatialObjectPoint();
+
+  /** Copy constructor. */
+  SpatialObjectPoint(const SpatialObjectPoint<TPointDimension> & other);
+
+  /** Copy one SpatialObjectPoint to another */
+  Self &
+  operator=(const SpatialObjectPoint & rhs);
 
   /** Default destructor. */
   virtual ~SpatialObjectPoint() = default;
@@ -55,14 +68,6 @@ public:
   {
     return "SpatialObjectPoint";
   };
-
-  using Self = SpatialObjectPoint;
-
-  using SpatialObjectType = SpatialObject<TPointDimension>;
-
-  using PointType = Point<double, TPointDimension>;
-  using VectorType = vnl_vector<double>;
-  using ColorType = RGBAPixel<double>;
 
   /** Set the SpatialObjectPoint Id. */
   void
@@ -123,10 +128,6 @@ public:
    *    spatialObject's objectToWorld transform */
   PointType
   GetPositionInWorldSpace() const;
-
-  /** Copy one SpatialObjectPoint to another */
-  Self &
-  operator=(const SpatialObjectPoint & rhs);
 
   /** Set/Get color of the point */
   void

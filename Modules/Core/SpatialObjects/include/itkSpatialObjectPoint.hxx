@@ -38,6 +38,31 @@ SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
   m_SpatialObject = nullptr;
 }
 
+/** Copy Constructor */
+template <unsigned int TPointDimension>
+SpatialObjectPoint<TPointDimension>::SpatialObjectPoint(const SpatialObjectPoint<TPointDimension> & other)
+{
+  this->SetId(other.GetId());
+  this->SetPositionInObjectSpace(other.GetPositionInObjectSpace());
+  this->SetColor(other.GetColor());
+  this->SetSpatialObject(other.GetSpatialObject());
+}
+
+/** Assignment operator */
+template <unsigned int TPointDimension>
+typename SpatialObjectPoint<TPointDimension>::Self &
+SpatialObjectPoint<TPointDimension>::operator=(const SpatialObjectPoint & rhs)
+{
+  if (this != &rhs)
+  {
+    this->SetId(rhs.GetId());
+    this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
+    this->SetColor(rhs.GetColor());
+    this->SetSpatialObject(rhs.GetSpatialObject());
+  }
+  return *this;
+}
+
 template <unsigned int TPointDimension>
 void
 SpatialObjectPoint<TPointDimension>::SetPositionInWorldSpace(const PointType & point)
@@ -71,20 +96,6 @@ SpatialObjectPoint<TPointDimension>::SetColor(double r, double g, double b, doub
   m_Color.SetGreen(g);
   m_Color.SetBlue(b);
   m_Color.SetAlpha(a);
-}
-
-template <unsigned int TPointDimension>
-typename SpatialObjectPoint<TPointDimension>::Self &
-SpatialObjectPoint<TPointDimension>::operator=(const SpatialObjectPoint & rhs)
-{
-  if (this != &rhs)
-  {
-    this->SetId(rhs.GetId());
-    this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
-    this->SetColor(rhs.GetColor());
-    this->SetSpatialObject(rhs.GetSpatialObject());
-  }
-  return *this;
 }
 
 
