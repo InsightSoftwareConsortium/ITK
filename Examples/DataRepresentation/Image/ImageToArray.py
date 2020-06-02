@@ -16,31 +16,26 @@
 #
 # ==========================================================================*/
 
-from sys import argv
+import sys
+import itk
+import numpy as np
 
-from InsightToolkit import *
-from numarray import *
+PixelType = itk.UC
+Dimension = 2
+ImageType = itk.Image[PixelType, Dimension]
 
-reader = itkImageFileReaderUC2_New()
-
-connector = itkPyBufferUC2_New()
-
-reader.SetFileName(argv[1])
-
+reader = itk.ImageFileReader[ImageType].New()
+reader.SetFileName(sys.argv[1])
 reader.Update()
 
-print
-"ready to convert image into array"
+print("ready to convert image into numpy array")
 
-buffer = connector.GetArrayFromImage(reader.GetOutput())
+arr = itk.PyBuffer[ImageType].GetArrayViewFromImage(reader.GetOutput())
 
-writer = itkImageFileWriterUC2_New()
+print("ready to convert numpy array into image")
 
-writer.SetFileName(argv[2])
-
-print
-"ready to convert array into image"
-
-writer.SetInput(connector.GetImageFromArray(buffer))
+writer = itk.ImageFileWriter[ImageType].New()
+writer.SetFileName(sys.argv[2])
+writer.SetInput(itk.PyBuffer[ImageType].GetImageViewFromArray(arr))
 
 writer.Update()
