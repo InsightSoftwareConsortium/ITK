@@ -789,20 +789,16 @@ CompositeTransform<TParametersValueType, NDimensions>::GetFixedParameters() cons
    * it's efficient. */
   this->m_FixedParameters.SetSize(this->GetNumberOfFixedParameters());
 
-  NumberOfParametersType                      offset = NumericTraits<NumberOfParametersType>::ZeroValue();
-  typename TransformQueueType::const_iterator it;
+  NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
 
-  it = transforms.end();
-
-  do
+  for (auto it = transforms.rbegin(); it != transforms.rend(); ++it)
   {
-    it--;
     const FixedParametersType & subFixedParameters = (*it)->GetFixedParameters();
     /* use vnl_vector data_block() to get data ptr */
     std::copy_n(
       subFixedParameters.data_block(), subFixedParameters.Size(), &(this->m_FixedParameters.data_block())[offset]);
     offset += subFixedParameters.Size();
-  } while (it != transforms.begin());
+  };
 
   return this->m_FixedParameters;
 }
@@ -826,16 +822,13 @@ CompositeTransform<TParametersValueType, NDimensions>::SetFixedParameters(const 
   }
   this->m_FixedParameters = inputParameters;
 
-  typename TransformQueueType::const_iterator it = transforms.end();
-
-  do
+  for (auto it = transforms.rbegin(); it != transforms.rend(); ++it)
   {
-    it--;
     const size_t fixedParameterSize = (*it)->GetFixedParameters().Size();
     (*it)->CopyInFixedParameters(&(this->m_FixedParameters.data_block())[offset],
                                  &(this->m_FixedParameters.data_block())[offset] + fixedParameterSize);
     offset += static_cast<NumberOfParametersType>(fixedParameterSize);
-  } while (it != transforms.begin());
+  }
 }
 
 
