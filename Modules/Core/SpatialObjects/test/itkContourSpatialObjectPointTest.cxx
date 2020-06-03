@@ -128,6 +128,56 @@ itkContourSpatialObjectPointTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(pickedPoint3D, contourSpatialObjectPoint3DAlt.GetPickedPointInObjectSpace());
   ITK_TEST_SET_GET_VALUE(normal3D, contourSpatialObjectPoint3DAlt.GetNormalInObjectSpace());
 
+  // Test Copy and Assignment for ContourSpatialObjectPoint3DType
+  {
+    ContourSpatialObjectPoint3DType p_original;
+
+    // itk::SpatialObjectPoint
+    p_original.SetId(250);
+    p_original.SetColor(0.5, 0.4, 0.3, 0.2);
+    p_original.SetPositionInObjectSpace(42, 41, 43);
+
+    // itk::ContourSpatialObjectPoint
+    ContourSpatialObjectPoint3DType::CovariantVectorType normal;
+    normal.Fill(276);
+    p_original.SetNormalInObjectSpace(normal);
+    ContourSpatialObjectPoint3DType::PointType picked;
+    picked.Fill(277);
+    p_original.SetPickedPointInObjectSpace(picked);
+
+    // Copy
+    ContourSpatialObjectPoint3DType p_copy(p_original);
+    // Assign
+    ContourSpatialObjectPoint3DType p_assign = p_original;
+
+    std::vector<ContourSpatialObjectPoint3DType> point_vector;
+    point_vector.push_back(p_copy);
+    point_vector.push_back(p_assign);
+
+    for (const auto & pv : point_vector)
+    {
+      // itk::SpatialObjectPoint
+      ITK_TEST_EXPECT_EQUAL(p_original.GetId(), pv.GetId());
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRed(), pv.GetRed()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetGreen(), pv.GetGreen()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBlue(), pv.GetBlue()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha(), pv.GetAlpha()));
+      for (size_t j = 0; j < 3; ++j)
+      {
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
+      }
+      // itk::ContourSpatialObjectPoint
+      for (size_t j = 0; j < 3; ++j)
+      {
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetNormalInObjectSpace()[j], pv.GetNormalInObjectSpace()[j]));
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetPickedPointInObjectSpace()[j], pv.GetPickedPointInObjectSpace()[j]));
+      }
+    }
+  }
+
   // Test for 4D
   //
   using ContourSpatialObjectPoint4DType = itk::ContourSpatialObjectPoint<4>;
