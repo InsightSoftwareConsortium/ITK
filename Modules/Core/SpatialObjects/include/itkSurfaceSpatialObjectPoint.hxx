@@ -71,10 +71,7 @@ SurfaceSpatialObjectPoint<TPointDimension>::operator=(const SurfaceSpatialObject
 {
   if (this != &rhs)
   {
-    this->m_Id = rhs.m_Id;
-    this->m_Color = rhs.m_Color;
-    this->m_SpatialObject = rhs.m_SpatialObject;
-    this->m_PositionInObjectSpace = rhs.m_PositionInObjectSpace;
+    Superclass::operator=(rhs);
     this->m_NormalInObjectSpace = rhs.m_NormalInObjectSpace;
   }
   return *this;

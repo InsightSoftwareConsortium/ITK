@@ -211,13 +211,8 @@ TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint 
 {
   if (this != &rhs)
   {
-    // Superclass
-    this->SetId(rhs.GetId());
-    this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
-    this->SetColor(rhs.GetColor());
-    this->SetSpatialObject(rhs.GetSpatialObject());
+    Superclass::operator=(rhs);
 
-    // class
     this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());
     this->SetTangentInObjectSpace(rhs.GetTangentInObjectSpace());
     this->SetNormal1InObjectSpace(rhs.GetNormal1InObjectSpace());

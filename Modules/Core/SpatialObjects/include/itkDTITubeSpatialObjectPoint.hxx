@@ -184,26 +184,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::operator=(const DTITubeSpatialObject
 {
   if (this != &rhs)
   {
-    // Point
-    this->SetId(rhs.GetId());
-    this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
-    this->SetColor(rhs.GetColor());
-    this->SetSpatialObject(rhs.GetSpatialObject());
-
-    // Tube
-    this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());
-    this->SetTangentInObjectSpace(rhs.GetTangentInObjectSpace());
-    this->SetNormal1InObjectSpace(rhs.GetNormal1InObjectSpace());
-    this->SetNormal2InObjectSpace(rhs.GetNormal2InObjectSpace());
-
-    this->SetRidgeness(rhs.GetRidgeness());
-    this->SetMedialness(rhs.GetMedialness());
-    this->SetBranchness(rhs.GetBranchness());
-    this->SetAlpha1(rhs.GetAlpha1());
-    this->SetAlpha2(rhs.GetAlpha2());
-    this->SetAlpha3(rhs.GetAlpha3());
-
-    // Class
+    Superclass::operator=(rhs);
     m_Fields.clear();
     const FieldListType & fields = rhs.GetFields();
     auto                  it = fields.begin();
