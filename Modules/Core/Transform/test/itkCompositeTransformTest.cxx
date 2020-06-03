@@ -22,6 +22,7 @@
 #include "itkCompositeTransform.h"
 #include "itkTranslationTransform.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 namespace
 {
@@ -115,16 +116,18 @@ itkCompositeTransformTest(int, char *[])
 
   CompositeType::Pointer compositeTransform = CompositeType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(compositeTransform, CompositeTransform, MultiTransform);
+
   /* Test obects */
   using Matrix2Type = itk::Matrix<ScalarType, NDimensions, NDimensions>;
   using Vector2Type = itk::Vector<ScalarType, NDimensions>;
 
+
   /* Test that we have an empty the queue */
-  if (compositeTransform->GetNumberOfTransforms() != 0)
-  {
-    std::cout << "Failed. Expected GetNumberOfTransforms to return 0." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_EQUAL(compositeTransform->GetNumberOfTransforms(), 0u);
+  ITK_TEST_EXPECT_EQUAL(compositeTransform->GetNumberOfParameters(), 0u);
+  ITK_TEST_EXPECT_EQUAL(compositeTransform->GetNumberOfFixedParameters(), 0u);
+
 
   /* Add an affine transform */
   using AffineType = itk::AffineTransform<ScalarType, NDimensions>;
