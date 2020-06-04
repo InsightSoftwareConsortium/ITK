@@ -720,7 +720,7 @@ CompositeTransform<TParametersValueType, NDimensions>::GetFixedParameters() cons
     std::copy_n(
       subFixedParameters.data_block(), subFixedParameters.Size(), &(this->m_FixedParameters.data_block())[offset]);
     offset += subFixedParameters.Size();
-  };
+  }
 
   return this->m_FixedParameters;
 }
