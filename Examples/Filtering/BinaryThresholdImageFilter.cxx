@@ -74,8 +74,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The next step is to decide which pixel types to use for the input and output
-  //  images.
+  //  The next step is to decide which pixel types to use for the input and
+  //  output images.
   //
   //  Software Guide : EndLatex
 
@@ -106,7 +106,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -139,8 +140,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Both the filter and the reader are created by invoking their \code{New()}
-  //  methods and assigning the result to \doxygen{SmartPointer}s.
+  //  Both the filter and the reader are created by invoking their
+  //  \code{New()} methods and assigning the result to
+  //  \doxygen{SmartPointer}s.
   //
   //  Software Guide : EndLatex
 
@@ -197,8 +199,8 @@ main(int argc, char * argv[])
   //
   //  The methods \code{SetLowerThreshold()} and \code{SetUpperThreshold()}
   //  define the range of the input image intensities that will be transformed
-  //  into the \code{InsideValue}. Note that the lower and upper thresholds are
-  //  values of the type of the input image pixels, while the inside and
+  //  into the \code{InsideValue}. Note that the lower and upper thresholds
+  //  are values of the type of the input image pixels, while the inside and
   //  outside values are of the type of the output image pixels.
   //
   //  Software Guide : EndLatex
@@ -232,8 +234,9 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{BinaryThresholdImageFilterOutput}
   // \itkcaption[BinaryThresholdImageFilter output]{Effect of the
-  // BinaryThresholdImageFilter on a slice from a MRI proton density image  of the
-  // brain.} \label{fig:BinaryThresholdImageFilterInputOutput} \end{figure}
+  // BinaryThresholdImageFilter on a slice from a MRI proton density image  of
+  // the brain.} \label{fig:BinaryThresholdImageFilterInputOutput}
+  // \end{figure}
   //
   //  Figure \ref{fig:BinaryThresholdImageFilterInputOutput} illustrates the
   //  effect of this filter on a MRI proton density image of the brain. This

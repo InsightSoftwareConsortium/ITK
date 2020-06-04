@@ -18,9 +18,9 @@
 
 //  Software Guide : BeginLatex
 //
-//  It is common to represent geometric objects by using points on their surfaces
-//  and normals associated with those points.  This structure can be easily
-//  instantiated with the \doxygen{PointSet} class.
+//  It is common to represent geometric objects by using points on their
+//  surfaces and normals associated with those points.  This structure can be
+//  easily instantiated with the \doxygen{PointSet} class.
 //
 //  The natural class for representing normals to surfaces and
 //  gradients of functions is the \doxygen{CovariantVector}. A
@@ -59,8 +59,8 @@ main(int, char *[])
   //  The CovariantVector class is templated over the type used to
   //  represent the spatial coordinates and over the space dimension.  Since
   //  the PixelType is independent of the PointType, we are free to select any
-  //  dimension for the covariant vectors to be used as pixel type. However, we
-  //  want to illustrate here the spirit of a deformable model. It is then
+  //  dimension for the covariant vectors to be used as pixel type. However,
+  //  we want to illustrate here the spirit of a deformable model. It is then
   //  required for the vectors representing gradients to be of the same
   //  dimension as the points in space.
   //
@@ -170,9 +170,9 @@ main(int, char *[])
   //  illegal addition manually between the components of the gradient and
   //  the coordinates of the points.
   //
-  //  Note that the absence of some basic operators on the ITK geometry classes
-  //  is completely intentional with the aim of preventing the  incorrect use
-  //  of the mathematical concepts they represent.
+  //  Note that the absence of some basic operators on the ITK geometry
+  //  classes is completely intentional with the aim of preventing the
+  //  incorrect use of the mathematical concepts they represent.
   //
   //  \index{itk::CovariantVector}
   //

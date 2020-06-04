@@ -30,14 +30,15 @@ template <class TInputImage, class TOutputImage>
 AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::AdditiveGaussianNoiseImageFilter()
 
 {
-  this->DynamicMultiThreadingOn();
+  this->DynamicMultiThreadingOff();
   this->ThreaderUpdateProgressOff();
 }
 
 template <class TInputImage, class TOutputImage>
 void
-AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputImageRegionType & outputRegionForThread,
+  ThreadIdType)
 {
   const InputImageType * inputPtr = this->GetInput();
   OutputImageType *      outputPtr = this->GetOutput(0);

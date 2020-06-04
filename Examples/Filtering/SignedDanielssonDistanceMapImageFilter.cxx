@@ -58,9 +58,9 @@ main(int argc, char * argv[])
   //  Then we must decide what pixel types to use for the input and output
   //  images. Since the output will contain distances measured in pixels, the
   //  pixel type should be able to represent at least the width of the image,
-  //  or said in $N$-dimensional terms, the maximum extension along all the dimensions.
-  //  The input and output image types are now defined using their respective
-  //  pixel type and dimension.
+  //  or said in $N$-dimensional terms, the maximum extension along all the
+  //  dimensions. The input and output image types are now defined using their
+  //  respective pixel type and dimension.
   //
   // Software Guide : EndLatex
 
@@ -85,9 +85,10 @@ main(int argc, char * argv[])
   // SoftwareGuide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::SignedDanielssonDistanceMapImageFilter<InputImageType,
-                                                                 OutputImageType,
-                                                                 VoronoiImageType>;
+  using FilterType =
+    itk::SignedDanielssonDistanceMapImageFilter<InputImageType,
+                                                OutputImageType,
+                                                VoronoiImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -195,16 +196,17 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{Circle}
   // \includegraphics[width=0.32\textwidth]{SignedDanielssonDistanceMapImageFilterOutput}
   // \itkcaption[SignedDanielssonDistanceMapImageFilter
-  // output]{SignedDanielssonDistanceMapImageFilter applied on a binary circle image.
-  // The intensity has been rescaled for purposes of display.}
+  // output]{SignedDanielssonDistanceMapImageFilter applied on a binary circle
+  // image. The intensity has been rescaled for purposes of display.}
   // \label{fig:SignedDanielssonDistanceMapImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:SignedDanielssonDistanceMapImageFilterInputOutput} illustrates
-  //  the effect of this filter. The
-  //  input image and the distance map are shown.
+  //  Figure \ref{fig:SignedDanielssonDistanceMapImageFilterInputOutput}
+  //  illustrates the effect of this filter. The input image and the distance
+  //  map are shown.
   //
-  //  \index{Distance Map!itk::Signed\-Danielsson\-Distance\-Map\-Image\-Filter}
+  //  \index{Distance
+  //  Map!itk::Signed\-Danielsson\-Distance\-Map\-Image\-Filter}
   //
   //  Software Guide : EndLatex
 

@@ -82,8 +82,8 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
-  //  are instantiated using the image types.
+  //  The types for the \doxygen{ImageFileReader} and
+  //  \doxygen{ImageFileWriter} are instantiated using the image types.
   //
   //  Software Guide : EndLatex
 
@@ -102,7 +102,8 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RegionOfInterestImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::RegionOfInterestImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -222,8 +223,8 @@ main(int argc, char ** argv)
   //  Software Guide : BeginLatex
   //
   //  Finally we execute the pipeline by invoking \code{Update()} on the
-  //  writer. The call is placed in a \code{try/catch} block in case exceptions
-  //  are thrown.
+  //  writer. The call is placed in a \code{try/catch} block in case
+  //  exceptions are thrown.
   //
   //  Software Guide : EndLatex
 

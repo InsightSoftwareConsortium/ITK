@@ -138,8 +138,10 @@ main(int argc, char * argv[])
   {
     std::cerr << "Missing argument" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " movingImageFileName [initialX initialY] " << std::endl;
-    std::cerr << "[rasterizedObjectFileName] [BoxSizeX BoxSizeY]" << std::endl;
+    std::cerr << argv[0] << " movingImageFileName [initialX initialY] "
+              << std::endl;
+    std::cerr << "[rasterizedObjectFileName] [BoxSizeX BoxSizeY]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -159,7 +161,8 @@ main(int argc, char * argv[])
 
 
   using NarrowBandFilterType =
-    itk::BinaryMaskToNarrowBandPointSetFilter<MaskImageType, FixedPointSetType>;
+    itk::BinaryMaskToNarrowBandPointSetFilter<MaskImageType,
+                                              FixedPointSetType>;
 
   using PixelType = signed short;
 
@@ -177,11 +180,13 @@ main(int argc, char * argv[])
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
 
-  using LinearInterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
+  using LinearInterpolatorType =
+    itk::LinearInterpolateImageFunction<ImageType, double>;
 
 
   using MetricType =
-    itk::NormalizedCorrelationPointSetToImageMetric<FixedPointSetType, ImageType>;
+    itk::NormalizedCorrelationPointSetToImageMetric<FixedPointSetType,
+                                                    ImageType>;
 
 
   using OptimizerScalesType = OptimizerType::ScalesType;
@@ -326,7 +331,8 @@ main(int argc, char * argv[])
   transform->SetCenter(rotationCenter);
   transform->SetTranslation(initialTranslation);
 
-  registrationMethod->SetInitialTransformParameters(transform->GetParameters());
+  registrationMethod->SetInitialTransformParameters(
+    transform->GetParameters());
 
   OptimizerScalesType optimizerScales(transform->GetNumberOfParameters());
 
@@ -341,9 +347,10 @@ main(int argc, char * argv[])
   try
   {
     registrationMethod->Update();
-    std::cout << "Optimizer stop condition: "
-              << registrationMethod->GetOptimizer()->GetStopConditionDescription()
-              << std::endl;
+    std::cout
+      << "Optimizer stop condition: "
+      << registrationMethod->GetOptimizer()->GetStopConditionDescription()
+      << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -353,7 +360,8 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  ParametersType transformParameters = registrationMethod->GetLastTransformParameters();
+  ParametersType transformParameters =
+    registrationMethod->GetLastTransformParameters();
 
 
   TransformType::OutputPointType center = transform->GetCenter();

@@ -40,26 +40,26 @@
 // moving images of the registration problem, while the transform is the one
 // used to register the images.
 //
-// The CenteredTransformInitializer supports two modes of operation. In the first
-// mode, the centers of the images are computed as space coordinates using the
-// image origin, size and spacing. The center of the fixed image is assigned as
-// the rotational center of the transform while the vector going from the fixed
-// image center to the moving image center is passed as the initial translation
-// of the transform. In the second mode, the image centers are not computed
-// geometrically but by using the moments of the intensity gray levels. The
-// center of mass of each image is computed using the helper class
-// \doxygen{ImageMomentsCalculator}.  The center of mass of the fixed image is
-// passed as the rotational center of the transform while the vector going from
-// the fixed image center of mass to the moving image center of mass is passed
-// as the initial translation of the transform. This second mode of operation
-// is quite convenient when the anatomical structures of interest are not
-// centered in the image. In such cases the alignment of the centers of mass
-// provides a better rough initial registration than the simple use of the
-// geometrical centers.  The validity of the initial registration should be
-// questioned when the two images are acquired in different imaging modalities.
-// In those cases, the center of mass of intensities in one modality does not
-// necessarily match the center of mass of intensities in the other imaging
-// modality.
+// The CenteredTransformInitializer supports two modes of operation. In the
+// first mode, the centers of the images are computed as space coordinates
+// using the image origin, size and spacing. The center of the fixed image is
+// assigned as the rotational center of the transform while the vector going
+// from the fixed image center to the moving image center is passed as the
+// initial translation of the transform. In the second mode, the image centers
+// are not computed geometrically but by using the moments of the intensity
+// gray levels. The center of mass of each image is computed using the helper
+// class \doxygen{ImageMomentsCalculator}.  The center of mass of the fixed
+// image is passed as the rotational center of the transform while the vector
+// going from the fixed image center of mass to the moving image center of
+// mass is passed as the initial translation of the transform. This second
+// mode of operation is quite convenient when the anatomical structures of
+// interest are not centered in the image. In such cases the alignment of the
+// centers of mass provides a better rough initial registration than the
+// simple use of the geometrical centers.  The validity of the initial
+// registration should be questioned when the two images are acquired in
+// different imaging modalities. In those cases, the center of mass of
+// intensities in one modality does not necessarily match the center of mass
+// of intensities in the other imaging modality.
 //
 // \index{itk::Euler2DTransform}
 // \index{itk::ImageMomentsCalculator}
@@ -202,8 +202,10 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -232,9 +234,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
 
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -294,11 +299,13 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Now the initialized transform object will be set to the registration method,
-  //  and the starting point of the registration is defined by its initial parameters.
+  //  Now the initialized transform object will be set to the registration
+  //  method, and the starting point of the registration is defined by its
+  //  initial parameters.
   //
-  //  If the \code{InPlaceOn()} method is called, this initialized transform will be the
-  //  output transform object or ``grafted'' to the output. Otherwise, this
+  //  If the \code{InPlaceOn()} method is called, this initialized transform
+  //  will be the output transform object or ``grafted'' to the output.
+  //  Otherwise, this
   //  ``InitialTransform'' will be deep-copied or
   //  ``cloned'' to the output.
   //
@@ -363,8 +370,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Since the registration filter has \code{InPlace} set, the transform object
-  //  is grafted to the output and is updated by the registration method.
+  //  Since the registration filter has \code{InPlace} set, the transform
+  //  object is grafted to the output and is updated by the registration
+  //  method.
   //
   //  Software Guide : EndLatex
 
@@ -430,10 +438,10 @@ main(int argc, char * argv[])
   //
   //  Note that the reported translation is not the translation of $(13,17)$
   //  that might be expected. The reason is that we used the center of
-  //  mass $( 111.204, 131.591 )$  for the fixed center, while the input was rotated
-  //  about the geometric center $( 110.5, 128.5 )$.  It is more illustrative in
-  //  this case to take a look at the actual rotation matrix and offset
-  //  resulting from the five parameters.
+  //  mass $( 111.204, 131.591 )$  for the fixed center, while the input was
+  //  rotated about the geometric center $( 110.5, 128.5 )$.  It is more
+  //  illustrative in this case to take a look at the actual rotation matrix
+  //  and offset resulting from the five parameters.
   //
   //  Software Guide : EndLatex
 
@@ -539,15 +547,16 @@ main(int argc, char * argv[])
   //
   // Figure \ref{fig:ImageRegistration6Outputs} shows the output of the
   // registration. The image on the right of this figure shows the differences
-  // between the fixed image and the resampled moving image after registration.
+  // between the fixed image and the resampled moving image after
+  // registration.
   //
   // \begin{figure}
   // \center
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceMetric}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceAngle}
   // \includegraphics[height=0.32\textwidth]{ImageRegistration6TraceTranslations}
-  // \itkcaption[CenteredTransformInitializer output plots]{Plots of the Metric,
-  // rotation angle, center of rotation and translations during the
+  // \itkcaption[CenteredTransformInitializer output plots]{Plots of the
+  // Metric, rotation angle, center of rotation and translations during the
   // registration using CenteredTransformInitializer.}
   // \label{fig:ImageRegistration6Plots}
   // \end{figure}
@@ -564,7 +573,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
   resample->SetTransform(transform);
@@ -582,7 +592,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -603,8 +614,8 @@ main(int argc, char * argv[])
   //
   using DifferenceImageType = itk::Image<float, Dimension>;
 
-  using DifferenceFilterType =
-    itk::SubtractImageFilter<FixedImageType, FixedImageType, DifferenceImageType>;
+  using DifferenceFilterType = itk::
+    SubtractImageFilter<FixedImageType, FixedImageType, DifferenceImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 

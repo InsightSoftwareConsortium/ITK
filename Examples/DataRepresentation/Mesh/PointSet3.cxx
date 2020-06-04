@@ -18,14 +18,14 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{PointSet} class was designed to interact with the \code{Image} class.
-//  For this reason it was found convenient to allow the points in the set to
-//  hold values that could be computed from images. The value associated with
-//  the point is referred as \code{PixelType} in order to make it consistent
-//  with image terminology. Users can define the type as they please thanks to
-//  the flexibility offered by the Generic Programming approach used in the
-//  toolkit.  The \code{PixelType} is the first template parameter of the
-//  PointSet.
+//  The \doxygen{PointSet} class was designed to interact with the
+//  \code{Image} class. For this reason it was found convenient to allow the
+//  points in the set to hold values that could be computed from images. The
+//  value associated with the point is referred as \code{PixelType} in order
+//  to make it consistent with image terminology. Users can define the type as
+//  they please thanks to the flexibility offered by the Generic Programming
+//  approach used in the toolkit.  The \code{PixelType} is the first template
+//  parameter of the PointSet.
 //
 //  \index{itk::PointSet!PixelType}
 //
@@ -59,9 +59,9 @@ main(int, char *[])
   //  Data can be inserted into the PointSet using the \code{SetPointData()}
   //  method. This method requires the user to provide an identifier. The data
   //  in question will be associated to the point holding the same identifier.
-  //  It is the user's responsibility to verify the appropriate matching between
-  //  inserted data and inserted points. The following line illustrates the use
-  //  of the \code{SetPointData()} method.
+  //  It is the user's responsibility to verify the appropriate matching
+  //  between inserted data and inserted points. The following line
+  //  illustrates the use of the \code{SetPointData()} method.
   //
   //  \index{itk::PointSet!SetPointData()}
   //
@@ -106,13 +106,13 @@ main(int, char *[])
   //
   //  Data associated with points is internally stored in
   //  \code{PointDataContainer}s.  In the same way as with points, the actual
-  //  container type used depend on whether the style of the PointSet is static
-  //  or dynamic. Static point sets will use an \doxygen{VectorContainer} while
-  //  dynamic point sets will use an \doxygen{MapContainer}.  The type of the
-  //  data container is defined as one of the traits in the PointSet. The
-  //  following declaration illustrates how the type can be taken from the
-  //  traits and used to conveniently declare a similar type on the global
-  //  namespace.
+  //  container type used depend on whether the style of the PointSet is
+  //  static or dynamic. Static point sets will use an
+  //  \doxygen{VectorContainer} while dynamic point sets will use an
+  //  \doxygen{MapContainer}.  The type of the data container is defined as
+  //  one of the traits in the PointSet. The following declaration illustrates
+  //  how the type can be taken from the traits and used to conveniently
+  //  declare a similar type on the global namespace.
   //
   //  \index{itk::PointSet!PointDataContainer}
   //
@@ -144,8 +144,8 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Pixel data can be inserted in the container with the method
-  //  \code{InsertElement()}. This method requires an identified to be provided
-  //  for each point data.
+  //  \code{InsertElement()}. This method requires an identified to be
+  //  provided for each point data.
   //
   //  \index{PointDataContainer!InsertElement()}
   //  \index{itk::VectorContainer!InsertElement()}
@@ -166,9 +166,9 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the PointDataContainer can be assigned to the PointSet. This will
-  //  substitute any previously existing PointDataContainer on the PointSet. The
-  //  assignment is done using the \code{SetPointData()} method.
+  //  Finally the PointDataContainer can be assigned to the PointSet. This
+  //  will substitute any previously existing PointDataContainer on the
+  //  PointSet. The assignment is done using the \code{SetPointData()} method.
   //
   //  \index{itk::PointSet!SetPointData()}
   //
@@ -182,8 +182,8 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The PointDataContainer can be obtained from the PointSet using the
-  //  \code{GetPointData()} method.  This method returns a pointer (assigned to
-  //  a SmartPointer) to the actual container owned by the PointSet.
+  //  \code{GetPointData()} method.  This method returns a pointer (assigned
+  //  to a SmartPointer) to the actual container owned by the PointSet.
   //
   //  \index{itk::PointSet!GetPointData()}
   //
@@ -197,8 +197,8 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The most efficient way to sequentially visit the data associated with
-  //  points is to use the iterators provided by \code{PointDataContainer}. The
-  //  \code{Iterator} type belongs to the traits of the PointsContainer
+  //  points is to use the iterators provided by \code{PointDataContainer}.
+  //  The \code{Iterator} type belongs to the traits of the PointsContainer
   //  classes. The iterator is not a reference counted class, so it is just
   //  created directly from the traits without using SmartPointers.
   //
@@ -213,9 +213,10 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The subsequent use of the iterator follows what you may expect from a STL
-  //  iterator. The iterator to the first point is obtained from the container
-  //  with the \code{Begin()} method and assigned to another iterator.
+  //  The subsequent use of the iterator follows what you may expect from a
+  //  STL iterator. The iterator to the first point is obtained from the
+  //  container with the \code{Begin()} method and assigned to another
+  //  iterator.
   //
   //  \index{PointDataContainer!Begin()}
   //

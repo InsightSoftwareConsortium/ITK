@@ -30,34 +30,33 @@
 //  When fine tuning the parameters of an image registration process it is not
 //  always clear what factor are having a larger impact on the behavior of the
 //  registration. Even plotting the values of the metric and the transform
-//  parameters may not provide a clear indication on the best way to modify the
-//  optimizer and metric parameters in order to improve the convergence rate
-//  and stability. In such circumstances it is useful to take a closer look at
-//  the internals of the components involved in computing the registration. One
-//  of the critical components is, of course, the image metric. This section
-//  illustrates a mechanism that can be used for monitoring the behavior of the
-//  Mutual Information metric by continuously looking at the joint histogram at
-//  regular intervals during the iterations of the optimizer.
+//  parameters may not provide a clear indication on the best way to modify
+//  the optimizer and metric parameters in order to improve the convergence
+//  rate and stability. In such circumstances it is useful to take a closer
+//  look at the internals of the components involved in computing the
+//  registration. One of the critical components is, of course, the image
+//  metric. This section illustrates a mechanism that can be used for
+//  monitoring the behavior of the Mutual Information metric by continuously
+//  looking at the joint histogram at regular intervals during the iterations
+//  of the optimizer.
 //
 //  This particular example shows how to use the
-//  \doxygen{HistogramToEntropyImageFilter} class in order to get access to the
-//  joint histogram that is internally computed by the metric. This class
+//  \doxygen{HistogramToEntropyImageFilter} class in order to get access to
+//  the joint histogram that is internally computed by the metric. This class
 //  represents the joint histogram as a $2D$ image and therefore can take
-//  advantage of the IO functionalities described in chapter~\ref{sec:IO}.  The
+//  advantage of the IO functionalities described in chapter~\ref{sec:IO}. The
 //  example registers two images using the gradient descent optimizer.  The
 //  transform used here is a simple translation transform. The metric is a
 //  \doxygen{MutualInformationHistogramImageToImageMetric}.
 //
 //  In the code below we create a helper class called the
 //  \code{HistogramWriter}.  Its purpose is to save the joint histogram into a
-//  file using any of the file formats supported by ITK. This object is invoked
-//  after every iteration of the optimizer.  The writer here saves the joint
-//  histogram into files with names: \code{JointHistogramXXX.mhd} where
-//  \code{XXX} is replaced with the iteration number. The output image contains
-//  the joint entropy histogram given by
-//  \begin{equation}
-//  f_{ij} = -p_{ij} \log_2 ( p_{ij} )
-//  \end{equation}
+//  file using any of the file formats supported by ITK. This object is
+//  invoked after every iteration of the optimizer.  The writer here saves the
+//  joint histogram into files with names: \code{JointHistogramXXX.mhd} where
+//  \code{XXX} is replaced with the iteration number. The output image
+//  contains the joint entropy histogram given by \begin{equation} f_{ij} =
+//  -p_{ij} \log_2 ( p_{ij} ) \end{equation}
 //
 //  where the indices $i$ and $j$ identify the location of a bin in the Joint
 //  Histogram of the two images and are in the ranges $i \in [0:N-1]$ and  $j
@@ -72,10 +71,11 @@
 //  The value $q_{ij}$ is the frequency of a bin in the histogram and it is
 //  computed as the number of pixels where the Fixed image has intensities in
 //  the range of bin $i$ and the Moving image has intensities on the range of
-//  bin $j$.  The value $p_{ij}$ is therefore the probability of the occurrence
-//  of the measurement vector centered in the bin ${ij}$.  The filter produces
-//  an output image of pixel type \code{double}. For details on the use of
-//  Histograms in ITK please refer to section~\ref{sec:Histogram}.
+//  bin $j$.  The value $p_{ij}$ is therefore the probability of the
+//  occurrence of the measurement vector centered in the bin ${ij}$.  The
+//  filter produces an output image of pixel type \code{double}. For details
+//  on the use of Histograms in ITK please refer to
+//  section~\ref{sec:Histogram}.
 //
 //  Depending on whether you want to see the joint histogram frequencies
 //  directly, or the joint probabilities, or log of joint probabilities, you
@@ -192,7 +192,8 @@ public:
   using HistogramToEntropyImageFilterType =
     itk::HistogramToEntropyImageFilter<HistogramType, InternalImageType>;
 
-  using HistogramToImageFilterPointer = HistogramToEntropyImageFilterType::Pointer;
+  using HistogramToImageFilterPointer =
+    HistogramToEntropyImageFilterType::Pointer;
 
   using OutputImageType = HistogramToEntropyImageFilterType::OutputImageType;
 
@@ -208,8 +209,8 @@ public:
 
     // Software Guide : BeginLatex
     //
-    // The \code{HistogramWriter} has a member variable \code{m\_Filter} of type
-    // HistogramToEntropyImageFilter.
+    // The \code{HistogramWriter} has a member variable \code{m\_Filter} of
+    // type HistogramToEntropyImageFilter.
     //
     // Software Guide : EndLatex
 
@@ -219,9 +220,9 @@ public:
 
     // Software Guide : BeginLatex
     //
-    // It also has an ImageFileWriter that has been instantiated using the image
-    // type that is produced as output from the histogram to image filter. We
-    // connect the output of the filter as input to the writer.
+    // It also has an ImageFileWriter that has been instantiated using the
+    // image type that is produced as output from the histogram to image
+    // filter. We connect the output of the filter as input to the writer.
     //
     // Software Guide : EndLatex
 
@@ -250,8 +251,8 @@ public:
   {
     std::string        outputFileBase = "JointHistogram";
     std::ostringstream outputFilename;
-    outputFilename << outputFileBase << "." << std::setfill('0') << std::setw(3)
-                   << iterationNumber << "."
+    outputFilename << outputFileBase << "." << std::setfill('0')
+                   << std::setw(3) << iterationNumber << "."
                    << "mhd";
     m_HistogramFileWriter->SetFileName(outputFilename.str());
     this->m_Filter->SetInput(this->GetMetric()->GetHistogram());
@@ -283,10 +284,11 @@ public:
   // Software Guide : BeginLatex
   //
   // The method of this class that is most relevant to our discussion is the
-  // one that writes the image into a file. In this method we assign the output
-  // histogram of the metric to the input of the histogram to image filter. In
-  // this way we construct an ITK $2D$ image where every pixel corresponds to
-  // one of the Bins of the joint histogram computed by the Metric.
+  // one that writes the image into a file. In this method we assign the
+  // output histogram of the metric to the input of the histogram to image
+  // filter. In this way we construct an ITK $2D$ image where every pixel
+  // corresponds to one of the Bins of the joint histogram computed by the
+  // Metric.
   //
   // Software Guide : EndLatex
 
@@ -306,11 +308,11 @@ public:
     // Software Guide : BeginLatex
     //
     // The output of the filter is connected to a filter that will rescale the
-    // intensities in order to improve the visualization of the values. This is
-    // done because it is common to find histograms of medical images that have
-    // a minority of bins that are largely dominant. Visualizing such histogram
-    // in direct values is challenging because only the dominant bins tend to
-    // become visible.
+    // intensities in order to improve the visualization of the values. This
+    // is done because it is common to find histograms of medical images that
+    // have a minority of bins that are largely dominant. Visualizing such
+    // histogram in direct values is challenging because only the dominant
+    // bins tend to become visible.
     //
     // Software Guide : EndLatex
 
@@ -320,7 +322,8 @@ public:
     // 8 bits.
     using RescaledOutputImageType = itk::Image<unsigned char, Dimension>;
 
-    using RescaleDynamicRangeFunctorType = RescaleDynamicRangeFunctor<OutputPixelType>;
+    using RescaleDynamicRangeFunctorType =
+      RescaleDynamicRangeFunctor<OutputPixelType>;
 
     using RescaleDynamicRangeFilterType =
       itk::UnaryFunctorImageFilter<OutputImageType,
@@ -359,12 +362,14 @@ public:
       std::cerr << "Exception thrown " << excp << std::endl;
     }
 
-    std::cout << "Joint Histogram file: " << outputFilename << " written" << std::endl;
+    std::cout << "Joint Histogram file: " << outputFilename << " written"
+              << std::endl;
   }
 
   // Software Guide : BeginLatex
   //
-  // The following are the member variables of our \code{HistogramWriter} class.
+  // The following are the member variables of our \code{HistogramWriter}
+  // class.
   //
   // Software Guide : EndLatex
 
@@ -433,7 +438,8 @@ public:
     }
     if (m_WriteHistogramsAfterEveryIteration)
     {
-      m_JointHistogramWriter.WriteHistogramFile(optimizer->GetCurrentIteration());
+      m_JointHistogramWriter.WriteHistogramFile(
+        optimizer->GetCurrentIteration());
     }
   }
 
@@ -470,7 +476,8 @@ main(int argc, char * argv[])
     std::cerr << "outputImagefile WriteJointHistogramsAfterEveryIteration ";
     std::cerr << "JointHistogramPriorToRegistrationFile ";
     std::cerr << "JointHistogramAfterRegistrationFile ";
-    std::cerr << "NumberOfHistogramBinsForWritingTheMutualInformationHistogramMetric";
+    std::cerr
+      << "NumberOfHistogramBinsForWritingTheMutualInformationHistogramMetric";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
@@ -515,12 +522,13 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The number of bins in the metric is set with the \code{SetHistogramSize()}
-  // method. This will determine the number of pixels along each dimension of
-  // the joint histogram. Note that in this case we arbitrarily decided to use
-  // the same number of bins for the intensities of the Fixed image and those
-  // of the Moving image. However, this does not have to be the case, we could
-  // have selected different numbers of bins for each image.
+  // The number of bins in the metric is set with the
+  // \code{SetHistogramSize()} method. This will determine the number of
+  // pixels along each dimension of the joint histogram. Note that in this
+  // case we arbitrarily decided to use the same number of bins for the
+  // intensities of the Fixed image and those of the Moving image. However,
+  // this does not have to be the case, we could have selected different
+  // numbers of bins for each image.
   //
   // \index{Mutual\-Information\-Histogram\-Image\-To\-Image\-Metric!SetHistogramSize()}
   // \index{SetHistogramSize(),Mutual\-Information\-Histogram\-Image\-To\-Image\-Metric}
@@ -528,7 +536,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  unsigned int                        numberOfHistogramBins = std::stoi(argv[7]);
+  unsigned int numberOfHistogramBins = std::stoi(argv[7]);
   MetricType::HistogramType::SizeType histogramSize;
   histogramSize.SetSize(2);
   histogramSize[0] = numberOfHistogramBins;
@@ -552,8 +560,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -565,7 +575,8 @@ main(int argc, char * argv[])
   using MovingNormalizeFilterType =
     itk::NormalizeImageFilter<MovingImageType, InternalImageType>;
 
-  FixedNormalizeFilterType::Pointer fixedNormalizer = FixedNormalizeFilterType::New();
+  FixedNormalizeFilterType::Pointer fixedNormalizer =
+    FixedNormalizeFilterType::New();
 
   MovingNormalizeFilterType::Pointer movingNormalizer =
     MovingNormalizeFilterType::New();
@@ -598,7 +609,8 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  registration->SetFixedImageRegion(fixedNormalizer->GetOutput()->GetBufferedRegion());
+  registration->SetFixedImageRegion(
+    fixedNormalizer->GetOutput()->GetBufferedRegion());
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters(transform->GetNumberOfParameters());
@@ -669,7 +681,8 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -694,7 +707,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -724,23 +738,22 @@ main(int argc, char * argv[])
 // Software Guide : BeginLatex
 //
 // Mutual information attempts to re-group the joint entropy histograms into a
-// more ``meaningful'' formation. An optimizer that minimizes the joint entropy
-// seeks a transform that produces a small number of high value bins and a
-// large majority of almost zero bins. Multi-modality registration seeks such a
-// transform while also attempting to maximize the information contribution by
-// the fixed and the moving images in the overall region of the metric.
+// more ``meaningful'' formation. An optimizer that minimizes the joint
+// entropy seeks a transform that produces a small number of high value bins
+// and a large majority of almost zero bins. Multi-modality registration seeks
+// such a transform while also attempting to maximize the information
+// contribution by the fixed and the moving images in the overall region of
+// the metric.
 //
-// A T1 MRI (fixed image) and a proton density MRI (moving image) as shown in Figure
-// \ref{fig:FixedMovingImageRegistration2}
-// are provided as input to this example.
+// A T1 MRI (fixed image) and a proton density MRI (moving image) as shown in
+// Figure \ref{fig:FixedMovingImageRegistration2} are provided as input to
+// this example.
 //
-// Figure \ref{fig:JointEntropyHistograms} shows the joint histograms before and
-// after registration.
-// \begin{figure}
-// \center
+// Figure \ref{fig:JointEntropyHistograms} shows the joint histograms before
+// and after registration. \begin{figure} \center
 // \includegraphics[width=0.44\textwidth]{JointEntropyHistogramPriorToRegistration}
 // \includegraphics[width=0.44\textwidth]{JointEntropyHistogramAfterRegistration}
-// \itkcaption[Multi-modality joint histograms]{Joint entropy histograms before and
-// after registration. The final transform was within half a pixel of true
-// misalignment.} \label{fig:JointEntropyHistograms} \end{figure}
+// \itkcaption[Multi-modality joint histograms]{Joint entropy histograms
+// before and after registration. The final transform was within half a pixel
+// of true misalignment.} \label{fig:JointEntropyHistograms} \end{figure}
 //  Software Guide : EndLatex

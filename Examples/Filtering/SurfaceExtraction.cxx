@@ -30,9 +30,9 @@
 //  \emph{Marching Cubes} algorithm~\cite{MarchingCubes}. Although it has been
 //  followed by a number of variants~\cite{VTKBook}, Marching Cubes has become
 //  an icon in medical image processing. The following example illustrates how
-//  to perform surface extraction in ITK using an algorithm similar to Marching
-//  Cubes~\footnote{Note that the Marching Cubes algorithm is covered by a
-//  patent that expired on June 5th 2005.}.
+//  to perform surface extraction in ITK using an algorithm similar to
+//  Marching Cubes~\footnote{Note that the Marching Cubes algorithm is covered
+//  by a patent that expired on June 5th 2005.}.
 //
 //  Software Guide : EndLatex
 
@@ -43,9 +43,9 @@
 // Software Guide : BeginLatex
 //
 // The representation of unstructured data in ITK is done with
-// the \doxygen{Mesh}. This class enables us to represent $N$-Dimensional grids of
-// varied topology. It is natural for the filter that extracts surfaces from an
-// image to produce a mesh as its output.
+// the \doxygen{Mesh}. This class enables us to represent $N$-Dimensional
+// grids of varied topology. It is natural for the filter that extracts
+// surfaces from an image to produce a mesh as its output.
 //
 // We initiate our example by including the header files of the surface
 // extraction filter, the image and the mesh.
@@ -77,8 +77,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We define then the pixel type and dimension of the image from which we are
-  // going to extract the surface.
+  // We define then the pixel type and dimension of the image from which we
+  // are going to extract the surface.
   //
   // Software Guide : EndLatex
 
@@ -92,8 +92,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // With the same image type we instantiate the type of an ImageFileReader and
-  // construct one with the purpose of reading in the input image.
+  // With the same image type we instantiate the type of an ImageFileReader
+  // and construct one with the purpose of reading in the input image.
   //
   // Software Guide : EndLatex
 
@@ -109,7 +109,8 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
+    std::cerr << "Exception thrown while reading the input file "
+              << std::endl;
     std::cerr << exp << std::endl;
     return EXIT_FAILURE;
   }
@@ -117,9 +118,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The type of the \doxygen{Mesh} is instantiated by specifying the type to be
-  // associated with the pixel value of the Mesh nodes. This particular pixel
-  // type happens to be irrelevant for the purpose of extracting the surface.
+  // The type of the \doxygen{Mesh} is instantiated by specifying the type to
+  // be associated with the pixel value of the Mesh nodes. This particular
+  // pixel type happens to be irrelevant for the purpose of extracting the
+  // surface.
   //
   // \index{BinaryMask3DMeshSource!Instantiation}
   //
@@ -149,13 +151,13 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // In this example, the pixel value associated with the object
-  // to be extracted is read from the command line arguments and it is passed to
-  // the filter by using the \code{SetObjectValue()} method. Note that this is
-  // different from the traditional isovalue used in the Marching Cubes
+  // to be extracted is read from the command line arguments and it is passed
+  // to the filter by using the \code{SetObjectValue()} method. Note that this
+  // is different from the traditional isovalue used in the Marching Cubes
   // algorithm.  In the case of the \code{BinaryMask3DMeshSource} filter, the
-  // object values define the membership of pixels to the object from which the
-  // surface will be extracted. In other words, the surface will be surrounding
-  // all pixels with value equal to the ObjectValue parameter.
+  // object values define the membership of pixels to the object from which
+  // the surface will be extracted. In other words, the surface will be
+  // surrounding all pixels with value equal to the ObjectValue parameter.
   //
   // Software Guide : EndLatex
 
@@ -184,8 +186,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // Finally we trigger the execution of the pipeline by invoking the
-  // \code{Update()} method. Given that the pipeline may throw an exception this
-  // call must be place inside a \code{try/catch} block.
+  // \code{Update()} method. Given that the pipeline may throw an exception
+  // this call must be place inside a \code{try/catch} block.
   //
   // Software Guide : EndLatex
 

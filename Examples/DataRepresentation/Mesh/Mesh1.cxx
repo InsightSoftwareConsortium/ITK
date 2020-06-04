@@ -90,8 +90,8 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Meshes typically require large amounts of memory. For this reason, they
-  //  are reference counted objects, managed using \doxygen{SmartPointers}. The
-  //  following line illustrates how a mesh is created by invoking the
+  //  are reference counted objects, managed using \doxygen{SmartPointers}.
+  //  The following line illustrates how a mesh is created by invoking the
   //  \code{New()} method on \code{MeshType} and assigning the result to a
   //  \code{SmartPointer}.
   //
@@ -107,11 +107,11 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Management of points in a \code{Mesh} is identical to that in a \code{PointSet}.
-  //  The type of point associated with the mesh can be obtained through the
-  //  \code{PointType} trait. The following code shows the creation of points
-  //  compatible with the mesh type defined above and the assignment of values
-  //  to its coordinates.
+  //  Management of points in a \code{Mesh} is identical to that in a
+  //  \code{PointSet}. The type of point associated with the mesh can be
+  //  obtained through the \code{PointType} trait. The following code shows
+  //  the creation of points compatible with the mesh type defined above and
+  //  the assignment of values to its coordinates.
   //
   //  \index{itk::Mesh!PointType}
   //
@@ -140,10 +140,10 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  The points can now be inserted into the \code{Mesh} using the \code{SetPoint()}
-  //  method. Note that points are copied into the mesh structure, meaning
-  //  that the local instances of the points can now be modified without
-  //  affecting the Mesh content.
+  //  The points can now be inserted into the \code{Mesh} using the
+  //  \code{SetPoint()} method. Note that points are copied into the mesh
+  //  structure, meaning that the local instances of the points can now be
+  //  modified without affecting the Mesh content.
   //
   //  \index{itk::Mesh!SetPoint()}
   //

@@ -25,15 +25,16 @@
 // This example shows how to compute the KMeans model of a Scalar Image.
 //
 // The  \subdoxygen{Statistics}{KdTreeBasedKmeansEstimator} is used for taking
-// a scalar image and applying the K-Means algorithm in order to define classes
-// that represents statistical distributions of intensity values in the pixels.
-// In the context of Medical Imaging, each class is typically associated to a
-// particular type of tissue and can therefore be used as a form of image
-// segmentation. One of the drawbacks of this technique is that the spatial
-// distribution of the pixels is not considered at all. It is common therefore
-// to combine the classification resulting from K-Means with other segmentation
-// techniques that will use the classification as a prior and add spatial
-// information to it in order to produce a better segmentation.
+// a scalar image and applying the K-Means algorithm in order to define
+// classes that represents statistical distributions of intensity values in
+// the pixels. In the context of Medical Imaging, each class is typically
+// associated to a particular type of tissue and can therefore be used as a
+// form of image segmentation. One of the drawbacks of this technique is that
+// the spatial distribution of the pixels is not considered at all. It is
+// common therefore to combine the classification resulting from K-Means with
+// other segmentation techniques that will use the classification as a prior
+// and add spatial information to it in order to produce a better
+// segmentation.
 //
 // Software Guide : EndLatex
 
@@ -52,7 +53,8 @@ main(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << "  inputImageFileName " << std::endl;
+    std::cerr << "Usage :  " << argv[0] << "  inputImageFileName "
+              << std::endl;
     return -1;
   }
 
@@ -132,8 +134,8 @@ main(int argc, char * argv[])
   //
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{BrainT1Slice}
-  // \itkcaption[Output of the ScalarImageKmeansModelEstimator]{Test image for the
-  // KMeans model estimator.}
+  // \itkcaption[Output of the ScalarImageKmeansModelEstimator]{Test image for
+  // the KMeans model estimator.}
   // \label{fig:ScalarImageKmeansModelEstimatorTestImage}
   // \end{figure}
   //

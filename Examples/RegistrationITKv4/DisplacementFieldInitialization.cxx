@@ -20,13 +20,13 @@
 //
 //  In order to initialize deformable registration algorithm it is often
 //  convenient to generate a displacemnt field from a set of feature
-//  correspondances provided by the user. The following example illustrates how
-//  to use the \doxygen{itkLandmarkDisplacementFieldSource} class in order to generate a
-//  displacement field from the specification of two sets of landmarks.
-//  Landmarks from one set are associated one-to-one to the landmarks in the
-//  other set. Each landmark pair defines one displacement vector. This class
-//  interpolates the values of all other displacement vectors using
-//  \doxygen{KernelBasedTransform}
+//  correspondances provided by the user. The following example illustrates
+//  how to use the \doxygen{itkLandmarkDisplacementFieldSource} class in order
+//  to generate a displacement field from the specification of two sets of
+//  landmarks. Landmarks from one set are associated one-to-one to the
+//  landmarks in the other set. Each landmark pair defines one displacement
+//  vector. This class interpolates the values of all other displacement
+//  vectors using \doxygen{KernelBasedTransform}
 //
 //
 //  \index{Registration!Finite Element-Based}
@@ -53,7 +53,8 @@ main(int argc, char * argv[])
   {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " landmarksFile fixedImage outputDisplacementField" << std::endl;
+    std::cerr << " landmarksFile fixedImage outputDisplacementField"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -89,7 +90,8 @@ main(int argc, char * argv[])
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-  using FilterType = itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
+  using FilterType =
+    itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -103,9 +105,11 @@ main(int argc, char * argv[])
   using LandmarkContainerType = FilterType::LandmarkContainer;
   using LandmarkPointType = FilterType::LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
-  std::ifstream                  pointsFile;
+  LandmarkContainerType::Pointer sourceLandmarks =
+    LandmarkContainerType::New();
+  LandmarkContainerType::Pointer targetLandmarks =
+    LandmarkContainerType::New();
+  std::ifstream pointsFile;
   pointsFile.open(argv[1]);
 
   LandmarkPointType sourcePoint;

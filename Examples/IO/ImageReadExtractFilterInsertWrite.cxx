@@ -66,15 +66,16 @@ main(int argc, char ** argv)
   if (argc <= 3)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " input3DImageFile  output3DImageFile " << std::endl;
+    std::cerr << argv[0] << " input3DImageFile  output3DImageFile "
+              << std::endl;
     std::cerr << " sliceNumber " << std::endl;
     return EXIT_FAILURE;
   }
 
   //  Software Guide : BeginLatex
   //
-  //  Image types are defined below. Note that the input image type is $3D$ and
-  //  the output image type is a $3D$ image as well.
+  //  Image types are defined below. Note that the input image type is $3D$
+  //  and the output image type is a $3D$ image as well.
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -88,8 +89,8 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  The types for the \doxygen{ImageFileReader} and \doxygen{ImageFileWriter}
-  //  are instantiated using the image types.
+  //  The types for the \doxygen{ImageFileReader} and
+  //  \doxygen{ImageFileWriter} are instantiated using the image types.
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
@@ -142,7 +143,8 @@ main(int argc, char ** argv)
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  using ExtractFilterType = itk::ExtractImageFilter<InputImageType, MiddleImageType>;
+  using ExtractFilterType =
+    itk::ExtractImageFilter<InputImageType, MiddleImageType>;
   ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
   extractFilter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
@@ -151,13 +153,13 @@ main(int argc, char ** argv)
   //
   //  The ExtractImageFilter requires a region to be defined by the user. The
   //  region is specified by an \doxygen{Index} indicating the pixel where the
-  //  region starts and an \doxygen{Size} indication how many pixels the region
-  //  has along each dimension. In order to extract a $2D$ image from a $3D$
-  //  data set, it is enough to set the size of the region to $1$ in one
+  //  region starts and an \doxygen{Size} indication how many pixels the
+  //  region has along each dimension. In order to extract a $2D$ image from a
+  //  $3D$ data set, it is enough to set the size of the region to $1$ in one
   //  dimension. Note that, strictly speaking, we are extracting here a $3D$
-  //  image of a single slice. Here we take the region from the buffered region
-  //  of the input image. Note that Update() is being called first on the
-  //  reader, since otherwise the output would have invalid data.
+  //  image of a single slice. Here we take the region from the buffered
+  //  region of the input image. Note that Update() is being called first on
+  //  the reader, since otherwise the output would have invalid data.
   //
   //  Software Guide : EndLatex
 
@@ -225,11 +227,13 @@ main(int argc, char ** argv)
   extractFilter->SetExtractionRegion(desiredRegion);
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  using PasteFilterType = itk::PasteImageFilter<MiddleImageType, OutputImageType>;
+  using PasteFilterType =
+    itk::PasteImageFilter<MiddleImageType, OutputImageType>;
   PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
-  using MedianFilterType = itk::MedianImageFilter<MiddleImageType, MiddleImageType>;
+  using MedianFilterType =
+    itk::MedianImageFilter<MiddleImageType, MiddleImageType>;
   MedianFilterType::Pointer medianFilter = MedianFilterType::New();
   // Software Guide : EndCodeSnippet
   //  Software Guide : BeginLatex

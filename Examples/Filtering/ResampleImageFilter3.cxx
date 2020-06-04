@@ -117,7 +117,8 @@ main(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
 
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   using TransformType = itk::AffineTransform<double, Dimension>;
   TransformType::Pointer transform = TransformType::New();
@@ -145,7 +146,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The spacing is selected here to be 40 times smaller than the one
-  //  illustrated in Figure \ref{fig:ResampleImageFilterTransformComposition6}.
+  //  illustrated in Figure
+  //  \ref{fig:ResampleImageFilterTransformComposition6}.
   //
   //  \index{itk::ResampleImageFilter!SetOutputSpacing()}
   //
@@ -161,7 +163,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  We will preserve the orientation of the input image by using the following call.
+  //  We will preserve the orientation of the input image by using the
+  //  following call.
   //
   //  \index{itk::ResampleImageFilter!SetOutputOrigin()}
   //
@@ -326,11 +329,12 @@ main(int argc, char * argv[])
   //
   //  The point $P3$ is now in the coordinate system of the input image. The
   //  pixel of the input image associated with this physical position is
-  //  computed using the origin and spacing of the input image. $I=( ( 114.64 -
-  //  60.0 )/ 20.0 , ( 161 - 70.0 ) / 30.0 )$ which results in $I=(2.7,3.0)$.
-  //  Note that this is a non-grid position since the values are non-integers.
-  //  This means that the gray value to be assigned to the output image pixel
-  //  $I=(1,2)$ must be computed by interpolation of the input image values.
+  //  computed using the origin and spacing of the input image. $I=( ( 114.64
+  //  - 60.0 )/ 20.0 , ( 161 - 70.0 ) / 30.0 )$ which results in
+  //  $I=(2.7,3.0)$. Note that this is a non-grid position since the values
+  //  are non-integers. This means that the gray value to be assigned to the
+  //  output image pixel $I=(1,2)$ must be computed by interpolation of the
+  //  input image values.
   //
   //  In this particular code the interpolator used is simply a\newline
   //  \doxygen{NearestNeighborInterpolateImageFunction} which will assign the

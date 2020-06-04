@@ -45,10 +45,10 @@
 //
 // LaplacianSegmentationLevelSetImageFilter expects two inputs.  The
 // first is an initial level set in the form of an \doxygen{Image}. The second
-// input is the feature image $g$ from which the propagation term is calculated
-// (see Equation~\ref{eqn:LevelSetEquation}).  Because the filter performs a
-// second derivative calculation, it is generally a good idea to do some
-// preprocessing of the feature image to remove noise.
+// input is the feature image $g$ from which the propagation term is
+// calculated (see Equation~\ref{eqn:LevelSetEquation}).  Because the filter
+// performs a second derivative calculation, it is generally a good idea to do
+// some preprocessing of the feature image to remove noise.
 //
 // Figure~\ref{fig:LaplacianSegmentationLevelSetImageFilterDiagram} shows how
 // the image processing pipeline is constructed.  We read two images: the
@@ -147,7 +147,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using DiffusionFilterType =
-    itk::GradientAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
+    itk::GradientAnisotropicDiffusionImageFilter<InternalImageType,
+                                                 InternalImageType>;
   DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations(std::stoi(argv[4]));
   diffusion->SetTimeStep(0.125);
@@ -163,9 +164,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using LaplacianSegmentationLevelSetImageFilterType =
-    itk::LaplacianSegmentationLevelSetImageFilter<InternalImageType, InternalImageType>;
-  LaplacianSegmentationLevelSetImageFilterType::Pointer laplacianSegmentation =
-    LaplacianSegmentationLevelSetImageFilterType::New();
+    itk::LaplacianSegmentationLevelSetImageFilter<InternalImageType,
+                                                  InternalImageType>;
+  LaplacianSegmentationLevelSetImageFilterType::Pointer
+    laplacianSegmentation =
+      LaplacianSegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -250,14 +253,15 @@ main(int argc, char * argv[])
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << laplacianSegmentation->GetNumberOfIterations()
-            << std::endl;
-  std::cout << "Max. RMS error: " << laplacianSegmentation->GetMaximumRMSError()
-            << std::endl;
+  std::cout << "Max. no. iterations: "
+            << laplacianSegmentation->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. RMS error: "
+            << laplacianSegmentation->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: "
             << laplacianSegmentation->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << laplacianSegmentation->GetRMSChange() << std::endl;
+  std::cout << "RMS change: " << laplacianSegmentation->GetRMSChange()
+            << std::endl;
 
   // Write out the speed (propagation) image for parameter tuning purposes.
   itk::ImageFileWriter<InternalImageType>::Pointer speedWriter =
@@ -286,12 +290,13 @@ main(int argc, char * argv[])
   //  \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
   //  \includegraphics[width=0.32\textwidth]{ThresholdSegmentationLevelSetImageFilterVentricle}
   //  \includegraphics[width=0.32\textwidth]{LaplacianSegmentationLevelSetImageFilterVentricle}
-  //  \itkcaption[Segmentation results of LaplacianLevelSetImageFilter]{Results of
-  //  applying LaplacianSegmentationLevelSetImageFilter to a prior ventricle
+  //  \itkcaption[Segmentation results of
+  //  LaplacianLevelSetImageFilter]{Results of applying
+  //  LaplacianSegmentationLevelSetImageFilter to a prior ventricle
   //  segmentation.  Shown from left to right are the original image, the
   //  prior segmentation of the ventricle from
-  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}, and the refinement of
-  //  the prior using LaplacianSegmentationLevelSetImageFilter.}
+  //  Figure~\ref{fig:ThresholdSegmentationLevelSetImageFilter}, and the
+  //  refinement of the prior using LaplacianSegmentationLevelSetImageFilter.}
   //  \label{fig:LaplacianSegmentationLevelSetImageFilter}
   //  \end{figure}
   //

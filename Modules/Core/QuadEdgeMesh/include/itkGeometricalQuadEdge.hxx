@@ -295,7 +295,8 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   // Be sure the Onext ring isn't already full
   if (this->IsOriginInternal())
   {
-    itkQEDebugMacro("Internal point.");
+    itkQEDebugMacro("No border edge available; point is internal.");
+    itkAssertInDebugAndIgnoreInReleaseMacro(false);
     return (nullptr);
   }
 
@@ -322,7 +323,8 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   }
 
   // No border edge found
-  itkQEDebugMacro("Unfound border edge.");
+  itkQEDebugMacro("No border edge available; point is internal.");
+  itkAssertInDebugAndIgnoreInReleaseMacro(false);
   return (nullptr);
 }
 
@@ -381,7 +383,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::InsertAft
   Self * edgeAfter = this->GetNextBorderEdgeWithUnsetLeft(hint);
   if (!edgeAfter)
   {
-    itkQEDebugMacro("This point is yet surrounded by faces.");
+    itkQEDebugMacro("No border edge available; the point is surrounded by faces.");
     return (false);
   }
 

@@ -52,9 +52,9 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Then we must decide what type of value to associate with the
-  //  points. This is generally called the \code{PixelType} in order to make the
-  //  terminology consistent with the \code{itk::Image}. The PointSet is also
-  //  templated over the dimension of the space in which the points are
+  //  points. This is generally called the \code{PixelType} in order to make
+  //  the terminology consistent with the \code{itk::Image}. The PointSet is
+  //  also templated over the dimension of the space in which the points are
   //  represented. The following declaration illustrates a typical
   //  instantiation of the PointSet class.
   //
@@ -91,13 +91,14 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Following the principles of Generic Programming, the \code{PointSet} class has a
-  //  set of associated defined types to ensure that interacting objects can be
-  //  declared with compatible types. This set of type definitions is commonly known
-  //  as a set of \emph{traits}.  Among the traits of the \code{PointSet} class is
-  //  \code{PointType}, which is used by the point set to represent points in space.
-  //  The following declaration takes the point type as defined in the \code{PointSet}
-  //  traits and renames it to be conveniently used in the global namespace.
+  //  Following the principles of Generic Programming, the \code{PointSet}
+  //  class has a set of associated defined types to ensure that interacting
+  //  objects can be declared with compatible types. This set of type
+  //  definitions is commonly known as a set of \emph{traits}.  Among the
+  //  traits of the \code{PointSet} class is \code{PointType}, which is used
+  //  by the point set to represent points in space. The following declaration
+  //  takes the point type as defined in the \code{PointSet} traits and
+  //  renames it to be conveniently used in the global namespace.
   //
   //  \index{itk::PointSet!PointType}
   //
@@ -115,12 +116,13 @@ main(int, char *[])
   //  it is inconvenient to manage them with reference counting and smart
   //  pointers. They are simply instantiated as typical C++ classes. The Point
   //  class inherits the \code{[]} operator from the \code{itk::Array} class.
-  //  This makes it possible to access its components using index notation. For
-  //  efficiency's sake no bounds checking is performed during index access. It is
-  //  the user's responsibility to ensure that the index used is in the range
+  //  This makes it possible to access its components using index notation.
+  //  For efficiency's sake no bounds checking is performed during index
+  //  access. It is the user's responsibility to ensure that the index used is
+  //  in the range
   //  $\{0,Dimension-1\}$. Each of the components in the point is associated
-  //  with space coordinates. The following code illustrates how to instantiate
-  //  a point and initialize its components.
+  //  with space coordinates. The following code illustrates how to
+  //  instantiate a point and initialize its components.
   //
   //  Software Guide : EndLatex
 
@@ -146,11 +148,11 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Points are inserted in the PointSet by using the \code{SetPoint()} method.
-  //  This method requires the user to provide a unique identifier for the
-  //  point. The identifier is typically an unsigned integer that will enumerate
-  //  the points as they are being inserted. The following code shows how three
-  //  points are inserted into the PointSet.
+  //  Points are inserted in the PointSet by using the \code{SetPoint()}
+  //  method. This method requires the user to provide a unique identifier for
+  //  the point. The identifier is typically an unsigned integer that will
+  //  enumerate the points as they are being inserted. The following code
+  //  shows how three points are inserted into the PointSet.
   //
   //  \index{itk::PointSet!SetPoint()}
   //
@@ -165,9 +167,9 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  // It is possible to query the PointSet in order to determine how many points
-  // have been inserted into it. This is done with the \code{GetNumberOfPoints()}
-  // method as illustrated below.
+  // It is possible to query the PointSet in order to determine how many
+  // points have been inserted into it. This is done with the
+  // \code{GetNumberOfPoints()} method as illustrated below.
   //
   //  \index{itk::PointSet!GetNumberOfPoints()}
   //
@@ -181,11 +183,11 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  // Points can be read from the PointSet by using the \code{GetPoint()} method
-  // and the integer identifier. The point is stored in a pointer provided by
-  // the user. If the identifier provided does not match an
-  // existing point, the method will return \code{false} and the contents of the
-  // point will be invalid. The following code illustrates point access
+  // Points can be read from the PointSet by using the \code{GetPoint()}
+  // method and the integer identifier. The point is stored in a pointer
+  // provided by the user. If the identifier provided does not match an
+  // existing point, the method will return \code{false} and the contents of
+  // the point will be invalid. The following code illustrates point access
   // using defensive programming.
   //
   //  \index{itk::PointSet!GetPoint()}
@@ -205,10 +207,10 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  // \code{GetPoint()} and \code{SetPoint()} are not the most efficient methods
-  // to access points in the PointSet. It is preferable to get direct access
-  // to the internal point container defined by the \emph{traits} and use
-  // iterators to walk sequentially over the list of points (as shown in
+  // \code{GetPoint()} and \code{SetPoint()} are not the most efficient
+  // methods to access points in the PointSet. It is preferable to get direct
+  // access to the internal point container defined by the \emph{traits} and
+  // use iterators to walk sequentially over the list of points (as shown in
   // the following example).
   //
   //  Software Guide : EndLatex

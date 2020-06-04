@@ -51,10 +51,10 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // The Vector class is templated over the type used to represent
-  // the coordinate in space and over the dimension of the space.  In this example,
-  // we want the vector dimension to match the image dimension, but this is by
-  // no means a requirement. We could have defined a four-dimensional image
-  // with three-dimensional vectors as pixels.
+  // the coordinate in space and over the dimension of the space.  In this
+  // example, we want the vector dimension to match the image dimension, but
+  // this is by no means a requirement. We could have defined a
+  // four-dimensional image with three-dimensional vectors as pixels.
   //
   // \index{itk::Vector!Instantiation}
   // \index{itk::Vector!itk::Image}
@@ -71,8 +71,10 @@ main(int, char *[])
   ImageType::Pointer image = ImageType::New();
 
   // The image region should be initialized
-  const ImageType::IndexType start = { { 0, 0, 0 } };      // First index at {X,Y,Z}
-  const ImageType::SizeType  size = { { 200, 200, 200 } }; // Size of {X,Y,Z}
+  const ImageType::IndexType start = {
+    { 0, 0, 0 }
+  }; // First index at {X,Y,Z}
+  const ImageType::SizeType size = { { 200, 200, 200 } }; // Size of {X,Y,Z}
 
   ImageType::RegionType region;
   region.SetSize(size);
@@ -93,7 +95,9 @@ main(int, char *[])
   // vector value.
   image->FillBuffer(initialValue);
 
-  const ImageType::IndexType pixelIndex = { { 27, 29, 37 } }; // Position {X,Y,Z}
+  const ImageType::IndexType pixelIndex = {
+    { 27, 29, 37 }
+  }; // Position {X,Y,Z}
 
   // Software Guide : BeginLatex
   //

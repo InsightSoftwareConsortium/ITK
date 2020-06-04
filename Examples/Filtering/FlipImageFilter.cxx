@@ -24,18 +24,18 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{FlipImageFilter} is used for flipping the image content in any
-//  of the coordinate axes. This filter must be used with \textbf{EXTREME}
+//  The \doxygen{FlipImageFilter} is used for flipping the image content in
+//  any of the coordinate axes. This filter must be used with \textbf{EXTREME}
 //  caution. You probably don't want to appear in the newspapers as
 //  responsible for a surgery mistake in which a doctor extirpates the left
 //  kidney when he should have extracted the right one\footnote{\emph{Wrong
-//  side} surgery accounts for $2\%$ of the reported medical errors in the United
-//  States. Trivial... but equally dangerous.} . If that prospect doesn't
-//  scare you, maybe it is time for you to reconsider your career in medical
-//  image processing. Flipping effects which seem innocuous at first view may
-//  still have dangerous consequences. For example, flipping the cranio-caudal
-//  axis of a CT scan forces an observer to flip the left-right axis in order
-//  to make sense of the image.
+//  side} surgery accounts for $2\%$ of the reported medical errors in the
+//  United States. Trivial... but equally dangerous.} . If that prospect
+//  doesn't scare you, maybe it is time for you to reconsider your career in
+//  medical image processing. Flipping effects which seem innocuous at first
+//  view may still have dangerous consequences. For example, flipping the
+//  cranio-caudal axis of a CT scan forces an observer to flip the left-right
+//  axis in order to make sense of the image.
 //
 //  \index{itk::FlipImageFilter}
 //
@@ -66,7 +66,8 @@ main(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile   outputImageFile   flipAxisX   flipAxisY"
+    std::cerr << argv[0]
+              << "  inputImageFile   outputImageFile   flipAxisX   flipAxisY"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -74,8 +75,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and, with
-  //  them, the image types can be instantiated.
+  //  Then the pixel types for input and output image must be defined and,
+  //  with them, the image types can be instantiated.
   //
   //  Software Guide : EndLatex
 
@@ -160,8 +161,8 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{FlipImageFilterOutput}
-  // \itkcaption[Effect of the FlipImageFilter]{Effect of the FlipImageFilter on a slice
-  // from a MRI proton density brain image.}
+  // \itkcaption[Effect of the FlipImageFilter]{Effect of the FlipImageFilter
+  // on a slice from a MRI proton density brain image.}
   // \label{fig:FlipImageFilterOutput}
   // \end{figure}
   //

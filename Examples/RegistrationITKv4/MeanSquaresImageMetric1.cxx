@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// This example illustrates how to explore the domain of an image metric.  This
+// This example illustrates how to explore the domain of an image metric. This
 // is a useful exercise before starting a registration process, since
 // familiarity with the characteristics of the metric is fundamental for
 // appropriate selection of the optimizer and its parameters used to drive the
@@ -38,8 +38,8 @@
 
 // Software Guide : BeginLatex
 //
-// We start by including the headers of the basic components: Metric, Transform
-// and Interpolator.
+// We start by including the headers of the basic components: Metric,
+// Transform and Interpolator.
 //
 // Software Guide : EndLatex
 
@@ -96,14 +96,15 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The type of the Metric is instantiated and one is constructed.  In this case
-  // we decided to use the same image type for both the fixed and the moving
-  // images.
+  // The type of the Metric is instantiated and one is constructed.  In this
+  // case we decided to use the same image type for both the fixed and the
+  // moving images.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using MetricType = itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType>;
+  using MetricType =
+    itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType>;
 
   MetricType::Pointer metric = MetricType::New();
   // Software Guide : EndCodeSnippet
@@ -111,8 +112,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We also instantiate the transform and interpolator types, and create objects
-  // of each class.
+  // We also instantiate the transform and interpolator types, and create
+  // objects of each class.
   //
   // Software Guide : EndLatex
 
@@ -178,10 +179,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Finally we select a region of the parametric space to explore. In this case
-  // we are using a translation transform in 2D, so we simply select translations
-  // from a negative position to a positive position, in both $x$ and $y$. For
-  // each one of those positions we invoke the \code{GetValue()} method of the Metric.
+  // Finally we select a region of the parametric space to explore. In this
+  // case we are using a translation transform in 2D, so we simply select
+  // translations from a negative position to a positive position, in both $x$
+  // and $y$. For each one of those positions we invoke the \code{GetValue()}
+  // method of the Metric.
   //
   // Software Guide : EndLatex
 
@@ -211,23 +213,23 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot1}
   // \includegraphics[height=0.33\textwidth]{MeanSquaresMetricPlot2}
-  // \itkcaption[Mean Squares Metric Plots]{Plots of the Mean Squares Metric for
-  // an image compared to itself under multiple translations.}
+  // \itkcaption[Mean Squares Metric Plots]{Plots of the Mean Squares Metric
+  // for an image compared to itself under multiple translations.}
   // \label{fig:MeanSquaresMetricPlot}
   // \end{figure}
   //
   // Running this code using the image BrainProtonDensitySlice.png as both the
   // fixed and the moving images results in the plot shown in
   // Figure~\ref{fig:MeanSquaresMetricPlot}. From this figure, it can be seen
-  // that a gradient-based optimizer will be appropriate for finding the extrema
-  // of the Metric. It is also possible to estimate a good value for the step
-  // length of a gradient-descent optimizer.
+  // that a gradient-based optimizer will be appropriate for finding the
+  // extrema of the Metric. It is also possible to estimate a good value for
+  // the step length of a gradient-descent optimizer.
   //
-  // This exercise of plotting the Metric is probably the best thing to do when a
-  // registration process is not converging and when it is unclear how to fine
-  // tune the different parameters involved in the registration. This includes
-  // the optimizer parameters, the metric parameters and even options such as
-  // preprocessing the image data with smoothing filters.
+  // This exercise of plotting the Metric is probably the best thing to do
+  // when a registration process is not converging and when it is unclear how
+  // to fine tune the different parameters involved in the registration. This
+  // includes the optimizer parameters, the metric parameters and even options
+  // such as preprocessing the image data with smoothing filters.
   //
   // The shell and Gnuplot\footnote{http://www.gnuplot.info} scripts used for
   // generating the graphics in Figure~\ref{fig:MeanSquaresMetricPlot} are
@@ -237,9 +239,9 @@ main(int argc, char * argv[])
   //
   // Of course, this plotting exercise becomes more challenging when the
   // transform has more than three parameters, and when those parameters have
-  // very different value ranges. In those cases it is necessary to select only a
-  // key subset of parameters from the transform and to study the behavior of the
-  // metric when those parameters are varied.
+  // very different value ranges. In those cases it is necessary to select
+  // only a key subset of parameters from the transform and to study the
+  // behavior of the metric when those parameters are varied.
   //
   //
   // Software Guide : EndLatex

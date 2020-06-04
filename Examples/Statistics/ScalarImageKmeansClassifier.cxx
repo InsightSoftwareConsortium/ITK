@@ -27,11 +27,11 @@
 // This example shows how to use the KMeans model for classifying the pixel of
 // a scalar image.
 //
-// The  \subdoxygen{Statistics}{ScalarImageKmeansImageFilter} is used for taking
-// a scalar image and applying the K-Means algorithm in order to define classes
-// that represents statistical distributions of intensity values in the pixels.
-// The classes are then used in this filter for generating a labeled image where
-// every pixel is assigned to one of the classes.
+// The  \subdoxygen{Statistics}{ScalarImageKmeansImageFilter} is used for
+// taking a scalar image and applying the K-Means algorithm in order to define
+// classes that represents statistical distributions of intensity values in
+// the pixels. The classes are then used in this filter for generating a
+// labeled image where every pixel is assigned to one of the classes.
 //
 // Software Guide : EndLatex
 
@@ -60,10 +60,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // First we define the pixel type and dimension of the image that we intend to
-  // classify. With this image type we can also declare the
-  // \doxygen{ImageFileReader} needed for reading the input image, create one and
-  // set its input filename.
+  // First we define the pixel type and dimension of the image that we intend
+  // to classify. With this image type we can also declare the
+  // \doxygen{ImageFileReader} needed for reading the input image, create one
+  // and set its input filename.
   //
   // Software Guide : EndLatex
 
@@ -82,8 +82,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // With the \code{ImageType} we instantiate the type of the
-  // \doxygen{ScalarImageKmeansImageFilter} that will compute the K-Means model
-  // and then classify the image pixels.
+  // \doxygen{ScalarImageKmeansImageFilter} that will compute the K-Means
+  // model and then classify the image pixels.
   //
   // Software Guide : EndLatex
 
@@ -101,16 +101,17 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // In general the classification will produce as output an image whose pixel
-  // values are integers associated to the labels of the classes. Since typically
-  // these integers will be generated in order (0,1,2,...N), the output image
-  // will tend to look very dark when displayed with naive viewers. It is
-  // therefore convenient to have the option of spreading the label values over
-  // the dynamic range of the output image pixel type. When this is done, the
-  // dynamic range of the pixels is divided by the number of classes in order to
-  // define the increment between labels. For example, an output image of 8 bits
-  // will have a dynamic range of [0:256], and when it is used for holding four
-  // classes, the non-contiguous labels will be (0,64,128,192). The selection of
-  // the mode to use is done with the method \code{SetUseNonContiguousLabels()}.
+  // values are integers associated to the labels of the classes. Since
+  // typically these integers will be generated in order (0,1,2,...N), the
+  // output image will tend to look very dark when displayed with naive
+  // viewers. It is therefore convenient to have the option of spreading the
+  // label values over the dynamic range of the output image pixel type. When
+  // this is done, the dynamic range of the pixels is divided by the number of
+  // classes in order to define the increment between labels. For example, an
+  // output image of 8 bits will have a dynamic range of [0:256], and when it
+  // is used for holding four classes, the non-contiguous labels will be
+  // (0,64,128,192). The selection of the mode to use is done with the method
+  // \code{SetUseNonContiguousLabels()}.
   //
   // Software Guide : EndLatex
 
@@ -158,12 +159,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing an 8
-  // bits scalar image as output. This output image contains labels associated
-  // to each one of the classes in the K-Means algorithm. In the following lines
-  // we use the \code{OutputImageType} in order to instantiate the type of a
-  // \doxygen{ImageFileWriter}. Then create one, and connect it to the output of
-  // the classification filter.
+  // The \doxygen{ScalarImageKmeansImageFilter} is predefined for producing an
+  // 8 bits scalar image as output. This output image contains labels
+  // associated to each one of the classes in the K-Means algorithm. In the
+  // following lines we use the \code{OutputImageType} in order to instantiate
+  // the type of a \doxygen{ImageFileWriter}. Then create one, and connect it
+  // to the output of the classification filter.
   //
   // Software Guide : EndLatex
 
@@ -182,9 +183,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We are now ready for triggering the execution of the pipeline. This is done
-  // by simply invoking the \code{Update()} method in the writer. This call will
-  // propagate the update request to the reader and then to the classifier.
+  // We are now ready for triggering the execution of the pipeline. This is
+  // done by simply invoking the \code{Update()} method in the writer. This
+  // call will propagate the update request to the reader and then to the
+  // classifier.
   //
   // Software Guide : EndLatex
 
@@ -207,13 +209,14 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // At this point the classification is done, the labeled image is saved in a
-  // file, and we can take a look at the means that were found as a result of the
-  // model estimation performed inside the classifier filter.
+  // file, and we can take a look at the means that were found as a result of
+  // the model estimation performed inside the classifier filter.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  KMeansFilterType::ParametersType estimatedMeans = kmeansFilter->GetFinalMeans();
+  KMeansFilterType::ParametersType estimatedMeans =
+    kmeansFilter->GetFinalMeans();
 
   const unsigned int numberOfClasses = estimatedMeans.Size();
 

@@ -21,8 +21,8 @@
 //  In order to facilitate access to particular cell types, a convenience
 //  mechanism has been built-in on the \doxygen{Mesh}. This mechanism is
 //  based on the \emph{Visitor Pattern} presented  in \cite{Gamma1995}. The
-//  visitor pattern is designed to facilitate the process of walking through an
-//  heterogeneous list of objects sharing a common base class.
+//  visitor pattern is designed to facilitate the process of walking through
+//  an heterogeneous list of objects sharing a common base class.
 //
 //  The first requirement for using the \code{CellVisitor} mechanism it to
 //  include the \code{CellInterfaceVisitor} header file.
@@ -68,8 +68,8 @@ using TetrahedronType = itk::TetrahedronCell<CellType>;
 //
 //  Then, a custom CellVisitor class should be declared. In this particular
 //  example, the visitor class is intended to act only on \code{TriangleType}
-//  cells. The only requirement on the declaration of the visitor class is that
-//  it must provide a method named \code{Visit()}. This method expects as
+//  cells. The only requirement on the declaration of the visitor class is
+//  that it must provide a method named \code{Visit()}. This method expects as
 //  arguments a cell identifier and a pointer to the \emph{specific} cell type
 //  for which this visitor is intended. Nothing prevents a visitor class from
 //  providing \code{Visit()} methods for several different cell types.  The
@@ -240,9 +240,9 @@ main(int, char *[])
   // \index{CellVisitor}
   //
   //  This newly defined class will now be used to instantiate a cell visitor.
-  //  In this particular example we create a class \code{CustomTriangleVisitor}
-  //  which will be invoked each time a triangle cell is found while the mesh
-  //  iterates over the cells.
+  //  In this particular example we create a class
+  //  \code{CustomTriangleVisitor} which will be invoked each time a triangle
+  //  cell is found while the mesh iterates over the cells.
   //
   //  Software Guide : EndLatex
 
@@ -278,9 +278,9 @@ main(int, char *[])
   //
   //  Many different visitors can be configured in this way. The set of all
   //  visitors can be registered with the MultiVisitor class provided for the
-  //  mesh. An instance of the MultiVisitor class will walk through the cells and
-  //  delegate action to every registered visitor when the appropriate cell type is
-  //  encountered.
+  //  mesh. An instance of the MultiVisitor class will walk through the cells
+  //  and delegate action to every registered visitor when the appropriate
+  //  cell type is encountered.
   //
   //  Software Guide : EndLatex
 
@@ -326,9 +326,9 @@ main(int, char *[])
   //  visitor is interested on the current cell type the cell is just ignored
   //  and skipped.
   //
-  //  MultiVisitors make it possible to add behavior to the cells without having to
-  //  create new methods on the cell types or creating a complex visitor class
-  //  that knows about every CellType.
+  //  MultiVisitors make it possible to add behavior to the cells without
+  //  having to create new methods on the cell types or creating a complex
+  //  visitor class that knows about every CellType.
   //
   //  Software Guide : EndLatex
 

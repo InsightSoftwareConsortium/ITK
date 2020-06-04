@@ -19,7 +19,8 @@
 //  Software Guide : BeginLatex
 //
 //  This example illustrates how to convert an RGB image into a grayscale one.
-//  The \doxygen{RGBToLuminanceImageFilter} is the central piece of this example.
+//  The \doxygen{RGBToLuminanceImageFilter} is the central piece of this
+//  example.
 //
 //  \index{itk::RGBToLuminanceImageFilter!RGB Images}
 //
@@ -70,7 +71,8 @@ main(int argc, char * argv[])
   reader->SetFileName(argv[1]);
 
 
-  using FilterType = itk::RGBToLuminanceImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::RGBToLuminanceImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 

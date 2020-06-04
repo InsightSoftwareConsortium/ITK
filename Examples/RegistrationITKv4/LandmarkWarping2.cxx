@@ -24,8 +24,8 @@
 //  \index{WarpImageFilter}
 //  \index{LandmarkDisplacementFieldSource}
 //
-//  In addition to standard headers included in previous examples, this example
-//  requires the following includes:
+//  In addition to standard headers included in previous examples, this
+//  example requires the following includes:
 //
 //  Software Guide : EndLatex
 
@@ -96,9 +96,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  After reading in the fixed and moving images, the \code{deformer} object is
-  //  instantiated from the \code{itk::LandmarkDisplacementFieldSource} class, and
-  //  parameters of the image space and orientation are set.
+  //  After reading in the fixed and moving images, the \code{deformer} object
+  //  is instantiated from the \code{itk::LandmarkDisplacementFieldSource}
+  //  class, and parameters of the image space and orientation are set.
   //
   //  Software Guide : EndLatex
 
@@ -118,8 +118,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Source and target landmarks are then created, and the points themselves are
-  //  read in from a file stream.
+  //  Source and target landmarks are then created, and the points themselves
+  //  are read in from a file stream.
   //
   //  Software Guide : EndLatex
 
@@ -128,8 +128,10 @@ main(int argc, char * argv[])
   using LandmarkContainerType = DisplacementSourceType::LandmarkContainer;
   using LandmarkPointType = DisplacementSourceType::LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
+  LandmarkContainerType::Pointer sourceLandmarks =
+    LandmarkContainerType::New();
+  LandmarkContainerType::Pointer targetLandmarks =
+    LandmarkContainerType::New();
 
   LandmarkPointType sourcePoint;
   LandmarkPointType targetPoint;
@@ -158,7 +160,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The source and target landmark objects are then assigned to \code{deformer}.
+  //  The source and target landmark objects are then assigned to
+  //  \code{deformer}.
   //
   //  Software Guide : EndLatex
 
@@ -171,8 +174,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  After calling \code{UpdateLargestPossibleRegion()} on the \code{deformer},
-  //  the displacement field may be obtained via the \code{GetOutput()} method.
+  //  After calling \code{UpdateLargestPossibleRegion()} on the
+  //  \code{deformer}, the displacement field may be obtained via the
+  //  \code{GetOutput()} method.
   //
   //  Software Guide : EndLatex
 
@@ -198,7 +202,8 @@ main(int argc, char * argv[])
   FilterType::Pointer warper = FilterType::New();
 
   using InterpolatorType =
-    itk::LinearInterpolateImageFunction<MovingImageType, InterpolatorPrecisionType>;
+    itk::LinearInterpolateImageFunction<MovingImageType,
+                                        InterpolatorPrecisionType>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 

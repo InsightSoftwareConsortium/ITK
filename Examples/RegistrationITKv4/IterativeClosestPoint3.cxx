@@ -19,9 +19,9 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates how to perform Iterative Closest Point (ICP)
-// registration in ITK using a DistanceMap in order to increase the performance.
-// There is of course a trade-off between the time needed for computing the
-// DistanceMap and the time saved by its repeated use during the
+// registration in ITK using a DistanceMap in order to increase the
+// performance. There is of course a trade-off between the time needed for
+// computing the DistanceMap and the time saved by its repeated use during the
 // iterative computation of the point-to-point distances. It is then necessary
 // in practice to ponder both factors.
 //
@@ -53,8 +53,9 @@ main(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Arguments Missing. " << std::endl;
-    std::cerr << "Usage:  IterativeClosestPoint3   fixedPointsFile  movingPointsFile "
-              << std::endl;
+    std::cerr
+      << "Usage:  IterativeClosestPoint3   fixedPointsFile  movingPointsFile "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -102,8 +103,8 @@ main(int argc, char * argv[])
     pointId++;
   }
   fixedPointSet->SetPoints(fixedPointContainer);
-  std::cout << "Number of fixed Points = " << fixedPointSet->GetNumberOfPoints()
-            << std::endl;
+  std::cout << "Number of fixed Points = "
+            << fixedPointSet->GetNumberOfPoints() << std::endl;
 
   // Read the file containing coordinates of moving points.
   std::ifstream movingFile;
@@ -124,8 +125,8 @@ main(int argc, char * argv[])
     pointId++;
   }
   movingPointSet->SetPoints(movingPointContainer);
-  std::cout << "Number of moving Points = " << movingPointSet->GetNumberOfPoints()
-            << std::endl;
+  std::cout << "Number of moving Points = "
+            << movingPointSet->GetNumberOfPoints() << std::endl;
 
   // Software Guide : BeginLatex
   //
@@ -134,7 +135,8 @@ main(int argc, char * argv[])
   //
   // Software Guide : EndLatex
 
-  using MetricType = itk::EuclideanDistancePointMetric<PointSetType, PointSetType>;
+  using MetricType =
+    itk::EuclideanDistancePointMetric<PointSetType, PointSetType>;
 
   MetricType::Pointer metric = MetricType::New();
 
@@ -211,7 +213,8 @@ main(int argc, char * argv[])
   using PointsToImageFilterType =
     itk::PointSetToImageFilter<PointSetType, BinaryImageType>;
 
-  PointsToImageFilterType::Pointer pointsToImageFilter = PointsToImageFilterType::New();
+  PointsToImageFilterType::Pointer pointsToImageFilter =
+    PointsToImageFilterType::New();
 
   pointsToImageFilter->SetInput(fixedPointSet);
 

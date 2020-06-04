@@ -26,8 +26,8 @@
 //  Software Guide : BeginLatex
 //
 //  The \doxygen{DerivativeImageFilter} is used for computing the partial
-//  derivative of an image, the derivative of an image along a particular axial
-//  direction.
+//  derivative of an image, the derivative of an image along a particular
+//  axial direction.
 //
 //  \index{itk::DerivativeImageFilter}
 //
@@ -59,8 +59,9 @@ main(int argc, char * argv[])
   if (argc < 6)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << "  inputImageFile   outputImageFile  normalizedOutputImageFile ";
+    std::cerr
+      << argv[0]
+      << "  inputImageFile   outputImageFile  normalizedOutputImageFile ";
     std::cerr << " derivativeOrder direction" << std::endl;
     return EXIT_FAILURE;
   }
@@ -68,10 +69,10 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Next, the pixel types for the input and output images must be defined and, with
-  //  them, the image types can be instantiated. Note that it is important to
-  //  select a signed type for the image, since the values of the derivatives
-  //  will be positive as well as negative.
+  //  Next, the pixel types for the input and output images must be defined
+  //  and, with them, the image types can be instantiated. Note that it is
+  //  important to select a signed type for the image, since the values of the
+  //  derivatives will be positive as well as negative.
   //
   //  Software Guide : EndLatex
 
@@ -107,7 +108,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::DerivativeImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::DerivativeImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -134,8 +136,8 @@ main(int argc, char * argv[])
   //
   //  The input to the filter can be taken from any other filter, for example
   //  a reader. The output can be passed down the pipeline to other filters,
-  //  for example, a writer. An \code{Update()} call on any downstream filter will
-  //  trigger the execution of the derivative filter.
+  //  for example, a writer. An \code{Update()} call on any downstream filter
+  //  will trigger the execution of the derivative filter.
   //
   //  \index{itk::DerivativeImageFilter!SetInput()}
   //  \index{itk::DerivativeImageFilter!GetOutput()}
@@ -156,8 +158,8 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.44\textwidth]{DerivativeImageFilterOutput}
-  // \itkcaption[Effect of the Derivative filter.]{Effect of the Derivative filter
-  // on a slice from a MRI proton density brain image.}
+  // \itkcaption[Effect of the Derivative filter.]{Effect of the Derivative
+  // filter on a slice from a MRI proton density brain image.}
   // \label{fig:DerivativeImageFilterOutput}
   // \end{figure}
   //
@@ -177,7 +179,8 @@ main(int argc, char * argv[])
   using NormalizedWriterType = itk::ImageFileWriter<WriteImageType>;
 
   NormalizeFilterType::Pointer  normalizer = NormalizeFilterType::New();
-  NormalizedWriterType::Pointer normalizedWriter = NormalizedWriterType::New();
+  NormalizedWriterType::Pointer normalizedWriter =
+    NormalizedWriterType::New();
 
   normalizer->SetInput(filter->GetOutput());
   normalizedWriter->SetInput(normalizer->GetOutput());

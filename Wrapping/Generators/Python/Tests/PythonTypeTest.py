@@ -65,9 +65,9 @@ def create_and_test(t, create_method):
                 msg = "%s: wrong Python class name: %s" % (actual_type, obj_type)
                 wrongType = 1
         except Exception as e:
-            msg = ("%s: wrong Python class name: %s. "
+            msg = ("%s, %s: wrong Python class name: %s. "
             "Exception while evaluating it: %s" %
-            (t, obj_type, e.message))
+            (t, actual_type, obj_type, e))
             wrongType = 1
     if wrongType:
         print(msg, file=sys.stderr)
@@ -82,7 +82,7 @@ def create_method(i):
         return None
 
 for t in dir(itk):
-    if t not in exclude:
+    if t not in exclude and not t.startswith('stdnumeric_limits'):
         T = itk.__dict__[t]
         # first case - that's a templated class
         if isinstance(T, itk.Vector.__class__) and len(T) > 0:

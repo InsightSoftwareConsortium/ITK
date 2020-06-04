@@ -23,8 +23,8 @@
 //  Software Guide : EndCommandLineArgs
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} applies a variant of the
-//  CurvatureFlow algorithm. Which means that the speed of propagation is
+//  The \doxygen{BinaryMinMaxCurvatureFlowImageFilter} applies a variant of
+//  the CurvatureFlow algorithm. Which means that the speed of propagation is
 //  proportional to the curvature $\kappa$ of iso-contours. This filter adds
 //  however, the restriction that negative curvatures are only accepted in
 //  regions of the image having low intensities. The user should provide an
@@ -36,8 +36,8 @@
 //  curvature is null this is returned as value.  Otherwise, an average of
 //  neighbor pixel intensities is computed and it is compared against a
 //  user-provided threshold. If this average is less than the threshold then
-//  the algorithm returns $\min(\kappa,0)$. If the average intensity is greater
-//  or equal than user-provided threshold, then the returned value is
+//  the algorithm returns $\min(\kappa,0)$. If the average intensity is
+//  greater or equal than user-provided threshold, then the returned value is
 //  $\max(\kappa,0)$.
 //
 //  \begin{equation}
@@ -64,7 +64,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The first step required for using this filter is to include its header file
+//  The first step required for using this filter is to include its header
+//  file
 //
 //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!header}
 //
@@ -83,7 +84,8 @@ main(int argc, char * argv[])
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile  ";
-    std::cerr << "numberOfIterations  timeStep  stencilRadius  threshold" << std::endl;
+    std::cerr << "numberOfIterations  timeStep  stencilRadius  threshold"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -108,9 +110,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The BinaryMinMaxCurvatureFlowFilter type is now instantiated using both the
-  //  input image and the output image types. The filter is then created using
-  //  the \code{New()} method.
+  //  The BinaryMinMaxCurvatureFlowFilter type is now instantiated using both
+  //  the input image and the output image types. The filter is then created
+  //  using the \code{New()} method.
   //
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!instantiation}
   //  \index{itk::BinaryMinMaxCurvatureFlowImageFilter!New()}
@@ -120,7 +122,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using FilterType =
-    itk::BinaryMinMaxCurvatureFlowImageFilter<InputImageType, OutputImageType>;
+    itk::BinaryMinMaxCurvatureFlowImageFilter<InputImageType,
+                                              OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -186,12 +189,12 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Typical values for the time step are $0.125$ in $2D$ images and $0.0625$ in
-  //  $3D$ images. The number of iterations can be usually around $10$, more
-  //  iterations will result in further smoothing and will increase linearly
-  //  the computing time. The radius of the stencil can be typically $1$. The
-  //  value of the threshold should be selected according to the gray levels of
-  //  the object of interest and the gray level of its background.
+  //  Typical values for the time step are $0.125$ in $2D$ images and $0.0625$
+  //  in $3D$ images. The number of iterations can be usually around $10$,
+  //  more iterations will result in further smoothing and will increase
+  //  linearly the computing time. The radius of the stencil can be typically
+  //  $1$. The value of the threshold should be selected according to the gray
+  //  levels of the object of interest and the gray level of its background.
   //
   //  Software Guide : EndLatex
 
@@ -232,10 +235,11 @@ main(int argc, char * argv[])
   // \label{fig:BinaryMinMaxCurvatureFlowImageFilterInputOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:BinaryMinMaxCurvatureFlowImageFilterInputOutput} illustrates
-  //  the effect of this filter on a MRI proton density image of the brain. In
-  //  this example the filter was run with a time step of $0.125$, $10$ iterations,
-  //  a stencil radius of $1$ and a threshold of $128$.
+  //  Figure \ref{fig:BinaryMinMaxCurvatureFlowImageFilterInputOutput}
+  //  illustrates the effect of this filter on a MRI proton density image of
+  //  the brain. In this example the filter was run with a time step of
+  //  $0.125$, $10$ iterations, a stencil radius of $1$ and a threshold of
+  //  $128$.
   //
   //  Software Guide : EndLatex
 

@@ -180,14 +180,14 @@ main(int argc, char * argv[])
   //
   //  The registration method type is instantiated using the types of the
   //  fixed and moving images as well as the output transform type. This class
-  //  is responsible for interconnecting all the components that we have described so
-  //  far.
+  //  is responsible for interconnecting all the components that we have
+  //  described so far.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -207,7 +207,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Each component is now connected to the instance of the registration method.
+  //  Each component is now connected to the instance of the registration
+  //  method.
   //
   //  \index{itk::RegistrationMethodv4!SetMetric()}
   //  \index{itk::RegistrationMethodv4!SetOptimizer()}
@@ -224,14 +225,14 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  In this example the transform object does not need to be created and passed to the
-  //  registration method like above since the registration filter will instantiate an
-  //  internal transform object using the transform type that is passed to it as a
-  //  template parameter.
+  //  In this example the transform object does not need to be created and
+  //  passed to the registration method like above since the registration
+  //  filter will instantiate an internal transform object using the transform
+  //  type that is passed to it as a template parameter.
   //
-  //  Metric needs an interpolator to evaluate the intensities of the fixed and
-  //  moving images at non-grid positions. The types of fixed and moving interpolators
-  //  are declared here.
+  //  Metric needs an interpolator to evaluate the intensities of the fixed
+  //  and moving images at non-grid positions. The types of fixed and moving
+  //  interpolators are declared here.
   //
   //  Software Guide : EndLatex
 
@@ -245,9 +246,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Then, fixed and moving interpolators are created and passed to the metric.
-  //  Since linear interpolators are used as default, we could skip the following
-  //  step in this example.
+  //  Then, fixed and moving interpolators are created and passed to the
+  //  metric. Since linear interpolators are used as default, we could skip
+  //  the following step in this example.
   //
   //  \index{itk::MeanSquaresImageToImageMetricv4!SetFixedInterpolator()}
   //  \index{itk::MeanSquaresImageToImageMetricv4!SetMovingInterpolator()}
@@ -266,8 +267,10 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -294,11 +297,11 @@ main(int argc, char * argv[])
   //  misalignment between the virtual domain and fixed/moving image spaces.
   //  In this particular case, a translation transform is being used for
   //  initialization of the moving image space.
-  //  The array of parameters for the initial moving transform is simply composed
-  //  of the translation values along each dimension. Setting the values of the
-  //  parameters to zero initializes the transform to an \emph{Identity} transform.
-  //  Note that the array constructor requires the number of elements to be passed
-  //  as an argument.
+  //  The array of parameters for the initial moving transform is simply
+  //  composed of the translation values along each dimension. Setting the
+  //  values of the parameters to zero initializes the transform to an
+  //  \emph{Identity} transform. Note that the array constructor requires the
+  //  number of elements to be passed as an argument.
   //
   //  \index{itk::TranslationTransform!GetNumberOfParameters()}
   //  \index{itk::RegistrationMethodv4!SetMovingInitialTransform()}
@@ -320,44 +323,48 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  In the registration filter this moving initial transform will be added to a
-  //  composite transform that already includes an instantiation of the output
-  //  optimizable transform; then, the resultant composite transform will be used by the
-  //  optimizer to evaluate the metric values at each iteration.
+  //  In the registration filter this moving initial transform will be added
+  //  to a composite transform that already includes an instantiation of the
+  //  output optimizable transform; then, the resultant composite transform
+  //  will be used by the optimizer to evaluate the metric values at each
+  //  iteration.
   //
   //  Despite this, the fixed initial transform does not contribute to the
   //  optimization process. It is only used to access the fixed image from the
   //  virtual image space where the metric evaluation happens.
   //
-  //  Virtual images are a new concept added to the ITKv4 registration framework,
-  //  which potentially lets us to do the registration process in a physical domain
-  //  totally different from the fixed and moving image domains.
-  //  In fact, the region over which metric evaluation is performed is called virtual
-  //  image domain. This domain defines the resolution at which the evaluation is
-  //  performed, as well as the physical coordinate system.
+  //  Virtual images are a new concept added to the ITKv4 registration
+  //  framework, which potentially lets us to do the registration process in a
+  //  physical domain totally different from the fixed and moving image
+  //  domains. In fact, the region over which metric evaluation is performed
+  //  is called virtual image domain. This domain defines the resolution at
+  //  which the evaluation is performed, as well as the physical coordinate
+  //  system.
   //
-  //  The virtual reference domain is taken from the ``virtual image'' buffered region,
-  //  and the input images should be accessed from this reference space using the fixed
-  //  and moving initial transforms.
+  //  The virtual reference domain is taken from the ``virtual image''
+  //  buffered region, and the input images should be accessed from this
+  //  reference space using the fixed and moving initial transforms.
   //
-  //  The legacy intuitive registration framework can be considered as a special
-  //  case where the virtual domain is the same as the fixed image domain. As this case
-  //  practically happens in most of the real life applications, the virtual image is
-  //  set to be the same as the fixed image by default. However, the user can define the
-  //  virtual domain differently than the fixed image domain by calling either
-  //  \code{SetVirtualDomain} or \code{SetVirtualDomainFromImage}.
+  //  The legacy intuitive registration framework can be considered as a
+  //  special case where the virtual domain is the same as the fixed image
+  //  domain. As this case practically happens in most of the real life
+  //  applications, the virtual image is set to be the same as the fixed image
+  //  by default. However, the user can define the virtual domain differently
+  //  than the fixed image domain by calling either \code{SetVirtualDomain} or
+  //  \code{SetVirtualDomainFromImage}.
   //
-  //  In this example, like the most examples of this chapter, the virtual image is
-  //  considered the same as the fixed image. Since the registration process happens in
-  //  the fixed image physical domain, the fixed initial transform maintains its default
-  //  value of identity and does not need to be set.
+  //  In this example, like the most examples of this chapter, the virtual
+  //  image is considered the same as the fixed image. Since the registration
+  //  process happens in the fixed image physical domain, the fixed initial
+  //  transform maintains its default value of identity and does not need to
+  //  be set.
   //
   //  However, a ``Hello World!'' example should show all the basics, so
   //  all the registration components are explicity set here.
   //
   //  In the next section of this chapter, you will get a better understanding
-  //  from behind the scenes of the registration process when the initial fixed
-  //  transform is not identity.
+  //  from behind the scenes of the registration process when the initial
+  //  fixed transform is not identity.
   //
   //  Software Guide : EndLatex
 
@@ -370,11 +377,12 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Note that the above process shows only one way of initializing the registration
-  //  configuration. Another option is to initialize the output optimizable transform
-  //  directly. In this approach, a transform object is created, initialized, and then
-  //  passed to the registration method via \code{SetInitialTransform()}. This approach
-  //  is shown in section~\ref{sec:RigidRegistrationIn2D}.
+  //  Note that the above process shows only one way of initializing the
+  //  registration configuration. Another option is to initialize the output
+  //  optimizable transform directly. In this approach, a transform object is
+  //  created, initialized, and then passed to the registration method via
+  //  \code{SetInitialTransform()}. This approach is shown in
+  //  section~\ref{sec:RigidRegistrationIn2D}.
   //
   //  At this point the registration method is ready for execution. The
   //  optimizer is the component that drives the execution of the
@@ -384,42 +392,46 @@ main(int argc, char * argv[])
   //
   //  It is usually desirable to fine tune the parameters of the optimizer.
   //  Each optimizer has particular parameters that must be interpreted in the
-  //  context of the optimization strategy it implements. The optimizer used in
-  //  this example is a variant of gradient descent that attempts to prevent it
-  //  from taking steps that are too large. At each iteration, this optimizer
-  //  will take a step along the direction of the \doxygen{ImageToImageMetricv4}
-  //  derivative. Each time the direction of the derivative abruptly changes,
-  //  the optimizer assumes that a local extrema has been passed and reacts by
-  //  reducing the step length by a relaxation factor. The reducing factor
-  //  should have a value between 0 and 1. This factor is set to 0.5 by default,
-  //  and it can be changed to a different value via \code{SetRelaxationFactor()}.
-  //  Also, the default value for the initial step length is 1, and this value can
-  //  be changed manually with the method \code{SetLearningRate()}.
+  //  context of the optimization strategy it implements. The optimizer used
+  //  in this example is a variant of gradient descent that attempts to
+  //  prevent it from taking steps that are too large. At each iteration, this
+  //  optimizer will take a step along the direction of the
+  //  \doxygen{ImageToImageMetricv4} derivative. Each time the direction of
+  //  the derivative abruptly changes, the optimizer assumes that a local
+  //  extrema has been passed and reacts by reducing the step length by a
+  //  relaxation factor. The reducing factor should have a value between 0
+  //  and 1. This factor is set to 0.5 by default, and it can be changed to a
+  //  different value via \code{SetRelaxationFactor()}. Also, the default
+  //  value for the initial step length is 1, and this value can be changed
+  //  manually with the method \code{SetLearningRate()}.
   //
-  //  In addition to manual settings, the initial step size can also be estimated
-  //  automatically, either at each iteration or only at the first iteration,
-  //  by assigning a ScalesEstimator (as will be seen in later examples).
+  //  In addition to manual settings, the initial step size can also be
+  //  estimated automatically, either at each iteration or only at the first
+  //  iteration, by assigning a ScalesEstimator (as will be seen in later
+  //  examples).
   //
   //  After several reductions of the step length, the optimizer may be moving
-  //  in a very restricted area of the transform parameter space. By the method
-  //  \code{SetMinimumStepLength()}, the user can define how small the step length
-  //  should be to consider convergence to have been reached. This is equivalent
-  //  to defining the precision with which the final transform should be known.
-  //  User can also set some other stop criteria manually like maximum number of
-  //  iterations.
+  //  in a very restricted area of the transform parameter space. By the
+  //  method \code{SetMinimumStepLength()}, the user can define how small the
+  //  step length should be to consider convergence to have been reached. This
+  //  is equivalent to defining the precision with which the final transform
+  //  should be known. User can also set some other stop criteria manually
+  //  like maximum number of iterations.
   //
-  //  In other gradient descent-based optimizers of the ITKv4 framework, such as
-  //  \doxygen{GradientDescentLineSearchOptimizerv4} and
-  //  \doxygen{ConjugateGradientLineSearchOptimizerv4}, the convergence criteria are set
-  //  via \code{SetMinimumConvergenceValue()} which is computed based on the results of
-  //  the last few iterations. The number of iterations involved in computations are
-  //  defined by the convergence window size via \code{SetConvergenceWindowSize()} which
-  //  is shown in later examples of this chapter.
+  //  In other gradient descent-based optimizers of the ITKv4 framework, such
+  //  as \doxygen{GradientDescentLineSearchOptimizerv4} and
+  //  \doxygen{ConjugateGradientLineSearchOptimizerv4}, the convergence
+  //  criteria are set via \code{SetMinimumConvergenceValue()} which is
+  //  computed based on the results of the last few iterations. The number of
+  //  iterations involved in computations are defined by the convergence
+  //  window size via \code{SetConvergenceWindowSize()} which is shown in
+  //  later examples of this chapter.
   //
-  //  Also note that unlike the previous versions, ITKv4 optimizers do not have a
-  //  ``maximize/minimize'' option to modify the effect of the metric derivatives. Each
-  //  assigned metric is assumed to return a parameter derivative result that "improves"
-  //  the optimization.
+  //  Also note that unlike the previous versions, ITKv4 optimizers do not
+  //  have a
+  //  ``maximize/minimize'' option to modify the effect of the metric
+  //  derivatives. Each assigned metric is assumed to return a parameter
+  //  derivative result that "improves" the optimization.
   //
   //  \index{itk::Gradient\-Descent\-Optimizerv4\-Template!SetLearningRate()}
   //  \index{itk::Gradient\-Descent\-Optimizerv4\-Template!SetMinimumStepLength()}
@@ -473,13 +485,12 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  ITKv4 facilitates a multi-level registration framework whereby each stage is
-  //  different in the resolution of its virtual space and the smoothness of the
-  //  fixed and moving images.
-  //  These criteria need to be defined before registration starts. Otherwise,
-  //  the default values will be used.
-  //  In this example, we run a simple registration in one level with no
-  //  space shrinking or smoothing on the input data.
+  //  ITKv4 facilitates a multi-level registration framework whereby each
+  //  stage is different in the resolution of its virtual space and the
+  //  smoothness of the fixed and moving images. These criteria need to be
+  //  defined before registration starts. Otherwise, the default values will
+  //  be used. In this example, we run a simple registration in one level with
+  //  no space shrinking or smoothing on the input data.
   //
   //  Software Guide : EndLatex
 
@@ -530,11 +541,13 @@ main(int argc, char * argv[])
   //
   //  In a real life application, you may attempt to recover from the error by
   //  taking more effective actions in the catch block. Here we are simply
-  //  printing out a message and then terminating the execution of the program.
+  //  printing out a message and then terminating the execution of the
+  //  program.
   //
   //
-  //  The result of the registration process is obtained using the \code{GetTransform()}
-  //  method that returns a constant pointer to the output transform.
+  //  The result of the registration process is obtained using the
+  //  \code{GetTransform()} method that returns a constant pointer to the
+  //  output transform.
   //
   //  \index{itk::ImageRegistrationMethodv4!GetTransform()}
   //
@@ -578,8 +591,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The value of the image metric corresponding to the last set of parameters
-  //  can be obtained with the \code{GetValue()} method of the optimizer.
+  //  The value of the image metric corresponding to the last set of
+  //  parameters can be obtained with the \code{GetValue()} method of the
+  //  optimizer.
   //
   //  Software Guide : EndLatex
 
@@ -610,7 +624,8 @@ main(int argc, char * argv[])
   //  The second image is the result of intentionally translating the first
   //  image by $(13,17)$ millimeters. Both images have unit-spacing and
   //  are shown in Figure \ref{fig:FixedMovingImageRegistration1}. The
-  //  registration takes 20 iterations and the resulting transform parameters are:
+  //  registration takes 20 iterations and the resulting transform parameters
+  //  are:
   //
   //  \begin{verbatim}
   //  Translation X = 13.0012
@@ -638,11 +653,12 @@ main(int argc, char * argv[])
   //  It is common, as the last step of a registration task, to use the
   //  resulting transform to map the moving image into the fixed image space.
   //
-  //  Before the mapping process, notice that we have not used the direct initialization
-  //  of the output transform in this example, so the parameters of the moving initial
-  //  transform are not reflected in the output parameters of the registration filter.
-  //  Hence, a composite transform is needed to concatenate both initial and output
-  //  transforms together.
+  //  Before the mapping process, notice that we have not used the direct
+  //  initialization of the output transform in this example, so the
+  //  parameters of the moving initial transform are not reflected in the
+  //  output parameters of the registration filter. Hence, a composite
+  //  transform is needed to concatenate both initial and output transforms
+  //  together.
   //
   //  Software Guide : EndLatex
 
@@ -651,23 +667,26 @@ main(int argc, char * argv[])
   CompositeTransformType::Pointer outputCompositeTransform =
     CompositeTransformType::New();
   outputCompositeTransform->AddTransform(movingInitialTransform);
-  outputCompositeTransform->AddTransform(registration->GetModifiableTransform());
+  outputCompositeTransform->AddTransform(
+    registration->GetModifiableTransform());
   // Software Guide : EndCodeSnippet
 
 
   //  Software Guide : BeginLatex
   //
-  //  Now the mapping process is easily done with the \doxygen{ResampleImageFilter}.
-  //  Please refer to Section~\ref{sec:ResampleImageFilter} for details on the use
-  //  of this filter.  First, a ResampleImageFilter type is instantiated
-  //  using the image types. It is convenient to use the fixed image type as
-  //  the output type since it is likely that the transformed moving image
-  //  will be compared with the fixed image.
+  //  Now the mapping process is easily done with the
+  //  \doxygen{ResampleImageFilter}. Please refer to
+  //  Section~\ref{sec:ResampleImageFilter} for details on the use of this
+  //  filter.  First, a ResampleImageFilter type is instantiated using the
+  //  image types. It is convenient to use the fixed image type as the output
+  //  type since it is likely that the transformed moving image will be
+  //  compared with the fixed image.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -707,9 +726,9 @@ main(int argc, char * argv[])
   //
   //  As described in Section \ref{sec:ResampleImageFilter}, the
   //  ResampleImageFilter requires additional parameters to be specified, in
-  //  particular, the spacing, origin and size of the output image. The default
-  //  pixel value is also set to a distinct gray level in order to highlight
-  //  the regions that are mapped outside of the moving image.
+  //  particular, the spacing, origin and size of the output image. The
+  //  default pixel value is also set to a distinct gray level in order to
+  //  highlight the regions that are mapped outside of the moving image.
   //
   //  Software Guide : EndLatex
 
@@ -730,8 +749,8 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{ImageRegistration1Output}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceBefore}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration1DifferenceAfter}
-  // \itkcaption[HelloWorld registration output images]{Mapped moving image and its
-  // difference with the fixed image before and after registration}
+  // \itkcaption[HelloWorld registration output images]{Mapped moving image
+  // and its difference with the fixed image before and after registration}
   // \label{fig:ImageRegistration1Output}
   // \end{figure}
   //
@@ -752,7 +771,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   // Software Guide : EndCodeSnippet
@@ -835,13 +855,14 @@ main(int argc, char * argv[])
   //
   //  Since the differences between the two images may correspond to very low
   //  values of intensity, we rescale those intensities with a
-  //  \doxygen{RescaleIntensityImageFilter} in order to make them more visible.
-  //  This rescaling will also make it possible to visualize the negative values
-  //  even if we save the difference image in a file format that only supports
-  //  unsigned pixel values\footnote{This is the case of PNG, BMP, JPEG and
-  //  TIFF among other common file formats.}.  We also reduce the
-  //  \code{DefaultPixelValue} to ``1'' in order to prevent that value from
-  //  absorbing the dynamic range of the differences between the two images.
+  //  \doxygen{RescaleIntensityImageFilter} in order to make them more
+  //  visible. This rescaling will also make it possible to visualize the
+  //  negative values even if we save the difference image in a file format
+  //  that only supports unsigned pixel values\footnote{This is the case of
+  //  PNG, BMP, JPEG and TIFF among other common file formats.}.  We also
+  //  reduce the \code{DefaultPixelValue} to ``1'' in order to prevent that
+  //  value from absorbing the dynamic range of the differences between the
+  //  two images.
   //
   //  Software Guide : EndLatex
 
@@ -880,13 +901,13 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  For the purpose of comparison, the difference between the fixed image and
-  //  the moving image before registration can also be computed by simply
+  //  For the purpose of comparison, the difference between the fixed image
+  //  and the moving image before registration can also be computed by simply
   //  setting the transform to an identity transform. Note that the resampling
-  //  is still necessary because the moving image does not necessarily have the
-  //  same spacing, origin and number of pixels as the fixed image. Therefore a
-  //  pixel-by-pixel operation cannot in general be performed. The resampling
-  //  process with an identity transform will ensure that we have a
+  //  is still necessary because the moving image does not necessarily have
+  //  the same spacing, origin and number of pixels as the fixed image.
+  //  Therefore a pixel-by-pixel operation cannot in general be performed. The
+  //  resampling process with an identity transform will ensure that we have a
   //  representation of the moving image in the grid of the fixed image.
   //
   //  Software Guide : EndLatex
@@ -910,8 +931,8 @@ main(int argc, char * argv[])
   //  registration method are depicted as well.  Figure
   //  \ref{fig:ImageRegistration1Output} (left) shows the result of resampling
   //  the moving image in order to map it onto the fixed image space. The top
-  //  and right borders of the image appear in the gray level selected with the
-  //  \code{SetDefaultPixelValue()} in the ResampleImageFilter. The center
+  //  and right borders of the image appear in the gray level selected with
+  //  the \code{SetDefaultPixelValue()} in the ResampleImageFilter. The center
   //  image shows the difference between the fixed image and the original
   //  moving image (i.e. the difference before the registration is
   //  performed). The right image shows the difference between the fixed image
@@ -932,10 +953,9 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceTranslations}
   // \includegraphics[height=0.44\textwidth]{ImageRegistration1TraceMetric}
-  // \itkcaption[Trace of translations and metrics during registration]{The sequence
-  // of translations and metric values at each iteration of the optimizer.}
-  // \label{fig:ImageRegistration1Trace}
-  // \end{figure}
+  // \itkcaption[Trace of translations and metrics during registration]{The
+  // sequence of translations and metric values at each iteration of the
+  // optimizer.} \label{fig:ImageRegistration1Trace} \end{figure}
   //
   //  It is always useful to keep in mind that registration is essentially an
   //  optimization problem. Figure \ref{fig:ImageRegistration1Trace} helps to
@@ -947,20 +967,21 @@ main(int argc, char * argv[])
   //  log plot helps to highlight the normal oscillations of the optimizer
   //  around the extrema value.
   //
-  //  In this section, we used a very simple example to introduce the basic components
-  //  of a registration process in ITKv4. However, studying this example alone is not
-  //  enough to start using the \doxygen{ImageRegistrationMethodv4}.
-  //  In order to choose the best registration practice for a specific application,
-  //  knowledge of other registration method instantiations and their capabilities are
-  //  required.
-  //  For example, direct initialization of the output optimizable transform is shown in
-  //  section~\ref{sec:RigidRegistrationIn2D}. This method can simplify the registration
-  //  process in many cases. Also, multi-resolution and multistage registration
-  //  approaches are illustrated in sections~\ref{sec:MultiResolutionRegistration} and
+  //  In this section, we used a very simple example to introduce the basic
+  //  components of a registration process in ITKv4. However, studying this
+  //  example alone is not enough to start using the
+  //  \doxygen{ImageRegistrationMethodv4}. In order to choose the best
+  //  registration practice for a specific application, knowledge of other
+  //  registration method instantiations and their capabilities are required.
+  //  For example, direct initialization of the output optimizable transform
+  //  is shown in section~\ref{sec:RigidRegistrationIn2D}. This method can
+  //  simplify the registration process in many cases. Also, multi-resolution
+  //  and multistage registration approaches are illustrated in
+  //  sections~\ref{sec:MultiResolutionRegistration} and
   //  ~\ref{sec:MultiStageRegistration}.
-  //  These examples illustrate the flexibility in the usage of ITKv4 registration
-  //  method framework that can help to provide faster and more reliable registration
-  //  processes.
+  //  These examples illustrate the flexibility in the usage of ITKv4
+  //  registration method framework that can help to provide faster and more
+  //  reliable registration processes.
   //
   //  Software Guide : EndLatex
 

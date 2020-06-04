@@ -65,7 +65,8 @@ main(int argc, char * argv[])
   // and blue channels.
   using GradientMagnitudeImageFilter =
     itk::VectorGradientMagnitudeImageFilter<RGB2DImageType>;
-  GradientMagnitudeImageFilter::Pointer grad = GradientMagnitudeImageFilter::New();
+  GradientMagnitudeImageFilter::Pointer grad =
+    GradientMagnitudeImageFilter::New();
   grad->SetInput(reader->GetOutput());
 
   grad->SetUseImageSpacingOn();
@@ -90,8 +91,10 @@ main(int argc, char * argv[])
   RGB2DImageType::RegionType largest =
     composeRGB->GetOutput()->GetLargestPossibleRegion();
   itk::ImageIORegion halfIO(2);
-  halfIO.SetIndex(0, largest.GetIndex(0) + (unsigned long)(0.25 * largest.GetSize(0)));
-  halfIO.SetIndex(1, largest.GetIndex(1) + (unsigned long)(0.25 * largest.GetSize(1)));
+  halfIO.SetIndex(
+    0, largest.GetIndex(0) + (unsigned long)(0.25 * largest.GetSize(0)));
+  halfIO.SetIndex(
+    1, largest.GetIndex(1) + (unsigned long)(0.25 * largest.GetSize(1)));
   halfIO.SetSize(0, (unsigned long)(0.5 * largest.GetSize(0)));
   halfIO.SetSize(1, (unsigned long)(0.5 * largest.GetSize(1)));
 
@@ -102,7 +105,8 @@ main(int argc, char * argv[])
   // enable pasting, a call to SetIORegion is made with a valid
   // region. Finally, the pipeline is updated, causing the streaming of
   // regions
-  using ToVectorImageAdaptorType = itk::RGBToVectorImageAdaptor<RGB2DImageType>;
+  using ToVectorImageAdaptorType =
+    itk::RGBToVectorImageAdaptor<RGB2DImageType>;
   ToVectorImageAdaptorType::Pointer adaptor = ToVectorImageAdaptorType::New();
   adaptor->SetImage(composeRGB->GetOutput());
 

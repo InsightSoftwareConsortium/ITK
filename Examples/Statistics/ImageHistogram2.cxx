@@ -21,7 +21,8 @@
 // From the previous example you will have noticed that there is a significant
 // number of operations to perform to compute the simple histogram of
 // a scalar image. Given that this is a relatively common operation, it is
-// convenient to encapsulate many of these operations in a single helper class.
+// convenient to encapsulate many of these operations in a single helper
+// class.
 //
 // The \subdoxygen{Statistics}{ScalarImageToHistogramGenerator} is the result
 // of such encapsulation.  This example illustrates how to compute the
@@ -95,8 +96,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   // We use now the image type in order to instantiate the type of the
-  // corresponding histogram generator class, and invoke its \code{New()} method
-  // in order to construct one.
+  // corresponding histogram generator class, and invoke its \code{New()}
+  // method in order to construct one.
   //
   // \index{itk::Statistics::Scalar\-Image\-To\-Histogram\-Generator!header}
   //
@@ -106,14 +107,15 @@ main(int argc, char * argv[])
   using HistogramGeneratorType =
     itk::Statistics::ScalarImageToHistogramGenerator<ImageType>;
 
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  HistogramGeneratorType::Pointer histogramGenerator =
+    HistogramGeneratorType::New();
   // Software Guide : EndCodeSnippet
 
 
   // Software Guide : BeginLatex
   //
-  // The image to be passed as input to the histogram generator is taken in this
-  // case from the output of an image reader.
+  // The image to be passed as input to the histogram generator is taken in
+  // this case from the output of an image reader.
   //
   // Software Guide : EndLatex
 
@@ -156,9 +158,10 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The resulting histogram can be obtained from the generator by invoking its
-  // \code{GetOutput()} method. It is also convenient to get the Histogram type
-  // from the traits of the generator type itself as shown in the code below.
+  // The resulting histogram can be obtained from the generator by invoking
+  // its \code{GetOutput()} method. It is also convenient to get the Histogram
+  // type from the traits of the generator type itself as shown in the code
+  // below.
   //
   // Software Guide : EndLatex
 

@@ -18,15 +18,15 @@
 
 /**
  * This example program shows how to reade/write the ITK object
- * itk::ParticleSwarmOptimizer using the traditional SAX-based API and the newly
- * introduced DOM-based API.
+ * itk::ParticleSwarmOptimizer using the traditional SAX-based API and the
+ * newly introduced DOM-based API.
  *
- * The program reads a PSO XML file (arg1) using both DOM-based and SAX-based readers,
- * then writes out the loaded PSO object using both DOM-based (arg2) and SAX-based
- * (arg3) writers.
+ * The program reads a PSO XML file (arg1) using both DOM-based and SAX-based
+ * readers, then writes out the loaded PSO object using both DOM-based (arg2)
+ * and SAX-based (arg3) writers.
  *
- * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example XML file for
- * the PSO object.
+ * Please see [ITK_HOME]/Testing/Data/InputXML/test.pso.xml for an example XML
+ * file for the PSO object.
  */
 
 #include "itkParticleSwarmOptimizer.h"
@@ -45,9 +45,10 @@ main(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "arguments expected: test-input.pso.xml test-output-DOM.pso.xml "
-                 "test-output-SAX.pso.xml"
-              << std::endl;
+    std::cerr
+      << "arguments expected: test-input.pso.xml test-output-DOM.pso.xml "
+         "test-output-SAX.pso.xml"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -77,8 +78,9 @@ main(int argc, char * argv[])
       // read the optimizer from an XML file
       itk::ParticleSwarmOptimizerSAXReader::Pointer reader =
         itk::ParticleSwarmOptimizerSAXReader::New();
-      reader->SetOutputObject(optimizer); // method defined in itk::XMLReader<T>
-      reader->SetFilename(argv[1]);       // method defined in itk::XMLReaderBase
+      reader->SetOutputObject(
+        optimizer);                 // method defined in itk::XMLReader<T>
+      reader->SetFilename(argv[1]); // method defined in itk::XMLReaderBase
       reader->ReadFile();
       // write a DOM object to an XML file
       itk::ParticleSwarmOptimizerSAXWriter::Pointer writer =

@@ -64,9 +64,10 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0]
-              << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] "
-              << std::endl;
+    std::cerr
+      << argv[0]
+      << "  inputImageFile  outputImageFile  sigma [RescaledOutputImageFile] "
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -108,7 +109,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RecursiveGaussianImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::RecursiveGaussianImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -119,11 +121,11 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  This filter applies the approximation of the convolution along a single
-  //  dimension. It is therefore necessary to concatenate several of these filters
-  //  to produce smoothing in all directions.  In this example, we create a pair
-  //  of filters since we are processing a $2D$ image.  The filters are
-  //  created by invoking the \code{New()} method and assigning the result to
-  //  a \doxygen{SmartPointer}.
+  //  dimension. It is therefore necessary to concatenate several of these
+  //  filters to produce smoothing in all directions.  In this example, we
+  //  create a pair of filters since we are processing a $2D$ image.  The
+  //  filters are created by invoking the \code{New()} method and assigning
+  //  the result to a \doxygen{SmartPointer}.
   //
   //  We need two filters for computing the X component of the Laplacian and
   //  two other filters for computing the Y component.
@@ -145,7 +147,8 @@ main(int argc, char * argv[])
   //
   //  Since each one of the newly created filters has the potential to perform
   //  filtering along any dimension, we have to restrict each one to a
-  //  particular direction. This is done with the \code{SetDirection()} method.
+  //  particular direction. This is done with the \code{SetDirection()}
+  //  method.
   //
   //  \index{RecursiveGaussianImageFilter!SetDirection()}
   //
@@ -167,9 +170,9 @@ main(int argc, char * argv[])
   //  derivatives. We select one of these options by using the
   //  \code{SetOrder()} method. Note that the argument is an \code{enum} whose
   //  values can be \code{ZeroOrder}, \code{FirstOrder} and
-  //  \code{SecondOrder}. For example, to compute the $x$ partial derivative we
-  //  should select \code{FirstOrder} for $x$ and \code{ZeroOrder} for
-  //  $y$. Here we want only to smooth in $x$ and $y$, so we select
+  //  \code{SecondOrder}. For example, to compute the $x$ partial derivative
+  //  we should select \code{FirstOrder} for $x$ and \code{ZeroOrder} for $y$.
+  //  Here we want only to smooth in $x$ and $y$, so we select
   //  \code{ZeroOrder} in both directions.
   //
   //  \index{RecursiveGaussianImageFilter!SetOrder()}
@@ -205,12 +208,13 @@ main(int argc, char * argv[])
   //          \frac{ 1 }{ \sigma^2  \sqrt{ 2 \pi } }
   //  \end{equation}
   //
-  //  The \doxygen{RecursiveGaussianImageFilter} has a boolean flag that allows
-  //  users to select between these two normalization options. Selection is
-  //  done with the method \code{SetNormalizeAcrossScale()}. Enable this flag
-  //  when analyzing an image across scale-space.  In the current example, this
-  //  setting has no impact because we are actually renormalizing the output to
-  //  the dynamic range of the reader, so we simply disable the flag.
+  //  The \doxygen{RecursiveGaussianImageFilter} has a boolean flag that
+  //  allows users to select between these two normalization options.
+  //  Selection is done with the method \code{SetNormalizeAcrossScale()}.
+  //  Enable this flag when analyzing an image across scale-space.  In the
+  //  current example, this setting has no impact because we are actually
+  //  renormalizing the output to the dynamic range of the reader, so we
+  //  simply disable the flag.
   //
   //  \index{RecursiveGaussianImageFilter!SetNormalizeAcrossScale()}
   //
@@ -228,14 +232,14 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The input image can be obtained from the output of another
-  //  filter. Here, an image reader is used as the source. The image is passed to
-  //  the $x$ filter and then to the $y$ filter. The reason for keeping these
-  //  two filters separate is that it is usual in scale-space applications to
-  //  compute not only the smoothing but also combinations of derivatives at
-  //  different orders and smoothing. Some factorization is possible when
-  //  separate filters are used to generate the intermediate results. Here
-  //  this capability is less interesting, though, since we only want to smooth
-  //  the image in all directions.
+  //  filter. Here, an image reader is used as the source. The image is passed
+  //  to the $x$ filter and then to the $y$ filter. The reason for keeping
+  //  these two filters separate is that it is usual in scale-space
+  //  applications to compute not only the smoothing but also combinations of
+  //  derivatives at different orders and smoothing. Some factorization is
+  //  possible when separate filters are used to generate the intermediate
+  //  results. Here this capability is less interesting, though, since we only
+  //  want to smooth the image in all directions.
   //
   //  Software Guide : EndLatex
 
@@ -273,8 +277,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Finally the two components of the Laplacian should be added together. The
-  //  \doxygen{AddImageFilter} is used for this purpose.
+  //  Finally the two components of the Laplacian should be added together.
+  //  The \doxygen{AddImageFilter} is used for this purpose.
   //
   //  \index{itk::AddImageFilter!Instantiation}
   //
@@ -342,9 +346,9 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilterOutput3}
   // \includegraphics[width=0.44\textwidth]{LaplacianRecursiveGaussianImageFilterOutput5}
-  // \itkcaption[Output of the LaplacianRecursiveGaussianImageFilter.]{Effect of the
-  // LaplacianRecursiveGaussianImageFilter on a slice from a MRI proton density image
-  // of the brain.}
+  // \itkcaption[Output of the LaplacianRecursiveGaussianImageFilter.]{Effect
+  // of the LaplacianRecursiveGaussianImageFilter on a slice from a MRI proton
+  // density image of the brain.}
   // \label{fig:LaplacianRecursiveGaussianImageFilterInputOutput}
   // \end{figure}
   //
