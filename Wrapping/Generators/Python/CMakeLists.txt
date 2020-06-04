@@ -230,7 +230,8 @@ macro(itk_wrap_module_python library_name)
   set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "")
   set(ITK_WRAP_PYTHON_LIBRARY_DEPS )
   set(ITK_WRAP_PYTHON_LIBRARY_DECLS )
-  set(ITK_WRAP_PYTHON_LIBRARY_CALLS )
+  set(ITK_WRAP_PYTHON_LIBRARY_CALLS "
+  PyObject * sysModules = PyImport_GetModuleDict();\n")
   set(ITK_WRAP_PYTHON_CXX_FILES )
   if(MSVC)
     get_filename_component(python_library_directory "${Python3_LIBRARY}" DIRECTORY)
@@ -343,13 +344,13 @@ macro(itk_end_wrap_module_python)
 
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     set(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS "'${dep}', ${ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS}")
-    set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import ${dep}Python\n${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}")
+    set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import itk.${dep}Python\n${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}")
   endforeach()
 
   # ITKPyBase is always included, excepted ITKPyBase itself
   if(NOT "${WRAPPER_LIBRARY_NAME}" STREQUAL "ITKPyBase")
     set(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS "'ITKPyBase', ${ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS}")
-    set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import ITKPyBasePython\n${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}")
+    set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import itk.ITKPyBasePython\n${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}")
   endif()
 
   # and create the file, with the var ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES and
@@ -580,13 +581,12 @@ macro(itk_end_wrap_submodule_python group_name)
   # first the extern c declaration and then the call of the extern function
   set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC PyInit__${group_name}Python();\n")
   set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS}
-  PyObject * ${group_name}SysModules = PyImport_GetModuleDict();
-  PyObject * ${group_name}AlreadyImported = PyDict_GetItemString(${group_name}SysModules, \"_${group_name}Python\");
+  PyObject * ${group_name}AlreadyImported = PyDict_GetItemString(sysModules, \"itk._${group_name}Python\");
   if( ${group_name}AlreadyImported == NULL )
     {
-    PyImport_AddModule( \"_${group_name}Python\" );
+    PyImport_AddModule( \"itk._${group_name}Python\" );
     PyObject * ${group_name}Module = PyInit__${group_name}Python();
-    PyDict_SetItemString( ${group_name}SysModules, \"_${group_name}Python\", ${group_name}Module );
+    PyDict_SetItemString( sysModules, \"itk._${group_name}Python\", ${group_name}Module );
     Py_DECREF( ${group_name}Module );
     }
 ")
@@ -627,7 +627,7 @@ macro(itk_wrap_submodule_python module)
   set(ITK_WRAP_PYTHON_SWIG_EXT "\n")
 
   # register the module for the lib module
-  set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from ${module}Python import *\n")
+  set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from itk.${module}Python import *\n")
 
 endmacro()
 

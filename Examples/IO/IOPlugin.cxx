@@ -25,7 +25,8 @@ main(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cout << "Usage: " << argv[0] << " FileName Output [FactoryPath]" << std::endl;
+    std::cout << "Usage: " << argv[0] << " FileName Output [FactoryPath]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -65,14 +66,18 @@ main(int argc, char * argv[])
   {
     for (auto & factory : factories)
     {
-      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
-                << "  Factory description: " << factory->GetDescription() << std::endl
-                << "  Library Path: " << factory->GetLibraryPath() << std::endl;
+      std::cout << "  Factory version: " << factory->GetITKSourceVersion()
+                << std::endl
+                << "  Factory description: " << factory->GetDescription()
+                << std::endl
+                << "  Library Path: " << factory->GetLibraryPath()
+                << std::endl;
 
       std::list<std::string> overrides = factory->GetClassOverrideNames();
       std::list<std::string> names = factory->GetClassOverrideWithNames();
-      std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
-      std::list<bool>        enableflags = factory->GetEnableFlags();
+      std::list<std::string> descriptions =
+        factory->GetClassOverrideDescriptions();
+      std::list<bool> enableflags = factory->GetEnableFlags();
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
       std::list<bool>::const_iterator        e = enableflags.begin();
@@ -113,7 +118,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & ex)
     {
-      std::cout << "------------------ Caught unexpected exception!" << std::endl;
+      std::cout << "------------------ Caught unexpected exception!"
+                << std::endl;
       std::cout << ex;
       status = EXIT_FAILURE;
     }
@@ -125,7 +131,8 @@ main(int argc, char * argv[])
     }
     catch (const itk::ExceptionObject & ex)
     {
-      std::cout << "------------------ Caught expected exception!" << std::endl;
+      std::cout << "------------------ Caught expected exception!"
+                << std::endl;
       std::cout << ex;
     }
   }
@@ -145,14 +152,19 @@ main(int argc, char * argv[])
     for (auto & factory : factories)
     {
       std::cout << "check " << (void *)factory << std::endl;
-      std::cout << "  Factory version: " << factory->GetITKSourceVersion() << std::endl
-                << "  Factory description: " << factory->GetDescription() << std::endl;
+      std::cout << "  Factory version: " << factory->GetITKSourceVersion()
+                << std::endl
+                << "  Factory description: " << factory->GetDescription()
+                << std::endl;
 
       std::list<std::string> overrides = factory->GetClassOverrideNames();
-      std::cout << "ClassOverrideNames size: " << overrides.size() << std::endl;
+      std::cout << "ClassOverrideNames size: " << overrides.size()
+                << std::endl;
       std::list<std::string> names = factory->GetClassOverrideWithNames();
-      std::cout << "ClassOverrideWithNames size: " << names.size() << std::endl;
-      std::list<std::string> descriptions = factory->GetClassOverrideDescriptions();
+      std::cout << "ClassOverrideWithNames size: " << names.size()
+                << std::endl;
+      std::list<std::string> descriptions =
+        factory->GetClassOverrideDescriptions();
       std::cout << "ClassOverrideDescriptions size: " << descriptions.size()
                 << std::endl;
       std::list<bool> enableflags = factory->GetEnableFlags();

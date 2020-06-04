@@ -25,7 +25,7 @@
 //
 // \index{Iterators!speed}
 // The ``WithIndex'' family of iterators was designed for algorithms that
-// use both the value and the location of image pixels in calculations.  Unlike
+// use both the value and the location of image pixels in calculations. Unlike
 // \doxygen{ImageRegionIterator}, which calculates an index only when
 // asked for, \doxygen{ImageRegionIteratorWithIndex} maintains its
 // index location as a member variable that is updated during the increment or
@@ -66,8 +66,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // For this example, we will use an RGB pixel type so that we can process color
-  // images. Like most other ITK image iterator,
+  // For this example, we will use an RGB pixel type so that we can process
+  // color images. Like most other ITK image iterator,
   // ImageRegionIteratorWithIndex class expects the image type as its
   // single template parameter.
   //
@@ -136,8 +136,10 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::IndexType requestedIndex = outputImage->GetRequestedRegion().GetIndex();
-  ImageType::SizeType  requestedSize = outputImage->GetRequestedRegion().GetSize();
+  ImageType::IndexType requestedIndex =
+    outputImage->GetRequestedRegion().GetIndex();
+  ImageType::SizeType requestedSize =
+    outputImage->GetRequestedRegion().GetSize();
 
   for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
   {
@@ -163,17 +165,17 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Let's run this example on the image \code{VisibleWomanEyeSlice.png} found in
-  // the \code{Examples/Data} directory.
-  // Figure~\ref{fig:ImageRegionIteratorWithIndexExample} shows how the original
-  // image has been mirrored across its $x$-axis in the output.
+  // Let's run this example on the image \code{VisibleWomanEyeSlice.png} found
+  // in the \code{Examples/Data} directory.
+  // Figure~\ref{fig:ImageRegionIteratorWithIndexExample} shows how the
+  // original image has been mirrored across its $x$-axis in the output.
   //
   // \begin{figure} \center
   // \includegraphics[width=0.44\textwidth]{VisibleWomanEyeSlice}
   // \includegraphics[width=0.44\textwidth]{ImageRegionIteratorWithIndexOutput}
   // \itkcaption[Using the ImageRegionIteratorWithIndex]{Results of using
-  // ImageRegionIteratorWithIndex to mirror an image across an axis. The original
-  // image is shown at left.  The mirrored output is shown at right.}
+  // ImageRegionIteratorWithIndex to mirror an image across an axis. The
+  // original image is shown at left.  The mirrored output is shown at right.}
   // \label{fig:ImageRegionIteratorWithIndexExample}
   // \end{figure}
   //

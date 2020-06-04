@@ -16,9 +16,10 @@
  *
  *=========================================================================*/
 //
-// This example shows how to use the DiffusionTensor3DReconstructionImageFilter
-// to reconstruct an image of tensors from Diffusion weighted images. See the
-// documentation of DiffusionTensor3DReconstructionImageFilter,
+// This example shows how to use the
+// DiffusionTensor3DReconstructionImageFilter to reconstruct an image of
+// tensors from Diffusion weighted images. See the documentation of
+// DiffusionTensor3DReconstructionImageFilter,
 // TensorRelativeAnisotropyImageFilter, TensorFractionalAnisotropyImageFilter
 // first.
 //
@@ -26,7 +27,8 @@
 // the gradient and reference images for the users reference and computes and
 // writes out the Fractional Anisotropy and Relative Anisotropy images.
 //
-// The easiest way to get started is to try out the filter on a sample dataset.
+// The easiest way to get started is to try out the filter on a sample
+// dataset.
 //
 // Acquiring sample datasets:
 //  1. Get the DWI datasets from
@@ -36,11 +38,13 @@
 //     images. See the nrrd header for details such as B value etc.
 //
 //  2. Run the example with the following args
-//       dwi.nhdr 80 Tensors.mhd FractionalAnisotropy.mhd RelativeAnisotropy.mhd 1
+//       dwi.nhdr 80 Tensors.mhd FractionalAnisotropy.mhd
+//       RelativeAnisotropy.mhd 1
 //
-//  3. You should find 30 gradient images, 1 reference image, the FA and RA images
-//     in your working directory, which you can fire up in your favourite volume
-//     browser.
+//  3. You should find 30 gradient images, 1 reference image, the FA and RA
+//  images
+//     in your working directory, which you can fire up in your favourite
+//     volume browser.
 //
 // This work is part of the National Alliance for Medical Image
 // Computing (NAMIC), funded by the National Institutes of Health
@@ -65,7 +69,8 @@ main(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " NrrdFileName(.nhdr) threshold(on B0)"
+    std::cerr << "Usage: " << argv[0]
+              << " NrrdFileName(.nhdr) threshold(on B0)"
               << " FAImageFileName RelativeAnisotropyFileName "
               << "[ExtractGradientAndReferenceImage from the NRRD file and "
               << "write them as images]" << std::endl;
@@ -90,8 +95,8 @@ main(int argc, char * argv[])
   // Set the properties for NrrdReader
   reader->SetFileName(argv[1]);
 
-  // Read in the nrrd data. The file contains the reference image and the gradient
-  // images.
+  // Read in the nrrd data. The file contains the reference image and the
+  // gradient images.
   try
   {
     reader->Update();
@@ -106,17 +111,18 @@ main(int argc, char * argv[])
   // Here we instantiate the DiffusionTensor3DReconstructionImageFilter class.
   // The class is templated over the pixel types of the reference, gradient
   // and the to be created tensor pixel's precision. (We use double here). It
-  // takes as input the Reference (B0 image aquired in the absence of diffusion
-  // sensitizing gradients), 'n' Gradient images and their directions and produces
-  // as output an image of tensors with pixel-type DiffusionTensor3D.
+  // takes as input the Reference (B0 image aquired in the absence of
+  // diffusion sensitizing gradients), 'n' Gradient images and their
+  // directions and produces as output an image of tensors with pixel-type
+  // DiffusionTensor3D.
   //
-  using TensorReconstructionImageFilterType =
-    itk::DiffusionTensor3DReconstructionImageFilter<PixelType, PixelType, double>;
+  using TensorReconstructionImageFilterType = itk::
+    DiffusionTensor3DReconstructionImageFilter<PixelType, PixelType, double>;
 
 
   // -------------------------------------------------------------------------
-  // Parse the Nrrd headers to get the B value and the gradient directions used
-  // for diffusion weighting.
+  // Parse the Nrrd headers to get the B value and the gradient directions
+  // used for diffusion weighting.
   //
   // The Nrrd headers should look like :
   // The tags specify the B value and the gradient directions. If gradient
@@ -136,8 +142,8 @@ main(int argc, char * argv[])
 
   TensorReconstructionImageFilterType::GradientDirectionType vect3d;
   TensorReconstructionImageFilterType::GradientDirectionContainerType::Pointer
-    DiffusionVectors =
-      TensorReconstructionImageFilterType::GradientDirectionContainerType::New();
+    DiffusionVectors = TensorReconstructionImageFilterType::
+      GradientDirectionContainerType::New();
 
 
   for (; itKey != imgMetaKeys.end(); ++itKey)
@@ -182,10 +188,11 @@ main(int argc, char * argv[])
   // Extract the Reference and gradient images from the NRRD file
   // as seperate images.
   //
-  // This is not really necessary, the filter is capable of gobbling the entire
-  // VectorImage (which contains the reference and the gradient image) and chew
-  // on it to generate the TensorImage. This is a more intuitive formalism
-  // since this is what is usually obtained from the Nrrd DWI format.
+  // This is not really necessary, the filter is capable of gobbling the
+  // entire VectorImage (which contains the reference and the gradient image)
+  // and chew on it to generate the TensorImage. This is a more intuitive
+  // formalism since this is what is usually obtained from the Nrrd DWI
+  // format.
   //
   // Nevertheless, we go through the "unnecessary pain" of extracting the
   // gradient and reference images in separate images and writing them out to
@@ -240,7 +247,8 @@ main(int argc, char * argv[])
       GradientWriterType::Pointer gradientWriter = GradientWriterType::New();
       gradientWriter->SetInput(imageContainer[i]);
       char filename[100];
-      if (DiffusionVectors->ElementAt(i).two_norm() <= 0.0) // this is a reference image
+      if (DiffusionVectors->ElementAt(i).two_norm() <=
+          0.0) // this is a reference image
       {
         std::string fn("ReferenceImage%d.mhd");
         sprintf(filename, fn.c_str(), referenceImageIndex);
@@ -263,12 +271,13 @@ main(int argc, char * argv[])
 
   // The reference and the gradient images are conveniently provided as
   // input to the DiffusionTensor3DReconstructionImageFilter as
-  //   filter->SetGradientImage( directionsContainer, nrrdreader->GetOutput() );
+  //   filter->SetGradientImage( directionsContainer, nrrdreader->GetOutput()
+  //   );
   //
   // The output of the nrrdreader is a VectorImage (akin to a multicomponent
   // 3D image). The nth component image is treated as a reference image if its
-  // corresponding gradient direction is (0,0,0). Any number of reference images
-  // may be specified.
+  // corresponding gradient direction is (0,0,0). Any number of reference
+  // images may be specified.
   //
   // An alternate way to provide the inputs, when you have the reference and
   // gradient images in seperate itk::Image< type, 3 > is  :
@@ -277,7 +286,8 @@ main(int argc, char * argv[])
   //   tensorReconstructionFilter->AddGradientImage( direction1, image1 );
   //   tensorReconstructionFilter->AddGradientImage( direction2, image2 );
   //
-  tensorReconstructionFilter->SetGradientImage(DiffusionVectors, reader->GetOutput());
+  tensorReconstructionFilter->SetGradientImage(DiffusionVectors,
+                                               reader->GetOutput());
 
   // This is necessary until we fix netlib/dsvdc.c
   tensorReconstructionFilter->SetNumberOfWorkUnits(1);
@@ -293,8 +303,8 @@ main(int argc, char * argv[])
   // Write out the image of tensors. This code snippet goes to show that you
   // can use itk::ImageFileWriter to write an image of tensors.
   //
-  using TensorWriterType =
-    itk::ImageFileWriter<TensorReconstructionImageFilterType::OutputImageType>;
+  using TensorWriterType = itk::ImageFileWriter<
+    TensorReconstructionImageFilterType::OutputImageType>;
   TensorWriterType::Pointer tensorWriter = TensorWriterType::New();
   tensorWriter->SetFileName(argv[3]);
   tensorWriter->SetInput(tensorReconstructionFilter->GetOutput());
@@ -303,10 +313,11 @@ main(int argc, char * argv[])
 
   // -------------------------------------------------------------------------
   // Now that we have the image of tensors, we may use one of the many tensor
-  // filters in ITK. Below, we use the TensorFractionalAnisotropyImageFilter to
-  // compute the FA.
+  // filters in ITK. Below, we use the TensorFractionalAnisotropyImageFilter
+  // to compute the FA.
   //
-  using TensorPixelType = TensorReconstructionImageFilterType::TensorPixelType;
+  using TensorPixelType =
+    TensorReconstructionImageFilterType::TensorPixelType;
   using RealValueType = TensorPixelType::RealValueType;
   using FAImageType = itk::Image<RealValueType, Dimension>;
   using FAFilterType = itk::TensorFractionalAnisotropyImageFilter<
@@ -314,7 +325,8 @@ main(int argc, char * argv[])
     FAImageType>;
 
   FAFilterType::Pointer fractionalAnisotropyFilter = FAFilterType::New();
-  fractionalAnisotropyFilter->SetInput(tensorReconstructionFilter->GetOutput());
+  fractionalAnisotropyFilter->SetInput(
+    tensorReconstructionFilter->GetOutput());
 
   // Write the FA image
   //
@@ -326,7 +338,8 @@ main(int argc, char * argv[])
 
   // Compute and write the Relative Anisotropy
   //
-  using TensorPixelType = TensorReconstructionImageFilterType::TensorPixelType;
+  using TensorPixelType =
+    TensorReconstructionImageFilterType::TensorPixelType;
   using RealValueType = TensorPixelType::RealValueType;
   using RAImageType = itk::Image<RealValueType, Dimension>;
   using RAFilterType = itk::TensorRelativeAnisotropyImageFilter<

@@ -16,7 +16,8 @@
  *
  *=========================================================================*/
 
-//  Command Line Arguments: Insight/Testing/Data/LandmarkWarping3Landmarks1.txt
+//  Command Line Arguments:
+//  Insight/Testing/Data/LandmarkWarping3Landmarks1.txt
 //                          inputImage  deformedImage deformationField
 //
 //  Software Guide : BeginLatex
@@ -68,8 +69,10 @@ main(int argc, char * argv[])
   using PointType = itk::Point<CoordinateRepType, ImageDimension>;
   using PointSetType = TransformType::PointSetType;
   using PointIdType = PointSetType::PointIdentifier;
-  using ResamplerType = itk::ResampleImageFilter<InputImageType, InputImageType>;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, double>;
+  using ResamplerType =
+    itk::ResampleImageFilter<InputImageType, InputImageType>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<InputImageType, double>;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[2]);
@@ -88,18 +91,19 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Landmarks correspondances may be associated with the SplineKernelTransforms
-  // via Point Set containers. Let us define containers for the landmarks.
+  // Landmarks correspondances may be associated with the
+  // SplineKernelTransforms via Point Set containers. Let us define containers
+  // for the landmarks.
   //
   // Software Guide : EndLatex
 
   // Define container for landmarks
 
   // Software Guide : BeginCodeSnippet
-  PointSetType::Pointer                  sourceLandMarks = PointSetType::New();
-  PointSetType::Pointer                  targetLandMarks = PointSetType::New();
-  PointType                              p1;
-  PointType                              p2;
+  PointSetType::Pointer sourceLandMarks = PointSetType::New();
+  PointSetType::Pointer targetLandMarks = PointSetType::New();
+  PointType             p1;
+  PointType             p2;
   PointSetType::PointsContainer::Pointer sourceLandMarkContainer =
     sourceLandMarks->GetPoints();
   PointSetType::PointsContainer::Pointer targetLandMarkContainer =
@@ -159,7 +163,8 @@ main(int argc, char * argv[])
   resampler->SetInput(reader->GetOutput());
 
   // Set and write deformed image
-  DeformedImageWriterType::Pointer deformedImageWriter = DeformedImageWriterType::New();
+  DeformedImageWriterType::Pointer deformedImageWriter =
+    DeformedImageWriterType::New();
   deformedImageWriter->SetInput(resampler->GetOutput());
   deformedImageWriter->SetFileName(argv[3]);
 

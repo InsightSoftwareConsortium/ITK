@@ -130,7 +130,8 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  All the pixel values on the PointSet are visited using the following code.
+  //  All the pixel values on the PointSet are visited using the following
+  //  code.
   //
   //  \index{itk::PointSet!GetPointData()}
   //  \index{itk::PointSet!data iterator}

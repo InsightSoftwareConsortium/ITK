@@ -19,7 +19,8 @@
 #include "itkConfigure.h"
 
 //
-// This example is based on the on that was contributed by Stephan in the users list
+// This example is based on the on that was contributed by Stephan in the
+// users list
 //
 //     http://public.kitware.com/pipermail/insight-users/2005-June/013482.html
 //
@@ -43,8 +44,8 @@
 
 #if !defined(ITK_USE_FFTWF)
 //#error "This example only works when single precision FFTW is used
-// Changing WorkPixeltype to double and changing this conditional to ITK_USE_FFTWD
-// will also work.
+// Changing WorkPixeltype to double and changing this conditional to
+// ITK_USE_FFTWD will also work.
 #endif
 
 int
@@ -100,7 +101,8 @@ main(int argc, char * argv[])
   using invFFTFilterType = itk::FFTWInverseFFTImageFilter<ComplexImageType>;
 
   invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
-  fftoutput->SetInput(fftinput->GetOutput()); // try to recover the input image
+  fftoutput->SetInput(
+    fftinput->GetOutput()); // try to recover the input image
   fftoutput->Update();
 
   // Rescale the output to suit the output image type
@@ -121,12 +123,12 @@ main(int argc, char * argv[])
   writer->Update();
 
   // DEBUG: std::cout << "inputreader
-  // "<<inputreader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
-  // DEBUG: std::cout << "fftinput "
-  // <<fftinput->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl; DEBUG:
-  // std::cout << "fftoutput "
-  // <<fftoutput->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl; DEBUG:
-  // std::cout << "intensityrescaller "
+  // "<<inputreader->GetOutput()->GetLargestPossibleRegion().GetSize() <<
+  // std::endl; DEBUG: std::cout << "fftinput "
+  // <<fftinput->GetOutput()->GetLargestPossibleRegion().GetSize() <<
+  // std::endl; DEBUG: std::cout << "fftoutput "
+  // <<fftoutput->GetOutput()->GetLargestPossibleRegion().GetSize() <<
+  // std::endl; DEBUG: std::cout << "intensityrescaller "
   // <<intensityrescaler->GetOutput()->GetLargestPossibleRegion().GetSize() <<
   // std::endl;
   return EXIT_SUCCESS;

@@ -70,8 +70,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We can now define the \code{ImageSpatialObject} which is templated over the
-  // dimension and the pixel type of the image.
+  // We can now define the \code{ImageSpatialObject} which is templated over
+  // the dimension and the pixel type of the image.
   //
   // Software Guide : EndLatex
 
@@ -97,9 +97,9 @@ main(int, char *[])
   // At this point we can use \code{IsInsideInWorldSpace()},
   // \code{IsInsideInObjectSpace()}, \code{ValueAtInWorldSpace()},
   // \code{ValueAtInObjectSpace()}, \code{DerivativeAtInWorldSpace()},
-  // and \code{DerivativeAtInObjectSpace()} functions inherent in SpatialObjects.
-  // The \code{IsInsideInWorldSpace()} value can be particularly useful when
-  // dealing with registration.
+  // and \code{DerivativeAtInObjectSpace()} functions inherent in
+  // SpatialObjects. The \code{IsInsideInWorldSpace()} value can be
+  // particularly useful when dealing with registration.
   //
   // Software Guide : EndLatex
 
@@ -124,19 +124,19 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   double returnedValue;
   imageSO->ValueAtInWorldSpace(insidePoint, returnedValue);
-  std::cout << "ValueAt(" << insidePoint << ") = " << returnedValue << std::endl;
+  std::cout << "ValueAt(" << insidePoint << ") = " << returnedValue
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  //  The derivative at a specified position in space can be computed using the
-  //  \code{DerivativeAtInWorldSpace()} function. The first argument is the
-  //  point in
-  //  physical coordinates where we are evaluating the derivatives. The second
-  //  argument is the order of the derivation, and the third argument is the
-  //  result expressed as a \doxygen{Vector}.  Derivatives are computed
-  //  iteratively using finite differences and, like the
-  //  \code{ValueAtInWorldSpace()}, no interpolator is used.
+  //  The derivative at a specified position in space can be computed using
+  //  the \code{DerivativeAtInWorldSpace()} function. The first argument is
+  //  the point in physical coordinates where we are evaluating the
+  //  derivatives. The second argument is the order of the derivation, and the
+  //  third argument is the result expressed as a \doxygen{Vector}.
+  //  Derivatives are computed iteratively using finite differences and, like
+  //  the \code{ValueAtInWorldSpace()}, no interpolator is used.
   //
   // Software Guide : EndLatex
 

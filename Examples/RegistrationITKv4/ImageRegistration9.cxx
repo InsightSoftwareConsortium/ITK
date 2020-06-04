@@ -28,8 +28,8 @@
 // Software Guide : BeginLatex
 //
 // This example illustrates the use of the \doxygen{AffineTransform}
-// for performing registration in $2D$. The example code is, for the most part,
-// identical to that in \ref{sec:InitializingRegistrationWithMoments}.
+// for performing registration in $2D$. The example code is, for the most
+// part, identical to that in \ref{sec:InitializingRegistrationWithMoments}.
 // The main difference is the use of the AffineTransform here instead of the
 // \doxygen{Euler2DTransform}. We will focus on the most
 // relevant changes in the current code and skip the basic elements already
@@ -116,7 +116,8 @@ public:
     vnl_matrix<double> r(2, 2);
     r = svd.U() * vnl_transpose(svd.V());
     double angle = std::asin(r[1][0]);
-    std::cout << " AffineAngle: " << angle * 180.0 / itk::Math::pi << std::endl;
+    std::cout << " AffineAngle: " << angle * 180.0 / itk::Math::pi
+              << std::endl;
   }
 };
 
@@ -129,7 +130,8 @@ main(int argc, char * argv[])
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << "   fixedImageFile  movingImageFile " << std::endl;
-    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << std::endl;
+    std::cerr << "   outputImagefile  [differenceBeforeRegistration] "
+              << std::endl;
     std::cerr << "   [differenceAfterRegistration] " << std::endl;
     std::cerr << "   [stepLength] [maxNumberOfIterations] " << std::endl;
     return EXIT_FAILURE;
@@ -169,8 +171,8 @@ main(int argc, char * argv[])
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
   using MetricType =
     itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
-  using RegistrationType =
-    itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
+  using RegistrationType = itk::
+    ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
   MetricType::Pointer       metric = MetricType::New();
   OptimizerType::Pointer    optimizer = OptimizerType::New();
@@ -198,8 +200,10 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
@@ -220,8 +224,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
   initializer->SetMovingImage(movingImageReader->GetOutput());
@@ -232,9 +239,9 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Now we pass the transform object to the registration filter, and it will be
-  //  grafted to the output transform of the registration filter by updating its
-  //  parameters during the the registration process.
+  //  Now we pass the transform object to the registration filter, and it will
+  //  be grafted to the output transform of the registration filter by
+  //  updating its parameters during the the registration process.
   //
   //  Software Guide : EndLatex
 
@@ -283,10 +290,10 @@ main(int argc, char * argv[])
   //
   //  We also set the usual parameters of the optimization method. In this
   //  case we are using an
-  //  \doxygen{RegularStepGradientDescentOptimizerv4} as before. Below, we define the
-  //  optimization parameters like learning rate (initial step length), minimum
-  //  step length and number of iterations. These last two act as stopping
-  //  criteria for the optimization.
+  //  \doxygen{RegularStepGradientDescentOptimizerv4} as before. Below, we
+  //  define the optimization parameters like learning rate (initial step
+  //  length), minimum step length and number of iterations. These last two
+  //  act as stopping criteria for the optimization.
   //
   //  Software Guide : EndLatex
 
@@ -475,11 +482,9 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceBefore}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration9DifferenceAfter}
   // \itkcaption[AffineTransform output images]{The resampled moving image
-  // (left), and the difference between the fixed and moving images before (center)
-  // and after (right) registration with the
-  // AffineTransform transform.}
-  // \label{fig:ImageRegistration9Outputs}
-  // \end{figure}
+  // (left), and the difference between the fixed and moving images before
+  // (center) and after (right) registration with the AffineTransform
+  // transform.} \label{fig:ImageRegistration9Outputs} \end{figure}
   //
   // Figure \ref{fig:ImageRegistration9Outputs} shows the output of the
   // registration. The right most image of this figure shows the squared
@@ -498,12 +503,12 @@ main(int argc, char * argv[])
   // \end{figure}
   //
   //  Figure \ref{fig:ImageRegistration9Plots} shows the plots of the main
-  //  output parameters of the registration process. The metric values at every
-  //  iteration are shown on the left plot. The angle values are shown on the middle
-  //  plot, while the translation components of the registration are presented on the
-  //  right plot. Note that the final total offset of the transform is to be computed as
-  //  a combination of the shift due to rotation plus the explicit translation set on
-  //  the transform.
+  //  output parameters of the registration process. The metric values at
+  //  every iteration are shown on the left plot. The angle values are shown
+  //  on the middle plot, while the translation components of the registration
+  //  are presented on the right plot. Note that the final total offset of the
+  //  transform is to be computed as a combination of the shift due to
+  //  rotation plus the explicit translation set on the transform.
   //
   //  Software Guide : EndLatex
 
@@ -511,9 +516,10 @@ main(int argc, char * argv[])
   //  The following code is used to dump output images to files.
   //  They illustrate the final results of the registration.
   //  We will resample the moving image and write out the difference image
-  //  before and after registration. We will also rescale the intensities of the
-  //  difference images, so that they look better!
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  //  before and after registration. We will also rescale the intensities of
+  //  the difference images, so that they look better!
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
@@ -532,7 +538,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 

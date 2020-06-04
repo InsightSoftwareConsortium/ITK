@@ -23,10 +23,10 @@
 //  This interpolator is in theory the best possible interpolator for
 //  reconstructing the continous values of a discrete image. In the spectral
 //  domain, this interpolator is performing the task of masking the central
-//  part of the spectrum of the sampled image, that in principle corresponds to
-//  the spectrumn of the continuous image before it was sampled into a discrete
-//  one. In this particular case an \doxygen{AffineTransform} is used to map
-//  the input space into the output space.
+//  part of the spectrum of the sampled image, that in principle corresponds
+//  to the spectrumn of the continuous image before it was sampled into a
+//  discrete one. In this particular case an \doxygen{AffineTransform} is used
+//  to map the input space into the output space.
 //
 //  \index{itk::AffineTransform!resampling}
 //
@@ -58,7 +58,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees" << std::endl;
+    std::cerr << argv[0] << "  inputImageFile  outputImageFile  degrees"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -82,13 +83,15 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The Resampling filter is instantiated and created just like in previous examples.
-  //  The Transform is instantiated and connected to the resampling filter.
+  //  The Resampling filter is instantiated and created just like in previous
+  //  examples. The Transform is instantiated and connected to the resampling
+  //  filter.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::ResampleImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer filter = FilterType::New();
 
@@ -105,31 +108,33 @@ main(int argc, char * argv[])
   //  \doxygen{WindowedSincInterpolateImageFunction}, which uses a truncated
   //  \emph{sinc} function in order to interpolate the resampled image.
   //
-  //  There is a close relationship between operations performed in the spatial
-  //  domain and those applied in the spectral doman. For example, the action
-  //  of truncating the \emph{sinc} function with a box function in the spatial
-  //  domain will correspond to convolving its spectrum with the spectrum of a
-  //  box function. Since the box function spectrum has an infinite support on
-  //  the spectral domain, the result of the convolution will also have an
-  //  infinite support on the spectral domain. Due to this effects, it is
-  //  desirable to truncate the \emph{sinc} function by using a window that has
-  //  a limited spectral support. Many different windows have been developed to
-  //  this end in the domain of image processing. Among the most commonly used
-  //  we have the \textbf{Hamming} window. We use here a Hamming window in
-  //  order to define the truncation of the sinc function. The window is
-  //  instantiated and its type is used in the instantiation of the
-  //  WindowedSinc interpolator. The size of the window is one of the critical
-  //  parameters of this class. The size must be decided at compilation time by
-  //  using a \code{const integer} or an \code{enum}.
+  //  There is a close relationship between operations performed in the
+  //  spatial domain and those applied in the spectral doman. For example, the
+  //  action of truncating the \emph{sinc} function with a box function in the
+  //  spatial domain will correspond to convolving its spectrum with the
+  //  spectrum of a box function. Since the box function spectrum has an
+  //  infinite support on the spectral domain, the result of the convolution
+  //  will also have an infinite support on the spectral domain. Due to this
+  //  effects, it is desirable to truncate the \emph{sinc} function by using a
+  //  window that has a limited spectral support. Many different windows have
+  //  been developed to this end in the domain of image processing. Among the
+  //  most commonly used we have the \textbf{Hamming} window. We use here a
+  //  Hamming window in order to define the truncation of the sinc function.
+  //  The window is instantiated and its type is used in the instantiation of
+  //  the WindowedSinc interpolator. The size of the window is one of the
+  //  critical parameters of this class. The size must be decided at
+  //  compilation time by using a \code{const integer} or an \code{enum}.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using BoundaryConditionType = itk::ConstantBoundaryCondition<InputImageType>;
+  using BoundaryConditionType =
+    itk::ConstantBoundaryCondition<InputImageType>;
 
   constexpr unsigned int WindowRadius = 5;
 
-  using WindowFunctionType = itk::Function::HammingWindowFunction<WindowRadius>;
+  using WindowFunctionType =
+    itk::Function::HammingWindowFunction<WindowRadius>;
 
   using InterpolatorType =
     itk::WindowedSincInterpolateImageFunction<InputImageType,
@@ -154,10 +159,12 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   reader->Update();
-  const InputImageType::SpacingType &   spacing = reader->GetOutput()->GetSpacing();
-  const InputImageType::PointType &     origin = reader->GetOutput()->GetOrigin();
-  const InputImageType::DirectionType & direction = reader->GetOutput()->GetDirection();
-  InputImageType::SizeType              size =
+  const InputImageType::SpacingType & spacing =
+    reader->GetOutput()->GetSpacing();
+  const InputImageType::PointType & origin = reader->GetOutput()->GetOrigin();
+  const InputImageType::DirectionType & direction =
+    reader->GetOutput()->GetDirection();
+  InputImageType::SizeType size =
     reader->GetOutput()->GetLargestPossibleRegion().GetSize();
   filter->SetOutputOrigin(origin);
   filter->SetOutputSpacing(spacing);

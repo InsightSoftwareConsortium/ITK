@@ -18,10 +18,10 @@
 
 //  Software Guide : BeginLatex
 //
-//  The \doxygen{RelabelComponentImageFilter} is commonly used for reorganizing
-//  the labels in an image that has been produced as the result of a
-//  segmentation method. For example, region growing, or a K-means statistical
-//  classification.
+//  The \doxygen{RelabelComponentImageFilter} is commonly used for
+//  reorganizing the labels in an image that has been produced as the result
+//  of a segmentation method. For example, region growing, or a K-means
+//  statistical classification.
 //
 //  \index{itk::RelabelComponentImageFilter}
 //
@@ -58,8 +58,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Then the pixel types for input and output image must be defined and, with
-  //  them, the image types can be instantiated.
+  //  Then the pixel types for input and output image must be defined and,
+  //  with them, the image types can be instantiated.
   //
   //  Software Guide : EndLatex
 
@@ -93,7 +93,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::RelabelComponentImageFilter<InputImageType, OutputImageType>;
+  using FilterType =
+    itk::RelabelComponentImageFilter<InputImageType, OutputImageType>;
 
   FilterType::Pointer relabeler = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -121,14 +122,15 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We can now query the size of each one of the connected components, both in
-  // pixel units and in physical units.
+  // We can now query the size of each one of the connected components, both
+  // in pixel units and in physical units.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using SizesInPixelsType = std::vector<itk::SizeValueType>;
-  const SizesInPixelsType & sizesInPixels = relabeler->GetSizeOfObjectsInPixels();
+  const SizesInPixelsType & sizesInPixels =
+    relabeler->GetSizeOfObjectsInPixels();
 
   auto sizeItr = sizesInPixels.begin();
   auto sizeEnd = sizesInPixels.end();

@@ -75,12 +75,12 @@ MetaContour(const char *_headerName)
 
 //
 MetaContour::
-MetaContour(const MetaContour *_Contour)
+MetaContour(const MetaContour *_contour)
 :MetaObject()
 {
   if(META_DEBUG)  std::cout << "MetaContour()" << std::endl;
   Clear();
-  CopyInfo(_Contour);
+  CopyInfo(_contour);
 }
 
 

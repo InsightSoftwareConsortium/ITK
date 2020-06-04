@@ -21,9 +21,9 @@
 // \index{itk::SurfaceSpatialObject}
 //
 // \doxygen{SurfaceSpatialObject} defines a surface in n-dimensional space.
-// A \code{SurfaceSpatialObject} is defined by a list of points which lie on the
-// surface. Each point has a position and a normal. The example begins
-// by including the appropriate header file.
+// A \code{SurfaceSpatialObject} is defined by a list of points which lie on
+// the surface. Each point has a position and a normal. The example begins by
+// including the appropriate header file.
 //
 // Software Guide : EndLatex
 
@@ -36,8 +36,8 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // \code{SurfaceSpatialObject} is templated over the dimension of the space.  A
-  // \code{SurfaceSpatialObject} contains a list of
+  // \code{SurfaceSpatialObject} is templated over the dimension of the space.
+  // A \code{SurfaceSpatialObject} contains a list of
   // \code{SurfaceSpatialObjectPoint}s.  A
   // \code{SurfaceSpatialObjectPoint} has a position, a normal and a color.
   //
@@ -89,8 +89,8 @@ main(int, char *[])
   // Software Guide : BeginLatex
   //
   // Next, we create the surface and set his name using \code{SetName()}. We
-  // also set its Identification number with \code{SetId()} and we add the list
-  // of points previously created.
+  // also set its Identification number with \code{SetId()} and we add the
+  // list of points previously created.
   //
   // Software Guide : EndLatex
 
@@ -127,10 +127,12 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SurfaceType::SurfacePointListType::const_iterator it = surface->GetPoints().begin();
+  SurfaceType::SurfacePointListType::const_iterator it =
+    surface->GetPoints().begin();
   while (it != surface->GetPoints().end())
   {
-    std::cout << "Position = " << (*it).GetPositionInObjectSpace() << std::endl;
+    std::cout << "Position = " << (*it).GetPositionInObjectSpace()
+              << std::endl;
     std::cout << "Normal = " << (*it).GetNormalInObjectSpace() << std::endl;
     std::cout << "Color = " << (*it).GetColor() << std::endl;
     std::cout << std::endl;

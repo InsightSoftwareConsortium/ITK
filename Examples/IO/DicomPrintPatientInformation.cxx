@@ -18,8 +18,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  This example illustrates how to print out some patient information from the
-//  header of the DICOM file.
+//  This example illustrates how to print out some patient information from
+//  the header of the DICOM file.
 //
 //  Software Guide : EndLatex
 
@@ -28,7 +28,8 @@
 #include "itkMetaDataObject.h"
 
 std::string
-FindDicomTag(const std::string & entryId, const itk::GDCMImageIO::Pointer dicomIO)
+FindDicomTag(const std::string &             entryId,
+             const itk::GDCMImageIO::Pointer dicomIO)
 {
   std::string tagvalue;
   bool        found = dicomIO->GetValueFromTag(entryId, tagvalue);

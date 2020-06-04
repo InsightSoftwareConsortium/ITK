@@ -43,7 +43,8 @@ main(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  inputDisplacementField  outputImageFile"
+    std::cerr << argv[0]
+              << "  inputImageFile  inputDisplacementField  outputImageFile"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -52,12 +53,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The deformation field is represented as an image of vector pixel types. The
-  // dimension of the vectors is the same as the dimension of the input image.
-  // Each vector in the deformation field represents the distance between a
-  // geometric point in the input space and a point in the output space such that:
-  // \begin{equation}
-  // p_{in} = p_{out} + \text{distance}
+  // The deformation field is represented as an image of vector pixel types.
+  // The dimension of the vectors is the same as the dimension of the input
+  // image. Each vector in the deformation field represents the distance
+  // between a geometric point in the input space and a point in the output
+  // space such that: \begin{equation} p_{in} = p_{out} + \text{distance}
   // \end{equation}
   //
   // Software Guide : EndLatex
@@ -97,7 +97,8 @@ main(int argc, char * argv[])
   fieldReader->SetFileName(argv[2]);
   fieldReader->Update();
 
-  DisplacementFieldType::ConstPointer deformationField = fieldReader->GetOutput();
+  DisplacementFieldType::ConstPointer deformationField =
+    fieldReader->GetOutput();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -108,23 +109,25 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldType>;
+  using FilterType =
+    itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // Typically the mapped position does not correspond to an integer pixel position
-  // in the input image. Interpolation via an image function is used to compute
-  // values at non-integer positions.
-  // This is done via the \code{SetInterpolator()} method.
+  // Typically the mapped position does not correspond to an integer pixel
+  // position in the input image. Interpolation via an image function is used
+  // to compute values at non-integer positions. This is done via the
+  // \code{SetInterpolator()} method.
   // \index{itk::Warp\-Image\-Filter!SetInterpolator()}
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<ImageType, double>;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 

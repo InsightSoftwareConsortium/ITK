@@ -68,8 +68,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // We define the image dimension, and along with the pixel type we use it for
-  // fully instantiating the image type.
+  // We define the image dimension, and along with the pixel type we use it
+  // for fully instantiating the image type.
   //
   // Software Guide : EndLatex
 
@@ -121,8 +121,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // The execution of this short pipeline is triggered by invoking the writer's
-  // \code{Update()} method. This invocation must be placed inside a
+  // The execution of this short pipeline is triggered by invoking the
+  // writer's \code{Update()} method. This invocation must be placed inside a
   // \code{try/catch} block since its execution may result in exceptions being
   // thrown.
   //
@@ -143,8 +143,9 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Of course, you could envision the addition of filters in between the reader
-  // and the writer. Those filters could perform operations on the vector image.
+  // Of course, you could envision the addition of filters in between the
+  // reader and the writer. Those filters could perform operations on the
+  // vector image.
   //
   // Software Guide : EndLatex
 

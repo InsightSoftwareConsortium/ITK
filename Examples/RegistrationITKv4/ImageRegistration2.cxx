@@ -26,9 +26,9 @@
 
 // Software Guide : BeginLatex
 //
-// The following simple example illustrates how multiple imaging modalities can
-// be registered using the ITK registration framework. The first difference
-// between this and previous examples is the use of the
+// The following simple example illustrates how multiple imaging modalities
+// can be registered using the ITK registration framework. The first
+// difference between this and previous examples is the use of the
 // \doxygen{MutualInformationImageToImageMetric} as the cost-function to be
 // optimized. The second difference is the use of the
 // \doxygen{GradientDescentOptimizer}. Due to the stochastic nature of the
@@ -198,7 +198,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using MetricType =
-    itk::MutualInformationImageToImageMetric<InternalImageType, InternalImageType>;
+    itk::MutualInformationImageToImageMetric<InternalImageType,
+                                             InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -251,8 +252,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -272,7 +275,8 @@ main(int argc, char * argv[])
   using MovingNormalizeFilterType =
     itk::NormalizeImageFilter<MovingImageType, InternalImageType>;
 
-  FixedNormalizeFilterType::Pointer fixedNormalizer = FixedNormalizeFilterType::New();
+  FixedNormalizeFilterType::Pointer fixedNormalizer =
+    FixedNormalizeFilterType::New();
 
   MovingNormalizeFilterType::Pointer movingNormalizer =
     MovingNormalizeFilterType::New();
@@ -334,31 +338,31 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  We should now define the number of spatial samples to be considered in
-  //  the metric computation. Note that we were forced to postpone this setting
-  //  until we had done the preprocessing of the images because the number of
-  //  samples is usually defined as a fraction of the total number of pixels in
-  //  the fixed image.
+  //  the metric computation. Note that we were forced to postpone this
+  //  setting until we had done the preprocessing of the images because the
+  //  number of samples is usually defined as a fraction of the total number
+  //  of pixels in the fixed image.
   //
-  //  The number of spatial samples can usually be as low as $1\%$ of the total
-  //  number of pixels in the fixed image. Increasing the number of samples
-  //  improves the smoothness of the metric from one iteration to another and
-  //  therefore helps when this metric is used in conjunction with optimizers
-  //  that rely of the continuity of the metric values. The trade-off, of
-  //  course, is that a larger number of samples result in longer computation
-  //  times per every evaluation of the metric.
+  //  The number of spatial samples can usually be as low as $1\%$ of the
+  //  total number of pixels in the fixed image. Increasing the number of
+  //  samples improves the smoothness of the metric from one iteration to
+  //  another and therefore helps when this metric is used in conjunction with
+  //  optimizers that rely of the continuity of the metric values. The
+  //  trade-off, of course, is that a larger number of samples result in
+  //  longer computation times per every evaluation of the metric.
   //
   //  It has been demonstrated empirically that the number of samples is not a
   //  critical parameter for the registration process. When you start fine
   //  tuning your own registration process, you should start using high values
-  //  of number of samples, for example in the range of $20\%$ to $50\%$ of the
-  //  number of pixels in the fixed image. Once you have succeeded to register
-  //  your images you can then reduce the number of samples progressively until
-  //  you find a good compromise on the time it takes to compute one evaluation
-  //  of the Metric. Note that it is not useful to have very fast evaluations
-  //  of the Metric if the noise in their values results in more iterations
-  //  being required by the optimizer to converge. You must then study the
-  //  behavior of the metric values as the iterations progress, just as
-  //  illustrated in section~\ref{sec:MonitoringImageRegistration}.
+  //  of number of samples, for example in the range of $20\%$ to $50\%$ of
+  //  the number of pixels in the fixed image. Once you have succeeded to
+  //  register your images you can then reduce the number of samples
+  //  progressively until you find a good compromise on the time it takes to
+  //  compute one evaluation of the Metric. Note that it is not useful to have
+  //  very fast evaluations of the Metric if the noise in their values results
+  //  in more iterations being required by the optimizer to converge. You must
+  //  then study the behavior of the metric values as the iterations progress,
+  //  just as illustrated in section~\ref{sec:MonitoringImageRegistration}.
   //
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!SetNumberOfSpatialSamples()}
   //  \index{itk::Mutual\-Information\-Image\-To\-Image\-Metric!Trade-offs}
@@ -368,7 +372,8 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   const unsigned int numberOfPixels = fixedImageRegion.GetNumberOfPixels();
 
-  const auto numberOfSamples = static_cast<unsigned int>(numberOfPixels * 0.01);
+  const auto numberOfSamples =
+    static_cast<unsigned int>(numberOfPixels * 0.01);
 
   metric->SetNumberOfSpatialSamples(numberOfSamples);
   // Software Guide : EndCodeSnippet
@@ -408,15 +413,16 @@ main(int argc, char * argv[])
   // function. The easy way of fine tuning this parameter is to start with
   // small values, probably in the range of $\{5.0,10.0\}$. Once the other
   // registration parameters have been tuned for producing convergence, you
-  // may want to revisit the learning rate and start increasing its value until
-  // you observe that the optimization becomes unstable.  The ideal value for
-  // this parameter is the one that results in a minimum number of iterations
-  // while still keeping a stable path on the parametric space of the
-  // optimization. Keep in mind that this parameter is a multiplicative factor
-  // applied on the gradient of the Metric. Therefore, its effect on the
-  // optimizer step length is proportional to the Metric values themselves.
-  // Metrics with large values will require you to use smaller values for the
-  // learning rate in order to maintain a similar optimizer behavior.
+  // may want to revisit the learning rate and start increasing its value
+  // until you observe that the optimization becomes unstable.  The ideal
+  // value for this parameter is the one that results in a minimum number of
+  // iterations while still keeping a stable path on the parametric space of
+  // the optimization. Keep in mind that this parameter is a multiplicative
+  // factor applied on the gradient of the Metric. Therefore, its effect on
+  // the optimizer step length is proportional to the Metric values
+  // themselves. Metrics with large values will require you to use smaller
+  // values for the learning rate in order to maintain a similar optimizer
+  // behavior.
   //
   // Software Guide : EndLatex
 
@@ -475,9 +481,10 @@ main(int argc, char * argv[])
   //  \center
   //  \includegraphics[width=0.44\textwidth]{BrainT1SliceBorder20}
   //  \includegraphics[width=0.44\textwidth]{BrainProtonDensitySliceShifted13x17y}
-  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image) and a
-  //  proton density MRI (moving image) are provided as input to the registration
-  //  method.} \label{fig:FixedMovingImageRegistration2} \end{figure}
+  //  \itkcaption[Multi-Modality Registration Inputs]{A T1 MRI (fixed image)
+  //  and a proton density MRI (moving image) are provided as input to the
+  //  registration method.} \label{fig:FixedMovingImageRegistration2}
+  //  \end{figure}
   //
   //  The second image is the result of intentionally translating the image
   //  \code{Brain\-Proton\-Density\-Slice\-Border20.png} by $(13,17)$
@@ -494,7 +501,8 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -519,7 +527,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
@@ -576,10 +585,9 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{ImageRegistration2Output}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration2CheckerboardBefore}
   // \includegraphics[width=0.32\textwidth]{ImageRegistration2CheckerboardAfter}
-  // \itkcaption[Multi-Modality Registration outputs]{Mapped moving image (left)
-  // and composition of fixed and moving images before (center) and after
-  // (right) registration.}
-  // \label{fig:ImageRegistration2Output}
+  // \itkcaption[Multi-Modality Registration outputs]{Mapped moving image
+  // (left) and composition of fixed and moving images before (center) and
+  // after (right) registration.} \label{fig:ImageRegistration2Output}
   // \end{figure}
   //
   //  The moving image after resampling is presented on the left
@@ -596,8 +604,8 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceTranslations}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceTranslations2}
   // \itkcaption[Multi-Modality Registration plot of translations]{Sequence of
-  // translations during the registration process. On the left are iterations 0 to
-  // 200. On the right are iterations 150 to 200.}
+  // translations during the registration process. On the left are iterations
+  // 0 to 200. On the right are iterations 150 to 200.}
   // \label{fig:ImageRegistration2TraceTranslations}
   // \end{figure}
   //
@@ -617,8 +625,8 @@ main(int argc, char * argv[])
   // \center
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric}
   // \includegraphics[width=0.44\textwidth]{ImageRegistration2TraceMetric2}
-  // \itkcaption[Multi-Modality Registration plot of metrics]{The sequence of metric
-  // values produced during the registration process. On the left are
+  // \itkcaption[Multi-Modality Registration plot of metrics]{The sequence of
+  // metric values produced during the registration process. On the left are
   // iterations 0 to 200. On the right are iterations 150 to 200.}
   // \label{fig:ImageRegistration2TraceMetric}
   // \end{figure}
@@ -632,8 +640,8 @@ main(int argc, char * argv[])
   //  new sets of intensity samples are randomly taken from the image to
   //  compute the density and entropy estimates.  Even with the fluctuations,
   //  the measure initially increases overall with the number of iterations.
-  //  After about 150 iterations, the metric value merely oscillates without further
-  //  noticeable convergence.  The trace plots in Figure
+  //  After about 150 iterations, the metric value merely oscillates without
+  //  further noticeable convergence.  The trace plots in Figure
   //  \ref{fig:ImageRegistration2TraceMetric} highlight one of the
   //  difficulties associated with this particular metric: the stochastic
   //  oscillations make it difficult to determine convergence and limit the
@@ -670,8 +678,8 @@ main(int argc, char * argv[])
   //  Open Science is not just an abstract concept. Open Science is something
   //  to be practiced every day with the simple gesture of sharing information
   //  with your peers, and by providing all the tools that they need for
-  //  replicating the results that you are reporting. In Open Science, the only
-  //  bad results are those that can not be
+  //  replicating the results that you are reporting. In Open Science, the
+  //  only bad results are those that can not be
   //  replicated\footnote{\url{http://science.creativecommons.org/}}. Science
   //  is dead when people blindly trust authorities~\footnote{For example:
   //  Reviewers of Scientific Journals.} instead of verifying their statements

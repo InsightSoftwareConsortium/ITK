@@ -116,7 +116,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using FilterType = itk::VotingBinaryIterativeHoleFillingImageFilter<ImageType>;
+  using FilterType =
+    itk::VotingBinaryIterativeHoleFillingImageFilter<ImageType>;
 
   FilterType::Pointer filter = FilterType::New();
   // Software Guide : EndCodeSnippet
@@ -151,8 +152,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  Since the filter is expecting a binary image as input, we must specify
-  //  the levels that are going to be considered background and foreground. This
-  //  is done with the \code{SetForegroundValue()} and
+  //  the levels that are going to be considered background and foreground.
+  //  This is done with the \code{SetForegroundValue()} and
   //  \code{SetBackgroundValue()} methods.
   //
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetForegroundValue()}
@@ -174,9 +175,9 @@ main(int argc, char * argv[])
   //  be converted into a foreground pixel if the number of foreground
   //  neighbors surpass the number of background neighbors by the majority
   //  value. For example, in a 2D image, with neighborhood of radius 1, the
-  //  neighborhood will have size $3 \times 3$. If we set the majority value to
-  //  2, then we are requiring that the number of foreground neighbors should
-  //  be at least (3x3 -1 )/2 + majority. This is done with the
+  //  neighborhood will have size $3 \times 3$. If we set the majority value
+  //  to 2, then we are requiring that the number of foreground neighbors
+  //  should be at least (3x3 -1 )/2 + majority. This is done with the
   //  \code{SetMajorityThreshold()} method.
   //
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetMajorityThreshold()}
@@ -190,10 +191,10 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Finally we specify the maximum number of iterations for which this filter
-  //  should run. The number of iterations will determine the maximum size of
-  //  holes and cavities that this filter will be able to fill. The more
-  //  iterations you run, the larger the cavities that will be filled in.
+  //  Finally we specify the maximum number of iterations for which this
+  //  filter should run. The number of iterations will determine the maximum
+  //  size of holes and cavities that this filter will be able to fill. The
+  //  more iterations you run, the larger the cavities that will be filled in.
   //
   //  \index{itk::Voting\-Binary\-Iterative\-Hole\-Filling\-Image\-Filter!SetMaximumNumberOfIterations()}
   //
@@ -227,9 +228,11 @@ main(int argc, char * argv[])
 
   const unsigned int iterationsUsed = filter->GetCurrentNumberOfIterations();
 
-  std::cout << "The filter used " << iterationsUsed << " iterations " << std::endl;
+  std::cout << "The filter used " << iterationsUsed << " iterations "
+            << std::endl;
 
-  const unsigned int numberOfPixelsChanged = filter->GetNumberOfPixelsChanged();
+  const unsigned int numberOfPixelsChanged =
+    filter->GetNumberOfPixelsChanged();
 
   std::cout << "and changed a total of " << numberOfPixelsChanged << " pixels"
             << std::endl;
@@ -242,20 +245,23 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.44\textwidth]{VotingBinaryIterativeHoleFillingImageFilterOutput1}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryIterativeHoleFillingImageFilterOutput2}
   // \includegraphics[width=0.44\textwidth]{VotingBinaryIterativeHoleFillingImageFilterOutput3}
-  // \itkcaption[Effect of the VotingBinaryIterativeHoleFilling filter.]{Effect of the
-  // VotingBinaryIterativeHoleFillingImageFilter on a slice from a MRI proton density
-  // brain image that has been thresholded in order to produce a binary image. The
-  // output images have used radius 1,2 and 3 respectively.}
+  // \itkcaption[Effect of the VotingBinaryIterativeHoleFilling
+  // filter.]{Effect of the VotingBinaryIterativeHoleFillingImageFilter on a
+  // slice from a MRI proton density brain image that has been thresholded in
+  // order to produce a binary image. The output images have used radius 1,2
+  // and 3 respectively.}
   // \label{fig:VotingBinaryIterativeHoleFillingImageFilterOutput}
   // \end{figure}
   //
-  //  Figure \ref{fig:VotingBinaryIterativeHoleFillingImageFilterOutput} illustrates the
-  //  effect of the VotingBinaryIterativeHoleFillingImageFilter filter on a thresholded
-  //  slice of MRI brain image using neighborhood radii of \(1,1\), \(2,2\) and \(3,3\)
-  //  that correspond respectively to neighborhoods of size $ 3 \times 3 $,  $ 5 \times
-  //  5 $, $ 7 \times 7 $.  The filtered image demonstrates the capability of this
-  //  filter for reducing noise both in the background and foreground of the image, as
-  //  well as smoothing the contours of the regions.
+  //  Figure \ref{fig:VotingBinaryIterativeHoleFillingImageFilterOutput}
+  //  illustrates the effect of the
+  //  VotingBinaryIterativeHoleFillingImageFilter filter on a thresholded
+  //  slice of MRI brain image using neighborhood radii of \(1,1\), \(2,2\)
+  //  and \(3,3\) that correspond respectively to neighborhoods of size $ 3
+  //  \times 3 $,  $ 5 \times 5 $, $ 7 \times 7 $.  The filtered image
+  //  demonstrates the capability of this filter for reducing noise both in
+  //  the background and foreground of the image, as well as smoothing the
+  //  contours of the regions.
   //
   //  Software Guide : EndLatex
 

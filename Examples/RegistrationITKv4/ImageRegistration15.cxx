@@ -18,8 +18,9 @@
 
 // Software Guide : BeginLatex
 //
-//  This example illustrates how to do registration with a 2D Translation Transform,
-//  the Normalized Mutual Information metric and the One+One evolutionary optimizer.
+//  This example illustrates how to do registration with a 2D Translation
+//  Transform, the Normalized Mutual Information metric and the One+One
+//  evolutionary optimizer.
 //
 // Software Guide : EndLatex
 
@@ -98,7 +99,8 @@ main(int argc, char * argv[])
     std::cerr << "Usage: " << argv[0];
     std::cerr << " fixedImageFile  movingImageFile ";
     std::cerr << "outputImagefile [numberOfHistogramBins] ";
-    std::cerr << "[initialRadius] [epsilon] [initialTx] [initialTy]" << std::endl;
+    std::cerr << "[initialRadius] [epsilon] [initialTx] [initialTy]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -111,14 +113,16 @@ main(int argc, char * argv[])
   using TransformType = itk::TranslationTransform<double, Dimension>;
 
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType =
     itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
 
   using MetricType =
-    itk::NormalizedMutualInformationHistogramImageToImageMetric<FixedImageType,
-                                                                MovingImageType>;
+    itk::NormalizedMutualInformationHistogramImageToImageMetric<
+      FixedImageType,
+      MovingImageType>;
 
   TransformType::Pointer    transform = TransformType::New();
   OptimizerType::Pointer    optimizer = OptimizerType::New();
@@ -138,7 +142,8 @@ main(int argc, char * argv[])
   if (argc > 4)
   {
     numberOfHistogramBins = std::stoi(argv[4]);
-    std::cout << "Using " << numberOfHistogramBins << " Histogram bins" << std::endl;
+    std::cout << "Using " << numberOfHistogramBins << " Histogram bins"
+              << std::endl;
   }
   MetricType::HistogramType::SizeType histogramSize;
   histogramSize.SetSize(2);
@@ -159,8 +164,10 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -254,7 +261,8 @@ main(int argc, char * argv[])
   std::cout << " Iterations    = " << numberOfIterations << std::endl;
   std::cout << " Metric value  = " << bestValue << std::endl;
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
   finalTransform->SetParameters(finalParameters);

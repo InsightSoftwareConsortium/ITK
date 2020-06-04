@@ -24,37 +24,38 @@
 //  thing}!
 //
 //  The toolkit has been designed to offer flexibility while keeping the
-//  complexity of the code to a moderate level. This is achieved in the Mesh by
-//  hiding most of its parameters and defining reasonable defaults for them.
+//  complexity of the code to a moderate level. This is achieved in the Mesh
+//  by hiding most of its parameters and defining reasonable defaults for
+//  them.
 //
 //  The generic concept of a mesh integrates many different elements. It is
 //  possible in principle to use independent types for every one of such
-//  elements. The mechanism used in generic programming for specifying the many
-//  different types involved in a concept is called \emph{traits}. They are
-//  basically the list of all types that interact with the current class.
+//  elements. The mechanism used in generic programming for specifying the
+//  many different types involved in a concept is called \emph{traits}. They
+//  are basically the list of all types that interact with the current class.
 //
 //  The \doxygen{Mesh} is templated over three parameters. So far only two of
 //  them have been discussed, namely the \code{PixelType} and the
 //  \code{Dimension}. The third parameter is a class providing the set of
 //  traits required by the mesh. When the third parameter is omitted a default
-//  class is used. This default class is the \doxygen{DefaultStaticMeshTraits}.
-//  If you want to customize the types used by the mesh, the way to proceed is
-//  to modify the default traits and provide them as the third parameter of the
-//  Mesh class instantiation.
+//  class is used. This default class is the
+//  \doxygen{DefaultStaticMeshTraits}. If you want to customize the types used
+//  by the mesh, the way to proceed is to modify the default traits and
+//  provide them as the third parameter of the Mesh class instantiation.
 //
 //  There are two ways of achieving this. The first is to use the existing
 //  \doxygen{DefaultStaticMeshTraits} class. This class is itself templated
 //  over six parameters.  Customizing those parameters could provide enough
 //  flexibility to define a very specific kind of mesh. The second way is to
-//  write a traits class from scratch, in which case the easiest way to proceed
-//  is to copy the \code{DefaultStaticMeshTraits} into another file and edit
-//  its content. Only the first approach is illustrated here. The second is
-//  discouraged unless you are familiar with Generic Programming, feel
-//  comfortable with C++ templates, and have access to an abundant supply of
-//  (Columbian) coffee.
+//  write a traits class from scratch, in which case the easiest way to
+//  proceed is to copy the \code{DefaultStaticMeshTraits} into another file
+//  and edit its content. Only the first approach is illustrated here. The
+//  second is discouraged unless you are familiar with Generic Programming,
+//  feel comfortable with C++ templates, and have access to an abundant supply
+//  of (Columbian) coffee.
 //
-//  The first step in customizing the mesh is to include the header file of the
-//  Mesh and its static traits.
+//  The first step in customizing the mesh is to include the header file of
+//  the Mesh and its static traits.
 //
 //  \index{itk::DefaultStaticMeshTraits!Header}
 //
@@ -80,24 +81,24 @@ main(int, char *[])
   //
   //  \begin{description}
   //  \item[PixelType.] The value type associated with every point.
-  //  \item[PointDimension.] The dimension of the space in which the mesh is embedded.
-  //  \item[MaxTopologicalDimension.] The highest dimension of the mesh cells.
-  //  \item[CoordRepType.] The type used to represent spacial coordinates.
-  //  \item[InterpolationWeightType.]  The type used to represent interpolation weights.
-  //  \item[CellPixelType.] The value type associated with every cell.
-  //  \end{description}
+  //  \item[PointDimension.] The dimension of the space in which the mesh is
+  //  embedded. \item[MaxTopologicalDimension.] The highest dimension of the
+  //  mesh cells. \item[CoordRepType.] The type used to represent spacial
+  //  coordinates. \item[InterpolationWeightType.]  The type used to represent
+  //  interpolation weights. \item[CellPixelType.] The value type associated
+  //  with every cell. \end{description}
   //
-  //  Let's define types and values for each one of those elements. For example,
-  //  the following code uses points in 3D space as nodes of the
+  //  Let's define types and values for each one of those elements. For
+  //  example, the following code uses points in 3D space as nodes of the
   //  Mesh. The maximum dimension of the cells will be two, meaning
-  //  that this is a 2D manifold better know as a \emph{surface}. The data type
-  //  associated with points is defined to be a four-dimensional vector. This
-  //  type could represent values of membership for a four-class segmentation
-  //  method.  The value selected for the cells are $4\times3$ matrices, which could
-  //  have for example the derivative of the membership values with respect to
-  //  coordinates in space. Finally, a \code{double} type is selected for
-  //  representing space coordinates on the mesh points and also for the weight
-  //  used for interpolating values.
+  //  that this is a 2D manifold better know as a \emph{surface}. The data
+  //  type associated with points is defined to be a four-dimensional vector.
+  //  This type could represent values of membership for a four-class
+  //  segmentation method.  The value selected for the cells are $4\times3$
+  //  matrices, which could have for example the derivative of the membership
+  //  values with respect to coordinates in space. Finally, a \code{double}
+  //  type is selected for representing space coordinates on the mesh points
+  //  and also for the weight used for interpolating values.
   //
   //  \index{itk::DefaultStaticMeshTraits!Instantiation}
   //
@@ -172,12 +173,12 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  A set of line cells is created and associated with the existing points by
-  //  using point identifiers. In this simple case, the point identifiers can
-  //  be deduced from cell identifiers since the line cells are ordered in the
-  //  same way. Note that in the code above, the values assigned to point
-  //  components are arbitrary. In a more realistic example, those values would
-  //  be computed from another source.
+  //  A set of line cells is created and associated with the existing points
+  //  by using point identifiers. In this simple case, the point identifiers
+  //  can be deduced from cell identifiers since the line cells are ordered in
+  //  the same way. Note that in the code above, the values assigned to point
+  //  components are arbitrary. In a more realistic example, those values
+  //  would be computed from another source.
   //
   //  \index{itk::AutoPointer!TakeOwnership()}
   //  \index{CellAutoPointer!TakeOwnership()}
@@ -207,8 +208,8 @@ main(int, char *[])
   //  Data associated with cells is inserted in the Mesh by using the
   //  \code{SetCellData()} method.  It requires the user to provide an
   //  identifier and the value to be inserted. The identifier should match one
-  //  of the inserted cells. In this example, we simply store a \code{CellDataType}
-  //  dummy variable named \code{value}.
+  //  of the inserted cells. In this example, we simply store a
+  //  \code{CellDataType} dummy variable named \code{value}.
   //
   //  Software Guide : EndLatex
 
@@ -260,12 +261,12 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Note that the \code{ConstIterator} is used here because the data is only
-  //  going to be read.  This approach is identical to that already illustrated
-  //  for accessing point data. The iterator to the first cell data
-  //  item can be obtained with the \code{Begin()} method of the
-  //  \code{CellDataContainer}. The past-end iterator is returned by the \code{End()}
-  //  method. The cell data container itself can be obtained from the mesh with
-  //  the method \code{GetCellData()}.
+  //  going to be read.  This approach is identical to that already
+  //  illustrated for accessing point data. The iterator to the first cell
+  //  data item can be obtained with the \code{Begin()} method of the
+  //  \code{CellDataContainer}. The past-end iterator is returned by the
+  //  \code{End()} method. The cell data container itself can be obtained from
+  //  the mesh with the method \code{GetCellData()}.
   //
   //  \index{itk::Mesh!Iterating cell data}
   //  \index{itk::Mesh!GetCellData()}
@@ -285,8 +286,9 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Finally a standard loop is used to iterate over all the cell data
-  //  entries. Note the use of the \code{Value()} method used to get the actual
-  //  value of the data entry. \code{PixelType} elements are returned by copy.
+  //  entries. Note the use of the \code{Value()} method used to get the
+  //  actual value of the data entry. \code{PixelType} elements are returned
+  //  by copy.
   //
   //  \index{CellDataIterator!Value()}
   //  \index{CellDataIterator!increment}

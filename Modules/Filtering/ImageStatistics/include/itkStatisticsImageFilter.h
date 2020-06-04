@@ -111,9 +111,18 @@ public:
   /** Return the compute Sum of Squares. */
   itkGetDecoratedOutputMacro(SumOfSquares, RealType);
 
-  // Change the acces from protected to public to expose streaming option
-  using Superclass::SetNumberOfStreamDivisions;
-  using Superclass::GetNumberOfStreamDivisions;
+  // Change the access from protected to public to expose streaming option, a using statement can not be used due to
+  // limitations of wrapping.
+  void
+  SetNumberOfStreamDivisions(const unsigned int n) override
+  {
+    Superclass::SetNumberOfStreamDivisions(n);
+  }
+  unsigned int
+  GetNumberOfStreamDivisions() const override
+  {
+    return Superclass::GetNumberOfStreamDivisions();
+  }
 
   /** Make a DataObject of the correct type to be used as the specified
    * output. */

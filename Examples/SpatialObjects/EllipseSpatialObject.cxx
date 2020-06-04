@@ -36,8 +36,9 @@ main(int, char *[])
 {
   // Software Guide : BeginLatex
   //
-  // Like most of the SpatialObjects, the \doxygen{EllipseSpatialObject} is templated
-  // over the dimension of the space. In this example we create a 3-dimensional ellipse.
+  // Like most of the SpatialObjects, the \doxygen{EllipseSpatialObject} is
+  // templated over the dimension of the space. In this example we create a
+  // 3-dimensional ellipse.
   //
   // Software Guide : EndLatex
 
@@ -48,8 +49,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Then we set a radius for each dimension. By default the radius is set to 1.
-  // Additionally, after setting the SpatialObject's radius, we call
+  // Then we set a radius for each dimension. By default the radius is set
+  // to 1. Additionally, after setting the SpatialObject's radius, we call
   // \code{Update()} to update all transforms, bounding box, and other
   // convenience variables within the class that its other member functions
   // (e.g., \code{IsInsideInWorldSpace()}) depend upon.
@@ -77,12 +78,13 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We can then display the current radius by using the \code{GetRadiusInObjectSpace()}
-  // function:
+  // We can then display the current radius by using the
+  // \code{GetRadiusInObjectSpace()} function:
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  EllipseType::ArrayType myCurrentRadius = myEllipse->GetRadiusInObjectSpace();
+  EllipseType::ArrayType myCurrentRadius =
+    myEllipse->GetRadiusInObjectSpace();
   std::cout << "Current radius is " << myCurrentRadius << std::endl;
   // Software Guide : EndCodeSnippet
 
@@ -130,13 +132,13 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  //  If the object is evaluable at that point, the \code{ValueAtInWorldSpace()}
-  //  function
-  //  returns the current value at that position.  Most of the objects returns
-  //  a boolean value which is set to true when the point is inside the object
-  //  and false when it is outside. However, for some objects, it is more
-  //  interesting to return a value representing, for instance, the distance
-  //  from the center of the object or the distance from the boundary.
+  //  If the object is evaluable at that point, the
+  //  \code{ValueAtInWorldSpace()} function returns the current value at that
+  //  position.  Most of the objects returns a boolean value which is set to
+  //  true when the point is inside the object and false when it is outside.
+  //  However, for some objects, it is more interesting to return a value
+  //  representing, for instance, the distance from the center of the object
+  //  or the distance from the boundary.
   //
   // Software Guide : EndLatex
 

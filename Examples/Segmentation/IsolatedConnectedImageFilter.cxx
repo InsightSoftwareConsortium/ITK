@@ -26,11 +26,11 @@
 //
 // The following example illustrates the use of the
 // \doxygen{IsolatedConnectedImageFilter}.  This filter is a close variant of
-// the \doxygen{ConnectedThresholdImageFilter}.  In this filter two seeds and a
-// lower threshold are provided by the user. The filter will grow a region
-// connected to the first seed and \textbf{not connected} to the second one. In
-// order to do this, the filter finds an intensity value that could be used as
-// upper threshold for the first seed. A binary search is used to find the
+// the \doxygen{ConnectedThresholdImageFilter}.  In this filter two seeds and
+// a lower threshold are provided by the user. The filter will grow a region
+// connected to the first seed and \textbf{not connected} to the second one.
+// In order to do this, the filter finds an intensity value that could be used
+// as upper threshold for the first seed. A binary search is used to find the
 // value that separates both seeds.
 //
 // This example closely follows the previous ones. Only the relevant pieces
@@ -87,7 +87,8 @@ main(int argc, char * argv[])
 
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastingFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
+  using CastingFilterType =
+    itk::CastImageFilter<InternalImageType, OutputImageType>;
 
   CastingFilterType::Pointer caster = CastingFilterType::New();
 
@@ -106,12 +107,14 @@ main(int argc, char * argv[])
 
   using CurvatureFlowImageFilterType =
     itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>;
-  CurvatureFlowImageFilterType::Pointer smoothing = CurvatureFlowImageFilterType::New();
+  CurvatureFlowImageFilterType::Pointer smoothing =
+    CurvatureFlowImageFilterType::New();
 
 
   //  Software Guide : BeginLatex
   //
-  //  The \code{IsolatedConnectedImageFilter} is instantiated in the lines below.
+  //  The \code{IsolatedConnectedImageFilter} is instantiated in the lines
+  //  below.
   //
   //  Software Guide : EndLatex
 
@@ -251,21 +254,20 @@ main(int argc, char * argv[])
   //  \doxygen{CurvatureFlowImageFilter} followed by segmentation results.
   //
   //  This filter is intended to be used in cases where adjacent anatomical
-  //  structures are difficult to separate. Selecting one seed in one structure
-  //  and the other seed in the adjacent structure creates the appropriate
-  //  setup for computing the threshold that will separate both structures.
-  //  Table~\ref{tab:IsolatedConnectedImageFilterOutput} presents the
-  //  parameters used to obtain the images shown in
+  //  structures are difficult to separate. Selecting one seed in one
+  //  structure and the other seed in the adjacent structure creates the
+  //  appropriate setup for computing the threshold that will separate both
+  //  structures. Table~\ref{tab:IsolatedConnectedImageFilterOutput} presents
+  //  the parameters used to obtain the images shown in
   //  Figure~\ref{fig:IsolatedConnectedImageFilterOutput}.
   //
   //  \begin{table}
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found       \\ \hline
-  //  Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ & $183.31$  \\ \hline
-  //  \end{tabular}
-  //  \end{center}
+  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found \\
+  //  \hline Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ &
+  //  $183.31$  \\ \hline \end{tabular} \end{center}
   //  \itkcaption[IsolatedConnectedImageFilter example parameters]{Parameters
   //  used for separating white matter from gray matter in
   //  Figure~\ref{fig:IsolatedConnectedImageFilterOutput} using the
@@ -276,8 +278,8 @@ main(int argc, char * argv[])
   // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
   // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput0}
   // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput1}
-  // \itkcaption[IsolatedConnected segmentation results]{Segmentation results of
-  // the IsolatedConnectedImageFilter.}
+  // \itkcaption[IsolatedConnected segmentation results]{Segmentation results
+  // of the IsolatedConnectedImageFilter.}
   // \label{fig:IsolatedConnectedImageFilterOutput}
   // \end{figure}
   //

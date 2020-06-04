@@ -1,10 +1,10 @@
 #-- # Grading Level Criteria Report
 #-- EVALUATION DATE: 2020-03-24
-#-- EVALUATORS: [Dženan Zukić]
+#-- EVALUATORS: [Dženan Zukić, Davis Vigneault]
 #--
 #-- ## Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
 #--   - [ ] Widespread community dependance
-#--   - [ ] Above 90% code coverage
+#--   - [X] Above 90% code coverage
 #--   - [ ] CI dashboards and testing monitored rigorously
 #--   - [X] Key API features are exposed in wrapping interface
 #--   - [ ] All requirements of Levels 4,3,2,1
@@ -16,8 +16,8 @@
 #--            - [ ] Windows Shared Library Build with Visual Studio
 #--            - [ ] Mac with clang compiller
 #--            - [ ] Linux with gcc compiler
-#--   - [ ] Active developer community dedicated to maintaining code-base
-#--   - [ ] 75% code coverage demonstrated for testing suite
+#--   - [X] Active developer community dedicated to maintaining code-base
+#--   - [X] 75% code coverage demonstrated for testing suite
 #--   - [X] Continuous integration testing performed
 #--   - [X] All requirements of Levels 3,2,1
 #--
@@ -40,6 +40,9 @@
 #--
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
+#       2020-05-25 Continuous integration and clang format linting now performed by Github Actions
+#       2020-05-25 Line coverage is 99.8%, function coverage is 98.0%
+
 
 # Contact: Matt McCormick <matt.mccormick@kitware.com>
 itk_fetch_module(Cuberille
@@ -61,5 +64,5 @@ http://www.insight-journal.org/browse/publication/213
 "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKCuberille.git
-  GIT_TAG 105d1478ee82b674a9bfa07d78a7967f6e91830b
+  GIT_TAG 5f3b5c9140449d93e0156858b5556d66cade1a9f
   )

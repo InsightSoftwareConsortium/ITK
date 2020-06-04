@@ -36,8 +36,8 @@
 //  comparing their individual features.
 //
 //  The CastImageFilter is a very simple filter that acts pixel-wise on an
-//  input image, casting every pixel to the type of the output image. Note that
-//  this filter does not perform any arithmetic operation on the
+//  input image, casting every pixel to the type of the output image. Note
+//  that this filter does not perform any arithmetic operation on the
 //  intensities. Applying CastImageFilter is equivalent to performing a
 //  \code{C-Style} cast on every pixel.
 //
@@ -140,7 +140,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using CastFilterType = itk::CastImageFilter<InputImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<InputImageType, OutputImageType>;
 
   using RescaleFilterType =
     itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
@@ -246,7 +247,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Finally, the filters are executed by invoking the \code{Update()} method.
+  //  Finally, the filters are executed by invoking the \code{Update()}
+  //  method.
   //
   //  \index{itk::ShiftScaleImageFilter!Update()}
   //  \index{itk::RescaleIntensityImageFilter!Update()}

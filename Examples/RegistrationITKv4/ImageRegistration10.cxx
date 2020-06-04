@@ -100,9 +100,9 @@ main(int argc, char * argv[])
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);
 
-  // The types of each one of the components in the registration methods should
-  // be instantiated. First, we select the image dimension and the type for
-  // representing image pixels.
+  // The types of each one of the components in the registration methods
+  // should be instantiated. First, we select the image dimension and the type
+  // for representing image pixels.
   //
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
@@ -208,8 +208,8 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  //  Each component is now connected to the instance of the registration method.
-  //  \index{itk::RegistrationMethod!SetMetric()}
+  //  Each component is now connected to the instance of the registration
+  //  method. \index{itk::RegistrationMethod!SetMetric()}
   //  \index{itk::RegistrationMethod!SetOptimizer()}
   //  \index{itk::RegistrationMethod!SetTransform()}
   //  \index{itk::RegistrationMethod!SetFixedImage()}
@@ -223,8 +223,10 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -243,11 +245,11 @@ main(int argc, char * argv[])
   //  of the fixed image as input to the metric computation. This region is
   //  defined by the \code{SetFixedImageRegion()} method.  You could use this
   //  feature to reduce the computational time of the registration or to avoid
-  //  unwanted objects present in the image affecting the registration outcome.
-  //  In this example we use the full available content of the image. This
-  //  region is identified by the \code{BufferedRegion} of the fixed image.
-  //  Note that for this region to be valid the reader must first invoke its
-  //  \code{Update()} method.
+  //  unwanted objects present in the image affecting the registration
+  //  outcome. In this example we use the full available content of the image.
+  //  This region is identified by the \code{BufferedRegion} of the fixed
+  //  image. Note that for this region to be valid the reader must first
+  //  invoke its \code{Update()} method.
   //
   //  \index{itk::ImageRegistrationMethod!SetFixedImageRegion()}
   //  \index{itk::Image!GetBufferedRegion()}
@@ -257,7 +259,8 @@ main(int argc, char * argv[])
   fixedImageReader->Update();
   movingImageReader->Update();
 
-  registration->SetFixedImageRegion(fixedImageReader->GetOutput()->GetBufferedRegion());
+  registration->SetFixedImageRegion(
+    fixedImageReader->GetOutput()->GetBufferedRegion());
 
   //  Software Guide : BeginLatex
   //
@@ -315,7 +318,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  OptimizerType::ParametersType simplexDelta(transform->GetNumberOfParameters());
+  OptimizerType::ParametersType simplexDelta(
+    transform->GetNumberOfParameters());
   simplexDelta.Fill(5.0);
 
   optimizer->AutomaticInitialSimplexOff();
@@ -377,8 +381,8 @@ main(int argc, char * argv[])
     // print out the initial metric value.  need to initialize the
     // registration method to force all the connections to be established.
     registration->Initialize();
-    std::cout << "Initial Metric value  = " << metric->GetValue(initialParameters)
-              << std::endl;
+    std::cout << "Initial Metric value  = "
+              << metric->GetValue(initialParameters) << std::endl;
 
     // run the registration
     registration->Update();
@@ -405,8 +409,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginLatex
   //
   //  The result of the registration process is an array of parameters that
-  //  defines the spatial transformation in an unique way. This final result is
-  //  obtained using the \code{GetLastTransformParameters()} method.
+  //  defines the spatial transformation in an unique way. This final result
+  //  is obtained using the \code{GetLastTransformParameters()} method.
   //
   //  \index{itk::RegistrationMethod!GetLastTransformParameters()}
   //
@@ -431,8 +435,8 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The value of the image metric corresponding to the last set of parameters
-  //  can be obtained with the \code{GetValue()} method of the
+  //  The value of the image metric corresponding to the last set of
+  //  parameters can be obtained with the \code{GetValue()} method of the
   //  optimizer. Since the AmoebaOptimizer does not yet support a call
   //  to \code{GetValue()}, we will simply re-evaluate the metric at the
   //  final parameters.
@@ -464,7 +468,8 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
 
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   //  Software Guide : BeginLatex
   //
@@ -529,7 +534,8 @@ main(int argc, char * argv[])
   //  Software Guide : BeginCodeSnippet
   using OutputPixelType = unsigned short;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   //  Software Guide : EndCodeSnippet
 
@@ -571,7 +577,9 @@ main(int argc, char * argv[])
 
   // SoftwareGuide : BeginCodeSnippet
   using DifferenceFilterType =
-    itk::SquaredDifferenceImageFilter<FixedImageType, FixedImageType, OutputImageType>;
+    itk::SquaredDifferenceImageFilter<FixedImageType,
+                                      FixedImageType,
+                                      OutputImageType>;
 
   DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
   difference->SetInput1(fixedImageReader->GetOutput());
@@ -595,11 +603,12 @@ main(int argc, char * argv[])
 
 // SoftwareGuide : BeginLatex
 //
-// The example was run on two binary images. The first binary image was generated by
-// running the confidence connected image filter (section \ref{sec:ConfidenceConnected})
-// on the MRI slice of the brain. The second was generated similarly after shifting the
-// slice by 13 pixels horizontally and 17 pixels vertically. The Amoeba optimizer
-// converged after 34 iterations and produced the following results:
+// The example was run on two binary images. The first binary image was
+// generated by running the confidence connected image filter (section
+// \ref{sec:ConfidenceConnected}) on the MRI slice of the brain. The second
+// was generated similarly after shifting the slice by 13 pixels horizontally
+// and 17 pixels vertically. The Amoeba optimizer converged after 34
+// iterations and produced the following results:
 //
 // \begin{verbatim}
 // Translation X = 12.5

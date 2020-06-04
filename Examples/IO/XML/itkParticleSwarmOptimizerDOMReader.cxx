@@ -23,8 +23,8 @@ namespace itk
 
 /**
  * This function is called automatically when update functions are performed.
- * It should fill the contents of the output object by pulling information from the
- * intermediate DOM object.
+ * It should fill the contents of the output object by pulling information
+ * from the intermediate DOM object.
  */
 void
 ParticleSwarmOptimizerDOMReader::GenerateData(const DOMNodeType * inputdom,
@@ -45,17 +45,17 @@ ParticleSwarmOptimizerDOMReader::GenerateData(const DOMNodeType * inputdom,
     logger->Info("filling an existing output PSO object ...\n");
   }
 
-  // Two functions can be used to read a single value or a std::vector/itk::Array from a
-  // FancyString:
+  // Two functions can be used to read a single value or a
+  // std::vector/itk::Array from a FancyString:
   //   1. s.ToData( s, data );
   //   2. s >> data;
   // The two functions are identical when reading a single value.
-  // For std::vector/itk::Array, version 1 read all data elements in the string, while
-  // version 2 reads a fixed number of data elements that is specified by data.size() or
-  // data.GetSize().
+  // For std::vector/itk::Array, version 1 read all data elements in the
+  // string, while version 2 reads a fixed number of data elements that is
+  // specified by data.size() or data.GetSize().
   //
-  // During data reading, a std::ios_base::failure exception will be thrown if error
-  // occurred due to wrong data format, missing data elements (for
+  // During data reading, a std::ios_base::failure exception will be thrown if
+  // error occurred due to wrong data format, missing data elements (for
   // std::vector/itk::Array), etc.
   try
   {
@@ -122,7 +122,8 @@ ParticleSwarmOptimizerDOMReader::GenerateData(const DOMNodeType * inputdom,
 
     // read an itk::Array of double from a text child node
     logger->Info("reading ParametersConvergenceTolerance ...\n");
-    const DOMNode * nodeptols = inputdom->GetChild("ParametersConvergenceTolerance");
+    const DOMNode * nodeptols =
+      inputdom->GetChild("ParametersConvergenceTolerance");
     s = nodeptols->GetTextChild()->GetText();
     itk::Array<double> ptols;
     s.ToData(ptols); // read all data elements in the string

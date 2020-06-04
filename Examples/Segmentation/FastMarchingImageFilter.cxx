@@ -87,11 +87,12 @@
 // It is expected that the contour will take a longer time to cross over
 // the edges of a particular anatomical structure. This should result in large
 // changes on the time-crossing map values close to the structure edges.
-// Segmentation is performed with this filter by locating a time range in which
-// the contour was contained for a long time in a region of the image space.
+// Segmentation is performed with this filter by locating a time range in
+// which the contour was contained for a long time in a region of the image
+// space.
 //
-// Figure~\ref{fig:FastMarchingCollaborationDiagram} shows the major components
-// involved in the application of the FastMarchingImageFilter to a
+// Figure~\ref{fig:FastMarchingCollaborationDiagram} shows the major
+// components involved in the application of the FastMarchingImageFilter to a
 // segmentation task. It involves an initial stage of smoothing using the
 // \doxygen{CurvatureAnisotropicDiffusionImageFilter}. The smoothed image is
 // passed as the input to the
@@ -103,8 +104,8 @@
 //
 // The code in the following example illustrates the typical setup of a
 // pipeline for performing segmentation with fast marching. First, the input
-// image is smoothed using an edge-preserving filter. Then the magnitude of its
-// gradient is computed and passed to a sigmoid filter. The result of the
+// image is smoothed using an edge-preserving filter. Then the magnitude of
+// its gradient is computed and passed to a sigmoid filter. The result of the
 // sigmoid filter is the image potential that will be used to affect the speed
 // term of the differential equation.
 //
@@ -183,8 +184,9 @@ PrintCommandLineUsage(const int argc, const char * const argv[])
   std::cerr << "Usage: " << argv[0];
   std::cerr << " inputImage  outputImage seedX seedY";
   std::cerr << " Sigma SigmoidAlpha SigmoidBeta TimeThreshold StoppingValue";
-  std::cerr << " smoothingOutputImage gradientMagnitudeOutputImage sigmoidOutputImage"
-            << std::endl;
+  std::cerr
+    << " smoothingOutputImage gradientMagnitudeOutputImage sigmoidOutputImage"
+    << std::endl;
 
   for (int qq = 0; qq < argc; ++qq)
   {
@@ -297,7 +299,8 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using SmoothingFilterType =
-    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
+    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType,
+                                                  InternalImageType>;
   // Software Guide : EndCodeSnippet
 
 
@@ -382,7 +385,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching =
+    FastMarchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -426,8 +430,9 @@ main(int argc, char * argv[])
   //  The GradientMagnitudeRecursiveGaussianImageFilter performs the
   //  equivalent of a convolution with a Gaussian kernel followed by a
   //  derivative operator. The sigma of this Gaussian can be used to control
-  //  the range of influence of the image edges. This filter has been discussed
-  //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
+  //  the range of influence of the image edges. This filter has been
+  //  discussed in
+  //  Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
   //
   //  \index{itk::Gradient\-Magnitude\-Recursive\-Gaussian\-Image\-Filter!SetSigma()}
   //
@@ -442,30 +447,30 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The SigmoidImageFilter class requires two parameters to define the linear
-  //  transformation to be applied to the sigmoid argument. These parameters
-  //  are passed using the \code{SetAlpha()} and \code{SetBeta()} methods. In
-  //  the context of this example, the parameters are used to intensify the
-  //  differences between regions of low and high values in the speed image. In
-  //  an ideal case, the speed value should be $1.0$ in the homogeneous regions
-  //  of anatomical structures and the value should decay rapidly to $0.0$
-  //  around the edges of structures. The heuristic for finding the values is
-  //  the following: From the gradient magnitude image, let's call $K1$ the
-  //  minimum value along the contour of the anatomical structure to be
-  //  segmented. Then, let's call $K2$ an average value of the gradient
-  //  magnitude in the middle of the structure. These two values indicate the
-  //  dynamic range that we want to map to the interval $[0:1]$ in the speed
-  //  image.  We want the sigmoid to map $K1$ to $0.0$ and $K2$ to $1.0$. Given
-  //  that $K1$ is expected to be higher than $K2$ and we want to map those
-  //  values to $0.0$ and $1.0$ respectively, we want to select a negative
-  //  value for alpha so that the sigmoid function will also do an inverse
-  //  intensity mapping. This mapping will produce a speed image such that the
-  //  level set will march rapidly on the homogeneous region and will
+  //  The SigmoidImageFilter class requires two parameters to define the
+  //  linear transformation to be applied to the sigmoid argument. These
+  //  parameters are passed using the \code{SetAlpha()} and \code{SetBeta()}
+  //  methods. In the context of this example, the parameters are used to
+  //  intensify the differences between regions of low and high values in the
+  //  speed image. In an ideal case, the speed value should be $1.0$ in the
+  //  homogeneous regions of anatomical structures and the value should decay
+  //  rapidly to $0.0$ around the edges of structures. The heuristic for
+  //  finding the values is the following: From the gradient magnitude image,
+  //  let's call $K1$ the minimum value along the contour of the anatomical
+  //  structure to be segmented. Then, let's call $K2$ an average value of the
+  //  gradient magnitude in the middle of the structure. These two values
+  //  indicate the dynamic range that we want to map to the interval $[0:1]$
+  //  in the speed image.  We want the sigmoid to map $K1$ to $0.0$ and $K2$
+  //  to $1.0$. Given that $K1$ is expected to be higher than $K2$ and we want
+  //  to map those values to $0.0$ and $1.0$ respectively, we want to select a
+  //  negative value for alpha so that the sigmoid function will also do an
+  //  inverse intensity mapping. This mapping will produce a speed image such
+  //  that the level set will march rapidly on the homogeneous region and will
   //  definitely stop on the contour. The suggested value for beta is
   //  $(K1+K2)/2$ while the suggested value for alpha is $(K2-K1)/6$, which
-  //  must be a negative number.  In our simple example the values are provided
-  //  by the user from the command line arguments. The user can estimate these
-  //  values by observing the gradient magnitude image.
+  //  must be a negative number.  In our simple example the values are
+  //  provided by the user from the command line arguments. The user can
+  //  estimate these values by observing the gradient magnitude image.
   //
   //  Software Guide : EndLatex
 
@@ -634,15 +639,16 @@ main(int argc, char * argv[])
   //
   //  The FastMarchingImageFilter requires the user to specify the
   //  size of the image to be produced as output. This is done using the
-  //  \code{SetOutputSize()} method. Note that the size is obtained here from the
-  //  output image of the smoothing filter. The size of this image is valid
-  //  only after the \code{Update()} method of this filter has been called
-  //  directly or indirectly.
+  //  \code{SetOutputSize()} method. Note that the size is obtained here from
+  //  the output image of the smoothing filter. The size of this image is
+  //  valid only after the \code{Update()} method of this filter has been
+  //  called directly or indirectly.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  fastMarching->SetOutputSize(reader->GetOutput()->GetBufferedRegion().GetSize());
+  fastMarching->SetOutputSize(
+    reader->GetOutput()->GetBufferedRegion().GetSize());
   // Software Guide : EndCodeSnippet
 
 

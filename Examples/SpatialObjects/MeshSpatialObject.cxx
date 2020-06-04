@@ -23,10 +23,10 @@
 //
 // \index{itk::MeshSpatialObject}
 //
-// A \doxygen{MeshSpatialObject} contains a pointer to an \doxygen{Mesh} but adds the
-// notion of spatial transformations and parent-child hierarchy.
-// This example shows how to create an \doxygen{MeshSpatialObject},
-// use it to form a binary image, and write the mesh to disk.
+// A \doxygen{MeshSpatialObject} contains a pointer to an \doxygen{Mesh} but
+// adds the notion of spatial transformations and parent-child hierarchy. This
+// example shows how to create an \doxygen{MeshSpatialObject}, use it to form
+// a binary image, and write the mesh to disk.
 //
 // Let's begin by including the appropriate header file.
 //
@@ -75,8 +75,9 @@ main(int, char *[])
     myMesh->SetPoint(i, PointType(testPointCoords[i]));
   }
 
-  myMesh->SetCellsAllocationMethod(itk::MeshEnums::MeshClassCellsAllocationMethod::
-                                     CellsAllocatedDynamicallyCellByCell);
+  myMesh->SetCellsAllocationMethod(
+    itk::MeshEnums::MeshClassCellsAllocationMethod::
+      CellsAllocatedDynamicallyCellByCell);
   CellAutoPointer testCell1;
   testCell1.TakeOwnership(new TetraCellType);
   testCell1->SetPointIds(tetraPoints);
@@ -88,14 +89,15 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // We then create a \code{MeshSpatialObject} which is templated over the type of mesh
-  // previously defined...
+  // We then create a \code{MeshSpatialObject} which is templated over the
+  // type of mesh previously defined...
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   using MeshSpatialObjectType = itk::MeshSpatialObject<MeshType>;
-  MeshSpatialObjectType::Pointer myMeshSpatialObject = MeshSpatialObjectType::New();
+  MeshSpatialObjectType::Pointer myMeshSpatialObject =
+    MeshSpatialObjectType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -129,19 +131,21 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  std::cout << "Mesh bounds : "
-            << myMeshSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
-            << std::endl;
+  std::cout
+    << "Mesh bounds : "
+    << myMeshSpatialObject->GetMyBoundingBoxInWorldSpace()->GetBounds()
+    << std::endl;
   MeshSpatialObjectType::PointType myPhysicalPoint;
   myPhysicalPoint.Fill(1);
   std::cout << "Is my physical point inside? : "
-            << myMeshSpatialObject->IsInsideInWorldSpace(myPhysicalPoint) << std::endl;
+            << myMeshSpatialObject->IsInsideInWorldSpace(myPhysicalPoint)
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
   //
-  // Now that we have defined the \code{MeshSpatialObject}, we can save the actual mesh
-  // using the \doxygen{SpatialObjectWriter}. In order to do so,
+  // Now that we have defined the \code{MeshSpatialObject}, we can save the
+  // actual mesh using the \doxygen{SpatialObjectWriter}. In order to do so,
   // we need to specify the type of Mesh we are writing.
   //
   // Software Guide : EndLatex
@@ -207,8 +211,8 @@ main(int, char *[])
 
   // Software Guide : BeginLatex
   //
-  // Then we pass the output of the reader, i.e the \code{MeshSpatialObject}, to the
-  // filter.
+  // Then we pass the output of the reader, i.e the \code{MeshSpatialObject},
+  // to the filter.
   //
   // Software Guide : EndLatex
 
@@ -231,7 +235,8 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Then we can get the resulting binary image using the \code{GetOutput()} function.
+  //  Then we can get the resulting binary image using the \code{GetOutput()}
+  //  function.
   //
   //  Software Guide : EndLatex
 

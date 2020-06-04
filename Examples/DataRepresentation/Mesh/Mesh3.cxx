@@ -22,8 +22,8 @@
 //  it is also possible to associate custom data with cells. The type of the
 //  data associated with the cells can be different from the data type
 //  associated with points. By default, however, these two types are the same.
-//  The following example illustrates how to access data associated with cells.
-//  The approach is analogous to the one used to access point data.
+//  The following example illustrates how to access data associated with
+//  cells. The approach is analogous to the one used to access point data.
 //
 //  \index{itk::Mesh!Cell data}
 //
@@ -82,12 +82,12 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  Let's now create a Mesh and insert some points into it. Note that the
-  //  dimension of the points matches the dimension of the Mesh. Here we insert
-  //  a sequence of points that look like a plot of the $\log()$ function.  We
-  //  add the \code{vnl\_math::eps} value in order to avoid numerical errors when
-  //  the point id is zero. The value of \code{vnl\_math::eps} is the difference
-  //  between 1.0 and the least value greater than 1.0 that is representable in
-  //  this computer.
+  //  dimension of the points matches the dimension of the Mesh. Here we
+  //  insert a sequence of points that look like a plot of the $\log()$
+  //  function.  We add the \code{vnl\_math::eps} value in order to avoid
+  //  numerical errors when the point id is zero. The value of
+  //  \code{vnl\_math::eps} is the difference between 1.0 and the least value
+  //  greater than 1.0 that is representable in this computer.
   //
   //  \index{itk::Mesh!New()}
   //  \index{itk::Mesh!SetPoint()}
@@ -114,10 +114,10 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  A set of line cells is created and associated with the existing points by
-  //  using point identifiers. In this simple case, the point identifiers can
-  //  be deduced from cell identifiers since the line cells are ordered in the
-  //  same way.
+  //  A set of line cells is created and associated with the existing points
+  //  by using point identifiers. In this simple case, the point identifiers
+  //  can be deduced from cell identifiers since the line cells are ordered in
+  //  the same way.
   //
   //  \index{itk::AutoPointer!TakeOwnership()}
   //  \index{CellAutoPointer!TakeOwnership()}
@@ -204,9 +204,9 @@ main(int, char *[])
   //  going to be read.  This approach is exactly the same already illustrated
   //  for getting access to point data. The iterator to the first cell data
   //  item can be obtained with the \code{Begin()} method of the
-  //  \code{CellDataContainer}. The past-end iterator is returned by the \code{End()}
-  //  method. The cell data container itself can be obtained from the mesh with
-  //  the method \code{GetCellData()}.
+  //  \code{CellDataContainer}. The past-end iterator is returned by the
+  //  \code{End()} method. The cell data container itself can be obtained from
+  //  the mesh with the method \code{GetCellData()}.
   //
   //  \index{itk::Mesh!Iterating cell data}
   //  \index{itk::Mesh!GetCellData()}
@@ -227,8 +227,8 @@ main(int, char *[])
   //
   //  Finally, a standard loop is used to iterate over all the cell data
   //  entries. Note the use of the \code{Value()} method to get the
-  //  value associated with the data entry. \code{PixelType} elements are copied into
-  //  the local variable \code{cellValue}.
+  //  value associated with the data entry. \code{PixelType} elements are
+  //  copied into the local variable \code{cellValue}.
   //
   //  \index{CellDataIterator!Value()}
   //  \index{CellDataIterator!increment}

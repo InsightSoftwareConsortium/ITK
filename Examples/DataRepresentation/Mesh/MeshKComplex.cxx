@@ -25,9 +25,9 @@
 //  every cell of dimension $N$, its boundary faces (which are cells of
 //  dimension $N-1$) also belong to the structure.
 //
-//  This section illustrates how to instantiate a K-Complex structure using the
-//  mesh. The example structure is composed of one tetrahedron, its
-//  four triangle faces, its six line edges and its four vertices.
+//  This section illustrates how to instantiate a K-Complex structure using
+//  the mesh. The example structure is composed of one tetrahedron, its four
+//  triangle faces, its six line edges and its four vertices.
 //
 //  \index{itk::Mesh!K-Complex}
 //
@@ -36,8 +36,8 @@
 
 //  Software Guide : BeginLatex
 //
-//  The header files of all the cell types involved should be loaded along with
-//  the header file of the mesh class.
+//  The header files of all the cell types involved should be loaded along
+//  with the header file of the mesh class.
 //
 //  \index{itk::LineCell!header}
 //  \index{itk::VertexCell!header}
@@ -430,16 +430,16 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  Up to here, the topology of the K-Complex is not completely defined since
-  //  we have only introduced the cells. ITK allows the user to define
-  //  explicitly the neighborhood relationships between cells. It is clear that
-  //  a clever exploration of the point identifiers could have allowed a user
-  //  to figure out the neighborhood relationships. For example, two triangle
-  //  cells sharing the same two point identifiers will probably be neighbor
-  //  cells. Some of the drawbacks on this implicit discovery of neighborhood
-  //  relationships is that it takes computing time and that some applications
-  //  may not accept the same assumptions. A specific case is surgery
-  //  simulation. This application typically simulates bistoury cuts
+  //  Up to here, the topology of the K-Complex is not completely defined
+  //  since we have only introduced the cells. ITK allows the user to define
+  //  explicitly the neighborhood relationships between cells. It is clear
+  //  that a clever exploration of the point identifiers could have allowed a
+  //  user to figure out the neighborhood relationships. For example, two
+  //  triangle cells sharing the same two point identifiers will probably be
+  //  neighbor cells. Some of the drawbacks on this implicit discovery of
+  //  neighborhood relationships is that it takes computing time and that some
+  //  applications may not accept the same assumptions. A specific case is
+  //  surgery simulation. This application typically simulates bistoury cuts
   //  in a mesh representing an organ. A small cut in the surface may be made
   //  by specifying that two triangles are not considered to be neighbors any
   //  more.
@@ -450,9 +450,9 @@ main(int, char *[])
   //  neighbors. Boundary features are classified by dimension. For example, a
   //  line will have two boundary features of dimension zero corresponding to
   //  its two vertices. A tetrahedron will have boundary features of dimension
-  //  zero, one and two, corresponding to its four vertices, six edges and four
-  //  triangular faces. It is up to the user to specify the connections between
-  //  the cells.
+  //  zero, one and two, corresponding to its four vertices, six edges and
+  //  four triangular faces. It is up to the user to specify the connections
+  //  between the cells.
   //
   //  \index{BoundaryFeature}
   //  \index{CellBoundaryFeature}
@@ -485,15 +485,15 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The \code{featureId} is simply a number associated with the sequence of
-  //  the boundary cells of the same dimension in a specific cell. For example,
-  //  the zero-dimensional features of a tetrahedron are its four vertices.
-  //  Then the zero-dimensional feature-Ids for this cell will range from zero
-  //  to three. The one-dimensional features of the tetrahedron are its six
-  //  edges, hence its one-dimensional feature-Ids will range from zero to
-  //  five. The two-dimensional features of the tetrahedron are its four
-  //  triangular faces. The two-dimensional feature ids will then range from
-  //  zero to three. The following table summarizes the use on indices for
-  //  boundary assignments.
+  //  the boundary cells of the same dimension in a specific cell. For
+  //  example, the zero-dimensional features of a tetrahedron are its four
+  //  vertices. Then the zero-dimensional feature-Ids for this cell will range
+  //  from zero to three. The one-dimensional features of the tetrahedron are
+  //  its six edges, hence its one-dimensional feature-Ids will range from
+  //  zero to five. The two-dimensional features of the tetrahedron are its
+  //  four triangular faces. The two-dimensional feature ids will then range
+  //  from zero to three. The following table summarizes the use on indices
+  //  for boundary assignments.
   //
   //  \begin{center}
   //  \begin{tabular}{ | c || c | c | c | }
@@ -506,14 +506,14 @@ main(int, char *[])
   //  \end{center}
   //
   //  In the code example above, the values of featureId range from zero to
-  //  three. The cell identifiers of the triangle cells in this example are the
-  //  numbers \{1,2,3,4\}, while the cell identifiers of the vertex cells are
-  //  the numbers \{11,12,13,14\}.
+  //  three. The cell identifiers of the triangle cells in this example are
+  //  the numbers \{1,2,3,4\}, while the cell identifiers of the vertex cells
+  //  are the numbers \{11,12,13,14\}.
 
   //
   //  Let's now assign one-dimensional boundary features of the tetrahedron.
-  //  Those are the line cells with identifiers  \{5,6,7,8,9,10\}. Note that the
-  //  feature identifier is reinitialized to zero since the count is
+  //  Those are the line cells with identifiers  \{5,6,7,8,9,10\}. Note that
+  //  the feature identifier is reinitialized to zero since the count is
   //  independent for each dimension.
   //
   //  Software Guide : EndLatex
@@ -553,9 +553,9 @@ main(int, char *[])
 
   //  Software Guide : BeginLatex
   //
-  //  At this point we can query the tetrahedron cell for information about its
-  //  boundary features. For example, the number of boundary features of each
-  //  dimension can be obtained with the method
+  //  At this point we can query the tetrahedron cell for information about
+  //  its boundary features. For example, the number of boundary features of
+  //  each dimension can be obtained with the method
   //  \code{GetNumberOfBoundaryFeatures()}.
   //
   //  \index{itk::Mesh!CellFeatureCount}
@@ -577,7 +577,8 @@ main(int, char *[])
   // Software Guide : EndCodeSnippet
 
 
-  std::cout << "Number of boundary features of the cellId= " << cellId << std::endl;
+  std::cout << "Number of boundary features of the cellId= " << cellId
+            << std::endl;
   std::cout << "Dimension 0 = " << n0 << std::endl;
   std::cout << "Dimension 1 = " << n1 << std::endl;
   std::cout << "Dimension 2 = " << n2 << std::endl;
@@ -586,8 +587,8 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The boundary assignments can be recovered with the method
-  //  \code{GetBoundaryAssigment()}. For example, the zero-dimensional features
-  //  of the tetrahedron can be obtained with the following code.
+  //  \code{GetBoundaryAssigment()}. For example, the zero-dimensional
+  //  features of the tetrahedron can be obtained with the following code.
   //
   // \index{itk::Mesh!GetBoundaryAssignment()}
   // \index{GetBoundaryAssignment()!itk::Mesh}

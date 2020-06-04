@@ -107,7 +107,8 @@ main(int argc, char * argv[])
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
     std::cerr << "   fixedImageFile  movingImageFile " << std::endl;
-    std::cerr << "   outputImagefile  [differenceBeforeRegistration] " << std::endl;
+    std::cerr << "   outputImagefile  [differenceBeforeRegistration] "
+              << std::endl;
     std::cerr << "   [differenceAfterRegistration] " << std::endl;
     std::cerr << "   [stepLength] [maxNumberOfIterations] " << std::endl;
     return EXIT_FAILURE;
@@ -147,7 +148,8 @@ main(int argc, char * argv[])
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
   using MetricType =
     itk::MeanSquaresImageToImageMetric<FixedImageType, MovingImageType>;
-  using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
+  using InterpolatorType =
+    itk::LinearInterpolateImageFunction<MovingImageType, double>;
   using RegistrationType =
     itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
@@ -180,8 +182,10 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  FixedImageReaderType::Pointer fixedImageReader =
+    FixedImageReaderType::New();
+  MovingImageReaderType::Pointer movingImageReader =
+    MovingImageReaderType::New();
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
 
@@ -190,7 +194,8 @@ main(int argc, char * argv[])
   registration->SetMovingImage(movingImageReader->GetOutput());
   fixedImageReader->Update();
 
-  registration->SetFixedImageRegion(fixedImageReader->GetOutput()->GetBufferedRegion());
+  registration->SetFixedImageRegion(
+    fixedImageReader->GetOutput()->GetBufferedRegion());
 
 
   //  Software Guide : BeginLatex
@@ -205,8 +210,11 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using TransformInitializerType =
-    itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    itk::CenteredTransformInitializer<TransformType,
+                                      FixedImageType,
+                                      MovingImageType>;
+  TransformInitializerType::Pointer initializer =
+    TransformInitializerType::New();
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
   initializer->SetMovingImage(movingImageReader->GetOutput());
@@ -364,9 +372,10 @@ main(int argc, char * argv[])
   //  The following code is used to dump output images to files.
   //  They illustrate the final results of the registration.
   //  We will resample the moving image and write out the difference image
-  //  before and after registration. We will also rescale the intensities of the
-  //  difference images, so that they look better!
-  using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
+  //  before and after registration. We will also rescale the intensities of
+  //  the difference images, so that they look better!
+  using ResampleFilterType =
+    itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
   TransformType::Pointer finalTransform = TransformType::New();
 
@@ -390,7 +399,8 @@ main(int argc, char * argv[])
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using CastFilterType = itk::CastImageFilter<FixedImageType, OutputImageType>;
+  using CastFilterType =
+    itk::CastImageFilter<FixedImageType, OutputImageType>;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 

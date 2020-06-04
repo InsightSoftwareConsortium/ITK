@@ -20,14 +20,15 @@
 //
 // \index{itk::Statistics::EuclideanDistanceMetric}
 //
-// The Euclidean distance function (\subdoxygen{Statistics}{EuclideanDistanceMetric}
-// requires as template parameter the type of the measurement vector. We can
-// use this function for any subclass of the \doxygen{FixedArray}. As a
-// subclass of the \subdoxygen{Statistics}{DistanceMetric}, it has two basic
-// methods, the \code{SetOrigin(measurement vector)} and the
-// \code{Evaluate(measurement vector)}. The \code{Evaluate()} method returns
-// the distance between its argument (a measurement vector) and the measurement
-// vector set by the \code{SetOrigin()} method.
+// The Euclidean distance function
+// (\subdoxygen{Statistics}{EuclideanDistanceMetric} requires as template
+// parameter the type of the measurement vector. We can use this function for
+// any subclass of the \doxygen{FixedArray}. As a subclass of the
+// \subdoxygen{Statistics}{DistanceMetric}, it has two basic methods, the
+// \code{SetOrigin(measurement vector)} and the \code{Evaluate(measurement
+// vector)}. The \code{Evaluate()} method returns the distance between its
+// argument (a measurement vector) and the measurement vector set by the
+// \code{SetOrigin()} method.
 //
 // In addition to the two methods, EuclideanDistanceMetric has two more
 // methods that return the distance of two measurements ---
@@ -119,15 +120,18 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   distanceMetric->SetOrigin(originPoint);
-  std::cout << "Euclidean distance between the origin and the query point A = "
-            << distanceMetric->Evaluate(queryPointA) << std::endl;
+  std::cout
+    << "Euclidean distance between the origin and the query point A = "
+    << distanceMetric->Evaluate(queryPointA) << std::endl;
 
   std::cout << "Euclidean distance between the two query points (A and B) = "
-            << distanceMetric->Evaluate(queryPointA, queryPointB) << std::endl;
+            << distanceMetric->Evaluate(queryPointA, queryPointB)
+            << std::endl;
 
   std::cout << "Coordinate distance between "
             << "the first components of the two query points = "
-            << distanceMetric->Evaluate(queryPointA[0], queryPointB[0]) << std::endl;
+            << distanceMetric->Evaluate(queryPointA[0], queryPointB[0])
+            << std::endl;
   // Software Guide : EndCodeSnippet
 
   return EXIT_SUCCESS;

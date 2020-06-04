@@ -19,7 +19,8 @@
 // Software Guide : BeginLatex
 //
 // WORK IN PROGRESS: THIS WAS TAKEN FROM THE GEODESIC ACTIVE CONTOURS.
-//                   IT NEED TO BE REWORKED TO MATCH THE CURVESLEVELSET FILTER.
+//                   IT NEED TO BE REWORKED TO MATCH THE CURVESLEVELSET
+//                   FILTER.
 //
 // The use of the \doxygen{CurvesLevelSetImageFilter} is
 // illustrated in the following example. The implementation of this filter in
@@ -163,7 +164,8 @@ main(int argc, char * argv[])
   //  instantiated using the internal image type.
   //
   using SmoothingFilterType =
-    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType, InternalImageType>;
+    itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType,
+                                                  InternalImageType>;
 
   SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
 
@@ -189,8 +191,8 @@ main(int argc, char * argv[])
   //  are defined with the methods \code{SetOutputMinimum()} and
   //  \code{SetOutputMaximum()}. In our case, we want these two values to be
   //  $0.0$ and $1.0$ respectively in order to get a nice speed image to feed
-  //  the \code{FastMarchingImageFilter}. Additional details on the user of the
-  //  \doxygen{SigmoidImageFilter} are presented in
+  //  the \code{FastMarchingImageFilter}. Additional details on the user of
+  //  the \doxygen{SigmoidImageFilter} are presented in
   //  section~\ref{sec:IntensityNonLinearMapping}.
 
   sigmoid->SetOutputMinimum(0.0);
@@ -208,7 +210,8 @@ main(int argc, char * argv[])
   //  Next we construct one filter of this class using the \code{New()}
   //  method.
   //
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  FastMarchingFilterType::Pointer fastMarching =
+    FastMarchingFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -302,8 +305,9 @@ main(int argc, char * argv[])
   //  The GradientMagnitudeRecursiveGaussianImageFilter performs the
   //  equivalent of a convolution with a Gaussian kernel, followed by a
   //  derivative operator. The sigma of this Gaussian can be used to control
-  //  the range of influence of the image edges. This filter has been discussed
-  //  in Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
+  //  the range of influence of the image edges. This filter has been
+  //  discussed in
+  //  Section~\ref{sec:GradientMagnitudeRecursiveGaussianImageFilter}.
 
   const double sigma = std::stod(argv[6]);
   gradientMagnitude->SetSigma(sigma);
@@ -344,15 +348,15 @@ main(int argc, char * argv[])
 
 
   //  Nodes are created as stack variables and initialized with a value and an
-  //  \doxygen{Index} position. Note that here we assign the value of minus the
-  //  user-provided distance to the unique node of the seeds passed to the
+  //  \doxygen{Index} position. Note that here we assign the value of minus
+  //  the user-provided distance to the unique node of the seeds passed to the
   //  FastMarchingImageFilter. In this way, the value will increment
-  //  as the front is propagated, until it reaches the zero value corresponding
-  //  to the contour. After this, the front will continue propagating until it
-  //  fills up the entire image. The initial distance is taken here from the
-  //  command line arguments. The rule of thumb for the user is to select this
-  //  value as the distance from the seed points at which she want the initial
-  //  contour to be.
+  //  as the front is propagated, until it reaches the zero value
+  //  corresponding to the contour. After this, the front will continue
+  //  propagating until it fills up the entire image. The initial distance is
+  //  taken here from the command line arguments. The rule of thumb for the
+  //  user is to select this value as the distance from the seed points at
+  //  which she want the initial contour to be.
   const double initialDistance = std::stod(argv[5]);
 
   NodeType node;
@@ -387,8 +391,8 @@ main(int argc, char * argv[])
 
   //  Here we configure all the writers required to see the intermediate
   //  outputs of the pipeline. This is added here only for
-  //  pedagogical/debugging purposes. These intermediate output are normaly not
-  //  required. Only the output of the final thresholding filter should be
+  //  pedagogical/debugging purposes. These intermediate output are normaly
+  //  not required. Only the output of the final thresholding filter should be
   //  relevant.  Observing intermediate output is helpful in the process of
   //  fine tuning the parameters of filters in the pipeline.
   //
@@ -437,7 +441,8 @@ main(int argc, char * argv[])
   //  only after the \code{Update()} methods of this filter has been called
   //  directly or indirectly.
   //
-  fastMarching->SetOutputSize(reader->GetOutput()->GetBufferedRegion().GetSize());
+  fastMarching->SetOutputSize(
+    reader->GetOutput()->GetBufferedRegion().GetSize());
 
 
   //  Software Guide : BeginLatex
@@ -463,23 +468,24 @@ main(int argc, char * argv[])
 
   // Print out some useful information
   std::cout << std::endl;
-  std::cout << "Max. no. iterations: " << geodesicActiveContour->GetNumberOfIterations()
-            << std::endl;
-  std::cout << "Max. RMS error: " << geodesicActiveContour->GetMaximumRMSError()
-            << std::endl;
+  std::cout << "Max. no. iterations: "
+            << geodesicActiveContour->GetNumberOfIterations() << std::endl;
+  std::cout << "Max. RMS error: "
+            << geodesicActiveContour->GetMaximumRMSError() << std::endl;
   std::cout << std::endl;
   std::cout << "No. elpased iterations: "
             << geodesicActiveContour->GetElapsedIterations() << std::endl;
-  std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange() << std::endl;
+  std::cout << "RMS change: " << geodesicActiveContour->GetRMSChange()
+            << std::endl;
 
   writer4->Update();
 
 
   // The following writer type is used to save the output of the time-crossing
-  // map in a file with apropiate pixel representation. The advantage of saving
-  // this image in native format is that it can be used with a viewer to help
-  // determine an appropriate threshold to be used on the output of the
-  // fastmarching filter.
+  // map in a file with apropiate pixel representation. The advantage of
+  // saving this image in native format is that it can be used with a viewer
+  // to help determine an appropriate threshold to be used on the output of
+  // the fastmarching filter.
   //
   using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
@@ -514,12 +520,11 @@ main(int argc, char * argv[])
   //  \hline
   //  Structure    & Seed Index &  Distance   &   $\sigma$  &
   //  $\alpha$     &  $\beta$   & Propag. & Output Image \\  \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 & First   \\  \hline
-  //  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 & Second  \\  \hline
-  //  White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0  & 10.0 & Third   \\  \hline
-  //  Gray matter     & $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 10.0 & Fourth  \\  \hline
-  //  \end{tabular}
-  //  \end{center}
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 & First \\
+  //  \hline Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 &
+  //  Second  \\  \hline White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0
+  //  & 10.0 & Third   \\  \hline Gray matter     & $(40, 90)$ & 5.0 & 0.5 &
+  //  -0.3 & 2.0  & 10.0 & Fourth  \\  \hline \end{tabular} \end{center}
   //  \itkcaption[Curves segmentation example parameters]{Parameters used
   //  for segmenting some brain structures shown in
   //  Figure~\ref{fig:CurvesImageFilterOutput2} using the filter
@@ -545,8 +550,8 @@ main(int argc, char * argv[])
   // CurvesLevelSetImageFilter. From left to right and top to
   // bottom: input image to be segmented, image smoothed with an
   // edge-preserving smoothing filter, gradient magnitude of the smoothed
-  // image, sigmoid of the gradient magnitude. This last image, the sigmoid, is
-  // used to compute the speed term for the front propagation.}
+  // image, sigmoid of the gradient magnitude. This last image, the sigmoid,
+  // is used to compute the speed term for the front propagation.}
   // \label{fig:CurvesImageFilterOutput} \end{figure}
   //
   //  Segmentations of the main brain structures are presented in

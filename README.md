@@ -8,6 +8,7 @@ ITK: The Insight Toolkit
 [![Wheels](https://img.shields.io/pypi/wheel/itk.svg)](https://pypi.org/project/itk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
 [![DOI](https://zenodo.org/badge/800928.svg)](https://zenodo.org/badge/latestdoi/800928)
+[![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
 
 | | C++ | Python |
 |:------:|:--------:|:--------:|
@@ -40,6 +41,22 @@ image acquired from such medical instrumentation as CT or MRI scanners.
 Registration is the task of aligning or developing correspondences between
 data. For example, in the medical environment, a CT scan may be aligned with a
 MRI scan in order to combine the information contained in both.
+
+[//]: # (numfocus-fiscal-sponsor-attribution)
+
+The ITK project uses an [open governance model](./GOVERNANCE.md)
+and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). Consider making
+a [tax-deductible donation](https://numfocus.org/donate-to-itk) to help the project
+pay for developer time, professional services, travel, workshops, and a variety of other needs.
+
+<div align="center">
+  <a href="<https://numfocus.org/project/isc>">
+    <img height="60px"
+         src="https://raw.githubusercontent.com/numfocus/templates/master/images/numfocus-logo.png"
+         align="center">
+  </a>
+</div>
+<br>
 
 ITK is distributed in binary Python packages. To install:
 
@@ -75,6 +92,20 @@ See
 and
 [NOTICE](https://github.com/InsightSoftwareConsortium/ITK/blob/master/NOTICE)
 files for details.
+
+Supporting ITK
+--------------
+
+ITK is a fiscally sponsored project of [NumFOCUS](https://numfocus.org/), a non-profit dedicated
+to supporting the open source scientific computing community. If you want to
+support ITK's mission to develop and maintain open-source, reproducible
+scientific image analysis software for education and research, please consider
+making a [donation](https://numfocus.org/donate-to-itk) to support our efforts.
+
+NumFOCUS is 501(c)(3) non-profit charity in the United States; as such,
+donations to NumFOCUS are tax-deductible as allowed by law. As with any
+donation, you should consult with your personal tax adviser or the IRS about
+your particular tax situation.
 
 Citation
 --------

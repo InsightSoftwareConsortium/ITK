@@ -380,8 +380,8 @@ class METAIO_EXPORT MetaImage : public MetaObject
     bool  M_WriteElementsROI(std::ofstream * _fstream,
                              const void * _data,
                              std::streampos _dataPos,
-                             int * _indexMin,
-                             int* _indexMax);
+                             const int * _indexMin,
+                             const int* _indexMax);
 
     bool  M_WriteElementData(std::ofstream * _fstream,
                              const void * _data,

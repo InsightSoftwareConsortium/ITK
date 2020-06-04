@@ -20,3 +20,7 @@ itk_python_expression_add_test(NAME itkVTKPolyDataMeshIOPythonTest
  EXPRESSION "instance = itk.VTKPolyDataMeshIO.New()")
 itk_python_expression_add_test(NAME itkTransformMeshFilterPythonTest
  EXPRESSION "instance = itk.TransformMeshFilter.New()")
+itk_python_expression_add_test(NAME itkRegularSphereMeshSourcePythonTest
+ EXPRESSION "instance = itk.RegularSphereMeshSource.New()")
+itk_python_expression_add_test(NAME itkSphereMeshSourcePythonTest
+ EXPRESSION "instance = itk.SphereMeshSource.New()")

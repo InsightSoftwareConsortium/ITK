@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright NumFOCUS
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -62,17 +62,13 @@ FEMObjectElement::
   delete []m_NodesId;
 }
 
-FEMObjectLoad::FEMObjectLoad()
-{
-}
+FEMObjectLoad::FEMObjectLoad() = default;
 
 FEMObjectLoad::~FEMObjectLoad()
 {
-  for(std::vector<FEMObjectMFCTerm *>::iterator it = this->m_LHS.begin();
-      it != this->m_LHS.end();
-      ++it)
+  for(auto & it : this->m_LHS)
     {
-    delete (*it);
+    delete it;
     }
   this->m_LHS.clear();
   this->m_RHS.clear();
@@ -370,7 +366,7 @@ M_Read()
     this->SkipWhiteSpace();              // skip comments and whitespaces
     if ( this->m_ReadStream->eof() )
       {
-      return 0;              // end of stream. all was good
+      return false;              // end of stream. all was good
       }
     char c;
     if ( ( c = static_cast<char>(this->m_ReadStream->get()) ) != '<' )

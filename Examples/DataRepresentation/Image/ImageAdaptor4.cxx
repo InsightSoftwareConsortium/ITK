@@ -143,7 +143,8 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  using ImageAdaptorType = itk::ImageAdaptor<ImageType, itk::ThresholdingPixelAccessor>;
+  using ImageAdaptorType =
+    itk::ImageAdaptor<ImageType, itk::ThresholdingPixelAccessor>;
 
   ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
   // Software Guide : EndCodeSnippet
@@ -183,7 +184,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndCodeSnippet
 
 
-  using RescalerType = itk::RescaleIntensityImageFilter<ImageAdaptorType, ImageType>;
+  using RescalerType =
+    itk::RescaleIntensityImageFilter<ImageAdaptorType, ImageType>;
 
   RescalerType::Pointer rescaler = RescalerType::New();
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -218,10 +220,10 @@ main(int argc, char * argv[])
   //  As before, we rescale the emulated scalar image before writing it
   //  out to file.
   //  Figure~\ref{fig:ImageAdaptorThresholding} illustrates the result of
-  //  applying the thresholding adaptor to a typical gray scale image using two
-  //  different threshold values. Note that the same effect could have been
-  //  achieved by using the \doxygen{BinaryThresholdImageFilter} but at the
-  //  price of holding an extra copy of the image in memory.
+  //  applying the thresholding adaptor to a typical gray scale image using
+  //  two different threshold values. Note that the same effect could have
+  //  been achieved by using the \doxygen{BinaryThresholdImageFilter} but at
+  //  the price of holding an extra copy of the image in memory.
   //
   // Software Guide : EndLatex
 

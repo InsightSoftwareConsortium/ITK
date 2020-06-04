@@ -582,7 +582,7 @@ CanRead(const char *_headerName) const
 {
   // First check the extension
   std::string fname = _headerName;
-  if( fname == "" )
+  if( fname.empty() )
     {
     return false;
     }
