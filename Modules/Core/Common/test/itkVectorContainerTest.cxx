@@ -16,50 +16,20 @@
  *
  *=========================================================================*/
 
+#include "itkVectorContainer.h"
 #include "itkTestingMacros.h"
-#include "itkMapContainer.h"
-#include "itkPoint.h"
 
-#include <iostream>
-
-/**
- * Some type alias to make things easier.
- */
-using PointType = itk::Point<float, 3>;
-using VectorType = itk::Vector<float, 3>;
-
-using ContainerType = itk::MapContainer<unsigned long, PointType>;
-using ContainerPointer = ContainerType::Pointer;
+using ContainerType = itk::VectorContainer<size_t, double>;
 
 int
-itkMapContainerTest(int, char *[])
+itkVectorContainerTest(int, char *[])
 {
 
-  /**
-   * Create the Container
-   */
-  ContainerPointer container = ContainerType::New();
-
-  PointType pointA;
-  PointType pointB;
-  PointType pointC;
-  PointType pointD;
-
-  VectorType displacement;
-
-  displacement[0] = 2;
-  displacement[1] = 5;
-  displacement[2] = 9;
-
-  pointA.Fill(0.0);
-  pointB = pointA + displacement;
-  pointC = pointB + displacement;
-  pointD = pointC + displacement;
-
-  container->SetElement(0, pointA);
-  container->SetElement(1, pointB);
-  container->SetElement(2, pointC);
-  container->SetElement(3, pointD);
+  auto container = ContainerType::New();
+  container->InsertElement(0, 9.2);
+  container->InsertElement(1, 4.7);
+  container->InsertElement(2, 1.1);
+  container->InsertElement(3, 4.9);
 
   // Iterator
   {
@@ -95,13 +65,6 @@ itkMapContainerTest(int, char *[])
       ++p_copy;
       ++p_assign;
     }
-  }
-
-  container->Initialize();
-  if (container->Size() != 0)
-  {
-    std::cerr << "Initialize() didn't get rid of elements" << std::endl;
-    return EXIT_FAILURE;
   }
 
   return EXIT_SUCCESS;
