@@ -1,6 +1,7 @@
 ITKSimpleITKFilters
 =================================
 
+.. image:: https://github.com/InsightSoftwareConsortium/SimpleITK/workflows/Build,%20test,%20package/badge.svg
 
 .. image:: https://dev.azure.com/SimpleITK-DevOps/SimpleITK/_apis/build/status/SimpleITK.ITKSimpleITKFilters?branchName=master
     :target: https://dev.azure.com/SimpleITK-DevOps/SimpleITK/_build?definitionId=14&_a=summary
