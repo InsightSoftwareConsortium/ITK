@@ -1,9 +1,7 @@
 ITKBoneMorphometry
 ==================
 
-.. image:: https://dev.azure.com/ITKBoneMorphometry/ITKBoneMorphometry/_apis/build/status/InsightSoftwareConsortium.ITKBoneMorphometry?branchName=master
-    :target: https://dev.azure.com/ITKBoneMorphometry/ITKBoneMorphometry/_build/latest?definitionId=1&branchName=master
-    :alt: Build status
+.. image:: https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/workflows/Build,%20test,%20package/badge.svg
 
 .. image:: https://img.shields.io/pypi/v/itk-bonemorphometry.svg
     :target: https://pypi.python.org/pypi/itk-bonemorphometry
