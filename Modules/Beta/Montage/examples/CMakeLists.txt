@@ -38,6 +38,11 @@ target_link_libraries(MontageImageCompareCommand ${ITK_LIBRARIES})
 # add some regression tests
 set(TESTING_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Testing/Temporary")
 
+add_test(NAME ResampleMontageBlendingExplanationFromPaper
+  COMMAND ResampleMontage
+    ${CMAKE_CURRENT_LIST_DIR}/BlendingExplanation/TileConfiguration.registered.txt
+    ${TESTING_OUTPUT_PATH}/BlendingExplanation.png)
+
 add_test(NAME RefineMontage2D
   COMMAND RefineMontage
     ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/TileConfiguration.txt
