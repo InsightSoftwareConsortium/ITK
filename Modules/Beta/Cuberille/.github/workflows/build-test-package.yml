@@ -76,9 +76,9 @@ jobs:
         operating_system="${{ matrix.os }}"
         cat > dashboard.cmake << EOF
         set(CTEST_SITE "GitHubActions")
-        file(TO_CMAKE_PATH "${GITHUB_WORKSPACE}/.." CTEST_DASHBOARD_ROOT)
-        file(TO_CMAKE_PATH "${GITHUB_WORKSPACE}/" CTEST_SOURCE_DIRECTORY)
-        file(TO_CMAKE_PATH "${GITHUB_WORKSPACE}/../build" CTEST_BINARY_DIRECTORY)
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/.." CTEST_DASHBOARD_ROOT)
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/" CTEST_SOURCE_DIRECTORY)
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/../build" CTEST_BINARY_DIRECTORY)
         set(dashboard_source_name "${GITHUB_REPOSITORY}")
         if(ENV{GITHUB_REF} MATCHES "master")
           set(branch "-master")
@@ -114,13 +114,13 @@ jobs:
     - name: Build and test
       if: matrix.os != 'windows-2019'
       run: |
-        ctest -j 2 -V -S dashboard.cmake
+        ctest --output-on-failure -j 2 -V -S dashboard.cmake
 
     - name: Build and test
       if: matrix.os == 'windows-2019'
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        ctest -j 2 -V -S dashboard.cmake
+        ctest --output-on-failure -j 2 -V -S dashboard.cmake
       shell: cmd
 
   build-linux-python-packages:
@@ -130,7 +130,7 @@ jobs:
       matrix:
         python-version: [35, 36, 37, 38]
         include:
-          - itk-python-git-tag: "v5.1.0"
+          - itk-python-git-tag: "v5.1.0.post2"
 
     steps:
     - uses: actions/checkout@v2
@@ -166,7 +166,7 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - itk-python-git-tag: "v5.1.0"
+          - itk-python-git-tag: "v5.1.0.post2"
 
     steps:
     - uses: actions/checkout@v2
@@ -195,10 +195,12 @@ jobs:
       matrix:
         python-version-minor: [5, 6, 7, 8]
         include:
-          - itk-python-git-tag: "v5.1.0"
+          - itk-python-git-tag: "v5.1.0.post2"
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        path: "im"
 
     - name: 'Install Python'
       run: |
@@ -209,6 +211,8 @@ jobs:
     - name: 'Fetch build dependencies'
       shell: bash
       run: |
+        mv im ../../
+        cd ../../
         curl -L "https://github.com/InsightSoftwareConsortium/ITKPythonBuilds/releases/download/${{ matrix.itk-python-git-tag }}/ITKPythonBuilds-windows.zip" -o "ITKPythonBuilds-windows.zip"
         7z x ITKPythonBuilds-windows.zip -o/c/P -aoa -r
         curl -L "https://data.kitware.com/api/v1/file/5c0ad59d8d777f2179dd3e9c/download" -o "doxygen-1.8.11.windows.bin.zip"
@@ -219,17 +223,18 @@ jobs:
     - name: 'Build 🐍 Python 📦 package'
       shell: cmd
       run: |
+        cd ../../im
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         set PATH="C:\P\grep;%PATH%"
         set CC=cl.exe
         set CXX=cl.exe
-        C:\Python3${{ matrix.python-version-minor }}-x64\python.exe C:\P\IPP\scripts\windows_build_module_wheels.py --py-envs "3${{ matrix.python-version-minor }}-x64"
+        C:\Python3${{ matrix.python-version-minor }}-x64\python.exe C:\P\IPP\scripts\windows_build_module_wheels.py --py-envs "3${{ matrix.python-version-minor }}-x64" --no-cleanup
 
     - name: Publish Python package as GitHub Artifact
       uses: actions/upload-artifact@v1
       with:
         name: WindowWheel3.${{ matrix.python-version-minor }}
-        path: dist
+        path: ../../im/dist
 
   publish-python-packages-to-pypi:
     needs:
