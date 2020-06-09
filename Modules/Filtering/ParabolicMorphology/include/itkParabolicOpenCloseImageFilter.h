@@ -50,7 +50,7 @@ namespace itk
  *
  **/
 template <typename TInputImage, bool DoOpen, typename TOutputImage = TInputImage>
-class ITK_EXPORT ParabolicOpenCloseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT ParabolicOpenCloseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenCloseImageFilter);

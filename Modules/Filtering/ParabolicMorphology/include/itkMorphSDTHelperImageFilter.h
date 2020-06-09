@@ -82,7 +82,7 @@ template <typename TInputImage1,
           typename TInputImage2 = TInputImage1,
           typename TInputImage3 = TInputImage1,
           typename TOutputImage = TInputImage1>
-class ITK_EXPORT MorphSDTHelperImageFilter
+class ITK_TEMPLATE_EXPORT MorphSDTHelperImageFilter
   : public TernaryFunctorImageFilter<TInputImage1,
                                      TInputImage2,
                                      TInputImage3,

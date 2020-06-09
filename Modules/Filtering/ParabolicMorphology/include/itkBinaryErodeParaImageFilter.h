@@ -65,7 +65,7 @@ namespace itk
  **/
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_EXPORT BinaryErodeParaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT BinaryErodeParaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 
 {
 public:

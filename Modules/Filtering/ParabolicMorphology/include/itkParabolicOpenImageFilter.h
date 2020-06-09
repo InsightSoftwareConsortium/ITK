@@ -46,7 +46,7 @@ namespace itk
  **/
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_EXPORT ParabolicOpenImageFilter
+class ITK_TEMPLATE_EXPORT ParabolicOpenImageFilter
   : public ParabolicOpenCloseSafeBorderImageFilter<TInputImage, true, TOutputImage>
 {
 public:

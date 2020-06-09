@@ -66,7 +66,7 @@ private:
 } // namespace Functor
 
 template <typename TInputImage, typename TOutputImage>
-class ITK_EXPORT GreaterEqualValImageFilter
+class ITK_TEMPLATE_EXPORT GreaterEqualValImageFilter
   : public UnaryFunctorImageFilter<TInputImage,
                                    TOutputImage,
                                    Functor::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>

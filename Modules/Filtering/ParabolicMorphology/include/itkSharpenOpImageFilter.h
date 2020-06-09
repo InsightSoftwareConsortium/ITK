@@ -85,7 +85,7 @@ public:
 } // namespace Function
 
 template <class TInputImage1, class TInputImage2, class TInputImage3, class TOutputImage>
-class ITK_EXPORT SharpenOpImageFilter
+class ITK_TEMPLATE_EXPORT SharpenOpImageFilter
   : public TernaryFunctorImageFilter<TInputImage1,
                                      TInputImage2,
                                      TInputImage3,
