@@ -706,14 +706,17 @@ Then, click the *Edit Tag* link.
 Set the release title to "ITK $version", e.g. *ITK 5.0.0* or *ITK 5.0 Release
 Candidate 1*.
 
-Add the release notes (described below).
+Add the release notes (described below). Note: Do not publish the release
+until the release notes and all artifacts have been added. The Zenodo citation
+is created at the time of the release publication and will not include amended
+information.
 
 Upload the release artifacts. These include:
 
 - InsightToolkit-$version.tar.gz
-- InsightToolkit-$version.tar.zip
+- InsightToolkit-$version.zip
 - InsightData-$version.tar.gz
-- InsightData-$version.tar.zip
+- InsightData-$version.zip
 - MD5SUMS
 - SHA512SUMS
 - InsightDoxygenDocHtml-$version.tar.gz
@@ -721,6 +724,12 @@ Upload the release artifacts. These include:
 - InsightDoxygenDocXml-$version.tar.gz
 - InsightSoftwareGuide-Book1-$version.pdf
 - InsightSoftwareGuide-Book2-$version.pdf
+- InsightSphinxExamples-5.1.0.tar.gz
+- InsightSphinxExamples-5.1.0.zip
+- InsightSphinxExamplesEpub-5.1.0.epub
+- InsightSphinxExamplesHtml-5.1.0.zip
+- InsightSphinxExamplesPdf-5.1.0.pdf
+
 
 If this is an alpha, beta, or release candidate release, check the *This is a
 pre-release* box.
@@ -811,8 +820,8 @@ The count of recent authors is found in the script output, and a list of new aut
 are found at */tmp/AuthorsChangesSince/NewAuthors.txt*.
 
 
-Announcing
-----------
+Announcements
+-------------
 
 For the final release, the release notes produced should be used to
 
