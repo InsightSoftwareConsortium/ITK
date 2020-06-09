@@ -66,7 +66,7 @@ namespace itk
  **/
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_EXPORT BinaryCloseParaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT BinaryCloseParaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 
 {
 public:

@@ -46,7 +46,8 @@ namespace itk
  **/
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_EXPORT ParabolicDilateImageFilter : public ParabolicErodeDilateImageFilter<TInputImage, true, TOutputImage>
+class ITK_TEMPLATE_EXPORT ParabolicDilateImageFilter
+  : public ParabolicErodeDilateImageFilter<TInputImage, true, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicDilateImageFilter);

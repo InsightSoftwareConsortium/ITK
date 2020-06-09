@@ -46,7 +46,8 @@ namespace itk
  * Australia.  <Richard.Beare@monash.edu>
  **/
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ITK_EXPORT ParabolicErodeImageFilter : public ParabolicErodeDilateImageFilter<TInputImage, false, TOutputImage>
+class ITK_TEMPLATE_EXPORT ParabolicErodeImageFilter
+  : public ParabolicErodeDilateImageFilter<TInputImage, false, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicErodeImageFilter);
