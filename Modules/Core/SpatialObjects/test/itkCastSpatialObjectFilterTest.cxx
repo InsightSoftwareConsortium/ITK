@@ -60,7 +60,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
   using TubeListType = std::list<TubeType::Pointer>;
   CastType::Pointer caster = CastType::New();
   caster->SetInput(group);
-  TubeListType * tList = caster->GetTubes();
+  std::unique_ptr<TubeListType> tList(caster->GetTubes());
 
   TubeType::Pointer tListTube = (*tList).begin()->GetPointer();
 
