@@ -131,7 +131,9 @@ itkCompositeTransformTest(int, char *[])
   ITK_TEST_EXPECT_EQUAL(compositeTransform->GetFixedParameters().Size(), 0u);
 
   {
-    CompositeType::InputPointType  inputPoint({ 1.1, 2.2 });
+    CompositeType::InputPointType inputPoint;
+    inputPoint[0] = 1.1;
+    inputPoint[1] = 2.2;
     CompositeType::InputVectorType inputVector;
     inputVector[0] = 9.1;
     inputVector[1] = 8.2;
