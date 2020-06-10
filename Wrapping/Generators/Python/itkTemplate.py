@@ -65,7 +65,7 @@ class TemplateTypeError(TypeError):
         extra_eg = ""
         if template_type in [itk.ImageFileReader, itk.ImageSeriesReader,
                 itk.MeshFileReader]:
-            extra_eg="""
+            extra_eg = """
 
 or
 
