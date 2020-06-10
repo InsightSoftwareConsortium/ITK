@@ -984,112 +984,109 @@ main(int argc, char * argv[])
 
 
   //  Software Guide : BeginLatex
-  //
-  // Deviating from previous examples, we will demonstrate this example using
-  // \code{BrainMidSagittalSlice.png}
-  // (Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}, left)
-  // from the \code{Examples/Data} directory.
-  // The aim here is to segment the corpus callosum from the image using a
-  // shape model defined by \code{CorpusCallosumMeanShape.mha} and the first
-  // three principal components \code{CorpusCallosumMode0.mha},
-  // \code{CorpusCallosumMode1.mha} and \code{CorpusCallosumMode12.mha}. As
-  // shown in Figure~\ref{fig:CorpusCallosumPCAModes}, the first mode captures
-  // scaling, the second mode captures the shifting of mass between the
-  // rostrum and the splenium and the third mode captures the degree of
-  // curvature. Segmentation results with and without shape guidance are shown
-  // in Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
-  //
-  //
-  // \begin{figure} \center
-  // \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice}
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5}
-  // \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and
-  // initial model]{ The input image to the
-  // GeodesicActiveContourShapePriorLevelSetImageFilter is a synthesized MR-T1
-  // mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm spacing) of
-  // the brain (left) and the initial best-fit shape (right) chosen to roughly
-  // overlap the corpus callosum in the image to be segmented.}
-  //
-  // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput}
-  // \end{figure}
-  //
-  //
-  // \begin{figure}
-  // \center
-  // \begin{tabular}{cccc}
-  // & $-3\sigma$ & mean & $+3\sigma$ \\ mode 0: &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0} \\ mode
-  // 1: & \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1} \\ mode
-  // 2: & \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
-  // \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2} \\
-  // \end{tabular} \itkcaption[Corpus callosum PCA modes]{First three PCA
-  // modes of a low-resolution
-  // ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model
-  // used in the shape guided geodesic active contours example.}
-  //
-  // \label{fig:CorpusCallosumPCAModes}
-  // \end{figure}
-  //
-  //
-  //
-  // A sigma value of $1.0$ was used to compute the image gradient and the
-  // propagation and shape prior scaling are respectively set to $0.5$ and
-  // $0.02$. An initial level set was created by placing one seed point in the
-  // rostrum $(60,102)$, one in the splenium $(120, 85)$ and one
-  // centrally in the body $(88,83)$ of the corpus callosum with
-  // an initial radius of $6$ pixels at each seed position.
-  // The best-fit shape was initially placed with a translation of
-  // $(10,0)$mm so that it roughly overlapped
-  // the corpus callosum in the image as shown in
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}
-  // (right).
-  //
-  //
-  // From Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
-  // it can be observed that without shape guidance (left), segmentation using
-  // geodesic active contour leaks in the regions where the corpus callosum
-  // blends into the surrounding brain tissues. With shape guidance (center),
-  // the segmentation is constrained by the global shape model to prevent
-  // leaking.
-  //
-  // The final best-fit shape parameters after the segmentation process is:
-  //
-  // \begin{verbatim}
-  // Parameters: [-0.384988, -0.578738, 0.557793, 0.275202, 16.9992, 4.73473]
-  // \end{verbatim}
-  //
-  // and is shown in
-  // Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
-  // (right). Note that a $0.28$ radian ($15.8$ degree) rotation has been
-  // introduced to match the model to the corpus callosum in the image.
-  // Additionally, a negative weight for the first mode shrinks the size
-  // relative to the mean shape. A negative weight for the second mode shifts
-  // the mass to splenium, and a positive weight for the third mode increases
-  // the curvature. It can also be observed that the final segmentation is a
-  // combination of the best-fit shape with additional local deformation. The
-  // combination of both global and local shape allows the segmentation to
-  // capture fine details not represented in the shape model.
-  //
-  //
-  // \begin{figure} \center
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1}
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2}
-  // \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6}
-  // \itkcaption[GeodesicActiveContourShapePriorImageFilter
-  // segmentations]{Corpus callosum segmentation using geodesic active
-  // contours without (left) and with (center) shape guidance. The image on
-  // the right represents the best-fit shape at the end of the segmentation
-  // process.}
-  //
-  // \label{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
-  // \end{figure}
-  //
-  //
+  /*
+  Deviating from previous examples, we will demonstrate this example using
+  \code{BrainMidSagittalSlice.png}
+  (Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}, left)
+  from the \code{Examples/Data} directory.
+  The aim here is to segment the corpus callosum from the image using a
+  shape model defined by \code{CorpusCallosumMeanShape.mha} and the first
+  three principal components \code{CorpusCallosumMode0.mha},
+  \code{CorpusCallosumMode1.mha} and \code{CorpusCallosumMode12.mha}. As
+  shown in Figure~\ref{fig:CorpusCallosumPCAModes}, the first mode captures
+  scaling, the second mode captures the shifting of mass between the
+  rostrum and the splenium and the third mode captures the degree of
+  curvature. Segmentation results with and without shape guidance are shown
+  in Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}.
+
+
+  \begin{figure} \center
+  \includegraphics[width=0.30\textwidth]{BrainMidSagittalSlice}
+  \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput5}
+  \itkcaption[GeodesicActiveContourShapePriorImageFilter input image and
+  initial model]{ The input image to the
+  GeodesicActiveContourShapePriorLevelSetImageFilter is a synthesized MR-T1
+  mid-sagittal slice ($217 \times 180$ pixels, $1 \times 1$ mm spacing) of
+  the brain (left) and the initial best-fit shape (right) chosen to roughly
+  overlap the corpus callosum in the image to be segmented.}
+
+  \label{fig:GeodesicActiveContourShapePriorImageFilterOutput}
+  \end{figure}
+
+
+  \begin{figure}
+  \center
+  \begin{tabular}{cccc}
+  & $-3\sigma$ & mean & $+3\sigma$ \\ mode 0: &
+  \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus0} &
+  \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
+  \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus0} \\ mode
+  1: & \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus1} &
+  \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
+  \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus1} \\ mode
+  2: & \includegraphics[width=0.10\textwidth]{CorpusCallosumModeMinus2} &
+  \includegraphics[width=0.10\textwidth]{CorpusCallosumMeanShape} &
+  \includegraphics[width=0.10\textwidth]{CorpusCallosumModePlus2} \\
+  \end{tabular} \itkcaption[Corpus callosum PCA modes]{First three PCA
+  modes of a low-resolution
+  ($58 \times 31$ pixels, $2 \times 2$ mm spacing) corpus callosum model
+  used in the shape guided geodesic active contours example.}
+
+  \label{fig:CorpusCallosumPCAModes}
+  \end{figure}
+
+  A sigma value of $1.0$ was used to compute the image gradient and the
+  propagation and shape prior scaling are respectively set to $0.5$ and
+  $0.02$. An initial level set was created by placing one seed point in the
+  rostrum $(60,102)$, one in the splenium $(120, 85)$ and one
+  centrally in the body $(88,83)$ of the corpus callosum with
+  an initial radius of $6$ pixels at each seed position.
+  The best-fit shape was initially placed with a translation of
+  $(10,0)$mm so that it roughly overlapped
+  the corpus callosum in the image as shown in
+  Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput}
+  (right).
+
+  From Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
+  it can be observed that without shape guidance (left), segmentation using
+  geodesic active contour leaks in the regions where the corpus callosum
+  blends into the surrounding brain tissues. With shape guidance (center),
+  the segmentation is constrained by the global shape model to prevent
+  leaking.
+
+  The final best-fit shape parameters after the segmentation process is:
+
+  \begin{verbatim}
+  Parameters: [-0.384988, -0.578738, 0.557793, 0.275202, 16.9992, 4.73473]
+  \end{verbatim}
+
+  and is shown in
+  Figure~\ref{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
+  (right). Note that a $0.28$ radian ($15.8$ degree) rotation has been
+  introduced to match the model to the corpus callosum in the image.
+  Additionally, a negative weight for the first mode shrinks the size
+  relative to the mean shape. A negative weight for the second mode shifts
+  the mass to splenium, and a positive weight for the third mode increases
+  the curvature. It can also be observed that the final segmentation is a
+  combination of the best-fit shape with additional local deformation. The
+  combination of both global and local shape allows the segmentation to
+  capture fine details not represented in the shape model.
+
+
+  \begin{figure} \center
+  \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput1}
+  \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput2}
+  \includegraphics[width=0.30\textwidth]{GeodesicActiveContourShapePriorImageFilterOutput6}
+  \itkcaption[GeodesicActiveContourShapePriorImageFilter
+  segmentations]{Corpus callosum segmentation using geodesic active
+  contours without (left) and with (center) shape guidance. The image on
+  the right represents the best-fit shape at the end of the segmentation
+  process.}
+
+  \label{fig:GeodesicActiveContourShapePriorImageFilterOutput2}
+  \end{figure}
+
+  */
   //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;

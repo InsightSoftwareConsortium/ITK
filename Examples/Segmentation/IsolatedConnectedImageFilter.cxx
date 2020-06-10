@@ -238,54 +238,52 @@ main(int argc, char * argv[])
 
 
   //  Software Guide : BeginLatex
-  //
-  //  Let's now run this example using the image
-  //  \code{BrainProtonDensitySlice.png} provided in the directory
-  //  \code{Examples/Data}. We can easily segment the major anatomical
-  //  structures by providing seed pairs in the appropriate locations and
-  //  defining values for the lower threshold. It is important to keep in
-  //  mind in this and the previous examples that the segmentation is being
-  //  performed using the smoothed version of the image. The selection of
-  //  threshold values should therefore be performed in the smoothed image
-  //  since the distribution of intensities could be quite different from
-  //  that of the input image.  As a reminder of this fact, Figure
-  //  \ref{fig:IsolatedConnectedImageFilterOutput} presents, from left to
-  //  right, the input image and the result of smoothing with the
-  //  \doxygen{CurvatureFlowImageFilter} followed by segmentation results.
-  //
-  //  This filter is intended to be used in cases where adjacent anatomical
-  //  structures are difficult to separate. Selecting one seed in one
-  //  structure and the other seed in the adjacent structure creates the
-  //  appropriate setup for computing the threshold that will separate both
-  //  structures. Table~\ref{tab:IsolatedConnectedImageFilterOutput} presents
-  //  the parameters used to obtain the images shown in
-  //  Figure~\ref{fig:IsolatedConnectedImageFilterOutput}.
-  //
-  //  \begin{table}
-  //  \begin{center}
-  //  \begin{tabular}{|l|c|c|c|c|}
-  //  \hline
-  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found \\
-  //  \hline Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ &
-  //  $183.31$  \\ \hline \end{tabular} \end{center}
-  //  \itkcaption[IsolatedConnectedImageFilter example parameters]{Parameters
-  //  used for separating white matter from gray matter in
-  //  Figure~\ref{fig:IsolatedConnectedImageFilterOutput} using the
-  //  IsolatedConnectedImageFilter.\label{tab:IsolatedConnectedImageFilterOutput}}
-  //  \end{table}
-  //
-  // \begin{figure} \center
-  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
-  // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput0}
-  // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput1}
-  // \itkcaption[IsolatedConnected segmentation results]{Segmentation results
-  // of the IsolatedConnectedImageFilter.}
-  // \label{fig:IsolatedConnectedImageFilterOutput}
-  // \end{figure}
-  //
-  //
-  //  Software Guide : EndLatex
+  /*
+   Let's now run this example using the image
+   \code{BrainProtonDensitySlice.png} provided in the directory
+   \code{Examples/Data}. We can easily segment the major anatomical
+   structures by providing seed pairs in the appropriate locations and
+   defining values for the lower threshold. It is important to keep in
+   mind in this and the previous examples that the segmentation is being
+   performed using the smoothed version of the image. The selection of
+   threshold values should therefore be performed in the smoothed image
+   since the distribution of intensities could be quite different from
+   that of the input image.  As a reminder of this fact, Figure
+   \ref{fig:IsolatedConnectedImageFilterOutput} presents, from left to
+   right, the input image and the result of smoothing with the
+   \doxygen{CurvatureFlowImageFilter} followed by segmentation results.
 
+   This filter is intended to be used in cases where adjacent anatomical
+   structures are difficult to separate. Selecting one seed in one
+   structure and the other seed in the adjacent structure creates the
+   appropriate setup for computing the threshold that will separate both
+   structures. Table~\ref{tab:IsolatedConnectedImageFilterOutput} presents
+   the parameters used to obtain the images shown in
+   Figure~\ref{fig:IsolatedConnectedImageFilterOutput}.
+
+   \begin{table}
+   \begin{center}
+   \begin{tabular}{|l|c|c|c|c|}
+   \hline
+   Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found \\
+   \hline Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ &
+   $183.31$  \\ \hline \end{tabular} \end{center}
+   \itkcaption[IsolatedConnectedImageFilter example parameters]{Parameters
+   used for separating white matter from gray matter in
+   Figure~\ref{fig:IsolatedConnectedImageFilterOutput} using the
+   IsolatedConnectedImageFilter.\label{tab:IsolatedConnectedImageFilterOutput}}
+   \end{table}
+
+  \begin{figure} \center
+  \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
+  \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput0}
+  \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput1}
+  \itkcaption[IsolatedConnected segmentation results]{Segmentation results
+  of the IsolatedConnectedImageFilter.}
+  \label{fig:IsolatedConnectedImageFilterOutput}
+  \end{figure}
+  */
+  //  Software Guide : EndLatex
 
   return EXIT_SUCCESS;
 }
