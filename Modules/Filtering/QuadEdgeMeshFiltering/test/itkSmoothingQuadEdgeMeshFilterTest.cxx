@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkTestingMacros.h"
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 
@@ -47,16 +48,7 @@ itkSmoothingQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** READ THE FILE IN **
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown while reading the input file " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   unsigned int      nb_iter;
   std::stringstream ssout(argv[2]);
@@ -70,26 +62,30 @@ itkSmoothingQuadEdgeMeshFilterTest(int argc, char * argv[])
   std::stringstream ssout3(argv[4]);
   ssout3 >> del_conf;
 
-  MeshType::Pointer mesh = reader->GetOutput();
+  const auto mesh = reader->GetOutput();
 
   itk::OnesMatrixCoefficients<MeshType> coeff0;
 
   using SmoothingType = itk::SmoothingQuadEdgeMeshFilter<MeshType, MeshType>;
-  SmoothingType::Pointer filter = SmoothingType::New();
+  const auto filter = SmoothingType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SmoothingQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+
   filter->SetInput(mesh);
   filter->SetNumberOfIterations(nb_iter);
+  ITK_TEST_SET_GET_VALUE(nb_iter, filter->GetNumberOfIterations());
   filter->SetRelaxationFactor(relaxation_factor);
+  ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(relaxation_factor, filter->GetRelaxationFactor()));
   filter->SetDelaunayConforming(del_conf);
+  ITK_TEST_SET_GET_BOOLEAN(filter, DelaunayConforming, del_conf);
   filter->SetCoefficientsMethod(&coeff0);
-  filter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New();
+  const auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[5]);
-  writer->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  // ** PRINT **
-  std::cout << filter;
   return EXIT_SUCCESS;
 }
