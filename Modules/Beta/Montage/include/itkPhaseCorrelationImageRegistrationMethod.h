@@ -64,11 +64,11 @@ public:
  *  image alignment method, in Proc. Int. Conf. on Cybernetics and Society,
  *  pp. 163-165, IEEE, Sep. 1975</em> for method description.
  *
- *  The method consists of 4 (5) steps:
+ *  The method consists of 6 steps:
  *    0. Resampling and padding the images to the same spacing and size.
  *    1. Compute FFT of the two images.
  *    2. Compute the ratio of the two spectrums.
-      3. Apply Butterworth band-pass filter in frequency domain
+ *    3. Apply Butterworth band-pass filter in frequency domain
  *    4. Compute the inverse FFT of the cross-power spectrum.
  *    5. Find the maximum peak in cross-power spectrum and estimate the shift.
  *
