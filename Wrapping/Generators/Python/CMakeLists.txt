@@ -331,7 +331,7 @@ macro(itk_end_wrap_module_python)
   set(ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS ON)
   foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
     get_filename_component(base_name ${source} NAME_WE)
-    itk_wrap_submodule_python("${base_name}")
+    itk_wrap_submodule_python("${base_name}" "${WRAPPER_LIBRARY_NAME}")
     itk_end_wrap_submodule_python("${base_name}")
   endforeach()
   set(ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS OFF)
@@ -623,11 +623,11 @@ macro(ADD_PYTHON_CONFIG_TEMPLATE base_name wrap_class swig_name template_params)
 endmacro()
 
 
-macro(itk_wrap_submodule_python module)
-  set(ITK_WRAP_PYTHON_SWIG_EXT "\n")
+macro(itk_wrap_submodule_python submodule module)
+  set(ITK_WRAP_PYTHON_SWIG_EXT "%pythonbegin %{\nfrom . import _${module}Python\n%}\n\n")
 
   # register the module for the lib module
-  set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from itk.${module}Python import *\n")
+  set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from itk.${submodule}Python import *\n")
 
 endmacro()
 
