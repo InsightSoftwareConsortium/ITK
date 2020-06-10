@@ -45,5 +45,5 @@ itk_fetch_module(GenericLabelInterpolator
   "A generic interpolator for multi-label images."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKGenericLabelInterpolator.git
-  GIT_TAG b95fe46c7f4fe8002af67c67e6fe4e1f087bf6b7
+  GIT_TAG 11616d3bb65c942d405437d0322473797155215c
   )
