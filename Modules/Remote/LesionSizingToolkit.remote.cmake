@@ -45,5 +45,5 @@ itk_fetch_module(LesionSizingToolkit
   "Framework for determining the sizes of lesions in medical images."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/LesionSizingToolkit.git
-  GIT_TAG fa1a783d83ee8c3aeb5e91c3972a0f2f7d16e0d1
+  GIT_TAG 529a185bf301269fc5d3b0aff7cc06bb715aa7a2
   )
