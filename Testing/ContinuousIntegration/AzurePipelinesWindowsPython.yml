@@ -6,7 +6,7 @@ trigger:
     - master
     - release*
 variables:
-  ExternalDataVersion: 5.0.1
+  ExternalDataVersion: 5.1.0
 jobs:
 - job: Windows
   timeoutInMinutes: 0
