@@ -794,7 +794,7 @@ struct HasJoinTraits
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring D1 and D2 to be the same dimension or D2-1 = D1. */
+/** Concept requiring D1 and D2 to be the same dimension or D1-1 = D2. */
 template <unsigned int D1, unsigned int D2>
 struct SameDimensionOrMinusOne
 {
@@ -818,7 +818,7 @@ struct SameDimensionOrMinusOne
   itkConceptConstraintsMacro();
 };
 
-/** Concept requiring D1 and D2 to be the same dimension or D2-1 = D1. */
+/** Concept requiring D1 and D2 to be the same dimension, D1-1 = D2 or D1-2 = D2. */
 template <unsigned int D1, unsigned int D2>
 struct SameDimensionOrMinusOneOrTwo
 {
