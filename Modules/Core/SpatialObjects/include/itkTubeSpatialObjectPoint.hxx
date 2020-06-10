@@ -43,6 +43,28 @@ TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint()
   m_Alpha3 = 0;
 }
 
+/** Copy Constructor */
+template <unsigned int TPointDimension>
+TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint(const TubeSpatialObjectPoint & other)
+  : Superclass(other)
+{
+  this->SetRadiusInObjectSpace(other.GetRadiusInObjectSpace());
+  this->SetTangentInObjectSpace(other.GetTangentInObjectSpace());
+  this->SetNormal1InObjectSpace(other.GetNormal1InObjectSpace());
+  this->SetNormal2InObjectSpace(other.GetNormal2InObjectSpace());
+
+  this->SetRidgeness(other.GetRidgeness());
+  this->SetMedialness(other.GetMedialness());
+  this->SetBranchness(other.GetBranchness());
+  this->SetCurvature(other.GetCurvature());
+  this->SetLevelness(other.GetLevelness());
+  this->SetRoundness(other.GetRoundness());
+  this->SetIntensity(other.GetIntensity());
+  this->SetAlpha1(other.GetAlpha1());
+  this->SetAlpha2(other.GetAlpha2());
+  this->SetAlpha3(other.GetAlpha3());
+}
+
 /** Get the radius */
 template <unsigned int TPointDimension>
 double
@@ -189,13 +211,8 @@ TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint 
 {
   if (this != &rhs)
   {
-    // Superclass
-    this->SetId(rhs.GetId());
-    this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
-    this->SetColor(rhs.GetColor());
-    this->SetSpatialObject(rhs.GetSpatialObject());
+    Superclass::operator=(rhs);
 
-    // class
     this->SetRadiusInObjectSpace(rhs.GetRadiusInObjectSpace());
     this->SetTangentInObjectSpace(rhs.GetTangentInObjectSpace());
     this->SetNormal1InObjectSpace(rhs.GetNormal1InObjectSpace());

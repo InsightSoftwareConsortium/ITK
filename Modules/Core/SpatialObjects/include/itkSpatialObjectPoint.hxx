@@ -38,6 +38,16 @@ SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
   m_SpatialObject = nullptr;
 }
 
+/** Copy Constructor */
+template <unsigned int TPointDimension>
+SpatialObjectPoint<TPointDimension>::SpatialObjectPoint(const SpatialObjectPoint & other)
+{
+  this->SetId(other.GetId());
+  this->SetPositionInObjectSpace(other.GetPositionInObjectSpace());
+  this->SetColor(other.GetColor());
+  this->SetSpatialObject(other.GetSpatialObject());
+}
+
 template <unsigned int TPointDimension>
 void
 SpatialObjectPoint<TPointDimension>::SetPositionInWorldSpace(const PointType & point)

@@ -14,6 +14,7 @@ itkFloodFilledSpatialFunctionTest.cxx
 itkFloodFillIteratorTest.cxx
 itkGaussianDerivativeOperatorTest.cxx
 itkMapContainerTest.cxx
+itkVectorContainerTest.cxx
 itkIteratorTests.cxx
 itkImageReverseIteratorTest.cxx
 itkImageComputeOffsetAndIndexTest.cxx
@@ -338,6 +339,7 @@ itk_add_test(NAME itkLoggerManagerTest COMMAND ITKCommon2TestDriver itkLoggerMan
 itk_add_test(NAME itkLoggerThreadWrapperTest COMMAND ITKCommon2TestDriver itkLoggerThreadWrapperTest ${TEMP}/test_LoggerThreadWrapper.txt)
 itk_add_test(NAME itkMatrixTest COMMAND ITKCommon2TestDriver itkMatrixTest)
 itk_add_test(NAME itkMapContainerTest COMMAND ITKCommon1TestDriver itkMapContainerTest)
+itk_add_test(NAME itkVectorContainerTest COMMAND ITKCommon1TestDriver itkVectorContainerTest)
 itk_add_test(NAME itkIteratorTests COMMAND ITKCommon1TestDriver itkIteratorTests)
 itk_add_test(NAME itkObjectFactoryTest COMMAND ITKCommon1TestDriver itkObjectFactoryTest)
 itk_add_test(NAME itkVectorTest COMMAND ITKCommon1TestDriver itkVectorTest)

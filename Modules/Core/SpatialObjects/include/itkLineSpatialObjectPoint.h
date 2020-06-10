@@ -52,6 +52,9 @@ public:
   /** Constructor */
   LineSpatialObjectPoint();
 
+  /** Copy Constructor */
+  LineSpatialObjectPoint(const LineSpatialObjectPoint & other);
+
   /** Destructor */
   ~LineSpatialObjectPoint() override = default;
 

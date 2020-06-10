@@ -49,6 +49,9 @@ public:
    * TubeSpatialObjectPoint */
   TubeSpatialObjectPoint();
 
+  /** Copy Constructor */
+  TubeSpatialObjectPoint(const TubeSpatialObjectPoint & other);
+
   /** Default destructor. */
   ~TubeSpatialObjectPoint() override = default;
 

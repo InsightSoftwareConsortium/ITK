@@ -47,6 +47,9 @@ public:
   /** Constructor. */
   SpatialObjectPoint();
 
+  /** Copy Constructor. */
+  SpatialObjectPoint(const SpatialObjectPoint & other);
+
   /** Default destructor. */
   virtual ~SpatialObjectPoint() = default;
 

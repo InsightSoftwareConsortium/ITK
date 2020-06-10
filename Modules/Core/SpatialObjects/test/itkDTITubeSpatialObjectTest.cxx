@@ -16,23 +16,23 @@
  *
  *=========================================================================*/
 /*
- * itkTubeSpatialObject test file.
+ * itkDTITubeSpatialObject test file.
  * This test file test also the basic functions of the CompositeSpatialObject class,
  * like Add/RemoveChild(...), Get/SetChildren(...), etc...
  */
 
 #include "itkTestingMacros.h"
-#include "itkTubeSpatialObject.h"
+#include "itkDTITubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 
 
 int
-itkTubeSpatialObjectTest(int, char *[])
+itkDTITubeSpatialObjectTest(int, char *[])
 {
   using ScalarType = double;
   using Vector = itk::Vector<ScalarType, 3>;
   using Point = itk::Point<ScalarType, 3>;
-  using TubeType = itk::TubeSpatialObject<3>;
+  using TubeType = itk::DTITubeSpatialObject<3>;
   using TubePointer = itk::SmartPointer<TubeType>;
   using GroupType = itk::GroupSpatialObject<3>;
   using GroupPointer = itk::SmartPointer<GroupType>;
@@ -536,6 +536,11 @@ itkTubeSpatialObjectTest(int, char *[])
     p_original.SetAlpha2(10.0);
     p_original.SetAlpha3(11.0);
 
+    // itk::DTITubeSpatialObjectTest.cxx
+    itk::DiffusionTensor3D<float> tensor;
+    tensor.Fill(0);
+    p_original.SetTensorMatrix(tensor);
+
     // Copy
     TubePointType p_copy(p_original);
     // Assign
@@ -579,6 +584,14 @@ itkTubeSpatialObjectTest(int, char *[])
       ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha1(), pv.GetAlpha1()));
       ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha2(), pv.GetAlpha2()));
       ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha3(), pv.GetAlpha3()));
+
+      // itk::DTITubeSpatialObjectPoint
+      const auto p_original_tensor = p_original.GetTensorMatrix();
+      const auto pv_tensor = pv.GetTensorMatrix();
+      for (size_t j = 0; j < 6; ++j)
+      {
+        ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original_tensor[j], pv_tensor[j]));
+      }
     }
 
     std::cout << "[DONE]" << std::endl;

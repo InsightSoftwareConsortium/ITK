@@ -29,6 +29,14 @@ SurfaceSpatialObjectPoint<TPointDimension>::SurfaceSpatialObjectPoint()
   m_NormalInObjectSpace.Fill(0);
 }
 
+/** Copy Constructor */
+template <unsigned int TPointDimension>
+SurfaceSpatialObjectPoint<TPointDimension>::SurfaceSpatialObjectPoint(const SurfaceSpatialObjectPoint & other)
+  : Superclass(other)
+{
+  this->m_NormalInObjectSpace = other.m_NormalInObjectSpace;
+}
+
 /** Set the normal : N-D case */
 template <unsigned int TPointDimension>
 void
@@ -61,11 +69,11 @@ template <unsigned int TPointDimension>
 typename SurfaceSpatialObjectPoint<TPointDimension>::Self &
 SurfaceSpatialObjectPoint<TPointDimension>::operator=(const SurfaceSpatialObjectPoint & rhs)
 {
-  this->m_Id = rhs.m_Id;
-  this->m_Color = rhs.m_Color;
-  this->m_SpatialObject = rhs.m_SpatialObject;
-  this->m_PositionInObjectSpace = rhs.m_PositionInObjectSpace;
-  this->m_NormalInObjectSpace = rhs.m_NormalInObjectSpace;
+  if (this != &rhs)
+  {
+    Superclass::operator=(rhs);
+    this->m_NormalInObjectSpace = rhs.m_NormalInObjectSpace;
+  }
   return *this;
 }
 } // end namespace itk
