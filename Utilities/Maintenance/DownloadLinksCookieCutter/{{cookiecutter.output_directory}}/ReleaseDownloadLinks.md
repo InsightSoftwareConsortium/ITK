@@ -9,7 +9,7 @@ pip install --upgrade itk
 or:
 
 ```
-conda -c conda-forge install itk
+conda install -c conda-forge itk
 ```
 
 **Guide and Textbook**
