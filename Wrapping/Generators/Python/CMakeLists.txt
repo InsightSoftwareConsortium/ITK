@@ -328,13 +328,13 @@ macro(itk_end_wrap_module_python)
   # Loop over the extra swig input files and add them to the generated files
   # lists. Guess that the generated cxx output will have the same name as
   # the .i input file.
-  set(ITK_WRAP_PYTHON_PROCCESS_SWIG_INPUTS ON)
+  set(ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS ON)
   foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
     get_filename_component(base_name ${source} NAME_WE)
-    itk_wrap_submodule_python("${base_name}")
+    itk_wrap_submodule_python("${base_name}" "${WRAPPER_LIBRARY_NAME}")
     itk_end_wrap_submodule_python("${base_name}")
   endforeach()
-  set(ITK_WRAP_PYTHON_PROCCESS_SWIG_INPUTS OFF)
+  set(ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS OFF)
 
   # create the python config file
   # this file store all the name - type association and a dependencies list for the modules
@@ -537,7 +537,7 @@ macro(itk_end_wrap_submodule_python group_name)
   endif()
 
   # is there a docstring file?
-  if(${module_prefix}_WRAP_DOC AND NOT ITK_WRAP_PYTHON_PROCCESS_SWIG_INPUTS)
+  if(${module_prefix}_WRAP_DOC AND NOT ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS)
     # yes. Include the docstring file
     set(doc_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i")
     set(ITK_WRAP_PYTHON_SWIG_EXT "%include ${WRAPPER_MODULE_NAME}_doc.i\n\n${ITK_WRAP_PYTHON_SWIG_EXT}")
@@ -623,11 +623,11 @@ macro(ADD_PYTHON_CONFIG_TEMPLATE base_name wrap_class swig_name template_params)
 endmacro()
 
 
-macro(itk_wrap_submodule_python module)
-  set(ITK_WRAP_PYTHON_SWIG_EXT "\n")
+macro(itk_wrap_submodule_python submodule module)
+  set(ITK_WRAP_PYTHON_SWIG_EXT "%pythonbegin %{\nfrom . import _${module}Python\n%}\n\n")
 
   # register the module for the lib module
-  set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from itk.${module}Python import *\n")
+  set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from itk.${submodule}Python import *\n")
 
 endmacro()
 
