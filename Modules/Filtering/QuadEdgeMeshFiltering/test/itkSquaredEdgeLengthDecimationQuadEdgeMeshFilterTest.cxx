@@ -72,7 +72,7 @@ itkSquaredEdgeLengthDecimationQuadEdgeMeshFilterTest(int argc, char * argv[])
   for (const auto & tc : topological_change)
   {
     const auto criterion = CriterionType::New();
-    ITK_TEST_SET_GET_BOOLEAN(criterion, TopologicalChange, true);
+    ITK_TEST_SET_GET_BOOLEAN(criterion, TopologicalChange, tc);
     criterion->SetNumberOfElements(N);
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(criterion, NumberOfFacesCriterion, QuadEdgeMeshDecimationCriterion);
