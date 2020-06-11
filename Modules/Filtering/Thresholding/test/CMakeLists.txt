@@ -121,7 +121,7 @@ itk_add_test(NAME itkIsoDataThresholdImageFilterTestNoAutoMinMax
       COMMAND ITKThresholdingTestDriver
     --compare-MD5 DATA{Baseline/itkIsoDataThresholdImageFilterTestNoAutoMinMax.png}
               9f844fd120ff49a7812e329a1b0216d8
-    itkIsoDataThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkIsoDataThresholdImageFilterTestNoAutoMinMax.png 32 0 1)
+    itkIsoDataThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkIsoDataThresholdImageFilterTestNoAutoMinMax.png 32 0 1023)
 
 itk_add_test(NAME itkIsoDataMaskedThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver

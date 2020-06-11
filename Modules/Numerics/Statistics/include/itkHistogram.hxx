@@ -645,11 +645,12 @@ double
 Histogram<TMeasurement, TFrequencyContainer>::Mean(unsigned int dimension) const
 {
   const unsigned int size = this->GetSize(dimension);
-  auto               totalFrequency = double(this->GetTotalFrequency());
+  double             totalFrequency = this->GetTotalFrequency();
   double             sum = 0;
   for (unsigned int i = 0; i < size; i++)
   {
-    sum += this->GetFrequency(i, dimension);
+    double frequency = this->GetFrequency(i, dimension);
+    sum += frequency * this->GetMeasurement(i, dimension);
   }
   return sum / totalFrequency;
 }
