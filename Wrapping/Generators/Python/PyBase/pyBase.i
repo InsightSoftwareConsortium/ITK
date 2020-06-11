@@ -1,5 +1,9 @@
 %module(package="itk") pyBasePython
 
+%pythonbegin %{
+from . import _ITKPyBasePython
+%}
+
 %include <exception.i>
 %include <typemaps.i>
 
