@@ -25,21 +25,21 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash f43ef30267c850872cf1e8ea8594c5dc6a1beb7c343d63875662ee7c648dac4f9214c915499ef2e1148f2b5f866e4c518ca1a21fb5055baba7d62f4f69097ba0)
+    set(_castxml_hash a3c929ebd652fd159709826e154d566235fb12903dac04070854e83abf0e091ae369421b83699d4d78d4334ce1c5b7c9fda5f90e0c8e31170b7e902273eb4a09)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash b8b6f0aff11fe89ab2fcd1949cc75f2c2378a7bc408827a004396deb5ff5a9976bffe8a597f8db1b74c886ea39eb905e610dce8f5bd7586a4d6c196d7349da8d)
+    set(_castxml_hash fa7a38dbdb71e0484cfeb255aef6d085abf23496a85051e3dccac593d9eec042fad5be72110d7f3528b424d90fbf5b5053c31f054470d691a7109c1f13776229)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash 88c9b5954ca7417f7b519f3006dc6fe4bd194af0837168edc30007a41eaae6d4eee97cef2a72747432af14941c7f60333b77c25e208b2540dcde2d61e0d0e6f3)
+    set(_castxml_hash 0ba8deff17b3a8f5a2cd22939ff83a864629201d8b881e44d7ed01d0fd2aa578338e3319e402c226b3648a6027a4538e8c4cd066d6fe2c49eb1a4471e803b827)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
@@ -91,11 +91,11 @@ else()
         itk_download_attempt_check(LLVM)
         itk_download_attempt_check(Clang)
       endif()
-      set(llvm_version 6.0.1)
-      set(llvm_hash cbbb00eb99cfeb4aff623ee1a5ba075e7b5a76fc00c5f9f539ff28c108598f5708a0369d5bd92683def5a20c2fe60cab7827b42d628dbfcc79b57e0e91b84dd9)
+      set(llvm_version 10.0.0)
+      set(llvm_hash 693cefdc49d618f828144486a18b473f)
       ExternalProject_Add(llvm
-        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${llvm_hash}/download"
-        URL_HASH SHA512=${llvm_hash}
+        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_version}/llvm-${llvm_version}.src.tar.xz"
+        URL_HASH MD5=${llvm_hash}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
         CMAKE_ARGS -Wno-dev
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
@@ -109,13 +109,10 @@ else()
           -DLLVM_INCLUDE_DOCS:BOOL=OFF
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
         )
-      set(clang_hash f64ba9290059f6e36fee41c8f32bf483609d31c291fcd2f77d41fecfdf3c8233a5e23b93a1c73fed03683823bd6e72757ed993dd32527de3d5f2b7a64bb031b9)
+      set(clang_hash 717ef92318fed4dbe1ee058368cfb552)
       ExternalProject_Add(clang
-        # This is the upstream source code repackages in a .tar.gz for
-        # compatibility with older CMake. Also the tests/ and doc/ directories
-        # are removed to remove symlink files and save space.
-        URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${clang_hash}/download"
-        URL_HASH SHA512=${clang_hash}
+        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_version}/clang-${llvm_version}.src.tar.xz"
+        URL_HASH MD5=${clang_hash}
         DEPENDS llvm
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
         CMAKE_ARGS -Wno-dev
@@ -139,8 +136,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2019-07-15
-      GIT_TAG 75bd5c41785e9ea2bcd5e2ffda575d660a1c9dae
+      # CastXML master, 2020-04-27
+      GIT_TAG v0.3.4
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
