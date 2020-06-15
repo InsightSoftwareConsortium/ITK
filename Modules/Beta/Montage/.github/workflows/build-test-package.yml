@@ -130,7 +130,7 @@ jobs:
       matrix:
         python-version: [35, 36, 37, 38]
         include:
-          - itk-python-git-tag: "v5.1.0"
+          - itk-python-git-tag: "v5.1.0.post3"
 
     steps:
     - uses: actions/checkout@v2
@@ -166,7 +166,7 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - itk-python-git-tag: "v5.1.0"
+          - itk-python-git-tag: "v5.1.0.post3"
 
     steps:
     - uses: actions/checkout@v2
@@ -195,7 +195,7 @@ jobs:
       matrix:
         python-version-minor: [5, 6, 7, 8]
         include:
-          - itk-python-git-tag: "v5.1.0"
+          - itk-python-git-tag: "v5.1.0.post3"
 
     steps:
     - uses: actions/checkout@v2
@@ -228,7 +228,7 @@ jobs:
         set PATH="C:\P\grep;%PATH%"
         set CC=cl.exe
         set CXX=cl.exe
-        C:\Python3${{ matrix.python-version-minor }}-x64\python.exe C:\P\IPP\scripts\windows_build_module_wheels.py --py-envs "3${{ matrix.python-version-minor }}-x64"
+        C:\Python3${{ matrix.python-version-minor }}-x64\python.exe C:\P\IPP\scripts\windows_build_module_wheels.py --py-envs "3${{ matrix.python-version-minor }}-x64" --no-cleanup
 
     - name: Publish Python package as GitHub Artifact
       uses: actions/upload-artifact@v1
