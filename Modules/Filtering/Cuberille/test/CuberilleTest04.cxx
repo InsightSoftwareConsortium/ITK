@@ -45,7 +45,7 @@ CuberilleTest04(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   // 219 11011011
   // 231 11100111
 
-  std::array<size_t, 4> masks{ 126, 189, 219, 231 };
+  std::array<size_t, 4> masks{ { 126, 189, 219, 231 } };
 
   for (const auto & mask : masks)
   {
