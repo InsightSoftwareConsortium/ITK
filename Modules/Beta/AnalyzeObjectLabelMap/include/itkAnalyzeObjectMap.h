@@ -38,8 +38,7 @@ using AnalyzeObjectEntryArrayType = std::vector<AnalyzeObjectEntry::Pointer>;
  *  \brief A class that is an image with functions that let the user change aspects of the class.  This
  * is a templated class where most everything will depend on the Image type that is used.
  */
-template <class TImage = itk::Image<unsigned char, 4>,
-          class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4>>
+template <class TImage = itk::Image<unsigned char, 4>, class TRGBImage = itk::Image<itk::RGBPixel<unsigned char>, 4>>
 class ITK_TEMPLATE_EXPORT AnalyzeObjectMap : public TImage
 {
 public:

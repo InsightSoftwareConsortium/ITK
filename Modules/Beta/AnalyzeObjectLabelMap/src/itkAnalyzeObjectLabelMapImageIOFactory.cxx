@@ -55,7 +55,7 @@ AnalyzeObjectLabelMapImageIOFactory::GetDescription() const
 static bool AnalyzeObjectLabelMapImageIOFactoryHasBeenRegistered{ false };
 
 void AnalyzeObjectLabelMap_EXPORT
-AnalyzeObjectLabelMapImageIOFactoryRegister__Private()
+     AnalyzeObjectLabelMapImageIOFactoryRegister__Private()
 {
   if (!AnalyzeObjectLabelMapImageIOFactoryHasBeenRegistered)
   {
