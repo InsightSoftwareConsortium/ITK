@@ -45,6 +45,6 @@ setup(
     keywords='ITK InsightToolkit AnalyzeObjectMap',
     url=r'https://github.com/InsightSoftwareConsortium/itkAnalyzeObjectMap',
     install_requires=[
-        r'itk>=5.1.0'
+        r'itk>=5.1.0.post2'
     ]
     )
