@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-montage',
-    version='0.5.2',
+    version='0.5.3',
     author='Insight Software Consortium',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
@@ -50,6 +50,7 @@ setup(
     install_requires=[
         r'itk-core>=v5.1.0.post3',
         r'itk-filtering>=v5.1.0.post3',
-        r'itk-io>=v5.1.0.post3'
+        r'itk-io>=v5.1.0.post3',
+        r'numpy'
     ]
     )
