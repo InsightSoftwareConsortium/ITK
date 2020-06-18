@@ -78,7 +78,8 @@ PhaseCorrelationRegistrationFiles(int argc, char * argv[])
   phaseCorrelationMethod->SetOperator(pcmOperator);
 
   // Optimizer type
-  using OptimizerType = itk::PhaseCorrelationOptimizer<typename PhaseCorrelationMethodType::InternalPixelType, VDimension>;
+  using OptimizerType =
+    itk::PhaseCorrelationOptimizer<typename PhaseCorrelationMethodType::InternalPixelType, VDimension>;
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
