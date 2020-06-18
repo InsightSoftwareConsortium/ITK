@@ -28,7 +28,7 @@
 #include <type_traits>
 
 //#ifndef NDEBUG
-#  include "itkImageFileWriter.h"
+#include "itkImageFileWriter.h"
 
 namespace
 {
@@ -51,11 +51,11 @@ WriteDebug(const TImage * out, const char * filename)
 }
 } // namespace
 //#else
-//namespace
+// namespace
 //{
-//template <typename TImage>
-//void
-//WriteDebug(TImage *, const char *)
+// template <typename TImage>
+// void
+// WriteDebug(TImage *, const char *)
 //{}
 //} // namespace
 //#endif
@@ -63,7 +63,7 @@ WriteDebug(const TImage * out, const char * filename)
 namespace itk
 {
 
-template <typename TRealPixelType, unsigned int VImageDimension >
+template <typename TRealPixelType, unsigned int VImageDimension>
 PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::PhaseCorrelationOptimizer()
 {
   this->SetNumberOfRequiredInputs(3);
@@ -71,13 +71,13 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::PhaseCorrelationOpti
 
   this->m_AdjustedInput = ImageType::New();
 
-  this->m_PadFilter->SetSizeGreatestPrimeFactor( this->m_FFTFilter->GetSizeGreatestPrimeFactor() );
-  this->m_CyclicShiftFilter->SetInput( this->m_PadFilter->GetOutput() );
-  this->m_FFTFilter->SetInput( this->m_CyclicShiftFilter->GetOutput() );
+  this->m_PadFilter->SetSizeGreatestPrimeFactor(this->m_FFTFilter->GetSizeGreatestPrimeFactor());
+  this->m_CyclicShiftFilter->SetInput(this->m_PadFilter->GetOutput());
+  this->m_FFTFilter->SetInput(this->m_CyclicShiftFilter->GetOutput());
 }
 
 
-template <typename TRealPixelType, unsigned int VImageDimension >
+template <typename TRealPixelType, unsigned int VImageDimension>
 void
 PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetOffsetCount(unsigned count)
 {
@@ -96,7 +96,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetOffsetCount(unsig
 }
 
 
-template <typename TRealPixelType, unsigned int VImageDimension >
+template <typename TRealPixelType, unsigned int VImageDimension>
 void
 PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -114,7 +114,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::PrintSelf(std::ostre
 }
 
 
-template <typename TRealPixelType, unsigned int VImageDimension >
+template <typename TRealPixelType, unsigned int VImageDimension>
 void
 PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetPeakInterpolationMethod(
   const PeakInterpolationMethodEnum peakInterpolationMethod)
@@ -127,7 +127,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetPeakInterpolation
 }
 
 
-template <typename TRealPixelType, unsigned int VImageDimension >
+template <typename TRealPixelType, unsigned int VImageDimension>
 void
 PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::GenerateData()
 {
@@ -166,7 +166,8 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::GenerateData()
 
 template <typename TRealPixelType, unsigned int VImageDimension>
 void
-PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetFixedImage(const ImageBase<ImageType::ImageDimension> * image)
+PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetFixedImage(
+  const ImageBase<ImageType::ImageDimension> * image)
 {
   itkDebugMacro("setting fixed image to " << image);
   if (this->GetInput(0) != image)
@@ -179,7 +180,8 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetFixedImage(const 
 
 template <typename TRealPixelType, unsigned int VImageDimension>
 void
-PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetMovingImage(const ImageBase<ImageType::ImageDimension> * image)
+PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::SetMovingImage(
+  const ImageBase<ImageType::ImageDimension> * image)
 {
   itkDebugMacro("setting moving image to " << image);
   if (this->GetInput(1) != image)
@@ -220,9 +222,9 @@ template <typename TRealPixelType, unsigned int VImageDimension>
 void
 PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
 {
-  const ImageType * fixed = static_cast<ImageType *>(this->GetInput(0));
-  const ImageType * moving = static_cast<ImageType *>(this->GetInput(1));
-  const ImageType * input = static_cast<ImageType *>(this->GetInput(2));
+  const ImageType *        fixed = static_cast<ImageType *>(this->GetInput(0));
+  const ImageType *        moving = static_cast<ImageType *>(this->GetInput(1));
+  const ImageType *        input = static_cast<ImageType *>(this->GetInput(2));
   const ComplexImageType * complexInput = static_cast<ComplexImageType *>(this->GetInput(3));
 
   const typename ImageType::SpacingType spacing = fixed->GetSpacing();
@@ -312,7 +314,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
     },
     nullptr);
 
-  //WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInput.nrrd");
+  // WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInput.nrrd");
 
   if (m_ZeroSuppression > 0.0) // suppress trivial zero solution
   {
@@ -363,7 +365,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
       },
       nullptr);
 
-    //WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInputZS.nrrd");
+    // WriteDebug(m_AdjustedInput.GetPointer(), "m_AdjustedInputZS.nrrd");
   }
 
   m_MaxCalculator->SetImage(m_AdjustedInput);
@@ -571,29 +573,30 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
           this->m_Offsets[offsetIndex][i] = mirrorOffset;
         }
         // TODO: remove
-        //std::cout << "MAX Phase GENERATED: " << this->m_Offsets[offsetIndex] << std::endl;
+        // std::cout << "MAX Phase GENERATED: " << this->m_Offsets[offsetIndex] << std::endl;
       } // for ImageDimension
     }   // for offsetIndex
     if (this->m_PeakInterpolationMethod == PeakInterpolationMethodEnum::WeightedMeanPhase)
     {
       for (unsigned int peak = 0; peak < this->m_PhaseInterpolated && peak < this->m_Offsets.size(); ++peak)
       {
-        this->m_PadFilter->SetInput( this->m_AdjustedInput );
+        this->m_PadFilter->SetInput(this->m_AdjustedInput);
         typename CyclicShiftFilterType::OffsetType offset;
         for (unsigned int dim = 0; dim < ImageDimension; ++dim)
         {
           offset[dim] = -maxIndices[peak][dim];
         }
-        this->m_CyclicShiftFilter->SetShift( offset );
+        this->m_CyclicShiftFilter->SetShift(offset);
         this->m_FFTFilter->Update();
         const typename FFTFilterType::OutputImageType * correlationFFT = this->m_FFTFilter->GetOutput();
 
         using ContinuousIndexType = ContinuousIndex<OffsetScalarType, ImageDimension>;
-        ContinuousIndexType           maxIndex = maxIndices[peak];
-        if (this->m_PeakInterpolationMethod == PeakInterpolationMethodEnum::WeightedMeanPhase) {
-          using SumType = CompensatedSummation< double >;
-          SumType powerSum;
-          SumType weightedPhase;
+        ContinuousIndexType maxIndex = maxIndices[peak];
+        if (this->m_PeakInterpolationMethod == PeakInterpolationMethodEnum::WeightedMeanPhase)
+        {
+          using SumType = CompensatedSummation<double>;
+          SumType                                            powerSum;
+          SumType                                            weightedPhase;
           typename FFTFilterType::OutputImageType::IndexType index;
           for (unsigned int dim = 0; dim < ImageDimension; ++dim)
           {
@@ -601,10 +604,11 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
             weightedPhase.ResetToZero();
             index.Fill(0);
             const SizeValueType maxFreqIndex = correlationFFT->GetLargestPossibleRegion().GetSize()[dim] / 2;
-            for(SizeValueType freqIndex = 1; freqIndex < maxFreqIndex; ++freqIndex) {
+            for (SizeValueType freqIndex = 1; freqIndex < maxFreqIndex; ++freqIndex)
+            {
               index[dim] = freqIndex;
               const typename FFTFilterType::OutputPixelType correlation = correlationFFT->GetPixel(index);
-              const double phase = std::arg(correlation);
+              const double                                  phase = std::arg(correlation);
               const double power = correlation.imag() * correlation.imag() + correlation.real() * correlation.real();
               weightedPhase += phase / Math::pi * power;
               powerSum += power;
@@ -612,7 +616,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
             const double deltaToF = -1 * weightedPhase.GetSum() / powerSum.GetSum();
             maxIndex[dim] += deltaToF;
           }
-        //} else if(this->m_PeakInterpolationMethod == PeakInterpolationMethodEnum::PhaseFrequencySlope) {
+          //} else if(this->m_PeakInterpolationMethod == PeakInterpolationMethodEnum::PhaseFrequencySlope) {
           //// todo: compute the linear regression of the phase, use
           //// slope, add to maxIndex
         }
@@ -633,10 +637,10 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
           }
         }
         // TODO: remove
-        //std::cout << "Complex GENERATED: " << this->m_Offsets[peak] << std::endl;
+        // std::cout << "Complex GENERATED: " << this->m_Offsets[peak] << std::endl;
       }
     } // frequency domain interpolation
-  } // interpolate the peak
+  }   // interpolate the peak
 }
 
 

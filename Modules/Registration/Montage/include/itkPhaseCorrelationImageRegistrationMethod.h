@@ -177,7 +177,7 @@ public:
   using OperatorPointer = typename OperatorType::Pointer;
 
   /**  Type of the Optimizer */
-  using OptimizerType = PhaseCorrelationOptimizer< InternalPixelType, ImageDimension >;
+  using OptimizerType = PhaseCorrelationOptimizer<InternalPixelType, ImageDimension>;
   using OptimizerPointer = typename OptimizerType::Pointer;
 
   /**  Type for the transform. */
@@ -453,8 +453,8 @@ protected:
   FrequencyFunctorType       m_LowPassFunctor;
 
 private:
-  OperatorPointer     m_Operator = nullptr;
-  OptimizerPointer    m_Optimizer    = nullptr;
+  OperatorPointer  m_Operator = nullptr;
+  OptimizerPointer m_Optimizer = nullptr;
 
   MovingImageConstPointer m_MovingImage = nullptr;
   FixedImageConstPointer  m_FixedImage = nullptr;

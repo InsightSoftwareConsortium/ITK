@@ -51,8 +51,7 @@ public:
   };
 
   // For iteration
-  static constexpr std::initializer_list<PeakInterpolationMethod> AllPeakInterpolationMethods =
-  {
+  static constexpr std::initializer_list<PeakInterpolationMethod> AllPeakInterpolationMethods = {
     PeakInterpolationMethod::None,
     PeakInterpolationMethod::Parabolic,
     PeakInterpolationMethod::Cosine,
@@ -111,7 +110,7 @@ extern Montage_EXPORT std::ostream &
  *
  * \ingroup Montage
  */
-template <typename TRealPixel, unsigned int VImageDimension >
+template <typename TRealPixel, unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer : public ProcessObject
 {
 public:
@@ -132,9 +131,9 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
 
   using RealPixelType = TRealPixel;
-  using ComplexPixelType = std::complex< RealPixelType >;
-  using ImageType = Image< RealPixelType, ImageDimension >;
-  using ComplexImageType = Image< ComplexPixelType, ImageDimension >;
+  using ComplexPixelType = std::complex<RealPixelType>;
+  using ImageType = Image<RealPixelType, ImageDimension>;
+  using ComplexImageType = Image<ComplexPixelType, ImageDimension>;
 
   /** Type for the output parameters.
    *  It defines a position in the optimization search space. */
@@ -268,15 +267,15 @@ private:
   typename ImageType::Pointer m_AdjustedInput;
   IndexContainerType          m_MaxIndices;
 
-  using CyclicShiftFilterType = CyclicShiftImageFilter< ImageType >;
+  using CyclicShiftFilterType = CyclicShiftImageFilter<ImageType>;
   typename CyclicShiftFilterType::Pointer m_CyclicShiftFilter = CyclicShiftFilterType::New();
 
-  unsigned int m_PhaseInterpolated {1};
+  unsigned int m_PhaseInterpolated{ 1 };
 
-  using PadFilterType = FFTPadImageFilter< ImageType, ImageType >;
+  using PadFilterType = FFTPadImageFilter<ImageType, ImageType>;
   typename PadFilterType::Pointer m_PadFilter = PadFilterType::New();
 
-  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< ImageType >;
+  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter<ImageType>;
   typename FFTFilterType::Pointer m_FFTFilter = FFTFilterType::New();
 };
 
