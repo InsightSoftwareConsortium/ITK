@@ -24,6 +24,10 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include <vector>
 #include "MontageExport.h"
+#include "itkNMinimaMaximaImageCalculator.h"
+#include "itkCyclicShiftImageFilter.h"
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkFFTPadImageFilter.h"
 
 namespace itk
 {
@@ -43,7 +47,7 @@ public:
     Parabolic,
     Cosine,
     WeightedMeanPhase,
-    PhaseFrequencySlope,
+    // PhaseFrequencySlope,
   };
 
   // For iteration
@@ -67,20 +71,47 @@ extern Montage_EXPORT std::ostream &
  *  \brief Defines common interface for optimizers, that estimates the shift
  *         from correlation surface.
  *
- *  The class is templated over the input image type, as some optimizers operate
- *  real correlation surface and some on complex correlation surface.
+ *  The class is templated over the input phase correlation real pixel type.
+ *  As some optimization methods operate on
+ *  real correlation surface and some on complex correlation surface, both
+ *  input phase correlation images can be set with SetRealInput and SetComplexInput.
  *
- *  This class implements input and output handling, while the computation has
- *  to be performed by ComputeOffset() method, that must be overriden in derived
- *  classes.
+ *  The peak interpolation method is defined by SetPeakInterpolationMethod.
+ *  More complex peak interpolation methods use simpler methods as preliminary
+ *  steps.
  *
+ *  For PeakInterpolationMethod::None the integer pixel-precision max peaks
+ *  are found.  This step operates on the real correlation surface.
+ *  The optimizer finds the maximum peak by NMinimaMaximaImageCalculator, and
+ *  applies constraits from the SetMergePeaks, SetZeroSuppression, and
+ *  SetPixelDistanceTolerance parameters.
+ *
+ *  For PeakInterpolationMethod::Parabolic or PeakInterpolationMethod::Cosine,
+ *  a sub-pixel peak is found by fitting these functions to the real phase
+ *  correlation surface.
+ *
+ *  For PeakInterpolationMethod::WeightedMeanPhase, for efficiency, the
+ *  weighted mean phase method is used the first PhaseInterpolated
+ *  number of peaks, and Parabolic interpolation is used for the remaining peaks.
+ *  This approach is summarized in:
+ *
+ *    https://www.ncbi.nlm.nih.gov/pubmed/31352341
+ *
+ *  Power spectrum weighted mean. (Eqn. 10)
+ *
+ *  Future work may add support for the
+ *  slope of the phase-frequency least squares linear regression. (Eqn. 14)
+ *
+ *
+ * \author Matt McCormick, matt.mccormick@kitware.com, Kitware, Inc
+ * \author Dženan Zukić, dzenan.zukic@kitware.com, Kitware, Inc
  * \author Jakub Bican, jakub.bican@matfyz.cz, Department of Image Processing,
  *         Institute of Information Theory and Automation,
  *         Academy of Sciences of the Czech Republic.
  *
  * \ingroup Montage
  */
-template <typename TImage>
+template <typename TRealPixel, unsigned int VImageDimension >
 class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer : public ProcessObject
 {
 public:
@@ -91,15 +122,19 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(PhaseCorrelationOptimizer, ProcessObject);
 
-  /**  Type of the input image. */
-  using ImageType = TImage;
-  using ImageConstPointer = typename ImageType::ConstPointer;
+  /**  Type of the inputs. */
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
-  /** Dimensionality of input and output data. */
-  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
+  using RealPixelType = TRealPixel;
+  using ComplexPixelType = std::complex< RealPixelType >;
+  using ImageType = Image< RealPixelType, ImageDimension >;
+  using ComplexImageType = Image< ComplexPixelType, ImageDimension >;
 
   /** Type for the output parameters.
    *  It defines a position in the optimization search space. */
@@ -122,16 +157,10 @@ public:
   itkGetConstReferenceMacro(Offsets, OffsetVector);
 
   /** Confidences corresponding to offsets. */
-  using ConfidenceVector = std::vector<typename NumericTraits<typename TImage::PixelType>::ValueType>;
+  using ConfidenceVector = std::vector<typename NumericTraits<typename ImageType::PixelType>::ValueType>;
 
   /** Get the confidences corresponding to offsets. */
   itkGetConstReferenceMacro(Confidences, ConfidenceVector);
-
-  using Superclass::SetInput;
-
-  /** Sets the input image to the optimizer. */
-  void
-  SetInput(const ImageType * image);
 
   /** Sets the fixed image to the optimizer. */
   void
@@ -140,6 +169,19 @@ public:
   /** Sets the fixed image to the optimizer. */
   void
   SetMovingImage(const ImageBase<ImageType::ImageDimension> * image);
+
+  /** Sets the real phase correlation input image to the optimizer. */
+  void
+  SetRealInput(const ImageType * image);
+
+  /** Sets the complex phase correlation input image to the optimizer. */
+  void
+  SetComplexInput(const ComplexImageType * image);
+
+  using PeakInterpolationMethodEnum = PhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
+  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
+  void
+  SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
 
   /** Returns the offset resulting from the registration process  */
   const OffsetOutputType *
@@ -159,24 +201,34 @@ public:
     return m_Offsets.size();
   }
 
-  using PeakInterpolationMethodEnum = PhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
-  itkGetConstMacro(PeakInterpolationMethod, PeakInterpolationMethodEnum);
-  void
-  SetPeakInterpolationMethod(const PeakInterpolationMethodEnum peakInterpolationMethod);
+  using MaxCalculatorType = NMinimaMaximaImageCalculator<ImageType>;
+  using IndexContainerType = typename MaxCalculatorType::IndexVector;
 
-  bool virtual SupportsPeakInterpolationMethod(PeakInterpolationMethodEnum method) const = 0;
-  bool SupportsPeakInterpolationMethodInt(uint8_t method) const;
+  /** Get/Set maximum city-block distance for peak merging. Zero disables it. */
+  itkGetConstMacro(MergePeaks, unsigned);
+  itkSetMacro(MergePeaks, unsigned);
 
+  /** Get/Set suppression aggressiveness of trivial [0,0,...] solution. */
+  itkGetConstMacro(ZeroSuppression, double);
+  itkSetClampMacro(ZeroSuppression, double, 0.0, 100.0);
 
-  using Superclass::MakeOutput;
+  /** Get/Set expected maximum linear translation needed, in pixels.
+   * Zero (the default) has a special meaning: sigmoid scaling
+   * with half-way point at around quarter of image size.
+   * Translations can plausibly be up to half an image size. */
+  itkGetConstMacro(PixelDistanceTolerance, SizeValueType);
+  itkSetMacro(PixelDistanceTolerance, SizeValueType);
 
-  /** Make a DataObject of the correct type to be used as the specified
-   *  output. */
-  DataObjectPointer
-  MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx)) override
-  {
-    return static_cast<DataObject *>(OffsetOutputType::New().GetPointer());
-  }
+  /** Get correlation image biased towards the expected solution. */
+  itkGetConstObjectMacro(AdjustedInput, ImageType);
+
+  /** Indices of the maxima. */
+  itkGetConstReferenceMacro(MaxIndices, IndexContainerType);
+
+  /** Number of peaks to use phase-based sub-sample interpolation with the
+   * WeightedMeanPhase methods. */
+  itkGetConstMacro(PhaseInterpolated, unsigned int);
+  itkSetMacro(PhaseInterpolated, unsigned int);
 
 protected:
   PhaseCorrelationOptimizer();
@@ -189,17 +241,43 @@ protected:
   void
   GenerateData() override;
 
-  /** This method is executed by this type and must be reimplemented by child
-   *  filter to perform the computation.
-   */
-  virtual void
-  ComputeOffset() = 0;
+  void
+  ComputeOffset();
 
-protected:
+  using Superclass::MakeOutput;
+
+  /** Make a DataObject of the correct type to be used as the specified
+   *  output. */
+  DataObjectPointer
+  MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx)) override
+  {
+    return static_cast<DataObject *>(OffsetOutputType::New().GetPointer());
+  }
+
+private:
   PeakInterpolationMethodEnum m_PeakInterpolationMethod = PeakInterpolationMethodEnum::Parabolic;
 
   OffsetVector     m_Offsets;
   ConfidenceVector m_Confidences;
+
+  typename MaxCalculatorType::Pointer m_MaxCalculator = MaxCalculatorType::New();
+  unsigned                            m_MergePeaks = 1;
+  double                              m_ZeroSuppression = 5;
+  SizeValueType                       m_PixelDistanceTolerance = 0;
+
+  typename ImageType::Pointer m_AdjustedInput;
+  IndexContainerType          m_MaxIndices;
+
+  using CyclicShiftFilterType = CyclicShiftImageFilter< ImageType >;
+  typename CyclicShiftFilterType::Pointer m_CyclicShiftFilter = CyclicShiftFilterType::New();
+
+  unsigned int m_PhaseInterpolated {1};
+
+  using PadFilterType = FFTPadImageFilter< ImageType, ImageType >;
+  typename PadFilterType::Pointer m_PadFilter = PadFilterType::New();
+
+  using FFTFilterType = RealToHalfHermitianForwardFFTImageFilter< ImageType >;
+  typename FFTFilterType::Pointer m_FFTFilter = FFTFilterType::New();
 };
 
 } // end namespace itk

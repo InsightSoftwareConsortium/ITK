@@ -525,8 +525,7 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
       0 1 1 5 0 0 1 0 1
     )
 
-<<<<<<< HEAD
-  if (Module_Montage_EnableFailingTests) 
+  if (Module_Montage_EnableFailingTests)
     itk_add_test(NAME itkMontagePCMFiles36_088
       COMMAND MontageTestDriver
       itkMontagePCMTestFiles
@@ -537,19 +536,6 @@ if (EXISTS ${CMAKE_CURRENT_LIST_DIR}/Input/Ti7/Region2_150_Mosaic36Flat/36/1323.
         0.0
         0.0
         0.0
-=======
-  if (ITKMontage_EnableFailingTests)
-  itk_add_test(NAME itkMontagePCMFiles36_088
-    COMMAND MontageTestDriver
-    itkMontagePCMTestFiles
-      ${rawPrefix}088.tif
-      ${rawPrefix}089.tif
-      ${TESTING_OUTPUT_PATH}/itkMontagePCMFiles36raw088_089.nrrd
-      81.28
-      0.0
-      0.0
-      0.0
->>>>>>> STYLE: Remove trailing whitespace in test/CMakeLists.txt
     )
   endif() # Module_Montage_EnableFailingTests
 endif()

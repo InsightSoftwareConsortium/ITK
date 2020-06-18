@@ -34,8 +34,8 @@ operator<<(std::ostream & out, const PhaseCorrelationOptimizerEnums::PeakInterpo
         return "PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine";
       case PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::WeightedMeanPhase:
         return "PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::WeightedMeanPhase";
-      case PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::PhaseFrequencySlope:
-        return "PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::PhaseFrequencySlope";
+      //case PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::PhaseFrequencySlope:
+        //return "PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::PhaseFrequencySlope";
       default:
         return "INVALID VALUE FOR PeakInterpolationMethod";
     }

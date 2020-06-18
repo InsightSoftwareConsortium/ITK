@@ -21,8 +21,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
-#include "itkPhaseFrequencyCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkTileConfiguration.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
@@ -100,15 +99,9 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
   phaseCorrelationMethod->SetOperator(pcmOperator);
 
-  using OptimizerType = itk::PhaseCorrelationOptimizer<ImageType>;
-
-  using RealOptimizerType = itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>;
-  typename RealOptimizerType::Pointer realPCMOptimizer = RealOptimizerType::New();
-  realPCMOptimizer->SetPixelDistanceTolerance(positionTolerance);
-
-  using ComplexOptimizerType = itk::PhaseFrequencyCorrelationOptimizer<PhaseCorrelationMethodType>;
-  typename ComplexOptimizerType::Pointer complexPCMOptimizer = ComplexOptimizerType::New();
-  complexPCMOptimizer->SetPixelDistanceTolerance(positionTolerance);
+  using OptimizerType = itk::PhaseCorrelationOptimizer<typename PhaseCorrelationMethodType::InternalPixelType, Dimension>;
+  typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
+  pcmOptimizer->SetPixelDistanceTolerance(positionTolerance);
 
   using PeakInterpolationType =
     typename OptimizerType::PeakInterpolationMethodEnum;
@@ -124,21 +117,8 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
   for (auto peakMethod: itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods)
   {
     std::cout << "\nTESTING WITH PEAK INTERPOLATION METHOD: " << peakMethod << std::endl;
-    if (realPCMOptimizer->SupportsPeakInterpolationMethod(peakMethod))
-    {
-      realPCMOptimizer->SetPeakInterpolationMethod(peakMethod);
-      phaseCorrelationMethod->SetOptimizer(realPCMOptimizer);
-    }
-    else if(complexPCMOptimizer->SupportsPeakInterpolationMethod(peakMethod))
-    {
-      complexPCMOptimizer->SetPeakInterpolationMethod(peakMethod);
-      phaseCorrelationMethod->SetOptimizer(complexPCMOptimizer);
-    }
-    else
-    {
-      std::cerr << "PeakInterpolationMethod: " << peakMethod << " not supported!" << std::endl;
-      return EXIT_FAILURE;
-    }
+    pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
+    phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
     phaseCorrelationMethod->Modified(); // optimizer is not an "input" to PCM
     // so its modification does not cause a pipeline update automatically
@@ -211,7 +191,7 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
     }
     registrationErrors << std::endl;
 
-    using PhaseCorrelationOptimizerType = itk::PhaseCorrelationOptimizer<ImageType>;
+    using PhaseCorrelationOptimizerType = typename PCMType::OptimizerType;
     using PeakInterpolationMethodEnum = typename PhaseCorrelationOptimizerType::PeakInterpolationMethodEnum;
 
     const size_t                               linearSize = stageTiles.LinearSize();

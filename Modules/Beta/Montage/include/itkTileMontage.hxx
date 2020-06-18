@@ -245,9 +245,7 @@ TileMontage<TImageType, TCoordinate>::RegisterPair(TileIndexType fixed, TileInde
   m_PCM->SetObligatoryPadding(m_ObligatoryPadding);
   m_PCM->SetReleaseDataFlag(this->GetReleaseDataFlag());
   m_PCM->SetReleaseDataBeforeUpdateFlag(this->GetReleaseDataBeforeUpdateFlag());
-  typename PCMOptimizerType::SamplePeakOptimizerType::Pointer samplePeakOptimizer =
-    m_PCMOptimizer->GetModifiableSamplePeakOptimizer();
-  samplePeakOptimizer->SetPixelDistanceTolerance(m_PositionTolerance);
+  m_PCMOptimizer->SetPixelDistanceTolerance(m_PositionTolerance);
   m_PCMOptimizer->SetPeakInterpolationMethod(m_PeakInterpolationMethod);
 
   auto mImage = this->GetImage(moving, false);

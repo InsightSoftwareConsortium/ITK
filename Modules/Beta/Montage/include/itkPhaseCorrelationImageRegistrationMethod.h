@@ -177,10 +177,8 @@ public:
   using OperatorPointer = typename OperatorType::Pointer;
 
   /**  Type of the Optimizer */
-  using RealOptimizerType = PhaseCorrelationOptimizer<RealImageType>;
-  using RealOptimizerPointer = typename RealOptimizerType::Pointer;
-  using ComplexOptimizerType = PhaseCorrelationOptimizer<ComplexConjugateImageType>;
-  using ComplexOptimizerPointer = typename ComplexOptimizerType::Pointer;
+  using OptimizerType = PhaseCorrelationOptimizer< InternalPixelType, ImageDimension >;
+  using OptimizerPointer = typename OptimizerType::Pointer;
 
   /**  Type for the transform. */
   using TransformType = TranslationTransform<typename MovingImageType::PointType::ValueType, ImageDimension>;
@@ -244,11 +242,8 @@ public:
 
   /** Set/Get the Optimizer. */
   virtual void
-  SetOptimizer(RealOptimizerType *);
-  virtual void
-  SetOptimizer(ComplexOptimizerType *);
-  itkGetConstObjectMacro(RealOptimizer, RealOptimizerType);
-  itkGetConstObjectMacro(ComplexOptimizer, ComplexOptimizerType);
+  SetOptimizer(OptimizerType *);
+  itkGetConstObjectMacro(Optimizer, OptimizerType);
 
   /** Given an image size, returns the smallest size
    *  which factorizes using FFT's prime factors. */
@@ -374,37 +369,23 @@ public:
   GetPhaseCorrelationImage() const;
 
   /** Resulting vector of offsets. */
-  using OffsetVector = typename RealOptimizerType::OffsetVector;
+  using OffsetVector = typename OptimizerType::OffsetVector;
 
   /** Get the computed offsets. */
   virtual const OffsetVector &
   GetOffsets() const
   {
-    if (m_RealOptimizer)
-    {
-      return m_RealOptimizer->GetOffsets();
-    }
-    else
-    {
-      return m_ComplexOptimizer->GetOffsets();
-    }
+    return m_Optimizer->GetOffsets();
   }
 
   /** Confidences corresponding to offsets. */
-  using ConfidencesVector = typename RealOptimizerType::ConfidenceVector;
+  using ConfidencesVector = typename OptimizerType::ConfidenceVector;
 
   /** Get the confidences corresponding to offsets. */
   virtual const ConfidencesVector &
   GetConfidences() const
   {
-    if (m_RealOptimizer)
-    {
-      return m_RealOptimizer->GetConfidences();
-    }
-    else
-    {
-      return m_ComplexOptimizer->GetConfidences();
-    }
+    return m_Optimizer->GetConfidences();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -472,9 +453,8 @@ protected:
   FrequencyFunctorType       m_LowPassFunctor;
 
 private:
-  OperatorPointer         m_Operator = nullptr;
-  RealOptimizerPointer    m_RealOptimizer = nullptr;
-  ComplexOptimizerPointer m_ComplexOptimizer = nullptr;
+  OperatorPointer     m_Operator = nullptr;
+  OptimizerPointer    m_Optimizer    = nullptr;
 
   MovingImageConstPointer m_MovingImage = nullptr;
   FixedImageConstPointer  m_FixedImage = nullptr;

@@ -20,7 +20,7 @@
 #define itkTileMontage_h
 
 #include "itkImageFileReader.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
 #include <atomic>
@@ -83,7 +83,7 @@ public:
 
   using PCMOperatorType = PhaseCorrelationOperator<RealType, ImageDimension>;
 
-  using PCMOptimizerType = MaxPhaseCorrelationOptimizer<PCMType>;
+  using PCMOptimizerType = PhaseCorrelationOptimizer<RealType, ImageDimension>;
 
   /**  Type for the transform. */
   using TransformType = typename PCMType::TransformType;
