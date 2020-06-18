@@ -20,7 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkResampleImageFilter.h"
 
@@ -78,7 +78,7 @@ PhaseCorrelationRegistrationFiles(int argc, char * argv[])
   phaseCorrelationMethod->SetOperator(pcmOperator);
 
   // Optimizer type
-  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>;
+  using OptimizerType = itk::PhaseCorrelationOptimizer<typename PhaseCorrelationMethodType::InternalPixelType, VDimension>;
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 

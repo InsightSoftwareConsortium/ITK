@@ -124,7 +124,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
   {
     itkExceptionMacro(<< "Operator is not present");
   }
-  if (!m_RealOptimizer && !m_ComplexOptimizer)
+  if (!m_Optimizer)
   {
     itkExceptionMacro(<< "Optimizer is not present");
   }
@@ -191,34 +191,18 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
     finalOperatorFilter = m_Operator; // we skip the band-pass entirely
   }
 
-  if (m_RealOptimizer)
+  m_Optimizer->SetComplexInput(finalOperatorFilter->GetOutput());
+  m_IFFT->SetInput(finalOperatorFilter->GetOutput());
+  m_Optimizer->SetRealInput(m_IFFT->GetOutput());
+  if (m_CropToOverlap)
   {
-    m_IFFT->SetInput(finalOperatorFilter->GetOutput());
-    m_RealOptimizer->SetInput(m_IFFT->GetOutput());
-    if (m_CropToOverlap)
-    {
-      m_RealOptimizer->SetFixedImage(m_FixedRoI->GetOutput());
-      m_RealOptimizer->SetMovingImage(m_MovingRoI->GetOutput());
-    }
-    else
-    {
-      m_RealOptimizer->SetFixedImage(m_FixedImage);
-      m_RealOptimizer->SetMovingImage(m_MovingImage);
-    }
+    m_Optimizer->SetFixedImage(m_FixedRoI->GetOutput());
+    m_Optimizer->SetMovingImage(m_MovingRoI->GetOutput());
   }
   else
   {
-    m_ComplexOptimizer->SetInput(finalOperatorFilter->GetOutput());
-    if (m_CropToOverlap)
-    {
-      m_ComplexOptimizer->SetFixedImage(m_FixedRoI->GetOutput());
-      m_ComplexOptimizer->SetMovingImage(m_MovingRoI->GetOutput());
-    }
-    else
-    {
-      m_ComplexOptimizer->SetFixedImage(m_FixedImage);
-      m_ComplexOptimizer->SetMovingImage(m_MovingImage);
-    }
+    m_Optimizer->SetFixedImage(m_FixedImage);
+    m_Optimizer->SetMovingImage(m_MovingImage);
   }
 }
 
@@ -408,7 +392,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
   empty.Fill(0.0);
   m_TransformParameters = empty;
   itkDebugMacro("starting optimization");
-  using OffsetType = typename RealOptimizerType::OffsetType;
+  using OffsetType = typename OptimizerType::OffsetType;
   OffsetType offset;
   try
   {
@@ -436,19 +420,9 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
     m_IFFT->Update();
 
     const unsigned offsetCount = ImageDimension;
-    if (m_RealOptimizer)
-    {
-      m_RealOptimizer->SetOffsetCount(offsetCount); // update can reduce this, so we have to set it each time
-      m_RealOptimizer->Update();
-      offset = m_RealOptimizer->GetOffsets()[0];
-    }
-    else
-    {
-      m_ComplexOptimizer->SetOffsetCount(offsetCount); // update can reduce this, so we have to set it each time
-      m_ComplexOptimizer->Update();
-      offset = m_ComplexOptimizer->GetOffsets()[0];
-    }
-    std::cout << "OFFFSET: " << offset << std::endl;
+    m_Optimizer->SetOffsetCount(offsetCount); // update can reduce this, so we have to set it each time
+    m_Optimizer->Update();
+    offset = m_Optimizer->GetOffsets()[0];
     phaseCorrelation->Graft(m_IFFT->GetOutput());
 
     if (m_FixedImageFFT.IsNull())
@@ -514,8 +488,7 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Operator: " << m_Operator.GetPointer() << std::endl;
-  os << indent << "Real Optimizer: " << m_RealOptimizer.GetPointer() << std::endl;
-  os << indent << "Complex Optimizer: " << m_ComplexOptimizer.GetPointer() << std::endl;
+  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << std::endl;
   os << indent << "Fixed Padder: " << m_FixedPadder.GetPointer() << std::endl;
   os << indent << "Moving Padder: " << m_MovingPadder.GetPointer() << std::endl;
 
@@ -734,28 +707,12 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
 template <typename TFixedImage, typename TMovingImage, typename TInternalPixelType>
 void
 PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixelType>::SetOptimizer(
-  RealOptimizerType * optimizer)
+  OptimizerType * optimizer)
 {
-  itkDebugMacro("setting RealOptimizer to " << optimizer);
-  if (this->m_RealOptimizer != optimizer)
+  itkDebugMacro("setting Optimizer to " << optimizer);
+  if (this->m_Optimizer != optimizer)
   {
-    this->m_RealOptimizer = optimizer;
-    this->m_ComplexOptimizer = nullptr;
-    this->Modified();
-  }
-}
-
-
-template <typename TFixedImage, typename TMovingImage, typename TInternalPixelType>
-void
-PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixelType>::SetOptimizer(
-  ComplexOptimizerType * optimizer)
-{
-  itkDebugMacro("setting ComplexOptimizer to " << optimizer);
-  if (this->m_ComplexOptimizer != optimizer)
-  {
-    this->m_ComplexOptimizer = optimizer;
-    this->m_RealOptimizer = nullptr;
+    this->m_Optimizer = optimizer;
     this->Modified();
   }
 }

@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkPhaseCorrelationOperator.h"
 #include "itkTestingMacros.h"
@@ -31,7 +31,7 @@ itkMontageGenericTests(int, char ** const)
   using ImageType = itk::Image<short, Dimension>;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<ImageType, ImageType>;
   using OperatorType = itk::PhaseCorrelationOperator<float, Dimension>;
-  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PCMType>;
+  using OptimizerType = itk::PhaseCorrelationOptimizer<float, Dimension>;
   using MontageTypeD = itk::TileMontage<ImageType, double>;
   using MontageTypeF = itk::TileMontage<ImageType, float>;
   using MergingTypeD =
@@ -45,7 +45,7 @@ itkMontageGenericTests(int, char ** const)
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pcmOperator, PhaseCorrelationOperator, ImageToImageFilter);
   ITK_TRY_EXPECT_EXCEPTION(pcmOperator->Update()); // inputs not set!
   OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(pcmOptimizer, MaxPhaseCorrelationOptimizer, PhaseCorrelationOptimizer);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pcmOptimizer, PhaseCorrelationOptimizer, ProcessObject);
   ITK_TRY_EXPECT_EXCEPTION(pcmOptimizer->Update()); // inputs not set!
   PCMType::Pointer pcm = PCMType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pcm, PhaseCorrelationImageRegistrationMethod, ProcessObject);
