@@ -130,7 +130,7 @@ public:
   bool
   CanReadFile(const char *) override;
 
-  /** Set the spacing and dimension information for the current filename. */
+  /** Read the spacing and dimension information for the current filename. */
   void
   ReadImageInformation() override;
 
