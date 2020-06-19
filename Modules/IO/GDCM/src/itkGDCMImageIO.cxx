@@ -477,7 +477,10 @@ GDCMImageIO::InternalReadImageInformation()
     outputpt = r.ComputeInterceptSlopePixelType();
   }
 
-  itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype <= outputpt);
+  if (pixeltype > outputpt)
+  {
+    itkAssertInDebugOrThrowInReleaseMacro("Pixel type larger than output type")
+  }
 
   m_ComponentType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
   switch (outputpt)
