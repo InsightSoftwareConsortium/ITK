@@ -48,7 +48,8 @@ TriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   const auto subdivision = IterativeTriangleCellSubdivisionFilterType::New();
-  ITK_TEST_EXPECT_EQUAL(subdivision->GetNameOfClass(), "IterativeTriangleCellSubdivisionQuadEdgeMeshFilter");
+  ITK_TEST_EXPECT_EQUAL(subdivision->GetNameOfClass(),
+                        std::string("IterativeTriangleCellSubdivisionQuadEdgeMeshFilter"));
   subdivision->Print(std::cout);
 
   if (argc >= 5)

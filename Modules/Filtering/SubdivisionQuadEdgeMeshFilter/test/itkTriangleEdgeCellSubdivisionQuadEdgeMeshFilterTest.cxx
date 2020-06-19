@@ -32,7 +32,6 @@ TriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
 
   using TriangleEdgeCellSubdivisionFilterType = TTriangleEdgeCellSubdivisionFilter;
-  using TriangleEdgeCellSubdivisionFilterPointer = typename TriangleEdgeCellSubdivisionFilterType::Pointer;
   using InputMeshType = typename TriangleEdgeCellSubdivisionFilterType::InputMeshType;
   using OutputMeshType = typename TriangleEdgeCellSubdivisionFilterType::OutputMeshType;
   using SubdivisionCellContainer = typename TriangleEdgeCellSubdivisionFilterType::SubdivisionCellContainer;

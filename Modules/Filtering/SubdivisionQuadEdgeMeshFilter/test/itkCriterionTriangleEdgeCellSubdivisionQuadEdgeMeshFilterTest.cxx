@@ -33,13 +33,11 @@ CriterionTriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv
 {
 
   using TriangleEdgeCellSubdivisionFilterType = TTriangleEdgeCellSubdivisionFilter;
-  using TriangleEdgeCellSubdivisionFilterPointer = typename TriangleEdgeCellSubdivisionFilterType::Pointer;
   using InputMeshType = typename TriangleEdgeCellSubdivisionFilterType::InputMeshType;
   using OutputMeshType = typename TriangleEdgeCellSubdivisionFilterType::OutputMeshType;
 
   using CriterionType = itk::EdgeLengthTriangleEdgeCellSubdivisionCriterion<
     typename TriangleEdgeCellSubdivisionFilterType::SubdivisionFilterType>;
-  using CriterionPointer = typename CriterionType::Pointer;
   using ReaderType = itk::MeshFileReader<InputMeshType>;
   using WriterType = itk::MeshFileWriter<OutputMeshType>;
 
@@ -49,7 +47,7 @@ CriterionTriangleEdgeCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv
 
   const auto subdivision = TriangleEdgeCellSubdivisionFilterType::New();
   const auto criterion = CriterionType::New();
-  ITK_TEST_EXPECT_EQUAL(criterion->GetNameOfClass(), "EdgeLengthTriangleEdgeCellSubdivisionCriterion");
+  ITK_TEST_EXPECT_EQUAL(criterion->GetNameOfClass(), std::string("EdgeLengthTriangleEdgeCellSubdivisionCriterion"));
   criterion->SetMaximumLength(1.0);
   ITK_TEST_SET_GET_VALUE(1.0, criterion->GetMaximumLength());
   if (argc >= 5)

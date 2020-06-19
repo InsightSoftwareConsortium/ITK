@@ -34,13 +34,11 @@ CriterionTriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
 
   using TriangleCellSubdivisionFilterType = TTriangleCellSubdivisionFilter;
-  using TriangleCellSubdivisionFilterPointer = typename TTriangleCellSubdivisionFilter::Pointer;
   using InputMeshType = typename TriangleCellSubdivisionFilterType::InputMeshType;
   using OutputMeshType = typename TriangleCellSubdivisionFilterType::OutputMeshType;
 
   using CriterionType =
     itk::CellAreaTriangleCellSubdivisionCriterion<typename TriangleCellSubdivisionFilterType::SubdivisionFilterType>;
-  using CriterionPointer = typename CriterionType::Pointer;
   using ReaderType = itk::MeshFileReader<InputMeshType>;
   using WriterType = itk::MeshFileWriter<OutputMeshType>;
 
@@ -50,7 +48,7 @@ CriterionTriangleCellSubdivisionQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   const auto subdivision = TriangleCellSubdivisionFilterType::New();
   const auto criterion = CriterionType::New();
-  ITK_TEST_EXPECT_EQUAL(criterion->GetNameOfClass(), "CellAreaTriangleCellSubdivisionCriterion");
+  ITK_TEST_EXPECT_EQUAL(criterion->GetNameOfClass(), std::string("CellAreaTriangleCellSubdivisionCriterion"));
   criterion->SetMaximumArea(1.0);
   ITK_TEST_SET_GET_VALUE(1.0, criterion->GetMaximumArea());
   if (argc >= 5)
