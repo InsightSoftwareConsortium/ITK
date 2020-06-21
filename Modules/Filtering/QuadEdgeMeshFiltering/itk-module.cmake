@@ -15,6 +15,7 @@ itk_module(ITKQuadEdgeMeshFiltering
   TEST_DEPENDS
     ITKTestKernel
     ITKIOMesh
+    ITKStatistics
   DESCRIPTION
     "${DOCUMENTATION}"
 )
