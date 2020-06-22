@@ -83,7 +83,7 @@ endforeach()
 
 itk_add_test(NAME itkDelaunayConformingQuadEdgeMeshFilterTest
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
-          itkDelaunayConformingQuadEdgeMeshFilterTest DATA{${INPUTDATA}/mushroom.vtk} ${TEMP}/mushrom_delaunay.vtk)
+          itkDelaunayConformingQuadEdgeMeshFilterTest DATA{${INPUTDATA}/mushroom.vtk} ${TEMP}/mushroom_delaunay.vtk)
 itk_add_test(NAME itkCleanQuadEdgeMeshFilterTest
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
           itkCleanQuadEdgeMeshFilterTest
