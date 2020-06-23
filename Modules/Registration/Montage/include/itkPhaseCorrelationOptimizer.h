@@ -51,13 +51,18 @@ public:
   };
 
   // For iteration
-  static constexpr std::initializer_list<PeakInterpolationMethod> AllPeakInterpolationMethods = {
-    PeakInterpolationMethod::None,
-    PeakInterpolationMethod::Parabolic,
-    PeakInterpolationMethod::Cosine,
-    PeakInterpolationMethod::WeightedMeanPhase,
-    // PeakInterpolationMethod::PhaseFrequencySlope
-  };
+  static const std::initializer_list<PeakInterpolationMethod>
+  AllPeakInterpolationMethods()
+  {
+    const std::initializer_list<PeakInterpolationMethod> methods{
+      PeakInterpolationMethod::None,
+      PeakInterpolationMethod::Parabolic,
+      PeakInterpolationMethod::Cosine,
+      PeakInterpolationMethod::WeightedMeanPhase,
+      // PeakInterpolationMethod::PhaseFrequencySlope
+    };
+    return methods;
+  }
 };
 
 /** Define how to print enumerations */
