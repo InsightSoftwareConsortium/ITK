@@ -106,7 +106,7 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
 
   using PeakInterpolationType = typename OptimizerType::PeakInterpolationMethodEnum;
 
-  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods)
+  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
   {
     itk::Point<double, Dimension> point;
     point.Fill(0.0);
@@ -114,7 +114,7 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
   }
 
   unsigned count = 0;
-  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods)
+  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
   {
     std::cout << "\nTESTING WITH PEAK INTERPOLATION METHOD: " << peakMethod << std::endl;
     pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
@@ -224,7 +224,7 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
       }
     }
 
-    for (auto m : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods)
+    for (auto m : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
     {
       std::cout << "PeakInterpolation " << m << " has average translation bias:";
       for (unsigned d = 0; d < Dimension; d++)
