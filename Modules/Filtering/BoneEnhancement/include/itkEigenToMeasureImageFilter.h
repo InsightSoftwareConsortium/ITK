@@ -91,6 +91,7 @@ public:
    * itkSymmetricEigenAnalysisImageFilter.h or itkSymmetricEigenAnalysis.h. That turns out to be non-trivial
    * because the enumeration is hidden within the templated class. Therefore, you would need the hessian type
    * and eigenvalue type to do such an operation. We do not necessarily have the hessian type information.
+   * \ingroup BoneEnhancement
    */
   enum class EigenValueOrderEnum : uint8_t
   {
