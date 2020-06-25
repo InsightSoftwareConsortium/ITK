@@ -146,7 +146,7 @@ protected:
 
 // Define the templates we would like to test
 using TestingLabelTypes = ::testing::Types<double, float>;
-TYPED_TEST_CASE(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, TestingLabelTypes);
+TYPED_TEST_SUITE(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, TestingLabelTypes);
 
 TYPED_TEST(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, InitialParameters)
 {
