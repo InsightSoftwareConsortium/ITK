@@ -4,7 +4,7 @@ itk_wrap_include("itkPhaseCorrelationOptimizer.h")
 itk_wrap_simple_class("itk::PhaseCorrelationOptimizerEnums")
 
 itk_wrap_class("itk::PhaseCorrelationOptimizer" POINTER)
-  UNIQUE(types "${WRAP_ITK_COMPLEX_REAL};${WRAP_ITK_REAL};D")
+  UNIQUE(types "${WRAP_ITK_REAL};D")
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(t ${types})
       itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}}, ${d}")
