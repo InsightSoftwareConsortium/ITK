@@ -3,7 +3,6 @@ set(WRAPPER_SUBMODULE_ORDER
   itkPhaseCorrelationOperator
   itkPhaseCorrelationOptimizer
   itkPhaseCorrelationImageRegistrationMethod
-  itkMaxPhaseCorrelationOptimizer
   itkTileConfiguration
   itkTileMontage
   )
