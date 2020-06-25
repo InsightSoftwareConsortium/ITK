@@ -142,6 +142,7 @@ public:
   using SigmaArrayType = Array<SigmaType>;
   using SigmaStepsType = unsigned int;
   /**\class SigmaStepMethodEnum
+   * \ingroup BoneEnhancement
    * */
   enum class SigmaStepMethodEnum : uint8_t
   {
