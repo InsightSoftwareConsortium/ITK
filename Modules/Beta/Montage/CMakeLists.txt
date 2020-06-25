@@ -16,6 +16,8 @@ endif()
 
 project(Montage)
 
+set(Montage_LIBRARIES Montage)
+
 # Suppress warnings about potentially uninstantiated static members
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   include(CheckCXXCompilerFlag)

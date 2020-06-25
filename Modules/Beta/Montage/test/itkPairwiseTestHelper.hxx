@@ -21,7 +21,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkTileConfiguration.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
@@ -31,17 +31,17 @@
 #include <type_traits>
 
 // do the registration and calculate error for two images
-template <typename PixelType, unsigned Dimension>
+template <typename PixelType, unsigned Dimension, typename PeakInterpolationMethodEnum>
 double
-calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
-               const itk::TileConfiguration<Dimension> &    actualTiles,
-               const std::string &                          inputPath,
-               uint8_t                                      paddingMethod,
-               unsigned                                     positionTolerance,
-               std::vector<itk::Point<double, Dimension>> & regBias,
-               std::ostream &                               out,
-               size_t                                       fInd,
-               size_t                                       mInd)
+calculateError(const itk::TileConfiguration<Dimension> &                              stageTiles,
+               const itk::TileConfiguration<Dimension> &                              actualTiles,
+               const std::string &                                                    inputPath,
+               uint8_t                                                                paddingMethod,
+               unsigned                                                               positionTolerance,
+               std::map<PeakInterpolationMethodEnum, itk::Point<double, Dimension>> & regBias,
+               std::ostream &                                                         out,
+               size_t                                                                 fInd,
+               size_t                                                                 mInd)
 {
   double translationError = 0.0;
   std::cout << stageTiles.Tiles[fInd].FileName << " <- " << stageTiles.Tiles[mInd].FileName << std::endl;
@@ -99,31 +99,27 @@ calculateError(const itk::TileConfiguration<Dimension> &    stageTiles,
   typename OperatorType::Pointer pcmOperator = OperatorType::New();
   phaseCorrelationMethod->SetOperator(pcmOperator);
 
-  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>;
+  using OptimizerType =
+    itk::PhaseCorrelationOptimizer<typename PhaseCorrelationMethodType::InternalPixelType, Dimension>;
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   pcmOptimizer->SetPixelDistanceTolerance(positionTolerance);
-  phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
-  using PeakInterpolationType =
-    typename itk::MaxPhaseCorrelationOptimizer<PhaseCorrelationMethodType>::PeakInterpolationMethodEnum;
-  using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
+  using PeakInterpolationType = typename OptimizerType::PeakInterpolationMethodEnum;
 
-  if (regBias.empty()) // initialize
+  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
   {
-    regBias.resize(static_cast<PeakFinderUnderlying>(PeakInterpolationType::Last) -
-                   static_cast<PeakFinderUnderlying>(PeakInterpolationType::None) + 1);
-    for (auto & rBias : regBias)
-    {
-      rBias.Fill(0.0);
-    }
+    itk::Point<double, Dimension> point;
+    point.Fill(0.0);
+    regBias[peakMethod] = point;
   }
 
   unsigned count = 0;
-  for (auto peakMethod = static_cast<PeakFinderUnderlying>(PeakInterpolationType::None);
-       peakMethod <= static_cast<PeakFinderUnderlying>(PeakInterpolationType::Last);
-       peakMethod++)
+  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
   {
-    pcmOptimizer->SetPeakInterpolationMethod(static_cast<PeakInterpolationType>(peakMethod));
+    std::cout << "\nTESTING WITH PEAK INTERPOLATION METHOD: " << peakMethod << std::endl;
+    pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
+    phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
+
     phaseCorrelationMethod->Modified(); // optimizer is not an "input" to PCM
     // so its modification does not cause a pipeline update automatically
 
@@ -195,11 +191,15 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
     }
     registrationErrors << std::endl;
 
-    const size_t                               linearSize = stageTiles.LinearSize();
-    typename TileConfig::TileIndexType         ind;
-    std::vector<itk::Point<double, Dimension>> accumulatedBias; // one per PeakInterpolationType
-    size_t                                     count = 0;
-    double                                     totalError = 0.0;
+    using PhaseCorrelationOptimizerType = typename PCMType::OptimizerType;
+    using PeakInterpolationMethodEnum = typename PhaseCorrelationOptimizerType::PeakInterpolationMethodEnum;
+
+    const size_t                       linearSize = stageTiles.LinearSize();
+    typename TileConfig::TileIndexType ind;
+    std::map<PeakInterpolationMethodEnum, itk::Point<double, Dimension>>
+           accumulatedBias; // one per PeakInterpolationType
+    size_t count = 0;
+    double totalError = 0.0;
     for (size_t t = 0; t < linearSize; t++)
     {
       ind = stageTiles.LinearIndexToNDIndex(t);
@@ -211,20 +211,20 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
           typename TileConfig::TileIndexType neighborInd = ind;
           --neighborInd[d];
           size_t fixedLinearIndex = stageTiles.nDIndexToLinearIndex(neighborInd);
-          totalError += calculateError<PixelType, Dimension>(stageTiles,
-                                                             actualTiles,
-                                                             inputPath,
-                                                             padMethod,
-                                                             positionTolerance,
-                                                             accumulatedBias,
-                                                             registrationErrors,
-                                                             fixedLinearIndex,
-                                                             t);
+          totalError += calculateError<PixelType, Dimension, PeakInterpolationMethodEnum>(stageTiles,
+                                                                                          actualTiles,
+                                                                                          inputPath,
+                                                                                          padMethod,
+                                                                                          positionTolerance,
+                                                                                          accumulatedBias,
+                                                                                          registrationErrors,
+                                                                                          fixedLinearIndex,
+                                                                                          t);
         }
       }
     }
 
-    for (unsigned m = 0; m < accumulatedBias.size(); m++)
+    for (auto m : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
     {
       std::cout << "PeakInterpolation " << m << " has average translation bias:";
       for (unsigned d = 0; d < Dimension; d++)

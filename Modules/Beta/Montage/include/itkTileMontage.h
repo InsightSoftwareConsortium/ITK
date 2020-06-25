@@ -20,7 +20,7 @@
 #define itkTileMontage_h
 
 #include "itkImageFileReader.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 
 #include <atomic>
@@ -61,7 +61,7 @@ public:
   itkTypeMacro(TileMontage, ProcessObject);
 
   /** Dimensionality of input images. */
-  itkStaticConstMacro(ImageDimension, unsigned int, ImageType::ImageDimension);
+  static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Montage size and tile index types. */
   using SizeType = Size<ImageDimension>;
@@ -83,7 +83,7 @@ public:
 
   using PCMOperatorType = PhaseCorrelationOperator<RealType, ImageDimension>;
 
-  using PCMOptimizerType = MaxPhaseCorrelationOptimizer<PCMType>;
+  using PCMOptimizerType = PhaseCorrelationOptimizer<RealType, ImageDimension>;
 
   /**  Type for the transform. */
   using TransformType = typename PCMType::TransformType;
@@ -158,8 +158,8 @@ public:
   itkGetConstMacro(ObligatoryPadding, SizeType);
 
   /** Set/Get the padding method. */
-  itkSetEnumMacro(PaddingMethod, PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod);
-  itkGetConstMacro(PaddingMethod, PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod);
+  itkSetMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
+  itkGetConstMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
 
   /** Set/Get the peak interpolation method. */
   itkSetEnumMacro(PeakInterpolationMethod, typename PCMOptimizerType::PeakInterpolationMethodEnum);
@@ -293,8 +293,8 @@ private:
 
   std::mutex m_MemberProtector; // to prevent concurrent access to non-thread-safe internal member variables
 
-  typename PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod m_PaddingMethod =
-    PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod::MirrorWithExponentialDecay;
+  typename PCMType::PaddingMethodEnum m_PaddingMethod = PCMType::PaddingMethodEnum::MirrorWithExponentialDecay;
+
   std::vector<std::string>       m_Filenames;
   std::vector<FFTConstPointer>   m_FFTCache;
   std::vector<ImagePointer>      m_Tiles; // metadata/image storage (if filenames are given instead of actual images)

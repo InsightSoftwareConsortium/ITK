@@ -60,7 +60,7 @@ public:
   itkTypeMacro(PhaseCorrelationOperator, ImageToImageFilter);
 
   /** ImageDimension enumeration. */
-  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  static constexpr unsigned int ImageDimension = VImageDimension;
 
   /** Image type aliases. */
   using PixelType = TRealPixel;
