@@ -41,8 +41,9 @@ namespace itk
  * INRIA, 1993, ftp://ftp.inria.fr/INRIA/tech-reports/RR/RR-1893.ps.gz
  *
  * Further improvements of the algorithm are described in:
- * G. Farneback & C.-F. Westin, "On Implementation of Recursive Gaussian
- * Filters", so far unpublished.
+ * G. Farnebäck & C.-F. Westin, "Improving Deriche-style Recursive Gaussian
+ * Filters". J Math Imaging Vis 26, 293–299 (2006).
+ * https://doi.org/10.1007/s10851-006-8464-z
  *
  * \ingroup ImageFilters
  * \ingroup ITKImageFilterBase
