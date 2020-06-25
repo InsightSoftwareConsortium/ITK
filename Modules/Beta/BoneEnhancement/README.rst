@@ -1,12 +1,14 @@
 ITKBoneEnhancement
 ==================
 
-.. image:: https://dev.azure.com/ITKBoneEnhancement/ITKBoneEnhancement/_apis/build/status/InsightSoftwareConsortium.ITKBoneEnhancement?branchName=master
-    :target: https://dev.azure.com/ITKBoneEnhancement/ITKBoneEnhancement/_build/latest?definitionId=1&branchName=master
-    :alt: Build Status
+.. image:: https://github.com/InsightSoftwareConsortium/ITKBoneEnhancement/workflows/Build,%20test,%20package/badge.svg
+
+.. image:: https://img.shields.io/pypi/v/itk-boneenhancement.svg
+    :target: https://pypi.python.org/pypi/itk-boneenhancement
+    :alt: PyPI
 
 .. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
-    :target: {{ cookiecutter.download_url }}/blob/master/LICENSE)
+    :target: https://github.com/InsightSoftwareConsortium/ITKBoneEnhancement/blob/master/LICENSE)
     :alt: License
 
 Various filters for enhancing cortical bones in quantitative computed tomography.
