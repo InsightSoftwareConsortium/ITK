@@ -21,7 +21,7 @@
 
 #include "itkAffineTransform.h"
 #include "itkImageFileWriter.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkObject.h"
 #include "itkTileConfiguration.h"
 #include "itkSimpleFilterWatcher.h"

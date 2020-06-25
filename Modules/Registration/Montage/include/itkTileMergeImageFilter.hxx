@@ -49,13 +49,13 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::PrintSelf
   os << indent << "RegionsSize: " << m_Regions.size() << std::endl;
 
   auto nullCount = std::count(m_Transforms.begin(), m_Transforms.end(), nullptr);
-  os << indent << "Transforms (filled/capcity): " << m_Transforms.size() - nullCount << "/" << m_Transforms.size()
+  os << indent << "Transforms (filled/capacity): " << m_Transforms.size() - nullCount << "/" << m_Transforms.size()
      << std::endl;
 
   auto fullCount = std::count_if(m_Tiles.begin(), m_Tiles.end(), [](ImagePointer im) {
     return im.IsNotNull() && im->GetBufferedRegion().GetNumberOfPixels() > 0;
   });
-  os << indent << "InputTiles (filled/capcity): " << fullCount << "/" << m_Tiles.size() << std::endl;
+  os << indent << "InputTiles (filled/capacity): " << fullCount << "/" << m_Tiles.size() << std::endl;
 
   os << indent << "Montage: " << m_Montage.GetPointer() << std::endl;
 }

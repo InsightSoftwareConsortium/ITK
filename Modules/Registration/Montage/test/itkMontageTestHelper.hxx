@@ -21,7 +21,7 @@
 
 #include "itkAffineTransform.h"
 #include "itkImageFileWriter.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkTileConfiguration.h"
 #include "itkRGBToLuminanceImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -132,8 +132,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
   size_t    origin1linear = stageTiles.nDIndexToLinearIndex(origin1);
   PointType originAdjustment = stageTiles.Tiles[origin1linear].Position - stageTiles.Tiles[0].Position;
 
-  using PeakInterpolationType = typename itk::MaxPhaseCorrelationOptimizer<PCMType>::PeakInterpolationMethodEnum;
-  using PeakFinderUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
+  using PeakInterpolationType = itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
   using MontageType = itk::TileMontage<ScalarImageType>;
   using ResamplerType = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
 
@@ -234,15 +233,20 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
       }
     }
 
-    for (auto peakMethod = static_cast<PeakFinderUnderlying>(PeakInterpolationType::None);
-         peakMethod <= static_cast<PeakFinderUnderlying>(PeakInterpolationType::Last);
-         peakMethod++)
+    // std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods =
+    // itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+    std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = {
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::None,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Parabolic,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine
+    };
+    if (peakMethodToUse >= 0)
     {
-      if (peakMethodToUse >= 0)
-      {
-        peakMethod = static_cast<PeakFinderUnderlying>(peakMethodToUse);
-      }
-      montage->SetPeakInterpolationMethod(static_cast<PeakInterpolationType>(peakMethod));
+      interpolationMethods = { static_cast<PeakInterpolationType>(peakMethodToUse) };
+    }
+    for (auto peakMethod : interpolationMethods)
+    {
+      montage->SetPeakInterpolationMethod(peakMethod);
       std::cout << "    PeakMethod " << peakMethod << std::endl;
       itk::SimpleFilterWatcher fw(montage, "montage");
       // montage->SetDebug( true ); // enable more debugging output from global tile optimization
@@ -259,9 +263,10 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
         const TransformType * regTr = montage->GetOutputTransform(ind);
         if (writeTransformFiles)
         {
-          WriteTransform(regTr,
-                         outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + "_Tr_" +
-                           std::to_string(t) + ".tfm");
+          std::ostringstream ostrm;
+          ostrm << outFilename << static_cast<int>(padMethod) << "_" << static_cast<int>(peakMethod) << "_Tr_" << t
+                << ".tfm";
+          WriteTransform(regTr, ostrm.str());
         }
         regPos[t] = regTr->GetOffset();
         for (unsigned d = 0; d < Dimension; d++)
@@ -394,7 +399,9 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
         w->SetInput(resampleF->GetOutput());
         // resampleF->DebugOn(); //generate an image of contributing regions
         // MetaImage format supports streaming
-        w->SetFileName(outFilename + std::to_string(padMethod) + "_" + std::to_string(peakMethod) + ".mha");
+        std::ostringstream ostrm;
+        ostrm << outFilename << static_cast<int>(padMethod) << "_" << static_cast<int>(peakMethod) << ".mha";
+        w->SetFileName(ostrm.str());
         // w->UseCompressionOn();
         w->SetNumberOfStreamDivisions(streamSubdivisions);
         w->Update();

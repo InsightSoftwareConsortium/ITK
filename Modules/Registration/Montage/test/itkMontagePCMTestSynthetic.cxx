@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include "itkArray.h"
 #include "itkImageFileWriter.h"
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkMontageTestHelper.hxx" //for WriteTransform
 #include "itkNumericTraits.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
@@ -138,7 +138,7 @@ PhaseCorrelationRegistration(int argc, char * argv[])
   using MovingImageSourceType = itk::HyperSphereImageSource<typename MovingImageType::PixelType, VDimension>;
   using PCMType = itk::PhaseCorrelationImageRegistrationMethod<FixedImageType, MovingImageType>;
   using OperatorType = itk::PhaseCorrelationOperator<typename PCMType::InternalPixelType, VDimension>;
-  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<PCMType>;
+  using OptimizerType = itk::PhaseCorrelationOptimizer<typename PCMType::InternalPixelType, VDimension>;
   using TransformType = typename PCMType::TransformType;
   using ParametersType = typename TransformType::ParametersType;
 
