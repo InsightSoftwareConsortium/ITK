@@ -164,7 +164,7 @@ protected:
 
 // Define the templates we would like to test
 using TestingLabelTypes = ::testing::Types<double, float>;
-TYPED_TEST_CASE(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestingLabelTypes);
+TYPED_TEST_SUITE(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestingLabelTypes);
 
 TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, InitialParameters)
 {
