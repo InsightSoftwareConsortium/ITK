@@ -116,9 +116,8 @@ protected:
   virtual OutputImagePixelType
   ProcessPixel(const InputImagePixelType & pixel) = 0;
 
-  /** Multi-thread version GenerateData. */
   void
-  DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  DynamicThreadedGenerateData(const OutputImageRegionType & regionForThread) override;
 }; // end class
 } // namespace itk
 
