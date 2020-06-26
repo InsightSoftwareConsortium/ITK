@@ -117,7 +117,7 @@ protected:
   ProcessPixel(const InputImagePixelType & pixel) = 0;
 
   void
-  DynamicThreadedGenerateData(const OutputImageRegionType & regionForThread) override;
+  GenerateData() override;
 }; // end class
 } // namespace itk
 
