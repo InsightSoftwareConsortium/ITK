@@ -196,121 +196,121 @@ TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestZerosImage)
   }
 }
 
-//TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelBrightSheet)
-//{
-  //this->m_Parameters[0] = 0.5;
-  //this->m_Parameters[1] = 0.5;
-  //this->m_Parameters[2] = 0.25;
-  //this->m_Filter->SetParameters(this->m_Parameters);
-  //this->m_Filter->SetInput(this->m_NonZeroEigenImage);
-  //EXPECT_NO_THROW(this->m_Filter->Update());
-  //EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
+TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelBrightSheet)
+{
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Filter->SetParameters(this->m_Parameters);
+  this->m_Filter->SetInput(this->m_NonZeroEigenImage);
+  EXPECT_NO_THROW(this->m_Filter->Update());
+  EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  //using ImageType = typename itk::Image<TypeParam, 3>;
-  //itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
+  using ImageType = typename itk::Image<TypeParam, 3>;
+  itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
-  //input.GoToBegin();
-  //while (!input.IsAtEnd())
-  //{
-    //ASSERT_NEAR((TypeParam)0.0913983433747, input.Get(), 1e-6);
-    //++input;
-  //}
-//}
+  input.GoToBegin();
+  while (!input.IsAtEnd())
+  {
+    ASSERT_NEAR((TypeParam)0.0913983433747, input.Get(), 1e-6);
+    ++input;
+  }
+}
 
-//TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelDarkSheet)
-//{
-  //this->m_Parameters[0] = 0.5;
-  //this->m_Parameters[1] = 0.5;
-  //this->m_Parameters[2] = 0.25;
-  //this->m_Filter->SetParameters(this->m_Parameters);
-  //this->m_Filter->SetInput(this->m_NonZeroEigenImage);
-  //this->m_Filter->SetEnhanceDarkObjects();
-  //EXPECT_NO_THROW(this->m_Filter->Update());
-  //EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
+TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestRealEigenPixelDarkSheet)
+{
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Filter->SetParameters(this->m_Parameters);
+  this->m_Filter->SetInput(this->m_NonZeroEigenImage);
+  this->m_Filter->SetEnhanceDarkObjects();
+  EXPECT_NO_THROW(this->m_Filter->Update());
+  EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  //using ImageType = typename itk::Image<TypeParam, 3>;
-  //itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
+  using ImageType = typename itk::Image<TypeParam, 3>;
+  itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
-  //input.GoToBegin();
-  //while (!input.IsAtEnd())
-  //{
-    //ASSERT_NEAR((TypeParam)0.0, input.Get(), 1e-6);
-    //++input;
-  //}
-//}
+  input.GoToBegin();
+  while (!input.IsAtEnd())
+  {
+    ASSERT_NEAR((TypeParam)0.0, input.Get(), 1e-6);
+    ++input;
+  }
+}
 
-//TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixelBrightSheet)
-//{
-  //this->m_Parameters[0] = 0.5;
-  //this->m_Parameters[1] = 0.5;
-  //this->m_Parameters[2] = 0.25;
-  //this->m_Filter->SetParameters(this->m_Parameters);
-  //this->m_Filter->SetInput(this->m_NonZeroDarkEigenImage);
-  //EXPECT_NO_THROW(this->m_Filter->Update());
-  //EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
+TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixelBrightSheet)
+{
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Filter->SetParameters(this->m_Parameters);
+  this->m_Filter->SetInput(this->m_NonZeroDarkEigenImage);
+  EXPECT_NO_THROW(this->m_Filter->Update());
+  EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  //using ImageType = typename itk::Image<TypeParam, 3>;
-  //itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
+  using ImageType = typename itk::Image<TypeParam, 3>;
+  itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
-  //input.GoToBegin();
-  //while (!input.IsAtEnd())
-  //{
-    //ASSERT_NEAR((TypeParam)0.0, input.Get(), 1e-6);
-    //++input;
-  //}
-//}
+  input.GoToBegin();
+  while (!input.IsAtEnd())
+  {
+    ASSERT_NEAR((TypeParam)0.0, input.Get(), 1e-6);
+    ++input;
+  }
+}
 
-//TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixelDarkSheet)
-//{
-  //this->m_Parameters[0] = 0.25;
-  //this->m_Parameters[1] = 0.25;
-  //this->m_Parameters[2] = 0.5;
-  //this->m_Filter->SetParameters(this->m_Parameters);
-  //this->m_Filter->SetInput(this->m_NonZeroDarkEigenImage);
-  //this->m_Filter->SetEnhanceDarkObjects();
-  //EXPECT_NO_THROW(this->m_Filter->Update());
-  //EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
+TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestDarkRealEigenPixelDarkSheet)
+{
+  this->m_Parameters[0] = 0.25;
+  this->m_Parameters[1] = 0.25;
+  this->m_Parameters[2] = 0.5;
+  this->m_Filter->SetParameters(this->m_Parameters);
+  this->m_Filter->SetInput(this->m_NonZeroDarkEigenImage);
+  this->m_Filter->SetEnhanceDarkObjects();
+  EXPECT_NO_THROW(this->m_Filter->Update());
+  EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  //using ImageType = typename itk::Image<TypeParam, 3>;
-  //itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
+  using ImageType = typename itk::Image<TypeParam, 3>;
+  itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
 
-  //input.GoToBegin();
-  //while (!input.IsAtEnd())
-  //{
-    //ASSERT_NEAR((TypeParam)0.000326373962098, input.Get(), 1e-6);
-    //++input;
-  //}
-//}
+  input.GoToBegin();
+  while (!input.IsAtEnd())
+  {
+    ASSERT_NEAR((TypeParam)0.000326373962098, input.Get(), 1e-6);
+    ++input;
+  }
+}
 
-//TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestWithSpatialObject)
-//{
-  //this->m_Parameters[0] = 0.5;
-  //this->m_Parameters[1] = 0.5;
-  //this->m_Parameters[2] = 0.25;
-  //this->m_Filter->SetParameters(this->m_Parameters);
-  //this->m_Filter->SetInput(this->m_NonZeroEigenImage);
-  //this->m_Filter->SetMask(this->m_SpatialObject);
-  //EXPECT_NO_THROW(this->m_Filter->Update());
-  //EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
+TYPED_TEST(itkDescoteauxEigenToMeasureImageFilterUnitTest, TestWithSpatialObject)
+{
+  this->m_Parameters[0] = 0.5;
+  this->m_Parameters[1] = 0.5;
+  this->m_Parameters[2] = 0.25;
+  this->m_Filter->SetParameters(this->m_Parameters);
+  this->m_Filter->SetInput(this->m_NonZeroEigenImage);
+  this->m_Filter->SetMask(this->m_SpatialObject);
+  EXPECT_NO_THROW(this->m_Filter->Update());
+  EXPECT_TRUE(this->m_Filter->GetOutput()->GetBufferedRegion() == this->m_Region);
 
-  //using ImageType = typename itk::Image<TypeParam, 3>;
-  //itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
-  //itk::ContinuousIndex<double, 3>              point;
+  using ImageType = typename itk::Image<TypeParam, 3>;
+  itk::ImageRegionIteratorWithIndex<ImageType> input(this->m_Filter->GetOutput(), this->m_Region);
+  itk::ContinuousIndex<double, 3>              point;
 
-  //std::cout << this->m_MaskRegion << std::endl;
+  std::cout << this->m_MaskRegion << std::endl;
 
-  //input.GoToBegin();
-  //while (!input.IsAtEnd())
-  //{
-    //this->m_Filter->GetOutput()->TransformIndexToPhysicalPoint(input.GetIndex(), point);
-    //if (this->m_MaskRegion.IsInside(point))
-    //{
-      //ASSERT_NEAR((TypeParam)0.0913983433747, input.Get(), 1e-6);
-    //}
-    //else
-    //{
-      //ASSERT_NEAR((TypeParam)0.0, input.Get(), 1e-6);
-    //}
-    //++input;
-  //}
-//}
+  input.GoToBegin();
+  while (!input.IsAtEnd())
+  {
+    this->m_Filter->GetOutput()->TransformIndexToPhysicalPoint(input.GetIndex(), point);
+    if (this->m_MaskRegion.IsInside(point))
+    {
+      ASSERT_NEAR((TypeParam)0.0913983433747, input.Get(), 1e-6);
+    }
+    else
+    {
+      ASSERT_NEAR((TypeParam)0.0, input.Get(), 1e-6);
+    }
+    ++input;
+  }
+}
