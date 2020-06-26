@@ -13,13 +13,13 @@ except ImportError:
 
 setup(
     name='itk-boneenhancement',
-    version='0.3.0',
+    version='0.3.1',
     author='Bryce A. Besler',
     author_email='babesler@ucalgary.ca',
     packages=['itk'],
     package_dir={'itk': 'itk'},
-    download_url=r'https://github.com/Besler/ITKBoneEnhancement',
-    description=r'This module is empty. It is a template that is a starting point for a module with actual content.',
+    download_url=r'https://github.com/InsightSoftwareConsortium/ITKBoneEnhancement',
+    description=r'Various filters for enhancing cortical bones in quantitative computed tomography.',
     long_description='ITK is an open-source, cross-platform library that provides developers with an extensive suite of software tools for image analysis. Developed through extreme programming methodologies, ITK employs leading-edge algorithms for registering and segmenting multidimensional scientific images.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
