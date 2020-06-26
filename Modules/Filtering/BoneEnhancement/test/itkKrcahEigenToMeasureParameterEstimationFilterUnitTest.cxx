@@ -146,7 +146,7 @@ protected:
 
 // Define the templates we would like to test
 using TestingLabelTypes = ::testing::Types<double, float>;
-TYPED_TEST_CASE(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestingLabelTypes);
+TYPED_TEST_SUITE(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestingLabelTypes);
 
 TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, InitialParameters)
 {
