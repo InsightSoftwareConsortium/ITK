@@ -28,32 +28,54 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 void
-EigenToMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType & regionForThread)
+EigenToMeasureImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   const InputImageType *        inputPtr = this->GetInput(0);
   OutputImageType *             outputPtr = this->GetOutput(0);
   const MaskSpatialObjectType * maskPointer = this->GetMask();
-  typename InputImageType::PointType point;
 
-  /* Setup iterator */
-  ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPtr, regionForThread);
-  ImageRegionIterator<OutputImageType>           outputIt(outputPtr, regionForThread);
+  this->AllocateOutputs();
 
-  while (!inputIt.IsAtEnd())
-  {
-    inputPtr->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
-    if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
-    {
-      outputIt.Set(this->ProcessPixel(inputIt.Get()));
-    }
-    else
-    {
-      outputIt.Set(NumericTraits<OutputImagePixelType>::Zero);
-    }
+  this->BeforeThreadedGenerateData();
 
-    ++inputIt;
-    ++outputIt;
-  }
+  const OutputImageRegionType requestedRegion( outputPtr->GetRequestedRegion() );
+
+  // Define the portion of the input to walk for this thread, using
+  // the CallCopyOutputRegionToInputRegion method allows for the input
+  // and output images to be different dimensions
+  InputImageRegionType inputRegionForThread;
+  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, requestedRegion);
+
+  MultiThreaderBase::Pointer mt = this->GetMultiThreader();
+
+  mt->ParallelizeImageRegion<TInputImage::ImageDimension>(
+    requestedRegion,
+    [inputPtr, maskPointer, outputPtr, this](const OutputImageRegionType & region) {
+      typename InputImageType::PointType point;
+
+      /* Setup iterator */
+      ImageRegionConstIteratorWithIndex<TInputImage> inputIt(inputPtr, region);
+      ImageRegionIterator<OutputImageType>           outputIt(outputPtr, region);
+
+      while (!inputIt.IsAtEnd())
+      {
+        inputPtr->TransformIndexToPhysicalPoint(inputIt.GetIndex(), point);
+        if ((!maskPointer) || (maskPointer->IsInsideInObjectSpace(point)))
+        {
+          outputIt.Set(this->ProcessPixel(inputIt.Get()));
+        }
+        else
+        {
+          outputIt.Set(NumericTraits<OutputImagePixelType>::Zero);
+        }
+
+        ++inputIt;
+        ++outputIt;
+      }
+    },
+    nullptr);
+
+  this->AfterThreadedGenerateData();
 }
 
 } // namespace itk
