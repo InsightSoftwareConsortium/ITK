@@ -28,25 +28,29 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 void
-EigenToMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread)
+EigenToMeasureImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  /* Get Inputs */
-  InputImageConstPointer            inputPtr = this->GetInput(0);
-  OutputImagePointer                outputPtr = this->GetOutput(0);
-  MaskSpatialObjectTypeConstPointer maskPointer = this->GetMask();
+  const InputImageType *        inputPtr = this->GetInput(0);
+  OutputImageType *             outputPtr = this->GetOutput(0);
+  const MaskSpatialObjectType * maskPointer = this->GetMask();
+
+  this->AllocateOutputs();
+
+  this->BeforeThreadedGenerateData();
+
+  const OutputImageRegionType requestedRegion( outputPtr->GetRequestedRegion() );
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
   // and output images to be different dimensions
   InputImageRegionType inputRegionForThread;
-  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
+  this->CallCopyOutputRegionToInputRegion(inputRegionForThread, requestedRegion);
 
   MultiThreaderBase::Pointer mt = this->GetMultiThreader();
 
   mt->ParallelizeImageRegion<TInputImage::ImageDimension>(
-    outputRegionForThread,
-    [inputPtr, maskPointer, outputPtr, this](const OutputImageRegionType region) {
+    requestedRegion,
+    [inputPtr, maskPointer, outputPtr, this](const OutputImageRegionType & region) {
       typename InputImageType::PointType point;
 
       /* Setup iterator */
@@ -70,6 +74,8 @@ EigenToMeasureImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDat
       }
     },
     nullptr);
+
+  this->AfterThreadedGenerateData();
 }
 
 } // namespace itk

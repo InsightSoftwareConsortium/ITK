@@ -117,6 +117,7 @@ public:
 
   /***\class KrcahImplementationEnum
    * Krcah implementation type
+   * \ingroup BoneEnhancement
    */
   enum class KrcahImplementationEnum : uint8_t
   {
