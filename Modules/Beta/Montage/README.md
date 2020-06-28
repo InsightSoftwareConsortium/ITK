@@ -1,9 +1,9 @@
 ITKMontage
 ==========
 
-![Build Status](https://github.com/InsightSoftwareConsortium/ITKModuleTemplate/workflows/Build,%20test,%20package/badge.svg)
+![Build Status](https://github.com/InsightSoftwareConsortium/ITKMontage/workflows/Build,%20test,%20package/badge.svg)
 [![PyPI](https://img.shields.io/pypi/v/itk-montage.svg)](https://pypi.python.org/pypi/itk-montage)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/InsightSoftwareConsortium/ITKMontage/blob/master/LICENSE)
 [![DOI](https://zenodo.org/badge/114385071.svg)](https://zenodo.org/badge/latestdoi/114385071)
 
 Montaging for microscopy imaging files.
