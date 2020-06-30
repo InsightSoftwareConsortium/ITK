@@ -55,6 +55,7 @@ void Defs::LoadFromFile(const char *filename)
   tr.Read();
 }
 
+// http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1
 const char *Defs::GetIODNameFromMediaStorage(MediaStorage const &ms)
 {
   const char *iodname;
@@ -240,6 +241,9 @@ const char *Defs::GetIODNameFromMediaStorage(MediaStorage const &ms)
       break;
     case MediaStorage::VLMicroscopicImageStorage:
       iodname = "VL Microscopic Image IOD Modules";
+      break;
+    case MediaStorage::XRay3DCraniofacialImageStorage:
+      iodname = "X Ray 3D Craniofacial Image IOD Modules";
       break;
     default:
       iodname = nullptr;

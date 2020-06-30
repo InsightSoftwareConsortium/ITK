@@ -128,10 +128,6 @@ else ()
   set(JPEGSTATIC 1)
 endif ()
 
-# By default support DICOMObjects bug, if this is a speed penalty for you
-# you should consider disabling it
-set(SUPPORT_DICOMOBJECTS_BUG ON)
-
 # Generate three libraries: jpeg 8bits, 12bits and 16bits
 # using only one source directory
 

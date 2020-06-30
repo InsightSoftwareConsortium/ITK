@@ -538,6 +538,9 @@ const std::ostream &ImplicitDataElement::Write(std::ostream &os) const
     return os;
     }
   // Write Value Length
+  // The following code should always work since we are in the case of IVRLE - CP246
+  // however broken file such as PET-GE-dicomwrite-PixelDataSQUNv2.dcm breaks this assumption right here:
+  // see bug #502
   const SequenceOfItems *sqi = dynamic_cast<const SequenceOfItems*>( ValueField.GetPointer() ); //GetSequenceOfItems();
   if( sqi && !ValueLengthField.IsUndefined() )
     {

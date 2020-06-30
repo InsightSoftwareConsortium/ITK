@@ -8236,6 +8236,7 @@ static const DICT_ENTRY DICOMV3DataDict [] = {
   {0x0051,0x0011,"SIEMENS MR HEADER",VR::LO,VM::VM1,"PAT Mode (Ima PAT Mode)",false },
   {0x0051,0x0012,"SIEMENS MR HEADER",VR::SH,VM::VM1,"?Table Position?",false },
   {0x0051,0x0013,"SIEMENS MR HEADER",VR::SH,VM::VM1,"Positive PCS Directions",false },
+  {0x0051,0x0014,"SIEMENS MR HEADER",VR::SH,VM::VM1,"?v150_through?",false },
   {0x0051,0x0015,"SIEMENS MR HEADER",VR::SH,VM::VM1,"?Data Filter?",false },
   {0x0051,0x0016,"SIEMENS MR HEADER",VR::LO,VM::VM1,"?Image Type?",false },
   {0x0051,0x0017,"SIEMENS MR HEADER",VR::SH,VM::VM1,"?Slice Thickness?",false },

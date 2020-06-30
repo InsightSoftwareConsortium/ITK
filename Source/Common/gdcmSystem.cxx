@@ -135,6 +135,16 @@ const char * System::GetCWD()
 */
 }
 
+static inline int Mkdir2(const char *utf8)
+{
+#ifdef _MSC_VER
+  const std::wstring unc = System::ConvertToUNC(utf8);
+  return _wmkdir(unc.c_str());
+#else
+  return Mkdir(utf8);
+#endif
+}
+
 bool System::MakeDirectory(const char *path)
 {
   if( !path || !*path )
@@ -156,7 +166,7 @@ bool System::MakeDirectory(const char *path)
   while(ok && (pos = dir.find('/', pos)) != std::string::npos)
     {
     topdir = dir.substr(0, pos+1);
-    ok = ok && (System::FileIsDirectory(topdir.c_str()) || 0 == Mkdir(topdir.c_str()));
+    ok = ok && (System::FileIsDirectory(topdir.c_str()) || 0 == Mkdir2(topdir.c_str()));
     pos++;
     }
   if( !ok ) return false;
@@ -168,7 +178,7 @@ bool System::MakeDirectory(const char *path)
     {
     topdir = dir;
     }
-  if(Mkdir(topdir.c_str()) != 0)
+  if(Mkdir2(topdir.c_str()) != 0)
     {
     // There is a bug in the Borland Run time library which makes MKDIR
     // return EACCES when it should return EEXISTS
@@ -189,13 +199,15 @@ bool System::MakeDirectory(const char *path)
 // return true if the file exists
 bool System::FileExists(const char* filename)
 {
-#ifdef _MSC_VER
-# define access _access
-#endif
 #ifndef R_OK
 # define R_OK 04
 #endif
+#ifdef _MSC_VER
+    const std::wstring unc = System::ConvertToUNC(filename);
+    if (_waccess(unc.c_str(), R_OK) != 0)
+#else
   if ( access(filename, R_OK) != 0 )
+#endif
     {
     return false;
     }
@@ -208,8 +220,14 @@ bool System::FileExists(const char* filename)
 
 bool System::FileIsDirectory(const char* name)
 {
+#ifdef _MSC_VER
+    struct _stat64i32 fs;
+    const std::wstring wname = System::ConvertToUNC(name);
+    if (_wstat(wname.c_str(), &fs) == 0)
+#else
   struct stat fs;
   if(stat(name, &fs) == 0)
+#endif
     {
 #if _WIN32
     return ((fs.st_mode & _S_IFDIR) != 0);
@@ -365,6 +383,83 @@ bool System::DeleteDirectory(const char *source)
 #ifndef PATH_MAX
 #define PATH_MAX 4096
 #endif
+
+#ifdef _MSC_VER
+  namespace {
+  static inline std::wstring ToUtf16(std::string const &str) {
+    std::wstring ret;
+    int len = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(),
+                                  nullptr, 0);
+    if (len > 0) {
+      ret.resize(len);
+      MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), &ret[0],
+                          len);
+    }
+    return ret;
+  }
+  // http://arsenmk.blogspot.com/2015/12/handling-long-paths-on-windows.html
+  static inline bool ComputeFullPath(std::wstring const &in,
+                                     std::wstring &out) {
+    // consider an input fileName of type PCWSTR (const wchar_t*)
+    const wchar_t *fileName = in.c_str();
+    DWORD requiredBufferLength =
+        GetFullPathNameW(fileName, 0, nullptr, nullptr);
+
+    if (0 == requiredBufferLength)  // means failure
+    {
+      return false;
+    }
+
+    out.resize(requiredBufferLength);
+    wchar_t *buffer = &out[0];
+
+    DWORD result =
+        GetFullPathNameW(fileName, requiredBufferLength, buffer, nullptr);
+
+    if (0 == result) {
+      return false;
+    }
+
+    // buffer now contains the full path name of fileName, use it.
+    return true;
+  }
+
+  static inline std::wstring HandleMaxPath(std::wstring const &in) {
+    if (in.size() >= MAX_PATH) {
+      std::wstring out;
+      bool ret = ComputeFullPath(in, out);
+      if (!ret) return in;
+      if (out.size() < 4) return in;
+      if (out[0] == '\\' && out[1] == '\\' && out[2] == '?') {
+        // nothing to do
+      } else if (out[0] == '\\' && out[1] == '\\' && out[2] != '?') {
+        // server path
+        const std::wstring prefix = LR"(\\?\UNC\)";
+        out = prefix + (out.c_str() + 2);
+      } else {
+        // regular C:\ style path:
+        assert(out[1] == ':');
+        const std::wstring prefix = LR"(\\?\)";
+        out = prefix + out.c_str();
+      }
+      return out;
+    }
+    return in;
+  }
+  }  // namespace
+#endif
+
+std::wstring System::ConvertToUNC(const char *utf8path)
+{
+#ifdef _MSC_VER
+    const std::wstring uft16path = ToUtf16(utf8path);
+    const std::wstring uncpath = HandleMaxPath(uft16path);
+    return uncpath;
+#else
+    (void)utf8path;
+    return std::wstring();
+#endif
+}
 
 // return size of file; also returns zero if no file exists
 size_t System::FileSize(const char* filename)
