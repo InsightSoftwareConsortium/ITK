@@ -39,6 +39,11 @@ public:
   /// remove a directory named source
   static bool DeleteDirectory(const char *source);
 
+  /// When needed convert a PATH into a UNC equivalent. This allow
+  /// transparent support for path longer that MAX_PATH.
+  /// Only on _MSC_VER compiler, return empty string otherwise.
+  static std::wstring ConvertToUNC(const char *utf8path);
+
   /// Return the last error
   static const char *GetLastSystemError();
 

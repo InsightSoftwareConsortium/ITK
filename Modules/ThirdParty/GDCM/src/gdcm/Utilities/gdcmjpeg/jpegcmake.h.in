@@ -22,13 +22,6 @@
 #cmakedefine JPEGDLL
 #cmakedefine JPEGSTATIC
 
-/* For more info on this bug see:
- * [Broken JPEG from GE station] on comp.protocols.dicom
- * and official publication at:
- * http://www.medicalconnections.co.uk/html/lossless_bug.html
- */
-#cmakedefine SUPPORT_DICOMOBJECTS_BUG
-
 #define BITS_IN_JSAMPLE @CMAKE_BITS_IN_JSAMPLE@
 
 #if BITS_IN_JSAMPLE == 8

@@ -43,39 +43,52 @@ unsigned int Directory::Load(FilenameType const &name, bool recursive)
   return 0;
 }
 
+#ifdef _MSC_VER
+static inline std::string ToUtf8(std::wstring const &str) {
+  std::string ret;
+  int len = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length(),
+                                nullptr, 0, NULL, NULL);
+  if (len > 0) {
+    ret.resize(len);
+    WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)str.length(), &ret[0],
+                        len, NULL, NULL);
+  }
+  return ret;
+}
+#endif
+
 unsigned int Directory::Explore(FilenameType const &name, bool recursive)
 {
   unsigned int nFiles = 0;
-  std::string fileName;
-  std::string dirName = name;
-  //assert( System::FileIsDirectory( dirName ) );
-  Directories.push_back( dirName );
 #ifdef _MSC_VER
-  WIN32_FIND_DATA fileData;
-  if ('/' != dirName[dirName.size()-1]) dirName.push_back('/');
-  assert( '/' == dirName[dirName.size()-1] );
-  const FilenameType firstfile = dirName+"*";
-  HANDLE hFile = FindFirstFile(firstfile.c_str(), &fileData);
+  std::wstring fileName;
+  std::wstring dirName = System::ConvertToUNC(name.c_str());
+  Directories.push_back(ToUtf8(dirName));
+  WIN32_FIND_DATAW fileData;
+  if ('\\' != dirName[dirName.size()-1]) dirName.push_back('\\');
+  assert( '\\' == dirName[dirName.size()-1] );
+  const std::wstring firstfile = dirName+L"*";
+  HANDLE hFile = FindFirstFileW(firstfile.c_str(), &fileData);
 
   for(BOOL b = (hFile != INVALID_HANDLE_VALUE); b;
-    b = FindNextFile(hFile, &fileData))
+    b = FindNextFileW(hFile, &fileData))
     {
     fileName = fileData.cFileName;
     if ( fileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY )
       {
       // Need to check for . and .. to avoid infinite loop
-      if ( fileName != "." && fileName != ".."
+      if ( fileName != L"." && fileName != L".."
         && fileName[0] != '.' // discard any hidden dir
         && recursive )
         {
-        nFiles += Explore(dirName+fileName,recursive);
+        nFiles += Explore(ToUtf8(dirName + fileName), recursive);
         }
       }
     else
       {
       if (fileName[0] != '.') // discard "unix like" hidden files such as .git in submodules
         {
-        Filenames.push_back(dirName+fileName);
+        Filenames.push_back(ToUtf8(dirName+fileName));
         nFiles++;
         }
       }
@@ -89,6 +102,10 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
     }
 
 #else
+  std::string fileName;
+  std::string dirName = name;
+  // assert( System::FileIsDirectory( dirName ) );
+  Directories.push_back(dirName);
   // Real POSIX implementation: scandir is a BSD extension only, and doesn't
   // work on debian for example
 

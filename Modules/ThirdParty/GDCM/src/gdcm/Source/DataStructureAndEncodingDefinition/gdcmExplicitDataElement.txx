@@ -339,6 +339,7 @@ std::istream &ExplicitDataElement::ReadValue(std::istream &is, bool readvalues)
 #ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
   if( SequenceOfItems *sqi = dynamic_cast<SequenceOfItems*>(&GetValue()) )
     {
+    assert( ValueField->GetLength() == ValueLengthField );
     // Recompute the total length:
     if( !ValueLengthField.IsUndefined() )
       {
