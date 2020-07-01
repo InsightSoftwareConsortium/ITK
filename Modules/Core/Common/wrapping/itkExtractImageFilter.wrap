@@ -4,7 +4,8 @@ itk_wrap_include("itkExtractImageFilter.h")
 itk_wrap_simple_class("itk::ExtractImageFilterEnums")
 
 itk_wrap_class("itk::ExtractImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_ALL_TYPES}" 2)
+  set(types "${WRAP_ITK_ALL_TYPES};UL")
+  itk_wrap_image_filter("${types}" 2)
 
   foreach(d1 ${ITK_WRAP_IMAGE_DIMS})
     foreach(d2 ${ITK_WRAP_IMAGE_DIMS})
