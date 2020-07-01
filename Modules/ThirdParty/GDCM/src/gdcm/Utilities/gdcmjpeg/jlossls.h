@@ -23,7 +23,6 @@
 #define PREDICTOR4  (int) ((INT32) Ra + (INT32) Rb - (INT32) Rc)
 #define PREDICTOR5  (int) ((INT32) Ra + RIGHT_SHIFT((INT32) Rb - (INT32) Rc, 1))
 #define PREDICTOR6  (int) ((INT32) Rb + RIGHT_SHIFT((INT32) Ra - (INT32) Rc, 1))
-#define PREDICTOR6_BUG  (int) ((INT16) Rb + RIGHT_SHIFT((INT16) Ra - (INT16) Rc, 1))
 #define PREDICTOR7  (int) RIGHT_SHIFT((INT32) Ra + (INT32) Rb, 1)
 
 

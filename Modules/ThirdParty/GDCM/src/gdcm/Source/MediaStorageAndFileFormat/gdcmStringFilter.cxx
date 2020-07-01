@@ -42,6 +42,13 @@ std::string StringFilter::ToString(const Tag& t) const
   return ToStringPair(t).second;
 }
 
+std::string StringFilter::ToString(const PrivateTag& privTag) const
+{
+  const DataSet &ds = GetFile().GetDataSet();
+  const DataElement &de = ds.GetDataElement(privTag);
+  return ToStringPair(de).second;
+}
+
 std::string StringFilter::ToString(const DataElement& de) const
 {
   return ToStringPair(de).second;

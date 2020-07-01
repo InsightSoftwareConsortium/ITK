@@ -162,7 +162,7 @@ bool Writer::Write()
   return !os.fail();
 }
 
-void Writer::SetFileName(const char *filename)
+void Writer::SetFileName(const char *utf8path)
 {
     //std::cerr << "Stream: " << filename << std::endl;
     //std::cerr << "Ofstream: " << Ofstream << std::endl;
@@ -175,9 +175,17 @@ void Writer::SetFileName(const char *filename)
       delete Ofstream;
       }
     Ofstream = new std::ofstream();
-    Ofstream->open(filename, std::ios::out | std::ios::binary );
-    assert( Ofstream->is_open() );
-    assert( !Ofstream->fail() );
+    if (utf8path && *utf8path)
+      {
+#ifdef _MSC_VER
+      const std::wstring uncpath = System::ConvertToUNC(utf8path);
+      Ofstream->open(uncpath.c_str(), std::ios::out | std::ios::binary);
+#else
+      Ofstream->open(utf8path, std::ios::out | std::ios::binary);
+#endif
+      assert(Ofstream->is_open());
+      assert(!Ofstream->fail());
+    }
     //std::cerr << Stream.is_open() << std::endl;
     Stream = Ofstream;
   }

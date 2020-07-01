@@ -104,7 +104,7 @@ VR DataSetHelper::ComputeVR(File const &file, DataSet const &ds, const Tag& tag)
       const VR &devr = de.GetVR();
       if( devr != VR::INVALID && devr != VR::UN )
         {
-        gdcmWarningMacro("Please report. Missing dict entry for: " << de );
+        gdcmWarningMacro("Please report. Missing dict entry for: [" << owner << "]" << " de is: "  << de );
         return devr;
         }
       // CP-246

@@ -506,7 +506,7 @@ bool Anonymizer::BasicApplicationLevelConfidentialityProfile1()
     || ds.FindDataElement( Tag(0x0012,0x0062) )
     || ds.FindDataElement( Tag(0x0012,0x0063) ) )
     {
-    gdcmDebugMacro( "EncryptedContentTransferSyntax Attribute is present !" );
+    gdcmErrorMacro( "EncryptedContentTransferSyntax Attribute is present !" );
     return false;
     }
 #if 0
