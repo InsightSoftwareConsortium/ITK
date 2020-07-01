@@ -152,10 +152,10 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const Vector<TPar
   norm *= sinus;
   VnlQuaternionType q;
 
-  q[0] = cosinus;
-  q[1] = norm[0];
-  q[2] = norm[1];
-  q[3] = norm[2];
+  q[0] = norm[0];
+  q[1] = norm[1];
+  q[2] = norm[2];
+  q[3] = cosinus;
 
   VersorType v;
   v.Set(q);
