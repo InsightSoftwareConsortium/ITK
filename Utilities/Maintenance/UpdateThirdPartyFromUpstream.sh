@@ -80,8 +80,7 @@ done
 
 local input_variables=( thirdparty_module_name snapshot_relative_path \
                         upstream_git_url upstream_git_branch \
-                        snapshot_author_name snapshot_author_email \
-                        snapshot_relative_path )
+                        snapshot_author_name snapshot_author_email )
 for input_variable in ${input_variables[@]}; do
   if [[ -z $(eval echo "\$$input_variable") ]]; then
     die "\$$input_variable must be set"
