@@ -143,22 +143,23 @@ void
 Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const Vector<TParametersValueType, 3> & axis,
                                                                double                                  angle)
 {
-  const double sinus = std::sin(angle / 2.0);
-  const double cosinus = std::cos(angle / 2.0);
+  //const double sinus = std::sin(angle / 2.0);
+  //const double cosinus = std::cos(angle / 2.0);
 
-  Vector<TParametersValueType, 3> norm;
-  norm = axis;
-  norm.Normalize();
-  norm *= sinus;
-  VnlQuaternionType q;
+  //Vector<TParametersValueType, 3> norm;
+  //norm = axis;
+  //norm.Normalize();
+  //norm *= sinus;
+  //VnlQuaternionType q;
 
-  q[0] = norm[0];
-  q[1] = norm[1];
-  q[2] = norm[2];
-  q[3] = cosinus;
+  //q[0] = norm[0];
+  //q[1] = norm[1];
+  //q[2] = norm[2];
+  //q[3] = cosinus;
 
   VersorType v;
-  v.Set(q);
+  //v.Set(q);
+  v.Set(axis, angle);
   this->SetRotation(v);
 }
 
