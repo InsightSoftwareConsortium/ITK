@@ -13,6 +13,7 @@ itkNiftiImageIOTest10.cxx
 itkNiftiImageIOTest11.cxx
 itkNiftiImageIOTest12.cxx
 itkNiftiReadAnalyzeTest.cxx
+itkNiftiReadWriteDirectionTest.cxx
 itkExtractSlice.cxx
 )
 
@@ -77,3 +78,11 @@ itk_add_test(NAME itkNiftiReadAnalyzeTest
 itk_add_test(NAME itkExtractSliceSlopeInterceptUCHAR
       COMMAND ITKIONIFTITestDriver --compare DATA{Baseline/SlopeInterceptUCHAR-midSlice.nrrd} ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd
               itkExtractSlice DATA{Input/SlopeInterceptUCHAR.nii.gz} ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd)
+
+itk_add_test(NAME itkNiftiReadWriteDirectionTest
+        COMMAND ITKIONIFTITestDriver itkNiftiReadWriteDirectionTest
+        DATA{${ITK_DATA_ROOT}/Input/LPSLabels.nii.gz}
+        DATA{${ITK_DATA_ROOT}/Input/LPSLabels_noqform.nii.gz}
+        DATA{${ITK_DATA_ROOT}/Input/LPSLabels_nosform.nii.gz}
+        ${ITK_TEST_OUTPUT_DIR}
+        )
