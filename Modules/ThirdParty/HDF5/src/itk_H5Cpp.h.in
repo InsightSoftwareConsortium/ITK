@@ -24,7 +24,7 @@
 #ifdef ITK_USE_SYSTEM_HDF5
 # include <H5Cpp.h>
 #else
-# include "itkhdf5/cpp/H5Cpp.h"
+# include "itkhdf5/H5Cpp.h"
 #endif
 
 #endif
