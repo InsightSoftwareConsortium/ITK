@@ -61,7 +61,6 @@ endif()
 set(FFTW_OPTIMIZATION_CONFIGURATION "" CACHE INTERNAL "architecture flags: --enable-sse --enable-sse2 --enable-altivec --enable-mips-ps --enable-cell")
 if(ITK_USE_SYSTEM_FFTW)
   find_package( FFTW )
-  link_directories(${FFTW_LIBDIR})
 else()
 
   if(WIN32 AND NOT MINGW)
@@ -148,8 +147,6 @@ else()
     endif()
     set(FFTW_INCLUDE_PATH ${ITK_BINARY_DIR}/fftw/include)
     set(FFTW_LIBDIR ${ITK_BINARY_DIR}/fftw/lib)
-    link_directories(${FFTW_LIBDIR})
-    include_directories(${FFTW_INCLUDE_PATH})
     #
     # copy libraries into install tree
     install(CODE
