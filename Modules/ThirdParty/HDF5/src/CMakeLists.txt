@@ -1,5 +1,10 @@
 set(HDF5_EXTERNALLY_CONFIGURED ON)
-set(HDF5_INSTALL_NO_DEVELOPMENT ${ITK_INSTALL_NO_DEVELOPMENT})
+# Modern CMake install COMPONENTS
+# Setting HDF5_INSTALL_NO_DEVELOPMENT & HDF5_INSTALL_NO_LIBRARIES to
+# FALSE to make explicit that the development and libraries
+# can not be skipped for installation.  Use the install COMPONENTS
+# features instead.
+set(HDF5_INSTALL_NO_DEVELOPMENT FALSE)
 set(HDF5_EXTERNAL_LIB_PREFIX "itk")
 set(HDF5_EXPORTED_TARGETS ${ITKHDF5-targets})
 set(HDF5_INSTALL_LIB_DIR ${ITKHDF5_INSTALL_LIBRARY_DIR})

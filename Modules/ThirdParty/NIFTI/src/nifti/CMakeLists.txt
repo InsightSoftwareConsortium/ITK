@@ -80,8 +80,13 @@ if(NOT NIFTI_ZLIB_LIBRARIES) # If using a custom zlib library, skip the find pac
 endif()
 #message(STATUS "---------------------ZLIB -${NIFTI_ZLIB_LIBRARIES}--")
 add_definitions(-DHAVE_ZLIB)
-set_if_not_defined(NIFTI_INSTALL_NO_DEVELOPMENT 0)
-set_if_not_defined(NIFTI_INSTALL_NO_LIBRARIES 0)
+# Modern CMake install COMPONENTS is being considered in upstream NIFTI
+# Setting NIFTI_INSTALL_NO_DEVELOPMENT & NIFTI_INSTALL_NO_LIBRARIES to
+# FALSE to make explicit that the development and libraries
+# can not be skipped for installation.  Use the install COMPONENTS
+# features instead.
+set(NIFTI_INSTALL_NO_DEVELOPMENT FALSE)
+set(NIFTI_INSTALL_NO_LIBRARIES FALSE)
 
 #######################################################################
 enable_testing()
