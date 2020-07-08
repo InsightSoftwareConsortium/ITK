@@ -123,7 +123,10 @@ TBBMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
                                     ArrayThreadingFunctorType aFunc,
                                     ProcessObject *           filter)
 {
-
+  if (!this->GetUpdateProgress())
+  {
+    filter = nullptr;
+  }
   ProgressReporter progressStartEnd(filter, 0, 1);
 
   if (firstIndex + 1 < lastIndexPlus1)
@@ -243,6 +246,10 @@ TBBMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
                                           ThreadingFunctorType funcP,
                                           ProcessObject *      filter)
 {
+  if (!this->GetUpdateProgress())
+  {
+    filter = nullptr;
+  }
   ProgressReporter progressStartEnd(filter, 0, 1);
 
   if (m_NumberOfWorkUnits == 1)

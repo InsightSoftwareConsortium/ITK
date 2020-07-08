@@ -38,6 +38,8 @@ namespace itk
 {
 namespace
 {
+std::chrono::milliseconds threadCompletionPollingInterval = std::chrono::milliseconds(10);
+
 class ExceptionHandler
 {
 public:
@@ -157,6 +159,11 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
                                      ArrayThreadingFunctorType aFunc,
                                      ProcessObject *           filter)
 {
+  if (!this->GetUpdateProgress())
+  {
+    filter = nullptr;
+  }
+
   if (firstIndex + 1 < lastIndexPlus1)
   {
     SizeValueType chunkSize = (lastIndexPlus1 - firstIndex) / m_NumberOfWorkUnits;
@@ -193,8 +200,16 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
     // now wait for the other computations to finish
     for (SizeValueType i = 1; i < workUnit; i++)
     {
-      exceptionHandler.TryAndCatch([this, i, &reporter] {
-        m_ThreadInfoArray[i].Future.get();
+      exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
+        std::future_status status;
+        do
+        {
+          status = m_ThreadInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
+          if (filter)
+          {
+            filter->IncrementProgress(0);
+          }
+        } while (status != std::future_status::ready);
         reporter.CompletedPixel();
       });
     }
@@ -215,6 +230,11 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
                                            ThreadingFunctorType funcP,
                                            ProcessObject *      filter)
 {
+  if (!this->GetUpdateProgress())
+  {
+    filter = nullptr;
+  }
+
   if (m_NumberOfWorkUnits == 1) // no multi-threading wanted
   {
     ProgressReporter reporter(filter, 0, 1);
@@ -272,8 +292,16 @@ PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
       // now wait for the other computations to finish
       for (ThreadIdType i = 1; i < splitCount; i++)
       {
-        exceptionHandler.TryAndCatch([this, i, &reporter] {
-          m_ThreadInfoArray[i].Future.get();
+        exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
+          std::future_status status;
+          do
+          {
+            status = m_ThreadInfoArray[i].Future.wait_for(threadCompletionPollingInterval);
+            if (filter)
+            {
+              filter->IncrementProgress(0);
+            }
+          } while (status != std::future_status::ready);
           reporter.CompletedPixel();
         });
       }

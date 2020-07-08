@@ -472,6 +472,10 @@ MultiThreaderBase ::ParallelizeArray(SizeValueType             firstIndex,
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
 
+  if (!this->GetUpdateProgress())
+  {
+    filter = nullptr;
+  }
   // Upon destruction, progress will be set to 1.0
   ProgressReporter progress(filter, 0, 1);
 
@@ -532,6 +536,10 @@ MultiThreaderBase ::ParallelizeImageRegion(unsigned int                         
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
+  if (!this->GetUpdateProgress())
+  {
+    filter = nullptr;
+  }
   ProgressReporter progress(filter, 0, 1);
 
   SizeValueType pixelCount = 1;
