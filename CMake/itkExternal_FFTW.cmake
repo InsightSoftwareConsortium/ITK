@@ -1,5 +1,23 @@
 #
 # Encapsulates building FFTW as an External Project.
+#
+# NOTE: internal building of fftw is for convenience,
+#       and the version of fftw built here does not
+#       use modern hardware optimzations.
+#
+#       The build configuration choosen to be
+#       generalizable to as many hardware platforms.
+#       Being backward compatible for decades
+#       old hardware is the goal of this internal
+#       representation.
+#
+#       This is primarily used to support testing
+#       and should not be used for production
+#       builds where performance is a concern.
+#
+# These instructions follow the guidance provided for modern cmake usage as described:
+# https://github.com/dev-cafe/cmake-cookbook/blob/master/chapter-08/recipe-03/c-example/external/upstream/fftw3/CMakeLists.txt
+#
 include(ITK_CheckCCompilerFlag)
 
 
@@ -12,61 +30,8 @@ if(NOT ITK_USE_MKL AND NOT ITK_USE_CUFFTW)
   message("${msg}")
 endif()
 
-#--check_c_compiler_flag(-fopenmp C_HAS_fopenmp)
-#--if(${C_HAS_fopenmp} AND FALSE)
-#--    set(FFTW_THREADS_CONFIGURATION --enable-openmp)
-#--    set(OPENMP_FLAG "-fopenmp")
-#--  else()
-    set(FFTW_THREADS_CONFIGURATION --enable-threads)
-    set(OPENMP_FLAG "")
-#--endif()
 
-# from FFTW's configure command:
-#--Some influential environment variables:
-#--  CC          C compiler command
-#--  CFLAGS      C compiler flags
-#--  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
-#--              nonstandard directory <lib dir>
-#--  LIBS        libraries to pass to the linker, e.g. -l<library>
-#--  CPPFLAGS    C/C++/Objective C preprocessor flags, e.g. -I<include dir> if
-#--              you have headers in a nonstandard directory <include dir>
-
-set(_additional_configure_env)
-set(_additional_external_project_args)
-set(_additional_deployment_target_flags)
-if (APPLE)
-  if(CMAKE_OSX_DEPLOYMENT_TARGET)
-     set(_additional_deployment_target_flags "-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
-  endif()
-  list(APPEND _additional_configure_env
-        "SDKROOT=${CMAKE_OSX_SYSROOT}"
-        "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-  )
-  list(APPEND _additional_external_project_args
-        BUILD_COMMAND
-          env
-            "SDKROOT=${CMAKE_OSX_SYSROOT}"
-            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-          make
-        INSTALL_COMMAND
-          env
-            "SDKROOT=${CMAKE_OSX_SYSROOT}"
-            "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-          make
-            install
-  )
-endif()
-
-## Perhaps in the future a set of TryCompiles could be used here.
-set(FFTW_OPTIMIZATION_CONFIGURATION "" CACHE INTERNAL "architecture flags: --enable-sse --enable-sse2 --enable-altivec --enable-mips-ps --enable-cell")
-if(ITK_USE_SYSTEM_FFTW)
-  find_package( FFTW )
-else()
-
-  if(WIN32 AND NOT MINGW)
-    message("Can't build fftw as external project on Windows")
-    message(ERROR "install fftw and use ITK_USE_SYSTEM_FFTW")
-  else()
+if(NOT ITK_USE_SYSTEM_FFTW)
     #
     # fftw limitation -- can't be built in
     # a directory with whitespace in its name.
@@ -74,91 +39,143 @@ else()
       message(FATAL_ERROR
         "Can't build fftw in a directory with whitespace in its name")
     endif()
-    #
-    # build fftw as an external project
-    if(BUILD_SHARED_LIBS)
-      set(FFTW_SHARED_FLAG --enable-shared)
+
+    if(WIN32)
+      # on windows the build of FFTW must match that of ITK
+      set(FFTW_BUILD_TYPE ${CMAKE_BUILD_TYPE})
+    else()
+      set(FFTW_BUILD_TYPE Release)
     endif()
-    #
-    # set fPIC flag if needed
-    set(GCC_POSITION_INDEPENDENT_CODE_FLAG "")
-    if(CMAKE_POSITION_INDEPENDENT_CODE)
-      set(GCC_POSITION_INDEPENDENT_CODE_FLAG "-fPIC")
-    endif()
+
+    include(GNUInstallDirs)
 
     set(_fftw_target_version 3.3.8)
     set(_fftw_url_hash "ab918b742a7c7dcb56390a0a0014f517a6dff9a2e4b4591060deeb2c652bf3c6868aa74559a422a276b853289b4b701bdcbd3d4d8c08943acf29167a7be81a38")
     set(_fftw_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_fftw_url_hash}/download")
 
+    set(FFTW_STAGED_INSTALL_PREFIX "${ITK_BINARY_DIR}/fftw")
+    set(PROJ_FFTWD_DEPENDS "")
     if(ITK_USE_FFTWF)
       itk_download_attempt_check(FFTW)
       ExternalProject_add(fftwf
         PREFIX fftwf-${_fftw_target_version}
+        INSTALL_DIR ${FFTW_STAGED_INSTALL_PREFIX}
         URL ${_fftw_url}
         URL_HASH SHA512=${_fftw_url_hash}
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
-        CONFIGURE_COMMAND
-          env
-            "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
-            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
-            "LDFLAGS=$ENV{LDFLAGS}"
-            "LIBS=$ENV{LIBS}"
-            "CPP=$ENV{CPP}"
-            "CPPFLAGS=$ENV{CPPFLAGS} ${_additional_deployment_target_flags}"
-            "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
-            ${_additional_configure_env}
-          ${ITK_BINARY_DIR}/fftwf-${_fftw_target_version}/src/fftwf/configure
-            ${FFTW_SHARED_FLAG}
-            ${FFTW_OPTIMIZATION_CONFIGURATION}
-            ${FFTW_THREADS_CONFIGURATION}
-            --disable-fortran
-            --enable-float
-            --prefix=${ITK_BINARY_DIR}/fftw
-        ${_additional_external_project_args}
+        DOWNLOAD_NO_PROGRESS 1
+        UPDATE_COMMAND ""
+        LOG_CONFIGURE 1
+        LOG_BUILD 1
+        LOG_INSTALL 1
+        CMAKE_CACHE_ARGS
+           -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+           -DBUILD_TESTS:BOOL=OFF
+           -DCMAKE_BUILD_TYPE:STRING=${FFTW_BUILD_TYPE}
+           -DCMAKE_INSTALL_PREFIX:PATH=${FFTW_STAGED_INSTALL_PREFIX}
+           -DDISABLE_FORTRAN:BOOL=ON
+           -DENABLE_AVX:BOOL=OFF
+           -DENABLE_AVX2:BOOL=OFF
+           -DENABLE_FLOAT:BOOL=ON
+           -DENABLE_LONG_DOUBLE:BOOL=OFF
+           -DENABLE_OPENMP:BOOL=OFF
+           -DENABLE_QUAD_PRECISION:BOOL=OFF
+           -DENABLE_SSE:BOOL=OFF
+           -DENABLE_SSE2:BOOL=OFF
+           -DENABLE_THREADS:BOOL=ON
+
+           -DCMAKE_C_COMPILER_LAUNCHER:PATH=${CMAKE_C_COMPILER_LAUNCHER}
+           -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+           -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
+           -DCMAKE_OSX_SYSROOT:PATH=${CMAKE_OSX_SYSROOT}
+           -DCMAKE_OSX_DEPLOYMENT_TARGET:PATH=${CMAKE_OSX_DEPLOYMENT_TARGET}
+           -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=${CMAKE_POSITION_INDEPENDENT_CODE}
         )
+      # set(
+      #   FFTW3f_DIR ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/cmake/fftw3f
+      #   CACHE PATH "Path to internally built single precision FFTW3Config.cmake"
+      #   FORCE
+      #  )
+      # Can not find package, it does not yet exist find_package(FFTW3f CONFIG REQUIRED)
+      # but we know where it will eventually be!
+      set(FFTW3f_INCLUDE_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/include )
+      set(FFTW3f_LIBRARY_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+      set(FFTW_INCLUDE ${FFTW3_INCLUDE_DIRS})
+      set(FFTW_LIBDIR  ${FFTW3_LIBRARY_DIRS})
+      set(ITK_FFTWF_LIBRARIES_NAMES fftw3f_threads fftw3f)
+      set(PROJ_FFTWD_DEPENDS "fftwf")
     endif()
 
     if(ITK_USE_FFTWD)
       itk_download_attempt_check(FFTW)
       ExternalProject_add(fftwd
         PREFIX fftwd-${_fftw_target_version}
+        INSTALL_DIR ${FFTW_STAGED_INSTALL_PREFIX}
         URL ${_fftw_url}
         URL_HASH SHA512=${_fftw_url_hash}
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
-        CONFIGURE_COMMAND
-          env
-            "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
-            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
-            "LDFLAGS=$ENV{LDFLAGS}"
-            "LIBS=$ENV{LIBS}"
-            "CPP=$ENV{CPP}"
-            "CPPFLAGS=$ENV{CPPFLAGS} ${_additional_deployment_target_flags}"
-            "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG} ${_additional_deployment_target_flags}"
-            ${_additional_configure_env}
-          ${ITK_BINARY_DIR}/fftwd-${_fftw_target_version}/src/fftwd/configure
-            ${FFTW_SHARED_FLAG}
-            ${FFTW_OPTIMIZATION_CONFIGURATION}
-            ${FFTW_THREADS_CONFIGURATION}
-            --disable-fortran
-            --disable-float
-            --prefix=${ITK_BINARY_DIR}/fftw
-        ${_additional_external_project_args}
+        DOWNLOAD_NO_PROGRESS 1
+        UPDATE_COMMAND ""
+        LOG_CONFIGURE 1
+        LOG_BUILD 1
+        LOG_INSTALL 1
+        CMAKE_CACHE_ARGS
+           -DBUILD_SHARED_LIBS:BOOL=${BUILD_SHARED_LIBS}
+           -DBUILD_TESTS:BOOL=OFF
+           -DCMAKE_BUILD_TYPE:STRING=${FFTW_BUILD_TYPE}
+           -DCMAKE_INSTALL_PREFIX:PATH=${FFTW_STAGED_INSTALL_PREFIX}
+           -DDISABLE_FORTRAN:BOOL=ON
+           -DENABLE_AVX:BOOL=OFF
+           -DENABLE_AVX2:BOOL=OFF
+           -DENABLE_FLOAT:BOOL=OFF
+           -DENABLE_LONG_DOUBLE:BOOL=OFF
+           -DENABLE_OPENMP:BOOL=OFF
+           -DENABLE_QUAD_PRECISION:BOOL=OFF
+           -DENABLE_SSE:BOOL=OFF
+           -DENABLE_SSE2:BOOL=OFF
+           -DENABLE_THREADS:BOOL=ON
+
+           -DCMAKE_C_COMPILER_LAUNCHER:PATH=${CMAKE_C_COMPILER_LAUNCHER}
+           -DCMAKE_C_COMPILER:PATH=${CMAKE_C_COMPILER}
+           -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
+           -DCMAKE_OSX_SYSROOT:PATH=${CMAKE_OSX_SYSROOT}
+           -DCMAKE_OSX_DEPLOYMENT_TARGET:PATH=${CMAKE_OSX_DEPLOYMENT_TARGET}
+           -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=${CMAKE_POSITION_INDEPENDENT_CODE}
+        DEPENDS ${PROJ_FFTWD_DEPENDS} # Avoid potential collisions on install
         )
+      # set(
+      #   FFTW3_DIR ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/cmake/fftw3
+      #   CACHE PATH "Path to internally built double precision FFTW3Config.cmake"
+      #   FORCE
+      #  )
+      # Can not find package, it does not yet exist find_package(FFTW3 CONFIG REQUIRED)
+      set(FFTW3_INCLUDE_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/include )
+      set(FFTW3_LIBRARY_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+
+      set(FFTW_INCLUDE ${FFTW3_INCLUDE_DIRS})
+      set(FFTW_LIBDIR  ${FFTW3_LIBRARY_DIRS})
+      set(ITK_FFTWD_LIBRARIES_NAMES fftw3_threads fftw3)
     endif()
-    set(FFTW_INCLUDE_PATH ${ITK_BINARY_DIR}/fftw/include)
-    set(FFTW_LIBDIR ${ITK_BINARY_DIR}/fftw/lib)
+
     #
     # copy libraries into install tree
     install(CODE
-      "file(GLOB FFTW_LIBS ${ITK_BINARY_DIR}/fftw/lib/*fftw3*)
+      "file(GLOB FFTW_LIBS ${FFTW_STAGED_INSTALL_PREFIX}/lib/*fftw3*)
 file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\"
-TYPE FILE FILES \${FFTW_LIBS})" COMPONENT Development)
+TYPE FILE FILES \${FFTW_LIBS})"
+      COMPONENT Development)
     #
     # copy headers into install tree
     install(CODE
-      "file(GLOB FFTW_INC ${ITK_BINARY_DIR}/fftw/include/*fftw3*)
+      "file(GLOB FFTW_INC ${FFTW_STAGED_INSTALL_PREFIX}/include/*fftw3*)
 file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\"
-TYPE FILE FILES \${FFTW_INC})" COMPONENT Development)
+TYPE FILE FILES \${FFTW_INC})"
+      COMPONENT Development)
 
-  endif()
+   # This pollute the global namespace, but is needed for backward compatibility
+   include_directories(${FFTW_INCLUDE})
+   link_directories(${FFTW_LIBDIR})
+else()
+  #Search the filesystem for compatible versions
+  find_package( FFTW ) # Use local itk FindFFTW.config to set variables consistently both with/without USE_SYSTEM_FFTW
 endif()
