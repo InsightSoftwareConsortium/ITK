@@ -226,9 +226,6 @@ ImageSource<TOutputImage>::GenerateData()
   }
   else
   {
-    // give process object if progress reporting is to occur from the threader
-    Self * processObjectForThreader = this->GetThreaderUpdateProgress() ? this : nullptr;
-
     this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     this->GetMultiThreader()->SetUpdateProgress(this->GetThreaderUpdateProgress());
     this->GetMultiThreader()->template ParallelizeImageRegion<OutputImageDimension>(
@@ -236,7 +233,7 @@ ImageSource<TOutputImage>::GenerateData()
       [this](const OutputImageRegionType & outputRegionForThread) {
         this->DynamicThreadedGenerateData(outputRegionForThread);
       },
-      processObjectForThreader);
+      this);
   }
 
   // Call a method that can be overridden by a subclass to perform
