@@ -68,7 +68,7 @@ foreach(p
 endforeach()
 
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
-    VERSION 2.1.2.2 # defines #MAJOR,MINOR,PATCH,TWEAK}
+    VERSION 2.3.0.0 # defines #MAJOR,MINOR,PATCH,TWEAK}
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
     LANGUAGES CXX C)
 
