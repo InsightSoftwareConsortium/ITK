@@ -1,14 +1,9 @@
 itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   # Wrap from each scalar type to each other, and also to uchar (for 8-bit
   # saving), UL for label images
-  UNIQUE(types "UC;UL;${WRAP_ITK_SCALAR}")
-  itk_wrap_image_filter_combinations("${types}" "${types}")
-
-  # Wrap from ulong to other integral types, even if ulong isn't wrapped. This
-  # is needed for the relabel components image filter.
-  if(NOT ITK_WRAP_unsigned_long)
-    itk_wrap_image_filter_combinations("${ITKM_IT}" "${WRAP_ITK_INT}")
-  endif()
+  UNIQUE(from_types "UC;UL;${ITKM_IT};ULL;${WRAP_ITK_SCALAR}")
+  UNIQUE(to_types "UC;UL;${ITKM_IT};${WRAP_ITK_SCALAR}")
+  itk_wrap_image_filter_combinations("${from_types}" "${to_types}")
 
   # Vector types
   itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_VECTOR}")
