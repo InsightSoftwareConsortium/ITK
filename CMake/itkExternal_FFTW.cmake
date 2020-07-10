@@ -158,9 +158,9 @@ if(NOT ITK_USE_SYSTEM_FFTW)
     endif()
 
     #
-    # copy libraries into install tree
+    # copy libraries into install tree, NOTE: DESTINATION MUST EXACTLY MATCH values from main CMakeLists.txt for FFTW_LIBDIR
     install(CODE
-      "file(GLOB FFTW_LIBS ${FFTW_STAGED_INSTALL_PREFIX}/lib/*fftw3*)
+      "file(GLOB FFTW_LIBS ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/*fftw3*)
 file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\"
 TYPE FILE FILES \${FFTW_LIBS})"
       COMPONENT Development)
