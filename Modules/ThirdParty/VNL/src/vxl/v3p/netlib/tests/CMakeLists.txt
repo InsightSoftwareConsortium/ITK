@@ -24,9 +24,13 @@ if(BUILD_TESTING)
   add_test( NAME netlib_test_slamch COMMAND netlib_slamch_test )
   target_link_libraries(netlib_slamch_test ${VXL_LIB_PREFIX}v3p_netlib)
   # test
+# Incompatibly with ITK's License
+if(0)
   add_executable( netlib_tricall tricall.c )
   add_test( NAME netlib_test_tricall COMMAND netlib_tricall )
   target_link_libraries(netlib_tricall ${VXL_LIB_PREFIX}netlib)
+# Incompatible with ITK's License
+endif()
   # test
   add_executable( netlib_integral_test integral-test.c )
   add_test( NAME netlib_test_integral COMMAND netlib_integral_test )

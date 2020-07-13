@@ -18,7 +18,7 @@ add_subdirectory(vxl)
 # Retrive the variable type to CACHE.
 set(BUILD_EXAMPLES ${BUILD_EXAMPLES} CACHE BOOL "Build the examples from the ITK Software Guide." FORCE)
 
-foreach(lib itkvcl itkv3p_netlib itktestlib itkvnl itkvnl_algo itknetlib)
+foreach(lib itkvcl itkv3p_netlib itktestlib itkvnl itkvnl_algo)
   itk_module_target(${lib} NO_INSTALL)
 endforeach()
 
