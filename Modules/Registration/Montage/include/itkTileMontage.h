@@ -158,7 +158,7 @@ public:
   itkGetConstMacro(ObligatoryPadding, SizeType);
 
   /** Set/Get the padding method. */
-  itkSetMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
+  itkSetEnumMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
   itkGetConstMacro(PaddingMethod, typename PCMType::PaddingMethodEnum);
 
   /** Set/Get the peak interpolation method. */
