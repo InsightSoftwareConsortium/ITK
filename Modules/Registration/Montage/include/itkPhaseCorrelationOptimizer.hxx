@@ -636,8 +636,6 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
             this->m_Offsets[peak][i] = mirrorOffset;
           }
         }
-        // TODO: remove
-        // std::cout << "Complex GENERATED: " << this->m_Offsets[peak] << std::endl;
       }
     } // frequency domain interpolation
   }   // interpolate the peak
