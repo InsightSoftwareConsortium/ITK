@@ -119,7 +119,6 @@ s = itk.region(reader.GetOutput())
 assert s.GetIndex()[0] == s.GetIndex()[1] == 0
 assert s.GetSize()[0] == s.GetSize()[1] == 256
 
-
 # test range
 assert itk.range(reader) == (0, 255)
 assert itk.range(reader.GetOutput()) == (0, 255)
@@ -328,6 +327,18 @@ try:
     assert arr2[0,0] == 2
     # and make sure that the matrix hasn't changed.
     assert m_itk(0,0) == 1
+
+    # test .astype
+    image = itk.imread(filename, itk.UC)
+    cast = image.astype(PixelType)
+    assert cast == image
+    cast = image.astype(itk.F)
+    assert cast.dtype == np.float32
+    cast = image.astype(itk.SS)
+    assert cast.dtype == np.int16
+    cast = image.astype(np.float32)
+    assert cast.dtype == np.float32
+
 except ImportError:
     print("NumPy not imported. Skipping BridgeNumPy tests")
     # Numpy is not available, do not run the Bridge NumPy tests
