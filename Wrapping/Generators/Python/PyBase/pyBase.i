@@ -419,6 +419,22 @@ str = str
                     # CovariantVector, etc.
                     return itk.template(first_template_arg)[1][0].dtype
 
+            def astype(self, pixel_type):
+                """Cast the image to the provided itk pixel type or equivalent NumPy dtype."""
+                import itk
+                import numpy as np
+                import itkTypes
+
+                # numpy dtype
+                if type(pixel_type) is type:
+                    pixel_type = itkTypes.itkCType.GetCTypeForDType(pixel_type)
+                current_pixel_type = itk.template(self)[1][0]
+                if current_pixel_type is pixel_type:
+                    return self
+                OutputImageType = itk.Image[pixel_type, self.GetImageDimension()]
+                cast = itk.cast_image_filter(self, ttype=(type(self), OutputImageType))
+                return cast
+
             def SetDirection(self, direction):
                 import itkHelpers
                 if itkHelpers.is_arraylike(direction):

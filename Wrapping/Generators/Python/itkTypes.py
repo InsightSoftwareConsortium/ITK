@@ -24,18 +24,21 @@ except ImportError:
   HAVE_NUMPY = False
 
 class itkCType:
-    __cTypes__ = {}
+    __c_types__ = {}
+    __c_types_for_dtype__ = {}
 
     def __init__(self, name, short_name, np_dtype=None):
         self.name = name
         self.short_name = short_name
         self.dtype = np_dtype
 
-        itkCType.__cTypes__[self.name] = self
+        itkCType.__c_types__[self.name] = self
+        if np_dtype:
+            itkCType.__c_types_for_dtype__[np_dtype] = self
 
     def __del__(self):
         try:
-            del itkCType.__cTypes__[self.name]
+            del itkCType.__c_types__[self.name]
         except:
             pass
 
@@ -43,6 +46,7 @@ class itkCType:
         return "<itkCType %s>" % self.name
 
     def GetCType(name):
+        """Get the type corresponding to the provided C primitive type name."""
         aliases = {'short': 'signed short',
             'int': 'signed int',
             'long': 'signed long',
@@ -50,10 +54,18 @@ class itkCType:
         if name in aliases:
             name = aliases[name]
         try:
-            return(itkCType.__cTypes__[name])
+            return itkCType.__c_types__[name]
         except KeyError:
-            return(None)
+            return None
     GetCType = staticmethod(GetCType)
+
+    def GetCTypeForDType(np_dtype):
+        """Get the type corresponding to the provided numpy.dtype."""
+        try:
+            return itkCType.__c_types_for_dtype__[np_dtype]
+        except KeyError:
+            return None
+    GetCTypeForDType = staticmethod(GetCTypeForDType)
 
 
 if HAVE_NUMPY:
