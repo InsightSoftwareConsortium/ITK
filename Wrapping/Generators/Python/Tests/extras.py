@@ -387,6 +387,12 @@ try:
         assert False
     except ValueError:
         pass
+
+    empty_array = np.array([], dtype=np.uint8)
+    empty_array.shape = (0,0,0)
+    empty_image = itk.image_from_array(empty_array)
+    empty_da = itk.xarray_from_image(empty_image)
+    empty_image_round = itk.image_from_xarray(empty_da)
 except ImportError:
     print('xarray not imported. Skipping xarray conversion tests')
     pass
