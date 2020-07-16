@@ -193,8 +193,9 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     {
       padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Last);
     }
+    auto          paddingMethod = static_cast<typename PCMType::PaddingMethodEnum>(padMethod);
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
-    std::cout << "Padding method " << padMethod << std::endl;
+    std::cout << paddingMethod << std::endl;
     registrationErrors << "PeakInterpolationMethod";
     for (unsigned d = 0; d < Dimension; d++)
     {
@@ -208,7 +209,6 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
 
 
     typename MontageType::Pointer montage = MontageType::New();
-    auto                          paddingMethod = static_cast<typename PCMType::PaddingMethodEnum>(padMethod);
     montage->SetPaddingMethod(paddingMethod);
     montage->SetPositionTolerance(positionTolerance);
     montage->SetMontageSize(stageTiles.AxisSizes);
@@ -247,7 +247,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     for (auto peakMethod : interpolationMethods)
     {
       montage->SetPeakInterpolationMethod(peakMethod);
-      std::cout << "    PeakMethod " << peakMethod << std::endl;
+      std::cout << peakMethod << std::endl;
       itk::SimpleFilterWatcher fw(montage, "montage");
       // montage->SetDebug( true ); // enable more debugging output from global tile optimization
       montage->Update();
@@ -357,10 +357,10 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
       // also allow accumulation of one pixel for each registration - this effectively double the tolerance
       double avgError = 0.5 * totalError / (linearSize - 1);
       avgError /= Dimension; // report per-dimension error
-      registrationErrors << "Average translation error for padding method " << padMethod
-                         << " and peak interpolation method " << peakMethod << ": " << avgError << std::endl;
-      std::cout << "\nAverage translation error for padding method " << padMethod << " and peak interpolation method "
-                << peakMethod << ": " << avgError << std::endl;
+      registrationErrors << "Average translation error for " << paddingMethod << " and " << peakMethod << ": "
+                         << avgError << std::endl;
+      std::cout << "\nAverage translation error for " << paddingMethod << " and " << peakMethod << ": " << avgError
+                << std::endl;
       if (avgError >= 1.2)
       {
         result = EXIT_FAILURE;
