@@ -2,6 +2,8 @@
 
 project( netlib C )
 
+# Incompatible with ITK's License
+if(0)
 set(netlib_sources
      # The "Triangle" program of Jonathan Richard Shewchuk
      triangle.c triangle.h
@@ -12,6 +14,8 @@ vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}netlib
 
 if(UNIX)
   target_link_libraries( ${VXL_LIB_PREFIX}netlib m )
+endif()
+# Incompatible with ITK's License
 endif()
 
 # Allow sources in subdirectories to see the include files.
