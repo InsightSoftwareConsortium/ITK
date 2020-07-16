@@ -56,6 +56,9 @@ public:
   };
 };
 
+extern Montage_EXPORT std::ostream &
+                      operator<<(std::ostream & out, const PhaseCorrelationImageRegistrationMethodEnums::PaddingMethod value);
+
 /** \class PhaseCorrelationImageRegistrationMethod
  *  \brief Base class for phase-correlation-based image registration.
  *
