@@ -27,6 +27,26 @@ import re
 # [K erases the end of the line
 clrLine = "\033[2000D\033[K"
 
+def set_nthreads(number_of_threads):
+    """
+    Support convenient set of the number of threads.
+    Use example (in python):
+        import itk
+        itk.set_nthreads(4)  ## use 4 threads
+    """
+    assert number_of_threads > 0, "Please set a possitive number of threads instead of %d" % number_of_threads
+
+    import itk
+    threader = itk.MultiThreaderBase.New()
+    threader.SetGlobalDefaultNumberOfThreads(number_of_threads)
+
+def get_nthreads():
+    """
+    Get the number of threads
+    """
+    import itk
+    threader = itk.MultiThreaderBase.New()
+    return threader.GetGlobalDefaultNumberOfThreads()
 
 def auto_not_in_place(v=True):
     """Force it to not run in place
