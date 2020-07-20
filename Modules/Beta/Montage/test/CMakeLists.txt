@@ -307,6 +307,15 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
     set(regressionPart --compare ${inputFile} ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_2_1.mha)
   endif()
 
+  set(varyingPaddingMethods 0)
+  set(peakMethod -1)
+  set(loadIntoMemory 1)
+  set(streamSubdivisions 1)
+  set(doPairs 1)
+  set(writeTransforms 0)
+  set(allowDrift 0)
+  set(positionTolerance 0)
+  set(writeImage 1)
   itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
     COMMAND MontageTestDriver
     # these tolerance only work for small uchar cases
@@ -318,7 +327,15 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
       ${outDir}
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}_
       ${TESTING_OUTPUT_PATH}/itkMontageGT${tempDir}Pairs_
-      0 1 1 1 1 0 0 0 1
+      ${varyingPaddingMethods}
+      ${peakMethod}
+      ${loadIntoMemory}
+      ${streamSubdivisions}
+      ${doPairs}
+      ${writeTransforms}
+      ${allowDrift}
+      ${positionTolerance}
+      ${writeImage}
     )
   set_tests_properties(itkMontageGroundTruthRun${tempDir}
     PROPERTIES DEPENDS itkMontageGroundTruthMake${tempDir})
