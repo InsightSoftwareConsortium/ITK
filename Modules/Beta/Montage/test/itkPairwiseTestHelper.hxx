@@ -116,7 +116,6 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
   unsigned count = 0;
   for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
   {
-    std::cout << "\nTESTING WITH PEAK INTERPOLATION METHOD: " << peakMethod << std::endl;
     pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
     phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
 
@@ -125,7 +124,7 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
 
     out << stageTiles.LinearIndexToNDIndex(fInd) << " <- " << stageTiles.LinearIndexToNDIndex(mInd);
     out << '\t' << peakMethod;
-    std::cout << "    PeakMethod" << peakMethod << ":";
+    std::cout << "    PeakMethod " << peakMethod << ":";
 
     phaseCorrelationMethod->Update();
 
@@ -147,9 +146,10 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
     for (unsigned d = 0; d < Dimension; d++)
     {
       out << '\t' << (tr[d] - ta[d]);
-      std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
+      std::cout << "  " << std::setw(8) << std::setprecision(8) << (tr[d] - ta[d]);
       translationError += std::abs(tr[d] - ta[d]);
     }
+    std::cout << std::endl;
     out << std::endl;
     count++;
   }
@@ -224,9 +224,10 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
       }
     }
 
+    std::cout << "\n" << std::endl;
     for (auto m : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
     {
-      std::cout << "PeakInterpolation " << m << " has average translation bias:";
+      std::cout << "PeakInterpolation " << m << " has average translation bias: ";
       for (unsigned d = 0; d < Dimension; d++)
       {
         std::cout << " " << accumulatedBias[m][d] / count;
