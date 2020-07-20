@@ -113,7 +113,7 @@ def accept_numpy_array_like_xarray(image_filter):
             output = image_filter(*tuple(args_list), **kwargs)
             if isinstance(output, tuple):
                 output_list = list(output)
-                for index, value in output_list:
+                for index, value in enumerate(output_list):
                     if isinstance(value, itk.Image):
                         if have_xarray_input:
                             data_array = itk.xarray_from_image(value)

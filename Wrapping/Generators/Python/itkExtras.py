@@ -464,8 +464,10 @@ def image_from_xarray(data_array):
     origin = [0.0]*spatial_dimension
     spacing = [1.0]*spatial_dimension
     for index, dim in enumerate(spatial_dims):
-        origin[index] = float(data_array.coords[dim][0])
-        spacing[index] = float(data_array.coords[dim][1]) - float(data_array.coords[dim][0])
+        coords = data_array.coords[dim]
+        if coords.shape[0] > 1:
+            origin[index] = float(coords[0])
+            spacing[index] = float(coords[1]) - float(coords[0])
     spacing.reverse()
     itk_image.SetSpacing(spacing)
     origin.reverse()
