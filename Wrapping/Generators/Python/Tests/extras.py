@@ -30,6 +30,10 @@ import itk
 import sys
 import os
 
+# test setting the number of threads
+itk.set_nthreads(4)
+assert itk.get_nthreads() == 4
+
 # test the force load function
 itk.force_load()
 
