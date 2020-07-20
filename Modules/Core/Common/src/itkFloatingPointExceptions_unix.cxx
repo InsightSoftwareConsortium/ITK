@@ -136,7 +136,7 @@ void
 FloatingPointExceptions ::Enable()
 {
   itkInitGlobalsMacro(PimplGlobals);
-#if defined(ITK_HAS_FPE_CAPABILITY)
+#if defined(ITK_HAS_FPE_CAPABILITY) && !defined(__EMSCRIPTEN__)
   itk_feenableexcept(FE_DIVBYZERO);
   itk_feenableexcept(FE_INVALID);
 #  if defined(ITK_FPE_USE_SIGNAL_HANDLER)
@@ -158,7 +158,7 @@ void
 FloatingPointExceptions ::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
-#if defined(ITK_HAS_FPE_CAPABILITY)
+#if defined(ITK_HAS_FPE_CAPABILITY) && !defined(__EMSCRIPTEN__)
   itk_fedisableexcept(FE_DIVBYZERO);
   itk_fedisableexcept(FE_INVALID);
   FloatingPointExceptions::m_PimplGlobals->m_Enabled = false;
