@@ -238,7 +238,8 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = {
       itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::None,
       itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Parabolic,
-      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::WeightedMeanPhase,
     };
     if (peakMethodToUse >= 0)
     {
@@ -359,8 +360,11 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
       avgError /= Dimension; // report per-dimension error
       registrationErrors << "Average translation error for " << paddingMethod << " and " << peakMethod << ": "
                          << avgError << std::endl;
-      std::cout << "\nAverage translation error for " << paddingMethod << " and " << peakMethod << ": " << avgError
-                << std::endl;
+      std::cout << "\nAverage translation error for " << std::endl;
+      std::cout << "\t" << paddingMethod << std::endl;
+      std::cout << "\t\t and" << std::endl;
+      std::cout << "\t" << peakMethod << std::endl;
+      std::cout << "\t\t " << avgError << "\n" << std::endl;
       if (avgError >= 1.2)
       {
         result = EXIT_FAILURE;
