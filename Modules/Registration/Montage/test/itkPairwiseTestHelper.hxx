@@ -104,9 +104,16 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   pcmOptimizer->SetPixelDistanceTolerance(positionTolerance);
 
-  using PeakInterpolationType = typename OptimizerType::PeakInterpolationMethodEnum;
+  // std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods =
+  // itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+  std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = {
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::None,
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Parabolic,
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine,
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::WeightedMeanPhase,
+  };
 
-  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
+  for (auto peakMethod : interpolationMethods)
   {
     itk::Point<double, Dimension> point;
     point.Fill(0.0);
@@ -114,7 +121,7 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
   }
 
   unsigned count = 0;
-  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
+  for (auto peakMethod : interpolationMethods)
   {
     pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
     phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
@@ -225,7 +232,15 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
     }
 
     std::cout << "\n" << std::endl;
-    for (auto m : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
+    // std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods =
+    // itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+    std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = {
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::None,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Parabolic,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::WeightedMeanPhase,
+    };
+    for (auto m : interpolationMethods)
     {
       std::cout << "PeakInterpolation " << m << " has average translation bias: ";
       for (unsigned d = 0; d < Dimension; d++)
