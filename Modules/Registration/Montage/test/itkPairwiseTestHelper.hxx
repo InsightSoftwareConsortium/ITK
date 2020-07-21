@@ -190,7 +190,8 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
       padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Last);
     }
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
-    std::cout << "Padding method " << padMethod << std::endl;
+    auto          paddingMethod = static_cast<typename PCMType::PaddingMethodEnum>(padMethod);
+    std::cout << paddingMethod << std::endl;
     registrationErrors << "Fixed <- Moving\tPeakInterpolationMethod";
     for (unsigned d = 0; d < Dimension; d++)
     {
@@ -252,8 +253,7 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
     // double avgError = totalError / (xMontageSize * (yMontageSize - 1) + (xMontageSize - 1) * yMontageSize);
     double avgError = totalError / count;
     avgError /= Dimension; // report per-dimension error
-    std::cout << "Average translation error for padding method " << padMethod << ": " << avgError << std::endl
-              << std::endl;
+    std::cout << "Average translation error for " << paddingMethod << ": " << avgError << std::endl << std::endl;
     if (avgError >= 1.0)
     {
       result = EXIT_FAILURE;
