@@ -21,7 +21,7 @@
 
 
 // include headers neccessary for phase correlation image registration
-#include "itkMaxPhaseCorrelationOptimizer.h"
+#include "itkPhaseCorrelationOptimizer.h"
 #include "itkPhaseCorrelationImageRegistrationMethod.h"
 #include "itkPhaseCorrelationOperator.h"
 
@@ -82,7 +82,7 @@ main(int argc, char * argv[])
   OperatorType::Pointer pcmOperator = OperatorType::New();
   pcmRegistration->SetOperator(pcmOperator);
 
-  using OptimizerType = itk::MaxPhaseCorrelationOptimizer<RegistrationType>;
+  using OptimizerType = itk::PhaseCorrelationOptimizer<PixelType, Dimension>;
   OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   pcmRegistration->SetOptimizer(pcmOptimizer);
 
