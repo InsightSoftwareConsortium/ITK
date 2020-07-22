@@ -346,7 +346,7 @@ GroundTruthTest2D(run2 DATA{Input/05MAR09_run2_64-Raw/05MAR09_run2_64-Raw_p0.bmp
 GroundTruthTest2D(MediumCarbonSteel DATA{Input/MediumCarbonSteel/1701701_000000_Fused.tif} 11 3 20 20)
 GroundTruthTest2D(MNML3 DATA{Input/MNML_3_200x_701/MNML-3-ITK.png} 4 5 5 5)
 GroundTruthTest2D(MNML5 DATA{Input/MNML_5_500x_101/MNML_5-ITK.png} 6 9 5 5)
-GroundTruthTest2D(VisibleHuman DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png} 6 5 15 15)
+GroundTruthTest2D(VisibleHuman DATA{Input/VisibleHumanRGB/VisibleHumanMale1608.png} 5 4 15 15)
 GroundTruthTest2D(OMC14 DATA{Input/OMC/FlatField/14/OMC14-ITK.tif} 8 6 10 10)
 
 
