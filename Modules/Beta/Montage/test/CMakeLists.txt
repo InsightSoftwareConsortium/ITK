@@ -313,7 +313,7 @@ function(GroundTruthTest2D tempDir inputFile) # other command-line parameters
   set(streamSubdivisions 1)
   set(doPairs 1)
   set(writeTransforms 0)
-  set(allowDrift 0)
+  set(allowDrift 1)
   set(positionTolerance 0)
   set(writeImage 1)
   itk_add_test(NAME itkMontageGroundTruthRun${tempDir}
