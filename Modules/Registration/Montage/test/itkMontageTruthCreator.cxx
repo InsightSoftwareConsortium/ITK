@@ -89,7 +89,7 @@ CreateGroundTruth(char *                        inFilename,
   }
 
   regular.Write(outDir + "TileConfiguration.txt");
-  randomized.Write(outDir + "TileConfiguration.registered.txt");
+  randomized.Write(outDir + "TileConfiguration.GroundTruth.txt");
 
   // now resample the tiles
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;

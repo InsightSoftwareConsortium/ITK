@@ -108,7 +108,14 @@ itkMontageTestHelper(int argc, char * argv[], const std::string & inputPath)
 {
   itk::TileConfiguration<Dimension> stageTiles, actualTiles;
   stageTiles.Parse(inputPath + "TileConfiguration.txt");
-  actualTiles.Parse(inputPath + "TileConfiguration.registered.txt");
+  try
+  {
+    actualTiles.Parse(inputPath + "TileConfiguration.GroundTruth.txt");
+  }
+  catch (...)
+  {
+    actualTiles.Parse(inputPath + "TileConfiguration.registered.txt");
+  }
 
   itk::ImageIOBase::Pointer imageIO = itk::ImageIOFactory::CreateImageIO(
     (inputPath + stageTiles.Tiles[0].FileName).c_str(), itk::IOFileModeEnum::ReadMode);
