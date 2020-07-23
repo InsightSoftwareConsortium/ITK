@@ -44,10 +44,10 @@ public:
   enum class PeakInterpolationMethod : uint8_t
   {
     None = 0,
-    Parabolic,
-    Cosine,
-    WeightedMeanPhase,
-    // PhaseFrequencySlope,
+    Parabolic = 1,
+    Cosine = 2,
+    WeightedMeanPhase = 3,
+    // PhaseFrequencySlope = 4,
   };
 
   // For iteration
