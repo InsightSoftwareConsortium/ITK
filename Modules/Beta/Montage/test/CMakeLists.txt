@@ -297,7 +297,7 @@ option(Module_Montage_EnableFailingTests "Should we enable tests which are faili
 
 # have uniform options for GroundTruthTests
 set(varyingPaddingMethods 0)
-set(peakMethod 1)
+set(peakMethod -1)
 set(loadIntoMemory 1)
 set(streamSubdivisions 1)
 set(doPairs 0)
