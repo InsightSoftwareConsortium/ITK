@@ -21,7 +21,7 @@
 
 template <unsigned Dimension>
 int
-mainHelper(char * argv[])
+mainHelper(int argc, char * argv[])
 {
   itk::TileConfiguration<Dimension> baseline;
   baseline.Parse(argv[1]);
@@ -35,10 +35,31 @@ mainHelper(char * argv[])
     return EXIT_FAILURE;
   }
 
+  std::ostream * out = &std::cout;
+  if (argc > 3)
+  {
+    out = new std::ofstream(argv[3]);
+  }
+
+  *out << "Index\tFilename";
+  for (unsigned d = 0; d < Dimension; d++)
+  {
+    *out << '\t' << char('x' + d) << "Error";
+  }
+  *out << "\terrorNorm\n";
+
   double error = 0.0;
   for (size_t i = 0; i < baseline.LinearSize(); i++)
   {
-    double error1 = (baseline.Tiles[i].Position - test.Tiles[i].Position).GetNorm();
+    auto diff = baseline.Tiles[i].Position - test.Tiles[i].Position;
+    *out << i << '\t' << baseline.Tiles[i].FileName;
+    for (unsigned d = 0; d < Dimension; d++)
+    {
+      *out << '\t' << diff[d];
+    }
+    double error1 = diff.GetNorm();
+    *out << '\t' << error1 << '\n';
+
     error += error1;
     if (error1 > 1.0 * Dimension)
     {
@@ -48,6 +69,12 @@ mainHelper(char * argv[])
 
   error /= (Dimension * baseline.LinearSize());
   std::cout << "Average error per dimension is " << error << std::endl;
+
+  if (argc > 3)
+  {
+    delete out;
+  }
+
   if (error > 0.5)
   {
     return EXIT_FAILURE;
@@ -61,7 +88,7 @@ main(int argc, char * argv[])
   if (argc < 3)
   {
     std::cout << "Usage: " << std::endl;
-    std::cout << argv[0] << " <baselineTileConfiguration> <testTileConfiguration>" << std::endl;
+    std::cout << argv[0] << " <baselineTileConfiguration> <testTileConfiguration> [differences.tsv]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -73,9 +100,9 @@ main(int argc, char * argv[])
     switch (dim)
     {
       case 2:
-        return mainHelper<2>(argv);
+        return mainHelper<2>(argc, argv);
       case 3:
-        return mainHelper<3>(argv);
+        return mainHelper<3>(argc, argv);
       default:
         std::cerr << "Only dimensions 2 and 3 are supported. You are attempting to montage dimension " << dim;
         return EXIT_FAILURE;
