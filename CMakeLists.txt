@@ -405,6 +405,9 @@ mark_as_advanced(ITK_USE_SYSTEM_FFTW)
 
 if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
   include(itkExternal_FFTW)
+  # This pollutes the global namespace, but is needed for backward compatibility
+  include_directories(${FFTW_INCLUDE})
+  link_directories(${FFTW_LIBDIR})
 endif()
 
 set(ITK_USE_64BITS_IDS_DEFAULT "OFF")

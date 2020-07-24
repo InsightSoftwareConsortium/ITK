@@ -171,10 +171,6 @@ TYPE FILE FILES \${FFTW_LIBS})"
 file(INSTALL DESTINATION \"\${CMAKE_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}\"
 TYPE FILE FILES \${FFTW_INC})"
       COMPONENT Development)
-
-   # This pollute the global namespace, but is needed for backward compatibility
-   include_directories(${FFTW_INCLUDE})
-   link_directories(${FFTW_LIBDIR})
 else()
   #Search the filesystem for compatible versions
   find_package( FFTW ) # Use local itk FindFFTW.config to set variables consistently both with/without USE_SYSTEM_FFTW
