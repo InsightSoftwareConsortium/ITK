@@ -104,9 +104,16 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
   typename OptimizerType::Pointer pcmOptimizer = OptimizerType::New();
   pcmOptimizer->SetPixelDistanceTolerance(positionTolerance);
 
-  using PeakInterpolationType = typename OptimizerType::PeakInterpolationMethodEnum;
+  // std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods =
+  // itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+  std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = {
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::None,
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Parabolic,
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine,
+    itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::WeightedMeanPhase,
+  };
 
-  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
+  for (auto peakMethod : interpolationMethods)
   {
     itk::Point<double, Dimension> point;
     point.Fill(0.0);
@@ -114,7 +121,7 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
   }
 
   unsigned count = 0;
-  for (auto peakMethod : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
+  for (auto peakMethod : interpolationMethods)
   {
     pcmOptimizer->SetPeakInterpolationMethod(peakMethod);
     phaseCorrelationMethod->SetOptimizer(pcmOptimizer);
@@ -183,7 +190,8 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
       padMethod = static_cast<PadMethodUnderlying>(PCMType::PaddingMethodEnum::Last);
     }
     std::ofstream registrationErrors(outFilename + std::to_string(padMethod) + ".tsv");
-    std::cout << "Padding method " << padMethod << std::endl;
+    auto          paddingMethod = static_cast<typename PCMType::PaddingMethodEnum>(padMethod);
+    std::cout << paddingMethod << std::endl;
     registrationErrors << "Fixed <- Moving\tPeakInterpolationMethod";
     for (unsigned d = 0; d < Dimension; d++)
     {
@@ -225,7 +233,15 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
     }
 
     std::cout << "\n" << std::endl;
-    for (auto m : itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods())
+    // std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods =
+    // itk::PhaseCorrelationOptimizerEnums::AllPeakInterpolationMethods;
+    std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpolationMethods = {
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::None,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Parabolic,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::Cosine,
+      itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod::WeightedMeanPhase,
+    };
+    for (auto m : interpolationMethods)
     {
       std::cout << "PeakInterpolation " << m << " has average translation bias: ";
       for (unsigned d = 0; d < Dimension; d++)
@@ -237,8 +253,7 @@ pairwiseTests(const itk::TileConfiguration<Dimension> & stageTiles,
     // double avgError = totalError / (xMontageSize * (yMontageSize - 1) + (xMontageSize - 1) * yMontageSize);
     double avgError = totalError / count;
     avgError /= Dimension; // report per-dimension error
-    std::cout << "Average translation error for padding method " << padMethod << ": " << avgError << std::endl
-              << std::endl;
+    std::cout << "Average translation error for " << paddingMethod << ": " << avgError << std::endl << std::endl;
     if (avgError >= 1.0)
     {
       result = EXIT_FAILURE;

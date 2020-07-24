@@ -133,6 +133,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
   PointType originAdjustment = stageTiles.Tiles[origin1linear].Position - stageTiles.Tiles[0].Position;
 
   using PeakInterpolationType = itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
+  using PeakMethodUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
   using MontageType = itk::TileMontage<ScalarImageType>;
   using ResamplerType = itk::TileMergeImageFilter<OriginalImageType, AccumulatePixelType>;
 
@@ -243,10 +244,12 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     };
     if (peakMethodToUse >= 0)
     {
-      interpolationMethods = { static_cast<PeakInterpolationType>(peakMethodToUse) };
+      auto peakMethodNumber = static_cast<PeakMethodUnderlying>(peakMethodToUse);
+      interpolationMethods = { static_cast<PeakInterpolationType>(peakMethodNumber) };
     }
     for (auto peakMethod : interpolationMethods)
     {
+      auto peakMethodNumber = static_cast<PeakMethodUnderlying>(peakMethod);
       montage->SetPeakInterpolationMethod(peakMethod);
       std::cout << peakMethod << std::endl;
       itk::SimpleFilterWatcher fw(montage, "montage");
@@ -265,8 +268,8 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
         if (writeTransformFiles)
         {
           std::ostringstream ostrm;
-          ostrm << outFilename << static_cast<int>(padMethod) << "_" << static_cast<int>(peakMethod) << "_Tr_" << t
-                << ".tfm";
+          ostrm << outFilename << static_cast<int>(padMethod) << "_" << static_cast<int>(peakMethodNumber) << "_Tr_"
+                << t << ".tfm";
           WriteTransform(regTr, ostrm.str());
         }
         regPos[t] = regTr->GetOffset();
@@ -404,7 +407,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
         // resampleF->DebugOn(); //generate an image of contributing regions
         // MetaImage format supports streaming
         std::ostringstream ostrm;
-        ostrm << outFilename << static_cast<int>(padMethod) << "_" << static_cast<int>(peakMethod) << ".mha";
+        ostrm << outFilename << static_cast<int>(padMethod) << "_" << static_cast<int>(peakMethodNumber) << ".mha";
         w->SetFileName(ostrm.str());
         // w->UseCompressionOn();
         w->SetNumberOfStreamDivisions(streamSubdivisions);
