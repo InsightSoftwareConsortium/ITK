@@ -14,19 +14,19 @@ try:
       def __array_finalize__(self, obj):
           if obj is None: return
           self.itk_base = getattr(obj, 'itk_base', None)
-
-      def __reduce_ex__(self, protocol):
-          np_copy = np.array(self, copy=True)
-          return type(self)._reconstruct, (np_copy,), None
-
-      @classmethod
-      def _reconstruct(cls, obj):
-          with memoryview(obj) as m:
-             obj = m.obj
-             if type(obj) is np.ndarray:
-                 return cls(obj, itk_base=None)
 except ImportError:
   HAVE_NUMPY = False
+
+try:
+    import numpy as np
+    from distributed.protocol import dask_deserialize
+    from typing import Dict, List
+    @dask_deserialize.register(NDArrayITKBase)
+    def deserialize(header: Dict, frames: List[bytes]) -> NDArrayITKBase:
+        loads = dask_deserialize.dispatch(np.ndarray)
+        return NDArrayITKBase(loads(header, frames))
+except ImportError:
+    pass
 
 def _get_numpy_pixelid(itk_Image_type):
     """Returns a ITK PixelID given a numpy array."""
