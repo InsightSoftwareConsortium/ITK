@@ -106,21 +106,19 @@ class scopedef_t(declaration.declaration_t):
 
     You can find declaration(s) using next criteria:
 
-        1. `name` - declaration name, could be full qualified name
+        1. ``name`` - declaration name, could be full qualified name
 
-        2. `header_dir` - directory, to which belongs file, that the
-            declaration was declared in.
-            `header_dir` should be absolute path.
+        2. ``header_dir`` - directory, to which belongs file, that the
+           declaration was declared in. ``header_dir`` should be absolute path.
 
-        3. `header_file` - file that the declaration was declared in.
+        3. ``header_file`` - file that the declaration was declared in.
 
-        4. `function` - user ( your ) custom criteria. The interesting thing
-            is that this function will be joined with other arguments
-            (criteria).
+        4. ``function`` - user ( your ) custom criteria. The interesting
+           thing is that this function will be joined with
+           other arguments (criteria).
 
-        5. `recursive` - the search declaration range, if True will be search
-            in internal declarations too.
-
+        5. ``recursive`` - the search declaration range, if True will be search
+           in internal declarations too.
 
     Every ""query"" API, takes name or function as the first argument.
 

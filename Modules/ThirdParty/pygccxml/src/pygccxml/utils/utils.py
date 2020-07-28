@@ -295,8 +295,12 @@ class cxx_standard(object):
         '-std=gnu++1y': 201402,
         '-std=c++14': 201402,
         '-std=gnu++14': 201402,
-        '-std=c++1z': float('inf'),
-        '-std=gnu++1z': float('inf'),
+        '-std=c++1z': 201703,
+        '-std=c++17': 201703,
+        '-std=gnu++1z': 201703,
+        '-std=gnu++17': 201703,
+        '-std=c++2a': float('inf'),
+        '-std=gnu++2a': float('inf'),
     }
 
     def __init__(self, cflags):
