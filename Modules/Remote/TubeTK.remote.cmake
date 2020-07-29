@@ -45,9 +45,8 @@
 #--
 # Contact: Stephen Aylward <stephen.aylward@kitware.com>
 itk_fetch_module(TubeTK
- "http://www.tubetk.org
-"
+  "http://www.tubetk.org"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTubeTK.git
-  GIT_TAG "35126d4d091c2b17d772461f4bae0bdd1c04f9ac"
+  GIT_TAG 9cf631852ce8b07cdf736f7873abe8e300077fa6
   )
