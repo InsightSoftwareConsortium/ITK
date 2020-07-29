@@ -62,5 +62,5 @@ Wu, J. \"ITK-Based Implementation of Two-Projection 2D/3D Registration Method wi
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTwoProjectionRegistration.git
-  GIT_TAG df2d0c2beeb0439eafcc002caa60e50d5314cedc
+  GIT_TAG 439ef9f41fc09960641fa48ec7237cb4889847c7
   )

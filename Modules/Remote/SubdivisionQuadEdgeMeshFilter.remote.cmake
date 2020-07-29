@@ -51,5 +51,5 @@ See the following Insight Journal's publication:
   https://hdl.handle.net/10380/3307"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/itkSubdivisionQuadEdgeMeshFilter
-  GIT_TAG 407179c85bdd425f19fb347ee83e282c65b54f9f
+  GIT_TAG 66c687869ad64b4edfab1e7cadc53d15be83eee2
   )

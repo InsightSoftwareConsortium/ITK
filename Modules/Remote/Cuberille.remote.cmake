@@ -64,5 +64,5 @@ http://www.insight-journal.org/browse/publication/213
 "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKCuberille.git
-  GIT_TAG 305e3f3011b394d6998a23e7eff378d9701569ea
+  GIT_TAG ba030a7e2de493a932e33cc7b3ec0fdf6b072968
   )
