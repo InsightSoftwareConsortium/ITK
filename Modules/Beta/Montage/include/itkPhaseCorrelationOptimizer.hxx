@@ -225,7 +225,6 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
   const ImageType *        fixed = static_cast<ImageType *>(this->GetInput(0));
   const ImageType *        moving = static_cast<ImageType *>(this->GetInput(1));
   const ImageType *        input = static_cast<ImageType *>(this->GetInput(2));
-  const ComplexImageType * complexInput = static_cast<ComplexImageType *>(this->GetInput(3));
 
   const typename ImageType::SpacingType spacing = fixed->GetSpacing();
   const typename ImageType::PointType   fixedOrigin = fixed->GetOrigin();
@@ -581,12 +580,12 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
       for (unsigned int peak = 0; peak < this->m_PhaseInterpolated && peak < this->m_Offsets.size(); ++peak)
       {
         this->m_PadFilter->SetInput(this->m_AdjustedInput);
-        typename CyclicShiftFilterType::OffsetType offset;
+        typename CyclicShiftFilterType::OffsetType shiftFilterOffset;
         for (unsigned int dim = 0; dim < ImageDimension; ++dim)
         {
-          offset[dim] = -maxIndices[peak][dim];
+          shiftFilterOffset[dim] = -maxIndices[peak][dim];
         }
-        this->m_CyclicShiftFilter->SetShift(offset);
+        this->m_CyclicShiftFilter->SetShift(shiftFilterOffset);
         this->m_FFTFilter->Update();
         const typename FFTFilterType::OutputImageType * correlationFFT = this->m_FFTFilter->GetOutput();
 
