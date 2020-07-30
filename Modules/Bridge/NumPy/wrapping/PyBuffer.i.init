@@ -17,6 +17,22 @@ try:
 
 except ImportError:
   HAVE_NUMPY = False
+try:
+    import numpy as np
+    from distributed.protocol import dask_serialize, dask_deserialize
+    from typing import Dict, List, Tuple
+except ImportError:
+    pass
+else:
+    @dask_serialize.register(NDArrayITKBase)
+    def serialize(ndarray_itk_base: NDArrayITKBase) -> Tuple[Dict, List[bytes]]:
+        dumps = dask_serialize.dispatch(np.ndarray)
+        return dumps(ndarray_itk_base)
+
+    @dask_deserialize.register(NDArrayITKBase)
+    def deserialize(header: Dict, frames: List[bytes]) -> NDArrayITKBase:
+        loads = dask_deserialize.dispatch(np.ndarray)
+        return NDArrayITKBase(loads(header, frames))
 
 def _get_numpy_pixelid(itk_Image_type):
     """Returns a ITK PixelID given a numpy array."""
