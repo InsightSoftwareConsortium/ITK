@@ -1181,7 +1181,6 @@ ProcessObject ::GetReleaseDataFlag() const
   {
     return this->GetPrimaryOutput()->GetReleaseDataFlag();
   }
-  itkWarningMacro(<< "Output doesn't exist!");
   return false;
 }
 
