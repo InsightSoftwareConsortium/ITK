@@ -102,7 +102,6 @@ main(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
 
-
   //  Software Guide : BeginLatex
   //
   //  We now declare the type of the region-growing filter. In this case it
@@ -265,39 +264,38 @@ main(int argc, char * argv[])
 
 
   //  Software Guide : BeginLatex
-  /*
-   Now let's run this example using as input the image
-   \code{VisibleWomanEyeSlice.png} provided in the directory
-   \code{Examples/Data}. We can easily segment the major anatomical
-   structures by providing seeds in the appropriate locations. For example,
-
-   \begin{center}
-   \begin{tabular}{|l|c|c|c|c|}
-   \hline
-   Structure & Seed Index & Multiplier & Iterations & Output Image \\
-   \hline Rectum & $(70,120)$ & 7 & 1 & Second from left in Figure
-   \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Rectum & $(23, 93)$
-   & 7 & 1 & Third  from left in Figure
-   \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Vitreo & $(66, 66)$
-   & 3 & 1 & Fourth from left in Figure
-   \ref{fig:VectorConfidenceConnectedOutput} \\ \hline \end{tabular}
-   \end{center}
-
-  \begin{figure} \center
-  \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice}
-  \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput1}
-  \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput2}
-  \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput3}
-  \itkcaption[VectorConfidenceConnected segmentation results]{Segmentation
-  results of the VectorConfidenceConnected filter for various seed points.}
-  \label{fig:VectorConfidenceConnectedOutput}
-  \end{figure}
-
-  The coloration of muscular tissue makes it easy to distinguish them from
-  the surrounding anatomical structures. The optic vitrea on the other hand
-  has a coloration that is not very homogeneous inside the eyeball and
-  does not facilitate a full segmentation based only on color.
-  */
+  //
+  //  Now let's run this example using as input the image
+  //  \code{VisibleWomanEyeSlice.png} provided in the directory
+  //  \code{Examples/Data}. We can easily segment the major anatomical
+  //  structures by providing seeds in the appropriate locations. For example,
+  //
+  //  \begin{center}
+  //  \begin{tabular}{|l|c|c|c|c|}
+  //  \hline
+  //  Structure & Seed Index & Multiplier & Iterations & Output Image \\
+  //  \hline Rectum & $(70,120)$ & 7 & 1 & Second from left in Figure
+  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Rectum & $(23, 93)$
+  //  & 7 & 1 & Third  from left in Figure
+  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Vitreo & $(66, 66)$
+  //  & 3 & 1 & Fourth from left in Figure
+  //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline \end{tabular}
+  //  \end{center}
+  //
+  //  \begin{figure} \center
+  //  \includegraphics[width=0.24\textwidth]{VisibleWomanEyeSlice}
+  //  \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput1}
+  //  \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput2}
+  //  \includegraphics[width=0.24\textwidth]{VectorConfidenceConnectedOutput3}
+  //  \itkcaption[VectorConfidenceConnected segmentation results]{Segmentation
+  //  results of the VectorConfidenceConnected filter for various seed
+  //  points.} \label{fig:VectorConfidenceConnectedOutput} \end{figure}
+  //
+  //  The coloration of muscular tissue makes it easy to distinguish them from
+  //  the surrounding anatomical structures. The optic vitrea on the other
+  //  hand has a coloration that is not very homogeneous inside the eyeball
+  //  and does not facilitate a full segmentation based only on color.
+  //
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginLatex
