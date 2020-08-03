@@ -27,7 +27,7 @@
 #include "opencv2/core/version.hpp"
 #if !defined(CV_VERSION_EPOCH)
 // OpenCV 3+
-#  include "opencv2/core.hpp"
+#  include "opencv2/imgproc.hpp"
 #  include "opencv2/imgproc/types_c.h"   // CV_RGB2BGR, CV_BGR2GRAY, ...
 #  include "opencv2/imgproc/imgproc_c.h" // cvCvtColor
 #else
@@ -92,7 +92,7 @@ private:
     4) Copy the buffer and convert the pixels if necessary */
   template <typename TOutputImageType, typename TPixel>
   static void
-  ITKConvertIplImageBuffer(const IplImage * in, TOutputImageType * out, int iDepth)
+  ITKConvertIplImageBuffer(const IplImage * in, TOutputImageType * out, unsigned int iDepth)
   {
     // Typedefs
     using ImageType = TOutputImageType;
@@ -141,7 +141,7 @@ private:
     }
 
     ITKConvertImageBuffer<TOutputImageType, TPixel>(
-      current->imageData, out, iDepth, current->nChannels, current->width, current->height, current->widthStep);
+      current->imageData, out, current->nChannels, current->width, current->height, current->widthStep);
 
     if (freeCurrent)
     {
@@ -151,7 +151,7 @@ private:
 
   template <typename TOutputImageType, typename TPixel>
   static void
-  ITKConvertMatImageBuffer(const Mat & in, TOutputImageType * out)
+  ITKConvertMatImageBuffer(const cv::Mat & in, TOutputImageType * out)
   {
     using namespace cv;
 
@@ -198,13 +198,8 @@ private:
       current = in;
     }
 
-    ITKConvertImageBuffer<TOutputImageType, TPixel>(reinterpret_cast<char *>(current.ptr()),
-                                                    out,
-                                                    iDepth,
-                                                    current.channels(),
-                                                    current.cols,
-                                                    current.rows,
-                                                    current.step);
+    ITKConvertImageBuffer<TOutputImageType, TPixel>(
+      reinterpret_cast<char *>(current.ptr()), out, current.channels(), current.cols, current.rows, current.step);
   }
 
   template <typename InputPixelType, typename OutputPixelType>
@@ -228,7 +223,6 @@ private:
   static void
   ITKConvertImageBuffer(const char *       in,
                         TOutputImageType * out,
-                        int                iDepth,
                         unsigned int       inChannels,
                         int                imgWidth,
                         int                imgHeight,

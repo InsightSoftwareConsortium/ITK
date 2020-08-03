@@ -40,7 +40,7 @@ cvLoadImage(const char * filename, int iscolor)
                                          { CV_64F, IPL_DEPTH_64F } };
   cv::Mat            mat = cv::imread(filename, iscolor);
   IplImage *         ipl = cvCreateImage(cvSize(mat.cols, mat.rows), matDepthToIplDepth[mat.depth()], mat.channels());
-  IplImage           iplTemp = mat;
+  IplImage           iplTemp = cvIplImage(mat);
   cvCopy(&iplTemp, ipl);
   return ipl;
 }
