@@ -544,11 +544,12 @@ main(int argc, char * argv[])
   //  \hline
   //  Structure    & Seed Index &  Distance   &   $\sigma$  &
   //  $\alpha$     &  $\beta$   & Propag. & Output Image \\  \hline
-  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 & First \\
-  //  \hline Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 &
-  //  Second  \\  \hline White matter    & $(56, 92)$ & 5.0 & 1.0 & -0.3 & 2.0
-  //  & 10.0 & Third   \\  \hline Gray matter     & $(40, 90)$ & 5.0 & 0.5 &
-  //  -0.3 & 2.0  & 10.0 & Fourth  \\  \hline \end{tabular} \end{center}
+  //  Left Ventricle  & $(81,114)$ & 5.0 & 1.0 & -0.5 & 3.0  &  2.0 &
+  //  First  \\  \hline  Right Ventricle & $(99,114)$ & 5.0 & 1.0 & -0.5 &
+  //  3.0  &  2.0 & Second  \\  \hline White matter    & $(56, 92)$ & 5.0 &
+  //  1.0 & -0.3 & 2.0 & 10.0 & Third   \\  \hline Gray matter     &
+  //  $(40, 90)$ & 5.0 & 0.5 & -0.3 & 2.0  & 10.0 & Fourth  \\  \hline
+  //  \end{tabular} \end{center}
   //  \itkcaption[GeodesicActiveContour segmentation example
   //  parameters]{Parameters used for segmenting some brain structures shown
   //  in Figure~\ref{fig:GeodesicActiveContourImageFilterOutput2} using the
