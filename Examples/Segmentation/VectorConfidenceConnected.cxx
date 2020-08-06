@@ -273,8 +273,9 @@ main(int argc, char * argv[])
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Structure & Seed Index & Multiplier & Iterations & Output Image \\
-  //  \hline Rectum & $(70,120)$ & 7 & 1 & Second from left in Figure
+  //  Structure & Seed Index & Multiplier & Iterations
+  //  & Output Image \\ \hline
+  //  Rectum & $(70,120)$ & 7 & 1 & Second from left in Figure
   //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Rectum & $(23, 93)$
   //  & 7 & 1 & Third  from left in Figure
   //  \ref{fig:VectorConfidenceConnectedOutput} \\ \hline Vitreo & $(66, 66)$
