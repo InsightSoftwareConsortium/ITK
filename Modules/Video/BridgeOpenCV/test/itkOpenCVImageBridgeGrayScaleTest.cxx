@@ -195,7 +195,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
   cv::Mat outMat = itk::OpenCVImageBridge::ITKImageToCVMat<ImageType>(baselineImage);
 
   // check results of itk::Image -> IplImage
-  IplImage outMatAsIpl = outMat;
+  IplImage outMatAsIpl = cvIplImage(outMat);
   double   itkMatDiff = cvNorm(&outMatAsIpl, dataConvertedInIpl);
   if (itkMatDiff != 0.0)
   {
