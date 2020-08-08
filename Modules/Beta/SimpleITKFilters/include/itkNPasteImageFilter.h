@@ -40,16 +40,16 @@ namespace itk
  * repositioned to DestinationIndex, then the output will just be
  * a copy of the input.
  *
- * This filter support running "InPlace" to efficiently reuses the destination image buffer for the output, removing the
+ * This filter supports running "InPlace" to efficiently reuses the destination image buffer for the output, removing the
  * need to copy the destination pixels to the output.
  *
- * When the source image is lower dimension than the destination image than the DestinationSkipAxes parameter specifies
- * which axes in the destination image are set to 1 when copying the region o
+ * When the source image is a lower dimension than the destination image then the DestinationSkipAxes parameter
+ * specifies which axes in the destination image are set to 1 when copying the region or filling with a constant.
  *
  * The two inputs and output image will have the same pixel type.
  *
  * \ingroup GeometricTransform
- * \ingroup ITKImageGrid
+ * \ingroup SimpleITKFilters
  *
  * \sphinx
  * \sphinxexample{Filtering/ImageGrid/PasteImageIntoAnotherOne,Paste Image Into Another One}
@@ -122,7 +122,7 @@ public:
    * The number of true value in DestinationSkipAxes plus the DestinationImageDimension must equal the
    * InputImageDimension.
    *
-   * By default this array contains SourceImageDimension false values followed filled with values for the remainder.
+   * By default this array contains SourceImageDimension false values followed by true values for the remainder.
    */
   itkSetMacro(DestinationSkipAxes, InputSkipAxesArrayType);
   itkGetConstMacro(DestinationSkipAxes, InputSkipAxesArrayType);
