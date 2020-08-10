@@ -306,3 +306,20 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
 
 
 #endif
+
+
+// Tests that IsInsideInObjectSpace returns false for a corner point, when the
+// mask image is filled with zero values. This test would sometimes fail on
+// ITK v5.0.1 and v5.1.0
+TEST(ImageMaskSpatialObject, CornerPointIsNotInsideMaskOfZeroValues)
+{
+  // Create a mask image, and fill the image with zero vales.
+  const auto image = itk::Image<unsigned char>::New();
+  image->SetRegions(itk::Size<>{ { 2, 2 } });
+  image->Allocate(true);
+
+  const auto imageMaskSpatialObject = itk::ImageMaskSpatialObject<2>::New();
+  imageMaskSpatialObject->SetImage(image);
+  const double cornerPoint[] = { 1.5, 1.5 };
+  ASSERT_FALSE(imageMaskSpatialObject->IsInsideInObjectSpace(cornerPoint));
+}
