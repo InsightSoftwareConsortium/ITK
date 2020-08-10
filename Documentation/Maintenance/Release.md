@@ -27,6 +27,7 @@ When releasing a new ITK version, the following steps are be taken:
   * **Before the release**: post a topic on the [ITK discussion] requesting
     additional bug fix patches that should be merged to the `release` branch.
   * **Create the release**.
+    * Update content links
     * Bump ITK's version
     * Tag the ITK repository
     * Bump ITKPythonPackage's version
