@@ -187,15 +187,6 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
     vesselTubeMO->GetPoints().push_back(pnt);
   }
 
-  if (NDimensions == 2)
-  {
-    vesselTubeMO->PointDim("x y r rn mn bn mk v1x v1y tx ty a1 a2 red green blue alpha id");
-  }
-  else
-  {
-    vesselTubeMO->PointDim("x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
-  }
-
   float color[4];
   for (unsigned int ii = 0; ii < 4; ii++)
   {

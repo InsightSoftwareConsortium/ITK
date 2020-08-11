@@ -42,31 +42,49 @@ class METAIO_EXPORT TubePnt
 {
 public:
 
+  typedef std::pair<std::string,float>  FieldType;
+  typedef std::vector<FieldType>        FieldListType;
+
   TubePnt(int dim);
+  TubePnt(const TubePnt * _tubePnt);
   ~TubePnt();
 
-  unsigned int m_Dim;
+  unsigned int m_NDims;
+  int    m_ID;
+  float* m_X;
+  float  m_Color[4];
+  bool   m_Mark;
+  float  m_R;
+  float  m_Ridgeness;
+  float  m_Medialness;
+  float  m_Branchness;
+  float  m_Curvature;
+  float  m_Levelness;
+  float  m_Roundness;
+  float  m_Intensity;
+  float* m_T;
   float* m_V1;
   float* m_V2;
-  float* m_X;
-  float* m_T;
-  float m_Alpha1;
-  float m_Alpha2;
-  float m_Alpha3;
-  float m_R;
-  float m_Medialness;
-  float m_Ridgeness;
-  float m_Branchness;
-  float m_Curvature;
-  float m_Levelness;
-  float m_Roundness;
-  float m_Intensity;
-  bool  m_Mark;
-  float m_Color[4];
-  int   m_ID;
+  float  m_Alpha1;
+  float  m_Alpha2;
+  float  m_Alpha3;
+
+  FieldListType m_ExtraFields;
+
+  virtual void CopyInfo( const TubePnt * _tubePnt );
+
+  const FieldListType & GetExtraFields() const;
+
+  size_t GetNumberOfExtraFields( void ) const;
+  void SetNumberOfExtraFields( int size );
+
+  void SetField(int indx, const char* name, float value);
+  void SetField(const char* name, float value);
+  void AddField(const char* name, float value);
+  int GetFieldIndex(const char* name) const;
+  float GetField(int indx) const;
+  float GetField(const char* name) const;
 };
-
-
 
 
 class METAIO_EXPORT MetaTube : public MetaObject
@@ -79,7 +97,9 @@ class METAIO_EXPORT MetaTube : public MetaObject
   ////
   public:
 
-   typedef std::list<TubePnt*> PointListType;
+    typedef TubePnt                             PointType;
+    typedef std::list<PointType*>               PointListType;
+
     ////
     //
     // Constructors & Destructor
@@ -97,46 +117,51 @@ class METAIO_EXPORT MetaTube : public MetaObject
 
     void PrintInfo(void) const override;
 
-    void CopyInfo(const MetaObject * _object) override;
+    void CopyInfo(const MetaTube * _object);
 
-    //    NPoints(...)
-    //       Required Field
-    //       Number of points which compose the Tube
-    void  NPoints(int npnt);
-    int   NPoints(void) const;
+    void Clear(void);
+
+    MET_ValueEnumType ElementType(void) const;
+    void              ElementType(MET_ValueEnumType _elementType);
 
     //    PointDim(...)
     //       Required Field
     //       Definition of points
-    void        PointDim(const char* pointDim);
     const char* PointDim(void) const;
+    void PointDim(const char * pntDim);
+
+    //    NPoints(...)
+    //       Required Field
+    //       Number of points which compose the MetaPointObject
+    void  NPoints(int npnt);
+    int   NPoints(void) const;
+
+    PointListType &       GetPoints(void) {return m_PointList;}
+    const PointListType & GetPoints(void) const {return m_PointList;}
 
     //    Root(...)
     //       Optional Field
     //       Set if this Tube is a root
-    void  Root(bool root);
-    bool  Root(void) const;
+    void  Root(bool root)
+      { m_Root = root; };
+    bool  Root(void) const
+      { return m_Root; };
 
     //    Artery(...)
     //       Optional Field
     //       Set if this Tube is a root
-    void  Artery(bool artery);
-    bool  Artery(void) const;
-
+    void  Artery(bool artery)
+      { m_Artery = artery; };
+    bool  Artery(void) const
+      { return m_Artery; };
 
     //    ParentPoint(...)
     //       Optional Field
     //       Set the point number of the parent Tube where the branch occurs
-    void  ParentPoint(int parentpoint);
-    int   ParentPoint(void) const;
-
-    void  Clear(void) override;
-
-    PointListType &  GetPoints(void) {return m_PointList;}
-    const PointListType &  GetPoints(void) const {return m_PointList;}
-
-    MET_ValueEnumType ElementType(void) const;
-    void  ElementType(MET_ValueEnumType _elementType);
+    void  ParentPoint(int parentPoint )
+      { m_ParentPoint = parentPoint; };
+    int   ParentPoint(void) const
+      { return m_ParentPoint; };
 
   ////
   //
@@ -145,7 +170,14 @@ class METAIO_EXPORT MetaTube : public MetaObject
   ////
   protected:
 
-    bool  m_ElementByteOrderMSB;
+    typedef std::pair<std::string,unsigned int> PositionType;
+
+    int   M_GetPosition(const char*, std::vector<bool> & used) const;
+
+    float M_GetFloatFromBinaryData( size_t post, const char * _data,
+      size_t readSize ) const;
+
+    void  M_SetFloatIntoBinaryData( float val, char * _data, int post ) const;
 
     void  M_Destroy(void) override;
 
@@ -157,18 +189,22 @@ class METAIO_EXPORT MetaTube : public MetaObject
 
     bool  M_Write(void) override;
 
-    int   m_ParentPoint;  // "ParentPoint = "     -1
+    int                        m_NPoints;
 
-    bool  m_Root;         // "Root = "            false
+    std::string                m_PointDim;
 
-    bool  m_Artery;         // "Artery = "            true
+    PointListType              m_PointList;
 
-    int   m_NPoints;      // "NPoints = "         0
+    MET_ValueEnumType          m_ElementType;
 
-    char m_PointDim[255]; // "PointDim = "       "x y z r"
+    int                        m_ParentPoint;
 
-    PointListType m_PointList;
-    MET_ValueEnumType m_ElementType;
+    bool                       m_Root;
+
+    bool                       m_Artery;
+
+    std::vector<PositionType>  m_Positions;
+
 };
 
 #if (METAIO_USE_NAMESPACE)
