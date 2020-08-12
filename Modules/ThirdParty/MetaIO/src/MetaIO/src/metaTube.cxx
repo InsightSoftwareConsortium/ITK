@@ -329,23 +329,24 @@ PrintInfo() const
 }
 
 void MetaTube::
-CopyInfo(const MetaTube * _object)
+CopyInfo(const MetaObject * _object)
 {
   Clear();
 
   MetaObject::CopyInfo(_object);
 
-  PointListType::const_iterator it = _object->GetPoints().begin();
-  while(it != _object->GetPoints().end())
+  const MetaTube * tubeObject = static_cast<const MetaTube*>(_object);
+  PointListType::const_iterator it = tubeObject->GetPoints().begin();
+  while(it != tubeObject->GetPoints().end())
     {
     TubePnt * pnt = new TubePnt( *it );
     m_PointList.push_back(pnt);
     ++it;
     }
 
-  m_ParentPoint = _object->ParentPoint();
-  m_Artery = _object->Artery();
-  m_Root = _object->Root();
+  m_ParentPoint = tubeObject->ParentPoint();
+  m_Artery = tubeObject->Artery();
+  m_Root = tubeObject->Root();
 }
 
 /** Clear Tube information */
