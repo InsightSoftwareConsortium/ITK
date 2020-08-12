@@ -457,7 +457,7 @@ public:
 
 protected:
   FunctionCommand();
-  ~FunctionCommand();
+  ~FunctionCommand() override;
 
 
   FunctionObjectType m_FunctionObject;
