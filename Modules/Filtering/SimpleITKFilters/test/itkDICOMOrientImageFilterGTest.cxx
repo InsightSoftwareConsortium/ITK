@@ -151,6 +151,16 @@ TEST(DICOMOrientImageFilter, Values)
     EXPECT_EQ(filter->GetOutput()->GetDirection(), d);
   }
 
+
+  {
+    ImageType::DirectionType d;
+    d.SetIdentity();
+    filter->SetDesiredCoordinateDirection(d);
+    filter->UpdateLargestPossibleRegion();
+    EXPECT_EQ(filter->GetInputCoordinateOrientation(), OrientFilterType::OrientationEnum::LPS);
+  }
+
+
   filter->SetDesiredCoordinateOrientation(OrientFilterType::OrientationEnum::RIP);
   filter->UpdateLargestPossibleRegion();
   CheckImage(sourceFilter->GetOutput(), filter->GetOutput());
