@@ -116,7 +116,7 @@ public:
   inline void
   SetDesiredCoordinateDirection(const typename ImageType::DirectionType & DesiredDirection)
   {
-    SetDesiredCoordinateOrientation(Self::DirectionCosinesToOrientation(DesiredDirection));
+    SetDesiredCoordinateOrientation(DICOMOrientation::DirectionCosinesToOrientation(DesiredDirection));
   }
 
 
