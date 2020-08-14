@@ -106,6 +106,13 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
     pnt.SetId((*it2)->m_ID);
 
+    auto iter = (*it2)->m_ExtraFields.begin();
+    while (iter != (*it2)->m_ExtraFields.end())
+    {
+      pnt.SetTagScalarValue(iter->first.c_str(), iter->second);
+      ++iter;
+    }
+
     tubeSO->AddPoint(pnt);
 
     it2++;
@@ -150,6 +157,13 @@ MetaTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
     pnt->m_Levelness = (*it).GetLevelness();
     pnt->m_Roundness = (*it).GetRoundness();
     pnt->m_Intensity = (*it).GetIntensity();
+
+    auto iter = (*it).GetTagScalarDictionary().begin();
+    while (iter != (*it).GetTagScalarDictionary().end())
+    {
+      pnt->AddField(iter->first.c_str(), iter->second);
+      ++iter;
+    }
 
     for (unsigned int d = 0; d < NDimensions; d++)
     {
