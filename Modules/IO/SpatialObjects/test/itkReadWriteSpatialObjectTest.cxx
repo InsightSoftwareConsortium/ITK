@@ -78,6 +78,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     p.SetGreen(i + 1);
     p.SetBlue(i + 2);
     p.SetAlpha(i + 3);
+    p.SetTagScalarValue("var1", i);
+    p.SetTagScalarValue("var2", i);
     list.push_back(p);
   }
 
@@ -96,6 +98,8 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     p.SetAlpha1((i * 1));
     p.SetAlpha2((i * 2));
     p.SetAlpha3((i * 3));
+    p.SetTagScalarValue("var1", i * 2);
+    p.SetTagScalarValue("var2", i * 2);
     list2.push_back(p);
   }
 
@@ -508,6 +512,23 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           delete mySceneChildren;
           return EXIT_FAILURE;
         }
+
+        // Testing the dictionary of the tube points
+        if (itk::Math::NotExactlyEquals((*j).GetTagScalarValue("var1"), value * (*obj)->GetId()))
+        {
+          std::cout << " [FAILED] : TagScalarDictionary::var1 : found " << (*j).GetTagScalarValue("var1")
+                    << " instead of " << value * (*obj)->GetId() << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+        if (itk::Math::NotExactlyEquals((*j).GetTagScalarValue("var2"), value * (*obj)->GetId()))
+        {
+          std::cout << " [FAILED] : TagScalarDictionary::var1 : found " << (*j).GetTagScalarValue("var2")
+                    << " instead of " << value * (*obj)->GetId() << std::endl;
+          delete mySceneChildren;
+          return EXIT_FAILURE;
+        }
+
         value++;
       }
       break;

@@ -1506,7 +1506,6 @@ M_SetupWriteFields()
 bool MetaObject::
 M_Read()
 {
-
   this->ClearAdditionalFields();
 
   if(!MET_Read(*m_ReadStream, &m_Fields, '=', false, true,
@@ -1781,11 +1780,11 @@ M_Read()
       }
     }
 
-   // Set the read record field in the m_UserDefinedWriteFields
-   FieldsContainerType::iterator  it  = m_UserDefinedReadFields.begin();
-   FieldsContainerType::iterator  end = m_UserDefinedReadFields.end();
-   while( it != end )
-   {
+  // Set the read record field in the m_UserDefinedWriteFields
+  FieldsContainerType::iterator  it  = m_UserDefinedReadFields.begin();
+  FieldsContainerType::iterator  end = m_UserDefinedReadFields.end();
+  while( it != end )
+  {
      mF = MET_GetFieldRecord((*it)->name, &m_Fields);
      //
      // DON'T put the same cross-linked element from the UD readFields
@@ -1806,7 +1805,7 @@ M_Read()
        m_UserDefinedWriteFields.push_back(mF);
        }
      ++it;
-   }
+  }
 
   return true;
 }

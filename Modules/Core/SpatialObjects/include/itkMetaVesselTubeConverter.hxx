@@ -117,6 +117,13 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
 
     pnt.SetId((*it2)->m_ID);
 
+    auto iter = (*it2)->m_ExtraFields.begin();
+    while (iter != (*it2)->m_ExtraFields.end())
+    {
+      pnt.SetTagScalarValue(iter->first.c_str(), iter->second);
+      ++iter;
+    }
+
     vesselTubeSO->AddPoint(pnt);
 
     it2++;
@@ -164,6 +171,13 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
     pnt->m_Roundness = (*i).GetRoundness();
     pnt->m_Intensity = (*i).GetIntensity();
 
+    auto iter = (*i).GetTagScalarDictionary().begin();
+    while (iter != (*i).GetTagScalarDictionary().end())
+    {
+      pnt->AddField(iter->first.c_str(), iter->second);
+      ++iter;
+    }
+
     for (unsigned int d = 0; d < NDimensions; d++)
     {
       pnt->m_V1[d] = (*i).GetNormal1InObjectSpace()[d];
@@ -185,15 +199,6 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
     pnt->m_Color[3] = (*i).GetAlpha();
 
     vesselTubeMO->GetPoints().push_back(pnt);
-  }
-
-  if (NDimensions == 2)
-  {
-    vesselTubeMO->PointDim("x y r rn mn bn mk v1x v1y tx ty a1 a2 red green blue alpha id");
-  }
-  else
-  {
-    vesselTubeMO->PointDim("x y z r rn mn bn mk v1x v1y v1z v2x v2y v2z tx ty tz a1 a2 a3 red green blue alpha id");
   }
 
   float color[4];
