@@ -30,7 +30,7 @@ bool
 WriteSmallBmp(const std::string & filename)
 {
   const char    bmp_raw[] = { 66, 77, 30, 0, 0, 0, 0, 0, 0, 0,  26, 0, 0, 0,  12,
-                           0,  0,  0,  1, 0, 1, 0, 1, 0, 24, 0,  0, 0, -1, 0 };
+                           0,  0,  0,  1, 0, 1, 0, 1, 0, 24, 0,  0, 0, 255, 0 };
   std::ofstream bmp_output(filename, std::ios::binary);
   if (!bmp_output)
   {
