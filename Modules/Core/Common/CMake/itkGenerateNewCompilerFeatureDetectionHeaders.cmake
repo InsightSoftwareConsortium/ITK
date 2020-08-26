@@ -1,5 +1,12 @@
 ## Dynamically create compiler detection header
 include(WriteCompilerDetectionHeader)
+if (DEFINED ENV{ITK_ACCEPT_ALL_COMPILERS} OR ITK_ACCEPT_ALL_COMPILERS)
+  message(STATUS "ITK will allow unknown compilers without error.")
+  set(maybe_allow_unknown_compilers
+    ALLOW_UNKNOWN_COMPILERS
+    ALLOW_UNKNOWN_COMPILER_VERSIONS
+  )
+endif()
 write_compiler_detection_header(
       FILE "${CMAKE_CURRENT_BINARY_DIR}/itk_compiler_detection.h"
       PREFIX ITK
@@ -7,6 +14,7 @@ write_compiler_detection_header(
       OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/compilers
       COMPILERS ${CMAKE_CXX_COMPILER_ID} # AppleClang Clang GNU MSVC SunPro Intel #Supported compilers as of 3.5.2
       VERSION ${CMAKE_VERSION}
+      ${maybe_allow_unknown_compilers}
       FEATURES
         cxx_aggregate_default_initializers      # Aggregate default initializers, as defined in N3605.
         cxx_alias_templates                     # Template aliases, as defined in N2258.
