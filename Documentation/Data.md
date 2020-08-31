@@ -10,6 +10,9 @@ binary files, the procedure (except that related to the content link file
 generation) also applies to any other data contained in a text file that a
 test may require, if any.
 
+If you just want to browse and download the ITK testing images, browse the
+data.kitware.com [ITK collection].
+
 Setup
 -----
 
@@ -132,3 +135,4 @@ For more information, see
 [data.kitware.com]: https://data.kitware.com/
 [Github]: https://github.com/InsightSoftwareConsortium/ITK
 [UploadBinaryData]: UploadBinaryData.md
+[ITK collection]: https://data.kitware.com/#collection/57b5c9e58d777f126827f5a1

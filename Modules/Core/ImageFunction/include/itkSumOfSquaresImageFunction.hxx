@@ -52,8 +52,7 @@ SumOfSquaresImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexTy
     return (NumericTraits<RealType>::max());
   }
 
-  const Experimental::ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
-    *image, index, m_NeighborhoodOffsets);
+  const ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(*image, index, m_NeighborhoodOffsets);
 
   // Walk the neighborhood
   for (const InputPixelType pixelValue : neighborhoodRange)

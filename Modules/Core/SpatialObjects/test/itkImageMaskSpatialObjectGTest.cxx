@@ -91,7 +91,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the
   // Initialize all pixels to zero.
   image->Allocate(true);
 
-  const itk::Experimental::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
+  const itk::ImageRegionIndexRange<VImageDimension> indexRange{ imageRegion };
 
   // Expected size: the "region size" of a single pixel (1x1, in 2D, 1x1x1 in 3D).
   const itk::Size<VImageDimension> expectedSize = [] {
@@ -125,7 +125,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel
   // Set all pixels to non-zero.
   image->FillBuffer(1);
 
-  const itk::Experimental::ImageBufferRange<ImageType> imageRange{ *image };
+  const itk::ImageBufferRange<ImageType> imageRange{ *image };
 
   for (auto && pixel : imageRange)
   {
@@ -306,3 +306,20 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
 
 
 #endif
+
+
+// Tests that IsInsideInObjectSpace returns false for a corner point, when the
+// mask image is filled with zero values. This test would sometimes fail on
+// ITK v5.0.1 and v5.1.0
+TEST(ImageMaskSpatialObject, CornerPointIsNotInsideMaskOfZeroValues)
+{
+  // Create a mask image, and fill the image with zero vales.
+  const auto image = itk::Image<unsigned char>::New();
+  image->SetRegions(itk::Size<>{ { 2, 2 } });
+  image->Allocate(true);
+
+  const auto imageMaskSpatialObject = itk::ImageMaskSpatialObject<2>::New();
+  imageMaskSpatialObject->SetImage(image);
+  const double cornerPoint[] = { 1.5, 1.5 };
+  ASSERT_FALSE(imageMaskSpatialObject->IsInsideInObjectSpace(cornerPoint));
+}

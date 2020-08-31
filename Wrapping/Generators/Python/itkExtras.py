@@ -27,6 +27,26 @@ import re
 # [K erases the end of the line
 clrLine = "\033[2000D\033[K"
 
+def set_nthreads(number_of_threads):
+    """
+    Support convenient set of the number of threads.
+    Use example (in python):
+        import itk
+        itk.set_nthreads(4)  ## use 4 threads
+    """
+    assert number_of_threads > 0, "Please set a possitive number of threads instead of %d" % number_of_threads
+
+    import itk
+    threader = itk.MultiThreaderBase.New()
+    threader.SetGlobalDefaultNumberOfThreads(number_of_threads)
+
+def get_nthreads():
+    """
+    Get the number of threads
+    """
+    import itk
+    threader = itk.MultiThreaderBase.New()
+    return threader.GetGlobalDefaultNumberOfThreads()
 
 def auto_not_in_place(v=True):
     """Force it to not run in place
@@ -444,8 +464,10 @@ def image_from_xarray(data_array):
     origin = [0.0]*spatial_dimension
     spacing = [1.0]*spatial_dimension
     for index, dim in enumerate(spatial_dims):
-        origin[index] = float(data_array.coords[dim][0])
-        spacing[index] = float(data_array.coords[dim][1]) - float(data_array.coords[dim][0])
+        coords = data_array.coords[dim]
+        if coords.shape[0] > 1:
+            origin[index] = float(coords[0])
+            spacing[index] = float(coords[1]) - float(coords[0])
     spacing.reverse()
     itk_image.SetSpacing(spacing)
     origin.reverse()
@@ -660,6 +682,7 @@ def imwrite(image_or_filter, filename, compression=False):
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
+
 def imread(filename, pixel_type=None, fallback_only=False):
     """Read an image from a file or series of files and return an itk.Image.
 
@@ -675,23 +698,24 @@ def imread(filename, pixel_type=None, fallback_only=False):
     wrapped).
     """
     import itk
-    if fallback_only == True:
+    import itkTemplate
+    if fallback_only:
         if pixel_type is None:
             raise Exception("pixel_type must be set when using the fallback_only option")
         try:
             return imread(filename)
-        except KeyError:
+        except (KeyError, itkTemplate.TemplateTypeError):
             pass
     if type(filename) in [list, tuple]:
-        TemplateReaderType=itk.ImageSeriesReader
+        TemplateReaderType = itk.ImageSeriesReader
         io_filename=filename[0]
-        increase_dimension=True
-        kwargs={'FileNames':filename}
+        increase_dimension = True
+        kwargs = {'FileNames': filename}
     else:
-        TemplateReaderType=itk.ImageFileReader
+        TemplateReaderType = itk.ImageFileReader
         io_filename=filename
         increase_dimension=False
-        kwargs={'FileName':filename}
+        kwargs = {'FileName': filename}
     if pixel_type:
         imageIO = itk.ImageIOFactory.CreateImageIO(io_filename, itk.CommonEnums.IOFileMode_ReadMode)
         if not imageIO:
@@ -708,6 +732,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
         reader = TemplateReaderType.New(**kwargs)
     reader.Update()
     return reader.GetOutput()
+
 
 def meshwrite(mesh, filename, compression=False):
     """Write a mesh to a file.
@@ -726,6 +751,7 @@ def meshwrite(mesh, filename, compression=False):
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
+
 def meshread(filename, pixel_type=None, fallback_only=False):
     """Read a mesh from a file and return an itk.Mesh.
 
@@ -740,17 +766,18 @@ def meshread(filename, pixel_type=None, fallback_only=False):
     wrapped).
     """
     import itk
-    if fallback_only == True:
+    import itkTemplate
+    if fallback_only:
         if pixel_type is None:
             raise Exception("pixel_type must be set when using the fallback_only option")
         try:
             return meshread(filename)
-        except KeyError:
+        except (KeyError, itkTemplate.TemplateTypeError):
             pass
-    TemplateReaderType=itk.MeshFileReader
-    io_filename=filename
-    increase_dimension=False
-    kwargs={'FileName':filename}
+    TemplateReaderType = itk.MeshFileReader
+    io_filename = filename
+    increase_dimension = False
+    kwargs = {'FileName': filename}
     if pixel_type:
         meshIO = itk.MeshIOFactory.CreateMeshIO(io_filename, itk.CommonEnums.IOFileMode_ReadMode)
         if not meshIO:
@@ -767,6 +794,7 @@ def meshread(filename, pixel_type=None, fallback_only=False):
         reader = TemplateReaderType.New(**kwargs)
     reader.Update()
     return reader.GetOutput()
+
 
 def search(s, case_sensitive=False):  # , fuzzy=True):
     """Search for a class name in the itk module.

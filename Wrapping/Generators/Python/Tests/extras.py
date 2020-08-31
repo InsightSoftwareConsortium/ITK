@@ -30,6 +30,10 @@ import itk
 import sys
 import os
 
+# test setting the number of threads
+itk.set_nthreads(4)
+assert itk.get_nthreads() == 4
+
 # test the force load function
 itk.force_load()
 
@@ -118,7 +122,6 @@ assert s.GetSize()[0] == s.GetSize()[1] == 256
 s = itk.region(reader.GetOutput())
 assert s.GetIndex()[0] == s.GetIndex()[1] == 0
 assert s.GetSize()[0] == s.GetSize()[1] == 256
-
 
 # test range
 assert itk.range(reader) == (0, 255)
@@ -328,6 +331,18 @@ try:
     assert arr2[0,0] == 2
     # and make sure that the matrix hasn't changed.
     assert m_itk(0,0) == 1
+
+    # test .astype
+    image = itk.imread(filename, itk.UC)
+    cast = image.astype(PixelType)
+    assert cast == image
+    cast = image.astype(itk.F)
+    assert cast.dtype == np.float32
+    cast = image.astype(itk.SS)
+    assert cast.dtype == np.int16
+    cast = image.astype(np.float32)
+    assert cast.dtype == np.float32
+
 except ImportError:
     print("NumPy not imported. Skipping BridgeNumPy tests")
     # Numpy is not available, do not run the Bridge NumPy tests
@@ -387,6 +402,12 @@ try:
         assert False
     except ValueError:
         pass
+
+    empty_array = np.array([], dtype=np.uint8)
+    empty_array.shape = (0,0,0)
+    empty_image = itk.image_from_array(empty_array)
+    empty_da = itk.xarray_from_image(empty_image)
+    empty_image_round = itk.image_from_xarray(empty_da)
 except ImportError:
     print('xarray not imported. Skipping xarray conversion tests')
     pass

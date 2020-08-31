@@ -158,14 +158,15 @@ DelaunayConformingQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Process()
     const auto il_id = qe->GetLeft();  // Input Left ID
     const auto ir_id = qe->GetRight(); // Input Right ID
     qe = m_FlipEdge->Evaluate(qe);
-    const auto ol_id = qe->GetLeft();  // Output Left ID
-    const auto or_id = qe->GetRight(); // Output Right ID
-
-    this->ReassignCellData(il_id, ol_id);
-    this->ReassignCellData(ir_id, or_id);
 
     if (qe != nullptr)
     {
+      const auto ol_id = qe->GetLeft();  // Output Left ID
+      const auto or_id = qe->GetRight(); // Output Right ID
+
+      this->ReassignCellData(il_id, ol_id);
+      this->ReassignCellData(ir_id, or_id);
+
       ++this->m_NumberOfEdgeFlips;
       list_qe[4] = qe;
 

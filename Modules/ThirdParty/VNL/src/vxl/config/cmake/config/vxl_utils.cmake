@@ -102,37 +102,33 @@ macro( vxl_add_library )
     endif()
 
     # Installation
-    if(NOT VXL_INSTALL_NO_LIBRARIES)
-      install(TARGETS ${lib_name}
-        EXPORT ${VXL_INSTALL_EXPORT_NAME}
-        RUNTIME DESTINATION ${VXL_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
-        LIBRARY DESTINATION ${VXL_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
-        ARCHIVE DESTINATION ${VXL_INSTALL_ARCHIVE_DIR} COMPONENT Development)
-    endif()
+    install(TARGETS ${lib_name}
+      EXPORT ${VXL_INSTALL_EXPORT_NAME}
+      RUNTIME DESTINATION ${VXL_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
+      LIBRARY DESTINATION ${VXL_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
+      ARCHIVE DESTINATION ${VXL_INSTALL_ARCHIVE_DIR} COMPONENT Development)
   endif()
-  if(NOT VXL_INSTALL_NO_DEVELOPMENT)
-    # If VXL_INSTALL_INCLUDE_DIR is the default value
-    if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
-      ## Identify the relative path for installing the header files and txx files
-      string(REPLACE ${VXL_ROOT_SOURCE_DIR} "${VXL_INSTALL_INCLUDE_DIR}" relative_install_path ${CMAKE_CURRENT_SOURCE_DIR})
-      target_include_directories(${lib_name}
-        PUBLIC
-          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-          $<INSTALL_INTERFACE:${relative_install_path}>
-      )
-    else()
-      set(relative_install_path "${VXL_INSTALL_INCLUDE_DIR}")
-      if(DEFINED header_install_dir)
-        set(relative_install_path "${relative_install_path}/${header_install_dir}")
-      endif()
-      target_include_directories(${lib_name}
-        PUBLIC
-          $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-          $<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}>
-      )
+  # If VXL_INSTALL_INCLUDE_DIR is the default value
+  if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+    ## Identify the relative path for installing the header files and txx files
+    string(REPLACE ${VXL_ROOT_SOURCE_DIR} "${VXL_INSTALL_INCLUDE_DIR}" relative_install_path ${CMAKE_CURRENT_SOURCE_DIR})
+    target_include_directories(${lib_name}
+      PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${relative_install_path}>
+    )
+  else()
+    set(relative_install_path "${VXL_INSTALL_INCLUDE_DIR}")
+    if(DEFINED header_install_dir)
+      set(relative_install_path "${relative_install_path}/${header_install_dir}")
     endif()
-    INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${lib_srcs})
+    target_include_directories(${lib_name}
+      PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}>
+    )
   endif()
+  INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${lib_srcs})
   unset(lib_srcs)
   unset(header_install_dir)
   unset(_doing)

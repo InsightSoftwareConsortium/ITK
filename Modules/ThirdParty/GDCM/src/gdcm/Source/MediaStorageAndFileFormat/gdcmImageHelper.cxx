@@ -2852,6 +2852,15 @@ MediaStorage ImageHelper::ComputeMediaStorageFromModality(const char *modality,
       }
     }
   }
+  // check 'DX' / dim == 2:
+  if( ms == MediaStorage::DigitalXRayImageStorageForPresentation )
+  {
+    if( intercept != 0.0 || slope != 1.0 )
+    {
+      // hopefully this is not a lame choice:
+      ms = MediaStorage::XRay3DCraniofacialImageStorage;
+    }
+  }
   return ms;
 }
 

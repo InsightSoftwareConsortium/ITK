@@ -6,7 +6,7 @@ trigger:
     - master
     - release*
 variables:
-  ExternalDataVersion: 5.0.1
+  ExternalDataVersion: 5.1.0
 jobs:
 - job: macOS
   timeoutInMinutes: 0
@@ -29,6 +29,7 @@ jobs:
         sudo python3 -m pip install ninja
         sudo python3 -m pip install --upgrade setuptools
         sudo python3 -m pip install scikit-ci-addons
+        sudo python3 -m pip install lxml
       displayName: Install dependencies
 
     - bash: |

@@ -40,20 +40,12 @@ template <unsigned int TDimension, typename TPixel>
 bool
 ImageMaskSpatialObject<TDimension, TPixel>::IsInsideInObjectSpace(const PointType & point) const
 {
-  typename Superclass::InterpolatorType::ContinuousIndexType index;
-  if (this->GetImage()->TransformPhysicalPointToContinuousIndex(point, index))
-  {
-    using InterpolatorOutputType = typename InterpolatorType::OutputType;
-    bool insideMask = (Math::NotExactlyEquals(DefaultConvertPixelTraits<InterpolatorOutputType>::GetScalarValue(
-                                                this->GetInterpolator()->EvaluateAtContinuousIndex(index)),
-                                              NumericTraits<PixelType>::ZeroValue()));
-    if (insideMask)
-    {
-      return true;
-    }
-  }
+  const ImageType * const image = this->GetImage();
 
-  return false;
+  const IndexType index = image->TransformPhysicalPointToIndex(point);
+
+  return image->GetBufferedRegion().IsInside(index) &&
+         Math::NotExactlyEquals(image->GetPixel(index), NumericTraits<PixelType>::ZeroValue());
 }
 
 
@@ -165,7 +157,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() c
   const ImageType & image = *imagePointer;
 
   const auto HasForegroundPixels = [&image](const RegionType & region) {
-    for (const PixelType pixelValue : Experimental::ImageRegionRange<const ImageType>{ image, region })
+    for (const PixelType pixelValue : ImageRegionRange<const ImageType>{ image, region })
     {
       constexpr auto zeroValue = NumericTraits<PixelType>::ZeroValue();
 

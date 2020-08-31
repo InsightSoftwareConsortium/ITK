@@ -38,8 +38,8 @@
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
 itk_fetch_module(RTK
-    "Reconstruction Toolkit (RTK) http://www.openrtk.org/"
+  "Reconstruction Toolkit (RTK) http://www.openrtk.org/"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/SimonRit/RTK.git
-  GIT_TAG "f43ecb2a8c4438cc7abb47f371e4981f0f07b67e"
+  GIT_TAG 34b953f2308e281e87a2c82bb264574376f5b0fd
 )

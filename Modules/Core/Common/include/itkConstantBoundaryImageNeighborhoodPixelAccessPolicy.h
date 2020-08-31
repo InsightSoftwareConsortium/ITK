@@ -25,8 +25,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ConstantBoundaryImageNeighborhoodPixelAccessPolicy
@@ -148,7 +146,7 @@ public:
   }
 };
 
-} // namespace Experimental
+
 } // namespace itk
 
 #endif

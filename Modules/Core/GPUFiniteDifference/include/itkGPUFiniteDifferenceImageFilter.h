@@ -140,6 +140,16 @@ public:
   itkGetConstReferenceMacro(ApplyUpdateTime, TimeProbe);
   itkGetConstReferenceMacro(SmoothFieldTime, TimeProbe);
 
+  /** Set/Get the maximum error allowed in the solution.  This may not be
+      defined for all solvers and its meaning may change with the application. */
+  itkSetMacro(MaximumRMSError, double);
+  itkGetConstReferenceMacro(MaximumRMSError, double);
+
+  /** Set/Get the root mean squared change of the previous iteration. May not
+      be used by all solvers. */
+  itkSetMacro(RMSChange, double);
+  itkGetConstReferenceMacro(RMSChange, double);
+
 protected:
   GPUFiniteDifferenceImageFilter();
   ~GPUFiniteDifferenceImageFilter() override;

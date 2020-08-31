@@ -131,7 +131,7 @@ protected:
 private:
   unsigned int m_NeighborhoodRadius{ 1 };
 
-  std::vector<Offset<ImageDimension>> m_NeighborhoodOffsets{ Experimental::GenerateRectangularImageNeighborhoodOffsets(
+  std::vector<Offset<ImageDimension>> m_NeighborhoodOffsets{ GenerateRectangularImageNeighborhoodOffsets(
     ImageSizeType::Filled(1)) };
 };
 } // end namespace itk

@@ -503,6 +503,15 @@ Object ::AddObserver(const EventObject & event, Command * cmd) const
   return this->m_SubjectImplementation->AddObserver(event, cmd);
 }
 
+unsigned long
+Object::AddObserver(const EventObject & event, std::function<void(const EventObject &)> function) const
+{
+  auto cmd = FunctionCommand::New();
+  cmd->SetCallback(std::move(function));
+  return this->AddObserver(event, cmd);
+}
+
+
 Command *
 Object ::GetCommand(unsigned long tag)
 {

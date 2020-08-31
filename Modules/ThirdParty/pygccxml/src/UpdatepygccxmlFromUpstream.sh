@@ -2,12 +2,13 @@
 #
 # UpdatepygccxmlFromUpstream.sh
 #
-# See ITK/Modules/ThirdParty/VNL/src/README-ITK.txt
+# See ITK/Modules/ThirdParty/pygccxml/src/README.md
 # for more commentary on how this update process works.
 #
+set -x
 echo "-------------------------------------------------------"
 echo This script will update source code for the pygccxml
-echo library from github.com/gccxml/pygccxml
+echo library from github.com/CastXML/pygccxml
 echo "-------------------------------------------------------"
 if [ ! -f Modules/ThirdParty/pygccxml/src/UpdatepygccxmlFromUpstream.sh ]
 then
@@ -18,17 +19,17 @@ then
 fi
 
 # Update the git tag for the version you are merging
-git_url="https://github.com/gccxml/pygccxml"
-git_tag="develop"
-upstream_sha="87b4e12d211b37b2225e632b2881c4531613d4d7"
+git_url="https://github.com/CastXML/pygccxml"
+git_tag="v2.0.1"
+upstream_sha="aa8661e4efa276f0af034d858e0be1cd1db4af20"
 
 #
 # Once the merge has been done
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge was done on: August 8th, 2018
-git branch pygccxml-upstream 87b4e12d211b37b2225e632b2881c4531613d4d7
+# This merge was done on: July 27th, 2020
+git branch pygccxml-upstream f8322d75a190d6d393336ffd5e0d8bd23bbc83e5
 
 #
 # Make a temp directory to handle the import of the upstream source
@@ -59,22 +60,16 @@ rm -fr tmp-pygccxml-upstream
 # add upstream files in Git
 git add --all
 
-# get a Change-Id to keep track of the change in gerrit
-tree=$(git write-tree)
-change_id=$(git commit-tree $tree -p HEAD </dev/null)
-
 # commit new source
-GIT_AUTHOR_NAME='GCC-XML Upstream' \
-GIT_AUTHOR_EMAIL='pygccxml@gccxml.org' \
+GIT_AUTHOR_NAME='pygccxml Upstream' \
+GIT_AUTHOR_EMAIL='pygccxml@castxml.org' \
 GIT_AUTHOR_DATE="${upstream_date}" \
 git commit -q -m "ENH: pygccxml ${git_tag} (reduced)
 
 This corresponds to commit hash
   ${upstream_sha}
 from upstream repository
-  ${git_url}
-
-Change-Id: I${change_id}"
+  ${git_url}"
 
 #
 # push to the pygccxml-upstream branch in the
@@ -102,4 +97,4 @@ echo branch must be started on the next update.
 echo "---------------------------------"
 echo edit the line \"git branch pygccxml-upstream\" above.
 echo Once you have commited this change to the UpdatepygccxmlFromUpstream.sh script,
-echo use \"git gerrit-push\" to push this new update branch back to itk.org.
+echo use \"git review-push\" to push this new update branch back to GitHub.

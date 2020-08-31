@@ -23,6 +23,11 @@ namespace gdcm
 class Image;
 /**
  * \brief ImageWriter
+ * 
+ * This is an extended version of the PixmapWriter. Pay attention that:
+ * 1. It will populate missing attribute for Secondary Capture Image Storage instances,
+ * 2. It may also change an input MR Image Storage instance into a pseudo Enhanced MR Image Storage instance whenever Modality LUT is required.
+ * 3. Some DataElement related to gdcm::Image may be slightly altered.
  */
 class GDCM_EXPORT ImageWriter : public PixmapWriter
 {

@@ -157,12 +157,8 @@ Read(const char *_headerName)
 
   M_PrepareNewReadStream();
 
-#ifdef __sgi
-  m_ReadStream->open(m_FileName, std::ios::in);
-#else
   m_ReadStream->open(m_FileName, std::ios::binary
                                  | std::ios::in);
-#endif
 
   if(!m_ReadStream->rdbuf()->is_open())
     {

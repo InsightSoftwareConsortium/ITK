@@ -48,6 +48,9 @@ public:
   /** Constructor */
   SurfaceSpatialObjectPoint();
 
+  /** Copy Constructor */
+  SurfaceSpatialObjectPoint(const SurfaceSpatialObjectPoint & other);
+
   /** Destructor */
   ~SurfaceSpatialObjectPoint() override = default;
 

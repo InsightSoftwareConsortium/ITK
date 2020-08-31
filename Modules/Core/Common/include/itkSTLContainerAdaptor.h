@@ -18,6 +18,8 @@
 #ifndef itkSTLContainerAdaptor_h
 #define itkSTLContainerAdaptor_h
 
+#include "itkMacro.h"
+
 namespace itk
 {
 /** \class STLContainerAdaptor

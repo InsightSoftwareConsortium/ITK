@@ -20,6 +20,7 @@
  * This is a test file for the itkLineSpatialObject class.
  */
 
+#include "itkTestingMacros.h"
 #include "itkLineSpatialObject.h"
 #include "itkMath.h"
 
@@ -165,6 +166,50 @@ itkLineSpatialObjectTest(int, char *[])
   }
   std::cout << "[PASSED]" << std::endl;
 
+  // Test Copy and Assignment for LinePointType
+  {
+    LinePointType p_original;
+
+    // itk::SpatialObjectPoint
+    p_original.SetId(250);
+    p_original.SetColor(0.5, 0.4, 0.3, 0.2);
+    p_original.SetPositionInObjectSpace(42, 41, 43);
+
+    // itk::LineSpatialObjectPoint
+    VectorType normal;
+    normal.Fill(276);
+    p_original.SetNormalInObjectSpace(normal, 0);
+
+    // Copy
+    LinePointType p_copy(p_original);
+    // Assign
+    LinePointType p_assign = p_original;
+
+    std::vector<LinePointType> point_vector;
+    point_vector.push_back(p_copy);
+    point_vector.push_back(p_assign);
+
+    for (const auto & pv : point_vector)
+    {
+      // itk::SpatialObjectPoint
+      ITK_TEST_EXPECT_EQUAL(p_original.GetId(), pv.GetId());
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRed(), pv.GetRed()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetGreen(), pv.GetGreen()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBlue(), pv.GetBlue()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha(), pv.GetAlpha()));
+      for (size_t j = 0; j < 3; ++j)
+      {
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
+      }
+      // itk::LineSpatialObjectPoint
+      for (size_t j = 0; j < 3; ++j)
+      {
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetNormalInObjectSpace(0)[j], pv.GetNormalInObjectSpace(0)[j]));
+      }
+    }
+  }
 
   return EXIT_SUCCESS;
 }

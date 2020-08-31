@@ -192,10 +192,6 @@ public:
       : m_Pos(d)
       , m_Iter(i)
     {}
-    Iterator(const Iterator & r)
-      : m_Pos(r.m_Pos)
-      , m_Iter(r.m_Iter)
-    {}
     Iterator & operator*() { return *this; }
     Iterator * operator->() { return this; }
     Iterator &

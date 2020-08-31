@@ -19,6 +19,7 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 #include "itkQuadEdgeMesh.h"
+#include "itkNormalVariateGenerator.h"
 
 // NEW
 #include "itkDelaunayConformingQuadEdgeMeshFilter.h"
@@ -44,6 +45,20 @@ itkDelaunayConformingQuadEdgeMeshFilterTestHelper(const std::string & input,
 
   MeshType::Pointer mesh = reader->GetOutput();
 
+  using GeneratorType = itk::Statistics::NormalVariateGenerator;
+  const auto generator = GeneratorType::New();
+  generator->Initialize(0);
+
+  const double sigma = 0.01;
+
+  for (auto it = mesh->GetPoints()->Begin(); it != mesh->GetPoints()->End(); ++it)
+  {
+    for (size_t d = 0; d < MeshType::MeshTraits::PointDimension; ++d)
+    {
+      it.Value()[d] += (generator->GetVariate() * sigma);
+    }
+  }
+
   if (cell_data)
   {
     for (auto it = mesh->GetCells()->Begin(); it != mesh->GetCells()->End(); ++it)
@@ -54,16 +69,15 @@ itkDelaunayConformingQuadEdgeMeshFilterTestHelper(const std::string & input,
 
   const auto filter = DelaunayConformFilterType::New();
   filter->SetInput(mesh);
-  filter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   if (cell_data)
   {
     for (auto it = mesh->GetCells()->Begin(); it != mesh->GetCells()->End(); ++it)
     {
-      mesh->SetCellData(it.Index(), it.Index());
-      itkAssertOrThrowMacro(mesh->GetCellData()->IndexExists(it.Index()),
-                            "Incorrect number of cells in cell data array.");
+      ITK_TEST_EXPECT_TRUE(mesh->GetCellData()->IndexExists(it.Index()));
     }
+    ITK_TEST_EXPECT_EQUAL(mesh->GetNumberOfCells(), mesh->GetCellData()->Size());
   }
 
   // ** WRITE OUTPUT **

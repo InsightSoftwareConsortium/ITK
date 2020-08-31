@@ -57,5 +57,5 @@ Schaerer J. \"A MultipleImageIterator for iterating over multiple images simulta
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/MultipleImageIterator.git
-  GIT_TAG 3b71d6e8611cf01e4f59df2e5f94854c9a42fbf2
+  GIT_TAG 8a2595b490be876007f7bc2491bd8b4914b8be8e
   )

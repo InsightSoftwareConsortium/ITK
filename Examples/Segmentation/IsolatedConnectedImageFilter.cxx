@@ -265,8 +265,9 @@ main(int argc, char * argv[])
   //  \begin{center}
   //  \begin{tabular}{|l|c|c|c|c|}
   //  \hline
-  //  Adjacent Structures & Seed1 & Seed2 & Lower & Isolated value found \\
-  //  \hline Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ &
+  //  Adjacent Structures & Seed1 & Seed2 & Lower &
+  //  Isolated value found \\ \hline
+  //  Gray matter vs White matter & $(61,140)$ & $(63,43)$ & $150$ &
   //  $183.31$  \\ \hline \end{tabular} \end{center}
   //  \itkcaption[IsolatedConnectedImageFilter example parameters]{Parameters
   //  used for separating white matter from gray matter in
@@ -274,18 +275,16 @@ main(int argc, char * argv[])
   //  IsolatedConnectedImageFilter.\label{tab:IsolatedConnectedImageFilterOutput}}
   //  \end{table}
   //
-  // \begin{figure} \center
-  // \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
-  // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput0}
-  // \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput1}
-  // \itkcaption[IsolatedConnected segmentation results]{Segmentation results
-  // of the IsolatedConnectedImageFilter.}
-  // \label{fig:IsolatedConnectedImageFilterOutput}
-  // \end{figure}
-  //
+  //  \begin{figure} \center
+  //  \includegraphics[width=0.32\textwidth]{BrainProtonDensitySlice}
+  //  \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput0}
+  //  \includegraphics[width=0.32\textwidth]{IsolatedConnectedImageFilterOutput1}
+  //  \itkcaption[IsolatedConnected segmentation results]{Segmentation results
+  //  of the IsolatedConnectedImageFilter.}
+  //  \label{fig:IsolatedConnectedImageFilterOutput}
+  //  \end{figure}
   //
   //  Software Guide : EndLatex
-
 
   return EXIT_SUCCESS;
 }

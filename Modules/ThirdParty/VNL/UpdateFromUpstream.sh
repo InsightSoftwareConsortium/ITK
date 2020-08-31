@@ -8,7 +8,10 @@ upstream_git_branch='master'
 snapshot_author_name='VXL Maintainers'
 snapshot_author_email='vxl-maintainers@lists.sourceforge.net'
 
-snapshot_redact_cmd=''
+snapshot_redact_cmd='
+  rm v3p/netlib/triangle*
+  rm v3p/netlib/examples/showme.c
+'
 snapshot_relative_path='src/vxl'
 snapshot_paths='
       CMakeLists.txt

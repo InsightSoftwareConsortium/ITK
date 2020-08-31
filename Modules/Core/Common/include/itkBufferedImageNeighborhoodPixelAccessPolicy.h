@@ -27,9 +27,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
-
 /**
  * \class BufferedImageNeighborhoodPixelAccessPolicy
  * ImageNeighborhoodPixelAccessPolicy class for ShapedImageNeighborhoodRange.
@@ -131,7 +128,6 @@ public:
   }
 };
 
-} // namespace Experimental
 } // namespace itk
 
 #endif

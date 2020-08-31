@@ -39,7 +39,7 @@ MedianImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigne
 {
   if (m_NeighborhoodRadius != radius)
   {
-    m_NeighborhoodOffsets = Experimental::GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
+    m_NeighborhoodOffsets = GenerateRectangularImageNeighborhoodOffsets(ImageSizeType::Filled(radius));
     m_NeighborhoodRadius = radius;
     this->Modified();
   }
@@ -76,8 +76,7 @@ MedianImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & i
     return (NumericTraits<OutputType>::max());
   }
 
-  const Experimental::ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(
-    *image, index, m_NeighborhoodOffsets);
+  const ShapedImageNeighborhoodRange<const InputImageType> neighborhoodRange(*image, index, m_NeighborhoodOffsets);
 
   // We have to copy the pixels so we can run std::nth_element.
   std::vector<InputPixelType> pixels(neighborhoodRange.cbegin(), neighborhoodRange.cend());

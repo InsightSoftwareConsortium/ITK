@@ -3,14 +3,19 @@
 Install [ITK Python packages](https://itkpythonpackage.readthedocs.io/en/latest/Quick_start_guide.html) with:
 
 ```
-pip install itk
+pip install --upgrade itk
 ```
 
 or:
 
 ```
-conda -c conda-forge install itk
+conda install -c conda-forge itk
 ```
+
+**Guide and Textbook**
+
+- [InsightSoftwareGuide-Book1-{{ cookiecutter.major_version }}.{{ cookiecutter.minor_version }}{{ cookiecutter.patch_identifier }}{{ cookiecutter.patch_version }}.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v{{ cookiecutter.major_version }}.{{cookiecutter.minor_version }}{{ cookiecutter.patch_identifier }}{{ cookiecutter.patch_version }}/InsightSoftwareGuide-Book1-{{ cookiecutter.major_version }}.{{cookiecutter.minor_version }}{{ cookiecutter.patch_identifier }}{{ cookiecutter.patch_version }}.pdf)
+- [InsightSoftwareGuide-Book2-{{ cookiecutter.major_version }}.{{ cookiecutter.minor_version }}{{ cookiecutter.patch_identifier }}{{ cookiecutter.patch_version }}.pdf](https://github.com/InsightSoftwareConsortium/ITK/releases/download/v{{ cookiecutter.major_version }}.{{cookiecutter.minor_version }}{{ cookiecutter.patch_identifier }}{{ cookiecutter.patch_version }}/InsightSoftwareGuide-Book2-{{ cookiecutter.major_version }}.{{cookiecutter.minor_version }}{{ cookiecutter.patch_identifier }}{{ cookiecutter.patch_version }}.pdf)
 
 **Library Sources**
 

@@ -181,7 +181,8 @@ macro(itk_module_impl)
     include_directories(${${itk-module}_INCLUDE_DIRS})
   endif()
   if(${itk-module}_SYSTEM_INCLUDE_DIRS)
-    include_directories(${${itk-module}_SYSTEM_INCLUDE_DIRS})
+    # _SYSTEM_INCLUDE_DIRS should searched after internal _INCLUDE_DIRS
+    include_directories(AFTER ${${itk-module}_SYSTEM_INCLUDE_DIRS})
   endif()
 
   if(${itk-module}_SYSTEM_LIBRARY_DIRS)

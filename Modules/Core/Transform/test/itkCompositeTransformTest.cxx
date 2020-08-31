@@ -127,6 +127,35 @@ itkCompositeTransformTest(int, char *[])
   ITK_TEST_EXPECT_EQUAL(compositeTransform->GetNumberOfTransforms(), 0u);
   ITK_TEST_EXPECT_EQUAL(compositeTransform->GetNumberOfParameters(), 0u);
   ITK_TEST_EXPECT_EQUAL(compositeTransform->GetNumberOfFixedParameters(), 0u);
+  ITK_TEST_EXPECT_EQUAL(compositeTransform->GetParameters().Size(), 0u);
+  ITK_TEST_EXPECT_EQUAL(compositeTransform->GetFixedParameters().Size(), 0u);
+
+  {
+    CompositeType::InputPointType inputPoint;
+    inputPoint[0] = 1.1;
+    inputPoint[1] = 2.2;
+    CompositeType::InputVectorType inputVector;
+    inputVector[0] = 9.1;
+    inputVector[1] = 8.2;
+
+    if (!testPoint(inputPoint, compositeTransform->TransformPoint(inputPoint)))
+    {
+      std::cout << "Failed transforming point with empty transform." << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    if (!testVectorArray(inputVector, compositeTransform->TransformVector(inputVector)))
+    {
+      std::cout << "Failed transforming vector with empty transform." << std::endl;
+      return EXIT_FAILURE;
+    }
+
+    if (!testVectorArray(inputVector, compositeTransform->TransformVector(inputVector, inputPoint)))
+    {
+      std::cout << "Failed transforming vector with empty transform." << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
 
 
   /* Add an affine transform */

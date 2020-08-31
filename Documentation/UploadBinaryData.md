@@ -18,7 +18,9 @@ these content link files at **build** time, download them from a list of server
 resources, and create symlinks or copies of the original files at the
 corresponding location in the **build tree**.
 
-See also our [Data](Data.md) guide for more information.
+See also our [Data](Data.md) guide for more information. If you just
+want to browse and download the ITK testing images, see the data.kitware.com
+[ITK collection].
 
 **Note**: for historical reasons, before [SHA512 hash] files were used in ITK,
 [MD5 hash] content link files were used.

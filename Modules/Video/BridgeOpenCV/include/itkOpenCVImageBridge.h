@@ -26,8 +26,8 @@
 
 #include "opencv2/core/version.hpp"
 #if !defined(CV_VERSION_EPOCH)
-// OpenCV 3.x
-#  include "opencv2/core.hpp"
+// OpenCV 3+
+#  include "opencv2/imgproc.hpp"
 #  include "opencv2/imgproc/types_c.h"   // CV_RGB2BGR, CV_BGR2GRAY, ...
 #  include "opencv2/imgproc/imgproc_c.h" // cvCvtColor
 #else
@@ -92,20 +92,28 @@ private:
     4) Copy the buffer and convert the pixels if necessary */
   template <typename TOutputImageType, typename TPixel>
   static void
-  ITKConvertIplImageBuffer(const IplImage * in, TOutputImageType * out, int iDepth)
+  ITKConvertIplImageBuffer(const IplImage * in, TOutputImageType * out, unsigned int iDepth)
   {
     // Typedefs
     using ImageType = TOutputImageType;
     using OutputPixelType = typename ImageType::PixelType;
-    using ConvertPixelTraits = DefaultConvertPixelTraits<OutputPixelType>;
 
     unsigned int inChannels = in->nChannels;
     unsigned int outChannels = itk::NumericTraits<OutputPixelType>::MeasurementVectorType::Dimension;
 
+    // Manage unsupported conversions.
+    if ((inChannels != outChannels || (inChannels == 3 && outChannels == 3)) &&
+        (iDepth == IPL_DEPTH_8S || iDepth == IPL_DEPTH_16S || iDepth == IPL_DEPTH_32S || iDepth == IPL_DEPTH_64F))
+    {
+      itkGenericExceptionMacro("OpenCV IplImage to ITK Image conversion - the necessary color"
+                               " conversion is not supported for the input OpenCV pixel type");
+    }
+
+    // Manage input/output types mismatch
+    checkMatchingTypes<TPixel, OutputPixelType>(outChannels);
+
     // We only change current if it no longer points at in, so this is safe
     IplImage * current = const_cast<IplImage *>(in);
-
-    bool isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
 
     bool freeCurrent = false;
     if (inChannels == 3 && outChannels == 1)
@@ -131,13 +139,108 @@ private:
       itkGenericExceptionMacro("Conversion from " << inChannels << " channels to " << outChannels
                                                   << " channels is not supported");
     }
+
+    ITKConvertImageBuffer<TOutputImageType, TPixel>(
+      current->imageData, out, current->nChannels, current->width, current->height, current->widthStep);
+
+    if (freeCurrent)
+    {
+      cvReleaseImage(&current);
+    }
+  }
+
+  template <typename TOutputImageType, typename TPixel>
+  static void
+  ITKConvertMatImageBuffer(const cv::Mat & in, TOutputImageType * out)
+  {
+    using namespace cv;
+
+    // Typedefs
+    using ImageType = TOutputImageType;
+    using OutputPixelType = typename ImageType::PixelType;
+
+    unsigned int inChannels = in.channels();
+    unsigned int iDepth = in.depth();
+    unsigned int outChannels = itk::NumericTraits<OutputPixelType>::MeasurementVectorType::Dimension;
+
+    // Manage pixel/component types mismatch and impossible conversions.
+    if ((inChannels != outChannels || (inChannels == 3 && outChannels == 3)) &&
+        (iDepth == CV_8S || iDepth == CV_16S || iDepth == CV_32S || iDepth == CV_64F))
+    {
+      itkGenericExceptionMacro("OpenCV Mat to ITK Image conversion - the necessary color"
+                               " conversion is not supported for the input OpenCV pixel type");
+    }
+
+    // Manage input/output types mismatch
+    checkMatchingTypes<TPixel, OutputPixelType>(outChannels);
+
+    Mat current;
+
+    if (inChannels == 3 && outChannels == 1)
+    {
+      cvtColor(in, current, COLOR_BGR2GRAY);
+    }
+    else if (inChannels == 1 && outChannels == 3)
+    {
+      cvtColor(in, current, COLOR_GRAY2RGB);
+    }
+    else if (inChannels == 3 && outChannels == 3)
+    {
+      cvtColor(in, current, COLOR_BGR2RGB);
+    }
+    else if (inChannels != 1 || outChannels != 1)
+    {
+      itkGenericExceptionMacro("Conversion from " << inChannels << " channels to " << outChannels
+                                                  << " channels is not supported");
+    }
+    else
+    {
+      current = in;
+    }
+
+    ITKConvertImageBuffer<TOutputImageType, TPixel>(
+      reinterpret_cast<char *>(current.ptr()), out, current.channels(), current.cols, current.rows, current.step);
+  }
+
+  template <typename InputPixelType, typename OutputPixelType>
+  static void
+  checkMatchingTypes(unsigned int outChannels)
+  {
+    if (outChannels == 3)
+    {
+      if (typeid(RGBPixel<InputPixelType>) != typeid(OutputPixelType))
+      {
+        itkGenericExceptionMacro("OpenCV to ITK conversion channel component type mismatch");
+      }
+    }
+    else if (typeid(InputPixelType) != typeid(OutputPixelType))
+    {
+      itkGenericExceptionMacro("OpenCV to ITK conversion pixel type mismatch");
+    }
+  }
+
+  template <typename TOutputImageType, typename TPixel>
+  static void
+  ITKConvertImageBuffer(const char *       in,
+                        TOutputImageType * out,
+                        unsigned int       inChannels,
+                        int                imgWidth,
+                        int                imgHeight,
+                        int                widthStep)
+  {
+    using ImageType = TOutputImageType;
+    using OutputPixelType = typename ImageType::PixelType;
+    using ConvertPixelTraits = DefaultConvertPixelTraits<OutputPixelType>;
+
+    bool isVectorImage(strcmp(out->GetNameOfClass(), "VectorImage") == 0);
+
     typename ImageType::RegionType            region;
     typename ImageType::RegionType::SizeType  size;
     typename ImageType::RegionType::IndexType start;
     typename ImageType::SpacingType           spacing;
     size.Fill(1);
-    size[0] = current->width;
-    size[1] = current->height;
+    size[0] = imgWidth;
+    size[1] = imgHeight;
     start.Fill(0);
     spacing.Fill(1);
     region.SetSize(size);
@@ -145,23 +248,23 @@ private:
     out->SetRegions(region);
     out->SetSpacing(spacing);
     out->Allocate();
-    size_t       lineLength = current->width * current->nChannels;
-    void *       unpaddedBuffer = reinterpret_cast<void *>(new TPixel[current->height * lineLength]);
+    size_t       lineLength = imgWidth * inChannels * sizeof(TPixel);
+    void *       unpaddedBuffer = reinterpret_cast<void *>(new TPixel[imgHeight * lineLength]);
     unsigned int paddedBufPos = 0;
     unsigned int unpaddedBufPos = 0;
-    for (int i = 0; i < current->height; ++i)
+
+    for (int i = 0; i < imgHeight; ++i)
     {
-      memcpy(&(reinterpret_cast<TPixel *>(unpaddedBuffer)[unpaddedBufPos]),
-             reinterpret_cast<TPixel *>(current->imageData + paddedBufPos),
-             lineLength * sizeof(TPixel));
-      paddedBufPos += current->widthStep;
+      memcpy(&(reinterpret_cast<char *>(unpaddedBuffer)[unpaddedBufPos]), in + paddedBufPos, lineLength);
+      paddedBufPos += widthStep;
       unpaddedBufPos += lineLength;
     }
+
     if (isVectorImage)
     {
       ConvertPixelBuffer<TPixel, OutputPixelType, ConvertPixelTraits>::ConvertVectorImage(
         static_cast<TPixel *>(unpaddedBuffer),
-        current->nChannels,
+        inChannels,
         out->GetPixelContainer()->GetBufferPointer(),
         out->GetPixelContainer()->Size());
     }
@@ -169,15 +272,12 @@ private:
     {
       ConvertPixelBuffer<TPixel, OutputPixelType, ConvertPixelTraits>::Convert(
         static_cast<TPixel *>(unpaddedBuffer),
-        current->nChannels,
+        inChannels,
         out->GetPixelContainer()->GetBufferPointer(),
         out->GetPixelContainer()->Size());
     }
+
     delete[] reinterpret_cast<TPixel *>(unpaddedBuffer);
-    if (freeCurrent)
-    {
-      cvReleaseImage(&current);
-    }
   }
 
   template <typename TPixel, unsigned int VDimension>

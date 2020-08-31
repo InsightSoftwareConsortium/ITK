@@ -33,8 +33,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ImageRegionRange
@@ -463,7 +461,6 @@ public:
   ~ImageRegionRange() = default;
 };
 
-} // namespace Experimental
 } // namespace itk
 
 #endif

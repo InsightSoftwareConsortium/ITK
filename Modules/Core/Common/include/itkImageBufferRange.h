@@ -34,8 +34,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ImageBufferRange
@@ -686,7 +684,6 @@ MakeImageBufferRange(TImage * const image)
   }
 }
 
-} // namespace Experimental
-} // namespace itk
 
+} // namespace itk
 #endif

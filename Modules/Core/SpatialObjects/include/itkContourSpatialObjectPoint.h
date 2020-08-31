@@ -47,6 +47,9 @@ public:
    *  in the ContourSpatialObjectPoint */
   ContourSpatialObjectPoint();
 
+  /** Copy Constructor */
+  ContourSpatialObjectPoint(const ContourSpatialObjectPoint & other);
+
   /** Default destructor. */
   ~ContourSpatialObjectPoint() override = default;
 

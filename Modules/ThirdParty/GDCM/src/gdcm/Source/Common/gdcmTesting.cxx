@@ -448,6 +448,9 @@ static const LossyFile gdcmLossyFilenames[] = {
 { 0,"JPEGLosslessSeNonZero.dcm" },
 { 1,"US-YBR_FULL_422-EVRLE.dcm" },
 { 0,"Osirix10vs8BitsStored.dcm" },
+{ 0,"Bug_Siemens_PrivateIconNoItem.dcm" },
+{ 0,"HardcopyColor_YBR_RCT_J2K_PC1.dcm" },
+{ 0,"PET-GE-dicomwrite-PixelDataSQUNv2.dcm" },
 { 0, nullptr }
 };
 

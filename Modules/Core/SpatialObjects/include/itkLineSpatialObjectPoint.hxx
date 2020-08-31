@@ -36,6 +36,14 @@ LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint()
   }
 }
 
+/** Copy Constructor */
+template <unsigned int TPointDimension>
+LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint(const LineSpatialObjectPoint & other)
+  : Superclass(other)
+{
+  this->m_NormalArrayInObjectSpace = other.m_NormalArrayInObjectSpace;
+}
+
 /** Get the specified normal */
 template <unsigned int TPointDimension>
 const typename LineSpatialObjectPoint<TPointDimension>::CovariantVectorType &
@@ -72,13 +80,14 @@ template <unsigned int TPointDimension>
 typename LineSpatialObjectPoint<TPointDimension>::Self &
 LineSpatialObjectPoint<TPointDimension>::operator=(const LineSpatialObjectPoint & rhs)
 {
-  this->m_Id = rhs.m_Id;
-  this->m_Color = rhs.m_Color;
-  this->m_SpatialObject = rhs.m_SpatialObject;
-  this->m_PositionInObjectSpace = rhs.m_PositionInObjectSpace;
-  this->m_NormalArrayInObjectSpace = rhs.m_NormalArrayInObjectSpace;
+  if (this != &rhs)
+  {
+    Superclass::operator=(rhs);
+    this->m_NormalArrayInObjectSpace = rhs.m_NormalArrayInObjectSpace;
+  }
   return *this;
 }
+
 } // end namespace itk
 
 #endif

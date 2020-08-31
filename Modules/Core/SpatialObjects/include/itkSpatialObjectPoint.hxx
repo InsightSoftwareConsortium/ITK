@@ -35,7 +35,20 @@ SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
   m_Color.SetBlue(0);
   m_Color.SetAlpha(1);
 
+  m_ScalarDictionary.clear();
+
   m_SpatialObject = nullptr;
+}
+
+/** Copy Constructor */
+template <unsigned int TPointDimension>
+SpatialObjectPoint<TPointDimension>::SpatialObjectPoint(const SpatialObjectPoint & other)
+{
+  this->SetId(other.GetId());
+  this->SetPositionInObjectSpace(other.GetPositionInObjectSpace());
+  this->SetColor(other.GetColor());
+  this->SetSpatialObject(other.GetSpatialObject());
+  this->SetTagScalarDictionary(other.GetTagScalarDictionary());
 }
 
 template <unsigned int TPointDimension>
@@ -82,11 +95,67 @@ SpatialObjectPoint<TPointDimension>::operator=(const SpatialObjectPoint & rhs)
     this->SetId(rhs.GetId());
     this->SetPositionInObjectSpace(rhs.GetPositionInObjectSpace());
     this->SetColor(rhs.GetColor());
+    this->SetTagScalarDictionary(rhs.GetTagScalarDictionary());
     this->SetSpatialObject(rhs.GetSpatialObject());
   }
   return *this;
 }
 
+template <unsigned int TPointDimension>
+void
+SpatialObjectPoint<TPointDimension>::SetTagScalarValue(const std::string & tag, double value)
+{
+  m_ScalarDictionary[tag] = value;
+}
+
+template <unsigned int TPointDimension>
+bool
+SpatialObjectPoint<TPointDimension>::GetTagScalarValue(const std::string & tag, double & value) const
+{
+  auto iter = m_ScalarDictionary.find(tag);
+  if (iter != m_ScalarDictionary.end())
+  {
+    value = iter->second;
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+template <unsigned int TPointDimension>
+double
+SpatialObjectPoint<TPointDimension>::GetTagScalarValue(const std::string & tag) const
+{
+  auto iter = m_ScalarDictionary.find(tag);
+  if (iter != m_ScalarDictionary.end())
+  {
+    return iter->second;
+  }
+  return -1;
+}
+
+template <unsigned int TPointDimension>
+std::map<std::string, double> &
+SpatialObjectPoint<TPointDimension>::GetTagScalarDictionary()
+{
+  return m_ScalarDictionary;
+}
+
+template <unsigned int TPointDimension>
+const std::map<std::string, double> &
+SpatialObjectPoint<TPointDimension>::GetTagScalarDictionary() const
+{
+  return m_ScalarDictionary;
+}
+
+template <unsigned int TPointDimension>
+void
+SpatialObjectPoint<TPointDimension>::SetTagScalarDictionary(const std::map<std::string, double> & dict)
+{
+  m_ScalarDictionary = dict;
+}
 
 /** PrintSelfMethod */
 template <unsigned int TPointDimension>
@@ -104,7 +173,14 @@ SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent)
     os << m_PositionInObjectSpace[i - 1] << ",";
   }
   os << m_PositionInObjectSpace[TPointDimension - 1] << std::endl;
-  os << indent << "SpatialObject: " << m_SpatialObject << std::endl;
+  os << indent << "ScalarDictionary: " << std::endl;
+
+  auto iter = m_ScalarDictionary.begin();
+  while (iter != m_ScalarDictionary.end())
+  {
+    os << indent << indent << iter->first << " = " << iter->second << std::endl;
+    ++iter;
+  }
 }
 } // end namespace itk
 

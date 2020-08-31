@@ -32,8 +32,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ShapedImageNeighborhoodRange
@@ -808,8 +806,6 @@ public:
   }
 };
 
-
-} // namespace Experimental
 } // namespace itk
 
 #endif

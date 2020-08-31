@@ -25,8 +25,6 @@
 
 namespace itk
 {
-namespace Experimental
-{
 
 /**
  * \class ZeroFluxNeumannImageNeighborhoodPixelAccessPolicy
@@ -128,7 +126,6 @@ public:
   }
 };
 
-} // namespace Experimental
 } // namespace itk
 
 #endif

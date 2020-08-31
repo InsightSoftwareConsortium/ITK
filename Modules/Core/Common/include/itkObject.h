@@ -33,6 +33,8 @@
 #include "itkMetaDataDictionary.h"
 #include "itkSingletonMacro.h"
 
+#include <functional>
+
 namespace itk
 {
 // Forward reference because of private implementation
@@ -143,19 +145,38 @@ public:
     SetGlobalWarningDisplay(false);
   }
 
-  /** Allow people to add/remove/invoke observers (callbacks) to any ITK
-   * object. This is an implementation of the subject/observer design
+  /** \brief Add an observer/command to this object invoked for event
+   *
+   * This is an implementation of the subject/observer design
    * pattern. An observer is added by specifying an event to respond to
    * and an itk::Command to execute. It returns an unsigned long tag
    * which can be used later to remove the event or retrieve the
-   * command.  The memory for the Command becomes the responsibility of
-   * this object, so don't pass the same instance of a command to two
-   * different objects  */
+   * command.
+   */
   unsigned long
   AddObserver(const EventObject & event, Command *);
-
   unsigned long
   AddObserver(const EventObject & event, Command *) const;
+
+  /** \brief A convenient method to add an C++ lambda function as an observer.
+   *
+   * A FunctionCommand object in implicitly create to hold function, and
+   * passed to this object as a standard observer. The command will be invoked
+   * for the specified event.
+   *
+   * The function or lambda \b cannot captured this object as SmartPoint because
+   * a circular dependency is generated which causing memory leaks.
+   * Sample usage:
+   *  \code
+   *    auto &objRef = *o.GetPointer();
+   *    o->AddObserver(itk::AnyEvent(), [&objRef](const itk::EventObject &event)
+   *    { std::cout << "Object: " << objRef.GetNameOfClass() << " Event: " << event << std::endl; });
+   *  \endcode
+   *
+   *  \see FunctionCommand
+   */
+  unsigned long
+  AddObserver(const EventObject & event, std::function<void(const EventObject &)> function) const;
 
   /** Get the command associated with the given tag.  NOTE: This returns
    * a pointer to a Command, but it is safe to assign this to a

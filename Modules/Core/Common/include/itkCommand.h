@@ -20,6 +20,7 @@
 
 #include "itkObject.h"
 #include "itkObjectFactory.h"
+#include <functional>
 
 namespace itk
 {
@@ -416,6 +417,52 @@ protected:
   ConstFunctionPointer      m_ConstCallback{ nullptr };
   DeleteDataFunctionPointer m_ClientDataDeleteCallback{ nullptr };
 };
+
+
+/** \class FunctionCommand
+ *  \brief A Command subclass that calls a std::function object.
+ *
+ * This function object is suitable to accept C++ lambda functions.
+ *
+ * \ingroup ITKSystemObjects
+ * \ingroup ITKCommon
+ */
+
+class ITKCommon_EXPORT FunctionCommand : public Command
+{
+public:
+  /** Standard class type aliases. */
+  using Self = FunctionCommand;
+  using Pointer = SmartPointer<Self>;
+
+  using FunctionObjectType = std::function<void(const EventObject &)>;
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FunctionCommand, Command);
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Set the C callback function pointer to be called at Execute time. */
+  void
+  SetCallback(FunctionObjectType f);
+
+  /** Execute the callback function. */
+  void
+  Execute(Object *, const EventObject & event) override;
+
+  /** Execute the callback function with a const Object */
+  void
+  Execute(const Object *, const EventObject & event) override;
+
+protected:
+  FunctionCommand();
+  ~FunctionCommand() override;
+
+
+  FunctionObjectType m_FunctionObject;
+};
+
 } // end namespace itk
 
 #endif

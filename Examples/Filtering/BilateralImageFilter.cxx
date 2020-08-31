@@ -61,7 +61,7 @@
 //  $c()$ and $s()$. The $c$ kernel can be described as
 //
 //  \begin{equation}
-//  c(\mathbf{x},\mathbf{w}) = e^{(\frac{ {\left|| \mathbf{x} - \mathbf{w}
+//  c(\mathbf{x},\mathbf{w}) = e^{(- \frac{ {\left|| \mathbf{x} - \mathbf{w}
 //  \right||}^2
 //  }{\sigma^2_c} )} \end{equation}
 //
@@ -70,8 +70,8 @@
 //  output value.  The $s$ kernel is given by
 //
 //  \begin{equation}
-//  s(f(\mathbf{x}),f(\mathbf{w})) = e^{(\frac{ {( f(\mathbf{x}) -
-//  f(\mathbf{w})}^2
+//  s(f(\mathbf{x}),f(\mathbf{w})) = e^{(- \frac{ {( f(\mathbf{x}) -
+//  f(\mathbf{w}) )}^2
 //  }{\sigma^2_s} )} \end{equation}
 //
 //  where $\sigma_s$ is provided by the user and defines how close the

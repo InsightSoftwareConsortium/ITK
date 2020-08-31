@@ -72,14 +72,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformPoint(const Inpu
 {
 
   /* Apply in reverse queue order.  */
-  typename TransformQueueType::const_iterator       it(this->m_TransformQueue.end());
-  const typename TransformQueueType::const_iterator beginit(this->m_TransformQueue.begin());
-  OutputPointType                                   outputPoint(inputPoint);
-  do
+  OutputPointType outputPoint(inputPoint);
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != beginit);
+  }
   return outputPoint;
 }
 
@@ -90,15 +87,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformVector(const Inp
 {
   OutputVectorType outputVector(inputVector);
 
-  typename TransformQueueType::const_iterator it;
-  /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
 
-  do
+  /* Apply in reverse queue order.  */
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformVector(outputVector);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -112,16 +106,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformVector(const Inp
   OutputVectorType outputVector(inputVector);
   OutputPointType  outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformVector(outputVector, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -135,16 +125,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformVector(const Inp
   OutputVnlVectorType outputVector(inputVector);
   OutputPointType     outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformVector(outputVector, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -156,15 +142,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformVector(const Inp
 {
   OutputVnlVectorType outputVector(inputVector);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformVector(outputVector);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -176,15 +158,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformVector(const Inp
 {
   OutputVectorPixelType outputVector(inputVector);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformVector(outputVector);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -198,16 +176,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformVector(const Inp
   OutputVectorPixelType outputVector(inputVector);
   OutputPointType       outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformVector(outputVector, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -220,15 +194,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformCovariantVector(
 {
   OutputCovariantVectorType outputVector(inputVector);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformCovariantVector(outputVector);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -243,16 +213,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformCovariantVector(
   OutputCovariantVectorType outputVector(inputVector);
   OutputPointType           outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformCovariantVector(outputVector, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -265,15 +231,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformCovariantVector(
 {
   OutputVectorPixelType outputVector(inputVector);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformCovariantVector(outputVector);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -288,16 +250,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformCovariantVector(
   OutputVectorPixelType outputVector(inputVector);
   OutputPointType       outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputVector = (*it)->TransformCovariantVector(outputVector, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputVector;
 }
@@ -312,16 +270,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformDiffusionTensor3
   OutputDiffusionTensor3DType outputTensor(inputTensor);
   OutputPointType             outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformDiffusionTensor3D(outputTensor, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -336,16 +290,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformDiffusionTensor3
   OutputVectorPixelType outputTensor(inputTensor);
   OutputPointType       outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformDiffusionTensor3D(outputTensor, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -358,15 +308,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformDiffusionTensor3
 {
   OutputDiffusionTensor3DType outputTensor(inputTensor);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformDiffusionTensor3D(outputTensor);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -379,15 +325,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformDiffusionTensor3
 {
   OutputVectorPixelType outputTensor(inputTensor);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformDiffusionTensor3D(outputTensor);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -402,16 +344,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformSymmetricSecondR
   OutputSymmetricSecondRankTensorType outputTensor(inputTensor);
   OutputPointType                     outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformSymmetricSecondRankTensor(outputTensor, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -426,16 +364,12 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformSymmetricSecondR
   OutputVectorPixelType outputTensor(inputTensor);
   OutputPointType       outputPoint(inputPoint);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformSymmetricSecondRankTensor(outputTensor, outputPoint);
     outputPoint = (*it)->TransformPoint(outputPoint);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -448,15 +382,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformSymmetricSecondR
 {
   OutputSymmetricSecondRankTensorType outputTensor(inputTensor);
 
-  typename TransformQueueType::const_iterator it;
   /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
-
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformSymmetricSecondRankTensor(outputTensor);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -469,15 +399,11 @@ CompositeTransform<TParametersValueType, NDimensions>::TransformSymmetricSecondR
 {
   OutputVectorPixelType outputTensor(inputTensor);
 
-  typename TransformQueueType::const_iterator it;
-  /* Apply in reverse queue order.  */
-  it = this->m_TransformQueue.end();
 
-  do
+  for (auto it = this->m_TransformQueue.rbegin(); it != this->m_TransformQueue.rend(); ++it)
   {
-    it--;
     outputTensor = (*it)->TransformSymmetricSecondRankTensor(outputTensor);
-  } while (it != this->m_TransformQueue.begin());
+  }
 
   return outputTensor;
 }
@@ -702,17 +628,13 @@ CompositeTransform<TParametersValueType, NDimensions>::GetParameters() const
 
     NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
 
-    auto it = transforms.end();
-
-    do
+    for (auto it = transforms.rbegin(); it != transforms.rend(); ++it)
     {
-      it--;
       const ParametersType & subParameters = (*it)->GetParameters();
       /* use vnl_vector data_block() to get data ptr */
       std::copy_n(subParameters.data_block(), subParameters.Size(), &(this->m_Parameters.data_block())[offset]);
       offset += subParameters.Size();
-
-    } while (it != transforms.begin());
+    }
   }
 
   return this->m_Parameters;
@@ -798,7 +720,7 @@ CompositeTransform<TParametersValueType, NDimensions>::GetFixedParameters() cons
     std::copy_n(
       subFixedParameters.data_block(), subFixedParameters.Size(), &(this->m_FixedParameters.data_block())[offset]);
     offset += subFixedParameters.Size();
-  };
+  }
 
   return this->m_FixedParameters;
 }

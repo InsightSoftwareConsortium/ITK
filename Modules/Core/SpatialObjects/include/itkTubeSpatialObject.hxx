@@ -387,6 +387,9 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
   // Compute the normal
   CovariantVectorType n1;
   CovariantVectorType n2;
+  CovariantVectorType prevN1;
+  prevN1.Fill(0);
+  prevN1[TDimension - 1] = 1;
 
   it1 = 0;
   it2 = 1;
@@ -445,10 +448,9 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
             }
             else
             {
-              std::cerr << "Error: Duplicate points - normals undefined" << std::endl;
-              n1[0] = 0;
-              n1[1] = 0;
-              n1[2] = 1;
+              n1[0] = prevN1[0];
+              n1[1] = prevN1[1];
+              n1[2] = prevN1[2];
             }
           }
         }
@@ -463,6 +465,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentAndNormals()
       ((TubePointType *)(this->GetPoint(it1)))->SetNormal1InObjectSpace(n1);
       ((TubePointType *)(this->GetPoint(it1)))->SetNormal2InObjectSpace(n2);
     }
+    prevN1 = n1;
 
     it1++;
   }

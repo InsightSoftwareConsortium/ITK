@@ -100,6 +100,7 @@ public:
   itkGetConstMacro(NumberOfIterations, unsigned int);
 
   /** Set/Get if DelaunayConformingQuadEdgeMeshFilter is used at the end of each iterations */
+  itkBooleanMacro(DelaunayConforming);
   itkSetMacro(DelaunayConforming, bool);
   itkGetConstMacro(DelaunayConforming, bool);
 

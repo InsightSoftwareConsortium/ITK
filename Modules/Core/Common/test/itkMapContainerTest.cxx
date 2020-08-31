@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkTestingMacros.h"
 #include "itkMapContainer.h"
 #include "itkPoint.h"
 
@@ -60,12 +61,40 @@ itkMapContainerTest(int, char *[])
   container->SetElement(2, pointC);
   container->SetElement(3, pointD);
 
-  ContainerType::Iterator p = container->Begin();
-
-  while (p != container->End())
+  // Iterator
   {
-    std::cout << p.Value() << std::endl;
-    p++;
+    ContainerType::Iterator p_null;
+    ContainerType::Iterator p = container->Begin();
+    ContainerType::Iterator p_copy(p);
+    ContainerType::Iterator p_assign = p;
+
+    while (p != container->End())
+    {
+      ITK_TEST_EXPECT_EQUAL(p.Value(), p_copy.Value());
+      ITK_TEST_EXPECT_EQUAL(p.Value(), p_assign.Value());
+
+      ++p;
+      ++p_copy;
+      ++p_assign;
+    }
+  }
+
+  // ConstIterator
+  {
+    ContainerType::ConstIterator p_null;
+    ContainerType::ConstIterator p = container->Begin();
+    ContainerType::ConstIterator p_copy(p);
+    ContainerType::ConstIterator p_assign = p;
+
+    while (p != container->End())
+    {
+      ITK_TEST_EXPECT_EQUAL(p.Value(), p_copy.Value());
+      ITK_TEST_EXPECT_EQUAL(p.Value(), p_assign.Value());
+
+      ++p;
+      ++p_copy;
+      ++p_assign;
+    }
   }
 
   container->Initialize();

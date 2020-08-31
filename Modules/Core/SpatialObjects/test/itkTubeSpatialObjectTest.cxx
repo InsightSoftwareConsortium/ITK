@@ -21,6 +21,7 @@
  * like Add/RemoveChild(...), Get/SetChildren(...), etc...
  */
 
+#include "itkTestingMacros.h"
 #include "itkTubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"
 
@@ -504,6 +505,84 @@ itkTubeSpatialObjectTest(int, char *[])
   }
   std::cout << "[PASSED]" << std::endl;
 
-  std::cout << "[DONE]" << std::endl;
+  // Test Copy and Assignment for TubePointType
+  {
+    TubePointType p_original;
+
+    // itk::SpatialObjectPoint
+    p_original.SetId(250);
+    p_original.SetColor(0.5, 0.4, 0.3, 0.2);
+    p_original.SetPositionInObjectSpace(42, 41, 43);
+
+    // itk::TubeSpatialObjectPoint
+    TubePointType::VectorType tangent;
+    tangent.Fill(1);
+    p_original.SetTangentInObjectSpace(tangent);
+    TubePointType::CovariantVectorType normal1;
+    normal1.Fill(2);
+    p_original.SetNormal1InObjectSpace(normal1);
+    TubePointType::CovariantVectorType normal2;
+    normal2.Fill(3);
+    p_original.SetNormal2InObjectSpace(normal2);
+    p_original.SetRadiusInObjectSpace(1.0);
+    p_original.SetMedialness(2.0);
+    p_original.SetRidgeness(3.0);
+    p_original.SetBranchness(4.0);
+    p_original.SetCurvature(5.0);
+    p_original.SetLevelness(6.0);
+    p_original.SetRoundness(7.0);
+    p_original.SetIntensity(8.0);
+    p_original.SetAlpha1(9.0);
+    p_original.SetAlpha2(10.0);
+    p_original.SetAlpha3(11.0);
+
+    // Copy
+    TubePointType p_copy(p_original);
+    // Assign
+    TubePointType p_assign = p_original;
+
+    std::vector<TubePointType> point_vector;
+    point_vector.push_back(p_copy);
+    point_vector.push_back(p_assign);
+
+    for (const auto & pv : point_vector)
+    {
+      // itk::SpatialObjectPoint
+      ITK_TEST_EXPECT_EQUAL(p_original.GetId(), pv.GetId());
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRed(), pv.GetRed()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetGreen(), pv.GetGreen()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBlue(), pv.GetBlue()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha(), pv.GetAlpha()));
+      for (size_t j = 0; j < 3; ++j)
+      {
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
+      }
+      // itk::TubeSpatialObjectPoint
+      for (size_t j = 0; j < 3; ++j)
+      {
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetTangentInObjectSpace()[j], pv.GetTangentInObjectSpace()[j]));
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetNormal1InObjectSpace()[j], pv.GetNormal1InObjectSpace()[j]));
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(p_original.GetNormal2InObjectSpace()[j], pv.GetNormal2InObjectSpace()[j]));
+      }
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRadiusInObjectSpace(), pv.GetRadiusInObjectSpace()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetMedialness(), pv.GetMedialness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRidgeness(), pv.GetRidgeness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBranchness(), pv.GetBranchness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetCurvature(), pv.GetCurvature()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetLevelness(), pv.GetLevelness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRoundness(), pv.GetRoundness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetIntensity(), pv.GetIntensity()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha1(), pv.GetAlpha1()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha2(), pv.GetAlpha2()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha3(), pv.GetAlpha3()));
+    }
+
+    std::cout << "[DONE]" << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }

@@ -1,0 +1,17 @@
+type:Compiler:
+    title: "^COMP:.*"
+
+type:Bug:
+    title: "^BUG:.*"
+
+area:Documentation:
+    title: "^DOC:.*"
+
+type:Enhancement:
+    title: "^ENH:.*"
+
+type:Performance:
+    title: "^PERF:.*"
+
+type:Style:
+    title: "^STYLE:.*"
