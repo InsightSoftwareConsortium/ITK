@@ -135,7 +135,7 @@ main(int, char *[])
   //
   // Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  tube->ComputeTangentAndNormals();
+  tube->ComputeTangentsAndNormals();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
