@@ -44,6 +44,10 @@ template <unsigned int TPointDimension = 3>
 class ITK_TEMPLATE_EXPORT SpatialObjectPoint
 {
 public:
+  using PointDimensionType = unsigned int;
+
+  static constexpr PointDimensionType PointDimension = TPointDimension;
+
   /** Constructor. */
   SpatialObjectPoint();
 
