@@ -127,13 +127,13 @@ operator<<(std::ostream & os, const EventObject & e)
     using Superclass = super;                                                                                          \
     classname();                                                                                                       \
     classname(const Self & s);                                                                                         \
-    virtual ~classname();                                                                                              \
+    virtual ~classname() override;                                                                                     \
     virtual const char *                                                                                               \
-    GetEventName() const;                                                                                              \
+    GetEventName() const override;                                                                                     \
     virtual bool                                                                                                       \
-    CheckEvent(const ::itk::EventObject * e) const;                                                                    \
+    CheckEvent(const ::itk::EventObject * e) const override;                                                           \
     virtual ::itk::EventObject *                                                                                       \
-    MakeObject() const;                                                                                                \
+    MakeObject() const override;                                                                                       \
                                                                                                                        \
   private:                                                                                                             \
     void                                                                                                               \
