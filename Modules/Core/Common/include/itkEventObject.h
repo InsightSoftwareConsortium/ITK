@@ -125,7 +125,7 @@ operator<<(std::ostream & os, const EventObject & e)
   public:                                                                                                              \
     using Self = classname;                                                                                            \
     using Superclass = super;                                                                                          \
-    classname();                                                                                                       \
+    classname() = default;                                                                                             \
     classname(const Self & s);                                                                                         \
     virtual ~classname() override;                                                                                     \
     virtual const char *                                                                                               \
@@ -141,7 +141,6 @@ operator<<(std::ostream & os, const EventObject & e)
   };
 
 #define itkEventMacroDefinition(classname, super)                                                                      \
-  classname::classname() {}                                                                                            \
   classname::classname(const classname & s)                                                                            \
     : super(s){};                                                                                                      \
   classname::~classname() {}                                                                                           \
