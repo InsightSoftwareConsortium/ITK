@@ -80,7 +80,7 @@ public:
 
   /** Calculate the normalized tangent */
   bool
-  ComputeTangentAndNormals();
+  ComputeTangentsAndNormals();
 
   /** Remove duplicate points */
   unsigned int
