@@ -320,7 +320,7 @@ PolygonSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
   }
   else
   {
-    os << indent << "IsClosed: True" << std::endl;
+    os << indent << "IsClosed: False" << std::endl;
   }
   os << indent << "ThicknessInObjectSpace: " << m_ThicknessInObjectSpace << std::endl;
 }
