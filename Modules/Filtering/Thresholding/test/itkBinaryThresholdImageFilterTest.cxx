@@ -190,7 +190,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
     else if (itk::Math::NotExactlyEquals(output, outside))
     {
       std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error checkint the outside value:" << std::endl;
+      std::cerr << "Error checking the outside value:" << std::endl;
       std::cout << "Lower threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(lower)
                 << ", upper threshold: " << static_cast<itk::NumericTraits<InputPixelType>::PrintType>(upper)
                 << std::endl;
