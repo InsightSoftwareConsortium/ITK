@@ -12,6 +12,7 @@ itkGrayscaleFunctionErodeImageFilterTest.cxx
 itkGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkGrayscaleGeodesicErodeDilateImageFilterTest.cxx
+itkGrayscaleGrindPeakImageFilterTest.cxx
 itkHConcaveImageFilterTest.cxx
 itkHConvexImageFilterTest.cxx
 itkHConvexConcaveImageFilterTest.cxx
@@ -136,6 +137,11 @@ itk_add_test(NAME itkGrayscaleGeodesicErodeDilateImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png
     itkGrayscaleGeodesicErodeDilateImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png 35)
+itk_add_test(NAME itkGrayscaleGrindPeakImageFilterTest
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkGrayscaleGrindPeakImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGrindPeakImageFilterTest.png
+    itkGrayscaleGrindPeakImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGrindPeakImageFilterTest.png 0)
 itk_add_test(NAME itkHConcaveImageFilterTestFullyConnectedOff
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOff.png
