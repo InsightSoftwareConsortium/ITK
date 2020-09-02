@@ -18,6 +18,7 @@
 
 #include "itkRandomImageSource.h"
 #include "itkThresholdImageFilter.h"
+#include "itkTestingMacros.h"
 #include "itkTextOutput.h"
 
 #include <sstream>
@@ -53,6 +54,9 @@ itkThresholdImageFilterTest(int, char *[])
   {
     itk::ThresholdImageFilter<FloatImage2DType>::Pointer threshold;
     threshold = itk::ThresholdImageFilter<FloatImage2DType>::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(threshold, ThresholdImageFilter, InPlaceImageFilter);
+
     threshold->SetInput(random->GetOutput());
 
     // Exercise threshold setting functions
@@ -140,7 +144,9 @@ itkThresholdImageFilterTest(int, char *[])
   // Test #4, threshold values
   itk::OutputWindow::GetInstance()->DisplayText("Test #4: threshold values  -----------------");
   {
-    using IntImage1DType = itk::Image<int, 1>;
+    using PixelType = int;
+
+    using IntImage1DType = itk::Image<PixelType, 1>;
     IntImage1DType::Pointer          input = IntImage1DType::New();
     IntImage1DType::SpacingValueType inputSpacing[1] = { 0.7 };
     input->SetSpacing(inputSpacing);
@@ -152,18 +158,28 @@ itkThresholdImageFilterTest(int, char *[])
     input->SetRegions(inputRegion);
     input->Allocate();
     // The inputValue can be any random value.
-    int inputValue = 9;
+    PixelType inputValue = 9;
     input->FillBuffer(inputValue);
 
     itk::ThresholdImageFilter<IntImage1DType>::Pointer threshold;
     threshold = itk::ThresholdImageFilter<IntImage1DType>::New();
+
     threshold->SetInput(input);
-    int outsideValue = 99;
+    PixelType outsideValue = 99;
     threshold->SetOutsideValue(outsideValue);
+    ITK_TEST_SET_GET_VALUE(outsideValue, threshold->GetOutsideValue());
     IntImage1DType::IndexType index;
     index.Fill(0);
 
-    int outputValue;
+    PixelType lower = itk::NumericTraits<PixelType>::NonpositiveMin();
+    threshold->SetLower(lower);
+    ITK_TEST_SET_GET_VALUE(lower, threshold->GetLower());
+
+    PixelType upper = itk::NumericTraits<PixelType>::max();
+    threshold->SetUpper(upper);
+    ITK_TEST_SET_GET_VALUE(upper, threshold->GetUpper());
+
+    PixelType outputValue;
     // Above inputValue-1
     threshold->ThresholdAbove(inputValue - 1);
     threshold->Update();
