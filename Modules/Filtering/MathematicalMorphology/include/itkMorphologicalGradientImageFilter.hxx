@@ -35,7 +35,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::Morphologi
   m_AnchorErodeFilter = AnchorErodeFilterType::New();
   m_VanHerkGilWermanDilateFilter = VHGWDilateFilterType::New();
   m_VanHerkGilWermanErodeFilter = VHGWErodeFilterType::New();
-  m_Algorithm = HISTO;
+  m_Algorithm = AlgorithmEnum::HISTO;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>
@@ -48,13 +48,13 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(
   {
     m_AnchorDilateFilter->SetKernel(*flatKernel);
     m_AnchorErodeFilter->SetKernel(*flatKernel);
-    m_Algorithm = ANCHOR;
+    m_Algorithm = AlgorithmEnum::ANCHOR;
   }
   else if (m_HistogramFilter->GetUseVectorBasedAlgorithm())
   {
     // histogram based filter is as least as good as the basic one, so always
     // use it
-    m_Algorithm = HISTO;
+    m_Algorithm = AlgorithmEnum::HISTO;
     m_HistogramFilter->SetKernel(kernel);
   }
   else
@@ -71,11 +71,11 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(
     {
       m_BasicDilateFilter->SetKernel(kernel);
       m_BasicErodeFilter->SetKernel(kernel);
-      m_Algorithm = BASIC;
+      m_Algorithm = AlgorithmEnum::BASIC;
     }
     else
     {
-      m_Algorithm = HISTO;
+      m_Algorithm = AlgorithmEnum::HISTO;
     }
   }
 
@@ -84,27 +84,27 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(int algo)
+MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(AlgorithmEnum algo)
 {
   const auto * flatKernel = dynamic_cast<const FlatKernelType *>(&this->GetKernel());
 
   if (m_Algorithm != algo)
   {
-    if (algo == BASIC)
+    if (algo == AlgorithmEnum::BASIC)
     {
       m_BasicDilateFilter->SetKernel(this->GetKernel());
       m_BasicErodeFilter->SetKernel(this->GetKernel());
     }
-    else if (algo == HISTO)
+    else if (algo == AlgorithmEnum::HISTO)
     {
       m_HistogramFilter->SetKernel(this->GetKernel());
     }
-    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == ANCHOR)
+    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == AlgorithmEnum::ANCHOR)
     {
       m_AnchorDilateFilter->SetKernel(*flatKernel);
       m_AnchorErodeFilter->SetKernel(*flatKernel);
     }
-    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == VHGW)
+    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == AlgorithmEnum::VHGW)
     {
       m_VanHerkGilWermanDilateFilter->SetKernel(*flatKernel);
       m_VanHerkGilWermanErodeFilter->SetKernel(*flatKernel);
@@ -132,7 +132,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
   this->AllocateOutputs();
 
   // Delegate to a dilate filter.
-  if (m_Algorithm == BASIC)
+  if (m_Algorithm == AlgorithmEnum::BASIC)
   {
     // Use itk::BasicDilateImageFilter
     m_BasicDilateFilter->SetInput(this->GetInput());
@@ -150,7 +150,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
     sub->Update();
     this->GraftOutput(sub->GetOutput());
   }
-  else if (m_Algorithm == HISTO)
+  else if (m_Algorithm == AlgorithmEnum::HISTO)
   {
     // Use itk::MovingHistogramDilateImageFilter
     m_HistogramFilter->SetInput(this->GetInput());
@@ -160,7 +160,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
     m_HistogramFilter->Update();
     this->GraftOutput(m_HistogramFilter->GetOutput());
   }
-  else if (m_Algorithm == ANCHOR)
+  else if (m_Algorithm == AlgorithmEnum::ANCHOR)
   {
     // Use itk::AnchorDilateImageFilter
     m_AnchorDilateFilter->SetInput(this->GetInput());
@@ -178,7 +178,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
     sub->Update();
     this->GraftOutput(sub->GetOutput());
   }
-  else if (m_Algorithm == VHGW)
+  else if (m_Algorithm == AlgorithmEnum::VHGW)
   {
     // Use itk::VanHerkGilWermanDilateImageFilter
     m_VanHerkGilWermanDilateFilter->SetInput(this->GetInput());

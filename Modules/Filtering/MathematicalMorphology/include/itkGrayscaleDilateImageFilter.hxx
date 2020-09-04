@@ -32,7 +32,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GrayscaleDilateI
   m_HistogramFilter = HistogramFilterType::New();
   m_AnchorFilter = AnchorFilterType::New();
   m_VHGWFilter = VHGWFilterType::New();
-  m_Algorithm = HISTO;
+  m_Algorithm = AlgorithmEnum::HISTO;
 
   this->SetBoundary(NumericTraits<PixelType>::NonpositiveMin());
 }
@@ -57,13 +57,13 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(const 
   if (flatKernel != nullptr && flatKernel->GetDecomposable())
   {
     m_AnchorFilter->SetKernel(*flatKernel);
-    m_Algorithm = ANCHOR;
+    m_Algorithm = AlgorithmEnum::ANCHOR;
   }
   else if (m_HistogramFilter->GetUseVectorBasedAlgorithm())
   {
     // histogram based filter is as least as good as the basic one, so always
     // use it
-    m_Algorithm = HISTO;
+    m_Algorithm = AlgorithmEnum::HISTO;
     m_HistogramFilter->SetKernel(kernel);
   }
   else
@@ -80,11 +80,11 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(const 
         (ImageDimension == 3 && this->GetKernel().Size() < m_HistogramFilter->GetPixelsPerTranslation() * 4.5))
     {
       m_BasicFilter->SetKernel(kernel);
-      m_Algorithm = BASIC;
+      m_Algorithm = AlgorithmEnum::BASIC;
     }
     else
     {
-      m_Algorithm = HISTO;
+      m_Algorithm = AlgorithmEnum::HISTO;
     }
   }
 
@@ -105,25 +105,25 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::SetBoundary(cons
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
-GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(int algo)
+GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(AlgorithmEnum algo)
 {
   const auto * flatKernel = dynamic_cast<const FlatKernelType *>(&this->GetKernel());
 
   if (m_Algorithm != algo)
   {
-    if (algo == BASIC)
+    if (algo == AlgorithmEnum::BASIC)
     {
       m_BasicFilter->SetKernel(this->GetKernel());
     }
-    else if (algo == HISTO)
+    else if (algo == AlgorithmEnum::HISTO)
     {
       m_HistogramFilter->SetKernel(this->GetKernel());
     }
-    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == ANCHOR)
+    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == AlgorithmEnum::ANCHOR)
     {
       m_AnchorFilter->SetKernel(*flatKernel);
     }
-    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == VHGW)
+    else if (flatKernel != nullptr && flatKernel->GetDecomposable() && algo == AlgorithmEnum::VHGW)
     {
       m_VHGWFilter->SetKernel(*flatKernel);
     }
@@ -150,7 +150,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   this->AllocateOutputs();
 
   // Delegate to the appropriate dilation filter
-  if (m_Algorithm == BASIC)
+  if (m_Algorithm == AlgorithmEnum::BASIC)
   {
     itkDebugMacro("Running BasicDilateImageFilter");
     m_BasicFilter->SetInput(this->GetInput());
@@ -160,7 +160,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
     m_BasicFilter->Update();
     this->GraftOutput(m_BasicFilter->GetOutput());
   }
-  else if (m_Algorithm == HISTO)
+  else if (m_Algorithm == AlgorithmEnum::HISTO)
   {
     itkDebugMacro("Running MovingHistogramDilateImageFilter");
     m_HistogramFilter->SetInput(this->GetInput());
@@ -170,7 +170,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
     m_HistogramFilter->Update();
     this->GraftOutput(m_HistogramFilter->GetOutput());
   }
-  else if (m_Algorithm == ANCHOR)
+  else if (m_Algorithm == AlgorithmEnum::ANCHOR)
   {
     itkDebugMacro("Running AnchorDilateImageFilter");
     m_AnchorFilter->SetInput(this->GetInput());
@@ -184,7 +184,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
     cast->Update();
     this->GraftOutput(cast->GetOutput());
   }
-  else if (m_Algorithm == VHGW)
+  else if (m_Algorithm == AlgorithmEnum::VHGW)
   {
     itkDebugMacro("Running VanHerkGilWermanDilateImageFilter");
     m_VHGWFilter->SetInput(this->GetInput());

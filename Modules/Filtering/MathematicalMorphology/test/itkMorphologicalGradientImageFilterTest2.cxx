@@ -53,7 +53,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   gradient->SetKernel(structuringElement);
   itk::SimpleFilterWatcher watcher(gradient);
 
-  const int algorithmType = gradient->GetAlgorithm();
+  const GradientType::AlgorithmEnum algorithmType = gradient->GetAlgorithm();
   std::cout << "algorithmType : " << algorithmType << std::endl;
 
   using WriterType = itk::ImageFileWriter<IType>;
@@ -75,9 +75,9 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   try
   {
     structuringElement.SetRadius(4);
-    gradient->SetAlgorithm(0);
+    gradient->SetAlgorithm(GradientType::AlgorithmEnum::BASIC);
     gradient->Update();
-    const int algorithmType1 = gradient->GetAlgorithm();
+    const GradientType::AlgorithmEnum algorithmType1 = gradient->GetAlgorithm();
     std::cout << "algorithmType1 : " << algorithmType1 << std::endl;
   }
   catch (const itk::ExceptionObject & e)
@@ -96,14 +96,14 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
     Gradient1Type::Pointer gradient1 = Gradient1Type::New();
     gradient1->SetInput(reader->GetOutput());
     gradient1->SetKernel(structuringElement2);
-    gradient1->SetAlgorithm(3);
+    gradient1->SetAlgorithm(GradientType::AlgorithmEnum::VHGW);
     gradient1->Update();
-    const int algorithmType2 = gradient1->GetAlgorithm();
+    const GradientType::AlgorithmEnum algorithmType2 = gradient1->GetAlgorithm();
     std::cout << "algorithmType : " << algorithmType2 << std::endl;
 
-    gradient1->SetAlgorithm(2);
+    gradient1->SetAlgorithm(GradientType::AlgorithmEnum::ANCHOR);
     gradient1->Update();
-    const int algorithmType3 = gradient1->GetAlgorithm();
+    const GradientType::AlgorithmEnum algorithmType3 = gradient1->GetAlgorithm();
     std::cout << "algorithmType : " << algorithmType3 << std::endl;
   }
   catch (const itk::ExceptionObject & e)
