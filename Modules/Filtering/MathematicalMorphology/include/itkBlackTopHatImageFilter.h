@@ -19,6 +19,7 @@
 #define itkBlackTopHatImageFilter_h
 
 #include "itkKernelImageFilter.h"
+#include "itkMathematicalMorphologyEnums.h"
 
 namespace itk
 {
@@ -69,6 +70,19 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
+  using AlgorithmEnum = MathematicalMorphologyEnums::Algorithm;
+
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Backwards compatibility for enum values */
+  using AlgorithmType = AlgorithmEnum;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr AlgorithmType BASIC = AlgorithmEnum::BASIC;
+  static constexpr AlgorithmType HISTO = AlgorithmEnum::HISTO;
+  static constexpr AlgorithmType ANCHOR = AlgorithmEnum::ANCHOR;
+  static constexpr AlgorithmType VHGW = AlgorithmEnum::VHGW;
+#endif
+
   /** Standard New method. */
   itkNewMacro(Self);
 
@@ -81,18 +95,9 @@ public:
   itkGetConstReferenceMacro(SafeBorder, bool);
   itkBooleanMacro(SafeBorder);
 
-  /** define values used to determine which algorithm to use */
-  enum AlgorithmType
-  {
-    BASIC = 0,
-    HISTO = 1,
-    ANCHOR = 2,
-    VHGW = 3
-  };
-
   /** Set/Get the backend filter class. */
-  itkSetMacro(Algorithm, int);
-  itkGetConstMacro(Algorithm, int);
+  itkSetMacro(Algorithm, AlgorithmEnum);
+  itkGetConstMacro(Algorithm, AlgorithmEnum);
 
   itkSetMacro(ForceAlgorithm, bool);
   itkGetConstReferenceMacro(ForceAlgorithm, bool);
@@ -110,7 +115,7 @@ protected:
 private:
   bool m_SafeBorder;
 
-  int m_Algorithm;
+  AlgorithmEnum m_Algorithm;
 
   bool m_ForceAlgorithm;
 }; // end of class

@@ -18,6 +18,7 @@
 
 #include "itkBlackTopHatImageFilter.h"
 #include "itkWhiteTopHatImageFilter.h"
+#include "itkMathematicalMorphologyEnums.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkImageFileReader.h"
@@ -27,13 +28,13 @@
 
 template <typename TKernelImageFilter>
 int
-itkTopHatImageFilterTestHelper(TKernelImageFilter *                    filter,
-                               typename TKernelImageFilter::KernelType ball,
-                               const bool                              safeBorder,
-                               const int                               algorithm,
-                               const bool                              forceAlgorithm,
-                               const char *                            inputFileName,
-                               const char *                            outputFileName)
+itkTopHatImageFilterTestHelper(TKernelImageFilter *                              filter,
+                               typename TKernelImageFilter::KernelType           ball,
+                               const bool                                        safeBorder,
+                               const itk::MathematicalMorphologyEnums::Algorithm algorithm,
+                               const bool                                        forceAlgorithm,
+                               const char *                                      inputFileName,
+                               const char *                                      outputFileName)
 {
   // Declare the reader and writer
   using ReaderType = itk::ImageFileReader<typename TKernelImageFilter::InputImageType>;
@@ -112,9 +113,9 @@ itkTopHatImageFilterTest(int argc, char * argv[])
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 
-  auto safeBorder = static_cast<bool>(std::stoi(argv[5]));
-  int  algorithm;
-  auto forceAlgorithm = static_cast<bool>(std::stoi(argv[7]));
+  auto                                        safeBorder = static_cast<bool>(std::stoi(argv[5]));
+  itk::MathematicalMorphologyEnums::Algorithm algorithm;
+  auto                                        forceAlgorithm = static_cast<bool>(std::stoi(argv[7]));
 
   switch (std::stoi(argv[3]))
   {
@@ -127,7 +128,7 @@ itkTopHatImageFilterTest(int argc, char * argv[])
       ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BlackTopHatImageFilter, KernelImageFilter);
 
 
-      algorithm = static_cast<BlackFilterType::AlgorithmType>(std::stoi(argv[6]));
+      algorithm = static_cast<BlackFilterType::AlgorithmEnum>(std::stoi(argv[6]));
       return itkTopHatImageFilterTestHelper<BlackFilterType>(
         filter, ball, safeBorder, algorithm, forceAlgorithm, inputFileName, outputFileName);
 
@@ -142,7 +143,7 @@ itkTopHatImageFilterTest(int argc, char * argv[])
       ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, WhiteTopHatImageFilter, KernelImageFilter);
 
 
-      algorithm = static_cast<WhiteFilterType::AlgorithmType>(std::stoi(argv[6]));
+      algorithm = static_cast<WhiteFilterType::AlgorithmEnum>(std::stoi(argv[6]));
       return itkTopHatImageFilterTestHelper<WhiteFilterType>(
         filter, ball, safeBorder, algorithm, forceAlgorithm, inputFileName, outputFileName);
 

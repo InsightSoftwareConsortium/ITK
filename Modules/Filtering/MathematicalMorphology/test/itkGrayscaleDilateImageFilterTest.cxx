@@ -62,7 +62,7 @@ itkGrayscaleDilateImageFilterTest(int ac, char * av[])
     return EXIT_FAILURE;
   }
 
-  if (filter->GetAlgorithm() != FilterType::HISTO)
+  if (filter->GetAlgorithm() != FilterType::AlgorithmEnum::HISTO)
   {
     std::cerr << "Wrong default algorithm." << std::endl;
     return EXIT_FAILURE;
@@ -76,19 +76,19 @@ itkGrayscaleDilateImageFilterTest(int ac, char * av[])
     WriterType::Pointer writer = WriterType::New();
     writer->SetInput(filter->GetOutput());
 
-    filter->SetAlgorithm(FilterType::BASIC);
+    filter->SetAlgorithm(FilterType::AlgorithmEnum::BASIC);
     writer->SetFileName(av[2]);
     writer->Update();
 
-    filter->SetAlgorithm(FilterType::HISTO);
+    filter->SetAlgorithm(FilterType::AlgorithmEnum::HISTO);
     writer->SetFileName(av[3]);
     writer->Update();
 
-    filter->SetAlgorithm(FilterType::ANCHOR);
+    filter->SetAlgorithm(FilterType::AlgorithmEnum::ANCHOR);
     writer->SetFileName(av[4]);
     writer->Update();
 
-    filter->SetAlgorithm(FilterType::VHGW);
+    filter->SetAlgorithm(FilterType::AlgorithmEnum::VHGW);
     writer->SetFileName(av[5]);
     writer->Update();
   }
