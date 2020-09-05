@@ -140,16 +140,6 @@ public:
   itkGetConstReferenceMacro(ApplyUpdateTime, TimeProbe);
   itkGetConstReferenceMacro(SmoothFieldTime, TimeProbe);
 
-  /** Set/Get the maximum error allowed in the solution.  This may not be
-      defined for all solvers and its meaning may change with the application. */
-  itkSetMacro(MaximumRMSError, double);
-  itkGetConstReferenceMacro(MaximumRMSError, double);
-
-  /** Set/Get the root mean squared change of the previous iteration. May not
-      be used by all solvers. */
-  itkSetMacro(RMSChange, double);
-  itkGetConstReferenceMacro(RMSChange, double);
-
 protected:
   GPUFiniteDifferenceImageFilter();
   ~GPUFiniteDifferenceImageFilter() override;
@@ -262,21 +252,6 @@ protected:
   void
   PostProcessOutput() override
   {}
-
-  /** The maximum number of iterations this filter will run */
-
-  // unsigned int m_NumberOfIterations;
-
-  /** A counter for keeping track of the number of elapsed
-      iterations during filtering. */
-  // unsigned int m_ElapsedIterations;
-
-  /** Indicates whether the filter automatically resets to UNINITIALIZED state
-      after completing, or whether filter must be manually reset */
-  bool m_ManualReinitialization;
-
-  double m_RMSChange;
-  double m_MaximumRMSError;
 
   /** Timers for statistics */
   TimeProbe m_InitTime, m_ComputeUpdateTime, m_ApplyUpdateTime, m_SmoothFieldTime;

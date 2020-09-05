@@ -21,6 +21,8 @@ itk_add_test(
       DATA{Input/frame3.jpg}
       DATA{Input/frame4.jpg}
       "${ITK_TEST_OUTPUT_DIR}/frame0.png,${ITK_TEST_OUTPUT_DIR}/frame1.png,${ITK_TEST_OUTPUT_DIR}/frame2.png,${ITK_TEST_OUTPUT_DIR}/frame3.png,${ITK_TEST_OUTPUT_DIR}/frame4.png"
+      24
+      MP42
     )
 
 

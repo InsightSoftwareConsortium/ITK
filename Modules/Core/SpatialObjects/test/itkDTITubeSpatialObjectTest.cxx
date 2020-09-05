@@ -430,7 +430,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
 
   // Testing ComputeTangentAndNormals();
   std::cout << "ComputeTangentAndNormals: ";
-  tube1->ComputeTangentAndNormals();
+  tube1->ComputeTangentsAndNormals();
 
   TubePointType::VectorType t = static_cast<const TubePointType *>(tube1->GetPoint(1))->GetTangentInWorldSpace();
   TubePointType::CovariantVectorType n1 =

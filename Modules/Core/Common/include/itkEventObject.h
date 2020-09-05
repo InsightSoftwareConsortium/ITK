@@ -125,15 +125,15 @@ operator<<(std::ostream & os, const EventObject & e)
   public:                                                                                                              \
     using Self = classname;                                                                                            \
     using Superclass = super;                                                                                          \
-    classname();                                                                                                       \
+    classname() = default;                                                                                             \
     classname(const Self & s);                                                                                         \
-    virtual ~classname();                                                                                              \
+    virtual ~classname() override;                                                                                     \
     virtual const char *                                                                                               \
-    GetEventName() const;                                                                                              \
+    GetEventName() const override;                                                                                     \
     virtual bool                                                                                                       \
-    CheckEvent(const ::itk::EventObject * e) const;                                                                    \
+    CheckEvent(const ::itk::EventObject * e) const override;                                                           \
     virtual ::itk::EventObject *                                                                                       \
-    MakeObject() const;                                                                                                \
+    MakeObject() const override;                                                                                       \
                                                                                                                        \
   private:                                                                                                             \
     void                                                                                                               \
@@ -141,7 +141,6 @@ operator<<(std::ostream & os, const EventObject & e)
   };
 
 #define itkEventMacroDefinition(classname, super)                                                                      \
-  classname::classname() {}                                                                                            \
   classname::classname(const classname & s)                                                                            \
     : super(s){};                                                                                                      \
   classname::~classname() {}                                                                                           \

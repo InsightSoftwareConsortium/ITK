@@ -26,9 +26,12 @@ int
 itkVideoFileReaderWriterTest(int argc, char * argv[])
 {
   // Check parameters
-  if (argc != 7)
+  if (argc != 9)
   {
-    std::cerr << "Usage: [Video Input] [Image Output]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " [Video Input] [Image Output] framesPerSecond fourCC"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -65,10 +68,21 @@ itkVideoFileReaderWriterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(writer, VideoFileWriter, TemporalProcessObject);
 
   writer->SetInput(reader->GetOutput());
-  writer->SetFileName(argv[6]);
+  writer->SetFileName(std::string(argv[6]));
+  ITK_TEST_SET_GET_VALUE(std::string(argv[6]), writer->GetFileName());
+
+  auto framesPerSecond = static_cast<VideoWriterType::TemporalRatioType>(std::stod(argv[7]));
+  writer->SetFramesPerSecond(framesPerSecond);
+  ITK_TEST_SET_GET_VALUE(framesPerSecond, writer->GetFramesPerSecond());
+
+  auto fourCC = std::string(argv[8]);
+  writer->SetFourCC(fourCC);
+  ITK_TEST_SET_GET_VALUE(fourCC, writer->GetFourCC());
 
   // Call Update on the writer to process the entire video
-  writer->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

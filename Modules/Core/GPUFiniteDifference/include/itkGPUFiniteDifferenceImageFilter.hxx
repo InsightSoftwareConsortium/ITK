@@ -29,13 +29,8 @@ template <typename TInputImage, typename TOutputImage, typename TParentImageFilt
 GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUFiniteDifferenceImageFilter()
 {
   m_UseImageSpacing = false;
-  this->m_ElapsedIterations = 0;
   m_DifferenceFunction = nullptr;
-  this->m_NumberOfIterations = NumericTraits<unsigned int>::max();
-  m_MaximumRMSError = 0.0;
-  m_RMSChange = 0.0;
   m_State = GPUFiniteDifferenceFilterEnum::UNINITIALIZED;
-  m_ManualReinitialization = false;
   this->InPlaceOff();
 }
 
@@ -110,7 +105,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::G
     }
   }
 
-  if (m_ManualReinitialization == false)
+  if (this->GetManualReinitialization() == false)
   {
     this->SetStateToUninitialized(); // Reset the state once execution is
                                      // completed
@@ -300,14 +295,10 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::P
                                                                                          Indent         indent) const
 {
   GPUSuperclass::PrintSelf(os, indent);
+  CPUSuperclass::PrintSelf(os, indent);
   /*
-    os << indent << "ElapsedIterations: " << this->m_ElapsedIterations << std::endl;
     os << indent << "UseImageSpacing: " << ( m_UseImageSpacing ? "On" : "Off" ) << std::endl;
     os << indent << "State: " << m_State << std::endl;
-    os << indent << "MaximumRMSError: " << m_MaximumRMSError << std::endl;
-    os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
-    os << indent << "ManualReinitialization: " << m_ManualReinitialization << std::endl;
-    os << indent << "RMSChange: " << m_RMSChange << std::endl;
     os << std::endl;
     if ( m_DifferenceFunction )
       {
