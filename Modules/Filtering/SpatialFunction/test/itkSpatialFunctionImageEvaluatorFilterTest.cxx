@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-
-// Native ITK stuff
-
-// Spatial function stuff
 #include "itkGaussianSpatialFunction.h"
 #include "itkSpatialFunctionImageEvaluatorFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
@@ -31,7 +28,7 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
   // Image typedef
   using ImageType = itk::Image<unsigned char, dim>;
 
-  //-----------------Create a new input image--------------------
+  // Create a new input image
   // Image size and spacing parameters
   ImageType::SizeValueType    sourceImageSize[] = { 20, 20, 20 };
   ImageType::SpacingValueType sourceImageSpacing[] = { 1.0, 1.0, 1.0 };
@@ -61,17 +58,21 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
 
   // Create and initialize a new Gaussian function
   using FunctionType = itk::GaussianSpatialFunction<char, dim>;
-  FunctionType::Pointer pFunc = FunctionType::New();
+  FunctionType::Pointer func = FunctionType::New();
 
   // Run the image evaluator filter
   using TFilter = itk::SpatialFunctionImageEvaluatorFilter<FunctionType, ImageType, ImageType>;
-  TFilter::Pointer pFilter = TFilter::New();
+  TFilter::Pointer filter = TFilter::New();
 
-  pFilter->SetInput(sourceImage);
-  pFilter->SetFunction(pFunc);
-  ImageType::Pointer outputImage = pFilter->GetOutput();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SpatialFunctionImageEvaluatorFilter, ImageToImageFilter);
 
-  pFilter->Update();
 
+  filter->SetInput(sourceImage);
+  filter->SetFunction(func);
+  ImageType::Pointer outputImage = filter->GetOutput();
+
+  filter->Update();
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
