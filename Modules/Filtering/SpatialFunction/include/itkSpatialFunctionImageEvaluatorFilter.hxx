@@ -69,6 +69,17 @@ SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>
 
   itkDebugMacro(<< "SpatialFunctionImageEvaluatorFilter::GenerateData() finished");
 }
+
+template <typename TSpatialFunction, typename TInputImage, typename TOutputImage>
+void
+SpatialFunctionImageEvaluatorFilter<TSpatialFunction, TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
+                                                                                            Indent         indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "PixelFunction: " << m_PixelFunction << std::endl;
+}
+
 } // namespace itk
 
 #endif

@@ -96,6 +96,9 @@ protected:
   void
   GenerateData() override;
 
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
 private:
   /** The function that will be evaluated over the image */
   FunctionType * m_PixelFunction;
