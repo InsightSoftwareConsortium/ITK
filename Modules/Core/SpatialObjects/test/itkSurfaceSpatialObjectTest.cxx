@@ -17,10 +17,6 @@
  *=========================================================================*/
 // Disable warning for long symbol names in this file only
 
-/**
- * This is a test file for the itkSurfaceSpatialObject class.
- */
-
 #include "itkTestingMacros.h"
 #include "itkSurfaceSpatialObject.h"
 #include "itkMath.h"
@@ -160,48 +156,49 @@ itkSurfaceSpatialObjectTest(int, char *[])
 
   // Test Copy and Assignment for SurfacePointType
   {
-    SurfacePointType p_original;
+    SurfacePointType pOriginal;
 
     // itk::SpatialObjectPoint
-    p_original.SetId(250);
-    p_original.SetColor(0.5, 0.4, 0.3, 0.2);
-    p_original.SetPositionInObjectSpace(42, 41, 43);
+    pOriginal.SetId(250);
+    pOriginal.SetColor(0.5, 0.4, 0.3, 0.2);
+    pOriginal.SetPositionInObjectSpace(42, 41, 43);
 
     // itk::SurfaceSpatialObjectPoint
     VectorType normal;
     normal.Fill(276);
-    p_original.SetNormalInObjectSpace(normal);
+    pOriginal.SetNormalInObjectSpace(normal);
 
     // Copy
-    SurfacePointType p_copy(p_original);
+    SurfacePointType pCopy(pOriginal);
     // Assign
-    SurfacePointType p_assign = p_original;
+    SurfacePointType pAssign = pOriginal;
 
-    std::vector<SurfacePointType> point_vector;
-    point_vector.push_back(p_copy);
-    point_vector.push_back(p_assign);
+    std::vector<SurfacePointType> pointVector;
+    pointVector.push_back(pCopy);
+    pointVector.push_back(pAssign);
 
-    for (const auto & pv : point_vector)
+    for (const auto & pv : pointVector)
     {
       // itk::SpatialObjectPoint
-      ITK_TEST_EXPECT_EQUAL(p_original.GetId(), pv.GetId());
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRed(), pv.GetRed()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetGreen(), pv.GetGreen()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBlue(), pv.GetBlue()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha(), pv.GetAlpha()));
+      ITK_TEST_EXPECT_EQUAL(pOriginal.GetId(), pv.GetId());
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetRed(), pv.GetRed()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetGreen(), pv.GetGreen()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetBlue(), pv.GetBlue()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetAlpha(), pv.GetAlpha()));
       for (size_t j = 0; j < 3; ++j)
       {
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
       }
       // itk::SurfaceSpatialObjectPoint
       for (size_t j = 0; j < 3; ++j)
       {
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetNormalInObjectSpace()[j], pv.GetNormalInObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetNormalInObjectSpace()[j], pv.GetNormalInObjectSpace()[j]));
       }
     }
   }
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkMetaSceneConverter.h"
+#include "itkTestingMacros.h"
 
 /**
  *\class MetaDummy
@@ -239,6 +240,10 @@ itkNewMetaObjectTypeTest(int, char *[])
   DummyConverterType::Pointer dummyConverter(DummyConverterType::New());
 
   MetaSceneConverterType::Pointer converter = MetaSceneConverterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(converter, MetaSceneConverter, Object);
+
+
   converter->RegisterMetaConverter("Dummy", "DummySpatialObject", dummyConverter);
 
   MetaScene * metaScene = converter->CreateMetaScene(group);
@@ -294,5 +299,8 @@ itkNewMetaObjectTypeTest(int, char *[])
   }
   delete mySceneChildren;
   delete metaScene;
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

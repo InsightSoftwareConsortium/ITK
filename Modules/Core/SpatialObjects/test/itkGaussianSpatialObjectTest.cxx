@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-/**
- * This is a test file for the itkGaussianSpatialObject class.
- */
-
 #include "itkGaussianSpatialObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkGaussianSpatialObjectTest(int, char *[])
@@ -29,37 +26,20 @@ itkGaussianSpatialObjectTest(int, char *[])
   using GaussianType = itk::GaussianSpatialObject<4>;
 
   GaussianType::Pointer myGaussian = GaussianType::New();
-  myGaussian->Print(std::cout);
 
-  myGaussian->SetMaximum(2);
-  GaussianType::ScalarType maximum = myGaussian->GetMaximum();
-  std::cout << "Testing Maximum: ";
-  if (itk::Math::NotExactlyEquals(maximum, 2))
-  {
-    std::cout << "[FAILURE]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED]" << std::endl;
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(myGaussian, GaussianSpatialObject, SpatialObject);
 
-  myGaussian->SetRadiusInObjectSpace(3);
-  GaussianType::ScalarType radius = myGaussian->GetRadiusInObjectSpace();
-  std::cout << "Testing Radius: ";
-  if (itk::Math::NotExactlyEquals(radius, 3))
-  {
-    std::cout << "[FAILURE]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED]" << std::endl;
+  GaussianType::ScalarType maximum = 2;
+  myGaussian->SetMaximum(maximum);
+  ITK_TEST_SET_GET_VALUE(maximum, myGaussian->GetMaximum());
 
-  myGaussian->SetSigmaInObjectSpace(1.5);
-  GaussianType::ScalarType sigma = myGaussian->GetSigmaInObjectSpace();
-  std::cout << "Testing Sigma: ";
-  if (sigma != 1.5)
-  {
-    std::cout << "[FAILURE]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED]" << std::endl;
+  GaussianType::ScalarType radius = 3;
+  myGaussian->SetRadiusInObjectSpace(radius);
+  ITK_TEST_SET_GET_VALUE(radius, myGaussian->GetRadiusInObjectSpace());
+
+  GaussianType::ScalarType sigma = 1.5;
+  myGaussian->SetSigmaInObjectSpace(sigma);
+  ITK_TEST_SET_GET_VALUE(sigma, myGaussian->GetSigmaInObjectSpace());
 
   // Point consistency
 
@@ -164,8 +144,7 @@ itkGaussianSpatialObjectTest(int, char *[])
     }
   }
 
-  myGaussian->Print(std::cout);
 
-  std::cout << "[PASSED]" << std::endl;
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -53,6 +53,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pointSetFilter, SpatialObjectToPointSetFilter, MeshSource);
 
+
   unsigned int childrenDepth = 0;
   pointSetFilter->SetChildrenDepth(childrenDepth);
   ITK_TEST_SET_GET_VALUE(childrenDepth, pointSetFilter->GetChildrenDepth());
@@ -198,7 +199,6 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   std::cout << "[PASSED]" << std::endl;
 
 
-  std::cout << "[PASSED]" << std::endl;
-
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

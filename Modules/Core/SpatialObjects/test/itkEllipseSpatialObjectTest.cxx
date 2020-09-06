@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-/**
- * This is a test file for the itkEllipseSpatialObject class.
- */
-
 #include "itkEllipseSpatialObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkEllipseSpatialObjectTest(int, char *[])
@@ -29,8 +26,9 @@ itkEllipseSpatialObjectTest(int, char *[])
   using EllipseType = itk::EllipseSpatialObject<4>;
 
   EllipseType::Pointer myEllipse = EllipseType::New();
-  std::cout << "Testing Print after construction" << std::endl;
-  myEllipse->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(myEllipse, EllipseSpatialObject, SpatialObject);
+
 
   EllipseType::ArrayType radii;
 
@@ -43,31 +41,14 @@ itkEllipseSpatialObjectTest(int, char *[])
 
   myEllipse->SetRadiusInObjectSpace(radii);
   myEllipse->Update();
-  EllipseType::ArrayType radii2 = myEllipse->GetRadiusInObjectSpace();
-  for (unsigned int i = 0; i < 4; i++)
-  {
-    if (itk::Math::NotExactlyEquals(radii2[i], i))
-    {
-      std::cout << "[FAILURE]" << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
-  std::cout << "[PASSED]" << std::endl;
 
-  myEllipse->SetRadiusInObjectSpace(3);
+  ITK_TEST_SET_GET_VALUE(radii, myEllipse->GetRadiusInObjectSpace());
+
+  EllipseType::ArrayType objectSpaceRadius = 3;
+  myEllipse->SetRadiusInObjectSpace(objectSpaceRadius);
   myEllipse->Update();
-  EllipseType::ArrayType radii3 = myEllipse->GetRadiusInObjectSpace();
-  std::cout << "Testing Global radii : ";
-  for (unsigned int i = 0; i < 4; i++)
-  {
-    if (itk::Math::NotExactlyEquals(radii3[i], 3))
-    {
-      std::cout << "[FAILURE]" << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
 
-  std::cout << "[PASSED]" << std::endl;
+  ITK_TEST_SET_GET_VALUE(objectSpaceRadius, myEllipse->GetRadiusInObjectSpace());
 
   // Point consistency
   std::cout << "Is Inside: ";
@@ -144,9 +125,8 @@ itkEllipseSpatialObjectTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
-  std::cout << "Testing Print after use" << std::endl;
-  myEllipse->Print(std::cout);
 
-  std::cout << "[PASSED]" << std::endl;
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

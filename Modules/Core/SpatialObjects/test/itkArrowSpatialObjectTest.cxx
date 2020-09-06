@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-/**
- * This is a test file for the itkArrowSpatialObject class.
- */
-
 #include "itkArrowSpatialObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkArrowSpatialObjectTest(int, char *[])
@@ -29,6 +26,9 @@ itkArrowSpatialObjectTest(int, char *[])
   using ArrowType = itk::ArrowSpatialObject<3>;
 
   ArrowType::Pointer myArrow = ArrowType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(myArrow, ArrowSpatialObject, SpatialObject);
+
 
   // Testing the position
   std::cout << "Testing position : ";
@@ -38,24 +38,14 @@ itkArrowSpatialObjectTest(int, char *[])
   pnt[2] = 0;
   myArrow->SetPositionInObjectSpace(pnt);
   myArrow->Update();
-  if (itk::Math::NotExactlyEquals(myArrow->GetPositionInObjectSpace()[1], 1))
-  {
-    std::cout << "[FAILURE]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED]" << std::endl;
+
+  ITK_TEST_SET_GET_VALUE(pnt, myArrow->GetPositionInObjectSpace());
 
   // Testing the length
   std::cout << "Testing length : ";
-  myArrow->SetLengthInObjectSpace(2);
-  myArrow->Update();
-  if (itk::Math::NotExactlyEquals(myArrow->GetLengthInObjectSpace(), 2))
-  {
-    std::cout << "[FAILURE]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED]" << std::endl;
-
+  double length = 2;
+  myArrow->SetLengthInObjectSpace(length);
+  ITK_TEST_SET_GET_VALUE(length, myArrow->GetLengthInObjectSpace());
 
   // Testing the direction of the arrow
   std::cout << "Testing direction : ";
@@ -67,14 +57,7 @@ itkArrowSpatialObjectTest(int, char *[])
   myArrow->SetDirectionInObjectSpace(direction);
   myArrow->Update();
 
-  if (itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[0], 0) ||
-      itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[1], 1) ||
-      itk::Math::NotExactlyEquals(myArrow->GetDirectionInObjectSpace()[2], 0))
-  {
-    std::cout << "[FAILURE]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED]" << std::endl;
+  ITK_TEST_SET_GET_VALUE(direction, myArrow->GetDirectionInObjectSpace());
 
   // Point consistency
   std::cout << "Is Inside (Inside): ";
@@ -118,10 +101,10 @@ itkArrowSpatialObjectTest(int, char *[])
   std::cout << "Testing 2D Arrow:";
   using Arrow2DType = itk::ArrowSpatialObject<2>;
   Arrow2DType::Pointer myArrow2D = Arrow2DType::New();
-  myArrow2D->Print(std::cout);
 
-  std::cout << "[PASSED]" << std::endl;
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(myArrow2D, ArrowSpatialObject, SpatialObject);
 
-  std::cout << "Test: [DONE]" << std::endl;
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

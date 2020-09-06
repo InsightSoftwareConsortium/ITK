@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-/**
- * This is a test file for the itkBlobSpatialObject class.
- */
-
 #include "itkBlobSpatialObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkBlobSpatialObjectTest(int, char *[])
@@ -63,14 +60,14 @@ itkBlobSpatialObjectTest(int, char *[])
 
   // Create a Blob Spatial Object
   BlobPointer blob = BlobType::New();
-  blob->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(blob, BlobSpatialObject, PointBasedSpatialObject);
+
 
   blob->GetProperty().SetName("Blob 1");
   blob->SetId(1);
   blob->SetPoints(list);
   blob->Update();
-
-  blob->Print(std::cout);
 
   // Number of points
   std::cout << "Testing Consistency: " << std::endl;
@@ -198,5 +195,6 @@ itkBlobSpatialObjectTest(int, char *[])
   std::cout << "[PASSED]" << std::endl;
 
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

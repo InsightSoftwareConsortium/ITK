@@ -19,6 +19,7 @@
 #include "itkGroupSpatialObject.h"
 #include <iostream>
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  * This is a test file for the itkMetaArrowConverter class.
@@ -35,16 +36,16 @@
  *        Only the ParentID can be properly converted.
  */
 int
-itkMetaArrowConverterTest(int ac, char * av[])
+itkMetaArrowConverterTest(int argc, char * argv[])
 {
-
-  // check number of arguments
-  if (ac != 2)
+  // Check parameters
+  if (argc != 2)
   {
-    std::cout << "Must specify output path as argument" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " OutputFileName" << std::endl;
     return EXIT_FAILURE;
   }
-
 
   // type alias
   constexpr unsigned int Dimensions = 3;
@@ -55,6 +56,7 @@ itkMetaArrowConverterTest(int ac, char * av[])
   // instantiate new converter and object
   ConverterType::Pointer converter = ConverterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(converter, MetaArrowConverter, MetaConverterBase);
 
   //
   // create the test data
@@ -290,7 +292,7 @@ itkMetaArrowConverterTest(int ac, char * av[])
   //
   // test writing
   //
-  if (!converter->WriteMeta(itkArrow, av[1]))
+  if (!converter->WriteMeta(itkArrow, argv[1]))
   {
     std::cout << "Didn't write properly [FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -300,7 +302,7 @@ itkMetaArrowConverterTest(int ac, char * av[])
   //
   // test reading
   //
-  SpatialObjectType::Pointer reLoad = dynamic_cast<SpatialObjectType *>(converter->ReadMeta(av[1]).GetPointer());
+  SpatialObjectType::Pointer reLoad = dynamic_cast<SpatialObjectType *>(converter->ReadMeta(argv[1]).GetPointer());
 
   // check length
   if (std::fabs(reLoad->GetLengthInWorldSpace() - length) > precisionLimit)
@@ -361,6 +363,7 @@ itkMetaArrowConverterTest(int ac, char * av[])
   }
   std::cout << "[PASSED]  Reading: direction" << std::endl;
 
-  // All tests executed successfully
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

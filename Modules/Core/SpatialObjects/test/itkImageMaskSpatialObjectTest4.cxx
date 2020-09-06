@@ -298,5 +298,7 @@ itkImageMaskSpatialObjectTest4(int, char *[])
     return EXIT_FAILURE;
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
