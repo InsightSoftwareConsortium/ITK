@@ -54,15 +54,9 @@ itkStandardDeviationProjectionImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
