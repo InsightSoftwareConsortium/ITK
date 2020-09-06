@@ -76,6 +76,7 @@ public:
    */
   itkSetMacro(WriteImagesInSeparateFile, bool);
   itkGetConstMacro(WriteImagesInSeparateFile, bool);
+  itkBooleanMacro(WriteImagesInSeparateFile);
 
 protected:
   MetaConverterBase() = default;
