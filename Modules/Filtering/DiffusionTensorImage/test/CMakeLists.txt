@@ -11,7 +11,7 @@ CreateTestDriver(ITKDiffusionTensorImage  "${ITKDiffusionTensorImage-Test_LIBRAR
 itk_add_test(NAME itkDiffusionTensor3DTest
       COMMAND ITKDiffusionTensorImageTestDriver itkDiffusionTensor3DTest)
 itk_add_test(NAME itkDiffusionTensor3DReconstructionImageFilterTest
-      COMMAND ITKDiffusionTensorImageTestDriver itkDiffusionTensor3DReconstructionImageFilterTest)
+      COMMAND ITKDiffusionTensorImageTestDriver itkDiffusionTensor3DReconstructionImageFilterTest 1.0)
 itk_add_test(NAME itkTensorRelativeAnisotropyImageFilterTest
       COMMAND ITKDiffusionTensorImageTestDriver itkTensorRelativeAnisotropyImageFilterTest)
 itk_add_test(NAME itkTensorFractionalAnisotropyImageFilterTest
