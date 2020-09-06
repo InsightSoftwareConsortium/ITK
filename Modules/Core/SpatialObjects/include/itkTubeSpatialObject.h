@@ -77,6 +77,7 @@ public:
   /** Set the type of tube end-type: false = flat, true = rounded */
   itkSetMacro(EndRounded, bool);
   itkGetConstMacro(EndRounded, bool);
+  itkBooleanMacro(EndRounded);
 
   /** Calculate the normalized tangent */
   bool
@@ -101,6 +102,8 @@ public:
   /** Get a flag for tube which are a "root" of a
    *  tube network in the scene */
   itkGetConstMacro(Root, bool);
+
+  itkBooleanMacro(Root);
 
   /** Returns true if the point is inside the tube, false otherwise. */
   bool
