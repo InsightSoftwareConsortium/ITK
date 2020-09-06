@@ -16,12 +16,9 @@
  *
  *=========================================================================*/
 
-/**
- * This is a test file for the itkLandmarkSpatialObject class.
- */
-
 #include "itkLandmarkSpatialObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkLandmarkSpatialObjectTest(int, char *[])
@@ -56,7 +53,8 @@ itkLandmarkSpatialObjectTest(int, char *[])
 
   // Create a Landmark Spatial Object
   LandmarkPointer landmark = LandmarkType::New();
-  landmark->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(landmark, LandmarkSpatialObject, PointBasedSpatialObject);
 
   landmark->GetProperty().SetName("Landmark 1");
   landmark->SetId(1);
@@ -187,7 +185,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   }
   std::cout << "[PASSED]" << std::endl;
 
-  std::cout << "[DONE]" << std::endl;
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

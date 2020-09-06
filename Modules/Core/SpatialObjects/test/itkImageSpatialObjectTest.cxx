@@ -29,6 +29,7 @@
 
 #include "itkImageSpatialObject.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -68,7 +69,9 @@ itkImageSpatialObjectTest(int, char *[])
   it.GoToBegin();
 
   ImageSpatialObject::Pointer imageSO = ImageSpatialObject::New();
-  imageSO->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(imageSO, ImageSpatialObject, SpatialObject);
+
 
   imageSO->SetImage(image);
   imageSO->Update();
@@ -149,16 +152,12 @@ itkImageSpatialObjectTest(int, char *[])
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   imageSO->SetInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, imageSO->GetInterpolator());
+
   expectedValue = 566.1;
 
-  try
-  {
-    imageSO->ValueAtInWorldSpace(q, returnedValue);
-  }
-  catch (itk::ExceptionObject &)
-  {
-    throw;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(imageSO->ValueAtInWorldSpace(q, returnedValue));
+
 
   std::cout << "ValueAt() with interpolator...";
   if (std::fabs(returnedValue - expectedValue) > 0.001)
@@ -190,7 +189,7 @@ itkImageSpatialObjectTest(int, char *[])
     std::cout << "[PASSED]" << std::endl;
   }
 
-  imageSO->Print(std::cout);
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

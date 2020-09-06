@@ -24,6 +24,7 @@
 #include "itkTestingMacros.h"
 #include "itkTubeSpatialObject.h"
 #include "itkGroupSpatialObject.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -54,6 +55,10 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "Testing SpatialObject:" << std::endl << std::endl;
 
   TubePointer tube1 = TubeType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(tube1, TubeSpatialObject, PointBasedSpatialObject);
+
+
   tube1->GetProperty().SetName("Tube 1");
   tube1->SetId(1);
 
@@ -507,82 +512,84 @@ itkTubeSpatialObjectTest(int, char *[])
 
   // Test Copy and Assignment for TubePointType
   {
-    TubePointType p_original;
+    TubePointType pOriginal;
 
     // itk::SpatialObjectPoint
-    p_original.SetId(250);
-    p_original.SetColor(0.5, 0.4, 0.3, 0.2);
-    p_original.SetPositionInObjectSpace(42, 41, 43);
+    pOriginal.SetId(250);
+    pOriginal.SetColor(0.5, 0.4, 0.3, 0.2);
+    pOriginal.SetPositionInObjectSpace(42, 41, 43);
 
     // itk::TubeSpatialObjectPoint
     TubePointType::VectorType tangent;
+
     tangent.Fill(1);
-    p_original.SetTangentInObjectSpace(tangent);
+    pOriginal.SetTangentInObjectSpace(tangent);
     TubePointType::CovariantVectorType normal1;
     normal1.Fill(2);
-    p_original.SetNormal1InObjectSpace(normal1);
+    pOriginal.SetNormal1InObjectSpace(normal1);
     TubePointType::CovariantVectorType normal2;
     normal2.Fill(3);
-    p_original.SetNormal2InObjectSpace(normal2);
-    p_original.SetRadiusInObjectSpace(1.0);
-    p_original.SetMedialness(2.0);
-    p_original.SetRidgeness(3.0);
-    p_original.SetBranchness(4.0);
-    p_original.SetCurvature(5.0);
-    p_original.SetLevelness(6.0);
-    p_original.SetRoundness(7.0);
-    p_original.SetIntensity(8.0);
-    p_original.SetAlpha1(9.0);
-    p_original.SetAlpha2(10.0);
-    p_original.SetAlpha3(11.0);
+    pOriginal.SetNormal2InObjectSpace(normal2);
+    pOriginal.SetRadiusInObjectSpace(1.0);
+    pOriginal.SetMedialness(2.0);
+    pOriginal.SetRidgeness(3.0);
+    pOriginal.SetBranchness(4.0);
+    pOriginal.SetCurvature(5.0);
+    pOriginal.SetLevelness(6.0);
+    pOriginal.SetRoundness(7.0);
+    pOriginal.SetIntensity(8.0);
+    pOriginal.SetAlpha1(9.0);
+    pOriginal.SetAlpha2(10.0);
+    pOriginal.SetAlpha3(11.0);
 
     // Copy
-    TubePointType p_copy(p_original);
+    TubePointType pCopy(pOriginal);
     // Assign
-    TubePointType p_assign = p_original;
+    TubePointType pAssign = pOriginal;
 
-    std::vector<TubePointType> point_vector;
-    point_vector.push_back(p_copy);
-    point_vector.push_back(p_assign);
+    std::vector<TubePointType> pointVector;
+    pointVector.push_back(pCopy);
+    pointVector.push_back(pAssign);
 
-    for (const auto & pv : point_vector)
+    for (const auto & pv : pointVector)
     {
       // itk::SpatialObjectPoint
-      ITK_TEST_EXPECT_EQUAL(p_original.GetId(), pv.GetId());
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRed(), pv.GetRed()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetGreen(), pv.GetGreen()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBlue(), pv.GetBlue()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha(), pv.GetAlpha()));
+      ITK_TEST_EXPECT_EQUAL(pOriginal.GetId(), pv.GetId());
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetRed(), pv.GetRed()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetGreen(), pv.GetGreen()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetBlue(), pv.GetBlue()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetAlpha(), pv.GetAlpha()));
       for (size_t j = 0; j < 3; ++j)
       {
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
       }
       // itk::TubeSpatialObjectPoint
       for (size_t j = 0; j < 3; ++j)
       {
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetTangentInObjectSpace()[j], pv.GetTangentInObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetTangentInObjectSpace()[j], pv.GetTangentInObjectSpace()[j]));
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetNormal1InObjectSpace()[j], pv.GetNormal1InObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetNormal1InObjectSpace()[j], pv.GetNormal1InObjectSpace()[j]));
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetNormal2InObjectSpace()[j], pv.GetNormal2InObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetNormal2InObjectSpace()[j], pv.GetNormal2InObjectSpace()[j]));
       }
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRadiusInObjectSpace(), pv.GetRadiusInObjectSpace()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetMedialness(), pv.GetMedialness()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRidgeness(), pv.GetRidgeness()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBranchness(), pv.GetBranchness()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetCurvature(), pv.GetCurvature()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetLevelness(), pv.GetLevelness()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRoundness(), pv.GetRoundness()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetIntensity(), pv.GetIntensity()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha1(), pv.GetAlpha1()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha2(), pv.GetAlpha2()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha3(), pv.GetAlpha3()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetRadiusInObjectSpace(), pv.GetRadiusInObjectSpace()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetMedialness(), pv.GetMedialness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetRidgeness(), pv.GetRidgeness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetBranchness(), pv.GetBranchness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetCurvature(), pv.GetCurvature()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetLevelness(), pv.GetLevelness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetRoundness(), pv.GetRoundness()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetIntensity(), pv.GetIntensity()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetAlpha1(), pv.GetAlpha1()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetAlpha2(), pv.GetAlpha2()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetAlpha3(), pv.GetAlpha3()));
     }
 
     std::cout << "[DONE]" << std::endl;
   }
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

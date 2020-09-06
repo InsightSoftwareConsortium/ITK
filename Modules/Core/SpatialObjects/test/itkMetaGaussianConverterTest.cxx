@@ -44,6 +44,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // Check number of arguments
   if (argc != 2)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " output" << std::endl;
     return EXIT_FAILURE;
   }
@@ -58,6 +59,9 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
 
   // Instantiate new converter object
   ConverterType::Pointer converter = ConverterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(converter, MetaGaussianConverter, MetaConverterBase);
+
 
   // Set up a Gaussian spatial object
   SpatialObjectType::Pointer GaussianSpatialObj = SpatialObjectType::New();
@@ -297,8 +301,6 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   std::cout << "[PASSED] Reading: parent id: " << reLoad->GetParentId() << std::endl;
 
 
-  // All tests executed successfully
-  std::cout << "Test succeeded." << std::endl;
-
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -21,6 +21,7 @@
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkEllipseSpatialObject.h"
 #include "itkImageSliceIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 int
 itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
@@ -64,8 +65,17 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
 
   using CalculatorType = itk::SpatialObjectToImageStatisticsCalculator<ImageType, EllipseType>;
   CalculatorType::Pointer calculator = CalculatorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, SpatialObjectToImageStatisticsCalculator, Object);
+
+
   calculator->SetImage(image);
   calculator->SetSpatialObject(ellipse);
+
+  unsigned int sampleDirection = CalculatorType::SampleDimension - 1;
+  calculator->SetSampleDirection(sampleDirection);
+  ITK_TEST_SET_GET_VALUE(sampleDirection, calculator->GetSampleDirection());
+
   calculator->Update();
 
   std::cout << " --- Ellipse and Image perfectly aligned --- " << std::endl;
@@ -214,6 +224,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cout << " [PASSED]" << std::endl;
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

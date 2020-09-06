@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkPolygonSpatialObject.h"
+#include "itkTestingMacros.h"
 #include <iostream>
 
 int
@@ -28,6 +29,9 @@ itkPolygonSpatialObjectTest(int, char *[])
   //
   // create rectangle
   PolygonType::Pointer rectangle = PolygonType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(rectangle, PolygonSpatialObject, PointBasedSpatialObject);
+
 
   double                 d1[3] = { 0.0, 0.0, 0.0 };
   PolygonType::PointType p1(d1);
@@ -50,11 +54,18 @@ itkPolygonSpatialObjectTest(int, char *[])
   pPoint.SetPositionInObjectSpace(p4);
   pList.push_back(pPoint);
   rectangle->SetPoints(pList);
-  rectangle->SetThicknessInObjectSpace(10);
-  rectangle->SetIsClosed(true);
+
+  double objectSpaceThickness = 10;
+  rectangle->SetThicknessInObjectSpace(objectSpaceThickness);
+  ITK_TEST_SET_GET_VALUE(objectSpaceThickness, rectangle->GetThicknessInObjectSpace());
+
+  bool isClosed = true;
+  rectangle->SetIsClosed(isClosed);
+  ITK_TEST_SET_GET_BOOLEAN(rectangle, IsClosed, isClosed);
+
+
   rectangle->Update();
 
-  rectangle->Print(std::cout);
   for (unsigned int i = 0; i < rectangle->GetNumberOfPoints(); ++i)
   {
     std::cout << i << " : ";
@@ -151,5 +162,7 @@ itkPolygonSpatialObjectTest(int, char *[])
     std::cout << "[Passed]" << std::endl;
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return failed ? EXIT_FAILURE : EXIT_SUCCESS;
 }
