@@ -57,7 +57,7 @@ public:
 /** \class TensorFractionalAnisotropyImageFilter
  * \brief Computes the Fractional Anisotropy for every pixel of a input tensor image.
  *
- * TensorFractionalAnisotropyImageFilter applies pixel-wise the invokation for
+ * TensorFractionalAnisotropyImageFilter applies pixel-wise the invocation for
  * computing the fractional anisotropy of every pixel. The pixel type of the
  * input image is expected to implement a method GetFractionalAnisotropy(), and
  * to specify its return type as  RealValueType.

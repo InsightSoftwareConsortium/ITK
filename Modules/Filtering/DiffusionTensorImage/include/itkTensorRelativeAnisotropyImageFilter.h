@@ -57,7 +57,7 @@ public:
 /** \class TensorRelativeAnisotropyImageFilter
  * \brief Computes the Relative Anisotropy for every pixel of a input tensor image.
  *
- * TensorRelativeAnisotropyImageFilter applies pixel-wise the invokation for
+ * TensorRelativeAnisotropyImageFilter applies pixel-wise the invocation for
  * computing the relative anisotropy of every pixel. The pixel type of the
  * input image is expected to implement a method GetRelativeAnisotropy(), and
  * to specify its return type as  RealValueType.
