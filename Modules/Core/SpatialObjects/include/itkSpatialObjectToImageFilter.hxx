@@ -80,7 +80,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetInput(unsigned
   return static_cast<const TInputSpatialObject *>(this->ProcessObject::GetInput(idx));
 }
 
-//----------------------------------------------------------------------------
+
 template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const SpacingType & spacing)
@@ -107,7 +107,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
   }
 }
 
-//----------------------------------------------------------------------------
+
 template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const double * spacing)
@@ -167,7 +167,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetSpacing() cons
   return m_Spacing;
 }
 
-//----------------------------------------------------------------------------
+
 template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const PointType & origin)
@@ -191,7 +191,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const P
   }
 }
 
-//----------------------------------------------------------------------------
+
 template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const double * origin)
@@ -245,7 +245,6 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetOrigin() const
   return m_Origin;
 }
 
-//----------------------------------------------------------------------------
 
 template <typename TInputSpatialObject, typename TOutputImage>
 void
@@ -262,9 +261,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetDirection() co
   return m_Direction;
 }
 
-//----------------------------------------------------------------------------
 
-/** Update */
 template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
