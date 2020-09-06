@@ -246,7 +246,7 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::H
   {
     return false;
   }
-  else if (this->GetMaximumRMSError() > m_RMSChange)
+  else if (this->GetMaximumRMSError() > this->m_RMSChange)
   {
     return true;
   }
