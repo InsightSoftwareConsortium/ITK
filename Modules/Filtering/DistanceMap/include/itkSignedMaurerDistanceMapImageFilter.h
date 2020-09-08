@@ -155,10 +155,9 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, PixelType>));
-  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
-  itkConceptMacro(OutputImagePixelTypeIsFloatingPointCheck,
-                  (Concept::IsFloatingPoint<typename OutputImageType::PixelType>));
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro(OutputImagePixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
   // End concept checking
 #endif
 

@@ -47,9 +47,9 @@ itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest1
     itkSignedDanielssonDistanceMapImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest1.mhd 2)
 itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest2
       COMMAND ITKDistanceMapTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedDanielssonDistanceMapImageFilterTest2.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest2.png
-    itkSignedDanielssonDistanceMapImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest2.png)
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkSignedDanielssonDistanceMapImageFilterTest2.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest2.mha
+    itkSignedDanielssonDistanceMapImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkSignedDanielssonDistanceMapImageFilterTest2.mha)
 # Test the distance filter on a 3D volume.
 # The output should be the same as the output of the Maurer distance map filter.
 itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest3D
