@@ -87,8 +87,10 @@ namespace itk
  * frames. TransformIndexToPhysicalPoint() converts an Index in the
  * pixel array into its coordinates in physical space.
  * TransformPhysicalPointToIndex() converts a position in physical
- * space into an Index into the pixel array (using
- * rounding). Subpixel locations are supported by methods that
+ * space into an Index into the pixel array (using rounding).
+ * TransformPhysicalPointToIndexInBoundedRegion() converts a position in physical
+ * space into an Index of a given bounded region into the pixel array (using rounding only
+ * for interior points). Subpixel locations are supported by methods that
  * convert to and from ContinuousIndex types.
  *
  * ImageBase also provides helper routines for the ImageIterators
@@ -473,7 +475,6 @@ public:
     return isInside;
   }
 
-
   /** \brief Returns the continuous index from a physical point
    * \note This specific overload does not figure out whether or not
    *  the returned index is inside the image. Of course, the user can
@@ -520,6 +521,144 @@ public:
 
     // Now, check to see if the index is within allowed bounds
     const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
+    return isInside;
+  }
+
+  /** Returns the index in a bounded region (discrete) of a voxel from a physical point.
+   * This function ensures that points outside of a bounded region of the image will
+   * return an "out of bounds" index.
+   * Floating point index results are: floored if they are below regionIndex,
+   * ceiled if they are above (regionIndex + regionSize - 1), rounded for all the other cases.
+   * \note This specific overload does not figure out whether or not
+   * the returned index is inside the given bounded region of the image. Of course, the user can
+   * still test this afterwards by calling ImageRegion::IsInside(index):
+    \code
+     auto index = image->TransformPhysicalPointToIndexInBoundedRegion(point, region);
+     if (region.IsInside(index)) // Et cetera...
+    \endcode
+   * Which is equivalent to the following code, which calls the other overload:
+    \code
+     IndexType index;
+     if (image->TransformPhysicalPointToIndexInBoundedRegion(point, region, index)) // Et cetera...
+    \endcode
+   * \sa Transform */
+  template <typename TCoordRep>
+  IndexType
+  TransformPhysicalPointToIndexInBoundedRegion(const Point<TCoordRep, VImageDimension> & point,
+                                               const RegionType &                        region) const
+  {
+    IndexType       index;
+    const IndexType regionIndex = region.GetIndex();
+    const SizeType  regionSize = region.GetSize();
+
+    for (unsigned int i = 0; i < VImageDimension; i++)
+    {
+      TCoordRep sum = NumericTraits<TCoordRep>::ZeroValue();
+      for (unsigned int j = 0; j < VImageDimension; j++)
+      {
+        sum += this->m_PhysicalPointToIndex[i][j] * (point[j] - this->m_Origin[j]);
+      }
+
+      if (sum < static_cast<TCoordRep>(regionIndex[i]))
+      {
+        index[i] = Math::Floor<IndexValueType>(sum);
+      }
+      else if (sum > static_cast<TCoordRep>(regionIndex[i] + regionSize[i] - 1))
+      {
+        index[i] = Math::Ceil<IndexValueType>(sum);
+      }
+      else
+      {
+        index[i] = Math::RoundHalfIntegerUp<IndexValueType>(sum);
+      }
+    }
+
+    return index;
+  }
+
+  /** Get the index in a bounded region (discrete) of a voxel from a physical point.
+   * Floating point index results are: floored if they are below regionIndex,
+   * ceiled if they are above (regionIndex + regionSize - 1), rounded for all the other cases.
+   * Returns true if the resulting index is within the given bounded region of the image, false otherwise
+   * \sa Transform */
+  template <typename TCoordRep>
+  bool
+  TransformPhysicalPointToIndexInBoundedRegion(const Point<TCoordRep, VImageDimension> & point,
+                                               const RegionType &                        region,
+                                               IndexType &                               index) const
+  {
+    index = TransformPhysicalPointToIndexInBoundedRegion(point, region);
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside = region.IsInside(index);
+    return isInside;
+  }
+
+  /** \brief Returns the continuous index in a bounded region from a physical point
+   * This function ensures that points outside of a bounded region of the image will
+   * return an "out of bounds" index.
+   * Point index results are : floored if they are below regionIndex,
+   * ceiled if they are above (regionIndex + regionSize - 1), preserved for all the other cases.
+   * \note This specific overload does not figure out whether or not
+   *  the returned index is inside the given bounded region of the image. Of course, the user can
+   * still test this afterwards by calling ImageRegion::IsInside(index):
+     \code
+     auto index = image->TransformPhysicalPointToContinuousIndexInBoundedRegion<double>(point, region);
+     if (region.IsInside(index)) // Et cetera...
+     \endcode
+   * Which is equivalent to the following code, which calls the other overload:
+     \code
+     itk::ContinuousIndex<double, ImageDimension> index;
+     if (image->TransformPhysicalPointToContinuousIndexInBoundedRegion(point, region, index)) // Et cetera...
+     \endcode
+   * \sa Transform */
+  template <typename TIndexRep, typename TCoordRep>
+  ContinuousIndex<TIndexRep, VImageDimension>
+  TransformPhysicalPointToContinuousIndexInBoundedRegion(const Point<TCoordRep, VImageDimension> & point,
+                                                         const RegionType &                        region) const
+  {
+    ContinuousIndex<TIndexRep, VImageDimension> index;
+    Vector<SpacePrecisionType, VImageDimension> cvector;
+    const IndexType                             regionIndex = region.GetIndex();
+    const SizeType                              regionSize = region.GetSize();
+
+    for (unsigned int k = 0; k < VImageDimension; ++k)
+    {
+      cvector[k] = point[k] - this->m_Origin[k];
+    }
+    cvector = m_PhysicalPointToIndex * cvector;
+    for (unsigned int i = 0; i < VImageDimension; ++i)
+    {
+      if (cvector[i] < static_cast<SpacePrecisionType>(regionIndex[i]))
+      {
+        index[i] = Math::Floor<TIndexRep>(cvector[i]);
+      }
+      else if (cvector[i] > static_cast<SpacePrecisionType>(regionIndex[i] + regionSize[i] - 1))
+      {
+        index[i] = Math::Ceil<TIndexRep>(cvector[i]);
+      }
+      else
+      {
+        index[i] = static_cast<TIndexRep>(cvector[i]);
+      }
+    }
+    return index;
+  }
+
+  /** \brief Get the continuous index in a bounded region from a physical point
+   *
+   * Returns true if the resulting index is within the given bounded region of the image, false otherwise.
+   * \sa Transform */
+  template <typename TCoordRep, typename TIndexRep>
+  bool
+  TransformPhysicalPointToContinuousIndexInBoundedRegion(const Point<TCoordRep, VImageDimension> &     point,
+                                                         const RegionType &                            region,
+                                                         ContinuousIndex<TIndexRep, VImageDimension> & index) const
+  {
+    index = TransformPhysicalPointToContinuousIndexInBoundedRegion<TIndexRep>(point, region);
+
+    // Now, check to see if the index is within allowed bounds
+    const bool isInside = region.IsInside(index);
     return isInside;
   }
 
@@ -638,7 +777,6 @@ public:
     TransformLocalVectorToPhysicalVector(inputGradient, outputGradient);
     return outputGradient;
   }
-
 
   /** Take a vector or covariant vector that has been computed in terms of the
    * coordinate system of the image acquisition device, and rotate it by the
