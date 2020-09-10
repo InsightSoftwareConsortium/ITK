@@ -48,7 +48,7 @@ ContourSpatialObject<TDimension>::Clear()
   m_ControlPoints.clear();
 
   m_InterpolationMethod = InterpolationMethodEnum::NO_INTERPOLATION;
-  m_InterpolationFactor = 2.0;
+  m_InterpolationFactor = 2;
 
   m_IsClosed = false;
 
