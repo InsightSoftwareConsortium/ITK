@@ -217,5 +217,8 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       }
     }
   }
+
+
+  std::cout << "Test finished" << std::endl;
   return retval;
 }

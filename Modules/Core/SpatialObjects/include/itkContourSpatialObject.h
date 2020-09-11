@@ -174,6 +174,8 @@ public:
   /** Get if the contour is closed */
   itkGetConstMacro(IsClosed, bool);
 
+  itkBooleanMacro(IsClosed);
+
   /** Get the axis-normal orientation of the contour */
   int
   GetOrientationInObjectSpace() const;

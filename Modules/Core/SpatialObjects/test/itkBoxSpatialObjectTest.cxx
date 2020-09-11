@@ -41,8 +41,14 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<SceneType, OutputImageType>;
 
   SceneType::Pointer scene = SceneType::New();
-  BoxType::Pointer   box1 = BoxType::New();
-  box1->Print(std::cout);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(scene, GroupSpatialObject, SpatialObject);
+
+
+  BoxType::Pointer box1 = BoxType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(box1, BoxSpatialObject, SpatialObject);
+
+
   BoxType::Pointer box2 = BoxType::New();
   box1->SetId(1);
 
@@ -56,21 +62,25 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   boxsize1[0] = 30;
   boxsize1[1] = 30;
   box1->SetSizeInObjectSpace(boxsize1);
+  ITK_TEST_SET_GET_VALUE(boxsize1, box1->GetSizeInObjectSpace());
+
   boxsize2[0] = 30;
   boxsize2[1] = 30;
   box2->SetSizeInObjectSpace(boxsize2);
 
   BoxType::TransformType::OffsetType offset1;
-  BoxType::TransformType::OffsetType offset2;
 
   offset1[0] = 29.0;
   offset1[1] = 29.0;
   box1->GetModifiableObjectToParentTransform()->SetOffset(offset1);
   box1->Update();
 
-  offset2[0] = 50.0;
-  offset2[1] = 50.0;
-  box2->SetPositionInObjectSpace(offset2);
+  BoxType::PointType point1;
+  point1[0] = 50.0;
+  point1[1] = 50.0;
+  box2->SetPositionInObjectSpace(point1);
+  ITK_TEST_SET_GET_VALUE(point1, box2->GetPositionInObjectSpace());
+
   box2->Update();
 
   scene->Update();
@@ -149,16 +159,10 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputFilename);
   writer->SetInput(imageFilter->GetOutput());
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
-  box1->Print(std::cout);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

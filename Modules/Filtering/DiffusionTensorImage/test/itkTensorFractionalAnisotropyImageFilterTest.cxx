@@ -19,6 +19,7 @@
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkTensorFractionalAnisotropyImageFilter.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -122,6 +123,9 @@ itkTensorFractionalAnisotropyImageFilterTest(int, char *[])
 
   FAFilterType::Pointer fractionalAnisotropyFilter = FAFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    fractionalAnisotropyFilter, TensorFractionalAnisotropyImageFilter, UnaryFunctorImageFilter);
+
   fractionalAnisotropyFilter->SetInput(filter->GetOutput());
 
   // Execute the filter
@@ -150,6 +154,6 @@ itkTensorFractionalAnisotropyImageFilterTest(int, char *[])
   }
 
 
-  // All objects should be automatically destroyed at this point
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

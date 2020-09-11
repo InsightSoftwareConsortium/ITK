@@ -28,6 +28,7 @@
 #include "itkImageRegionIterator.h"
 
 #include "itkImageMaskSpatialObject.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -68,7 +69,9 @@ itkImageMaskSpatialObjectTest(int, char *[])
   }
 
   ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
-  maskSO->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(maskSO, ImageMaskSpatialObject, ImageSpatialObject);
+
 
   maskSO->SetImage(image);
   maskSO->Update();
@@ -92,7 +95,7 @@ itkImageMaskSpatialObjectTest(int, char *[])
     ++itr;
   }
 
-  maskSO->Print(std::cout);
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

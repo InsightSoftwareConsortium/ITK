@@ -33,7 +33,7 @@ itkSignedDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
 
   constexpr unsigned int ImageDimension = 2;
   using InputPixelType = unsigned char;
-  using OutputPixelType = unsigned char;
+  using OutputPixelType = float;
 
   using InputImageType = itk::Image<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;

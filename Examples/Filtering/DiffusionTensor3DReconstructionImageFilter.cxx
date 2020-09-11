@@ -186,7 +186,7 @@ main(int argc, char * argv[])
 
   // -------------------------------------------------------------------------
   // Extract the Reference and gradient images from the NRRD file
-  // as seperate images.
+  // as separate images.
   //
   // This is not really necessary, the filter is capable of gobbling the
   // entire VectorImage (which contains the reference and the gradient image)
@@ -196,7 +196,7 @@ main(int argc, char * argv[])
   //
   // Nevertheless, we go through the "unnecessary pain" of extracting the
   // gradient and reference images in separate images and writing them out to
-  // files, so they can be fired up in you favourite volume viewer.
+  // files, so they can be fired up in your favourite volume viewer.
   //
   using ReferenceImageType = itk::Image<PixelType, Dimension>;
   using GradientImageType = ReferenceImageType;

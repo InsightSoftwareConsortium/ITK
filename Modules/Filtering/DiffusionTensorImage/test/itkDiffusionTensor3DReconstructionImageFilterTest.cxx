@@ -18,11 +18,21 @@
 #include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 #include <iostream>
 
 int
-itkDiffusionTensor3DReconstructionImageFilterTest(int, char *[])
+itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
 {
+  // Check parameters
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " bValue" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   using ReferencePixelType = short int;
   using GradientPixelType = short int;
   using TensorPrecisionType = double;
@@ -36,6 +46,17 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int, char *[])
     using GradientImageType = TensorReconstructionImageFilterType::GradientImageType;
     TensorReconstructionImageFilterType::Pointer tensorReconstructionFilter =
       TensorReconstructionImageFilterType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      tensorReconstructionFilter, DiffusionTensor3DReconstructionImageFilter, ImageToImageFilter);
+
+    auto threshold = itk::NumericTraits<TensorReconstructionImageFilterType::ReferencePixelType>::min();
+    tensorReconstructionFilter->SetThreshold(threshold);
+    ITK_TEST_SET_GET_VALUE(threshold, tensorReconstructionFilter->GetThreshold());
+
+    auto bValue = static_cast<TensorPrecisionType>(std::stod(argv[1]));
+    tensorReconstructionFilter->SetBValue(bValue);
+    ITK_TEST_SET_GET_VALUE(bValue, tensorReconstructionFilter->GetBValue());
 
     // Create a reference image
     //
@@ -119,6 +140,8 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int, char *[])
       tensorReconstructionFilter->SetMaskSpatialObject(maskSpatialObject);
     }
     tensorReconstructionFilter->SetReferenceImage(referenceImage);
+    ITK_TEST_SET_GET_VALUE(referenceImage, tensorReconstructionFilter->GetReferenceImage());
+
     // TODO: remove this when netlib is made thread safe
     tensorReconstructionFilter->SetNumberOfWorkUnits(1);
 
@@ -201,5 +224,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int, char *[])
               << std::endl;
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return result;
 }

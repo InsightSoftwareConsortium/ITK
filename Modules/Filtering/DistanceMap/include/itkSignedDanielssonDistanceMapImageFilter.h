@@ -216,6 +216,8 @@ public:
   // Begin concept checking
   itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, PixelType>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelType>));
+  itkConceptMacro(OutputImagePixelTypeIsFloatingPointCheck,
+                  (Concept::IsFloatingPoint<typename OutputImageType::PixelType>));
   // End concept checking
 #endif
 

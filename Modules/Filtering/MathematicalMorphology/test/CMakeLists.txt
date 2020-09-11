@@ -255,12 +255,12 @@ itk_add_test(NAME itkBlackTopHatImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkBlackTopHatImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png
-    itkTopHatImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png 0 3)
+    itkTopHatImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkBlackTopHatImageFilterTest.png 0 3 1 1 0)
 itk_add_test(NAME itkWhiteTopHatImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkWhiteTopHatImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png
-    itkTopHatImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png 1 3)
+    itkTopHatImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkWhiteTopHatImageFilterTest.png 1 3 1 1 0)
 itk_add_test(NAME itkGrayscaleMorphologicalClosingImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleMorphologicalClosingImageFilterTest2Basic.png

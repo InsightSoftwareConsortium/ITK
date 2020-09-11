@@ -153,6 +153,14 @@ public:
   itkSetMacro(BackgroundValue, InputPixelType);
   itkGetConstReferenceMacro(BackgroundValue, InputPixelType);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro(IntConvertibleToInputCheck, (Concept::Convertible<int, InputPixelType>));
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputPixelType>));
+  itkConceptMacro(OutputImagePixelTypeIsFloatingPointCheck, (Concept::IsFloatingPoint<OutputPixelType>));
+  // End concept checking
+#endif
+
 protected:
   SignedMaurerDistanceMapImageFilter();
   ~SignedMaurerDistanceMapImageFilter() override = default;

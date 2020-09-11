@@ -20,6 +20,7 @@
 #include "itkGroupSpatialObject.h"
 #include "itkTubeSpatialObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkCastSpatialObjectFilterTest(int, char *[])
@@ -59,7 +60,13 @@ itkCastSpatialObjectFilterTest(int, char *[])
   using CastType = itk::CastSpatialObjectFilter<3>;
   using TubeListType = std::list<TubeType::Pointer>;
   CastType::Pointer caster = CastType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(caster, CastSpatialObjectFilter, Object);
+
+
   caster->SetInput(group);
+  ITK_TEST_SET_GET_VALUE(group, caster->GetInput());
+
   std::unique_ptr<TubeListType> tList(caster->GetTubes());
 
   TubeType::Pointer tListTube = (*tList).begin()->GetPointer();
@@ -103,8 +110,6 @@ itkCastSpatialObjectFilterTest(int, char *[])
   }
 
 
-  std::cout << "TEST: [DONE]" << std::endl;
-
-
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

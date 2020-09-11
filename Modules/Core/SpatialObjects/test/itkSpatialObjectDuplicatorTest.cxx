@@ -21,6 +21,7 @@
 #include "itkGroupSpatialObject.h"
 #include "itkDTITubeSpatialObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkSpatialObjectDuplicatorTest(int, char *[])
@@ -33,10 +34,11 @@ itkSpatialObjectDuplicatorTest(int, char *[])
   using DuplicatorType = itk::SpatialObjectDuplicator<EllipseType>;
   DuplicatorType::Pointer duplicator = DuplicatorType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(duplicator, SpatialObjectDuplicator, Object);
+
 
   duplicator->SetInput(ellipse);
   duplicator->Update();
-  duplicator->Print(std::cout);
 
   EllipseType::Pointer ellipse_copy = duplicator->GetOutput();
 
@@ -52,9 +54,9 @@ itkSpatialObjectDuplicatorTest(int, char *[])
   DuplicatorGroupType::Pointer duplicatorGroup = DuplicatorGroupType::New();
   duplicatorGroup->SetInput(group);
   duplicatorGroup->Update();
-  GroupType::Pointer group_copy = duplicatorGroup->GetOutput();
+  GroupType::Pointer groupCopy = duplicatorGroup->GetOutput();
 
-  GroupType::ChildrenListType * children = group_copy->GetChildren();
+  GroupType::ChildrenListType * children = groupCopy->GetChildren();
 
   EllipseType::Pointer ellipse_copy2 = static_cast<EllipseType *>((*(children->begin())).GetPointer());
   std::cout << ellipse_copy2->GetRadiusInObjectSpace() << std::endl;
@@ -236,8 +238,6 @@ itkSpatialObjectDuplicatorTest(int, char *[])
   }
 
 
-  std::cout << "TEST: [DONE]" << std::endl;
-
-
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

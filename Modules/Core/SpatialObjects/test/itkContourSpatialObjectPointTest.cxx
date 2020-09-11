@@ -29,6 +29,8 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   ContourSpatialObjectPoint2DType contourSpatialObjectPoint2D;
 
+  contourSpatialObjectPoint2D.Print(std::cout);
+
   constexpr double                           pickedPointX = 4.35;
   constexpr double                           pickedPointY = 7.56;
   ContourSpatialObjectPoint2DType::PointType pickedPoint2D;
@@ -130,50 +132,50 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   // Test Copy and Assignment for ContourSpatialObjectPoint3DType
   {
-    ContourSpatialObjectPoint3DType p_original;
+    ContourSpatialObjectPoint3DType pOriginal;
 
     // itk::SpatialObjectPoint
-    p_original.SetId(250);
-    p_original.SetColor(0.5, 0.4, 0.3, 0.2);
-    p_original.SetPositionInObjectSpace(42, 41, 43);
+    pOriginal.SetId(250);
+    pOriginal.SetColor(0.5, 0.4, 0.3, 0.2);
+    pOriginal.SetPositionInObjectSpace(42, 41, 43);
 
     // itk::ContourSpatialObjectPoint
     ContourSpatialObjectPoint3DType::CovariantVectorType normal;
     normal.Fill(276);
-    p_original.SetNormalInObjectSpace(normal);
+    pOriginal.SetNormalInObjectSpace(normal);
     ContourSpatialObjectPoint3DType::PointType picked;
     picked.Fill(277);
-    p_original.SetPickedPointInObjectSpace(picked);
+    pOriginal.SetPickedPointInObjectSpace(picked);
 
     // Copy
-    ContourSpatialObjectPoint3DType p_copy(p_original);
+    ContourSpatialObjectPoint3DType pCopy(pOriginal);
     // Assign
-    ContourSpatialObjectPoint3DType p_assign = p_original;
+    ContourSpatialObjectPoint3DType pAssign = pOriginal;
 
-    std::vector<ContourSpatialObjectPoint3DType> point_vector;
-    point_vector.push_back(p_copy);
-    point_vector.push_back(p_assign);
+    std::vector<ContourSpatialObjectPoint3DType> pointVector;
+    pointVector.push_back(pCopy);
+    pointVector.push_back(pAssign);
 
-    for (const auto & pv : point_vector)
+    for (const auto & pv : pointVector)
     {
       // itk::SpatialObjectPoint
-      ITK_TEST_EXPECT_EQUAL(p_original.GetId(), pv.GetId());
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetRed(), pv.GetRed()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetGreen(), pv.GetGreen()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetBlue(), pv.GetBlue()));
-      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(p_original.GetAlpha(), pv.GetAlpha()));
+      ITK_TEST_EXPECT_EQUAL(pOriginal.GetId(), pv.GetId());
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetRed(), pv.GetRed()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetGreen(), pv.GetGreen()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetBlue(), pv.GetBlue()));
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetAlpha(), pv.GetAlpha()));
       for (size_t j = 0; j < 3; ++j)
       {
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetPositionInObjectSpace()[j], pv.GetPositionInObjectSpace()[j]));
       }
       // itk::ContourSpatialObjectPoint
       for (size_t j = 0; j < 3; ++j)
       {
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetNormalInObjectSpace()[j], pv.GetNormalInObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetNormalInObjectSpace()[j], pv.GetNormalInObjectSpace()[j]));
         ITK_TEST_EXPECT_TRUE(
-          itk::Math::AlmostEquals(p_original.GetPickedPointInObjectSpace()[j], pv.GetPickedPointInObjectSpace()[j]));
+          itk::Math::AlmostEquals(pOriginal.GetPickedPointInObjectSpace()[j], pv.GetPickedPointInObjectSpace()[j]));
       }
     }
   }
@@ -233,6 +235,7 @@ itkContourSpatialObjectPointTest(int, char *[])
 
   ITK_TEST_SET_GET_VALUE(pickedPoint4D, contourSpatialObjectPoint4DAlt.GetPickedPointInObjectSpace());
   ITK_TEST_SET_GET_VALUE(normal4D, contourSpatialObjectPoint4DAlt.GetNormalInObjectSpace());
+
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

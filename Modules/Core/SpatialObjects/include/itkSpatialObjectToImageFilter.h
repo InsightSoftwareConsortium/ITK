@@ -176,6 +176,7 @@ public:
    *  the ValueAtInWorldSpace() function instead of IsInsideInWorldSpace() */
   itkSetMacro(UseObjectValue, bool);
   itkGetConstMacro(UseObjectValue, bool);
+  itkBooleanMacro(UseObjectValue);
 
 protected:
   SpatialObjectToImageFilter();

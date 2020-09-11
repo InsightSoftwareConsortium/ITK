@@ -18,6 +18,7 @@
 #include "itkContourSpatialObject.h"
 #include <iostream>
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  * This is a test for itkContourSpatialObject.  It runs all methods and checks
@@ -62,6 +63,12 @@ itkContourSpatialObjectTest(int, char *[])
 
   SpatialObjectType::Pointer contour = SpatialObjectType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(contour, ContourSpatialObject, PointBasedSpatialObject);
+
+
+  auto interpolationFactor = 2u;
+  contour->SetInterpolationFactor(interpolationFactor);
+  ITK_TEST_SET_GET_VALUE(interpolationFactor, contour->GetInterpolationFactor());
 
   //
   // Test Control Points (SetControlPoints, GetControlPoints,
@@ -128,21 +135,14 @@ itkContourSpatialObjectTest(int, char *[])
   //
 
   // first set to not closed and test
-  contour->SetIsClosed(false);
-  if (contour->GetIsClosed())
-  {
-    std::cout << "[FAILED] Did not set/retrieve closed property correctly" << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto isClosed = false;
+  contour->SetIsClosed(isClosed);
+  ITK_TEST_SET_GET_BOOLEAN(contour, IsClosed, isClosed);
 
   // then set it to closed and test
+  isClosed = true;
   contour->SetIsClosed(true);
-  if (!contour->GetIsClosed())
-  {
-    std::cout << "[FAILED] Did not set/retrieve closed property correctly" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED] Set/GetClosed" << std::endl;
+  ITK_TEST_SET_GET_BOOLEAN(contour, IsClosed, isClosed);
 
 
   //
@@ -310,8 +310,7 @@ itkContourSpatialObjectTest(int, char *[])
     std::cout << "STREAMED ENUM VALUE ContourSpatialObjectEnums::InterpolationMethod: " << ee << std::endl;
   }
 
-  //
-  // All tests executed successfully
-  //
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

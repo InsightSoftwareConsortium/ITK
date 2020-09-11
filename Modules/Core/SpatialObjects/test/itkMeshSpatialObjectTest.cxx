@@ -20,6 +20,7 @@
 #include "itkMeshSpatialObject.h"
 #include "itkTetrahedronCell.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkMeshSpatialObjectTest(int, char *[])
@@ -56,19 +57,15 @@ itkMeshSpatialObjectTest(int, char *[])
   // Create the mesh Spatial Object
 
   MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
-  meshSO->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(meshSO, MeshSpatialObject, SpatialObject);
+
 
   meshSO->SetMesh(mesh);
+  ITK_TEST_SET_GET_VALUE(mesh, meshSO->GetMesh());
+
   meshSO->Update();
 
-  std::cout << "Testing GetMesh(): ";
-
-  if (mesh != meshSO->GetMesh())
-  {
-    std::cout << "[FAILED]" << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Testing Bounding Box: ";
 
@@ -186,7 +183,7 @@ itkMeshSpatialObjectTest(int, char *[])
   meshSO->Print(std::cout);
   std::cout << "[PASSED]" << std::endl;
 
-  std::cout << "[TEST DONE]" << std::endl;
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
