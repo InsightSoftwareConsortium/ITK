@@ -216,6 +216,15 @@ itk_add_test(NAME itkGDCMImageIOTest3_mono1
       scalar
   )
 
+itk_add_test(NAME itkGDCM_ComplianceTest_singlebit
+  COMMAND ITKIOGDCMTestDriver
+    --compare DATA{Baseline/single-bit.mha}
+      ${ITK_TEST_OUTPUT_DIR}/single-bit.mha
+    itkGDCMImageReadWriteTest
+      DATA{Input/single-bit.dcm}
+      ${ITK_TEST_OUTPUT_DIR}/single-bit.mha
+      scalar)
+
 function(AddComplianceTest fileName)
   itk_add_test(NAME itkGDCM_ComplianceTestRGB_${fileName}
     COMMAND ITKIOGDCMTestDriver
