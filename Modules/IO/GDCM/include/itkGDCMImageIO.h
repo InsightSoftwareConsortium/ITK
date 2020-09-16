@@ -412,6 +412,7 @@ private:
   /** defines whether this image is a 2D out of a 2D image
    *  or a 2D out of a 3D image. */
   unsigned int    m_GlobalNumberOfDimensions;
+  bool            m_SingleBit;
   CompressionEnum m_CompressionType;
 
   IOComponentEnum  m_InternalComponentType;
