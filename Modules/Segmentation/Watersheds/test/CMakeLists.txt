@@ -5,10 +5,13 @@ set(ITKWatershedsTests
   itkWatershedImageFilterTest.cxx
   itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
   itkMorphologicalWatershedImageFilterTest.cxx
+  itkWatershedImageFilterBadValuesTest.cxx
   )
 
 CreateTestDriver(ITKWatersheds  "${ITKWatersheds-Test_LIBRARIES}" "${ITKWatershedsTests}")
 
+itk_add_test(NAME itkWatershedImageFilterBadValuesTest
+      COMMAND ITKWatershedsTestDriver itkWatershedImageFilterBadValuesTest DATA{Input/watershed-test.tif})
 itk_add_test(NAME itkTobogganImageFilterTest
       COMMAND ITKWatershedsTestDriver
     --compare DATA{Baseline/itkTobogganImageFilterTest.png}
