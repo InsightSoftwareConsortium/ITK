@@ -413,6 +413,7 @@ private:
    *  or a 2D out of a 3D image. */
   unsigned int    m_GlobalNumberOfDimensions;
   CompressionEnum m_CompressionType;
+  bool            m_SingleBit;
 
   IOComponentEnum  m_InternalComponentType;
   InternalHeader * m_DICOMHeader;
