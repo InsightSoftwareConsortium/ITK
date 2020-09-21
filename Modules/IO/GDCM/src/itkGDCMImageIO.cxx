@@ -100,6 +100,9 @@ GDCMImageIO::GDCMImageIO()
   // This number is updated according the information
   // received through the MetaDataDictionary
   m_GlobalNumberOfDimensions = 2;
+
+  m_SingleBit = false;
+
   // By default use JPEG2000. For legacy system, one should prefer JPEG since
   // JPEG2000 was only recently added to the DICOM standard
   this->Self::SetCompressor("");
@@ -323,7 +326,17 @@ GDCMImageIO::Read(void * pointer)
   }
 
   gdcm::PhotometricInterpretation pi = image.GetPhotometricInterpretation();
-  if (pi == gdcm::PhotometricInterpretation::PALETTE_COLOR)
+
+  if (m_SingleBit)
+  {
+    const size_t x = m_Dimensions[0] * m_Dimensions[1] * m_Dimensions[2];
+    if (x > len * 8)
+    {
+      itkExceptionMacro(<< "Failed to load SINGLEBIT image, buffer size " << len);
+    }
+    len = x;
+  }
+  else if (pi == gdcm::PhotometricInterpretation::PALETTE_COLOR)
   {
     gdcm::ImageApplyLookupTable ialut;
     ialut.SetInput(image);
@@ -352,44 +365,68 @@ GDCMImageIO::Read(void * pointer)
     itkExceptionMacro(<< "Failed to get the buffer!");
   }
 
-  const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
-#ifndef NDEBUG
-  // ImageApplyLookupTable is meant to change the pixel type for PALETTE_COLOR images
-  // (from single values to triple values per pixel)
-  if (pi != gdcm::PhotometricInterpretation::PALETTE_COLOR)
+  if (m_SingleBit)
   {
-    itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype_debug == pixeltype);
+    auto *          copy = new unsigned char[len];
+    unsigned char * t = reinterpret_cast<unsigned char *>(pointer);
+    size_t          j = 0;
+    for (size_t i = 0; i < len / 8; ++i)
+    {
+      const unsigned char c = t[i];
+      copy[j + 0] = (c & 0x01) ? 255 : 0;
+      copy[j + 1] = (c & 0x02) ? 255 : 0;
+      copy[j + 2] = (c & 0x04) ? 255 : 0;
+      copy[j + 3] = (c & 0x08) ? 255 : 0;
+      copy[j + 4] = (c & 0x10) ? 255 : 0;
+      copy[j + 5] = (c & 0x20) ? 255 : 0;
+      copy[j + 6] = (c & 0x40) ? 255 : 0;
+      copy[j + 7] = (c & 0x80) ? 255 : 0;
+      j += 8;
+    }
+    memcpy((char *)pointer, copy, len);
+    delete[] copy;
   }
+  else
+  {
+    const gdcm::PixelFormat & pixeltype = image.GetPixelFormat();
+#ifndef NDEBUG
+    // ImageApplyLookupTable is meant to change the pixel type for PALETTE_COLOR images
+    // (from single values to triple values per pixel)
+    if (pi != gdcm::PhotometricInterpretation::PALETTE_COLOR)
+    {
+      itkAssertInDebugAndIgnoreInReleaseMacro(pixeltype_debug == pixeltype);
+    }
 #endif
 
-  if (m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0)
-  {
-    gdcm::Rescaler r;
-    r.SetIntercept(m_RescaleIntercept);
-    r.SetSlope(m_RescaleSlope);
-    r.SetPixelFormat(pixeltype);
-    gdcm::PixelFormat outputpt = r.ComputeInterceptSlopePixelType();
-    auto *            copy = new char[len];
-    memcpy(copy, (char *)pointer, len);
-    r.Rescale((char *)pointer, copy, len);
-    delete[] copy;
-    // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
-    len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
-  }
-
-  // Y'CbCr to RGB
-  // GDCM 3.0.3
-  const bool ybr =
-    m_NumberOfComponents == 3 &&
-    (pi == gdcm::PhotometricInterpretation::YBR_FULL || pi == gdcm::PhotometricInterpretation::YBR_FULL_422) &&
-    (pixeltype == gdcm::PixelFormat::UINT8 || pixeltype == gdcm::PixelFormat::INT8);
-  if (ybr && m_ReadYBRtoRGB)
-  {
-    if (len % 3 != 0)
+    if (m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0)
     {
-      itkExceptionMacro(<< "Buffer size " << len << " is not valid");
+      gdcm::Rescaler r;
+      r.SetIntercept(m_RescaleIntercept);
+      r.SetSlope(m_RescaleSlope);
+      r.SetPixelFormat(pixeltype);
+      gdcm::PixelFormat outputpt = r.ComputeInterceptSlopePixelType();
+      auto *            copy = new char[len];
+      memcpy(copy, (char *)pointer, len);
+      r.Rescale((char *)pointer, copy, len);
+      delete[] copy;
+      // WARNING: sizeof(Real World Value) != sizeof(Stored Pixel)
+      len = len * outputpt.GetPixelSize() / pixeltype.GetPixelSize();
     }
-    YCbCr_to_RGB(reinterpret_cast<unsigned char *>(pointer), static_cast<size_t>(len));
+
+    // Y'CbCr to RGB
+    // GDCM 3.0.3
+    const bool ybr =
+      m_NumberOfComponents == 3 &&
+      (pi == gdcm::PhotometricInterpretation::YBR_FULL || pi == gdcm::PhotometricInterpretation::YBR_FULL_422) &&
+      (pixeltype == gdcm::PixelFormat::UINT8 || pixeltype == gdcm::PixelFormat::INT8);
+    if (ybr && m_ReadYBRtoRGB)
+    {
+      if (len % 3 != 0)
+      {
+        itkExceptionMacro(<< "Buffer size " << len << " is not valid");
+      }
+      YCbCr_to_RGB(reinterpret_cast<unsigned char *>(pointer), static_cast<size_t>(len));
+    }
   }
 
 #ifndef NDEBUG
@@ -461,25 +498,36 @@ GDCMImageIO::InternalReadImageInformation()
     case gdcm::PixelFormat::FLOAT64:
       m_InternalComponentType = IOComponentEnum::DOUBLE;
       break;
+    case gdcm::PixelFormat::SINGLEBIT:
+      m_SingleBit = true;
+      m_InternalComponentType = IOComponentEnum::UCHAR;
+      break;
     default:
       itkExceptionMacro("Unhandled PixelFormat: " << pixeltype);
   }
 
   gdcm::PixelFormat::ScalarType outputpt = pixeltype.GetScalarType();
-  m_RescaleIntercept = image.GetIntercept();
-  m_RescaleSlope = image.GetSlope();
-  if (m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0)
+  if (!m_SingleBit)
   {
-    gdcm::Rescaler r;
-    r.SetIntercept(m_RescaleIntercept);
-    r.SetSlope(m_RescaleSlope);
-    r.SetPixelFormat(pixeltype);
-    outputpt = r.ComputeInterceptSlopePixelType();
-  }
+    m_RescaleIntercept = image.GetIntercept();
+    m_RescaleSlope = image.GetSlope();
+    if (m_RescaleSlope != 1.0 || m_RescaleIntercept != 0.0)
+    {
+      gdcm::Rescaler r;
+      r.SetIntercept(m_RescaleIntercept);
+      r.SetSlope(m_RescaleSlope);
+      r.SetPixelFormat(pixeltype);
+      outputpt = r.ComputeInterceptSlopePixelType();
+    }
 
-  if (pixeltype > outputpt)
+    if (pixeltype > outputpt)
+    {
+      itkAssertInDebugOrThrowInReleaseMacro("Pixel type larger than output type")
+    }
+  }
+  else
   {
-    itkAssertInDebugOrThrowInReleaseMacro("Pixel type larger than output type")
+    outputpt = gdcm::PixelFormat::UINT8;
   }
 
   m_ComponentType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
