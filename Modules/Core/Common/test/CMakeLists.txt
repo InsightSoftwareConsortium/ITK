@@ -621,6 +621,7 @@ set(ITKCommonGTests
       itkSizeGTest.cxx
       itkSmartPointerGTest.cxx
       itkVectorContainerGTest.cxx
+      itkWeakPointerGTest.cxx
       itkCommonTypeTraitsGTest.cxx
       itkMetaDataDictionaryGTest.cxx
 )
