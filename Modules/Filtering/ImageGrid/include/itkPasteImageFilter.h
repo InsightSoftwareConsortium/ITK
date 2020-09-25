@@ -20,20 +20,28 @@
 
 #include "itkInPlaceImageFilter.h"
 #include "itkSmartPointer.h"
+#include "itkSimpleDataObjectDecorator.h"
+#include <numeric>
 
 namespace itk
 {
+
+
 /** \class PasteImageFilter
- * \brief Paste an image into another image
+ * \brief Paste an image (or a constant value) into another image.
  *
- * PasteImageFilter allows you to take a section of one image and
- * paste into another image.  The SetDestinationIndex() method
- * prescribes where in the first input to start pasting data from the
- * second input.  The SetSourceRegion method prescribes the section of
- * the second image to paste into the first. If the output requested
- * region does not include the SourceRegion after it has been
- * repositioned to DestinationIndex, then the output will just be
- * a copy of the input.
+ * PasteImageFilter allows a region in a destination image to be filled with a source image or a constant pixel value.
+ * The SetDestinationIndex() method prescribes where in the destination input to start pasting data from the source
+ * input.  The SetSourceRegion method prescribes the section of the second image to paste into the first. When a
+ * constant pixel value is set, the SourceRegion describes the size of the region filled. If the output requested
+ * region does not include the SourceRegion after it has been repositioned to DestinationIndex, then the output will
+ * just be a copy of the input.
+ *
+ * This filter supports running "InPlace" to efficiently reuse the destination image buffer for the output, removing
+ * the need to copy the destination pixels to the output.
+ *
+ * When the source image has a lower dimension than the destination image then the DestinationSkipAxes parameter
+ * specifies which axes in the destination image are set to 1 when copying the region or filling with a constant.
  *
  * The two inputs and output image will have the same pixel type.
  *
@@ -90,6 +98,10 @@ public:
   using InputImageSizeType = typename InputImageType::SizeType;
   using SourceImageIndexType = typename SourceImageType::IndexType;
   using SourceImageSizeType = typename SourceImageType::SizeType;
+  using DecoratedSourceImagePixelType = SimpleDataObjectDecorator<SourceImagePixelType>;
+
+  using InputSkipAxesArrayType = FixedArray<bool, InputImageType::ImageDimension>;
+
 
   /** ImageDimension enumeration */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;
@@ -100,6 +112,18 @@ public:
    * input will be pasted. */
   itkSetMacro(DestinationIndex, InputImageIndexType);
   itkGetConstMacro(DestinationIndex, InputImageIndexType);
+
+  /** Set/Get the array describing which axes in the destination image to skip
+   *
+   * The axes with true values are set to 1, to fill the difference between the dimension of the input and source image.
+   * The number of true values in DestinationSkipAxes plus the DestinationImageDimension must equal the
+   * InputImageDimension.
+   *
+   * By default this array contains SourceImageDimension false values followed by true values for the remainder.
+   */
+  itkSetMacro(DestinationSkipAxes, InputSkipAxesArrayType);
+  itkGetConstMacro(DestinationSkipAxes, InputSkipAxesArrayType);
+
 
   /** Set/Get the source region (what part of the second input will be
    * pasted. */
@@ -115,6 +139,14 @@ public:
    * pasted over the destination image. */
   itkSetInputMacro(SourceImage, SourceImageType);
   itkGetInputMacro(SourceImage, SourceImageType);
+
+  /** Set/Get a constant value to fill the destination region.
+   *
+   * This input is an alternative input to the SourceImage.
+   */
+  itkSetDecoratedInputMacro(Constant, SourceImagePixelType);
+  itkGetDecoratedInputMacro(Constant, SourceImagePixelType);
+
 
   /** PasteImageFilter needs to set the input requested regions for its
    * inputs.  The first input's requested region will be set to match
@@ -138,13 +170,23 @@ public:
   VerifyInputInformation() ITKv5_CONST override
   {}
 
+  void
+  VerifyPreconditions() ITKv5_CONST override;
+
+  bool
+  CanRunInPlace() const override;
+
 protected:
   PasteImageFilter();
   ~PasteImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** PasteImageFilter can be implemented as a multithreaded filter.
+  InputImageSizeType
+  GetPresumedDestinationSize() const;
+
+
+  /** NPasteImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a DynamicThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
@@ -159,7 +201,11 @@ protected:
 
   SourceImageRegionType m_SourceRegion;
 
-  InputImageIndexType m_DestinationIndex;
+  InputImageIndexType    m_DestinationIndex;
+  InputSkipAxesArrayType m_DestinationSkipAxes;
+
+  static_assert(InputImageDimension >= SourceImageDimension,
+                "The source image dimension is greater than the input image.");
 };
 } // end namespace itk
 
