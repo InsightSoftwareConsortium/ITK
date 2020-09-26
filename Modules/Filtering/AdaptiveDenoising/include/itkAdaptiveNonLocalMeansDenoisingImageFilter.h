@@ -41,6 +41,7 @@ namespace itk
  * Spatially Varying Noise Levels, Journal of Magnetic Resonance Imaging,
  * 31:192-203, June 2010.
  *
+ * \ingroup AdaptiveDenoising
  */
 
 template <typename TInputImage,

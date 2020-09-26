@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 /** \class VarianceImageFilter
  * \brief Applies an averaging filter to an image
  *
@@ -33,11 +32,8 @@ namespace itk
  *
  * A variacne filter is one of the family of linear filters.
  *
- *
- * \wiki
- * \endwiki
+ * \ingroup AdaptiveDenoising
  */
-
 template <typename TInputImage, typename TOutputImage>
 class VarianceImageFilter final : public BoxImageFilter<TInputImage, TOutputImage>
 {
