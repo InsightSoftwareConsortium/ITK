@@ -4,68 +4,70 @@
 
 #include "itkAdaptiveNonLocalMeansDenoisingImageFilter.h"
 
-// template <typename TFilter>
-// class CommandProgressUpdate : public itk::Command
-// {
-// public:
-//   using Self = CommandProgressUpdate<TFilter>;
-//   using Superclass = itk::Command;
-//   using Pointer = itk::SmartPointer<CommandProgressUpdate<TFilter> >;
-//   itkNewMacro( CommandProgressUpdate );
-// protected:
+template <typename TFilter>
+class CommandProgressUpdate : public itk::Command
+{
+public:
+  using Self = CommandProgressUpdate<TFilter>;
+  using Superclass = itk::Command;
+  using Pointer = itk::SmartPointer<CommandProgressUpdate<TFilter>>;
+  itkNewMacro(CommandProgressUpdate);
 
-//   CommandProgressUpdate()  = default;
+protected:
+  CommandProgressUpdate() = default;
 
-//   using FilterType = TFilter;
+  using FilterType = TFilter;
 
-//   unsigned int m_CurrentProgress{ 0 };
+  unsigned int m_CurrentProgress{ 0 };
 
-// public:
+public:
+  void
+  Execute(itk::Object * caller, const itk::EventObject & event) override
+  {
+    auto * po = dynamic_cast<itk::ProcessObject *>(caller);
+    if (!po)
+      return;
+    if (typeid(event) == typeid(itk::ProgressEvent))
+    {
+      if (this->m_CurrentProgress < 99)
+      {
+        this->m_CurrentProgress++;
+        if (this->m_CurrentProgress % 10 == 0)
+        {
+          std::cout << this->m_CurrentProgress << std::flush;
+        }
+        else
+        {
+          std::cout << "*" << std::flush;
+        }
+      }
+    }
+  }
 
-//   void Execute(itk::Object *caller, const itk::EventObject & event) override
-//     {
-//     auto *po = dynamic_cast<itk::ProcessObject *>( caller );
-//     if (! po) return;
-//     if( typeid( event ) == typeid ( itk::ProgressEvent )  )
-//       {
-//       if( this->m_CurrentProgress < 99 )
-//         {
-//         this->m_CurrentProgress++;
-//         if( this->m_CurrentProgress % 10 == 0 )
-//           {
-//           std::cout << this->m_CurrentProgress << std::flush;
-//           }
-//         else
-//           {
-//           std::cout << "*" << std::flush;
-//           }
-//         }
-//       }
-//     }
+  void
+  Execute(const itk::Object * object, const itk::EventObject & event) override
+  {
+    auto * po = dynamic_cast<itk::ProcessObject *>(const_cast<itk::Object *>(object));
+    if (!po)
+      return;
 
-//   void Execute(const itk::Object * object, const itk::EventObject & event) override
-//     {
-//     auto *po = dynamic_cast<itk::ProcessObject *>(
-//       const_cast<itk::Object *>( object ) );
-//     if (! po) return;
-
-//     if( typeid( event ) == typeid ( itk::ProgressEvent )  )
-//       {
-//       if( this->m_CurrentProgress < 99 )
-//         {
-//         this->m_CurrentProgress++;
-//         if( this->m_CurrentProgress % 10 == 0 )
-//           {
-//           std::cout << this->m_CurrentProgress << std::flush;
-//           }
-//         else
-//           {
-//           std::cout << "*" << std::flush;
-//           }
-//         }
-//       }
-//     }
-// };
+    if (typeid(event) == typeid(itk::ProgressEvent))
+    {
+      if (this->m_CurrentProgress < 99)
+      {
+        this->m_CurrentProgress++;
+        if (this->m_CurrentProgress % 10 == 0)
+        {
+          std::cout << this->m_CurrentProgress << std::flush;
+        }
+        else
+        {
+          std::cout << "*" << std::flush;
+        }
+      }
+    }
+  }
+};
 
 int
 itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
@@ -112,32 +114,32 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   filter->SetNeighborhoodRadiusForLocalMeanAndVariance(neighborhoodRadiusForLocalMeanAndVariance);
 
   filter->SetEpsilon(0.00001);
-  // ITK_TEST_SET_GET_VALUE( 0.00001, filter->GetEpsilon() );
+  ITK_TEST_SET_GET_VALUE(0.00001, filter->GetEpsilon());
 
   filter->SetMeanThreshold(0.95);
-  // ITK_TEST_SET_GET_VALUE( 0.95, filter->GetMeanThreshold() );
+  ITK_TEST_SET_GET_VALUE(0.95, filter->GetMeanThreshold());
 
   filter->SetVarianceThreshold(0.5);
-  // ITK_TEST_SET_GET_VALUE( 0.5, filter->GetVarianceThreshold() );
+  ITK_TEST_SET_GET_VALUE(0.5, filter->GetVarianceThreshold());
 
   filter->SetSmoothingFactor(1.0);
-  // ITK_TEST_SET_GET_VALUE( 1.0, filter->GetSmoothingFactor() );
+  ITK_TEST_SET_GET_VALUE(1.0, filter->GetSmoothingFactor());
 
   filter->SetSmoothingVariance(2.0);
-  // ITK_TEST_SET_GET_VALUE( 2.0, filter->GetSmoothingVariance() );
+  ITK_TEST_SET_GET_VALUE(2.0, filter->GetSmoothingVariance());
 
-  // using CommandType = CommandProgressUpdate<DenoiserType>;
-  // CommandType::Pointer observer = CommandType::New();
-  // filter->AddObserver( itk::ProgressEvent(), observer );
+  using CommandType = CommandProgressUpdate<DenoiserType>;
+  CommandType::Pointer observer = CommandType::New();
+  filter->AddObserver(itk::ProgressEvent(), observer);
 
-  // ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
 
-  // ITK_TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
