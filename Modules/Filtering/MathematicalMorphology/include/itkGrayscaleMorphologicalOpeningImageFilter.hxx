@@ -137,7 +137,7 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   // Delegate to a dilate filter.
   if (m_Algorithm == BASIC)
   {
-    //     std::cout << "BasicDilateImageFilter" << std::endl;
+    // Use itk::BasicDilateImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
@@ -180,7 +180,7 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   }
   else if (m_Algorithm == HISTO)
   {
-    // std::cout << "MovingHistogramDilateImageFilter" << std::endl;
+    // Use itk::MovingHistogramDilateImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
@@ -223,7 +223,7 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   }
   else if (m_Algorithm == VHGW)
   {
-    // std::cout << "VanHerkGilWermanDilateImageFilter" << std::endl;
+    // Use itk::VanHerkGilWermanDilateImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
@@ -272,7 +272,7 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   }
   else if (m_Algorithm == ANCHOR)
   {
-    //     std::cout << "AnchorDilateImageFilter" << std::endl;
+    // Use itk::AnchorDilateImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;

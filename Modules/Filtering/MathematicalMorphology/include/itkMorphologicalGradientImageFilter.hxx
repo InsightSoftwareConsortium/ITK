@@ -134,7 +134,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
   // Delegate to a dilate filter.
   if (m_Algorithm == BASIC)
   {
-    //     std::cout << "BasicDilateImageFilter" << std::endl;
+    // Use itk::BasicDilateImageFilter
     m_BasicDilateFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_BasicDilateFilter, 0.4f);
 
@@ -152,7 +152,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
   }
   else if (m_Algorithm == HISTO)
   {
-    //     std::cout << "MovingHistogramDilateImageFilter" << std::endl;
+    // Use itk::MovingHistogramDilateImageFilter
     m_HistogramFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_HistogramFilter, 1.0f);
 
@@ -162,7 +162,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
   }
   else if (m_Algorithm == ANCHOR)
   {
-    // std::cout << "AnchorDilateImageFilter" << std::endl;
+    // Use itk::AnchorDilateImageFilter
     m_AnchorDilateFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_AnchorDilateFilter, 0.4f);
 
@@ -180,7 +180,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
   }
   else if (m_Algorithm == VHGW)
   {
-    //     std::cout << "VanHerkGilWermanDilateImageFilter" << std::endl;
+    // Use itk::VanHerkGilWermanDilateImageFilter
     m_VanHerkGilWermanDilateFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_VanHerkGilWermanDilateFilter, 0.4f);
 
