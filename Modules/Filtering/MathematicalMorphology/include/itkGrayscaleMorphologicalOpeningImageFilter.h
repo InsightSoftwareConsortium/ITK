@@ -33,10 +33,9 @@ namespace itk
 {
 /**
  * \class GrayscaleMorphologicalOpeningImageFilter
- * \brief gray scale dilation of an image
+ * \brief Grayscale opening of an image.
  *
- * Dilate an image using grayscale morphology. Dilation takes the
- * maximum of all the pixels identified by the structuring element.
+ * Open an image using grayscale morphology.
  *
  * The structuring element is assumed to be composed of binary
  * values (zero or one). Only elements of the structuring element

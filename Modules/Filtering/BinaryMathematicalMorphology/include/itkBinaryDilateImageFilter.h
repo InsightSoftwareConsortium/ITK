@@ -34,7 +34,7 @@ namespace itk
  * by the intensity value "SetForegroundValue()" (alias as SetDilateValue()) is considered
  * as foreground, and other intensity values are considered background.
  *
- * Gray scale images can be processed as binary images by selecting a
+ * Grayscale images can be processed as binary images by selecting a
  * "ForegroundValue" (alias "DilateValue").  Pixel values matching the dilate value are
  * considered the "foreground" and all other pixels are
  * "background". This is useful in processing segmented images where

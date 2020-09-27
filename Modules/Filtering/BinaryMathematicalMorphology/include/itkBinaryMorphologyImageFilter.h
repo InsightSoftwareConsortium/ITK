@@ -44,7 +44,7 @@ namespace itk
  * for arbitrary size and shape". IEEE Transactions on Image
  * Processing. Vol. 9. No. 3. 2000. pp. 283-286.
  *
- * Gray scale images can be processed as binary images by selecting a
+ * Grayscale images can be processed as binary images by selecting a
  * "ForegroundValued" (which subclasses may alias as "DilateValue" or
  * "ErodeValue").  Pixel not matching the foreground value are
  * considered "background".  This is useful in processing segmented

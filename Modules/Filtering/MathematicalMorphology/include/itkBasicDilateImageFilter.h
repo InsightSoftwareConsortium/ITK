@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * \class BasicDilateImageFilter
- * \brief gray scale dilation of an image
+ * \brief Grayscale dilation of an image.
  *
  * Dilate an image using grayscale morphology. Dilation takes the
  * maximum of all the pixels identified by the structuring element.
