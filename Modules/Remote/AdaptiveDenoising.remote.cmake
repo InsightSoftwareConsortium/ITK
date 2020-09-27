@@ -56,5 +56,5 @@ itk_fetch_module(AdaptiveDenoising
   "
   MODULE_COMPLIANCE_LEVEL
   GIT_REPOSITORY ${git_protocol}://github.com/ntustison/ITKAdaptiveDenoising.git
-  GIT_TAG e8adb9cb73e22c1c9adef41e25dd08ec6f287870
+  GIT_TAG ef309a1f050a2f7b1102f5024cf4997cd284266b
 )
