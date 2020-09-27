@@ -131,20 +131,20 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
 
   filter->SetNeighborhoodRadiusForLocalMeanAndVariance(neighborhoodRadiusForLocalMeanAndVariance);
 
-  filter->SetEpsilon(0.00001);
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.00001, filter->GetEpsilon()));
+  filter->SetEpsilon(0.00001f);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.00001f, filter->GetEpsilon()));
 
-  filter->SetMeanThreshold(0.95);
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.95, filter->GetMeanThreshold()));
+  filter->SetMeanThreshold(0.95f);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.95f, filter->GetMeanThreshold()));
 
-  filter->SetVarianceThreshold(0.5);
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.5, filter->GetVarianceThreshold()));
+  filter->SetVarianceThreshold(0.5f);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.5f, filter->GetVarianceThreshold()));
 
-  filter->SetSmoothingFactor(1.0);
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(1.0, filter->GetSmoothingFactor()));
+  filter->SetSmoothingFactor(1.0f);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(1.0f, filter->GetSmoothingFactor()));
 
-  filter->SetSmoothingVariance(2.0);
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(2.0, filter->GetSmoothingVariance()));
+  filter->SetSmoothingVariance(2.0f);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(2.0f, filter->GetSmoothingVariance()));
 
   using CommandType = CommandProgressUpdate<DenoiserType>;
   CommandType::Pointer observer = CommandType::New();
