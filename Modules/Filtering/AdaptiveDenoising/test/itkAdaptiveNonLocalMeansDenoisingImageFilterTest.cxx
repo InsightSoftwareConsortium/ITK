@@ -111,7 +111,7 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   using DenoiserType = itk::AdaptiveNonLocalMeansDenoisingImageFilter<ImageType, ImageType>;
   DenoiserType::Pointer filter = DenoiserType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AdaptiveNonLocalMeansDenoisingImageFilter, ImageToImageFilter);
+  // ITK_EXERCISE_BASIC_OBJECT_METHODS( filter, AdaptiveNonLocalMeansDenoisingImageFilter, ImageToImageFilter );
 
   filter->SetInput(reader->GetOutput());
   filter->SetUseRicianNoiseModel(false);

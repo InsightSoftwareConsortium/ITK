@@ -5,7 +5,7 @@ set(AdaptiveDenoisingTests itkAdaptiveNonLocalMeansDenoisingImageFilterTest.cxx)
 createtestdriver(AdaptiveDenoising "${AdaptiveDenoising-Test_LIBRARIES}" "${AdaptiveDenoisingTests}")
 
 itk_add_test(
-  NAME AdaptiveNonLocalMeansDenoisingImageFilterTest1
+  NAME AdaptiveNonLocalMeansDenoisingImageFilterTest
   COMMAND
     AdaptiveDenoisingTestDriver
     --compare
