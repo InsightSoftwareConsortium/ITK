@@ -138,7 +138,7 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   // Delegate to a dilate filter.
   if (m_Algorithm == BASIC)
   {
-    //     std::cout << "BasicErodeImageFilter" << std::endl;
+    // Use itk::BasicErodeImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
@@ -181,7 +181,7 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   }
   else if (m_Algorithm == HISTO)
   {
-    // std::cout << "MovingHistogramErodeImageFilter" << std::endl;
+    // Use itk::MovingHistogramErodeImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
@@ -224,7 +224,7 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   }
   else if (m_Algorithm == VHGW)
   {
-    // std::cout << "VanHerkGilWermanErodeImageFilter" << std::endl;
+    // Use itk::VanHerkGilWermanErodeImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
@@ -267,7 +267,7 @@ GrayscaleMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Ge
   }
   else if (m_Algorithm == ANCHOR)
   {
-    // std::cout << "AnchorErodeImageFilter" << std::endl;
+    // Use itk::AnchorErodeImageFilter
     if (m_SafeBorder)
     {
       using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
