@@ -20,7 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
-
+#include "itkMath.h"
 
 template <typename TFilter>
 class CommandProgressUpdate : public itk::Command
@@ -132,19 +132,19 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   filter->SetNeighborhoodRadiusForLocalMeanAndVariance(neighborhoodRadiusForLocalMeanAndVariance);
 
   filter->SetEpsilon(0.00001);
-  ITK_TEST_SET_GET_VALUE(0.00001, filter->GetEpsilon());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.00001, filter->GetEpsilon()));
 
   filter->SetMeanThreshold(0.95);
-  ITK_TEST_SET_GET_VALUE(0.95, filter->GetMeanThreshold());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.95, filter->GetMeanThreshold()));
 
   filter->SetVarianceThreshold(0.5);
-  ITK_TEST_SET_GET_VALUE(0.5, filter->GetVarianceThreshold());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(0.5, filter->GetVarianceThreshold()));
 
   filter->SetSmoothingFactor(1.0);
-  ITK_TEST_SET_GET_VALUE(1.0, filter->GetSmoothingFactor());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(1.0, filter->GetSmoothingFactor()));
 
   filter->SetSmoothingVariance(2.0);
-  ITK_TEST_SET_GET_VALUE(2.0, filter->GetSmoothingVariance());
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(2.0, filter->GetSmoothingVariance()));
 
   using CommandType = CommandProgressUpdate<DenoiserType>;
   CommandType::Pointer observer = CommandType::New();
@@ -156,8 +156,7 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  writer->Update();
 
   return EXIT_SUCCESS;
 }
