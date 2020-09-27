@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * \class MovingHistogramErodeImageFilter
- * \brief gray scale erosion of an image
+ * \brief Grayscale erosion of an image.
  *
  * Erode an image using grayscale morphology. Erode takes the
  * minimum of all the pixels identified by the structuring element.

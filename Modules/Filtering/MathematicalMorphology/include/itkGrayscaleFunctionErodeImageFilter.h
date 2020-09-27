@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class GrayscaleFunctionErodeImageFilter
- * \brief gray scale function erosion of an image
+ * \brief Grayscale function erosion of an image.
  *
  * Erode an image using functional grayscale morphology. Function
  * erosion takes the minimum of all the pixels identified by the

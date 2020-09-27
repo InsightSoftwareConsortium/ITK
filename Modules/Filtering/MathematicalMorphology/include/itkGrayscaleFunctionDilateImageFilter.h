@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class GrayscaleFunctionDilateImageFilter
- * \brief gray scale function dilation of an image
+ * \brief Grayscale function dilation of an image.
  *
  * Dilate an image using functional grayscale morphology. Function
  * dilation takes the maximum of all the pixels identified by the
@@ -40,7 +40,7 @@ namespace itk
  *   - Evaluate() member function returns the maximum value among
  *     the image neighbors plus the kernel value where the kernel has
  *     elements > 0.
- *   - Replace the original value with the max value
+ *   - Replace the original value with the max value.
  *
  * \sa MorphologyImageFilter, GrayscaleDilateImageFilter, BinaryDilateImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
