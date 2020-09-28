@@ -1,6 +1,6 @@
 #-- # Grading Level Criteria Report
-#-- EVALUATION DATE:
-#-- EVALUATORS:
+#-- EVALUATION DATE: 09/28/2020
+#-- EVALUATORS: Nick Tustison
 #--
 #-- ## Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
 #--   - [ ] Widespread community dependance
@@ -11,29 +11,29 @@
 #--
 #-- ## Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
 #--   - [ ] Meets all ITK code style standards
-#--   - [ ] No external requirements beyond those needed by ITK proper
+#--   - [ X ] No external requirements beyond those needed by ITK proper
 #--   - [ ] Builds and passes tests on all supported platforms within 1 month of each core tagged release
 #--            - [ ] Windows Shared Library Build with Visual Studio
 #--            - [ ] Mac with clang compiller
 #--            - [ ] Linux with gcc compiler
-#--   - [ ] Active developer community dedicated to maintaining code-base
+#--   - [ X ] Active developer community dedicated to maintaining code-base
 #--   - [ ] 75% code coverage demonstrated for testing suite
-#--   - [ ] Continuous integration testing performed
+#--   - [ X ] Continuous integration testing performed
 #--   - [ ] All requirements of Levels 3,2,1
 #--
 #-- ## Compliance Level 3 star (Quality beta code)
-#--   - [ ] API | executable interface is considered mostly stable and feature complete
-#--   - [ ] 10% C0-code coverage demonstrated for testing suite
-#--   - [ ] Some tests exist and pass on at least some platform
-#--   - [ ] All requirements of Levels 2,1
+#--   - [ X ] API | executable interface is considered mostly stable and feature complete
+#--   - [ X ] 10% C0-code coverage demonstrated for testing suite
+#--   - [ X ] Some tests exist and pass on at least some platform
+#--   - [ X ] All requirements of Levels 2,1
 #--
 #-- ## Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance )
-#--   - [ ] Compiles for at least 1 niche set of execution envirionments, and perhaps others
+#--   - [ X ] Compiles for at least 1 niche set of execution envirionments, and perhaps others
 #--         (may depend on specific external tools like a java environment, or specific external libraries to work )
-#--   - [ ] All requirements of Levels 1
+#--   - [ X ] All requirements of Levels 1
 #--
 #-- ## Compliance Level 1 star (Pre-alpha features under development and code of unkown quality)
-#--   - [ ] Code complies on at least 1 platform
+#--   - [ X ] Code complies on at least 1 platform
 #--
 #-- ## Compliance Level 0 star ( Code/Feature of known poor-quality or deprecated status )
 #--   - [ ] Code reviewed and explicitly identified as not recommended for use
@@ -54,7 +54,7 @@ itk_fetch_module(AdaptiveDenoising
   Insight Journal.
   http://insight-journal.org/browse/publication/979.
   "
-  MODULE_COMPLIANCE_LEVEL
+  MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/ntustison/ITKAdaptiveDenoising.git
   GIT_TAG ef309a1f050a2f7b1102f5024cf4997cd284266b
 )
