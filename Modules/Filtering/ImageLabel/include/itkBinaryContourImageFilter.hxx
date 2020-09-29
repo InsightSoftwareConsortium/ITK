@@ -109,7 +109,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData(
   RegionType    reqRegion = output->GetRequestedRegion();
   SizeValueType pixelcount = reqRegion.GetNumberOfPixels();
   SizeValueType xsize = reqRegion.GetSize()[0];
-  SizeValueType linecount = pixelcount / xsize;
+  const SizeValueType linecount = (xsize > 0 ? pixelcount / xsize : 0);
 
   m_ForegroundLineMap.clear();
   m_ForegroundLineMap.resize(linecount);
