@@ -175,7 +175,7 @@ DataObject ::ReleaseData()
 bool
 DataObject ::ShouldIReleaseData() const
 {
-  return (m_GlobalReleaseDataFlag || m_ReleaseDataFlag);
+  return (GetGlobalReleaseDataFlag() || m_ReleaseDataFlag);
 }
 
 //----------------------------------------------------------------------------
@@ -289,7 +289,7 @@ DataObject ::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "Data Released: " << (m_DataReleased ? "True\n" : "False\n");
 
-  os << indent << "Global Release Data: " << (m_GlobalReleaseDataFlag ? "On\n" : "Off\n");
+  os << indent << "Global Release Data: " << (GetGlobalReleaseDataFlag() ? "On\n" : "Off\n");
 
   os << indent << "PipelineMTime: " << m_PipelineMTime << std::endl;
   os << indent << "UpdateMTime: " << m_UpdateMTime << std::endl;
