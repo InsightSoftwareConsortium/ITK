@@ -36,6 +36,8 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT NonLocalPatchBasedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NonLocalPatchBasedImageFilter);
+
   /** Standard class typedefs. */
   using Self = NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
@@ -179,12 +181,6 @@ protected:
   NeighborhoodOffsetListType m_NeighborhoodPatchOffsetList;
 
   RegionType m_TargetImageRegion;
-
-
-private:
-  NonLocalPatchBasedImageFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
 };
 
 } // end namespace itk

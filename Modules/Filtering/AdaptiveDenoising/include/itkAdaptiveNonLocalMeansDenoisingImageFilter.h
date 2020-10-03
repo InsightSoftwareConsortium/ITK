@@ -51,6 +51,8 @@ class ITK_TEMPLATE_EXPORT AdaptiveNonLocalMeansDenoisingImageFilter final
   : public NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>
 {
 public:
+  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptiveNonLocalMeansDenoisingImageFilter);
+
   /** Standard class typedefs. */
   typedef AdaptiveNonLocalMeansDenoisingImageFilter                Self;
   typedef NonLocalPatchBasedImageFilter<TInputImage, TOutputImage> Superclass;
@@ -187,10 +189,6 @@ protected:
   AfterThreadedGenerateData() override;
 
 private:
-  AdaptiveNonLocalMeansDenoisingImageFilter(const Self &) = delete;
-  void
-  operator=(const Self &) = delete;
-
   RealType CalculateCorrectionFactor(RealType);
 
   bool m_UseRicianNoiseModel;
