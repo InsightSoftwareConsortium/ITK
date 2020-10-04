@@ -31,6 +31,7 @@ itkMapGrayscaleDilateImageFilterTest.cxx
 itkMapGrayscaleErodeImageFilterTest.cxx
 itkMapGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkMapGrayscaleMorphologicalOpeningImageFilterTest.cxx
+itkMathematicalMorphologyEnumsTest.cxx
 itkGrayscaleDilateImageFilterTest.cxx
 itkGrayscaleErodeImageFilterTest.cxx
 itkGrayscaleMorphologicalClosingImageFilterTest2.cxx
@@ -414,6 +415,12 @@ itk_add_test(NAME itkMapGrayscaleMorphologicalOpeningImageFilterTestSafeBorder
   ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleMorphologicalOpeningImageFilterTestAnchorSafeBorder.png
   1
 )
+
+itk_add_test(NAME itkMathematicalMorphologyEnumsTest
+      COMMAND ITKMathematicalMorphologyTestDriver
+  itkMathematicalMorphologyEnumsTest
+)
+
 itk_add_test(NAME itkMapGrayscaleDilateImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
   --compare ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleDilateImageFilterTestBasic.png
