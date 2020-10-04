@@ -191,13 +191,13 @@ function(itk_python_add_test)
 
   itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
     COMMAND itkTestDriver
-    --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIGURATION>"
+    --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>"
+    --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>/itk"
     --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}"
-    --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIG>"
     --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
-    --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
     --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
-    --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>"
     --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
     ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
     ${command}
