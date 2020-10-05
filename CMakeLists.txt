@@ -29,7 +29,7 @@ endif()
 if(NOT CMAKE_CXX_EXTENSIONS)
   set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
-set(VALID_CXX_STANDARDS "11" "14" "17")
+set(VALID_CXX_STANDARDS "11" "14" "17" "20")
 if(NOT CMAKE_CXX_STANDARD IN_LIST VALID_CXX_STANDARDS )
    MESSAGE(FATAL_ERROR "CMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD} not in know standards list\n ${VALID_CXX_STANDARDS}.")
 endif()
@@ -68,7 +68,7 @@ foreach(p
 endforeach()
 
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
-    VERSION 2.1.2.2 # defines #MAJOR,MINOR,PATCH,TWEAK}
+    VERSION 2.3.0.0 # defines #MAJOR,MINOR,PATCH,TWEAK}
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
     LANGUAGES CXX C)
 

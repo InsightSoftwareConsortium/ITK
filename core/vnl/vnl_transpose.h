@@ -50,7 +50,7 @@ class VNL_EXPORT vnl_transpose
   explicit operator vnl_matrix<double> () const { return M_.transpose(); }
 #else
 #if VXL_LEGACY_FUTURE_REMOVE
-  VXL_DEPRECATED_MSG("Implicit cast conversion is dangerous.\nUSE: .as_vector() or .as_ref() member function for clarity.")
+  VXL_DEPRECATED_MSG("Implicit cast conversion is dangerous.\nUSE: .as_matrix() or .as_ref() member function for clarity.")
 #endif
   operator vnl_matrix<double> () const {
     std::cerr << "vnl_transpose being converted to matrix -- help! I don't wanna go!\n";

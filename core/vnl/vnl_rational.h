@@ -454,7 +454,7 @@ inline vnl_rational operator%(const T r1, vnl_rational const& r2)
 }
 
 template <typename T, typename SFINAE = vnl_rational::enable_if_signed_integral_type<T>>
-inline bool operator==(const T r1, vnl_rational const& r2) { return r2==r1; }
+inline bool operator==(const T r1, vnl_rational const& r2) { return r2.operator==(r1); }
 inline bool operator==(vnl_rational::int_type r1, vnl_rational const& r2) { return r2==r1; }
 template <typename T, typename SFINAE = vnl_rational::enable_if_signed_integral_type<T>>
 inline bool operator!=(const T r1, vnl_rational const& r2) { return r2 != r1; }
