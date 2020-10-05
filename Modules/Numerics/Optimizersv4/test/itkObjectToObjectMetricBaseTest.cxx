@@ -97,7 +97,7 @@ public:
   {}
 
   void
-  Initialize() throw(itk::ExceptionObject) override
+  Initialize() throw() override
   {}
 
   void

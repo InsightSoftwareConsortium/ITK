@@ -65,7 +65,7 @@ public:
   MultiGradientOptimizerv4TestMetric() = default;
 
   void
-  Initialize() throw(itk::ExceptionObject) override
+  Initialize() override
   {}
 
   void
@@ -178,7 +178,7 @@ public:
   MultiGradientOptimizerv4TestMetric2() = default;
 
   void
-  Initialize() throw(itk::ExceptionObject) override
+  Initialize() override
   {}
 
   void
