@@ -236,7 +236,7 @@ public:
 
   /** Override PropagateRequestedRegion for debug output */
   void
-  PropagateRequestedRegion() throw(itk::InvalidRequestedRegionError) override
+  PropagateRequestedRegion() override
   {
     Superclass::PropagateRequestedRegion();
   }
