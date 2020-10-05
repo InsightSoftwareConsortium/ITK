@@ -442,6 +442,7 @@ if(NOT VXL_HAS_SSE2_HARDWARE_SUPPORT)
       " you may need to set VXL_UPDATE_CONFIGURATION to ON."
       CACHE INTERNAL "help string for how to enable SSE2 support" )
     set(CMAKE_REQUIRED_FLAGS ${VXL_SSE_TEST_FLAG_BACKUP})
+    unset(VXL_SSE_TEST_FLAG_BACKUP)
   endif()
 endif()
 
