@@ -229,8 +229,8 @@ itkCommonPrintTest(int, char *[])
     itk::FiniteCylinderSpatialFunction<3, Point3DType>::New();
   std::cout << "------------FiniteCylinderSpatialFunction" << FiniteCylinderSpatialFunctionObj;
 
-  itk::FrustumSpatialFunction<2, PointType>::Pointer FrustumSpatialFunctionObj =
-    itk::FrustumSpatialFunction<2, PointType>::New();
+  itk::FrustumSpatialFunction<3, Point3DType>::Pointer FrustumSpatialFunctionObj =
+    itk::FrustumSpatialFunction<3, Point3DType>::New();
   std::cout << "------------FrustumSpatialFunction" << FrustumSpatialFunctionObj;
 
   itk::GaussianKernelFunction<double>::Pointer GaussianKernelFunctionObj = itk::GaussianKernelFunction<double>::New();
