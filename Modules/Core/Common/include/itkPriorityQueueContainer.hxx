@@ -91,8 +91,8 @@ const TElementIdentifier ElementWrapperPointerInterface<TElement, TElementIdenti
 // -----------------------------------------------------------------------------
 template <typename TElement, typename TElementPriority, typename TElementIdentifier>
 MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::MinPriorityQueueElementWrapper()
-  : m_Element(0)
-  , m_Priority(0)
+  : m_Element(NumericTraits<TElement>::ZeroValue())
+  , m_Priority(NumericTraits<TElementPriority>::ZeroValue())
   , m_Location(Superclass::m_ElementNotFound)
 {}
 // -----------------------------------------------------------------------------
