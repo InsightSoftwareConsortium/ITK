@@ -171,7 +171,7 @@ public:
 
   // Iteration methods.
   bool
-  operator==(Self & r)
+  operator==(Self & r) const
   {
     return (m_Start == r.m_Start);
   }
@@ -183,7 +183,7 @@ public:
   }
 
   bool
-  operator!=(Self & r)
+  operator!=(Self & r) const
   {
     return (!(this->operator==(r)));
   }

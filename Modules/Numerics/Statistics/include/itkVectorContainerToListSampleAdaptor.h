@@ -153,13 +153,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (this->m_Iter != it.m_Iter);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (this->m_Iter == it.m_Iter);
     }
