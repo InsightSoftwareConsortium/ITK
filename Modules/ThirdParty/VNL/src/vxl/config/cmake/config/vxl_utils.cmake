@@ -53,7 +53,7 @@ macro(vxl_configure_file_copyonly infile outfile installprefix)
 endmacro()
 
 #
-# A macro to configure where libraries are to be installed for
+# A function to configure where libraries are to be installed for
 # vxl for adding a library, setting it's properties, and
 # setting it's install location
 #
@@ -61,80 +61,77 @@ endmacro()
 #  LIBRARY_SOURCES     (required) is a list of sources needed to create the
 #                      library. It should also contain headers to install for
 #                      building against the library.
+#  HEADER_BUILD_DIR    (optional) directory to append to library target
+#                      BUILD_INTERFACE. Useful to include a target build
+#                      directory (CMAKE_CURRENT_BINARY_DIR) containing files
+#                      generated via vxl_configure_file.
 #  HEADER_INSTALL_DIR  (optional) directory to install headers relative to
 #                      VXL_INSTALL_INCLUDE_DIR if VXL_INSTALL_INCLUDE_DIR is
 #                      not its default value; otherwise, the relative path in
 #                      the vxl source tree is used.
 #
-macro( vxl_add_library )
-  unset(lib_srcs)
-  unset(header_install_dir)
-  unset(_doing)
-  foreach(arg ${ARGN})
-    ### Parse itk_module named options
-    if("${arg}" MATCHES "^LIBRARY_NAME$")
-      set(_doing "${arg}")
-    elseif("${arg}" MATCHES "^LIBRARY_SOURCES$")
-      set(_doing "${arg}")
-    elseif("${arg}" MATCHES "^HEADER_INSTALL_DIR$")
-      set(_doing "${arg}")
-    ### Parse named option parameters
-    elseif("${_doing}" MATCHES "^LIBRARY_NAME$")
-      set(lib_name "${arg}")
-    elseif("${_doing}" MATCHES "^LIBRARY_SOURCES$")
-      list(APPEND lib_srcs "${arg}")
-    elseif("${_doing}" MATCHES "^HEADER_INSTALL_DIR$")
-      set(header_install_dir "${arg}")
-    endif()
-  endforeach()
+function( vxl_add_library )
+  cmake_parse_arguments(vxl_add
+     ""  # options
+     "LIBRARY_NAME;HEADER_BUILD_DIR;HEADER_INSTALL_DIR"  # oneValueArgs
+     "LIBRARY_SOURCES"  # multiValueArgs
+     ${ARGN} )
 
   ## If not source files, then no lib created
-  list(LENGTH lib_srcs num_src_files)
+  list(LENGTH vxl_add_LIBRARY_SOURCES num_src_files)
   if( ${num_src_files} GREATER 0 )
-    add_library(${lib_name} ${lib_srcs} )
+    add_library(${vxl_add_LIBRARY_NAME} ${vxl_add_LIBRARY_SOURCES} )
     if(MSVC) # This enables object-level build parallelism in VNL libraries for MSVC
-      target_compile_definitions(${lib_name} PRIVATE " /MP ")
+      target_compile_definitions(${vxl_add_LIBRARY_NAME} PRIVATE " /MP ")
     endif()
 
-    set_property(GLOBAL APPEND PROPERTY VXLTargets_MODULES ${lib_name})
+    set_property(GLOBAL APPEND PROPERTY VXLTargets_MODULES ${vxl_add_LIBRARY_NAME})
     if(VXL_LIBRARY_PROPERTIES)
-       set_target_properties(${lib_name} PROPERTIES ${VXL_LIBRARY_PROPERTIES})
+       set_target_properties(${vxl_add_LIBRARY_NAME} PROPERTIES ${VXL_LIBRARY_PROPERTIES})
     endif()
 
     # Installation
-    install(TARGETS ${lib_name}
+    install(TARGETS ${vxl_add_LIBRARY_NAME}
       EXPORT ${VXL_INSTALL_EXPORT_NAME}
       RUNTIME DESTINATION ${VXL_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
       LIBRARY DESTINATION ${VXL_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
       ARCHIVE DESTINATION ${VXL_INSTALL_ARCHIVE_DIR} COMPONENT Development)
   endif()
+
+  # build interface
+  set(build_interface "${CMAKE_CURRENT_SOURCE_DIR}")
+  if (DEFINED vxl_add_HEADER_BUILD_DIR)
+    list(APPEND build_interface "${vxl_add_HEADER_BUILD_DIR}")
+  endif()
+
+  target_include_directories(${vxl_add_LIBRARY_NAME} PUBLIC
+      "$<BUILD_INTERFACE:${build_interface}>"
+  )
+
+  # install interface
+
   # If VXL_INSTALL_INCLUDE_DIR is the default value
   if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
     ## Identify the relative path for installing the header files and txx files
     string(REPLACE ${VXL_ROOT_SOURCE_DIR} "${VXL_INSTALL_INCLUDE_DIR}" relative_install_path ${CMAKE_CURRENT_SOURCE_DIR})
-    target_include_directories(${lib_name}
-      PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    target_include_directories(${vxl_add_LIBRARY_NAME} PUBLIC
         $<INSTALL_INTERFACE:${relative_install_path}>
     )
   else()
     set(relative_install_path "${VXL_INSTALL_INCLUDE_DIR}")
-    if(DEFINED header_install_dir)
-      set(relative_install_path "${relative_install_path}/${header_install_dir}")
+    if(DEFINED vxl_add_HEADER_INSTALL_DIR)
+      set(relative_install_path "${relative_install_path}/${vxl_add_HEADER_INSTALL_DIR}")
     endif()
-    target_include_directories(${lib_name}
-      PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    target_include_directories(${vxl_add_LIBRARY_NAME} PUBLIC
         $<INSTALL_INTERFACE:${VXL_INSTALL_INCLUDE_DIR}>
     )
   endif()
-  INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${lib_srcs})
-  unset(lib_srcs)
-  unset(header_install_dir)
-  unset(_doing)
-endmacro()
 
-include(CMakeParseArguments)
+  INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${vxl_add_LIBRARY_NAME})
+
+endfunction()
+
+
 # This macro sets a targets visibility to
 # hidden, and configures the header that
 # contains the proper export defines

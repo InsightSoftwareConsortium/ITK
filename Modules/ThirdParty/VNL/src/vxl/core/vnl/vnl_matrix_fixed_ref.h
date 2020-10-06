@@ -752,6 +752,9 @@ class VNL_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_
   //: Equality operator
   bool operator==(vnl_matrix_fixed_ref_const<T,num_rows,num_cols> const &that) const { return  this->operator_eq(that); }
 
+  //: Equality operator with vnl_matrix_fixed (fix c++20 ambigous overload)
+  bool operator==(vnl_matrix_fixed<T,num_rows,num_cols> const &that) const { return  this->operator_eq(that); }
+
   //: Inequality operator
   bool operator!=(vnl_matrix_fixed_ref_const<T,num_rows,num_cols> const &that) const { return !this->operator_eq(that); }
 
