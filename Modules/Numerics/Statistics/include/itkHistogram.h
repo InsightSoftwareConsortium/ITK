@@ -402,13 +402,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (m_Id != it.m_Id);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (m_Id == it.m_Id);
     }

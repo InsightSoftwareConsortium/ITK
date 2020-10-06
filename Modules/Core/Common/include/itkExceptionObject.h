@@ -73,7 +73,7 @@ public:
 
   /** Equivalence operator. */
   virtual bool
-  operator==(const ExceptionObject & orig);
+  operator==(const ExceptionObject & orig) const;
 
   virtual const char *
   GetNameOfClass() const

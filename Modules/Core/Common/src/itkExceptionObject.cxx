@@ -193,7 +193,7 @@ ExceptionObject::operator=(const ExceptionObject & orig) noexcept
 }
 
 bool
-ExceptionObject::operator==(const ExceptionObject & orig)
+ExceptionObject::operator==(const ExceptionObject & orig) const
 {
   // operator== is reimplemented, but it still behaves like the previous
   // version, from ITK 3.6.0.

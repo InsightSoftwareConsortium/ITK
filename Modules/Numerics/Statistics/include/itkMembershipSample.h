@@ -176,13 +176,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (m_InstanceIdentifier != it.m_InstanceIdentifier);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (m_InstanceIdentifier == it.m_InstanceIdentifier);
     }

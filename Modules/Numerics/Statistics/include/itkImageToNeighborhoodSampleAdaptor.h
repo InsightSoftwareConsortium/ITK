@@ -209,13 +209,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (m_MeasurementVectorCache[0] != it.m_MeasurementVectorCache[0]);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (m_MeasurementVectorCache[0] == it.m_MeasurementVectorCache[0]);
     }
