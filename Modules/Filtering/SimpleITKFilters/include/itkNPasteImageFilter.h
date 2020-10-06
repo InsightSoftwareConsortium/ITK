@@ -119,7 +119,7 @@ public:
   /** Set/Get the an array describing which axes in the destination image to skip
    *
    * The axes with true values are set to 1, to fill the difference between the dimension of the input and source image.
-   * The number of true value in DestinationSkipAxes plus the DestinationImageDimension must equal the
+   * The number of true values in DestinationSkipAxes plus the DestinationImageDimension must equal the
    * InputImageDimension.
    *
    * By default this array contains SourceImageDimension false values followed by true values for the remainder.
