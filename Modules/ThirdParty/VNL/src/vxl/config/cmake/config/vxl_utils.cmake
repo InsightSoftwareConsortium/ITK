@@ -127,7 +127,7 @@ function( vxl_add_library )
     )
   endif()
 
-  INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${vxl_add_LIBRARY_NAME})
+  INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${vxl_add_LIBRARY_SOURCES})
 
 endfunction()
 
