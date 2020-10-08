@@ -11,7 +11,7 @@ mark_as_advanced(ITK_FORBID_DOWNLOADS)
 
 macro(itk_download_attempt_check _name)
   if(ITK_FORBID_DOWNLOADS)
-    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
+    message(WARNING "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
   endif()
 endmacro()
 
