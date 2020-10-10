@@ -298,8 +298,7 @@ GDCMImageIO::Read(void * pointer)
 #endif
   SizeValueType len = image.GetBufferLength();
 
-  // Decompress the Pixel Data buffer when needed. This is required here in the
-  // pipeline to make sure to decompress JPEGBaseline1 into YBR_FULL.
+  // Decompress the Pixel Data buffer.
   if (image.GetTransferSyntax().IsEncapsulated())
   {
     gdcm::ImageChangeTransferSyntax icts;
