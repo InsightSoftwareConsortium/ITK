@@ -25,7 +25,7 @@ import itkExtras
 import os
 import sys
 
-__version__ = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+__version__ = itkConfig.ITK_GLOBAL_VERSION_STRING
 thisModule = sys.modules[__name__]
 
 
