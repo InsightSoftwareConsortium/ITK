@@ -17,6 +17,7 @@
 # ==========================================================================*/
 
 import re
+from sys import stderr as system_error_stream
 
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
@@ -147,19 +148,13 @@ def force_load():
         getattr(itk, k)
 
 
-import sys
-
-
-def echo(object, f=sys.stderr):
-    """Print an object is f
+def echo(obj, f=system_error_stream):
+    """Print an object to stream
 
     If the object has a method Print(), this method is used.
-    repr(object) is used otherwise
+    repr(obj) is used otherwise
     """
-    print(f, object)
-
-
-del sys
+    print(f, obj)
 
 
 def size(image_or_filter):
