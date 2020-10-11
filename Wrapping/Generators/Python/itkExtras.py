@@ -98,11 +98,9 @@ def terminal_progress_callback(name, p):
 
     This function can be used with itkConfig.ProgressCallback
     """
-    import sys
-
-    print(clrLine + "%s: %f" % (name, p), file=sys.stderr, end="")
+    print(clrLine + "%s: %f" % (name, p), file=system_error_stream, end="")
     if p == 1:
-        print(clrLine, file=sys.stderr, end="")
+        print(clrLine, file=system_error_stream, end="")
 
 
 def terminal_import_callback(name, p):
@@ -110,11 +108,9 @@ def terminal_import_callback(name, p):
 
     This function can be used with itkConfig.ImportCallback
     """
-    import sys
-
-    print(clrLine + "Loading %s... " % name, file=sys.stderr, end="")
+    print(clrLine + "Loading %s... " % name, file=system_error_stream, end="")
     if p == 1:
-        print(clrLine, file=sys.stderr, end="")
+        print(clrLine, file=system_error_stream, end="")
 
 
 def simple_import_callback(name, p):
@@ -122,12 +118,10 @@ def simple_import_callback(name, p):
 
     This function can be used with itkConfig.ImportCallback
     """
-    import sys
-
     if p == 0:
-        print("Loading %s... " % name, file=sys.stderr, end="")
+        print("Loading %s... " % name, file=system_error_stream, end="")
     elif p == 1:
-        print("done", file=sys.stderr)
+        print("done", file=system_error_stream)
 
 
 def simple_progress_callback(name, p):
@@ -135,12 +129,10 @@ def simple_progress_callback(name, p):
 
     This function can be used with itkConfig.ProgressCallback
     """
-    import sys
-
     if p == 0:
-        print("Running %s... " % name, file=sys.stderr, end="")
+        print("Running %s... " % name, file=system_error_stream, end="")
     elif p == 1:
-        print("done", file=sys.stderr)
+        print("done", file=system_error_stream)
 
 
 def force_load():
@@ -177,7 +169,6 @@ def physical_size(image_or_filter):
     This method take care of updating the needed informations
     """
     # required because range is overloaded in this module
-    import sys
     from builtins import range
 
     spacing_ = spacing(image_or_filter)
