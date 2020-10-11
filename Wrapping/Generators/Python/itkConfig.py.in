@@ -34,38 +34,33 @@ Currently-supported options are:
   LazyLoading: Only load an itk library when needed. Before the library is
     loaded, the namespace will be inhabited with dummy objects."""
 
+import warnings
+import os
 
 # User options
-SILENT = 0
-WARN = 1
-ERROR = 2
-DebugLevel = WARN
+SILENT: int = 0
+WARN: int = 1
+ERROR: int = 2
+DebugLevel: int = WARN
 ImportCallback = None
 ProgressCallback = None
-LazyLoading = True
-NotInPlace = False
-
+LazyLoading: bool = True
+NotInPlace: bool = False
 
 # Internal settings
-
-import warnings
 
 
 def itkFormatWarning(msg, *a, **kwa):
     """"Format the warnings issued by itk to display only the message.
 
-    This will ignore the filename and the linenumber where the warning was
+    This will ignore the filename and the line number where the warning was
     triggered. The message is returned to the warnings module.
     """
-
     return str(msg) + "\n"
 
 
 # Redefine the format of the warnings
 warnings.formatwarning = itkFormatWarning
-
-
-import os
 
 
 def normalized_path(relative_posix_path):
@@ -81,7 +76,7 @@ swig_lib = normalized_path("@CONFIG_PYTHON_SWIGLIB_DIR@")
 # swig_py: location of the xxxPython.py swig-generated python interfaces
 swig_py = normalized_path("@CONFIG_PYTHON_SWIGPY_DIR@")
 
-# config_py: location of xxxConfix.py CMake-generated library descriptions
+# config_py: location of xxxConfig.py CMake-generated library descriptions
 config_py = normalized_path("@CONFIG_PYTHON_CONFIGPY_DIR@")
 
 # put the itkConfig.py path in the path list
@@ -96,3 +91,4 @@ ITK_GLOBAL_VERSION_STRING :str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_V
 
 del normalized_path
 del os
+del warnings
