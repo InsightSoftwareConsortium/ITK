@@ -68,6 +68,7 @@ def LoadModule(name, namespace=None):
     if hasattr(this_module, "__templates_loaded"):
         if namespace is not None:
             swig = namespace.setdefault("swig", {})
+            assert hasattr(this_module, "swig")
             swig.update(this_module.swig)
 
             # don't worry about overwriting the symbols in namespace -- any
@@ -119,14 +120,15 @@ def LoadModule(name, namespace=None):
     # stomp on an existing 'swig' namespace, nor do we want to share 'swig'
     # namespaces between this_module and namespace.
 
-    if namespace is not None:
-        swig = namespace.setdefault("swig", {})
-
     if namespace is None:
         for k, v in module.__dict__.items():
             if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v
     else:
+        swig = None
+        if namespace is not None:
+            swig = namespace.setdefault("swig", {})
+        assert swig is not None
         for k, v in module.__dict__.items():
             if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v
