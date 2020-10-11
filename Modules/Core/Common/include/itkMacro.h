@@ -355,11 +355,15 @@ namespace itk
 // prohibits the use of copy/move construction and copy/move assignment
 // functions.
 //
-#define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName)                                                                         \
+#define ITK_DISALLOW_COPY_AND_MOVE(TypeName)                                                                           \
   TypeName(const TypeName &) = delete;                                                                                 \
   TypeName & operator=(const TypeName &) = delete;                                                                     \
   TypeName(TypeName &&) = delete;                                                                                      \
   TypeName & operator=(TypeName &&) = delete
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#  define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName) ITK_DISALLOW_COPY_AND_MOVE(TypeName)
+#endif
 
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
