@@ -703,11 +703,11 @@ def python_type(obj):
     return recursive(obj, 0)
 
 
-def range(image_or_filter):
-    """Return the range of values in a image of in the output image of a filter
+def image_intensity_min_max(image_or_filter):
+    """Return the minimum and maximum of values in a image of in the output image of a filter
 
     The minimum and maximum values are returned in a tuple: (min, max)
-    range() take care of updating the pipeline
+    image_intensity_min_max() take care of updating the pipeline
     """
     import itk
 
@@ -721,6 +721,13 @@ def range(image_or_filter):
     auto_pipeline.current = tmp_auto_pipeline
     comp.Compute()
     return (comp.GetMinimum(), comp.GetMaximum())
+
+
+# range is a python function, and should not be overridden
+# the current use of the function name "range" is for backward
+# compatibility, but should be considered for removal in the future
+def range(image_or_filter):
+    return image_intensity_min_max(image_or_filter)
 
 
 def imwrite(image_or_filter, filename, compression=False):
@@ -1380,6 +1387,10 @@ def attribute_list(i, name):
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     l = []
+    # required because range is overloaded in this module
+    import sys
+    from builtins import range
+
     for i in range(1, r.GetNumberOfLabelObjects() + 1):
         l.append(r.GetLabelObject(i).__getattribute__("Get" + name)())
     return l
@@ -1400,6 +1411,9 @@ def attributes_list(i, names):
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     l = []
+    # required because range is overloaded in this module
+    from builtins import range
+
     for i in range(1, r.GetNumberOfLabelObjects() + 1):
         attrs = []
         for name in names:
@@ -1424,6 +1438,9 @@ def attribute_dict(i, name):
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     d = {}
+    # required because range is overloaded in this module
+    from builtins import range
+
     for i in range(1, r.GetNumberOfLabelObjects() + 1):
         lo = r.GetLabelObject(i)
         v = lo.__getattribute__("Get" + name)()
