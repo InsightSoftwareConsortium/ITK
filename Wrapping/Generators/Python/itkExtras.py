@@ -17,7 +17,10 @@
 # ==========================================================================*/
 
 import re
+from typing import Dict, Any
+
 from sys import stderr as system_error_stream
+
 
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
@@ -919,7 +922,7 @@ def _snake_to_camel(keyword):
     return camel + keyword[1:]
 
 
-def set_inputs(new_itk_object, args=[], kargs={}):
+def set_inputs(new_itk_object, args=None, kargs=None):
     """Set the inputs of the given objects, according to the non named or the
     named parameters in args and kargs
 
@@ -938,6 +941,12 @@ def set_inputs(new_itk_object, args=[], kargs={}):
         import itk
         itk.set_inputs(self, *args, **kargs)
     """
+
+    # Fix bug with Mutable Default Arguments
+    # https://docs.python-guide.org/writing/gotchas/
+    args: list = args if args else []
+    kargs: Dict[str, Any] = kargs if kargs else {}
+
     # try to get the images from the filters in args
     args = [output(arg) for arg in args]
 
