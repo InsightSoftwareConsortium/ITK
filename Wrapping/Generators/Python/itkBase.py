@@ -19,6 +19,7 @@
 import os
 import os.path
 import sys
+from sys import stderr as system_error_stream
 
 # Required to work around weird import error with xarray
 import pkg_resources
@@ -26,14 +27,18 @@ import importlib
 import itkConfig
 import itkTemplate
 
+from importlib.util import spec_from_file_location as ilu_spec_from_file_location
+from importlib.util import module_from_spec as ilu_module_from_spec
+from importlib import import_module as ilu_import_module
+
 
 def _create_itk_module(name):
     swig_module_name = "itk." + name + "Python"
-    spec = importlib.util.spec_from_file_location(
+    spec = ilu_spec_from_file_location(
         swig_module_name,
         os.path.join(os.path.dirname(__file__), "itk", name + "Python.py"),
     )
-    module = importlib.util.module_from_spec(spec)
+    module = ilu_module_from_spec(spec)
     return module
 
 
@@ -213,7 +218,7 @@ def LoadModule(name, namespace=None):
 
 def DebugPrintError(error):
     if itkConfig.DebugLevel == itkConfig.WARN:
-        print(error, file=sys.stderr)
+        print(error, file=system_error_stream)
     elif itkConfig.DebugLevel == itkConfig.ERROR:
         raise RuntimeError(error)
 
@@ -237,7 +242,7 @@ class LibraryLoader(object):
     def load(self, name):
         self.setup()
         try:
-            module = importlib.import_module(name)
+            module = ilu_import_module(name)
             module.__loader__.exec_module(module)
             return module
         finally:
