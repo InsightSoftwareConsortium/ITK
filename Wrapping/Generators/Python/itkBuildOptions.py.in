@@ -1,4 +1,3 @@
-
 import itkTemplate
 import itkTypes
 
@@ -7,11 +6,31 @@ USIGN_INTS = [getattr(itkTypes, s) for s in "@WRAP_ITK_USIGN_INT@".split(";") if
 SIGN_INTS = [getattr(itkTypes, s) for s in "@WRAP_ITK_SIGN_INT@".split(";") if s]
 REALS = [getattr(itkTypes, s) for s in "@WRAP_ITK_REAL@".split(";") if s]
 
-VECTOR_REALS = [itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)] for s in "@ITK_WRAP_PYTHON_VECTOR_REAL@".split(";") if s]
-COV_VECTOR_REALS = [itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)] for s in "@ITK_WRAP_PYTHON_COV_VECTOR_REAL@".split(";") if s]
-RGBS = [itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)] for s in "@ITK_WRAP_PYTHON_RGB@".split(";") if s]
-RGBAS = [itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)] for s in "@ITK_WRAP_PYTHON_RGBA@".split(";") if s]
-COMPLEX_REALS = [itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)] for s in "@ITK_WRAP_PYTHON_COMPLEX_REAL@".split(";") if s]
+VECTOR_REALS = [
+    itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    for s in "@ITK_WRAP_PYTHON_VECTOR_REAL@".split(";")
+    if s
+]
+COV_VECTOR_REALS = [
+    itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    for s in "@ITK_WRAP_PYTHON_COV_VECTOR_REAL@".split(";")
+    if s
+]
+RGBS = [
+    itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    for s in "@ITK_WRAP_PYTHON_RGB@".split(";")
+    if s
+]
+RGBAS = [
+    itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    for s in "@ITK_WRAP_PYTHON_RGBA@".split(";")
+    if s
+]
+COMPLEX_REALS = [
+    itkTemplate.itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    for s in "@ITK_WRAP_PYTHON_COMPLEX_REAL@".split(";")
+    if s
+]
 
 
 INTS = SIGN_INTS + USIGN_INTS

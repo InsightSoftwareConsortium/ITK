@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import re
 import functools
@@ -22,20 +22,24 @@ import functools
 _HAVE_XARRAY = False
 try:
     import xarray as xr
+
     _HAVE_XARRAY = True
 except ImportError:
     pass
 _HAVE_TORCH = False
 try:
     import torch
+
     _HAVE_TORCH = True
 except ImportError:
     pass
 
+
 def camel_to_snake_case(name):
-    snake = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    snake = re.sub('([a-z0-9])([A-Z])', r'\1_\2', snake)
-    return snake.replace('__', '_').lower()
+    snake = re.sub("(.)([A-Z][a-z]+)", r"\1_\2", name)
+    snake = re.sub("([a-z0-9])([A-Z])", r"\1_\2", snake)
+    return snake.replace("__", "_").lower()
+
 
 def filter_args(filter_object):
     """
@@ -45,21 +49,56 @@ def filter_args(filter_object):
     Both args exclude some useless args denoted as useless_args.
     """
     import itk
-    exclude_args = [camel_to_snake_case(item[3:]) for item in dir(itk.Object) if item.startswith("Set")]
-    common_args =  [camel_to_snake_case(item[3:]) for item in dir(itk.ProcessObject) if item.startswith("Set")]
-    useless_args = ['abort_generate_data', 'release_data_flag', 'release_data_before_update_flag']
-    specific_args = [camel_to_snake_case(item[3:]) for item in dir(filter_object) if item.startswith("Set")]
 
-    str_ret_args = "".join(["  " + item + "\n" for item in specific_args if item not in exclude_args and item not in common_args and item not in useless_args])
+    exclude_args = [
+        camel_to_snake_case(item[3:])
+        for item in dir(itk.Object)
+        if item.startswith("Set")
+    ]
+    common_args = [
+        camel_to_snake_case(item[3:])
+        for item in dir(itk.ProcessObject)
+        if item.startswith("Set")
+    ]
+    useless_args = [
+        "abort_generate_data",
+        "release_data_flag",
+        "release_data_before_update_flag",
+    ]
+    specific_args = [
+        camel_to_snake_case(item[3:])
+        for item in dir(filter_object)
+        if item.startswith("Set")
+    ]
 
-    str_common_args = "".join(["  " + item + "\n" for item in common_args if item not in useless_args and item not in exclude_args])
+    str_ret_args = "".join(
+        [
+            "  " + item + "\n"
+            for item in specific_args
+            if item not in exclude_args
+            and item not in common_args
+            and item not in useless_args
+        ]
+    )
+
+    str_common_args = "".join(
+        [
+            "  " + item + "\n"
+            for item in common_args
+            if item not in useless_args and item not in exclude_args
+        ]
+    )
     return str_ret_args, str_common_args
 
+
 def is_arraylike(arr):
-    return hasattr(arr, 'shape') and \
-    hasattr(arr, 'dtype') and \
-    hasattr(arr, '__array__') and \
-    hasattr(arr, 'ndim')
+    return (
+        hasattr(arr, "shape")
+        and hasattr(arr, "dtype")
+        and hasattr(arr, "__array__")
+        and hasattr(arr, "ndim")
+    )
+
 
 def accept_numpy_array_like_xarray(image_filter):
     """Decorator that allows itk.ProcessObject snake_case functions to accept
@@ -78,22 +117,22 @@ def accept_numpy_array_like_xarray(image_filter):
         args_list = list(args)
         for index, arg in enumerate(args):
             if _HAVE_XARRAY and isinstance(arg, xr.DataArray):
-                    have_xarray_input = True
-                    image = itk.image_from_xarray(arg)
-                    args_list[index] = image
+                have_xarray_input = True
+                image = itk.image_from_xarray(arg)
+                args_list[index] = image
             elif _HAVE_TORCH and isinstance(arg, torch.Tensor):
-                    have_torch_input = True
-                    image = itk.image_view_from_array(np.asarray(arg))
-                    args_list[index] = image
+                have_torch_input = True
+                image = itk.image_view_from_array(np.asarray(arg))
+                args_list[index] = image
             elif not isinstance(arg, itk.Object) and is_arraylike(arg):
                 have_array_input = True
                 array = np.asarray(arg)
                 image = itk.image_view_from_array(array)
                 args_list[index] = image
 
-        potential_image_input_kwargs = ('input', 'input1', 'input2', 'input3')
+        potential_image_input_kwargs = ("input", "input1", "input2", "input3")
         for key, value in kwargs.items():
-            if (key.lower() in potential_image_input_kwargs or "image" in key.lower()):
+            if key.lower() in potential_image_input_kwargs or "image" in key.lower():
                 if _HAVE_XARRAY and isinstance(value, xr.DataArray):
                     have_xarray_input = True
                     image = itk.image_from_xarray(value)
@@ -138,4 +177,5 @@ def accept_numpy_array_like_xarray(image_filter):
                 return output
         else:
             return image_filter(*args, **kwargs)
+
     return image_filter_wrapper

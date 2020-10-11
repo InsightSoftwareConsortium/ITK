@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 """itk: Top-level container package for ITK wrappers."""
 import itkBase
@@ -28,20 +28,24 @@ import sys
 __version__ = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
 thisModule = sys.modules[__name__]
 
+
 def _GetLazyAttributes(lazyAttributes):
-    templateNames = [t[0] for t in data['templates']]
-    isInLibrary = [t[3] for t in data['templates'] if len(t) > 3 ]
+    templateNames = [t[0] for t in data["templates"]]
+    isInLibrary = [t[3] for t in data["templates"] if len(t) > 3]
     attributes = dict([(n, module) for n in templateNames])
-    attributesInModule = dict([(n, belongs) for n,belongs in zip(templateNames,isInLibrary)])
+    attributesInModule = dict(
+        [(n, belongs) for n, belongs in zip(templateNames, isInLibrary)]
+    )
     items = attributes.items()
     for k, v in items:
         if isInLibrary and attributesInModule[k] is True:
-            lazyAttributes.setdefault(k,[]).insert(0,v)
+            lazyAttributes.setdefault(k, []).insert(0, v)
         else:
-            lazyAttributes.setdefault(k,[]).append(v)
-    if 'snake_case_functions' in data:
-        for function in data['snake_case_functions']:
+            lazyAttributes.setdefault(k, []).append(v)
+    if "snake_case_functions" in data:
+        for function in data["snake_case_functions"]:
             lazyAttributes.setdefault(function, []).append(module)
+
 
 if itkConfig.LazyLoading:
     # If we are loading lazily (on-demand), make a dict mapping the available
@@ -71,10 +75,10 @@ else:
 # Regardless of how it was loaded, fill up the itk module with the ITK types
 # and extras.
 for k, v in itkTypes.__dict__.items():
-    if k != 'itkCType' and not k.startswith('_'):
+    if k != "itkCType" and not k.startswith("_"):
         setattr(thisModule, k, v)
 for k, v in itkExtras.__dict__.items():
-    if not k.startswith('_'):
+    if not k.startswith("_"):
         setattr(thisModule, k, v)
 
 # Populate itk.ITKModuleName
@@ -86,8 +90,8 @@ for module, data in itkBase.module_data.items():
 
 # Set the __path__ attribute, which is required for this module to be used as a
 # package
-setattr(thisModule, '__path__', __path__)
-setattr(thisModule, '__spec__', __spec__)
+setattr(thisModule, "__path__", __path__)
+setattr(thisModule, "__spec__", __spec__)
 
 if itkConfig.LazyLoading:
     # this has to be the last step, else python gets confused about itkTypes
