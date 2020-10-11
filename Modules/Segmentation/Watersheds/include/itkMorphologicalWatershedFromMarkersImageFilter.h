@@ -83,7 +83,7 @@ class ITK_TEMPLATE_EXPORT MorphologicalWatershedFromMarkersImageFilter
   : public ImageToImageFilter<TInputImage, TLabelImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalWatershedFromMarkersImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphologicalWatershedFromMarkersImageFilter);
 
   /** Standard class type aliases. */
   using Self = MorphologicalWatershedFromMarkersImageFilter;

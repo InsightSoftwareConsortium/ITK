@@ -68,7 +68,7 @@ template <typename TInputImage, typename TFeatureImage>
 class ITK_TEMPLATE_EXPORT RegionBasedLevelSetFunctionData : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionData);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionBasedLevelSetFunctionData);
 
   using Self = RegionBasedLevelSetFunctionData;
   using Superclass = LightObject;

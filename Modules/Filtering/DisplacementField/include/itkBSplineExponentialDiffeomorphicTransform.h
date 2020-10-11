@@ -57,7 +57,7 @@ class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransform
   : public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineExponentialDiffeomorphicTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineExponentialDiffeomorphicTransform);
 
   /** Standard class type aliases. */
   using Self = BSplineExponentialDiffeomorphicTransform;

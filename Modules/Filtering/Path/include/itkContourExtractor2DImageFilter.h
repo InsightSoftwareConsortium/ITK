@@ -99,7 +99,7 @@ class ITK_TEMPLATE_EXPORT ContourExtractor2DImageFilter
   : public ImageToPathFilter<TInputImage, PolyLineParametricPath<2>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContourExtractor2DImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ContourExtractor2DImageFilter);
 
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

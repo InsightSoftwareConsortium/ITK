@@ -39,7 +39,7 @@ namespace itk
 class ITKIOJPEG_EXPORT JPEGImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(JPEGImageIO);
 
   /** Standard class type aliases. */
   using Self = JPEGImageIO;

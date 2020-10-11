@@ -64,7 +64,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GrayscaleGeodesicDilateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleGeodesicDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleGeodesicDilateImageFilter;

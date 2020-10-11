@@ -63,7 +63,7 @@ class ITK_TEMPLATE_EXPORT HoughTransform2DLinesImageFilter
   : public ImageToImageFilter<Image<TInputPixelType, 2>, Image<TOutputPixelType, 2>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HoughTransform2DLinesImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HoughTransform2DLinesImageFilter);
 
   /** Standard "Self" type alias. */
   using Self = HoughTransform2DLinesImageFilter;

@@ -48,7 +48,7 @@ template <typename TInputImage, typename TClassifiedImage>
 class ITK_TEMPLATE_EXPORT RGBGibbsPriorFilter : public MRFImageFilter<TInputImage, TClassifiedImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RGBGibbsPriorFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RGBGibbsPriorFilter);
 
   /** Standard "Self" type alias. */
   using Self = RGBGibbsPriorFilter;

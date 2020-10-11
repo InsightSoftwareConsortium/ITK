@@ -60,7 +60,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT BSplineControlPointImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineControlPointImageFilter);
 
   using Self = BSplineControlPointImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;

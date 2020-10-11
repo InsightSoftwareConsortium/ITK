@@ -34,7 +34,7 @@ template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT ScalableAffineTransform : public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalableAffineTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalableAffineTransform);
 
   /** Standard type alias   */
   using Self = ScalableAffineTransform;

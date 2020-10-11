@@ -56,7 +56,7 @@ class ITK_TEMPLATE_EXPORT ShapePriorSegmentationLevelSetFunction
   : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapePriorSegmentationLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = ShapePriorSegmentationLevelSetFunction;

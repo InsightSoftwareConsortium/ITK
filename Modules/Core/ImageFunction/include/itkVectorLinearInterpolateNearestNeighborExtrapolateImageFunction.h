@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT VectorLinearInterpolateNearestNeighborExtrapolateImage
   : public VectorInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorLinearInterpolateNearestNeighborExtrapolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorLinearInterpolateNearestNeighborExtrapolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = VectorLinearInterpolateNearestNeighborExtrapolateImageFunction;

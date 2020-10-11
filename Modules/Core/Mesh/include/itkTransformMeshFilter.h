@@ -42,7 +42,7 @@ template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 class ITK_TEMPLATE_EXPORT TransformMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformMeshFilter);
 
   /** Standard class type aliases. */
   using Self = TransformMeshFilter;

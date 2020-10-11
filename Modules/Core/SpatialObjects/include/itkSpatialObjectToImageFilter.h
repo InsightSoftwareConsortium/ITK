@@ -41,7 +41,7 @@ template <typename TInputSpatialObject, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT SpatialObjectToImageFilter : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SpatialObjectToImageFilter);
 
   /** Standard class type aliases. */
   using Self = SpatialObjectToImageFilter;

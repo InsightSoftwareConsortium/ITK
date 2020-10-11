@@ -59,7 +59,7 @@ template <typename TInputImage, typename TOutputImage, typename TVoronoiImage = 
 class ITK_TEMPLATE_EXPORT DanielssonDistanceMapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DanielssonDistanceMapImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DanielssonDistanceMapImageFilter);
 
   /** Standard class type aliases. */
   using Self = DanielssonDistanceMapImageFilter;

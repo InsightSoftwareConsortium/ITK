@@ -50,7 +50,7 @@ namespace itk
 class ITKCommon_EXPORT PlatformMultiThreader : public MultiThreaderBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PlatformMultiThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(PlatformMultiThreader);
 
   /** Standard class type aliases. */
   using Self = PlatformMultiThreader;

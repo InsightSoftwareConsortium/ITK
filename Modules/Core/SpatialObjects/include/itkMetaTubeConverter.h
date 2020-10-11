@@ -35,7 +35,7 @@ template <unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT MetaTubeConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaTubeConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaTubeConverter);
 
   /** Standard class type aliases */
   using Self = MetaTubeConverter;

@@ -46,7 +46,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT StatisticsRelabelLabelMapFilter : public ShapeRelabelLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsRelabelLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsRelabelLabelMapFilter;

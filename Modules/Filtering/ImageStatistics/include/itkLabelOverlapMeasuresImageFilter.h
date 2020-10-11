@@ -46,7 +46,7 @@ template <typename TLabelImage>
 class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter : public ImageToImageFilter<TLabelImage, TLabelImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlapMeasuresImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelOverlapMeasuresImageFilter);
 
   /** Standard Self type alias */
   using Self = LabelOverlapMeasuresImageFilter;

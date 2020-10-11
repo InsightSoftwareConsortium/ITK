@@ -64,7 +64,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ZeroCrossingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ZeroCrossingImageFilter);
 
   /** Standard "Self" & Superclass type alias. */
   using Self = ZeroCrossingImageFilter;

@@ -58,7 +58,7 @@ template <typename TInputImage, typename TOutputImage>
 class CurvatureAnisotropicDiffusionImageFilter : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureAnisotropicDiffusionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CurvatureAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = CurvatureAnisotropicDiffusionImageFilter;

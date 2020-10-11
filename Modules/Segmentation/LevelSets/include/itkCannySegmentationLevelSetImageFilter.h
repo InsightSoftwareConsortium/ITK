@@ -131,7 +131,7 @@ class ITK_TEMPLATE_EXPORT CannySegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CannySegmentationLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = CannySegmentationLevelSetImageFilter;

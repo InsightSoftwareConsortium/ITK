@@ -69,7 +69,7 @@ class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldTransform
   : public VelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingBSplineVelocityFieldTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(TimeVaryingBSplineVelocityFieldTransform);
 
   /** Standard class type aliases. */
   using Self = TimeVaryingBSplineVelocityFieldTransform;

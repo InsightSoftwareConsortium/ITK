@@ -41,7 +41,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 class GPUPDEDeformableRegistrationFunction : public GPUFiniteDifferenceFunction<TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUPDEDeformableRegistrationFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUPDEDeformableRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = GPUPDEDeformableRegistrationFunction;

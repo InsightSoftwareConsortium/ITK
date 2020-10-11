@@ -87,7 +87,7 @@ extern ITKIOJPEG2000_EXPORT std::ostream &
 class ITKIOJPEG2000_EXPORT JPEG2000ImageIO : public StreamingImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(JPEG2000ImageIO);
 
   /** Standard class type aliases. */
   using Self = JPEG2000ImageIO;

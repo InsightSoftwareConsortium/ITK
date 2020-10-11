@@ -47,7 +47,7 @@ template <typename TImageType, typename TFeatureImageType = TImageType>
 class ITK_TEMPLATE_EXPORT SegmentationLevelSetFunction : public LevelSetFunction<TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationLevelSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SegmentationLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = SegmentationLevelSetFunction;

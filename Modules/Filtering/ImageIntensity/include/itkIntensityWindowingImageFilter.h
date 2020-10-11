@@ -153,7 +153,7 @@ class ITK_TEMPLATE_EXPORT IntensityWindowingImageFilter
       Functor::IntensityWindowingTransform<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IntensityWindowingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(IntensityWindowingImageFilter);
 
   /** Standard class type aliases. */
   using Self = IntensityWindowingImageFilter;

@@ -34,7 +34,7 @@ class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4GetValueAndDerivativeTh
   : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader;

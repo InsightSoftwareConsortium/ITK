@@ -35,7 +35,7 @@ template <unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT MetaGaussianConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaGaussianConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaGaussianConverter);
 
   /** Standard class type aliases */
   using Self = MetaGaussianConverter;

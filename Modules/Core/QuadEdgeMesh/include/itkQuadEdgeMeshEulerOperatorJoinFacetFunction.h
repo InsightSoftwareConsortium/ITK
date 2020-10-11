@@ -33,7 +33,7 @@ template <typename TMesh, typename TQEType>
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorJoinFacetFunction : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorJoinFacetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshEulerOperatorJoinFacetFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorJoinFacetFunction;

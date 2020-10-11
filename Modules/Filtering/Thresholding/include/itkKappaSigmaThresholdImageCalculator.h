@@ -52,7 +52,7 @@ template <typename TInputImage, typename TMaskImage>
 class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageCalculator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(KappaSigmaThresholdImageCalculator);
 
   /** Standard class type aliases. */
   using Self = KappaSigmaThresholdImageCalculator;

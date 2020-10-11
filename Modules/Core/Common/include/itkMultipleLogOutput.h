@@ -40,7 +40,7 @@ namespace itk
 class ITKCommon_EXPORT MultipleLogOutput : public LogOutput
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);
+  ITK_DISALLOW_COPY_AND_MOVE(MultipleLogOutput);
 
   using Self = MultipleLogOutput;
   using Superclass = LogOutput;

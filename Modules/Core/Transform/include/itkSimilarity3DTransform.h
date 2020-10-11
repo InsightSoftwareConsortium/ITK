@@ -47,7 +47,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT Similarity3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Similarity3DTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(Similarity3DTransform);
 
   /** Standard class type aliases. */
   using Self = Similarity3DTransform;

@@ -43,7 +43,7 @@ class ITK_TEMPLATE_EXPORT NaryFunctorImageFilter : public InPlaceImageFilter<TIn
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NaryFunctorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NaryFunctorImageFilter);
 
   /** Standard class type aliases. */
   using Self = NaryFunctorImageFilter;

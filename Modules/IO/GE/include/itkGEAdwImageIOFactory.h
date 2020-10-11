@@ -33,7 +33,7 @@ namespace itk
 class ITKIOGE_EXPORT GEAdwImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GEAdwImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = GEAdwImageIOFactory;

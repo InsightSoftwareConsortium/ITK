@@ -44,7 +44,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT GaussianSpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianSpatialObject);
 
   using Self = GaussianSpatialObject;
   using ScalarType = double;

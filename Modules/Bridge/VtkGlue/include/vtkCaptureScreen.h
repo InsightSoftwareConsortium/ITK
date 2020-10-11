@@ -28,7 +28,7 @@ template <typename TImageWriter>
 class vtkCaptureScreen
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(vtkCaptureScreen);
+  ITK_DISALLOW_COPY_AND_MOVE(vtkCaptureScreen);
 
   using ImageWriterType = TImageWriter;
 

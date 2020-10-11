@@ -43,7 +43,7 @@ class VanHerkGilWermanErodeImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VanHerkGilWermanErodeImageFilter);
 
   using Self = VanHerkGilWermanErodeImageFilter;
   using Superclass = VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, MinFunctor<typename TImage::PixelType>>;

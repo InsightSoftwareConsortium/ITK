@@ -142,7 +142,7 @@ class ITK_TEMPLATE_EXPORT ClampImageFilter
                                    Functor::Clamp<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ClampImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ClampImageFilter);
 
   /** Standard class type aliases. */
   using Self = ClampImageFilter;

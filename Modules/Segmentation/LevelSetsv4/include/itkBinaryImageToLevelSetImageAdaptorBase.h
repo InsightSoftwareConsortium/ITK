@@ -32,7 +32,7 @@ template <typename TInputImage, typename TLevelSet>
 class BinaryImageToLevelSetImageAdaptorBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptorBase);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToLevelSetImageAdaptorBase);
 
   using Self = BinaryImageToLevelSetImageAdaptorBase;
   using Pointer = SmartPointer<Self>;

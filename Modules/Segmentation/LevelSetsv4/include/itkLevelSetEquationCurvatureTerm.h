@@ -49,7 +49,7 @@ template <typename TInput, // Input image or mesh
 class ITK_TEMPLATE_EXPORT LevelSetEquationCurvatureTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationCurvatureTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationCurvatureTerm);
 
   using Self = LevelSetEquationCurvatureTerm;
   using Pointer = SmartPointer<Self>;

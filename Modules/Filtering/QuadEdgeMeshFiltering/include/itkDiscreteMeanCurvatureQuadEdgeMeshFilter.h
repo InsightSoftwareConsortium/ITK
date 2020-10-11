@@ -36,7 +36,7 @@ template <typename TInputMesh, typename TOutputMesh = TInputMesh>
 class DiscreteMeanCurvatureQuadEdgeMeshFilter : public DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteMeanCurvatureQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DiscreteMeanCurvatureQuadEdgeMeshFilter);
 
   using Self = DiscreteMeanCurvatureQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;

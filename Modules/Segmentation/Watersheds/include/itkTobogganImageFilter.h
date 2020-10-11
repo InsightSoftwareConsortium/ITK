@@ -39,7 +39,7 @@ template <typename TInputImage, typename TOutputImage = Image<IdentifierType, TI
 class ITK_TEMPLATE_EXPORT TobogganImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TobogganImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TobogganImageFilter);
 
   /** Standard "Self" type alias.   */
   using Self = TobogganImageFilter;

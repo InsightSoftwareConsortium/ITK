@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT DemonsRegistrationFunction
   : public PDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(DemonsRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = DemonsRegistrationFunction;

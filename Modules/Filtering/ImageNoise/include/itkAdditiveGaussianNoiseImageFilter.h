@@ -54,7 +54,7 @@ template <class TInputImage, class TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT AdditiveGaussianNoiseImageFilter : public NoiseBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AdditiveGaussianNoiseImageFilter);
 
   /** Standard class type aliases. */
   using Self = AdditiveGaussianNoiseImageFilter;

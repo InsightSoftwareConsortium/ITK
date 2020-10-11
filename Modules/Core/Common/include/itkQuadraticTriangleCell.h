@@ -40,7 +40,7 @@ class ITK_TEMPLATE_EXPORT QuadraticTriangleCell
   , private QuadraticTriangleCellTopology
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticTriangleCell);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadraticTriangleCell);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(QuadraticTriangleCell);

@@ -108,7 +108,7 @@ class StandardDeviationProjectionImageFilter
                                  Functor::StandardDeviationAccumulator<typename TInputImage::PixelType, TAccumulate>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationProjectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StandardDeviationProjectionImageFilter);
 
   using Self = StandardDeviationProjectionImageFilter;
 

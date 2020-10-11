@@ -59,7 +59,7 @@ template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImag
 class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilterBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(VoronoiSegmentationImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = VoronoiSegmentationImageFilterBase;

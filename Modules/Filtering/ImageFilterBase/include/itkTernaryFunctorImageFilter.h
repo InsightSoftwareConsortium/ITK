@@ -43,7 +43,7 @@ template <typename TInputImage1,
 class ITK_TEMPLATE_EXPORT TernaryFunctorImageFilter : public InPlaceImageFilter<TInputImage1, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryFunctorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TernaryFunctorImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryFunctorImageFilter;

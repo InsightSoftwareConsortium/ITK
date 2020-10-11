@@ -39,7 +39,7 @@ template <typename TIdentifier, typename TLevelSet>
 class LevelSetContainer : public LevelSetContainerBase<TIdentifier, TLevelSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetContainer);
 
   using Self = LevelSetContainer;
   using Superclass = LevelSetContainerBase<TIdentifier, TLevelSet>;
@@ -94,7 +94,7 @@ class LevelSetContainer<TIdentifier, LevelSetDenseImage<TImage>>
   : public LevelSetContainerBase<TIdentifier, LevelSetDenseImage<TImage>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetContainer);
 
   using LevelSetType = LevelSetDenseImage<TImage>;
 

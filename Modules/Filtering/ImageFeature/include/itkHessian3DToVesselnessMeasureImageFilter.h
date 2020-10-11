@@ -78,7 +78,7 @@ class ITK_TEMPLATE_EXPORT Hessian3DToVesselnessMeasureImageFilter
   : public ImageToImageFilter<Image<SymmetricSecondRankTensor<double, 3>, 3>, Image<TPixel, 3>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Hessian3DToVesselnessMeasureImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(Hessian3DToVesselnessMeasureImageFilter);
 
   /** Standard class type aliases. */
   using Self = Hessian3DToVesselnessMeasureImageFilter;

@@ -86,7 +86,7 @@ namespace itk
 class ITKOptimizersv4_EXPORT LBFGSOptimizerv4 : public LBFGSOptimizerBasev4<vnl_lbfgs>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizerv4);
+  ITK_DISALLOW_COPY_AND_MOVE(LBFGSOptimizerv4);
 
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizerv4;

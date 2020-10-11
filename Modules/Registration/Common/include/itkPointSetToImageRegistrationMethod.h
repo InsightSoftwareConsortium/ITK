@@ -67,7 +67,7 @@ template <typename TFixedPointSet, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT PointSetToImageRegistrationMethod : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(PointSetToImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = PointSetToImageRegistrationMethod;

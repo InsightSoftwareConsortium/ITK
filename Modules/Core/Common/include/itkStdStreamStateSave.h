@@ -47,7 +47,7 @@ namespace itk
 class StdStreamStateSave
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StdStreamStateSave);
+  ITK_DISALLOW_COPY_AND_MOVE(StdStreamStateSave);
 
   explicit StdStreamStateSave(std::ios & stream)
     : m_Ios(stream)

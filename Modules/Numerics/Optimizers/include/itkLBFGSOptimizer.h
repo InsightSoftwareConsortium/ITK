@@ -85,7 +85,7 @@ namespace itk
 class ITKOptimizers_EXPORT LBFGSOptimizer : public SingleValuedNonLinearVnlOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(LBFGSOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizer;

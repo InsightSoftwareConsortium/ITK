@@ -50,7 +50,7 @@ template <typename TParametersValueType, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IdentityTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(IdentityTransform);
 
   /** Standard class type aliases. */
   using Self = IdentityTransform;

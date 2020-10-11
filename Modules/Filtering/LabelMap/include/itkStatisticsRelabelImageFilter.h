@@ -46,7 +46,7 @@ template <typename TInputImage, typename TFeatureImage>
 class ITK_TEMPLATE_EXPORT StatisticsRelabelImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsRelabelImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsRelabelImageFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsRelabelImageFilter;

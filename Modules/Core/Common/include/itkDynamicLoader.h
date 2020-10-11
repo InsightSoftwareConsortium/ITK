@@ -43,7 +43,7 @@ using SymbolPointer = itksys::DynamicLoader::SymbolPointer;
 class ITKCommon_EXPORT DynamicLoader : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DynamicLoader);
+  ITK_DISALLOW_COPY_AND_MOVE(DynamicLoader);
 
   /** Standard class type aliases. */
   using Self = DynamicLoader;

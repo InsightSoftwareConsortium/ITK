@@ -58,7 +58,7 @@ namespace Statistics
 class ITKStatistics_EXPORT ChiSquareDistribution : public ProbabilityDistribution
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChiSquareDistribution);
+  ITK_DISALLOW_COPY_AND_MOVE(ChiSquareDistribution);
 
   /** Standard class type aliases */
   using Self = ChiSquareDistribution;

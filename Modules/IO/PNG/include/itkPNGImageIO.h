@@ -39,7 +39,7 @@ namespace itk
 class ITKIOPNG_EXPORT PNGImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(PNGImageIO);
 
   /** Standard class type aliases. */
   using Self = PNGImageIO;

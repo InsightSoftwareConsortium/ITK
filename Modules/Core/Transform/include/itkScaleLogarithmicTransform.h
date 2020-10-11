@@ -35,7 +35,7 @@ template <typename TParametersValueType = float, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform : public ScaleTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleLogarithmicTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ScaleLogarithmicTransform);
 
   /** Standard class type aliases.   */
   using Self = ScaleLogarithmicTransform;

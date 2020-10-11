@@ -55,7 +55,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT CenteredSimilarity2DTransform : public Similarity2DTransform<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredSimilarity2DTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(CenteredSimilarity2DTransform);
 
   /** Standard class type aliases. */
   using Self = CenteredSimilarity2DTransform;

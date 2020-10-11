@@ -34,7 +34,7 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshZipMeshFunction
   : public QuadEdgeMeshFunctionBase<TMesh, typename TQEType::OriginRefType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshZipMeshFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshZipMeshFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshZipMeshFunction;

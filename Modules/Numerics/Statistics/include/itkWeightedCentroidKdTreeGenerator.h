@@ -67,7 +67,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT WeightedCentroidKdTreeGenerator : public KdTreeGenerator<TSample>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCentroidKdTreeGenerator);
+  ITK_DISALLOW_COPY_AND_MOVE(WeightedCentroidKdTreeGenerator);
 
   /** Standard class type aliases */
   using Self = WeightedCentroidKdTreeGenerator;

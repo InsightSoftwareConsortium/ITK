@@ -71,7 +71,7 @@ extern ITKIODCMTK_EXPORT std::ostream &
 class ITKIODCMTK_EXPORT DCMTKImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(DCMTKImageIO);
 
   /** Standard class type aliases. */
   using Self = DCMTKImageIO;

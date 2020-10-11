@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT MorphologicalGradientImageFilter
   : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalGradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphologicalGradientImageFilter);
 
   /** Standard class type aliases. */
   using Self = MorphologicalGradientImageFilter;

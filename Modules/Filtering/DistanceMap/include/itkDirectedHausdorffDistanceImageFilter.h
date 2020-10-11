@@ -73,7 +73,7 @@ template <typename TInputImage1, typename TInputImage2>
 class ITK_TEMPLATE_EXPORT DirectedHausdorffDistanceImageFilter : public ImageToImageFilter<TInputImage1, TInputImage1>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DirectedHausdorffDistanceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DirectedHausdorffDistanceImageFilter);
 
   /** Standard Self type alias */
   using Self = DirectedHausdorffDistanceImageFilter;

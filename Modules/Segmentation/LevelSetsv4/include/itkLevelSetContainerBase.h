@@ -42,7 +42,7 @@ template <typename TIdentifier, typename TLevelSet>
 class ITK_TEMPLATE_EXPORT LevelSetContainerBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainerBase);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetContainerBase);
 
   using Self = LevelSetContainerBase;
   using Pointer = SmartPointer<Self>;

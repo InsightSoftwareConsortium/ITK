@@ -49,7 +49,7 @@ template <typename TInput, // Input image or mesh
 class ITK_TEMPLATE_EXPORT LevelSetEquationPropagationTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationPropagationTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationPropagationTerm);
 
   using Self = LevelSetEquationPropagationTerm;
   using Pointer = SmartPointer<Self>;

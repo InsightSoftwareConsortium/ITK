@@ -49,7 +49,7 @@ template <typename TInputImage, // Input image
 class ITK_TEMPLATE_EXPORT LevelSetEquationTermBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationTermBase);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationTermBase);
 
   using Self = LevelSetEquationTermBase;
   using Pointer = SmartPointer<Self>;

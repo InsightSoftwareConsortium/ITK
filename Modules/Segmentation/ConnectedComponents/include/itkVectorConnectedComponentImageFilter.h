@@ -113,7 +113,7 @@ class VectorConnectedComponentImageFilter
                                                 TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorConnectedComponentImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorConnectedComponentImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorConnectedComponentImageFilter;

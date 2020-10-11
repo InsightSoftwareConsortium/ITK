@@ -60,7 +60,7 @@ namespace itk
 class ITKCommon_EXPORT ProgressReporter
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProgressReporter);
+  ITK_DISALLOW_COPY_AND_MOVE(ProgressReporter);
 
   /** Constructor sets progress to 0 because the filter is starting.  */
   ProgressReporter(ProcessObject * filter,

@@ -40,7 +40,7 @@ namespace itk
 class DOMTextNode : public DOMNode
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTextNode);
+  ITK_DISALLOW_COPY_AND_MOVE(DOMTextNode);
 
   /** Standard class type aliases. */
   using Self = DOMTextNode;

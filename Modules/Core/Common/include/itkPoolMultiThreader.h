@@ -45,7 +45,7 @@ namespace itk
 class ITKCommon_EXPORT PoolMultiThreader : public MultiThreaderBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PoolMultiThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(PoolMultiThreader);
 
   /** Standard class type aliases. */
   using Self = PoolMultiThreader;

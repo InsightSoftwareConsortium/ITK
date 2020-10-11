@@ -37,7 +37,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT BoxSpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoxSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(BoxSpatialObject);
 
   using Self = BoxSpatialObject;
   using ScalarType = double;

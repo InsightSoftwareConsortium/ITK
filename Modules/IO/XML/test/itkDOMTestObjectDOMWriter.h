@@ -29,7 +29,7 @@ namespace itk
 class DOMTestObjectDOMWriter : public DOMWriter<DOMTestObject>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObjectDOMWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(DOMTestObjectDOMWriter);
 
   /** Standard class type aliases. */
   using Self = DOMTestObjectDOMWriter;

@@ -39,7 +39,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT GroupSpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GroupSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(GroupSpatialObject);
 
   using Self = GroupSpatialObject;
   using Superclass = SpatialObject<TDimension>;

@@ -43,7 +43,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT StatisticsUniqueLabelMapFilter : public ShapeUniqueLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsUniqueLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsUniqueLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsUniqueLabelMapFilter;

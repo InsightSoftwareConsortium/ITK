@@ -33,7 +33,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT LevelSetDomainPartition : public LevelSetDomainPartitionBase<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartition);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetDomainPartition);
 
   using Self = LevelSetDomainPartition;
   using Superclass = LevelSetDomainPartitionBase<TImage>;

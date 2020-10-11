@@ -35,7 +35,7 @@ namespace itk
 class ITKOptimizers_EXPORT SingleValuedNonLinearOptimizer : public NonLinearOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(SingleValuedNonLinearOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = SingleValuedNonLinearOptimizer;

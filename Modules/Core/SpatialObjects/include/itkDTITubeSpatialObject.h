@@ -43,7 +43,7 @@ class ITK_TEMPLATE_EXPORT DTITubeSpatialObject
   : public TubeSpatialObject<TDimension, DTITubeSpatialObjectPoint<TDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DTITubeSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(DTITubeSpatialObject);
 
   using Self = DTITubeSpatialObject;
   using Superclass = TubeSpatialObject<TDimension, DTITubeSpatialObjectPoint<TDimension>>;

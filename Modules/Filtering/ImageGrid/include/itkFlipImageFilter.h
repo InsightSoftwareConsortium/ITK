@@ -53,7 +53,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT FlipImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FlipImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FlipImageFilter);
 
   /** Standard class type aliases. */
   using Self = FlipImageFilter;

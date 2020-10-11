@@ -48,7 +48,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT LabelShapeOpeningImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelShapeOpeningImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelShapeOpeningImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelShapeOpeningImageFilter;

@@ -62,7 +62,7 @@ template <typename TMeasurementVector>
 class Sample : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Sample);
+  ITK_DISALLOW_COPY_AND_MOVE(Sample);
 
   /** Standard class type aliases */
   using Self = Sample;

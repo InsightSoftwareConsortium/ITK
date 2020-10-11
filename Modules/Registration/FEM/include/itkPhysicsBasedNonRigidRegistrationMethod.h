@@ -62,7 +62,7 @@ class ITK_TEMPLATE_EXPORT PhysicsBasedNonRigidRegistrationMethod
   : public ImageToImageFilter<TMovingImage, TDeformationField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicsBasedNonRigidRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(PhysicsBasedNonRigidRegistrationMethod);
 
   using Self = PhysicsBasedNonRigidRegistrationMethod;
   using Superclass = ImageToImageFilter<TMovingImage, TDeformationField>;

@@ -204,7 +204,7 @@ private:
 class ITKFFT_EXPORT FFTWGlobalConfiguration : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWGlobalConfiguration);
+  ITK_DISALLOW_COPY_AND_MOVE(FFTWGlobalConfiguration);
 
   /** Standard class type aliases. */
   using Self = FFTWGlobalConfiguration;

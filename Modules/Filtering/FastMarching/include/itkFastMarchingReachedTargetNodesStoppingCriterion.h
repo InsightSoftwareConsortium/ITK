@@ -59,7 +59,7 @@ template <typename TInput, typename TOutput>
 class FastMarchingReachedTargetNodesStoppingCriterion : public FastMarchingStoppingCriterionBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingReachedTargetNodesStoppingCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingReachedTargetNodesStoppingCriterion);
 
   using Self = FastMarchingReachedTargetNodesStoppingCriterion;
   using Superclass = FastMarchingStoppingCriterionBase<TInput, TOutput>;

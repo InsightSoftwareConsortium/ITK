@@ -137,7 +137,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT VectorGradientMagnitudeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientMagnitudeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorGradientMagnitudeImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorGradientMagnitudeImageFilter;

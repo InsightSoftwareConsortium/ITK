@@ -48,7 +48,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT BasicDilateImageFilter : public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BasicDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BasicDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = BasicDilateImageFilter;

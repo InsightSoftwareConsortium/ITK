@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT VotingBinaryHoleFillingImageFilter : public VotingBinaryImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryHoleFillingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VotingBinaryHoleFillingImageFilter);
 
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

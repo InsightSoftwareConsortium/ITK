@@ -54,7 +54,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT GrayscaleDilateImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleDilateImageFilter;

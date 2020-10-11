@@ -67,7 +67,7 @@ template <typename TNode, unsigned int VImageDimension = 2>
 class ITK_TEMPLATE_EXPORT SparseImage : public Image<TNode *, VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseImage);
+  ITK_DISALLOW_COPY_AND_MOVE(SparseImage);
 
   /** Standard type alias. */
   using Self = SparseImage;

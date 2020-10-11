@@ -47,7 +47,7 @@ template <typename TInputImage, typename TFeatureImage>
 class ITK_TEMPLATE_EXPORT LabelStatisticsKeepNObjectsImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsKeepNObjectsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelStatisticsKeepNObjectsImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelStatisticsKeepNObjectsImageFilter;

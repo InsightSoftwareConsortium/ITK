@@ -55,7 +55,7 @@ template <typename TOutputImage, typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT TransformToDisplacementFieldFilter : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformToDisplacementFieldFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformToDisplacementFieldFilter);
 
   /** Standard class type aliases. */
   using Self = TransformToDisplacementFieldFilter;

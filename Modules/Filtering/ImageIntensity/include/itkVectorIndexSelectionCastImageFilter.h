@@ -100,7 +100,7 @@ class VectorIndexSelectionCastImageFilter
       Functor::VectorIndexSelectionCast<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorIndexSelectionCastImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorIndexSelectionCastImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorIndexSelectionCastImageFilter;

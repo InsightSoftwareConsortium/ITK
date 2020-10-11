@@ -49,7 +49,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT HardConnectedComponentImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HardConnectedComponentImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HardConnectedComponentImageFilter);
 
   /**
    * Standard class typedef's

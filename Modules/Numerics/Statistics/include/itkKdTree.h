@@ -527,7 +527,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT KdTree : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KdTree);
+  ITK_DISALLOW_COPY_AND_MOVE(KdTree);
 
   /** Standard class type aliases */
   using Self = KdTree;

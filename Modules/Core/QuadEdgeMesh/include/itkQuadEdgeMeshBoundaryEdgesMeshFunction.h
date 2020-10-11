@@ -38,7 +38,7 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshBoundaryEdgesMeshFunction
   : public FunctionBase<TMesh, typename TMesh::EdgeListPointerType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshBoundaryEdgesMeshFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshBoundaryEdgesMeshFunction);
 
   // Standard types
   using Self = QuadEdgeMeshBoundaryEdgesMeshFunction;

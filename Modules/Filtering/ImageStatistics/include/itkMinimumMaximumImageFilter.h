@@ -48,7 +48,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT MinimumMaximumImageFilter : public ImageSink<TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MinimumMaximumImageFilter);
 
   /** Extract dimension from input image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

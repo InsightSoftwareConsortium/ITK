@@ -61,7 +61,7 @@ template <typename TInputImage, typename TOutputImage>
 class ComplexToRealImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToRealImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ComplexToRealImageFilter);
 
   /** Standard class type aliases. */
   using Self = ComplexToRealImageFilter;

@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT GrayscaleFunctionDilateImageFilter
   : public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleFunctionDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleFunctionDilateImageFilter;

@@ -80,7 +80,7 @@ class ComplexToModulusImageAdaptor
   : public ImageAdaptor<TImage, Accessor::ComplexToModulusPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToModulusImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(ComplexToModulusImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = ComplexToModulusImageAdaptor;

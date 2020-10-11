@@ -57,7 +57,7 @@ template <typename TInputImage, typename TSourceImage = TInputImage, typename TO
 class ITK_TEMPLATE_EXPORT PasteImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PasteImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PasteImageFilter);
 
   /** Standard class type aliases. */
   using Self = PasteImageFilter;

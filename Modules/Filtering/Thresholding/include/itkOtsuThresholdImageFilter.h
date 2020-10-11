@@ -56,7 +56,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOu
 class OtsuThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OtsuThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(OtsuThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = OtsuThresholdImageFilter;

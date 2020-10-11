@@ -79,7 +79,7 @@ class AcosImageAdaptor
   : public ImageAdaptor<TImage, Accessor::AcosPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AcosImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(AcosImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = AcosImageAdaptor;

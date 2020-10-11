@@ -111,7 +111,7 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT AutomaticTopologyMeshSource : public MeshSource<TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AutomaticTopologyMeshSource);
+  ITK_DISALLOW_COPY_AND_MOVE(AutomaticTopologyMeshSource);
 
   /** Standard "Self" type alias. */
   using Self = AutomaticTopologyMeshSource;

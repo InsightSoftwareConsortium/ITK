@@ -39,7 +39,7 @@ class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4ModifyGradientByLearning
                           GradientDescentOptimizerBasev4Template<TInternalComputationValueType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate);
 
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate;

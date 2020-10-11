@@ -37,7 +37,7 @@ class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4HelperThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4HelperThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(CorrelationImageToImageMetricv4HelperThreader);
 
   /** Standard class type aliases. */
   using Self = CorrelationImageToImageMetricv4HelperThreader;

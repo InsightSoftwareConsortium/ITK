@@ -45,7 +45,7 @@ template <typename TInput, typename TOutput>
 class ITK_TEMPLATE_EXPORT FastMarchingQuadEdgeMeshFilterBase : public FastMarchingBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingQuadEdgeMeshFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingQuadEdgeMeshFilterBase);
 
   using Self = FastMarchingQuadEdgeMeshFilterBase;
   using Superclass = FastMarchingBase<TInput, TOutput>;

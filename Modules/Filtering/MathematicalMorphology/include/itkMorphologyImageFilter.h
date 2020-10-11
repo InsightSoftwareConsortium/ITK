@@ -72,7 +72,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT MorphologyImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologyImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphologyImageFilter);
 
   /** Standard Self type alias */
   using Self = MorphologyImageFilter;

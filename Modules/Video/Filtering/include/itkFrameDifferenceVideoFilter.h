@@ -37,7 +37,7 @@ template <typename TInputVideoStream, typename TOutputVideoStream>
 class ITK_TEMPLATE_EXPORT FrameDifferenceVideoFilter : public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrameDifferenceVideoFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FrameDifferenceVideoFilter);
 
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;

@@ -73,7 +73,7 @@ template <typename TInputMesh, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT TriangleMeshToBinaryImageFilter : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleMeshToBinaryImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TriangleMeshToBinaryImageFilter);
 
   /** Standard class type aliases. */
   using Self = TriangleMeshToBinaryImageFilter;

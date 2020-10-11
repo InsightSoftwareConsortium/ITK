@@ -67,7 +67,7 @@ class ITK_FORWARD_EXPORT LBFGSBOptimizerHelperv4;
 class ITKOptimizersv4_EXPORT LBFGSBOptimizerv4 : public LBFGSOptimizerBasev4<vnl_lbfgsb>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizerv4);
+  ITK_DISALLOW_COPY_AND_MOVE(LBFGSBOptimizerv4);
 
   /** Standard "Self" type alias. */
   using Self = LBFGSBOptimizerv4;

@@ -47,7 +47,7 @@ template <typename THistogram, typename TOutput>
 class HistogramThresholdCalculator : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramThresholdCalculator);
 
   /** Standard class type aliases. */
   using Self = HistogramThresholdCalculator;

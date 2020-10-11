@@ -48,7 +48,7 @@ template <typename TInputMesh, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT ConformalFlatteningMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConformalFlatteningMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConformalFlatteningMeshFilter);
 
   /** Standard class type aliases. */
   using Self = ConformalFlatteningMeshFilter;

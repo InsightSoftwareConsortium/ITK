@@ -47,7 +47,7 @@ class ITK_TEMPLATE_EXPORT TriangleCell
   , private TriangleCellTopology
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleCell);
+  ITK_DISALLOW_COPY_AND_MOVE(TriangleCell);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(TriangleCell);

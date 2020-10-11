@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT GradientMagnitudeRecursiveGaussianImageFilter
   : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientMagnitudeRecursiveGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientMagnitudeRecursiveGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = GradientMagnitudeRecursiveGaussianImageFilter;

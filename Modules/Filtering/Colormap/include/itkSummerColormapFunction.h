@@ -45,7 +45,7 @@ template <typename TScalar, typename TRGBPixel>
 class ITK_TEMPLATE_EXPORT SummerColormapFunction : public ColormapFunction<TScalar, TRGBPixel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SummerColormapFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SummerColormapFunction);
 
   using Self = SummerColormapFunction;
   using Superclass = ColormapFunction<TScalar, TRGBPixel>;

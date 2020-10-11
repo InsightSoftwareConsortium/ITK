@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT VnlRealToHalfHermitianForwardFFTImageFilter
   : public RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlRealToHalfHermitianForwardFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VnlRealToHalfHermitianForwardFFTImageFilter);
 
   /** Standard class type aliases. */
   using InputImageType = TInputImage;

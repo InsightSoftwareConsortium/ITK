@@ -28,7 +28,7 @@ namespace itk
 class DOMTestObject : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObject);
+  ITK_DISALLOW_COPY_AND_MOVE(DOMTestObject);
 
   /** Standard class type aliases. */
   using Self = DOMTestObject;

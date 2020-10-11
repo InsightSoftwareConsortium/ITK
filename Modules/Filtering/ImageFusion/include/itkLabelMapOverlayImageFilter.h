@@ -60,7 +60,7 @@ template <typename TLabelMap,
 class ITK_TEMPLATE_EXPORT LabelMapOverlayImageFilter : public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapOverlayImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelMapOverlayImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelMapOverlayImageFilter;

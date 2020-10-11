@@ -100,7 +100,7 @@ class BinaryThresholdProjectionImageFilter
       Function::BinaryThresholdAccumulator<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdProjectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryThresholdProjectionImageFilter);
 
   using Self = BinaryThresholdProjectionImageFilter;
   using Superclass = ProjectionImageFilter<

@@ -42,7 +42,7 @@ namespace itk
 class ITKIOLSM_EXPORT LSMImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LSMImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(LSMImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = LSMImageIOFactory;

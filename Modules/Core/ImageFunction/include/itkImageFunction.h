@@ -55,7 +55,7 @@ template <typename TInputImage, typename TOutput, typename TCoordRep = float>
 class ITK_TEMPLATE_EXPORT ImageFunction : public FunctionBase<Point<TCoordRep, TInputImage::ImageDimension>, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageFunction);
 
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

@@ -71,7 +71,7 @@ template <typename TLabelObject>
 class ITK_TEMPLATE_EXPORT LabelMap : public ImageBase<TLabelObject::ImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMap);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelMap);
 
   /** Standard class type aliases */
   using Self = LabelMap;

@@ -41,7 +41,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT GPUImageToImageFilter : public TParentImageFilter
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUImageToImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUImageToImageFilter;

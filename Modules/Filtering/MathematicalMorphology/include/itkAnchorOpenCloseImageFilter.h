@@ -51,7 +51,7 @@ template <typename TImage, typename TKernel, typename TCompare1, typename TCompa
 class ITK_TEMPLATE_EXPORT AnchorOpenCloseImageFilter : public KernelImageFilter<TImage, TImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenCloseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AnchorOpenCloseImageFilter);
 
   /** Standard class type aliases. */
   using Self = AnchorOpenCloseImageFilter;

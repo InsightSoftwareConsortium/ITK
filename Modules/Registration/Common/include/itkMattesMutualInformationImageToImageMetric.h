@@ -117,7 +117,7 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetric
   : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(MattesMutualInformationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MattesMutualInformationImageToImageMetric;

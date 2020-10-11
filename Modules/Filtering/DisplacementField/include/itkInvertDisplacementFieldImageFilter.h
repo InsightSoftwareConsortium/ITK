@@ -41,7 +41,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT InvertDisplacementFieldImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InvertDisplacementFieldImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(InvertDisplacementFieldImageFilter);
 
   using Self = InvertDisplacementFieldImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;

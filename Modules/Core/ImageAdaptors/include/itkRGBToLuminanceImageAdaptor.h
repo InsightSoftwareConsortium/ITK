@@ -80,7 +80,7 @@ class RGBToLuminanceImageAdaptor
   : public ImageAdaptor<TImage, Accessor::RGBToLuminancePixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(RGBToLuminanceImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = RGBToLuminanceImageAdaptor;

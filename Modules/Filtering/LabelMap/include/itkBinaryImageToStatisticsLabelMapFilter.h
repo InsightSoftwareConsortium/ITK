@@ -44,7 +44,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT BinaryImageToStatisticsLabelMapFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToStatisticsLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToStatisticsLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryImageToStatisticsLabelMapFilter;

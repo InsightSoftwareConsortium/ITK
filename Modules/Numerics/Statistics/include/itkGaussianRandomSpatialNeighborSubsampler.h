@@ -49,7 +49,7 @@ class ITK_TEMPLATE_EXPORT GaussianRandomSpatialNeighborSubsampler
   : public UniformRandomSpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianRandomSpatialNeighborSubsampler);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianRandomSpatialNeighborSubsampler);
 
   /** Standard class type aliases */
   using Self = GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>;

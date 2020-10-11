@@ -54,7 +54,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT ImageDuplicator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageDuplicator);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageDuplicator);
 
   /** Standard class type aliases. */
   using Self = ImageDuplicator;

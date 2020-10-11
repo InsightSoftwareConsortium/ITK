@@ -65,7 +65,7 @@ template <typename TLabel, unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT LabelObject : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelObject);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelObject);
 
   /** Standard class type aliases */
   using Self = LabelObject;

@@ -35,7 +35,7 @@ namespace itk
 class FileFreeImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileFreeImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(FileFreeImageIO);
 
   /** Standard class type aliases. */
   using Self = FileFreeImageIO;

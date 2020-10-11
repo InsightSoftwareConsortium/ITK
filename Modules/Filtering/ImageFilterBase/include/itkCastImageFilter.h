@@ -104,7 +104,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT CastImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CastImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CastImageFilter);
 
   /** Standard class type aliases. */
   using Self = CastImageFilter;

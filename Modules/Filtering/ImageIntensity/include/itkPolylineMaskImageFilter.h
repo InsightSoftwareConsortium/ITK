@@ -38,7 +38,7 @@ template <typename TInputImage, typename TPolyline, typename TVector, typename T
 class ITK_TEMPLATE_EXPORT PolylineMaskImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMaskImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PolylineMaskImageFilter);
 
   /** Standard class type aliases. */
   using Self = PolylineMaskImageFilter;

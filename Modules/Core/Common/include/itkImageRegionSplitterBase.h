@@ -58,7 +58,7 @@ namespace itk
 class ITKCommon_EXPORT ImageRegionSplitterBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageRegionSplitterBase);
 
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterBase;

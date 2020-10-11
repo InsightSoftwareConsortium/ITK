@@ -57,7 +57,7 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreader<
       TImageToImageMetricv4>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;
@@ -135,7 +135,7 @@ class ITK_TEMPLATE_EXPORT
                                                                  TImageToImageMetricv4>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreader;

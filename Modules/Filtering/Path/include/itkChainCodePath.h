@@ -50,7 +50,7 @@ template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT ChainCodePath : public Path<unsigned int, Offset<VDimension>, VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath);
+  ITK_DISALLOW_COPY_AND_MOVE(ChainCodePath);
 
   /** Dimension underlying input image. */
   static constexpr unsigned int Dimension = VDimension;

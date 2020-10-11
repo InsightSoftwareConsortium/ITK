@@ -47,7 +47,7 @@ class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4
   : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(MeanSquaresImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresImageToImageMetricv4;

@@ -34,7 +34,7 @@ namespace itk
 class ITKOptimizers_EXPORT SingleValuedCostFunction : public CostFunction
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedCostFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SingleValuedCostFunction);
 
   /** Standard class type aliases. */
   using Self = SingleValuedCostFunction;

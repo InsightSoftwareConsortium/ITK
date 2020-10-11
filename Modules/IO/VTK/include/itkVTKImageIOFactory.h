@@ -42,7 +42,7 @@ namespace itk
 class ITKIOVTK_EXPORT VTKImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = VTKImageIOFactory;

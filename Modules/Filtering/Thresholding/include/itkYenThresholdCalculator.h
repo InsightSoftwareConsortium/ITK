@@ -57,7 +57,7 @@ template <typename THistogram, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT YenThresholdCalculator : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(YenThresholdCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(YenThresholdCalculator);
 
   /** Standard class type aliases. */
   using Self = YenThresholdCalculator;

@@ -67,7 +67,7 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT MatchCardinalityImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MatchCardinalityImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(MatchCardinalityImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MatchCardinalityImageToImageMetric;

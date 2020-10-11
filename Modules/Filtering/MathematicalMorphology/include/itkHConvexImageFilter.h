@@ -45,7 +45,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT HConvexImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HConvexImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HConvexImageFilter);
 
   /** Standard class type aliases. */
   using Self = HConvexImageFilter;

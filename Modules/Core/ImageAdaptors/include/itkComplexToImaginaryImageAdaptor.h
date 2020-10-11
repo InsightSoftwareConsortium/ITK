@@ -83,7 +83,7 @@ class ComplexToImaginaryImageAdaptor
   : public ImageAdaptor<TImage, Accessor::ComplexToImaginaryPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToImaginaryImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(ComplexToImaginaryImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = ComplexToImaginaryImageAdaptor;

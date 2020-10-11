@@ -38,7 +38,7 @@ namespace itk
 class ITKIOMeshBYU_EXPORT BYUMeshIO : public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIO);
+  ITK_DISALLOW_COPY_AND_MOVE(BYUMeshIO);
 
   /** Standard class type aliases. */
   using Self = BYUMeshIO;

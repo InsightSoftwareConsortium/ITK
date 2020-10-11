@@ -69,7 +69,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT NarrowBandImageFilterBase : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(NarrowBandImageFilterBase);
 
   /** Standard class type aliases */
   using Self = NarrowBandImageFilterBase;

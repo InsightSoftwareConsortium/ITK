@@ -37,7 +37,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT ArrowSpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ArrowSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(ArrowSpatialObject);
 
   using Self = ArrowSpatialObject;
   using Superclass = SpatialObject<TDimension>;

@@ -41,7 +41,7 @@ namespace itk
 class ITKIOStimulate_EXPORT StimulateImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(StimulateImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = StimulateImageIOFactory;

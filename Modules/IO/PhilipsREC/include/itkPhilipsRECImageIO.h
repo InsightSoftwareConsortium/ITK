@@ -54,7 +54,7 @@ namespace itk
 class ITKIOPhilipsREC_EXPORT PhilipsRECImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(PhilipsRECImageIO);
 
   /** Standard class type aliases. */
   using Self = PhilipsRECImageIO;

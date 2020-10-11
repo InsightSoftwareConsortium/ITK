@@ -97,7 +97,7 @@ class BinaryProjectionImageFilter
       Functor::BinaryAccumulator<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryProjectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryProjectionImageFilter);
 
   using Self = BinaryProjectionImageFilter;
   using Superclass = ProjectionImageFilter<

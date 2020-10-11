@@ -55,7 +55,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT HMinimaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HMinimaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HMinimaImageFilter);
 
   /** Standard class type aliases. */
   using Self = HMinimaImageFilter;

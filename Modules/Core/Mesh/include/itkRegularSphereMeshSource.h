@@ -41,7 +41,7 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT RegularSphereMeshSource : public MeshSource<TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularSphereMeshSource);
+  ITK_DISALLOW_COPY_AND_MOVE(RegularSphereMeshSource);
 
   /** Standard "Self" type alias. */
   using Self = RegularSphereMeshSource;

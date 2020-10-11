@@ -79,7 +79,7 @@ template <
 class ITK_TEMPLATE_EXPORT BlockMatchingImageFilter : public MeshToMeshFilter<TFeatures, TDisplacements>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BlockMatchingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BlockMatchingImageFilter);
 
   static constexpr unsigned ImageDimension = TFixedImage::ImageDimension;
 

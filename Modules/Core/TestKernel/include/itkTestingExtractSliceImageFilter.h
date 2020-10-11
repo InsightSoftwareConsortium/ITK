@@ -107,7 +107,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ExtractSliceImageFilter : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractSliceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExtractSliceImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExtractSliceImageFilter;

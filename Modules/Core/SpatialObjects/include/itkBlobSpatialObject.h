@@ -48,7 +48,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT BlobSpatialObject : public PointBasedSpatialObject<TDimension, SpatialObjectPoint<TDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BlobSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(BlobSpatialObject);
 
   using Self = BlobSpatialObject;
   using Superclass = PointBasedSpatialObject<TDimension, SpatialObjectPoint<TDimension>>;

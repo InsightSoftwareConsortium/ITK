@@ -38,7 +38,7 @@ class ITK_TEMPLATE_EXPORT DelaunayConformingQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DelaunayConformingQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DelaunayConformingQuadEdgeMeshFilter);
 
   /** Basic types. */
   using Self = DelaunayConformingQuadEdgeMeshFilter;

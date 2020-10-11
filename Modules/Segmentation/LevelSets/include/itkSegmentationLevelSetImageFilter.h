@@ -145,7 +145,7 @@ class ITK_TEMPLATE_EXPORT SegmentationLevelSetImageFilter
   : public SparseFieldLevelSetImageFilter<TInputImage, Image<TOutputPixelType, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SegmentationLevelSetImageFilter);
 
   /** Inherited type alias from the superclass. Needs to be placed before the next macro. */
   using Self = SegmentationLevelSetImageFilter;

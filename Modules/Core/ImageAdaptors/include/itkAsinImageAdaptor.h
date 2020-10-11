@@ -78,7 +78,7 @@ class AsinImageAdaptor
   : public ImageAdaptor<TImage, Accessor::AsinPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(AsinImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = AsinImageAdaptor;

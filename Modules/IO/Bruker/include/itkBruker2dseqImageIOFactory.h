@@ -39,7 +39,7 @@ namespace itk
 class ITKIOBruker_EXPORT Bruker2dseqImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2dseqImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(Bruker2dseqImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = Bruker2dseqImageIOFactory;

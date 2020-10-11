@@ -47,7 +47,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT HessianRecursiveGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HessianRecursiveGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HessianRecursiveGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = HessianRecursiveGaussianImageFilter;

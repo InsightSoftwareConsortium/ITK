@@ -57,7 +57,7 @@ template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT PolyLineParametricPath : public ParametricPath<VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolyLineParametricPath);
+  ITK_DISALLOW_COPY_AND_MOVE(PolyLineParametricPath);
 
   /** Standard class type aliases. */
   using Self = PolyLineParametricPath;

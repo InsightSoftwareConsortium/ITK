@@ -39,7 +39,7 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT HistogramImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = HistogramImageToImageMetric;

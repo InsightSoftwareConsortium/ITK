@@ -59,7 +59,7 @@ template <
 class ITK_TEMPLATE_EXPORT GradientRecursiveGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientRecursiveGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientRecursiveGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = GradientRecursiveGaussianImageFilter;

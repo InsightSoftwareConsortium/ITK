@@ -45,7 +45,7 @@ class GPUDataManager : public Object // DataObject//
   friend class GPUKernelManager;
 
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDataManager);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUDataManager);
 
   using Self = GPUDataManager;
   using Superclass = Object;

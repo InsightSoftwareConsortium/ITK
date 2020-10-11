@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT LevelSetQuadEdgeMesh
   : public LevelSetBase<typename TMesh::PointIdentifier, TMesh::PointDimension, typename TMesh::PixelType, TMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetQuadEdgeMesh);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetQuadEdgeMesh);
 
   using MeshType = TMesh;
   using MeshPointer = typename TMesh::Pointer;

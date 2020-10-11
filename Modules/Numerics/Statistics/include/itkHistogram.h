@@ -77,7 +77,7 @@ template <typename TMeasurement = float, typename TFrequencyContainer = DenseFre
 class ITK_TEMPLATE_EXPORT Histogram : public Sample<Array<TMeasurement>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Histogram);
+  ITK_DISALLOW_COPY_AND_MOVE(Histogram);
 
   // This type serves as the indirect definition of MeasurementVectorType
   using ArrayType = Array<TMeasurement>;

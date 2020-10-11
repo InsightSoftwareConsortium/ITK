@@ -52,7 +52,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceListSampleFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceListSampleFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarImageToCooccurrenceListSampleFilter);
 
   using ImageType = TImage;
 

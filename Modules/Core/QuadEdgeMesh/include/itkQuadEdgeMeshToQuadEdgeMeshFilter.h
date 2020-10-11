@@ -37,7 +37,7 @@ template <typename TInputMesh, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshToQuadEdgeMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshToQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshToQuadEdgeMeshFilter);
 
   /** Basic types. */
   using Self = QuadEdgeMeshToQuadEdgeMeshFilter;

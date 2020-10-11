@@ -41,7 +41,7 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT SphereMeshSource : public MeshSource<TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SphereMeshSource);
+  ITK_DISALLOW_COPY_AND_MOVE(SphereMeshSource);
 
   /** Standard "Self" type alias. */
   using Self = SphereMeshSource;

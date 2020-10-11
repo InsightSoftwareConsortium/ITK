@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT InverseFFTImageFilter : public ImageToImageFilter<TInp
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InverseFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(InverseFFTImageFilter);
 
   /** Standard class type aliases. */
   using InputImageType = TInputImage;

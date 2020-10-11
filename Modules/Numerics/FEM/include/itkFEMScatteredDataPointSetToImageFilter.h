@@ -132,7 +132,7 @@ class ITK_TEMPLATE_EXPORT FEMScatteredDataPointSetToImageFilter
   : public PointSetToImageFilter<TInputPointSet, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMScatteredDataPointSetToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FEMScatteredDataPointSetToImageFilter);
 
   using Self = FEMScatteredDataPointSetToImageFilter;
   using Superclass = PointSetToImageFilter<TInputPointSet, TOutputImage>;

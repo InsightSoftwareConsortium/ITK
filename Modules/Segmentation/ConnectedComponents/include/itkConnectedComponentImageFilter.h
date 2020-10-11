@@ -60,7 +60,7 @@ class ITK_TEMPLATE_EXPORT ConnectedComponentImageFilter
   , protected ScanlineFilterCommon<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedComponentImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConnectedComponentImageFilter);
 
   /**
    * Standard "Self" & Superclass typedef.

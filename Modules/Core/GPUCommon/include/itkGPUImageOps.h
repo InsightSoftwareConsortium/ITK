@@ -34,7 +34,7 @@ class itkGPUKernelClassMacro(GPUImageOpsKernel);
 class GPUImageOps
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageOps);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUImageOps);
   GPUImageOps() = default;
   virtual ~GPUImageOps() = default;
 

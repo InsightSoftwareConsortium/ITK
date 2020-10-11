@@ -76,7 +76,7 @@ template <typename TInputImage, typename TMembershipFunction, typename TTraining
 class ITK_TEMPLATE_EXPORT ImageGaussianModelEstimator : public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageGaussianModelEstimator);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageGaussianModelEstimator);
 
   /** Standard class type aliases. */
   using Self = ImageGaussianModelEstimator;

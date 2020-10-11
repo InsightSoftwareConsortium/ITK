@@ -38,7 +38,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT SolverHyperbolic : public Solver<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SolverHyperbolic);
+  ITK_DISALLOW_COPY_AND_MOVE(SolverHyperbolic);
 
   using Self = SolverHyperbolic;
   using Superclass = Solver<TDimension>;

@@ -54,7 +54,7 @@ template <typename TIndexValue = unsigned int, unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT HilbertPath : public Path<TIndexValue, Index<VDimension>, VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HilbertPath);
+  ITK_DISALLOW_COPY_AND_MOVE(HilbertPath);
 
   /** Standard class type aliases. */
   using Self = HilbertPath<TIndexValue, VDimension>;

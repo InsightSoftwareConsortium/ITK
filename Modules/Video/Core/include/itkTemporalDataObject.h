@@ -65,7 +65,7 @@ extern ITKVideoCore_EXPORT std::ostream &
 class ITK_FORCE_EXPORT_MACRO(ITKVideoCore) TemporalDataObject : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TemporalDataObject);
+  ITK_DISALLOW_COPY_AND_MOVE(TemporalDataObject);
 
   /** Standard class type aliases */
   using Self = TemporalDataObject;

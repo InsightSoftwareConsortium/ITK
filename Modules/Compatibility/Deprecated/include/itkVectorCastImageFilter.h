@@ -83,7 +83,7 @@ class VectorCastImageFilter
       Functor::VectorCast<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCastImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorCastImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorCastImageFilter;

@@ -31,7 +31,7 @@ namespace itk
 class ITKIOMeshGifti_EXPORT GiftiMeshIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GiftiMeshIOFactory);
 
   /** Standard class type aliases. */
   using Self = GiftiMeshIOFactory;

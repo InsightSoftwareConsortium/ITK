@@ -47,7 +47,7 @@ namespace itk
 class ITKKLMRegionGrowing_EXPORT SegmentationBorder : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationBorder);
+  ITK_DISALLOW_COPY_AND_MOVE(SegmentationBorder);
 
   /** Standard class type aliases. */
   using Self = SegmentationBorder;

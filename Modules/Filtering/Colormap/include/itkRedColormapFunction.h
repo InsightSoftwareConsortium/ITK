@@ -45,7 +45,7 @@ template <typename TScalar, typename TRGBPixel>
 class ITK_TEMPLATE_EXPORT RedColormapFunction : public ColormapFunction<TScalar, TRGBPixel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RedColormapFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(RedColormapFunction);
 
   using Self = RedColormapFunction;
   using Superclass = ColormapFunction<TScalar, TRGBPixel>;

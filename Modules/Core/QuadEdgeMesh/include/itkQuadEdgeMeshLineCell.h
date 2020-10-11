@@ -41,7 +41,7 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshLineCell
   , public TCellInterface::CellTraits::QuadEdgeType
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshLineCell);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshLineCell);
 
   /** Standard class type aliases. */
   // itkCellCommonTypedefs

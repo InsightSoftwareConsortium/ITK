@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilterBase
   : public FastMarchingImageFilterBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingUpwindGradientImageFilterBase);
 
   /** Standard class typdedefs. */
   using Self = FastMarchingUpwindGradientImageFilterBase;

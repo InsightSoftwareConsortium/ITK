@@ -53,7 +53,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT VectorAnisotropicDiffusionFunction : public AnisotropicDiffusionFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorAnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = VectorAnisotropicDiffusionFunction;

@@ -46,7 +46,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT BasicErodeImageFilter : public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BasicErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BasicErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = BasicErodeImageFilter;

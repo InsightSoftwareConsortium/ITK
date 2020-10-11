@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT NormalizedCorrelationPointSetToImageMetric
   : public PointSetToImageMetric<TFixedPointSet, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationPointSetToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(NormalizedCorrelationPointSetToImageMetric);
 
   /** Standard class type aliases. */
   using Self = NormalizedCorrelationPointSetToImageMetric;

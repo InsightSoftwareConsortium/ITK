@@ -144,7 +144,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT PatchBasedDenoisingBaseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingBaseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PatchBasedDenoisingBaseImageFilter);
 
   /** Standard class type aliases. */
   using Self = PatchBasedDenoisingBaseImageFilter;

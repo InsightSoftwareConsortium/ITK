@@ -67,7 +67,7 @@ class ITK_TEMPLATE_EXPORT ConvolutionImageFilter
   : public ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConvolutionImageFilter);
 
   using Self = ConvolutionImageFilter;
   using Superclass = ConvolutionImageFilterBase<TInputImage, TOutputImage>;

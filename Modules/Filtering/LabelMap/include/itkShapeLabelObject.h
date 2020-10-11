@@ -44,7 +44,7 @@ template <typename TLabel, unsigned int VImageDimension>
 class ShapeLabelObject : public LabelObject<TLabel, VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelObject);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeLabelObject);
 
   /** Standard class type aliases */
   using Self = ShapeLabelObject;

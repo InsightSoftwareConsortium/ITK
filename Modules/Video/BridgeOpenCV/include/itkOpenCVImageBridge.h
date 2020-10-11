@@ -58,7 +58,7 @@ namespace itk
 class OpenCVImageBridge
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVImageBridge);
+  ITK_DISALLOW_COPY_AND_MOVE(OpenCVImageBridge);
 
   /** ITK stype type alias */
   using Self = OpenCVImageBridge;

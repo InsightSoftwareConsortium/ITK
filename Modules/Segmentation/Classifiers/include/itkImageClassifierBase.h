@@ -71,7 +71,7 @@ template <typename TInputImage, typename TClassifiedImage>
 class ITK_TEMPLATE_EXPORT ImageClassifierBase : public ClassifierBase<TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageClassifierBase);
 
   /** Standard class type aliases. */
   using Self = ImageClassifierBase;

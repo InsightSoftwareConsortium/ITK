@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT VectorCurvatureNDAnisotropicDiffusionFunction
   : public VectorAnisotropicDiffusionFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCurvatureNDAnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorCurvatureNDAnisotropicDiffusionFunction);
 
   /** Standard itk Self & Superclass type alias */
   using Self = VectorCurvatureNDAnisotropicDiffusionFunction;

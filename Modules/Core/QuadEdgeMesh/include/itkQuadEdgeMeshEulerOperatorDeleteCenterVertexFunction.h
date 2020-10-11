@@ -35,7 +35,7 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction
   : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction;

@@ -40,7 +40,7 @@ namespace itk
 class ITKCommon_EXPORT TotalProgressReporter
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TotalProgressReporter);
+  ITK_DISALLOW_COPY_AND_MOVE(TotalProgressReporter);
 
   /** \brief Construct a TotalProgressReporter
    *

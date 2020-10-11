@@ -33,7 +33,7 @@ namespace itk
 class ITKVideoIO_EXPORT FileListVideoIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(FileListVideoIOFactory);
 
   /** Standard class type aliases. */
   using Self = FileListVideoIOFactory;

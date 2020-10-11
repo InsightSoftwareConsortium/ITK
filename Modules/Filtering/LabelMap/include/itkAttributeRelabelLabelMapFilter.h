@@ -47,7 +47,7 @@ template <typename TImage,
 class ITK_TEMPLATE_EXPORT AttributeRelabelLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeRelabelLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AttributeRelabelLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = AttributeRelabelLabelMapFilter;

@@ -58,7 +58,7 @@ class LabelSelectionLabelMapFilter
       typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSelectionLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelSelectionLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = LabelSelectionLabelMapFilter;

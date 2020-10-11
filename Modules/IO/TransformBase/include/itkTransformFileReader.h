@@ -37,7 +37,7 @@ template <typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT TransformFileReaderTemplate : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFileReaderTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformFileReaderTemplate);
 
   /** SmartPointer type alias support */
   using Self = TransformFileReaderTemplate;

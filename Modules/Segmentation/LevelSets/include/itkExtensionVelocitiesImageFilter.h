@@ -50,7 +50,7 @@ template <typename TLevelSet, typename TAuxValue = float, unsigned int VAuxDimen
 class ITK_TEMPLATE_EXPORT ExtensionVelocitiesImageFilter : public ReinitializeLevelSetImageFilter<TLevelSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtensionVelocitiesImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExtensionVelocitiesImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExtensionVelocitiesImageFilter;

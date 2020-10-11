@@ -79,7 +79,7 @@ class HistogramToIntensityImageFilter
                                   Function::HistogramIntensityFunction<SizeValueType, typename TImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToIntensityImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramToIntensityImageFilter);
 
   /** Standard class type aliases. */
   using Self = HistogramToIntensityImageFilter;

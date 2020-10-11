@@ -62,7 +62,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ZeroFluxNeumannPadImageFilter : public PadImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroFluxNeumannPadImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ZeroFluxNeumannPadImageFilter);
 
   /** Standard class type aliases. */
   using Self = ZeroFluxNeumannPadImageFilter;

@@ -63,7 +63,7 @@ class ValuedRegionalMaximaImageFilter
                                             std::greater<typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMaximaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ValuedRegionalMaximaImageFilter);
 
   using Self = ValuedRegionalMaximaImageFilter;
 

@@ -45,7 +45,7 @@ template <typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ParametricImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(ParametricImageSource);
 
   /** Standard class type aliases. */
   using Self = ParametricImageSource;

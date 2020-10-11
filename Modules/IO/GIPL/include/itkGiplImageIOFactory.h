@@ -32,7 +32,7 @@ namespace itk
 class ITKIOGIPL_EXPORT GiplImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GiplImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = GiplImageIOFactory;

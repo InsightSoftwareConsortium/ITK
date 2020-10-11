@@ -35,7 +35,7 @@ template <unsigned int NDimensions = 3,
 class FEMSpatialObjectReader : public SpatialObjectReader<NDimensions, PixelType, TMeshTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectReader);
+  ITK_DISALLOW_COPY_AND_MOVE(FEMSpatialObjectReader);
 
   using Self = FEMSpatialObjectReader;
   using Superclass = SpatialObjectReader<NDimensions, PixelType, TMeshTraits>;

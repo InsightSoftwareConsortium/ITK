@@ -53,7 +53,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOu
 class RenyiEntropyThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RenyiEntropyThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RenyiEntropyThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = RenyiEntropyThresholdImageFilter;

@@ -66,7 +66,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT MRASlabIdentifier : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRASlabIdentifier);
+  ITK_DISALLOW_COPY_AND_MOVE(MRASlabIdentifier);
 
   /** Standard class type aliases. */
   using Self = MRASlabIdentifier;

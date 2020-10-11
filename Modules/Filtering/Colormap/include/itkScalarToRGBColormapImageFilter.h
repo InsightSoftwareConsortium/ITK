@@ -130,7 +130,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ScalarToRGBColormapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarToRGBColormapImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarToRGBColormapImageFilter);
 
   /** Standard class type aliases. */
   using Self = ScalarToRGBColormapImageFilter;

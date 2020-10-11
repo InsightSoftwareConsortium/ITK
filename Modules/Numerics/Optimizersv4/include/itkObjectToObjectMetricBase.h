@@ -90,7 +90,7 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMetricBaseTemplate
   : public SingleValuedCostFunctionv4Template<TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetricBaseTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(ObjectToObjectMetricBaseTemplate);
 
   /** Standard class type aliases. */
   using Self = ObjectToObjectMetricBaseTemplate;

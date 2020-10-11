@@ -85,7 +85,7 @@ template <typename TInputImage, typename TOutputImage, typename TDisplacementFie
 class ITK_TEMPLATE_EXPORT WarpImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WarpImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(WarpImageFilter);
 
   /** Standard class type aliases. */
   using Self = WarpImageFilter;

@@ -76,7 +76,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToComplexFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ComplexToComplexFFTImageFilter);
 
   /** Input and output image types. */
   using ImageType = TImage;

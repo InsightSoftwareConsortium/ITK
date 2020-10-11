@@ -68,7 +68,7 @@ template <typename TParametersValueType>
 class TransformBaseTemplate : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformBaseTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformBaseTemplate);
 
   /** Standard class type aliases. */
   using Self = TransformBaseTemplate;

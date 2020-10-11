@@ -41,7 +41,7 @@ template <typename TInputImage, typename TCoordRep = float>
 class NearestNeighborExtrapolateImageFunction : public ExtrapolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NearestNeighborExtrapolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(NearestNeighborExtrapolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = NearestNeighborExtrapolateImageFunction;

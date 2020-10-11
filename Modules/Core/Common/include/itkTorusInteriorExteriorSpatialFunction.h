@@ -41,7 +41,7 @@ class ITK_TEMPLATE_EXPORT TorusInteriorExteriorSpatialFunction
   : public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TorusInteriorExteriorSpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(TorusInteriorExteriorSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = TorusInteriorExteriorSpatialFunction;

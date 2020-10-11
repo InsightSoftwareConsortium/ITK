@@ -39,7 +39,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput>
 class ITK_TEMPLATE_EXPORT LevelSetImage : public LevelSetBase<TInput, VDimension, TOutput, ImageBase<VDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetImage);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetImage);
 
   using ImageBaseType = ImageBase<VDimension>;
 

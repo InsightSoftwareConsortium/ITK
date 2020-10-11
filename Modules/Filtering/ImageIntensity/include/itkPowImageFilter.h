@@ -97,7 +97,7 @@ class PowImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputIma
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PowImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PowImageFilter);
 
   /** Standard class type aliases. */
   using Self = PowImageFilter;

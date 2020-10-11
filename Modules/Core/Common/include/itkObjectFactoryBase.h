@@ -62,7 +62,7 @@ struct ObjectFactoryBasePrivate;
 class ITKCommon_EXPORT ObjectFactoryBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectFactoryBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ObjectFactoryBase);
 
   /** Standard class type aliases. */
   using Self = ObjectFactoryBase;

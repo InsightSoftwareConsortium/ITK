@@ -33,7 +33,7 @@ namespace itk
 class ITKIONIFTI_EXPORT NiftiImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(NiftiImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = NiftiImageIOFactory;

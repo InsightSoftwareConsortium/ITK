@@ -86,7 +86,7 @@ template <typename TParametersValueType, unsigned int NDimensions>
 class ITK_TEMPLATE_EXPORT DisplacementFieldTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(DisplacementFieldTransform);
 
   /** Standard class type aliases. */
   using Self = DisplacementFieldTransform;

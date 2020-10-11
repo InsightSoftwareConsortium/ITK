@@ -52,7 +52,7 @@ template <typename TImageType, typename TSparseImageType>
 class ITK_TEMPLATE_EXPORT LevelSetFunctionWithRefitTerm : public LevelSetFunction<TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetFunctionWithRefitTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetFunctionWithRefitTerm);
 
   /** Standard class type aliases. */
   using Self = LevelSetFunctionWithRefitTerm;

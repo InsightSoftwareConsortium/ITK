@@ -50,7 +50,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT SobelEdgeDetectionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SobelEdgeDetectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SobelEdgeDetectionImageFilter);
 
   /**
    * Standard "Self" & Superclass type alias.

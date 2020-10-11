@@ -39,7 +39,7 @@ template <typename TScalar = double>
 class ITK_TEMPLATE_EXPORT WindowConvergenceMonitoringFunction : public ConvergenceMonitoringFunction<TScalar, TScalar>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WindowConvergenceMonitoringFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(WindowConvergenceMonitoringFunction);
 
   using Self = WindowConvergenceMonitoringFunction;
   using Superclass = ConvergenceMonitoringFunction<TScalar, TScalar>;

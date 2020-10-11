@@ -58,7 +58,7 @@ namespace itk
 class ITKCommon_EXPORT ImageRegionSplitterMultidimensional : public ImageRegionSplitterBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterMultidimensional);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageRegionSplitterMultidimensional);
 
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterMultidimensional;

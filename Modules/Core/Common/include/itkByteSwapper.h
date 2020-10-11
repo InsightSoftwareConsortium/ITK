@@ -50,7 +50,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT ByteSwapper : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ByteSwapper);
+  ITK_DISALLOW_COPY_AND_MOVE(ByteSwapper);
 
   /** Standard class type aliases. */
   using Self = ByteSwapper;

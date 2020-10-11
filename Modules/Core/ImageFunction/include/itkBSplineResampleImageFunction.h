@@ -58,7 +58,7 @@ class BSplineResampleImageFunction
   : public BSplineInterpolateImageFunction<TImageType, TCoordRep, typename TImageType::PixelType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineResampleImageFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineResampleImageFunction;

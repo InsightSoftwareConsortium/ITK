@@ -44,7 +44,7 @@ namespace itk
 class ITKIONRRD_EXPORT NrrdImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(NrrdImageIO);
 
   /** Standard class type aliases. */
   using Self = NrrdImageIO;

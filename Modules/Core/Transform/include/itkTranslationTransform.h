@@ -43,7 +43,7 @@ template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT TranslationTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TranslationTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(TranslationTransform);
 
   /** Standard class type aliases. */
   using Self = TranslationTransform;

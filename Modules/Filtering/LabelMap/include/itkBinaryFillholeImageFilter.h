@@ -47,7 +47,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT BinaryFillholeImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryFillholeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryFillholeImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryFillholeImageFilter;

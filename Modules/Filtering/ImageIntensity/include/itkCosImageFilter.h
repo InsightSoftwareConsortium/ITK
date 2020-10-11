@@ -81,7 +81,7 @@ template <typename TInputImage, typename TOutputImage>
 class CosImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CosImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CosImageFilter);
 
   /** Standard class type aliases. */
   using Self = CosImageFilter;

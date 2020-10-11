@@ -65,7 +65,7 @@ template <typename TInputImage, typename TOutputImage, typename TInterpolatorPre
 class ITK_TEMPLATE_EXPORT VectorResampleImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorResampleImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorResampleImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorResampleImageFilter;

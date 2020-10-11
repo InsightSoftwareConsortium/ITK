@@ -64,7 +64,7 @@ class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFilter
   : public FiniteDifferenceImageFilter<TInputImageType, TSparseOutputImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FiniteDifferenceSparseImageFilter);
 
   /** Standard class type alias */
   using Self = FiniteDifferenceSparseImageFilter;

@@ -68,7 +68,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ShrinkImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShrinkImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShrinkImageFilter);
 
   /** Standard class type aliases. */
   using Self = ShrinkImageFilter;

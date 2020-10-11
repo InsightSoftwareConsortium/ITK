@@ -81,7 +81,7 @@ template <typename TOutputMesh,
 class ITK_TEMPLATE_EXPORT MeshFileReader : public MeshSource<TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileReader);
+  ITK_DISALLOW_COPY_AND_MOVE(MeshFileReader);
 
   /** Standard class type aliases. */
   using Self = MeshFileReader;

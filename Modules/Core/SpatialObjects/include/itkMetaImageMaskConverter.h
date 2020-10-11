@@ -39,7 +39,7 @@ class MetaImageMaskConverter
   : public MetaImageConverter<NDimensions, unsigned char, ImageMaskSpatialObject<NDimensions>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageMaskConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaImageMaskConverter);
 
   /** Standard class type aliases */
   using Self = MetaImageMaskConverter;

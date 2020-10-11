@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreaderBase
   : public DomainThreader<TDomainPartitioner, TImageToImageMetricv4>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4GetValueAndDerivativeThreaderBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToImageMetricv4GetValueAndDerivativeThreaderBase);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4GetValueAndDerivativeThreaderBase;

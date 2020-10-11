@@ -88,7 +88,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT CannyEdgeDetectionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CannyEdgeDetectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CannyEdgeDetectionImageFilter);
 
   /** Standard "Self" & Superclass type alias.  */
   using Self = CannyEdgeDetectionImageFilter;

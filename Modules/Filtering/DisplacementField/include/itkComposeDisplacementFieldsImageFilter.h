@@ -40,7 +40,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT ComposeDisplacementFieldsImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComposeDisplacementFieldsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ComposeDisplacementFieldsImageFilter);
 
   using Self = ComposeDisplacementFieldsImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;

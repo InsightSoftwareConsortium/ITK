@@ -54,7 +54,7 @@ class ITK_TEMPLATE_EXPORT AtanRegularizedHeavisideStepFunction
   : public RegularizedHeavisideStepFunction<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AtanRegularizedHeavisideStepFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(AtanRegularizedHeavisideStepFunction);
 
   using Self = AtanRegularizedHeavisideStepFunction;
   using Superclass = RegularizedHeavisideStepFunction<TInput, TOutput>;

@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutputImage>
 class ScanlineFilterCommon
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScanlineFilterCommon);
+  ITK_DISALLOW_COPY_AND_MOVE(ScanlineFilterCommon);
 
   using Self = ScanlineFilterCommon;
   using Pointer = SmartPointer<Self>;

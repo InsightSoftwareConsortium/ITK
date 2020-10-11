@@ -28,7 +28,7 @@ namespace itk
 class FileFreeImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileFreeImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(FileFreeImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = FileFreeImageIOFactory;

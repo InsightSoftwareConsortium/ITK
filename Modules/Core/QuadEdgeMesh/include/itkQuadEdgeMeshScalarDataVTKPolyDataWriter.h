@@ -37,7 +37,7 @@ template <typename TMesh>
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshScalarDataVTKPolyDataWriter : public VTKPolyDataWriter<TMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshScalarDataVTKPolyDataWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshScalarDataVTKPolyDataWriter);
 
   using Self = QuadEdgeMeshScalarDataVTKPolyDataWriter;
   using Pointer = SmartPointer<Self>;

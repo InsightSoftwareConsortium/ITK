@@ -67,7 +67,7 @@ template <typename TInput>
 class ITK_TEMPLATE_EXPORT DOMWriter : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(DOMWriter);
 
   /** Standard class type aliases. */
   using Self = DOMWriter;

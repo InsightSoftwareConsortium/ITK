@@ -74,7 +74,7 @@ class ITK_TEMPLATE_EXPORT PointSetToPointSetMetricv4
                                 TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToPointSetMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(PointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = PointSetToPointSetMetricv4;

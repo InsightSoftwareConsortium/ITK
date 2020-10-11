@@ -35,7 +35,7 @@ namespace itk
 class ITKOptimizers_EXPORT MultipleValuedCostFunction : public CostFunction
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedCostFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(MultipleValuedCostFunction);
 
   /** Standard class type aliases. */
   using Self = MultipleValuedCostFunction;

@@ -82,7 +82,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT RelabelComponentImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RelabelComponentImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RelabelComponentImageFilter);
 
   /**
    * Standard "Self" & Superclass typedef.

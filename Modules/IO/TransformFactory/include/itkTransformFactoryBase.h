@@ -40,7 +40,7 @@ namespace itk
 class TransformFactoryBase : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFactoryBase);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformFactoryBase);
 
   /** Standard class type aliases. */
   using Self = TransformFactoryBase;

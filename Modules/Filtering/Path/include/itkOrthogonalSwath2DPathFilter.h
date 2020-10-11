@@ -53,7 +53,7 @@ class ITK_TEMPLATE_EXPORT OrthogonalSwath2DPathFilter
   : public PathAndImageToPathFilter<TFourierSeriesPath, TSwathMeritImage, OrthogonallyCorrected2DParametricPath>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OrthogonalSwath2DPathFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(OrthogonalSwath2DPathFilter);
 
   /** Standard class type aliases. */
   using Self = OrthogonalSwath2DPathFilter;

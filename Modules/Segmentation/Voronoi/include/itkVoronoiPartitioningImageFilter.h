@@ -34,7 +34,7 @@ class ITK_TEMPLATE_EXPORT VoronoiPartitioningImageFilter
   : public VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiPartitioningImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VoronoiPartitioningImageFilter);
 
   /** Standard class type aliases. */
   using Self = VoronoiPartitioningImageFilter;

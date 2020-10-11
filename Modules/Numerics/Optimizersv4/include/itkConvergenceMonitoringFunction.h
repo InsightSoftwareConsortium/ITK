@@ -43,7 +43,7 @@ template <typename TScalar, typename TEnergyValue>
 class ConvergenceMonitoringFunction : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvergenceMonitoringFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ConvergenceMonitoringFunction);
 
   using Self = ConvergenceMonitoringFunction;
   using Superclass = Object;

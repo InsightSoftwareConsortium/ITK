@@ -60,7 +60,7 @@ class ITK_TEMPLATE_EXPORT BinaryMorphologicalClosingImageFilter
   : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalClosingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryMorphologicalClosingImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryMorphologicalClosingImageFilter;

@@ -99,7 +99,7 @@ class ExpNegativeImageFilter
       Functor::ExpNegative<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExpNegativeImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExpNegativeImageFilter;

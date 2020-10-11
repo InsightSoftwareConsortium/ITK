@@ -61,7 +61,7 @@ template <typename TInputImage1, typename TInputImage2>
 class ITK_TEMPLATE_EXPORT SimilarityIndexImageFilter : public ImageToImageFilter<TInputImage1, TInputImage1>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimilarityIndexImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SimilarityIndexImageFilter);
 
   /** Standard Self type alias */
   using Self = SimilarityIndexImageFilter;

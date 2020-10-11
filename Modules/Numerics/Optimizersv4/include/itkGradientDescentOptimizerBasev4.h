@@ -41,7 +41,7 @@ class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4Template
   : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4Template);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientDescentOptimizerBasev4Template);
 
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4Template;

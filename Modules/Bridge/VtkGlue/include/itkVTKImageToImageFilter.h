@@ -51,7 +51,7 @@ template <typename TOutputImage>
 class ITK_TEMPLATE_EXPORT VTKImageToImageFilter : public VTKImageImport<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKImageToImageFilter);
 
   /** Standard class type aliases. */
   using Self = VTKImageToImageFilter;

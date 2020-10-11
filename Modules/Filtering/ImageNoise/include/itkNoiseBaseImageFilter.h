@@ -39,7 +39,7 @@ template <class TInputImage, class TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT NoiseBaseImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NoiseBaseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NoiseBaseImageFilter);
 
   /** Standard class type aliases. */
   using Self = NoiseBaseImageFilter;

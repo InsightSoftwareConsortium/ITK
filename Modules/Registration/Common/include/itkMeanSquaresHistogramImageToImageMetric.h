@@ -40,7 +40,7 @@ class ITK_TEMPLATE_EXPORT MeanSquaresHistogramImageToImageMetric
   : public HistogramImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresHistogramImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(MeanSquaresHistogramImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresHistogramImageToImageMetric;

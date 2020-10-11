@@ -45,7 +45,7 @@ namespace itk
 class ITKCommon_EXPORT ThreadedIndexedContainerPartitioner : public ThreadedDomainPartitioner<Index<2>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIndexedContainerPartitioner);
+  ITK_DISALLOW_COPY_AND_MOVE(ThreadedIndexedContainerPartitioner);
 
   /** Standard class type aliases. */
   using Self = ThreadedIndexedContainerPartitioner;

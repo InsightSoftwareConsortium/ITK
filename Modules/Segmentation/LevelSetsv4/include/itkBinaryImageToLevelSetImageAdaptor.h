@@ -59,7 +59,7 @@ class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<TInputImage, LevelSe
   : public BinaryImageToLevelSetImageAdaptorBase<TInputImage, LevelSetDenseImage<TLevelSetImage>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToLevelSetImageAdaptor);
 
   using LevelSetType = LevelSetDenseImage<TLevelSetImage>;
 
@@ -124,7 +124,7 @@ class ITK_TEMPLATE_EXPORT BinaryImageToSparseLevelSetImageAdaptorBase
   : public BinaryImageToLevelSetImageAdaptorBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToSparseLevelSetImageAdaptorBase);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToSparseLevelSetImageAdaptorBase);
 
   using Self = BinaryImageToSparseLevelSetImageAdaptorBase;
   using Pointer = SmartPointer<Self>;
@@ -193,7 +193,7 @@ class ITK_TEMPLATE_EXPORT
                                                        WhitakerSparseLevelSetImage<TOutput, TInput::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToLevelSetImageAdaptor);
 
   using LevelSetType = WhitakerSparseLevelSetImage<TOutput, TInput::ImageDimension>;
 
@@ -278,7 +278,7 @@ class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<TInput, ShiSparseLev
   : public BinaryImageToSparseLevelSetImageAdaptorBase<TInput, ShiSparseLevelSetImage<TInput::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToLevelSetImageAdaptor);
 
   using LevelSetType = ShiSparseLevelSetImage<TInput::ImageDimension>;
 
@@ -358,7 +358,7 @@ class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<TInput, MalcolmSpars
   : public BinaryImageToSparseLevelSetImageAdaptorBase<TInput, MalcolmSparseLevelSetImage<TInput::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToLevelSetImageAdaptor);
 
   using LevelSetType = MalcolmSparseLevelSetImage<TInput::ImageDimension>;
 

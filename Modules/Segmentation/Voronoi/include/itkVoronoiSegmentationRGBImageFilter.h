@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT VoronoiSegmentationRGBImageFilter
   : public VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationRGBImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VoronoiSegmentationRGBImageFilter);
 
   /** Standard class type aliases. */
   using Self = VoronoiSegmentationRGBImageFilter;

@@ -44,7 +44,7 @@ namespace itk
 class GPUKernelManager : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUKernelManager);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUKernelManager);
 
   struct KernelArgumentList
   {

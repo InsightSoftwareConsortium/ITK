@@ -45,7 +45,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT SampleClassifierFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SampleClassifierFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SampleClassifierFilter);
 
   /** Standard class type alias */
   using Self = SampleClassifierFilter;

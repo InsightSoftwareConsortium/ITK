@@ -61,7 +61,7 @@ class ITK_TEMPLATE_EXPORT GPUGradientNDAnisotropicDiffusionFunction
   : public GPUScalarAnisotropicDiffusionFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientNDAnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUGradientNDAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = GPUGradientNDAnisotropicDiffusionFunction;

@@ -86,7 +86,7 @@ template <typename TPixel, unsigned int VImageDimension = 2>
 class ITK_TEMPLATE_EXPORT Image : public ImageBase<VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Image);
+  ITK_DISALLOW_COPY_AND_MOVE(Image);
 
   /** Standard class type aliases */
   using Self = Image;

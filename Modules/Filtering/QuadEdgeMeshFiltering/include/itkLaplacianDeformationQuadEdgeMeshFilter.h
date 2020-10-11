@@ -116,7 +116,7 @@ class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LaplacianDeformationQuadEdgeMeshFilter);
 
   /** Basic types. */
   using Self = LaplacianDeformationQuadEdgeMeshFilter;

@@ -60,7 +60,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter : public ComplexToComplexFFTImageFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWComplexToComplexFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FFTWComplexToComplexFFTImageFilter);
 
   /** Standard class type aliases. */
   using Self = FFTWComplexToComplexFFTImageFilter;

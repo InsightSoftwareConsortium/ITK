@@ -59,7 +59,7 @@ namespace Statistics
 class ITKStatistics_EXPORT MaximumRatioDecisionRule : public DecisionRule
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumRatioDecisionRule);
+  ITK_DISALLOW_COPY_AND_MOVE(MaximumRatioDecisionRule);
 
   /** Standard class type aliases */
   using Self = MaximumRatioDecisionRule;

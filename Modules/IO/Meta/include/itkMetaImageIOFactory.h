@@ -32,7 +32,7 @@ namespace itk
 class ITKIOMeta_EXPORT MetaImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = MetaImageIOFactory;

@@ -72,7 +72,7 @@ namespace Statistics
 class ITKStatistics_EXPORT ProbabilityDistribution : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProbabilityDistribution);
+  ITK_DISALLOW_COPY_AND_MOVE(ProbabilityDistribution);
 
   /** Standard class type aliases */
   using Self = ProbabilityDistribution;

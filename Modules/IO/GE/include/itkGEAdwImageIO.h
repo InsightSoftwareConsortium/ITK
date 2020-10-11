@@ -50,7 +50,7 @@ namespace itk
 class ITKIOGE_EXPORT GEAdwImageIO : public IPLCommonImageIO
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GEAdwImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(GEAdwImageIO);
 
   /** Standard class type aliases. */
   using Self = GEAdwImageIO;

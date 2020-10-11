@@ -54,7 +54,7 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT KappaStatisticImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KappaStatisticImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(KappaStatisticImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = KappaStatisticImageToImageMetric;

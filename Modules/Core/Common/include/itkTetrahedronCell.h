@@ -39,7 +39,7 @@ class ITK_TEMPLATE_EXPORT TetrahedronCell
   , private TetrahedronCellTopology
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TetrahedronCell);
+  ITK_DISALLOW_COPY_AND_MOVE(TetrahedronCell);
 
   /** Standard class type aliasa. */
   itkCellCommonTypedefs(TetrahedronCell);

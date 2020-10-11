@@ -42,7 +42,7 @@ namespace itk
 class ITKIOMINC_EXPORT MINCImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(MINCImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = MINCImageIOFactory;

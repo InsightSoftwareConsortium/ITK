@@ -113,7 +113,7 @@ template <typename TInternalComputationValueType = double>
 class ITK_TEMPLATE_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectOptimizerBaseTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(ObjectToObjectOptimizerBaseTemplate);
 
   /** Standard class type aliases. */
   using Self = ObjectToObjectOptimizerBaseTemplate;

@@ -32,7 +32,7 @@ namespace itk
 class ITKIOBMP_EXPORT BMPImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(BMPImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = BMPImageIOFactory;

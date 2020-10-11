@@ -83,7 +83,7 @@ class ITK_TEMPLATE_EXPORT GPUPDEDeformableRegistrationFilter
   : public GPUDenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUPDEDeformableRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUPDEDeformableRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = GPUPDEDeformableRegistrationFilter;

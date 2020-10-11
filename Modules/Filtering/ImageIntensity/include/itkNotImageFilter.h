@@ -60,7 +60,7 @@ class NotImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NotImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NotImageFilter);
 
   /** Standard class type aliases. */
   using Self = NotImageFilter;

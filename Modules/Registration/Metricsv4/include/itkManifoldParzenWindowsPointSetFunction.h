@@ -46,7 +46,7 @@ template <typename TPointSet, typename TOutput = double, typename TCoordRep = do
 class ITK_TEMPLATE_EXPORT ManifoldParzenWindowsPointSetFunction : public PointSetFunction<TPointSet, TOutput, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ManifoldParzenWindowsPointSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ManifoldParzenWindowsPointSetFunction);
 
   using Self = ManifoldParzenWindowsPointSetFunction;
   using Superclass = PointSetFunction<TPointSet, TOutput, TCoordRep>;

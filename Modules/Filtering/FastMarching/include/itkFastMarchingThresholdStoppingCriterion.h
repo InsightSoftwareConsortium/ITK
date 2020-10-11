@@ -35,7 +35,7 @@ template <typename TInput, typename TOutput>
 class FastMarchingThresholdStoppingCriterion : public FastMarchingStoppingCriterionBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingThresholdStoppingCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingThresholdStoppingCriterion);
 
   using Self = FastMarchingThresholdStoppingCriterion;
   using Superclass = FastMarchingStoppingCriterionBase<TInput, TOutput>;

@@ -59,7 +59,7 @@ namespace itk
 class ITKIOMRC_EXPORT MRCImageIO : public StreamingImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(MRCImageIO);
 
   /** Standard class type aliases. */
   using Self = MRCImageIO;

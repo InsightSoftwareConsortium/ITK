@@ -41,7 +41,7 @@ class ITK_TEMPLATE_EXPORT GPUFiniteDifferenceImageFilter
   : public GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUFiniteDifferenceImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUFiniteDifferenceImageFilter;

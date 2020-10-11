@@ -42,7 +42,7 @@ class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithHardConstrai
   : public LaplacianDeformationQuadEdgeMeshFilter<TInputMesh, TOutputMesh, TSolverTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);
+  ITK_DISALLOW_COPY_AND_MOVE(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);
 
   /** Basic types. */
   using Self = LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints;

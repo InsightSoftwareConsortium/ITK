@@ -62,7 +62,7 @@ class UnconstrainedRegionBasedLevelSetFunctionSharedData
   : public RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnconstrainedRegionBasedLevelSetFunctionSharedData);
+  ITK_DISALLOW_COPY_AND_MOVE(UnconstrainedRegionBasedLevelSetFunctionSharedData);
 
   using Self = UnconstrainedRegionBasedLevelSetFunctionSharedData;
   using Superclass = RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>;

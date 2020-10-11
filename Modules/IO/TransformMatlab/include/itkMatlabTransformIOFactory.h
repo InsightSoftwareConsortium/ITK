@@ -32,7 +32,7 @@ namespace itk
 class ITKIOTransformMatlab_EXPORT MatlabTransformIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MatlabTransformIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(MatlabTransformIOFactory);
 
   /** Standard class type aliases. */
   using Self = MatlabTransformIOFactory;

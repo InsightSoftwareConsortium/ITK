@@ -46,7 +46,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GrayscaleConnectedOpeningImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleConnectedOpeningImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleConnectedOpeningImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleConnectedOpeningImageFilter;

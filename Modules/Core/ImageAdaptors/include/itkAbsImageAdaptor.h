@@ -77,7 +77,7 @@ class AbsImageAdaptor
   : public ImageAdaptor<TImage, Accessor::AbsPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(AbsImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = AbsImageAdaptor;

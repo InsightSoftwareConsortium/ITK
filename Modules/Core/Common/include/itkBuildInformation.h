@@ -49,7 +49,7 @@ class ITKCommon_EXPORT BuildInformation final : public Object
 public:
   // Using the `rule of zero` to this aggregate type
   // C++20 changes the definition of aggregate such that classes with any user-declared ctors are no longer aggregates.
-  ITK_DISALLOW_COPY_AND_ASSIGN(BuildInformation);
+  ITK_DISALLOW_COPY_AND_MOVE(BuildInformation);
 
   /** Standard class type aliases. */
   using Self = BuildInformation;

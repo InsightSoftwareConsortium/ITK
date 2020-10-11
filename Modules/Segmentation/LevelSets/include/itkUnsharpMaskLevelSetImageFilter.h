@@ -68,7 +68,7 @@ class ITK_TEMPLATE_EXPORT UnsharpMaskLevelSetImageFilter
   : public SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(UnsharpMaskLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = UnsharpMaskLevelSetImageFilter;

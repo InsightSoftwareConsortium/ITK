@@ -73,7 +73,7 @@ class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetFunction
   : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeDetectionLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = ShapeDetectionLevelSetFunction;

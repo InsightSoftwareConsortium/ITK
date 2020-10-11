@@ -52,7 +52,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT TileImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TileImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TileImageFilter);
 
   /** Standard Self type alias */
   using Self = TileImageFilter;

@@ -71,7 +71,7 @@ template <typename TInputImage, typename TOutputImage>
 class ExpImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExpImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExpImageFilter;

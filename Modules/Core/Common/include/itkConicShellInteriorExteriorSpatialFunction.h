@@ -61,7 +61,7 @@ class ITK_TEMPLATE_EXPORT ConicShellInteriorExteriorSpatialFunction
   : public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConicShellInteriorExteriorSpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ConicShellInteriorExteriorSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = ConicShellInteriorExteriorSpatialFunction;

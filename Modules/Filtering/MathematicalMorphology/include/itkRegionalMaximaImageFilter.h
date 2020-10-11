@@ -54,7 +54,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT RegionalMaximaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionalMaximaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionalMaximaImageFilter);
 
   /** Standard class type aliases. */
   using Self = RegionalMaximaImageFilter;

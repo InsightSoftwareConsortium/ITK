@@ -35,7 +35,7 @@ template <unsigned int NDimensions = 3,
 class FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMSpatialObjectWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(FEMSpatialObjectWriter);
 
   using Self = FEMSpatialObjectWriter;
   using Superclass = SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>;

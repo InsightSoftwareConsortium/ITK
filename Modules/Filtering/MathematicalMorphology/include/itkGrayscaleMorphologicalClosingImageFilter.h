@@ -53,7 +53,7 @@ class ITK_TEMPLATE_EXPORT GrayscaleMorphologicalClosingImageFilter
   : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalClosingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleMorphologicalClosingImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleMorphologicalClosingImageFilter;

@@ -54,7 +54,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT GrayscaleErodeImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleErodeImageFilter;

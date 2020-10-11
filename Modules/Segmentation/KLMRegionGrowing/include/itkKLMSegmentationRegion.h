@@ -93,7 +93,7 @@ class ITK_FORWARD_EXPORT KLMSegmentationBorder;
 class ITKKLMRegionGrowing_EXPORT KLMSegmentationRegion : public SegmentationRegion
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationRegion);
+  ITK_DISALLOW_COPY_AND_MOVE(KLMSegmentationRegion);
 
   /** Standard class type aliases. */
   using Self = KLMSegmentationRegion;

@@ -75,7 +75,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT BilateralImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BilateralImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BilateralImageFilter);
 
   /** Standard class type aliases. */
   using Self = BilateralImageFilter;

@@ -48,7 +48,7 @@ template <typename TInputImage, typename TOutputImage = Image<double, TInputImag
 class ITK_TEMPLATE_EXPORT ImageShapeModelEstimatorBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageShapeModelEstimatorBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageShapeModelEstimatorBase);
 
   /** Standard class type aliases. */
   using Self = ImageShapeModelEstimatorBase;

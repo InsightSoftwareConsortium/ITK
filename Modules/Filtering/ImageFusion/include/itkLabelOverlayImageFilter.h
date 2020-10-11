@@ -57,7 +57,7 @@ class ITK_TEMPLATE_EXPORT LabelOverlayImageFilter
   : public BinaryGeneratorImageFilter<TInputImage, TLabelImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlayImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelOverlayImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelOverlayImageFilter;

@@ -44,7 +44,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT DisplacementFieldToBSplineImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldToBSplineImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DisplacementFieldToBSplineImageFilter);
 
   using Self = DisplacementFieldToBSplineImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;

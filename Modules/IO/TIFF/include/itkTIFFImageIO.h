@@ -48,7 +48,7 @@ class TIFFReaderInternal;
 class ITKIOTIFF_EXPORT TIFFImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TIFFImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(TIFFImageIO);
 
   /** Standard class type aliases. */
   using Self = TIFFImageIO;

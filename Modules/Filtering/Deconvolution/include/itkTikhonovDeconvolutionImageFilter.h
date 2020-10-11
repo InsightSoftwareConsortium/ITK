@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT TikhonovDeconvolutionImageFilter
   : public InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TikhonovDeconvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TikhonovDeconvolutionImageFilter);
 
   using Self = TikhonovDeconvolutionImageFilter;
   using Superclass = InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>;

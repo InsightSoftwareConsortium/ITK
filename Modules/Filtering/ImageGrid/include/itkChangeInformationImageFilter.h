@@ -49,7 +49,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT ChangeInformationImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeInformationImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ChangeInformationImageFilter);
 
   /** Standard class type aliases. */
   using Self = ChangeInformationImageFilter;

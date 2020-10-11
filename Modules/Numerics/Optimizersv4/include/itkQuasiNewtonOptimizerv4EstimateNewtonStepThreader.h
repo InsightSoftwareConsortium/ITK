@@ -37,7 +37,7 @@ class ITK_TEMPLATE_EXPORT QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTempla
                           QuasiNewtonOptimizerv4Template<TInternalComputationValueType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate);
 
   /** Standard class type aliases. */
   using Self = QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate;

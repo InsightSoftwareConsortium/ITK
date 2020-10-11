@@ -39,7 +39,7 @@ template <typename TCellInterface>
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshPolygonCell : public TCellInterface
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshPolygonCell);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshPolygonCell);
 
   /** Standard class type aliases. */
   // itkCellCommonTypedefs

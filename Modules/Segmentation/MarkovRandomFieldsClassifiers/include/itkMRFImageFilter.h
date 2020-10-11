@@ -149,7 +149,7 @@ template <typename TInputImage, typename TClassifiedImage>
 class ITK_TEMPLATE_EXPORT MRFImageFilter : public ImageToImageFilter<TInputImage, TClassifiedImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRFImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MRFImageFilter);
 
   /** Standard class type aliases. */
   using Self = MRFImageFilter;

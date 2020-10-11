@@ -54,7 +54,7 @@ template <typename TInputImage, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT BinaryMaskToNarrowBandPointSetFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMaskToNarrowBandPointSetFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryMaskToNarrowBandPointSetFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryMaskToNarrowBandPointSetFilter;

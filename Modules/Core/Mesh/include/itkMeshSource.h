@@ -49,7 +49,7 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT MeshSource : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshSource);
+  ITK_DISALLOW_COPY_AND_MOVE(MeshSource);
 
   /** Standard class type aliases. */
   using Self = MeshSource;

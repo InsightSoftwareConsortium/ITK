@@ -42,7 +42,7 @@ template <unsigned int TDimension = 3, class TSpatialObjectPointType = TubeSpati
 class ITK_TEMPLATE_EXPORT TubeSpatialObject : public PointBasedSpatialObject<TDimension, TSpatialObjectPointType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TubeSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(TubeSpatialObject);
 
   using Self = TubeSpatialObject;
   using Superclass = PointBasedSpatialObject<TDimension, TSpatialObjectPointType>;

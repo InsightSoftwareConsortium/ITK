@@ -52,7 +52,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT RecursiveSeparableImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveSeparableImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RecursiveSeparableImageFilter);
 
   /** Standard class type aliases. */
   using Self = RecursiveSeparableImageFilter;

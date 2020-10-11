@@ -45,7 +45,7 @@ template <typename TScalar, typename TRGBPixel>
 class ITK_TEMPLATE_EXPORT SpringColormapFunction : public ColormapFunction<TScalar, TRGBPixel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpringColormapFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SpringColormapFunction);
 
   using Self = SpringColormapFunction;
   using Superclass = ColormapFunction<TScalar, TRGBPixel>;

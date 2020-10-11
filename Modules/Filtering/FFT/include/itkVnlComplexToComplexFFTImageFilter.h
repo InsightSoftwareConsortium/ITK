@@ -41,7 +41,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter : public ComplexToComplexFFTImageFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlComplexToComplexFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VnlComplexToComplexFFTImageFilter);
 
   /** Standard class type aliases. */
   using Self = VnlComplexToComplexFFTImageFilter;

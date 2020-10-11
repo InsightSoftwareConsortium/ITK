@@ -94,7 +94,7 @@ template <class TInputImage, class TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT ShotNoiseImageFilter : public NoiseBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShotNoiseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShotNoiseImageFilter);
 
   /** Standard class type aliases. */
   using Self = ShotNoiseImageFilter;

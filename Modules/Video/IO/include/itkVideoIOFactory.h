@@ -59,7 +59,7 @@ extern ITKVideoIO_EXPORT std::ostream &
 class ITKVideoIO_EXPORT VideoIOFactory : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(VideoIOFactory);
 
   /** Standard class type aliases. */
   using Self = VideoIOFactory;

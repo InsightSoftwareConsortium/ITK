@@ -40,7 +40,7 @@ template <typename TElement>
 class ITK_TEMPLATE_EXPORT RingBuffer : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RingBuffer);
+  ITK_DISALLOW_COPY_AND_MOVE(RingBuffer);
 
   /**-TYPEDEFS---------------------------------------------------------------*/
 

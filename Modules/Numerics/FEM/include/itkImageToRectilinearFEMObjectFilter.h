@@ -43,7 +43,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT ImageToRectilinearFEMObjectFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToRectilinearFEMObjectFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToRectilinearFEMObjectFilter);
 
   /** Standard class type aliases. */
   using Self = ImageToRectilinearFEMObjectFilter;

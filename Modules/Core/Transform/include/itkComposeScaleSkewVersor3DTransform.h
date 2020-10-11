@@ -53,7 +53,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT ComposeScaleSkewVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComposeScaleSkewVersor3DTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ComposeScaleSkewVersor3DTransform);
 
   /** Standard class type aliases. */
   using Self = ComposeScaleSkewVersor3DTransform;

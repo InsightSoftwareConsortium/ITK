@@ -47,7 +47,7 @@ template <typename TData>
 class ITK_TEMPLATE_EXPORT CSVArray2DDataObject : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CSVArray2DDataObject);
+  ITK_DISALLOW_COPY_AND_MOVE(CSVArray2DDataObject);
 
   /* Standard class type aliases */
   using Self = CSVArray2DDataObject;

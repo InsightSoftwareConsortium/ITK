@@ -66,7 +66,7 @@ template <typename TImageType>
 class ITK_TEMPLATE_EXPORT LevelSetFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = LevelSetFunction;

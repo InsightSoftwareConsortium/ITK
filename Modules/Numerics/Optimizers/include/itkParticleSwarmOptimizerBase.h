@@ -56,7 +56,7 @@ namespace itk
 class ITKOptimizers_EXPORT ParticleSwarmOptimizerBase : public SingleValuedNonLinearOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ParticleSwarmOptimizerBase);
 
   /** Standard "Self" type alias. */
   using Self = ParticleSwarmOptimizerBase;

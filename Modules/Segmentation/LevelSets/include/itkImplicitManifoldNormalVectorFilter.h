@@ -74,7 +74,7 @@ class ITK_TEMPLATE_EXPORT ImplicitManifoldNormalVectorFilter
   : public FiniteDifferenceSparseImageFilter<TInputImage, TSparseOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImplicitManifoldNormalVectorFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImplicitManifoldNormalVectorFilter);
 
   /** Standard class type alias */
   using Self = ImplicitManifoldNormalVectorFilter;

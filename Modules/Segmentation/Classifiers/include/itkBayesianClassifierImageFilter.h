@@ -85,7 +85,7 @@ class ITK_TEMPLATE_EXPORT BayesianClassifierImageFilter
   : public ImageToImageFilter<TInputVectorImage, Image<TLabelsType, TInputVectorImage ::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BayesianClassifierImageFilter);
 
   /** Standard class type aliases. */
   using Self = BayesianClassifierImageFilter;

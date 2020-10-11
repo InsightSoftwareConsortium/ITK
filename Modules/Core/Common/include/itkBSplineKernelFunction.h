@@ -43,7 +43,7 @@ template <unsigned int VSplineOrder = 3, typename TRealValueType = double>
 class ITK_TEMPLATE_EXPORT BSplineKernelFunction : public KernelFunctionBase<TRealValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineKernelFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineKernelFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineKernelFunction;
