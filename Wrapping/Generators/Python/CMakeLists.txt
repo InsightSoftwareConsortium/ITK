@@ -149,6 +149,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     itkExtras
     itkLazy
     itkHelpers
+    itk/__init__
     )
   # Done listing files.
 
@@ -191,20 +192,12 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                    "${CMAKE_CURRENT_BINARY_DIR}/${config}/WrapITK.pth"
                    @ONLY)
       # Install the package python files.
-      set(init_file ${CMAKE_CURRENT_BINARY_DIR}/${config}/itk/__init__.py)
-      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py.in
-        "${init_file}"
-        )
       WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
       set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
       WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
     endforeach()
   else()
     # Install the package python files.
-    set(init_file ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py.in
-      ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py
-      )
     WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
     set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
     WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})

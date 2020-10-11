@@ -92,5 +92,7 @@ if "WRAPITK_PYTHON_PATH" in os.environ:
 
 doxygen_root = normalized_path("../Doc")
 
+ITK_GLOBAL_VERSION_STRING :str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+
 del normalized_path
 del os
