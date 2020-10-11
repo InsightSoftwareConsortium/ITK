@@ -18,9 +18,7 @@
 
 import re
 from typing import Dict, Any
-
 from sys import stderr as system_error_stream
-
 
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
