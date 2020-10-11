@@ -29,22 +29,22 @@ __version__ = itkConfig.ITK_GLOBAL_VERSION_STRING
 thisModule = sys.modules[__name__]
 
 
-def _GetLazyAttributes(lazyAttributes):
+def _GetLazyAttributes(local_lazy_attributes):
     templateNames = [t[0] for t in data["templates"]]
     isInLibrary = [t[3] for t in data["templates"] if len(t) > 3]
-    attributes = dict([(n, module) for n in templateNames])
+    local_attributes = dict([(n, module) for n in templateNames])
     attributesInModule = dict(
         [(n, belongs) for n, belongs in zip(templateNames, isInLibrary)]
     )
-    items = attributes.items()
-    for k, v in items:
-        if isInLibrary and attributesInModule[k] is True:
-            lazyAttributes.setdefault(k, []).insert(0, v)
+    items = local_attributes.items()
+    for kk, vv in items:
+        if isInLibrary and attributesInModule[kk] is True:
+            local_lazy_attributes.setdefault(kk, []).insert(0, vv)
         else:
-            lazyAttributes.setdefault(k, []).append(v)
+            local_lazy_attributes.setdefault(kk, []).append(vv)
     if "snake_case_functions" in data:
         for function in data["snake_case_functions"]:
-            lazyAttributes.setdefault(function, []).append(module)
+            local_lazy_attributes.setdefault(function, []).append(module)
 
 
 if itkConfig.LazyLoading:
