@@ -17,7 +17,6 @@
 # ==========================================================================*/
 
 import os
-import os.path
 import sys
 from sys import stderr as system_error_stream
 
