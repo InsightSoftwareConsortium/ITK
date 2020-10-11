@@ -40,7 +40,7 @@ def set_nthreads(number_of_threads):
         itk.set_nthreads(4)  ## use 4 threads
     """
     assert number_of_threads > 0, (
-        "Please set a possitive number of threads instead of %d" % number_of_threads
+        "Please set a positive number of threads instead of %d" % number_of_threads
     )
 
     import itk
@@ -155,7 +155,7 @@ def echo(obj, f=system_error_stream):
 def size(image_or_filter):
     """Return the size of an image, or of the output image of a filter
 
-    This method take care of updating the needed informations
+    This method take care of updating the needed information
     """
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
@@ -166,7 +166,7 @@ def size(image_or_filter):
 def physical_size(image_or_filter):
     """Return the physical size of an image, or of the output image of a filter
 
-    This method take care of updating the needed informations
+    This method take care of updating the needed information
     """
     # required because range is overloaded in this module
     from builtins import range
@@ -182,7 +182,7 @@ def physical_size(image_or_filter):
 def spacing(image_or_filter):
     """Return the spacing of an image, or of the output image of a filter
 
-    This method take care of updating the needed informations
+    This method take care of updating the needed information
     """
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
@@ -193,7 +193,7 @@ def spacing(image_or_filter):
 def origin(image_or_filter):
     """Return the origin of an image, or of the output image of a filter
 
-    This method take care of updating the needed informations
+    This method take care of updating the needed information
     """
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
@@ -204,7 +204,7 @@ def origin(image_or_filter):
 def index(image_or_filter):
     """Return the index of an image, or of the output image of a filter
 
-    This method take care of updating the needed informations
+    This method take care of updating the needed information
     """
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
@@ -215,7 +215,7 @@ def index(image_or_filter):
 def region(image_or_filter):
     """Return the region of an image, or of the output image of a filter
 
-    This method take care of updating the needed informations
+    This method take care of updating the needed information
     """
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
