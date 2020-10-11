@@ -70,7 +70,7 @@ extern ITKOptimizers_EXPORT std::ostream &
 class ITKOptimizers_EXPORT FRPROptimizer : public PowellOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FRPROptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(FRPROptimizer);
   /** Standard "Self" type alias. */
   using Self = FRPROptimizer;
   using Superclass = PowellOptimizer;

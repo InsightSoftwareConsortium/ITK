@@ -66,7 +66,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT GradientImageFilter : public ImageToImageFilter<TInputImage, TOutputImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientImageFilter);
 
   /** Extract dimension from input image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

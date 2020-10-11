@@ -50,7 +50,7 @@ class ITK_TEMPLATE_EXPORT
   : public DomainThreader<ThreadedImageRegionPartitioner<TImage::ImageDimension>, TLevelSetEvolution>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolutionComputeIterationThreader);
 
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionComputeIterationThreader;
@@ -103,7 +103,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader<
                           TLevelSetEvolution>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolutionComputeIterationThreader);
 
   using DomainMapConstIteratorType =
     typename TLevelSetEvolution::DomainMapImageFilterType::DomainMapType::const_iterator;
@@ -160,7 +160,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionComputeIterationThreader<
       TLevelSetEvolution>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolutionComputeIterationThreader);
 
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionComputeIterationThreader;

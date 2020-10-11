@@ -106,7 +106,7 @@ class ITK_TEMPLATE_EXPORT GeodesicActiveContourLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GeodesicActiveContourLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = GeodesicActiveContourLevelSetImageFilter;

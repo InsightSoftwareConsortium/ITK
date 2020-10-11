@@ -100,7 +100,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT RecursiveGaussianImageFilter : public RecursiveSeparableImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RecursiveGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = RecursiveGaussianImageFilter;

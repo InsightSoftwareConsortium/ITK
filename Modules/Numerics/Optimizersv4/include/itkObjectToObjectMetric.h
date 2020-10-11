@@ -92,7 +92,7 @@ template <unsigned int TFixedDimension,
 class ITK_TEMPLATE_EXPORT ObjectToObjectMetric : public ObjectToObjectMetricBaseTemplate<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(ObjectToObjectMetric);
 
   /** Standard class type aliases. */
   using Self = ObjectToObjectMetric;

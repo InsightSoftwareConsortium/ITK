@@ -73,7 +73,7 @@ class ITK_TEMPLATE_EXPORT BinaryErodeImageFilter
   : public BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryErodeImageFilter);
 
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

@@ -76,7 +76,7 @@ template <typename TInternalVnlOptimizerType>
 class ITK_TEMPLATE_EXPORT LBFGSOptimizerBasev4 : public SingleValuedNonLinearVnlOptimizerv4
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSOptimizerBasev4);
+  ITK_DISALLOW_COPY_AND_MOVE(LBFGSOptimizerBasev4);
 
   /** Standard "Self" type alias. */
   using Self = LBFGSOptimizerBasev4;

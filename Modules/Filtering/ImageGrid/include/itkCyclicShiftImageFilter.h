@@ -46,7 +46,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT CyclicShiftImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CyclicShiftImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CyclicShiftImageFilter);
 
   /** Standard class type aliases. */
   using Self = CyclicShiftImageFilter;

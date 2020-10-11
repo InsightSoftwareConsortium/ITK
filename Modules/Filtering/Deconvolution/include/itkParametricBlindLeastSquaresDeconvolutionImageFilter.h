@@ -60,7 +60,7 @@ class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionImageFilter
   : public IterativeDeconvolutionImageFilter<TInputImage, typename TKernelSource::OutputImageType, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricBlindLeastSquaresDeconvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ParametricBlindLeastSquaresDeconvolutionImageFilter);
 
   /** Standard type alias. */
   using Self = ParametricBlindLeastSquaresDeconvolutionImageFilter;

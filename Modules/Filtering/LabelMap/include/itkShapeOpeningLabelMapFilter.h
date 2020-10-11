@@ -50,7 +50,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ShapeOpeningLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeOpeningLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeOpeningLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeOpeningLabelMapFilter;

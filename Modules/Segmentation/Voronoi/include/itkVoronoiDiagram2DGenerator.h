@@ -50,7 +50,7 @@ template <typename TCoordType>
 class ITK_TEMPLATE_EXPORT VoronoiDiagram2DGenerator : public MeshSource<VoronoiDiagram2D<TCoordType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiDiagram2DGenerator);
+  ITK_DISALLOW_COPY_AND_MOVE(VoronoiDiagram2DGenerator);
 
   using Self = VoronoiDiagram2DGenerator;
   using Superclass = MeshSource<VoronoiDiagram2D<TCoordType>>;

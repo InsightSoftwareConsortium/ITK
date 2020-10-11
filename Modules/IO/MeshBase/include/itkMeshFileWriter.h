@@ -52,7 +52,7 @@ template <typename TInputMesh>
 class ITK_TEMPLATE_EXPORT MeshFileWriter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(MeshFileWriter);
 
   /** Standard class type aliases. */
   using Self = MeshFileWriter;

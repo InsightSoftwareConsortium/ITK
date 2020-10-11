@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT VectorInterpolateImageFunction
   : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorInterpolateImageFunction);
 
   /** Extract the vector dimension from the pixel template parameter. */
   static constexpr unsigned int Dimension = TInputImage::PixelType::Dimension;

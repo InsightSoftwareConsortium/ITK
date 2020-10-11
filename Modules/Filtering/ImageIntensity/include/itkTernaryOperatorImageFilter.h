@@ -75,7 +75,7 @@ class TernaryOperatorImageFilter
                                                               typename TImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryOperatorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TernaryOperatorImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryOperatorImageFilter;

@@ -35,7 +35,7 @@ class ITKOptimizers_EXPORT ConjugateGradientOptimizer : public SingleValuedNonLi
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConjugateGradientOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(ConjugateGradientOptimizer);
 
   /** Standard class type aliases. */
   using Self = ConjugateGradientOptimizer;

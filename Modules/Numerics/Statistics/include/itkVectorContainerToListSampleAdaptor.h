@@ -46,7 +46,7 @@ template <typename TVectorContainer>
 class ITK_TEMPLATE_EXPORT VectorContainerToListSampleAdaptor : public ListSample<typename TVectorContainer::Element>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorContainerToListSampleAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorContainerToListSampleAdaptor);
 
   /** Standard class type aliases */
   using Self = VectorContainerToListSampleAdaptor;

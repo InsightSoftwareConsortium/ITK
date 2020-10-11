@@ -37,7 +37,7 @@ template <class TInputImage>
 class ITK_TEMPLATE_EXPORT PeakSignalToNoiseRatioCalculator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PeakSignalToNoiseRatioCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(PeakSignalToNoiseRatioCalculator);
 
   /** Standard class type aliases. */
   using Self = PeakSignalToNoiseRatioCalculator;

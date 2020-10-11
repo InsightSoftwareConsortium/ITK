@@ -35,7 +35,7 @@ template <typename TMesh, typename TQEType>
 class QuadEdgeMeshEulerOperatorSplitEdgeFunction : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitEdgeFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshEulerOperatorSplitEdgeFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorSplitEdgeFunction;

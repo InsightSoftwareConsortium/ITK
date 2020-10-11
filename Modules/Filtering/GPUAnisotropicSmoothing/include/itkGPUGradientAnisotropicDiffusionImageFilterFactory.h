@@ -32,7 +32,7 @@ namespace itk
 class GPUGradientAnisotropicDiffusionImageFilterFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientAnisotropicDiffusionImageFilterFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUGradientAnisotropicDiffusionImageFilterFactory);
 
   using Self = GPUGradientAnisotropicDiffusionImageFilterFactory;
   using Superclass = ObjectFactoryBase;

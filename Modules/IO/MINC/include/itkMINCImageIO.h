@@ -71,7 +71,7 @@ struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
 class ITKIOMINC_EXPORT MINCImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(MINCImageIO);
 
   /** Standard class type aliases. */
   using Self = MINCImageIO;

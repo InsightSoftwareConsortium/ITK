@@ -94,7 +94,7 @@ template <typename TImageType, typename THistogramFrequencyContainer = DenseFreq
 class ITK_TEMPLATE_EXPORT ScalarImageToCooccurrenceMatrixFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageToCooccurrenceMatrixFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarImageToCooccurrenceMatrixFilter);
 
   /** Standard type alias */
   using Self = ScalarImageToCooccurrenceMatrixFilter;

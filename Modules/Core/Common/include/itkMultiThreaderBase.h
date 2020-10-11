@@ -105,7 +105,7 @@ class ProcessObject;
 class ITKCommon_EXPORT MultiThreaderBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreaderBase);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiThreaderBase);
 
   /** Standard class type aliases. */
   using Self = MultiThreaderBase;

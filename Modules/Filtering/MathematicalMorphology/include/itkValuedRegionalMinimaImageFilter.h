@@ -59,7 +59,7 @@ class ValuedRegionalMinimaImageFilter
                                             std::less<typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMinimaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ValuedRegionalMinimaImageFilter);
 
   using Self = ValuedRegionalMinimaImageFilter;
 

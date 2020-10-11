@@ -56,7 +56,7 @@ template <typename TMeasurementVector>
 class ITK_TEMPLATE_EXPORT GaussianMembershipFunction : public MembershipFunctionBase<TMeasurementVector>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianMembershipFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianMembershipFunction);
 
   /** Standard class type aliases */
   using Self = GaussianMembershipFunction;

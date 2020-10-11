@@ -40,7 +40,7 @@ class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorSplitVertexFunction
   : public QuadEdgeMeshFunctionBase<TMesh, TQEType *>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitVertexFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshEulerOperatorSplitVertexFunction);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshEulerOperatorSplitVertexFunction;

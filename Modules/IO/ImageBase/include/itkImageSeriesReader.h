@@ -45,7 +45,7 @@ template <typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ImageSeriesReader : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSeriesReader);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageSeriesReader);
 
   /** Standard class type aliases. */
   using Self = ImageSeriesReader;

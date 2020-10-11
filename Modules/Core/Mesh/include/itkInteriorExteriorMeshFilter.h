@@ -48,7 +48,7 @@ template <typename TInputMesh, typename TOutputMesh, typename TSpatialFunction>
 class ITK_TEMPLATE_EXPORT InteriorExteriorMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InteriorExteriorMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(InteriorExteriorMeshFilter);
 
   /** Standard class type aliases. */
   using Self = InteriorExteriorMeshFilter;

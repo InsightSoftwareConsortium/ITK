@@ -32,7 +32,7 @@ namespace itk
 class ITKIOMeshOFF_EXPORT OFFMeshIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(OFFMeshIOFactory);
 
   /** Standard class type aliases. */
   using Self = OFFMeshIOFactory;

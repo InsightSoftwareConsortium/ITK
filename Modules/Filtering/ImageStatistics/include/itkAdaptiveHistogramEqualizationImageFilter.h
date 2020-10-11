@@ -78,7 +78,7 @@ class ITK_TEMPLATE_EXPORT AdaptiveHistogramEqualizationImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptiveHistogramEqualizationImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AdaptiveHistogramEqualizationImageFilter);
 
   /**
    * Standard class type aliases

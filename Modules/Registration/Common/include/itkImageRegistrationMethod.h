@@ -70,7 +70,7 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT ImageRegistrationMethod : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = ImageRegistrationMethod;

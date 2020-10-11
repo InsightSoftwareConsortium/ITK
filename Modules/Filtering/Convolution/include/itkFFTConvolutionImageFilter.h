@@ -60,7 +60,7 @@ class ITK_TEMPLATE_EXPORT FFTConvolutionImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTConvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FFTConvolutionImageFilter);
 
   using Self = FFTConvolutionImageFilter;
   using Superclass = ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>;

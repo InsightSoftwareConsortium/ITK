@@ -34,7 +34,7 @@ namespace itk
 class ITKCommon_EXPORT ImageRegionSplitterDirection : public ImageRegionSplitterBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterDirection);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageRegionSplitterDirection);
 
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterDirection;

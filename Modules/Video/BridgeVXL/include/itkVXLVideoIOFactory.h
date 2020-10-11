@@ -32,7 +32,7 @@ namespace itk
 class VXLVideoIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VXLVideoIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(VXLVideoIOFactory);
 
   /** Standard class type aliases. */
   using Self = VXLVideoIOFactory;

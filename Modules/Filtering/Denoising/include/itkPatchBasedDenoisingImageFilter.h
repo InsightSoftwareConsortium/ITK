@@ -63,7 +63,7 @@ class ITK_TEMPLATE_EXPORT PatchBasedDenoisingImageFilter
   : public PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PatchBasedDenoisingImageFilter);
 
   /** Standard class type aliases. */
   using Self = PatchBasedDenoisingImageFilter;

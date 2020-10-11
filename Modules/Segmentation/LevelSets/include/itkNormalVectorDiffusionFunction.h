@@ -60,7 +60,7 @@ template <typename TSparseImageType>
 class ITK_TEMPLATE_EXPORT NormalVectorDiffusionFunction : public NormalVectorFunctionBase<TSparseImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(NormalVectorDiffusionFunction);
 
   /** Standard class type alias. */
   using Self = NormalVectorDiffusionFunction;

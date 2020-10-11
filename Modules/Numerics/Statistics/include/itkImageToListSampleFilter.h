@@ -56,7 +56,7 @@ template <typename TImage, typename TMaskImage = TImage>
 class ITK_TEMPLATE_EXPORT ImageToListSampleFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToListSampleFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToListSampleFilter);
 
   /** Standard class type aliases */
   using Self = ImageToListSampleFilter;

@@ -37,7 +37,7 @@ namespace itk
 class VoxBoCUBImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoxBoCUBImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(VoxBoCUBImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = VoxBoCUBImageIOFactory;

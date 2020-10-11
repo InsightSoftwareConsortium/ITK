@@ -47,7 +47,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT StatisticsKeepNObjectsLabelMapFilter : public ShapeKeepNObjectsLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsKeepNObjectsLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsKeepNObjectsLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsKeepNObjectsLabelMapFilter;

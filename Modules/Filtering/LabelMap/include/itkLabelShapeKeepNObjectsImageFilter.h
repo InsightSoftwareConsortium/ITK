@@ -52,7 +52,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT LabelShapeKeepNObjectsImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelShapeKeepNObjectsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelShapeKeepNObjectsImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelShapeKeepNObjectsImageFilter;

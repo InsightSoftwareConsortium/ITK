@@ -68,7 +68,7 @@ template <typename TSample, typename THistogram>
 class ITK_TEMPLATE_EXPORT SampleToHistogramFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SampleToHistogramFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SampleToHistogramFilter);
 
   /** Standard class type aliases */
   using Self = SampleToHistogramFilter;

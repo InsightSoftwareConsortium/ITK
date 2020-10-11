@@ -32,7 +32,7 @@ namespace itk
 class ITKIODCMTK_EXPORT DCMTKImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(DCMTKImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = DCMTKImageIOFactory;

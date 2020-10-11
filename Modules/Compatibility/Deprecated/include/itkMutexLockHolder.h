@@ -45,7 +45,7 @@ template <typename TMutex>
 class MutexLockHolder
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MutexLockHolder);
+  ITK_DISALLOW_COPY_AND_MOVE(MutexLockHolder);
 
   using Self = MutexLockHolder;
   using MutexType = TMutex;

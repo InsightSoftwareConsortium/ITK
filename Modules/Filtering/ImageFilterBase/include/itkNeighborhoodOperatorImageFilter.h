@@ -51,7 +51,7 @@ template <typename TInputImage, typename TOutputImage, typename TOperatorValueTy
 class ITK_TEMPLATE_EXPORT NeighborhoodOperatorImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodOperatorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NeighborhoodOperatorImageFilter);
 
   /** Standard "Self" & Superclass type alias. */
   using Self = NeighborhoodOperatorImageFilter;

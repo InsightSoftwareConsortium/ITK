@@ -101,7 +101,7 @@ class ITK_TEMPLATE_EXPORT AffineTransform
   : public MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AffineTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(AffineTransform);
 
   /** Standard type alias   */
   using Self = AffineTransform;

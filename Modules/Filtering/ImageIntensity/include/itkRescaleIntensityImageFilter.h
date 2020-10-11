@@ -158,7 +158,7 @@ class ITK_TEMPLATE_EXPORT RescaleIntensityImageFilter
       Functor::IntensityLinearTransform<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RescaleIntensityImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RescaleIntensityImageFilter);
 
   /** Standard class type aliases. */
   using Self = RescaleIntensityImageFilter;

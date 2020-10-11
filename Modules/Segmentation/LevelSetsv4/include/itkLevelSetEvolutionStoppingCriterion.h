@@ -33,7 +33,7 @@ template <typename TLevelSetContainer>
 class ITK_TEMPLATE_EXPORT LevelSetEvolutionStoppingCriterion : public StoppingCriterionBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionStoppingCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolutionStoppingCriterion);
 
   using Self = LevelSetEvolutionStoppingCriterion;
   using Superclass = StoppingCriterionBase;

@@ -47,7 +47,7 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransform
   : public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateDisplacementFieldTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianSmoothingOnUpdateDisplacementFieldTransform);
 
   /** Standard class type aliases. */
   using Self = GaussianSmoothingOnUpdateDisplacementFieldTransform;

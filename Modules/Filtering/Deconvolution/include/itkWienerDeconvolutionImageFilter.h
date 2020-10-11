@@ -80,7 +80,7 @@ class ITK_TEMPLATE_EXPORT WienerDeconvolutionImageFilter
   : public InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WienerDeconvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(WienerDeconvolutionImageFilter);
 
   using Self = WienerDeconvolutionImageFilter;
   using Superclass = InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>;

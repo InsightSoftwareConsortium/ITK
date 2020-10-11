@@ -56,7 +56,7 @@ template <typename TImage, typename TAccessor>
 class ITK_TEMPLATE_EXPORT ImageAdaptor : public ImageBase<TImage::ImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageAdaptor);
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel

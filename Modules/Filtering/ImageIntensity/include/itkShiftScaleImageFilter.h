@@ -39,7 +39,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ShiftScaleImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShiftScaleImageFilter);
 
   /** Standard class type aliases. */
   using Self = ShiftScaleImageFilter;

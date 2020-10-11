@@ -44,7 +44,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT NeighborhoodSampler : public SampleToSubsampleFilter<TSample>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NeighborhoodSampler);
+  ITK_DISALLOW_COPY_AND_MOVE(NeighborhoodSampler);
 
   /** Standard class type aliases. */
   using Self = NeighborhoodSampler;

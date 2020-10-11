@@ -36,7 +36,7 @@ class ITKOptimizers_EXPORT NonLinearOptimizer : public Optimizer
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NonLinearOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(NonLinearOptimizer);
 
   /** Standard class type aliases. */
   using Self = NonLinearOptimizer;

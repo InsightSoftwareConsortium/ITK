@@ -72,7 +72,7 @@ class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFilter
   : public GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUDemonsRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = GPUDemonsRegistrationFilter;
@@ -155,7 +155,7 @@ private:
 class GPUDemonsRegistrationFilterFactory : public itk::ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFilterFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUDemonsRegistrationFilterFactory);
 
   using Self = GPUDemonsRegistrationFilterFactory;
   using GPUSuperclass = ObjectFactoryBase;

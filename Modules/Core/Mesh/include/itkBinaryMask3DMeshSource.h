@@ -71,7 +71,7 @@ template <typename TInputImage, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT BinaryMask3DMeshSource : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMask3DMeshSource);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryMask3DMeshSource);
 
   /** Standard "Self" type alias. */
   using Self = BinaryMask3DMeshSource;

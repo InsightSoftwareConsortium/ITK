@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEquationOverlapPenaltyTerm
   : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationOverlapPenaltyTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationOverlapPenaltyTerm);
 
   using Self = LevelSetEquationOverlapPenaltyTerm;
   using Pointer = SmartPointer<Self>;

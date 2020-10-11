@@ -90,7 +90,7 @@ class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldImageRegistrationMethodv4
   : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldImageRegistrationMethodv4);
+  ITK_DISALLOW_COPY_AND_MOVE(TimeVaryingVelocityFieldImageRegistrationMethodv4);
 
   /** Standard class type aliases. */
   using Self = TimeVaryingVelocityFieldImageRegistrationMethodv4;

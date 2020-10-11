@@ -123,7 +123,7 @@ class ITK_TEMPLATE_EXPORT ChangeLabelImageFilter
       Functor::ChangeLabel<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChangeLabelImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ChangeLabelImageFilter);
 
   /** Standard class type aliases. */
   using Self = ChangeLabelImageFilter;

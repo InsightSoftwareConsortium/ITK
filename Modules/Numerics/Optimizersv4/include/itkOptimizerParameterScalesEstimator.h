@@ -39,7 +39,7 @@ template <typename TInternalComputationValueType = double>
 class OptimizerParameterScalesEstimatorTemplate : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OptimizerParameterScalesEstimatorTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(OptimizerParameterScalesEstimatorTemplate);
 
   /** Standard class type aliases. */
   using Self = OptimizerParameterScalesEstimatorTemplate;

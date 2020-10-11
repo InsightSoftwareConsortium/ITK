@@ -40,7 +40,7 @@ template <typename TInputVideoStream>
 class ITK_TEMPLATE_EXPORT VideoFileWriter : public TemporalProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(VideoFileWriter);
 
   /** Standard class type aliases. */
   using Self = VideoFileWriter<TInputVideoStream>;

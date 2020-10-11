@@ -79,7 +79,7 @@ class Log10ImageAdaptor
   : public ImageAdaptor<TImage, Accessor::Log10PixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Log10ImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(Log10ImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = Log10ImageAdaptor;

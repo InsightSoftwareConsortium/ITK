@@ -34,7 +34,7 @@ namespace itk
 class PolygonGroupSpatialObjectXMLFileReader : public XMLReader<GroupSpatialObject<3>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileReader);
+  ITK_DISALLOW_COPY_AND_MOVE(PolygonGroupSpatialObjectXMLFileReader);
 
   /** Standard type alias */
   using Self = PolygonGroupSpatialObjectXMLFileReader;
@@ -88,7 +88,7 @@ private:
 class PolygonGroupSpatialObjectXMLFileWriter : public XMLWriterBase<GroupSpatialObject<3>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(PolygonGroupSpatialObjectXMLFileWriter);
 
   /** standard type alias */
   using Superclass = XMLWriterBase<GroupSpatialObject<3>>;

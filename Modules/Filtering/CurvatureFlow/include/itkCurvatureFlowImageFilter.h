@@ -96,7 +96,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT CurvatureFlowImageFilter : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CurvatureFlowImageFilter);
 
   /** Standard class type aliases. */
   using Self = CurvatureFlowImageFilter;

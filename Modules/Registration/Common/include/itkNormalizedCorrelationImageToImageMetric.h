@@ -46,7 +46,7 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(NormalizedCorrelationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = NormalizedCorrelationImageToImageMetric;

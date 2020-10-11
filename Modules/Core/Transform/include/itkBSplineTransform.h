@@ -104,7 +104,7 @@ class ITK_TEMPLATE_EXPORT BSplineTransform
   : public BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineTransform);
 
   /** Standard class type aliases. */
   using Self = BSplineTransform;

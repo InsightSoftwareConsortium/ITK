@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT BinaryContourImageFilter
   , protected ScanlineFilterCommon<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryContourImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryContourImageFilter);
 
   /**
    * Standard "Self" & Superclass typedef.

@@ -39,7 +39,7 @@ namespace itk
 class ITKIOMeshGifti_EXPORT GiftiMeshIO : public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiftiMeshIO);
+  ITK_DISALLOW_COPY_AND_MOVE(GiftiMeshIO);
 
   /** Standard class type aliases. */
   using Self = GiftiMeshIO;

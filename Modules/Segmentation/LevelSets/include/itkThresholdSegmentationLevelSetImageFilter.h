@@ -85,7 +85,7 @@ class ITK_TEMPLATE_EXPORT ThresholdSegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdSegmentationLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ThresholdSegmentationLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = ThresholdSegmentationLevelSetImageFilter;

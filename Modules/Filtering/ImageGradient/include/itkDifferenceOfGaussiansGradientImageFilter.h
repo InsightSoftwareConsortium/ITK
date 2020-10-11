@@ -39,7 +39,7 @@ class ITK_TEMPLATE_EXPORT DifferenceOfGaussiansGradientImageFilter
       Image<CovariantVector<TDataType, TInputImage::ImageDimension>, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DifferenceOfGaussiansGradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DifferenceOfGaussiansGradientImageFilter);
 
   /** Number of dimensions. */
   static constexpr unsigned int NDimensions = TInputImage::ImageDimension;

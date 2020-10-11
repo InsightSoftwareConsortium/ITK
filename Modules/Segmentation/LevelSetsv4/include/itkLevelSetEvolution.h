@@ -53,7 +53,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, LevelSetDenseIma
   : public LevelSetEvolutionBase<TEquationContainer, LevelSetDenseImage<TImage>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolution);
 
   using LevelSetType = LevelSetDenseImage<TImage>;
 
@@ -190,7 +190,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, WhitakerSparseLe
   : public LevelSetEvolutionBase<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolution);
 
   using LevelSetType = WhitakerSparseLevelSetImage<TOutput, VDimension>;
 
@@ -301,7 +301,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, ShiSparseLevelSe
   : public LevelSetEvolutionBase<TEquationContainer, ShiSparseLevelSetImage<VDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolution);
 
   using LevelSetType = ShiSparseLevelSetImage<VDimension>;
 
@@ -379,7 +379,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolution<TEquationContainer, MalcolmSparseLev
   : public LevelSetEvolutionBase<TEquationContainer, MalcolmSparseLevelSetImage<VDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolution);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolution);
 
   using LevelSetType = MalcolmSparseLevelSetImage<VDimension>;
 

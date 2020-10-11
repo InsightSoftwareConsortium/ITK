@@ -43,7 +43,7 @@ namespace itk
 class ITKIOMeta_EXPORT MetaImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaImageIO);
 
   /** Standard class type aliases. */
   using Self = MetaImageIO;

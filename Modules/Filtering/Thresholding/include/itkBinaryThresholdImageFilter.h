@@ -142,7 +142,7 @@ class ITK_TEMPLATE_EXPORT BinaryThresholdImageFilter
       Functor::BinaryThreshold<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryThresholdImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryThresholdImageFilter;

@@ -63,7 +63,7 @@ class ITK_FORWARD_EXPORT LBFGSBOptimizerHelper;
 class ITKOptimizers_EXPORT LBFGSBOptimizer : public SingleValuedNonLinearVnlOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(LBFGSBOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = LBFGSBOptimizer;

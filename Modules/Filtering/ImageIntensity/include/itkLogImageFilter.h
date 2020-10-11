@@ -68,7 +68,7 @@ template <typename TInputImage, typename TOutputImage>
 class LogImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LogImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LogImageFilter);
 
   /** Standard class type aliases. */
   using Self = LogImageFilter;

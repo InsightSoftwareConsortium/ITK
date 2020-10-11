@@ -53,7 +53,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT LaplacianSharpeningImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSharpeningImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LaplacianSharpeningImageFilter);
 
   /** Standard "Self" & Superclass type alias.   */
   using Self = LaplacianSharpeningImageFilter;

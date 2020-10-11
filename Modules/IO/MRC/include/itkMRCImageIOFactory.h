@@ -49,7 +49,7 @@ namespace itk
 class ITKIOMRC_EXPORT MRCImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(MRCImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = MRCImageIOFactory;

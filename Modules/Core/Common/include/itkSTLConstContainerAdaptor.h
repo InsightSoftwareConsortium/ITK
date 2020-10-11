@@ -48,7 +48,7 @@ template <typename TContainer>
 class STLConstContainerAdaptor
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(STLConstContainerAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(STLConstContainerAdaptor);
 
   using AdapteeType = const TContainer;
 

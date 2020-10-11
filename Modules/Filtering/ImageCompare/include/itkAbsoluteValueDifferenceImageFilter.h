@@ -89,7 +89,7 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
 class AbsoluteValueDifferenceImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AbsoluteValueDifferenceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AbsoluteValueDifferenceImageFilter);
 
   /** Standard class type aliases. */
   using Self = AbsoluteValueDifferenceImageFilter;

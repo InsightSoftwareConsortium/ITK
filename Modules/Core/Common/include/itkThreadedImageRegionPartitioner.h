@@ -45,7 +45,7 @@ template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT ThreadedImageRegionPartitioner : public ThreadedDomainPartitioner<ImageRegion<VDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedImageRegionPartitioner);
+  ITK_DISALLOW_COPY_AND_MOVE(ThreadedImageRegionPartitioner);
 
   /** Standard class type aliases. */
   using Self = ThreadedImageRegionPartitioner;

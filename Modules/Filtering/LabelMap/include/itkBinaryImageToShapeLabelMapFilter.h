@@ -63,7 +63,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT BinaryImageToShapeLabelMapFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToShapeLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryImageToShapeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryImageToShapeLabelMapFilter;

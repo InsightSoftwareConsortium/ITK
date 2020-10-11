@@ -43,7 +43,7 @@ class ParticleSwarmOptimizerSAXReader
   : public XMLReader<ParticleSwarmOptimizer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXReader);
+  ITK_DISALLOW_COPY_AND_MOVE(ParticleSwarmOptimizerSAXReader);
 
   /** Standard class type aliases */
   using Self = ParticleSwarmOptimizerSAXReader;

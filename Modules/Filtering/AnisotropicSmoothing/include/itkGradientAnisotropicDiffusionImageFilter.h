@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT GradientAnisotropicDiffusionImageFilter
   : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientAnisotropicDiffusionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = GradientAnisotropicDiffusionImageFilter;

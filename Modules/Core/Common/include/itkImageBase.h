@@ -105,7 +105,7 @@ template <unsigned int VImageDimension = 2>
 class ITK_TEMPLATE_EXPORT ImageBase : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageBase);
 
   /** Standard type alias. */
   using Self = ImageBase;

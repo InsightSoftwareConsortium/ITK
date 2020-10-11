@@ -88,7 +88,7 @@ template <typename TTransform,
 class ITK_TEMPLATE_EXPORT LandmarkBasedTransformInitializer : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkBasedTransformInitializer);
+  ITK_DISALLOW_COPY_AND_MOVE(LandmarkBasedTransformInitializer);
 
   /** Standard class type aliases. */
   using Self = LandmarkBasedTransformInitializer;

@@ -119,7 +119,7 @@ protected:
 class ITKDeprecated_EXPORT MutexLock : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MutexLock);
+  ITK_DISALLOW_COPY_AND_MOVE(MutexLock);
 
   /** Standard class type aliases. */
   using Self = MutexLock;

@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4GetValueAnd
   : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader;

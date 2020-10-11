@@ -37,7 +37,7 @@ class RGBToVectorImageAdaptor
   : public ImageAdaptor<TImage, Accessor::RGBToVectorPixelAccessor<typename TImage::PixelType::ComponentType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RGBToVectorImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(RGBToVectorImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = RGBToVectorImageAdaptor;

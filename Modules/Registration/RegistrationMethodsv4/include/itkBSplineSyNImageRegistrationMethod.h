@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT BSplineSyNImageRegistrationMethod
   : public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSyNImageRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineSyNImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = BSplineSyNImageRegistrationMethod;

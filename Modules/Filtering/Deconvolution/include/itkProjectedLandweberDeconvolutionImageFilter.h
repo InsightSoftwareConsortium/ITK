@@ -58,7 +58,7 @@ class ITK_TEMPLATE_EXPORT ProjectedLandweberDeconvolutionImageFilter
       LandweberDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedLandweberDeconvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ProjectedLandweberDeconvolutionImageFilter);
 
   /** Standard type alias. */
   using Self = ProjectedLandweberDeconvolutionImageFilter;

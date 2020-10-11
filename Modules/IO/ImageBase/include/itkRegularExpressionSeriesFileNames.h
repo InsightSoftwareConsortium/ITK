@@ -71,7 +71,7 @@ namespace itk
 class ITKIOImageBase_EXPORT RegularExpressionSeriesFileNames : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularExpressionSeriesFileNames);
+  ITK_DISALLOW_COPY_AND_MOVE(RegularExpressionSeriesFileNames);
 
   /** Standard class type aliases. */
   using Self = RegularExpressionSeriesFileNames;

@@ -38,7 +38,7 @@ namespace itk
 class ITKCommon_EXPORT TBBMultiThreader : public MultiThreaderBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TBBMultiThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(TBBMultiThreader);
 
   /** Standard class type aliases. */
   using Self = TBBMultiThreader;

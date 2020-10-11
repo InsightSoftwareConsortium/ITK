@@ -31,7 +31,7 @@ namespace itk
 class ITKCommon_EXPORT CreateObjectFunctionBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunctionBase);
+  ITK_DISALLOW_COPY_AND_MOVE(CreateObjectFunctionBase);
 
   /** Standard type alias. */
   using Self = CreateObjectFunctionBase;
@@ -60,7 +60,7 @@ template <typename T>
 class CreateObjectFunction : public CreateObjectFunctionBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CreateObjectFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(CreateObjectFunction);
 
   /** Standard class type aliases. */
   using Self = CreateObjectFunction;

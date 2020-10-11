@@ -64,7 +64,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ExpandImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpandImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExpandImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExpandImageFilter;

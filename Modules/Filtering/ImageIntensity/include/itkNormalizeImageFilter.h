@@ -54,7 +54,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT NormalizeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NormalizeImageFilter);
 
   /** Standard Self type alias */
   using Self = NormalizeImageFilter;

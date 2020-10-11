@@ -33,7 +33,7 @@ namespace itk
 class ITKIOPNG_EXPORT PNGImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(PNGImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = PNGImageIOFactory;

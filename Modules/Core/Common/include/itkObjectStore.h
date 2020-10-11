@@ -84,7 +84,7 @@ template <typename TObjectType>
 class ITK_TEMPLATE_EXPORT ObjectStore : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectStore);
+  ITK_DISALLOW_COPY_AND_MOVE(ObjectStore);
 
   /** Standard type alias. */
   using Self = ObjectStore;

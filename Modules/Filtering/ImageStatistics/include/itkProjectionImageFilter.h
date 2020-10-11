@@ -57,7 +57,7 @@ template <typename TInputImage, typename TOutputImage, typename TAccumulator>
 class ITK_TEMPLATE_EXPORT ProjectionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ProjectionImageFilter);
 
   /** Standard class type aliases. */
   using Self = ProjectionImageFilter;

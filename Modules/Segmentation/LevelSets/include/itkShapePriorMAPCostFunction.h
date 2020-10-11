@@ -50,7 +50,7 @@ template <typename TFeatureImage, typename TOutputPixel>
 class ITK_TEMPLATE_EXPORT ShapePriorMAPCostFunction : public ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorMAPCostFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapePriorMAPCostFunction);
 
   /** Standard class type aliases. */
   using Self = ShapePriorMAPCostFunction;

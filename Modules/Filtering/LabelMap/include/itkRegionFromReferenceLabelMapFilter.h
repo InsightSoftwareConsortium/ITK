@@ -55,7 +55,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT RegionFromReferenceLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionFromReferenceLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionFromReferenceLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = RegionFromReferenceLabelMapFilter;

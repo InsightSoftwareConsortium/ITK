@@ -62,7 +62,7 @@ template <typename TInputImage, typename TLabelImage>
 class ITK_TEMPLATE_EXPORT LabelStatisticsImageFilter : public ImageSink<TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelStatisticsImageFilter);
 
   /** Standard Self type alias */
   using Self = LabelStatisticsImageFilter;

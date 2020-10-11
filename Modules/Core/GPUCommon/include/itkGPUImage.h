@@ -40,7 +40,7 @@ template <typename TPixel, unsigned int VImageDimension = 2>
 class ITK_TEMPLATE_EXPORT GPUImage : public Image<TPixel, VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImage);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUImage);
 
   using Self = GPUImage;
   using Superclass = Image<TPixel, VImageDimension>;
@@ -215,7 +215,7 @@ private:
 class ITK_TEMPLATE_EXPORT GPUImageFactory : public itk::ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUImageFactory);
 
   using Self = GPUImageFactory;
   using Superclass = itk::ObjectFactoryBase;

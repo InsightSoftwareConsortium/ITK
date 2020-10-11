@@ -47,7 +47,7 @@ template <typename TPointSet>
 class ITK_TEMPLATE_EXPORT PointSetToListSampleAdaptor : public ListSample<typename TPointSet::PointType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToListSampleAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(PointSetToListSampleAdaptor);
 
   /** Standard class type aliases */
   using Self = PointSetToListSampleAdaptor;

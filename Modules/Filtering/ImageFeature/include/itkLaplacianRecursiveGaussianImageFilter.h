@@ -44,7 +44,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT LaplacianRecursiveGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianRecursiveGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LaplacianRecursiveGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = LaplacianRecursiveGaussianImageFilter;

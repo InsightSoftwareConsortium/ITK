@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT ImageToListSampleAdaptor
   : public ListSample<typename MeasurementVectorPixelTraits<typename TImage::PixelType>::MeasurementVectorType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToListSampleAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToListSampleAdaptor);
 
   /** Standard class type aliases */
   using Self = ImageToListSampleAdaptor;

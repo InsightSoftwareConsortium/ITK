@@ -96,7 +96,7 @@ template <typename TPixelType, typename TCellTraits>
 class ITK_TEMPLATE_EXPORT CellInterface
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterface);
+  ITK_DISALLOW_COPY_AND_MOVE(CellInterface);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(CellInterface);

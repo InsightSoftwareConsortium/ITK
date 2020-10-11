@@ -36,7 +36,7 @@ template <typename TMesh,
 class QuadEdgeMeshDecimationCriterion : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshDecimationCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshDecimationCriterion);
 
   using Self = QuadEdgeMeshDecimationCriterion;
   using Pointer = SmartPointer<Self>;
@@ -114,7 +114,7 @@ template <typename TMesh,
 class NumberOfPointsCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NumberOfPointsCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(NumberOfPointsCriterion);
 
   using Self = NumberOfPointsCriterion;
   using Pointer = SmartPointer<Self>;
@@ -157,7 +157,7 @@ template <typename TMesh,
 class NumberOfFacesCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NumberOfFacesCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(NumberOfFacesCriterion);
 
   using Self = NumberOfFacesCriterion;
   using Pointer = SmartPointer<Self>;
@@ -204,7 +204,7 @@ class MaxMeasureBoundCriterion
   : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaxMeasureBoundCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(MaxMeasureBoundCriterion);
 
   using Self = MaxMeasureBoundCriterion;
   using Pointer = SmartPointer<Self>;
@@ -253,7 +253,7 @@ class MinMeasureBoundCriterion
   : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinMeasureBoundCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(MinMeasureBoundCriterion);
 
   using Self = MinMeasureBoundCriterion;
   using Pointer = SmartPointer<Self>;

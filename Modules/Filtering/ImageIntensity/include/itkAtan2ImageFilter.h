@@ -84,7 +84,7 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
 class Atan2ImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Atan2ImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(Atan2ImageFilter);
 
   /** Standard class type aliases. */
   using Self = Atan2ImageFilter;

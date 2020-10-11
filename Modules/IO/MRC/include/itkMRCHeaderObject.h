@@ -49,7 +49,7 @@ namespace itk
 class ITKIOMRC_EXPORT MRCHeaderObject : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRCHeaderObject);
+  ITK_DISALLOW_COPY_AND_MOVE(MRCHeaderObject);
 
   /** Standard class type aliases. */
   using Self = MRCHeaderObject;

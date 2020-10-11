@@ -240,7 +240,7 @@ class MovingHistogramMorphologicalGradientImageFilter
       typename Function::MorphologicalGradientHistogram<typename TInputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologicalGradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MovingHistogramMorphologicalGradientImageFilter);
 
   /** Standard class type aliases. */
   using Self = MovingHistogramMorphologicalGradientImageFilter;

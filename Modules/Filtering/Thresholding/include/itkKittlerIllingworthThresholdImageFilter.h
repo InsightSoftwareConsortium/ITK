@@ -54,7 +54,7 @@ class KittlerIllingworthThresholdImageFilter
   : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(KittlerIllingworthThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = KittlerIllingworthThresholdImageFilter;

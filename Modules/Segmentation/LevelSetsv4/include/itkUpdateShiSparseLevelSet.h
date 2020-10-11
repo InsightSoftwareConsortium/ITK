@@ -42,7 +42,7 @@ template <unsigned int VDimension, typename TEquationContainer>
 class ITK_TEMPLATE_EXPORT UpdateShiSparseLevelSet : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateShiSparseLevelSet);
+  ITK_DISALLOW_COPY_AND_MOVE(UpdateShiSparseLevelSet);
 
   using Self = UpdateShiSparseLevelSet;
   using Pointer = SmartPointer<Self>;

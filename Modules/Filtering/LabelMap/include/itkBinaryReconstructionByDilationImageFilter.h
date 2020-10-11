@@ -58,7 +58,7 @@ class ITK_TEMPLATE_EXPORT BinaryReconstructionByDilationImageFilter
   : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryReconstructionByDilationImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryReconstructionByDilationImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryReconstructionByDilationImageFilter;

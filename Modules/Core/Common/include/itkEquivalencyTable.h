@@ -44,7 +44,7 @@ namespace itk
 class ITKCommon_EXPORT EquivalencyTable : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EquivalencyTable);
+  ITK_DISALLOW_COPY_AND_MOVE(EquivalencyTable);
 
   /** Standard smart pointer declarations */
   using Self = EquivalencyTable;

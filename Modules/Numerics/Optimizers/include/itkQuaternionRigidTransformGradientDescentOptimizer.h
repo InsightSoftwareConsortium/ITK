@@ -52,7 +52,7 @@ namespace itk
 class ITKOptimizers_EXPORT QuaternionRigidTransformGradientDescentOptimizer : public GradientDescentOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransformGradientDescentOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(QuaternionRigidTransformGradientDescentOptimizer);
 
   /** Standard class type aliases. */
   using Self = QuaternionRigidTransformGradientDescentOptimizer;

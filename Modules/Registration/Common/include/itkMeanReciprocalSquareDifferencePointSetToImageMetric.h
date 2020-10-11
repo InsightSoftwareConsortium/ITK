@@ -47,7 +47,7 @@ class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric
   : public PointSetToImageMetric<TFixedPointSet, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanReciprocalSquareDifferencePointSetToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(MeanReciprocalSquareDifferencePointSetToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanReciprocalSquareDifferencePointSetToImageMetric;

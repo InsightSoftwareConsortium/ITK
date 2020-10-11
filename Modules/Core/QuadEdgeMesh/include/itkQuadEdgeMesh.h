@@ -53,7 +53,7 @@ template <typename TPixel,
 class ITK_TEMPLATE_EXPORT QuadEdgeMesh : public Mesh<TPixel, VDimension, TTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMesh);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMesh);
 
   /** Input template parameters. */
   using Traits = TTraits;

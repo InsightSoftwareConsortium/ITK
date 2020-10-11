@@ -64,7 +64,7 @@ template <typename TTransform>
 class ITK_TEMPLATE_EXPORT BSplineTransformParametersAdaptor : public TransformParametersAdaptor<TTransform>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformParametersAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = BSplineTransformParametersAdaptor;

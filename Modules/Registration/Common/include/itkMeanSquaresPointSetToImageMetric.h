@@ -41,7 +41,7 @@ template <typename TFixedPointSet, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT MeanSquaresPointSetToImageMetric : public PointSetToImageMetric<TFixedPointSet, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresPointSetToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(MeanSquaresPointSetToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MeanSquaresPointSetToImageMetric;

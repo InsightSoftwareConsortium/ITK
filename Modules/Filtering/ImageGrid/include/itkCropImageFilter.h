@@ -44,7 +44,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT CropImageFilter : public ExtractImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CropImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CropImageFilter);
 
   /** Standard class type aliases. */
   using Self = CropImageFilter;

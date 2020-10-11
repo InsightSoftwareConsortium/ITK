@@ -55,7 +55,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT StatisticsImageFilter : public ImageSink<TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsImageFilter);
 
   /** Standard Self type alias */
   using Self = StatisticsImageFilter;

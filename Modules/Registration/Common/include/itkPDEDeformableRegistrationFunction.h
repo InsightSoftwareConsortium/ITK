@@ -41,7 +41,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 class PDEDeformableRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(PDEDeformableRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = PDEDeformableRegistrationFunction;

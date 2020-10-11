@@ -46,7 +46,7 @@ namespace itk
 class ITKCommon_EXPORT ImageRegionSplitterSlowDimension : public ImageRegionSplitterBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageRegionSplitterSlowDimension);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageRegionSplitterSlowDimension);
 
   /** Standard class type aliases. */
   using Self = ImageRegionSplitterSlowDimension;

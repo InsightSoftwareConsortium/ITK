@@ -131,7 +131,7 @@ template <typename TInputImage, typename TMembershipFunction>
 class ITK_TEMPLATE_EXPORT ImageKmeansModelEstimator : public ImageModelEstimatorBase<TInputImage, TMembershipFunction>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageKmeansModelEstimator);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageKmeansModelEstimator);
 
   /** Standard class type aliases. */
   using Self = ImageKmeansModelEstimator;

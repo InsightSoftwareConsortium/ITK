@@ -64,7 +64,7 @@ class ITK_TEMPLATE_EXPORT DemonsRegistrationFilter
   : public PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DemonsRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = DemonsRegistrationFilter;

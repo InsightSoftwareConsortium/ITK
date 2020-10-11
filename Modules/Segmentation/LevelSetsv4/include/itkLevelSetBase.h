@@ -43,7 +43,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput, typename T
 class ITK_TEMPLATE_EXPORT LevelSetBase : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetBase);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetBase);
 
   using Self = LevelSetBase;
   using Superclass = DataObject;

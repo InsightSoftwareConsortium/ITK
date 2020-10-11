@@ -54,7 +54,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT DoubleThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DoubleThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DoubleThresholdImageFilter);
 
   /** Standard class type aliases. */
   using Self = DoubleThresholdImageFilter;

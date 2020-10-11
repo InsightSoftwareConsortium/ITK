@@ -44,7 +44,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT BinomialBlurImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinomialBlurImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinomialBlurImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinomialBlurImageFilter;

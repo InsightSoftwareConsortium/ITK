@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT MaskedMovingHistogramImageFilter
   : public MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedMovingHistogramImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaskedMovingHistogramImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskedMovingHistogramImageFilter;

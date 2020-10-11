@@ -33,7 +33,7 @@ class ITK_TEMPLATE_EXPORT LevelSetEvolutionNumberOfIterationsStoppingCriterion
   : public LevelSetEvolutionStoppingCriterion<TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionNumberOfIterationsStoppingCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolutionNumberOfIterationsStoppingCriterion);
 
   using Self = LevelSetEvolutionNumberOfIterationsStoppingCriterion;
   using Superclass = LevelSetEvolutionStoppingCriterion<TLevelSetContainer>;

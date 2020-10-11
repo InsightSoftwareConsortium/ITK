@@ -46,7 +46,7 @@ class ITK_TEMPLATE_EXPORT VectorMeanImageFunction
   : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorMeanImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorMeanImageFunction);
 
   /** Standard class type aliases. */
   using Self = VectorMeanImageFunction;

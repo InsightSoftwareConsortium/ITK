@@ -58,7 +58,7 @@ class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFunction
   : public GPUPDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDemonsRegistrationFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUDemonsRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = GPUDemonsRegistrationFunction;

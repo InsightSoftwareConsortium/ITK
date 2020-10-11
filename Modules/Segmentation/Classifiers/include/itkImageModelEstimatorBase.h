@@ -64,7 +64,7 @@ template <typename TInputImage, typename TMembershipFunction>
 class ITK_TEMPLATE_EXPORT ImageModelEstimatorBase : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageModelEstimatorBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageModelEstimatorBase);
 
   /** Standard class type aliases. */
   using Self = ImageModelEstimatorBase;

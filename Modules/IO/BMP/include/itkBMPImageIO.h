@@ -39,7 +39,7 @@ namespace itk
 class ITKIOBMP_EXPORT BMPImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(BMPImageIO);
 
   /** Standard class type aliases. */
   using Self = BMPImageIO;

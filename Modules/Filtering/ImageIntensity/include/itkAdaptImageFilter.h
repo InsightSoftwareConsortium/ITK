@@ -136,7 +136,7 @@ class AdaptImageFilter
                                    Functor::AccessorFunctor<typename TInputImage::PixelType, TAccessor>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AdaptImageFilter);
 
   /** Standard class type aliases. */
   using Self = AdaptImageFilter;

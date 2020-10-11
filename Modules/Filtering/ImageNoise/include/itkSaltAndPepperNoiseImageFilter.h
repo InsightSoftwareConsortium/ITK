@@ -67,7 +67,7 @@ template <class TInputImage, class TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT SaltAndPepperNoiseImageFilter : public NoiseBaseImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SaltAndPepperNoiseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SaltAndPepperNoiseImageFilter);
 
   /** Standard class type aliases. */
   using Self = SaltAndPepperNoiseImageFilter;

@@ -51,7 +51,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT PermuteAxesImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PermuteAxesImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PermuteAxesImageFilter);
 
   /** Standard class type aliases. */
   using Self = PermuteAxesImageFilter;

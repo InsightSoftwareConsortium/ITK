@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromPhysicalShift
   : public RegistrationParameterScalesFromShiftBase<TMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromPhysicalShift);
+  ITK_DISALLOW_COPY_AND_MOVE(RegistrationParameterScalesFromPhysicalShift);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromPhysicalShift;

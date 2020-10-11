@@ -154,7 +154,7 @@ class ITK_TEMPLATE_EXPORT SparseFieldFourthOrderLevelSetImageFilter
   : public SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldFourthOrderLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SparseFieldFourthOrderLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = SparseFieldFourthOrderLevelSetImageFilter;

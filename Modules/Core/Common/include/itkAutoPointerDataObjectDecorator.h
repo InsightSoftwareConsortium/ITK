@@ -61,7 +61,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT AutoPointerDataObjectDecorator : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AutoPointerDataObjectDecorator);
+  ITK_DISALLOW_COPY_AND_MOVE(AutoPointerDataObjectDecorator);
 
   /** Standard type alias */
   using Self = AutoPointerDataObjectDecorator;

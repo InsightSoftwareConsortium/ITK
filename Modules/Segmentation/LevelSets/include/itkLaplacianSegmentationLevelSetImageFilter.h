@@ -103,7 +103,7 @@ class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LaplacianSegmentationLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = LaplacianSegmentationLevelSetImageFilter;

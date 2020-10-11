@@ -33,7 +33,7 @@ namespace itk
 class ITKIOGE_EXPORT GE4ImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GE4ImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GE4ImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = GE4ImageIOFactory;

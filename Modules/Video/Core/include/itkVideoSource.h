@@ -44,7 +44,7 @@ template <typename TOutputVideoStream>
 class ITK_TEMPLATE_EXPORT VideoSource : public TemporalProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoSource);
+  ITK_DISALLOW_COPY_AND_MOVE(VideoSource);
 
   /*-TYPEDEFS----------------------------------------------------------------*/
 

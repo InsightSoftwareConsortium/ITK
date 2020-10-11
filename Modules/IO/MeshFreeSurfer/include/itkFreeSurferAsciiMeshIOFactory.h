@@ -31,7 +31,7 @@ namespace itk
 class ITKIOMeshFreeSurfer_EXPORT FreeSurferAsciiMeshIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(FreeSurferAsciiMeshIOFactory);
 
   /** Standard class type aliases. */
   using Self = FreeSurferAsciiMeshIOFactory;

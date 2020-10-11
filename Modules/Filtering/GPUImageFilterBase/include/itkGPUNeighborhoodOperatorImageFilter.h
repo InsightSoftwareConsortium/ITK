@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT GPUNeighborhoodOperatorImageFilter
   : public GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUNeighborhoodOperatorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUNeighborhoodOperatorImageFilter);
 
   /** Standard "Self" & Superclass type alias. */
   using Self = GPUNeighborhoodOperatorImageFilter;

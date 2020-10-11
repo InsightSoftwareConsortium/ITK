@@ -48,7 +48,7 @@ template <typename TParametersValueType = double, unsigned int NInputDimensions 
 class MINCTransformAdapter : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformAdapter);
+  ITK_DISALLOW_COPY_AND_MOVE(MINCTransformAdapter);
 
   /** Standard class type aliases. */
   using Self = MINCTransformAdapter;

@@ -51,7 +51,7 @@ namespace itk
 class ITK_TEMPLATE_EXPORT ChainCodePath2D : public ChainCodePath<2>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath2D);
+  ITK_DISALLOW_COPY_AND_MOVE(ChainCodePath2D);
 
   /** Dimension underlying input image. */
   static constexpr unsigned int Dimension = 2;

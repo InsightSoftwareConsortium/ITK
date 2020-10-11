@@ -44,7 +44,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT StreamingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StreamingImageFilter);
 
   /** Standard class type aliases. */
   using Self = StreamingImageFilter;

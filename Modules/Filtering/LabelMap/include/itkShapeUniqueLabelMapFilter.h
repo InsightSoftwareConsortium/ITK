@@ -45,7 +45,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ShapeUniqueLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeUniqueLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeUniqueLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeUniqueLabelMapFilter;

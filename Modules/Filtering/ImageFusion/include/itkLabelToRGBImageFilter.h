@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT LabelToRGBImageFilter
       Functor::LabelToRGBFunctor<typename TLabelImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelToRGBImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelToRGBImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelToRGBImageFilter;

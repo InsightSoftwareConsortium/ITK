@@ -72,7 +72,7 @@ namespace itk
 class ITKCommon_EXPORT LightProcessObject : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LightProcessObject);
+  ITK_DISALLOW_COPY_AND_MOVE(LightProcessObject);
 
   /** Standard class type aliases. */
   using Self = LightProcessObject;

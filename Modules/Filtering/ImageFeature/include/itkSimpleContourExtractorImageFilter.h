@@ -53,7 +53,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT SimpleContourExtractorImageFilter : public BoxImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleContourExtractorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SimpleContourExtractorImageFilter);
 
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

@@ -42,7 +42,7 @@ template <typename TOutputVideoStream>
 class ITK_TEMPLATE_EXPORT VideoFileReader : public VideoSource<TOutputVideoStream>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileReader);
+  ITK_DISALLOW_COPY_AND_MOVE(VideoFileReader);
 
   /** Standard class type aliases. */
   using Self = VideoFileReader;

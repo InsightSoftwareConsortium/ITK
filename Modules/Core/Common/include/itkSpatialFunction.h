@@ -45,7 +45,7 @@ template <typename TOutput, unsigned int VImageDimension = 3, typename TInput = 
 class ITK_TEMPLATE_EXPORT SpatialFunction : public FunctionBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SpatialFunction);
 
   /** Standard class type aliases. */
   using Self = SpatialFunction;

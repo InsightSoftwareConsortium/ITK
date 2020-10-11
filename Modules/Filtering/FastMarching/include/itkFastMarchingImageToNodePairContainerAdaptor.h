@@ -50,7 +50,7 @@ template <typename TInput, typename TOutput, typename TImage>
 class ITK_TEMPLATE_EXPORT FastMarchingImageToNodePairContainerAdaptor : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageToNodePairContainerAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingImageToNodePairContainerAdaptor);
 
   using Self = FastMarchingImageToNodePairContainerAdaptor;
   using Superclass = LightObject;

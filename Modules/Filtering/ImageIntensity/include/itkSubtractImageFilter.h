@@ -68,7 +68,7 @@ template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename 
 class SubtractImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SubtractImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SubtractImageFilter);
 
   /** Standard class type aliases. */
   using Self = SubtractImageFilter;

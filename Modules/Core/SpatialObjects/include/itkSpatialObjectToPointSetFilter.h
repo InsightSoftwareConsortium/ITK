@@ -36,7 +36,7 @@ template <typename TPointBasedSpatialObject, typename TOutputPointSet>
 class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter : public MeshSource<TOutputPointSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SpatialObjectToPointSetFilter);
 
   /** Standard class type aliases. */
   using Self = SpatialObjectToPointSetFilter;

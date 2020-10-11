@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT GaussianBlurImageFunction : public ImageFunction<TInputImage, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianBlurImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianBlurImageFunction);
 
   /**Standard "Self" type alias */
   using Self = GaussianBlurImageFunction;

@@ -47,7 +47,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT LabelMapToLabelImageFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToLabelImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelMapToLabelImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelMapToLabelImageFilter;

@@ -57,7 +57,7 @@ class TransformParametersAdaptor
       Transform<typename TTransform::ScalarType, TTransform::InputSpaceDimension, TTransform::OutputSpaceDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformParametersAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = TransformParametersAdaptor;

@@ -35,7 +35,7 @@ template <typename TDomain>
 class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionBase);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetDomainPartitionBase);
 
   using Self = LevelSetDomainPartitionBase;
   using Superclass = Object;

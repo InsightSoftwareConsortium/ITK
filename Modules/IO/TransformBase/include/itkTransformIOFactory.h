@@ -38,7 +38,7 @@ template <typename TParametersValueType>
 class ITK_TEMPLATE_EXPORT TransformIOFactoryTemplate : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformIOFactoryTemplate);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformIOFactoryTemplate);
 
   /** Standard class type aliases. */
   using Self = TransformIOFactoryTemplate;

@@ -79,7 +79,7 @@ class ComplexToPhaseImageAdaptor
   : public ImageAdaptor<TImage, Accessor::ComplexToPhasePixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(ComplexToPhaseImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = ComplexToPhaseImageAdaptor;

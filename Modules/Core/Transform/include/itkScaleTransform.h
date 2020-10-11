@@ -42,7 +42,7 @@ class ITK_TEMPLATE_EXPORT ScaleTransform
   : public MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ScaleTransform);
 
   /** Standard class type aliases.   */
   using Self = ScaleTransform;

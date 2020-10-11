@@ -66,7 +66,7 @@ template <typename TDomainPartitioner, typename TAssociate>
 class ITK_TEMPLATE_EXPORT DomainThreader : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DomainThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(DomainThreader);
 
   /** Standard class type aliases. */
   using Self = DomainThreader;

@@ -34,7 +34,7 @@ template <typename TParametersValueType = double, unsigned int NDimensions = 3, 
 class ITK_TEMPLATE_EXPORT BSplineBaseTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineBaseTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineBaseTransform);
 
   /** Standard class type aliases. */
   using Self = BSplineBaseTransform;

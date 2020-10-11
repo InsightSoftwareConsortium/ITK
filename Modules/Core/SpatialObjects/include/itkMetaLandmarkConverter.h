@@ -35,7 +35,7 @@ template <unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT MetaLandmarkConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaLandmarkConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaLandmarkConverter);
 
   /** Standard class type aliases */
   using Self = MetaLandmarkConverter;

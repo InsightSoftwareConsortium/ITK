@@ -42,7 +42,7 @@ class ParticleSwarmOptimizerDOMWriter
   : public DOMWriter<ParticleSwarmOptimizer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerDOMWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(ParticleSwarmOptimizerDOMWriter);
 
   /** Standard class type aliases. */
   using Self = ParticleSwarmOptimizerDOMWriter;

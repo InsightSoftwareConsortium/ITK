@@ -52,7 +52,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOu
 class YenThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(YenThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(YenThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = YenThresholdImageFilter;

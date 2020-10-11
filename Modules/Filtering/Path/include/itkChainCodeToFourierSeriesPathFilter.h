@@ -43,7 +43,7 @@ class ITK_TEMPLATE_EXPORT ChainCodeToFourierSeriesPathFilter
   : public PathToPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodeToFourierSeriesPathFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ChainCodeToFourierSeriesPathFilter);
 
   /** Standard class type aliases. */
   using Self = ChainCodeToFourierSeriesPathFilter;

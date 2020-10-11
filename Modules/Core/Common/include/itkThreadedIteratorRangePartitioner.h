@@ -113,7 +113,7 @@ class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitioner
   : public ThreadedDomainPartitioner<ThreadedIteratorRangePartitionerDomain<TIterator>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIteratorRangePartitioner);
+  ITK_DISALLOW_COPY_AND_MOVE(ThreadedIteratorRangePartitioner);
 
   /** Standard class type aliases. */
   using Self = ThreadedIteratorRangePartitioner;

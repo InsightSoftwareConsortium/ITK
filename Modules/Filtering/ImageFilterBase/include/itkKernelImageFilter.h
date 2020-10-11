@@ -42,7 +42,7 @@ class ITK_TEMPLATE_EXPORT KernelImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KernelImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(KernelImageFilter);
 
   /** Standard class type aliases. */
   using Self = KernelImageFilter;

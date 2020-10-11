@@ -39,7 +39,7 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT VTKTetrahedralMeshReader : public MeshSource<TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKTetrahedralMeshReader);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKTetrahedralMeshReader);
 
   /** Standard "Self" type alias. */
   using Self = VTKTetrahedralMeshReader;

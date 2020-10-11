@@ -55,7 +55,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage, typename TI
 class ITK_TEMPLATE_EXPORT UnsharpMaskImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(UnsharpMaskImageFilter);
 
   /**
    * Standard "Self" & Superclass type alias.

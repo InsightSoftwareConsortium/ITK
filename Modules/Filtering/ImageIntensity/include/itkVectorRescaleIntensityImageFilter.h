@@ -107,7 +107,7 @@ class ITK_TEMPLATE_EXPORT VectorRescaleIntensityImageFilter
       Functor::VectorMagnitudeLinearTransform<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorRescaleIntensityImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorRescaleIntensityImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorRescaleIntensityImageFilter;

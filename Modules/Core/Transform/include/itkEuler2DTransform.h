@@ -41,7 +41,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT Euler2DTransform : public Rigid2DTransform<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Euler2DTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(Euler2DTransform);
 
   /** Standard class type aliases. */
   using Self = Euler2DTransform;

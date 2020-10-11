@@ -58,7 +58,7 @@ template <typename TInput, typename TOutput, typename TAuxValue, unsigned int VA
 class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilterBase : public FastMarchingImageFilterBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingExtensionImageFilterBase);
 
   /** Standard class typdedefs. */
   using Self = FastMarchingExtensionImageFilterBase;

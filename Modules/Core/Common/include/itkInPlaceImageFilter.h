@@ -77,7 +77,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT InPlaceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InPlaceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(InPlaceImageFilter);
 
   /** Standard class type aliases. */
   using Self = InPlaceImageFilter;

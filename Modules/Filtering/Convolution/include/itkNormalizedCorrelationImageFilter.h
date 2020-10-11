@@ -57,7 +57,7 @@ class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageFilter
   : public NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NormalizedCorrelationImageFilter);
 
   /** Standard "Self" & Superclass type alias. */
   using Self = NormalizedCorrelationImageFilter;

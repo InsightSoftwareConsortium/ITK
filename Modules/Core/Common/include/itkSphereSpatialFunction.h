@@ -35,7 +35,7 @@ template <unsigned int VImageDimension = 3, typename TInput = Point<double, VIma
 class ITK_TEMPLATE_EXPORT SphereSpatialFunction : public InteriorExteriorSpatialFunction<VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SphereSpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SphereSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = SphereSpatialFunction<VImageDimension, TInput>;

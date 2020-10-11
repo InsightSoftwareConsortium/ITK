@@ -40,7 +40,7 @@ namespace itk
 class ITKVideoIO_EXPORT FileListVideoIO : public VideoIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIO);
+  ITK_DISALLOW_COPY_AND_MOVE(FileListVideoIO);
 
   /** Standard class type aliases. */
   using Self = FileListVideoIO;

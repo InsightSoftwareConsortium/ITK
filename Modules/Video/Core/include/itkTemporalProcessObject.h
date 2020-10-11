@@ -66,7 +66,7 @@ class ITK_FORWARD_EXPORT TemporalDataObject;
 class ITKVideoCore_EXPORT TemporalProcessObject : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TemporalProcessObject);
+  ITK_DISALLOW_COPY_AND_MOVE(TemporalProcessObject);
 
   /*-TYPEDEFS----------------------------------------------------------------*/
 

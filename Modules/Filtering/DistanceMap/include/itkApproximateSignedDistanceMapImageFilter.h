@@ -76,7 +76,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ApproximateSignedDistanceMapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ApproximateSignedDistanceMapImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ApproximateSignedDistanceMapImageFilter);
 
   /** Standard type alias */
   using Self = ApproximateSignedDistanceMapImageFilter;

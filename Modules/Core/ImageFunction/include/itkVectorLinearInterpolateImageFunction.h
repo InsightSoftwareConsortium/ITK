@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT VectorLinearInterpolateImageFunction
   : public VectorInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorLinearInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorLinearInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = VectorLinearInterpolateImageFunction;

@@ -57,7 +57,7 @@ template <typename TInputImage, typename TKernelImage = TInputImage, typename TO
 class ITK_TEMPLATE_EXPORT ConvolutionImageFilterBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ConvolutionImageFilterBase);
 
   using Self = ConvolutionImageFilterBase;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;

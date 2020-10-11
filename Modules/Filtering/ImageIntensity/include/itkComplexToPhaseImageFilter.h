@@ -62,7 +62,7 @@ template <typename TInputImage, typename TOutputImage>
 class ComplexToPhaseImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToPhaseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ComplexToPhaseImageFilter);
 
   /** Standard class type aliases. */
   using Self = ComplexToPhaseImageFilter;

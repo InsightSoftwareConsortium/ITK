@@ -40,7 +40,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT BoxImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoxImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BoxImageFilter);
 
   /** Standard class type aliases. */
   using Self = BoxImageFilter;

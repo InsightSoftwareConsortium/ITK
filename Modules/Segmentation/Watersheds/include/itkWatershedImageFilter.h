@@ -150,7 +150,7 @@ class ITK_TEMPLATE_EXPORT WatershedImageFilter
   : public ImageToImageFilter<TInputImage, Image<IdentifierType, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WatershedImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(WatershedImageFilter);
 
   /** Standard "Self" type alias.   */
   using Self = WatershedImageFilter;

@@ -53,7 +53,7 @@ template <typename TFixedPointSet, typename TMovingSpatialObject>
 class ITK_TEMPLATE_EXPORT PointSetToSpatialObjectDemonsRegistration : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToSpatialObjectDemonsRegistration);
+  ITK_DISALLOW_COPY_AND_MOVE(PointSetToSpatialObjectDemonsRegistration);
 
   /** Standard class type aliases. */
   using Self = PointSetToSpatialObjectDemonsRegistration;

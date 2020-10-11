@@ -84,7 +84,7 @@ class ITK_TEMPLATE_EXPORT BSplineCenteredL2ResampleImageFilterBase
   : public BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineCenteredL2ResampleImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineCenteredL2ResampleImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = BSplineCenteredL2ResampleImageFilterBase;

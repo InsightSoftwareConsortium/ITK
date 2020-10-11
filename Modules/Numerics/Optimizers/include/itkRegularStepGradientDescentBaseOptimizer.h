@@ -58,7 +58,7 @@ extern ITKOptimizers_EXPORT std::ostream &
 class ITKOptimizers_EXPORT RegularStepGradientDescentBaseOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentBaseOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(RegularStepGradientDescentBaseOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = RegularStepGradientDescentBaseOptimizer;

@@ -44,7 +44,7 @@ template <typename TInputImage, typename TEigenValueImage, typename TEigenVector
 class ITK_TEMPLATE_EXPORT EigenAnalysis2DImageFilter : public ImageToImageFilter<TInputImage, TEigenValueImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenAnalysis2DImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(EigenAnalysis2DImageFilter);
 
   /** Standard class type aliases. */
   using Self = EigenAnalysis2DImageFilter;

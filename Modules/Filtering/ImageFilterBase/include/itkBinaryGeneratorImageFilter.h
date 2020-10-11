@@ -56,7 +56,7 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT BinaryGeneratorImageFilter : public InPlaceImageFilter<TInputImage1, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryGeneratorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryGeneratorImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryGeneratorImageFilter;

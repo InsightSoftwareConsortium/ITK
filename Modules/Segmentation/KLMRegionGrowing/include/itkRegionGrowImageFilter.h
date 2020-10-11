@@ -85,7 +85,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT RegionGrowImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionGrowImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionGrowImageFilter);
 
   /** Standard class type aliases. */
   using Self = RegionGrowImageFilter;

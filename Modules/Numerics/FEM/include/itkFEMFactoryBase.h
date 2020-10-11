@@ -43,7 +43,7 @@ namespace itk
 class ITKFEM_EXPORT FEMFactoryBase : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMFactoryBase);
+  ITK_DISALLOW_COPY_AND_MOVE(FEMFactoryBase);
 
   /** Standard class type aliases. */
   using Self = FEMFactoryBase;

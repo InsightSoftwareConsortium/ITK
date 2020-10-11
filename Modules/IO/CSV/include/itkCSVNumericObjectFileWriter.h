@@ -62,7 +62,7 @@ template <typename TValue, unsigned int NRows = 0, unsigned int NColumns = 0>
 class ITK_TEMPLATE_EXPORT CSVNumericObjectFileWriter : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CSVNumericObjectFileWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(CSVNumericObjectFileWriter);
 
   /** Standard class type aliases */
   using Self = CSVNumericObjectFileWriter;

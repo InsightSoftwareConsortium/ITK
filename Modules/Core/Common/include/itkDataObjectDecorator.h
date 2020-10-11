@@ -66,7 +66,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT DataObjectDecorator : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DataObjectDecorator);
+  ITK_DISALLOW_COPY_AND_MOVE(DataObjectDecorator);
 
   /** Standard type alias. */
   using Self = DataObjectDecorator;

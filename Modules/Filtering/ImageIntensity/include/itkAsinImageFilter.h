@@ -83,7 +83,7 @@ template <typename TInputImage, typename TOutputImage>
 class AsinImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AsinImageFilter);
 
   /** Standard class type aliases. */
   using Self = AsinImageFilter;

@@ -44,7 +44,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT StatisticsPositionLabelMapFilter : public ShapePositionLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsPositionLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsPositionLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsPositionLabelMapFilter;

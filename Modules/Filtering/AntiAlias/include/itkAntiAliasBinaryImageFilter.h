@@ -107,7 +107,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT AntiAliasBinaryImageFilter : public SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AntiAliasBinaryImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AntiAliasBinaryImageFilter);
 
   /** Standard class type aliases */
   using Self = AntiAliasBinaryImageFilter;

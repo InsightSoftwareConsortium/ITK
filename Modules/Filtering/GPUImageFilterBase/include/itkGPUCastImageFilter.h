@@ -77,7 +77,7 @@ class ITK_TEMPLATE_EXPORT GPUCastImageFilter
       CastImageFilter<TInputImage, TOutputImage>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUCastImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUCastImageFilter);
 
   /** Standard class typedefs. */
   using Self = GPUCastImageFilter;

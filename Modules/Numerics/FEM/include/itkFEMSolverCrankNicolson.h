@@ -71,7 +71,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT SolverCrankNicolson : public Solver<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SolverCrankNicolson);
+  ITK_DISALLOW_COPY_AND_MOVE(SolverCrankNicolson);
 
   using Self = SolverCrankNicolson;
   using Superclass = Solver<TDimension>;

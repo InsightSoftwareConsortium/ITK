@@ -47,7 +47,7 @@ template <typename TSparseImageType>
 class ITK_TEMPLATE_EXPORT FiniteDifferenceSparseImageFunction : public FiniteDifferenceFunction<TSparseImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(FiniteDifferenceSparseImageFunction);
 
   /** Standard class type alias. */
   using Self = FiniteDifferenceSparseImageFunction;

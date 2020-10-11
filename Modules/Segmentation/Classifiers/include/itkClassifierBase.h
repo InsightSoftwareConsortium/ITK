@@ -87,7 +87,7 @@ template <typename TDataContainer>
 class ITK_TEMPLATE_EXPORT ClassifierBase : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ClassifierBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ClassifierBase);
 
   /** Standard class type aliases. */
   using Self = ClassifierBase;

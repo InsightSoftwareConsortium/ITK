@@ -95,7 +95,7 @@ template <typename TPixel>
 class ITK_TEMPLATE_EXPORT PhasedArray3DSpecialCoordinatesImage : public SpecialCoordinatesImage<TPixel, 3>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhasedArray3DSpecialCoordinatesImage);
+  ITK_DISALLOW_COPY_AND_MOVE(PhasedArray3DSpecialCoordinatesImage);
 
   /** Standard class type aliases */
   using Self = PhasedArray3DSpecialCoordinatesImage;

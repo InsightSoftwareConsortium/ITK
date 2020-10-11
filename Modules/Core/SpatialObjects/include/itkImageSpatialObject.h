@@ -40,7 +40,7 @@ template <unsigned int TDimension = 3, typename TPixelType = unsigned char>
 class ITK_TEMPLATE_EXPORT ImageSpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageSpatialObject);
 
   using ScalarType = double;
   using Self = ImageSpatialObject<TDimension, TPixelType>;

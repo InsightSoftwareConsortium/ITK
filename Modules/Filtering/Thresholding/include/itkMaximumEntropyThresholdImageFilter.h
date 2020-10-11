@@ -53,7 +53,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOu
 class MaximumEntropyThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumEntropyThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaximumEntropyThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = MaximumEntropyThresholdImageFilter;

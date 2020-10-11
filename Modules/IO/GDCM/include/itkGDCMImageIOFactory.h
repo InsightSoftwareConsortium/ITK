@@ -32,7 +32,7 @@ namespace itk
 class ITKIOGDCM_EXPORT GDCMImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GDCMImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = GDCMImageIOFactory;

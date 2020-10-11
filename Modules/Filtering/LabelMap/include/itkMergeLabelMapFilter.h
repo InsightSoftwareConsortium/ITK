@@ -102,7 +102,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT MergeLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MergeLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MergeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = MergeLabelMapFilter;

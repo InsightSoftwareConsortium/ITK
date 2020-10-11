@@ -48,7 +48,7 @@ namespace itk
 class ITKIOLSM_EXPORT LSMImageIO : public TIFFImageIO
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LSMImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(LSMImageIO);
 
   /** Standard class type aliases. */
   using Self = LSMImageIO;

@@ -37,7 +37,7 @@ template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT ShiSparseLevelSetImage : public LevelSetSparseImage<int8_t, VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShiSparseLevelSetImage);
+  ITK_DISALLOW_COPY_AND_MOVE(ShiSparseLevelSetImage);
 
   using Self = ShiSparseLevelSetImage;
   using Pointer = SmartPointer<Self>;

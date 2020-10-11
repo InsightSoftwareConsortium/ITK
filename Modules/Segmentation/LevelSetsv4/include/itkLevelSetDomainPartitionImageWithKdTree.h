@@ -35,7 +35,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionImageWithKdTree : public LevelSetDomainPartitionImage<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionImageWithKdTree);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetDomainPartitionImageWithKdTree);
 
   using Self = LevelSetDomainPartitionImageWithKdTree;
   using Superclass = LevelSetDomainPartitionImage<TImage>;

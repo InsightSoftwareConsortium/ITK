@@ -43,7 +43,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ComparisonImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComparisonImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ComparisonImageFilter);
 
   /** Standard class type aliases. */
   using Self = ComparisonImageFilter;

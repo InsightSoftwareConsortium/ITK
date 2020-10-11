@@ -104,7 +104,7 @@ class NaryAddImageFilter
                                   Functor::Add1<typename TInputImage::PixelType, typename TInputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NaryAddImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NaryAddImageFilter);
 
   /** Standard class type aliases. */
   using Self = NaryAddImageFilter;

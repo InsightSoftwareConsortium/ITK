@@ -46,7 +46,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT CheckerBoardImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CheckerBoardImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CheckerBoardImageFilter);
 
   /** Standard class type aliases. */
   using Self = CheckerBoardImageFilter;

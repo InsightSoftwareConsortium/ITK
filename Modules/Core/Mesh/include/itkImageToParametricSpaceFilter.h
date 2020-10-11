@@ -46,7 +46,7 @@ template <typename TInputImage, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT ImageToParametricSpaceFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToParametricSpaceFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToParametricSpaceFilter);
 
   /** Standard class type aliases. */
   using Self = ImageToParametricSpaceFilter;

@@ -61,7 +61,7 @@ template <typename TLevelSet, typename TSpeedImage = Image<float, TLevelSet ::Im
 class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilter : public FastMarchingImageFilter<TLevelSet, TSpeedImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingUpwindGradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingUpwindGradientImageFilter);
 
   /** Standard class typdedefs. */
   using Self = FastMarchingUpwindGradientImageFilter;

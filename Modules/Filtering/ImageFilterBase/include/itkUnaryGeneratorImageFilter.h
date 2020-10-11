@@ -55,7 +55,7 @@ template <typename TInputImage, typename TOutputImage>
 class UnaryGeneratorImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnaryGeneratorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(UnaryGeneratorImageFilter);
 
   /** Standard class typedefs. */
   using Self = UnaryGeneratorImageFilter;

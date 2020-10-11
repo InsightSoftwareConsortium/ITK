@@ -109,7 +109,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT MultiResolutionPyramidImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPyramidImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiResolutionPyramidImageFilter);
 
   /** Standard class type aliases. */
   using Self = MultiResolutionPyramidImageFilter;

@@ -36,7 +36,7 @@ namespace itk
 class ITKIOMeshOFF_EXPORT OFFMeshIO : public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OFFMeshIO);
+  ITK_DISALLOW_COPY_AND_MOVE(OFFMeshIO);
 
   /** Standard class type aliases. */
   using Self = OFFMeshIO;

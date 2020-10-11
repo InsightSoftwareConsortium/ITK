@@ -45,7 +45,7 @@ template <typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT VTKPolyDataReader : public MeshSource<TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataReader);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKPolyDataReader);
 
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataReader;

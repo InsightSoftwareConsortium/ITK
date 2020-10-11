@@ -68,7 +68,7 @@ template <typename TImageType>
 class ITK_TEMPLATE_EXPORT PipelineMonitorImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PipelineMonitorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PipelineMonitorImageFilter);
 
   using Self = PipelineMonitorImageFilter;
   using Superclass = ImageToImageFilter<TImageType, TImageType>;

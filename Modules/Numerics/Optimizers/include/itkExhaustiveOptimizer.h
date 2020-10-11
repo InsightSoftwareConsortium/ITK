@@ -83,7 +83,7 @@ namespace itk
 class ITKOptimizers_EXPORT ExhaustiveOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(ExhaustiveOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = ExhaustiveOptimizer;

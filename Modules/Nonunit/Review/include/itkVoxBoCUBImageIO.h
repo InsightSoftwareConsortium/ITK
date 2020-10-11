@@ -50,7 +50,7 @@ class GenericCUBFileAdaptor;
 class VoxBoCUBImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VoxBoCUBImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(VoxBoCUBImageIO);
 
   /** Standard class type aliases. */
   using Self = VoxBoCUBImageIO;

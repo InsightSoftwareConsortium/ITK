@@ -70,7 +70,7 @@ class ITK_TEMPLATE_EXPORT ContourSpatialObject
   : public PointBasedSpatialObject<TDimension, ContourSpatialObjectPoint<TDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContourSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(ContourSpatialObject);
 
   using Self = ContourSpatialObject;
   using Superclass = PointBasedSpatialObject<TDimension, ContourSpatialObjectPoint<TDimension>>;

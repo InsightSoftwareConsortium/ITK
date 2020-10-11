@@ -74,7 +74,7 @@ class ITK_TEMPLATE_EXPORT AnisotropicDiffusionImageFilter
   : public DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = AnisotropicDiffusionImageFilter;

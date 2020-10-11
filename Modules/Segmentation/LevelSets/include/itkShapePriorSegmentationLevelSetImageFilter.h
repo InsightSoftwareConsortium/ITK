@@ -74,7 +74,7 @@ class ITK_TEMPLATE_EXPORT ShapePriorSegmentationLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapePriorSegmentationLevelSetImageFilter);
 
   /** Dimension of the input/level set image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

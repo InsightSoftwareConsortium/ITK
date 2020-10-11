@@ -56,7 +56,7 @@ class ITK_TEMPLATE_EXPORT IterativeDeconvolutionImageFilter
   : public FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeDeconvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(IterativeDeconvolutionImageFilter);
 
   /** Standard type alias. */
   using Self = IterativeDeconvolutionImageFilter;

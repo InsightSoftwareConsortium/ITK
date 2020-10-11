@@ -69,7 +69,7 @@ template <typename TInputImage, typename TOutputImage>
 class RoundImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RoundImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RoundImageFilter);
 
   /** Standard class type aliases. */
   using Self = RoundImageFilter;

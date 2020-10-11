@@ -132,7 +132,7 @@ template <typename THistogram>
 class ITK_TEMPLATE_EXPORT HistogramToTextureFeaturesFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToTextureFeaturesFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramToTextureFeaturesFilter);
 
   /** Standard type alias */
   using Self = HistogramToTextureFeaturesFilter;

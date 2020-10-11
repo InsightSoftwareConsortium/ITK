@@ -58,7 +58,7 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT GradientDifferenceImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDifferenceImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientDifferenceImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = GradientDifferenceImageToImageMetric;

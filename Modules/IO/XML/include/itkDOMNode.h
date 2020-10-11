@@ -53,7 +53,7 @@ class DOMTextNode; // forward declaration
 class ITKIOXML_EXPORT DOMNode : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNode);
+  ITK_DISALLOW_COPY_AND_MOVE(DOMNode);
 
   /** Standard class type aliases. */
   using Self = DOMNode;

@@ -59,7 +59,7 @@ namespace itk
 class ITKDeprecated_EXPORT ConditionVariable : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConditionVariable);
+  ITK_DISALLOW_COPY_AND_MOVE(ConditionVariable);
 
   /** Standard class type aliases. */
   using Self = ConditionVariable;

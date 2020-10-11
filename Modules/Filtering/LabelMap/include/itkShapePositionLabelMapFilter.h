@@ -40,7 +40,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ShapePositionLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapePositionLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapePositionLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapePositionLabelMapFilter;

@@ -72,7 +72,7 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT Solver : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Solver);
+  ITK_DISALLOW_COPY_AND_MOVE(Solver);
 
   /** Standard class type aliases. */
   using Self = Solver;

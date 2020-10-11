@@ -61,7 +61,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT ComposeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComposeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ComposeImageFilter);
 
   using Self = ComposeImageFilter;
   using Pointer = SmartPointer<Self>;

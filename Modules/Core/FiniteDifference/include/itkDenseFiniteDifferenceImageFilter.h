@@ -70,7 +70,7 @@ class ITK_TEMPLATE_EXPORT DenseFiniteDifferenceImageFilter
   : public FiniteDifferenceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DenseFiniteDifferenceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DenseFiniteDifferenceImageFilter);
 
   /** Standard class type aliases */
   using Self = DenseFiniteDifferenceImageFilter;

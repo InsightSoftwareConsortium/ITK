@@ -53,7 +53,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOu
 class ShanbhagThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShanbhagThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = ShanbhagThresholdImageFilter;

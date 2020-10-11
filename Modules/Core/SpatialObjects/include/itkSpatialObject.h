@@ -57,7 +57,7 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT SpatialObject : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(SpatialObject);
 
   using ScalarType = double;
 

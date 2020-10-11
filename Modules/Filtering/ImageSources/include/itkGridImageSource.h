@@ -58,7 +58,7 @@ template <typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GridImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GridImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(GridImageSource);
 
   /** Standard class type aliases. */
   using Self = GridImageSource;

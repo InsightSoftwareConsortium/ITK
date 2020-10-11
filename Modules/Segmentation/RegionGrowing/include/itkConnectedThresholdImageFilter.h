@@ -68,7 +68,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ConnectedThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConnectedThresholdImageFilter);
 
   /** Standard class type aliases. */
   using Self = ConnectedThresholdImageFilter;

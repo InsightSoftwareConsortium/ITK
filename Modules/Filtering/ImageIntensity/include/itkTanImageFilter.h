@@ -70,7 +70,7 @@ template <typename TInputImage, typename TOutputImage>
 class TanImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TanImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TanImageFilter);
 
   /** Standard class type aliases. */
   using Self = TanImageFilter;

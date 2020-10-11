@@ -56,7 +56,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT PadLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PadLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PadLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = PadLabelMapFilter;

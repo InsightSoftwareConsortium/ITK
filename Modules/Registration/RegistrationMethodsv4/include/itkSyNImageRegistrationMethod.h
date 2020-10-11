@@ -72,7 +72,7 @@ class ITK_TEMPLATE_EXPORT SyNImageRegistrationMethod
   : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SyNImageRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(SyNImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = SyNImageRegistrationMethod;

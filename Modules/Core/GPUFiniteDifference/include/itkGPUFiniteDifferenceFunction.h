@@ -47,7 +47,7 @@ template <typename TImageType>
 class GPUFiniteDifferenceFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUFiniteDifferenceFunction);
 
   /** Standard class type aliases. */
   using Self = GPUFiniteDifferenceFunction;

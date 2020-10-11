@@ -51,7 +51,7 @@ namespace itk
 class ITKIOSiemens_EXPORT SiemensVisionImageIO : public IPLCommonImageIO
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SiemensVisionImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(SiemensVisionImageIO);
 
   /** Standard class type aliases. */
   using Self = SiemensVisionImageIO;

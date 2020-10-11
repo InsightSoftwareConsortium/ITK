@@ -46,7 +46,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT FullToHalfHermitianImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FullToHalfHermitianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FullToHalfHermitianImageFilter);
 
   /** Standard class type aliases. */
   using InputImageType = TInputImage;

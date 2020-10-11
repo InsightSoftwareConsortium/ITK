@@ -45,7 +45,7 @@ template <typename TInputMesh, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT SimplexMeshAdaptTopologyFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshAdaptTopologyFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SimplexMeshAdaptTopologyFilter);
 
   /** Standard "Self" type alias. */
   using Self = SimplexMeshAdaptTopologyFilter;

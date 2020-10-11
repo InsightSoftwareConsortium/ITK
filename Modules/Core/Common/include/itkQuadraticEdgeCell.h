@@ -37,7 +37,7 @@ template <typename TCellInterface>
 class ITK_TEMPLATE_EXPORT QuadraticEdgeCell : public TCellInterface
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadraticEdgeCell);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadraticEdgeCell);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(QuadraticEdgeCell);

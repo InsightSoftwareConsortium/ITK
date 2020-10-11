@@ -165,7 +165,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT MultiphaseFiniteDifferenceImageFilter : public InPlaceImageFilter<TFeatureImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseFiniteDifferenceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiphaseFiniteDifferenceImageFilter);
 
   /** Standard class type aliases. */
   using Self = MultiphaseFiniteDifferenceImageFilter;

@@ -54,7 +54,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT AccumulateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AccumulateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AccumulateImageFilter);
 
   /** Standard class type aliases. */
   using Self = AccumulateImageFilter;

@@ -73,7 +73,7 @@ template <typename TInputImage, typename TOutputImage>
 class BoundedReciprocalImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoundedReciprocalImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BoundedReciprocalImageFilter);
 
   /** Standard class type aliases. */
   using Self = BoundedReciprocalImageFilter;

@@ -107,7 +107,7 @@ class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetImageFilter
   : public SegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeDetectionLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = ShapeDetectionLevelSetImageFilter;

@@ -83,7 +83,7 @@ template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT RobustSolver : public Solver<VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RobustSolver);
+  ITK_DISALLOW_COPY_AND_MOVE(RobustSolver);
 
   /** Standard class type aliases. */
   using Self = RobustSolver;

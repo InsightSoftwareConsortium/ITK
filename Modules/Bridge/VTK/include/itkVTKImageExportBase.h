@@ -38,7 +38,7 @@ namespace itk
 class ITKVTK_EXPORT VTKImageExportBase : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExportBase);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKImageExportBase);
 
   /** Standard class type aliases. */
   using Self = VTKImageExportBase;

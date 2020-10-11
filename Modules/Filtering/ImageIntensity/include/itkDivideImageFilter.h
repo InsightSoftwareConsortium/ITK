@@ -49,7 +49,7 @@ class ITK_TEMPLATE_EXPORT DivideImageFilter
   : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DivideImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DivideImageFilter);
 
   /**
    * Standard "Self" type alias.

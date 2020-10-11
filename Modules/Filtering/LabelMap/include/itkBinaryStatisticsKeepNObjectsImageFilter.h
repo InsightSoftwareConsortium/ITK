@@ -47,7 +47,7 @@ template <typename TInputImage, typename TFeatureImage>
 class ITK_TEMPLATE_EXPORT BinaryStatisticsKeepNObjectsImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryStatisticsKeepNObjectsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryStatisticsKeepNObjectsImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryStatisticsKeepNObjectsImageFilter;

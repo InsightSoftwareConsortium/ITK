@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT GrayscaleFunctionErodeImageFilter
   : public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFunctionErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleFunctionErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleFunctionErodeImageFilter;

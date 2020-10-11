@@ -46,7 +46,7 @@ template <typename TInputMesh>
 class ITK_TEMPLATE_EXPORT VTKPolyDataWriter : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKPolyDataWriter);
 
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataWriter;

@@ -42,7 +42,7 @@ template <unsigned int VDimension, typename TEquationContainer>
 class ITK_TEMPLATE_EXPORT UpdateMalcolmSparseLevelSet : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateMalcolmSparseLevelSet);
+  ITK_DISALLOW_COPY_AND_MOVE(UpdateMalcolmSparseLevelSet);
 
   using Self = UpdateMalcolmSparseLevelSet;
   using Pointer = SmartPointer<Self>;

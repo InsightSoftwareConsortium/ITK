@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT ErodeObjectMorphologyImageFilter
   : public ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ErodeObjectMorphologyImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ErodeObjectMorphologyImageFilter);
 
   /** Standard class type aliases. */
   using Self = ErodeObjectMorphologyImageFilter;

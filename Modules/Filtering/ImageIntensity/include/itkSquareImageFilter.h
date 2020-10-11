@@ -68,7 +68,7 @@ template <typename TInputImage, typename TOutputImage>
 class SquareImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SquareImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SquareImageFilter);
 
   /** Standard class type aliases. */
   using Self = SquareImageFilter;

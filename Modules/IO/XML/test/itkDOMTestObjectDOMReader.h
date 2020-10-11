@@ -28,7 +28,7 @@ namespace itk
 class DOMTestObjectDOMReader : public DOMReader<DOMTestObject>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObjectDOMReader);
+  ITK_DISALLOW_COPY_AND_MOVE(DOMTestObjectDOMReader);
 
   /** Standard class type aliases. */
   using Self = DOMTestObjectDOMReader;

@@ -39,7 +39,7 @@ template <typename TOutputImage>
 class ITK_TEMPLATE_EXPORT PhysicalPointImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalPointImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(PhysicalPointImageSource);
 
   using Self = PhysicalPointImageSource;
   using Superclass = GenerateImageSource<TOutputImage>;

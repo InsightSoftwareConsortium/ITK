@@ -53,7 +53,7 @@ namespace itk
 class ITKCommon_EXPORT Win32OutputWindow : public OutputWindow
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Win32OutputWindow);
+  ITK_DISALLOW_COPY_AND_MOVE(Win32OutputWindow);
 
   /** Standard class type aliases. */
   using Self = Win32OutputWindow;

@@ -56,7 +56,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT CropLabelMapFilter : public ChangeRegionLabelMapFilter<TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CropLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CropLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = CropLabelMapFilter;

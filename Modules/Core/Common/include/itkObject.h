@@ -62,7 +62,7 @@ class ITK_FORWARD_EXPORT Command;
 class ITKCommon_EXPORT Object : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Object);
+  ITK_DISALLOW_COPY_AND_MOVE(Object);
 
   /** Smart pointer type alias support */
   using Self = Object;

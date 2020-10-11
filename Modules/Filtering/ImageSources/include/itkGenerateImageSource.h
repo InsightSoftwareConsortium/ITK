@@ -41,7 +41,7 @@ template <typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GenerateImageSource : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GenerateImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(GenerateImageSource);
 
   using Self = GenerateImageSource;
   using Superclass = ImageSource<TOutputImage>;

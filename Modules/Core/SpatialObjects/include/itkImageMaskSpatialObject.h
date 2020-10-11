@@ -45,7 +45,7 @@ template <unsigned int TDimension = 3, typename TPixel = unsigned char>
 class ITK_TEMPLATE_EXPORT ImageMaskSpatialObject : public ImageSpatialObject<TDimension, TPixel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageMaskSpatialObject);
 
   using Self = ImageMaskSpatialObject<TDimension, TPixel>;
   using Superclass = ImageSpatialObject<TDimension, TPixel>;

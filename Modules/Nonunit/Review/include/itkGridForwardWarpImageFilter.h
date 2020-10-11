@@ -59,7 +59,7 @@ template <typename TDisplacementField, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GridForwardWarpImageFilter : public ImageToImageFilter<TDisplacementField, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GridForwardWarpImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GridForwardWarpImageFilter);
 
   /** Standard class type aliases. */
   using Self = GridForwardWarpImageFilter;

@@ -38,7 +38,7 @@ class ITK_TEMPLATE_EXPORT GPUAnisotropicDiffusionImageFilter
   : public GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUAnisotropicDiffusionImageFilter;

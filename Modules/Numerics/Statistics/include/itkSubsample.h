@@ -42,7 +42,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT Subsample : public TSample
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Subsample);
+  ITK_DISALLOW_COPY_AND_MOVE(Subsample);
 
   /** Standard class type aliases */
   using Self = Subsample;

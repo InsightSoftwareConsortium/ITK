@@ -56,7 +56,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT FastChamferDistanceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastChamferDistanceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FastChamferDistanceImageFilter);
 
   /** Standard class type aliases. */
   using Self = FastChamferDistanceImageFilter;

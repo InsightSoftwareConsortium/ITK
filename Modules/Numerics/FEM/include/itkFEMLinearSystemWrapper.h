@@ -54,7 +54,7 @@ namespace fem
 class ITKFEM_EXPORT LinearSystemWrapper : public Solution
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LinearSystemWrapper);
+  ITK_DISALLOW_COPY_AND_MOVE(LinearSystemWrapper);
 
   using Self = LinearSystemWrapper;
   using Superclass = Solution;

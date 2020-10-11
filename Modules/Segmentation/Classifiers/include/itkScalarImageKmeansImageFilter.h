@@ -65,7 +65,7 @@ template <typename TInputImage, typename TOutputImage = Image<unsigned char, TIn
 class ITK_TEMPLATE_EXPORT ScalarImageKmeansImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageKmeansImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarImageKmeansImageFilter);
 
   /** Extract dimension from input and output image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

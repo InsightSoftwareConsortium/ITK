@@ -78,7 +78,7 @@ class TernaryMagnitudeImageFilter
                                                        typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryMagnitudeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TernaryMagnitudeImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryMagnitudeImageFilter;

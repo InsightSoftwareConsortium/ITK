@@ -82,7 +82,7 @@ class ITK_TEMPLATE_EXPORT ScalarChanAndVeseLevelSetFunction
   : public ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarChanAndVeseLevelSetFunction);
 
   using Self = ScalarChanAndVeseLevelSetFunction;
   using Superclass = ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>;

@@ -53,7 +53,7 @@ template <typename TInput = float, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT RegularizedHeavisideStepFunction : public HeavisideStepFunctionBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularizedHeavisideStepFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(RegularizedHeavisideStepFunction);
 
   using Self = RegularizedHeavisideStepFunction;
   using Superclass = HeavisideStepFunctionBase<TInput, TOutput>;

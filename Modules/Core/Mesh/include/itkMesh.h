@@ -114,7 +114,7 @@ template <typename TPixelType,
 class ITK_TEMPLATE_EXPORT Mesh : public PointSet<TPixelType, VDimension, TMeshTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Mesh);
+  ITK_DISALLOW_COPY_AND_MOVE(Mesh);
 
   /** Standard type alias. */
   using Self = Mesh;

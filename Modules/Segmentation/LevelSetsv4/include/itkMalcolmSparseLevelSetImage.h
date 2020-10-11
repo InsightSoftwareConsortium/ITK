@@ -41,7 +41,7 @@ template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT MalcolmSparseLevelSetImage : public LevelSetSparseImage<int8_t, VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MalcolmSparseLevelSetImage);
+  ITK_DISALLOW_COPY_AND_MOVE(MalcolmSparseLevelSetImage);
 
   using Self = MalcolmSparseLevelSetImage;
   using Pointer = SmartPointer<Self>;

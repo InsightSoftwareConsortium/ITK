@@ -46,7 +46,7 @@ namespace itk
 class VXLVideoIO : public VideoIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VXLVideoIO);
+  ITK_DISALLOW_COPY_AND_MOVE(VXLVideoIO);
 
   /** Standard class type aliases. */
   using Self = VXLVideoIO;

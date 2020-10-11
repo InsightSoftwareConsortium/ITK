@@ -48,7 +48,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT BinaryShapeKeepNObjectsImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryShapeKeepNObjectsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryShapeKeepNObjectsImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryShapeKeepNObjectsImageFilter;

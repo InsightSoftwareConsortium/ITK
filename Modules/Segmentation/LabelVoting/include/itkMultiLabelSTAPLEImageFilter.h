@@ -119,7 +119,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage, typename TW
 class ITK_TEMPLATE_EXPORT MultiLabelSTAPLEImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiLabelSTAPLEImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiLabelSTAPLEImageFilter);
 
   /** Standard class type aliases. */
   using Self = MultiLabelSTAPLEImageFilter;

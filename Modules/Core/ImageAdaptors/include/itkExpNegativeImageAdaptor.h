@@ -78,7 +78,7 @@ class ExpNegativeImageAdaptor
   : public ImageAdaptor<TImage, Accessor::ExpNegativePixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(ExpNegativeImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = ExpNegativeImageAdaptor;

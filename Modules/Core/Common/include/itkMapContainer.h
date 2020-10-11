@@ -47,7 +47,7 @@ class ITK_TEMPLATE_EXPORT MapContainer
   , private std::map<TElementIdentifier, TElement>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MapContainer);
+  ITK_DISALLOW_COPY_AND_MOVE(MapContainer);
 
   /** Standard class type aliases. */
   using Self = MapContainer;

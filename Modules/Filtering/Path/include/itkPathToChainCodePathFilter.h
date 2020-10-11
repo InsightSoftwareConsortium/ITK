@@ -39,7 +39,7 @@ template <typename TInputPath, typename TOutputChainCodePath>
 class ITK_TEMPLATE_EXPORT PathToChainCodePathFilter : public PathToPathFilter<TInputPath, TOutputChainCodePath>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PathToChainCodePathFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PathToChainCodePathFilter);
 
   /** Standard class type aliases. */
   using Self = PathToChainCodePathFilter;

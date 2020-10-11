@@ -36,7 +36,7 @@ template <unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT MetaContourConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaContourConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaContourConverter);
 
   /** Standard class type aliases */
   using Self = MetaContourConverter;

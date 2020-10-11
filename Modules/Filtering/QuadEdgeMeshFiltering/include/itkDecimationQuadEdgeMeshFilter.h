@@ -32,7 +32,7 @@ template <typename TInput, typename TOutput, typename TCriterion>
 class DecimationQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DecimationQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DecimationQuadEdgeMeshFilter);
 
   using Self = DecimationQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;

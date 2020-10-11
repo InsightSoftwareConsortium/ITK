@@ -56,7 +56,7 @@ template <typename TInputPointSet, typename TOutput, typename TCoordRep = float>
 class ITK_TEMPLATE_EXPORT PointSetFunction : public FunctionBase<typename TInputPointSet::PointType, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(PointSetFunction);
 
   /** Dimension underlying input point set. */
   static constexpr unsigned int Dimension = TInputPointSet::PointDimension;

@@ -80,7 +80,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT InterpolateImagePointsFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImagePointsFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(InterpolateImagePointsFilter);
 
   /** Standard class type aliases. */
   using Self = InterpolateImagePointsFilter;

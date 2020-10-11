@@ -38,7 +38,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT LandmarkSpatialObject : public PointBasedSpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LandmarkSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(LandmarkSpatialObject);
 
   using Self = LandmarkSpatialObject;
   using Superclass = PointBasedSpatialObject<TDimension>;

@@ -54,7 +54,7 @@ template <typename TInputMesh>
 class ITK_TEMPLATE_EXPORT SimplexMeshVolumeCalculator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshVolumeCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(SimplexMeshVolumeCalculator);
 
   /** Standard "Self" type alias. */
   using Self = SimplexMeshVolumeCalculator;

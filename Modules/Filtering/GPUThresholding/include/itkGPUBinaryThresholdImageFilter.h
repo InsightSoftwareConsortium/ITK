@@ -103,7 +103,7 @@ class ITK_TEMPLATE_EXPORT GPUBinaryThresholdImageFilter
       BinaryThresholdImageFilter<TInputImage, TOutputImage>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUBinaryThresholdImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUBinaryThresholdImageFilter;
@@ -155,7 +155,7 @@ protected:
 class GPUBinaryThresholdImageFilterFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBinaryThresholdImageFilterFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUBinaryThresholdImageFilterFactory);
 
   using Self = GPUBinaryThresholdImageFilterFactory;
   using Superclass = ObjectFactoryBase;

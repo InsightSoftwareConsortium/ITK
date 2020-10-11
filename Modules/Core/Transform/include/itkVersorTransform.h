@@ -47,7 +47,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT VersorTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(VersorTransform);
 
   /** Standard Self Typedef */
   using Self = VersorTransform;

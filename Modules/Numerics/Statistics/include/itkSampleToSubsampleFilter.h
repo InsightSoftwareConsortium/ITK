@@ -46,7 +46,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT SampleToSubsampleFilter : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SampleToSubsampleFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SampleToSubsampleFilter);
 
   /** Standard class type aliases. */
   using Self = SampleToSubsampleFilter;

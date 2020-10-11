@@ -62,7 +62,7 @@ class ConstrainedRegionBasedLevelSetFunctionSharedData
   : public RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedRegionBasedLevelSetFunctionSharedData);
+  ITK_DISALLOW_COPY_AND_MOVE(ConstrainedRegionBasedLevelSetFunctionSharedData);
 
   using Self = ConstrainedRegionBasedLevelSetFunctionSharedData;
   using Superclass = RegionBasedLevelSetFunctionSharedData<TInputImage, TFeatureImage, TSingleData>;

@@ -45,7 +45,7 @@ namespace itk
 class ITK_TEMPLATE_EXPORT OrthogonallyCorrected2DParametricPath : public ParametricPath<2>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OrthogonallyCorrected2DParametricPath);
+  ITK_DISALLOW_COPY_AND_MOVE(OrthogonallyCorrected2DParametricPath);
 
   /** Standard class type aliases. */
   using Self = OrthogonallyCorrected2DParametricPath;

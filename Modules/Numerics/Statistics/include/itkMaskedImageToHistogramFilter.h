@@ -46,7 +46,7 @@ template <typename TImage, typename TMaskImage>
 class ITK_TEMPLATE_EXPORT MaskedImageToHistogramFilter : public ImageToHistogramFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedImageToHistogramFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaskedImageToHistogramFilter);
 
   /** Standard type alias */
   using Self = MaskedImageToHistogramFilter;

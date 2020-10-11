@@ -89,7 +89,7 @@ class ITK_TEMPLATE_EXPORT MultiResolutionPDEDeformableRegistration
   : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPDEDeformableRegistration);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiResolutionPDEDeformableRegistration);
 
   /** Standard class type aliases */
   using Self = MultiResolutionPDEDeformableRegistration;

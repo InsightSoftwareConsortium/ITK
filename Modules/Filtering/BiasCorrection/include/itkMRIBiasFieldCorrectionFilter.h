@@ -48,7 +48,7 @@ template <typename TImage, typename TImageMask, typename TBiasField>
 class ITK_TEMPLATE_EXPORT MRIBiasEnergyFunction : public SingleValuedCostFunction
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(MRIBiasEnergyFunction);
 
   /** Standard class type aliases. */
   using Self = MRIBiasEnergyFunction;
@@ -231,7 +231,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 class ITK_TEMPLATE_EXPORT MRIBiasFieldCorrectionFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasFieldCorrectionFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MRIBiasFieldCorrectionFilter);
 
   /** Standard class type aliases. */
   using Self = MRIBiasFieldCorrectionFilter;

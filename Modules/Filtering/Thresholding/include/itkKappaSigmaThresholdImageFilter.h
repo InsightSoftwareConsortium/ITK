@@ -49,7 +49,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT KappaSigmaThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(KappaSigmaThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = KappaSigmaThresholdImageFilter;
