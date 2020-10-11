@@ -82,8 +82,9 @@ class LazyITKModule(types.ModuleType):
     def __setstate__(self, state):
         self.__dict__.update(state)
         for module_name, lazy_attributes in state["lazy_modules"]:
-            self.__dict__.add(module_name, LazyITKModule(module_name, lazy_attributes))
-
+            self.__dict__.update(
+                {module_name: LazyITKModule(module_name, lazy_attributes)}
+            )
         for module in state["loaded_lazy_modules"]:
             namespace = {}
             itkBase.LoadModule(module, namespace)
