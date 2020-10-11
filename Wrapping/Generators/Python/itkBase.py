@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,23 +14,28 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import os
 import os.path
 import sys
+
 # Required to work around weird import error with xarray
 import pkg_resources
 import importlib
 import itkConfig
 import itkTemplate
 
+
 def _create_itk_module(name):
-    swig_module_name = 'itk.' + name + 'Python'
-    spec = importlib.util.spec_from_file_location(swig_module_name,
-        os.path.join(os.path.dirname(__file__), 'itk', name + 'Python.py'))
+    swig_module_name = "itk." + name + "Python"
+    spec = importlib.util.spec_from_file_location(
+        swig_module_name,
+        os.path.join(os.path.dirname(__file__), "itk", name + "Python.py"),
+    )
     module = importlib.util.module_from_spec(spec)
     return module
+
 
 def LoadModule(name, namespace=None):
     """This function causes a SWIG module to be loaded into memory after its
@@ -48,16 +53,16 @@ def LoadModule(name, namespace=None):
     information will be placed in a sub-module named 'swig' therein as well.
     This later submodule will be created if it does not already exist."""
 
-    swig_module_name = 'itk.' + name + 'Python'
+    swig_module_name = "itk." + name + "Python"
     # find the module's name in sys.modules, or create a new module so named
     this_module = sys.modules.setdefault(swig_module_name, _create_itk_module(name))
 
     # if this library and it's template instantiations have already been loaded
     # into sys.modules, bail out after loading the defined symbols into
     # 'namespace'
-    if hasattr(this_module, '__templates_loaded'):
+    if hasattr(this_module, "__templates_loaded"):
         if namespace is not None:
-            swig = namespace.setdefault('swig', {})
+            swig = namespace.setdefault("swig", {})
             swig.update(this_module.swig)
 
             # don't worry about overwriting the symbols in namespace -- any
@@ -65,7 +70,7 @@ def LoadModule(name, namespace=None):
             # singleton type. That is, they are all identical, so replacing one
             # with the other isn't a problem.
             for k, v in this_module.__dict__.items():
-                if not (k.startswith('_') or k.startswith('itk') or k == 'swig'):
+                if not (k.startswith("_") or k.startswith("itk") or k == "swig"):
                     namespace[k] = v
         return
 
@@ -86,7 +91,7 @@ def LoadModule(name, namespace=None):
     # knows how to find those configuration files.
     data = module_data[name]
     if data:
-        deps = sorted(data['depends'])
+        deps = sorted(data["depends"])
         for dep in deps:
             LoadModule(dep, namespace)
 
@@ -110,25 +115,30 @@ def LoadModule(name, namespace=None):
     # namespaces between this_module and namespace.
 
     if namespace is not None:
-        swig = namespace.setdefault('swig', {})
+        swig = namespace.setdefault("swig", {})
 
     if namespace is None:
         for k, v in module.__dict__.items():
-            if not (k.startswith('__') or k.startswith('itk')):
+            if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v
     else:
         for k, v in module.__dict__.items():
-            if not (k.startswith('__') or k.startswith('itk')):
+            if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v
                 swig[k] = v
 
     data = module_data[name]
     if data:
-        for template in data['templates']:
+        for template in data["templates"]:
             if len(template) == 5:
                 # This is a template description
-                py_class_name, cpp_class_name, swig_class_name, class_in_module, \
-                    template_params = template
+                (
+                    py_class_name,
+                    cpp_class_name,
+                    swig_class_name,
+                    class_in_module,
+                    template_params,
+                ) = template
                 # It doesn't matter if an itkTemplate for this class name
                 # already exists since every instance of itkTemplate with the
                 # same name shares the same state. So we just make a new
@@ -136,28 +146,36 @@ def LoadModule(name, namespace=None):
                 template_container = itkTemplate.itkTemplate(cpp_class_name)
                 try:
                     template_container.__add__(
-                        template_params, getattr(module, swig_class_name))
+                        template_params, getattr(module, swig_class_name)
+                    )
                     setattr(this_module, py_class_name, template_container)
                     if namespace is not None:
                         curval = namespace.get(py_class_name)
                         if curval is not None and curval != template_container:
-                            DebugPrintError("Namespace already has a value for"
-                                            " %s, which is not an itkTemplate"
-                                            "instance for class %s. "
-                                            "Overwriting old value."
-                                            % (py_class_name, cpp_class_name))
+                            DebugPrintError(
+                                "Namespace already has a value for"
+                                " %s, which is not an itkTemplate"
+                                "instance for class %s. "
+                                "Overwriting old value."
+                                % (py_class_name, cpp_class_name)
+                            )
                         namespace[py_class_name] = template_container
                 except Exception as e:
-                    DebugPrintError("%s not loaded from module %s because of "
-                                    "exception:\n %s"
-                                    % (swig_class_name, name, e))
+                    DebugPrintError(
+                        "%s not loaded from module %s because of "
+                        "exception:\n %s" % (swig_class_name, name, e)
+                    )
 
             else:
                 # this is a description of a non-templated class
                 # It may have 3 or 4 arguments, the last one can be a boolean value
                 if len(template) == 4:
-                    py_class_name, cpp_class_name, swig_class_name, class_in_module = \
-                        template
+                    (
+                        py_class_name,
+                        cpp_class_name,
+                        swig_class_name,
+                        class_in_module,
+                    ) = template
                 else:
                     py_class_name, cpp_class_name, swig_class_name = template
                 try:
@@ -167,17 +185,20 @@ def LoadModule(name, namespace=None):
                     if namespace is not None:
                         curval = namespace.get(py_class_name)
                         if curval is not None and curval != swigClass:
-                            DebugPrintError("Namespace already has a value for"
-                                            " %s, which is not class %s. "
-                                            "Overwriting old value."
-                                            % (py_class_name, cpp_class_name))
+                            DebugPrintError(
+                                "Namespace already has a value for"
+                                " %s, which is not class %s. "
+                                "Overwriting old value."
+                                % (py_class_name, cpp_class_name)
+                            )
                         namespace[py_class_name] = swigClass
                 except Exception as e:
-                    DebugPrintError("%s not found in module %s because of "
-                                    "exception:\n %s"
-                                    % (swig_class_name, name, e))
-        if 'snake_case_functions' in data:
-            for snakeCaseFunction in data['snake_case_functions']:
+                    DebugPrintError(
+                        "%s not found in module %s because of "
+                        "exception:\n %s" % (swig_class_name, name, e)
+                    )
+        if "snake_case_functions" in data:
+            for snakeCaseFunction in data["snake_case_functions"]:
                 namespace[snakeCaseFunction] = getattr(module, snakeCaseFunction)
                 init_name = snakeCaseFunction + "_init_docstring"
                 init_function = getattr(module, init_name)
@@ -236,13 +257,13 @@ lazy_attributes = {}
 known_modules = []
 for d in dirs:
     files = os.listdir(d + os.sep + "Configuration")
-    known_modules = sorted([f[:-9] for f in files if f.endswith('Config.py')])
+    known_modules = sorted([f[:-9] for f in files if f.endswith("Config.py")])
     sys.path.append(d)
     sys.path.append(d + os.sep + ".." + os.sep + "lib")
 
     for module in known_modules:
         data = {}
-        conf = module + 'Config.py'
+        conf = module + "Config.py"
         path = os.path.join(d + os.sep + "Configuration", conf)
         with open(path, "rb") as modulefile:
             exec(modulefile.read(), data)

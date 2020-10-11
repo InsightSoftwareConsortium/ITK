@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,14 +14,16 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import os
+
 HAVE_NUMPY = True
 try:
-  import numpy as np
+    import numpy as np
 except ImportError:
-  HAVE_NUMPY = False
+    HAVE_NUMPY = False
+
 
 class itkCType:
     __c_types__ = {}
@@ -47,16 +49,19 @@ class itkCType:
 
     def GetCType(name):
         """Get the type corresponding to the provided C primitive type name."""
-        aliases = {'short': 'signed short',
-            'int': 'signed int',
-            'long': 'signed long',
-            'long long': 'signed long long'}
+        aliases = {
+            "short": "signed short",
+            "int": "signed int",
+            "long": "signed long",
+            "long long": "signed long long",
+        }
         if name in aliases:
             name = aliases[name]
         try:
             return itkCType.__c_types__[name]
         except KeyError:
             return None
+
     GetCType = staticmethod(GetCType)
 
     def GetCTypeForDType(np_dtype):
@@ -65,6 +70,7 @@ class itkCType:
             return itkCType.__c_types_for_dtype__[np_dtype]
         except KeyError:
             return None
+
     GetCTypeForDType = staticmethod(GetCTypeForDType)
 
 
@@ -74,7 +80,7 @@ if HAVE_NUMPY:
     UC = itkCType("unsigned char", "UC", np.uint8)
     US = itkCType("unsigned short", "US", np.uint16)
     UI = itkCType("unsigned int", "UI", np.uint32)
-    if os.name == 'nt':
+    if os.name == "nt":
         UL = itkCType("unsigned long", "UL", np.uint32)
         SL = itkCType("signed long", "SL", np.int32)
         LD = itkCType("long double", "LD")

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import re
 
@@ -27,6 +27,7 @@ import re
 # [K erases the end of the line
 clrLine = "\033[2000D\033[K"
 
+
 def set_nthreads(number_of_threads):
     """
     Support convenient set of the number of threads.
@@ -34,24 +35,31 @@ def set_nthreads(number_of_threads):
         import itk
         itk.set_nthreads(4)  ## use 4 threads
     """
-    assert number_of_threads > 0, "Please set a possitive number of threads instead of %d" % number_of_threads
+    assert number_of_threads > 0, (
+        "Please set a possitive number of threads instead of %d" % number_of_threads
+    )
 
     import itk
+
     threader = itk.MultiThreaderBase.New()
     threader.SetGlobalDefaultNumberOfThreads(number_of_threads)
+
 
 def get_nthreads():
     """
     Get the number of threads
     """
     import itk
+
     threader = itk.MultiThreaderBase.New()
     return threader.GetGlobalDefaultNumberOfThreads()
+
 
 def auto_not_in_place(v=True):
     """Force it to not run in place
     """
     import itkConfig
+
     itkConfig.NotInPlace = v
 
 
@@ -87,6 +95,7 @@ def terminal_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
+
     print(clrLine + "%s: %f" % (name, p), file=sys.stderr, end="")
     if p == 1:
         print(clrLine, file=sys.stderr, end="")
@@ -98,6 +107,7 @@ def terminal_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
+
     print(clrLine + "Loading %s... " % name, file=sys.stderr, end="")
     if p == 1:
         print(clrLine, file=sys.stderr, end="")
@@ -109,6 +119,7 @@ def simple_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     import sys
+
     if p == 0:
         print("Loading %s... " % name, file=sys.stderr, end="")
     elif p == 1:
@@ -121,6 +132,7 @@ def simple_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     import sys
+
     if p == 0:
         print("Running %s... " % name, file=sys.stderr, end="")
     elif p == 1:
@@ -130,6 +142,7 @@ def simple_progress_callback(name, p):
 def force_load():
     """force itk to load all the submodules"""
     import itk
+
     for k in dir(itk):
         getattr(itk, k)
 
@@ -144,6 +157,8 @@ def echo(object, f=sys.stderr):
     repr(object) is used otherwise
     """
     print(f, object)
+
+
 del sys
 
 
@@ -166,6 +181,7 @@ def physical_size(image_or_filter):
     # required because range is overloaded in this module
     import sys
     from builtins import range
+
     spacing_ = spacing(image_or_filter)
     size_ = size(image_or_filter)
     result = []
@@ -217,32 +233,36 @@ def region(image_or_filter):
     img = output(image_or_filter)
     return img.GetLargestPossibleRegion()
 
+
 HAVE_NUMPY = True
 try:
     import numpy
 except ImportError:
     HAVE_NUMPY = False
 
+
 def _get_itk_pixelid(numpy_array_type):
     """Returns a ITK PixelID given a numpy array."""
 
     if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
+        raise ImportError("Numpy not available.")
     import itk
+
     # This is a Mapping from numpy array types to itk pixel types.
-    _np_itk = {numpy.uint8:itk.UC,
-                numpy.uint16:itk.US,
-                numpy.uint32:itk.UI,
-                numpy.uint64:itk.UL,
-                numpy.int8:itk.SC,
-                numpy.int16:itk.SS,
-                numpy.int32:itk.SI,
-                numpy.int64:itk.SL,
-                numpy.float32:itk.F,
-                numpy.float64:itk.D,
-                numpy.complex64:itk.complex[itk.F],
-                numpy.complex128:itk.complex[itk.D]
-                }
+    _np_itk = {
+        numpy.uint8: itk.UC,
+        numpy.uint16: itk.US,
+        numpy.uint32: itk.UI,
+        numpy.uint64: itk.UL,
+        numpy.int8: itk.SC,
+        numpy.int16: itk.SS,
+        numpy.int32: itk.SI,
+        numpy.int64: itk.SL,
+        numpy.float32: itk.F,
+        numpy.float64: itk.D,
+        numpy.complex64: itk.complex[itk.F],
+        numpy.complex128: itk.complex[itk.D],
+    }
     try:
         return _np_itk[numpy_array_type.dtype.type]
     except KeyError as e:
@@ -251,155 +271,190 @@ def _get_itk_pixelid(numpy_array_type):
                 return _np_itk[key]
             raise e
 
+
 def _GetArrayFromImage(image_or_filter, function, keep_axes, update):
     """Get an Array with the content of the image buffer
     """
     # Check for numpy
     if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
+        raise ImportError("Numpy not available.")
     # Finds the image type
     import itk
+
     keys = [k for k in itk.PyBuffer.keys() if k[0] == output(image_or_filter).__class__]
-    if len(keys ) == 0:
+    if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     ImageType = keys[0]
     # Create a numpy array of the type of the input image
     templatedFunction = getattr(itk.PyBuffer[keys[0]], function)
     return templatedFunction(output(image_or_filter), keep_axes, update)
 
+
 def GetArrayFromImage(image_or_filter, keep_axes=False, update=True):
     """Get an array with the content of the image buffer
     """
     return _GetArrayFromImage(image_or_filter, "GetArrayFromImage", keep_axes, update)
 
+
 array_from_image = GetArrayFromImage
+
 
 def GetArrayViewFromImage(image_or_filter, keep_axes=False, update=True):
     """Get an array view with the content of the image buffer
     """
-    return _GetArrayFromImage(image_or_filter, "GetArrayViewFromImage", keep_axes, update)
+    return _GetArrayFromImage(
+        image_or_filter, "GetArrayViewFromImage", keep_axes, update
+    )
+
 
 array_view_from_image = GetArrayViewFromImage
+
 
 def _GetImageFromArray(arr, function, is_vector):
     """Get an ITK image from a Python array.
     """
     if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
+        raise ImportError("Numpy not available.")
     import itk
+
     PixelType = _get_itk_pixelid(arr)
     Dimension = arr.ndim
     ImageType = itk.Image[PixelType, Dimension]
     if is_vector:
         Dimension = arr.ndim - 1
-        if arr.flags['C_CONTIGUOUS']:
+        if arr.flags["C_CONTIGUOUS"]:
             VectorDimension = arr.shape[-1]
         else:
             VectorDimension = arr.shape[0]
         if PixelType == itk.UC:
             if VectorDimension == 3:
-                ImageType = itk.Image[ itk.RGBPixel[itk.UC], Dimension ]
+                ImageType = itk.Image[itk.RGBPixel[itk.UC], Dimension]
             elif VectorDimension == 4:
-                ImageType = itk.Image[ itk.RGBAPixel[itk.UC], Dimension ]
+                ImageType = itk.Image[itk.RGBAPixel[itk.UC], Dimension]
         else:
-            ImageType = itk.Image[ itk.Vector[PixelType, VectorDimension] , Dimension]
+            ImageType = itk.Image[itk.Vector[PixelType, VectorDimension], Dimension]
     templatedFunction = getattr(itk.PyBuffer[ImageType], function)
     return templatedFunction(arr, is_vector)
+
 
 def GetImageFromArray(arr, is_vector=False):
     """Get an ITK image from a Python array.
     """
     return _GetImageFromArray(arr, "GetImageFromArray", is_vector)
 
+
 image_from_array = GetImageFromArray
+
 
 def GetImageViewFromArray(arr, is_vector=False):
     """Get an ITK image view from a Python array.
     """
     return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector)
 
+
 image_view_from_array = GetImageViewFromArray
+
 
 def _GetArrayFromVnlObject(vnl_object, function):
     """Get an array with the content of vnl_object
     """
     # Check for numpy
     if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
+        raise ImportError("Numpy not available.")
     # Finds the vnl object type
     import itk
+
     PixelType = itk.template(vnl_object)[1][0]
     keys = [k for k in itk.PyVnl.keys() if k[0] == PixelType]
-    if len(keys ) == 0:
+    if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create a numpy array of the type of the vnl object
     templatedFunction = getattr(itk.PyVnl[keys[0]], function)
     return templatedFunction(vnl_object)
+
 
 def GetArrayFromVnlVector(vnl_vector):
     """Get an array with the content of vnl_vector
     """
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayFromVnlVector")
 
+
 array_from_vnl_vector = GetArrayFromVnlVector
+
 
 def GetArrayViewFromVnlVector(vnl_vector):
     """Get an array view of vnl_vector
     """
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayViewFromVnlVector")
 
+
 array_view_from_vnl_vector = GetArrayFromVnlVector
+
 
 def GetArrayFromVnlMatrix(vnl_matrix):
     """Get an array with the content of vnl_matrix
     """
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayFromVnlMatrix")
 
+
 def GetArrayViewFromVnlMatrix(vnl_matrix):
     """Get an array view of vnl_matrix
     """
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayViewFromVnlMatrix")
 
+
 array_from_vnl_matrix = GetArrayFromVnlMatrix
+
 
 def _GetVnlObjectFromArray(arr, function):
     """Get a vnl object from a Python array.
     """
     if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
+        raise ImportError("Numpy not available.")
     import itk
+
     PixelType = _get_itk_pixelid(arr)
     templatedFunction = getattr(itk.PyVnl[PixelType], function)
     return templatedFunction(arr)
+
 
 def GetVnlVectorFromArray(arr):
     """Get a vnl vector from a Python array.
     """
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray")
 
+
 vnl_vector_from_array = GetVnlVectorFromArray
+
 
 def GetVnlMatrixFromArray(arr):
     """Get a vnl matrix from a Python array.
     """
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray")
 
+
 vnl_matrix_from_array = GetVnlMatrixFromArray
+
 
 def GetArrayFromMatrix(itk_matrix):
     return GetArrayFromVnlMatrix(itk_matrix.GetVnlMatrix().as_matrix())
 
+
 array_from_matrix = GetArrayFromMatrix
+
 
 def GetMatrixFromArray(arr):
     import itk
+
     vnl_matrix = GetVnlMatrixFromArray(arr)
     dims = arr.shape
     PixelType = _get_itk_pixelid(arr)
     m = itk.Matrix[PixelType, dims[0], dims[1]](vnl_matrix)
     return m
 
+
 matrix_from_array = GetMatrixFromArray
+
 
 def xarray_from_image(image):
     """Convert an itk.Image to an xarray.DataArray.
@@ -421,25 +476,27 @@ def xarray_from_image(image):
     direction = np.flip(itk.array_from_matrix(image.GetDirection()))
     spatial_dimension = image.GetImageDimension()
 
-    spatial_dims = ('x', 'y', 'z')
+    spatial_dims = ("x", "y", "z")
     coords = {}
     for index, dim in enumerate(spatial_dims[:spatial_dimension]):
-        coords[dim] = np.linspace(origin[index],
-                                  origin[index] + (size[index]-1)*spacing[index],
-                                  size[index],
-                                  dtype=np.float64)
+        coords[dim] = np.linspace(
+            origin[index],
+            origin[index] + (size[index] - 1) * spacing[index],
+            size[index],
+            dtype=np.float64,
+        )
 
     dims = list(reversed(spatial_dims[:spatial_dimension]))
     components = image.GetNumberOfComponentsPerPixel()
     if components > 1:
-        dims.append('c')
-        coords['c'] = np.arange(components, dtype=np.uint64)
+        dims.append("c")
+        coords["c"] = np.arange(components, dtype=np.uint64)
 
-    data_array = xr.DataArray(array_view,
-                              dims=dims,
-                              coords=coords,
-                              attrs={'direction': direction})
+    data_array = xr.DataArray(
+        array_view, dims=dims, coords=coords, attrs={"direction": direction}
+    )
     return data_array
+
 
 def image_from_xarray(data_array):
     """Convert an xarray.DataArray to an itk.Image.
@@ -451,18 +508,20 @@ def image_from_xarray(data_array):
     import numpy as np
     import itk
 
-    spatial_dims = list({'z', 'y', 'x'}.intersection(set(data_array.dims)))
+    spatial_dims = list({"z", "y", "x"}.intersection(set(data_array.dims)))
     spatial_dims.sort(reverse=True)
     spatial_dimension = len(spatial_dims)
-    ordered_dims = ('z', 'y', 'x')[-spatial_dimension:]
+    ordered_dims = ("z", "y", "x")[-spatial_dimension:]
     if ordered_dims != tuple(spatial_dims):
-        raise ValueError('Spatial dimensions do not have the required order: ' + str(ordered_dims))
+        raise ValueError(
+            "Spatial dimensions do not have the required order: " + str(ordered_dims)
+        )
 
-    is_vector = 'c' in data_array.dims
+    is_vector = "c" in data_array.dims
     itk_image = itk.image_view_from_array(data_array.values, is_vector=is_vector)
 
-    origin = [0.0]*spatial_dimension
-    spacing = [1.0]*spatial_dimension
+    origin = [0.0] * spatial_dimension
+    spacing = [1.0] * spatial_dimension
     for index, dim in enumerate(spatial_dims):
         coords = data_array.coords[dim]
         if coords.shape[0] > 1:
@@ -472,11 +531,12 @@ def image_from_xarray(data_array):
     itk_image.SetSpacing(spacing)
     origin.reverse()
     itk_image.SetOrigin(origin)
-    if 'direction' in data_array.attrs:
-        direction = data_array.attrs['direction']
+    if "direction" in data_array.attrs:
+        direction = data_array.attrs["direction"]
         itk_image.SetDirection(np.flip(direction))
 
     return itk_image
+
 
 def vtk_image_from_image(image):
     """Convert an itk.Image to a vtk.vtkImageData."""
@@ -489,7 +549,7 @@ def vtk_image_from_image(image):
     vtk_image = vtk.vtkImageData()
     data_array = numpy_to_vtk(array.reshape(-1))
     data_array.SetNumberOfComponents(image.GetNumberOfComponentsPerPixel())
-    data_array.SetName('Scalars')
+    data_array.SetName("Scalars")
     # Always set Scalars for (future?) multi-component volume rendering
     vtk_image.GetPointData().SetScalars(data_array)
     dim = image.GetImageDimension()
@@ -514,6 +574,7 @@ def vtk_image_from_image(image):
         elif PixelType == itk.DiffusionTensor3D:
             vtk_image.GetPointData().SetTensors(data_array)
     return vtk_image
+
 
 def image_from_vtk_image(vtk_image):
     """Convert a vtk.vtkImageData to an itk.Image."""
@@ -545,6 +606,7 @@ def image_from_vtk_image(vtk_image):
     # Todo: Add Direction with VTK 9
     return image
 
+
 # return an image
 from itkTemplate import image, output
 
@@ -558,6 +620,7 @@ def template(cl):
         - the second is a tuple containing the template parameters
     """
     from itkTemplate import itkTemplate
+
     return itkTemplate.__class_to_template__[class_(cl)]
 
 
@@ -582,11 +645,13 @@ def class_(obj):
     class_() should do a better job
     """
     import inspect
+
     if inspect.isclass(obj):
         # obj is already a class !
         return obj
     else:
         return obj.__class__
+
 
 def python_type(obj):
     """Returns the Python type name of an object
@@ -600,18 +665,19 @@ def python_type(obj):
 
     def in_itk(name):
         import itk
+
         # Remove "itk::" and "std::" from template name.
         # Only happens for ITK objects.
-        shortname = name.split('::')[-1]
-        shortname = shortname.split('itk')[-1]
+        shortname = name.split("::")[-1]
+        shortname = shortname.split("itk")[-1]
 
         namespace = itk
         # A type cannot be part of ITK if its name was not modified above. This
         # check avoids having an input of type `list` and return `itk.list` that
         # also exists.
-        likely_itk = (shortname != name or name[:3] == 'vnl')
+        likely_itk = shortname != name or name[:3] == "vnl"
         if likely_itk and hasattr(namespace, shortname):
-            return namespace.__name__ + '.' + shortname  # Prepend name with 'itk.'
+            return namespace.__name__ + "." + shortname  # Prepend name with 'itk.'
         else:
             return name
 
@@ -621,16 +687,19 @@ def python_type(obj):
             name = in_itk(T.__name__)
             parameters = []
             for t in P:
-                parameters.append(recursive(t, level+1))
+                parameters.append(recursive(t, level + 1))
             return name + "[" + ",".join(parameters) + "]"
         except KeyError:
             if isinstance(obj, itkCType):  # Handles CTypes differently
-                return 'itk.' + obj.short_name
+                return "itk." + obj.short_name
             elif hasattr(obj, "__name__"):
                 # This should be where most ITK types end up.
                 return in_itk(obj.__name__)
-            elif (not isinstance(obj, type)
-                  and type(obj) != itkTemplate.itkTemplate and level != 0):
+            elif (
+                not isinstance(obj, type)
+                and type(obj) != itkTemplate.itkTemplate
+                and level != 0
+            ):
                 # obj should actually be considered a value, not a type,
                 # or it is already an itkTemplate type.
                 # A value can be an integer that is a template parameter.
@@ -641,6 +710,7 @@ def python_type(obj):
                 return str(obj)
             else:
                 return in_itk(type(obj).__name__)
+
     return recursive(obj, 0)
 
 
@@ -651,6 +721,7 @@ def range(image_or_filter):
     range() take care of updating the pipeline
     """
     import itk
+
     img = output(image_or_filter)
     img.UpdateOutputInformation()
     img.Update()
@@ -670,15 +741,15 @@ def imwrite(image_or_filter, filename, compression=False):
     parameter (or, again, with the output image of the filter in parameter).
     """
     import itk
+
     img = output(image_or_filter)
     img.UpdateOutputInformation()
     # don't put that writer in the automatic pipeline
     tmp_auto_pipeline = auto_pipeline.current
     auto_pipeline.current = None
     writer = itk.ImageFileWriter[type(img)].New(
-        Input=img,
-        FileName=filename,
-        UseCompression=compression)
+        Input=img, FileName=filename, UseCompression=compression
+    )
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
@@ -699,32 +770,37 @@ def imread(filename, pixel_type=None, fallback_only=False):
     """
     import itk
     import itkTemplate
+
     if fallback_only:
         if pixel_type is None:
-            raise Exception("pixel_type must be set when using the fallback_only option")
+            raise Exception(
+                "pixel_type must be set when using the fallback_only option"
+            )
         try:
             return imread(filename)
         except (KeyError, itkTemplate.TemplateTypeError):
             pass
     if type(filename) in [list, tuple]:
         TemplateReaderType = itk.ImageSeriesReader
-        io_filename=filename[0]
+        io_filename = filename[0]
         increase_dimension = True
-        kwargs = {'FileNames': filename}
+        kwargs = {"FileNames": filename}
     else:
         TemplateReaderType = itk.ImageFileReader
-        io_filename=filename
-        increase_dimension=False
-        kwargs = {'FileName': filename}
+        io_filename = filename
+        increase_dimension = False
+        kwargs = {"FileName": filename}
     if pixel_type:
-        imageIO = itk.ImageIOFactory.CreateImageIO(io_filename, itk.CommonEnums.IOFileMode_ReadMode)
+        imageIO = itk.ImageIOFactory.CreateImageIO(
+            io_filename, itk.CommonEnums.IOFileMode_ReadMode
+        )
         if not imageIO:
             raise RuntimeError("No ImageIO is registered to handle the given file.")
         imageIO.SetFileName(io_filename)
         imageIO.ReadImageInformation()
         dimension = imageIO.GetNumberOfDimensions()
         # Increase dimension if last dimension is not of size one.
-        if increase_dimension and imageIO.GetDimensions(dimension-1) != 1:
+        if increase_dimension and imageIO.GetDimensions(dimension - 1) != 1:
             dimension += 1
         ImageType = itk.Image[pixel_type, dimension]
         reader = TemplateReaderType[ImageType].New(**kwargs)
@@ -740,14 +816,14 @@ def meshwrite(mesh, filename, compression=False):
     The writer is instantiated according to the type of the input mesh.
     """
     import itk
+
     mesh.UpdateOutputInformation()
     # don't put that writer in the automatic pipeline
     tmp_auto_pipeline = auto_pipeline.current
     auto_pipeline.current = None
     writer = itk.MeshFileWriter[type(mesh)].New(
-        Input=mesh,
-        FileName=filename,
-        UseCompression=compression)
+        Input=mesh, FileName=filename, UseCompression=compression
+    )
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
@@ -767,9 +843,12 @@ def meshread(filename, pixel_type=None, fallback_only=False):
     """
     import itk
     import itkTemplate
+
     if fallback_only:
         if pixel_type is None:
-            raise Exception("pixel_type must be set when using the fallback_only option")
+            raise Exception(
+                "pixel_type must be set when using the fallback_only option"
+            )
         try:
             return meshread(filename)
         except (KeyError, itkTemplate.TemplateTypeError):
@@ -777,16 +856,18 @@ def meshread(filename, pixel_type=None, fallback_only=False):
     TemplateReaderType = itk.MeshFileReader
     io_filename = filename
     increase_dimension = False
-    kwargs = {'FileName': filename}
+    kwargs = {"FileName": filename}
     if pixel_type:
-        meshIO = itk.MeshIOFactory.CreateMeshIO(io_filename, itk.CommonEnums.IOFileMode_ReadMode)
+        meshIO = itk.MeshIOFactory.CreateMeshIO(
+            io_filename, itk.CommonEnums.IOFileMode_ReadMode
+        )
         if not meshIO:
             raise RuntimeError("No MeshIO is registered to handle the given file.")
         meshIO.SetFileName(io_filename)
         meshIO.ReadMeshInformation()
         dimension = meshIO.GetPointDimension()
         # Increase dimension if last dimension is not of size one.
-        if increase_dimension and meshIO.GetDimensions(dimension-1) != 1:
+        if increase_dimension and meshIO.GetDimensions(dimension - 1) != 1:
             dimension += 1
         MeshType = itk.Mesh[pixel_type, dimension]
         reader = TemplateReaderType[MeshType].New(**kwargs)
@@ -803,6 +884,7 @@ def search(s, case_sensitive=False):  # , fuzzy=True):
     if not case_sensitive:
         s = s.lower()
     import itk
+
     names = sorted(dir(itk))
     # exact match first
     if case_sensitive:
@@ -814,28 +896,33 @@ def search(s, case_sensitive=False):  # , fuzzy=True):
         res += [n for n in names if s in n and s != n]
     else:
         res += [n for n in names if s in n.lower() and s != n.lower()]
-#     if fuzzy:
-#         try:
-# everything now requires editdist
-#             import editdist
-#             if case_sensitive:
-#                 res.sort(key=lambda x: editdist.distance(x, s))
-#             else:
-#                 res.sort(key=lambda x: (editdist.distance(x.lower(), s), x))
-#         except:
-#             pass
+    #     if fuzzy:
+    #         try:
+    # everything now requires editdist
+    #             import editdist
+    #             if case_sensitive:
+    #                 res.sort(key=lambda x: editdist.distance(x, s))
+    #             else:
+    #                 res.sort(key=lambda x: (editdist.distance(x.lower(), s), x))
+    #         except:
+    #             pass
     return res
 
 
 # Helpers for set_inputs snake case to CamelCase keyword argument conversion
-_snake_underscore_re = re.compile('(_)([a-z0-9A-Z])')
+_snake_underscore_re = re.compile("(_)([a-z0-9A-Z])")
+
+
 def _underscore_upper(matchobj):
     return matchobj.group(2).upper()
+
+
 def _snake_to_camel(keyword):
     camel = keyword[0].upper()
     if _snake_underscore_re.search(keyword[1:]):
         return camel + _snake_underscore_re.sub(_underscore_upper, keyword[1:])
     return camel + keyword[1:]
+
 
 def set_inputs(new_itk_object, args=[], kargs={}):
     """Set the inputs of the given objects, according to the non named or the
@@ -870,7 +957,7 @@ def set_inputs(new_itk_object, args=[], kargs={}):
     # itk.ImageFileWriter.US2.New(s, FileName='result.png').Update()
     try:
         for setInputNb, arg in enumerate(args):
-            methodName = 'SetInput%i' % (setInputNb + 1)
+            methodName = "SetInput%i" % (setInputNb + 1)
             if methodName in dir(new_itk_object):
                 # first try to use methods called SetInput1, SetInput2, ...
                 # those method should have more chances to work in case of
@@ -893,13 +980,13 @@ def set_inputs(new_itk_object, args=[], kargs={}):
         new_itk_object.SetInput(args[0])
         # but raise an exception if there is more than 1 argument
         if len(args) > 1:
-            raise TypeError('Object accepts only 1 input.')
+            raise TypeError("Object accepts only 1 input.")
     except AttributeError:
         # There is no SetInput() method, try SetImage
         # but before, check the number of inputs
         if len(args) > 1:
-            raise TypeError('Object accepts only 1 input.')
-        methodList = ['SetImage', 'SetInputImage']
+            raise TypeError("Object accepts only 1 input.")
+        methodList = ["SetImage", "SetInputImage"]
         methodName = None
         for m in methodList:
             if m in dir(new_itk_object):
@@ -907,7 +994,7 @@ def set_inputs(new_itk_object, args=[], kargs={}):
         if methodName:
             getattr(new_itk_object, methodName)(args[0])
         else:
-            raise AttributeError('No method found to set the input.')
+            raise AttributeError("No method found to set the input.")
 
     # named args : name is the function name, value is argument(s)
     for attribName, value in kargs.items():
@@ -918,9 +1005,9 @@ def set_inputs(new_itk_object, args=[], kargs={}):
         if attribName not in ["auto_progress", "template_parameters"]:
             if attribName.islower():
                 attribName = _snake_to_camel(attribName)
-            attrib = getattr(new_itk_object, 'Set' + attribName)
+            attrib = getattr(new_itk_object, "Set" + attribName)
 
-           # Do not use try-except mechanism as this leads to
+            # Do not use try-except mechanism as this leads to
             # segfaults. Instead limit the number of types that are
             # tested. The list of tested type could maybe be replaced by
             # a test that would check for iterables.
@@ -932,6 +1019,7 @@ def set_inputs(new_itk_object, args=[], kargs={}):
                     attrib(output(value))
             else:
                 attrib(output(value))
+
 
 class templated_class:
 
@@ -965,6 +1053,7 @@ class templated_class:
         """
         # extract the types from the arguments to instantiate the class
         import itk
+
         types = tuple(itk.class_(o) for o in args)
         return self[types].New(*args, **kargs)
 
@@ -976,10 +1065,8 @@ class templated_class:
         """
         if not isinstance(template_parameters, tuple):
             template_parameters = (template_parameters,)
-        return (
-            templated_class.__templated_class_and_parameters__(
-                self,
-                template_parameters)
+        return templated_class.__templated_class_and_parameters__(
+            self, template_parameters
         )
 
     def check_template_parameters(self, template_parameters):
@@ -1011,6 +1098,7 @@ class templated_class:
 
     def add_image_templates(self, *args):
         import itk
+
         if args == []:
             return
         combinations = [[t] for t in args[0]]
@@ -1039,8 +1127,7 @@ class templated_class:
             self.__templated_class__ = templated_class
             self.__template_parameters__ = template_parameters
             if "check_template_parameters" in dir(templated_class.__cls__):
-                templated_class.__cls__.check_template_parameters(
-                    template_parameters)
+                templated_class.__cls__.check_template_parameters(template_parameters)
 
         def New(self, *args, **kargs):
             """A New() method to mimic the ITK default behavior, even if the
@@ -1051,10 +1138,7 @@ class templated_class:
                 obj = self.__templated_class__.__cls__.New(*args, **kargs)
             else:
                 obj = self.__templated_class__.__cls__(*args, **kargs)
-            setattr(
-                obj,
-                "__template_parameters__",
-                self.__template_parameters__)
+            setattr(obj, "__template_parameters__", self.__template_parameters__)
             setattr(obj, "__templated_class__", self.__templated_class__)
             return obj
 
@@ -1248,9 +1332,7 @@ class pipeline:
             setattr(self, "Get" + new_name, getattr(src, get_name))
             ok = True
         if not ok:
-            raise RuntimeError(
-                "No attribute %s at position %s." %
-                (name, position))
+            raise RuntimeError("No attribute %s at position %s." % (name, position))
 
 
 class auto_pipeline(pipeline):
@@ -1273,6 +1355,7 @@ def down_cast(obj):
     """
     import itk
     import itkTemplate
+
     className = obj.GetNameOfClass()
     t = getattr(itk, className)
     if isinstance(t, itkTemplate.itkTemplate):
@@ -1282,9 +1365,7 @@ def down_cast(obj):
             except:
                 # fail silently for now
                 pass
-        raise RuntimeError(
-            "Can't downcast to a specialization of %s" %
-            className)
+        raise RuntimeError("Can't downcast to a specialization of %s" % className)
     else:
         return t.cast(obj)
 
@@ -1296,12 +1377,11 @@ def attribute_list(i, name):
     name: the attribute name
     """
     import itk
+
     i = itk.output(i)
     relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
-        i,
-        Attribute=name,
-        ReverseOrdering=True,
-        InPlace=False)
+        i, Attribute=name, ReverseOrdering=True, InPlace=False
+    )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     l = []
@@ -1317,12 +1397,11 @@ def attributes_list(i, names):
     name: the attribute name
     """
     import itk
+
     i = itk.output(i)
     relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
-        i,
-        Attribute=names[0],
-        ReverseOrdering=True,
-        InPlace=False)
+        i, Attribute=names[0], ReverseOrdering=True, InPlace=False
+    )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     l = []
@@ -1342,12 +1421,11 @@ def attribute_dict(i, name):
     name: the name of the attribute
     """
     import itk
+
     i = itk.output(i)
     relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
-        i,
-        Attribute=name,
-        ReverseOrdering=True,
-        InPlace=False)
+        i, Attribute=name, ReverseOrdering=True, InPlace=False
+    )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
     d = {}
@@ -1366,6 +1444,7 @@ def number_of_objects(i):
     i: the input LabelImage
     """
     import itk
+
     i.UpdateLargestPossibleRegion()
     i = itk.output(i)
     return i.GetNumberOfLabelObjects()
@@ -1378,19 +1457,25 @@ def ipython_kw_matches(text):
     import re
     import inspect
     import itkTemplate
-    regexp = re.compile(r'''
+
+    regexp = re.compile(
+        r"""
                     '.*?' |  # single quoted strings or
                     ".*?" |  # double quoted strings or
                     \w+     |  # identifier
                     \S  # other characters
-                    ''', re.VERBOSE | re.DOTALL)
+                    """,
+        re.VERBOSE | re.DOTALL,
+    )
     ip = IPython.get_ipython()
     if "." in text:  # a parameter cannot be dotted
         return []
     # 1. Find the nearest identifier that comes before an unclosed
     # parenthesis e.g. for "foo (1+bar(x), pa", the candidate is "foo".
     if ip.Completer.readline:
-        textUntilCursor = ip.Completer.readline.get_line_buffer()[:ip.Completer.readline.get_endidx()]
+        textUntilCursor = ip.Completer.readline.get_line_buffer()[
+            : ip.Completer.readline.get_endidx()
+        ]
     else:
         # IPython >= 5.0.0, which is based on the Python Prompt Toolkit
         textUntilCursor = ip.Completer.text_until_cursor
@@ -1400,9 +1485,9 @@ def ipython_kw_matches(text):
     iterTokens = iter(tokens)
     openPar = 0
     for token in iterTokens:
-        if token == ')':
+        if token == ")":
             openPar -= 1
-        elif token == '(':
+        elif token == "(":
             openPar += 1
             if openPar > 0:
                 # found the last unclosed parenthesis
@@ -1411,14 +1496,14 @@ def ipython_kw_matches(text):
         return []
     # 2. Concatenate dotted names ("foo.bar" for "foo.bar(x, pa" )
     ids = []
-    isId = re.compile(r'\w+$').match
+    isId = re.compile(r"\w+$").match
     while True:
         try:
             ids.append(iterTokens.next())
             if not isId(ids[-1]):
                 ids.pop()
                 break
-            if not iterTokens.next() == '.':
+            if not iterTokens.next() == ".":
                 break
         except StopIteration:
             break
@@ -1427,15 +1512,15 @@ def ipython_kw_matches(text):
     if len(ids) == 1:
         callableMatches = ip.Completer.global_matches(ids[0])
     else:
-        callableMatches = ip.Completer.attr_matches('.'.join(ids[::-1]))
+        callableMatches = ip.Completer.attr_matches(".".join(ids[::-1]))
     argMatches = []
     for callableMatch in callableMatches:
         # drop the .New at this end, so we can search in the class members
         if callableMatch.endswith(".New"):
             callableMatch = callableMatch[:-4]
-        elif not re.findall('([A-Z])', callableMatch):  # True if snake case
+        elif not re.findall("([A-Z])", callableMatch):  # True if snake case
             # Split at the last '.' occurence
-            splitted = callableMatch.split('.')
+            splitted = callableMatch.split(".")
             namespace = splitted[:-1]
             function_name = splitted[-1]
             # Find corresponding object name
@@ -1470,11 +1555,13 @@ def ipython_kw_matches(text):
                 argMatches.append(u"%s=" % namedArg)
     return argMatches
 
+
 # install progress callback and custom completer if we are in ipython
 # interpreter
 try:
     import itkConfig
     import IPython
+
     if IPython.get_ipython():
         IPython.get_ipython().Completer.matchers.insert(0, ipython_kw_matches)
     # some cleanup

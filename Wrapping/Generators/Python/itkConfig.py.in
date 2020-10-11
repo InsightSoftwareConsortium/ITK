@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 """Insight Toolkit (itk) configuration module.
 
@@ -36,7 +36,9 @@ Currently-supported options are:
 
 
 # User options
-SILENT = 0; WARN = 1; ERROR = 2
+SILENT = 0
+WARN = 1
+ERROR = 2
 DebugLevel = WARN
 ImportCallback = None
 ProgressCallback = None
@@ -44,10 +46,11 @@ LazyLoading = True
 NotInPlace = False
 
 
-
 # Internal settings
 
 import warnings
+
+
 def itkFormatWarning(msg, *a, **kwa):
     """"Format the warnings issued by itk to display only the message.
 
@@ -55,35 +58,39 @@ def itkFormatWarning(msg, *a, **kwa):
     triggered. The message is returned to the warnings module.
     """
 
-    return str(msg) + '\n'
+    return str(msg) + "\n"
+
 
 # Redefine the format of the warnings
 warnings.formatwarning = itkFormatWarning
 
 
 import os
+
+
 def normalized_path(relative_posix_path):
-    if relative_posix_path != 'None':
+    if relative_posix_path != "None":
         file_dir = os.path.split(__file__)[0]
-        relative_path = relative_posix_path.replace('/', os.sep)
+        relative_path = relative_posix_path.replace("/", os.sep)
         return os.path.normpath(os.path.join(file_dir, relative_path))
 
+
 # swig_lib: location of the swig-generated shared libraries
-swig_lib = normalized_path('@CONFIG_PYTHON_SWIGLIB_DIR@')
+swig_lib = normalized_path("@CONFIG_PYTHON_SWIGLIB_DIR@")
 
 # swig_py: location of the xxxPython.py swig-generated python interfaces
-swig_py = normalized_path('@CONFIG_PYTHON_SWIGPY_DIR@')
+swig_py = normalized_path("@CONFIG_PYTHON_SWIGPY_DIR@")
 
 # config_py: location of xxxConfix.py CMake-generated library descriptions
-config_py = normalized_path('@CONFIG_PYTHON_CONFIGPY_DIR@')
+config_py = normalized_path("@CONFIG_PYTHON_CONFIGPY_DIR@")
 
 # put the itkConfig.py path in the path list
-path = [os.path.join(config_py, '..')]
+path = [os.path.join(config_py, "..")]
 # also populate path with the WRAPITK_PYTHON_PATH var
-if 'WRAPITK_PYTHON_PATH' in os.environ:
-  path.extend(os.environ['WRAPITK_PYTHON_PATH'].split(':'))
+if "WRAPITK_PYTHON_PATH" in os.environ:
+    path.extend(os.environ["WRAPITK_PYTHON_PATH"].split(":"))
 
-doxygen_root = normalized_path('../Doc')
+doxygen_root = normalized_path("../Doc")
 
 del normalized_path
 del os
