@@ -246,4 +246,11 @@ for d in dirs:
         path = os.path.join(d + os.sep + "Configuration", conf)
         with open(path, "rb") as modulefile:
             exec(modulefile.read(), data)
+        snake_data = {}
+        snake_conf = module + '_snake_case.py'
+        snake_path = os.path.join(d + os.sep + "Configuration", snake_conf)
+        if os.path.exists(snake_path):
+          with open(snake_path, "rb") as snake_modulefile:
+              exec(snake_modulefile.read(), snake_data)
+        data.update(snake_data)
         module_data[module] = data
