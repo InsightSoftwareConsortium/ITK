@@ -80,13 +80,10 @@ class SwigInputGenerator(object):
         "itk::ObjectFactoryBasePrivate",
         "itk::ThreadPoolGlobals",
         "itk::MultiThreaderBaseGlobals",
-
-        ".+[(][*][)][(].+" # functor functions
+        ".+[(][*][)][(].+",  # functor functions
     ]
 
-    forceSnakeCase = [
-      "ImageDuplicator"
-    ]
+    forceSnakeCase = ["ImageDuplicator"]
 
     notWrappedRegExp = re.compile("|".join(["^" + s + "$" for s in notWrapped]))
 
@@ -115,7 +112,6 @@ class SwigInputGenerator(object):
        protected:
      };
     """,
-
         "F": """class stdcomplexF {
        public:
          ~stdcomplexF();
@@ -137,7 +133,8 @@ class SwigInputGenerator(object):
        private:
        protected:
      };
-    """}
+    """,
+    }
 
     new_override = '''
 // some changes in the New() method
@@ -203,8 +200,6 @@ class SwigInputGenerator(object):
 
 '''
 
-
-
     def __init__(self, moduleName, options):
         self.moduleName = moduleName
         self.options = options
@@ -230,7 +225,6 @@ class SwigInputGenerator(object):
 
         self.snakeCaseProcessObjectFunctions = set()
 
-
     def warn(self, identifier, msg, doWarn=True):
         if not doWarn:
             # don't warn for anything
@@ -248,12 +242,14 @@ class SwigInputGenerator(object):
             else:
                 if self.options.warningError:
                     print(
-                        "%s: error(%s): %s" %
-                        (self.moduleName, str(identifier), msg), file=sys.stderr)
+                        "%s: error(%s): %s" % (self.moduleName, str(identifier), msg),
+                        file=sys.stderr,
+                    )
                 else:
                     print(
-                        "%s: warning(%s): %s" %
-                        (self.moduleName, str(identifier), msg), file=sys.stderr)
+                        "%s: warning(%s): %s" % (self.moduleName, str(identifier), msg),
+                        file=sys.stderr,
+                    )
 
     def info(self, msg):
         if self.verbose:
@@ -274,15 +270,19 @@ class SwigInputGenerator(object):
         return t.decl_string
 
     def renameTypesInSTL(self, s):
-        if s.startswith("std::") and \
-                pygccxml.declarations.templates.is_instantiation(s):
+        if s.startswith("std::") and pygccxml.declarations.templates.is_instantiation(
+            s
+        ):
             args = []
             for arg in pygccxml.declarations.templates.args(s):
                 t, d = SwigInputGenerator.typeAndDecorators(arg)
                 args.append(self.renameTypesInSTL(self.get_alias(t)) + d)
-            return pygccxml.declarations.templates.join(
-                pygccxml.declarations.templates.name(s),
-                args) + SwigInputGenerator.typeAndDecorators(s)[1]
+            return (
+                pygccxml.declarations.templates.join(
+                    pygccxml.declarations.templates.name(s), args
+                )
+                + SwigInputGenerator.typeAndDecorators(s)[1]
+            )
         return s
 
     @staticmethod
@@ -293,9 +293,12 @@ class SwigInputGenerator(object):
                 if not arg.startswith("std::allocator"):
                     t, d = SwigInputGenerator.typeAndDecorators(arg)
                     args.append(SwigInputGenerator.removeStdAllocator(t) + d)
-            return pygccxml.declarations.templates.join(
-                pygccxml.declarations.templates.name(s),
-                args) + SwigInputGenerator.typeAndDecorators(s)[1]
+            return (
+                pygccxml.declarations.templates.join(
+                    pygccxml.declarations.templates.name(s), args
+                )
+                + SwigInputGenerator.typeAndDecorators(s)[1]
+            )
         return s
 
     @staticmethod
@@ -309,16 +312,21 @@ class SwigInputGenerator(object):
             for e in ends:
                 if s.endswith(e):
                     end = e + end
-                    s = s[:-len(e)]
+                    s = s[: -len(e)]
                     needToContinue = True
         return (s, end)
 
-    _firstCapRE = re.compile(r'(.)([A-Z][a-z]+)')
-    _allCapRE = re.compile('([a-z0-9])([A-Z])')
+    _firstCapRE = re.compile(r"(.)([A-Z][a-z]+)")
+    _allCapRE = re.compile("([a-z0-9])([A-Z])")
+
     @staticmethod
     def camelCaseToSnakeCase(camelCase):
-        substitution = SwigInputGenerator._firstCapRE.sub(r'\1_\2', camelCase)
-        return SwigInputGenerator._allCapRE.sub(r'\1_\2', substitution).lower().replace('__', '_')
+        substitution = SwigInputGenerator._firstCapRE.sub(r"\1_\2", camelCase)
+        return (
+            SwigInputGenerator._allCapRE.sub(r"\1_\2", substitution)
+            .lower()
+            .replace("__", "_")
+        )
 
     def get_alias(self, decl_string, w=True):
         s = str(decl_string)
@@ -352,9 +360,9 @@ class SwigInputGenerator(object):
                 self.usedTypes.add(new_s)
                 return new_s + end
 
-        if s[:s.rfind("::")] in self.aliases:
+        if s[: s.rfind("::")] in self.aliases:
             # take care of subtypes/enum/...
-            alias = self.aliases[s[:s.rfind("::")]] + s[s.rfind("::"):]
+            alias = self.aliases[s[: s.rfind("::")]] + s[s.rfind("::") :]
             self.usedTypes.add(alias)
             return alias + end
 
@@ -369,31 +377,27 @@ class SwigInputGenerator(object):
         # rename basic_string to std::string to make name shorter
         s = s.replace("std::basic_string< char >", "std::string")
         s = s.replace(
-            "std::basic_string< char, std::char_traits< char > >",
-            "std::string")
+            "std::basic_string< char, std::char_traits< char > >", "std::string"
+        )
         s = s.replace(
-            "std::basic_ostream< char, std::char_traits< char > >",
-            "std::ostream")
+            "std::basic_ostream< char, std::char_traits< char > >", "std::ostream"
+        )
         s = s.replace(
-            "std::basic_istream< char, std::char_traits< char > >",
-            "std::istream")
+            "std::basic_istream< char, std::char_traits< char > >", "std::istream"
+        )
         s = s.replace(
-            "std::basic_ofstream< char, std::char_traits< char > >",
-            "std::ostream")
+            "std::basic_ofstream< char, std::char_traits< char > >", "std::ostream"
+        )
         s = s.replace(
-            "std::basic_ifstream< char, std::char_traits< char > >",
-            "std::istream")
+            "std::basic_ifstream< char, std::char_traits< char > >", "std::istream"
+        )
 
         # rename some types not renamed by gccxml (why ?)
         s = s.replace("itk::SerieUIDContainer", "std::vector< std::string >")
         s = s.replace("itk::FilenamesContainer", "std::vector< std::string >")
 
         if s.startswith("itk::") and not self.notWrappedRegExp.match(s):
-            self.warn(
-                4,
-                "ITK type not wrapped, or currently not known: %s" %
-                s,
-                w)
+            self.warn(4, "ITK type not wrapped, or currently not known: %s" % s, w)
 
         self.usedTypes.add(s)
         return s + end
@@ -401,8 +405,9 @@ class SwigInputGenerator(object):
     def load_idx(self, file_name):
         with open(file_name, "r") as f:
             for line in f:
-                (full_name, alias, module) = \
-                    re.findall(r'{(.*)} {(.*)} {(.*)}', line)[0]
+                (full_name, alias, module) = re.findall(r"{(.*)} {(.*)} {(.*)}", line)[
+                    0
+                ]
                 # workaround lack of :: prefix in idx files
                 # TODO: would it be better to remove the :: prefix in the output of
                 # pygccxml ?
@@ -420,10 +425,15 @@ class SwigInputGenerator(object):
 
                 self.aliases[full_name] = alias
                 # store the source of the def
-                if alias in self.typedefSource and file_name != self.typedefSource[alias]:
+                if (
+                    alias in self.typedefSource
+                    and file_name != self.typedefSource[alias]
+                ):
                     self.warn(
-                        7, "%s in %s is already defined in %s." %
-                        (alias, file_name, self.typedefSource[alias]))
+                        7,
+                        "%s in %s is already defined in %s."
+                        % (alias, file_name, self.typedefSource[alias]),
+                    )
                 else:
                     self.typedefSource[alias] = file_name
 
@@ -436,7 +446,7 @@ class SwigInputGenerator(object):
             lines = f.readlines()
         for line in lines:
             line_stripped = line.strip()
-            if line.startswith('%') or line.isspace():
+            if line.startswith("%") or line.isspace():
                 # exclude the lines which are starting with % - that's not the idx
                 # files
                 pass
@@ -455,9 +465,9 @@ class SwigInputGenerator(object):
         name = name.replace("short int", "short")
         name = name.replace("long int", "long")
         name = name.replace("long long int", "long long")
-    #  name = name.replace("unsigned int", "unsigned")
+        #  name = name.replace("unsigned int", "unsigned")
         # normalize spaces
-        name = " ".join(name.replace(',', ', ').split())
+        name = " ".join(name.replace(",", ", ").split())
         return name
 
     def generate_class(self, typedef, indent=0):
@@ -466,22 +476,34 @@ class SwigInputGenerator(object):
         decls = pygccxml.declarations
 
         if not typedef.name.startswith("stdcomplex"):
-            for member in getType(typedef).get_members(access=pygccxml.declarations.ACCESS_TYPES.PUBLIC):
-                if isinstance(member, decls.member_function_t) and member.name == 'New' and not typedef.name == 'itkLightObject':
-                    if typedef.name == 'itkPyCommand':
-                        self.outputFile.write(self.new_override_pycommand.format(class_name=typedef.name))
+            for member in getType(typedef).get_members(
+                access=pygccxml.declarations.ACCESS_TYPES.PUBLIC
+            ):
+                if (
+                    isinstance(member, decls.member_function_t)
+                    and member.name == "New"
+                    and not typedef.name == "itkLightObject"
+                ):
+                    if typedef.name == "itkPyCommand":
+                        self.outputFile.write(
+                            self.new_override_pycommand.format(class_name=typedef.name)
+                        )
                     else:
-                        self.outputFile.write(self.new_override.format(class_name=typedef.name))
+                        self.outputFile.write(
+                            self.new_override.format(class_name=typedef.name)
+                        )
                     self.outputFile.write("\n")
                     break
 
             super_classes = []
             for super_class in getType(typedef).bases:
                 super_classes.append(
-                    "%s %s" %
-                    (super_class.access,
-                     self.get_alias(
-                         super_class.related_class.decl_string)))
+                    "%s %s"
+                    % (
+                        super_class.access,
+                        self.get_alias(super_class.related_class.decl_string),
+                    )
+                )
             s = ""
             if super_classes:
                 s = " : " + ", ".join(super_classes)
@@ -502,10 +524,8 @@ class SwigInputGenerator(object):
                 for member in getType(typedef).get_members(access=access):
                     if isinstance(member, decls.typedef.typedef_t):
                         self.warn(
-                            51,
-                            "Member typedef are not supported: %s" %
-                            member.name,
-                            w)
+                            51, "Member typedef are not supported: %s" % member.name, w
+                        )
                     elif isinstance(member, decls.member_function_t):
                         self.generate_method(typedef, member, indent, w)
                     elif isinstance(member, decls.constructor_t):
@@ -519,45 +539,39 @@ class SwigInputGenerator(object):
                     elif isinstance(member, decls.variable_t):
                         self.warn(
                             52,
-                            "Member variables are not supported: %s" %
-                            member.name,
-                            w)
+                            "Member variables are not supported: %s" % member.name,
+                            w,
+                        )
                     elif isinstance(member, decls.class_declaration.class_t):
                         self.warn(
-                            53,
-                            "Member classes are not supported: %s" %
-                            member.name,
-                            w)
+                            53, "Member classes are not supported: %s" % member.name, w
+                        )
                     elif isinstance(
-                            member, decls.class_declaration.class_declaration_t):
+                        member, decls.class_declaration.class_declaration_t
+                    ):
                         self.warn(
-                            53,
-                            "Member classes are not supported: %s" %
-                            member.name,
-                            w)
+                            53, "Member classes are not supported: %s" % member.name, w
+                        )
                     elif isinstance(member, decls.casting_operator_t):
                         self.warn(
                             54,
-                            "Member casting operators are not supported: %s" %
-                            member.name,
-                            w)
+                            "Member casting operators are not supported: %s"
+                            % member.name,
+                            w,
+                        )
                     else:
-                        self.warn(
-                            50,
-                            "Unknown member type: %s" %
-                            repr(member),
-                            w)
+                        self.warn(50, "Unknown member type: %s" % repr(member), w)
 
             # finally, close the class
             self.outputFile.write("  " * indent)
             self.outputFile.write("};\n\n")
 
         elif typedef.name == "stdcomplexD":
-            self.outputFile.write(self.stdcomplex_headers["D"] + '\n')
+            self.outputFile.write(self.stdcomplex_headers["D"] + "\n")
         elif typedef.name == "stdcomplexF":
-            self.outputFile.write(self.stdcomplex_headers["F"] + '\n')
+            self.outputFile.write(self.stdcomplex_headers["F"] + "\n")
         else:
-            print('stdcomplex', typedef.name)
+            print("stdcomplex", typedef.name)
             # stdcomplex is too difficult to wrap in some cases. Only wrap the
             # constructor.
             self.outputFile.write("  " * indent)
@@ -587,45 +601,75 @@ class SwigInputGenerator(object):
         for typedef in typedefs:
             classType = getType(typedef)
             bases = [base.related_class.name for base in classType.recursive_bases]
-            isProcessObject = 'ProcessObject' in bases
-            short_name = classType.name.split('<')[0]
+            isProcessObject = "ProcessObject" in bases
+            short_name = classType.name.split("<")[0]
             if isProcessObject or short_name in self.forceSnakeCase:
                 processObjects.add(short_name)
         if len(processObjects) > 0:
             self.outputFile.write("\n\n#ifdef SWIGPYTHON\n")
-            self.outputFile.write('%pythoncode %{\n')
+            self.outputFile.write("%pythoncode %{\n")
             for processObject in processObjects:
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
-                self.outputFile.write('import itkHelpers\n')
-                self.outputFile.write('@itkHelpers.accept_numpy_array_like_xarray\n')
-                self.outputFile.write('def %s(*args, **kwargs):\n' % snakeCase)
-                self.outputFile.write('    """Procedural interface for %s"""\n' % processObject)
-                self.outputFile.write('    import itk\n')
-                self.outputFile.write('    instance = itk.%s.New(*args, **kwargs)\n' % processObject)
-                self.outputFile.write('    return instance.__internal_call__()\n\n')
-                self.outputFile.write('def %s_init_docstring():\n' % snakeCase)
-                self.outputFile.write('    import itk\n')
-                self.outputFile.write('    import itkTemplate\n')
-                self.outputFile.write('    import itkHelpers\n')
-                self.outputFile.write('    if isinstance(itk.%s, itkTemplate.itkTemplate):\n' % processObject)
-                self.outputFile.write('        filter_object = itk.%s.values()[0]\n' % (processObject))
-                self.outputFile.write('    else:\n')
-                self.outputFile.write('        filter_object = itk.%s\n\n' % (processObject))
-                self.outputFile.write('    %s.__doc__ = filter_object.__doc__\n' % (snakeCase))
-                self.outputFile.write('    %s.__doc__ += "\\n Args are Input(s) to the filter.\\n"\n' % (snakeCase))
-                self.outputFile.write('    %s.__doc__ += "\\n Available Keyword Arguments:\\n"\n' % (snakeCase))
-                self.outputFile.write('    if isinstance(itk.%s, itkTemplate.itkTemplate):\n' % processObject)
-                self.outputFile.write('        %s.__doc__ += itkHelpers.filter_args(filter_object)[0]\n' % (snakeCase))
+                self.outputFile.write("import itkHelpers\n")
+                self.outputFile.write("@itkHelpers.accept_numpy_array_like_xarray\n")
+                self.outputFile.write("def %s(*args, **kwargs):\n" % snakeCase)
+                self.outputFile.write(
+                    '    """Procedural interface for %s"""\n' % processObject
+                )
+                self.outputFile.write("    import itk\n")
+                self.outputFile.write(
+                    "    instance = itk.%s.New(*args, **kwargs)\n" % processObject
+                )
+                self.outputFile.write("    return instance.__internal_call__()\n\n")
+                self.outputFile.write("def %s_init_docstring():\n" % snakeCase)
+                self.outputFile.write("    import itk\n")
+                self.outputFile.write("    import itkTemplate\n")
+                self.outputFile.write("    import itkHelpers\n")
+                self.outputFile.write(
+                    "    if isinstance(itk.%s, itkTemplate.itkTemplate):\n"
+                    % processObject
+                )
+                self.outputFile.write(
+                    "        filter_object = itk.%s.values()[0]\n" % (processObject)
+                )
+                self.outputFile.write("    else:\n")
+                self.outputFile.write(
+                    "        filter_object = itk.%s\n\n" % (processObject)
+                )
+                self.outputFile.write(
+                    "    %s.__doc__ = filter_object.__doc__\n" % (snakeCase)
+                )
+                self.outputFile.write(
+                    '    %s.__doc__ += "\\n Args are Input(s) to the filter.\\n"\n'
+                    % (snakeCase)
+                )
+                self.outputFile.write(
+                    '    %s.__doc__ += "\\n Available Keyword Arguments:\\n"\n'
+                    % (snakeCase)
+                )
+                self.outputFile.write(
+                    "    if isinstance(itk.%s, itkTemplate.itkTemplate):\n"
+                    % processObject
+                )
+                self.outputFile.write(
+                    "        %s.__doc__ += itkHelpers.filter_args(filter_object)[0]\n"
+                    % (snakeCase)
+                )
                 self.outputFile.write('        %s.__doc__ += "\\n"\n' % (snakeCase))
-                self.outputFile.write('        %s.__doc__ += itkHelpers.filter_args(filter_object)[1]\n' % (snakeCase))
-                self.outputFile.write('    else:\n')
+                self.outputFile.write(
+                    "        %s.__doc__ += itkHelpers.filter_args(filter_object)[1]\n"
+                    % (snakeCase)
+                )
+                self.outputFile.write("    else:\n")
                 self.outputFile.write('        %s.__doc__ += "".join([\n' % (snakeCase))
-                self.outputFile.write('            "  " + itkHelpers.camel_to_snake_case(item[3:]) + "\\n"\n')
-                self.outputFile.write('            for item in dir(filter_object)\n')
+                self.outputFile.write(
+                    '            "  " + itkHelpers.camel_to_snake_case(item[3:]) + "\\n"\n'
+                )
+                self.outputFile.write("            for item in dir(filter_object)\n")
                 self.outputFile.write('            if item.startswith("Set")])\n')
 
-            self.outputFile.write('%}\n')
+            self.outputFile.write("%}\n")
             self.outputFile.write("#endif\n")
 
     def generate_constructor(self, typedef, constructor, indent, w):
@@ -633,7 +677,7 @@ class SwigInputGenerator(object):
         args = []
         for arg in constructor.arguments:
             s = "%s %s" % (self.get_alias(self.getDeclarationString(arg), w), arg.name)
-            if 'unknown' in s:
+            if "unknown" in s:
                 continue
             # append the default value if it exists
             if arg.default_value:
@@ -659,22 +703,30 @@ class SwigInputGenerator(object):
         self.outputFile.write("using namespace %s;\n" % ns)
         self.outputFile.write("%}\n")
         content = [" %s" % (key,) for key, value in enum.values]
-        self.outputFile.write("enum class %s: uint8_t { %s };\n\n" % (name, ", ".join(content)))
+        self.outputFile.write(
+            "enum class %s: uint8_t { %s };\n\n" % (name, ", ".join(content))
+        )
 
     def generate_nested_enum(self, typedef, enum, indent, w):
         content = [" %s" % (key,) for key, value in enum.values]
         self.outputFile.write("  " * indent)
-        self.outputFile.write("    enum class %s: uint8_t { %s };\n\n" % (enum.name, ", ".join(content)))
+        self.outputFile.write(
+            "    enum class %s: uint8_t { %s };\n\n" % (enum.name, ", ".join(content))
+        )
 
     def generate_method(self, typedef, method, indent, w):
-        self.info("Generating interface for method  '%s::%s'." %
-            (typedef.name, method.name))
+        self.info(
+            "Generating interface for method  '%s::%s'." % (typedef.name, method.name)
+        )
         # avoid the apply method for the class vnl_c_vector: the signature is
         # quite strange and currently confuse swig :-/
         if "(" in getType(method.return_type).decl_string:
             self.warn(
-                1, "ignoring method not supported by swig '%s::%s'." %
-                (typedef.name, method.name), w)
+                1,
+                "ignoring method not supported by swig '%s::%s'."
+                % (typedef.name, method.name),
+                w,
+            )
             return
 
         names = [
@@ -683,25 +735,32 @@ class SwigInputGenerator(object):
             "GetSpacingCallback",
             "GetOriginCallback",
             "Begin",
-            "End"]
+            "End",
+        ]
 
-        if ((typedef.name.startswith('vnl_') and method.name in ["as_ref"])
-                or (typedef.name.startswith('itk') and method.name in names)):
+        if (typedef.name.startswith("vnl_") and method.name in ["as_ref"]) or (
+            typedef.name.startswith("itk") and method.name in names
+        ):
             self.warn(
-                3, "ignoring black listed method '%s::%s'." %
-                (typedef.name, method.name), w)
+                3,
+                "ignoring black listed method '%s::%s'." % (typedef.name, method.name),
+                w,
+            )
             return
 
         # iterate over the arguments
         args = []
         for arg in method.arguments:
             s = "%s %s" % (self.get_alias(self.getDeclarationString(arg), w), arg.name)
-            if 'unknown' in s:
+            if "unknown" in s:
                 continue
             if "(" in s:
                 self.warn(
-                    1, "ignoring method not supported by swig '%s::%s'." %
-                    (typedef.name, method.name), w)
+                    1,
+                    "ignoring method not supported by swig '%s::%s'."
+                    % (typedef.name, method.name),
+                    w,
+                )
                 return
             # append the default value if it exists
             if arg.default_value:
@@ -723,27 +782,30 @@ class SwigInputGenerator(object):
 
         self.outputFile.write("  " * indent)
         self.outputFile.write(
-            "    %s%s %s(%s)%s;\n" %
-            (static,
-             self.get_alias(
-                 self.getDeclarationString(
-                     method.return_type),
-                 w),
+            "    %s%s %s(%s)%s;\n"
+            % (
+                static,
+                self.get_alias(self.getDeclarationString(method.return_type), w),
                 method.name,
                 ", ".join(args),
-                const))
+                const,
+            )
+        )
 
         # Check the method arguments for std::string passed by reference.
         # In this case, save the name of the argument in the applyFileNames list
         # for further usage.
         for arg in method.arguments:
             dtype = arg.decl_type
-            if pygccxml.declarations.is_reference(dtype) and \
-                pygccxml.declarations.is_const(
-                    pygccxml.declarations.remove_reference(dtype)) is False and \
-                    pygccxml.declarations.is_std_string(dtype):
-                    self.applyFileNames.append(arg.name)
-
+            if (
+                pygccxml.declarations.is_reference(dtype)
+                and pygccxml.declarations.is_const(
+                    pygccxml.declarations.remove_reference(dtype)
+                )
+                is False
+                and pygccxml.declarations.is_std_string(dtype)
+            ):
+                self.applyFileNames.append(arg.name)
 
     def generate_headerfile(self, idxFile, wrappersNamespace):
         # and begin to write the output
@@ -772,7 +834,7 @@ class SwigInputGenerator(object):
             # "SEXP",
             # "TCL",
             # "XML",
-            ]
+        ]
 
         # first, define the module
         # [1:-1] is there to drop the quotes
@@ -780,22 +842,25 @@ class SwigInputGenerator(object):
             headerFile.write("#ifdef SWIG%s\n" % lang)
             if lang == "PYTHON":
                 # Also, release the GIL
-                headerFile.write("%%module(package=\"itk\",threads=\"1\") %s%s\n" % (self.moduleName, lang.title()))
+                headerFile.write(
+                    '%%module(package="itk",threads="1") %s%s\n'
+                    % (self.moduleName, lang.title())
+                )
                 headerFile.write('%feature("nothreadallow");\n')
             else:
                 headerFile.write("%%module %s%s\n" % (self.moduleName, lang.title()))
             headerFile.write("#endif\n")
-        headerFile.write('\n')
+        headerFile.write("\n")
 
         # add the includes
         # use a set to avoid putting many times the same include
         s = set()
         headerFile.write("%{\n")
         # the include files passed in option
-        include = self.moduleName + 'SwigInterface.h'
+        include = self.moduleName + "SwigInterface.h"
         i = '#include "%s"' % include
         if i not in s:
-            headerFile.write(i + '\n')
+            headerFile.write(i + "\n")
             s.add(i)
         headerFile.write("%}\n\n\n")
 
@@ -814,8 +879,10 @@ class SwigInputGenerator(object):
                 s = s[2:]
             if s not in self.aliases:
                 self.warn(
-                    2, "%s (%s) should be already defined in the idx files." %
-                    (s, typedef.name))
+                    2,
+                    "%s (%s) should be already defined in the idx files."
+                    % (s, typedef.name),
+                )
                 self.aliases[s] = typedef.name
                 # declare the typedef
                 headerFile.write("typedef %s %s;\n" % (s, typedef.name))
@@ -833,7 +900,7 @@ class SwigInputGenerator(object):
 
         for src in usedSources:
             importFile.write("%%import %s.i\n" % src)
-        importFile.write('\n\n')
+        importFile.write("\n\n")
         return importFile
 
     def generate_includefile(self):
@@ -843,7 +910,7 @@ class SwigInputGenerator(object):
         for f in options.swig_includes:
             includeFile.write("%%include %s\n" % f)
         includeFile.write("%%include %s\n" % (self.moduleName + "_ext.i"))
-        includeFile.write('\n\n')
+        includeFile.write("\n\n")
         return includeFile
 
     def generate_applyfile(self):
@@ -857,7 +924,8 @@ class SwigInputGenerator(object):
         applyFile = StringIO()
         for name in applyFileNames:
             applyFile.write(
-                "%apply (std::string& INOUT) { std::string & " + name + "};\n")
+                "%apply (std::string& INOUT) { std::string & " + name + "};\n"
+            )
         applyFile.write("\n\n")
         return applyFile
 
@@ -866,15 +934,17 @@ class SwigInputGenerator(object):
         typedefFile = StringIO()
         typedefFile.write("#ifndef __%sSwigInterface_h\n" % self.moduleName)
         typedefFile.write("#define __%sSwigInterface_h\n" % self.moduleName)
-        typedefInput = os.path.join(options.library_output_dir,
-                                    self.moduleName + 'SwigInterface.h.in')
+        typedefInput = os.path.join(
+            options.library_output_dir, self.moduleName + "SwigInterface.h.in"
+        )
         with open(typedefInput, "r") as f:
-            typedefFile.write(f.read() + '\n')
+            typedefFile.write(f.read() + "\n")
         for src in usedSources:
             typedefFile.write('#include "%sSwigInterface.h"\n' % src)
         typedefFile.write("#endif\n")
-        typedefOutput = os.path.join(options.interface_output_dir,
-                                     self.moduleName + 'SwigInterface.h')
+        typedefOutput = os.path.join(
+            options.interface_output_dir, self.moduleName + "SwigInterface.h"
+        )
         with open(typedefOutput, "w") as f:
             f.write(typedefFile.getvalue())
 
@@ -888,22 +958,29 @@ class SwigInputGenerator(object):
         for typedef in wrappersNamespace.typedefs():
             # begin a new class
             if isinstance(
-                    getType(typedef),
-                    pygccxml.declarations.class_declaration.class_t):
+                getType(typedef), pygccxml.declarations.class_declaration.class_t
+            ):
 
-                classes.append((
-                    typedef.name,
-                    [self.get_alias(super_class.related_class.decl_string) for
-                        super_class in getType(typedef).bases], typedef))
+                classes.append(
+                    (
+                        typedef.name,
+                        [
+                            self.get_alias(super_class.related_class.decl_string)
+                            for super_class in getType(typedef).bases
+                        ],
+                        typedef,
+                    )
+                )
             elif isinstance(
-                    getType(typedef),
-                    pygccxml.declarations.enumeration.enumeration_t):
+                getType(typedef), pygccxml.declarations.enumeration.enumeration_t
+            ):
                 # warn( 6, "Enum are currently supported only nested in a
                 # class." )
                 self.generate_enum(typedef)
             else:
                 self.warn(
-                    5, "Unknown type type: %s" % str(typedef.decl_type.declaration))
+                    5, "Unknown type type: %s" % str(typedef.decl_type.declaration)
+                )
 
         # copy the classes in a new ordered list, according to the dependencies
         # classes is sorted to be sure to always get the same result everywhere
@@ -939,10 +1016,10 @@ class SwigInputGenerator(object):
         usedSources = set()
         for alias in self.usedTypes:
             if alias.rfind("Enums::") != -1:
-                alias = alias[:alias.rfind("Enums::")+5]
+                alias = alias[: alias.rfind("Enums::") + 5]
             if alias in self.typedefSource:
                 idxName = os.path.basename(self.typedefSource[alias])
-                iName = idxName[:-len(".idx")]
+                iName = idxName[: -len(".idx")]
                 usedSources.add(iName)
         outputFileName = os.path.basename(interfaceFile)
         if outputFileName in usedSources:
@@ -955,15 +1032,23 @@ class SwigInputGenerator(object):
         self.create_typedefheader(usedSources)
 
         # finally, really write the output
-        content = headerFile.getvalue() + importFile.getvalue() + \
-            includeFile.getvalue() + applyFile.getvalue() + self.outputFile.getvalue()
+        content = (
+            headerFile.getvalue()
+            + importFile.getvalue()
+            + includeFile.getvalue()
+            + applyFile.getvalue()
+            + self.outputFile.getvalue()
+        )
 
         if self.options.keep and os.path.exists(interfaceFile):
             with open(interfaceFile, "r") as f:
                 filecontent = f.read()
 
-        if self.options.keep and os.path.exists(interfaceFile) and \
-                filecontent == content:
+        if (
+            self.options.keep
+            and os.path.exists(interfaceFile)
+            and filecontent == content
+        ):
             self.info("%s unchanged." % interfaceFile)
         else:
             self.info("Writing %s." % interfaceFile)
@@ -971,7 +1056,7 @@ class SwigInputGenerator(object):
                 f.write(content)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     argParser = ArgumentParser()
     argParser.add_argument(
         "--mdx",
@@ -979,14 +1064,16 @@ if __name__ == '__main__':
         dest="mdx",
         default=[],
         metavar="FILE",
-        help="master idx file to be used.")
+        help="master idx file to be used.",
+    )
     argParser.add_argument(
         "--import",
         action="append",
         dest="imports",
         default=[],
         metavar="FILE",
-        help="File to be imported in the generated interface file.")
+        help="File to be imported in the generated interface file.",
+    )
     argParser.add_argument(
         "--swig-include",
         action="append",
@@ -994,8 +1081,9 @@ if __name__ == '__main__':
         default=[],
         metavar="FILE",
         help=(
-            "File to be included by swig (%include) in the generated "
-            "interface file."))
+            "File to be included by swig (%include) in the generated " "interface file."
+        ),
+    )
     argParser.add_argument(
         "-w",
         "--disable-warning",
@@ -1003,7 +1091,8 @@ if __name__ == '__main__':
         dest="warnings",
         default=[],
         metavar="WARNING",
-        help="Warning to be disabled.")
+        help="Warning to be disabled.",
+    )
     argParser.add_argument(
         "-A",
         "--disable-access-warning",
@@ -1012,97 +1101,105 @@ if __name__ == '__main__':
         default=[],
         metavar="LEVEL",
         help=(
-            "Access level where warnings are disabled "
-            "(public, protected, private)."))
+            "Access level where warnings are disabled " "(public, protected, private)."
+        ),
+    )
     argParser.add_argument(
         "-W",
         "--warning-error",
         action="store_true",
         dest="warningError",
-        help="Treat warnings as errors.")
+        help="Treat warnings as errors.",
+    )
     argParser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
         dest="verbose",
-        help="Log what is currently done.")
+        help="Log what is currently done.",
+    )
     argParser.add_argument(
         "-k",
         "--keep",
         action="store_true",
         dest="keep",
-        help="Don't rewrite the output file if the content is unchanged.")
+        help="Don't rewrite the output file if the content is unchanged.",
+    )
     argParser.add_argument(
         "-p",
         "--pygccxml-path",
         action="store",
         dest="pygccxml_path",
-        help="Path to pygccxml")
+        help="Path to pygccxml",
+    )
     argParser.add_argument(
         "-g",
         "--castxml-path",
         action="store",
         dest="castxml_path",
-        help="Path to castxml")
+        help="Path to castxml",
+    )
     argParser.add_argument(
         "-o",
         "--interface-output-dir",
         action="store",
         dest="interface_output_dir",
-        help="Directory to write the Swig input files")
+        help="Directory to write the Swig input files",
+    )
     argParser.add_argument(
         "-l",
         "--library-output-dir",
         action="store",
         dest="library_output_dir",
-        help="Directory to read the xml abstract syntax tree input files")
+        help="Directory to read the xml abstract syntax tree input files",
+    )
     argParser.add_argument(
         "-s",
         "--submodule-order",
         action="store",
         dest="submodule_order",
-        help="List of submodules that must be wrapped in the given order")
+        help="List of submodules that must be wrapped in the given order",
+    )
     options = argParser.parse_args()
 
     sys.path.insert(1, options.pygccxml_path)
     import pygccxml
     import logging
+
     # init the pygccxml stuff
     pygccxml.utils.loggers.cxx_parser.setLevel(logging.CRITICAL)
     pygccxml.declarations.scopedef_t.RECURSIVE_DEFAULT = False
     pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
 
     pygccxml_config = pygccxml.parser.config.xml_generator_configuration_t(
-        xml_generator_path=options.castxml_path,
-        xml_generator="castxml")
+        xml_generator_path=options.castxml_path, xml_generator="castxml"
+    )
 
     moduleNames = []
     # The first mdx file is the master index file for this module.
-    with open(options.mdx[0], 'r') as ff:
+    with open(options.mdx[0], "r") as ff:
         for line in ff.readlines():
             stripped = line.strip()
-            if line.startswith('%') or line.isspace():
+            if line.startswith("%") or line.isspace():
                 # exclude the lines which are starting with % - that's not the idx
                 # files
                 pass
             elif stripped.endswith(".mdx"):
                 pass
             else:
-                moduleName = stripped.rsplit('.')[0]
-                if moduleName.startswith('(const char*)'):
-                    moduleName = moduleName[len('(const char*)'):]
+                moduleName = stripped.rsplit(".")[0]
+                if moduleName.startswith("(const char*)"):
+                    moduleName = moduleName[len("(const char*)") :]
                 moduleName = moduleName.strip('"')
                 moduleNames.append(moduleName)
 
     def generate_wrapping_namespace(moduleName):
-        xmlFilePath = os.path.join(options.library_output_dir,
-                                   moduleName + '.xml')
-        pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(
-            pygccxml_config)
+        xmlFilePath = os.path.join(options.library_output_dir, moduleName + ".xml")
+        pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(pygccxml_config)
         abstractSyntaxTree = pygccxml_reader.read_xml_file(xmlFilePath)
         globalNamespace = pygccxml.declarations.get_global_namespace(abstractSyntaxTree)
-        wrappingNamespace = globalNamespace.namespace('_wrapping_')
-        return wrappingNamespace.namespace('wrappers')
+        wrappingNamespace = globalNamespace.namespace("_wrapping_")
+        return wrappingNamespace.namespace("wrappers")
 
     wrappingNamespaces = dict()
     # Limit the number of cached, parsed abstract syntax trees to avoid very
@@ -1119,39 +1216,47 @@ if __name__ == '__main__':
         else:
             wrappersNamespace = generate_wrapping_namespace(moduleName)
 
-        idxFilePath = os.path.join(options.interface_output_dir,
-                                   moduleName + '.idx')
+        idxFilePath = os.path.join(options.interface_output_dir, moduleName + ".idx")
         idx_generator = IdxGenerator(moduleName)
         idx_generator.create_idxfile(idxFilePath, wrappersNamespace)
 
     snake_case_process_object_functions = set()
+
     def generate_swig_input(moduleName):
         if moduleName in wrappingNamespaces:
             wrappersNamespace = wrappingNamespaces[moduleName]
         else:
             wrappersNamespace = generate_wrapping_namespace(moduleName)
 
-        idxFilePath = os.path.join(options.interface_output_dir,
-                                   moduleName + '.idx')
-        swigInputFilePath = os.path.join(options.interface_output_dir,
-                                   moduleName + '.i')
+        idxFilePath = os.path.join(options.interface_output_dir, moduleName + ".idx")
+        swigInputFilePath = os.path.join(
+            options.interface_output_dir, moduleName + ".i"
+        )
 
         swig_input_generator = SwigInputGenerator(moduleName, options)
-        swig_input_generator.create_interfacefile(swigInputFilePath, idxFilePath,
-                wrappersNamespace)
-        snake_case_process_object_functions.update(swig_input_generator.snakeCaseProcessObjectFunctions)
+        swig_input_generator.create_interfacefile(
+            swigInputFilePath, idxFilePath, wrappersNamespace
+        )
+        snake_case_process_object_functions.update(
+            swig_input_generator.snakeCaseProcessObjectFunctions
+        )
 
     if options.submodule_order:
-        for moduleName in options.submodule_order.split(';'):
+        for moduleName in options.submodule_order.split(";"):
             generate_swig_input(moduleName)
             moduleNames.remove(moduleName)
     for moduleName in moduleNames:
         generate_swig_input(moduleName)
 
-    config_file = os.path.join(options.library_output_dir, 'Generators',
-            'Python', 'Configuration', os.path.basename(options.mdx[0])[:-4] + 'Config.py')
-    with open(config_file, 'a') as ff:
-        ff.write('snake_case_functions = (')
+    config_file = os.path.join(
+        options.library_output_dir,
+        "Generators",
+        "Python",
+        "Configuration",
+        os.path.basename(options.mdx[0])[:-4] + "Config.py",
+    )
+    with open(config_file, "a") as ff:
+        ff.write("snake_case_functions = (")
         for function in snake_case_process_object_functions:
             ff.write("'" + function + "', ")
-        ff.write(')\n')
+        ff.write(")\n")
