@@ -475,6 +475,7 @@ class SwigInputGenerator(object):
 
         decls = pygccxml.declarations
 
+        s = ""  # Set default superclass name to an empty string
         if not typedef.name.startswith("stdcomplex"):
             for member in getType(typedef).get_members(
                 access=pygccxml.declarations.ACCESS_TYPES.PUBLIC
@@ -504,7 +505,6 @@ class SwigInputGenerator(object):
                         self.get_alias(super_class.related_class.decl_string),
                     )
                 )
-            s = ""
             if super_classes:
                 s = " : " + ", ".join(super_classes)
             self.outputFile.write("  " * indent)
