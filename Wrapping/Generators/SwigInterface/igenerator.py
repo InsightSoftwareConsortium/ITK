@@ -1146,6 +1146,13 @@ if __name__ == "__main__":
         dest="submodule_order",
         help="List of submodules that must be wrapped in the given order",
     )
+    argParser.add_argument(
+        "-a",
+        "--snake-case-file",
+        action="store",
+        dest="snake_case_file",
+        help="The configuration file to be appended to if snake_case_functions are found",
+    )
     options = argParser.parse_args()
 
     sys.path.insert(1, options.pygccxml_path)
@@ -1234,20 +1241,22 @@ if __name__ == "__main__":
     for moduleName in moduleNames:
         generate_swig_input(moduleName)
 
-    config_file = os.path.join(
-        options.library_output_dir,
-        "Generators",
-        "Python",
-        "Configuration",
-        os.path.basename(options.mdx[0])[:-4] + "Config.py",
-    )
-    with open(config_file, "a") as ff:
-        ff.write("snake_case_functions = (")
-        # Ensure that the functions are sorted alphabetically to ensure consistency
-        # in the generated file structure.
-        sorted_snake_case_process_object_functions = sorted(
-            snake_case_process_object_functions
+    snake_case_file = options.snake_case_file
+    main_config_file = snake_case_file.replace("_snake_case.py","Config.py")
+    if not os.path.exists(main_config_file):
+        print(
+            f"ERROR: required {main_config_file} file does not exist\n"
+            f"can not append to {snake_case_file}\n"
         )
-        for function in sorted_snake_case_process_object_functions:
-            ff.write("'" + function + "', ")
-        ff.write(")\n")
+        sys.exit(-1)
+    else:
+        with open(snake_case_file, "a") as ff:
+            ff.write("snake_case_functions = (")
+            # Ensure that the functions are sorted alphabetically to ensure consistency
+            # in the generated file structure.
+            sorted_snake_case_process_object_functions = sorted(
+                snake_case_process_object_functions
+            )
+            for function in sorted_snake_case_process_object_functions:
+                ff.write("'" + function + "', ")
+            ff.write(")\n")
