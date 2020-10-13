@@ -1257,6 +1257,11 @@ if __name__ == "__main__":
     )
     with open(config_file, "a") as ff:
         ff.write("snake_case_functions = (")
-        for function in snake_case_process_object_functions:
+        # Ensure that the functions are sorted alphabetically to ensure consistency
+        # in the generated file structure.
+        sorted_snake_case_process_object_functions = sorted(
+            snake_case_process_object_functions
+        )
+        for function in sorted_snake_case_process_object_functions:
             ff.write("'" + function + "', ")
         ff.write(")\n")
