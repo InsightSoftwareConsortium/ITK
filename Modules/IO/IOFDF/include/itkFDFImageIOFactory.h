@@ -30,7 +30,7 @@ namespace itk
 class IOFDF_EXPORT FDFImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FDFImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(FDFImageIOFactory);
 
   /** Standard class type alias. */
   using Self = FDFImageIOFactory;

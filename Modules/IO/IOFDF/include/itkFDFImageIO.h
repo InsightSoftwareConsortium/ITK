@@ -34,7 +34,7 @@ namespace itk
 class IOFDF_EXPORT FDFImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FDFImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(FDFImageIO);
 
   /** Standard class type alias. */
   using Self = FDFImageIO;
