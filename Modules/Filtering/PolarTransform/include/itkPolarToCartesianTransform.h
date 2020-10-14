@@ -56,7 +56,7 @@ template <typename TParametersValueType = double, // Data type for scalars (floa
 class ITK_TEMPLATE_EXPORT PolarToCartesianTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolarToCartesianTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(PolarToCartesianTransform);
 
   /** Standard class type alias. */
   using Self = PolarToCartesianTransform;
