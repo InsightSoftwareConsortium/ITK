@@ -1250,7 +1250,7 @@ if __name__ == "__main__":
         )
         sys.exit(-1)
     else:
-        with open(snake_case_file, "a") as ff:
+        with open(snake_case_file, "w") as ff:
             ff.write("snake_case_functions = (")
             # Ensure that the functions are sorted alphabetically to ensure consistency
             # in the generated file structure.
