@@ -37,7 +37,7 @@ class ITK_EXPORT LabelSelectionImageAdaptor
   : public ImageAdaptor<TImage, Accessor::LabelSelectionPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSelectionImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelSelectionImageAdaptor);
 
   /** Standard class type alias. */
   using Self = LabelSelectionImageAdaptor;

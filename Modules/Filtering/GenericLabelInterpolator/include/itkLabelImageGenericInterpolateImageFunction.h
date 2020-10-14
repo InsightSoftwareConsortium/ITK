@@ -41,7 +41,7 @@ template <typename TInputImage, template <typename, typename> class TInterpolato
 class ITK_EXPORT LabelImageGenericInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageGenericInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelImageGenericInterpolateImageFunction);
 
   /** Standard class type alias. */
   using Self = LabelImageGenericInterpolateImageFunction;
