@@ -111,7 +111,7 @@ template <typename TVectorFieldElementType,
 class ITK_TEMPLATE_EXPORT VectorFieldPCA : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorFieldPCA);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorFieldPCA);
 
   /** Standard class type alias. */
   using Self = VectorFieldPCA;
