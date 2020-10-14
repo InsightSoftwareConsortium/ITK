@@ -36,7 +36,7 @@ namespace itk
 class AnalyzeObjectLabelMap_EXPORT AnalyzeObjectLabelMapImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeObjectLabelMapImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(AnalyzeObjectLabelMapImageIOFactory);
   /** Standard class type alias. */
   using Self = AnalyzeObjectLabelMapImageIOFactory;
   using Superclass = ObjectFactoryBase;

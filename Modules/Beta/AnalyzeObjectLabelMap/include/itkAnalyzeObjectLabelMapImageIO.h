@@ -44,7 +44,7 @@ constexpr int NumberOfRunLengthElementsPerRead = 1;
 class AnalyzeObjectLabelMap_EXPORT AnalyzeObjectLabelMapImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeObjectLabelMapImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(AnalyzeObjectLabelMapImageIO);
 
   /** Standard class type alias. */
   using Self = AnalyzeObjectLabelMapImageIO;
