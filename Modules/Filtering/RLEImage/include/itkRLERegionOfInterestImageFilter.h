@@ -51,7 +51,7 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
                               RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionOfInterestImageFilter);
 
   /** Standard class type alias. */
   using Self = RegionOfInterestImageFilter;
@@ -142,7 +142,7 @@ class RegionOfInterestImageFilter<RLEImage<TPixelIn, VImageDimension, CounterTyp
                               RLEImage<TPixelOut, VImageDimension, CounterTypeOut>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionOfInterestImageFilter);
 
   /** Standard class type alias. */
   using Self = RegionOfInterestImageFilter;
@@ -245,7 +245,7 @@ class RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixe
   : public ImageToImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionOfInterestImageFilter);
 
   /** Standard class type alias. */
   using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;
@@ -331,7 +331,7 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
   : public ImageToImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Image<TPixel, VImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionOfInterestImageFilter);
 
   /** Standard class type alias. */
   using RLEImageType = RLEImage<TPixel, VImageDimension, CounterType>;

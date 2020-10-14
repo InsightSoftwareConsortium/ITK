@@ -52,7 +52,7 @@ template <typename TPixel, unsigned int VImageDimension = 3, typename CounterTyp
 class RLEImage : public itk::ImageBase<VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RLEImage);
+  ITK_DISALLOW_COPY_AND_MOVE(RLEImage);
 
   /** Standard class type alias */
   using Self = RLEImage;
