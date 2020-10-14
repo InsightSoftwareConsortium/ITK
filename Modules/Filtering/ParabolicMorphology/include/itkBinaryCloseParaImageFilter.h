@@ -70,7 +70,7 @@ class ITK_TEMPLATE_EXPORT BinaryCloseParaImageFilter : public ImageToImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryCloseParaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryCloseParaImageFilter);
 
   /** Standard class type alias. */
   using Self = BinaryCloseParaImageFilter;

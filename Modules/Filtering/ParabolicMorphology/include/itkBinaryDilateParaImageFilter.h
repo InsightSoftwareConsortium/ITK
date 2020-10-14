@@ -68,7 +68,7 @@ class ITK_TEMPLATE_EXPORT BinaryDilateParaImageFilter : public ImageToImageFilte
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryDilateParaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryDilateParaImageFilter);
 
   /** Standard class type alias. */
   using Self = BinaryDilateParaImageFilter;

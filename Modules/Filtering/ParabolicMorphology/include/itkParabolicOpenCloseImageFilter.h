@@ -53,7 +53,7 @@ template <typename TInputImage, bool DoOpen, typename TOutputImage = TInputImage
 class ITK_TEMPLATE_EXPORT ParabolicOpenCloseImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenCloseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ParabolicOpenCloseImageFilter);
 
   /** Standard class type alias. */
   using Self = ParabolicOpenCloseImageFilter;

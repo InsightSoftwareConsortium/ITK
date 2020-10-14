@@ -72,7 +72,7 @@ class ITK_TEMPLATE_EXPORT MorphologicalSignedDistanceTransformImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalSignedDistanceTransformImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphologicalSignedDistanceTransformImageFilter);
 
   /** Standard class type alias. */
   using Self = MorphologicalSignedDistanceTransformImageFilter;

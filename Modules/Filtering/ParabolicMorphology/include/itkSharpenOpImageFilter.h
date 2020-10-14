@@ -96,7 +96,7 @@ class ITK_TEMPLATE_EXPORT SharpenOpImageFilter
                                                       typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SharpenOpImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SharpenOpImageFilter);
 
   /** Standard class type alias. */
   using Self = SharpenOpImageFilter;

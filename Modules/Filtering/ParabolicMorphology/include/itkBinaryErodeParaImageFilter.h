@@ -69,7 +69,7 @@ class ITK_TEMPLATE_EXPORT BinaryErodeParaImageFilter : public ImageToImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeParaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryErodeParaImageFilter);
 
   /** Standard class type alias. */
   using Self = BinaryErodeParaImageFilter;

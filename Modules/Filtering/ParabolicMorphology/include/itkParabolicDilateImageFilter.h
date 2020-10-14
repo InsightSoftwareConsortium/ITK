@@ -50,7 +50,7 @@ class ITK_TEMPLATE_EXPORT ParabolicDilateImageFilter
   : public ParabolicErodeDilateImageFilter<TInputImage, true, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ParabolicDilateImageFilter);
 
   /** Standard class type alias. */
   using Self = ParabolicDilateImageFilter;

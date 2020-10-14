@@ -93,7 +93,7 @@ class ITK_TEMPLATE_EXPORT MorphSDTHelperImageFilter
                                                               typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphSDTHelperImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphSDTHelperImageFilter);
 
   /** Standard class type alias. */
   using Self = MorphSDTHelperImageFilter;

@@ -72,7 +72,7 @@ class ITK_TEMPLATE_EXPORT GreaterEqualValImageFilter
                                    Functor::GEConst<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GreaterEqualValImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GreaterEqualValImageFilter);
 
   /** Standard class type alias. */
   using Self = GreaterEqualValImageFilter;

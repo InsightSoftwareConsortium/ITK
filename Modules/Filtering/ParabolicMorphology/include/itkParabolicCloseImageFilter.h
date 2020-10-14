@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT ParabolicCloseImageFilter
   : public ParabolicOpenCloseSafeBorderImageFilter<TInputImage, false, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicCloseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ParabolicCloseImageFilter);
 
   /** Standard class type alias. */
   using Self = ParabolicCloseImageFilter;
