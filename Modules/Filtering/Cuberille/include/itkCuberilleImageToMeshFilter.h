@@ -117,7 +117,7 @@ template <typename TInputImage,
 class CuberilleImageToMeshFilter : public ImageToMeshFilter<TInputImage, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CuberilleImageToMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CuberilleImageToMeshFilter);
 
   /** Standard "Self" type alias. */
   using Self = CuberilleImageToMeshFilter;
