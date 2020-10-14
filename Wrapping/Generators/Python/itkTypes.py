@@ -17,12 +17,7 @@
 # ==========================================================================*/
 
 import os
-
-HAVE_NUMPY = True
-try:
-    import numpy as np
-except ImportError:
-    HAVE_NUMPY = False
+import numpy as np
 
 
 class itkCType:
@@ -74,38 +69,22 @@ class itkCType:
     GetCTypeForDType = staticmethod(GetCTypeForDType)
 
 
-if HAVE_NUMPY:
-    F = itkCType("float", "F", np.float32)
-    D = itkCType("double", "D", np.float64)
-    UC = itkCType("unsigned char", "UC", np.uint8)
-    US = itkCType("unsigned short", "US", np.uint16)
-    UI = itkCType("unsigned int", "UI", np.uint32)
-    if os.name == "nt":
-        UL = itkCType("unsigned long", "UL", np.uint32)
-        SL = itkCType("signed long", "SL", np.int32)
-        LD = itkCType("long double", "LD")
-    else:
-        UL = itkCType("unsigned long", "UL", np.uint64)
-        SL = itkCType("signed long", "SL", np.int64)
-        LD = itkCType("long double", "LD", np.float128)
-    ULL = itkCType("unsigned long long", "ULL", np.uint64)
-    SC = itkCType("signed char", "SC", np.int8)
-    SS = itkCType("signed short", "SS", np.int16)
-    SI = itkCType("signed int", "SI", np.int32)
-    SLL = itkCType("signed long long", "SLL", np.int64)
-    B = itkCType("bool", "B", np.bool)
-else:
-    F = itkCType("float", "F")
-    D = itkCType("double", "D")
+F = itkCType("float", "F", np.float32)
+D = itkCType("double", "D", np.float64)
+UC = itkCType("unsigned char", "UC", np.uint8)
+US = itkCType("unsigned short", "US", np.uint16)
+UI = itkCType("unsigned int", "UI", np.uint32)
+if os.name == "nt":
+    UL = itkCType("unsigned long", "UL", np.uint32)
+    SL = itkCType("signed long", "SL", np.int32)
     LD = itkCType("long double", "LD")
-    UC = itkCType("unsigned char", "UC")
-    US = itkCType("unsigned short", "US")
-    UI = itkCType("unsigned int", "UI")
-    UL = itkCType("unsigned long", "UL")
-    ULL = itkCType("unsigned long long", "ULL")
-    SC = itkCType("signed char", "SC")
-    SS = itkCType("signed short", "SS")
-    SI = itkCType("signed int", "SI")
-    SL = itkCType("signed long", "SL")
-    SLL = itkCType("signed long long", "SLL")
-    B = itkCType("bool", "B")
+else:
+    UL = itkCType("unsigned long", "UL", np.uint64)
+    SL = itkCType("signed long", "SL", np.int64)
+    LD = itkCType("long double", "LD", np.float128)
+ULL = itkCType("unsigned long long", "ULL", np.uint64)
+SC = itkCType("signed char", "SC", np.int8)
+SS = itkCType("signed short", "SS", np.int16)
+SI = itkCType("signed int", "SI", np.int32)
+SLL = itkCType("signed long long", "SLL", np.int64)
+B = itkCType("bool", "B", np.bool)

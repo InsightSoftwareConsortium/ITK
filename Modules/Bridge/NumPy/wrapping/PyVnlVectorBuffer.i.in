@@ -4,9 +4,6 @@
     def GetArrayViewFromVnlVector(vnl_vector):
         """Get a NumPy array view of a VNL vector."""
 
-        if not HAVE_NUMPY:
-            raise ImportError('Numpy not available.')
-
         itksize = vnl_vector.size()
         shape   = [itksize]
 
@@ -41,9 +38,6 @@
         there is no VNL vector constructor that allows sharing data.
         """
 
-        if not HAVE_NUMPY:
-            raise ImportError('Numpy not available.')
-
         assert ndarr.ndim == 1 , \
             "Only arrays of 1 dimension are supported."
 
@@ -56,9 +50,6 @@
 
     def GetArrayViewFromVnlMatrix(vnl_matrix):
         """Get a NumPy array view of a VNL matrix."""
-
-        if not HAVE_NUMPY:
-            raise ImportError('Numpy not available.')
 
         cols = vnl_matrix.columns()
         rows = vnl_matrix.rows()
@@ -97,9 +88,6 @@
         side effects. It is not possible to have a view of a numpy array in a VNL matrix since there is no
         VNL matrix constructor that allows sharing data.
         """
-
-        if not HAVE_NUMPY:
-            raise ImportError('Numpy not available.')
 
         assert ndarr.ndim == 2 , \
             "Only arrays of 2 dimensions are supported."

@@ -20,6 +20,8 @@ import re
 from typing import Dict, Any
 from sys import stderr as system_error_stream
 
+import numpy
+
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
 # See http://www.termsys.demon.co.uk/vtansi.htm
@@ -221,18 +223,9 @@ def region(image_or_filter):
     return img.GetLargestPossibleRegion()
 
 
-HAVE_NUMPY = True
-try:
-    import numpy
-except ImportError:
-    HAVE_NUMPY = False
-
-
 def _get_itk_pixelid(numpy_array_type):
     """Returns a ITK PixelID given a numpy array."""
 
-    if not HAVE_NUMPY:
-        raise ImportError("Numpy not available.")
     import itk
 
     # This is a Mapping from numpy array types to itk pixel types.
@@ -262,9 +255,6 @@ def _get_itk_pixelid(numpy_array_type):
 def _GetArrayFromImage(image_or_filter, function, keep_axes, update):
     """Get an Array with the content of the image buffer
     """
-    # Check for numpy
-    if not HAVE_NUMPY:
-        raise ImportError("Numpy not available.")
     # Finds the image type
     import itk
 
@@ -300,8 +290,6 @@ array_view_from_image = GetArrayViewFromImage
 def _GetImageFromArray(arr, function, is_vector):
     """Get an ITK image from a Python array.
     """
-    if not HAVE_NUMPY:
-        raise ImportError("Numpy not available.")
     import itk
 
     PixelType = _get_itk_pixelid(arr)
@@ -345,9 +333,6 @@ image_view_from_array = GetImageViewFromArray
 def _GetArrayFromVnlObject(vnl_object, function):
     """Get an array with the content of vnl_object
     """
-    # Check for numpy
-    if not HAVE_NUMPY:
-        raise ImportError("Numpy not available.")
     # Finds the vnl object type
     import itk
 
@@ -396,8 +381,6 @@ array_from_vnl_matrix = GetArrayFromVnlMatrix
 def _GetVnlObjectFromArray(arr, function):
     """Get a vnl object from a Python array.
     """
-    if not HAVE_NUMPY:
-        raise ImportError("Numpy not available.")
     import itk
 
     PixelType = _get_itk_pixelid(arr)
