@@ -59,7 +59,7 @@ class ITK_TEMPLATE_EXPORT FixedPointInverseDisplacementFieldImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FixedPointInverseDisplacementFieldImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FixedPointInverseDisplacementFieldImageFilter);
 
   /** Standard class type alias. */
   using Self = FixedPointInverseDisplacementFieldImageFilter;
