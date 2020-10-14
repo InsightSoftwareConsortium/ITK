@@ -68,7 +68,7 @@ class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImag
   friend class MorphologicalContourInterpolatorParallelInvoker;
 
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalContourInterpolator);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphologicalContourInterpolator);
 
   /** Standard class type alias. */
   using Self = MorphologicalContourInterpolator;
