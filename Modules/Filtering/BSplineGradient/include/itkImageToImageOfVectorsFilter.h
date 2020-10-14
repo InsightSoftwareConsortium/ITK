@@ -55,7 +55,7 @@ class ITK_TEMPLATE_EXPORT ImageToImageOfVectorsFilter
       Image<Vector<typename TInputImage::InternalPixelType, NComponents>, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageOfVectorsFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToImageOfVectorsFilter);
 
   using Superclass = ImageToImageFilter<
     TInputImage,

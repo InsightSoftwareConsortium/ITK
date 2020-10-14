@@ -56,7 +56,7 @@ class BSplineScatteredDataPointSetToGradientImageFilter
       Image<CovariantVector<TOutputValueType, TInputPointSet::PointDimension>, TInputPointSet::PointDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineScatteredDataPointSetToGradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineScatteredDataPointSetToGradientImageFilter);
 
   /** Extract dimension from input image. */
   itkStaticConstMacro(PointSetDimension, unsigned int, TInputPointSet::PointDimension);

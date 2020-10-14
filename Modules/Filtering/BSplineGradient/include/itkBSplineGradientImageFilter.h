@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT BSplineGradientImageFilter
       Image<CovariantVector<TOutputValueType, TInputImage::ImageDimension>, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineGradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineGradientImageFilter);
 
   /** Extract dimension from input image. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
