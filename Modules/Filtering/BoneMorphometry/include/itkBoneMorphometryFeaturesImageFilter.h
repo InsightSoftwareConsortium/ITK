@@ -66,7 +66,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoneMorphometryFeaturesImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BoneMorphometryFeaturesImageFilter);
 
   /** Standard Self type alias. */
   using Self = BoneMorphometryFeaturesImageFilter;
