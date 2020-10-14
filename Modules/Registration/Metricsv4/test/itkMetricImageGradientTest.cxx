@@ -69,7 +69,7 @@ class VanilaImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TImageToImageMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanilaImageToImageMetricv4GetValueAndDerivativeThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(VanilaImageToImageMetricv4GetValueAndDerivativeThreader);
 
   /** Standard class type aliases. */
   using Self = VanilaImageToImageMetricv4GetValueAndDerivativeThreader;
@@ -131,7 +131,7 @@ template <typename TFixedImage, typename TMovingImage, typename TVirtualImage = 
 class VanillaImageToImageMetricv4 : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanillaImageToImageMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(VanillaImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = VanillaImageToImageMetricv4;

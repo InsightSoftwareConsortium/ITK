@@ -24,7 +24,7 @@ template <typename TFixedObject, typename TMovingObject>
 class GradientDescentOptimizerBasev4TestMetric : public itk::ObjectToObjectMetricBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientDescentOptimizerBasev4TestMetric);
 
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizerBasev4TestMetric;
@@ -116,7 +116,7 @@ private:
 class GradientDescentOptimizerBasev4TestOptimizer : public itk::GradientDescentOptimizerBasev4
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientDescentOptimizerBasev4TestOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = GradientDescentOptimizerBasev4TestOptimizer;

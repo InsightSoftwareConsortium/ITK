@@ -24,7 +24,7 @@ template <typename TInput, typename TOutput>
 class FastMarchingBaseTestHelper : public FastMarchingBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingBaseTestHelper);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingBaseTestHelper);
 
   using Self = FastMarchingBaseTestHelper;
   using Superclass = FastMarchingBase<TInput, TOutput>;

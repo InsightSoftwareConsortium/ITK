@@ -46,7 +46,7 @@ private:
   static std::size_t m_Count;
 
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectCounter);
+  ITK_DISALLOW_COPY_AND_MOVE(ObjectCounter);
 
   ObjectCounter() ITK_NOEXCEPT { ++m_Count; }
 

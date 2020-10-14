@@ -24,7 +24,7 @@
 class OptimizerParameterScalesEstimatorTest : public itk::OptimizerParameterScalesEstimator
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OptimizerParameterScalesEstimatorTest);
+  ITK_DISALLOW_COPY_AND_MOVE(OptimizerParameterScalesEstimatorTest);
 
   /** Standard class type aliases. */
   using Self = OptimizerParameterScalesEstimatorTest;

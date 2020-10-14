@@ -30,7 +30,7 @@ class TestImageFunction
   : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(TestImageFunction);
 
   /** Standard class type aliases. */
   using Self = TestImageFunction;

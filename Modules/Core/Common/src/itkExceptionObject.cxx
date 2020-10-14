@@ -31,7 +31,7 @@ namespace itk
 class ExceptionObject::ExceptionData : public ReferenceCounterInterface
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExceptionData);
+  ITK_DISALLOW_COPY_AND_MOVE(ExceptionData);
 
 protected:
   // Constructor. Might throw an exception.
@@ -79,7 +79,7 @@ class ExceptionObject::ReferenceCountedExceptionData
   , public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
+  ITK_DISALLOW_COPY_AND_MOVE(ReferenceCountedExceptionData);
 
   using Self = ReferenceCountedExceptionData;
   using ConstPointer = SmartPointer<const Self>;

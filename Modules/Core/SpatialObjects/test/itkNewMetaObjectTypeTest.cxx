@@ -89,7 +89,7 @@ template <unsigned int TDimension = 3>
 class DummySpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DummySpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(DummySpatialObject);
 
   using Self = DummySpatialObject;
   using Superclass = SpatialObject<TDimension>;
@@ -134,7 +134,7 @@ template <unsigned int NDimensions = 3>
 class MetaDummyConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDummyConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaDummyConverter);
 
   /** Standard class type aliases */
   using Self = MetaDummyConverter;
