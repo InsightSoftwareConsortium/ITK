@@ -128,7 +128,7 @@ template <typename TMetric>
 class RegistrationParameterScalesEstimatorTest : public itk::RegistrationParameterScalesEstimator<TMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimatorTest);
+  ITK_DISALLOW_COPY_AND_MOVE(RegistrationParameterScalesEstimatorTest);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesEstimatorTest;

@@ -63,7 +63,7 @@ template <typename TImage>
 class CompositeExampleImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CompositeExampleImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CompositeExampleImageFilter);
 
   //  Software Guide : EndCodeSnippet
 

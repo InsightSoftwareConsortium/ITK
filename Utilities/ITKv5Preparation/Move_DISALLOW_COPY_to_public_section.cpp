@@ -2,7 +2,7 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.*/
 
-/* Script to move ITK_DISALLOW_COPY_AND_ASSIGN calls to the public section
+/* Script to move ITK_DISALLOW_COPY_AND_MOVE calls to the public section
  * of the classes.
  *
  * Initial version by Niels Dekker, LKEB, Leiden University Medical Center, 2018
@@ -167,7 +167,8 @@ namespace
           }
           else
           {
-            if (StringStartsWithPrefix(c_str, "ITK_DISALLOW_COPY_AND_ASSIGN("))
+            if (StringStartsWithPrefix(c_str, "ITK_DISALLOW_COPY_AND_MOVE(")
+                || StringStartsWithPrefix(c_str, "ITK_DISALLOW_COPY_AND_ASSIGN("))
             {
               ++statistics.numberOfDisallowMacroCalls;
 

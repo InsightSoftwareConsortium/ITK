@@ -43,7 +43,7 @@ template <class TOutputImage>
 class DemoImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DemoImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(DemoImageSource);
 
   /** Standard class type aliases. */
   using Self = DemoImageSource;

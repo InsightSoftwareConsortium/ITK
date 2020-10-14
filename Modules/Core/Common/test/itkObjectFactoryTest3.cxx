@@ -34,7 +34,7 @@ protected:
 class TestFactory3 : public itk::ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestFactory3);
+  ITK_DISALLOW_COPY_AND_MOVE(TestFactory3);
 
   using Self = TestFactory3;
   using Superclass = itk::ObjectFactoryBase;

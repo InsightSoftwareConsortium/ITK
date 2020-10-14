@@ -2199,6 +2199,7 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITK_OVERRIDE= override " \
                          "ITK_NULLPTR=  nullptr " \
                          "ITK_NOEXCEPT= noexcept " \
+                         "ITK_DISALLOW_COPY_AND_MOVE(type)=" \
                          "ITK_DISALLOW_COPY_AND_ASSIGN(type)=" \
                          "ITK_FORCE_EXPORT_MACRO(X)="
 

@@ -31,7 +31,7 @@ template <typename TSample>
 class SubsamplerTester : public SampleToSubsampleFilter<TSample>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SubsamplerTester);
+  ITK_DISALLOW_COPY_AND_MOVE(SubsamplerTester);
 
   /** Standard class type aliases. */
   using Self = SubsamplerTester;

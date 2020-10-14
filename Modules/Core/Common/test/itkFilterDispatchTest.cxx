@@ -48,7 +48,7 @@ template <typename TInputImage, typename TOutputImage>
 class ExampleImageFilter : public itk::ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExampleImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExampleImageFilter);
 
   /**
    * Standard "Self" type alias.

@@ -155,7 +155,7 @@ private:
 class MorphFilter : public ::itk::ParallelSparseFieldLevelSetImageFilter<::itk::Image<float, 3>, ::itk::Image<float, 3>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphFilter);
 
   using Self = MorphFilter;
 

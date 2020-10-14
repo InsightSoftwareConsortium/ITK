@@ -27,7 +27,7 @@ template <typename TInputMesh, typename TOutputMesh, typename TTransform>
 class MeshSourceGraftOutputFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshSourceGraftOutputFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MeshSourceGraftOutputFilter);
 
   /** Standard class type aliases. */
   using Self = MeshSourceGraftOutputFilter;

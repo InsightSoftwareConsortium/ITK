@@ -26,7 +26,7 @@ template <typename TElementIdentifier, typename TElement>
 class TestImportImageContainer : public itk::ImportImageContainer<TElementIdentifier, TElement>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestImportImageContainer);
+  ITK_DISALLOW_COPY_AND_MOVE(TestImportImageContainer);
 
   /** Standard class type aliases.   */
   using Self = TestImportImageContainer;
@@ -137,7 +137,7 @@ private:
 class ImportImageContainerFactory : public itk::ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainerFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(ImportImageContainerFactory);
 
   using Self = ImportImageContainerFactory;
   using Superclass = itk::ObjectFactoryBase;

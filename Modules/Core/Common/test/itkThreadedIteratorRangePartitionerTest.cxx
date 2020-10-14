@@ -31,7 +31,7 @@ public:
   class TestDomainThreader : public itk::DomainThreader<ThreadedPartitionerType, Self>
   {
   public:
-    ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
+    ITK_DISALLOW_COPY_AND_MOVE(TestDomainThreader);
 
     using Self = TestDomainThreader;
     using Superclass = itk::DomainThreader<ThreadedPartitionerType, Self>;

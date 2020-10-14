@@ -28,7 +28,7 @@ class ScalarChanAndVeseLevelSetFunctionTestHelper
   : public ScalarChanAndVeseLevelSetFunction<TInput, TFeature, TSharedData>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionTestHelper);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarChanAndVeseLevelSetFunctionTestHelper);
 
   /** Standard class type aliases. */
   using Self = ScalarChanAndVeseLevelSetFunctionTestHelper;
