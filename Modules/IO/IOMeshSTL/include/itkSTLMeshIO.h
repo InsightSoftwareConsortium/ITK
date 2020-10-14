@@ -38,7 +38,7 @@ namespace itk
 class IOMeshSTL_EXPORT STLMeshIO : public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(STLMeshIO);
+  ITK_DISALLOW_COPY_AND_MOVE(STLMeshIO);
 
   /** Standard "Self" type alias. */
   using Self = STLMeshIO;

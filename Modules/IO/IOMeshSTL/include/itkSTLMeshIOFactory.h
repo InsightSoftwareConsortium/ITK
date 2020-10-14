@@ -33,7 +33,7 @@ namespace itk
 class IOMeshSTL_EXPORT STLMeshIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(STLMeshIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(STLMeshIOFactory);
 
   /** Standard class type alias. */
   using Self = STLMeshIOFactory;
