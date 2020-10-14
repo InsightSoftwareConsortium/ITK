@@ -33,7 +33,7 @@ namespace itk
 class MGHIO_EXPORT MGHImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MGHImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(MGHImageIOFactory);
 
   /** Standard class type alias */
   using Self = MGHImageIOFactory;
