@@ -49,7 +49,7 @@ template <typename TInputImage, typename TOutputImage>
 class HigherOrderAccurateDerivativeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HigherOrderAccurateDerivativeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HigherOrderAccurateDerivativeImageFilter);
 
   /** Standard class type alias. */
   using Self = HigherOrderAccurateDerivativeImageFilter;
