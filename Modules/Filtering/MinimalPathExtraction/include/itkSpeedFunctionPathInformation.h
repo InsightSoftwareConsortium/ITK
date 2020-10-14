@@ -53,7 +53,7 @@ template <typename TPoint>
 class ITK_TEMPLATE_EXPORT SpeedFunctionPathInformation : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpeedFunctionPathInformation);
+  ITK_DISALLOW_COPY_AND_MOVE(SpeedFunctionPathInformation);
 
   /** Standard class type alias. */
   using Self = SpeedFunctionPathInformation;

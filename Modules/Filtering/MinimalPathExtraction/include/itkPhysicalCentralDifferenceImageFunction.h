@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT PhysicalCentralDifferenceImageFunction
   : public ImageFunction<TInputImage, CovariantVector<double, TInputImage::ImageDimension>, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalCentralDifferenceImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(PhysicalCentralDifferenceImageFunction);
 
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

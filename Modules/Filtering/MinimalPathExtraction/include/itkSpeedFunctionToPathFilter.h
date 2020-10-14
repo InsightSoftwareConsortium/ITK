@@ -69,7 +69,7 @@ template <typename TInputImage, typename TOutputPath = PolyLineParametricPath<TI
 class ITK_TEMPLATE_EXPORT SpeedFunctionToPathFilter : public ArrivalFunctionToPathFilter<TInputImage, TOutputPath>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpeedFunctionToPathFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SpeedFunctionToPathFilter);
 
   /** Standard class type alias. */
   using Self = SpeedFunctionToPathFilter;

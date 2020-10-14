@@ -41,7 +41,7 @@ namespace itk
 class MinimalPathExtraction_EXPORT IterateNeighborhoodOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IterateNeighborhoodOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(IterateNeighborhoodOptimizer);
 
   /** Standard class type alias. */
   using Self = IterateNeighborhoodOptimizer;

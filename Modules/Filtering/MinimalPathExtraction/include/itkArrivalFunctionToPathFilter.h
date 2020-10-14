@@ -43,7 +43,7 @@ template <typename TFilter>
 class ITK_TEMPLATE_EXPORT ArrivalFunctionToPathCommand : public itk::Command
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathCommand);
+  ITK_DISALLOW_COPY_AND_MOVE(ArrivalFunctionToPathCommand);
 
   /** Standard class type alias. */
   using Self = ArrivalFunctionToPathCommand;
@@ -145,7 +145,7 @@ template <typename TInputImage, typename TOutputPath = PolyLineParametricPath<TI
 class ITK_TEMPLATE_EXPORT ArrivalFunctionToPathFilter : public ImageToPathFilter<TInputImage, TOutputPath>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ArrivalFunctionToPathFilter);
 
   /** Standard class type alias. */
   using Self = ArrivalFunctionToPathFilter;
