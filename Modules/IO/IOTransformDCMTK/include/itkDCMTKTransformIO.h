@@ -37,7 +37,7 @@ template <typename TInternalComputationValueType>
 class DCMTKTransformIO : public TransformIOBaseTemplate<TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKTransformIO);
+  ITK_DISALLOW_COPY_AND_MOVE(DCMTKTransformIO);
 
   using Self = DCMTKTransformIO;
   using Superclass = TransformIOBaseTemplate<TInternalComputationValueType>;

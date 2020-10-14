@@ -35,7 +35,7 @@ namespace itk
 class IOTransformDCMTK_EXPORT DCMTKTransformIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKTransformIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(DCMTKTransformIOFactory);
 
   /** Standard class type alias. */
   using Self = DCMTKTransformIOFactory;
