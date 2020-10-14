@@ -31,7 +31,7 @@ template <typename TOutputImage>
 class ButterworthFilterFreqImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ButterworthFilterFreqImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(ButterworthFilterFreqImageSource);
 
   /** Standard class type alias. */
   using Self = ButterworthFilterFreqImageSource;

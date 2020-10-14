@@ -41,7 +41,7 @@ template <typename TOutputImage>
 class SinusoidImageSource : public ParametricImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SinusoidImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(SinusoidImageSource);
 
   /** Standard class type alias. */
   using Self = SinusoidImageSource;

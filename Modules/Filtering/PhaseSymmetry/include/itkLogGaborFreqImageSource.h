@@ -31,7 +31,7 @@ template <typename TOutputImage>
 class LogGaborFreqImageSource : public GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LogGaborFreqImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(LogGaborFreqImageSource);
 
   /** Standard class type alias. */
   using Self = LogGaborFreqImageSource;

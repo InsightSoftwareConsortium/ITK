@@ -47,7 +47,7 @@ template <typename TOutput = double,
 class SinusoidSpatialFunction : public SpatialFunction<TOutput, VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SinusoidSpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SinusoidSpatialFunction);
 
   /** Standard class type alias. */
   using Self = SinusoidSpatialFunction;

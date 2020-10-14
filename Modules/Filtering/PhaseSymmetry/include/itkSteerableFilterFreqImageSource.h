@@ -34,7 +34,7 @@ template <typename TOutputImage>
 class SteerableFilterFreqImageSource : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SteerableFilterFreqImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(SteerableFilterFreqImageSource);
 
   /** Standard class type alias. */
   using Self = SteerableFilterFreqImageSource;
