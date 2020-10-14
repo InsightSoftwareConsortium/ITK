@@ -1,24 +1,19 @@
 %pythoncode %{
 
-HAVE_NUMPY = True
+import numpy as np
+class NDArrayITKBase(np.ndarray):
+  """A numpy array that provides a view on the data associated with an optional itk "base" object."""
+
+  def __new__(cls, input_array, itk_base=None):
+      obj = np.asarray(input_array).view(cls)
+      obj.itk_base = itk_base
+      return obj
+
+  def __array_finalize__(self, obj):
+      if obj is None: return
+      self.itk_base = getattr(obj, 'itk_base', None)
+
 try:
-  import numpy as np
-  class NDArrayITKBase(np.ndarray):
-      """A numpy array that provides a view on the data associated with an optional itk "base" object."""
-
-      def __new__(cls, input_array, itk_base=None):
-          obj = np.asarray(input_array).view(cls)
-          obj.itk_base = itk_base
-          return obj
-
-      def __array_finalize__(self, obj):
-          if obj is None: return
-          self.itk_base = getattr(obj, 'itk_base', None)
-
-except ImportError:
-  HAVE_NUMPY = False
-try:
-    import numpy as np
     from distributed.protocol import dask_serialize, dask_deserialize
     from typing import Dict, List, Tuple
 except ImportError:
@@ -37,8 +32,6 @@ else:
 def _get_numpy_pixelid(itk_Image_type):
     """Returns a ITK PixelID given a numpy array."""
 
-    if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
     # This is a Mapping from numpy array types to itk pixel types.
     _np_itk = {"UC":np.uint8,
                "US":np.uint16,
