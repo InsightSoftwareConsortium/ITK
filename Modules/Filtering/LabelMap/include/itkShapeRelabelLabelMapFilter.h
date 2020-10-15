@@ -46,7 +46,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ShapeRelabelLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeRelabelLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeRelabelLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeRelabelLabelMapFilter;

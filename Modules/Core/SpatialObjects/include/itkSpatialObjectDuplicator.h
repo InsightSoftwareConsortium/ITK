@@ -33,7 +33,7 @@ template <typename TInputSpatialObject>
 class ITK_TEMPLATE_EXPORT SpatialObjectDuplicator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectDuplicator);
+  ITK_DISALLOW_COPY_AND_MOVE(SpatialObjectDuplicator);
 
   /** Standard class type aliases. */
   using Self = SpatialObjectDuplicator;

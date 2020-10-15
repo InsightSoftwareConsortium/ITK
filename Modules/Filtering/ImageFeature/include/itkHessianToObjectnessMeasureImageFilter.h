@@ -61,7 +61,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT HessianToObjectnessMeasureImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HessianToObjectnessMeasureImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HessianToObjectnessMeasureImageFilter);
 
   /** Standard class type aliases. */
   using Self = HessianToObjectnessMeasureImageFilter;

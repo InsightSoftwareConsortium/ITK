@@ -178,7 +178,7 @@ class ITK_TEMPLATE_EXPORT ImageToImageMetricv4
                                 TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4;

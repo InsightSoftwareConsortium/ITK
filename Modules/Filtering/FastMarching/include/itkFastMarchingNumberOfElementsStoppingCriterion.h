@@ -41,7 +41,7 @@ template <typename TInput, typename TOutput>
 class FastMarchingNumberOfElementsStoppingCriterion : public FastMarchingStoppingCriterionBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingNumberOfElementsStoppingCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingNumberOfElementsStoppingCriterion);
 
   using Self = FastMarchingNumberOfElementsStoppingCriterion;
   using Superclass = FastMarchingStoppingCriterionBase<TInput, TOutput>;

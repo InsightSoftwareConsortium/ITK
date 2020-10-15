@@ -41,7 +41,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ScalarAnisotropicDiffusionFunction : public AnisotropicDiffusionFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarAnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = ScalarAnisotropicDiffusionFunction;

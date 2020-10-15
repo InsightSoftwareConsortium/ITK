@@ -41,7 +41,7 @@ template <typename TInputImage, typename TGradientImage>
 class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdCalculator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(RobustAutomaticThresholdCalculator);
 
   /** Standard class type aliases. */
   using Self = RobustAutomaticThresholdCalculator;

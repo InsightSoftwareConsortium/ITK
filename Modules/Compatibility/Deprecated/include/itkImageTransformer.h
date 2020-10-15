@@ -60,7 +60,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT ImageTransformer : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageTransformer);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageTransformer);
 
   /** Standard class type aliases. */
   using Self = ImageTransformer;

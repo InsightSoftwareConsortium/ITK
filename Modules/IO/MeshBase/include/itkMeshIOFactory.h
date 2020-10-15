@@ -42,7 +42,7 @@ namespace itk
 class ITKIOMeshBase_EXPORT MeshIOFactory : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(MeshIOFactory);
 
   /** Standard class type aliases. */
   using Self = MeshIOFactory;

@@ -105,7 +105,7 @@ class ITK_TEMPLATE_EXPORT NarrowBandCurvesLevelSetImageFilter
                                          Image<TOutputPixelType, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandCurvesLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NarrowBandCurvesLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = NarrowBandCurvesLevelSetImageFilter;

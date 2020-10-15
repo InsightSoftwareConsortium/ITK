@@ -51,7 +51,7 @@ template <typename TInputImage, typename TFeatureImage>
 class ITK_TEMPLATE_EXPORT BinaryStatisticsOpeningImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryStatisticsOpeningImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryStatisticsOpeningImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryStatisticsOpeningImageFilter;

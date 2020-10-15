@@ -54,7 +54,7 @@ template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension = 1
 class ITK_TEMPLATE_EXPORT LevelSetVelocityNeighborhoodExtractor : public LevelSetNeighborhoodExtractor<TLevelSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetVelocityNeighborhoodExtractor);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetVelocityNeighborhoodExtractor);
 
   /** Standard class typdedefs. */
   using Self = LevelSetVelocityNeighborhoodExtractor;

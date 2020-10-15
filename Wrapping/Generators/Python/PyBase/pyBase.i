@@ -450,6 +450,63 @@ str = str
                     self.__SetDirection_orig__(matrix)
                 else:
                     self.__SetDirection_orig__(direction)
+
+            def keys(self):
+                """Return keys related to the image's metadata.
+
+                These keys are used in the dictionary resulting from dict(image).
+
+                These keys include MetaDataDictionary keys along with
+                'origin', 'spacing', and 'direction' keys, which
+                correspond to the image's Origin, Spacing, and Direction. However,
+                they are in (z, y, x) order as opposed to (x, y, z) order to
+                correspond to the indexing of the shape of the pixel buffer
+                array resulting from np.array(image).
+                """
+                meta_keys = self.GetMetaDataDictionary().GetKeys()
+                # Ignore deprecated, legacy members that cause issues
+                result = list(filter(lambda k: not k.startswith('ITK_original'), meta_keys))
+                result.extend(['origin', 'spacing', 'direction'])
+                return result
+
+            def __getitem__(self, key):
+                """Access metadata keys, see help(image.keys), for string
+                keys, otherwise provide NumPy indexing to the pixel buffer
+                array view. The index order follows NumPy array indexing
+                order, i.e. [z, y, x] versus [x, y, z]."""
+                import itk
+                if isinstance(key, str):
+                    import numpy as np
+                    if key == 'origin':
+                        return np.flip(np.asarray(self.GetOrigin()), axis=None)
+                    elif key == 'spacing':
+                        return np.flip(np.asarray(self.GetSpacing()), axis=None)
+                    elif key == 'direction':
+                        return np.flip(itk.array_from_matrix(self.GetDirection()), axis=None)
+                    else:
+                        return self.GetMetaDataDictionary()[key]
+                else:
+                    return itk.array_view_from_image(self).__getitem__(key)
+
+            def __setitem__(self, key, value):
+                """Set metadata keys, see help(image.keys), for string
+                keys, otherwise provide NumPy indexing to the pixel buffer
+                array view. The index order follows NumPy array indexing
+                order, i.e. [z, y, x] versus [x, y, z]."""
+                if isinstance(key, str):
+                    import numpy as np
+                    if key == 'origin':
+                        self.SetOrigin(np.flip(value, axis=None))
+                    elif key == 'spacing':
+                        self.SetSpacing(np.flip(value, axis=None))
+                    elif key == 'direction':
+                        self.SetDirection(np.flip(value, axis=None))
+                    else:
+                        self.GetMetaDataDictionary()[key] = value
+                else:
+                    import itk
+                    itk.array_view_from_image(self).__setitem__(key, value)
+
             %}
 
         // TODO: also add that method. But with which types?

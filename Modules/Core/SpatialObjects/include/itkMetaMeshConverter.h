@@ -37,7 +37,7 @@ template <unsigned int NDimensions = 3,
 class ITK_TEMPLATE_EXPORT MetaMeshConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaMeshConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaMeshConverter);
 
   /** Standard class type aliases */
   using Self = MetaMeshConverter;

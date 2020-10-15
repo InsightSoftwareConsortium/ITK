@@ -52,7 +52,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT ClosingByReconstructionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ClosingByReconstructionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ClosingByReconstructionImageFilter);
 
   /** Standard class type aliases. */
   using Self = ClosingByReconstructionImageFilter;

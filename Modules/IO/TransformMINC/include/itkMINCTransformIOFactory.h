@@ -33,7 +33,7 @@ namespace itk
 class ITKIOTransformMINC_EXPORT MINCTransformIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MINCTransformIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(MINCTransformIOFactory);
 
   /** Standard class type aliases. */
   using Self = MINCTransformIOFactory;

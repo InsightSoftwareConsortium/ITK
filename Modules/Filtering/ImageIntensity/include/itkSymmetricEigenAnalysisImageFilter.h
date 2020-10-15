@@ -213,7 +213,7 @@ class SymmetricEigenAnalysisImageFilter
       Functor::SymmetricEigenAnalysisFunction<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SymmetricEigenAnalysisImageFilter);
 
   /** Standard class type aliases. */
   using Self = SymmetricEigenAnalysisImageFilter;
@@ -309,7 +309,7 @@ class SymmetricEigenAnalysisFixedDimensionImageFilter
                                                             typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisFixedDimensionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SymmetricEigenAnalysisFixedDimensionImageFilter);
 
   /** Standard class type aliases. */
   using Self = SymmetricEigenAnalysisFixedDimensionImageFilter;

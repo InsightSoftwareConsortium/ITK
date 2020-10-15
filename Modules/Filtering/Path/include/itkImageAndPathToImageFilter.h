@@ -40,7 +40,7 @@ template <typename TInputImage, typename TInputPath, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ImageAndPathToImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageAndPathToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageAndPathToImageFilter);
 
   /** Standard class type aliases. */
   using Self = ImageAndPathToImageFilter;

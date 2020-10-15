@@ -106,10 +106,10 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData(
   OutputImagePointer     output = this->GetOutput();
   InputImageConstPointer input = this->GetInput();
 
-  RegionType    reqRegion = output->GetRequestedRegion();
-  SizeValueType pixelcount = reqRegion.GetNumberOfPixels();
-  SizeValueType xsize = reqRegion.GetSize()[0];
-  SizeValueType linecount = pixelcount / xsize;
+  const RegionType &  reqRegion = output->GetRequestedRegion();
+  const SizeValueType pixelcount = reqRegion.GetNumberOfPixels();
+  const SizeValueType xsize = reqRegion.GetSize()[0];
+  const SizeValueType linecount = (xsize > 0 ? pixelcount / xsize : 0);
 
   m_ForegroundLineMap.clear();
   m_ForegroundLineMap.resize(linecount);
@@ -123,8 +123,8 @@ void
 BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const RegionType & outputRegionForThread)
 {
-  OutputImagePointer     output = this->GetOutput();
-  InputImageConstPointer input = this->GetInput();
+  OutputImageType *      output = this->GetOutput();
+  const InputImageType * input = this->GetInput();
 
   using InputLineIteratorType = ImageScanlineConstIterator<InputImageType>;
   InputLineIteratorType inLineIt(input, outputRegionForThread);

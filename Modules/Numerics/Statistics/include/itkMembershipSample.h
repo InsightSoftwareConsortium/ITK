@@ -57,7 +57,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT MembershipSample : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MembershipSample);
+  ITK_DISALLOW_COPY_AND_MOVE(MembershipSample);
 
   /** Standard class type aliases. */
   using Self = MembershipSample;
@@ -176,13 +176,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (m_InstanceIdentifier != it.m_InstanceIdentifier);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (m_InstanceIdentifier == it.m_InstanceIdentifier);
     }

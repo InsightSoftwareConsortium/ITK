@@ -49,7 +49,7 @@ template <typename TPixel, unsigned int VImageDimension = 2>
 class ITK_TEMPLATE_EXPORT RawImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RawImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(RawImageIO);
 
   /** Standard class type aliases. */
   using Self = RawImageIO;
@@ -181,7 +181,7 @@ template <typename TPixel, unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT RawImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RawImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(RawImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = RawImageIOFactory<TPixel, VImageDimension>;

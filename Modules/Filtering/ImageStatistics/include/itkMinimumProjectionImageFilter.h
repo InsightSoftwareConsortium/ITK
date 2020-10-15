@@ -80,7 +80,7 @@ class MinimumProjectionImageFilter
                                  Functor::MinimumAccumulator<typename TInputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumProjectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MinimumProjectionImageFilter);
 
   using Self = MinimumProjectionImageFilter;
   using Superclass =

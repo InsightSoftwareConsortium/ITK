@@ -63,7 +63,7 @@ template <typename TImage,
 class ITK_TEMPLATE_EXPORT MaskFeaturePointSelectionFilter : public ImageToMeshFilter<TImage, TFeatures>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskFeaturePointSelectionFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaskFeaturePointSelectionFilter);
 
   /** Standard class type aliases. */
   using Superclass = ImageToMeshFilter<TImage, TFeatures>;

@@ -54,7 +54,7 @@ template <typename TImage,
 class ITK_TEMPLATE_EXPORT AttributeSelectionLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AttributeSelectionLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AttributeSelectionLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = AttributeSelectionLabelMapFilter;

@@ -67,7 +67,7 @@ class ITK_TEMPLATE_EXPORT ScalarRegionBasedLevelSetFunction
   : public RegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarRegionBasedLevelSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarRegionBasedLevelSetFunction);
 
   using Self = ScalarRegionBasedLevelSetFunction;
   using Superclass = RegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>;

@@ -50,7 +50,7 @@ template <typename TInputImage, typename TCoordRep = float>
 class ITK_TEMPLATE_EXPORT MahalanobisDistanceThresholdImageFunction : public ImageFunction<TInputImage, bool, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MahalanobisDistanceThresholdImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(MahalanobisDistanceThresholdImageFunction);
 
   /** Standard class type aliases. */
   using Self = MahalanobisDistanceThresholdImageFunction;

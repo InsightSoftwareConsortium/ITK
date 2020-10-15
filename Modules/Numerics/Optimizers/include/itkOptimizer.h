@@ -38,7 +38,7 @@ namespace itk
 class ITKOptimizers_EXPORT Optimizer : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Optimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(Optimizer);
 
   /** Standard class type aliases. */
   using Self = Optimizer;

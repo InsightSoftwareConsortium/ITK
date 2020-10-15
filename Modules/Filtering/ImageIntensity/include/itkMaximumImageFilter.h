@@ -85,7 +85,7 @@ template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename 
 class MaximumImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaximumImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaximumImageFilter;

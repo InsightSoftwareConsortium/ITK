@@ -58,7 +58,7 @@ template <typename TTermContainer>
 class ITK_TEMPLATE_EXPORT LevelSetEquationContainer : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationContainer);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationContainer);
 
   using Self = LevelSetEquationContainer;
   using Pointer = SmartPointer<Self>;

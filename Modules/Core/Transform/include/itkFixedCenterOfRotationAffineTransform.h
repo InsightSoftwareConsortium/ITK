@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT FixedCenterOfRotationAffineTransform
   : public ScalableAffineTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FixedCenterOfRotationAffineTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(FixedCenterOfRotationAffineTransform);
 
   /** Standard type alias   */
   using Self = FixedCenterOfRotationAffineTransform;

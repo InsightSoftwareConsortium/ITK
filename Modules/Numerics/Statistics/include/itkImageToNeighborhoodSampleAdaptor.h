@@ -56,7 +56,7 @@ class ITK_TEMPLATE_EXPORT ImageToNeighborhoodSampleAdaptor
   : public ListSample<std::vector<ConstNeighborhoodIterator<TImage, TBoundaryCondition>>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToNeighborhoodSampleAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToNeighborhoodSampleAdaptor);
 
   /** Standard class type aliases */
   using Self = ImageToNeighborhoodSampleAdaptor;
@@ -209,13 +209,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (m_MeasurementVectorCache[0] != it.m_MeasurementVectorCache[0]);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (m_MeasurementVectorCache[0] == it.m_MeasurementVectorCache[0]);
     }

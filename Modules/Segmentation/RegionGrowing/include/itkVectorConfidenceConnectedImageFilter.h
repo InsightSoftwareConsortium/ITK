@@ -60,7 +60,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT VectorConfidenceConnectedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorConfidenceConnectedImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorConfidenceConnectedImageFilter);
 
   /** Standard class type aliases. */
   using Self = VectorConfidenceConnectedImageFilter;

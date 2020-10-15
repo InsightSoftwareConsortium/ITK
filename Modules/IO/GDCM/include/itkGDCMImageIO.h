@@ -61,6 +61,7 @@ public:
     RLE
   };
 };
+
 // Define how to print enumeration
 extern ITKIOGDCM_EXPORT std::ostream &
                         operator<<(std::ostream & out, const GDCMImageIOEnums::Compression value);
@@ -77,9 +78,7 @@ extern ITKIOGDCM_EXPORT std::ostream &
  *
  *    git log -- Modules/ThirdParty/GDCM/src/
  *
- * From an ITK Git checkout.
- *
- * GDCM build, instead of the one included within ITK itself.
+ * from an ITK Git checkout.
  *
  * The compressors supported include "JPEG2000" (default), and
  * "JPEG". The compression level parameter is not supported.
@@ -110,7 +109,7 @@ class InternalHeader;
 class ITKIOGDCM_EXPORT GDCMImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(GDCMImageIO);
 
   /** Standard class type aliases. */
   using Self = GDCMImageIO;
@@ -161,40 +160,34 @@ public:
   void
   Write(const void * buffer) override;
 
-  /** Macro to access Rescale Slope and Rescale Intercept. Which are
-   * needed to rescale properly image when needed. User then need to
-   * Always check those value when access value from the DICOM header */
+  /** Macro to access Rescale Slope and Rescale Intercept. */
   itkGetConstMacro(RescaleSlope, double);
   itkGetConstMacro(RescaleIntercept, double);
 
   /** Macro to access the DICOM UID prefix. By default this is the ITK
-   *  root id. This default can be overriden if the exam is for example
-   *  part of an existing study.
-   */
+   * root id. This default can be overriden if the exam is for example
+   * part of an existing study. */
   itkGetStringMacro(UIDPrefix);
   itkSetStringMacro(UIDPrefix);
 
-  /** Access the generated DICOM UID's. */
+  /** Access the generated DICOM UIDs. */
   itkGetStringMacro(StudyInstanceUID);
   itkGetStringMacro(SeriesInstanceUID);
   itkGetStringMacro(FrameOfReferenceInstanceUID);
 
-  /** Preserve the original DICOM UID of the input files
-   */
+  /** Preserve the original DICOM UIDs of the input files. */
   itkSetMacro(KeepOriginalUID, bool);
   itkGetConstMacro(KeepOriginalUID, bool);
   itkBooleanMacro(KeepOriginalUID);
 
   /** Parse and load any private tags in the DICOM file. Loading DICOM
-   * files is faster when private tags are not needed. Default is false.
-   */
+   * files is faster when private tags are not needed. Default is false. */
   itkSetMacro(LoadPrivateTags, bool);
   itkGetConstMacro(LoadPrivateTags, bool);
   itkBooleanMacro(LoadPrivateTags);
 
-  /** Convert Y'CbCr (YBR_FULL, YBR_FULL_422) to RGB. Default is true.
-   * Not required for YBR_RCT and YBR_ICT.
-   */
+  /** Convert Y'CbCr (YBR_FULL, YBR_FULL_422) to RGB. Default is true,
+   * not required for YBR_RCT and YBR_ICT. */
   itkSetMacro(ReadYBRtoRGB, bool);
   itkGetConstMacro(ReadYBRtoRGB, bool);
   itkBooleanMacro(ReadYBRtoRGB);
@@ -204,8 +197,7 @@ public:
    * information. These methods are here for compatibility with the
    * DICOMImageIO2 class and as such should not be used in any new code.
    * They rely on properly preallocated buffer, which is not a good practice.
-   * Instead user are encourage to use directly the GetValueFromTag function
-   */
+   * Instead user is encouraged to use directly the GetValueFromTag function. */
   void
   GetPatientName(char * name, size_t len = 512);
 
@@ -256,13 +248,12 @@ public:
 #endif
 
   /** More general method to retrieve an arbitrary DICOM value based
-   * on a DICOM Tag (eg "0123|45ef").
-   */
+   * on a DICOM Tag (eg "0123|45ef"). */
   bool
   GetValueFromTag(const std::string & tag, std::string & value);
 
   /** Method for consulting the DICOM dictionary and recovering the text
-   * description of a field using its numeric tag represented as a string.  If
+   * description of a field using its numeric tag represented as a string. If
    * the tagkey is not found in the dictionary then this static method return
    * false and the value "Unknown " in the labelId. If the tagkey is found then
    * this static method returns true and the actual string descriptor of the
@@ -271,22 +262,20 @@ public:
   GetLabelFromTag(const std::string & tag, std::string & labelId);
 
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
-  /** A DICOM file can contains multiple binary stream that can be very long
+  /** A DICOM file can contains multiple binary stream that can be very long.
    * For example an Overlay on the image. Most of the time user do not want to load
    * this binary structure in memory since it can consume lot of memory. Therefore
-   * any field that is bigger than the default value 0xfff is discarded and just seek'd
-   * This method allow advanced user to force the reading of such field
-   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
-   */
+   * any field that is bigger than the default value 0xfff is discarded and just seek'd.
+   * This method allow advanced user to force the reading of such field.
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x */
   virtual void
   SetMaxSizeLoadEntry(const long)
   {}
 
   /** Parse any sequences in the DICOM file. Defaults to the value of
-   *  LoadSequencesDefault. Loading DICOM files is faster when
-   *  sequences are not needed.
-   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
-   */
+   * LoadSequencesDefault. Loading DICOM files is faster when
+   * sequences are not needed.
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x */
   virtual void
   SetLoadSequences(const bool)
   {}
@@ -305,11 +294,10 @@ public:
   /** Global method to define the default value for
    * LoadSequences. When instances of GDCMImageIO are created, the
    * ivar LoadSequences is initialized to the value of
-   * LoadSequencesDefault.  This method is useful when relying on the
+   * LoadSequencesDefault. This method is useful when relying on the
    * IO factory mechanism to load images rather than specifying a
    * particular ImageIO object on the readers. Default is false.
-   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
-   */
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x */
   static void
   SetLoadSequencesDefault(bool)
   {}
@@ -328,11 +316,10 @@ public:
   /** Global method to define the default value for
    * LoadPrivateTags. When instances of GDCMImageIO are created, the
    * ivar LoadPrivateTags is initialized to the value of
-   * LoadPrivateTagsDefault.  This method is useful when relying on the
+   * LoadPrivateTagsDefault. This method is useful when relying on the
    * IO factory mechanism to load images rather than specifying a
    * particular ImageIO object on the readers. Default is false.
-   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x
-   */
+   * \warning this is a GDCM 1.x only option, no effect on GDCM 2.x */
   static void
   SetLoadPrivateTagsDefault(bool)
   {}
@@ -376,11 +363,15 @@ protected:
   InternalReadImageInformation();
 
   double m_RescaleSlope;
+
   double m_RescaleIntercept;
 
   std::string m_UIDPrefix;
+
   std::string m_StudyInstanceUID;
+
   std::string m_SeriesInstanceUID;
+
   std::string m_FrameOfReferenceInstanceUID;
 
   bool m_KeepOriginalUID;
@@ -392,31 +383,49 @@ protected:
 private:
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
   std::string m_PatientName;
+
   std::string m_PatientID;
+
   std::string m_PatientDOB;
+
   std::string m_StudyID;
+
   std::string m_StudyDescription;
+
   std::string m_BodyPart;
+
   std::string m_NumberOfSeriesInStudy;
+
   std::string m_NumberOfStudyRelatedSeries;
+
   std::string m_PatientSex;
+
   std::string m_PatientAge;
+
   std::string m_StudyDate;
+
   std::string m_Modality;
+
   std::string m_Manufacturer;
+
   std::string m_Institution;
+
   std::string m_Model;
+
   std::string m_ScanOptions;
 #endif
 
-  /** defines whether this image is a 2D out of a 2D image
-   *  or a 2D out of a 3D image. */
-  unsigned int    m_GlobalNumberOfDimensions;
+  unsigned int m_GlobalNumberOfDimensions;
+
   CompressionEnum m_CompressionType;
 
-  IOComponentEnum  m_InternalComponentType;
+  bool m_SingleBit;
+
+  IOComponentEnum m_InternalComponentType;
+
   InternalHeader * m_DICOMHeader;
 };
+
 } // end namespace itk
 
 #endif // itkGDCMImageIO_h

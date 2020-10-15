@@ -41,7 +41,7 @@ template <typename TTransform, typename TImage>
 class ITK_TEMPLATE_EXPORT BSplineTransformInitializer : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransformInitializer);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineTransformInitializer);
 
   /** Standard class type aliases. */
   using Self = BSplineTransformInitializer;

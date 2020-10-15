@@ -45,7 +45,7 @@ template <typename TScalar, typename TRGBPixel>
 class ITK_TEMPLATE_EXPORT OverUnderColormapFunction : public ColormapFunction<TScalar, TRGBPixel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OverUnderColormapFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(OverUnderColormapFunction);
 
   using Self = OverUnderColormapFunction;
   using Superclass = ColormapFunction<TScalar, TRGBPixel>;

@@ -43,7 +43,7 @@ template <typename TInputImage, typename TCoordRep = double>
 class VectorNearestNeighborInterpolateImageFunction : public VectorInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorNearestNeighborInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorNearestNeighborInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = VectorNearestNeighborInterpolateImageFunction;

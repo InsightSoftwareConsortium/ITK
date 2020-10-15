@@ -63,7 +63,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOu
 class ITK_TEMPLATE_EXPORT HistogramThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = HistogramThresholdImageFilter;

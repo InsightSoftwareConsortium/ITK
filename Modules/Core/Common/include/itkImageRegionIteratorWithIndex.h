@@ -61,6 +61,8 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
+ * \sa ImageRegionRange
+ * \sa ImageRegionIndexRange
  * \ingroup ITKCommon
  *
  * \sphinx

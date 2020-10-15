@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromIndexShift
   : public RegistrationParameterScalesFromShiftBase<TMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromIndexShift);
+  ITK_DISALLOW_COPY_AND_MOVE(RegistrationParameterScalesFromIndexShift);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromIndexShift;

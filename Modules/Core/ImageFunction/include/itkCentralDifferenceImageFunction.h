@@ -76,7 +76,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT CentralDifferenceImageFunction : public ImageFunction<TInputImage, TOutputType, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CentralDifferenceImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(CentralDifferenceImageFunction);
 
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

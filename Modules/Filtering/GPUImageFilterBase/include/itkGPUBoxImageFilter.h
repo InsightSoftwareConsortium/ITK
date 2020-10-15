@@ -42,7 +42,7 @@ template <typename TInputImage,
 class GPUBoxImageFilter : public GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUBoxImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUBoxImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUBoxImageFilter;

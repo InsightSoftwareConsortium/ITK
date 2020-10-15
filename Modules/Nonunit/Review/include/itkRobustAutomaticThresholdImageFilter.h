@@ -51,7 +51,7 @@ template <typename TInputImage, typename TGradientImage = TInputImage, typename 
 class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RobustAutomaticThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = RobustAutomaticThresholdImageFilter;

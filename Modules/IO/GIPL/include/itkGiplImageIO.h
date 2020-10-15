@@ -40,7 +40,7 @@ class GiplImageIOInternals;
 class ITKIOGIPL_EXPORT GiplImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GiplImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(GiplImageIO);
 
   /** Standard class type aliases. */
   using Self = GiplImageIO;

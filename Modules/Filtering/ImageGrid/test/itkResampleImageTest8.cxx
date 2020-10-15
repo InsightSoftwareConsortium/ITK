@@ -27,7 +27,7 @@
 class ProjectTransform : public itk::Transform<double, 3, 2>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ProjectTransform);
 
   using Self = ProjectTransform;
   using Superclass = itk::Transform<double, 3, 2>;

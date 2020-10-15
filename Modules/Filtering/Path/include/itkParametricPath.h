@@ -63,7 +63,7 @@ class ITK_TEMPLATE_EXPORT ParametricPath
   : public Path<double, ContinuousIndex<SpacePrecisionType, VDimension>, VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricPath);
+  ITK_DISALLOW_COPY_AND_MOVE(ParametricPath);
 
   /** Standard class type aliases. */
   using Self = ParametricPath;

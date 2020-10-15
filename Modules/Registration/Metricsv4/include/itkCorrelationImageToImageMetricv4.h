@@ -79,7 +79,7 @@ class ITK_TEMPLATE_EXPORT CorrelationImageToImageMetricv4
   : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CorrelationImageToImageMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(CorrelationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = CorrelationImageToImageMetricv4;

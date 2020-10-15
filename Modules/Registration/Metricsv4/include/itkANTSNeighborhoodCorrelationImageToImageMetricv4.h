@@ -101,7 +101,7 @@ class ITK_TEMPLATE_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4
   : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ANTSNeighborhoodCorrelationImageToImageMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(ANTSNeighborhoodCorrelationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = ANTSNeighborhoodCorrelationImageToImageMetricv4;

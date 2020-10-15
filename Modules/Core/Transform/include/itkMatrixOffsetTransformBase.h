@@ -107,7 +107,7 @@ class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase
   : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MatrixOffsetTransformBase);
+  ITK_DISALLOW_COPY_AND_MOVE(MatrixOffsetTransformBase);
 
   /** Standard type alias   */
   using Self = MatrixOffsetTransformBase;

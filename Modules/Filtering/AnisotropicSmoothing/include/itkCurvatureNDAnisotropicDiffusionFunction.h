@@ -75,7 +75,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT CurvatureNDAnisotropicDiffusionFunction : public ScalarAnisotropicDiffusionFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureNDAnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(CurvatureNDAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = CurvatureNDAnisotropicDiffusionFunction;

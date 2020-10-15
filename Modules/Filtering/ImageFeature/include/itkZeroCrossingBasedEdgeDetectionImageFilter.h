@@ -76,7 +76,7 @@ class ITK_TEMPLATE_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingBasedEdgeDetectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ZeroCrossingBasedEdgeDetectionImageFilter);
 
   /** Standard "Self" & Superclass type alias.   */
   using Self = ZeroCrossingBasedEdgeDetectionImageFilter;

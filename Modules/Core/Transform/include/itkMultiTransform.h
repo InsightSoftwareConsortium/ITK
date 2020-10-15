@@ -65,7 +65,7 @@ template <typename TParametersValueType = double,
 class ITK_TEMPLATE_EXPORT MultiTransform : public Transform<TParametersValueType, NDimensions, NSubDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiTransform);
 
   /** Standard class type aliases. */
   using Self = MultiTransform;

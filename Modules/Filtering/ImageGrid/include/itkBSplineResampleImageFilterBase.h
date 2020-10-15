@@ -83,7 +83,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT BSplineResampleImageFilterBase : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineResampleImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = BSplineResampleImageFilterBase;

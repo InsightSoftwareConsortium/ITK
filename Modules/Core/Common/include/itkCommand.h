@@ -45,7 +45,7 @@ namespace itk
 class ITKCommon_EXPORT Command : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Command);
+  ITK_DISALLOW_COPY_AND_MOVE(Command);
 
   /** Standard class type aliases. */
   using Self = Command;
@@ -86,7 +86,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT MemberCommand : public Command
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MemberCommand);
+  ITK_DISALLOW_COPY_AND_MOVE(MemberCommand);
 
   /** pointer to a member function that takes a Object* and the event */
   using TMemberFunctionPointer = void (T::*)(Object *, const EventObject &);
@@ -165,7 +165,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT ReceptorMemberCommand : public Command
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReceptorMemberCommand);
+  ITK_DISALLOW_COPY_AND_MOVE(ReceptorMemberCommand);
 
   /** pointer to a member function that takes a Object* and the event */
   using TMemberFunctionPointer = void (T::*)(const EventObject &);
@@ -234,7 +234,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT SimpleMemberCommand : public Command
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleMemberCommand);
+  ITK_DISALLOW_COPY_AND_MOVE(SimpleMemberCommand);
 
   /** A method callback. */
   using TMemberFunctionPointer = void (T::*)();
@@ -301,7 +301,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT SimpleConstMemberCommand : public Command
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleConstMemberCommand);
+  ITK_DISALLOW_COPY_AND_MOVE(SimpleConstMemberCommand);
 
   /** A const member method callback. */
   using TMemberFunctionPointer = void (T::*)() const;

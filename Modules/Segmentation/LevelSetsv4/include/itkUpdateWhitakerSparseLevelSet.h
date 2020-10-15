@@ -43,7 +43,7 @@ template <unsigned int VDimension, typename TLevelSetValueType, typename TEquati
 class ITK_TEMPLATE_EXPORT UpdateWhitakerSparseLevelSet : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateWhitakerSparseLevelSet);
+  ITK_DISALLOW_COPY_AND_MOVE(UpdateWhitakerSparseLevelSet);
 
   using Self = UpdateWhitakerSparseLevelSet;
   using Pointer = SmartPointer<Self>;

@@ -82,7 +82,7 @@ template <typename TPixelType,
 class ITK_TEMPLATE_EXPORT PointSet : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointSet);
+  ITK_DISALLOW_COPY_AND_MOVE(PointSet);
 
   /** Standard class type aliases. */
   using Self = PointSet;

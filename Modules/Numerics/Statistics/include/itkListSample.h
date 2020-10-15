@@ -51,7 +51,7 @@ template <typename TMeasurementVector>
 class ITK_TEMPLATE_EXPORT ListSample : public Sample<TMeasurementVector>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ListSample);
+  ITK_DISALLOW_COPY_AND_MOVE(ListSample);
 
   /** Standard class type alias. */
   using Self = ListSample;
@@ -183,13 +183,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (m_Iter != it.m_Iter);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (m_Iter == it.m_Iter);
     }

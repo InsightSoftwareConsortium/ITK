@@ -33,7 +33,7 @@ namespace itk
 class ITKOptimizers_EXPORT RegularStepGradientDescentOptimizer : public RegularStepGradientDescentBaseOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(RegularStepGradientDescentOptimizer);
 
   /** Standard class type aliases. */
   using Self = RegularStepGradientDescentOptimizer;

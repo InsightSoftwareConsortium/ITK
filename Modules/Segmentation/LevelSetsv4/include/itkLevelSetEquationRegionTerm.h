@@ -26,7 +26,7 @@ template <typename TInput, typename TLevelSetContainer>
 class LevelSetEquationRegionTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationRegionTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationRegionTerm);
 
   using Self = LevelSetEquationRegionTerm;
   using Pointer = SmartPointer<Self>;

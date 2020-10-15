@@ -31,7 +31,7 @@ class AnchorOpenImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AnchorOpenImageFilter);
 
   using Self = AnchorOpenImageFilter;
   using Superclass = AnchorOpenCloseImageFilter<TImage,

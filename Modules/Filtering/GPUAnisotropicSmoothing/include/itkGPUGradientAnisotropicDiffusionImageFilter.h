@@ -50,7 +50,7 @@ class GPUGradientAnisotropicDiffusionImageFilter
   : public GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientAnisotropicDiffusionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUGradientAnisotropicDiffusionImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUGradientAnisotropicDiffusionImageFilter;

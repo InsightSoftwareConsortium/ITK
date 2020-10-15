@@ -50,7 +50,7 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationImageToImageMetricv4
   : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationImageToImageMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(JointHistogramMutualInformationImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationImageToImageMetricv4;

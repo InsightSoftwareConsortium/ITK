@@ -54,7 +54,7 @@ template <typename TInput, typename TOutput, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT Path : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Path);
+  ITK_DISALLOW_COPY_AND_MOVE(Path);
 
   /** Standard class type aliases. */
   using Self = Path;

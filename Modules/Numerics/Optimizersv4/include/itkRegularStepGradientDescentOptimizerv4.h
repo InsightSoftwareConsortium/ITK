@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT RegularStepGradientDescentOptimizerv4
   : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizerv4);
+  ITK_DISALLOW_COPY_AND_MOVE(RegularStepGradientDescentOptimizerv4);
 
   /** Standard class type aliases. */
   using Self = RegularStepGradientDescentOptimizerv4;

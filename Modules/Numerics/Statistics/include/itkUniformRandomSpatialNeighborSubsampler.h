@@ -49,7 +49,7 @@ template <typename TSample, typename TRegion>
 class ITK_TEMPLATE_EXPORT UniformRandomSpatialNeighborSubsampler : public SpatialNeighborSubsampler<TSample, TRegion>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UniformRandomSpatialNeighborSubsampler);
+  ITK_DISALLOW_COPY_AND_MOVE(UniformRandomSpatialNeighborSubsampler);
 
   /** Standard class type aliases */
   using Self = UniformRandomSpatialNeighborSubsampler<TSample, TRegion>;

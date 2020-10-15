@@ -89,7 +89,7 @@ class ITK_TEMPLATE_EXPORT JointDomainImageToListSampleAdaptor
   : public ListSample<typename ImageJointDomainTraits<TImage>::MeasurementVectorType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointDomainImageToListSampleAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(JointDomainImageToListSampleAdaptor);
 
   /** Standard class type aliases */
   using Self = JointDomainImageToListSampleAdaptor;
@@ -234,13 +234,13 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it)
+    operator!=(const ConstIterator & it) const
     {
       return (m_InstanceIdentifier != it.m_InstanceIdentifier);
     }
 
     bool
-    operator==(const ConstIterator & it)
+    operator==(const ConstIterator & it) const
     {
       return (m_InstanceIdentifier == it.m_InstanceIdentifier);
     }

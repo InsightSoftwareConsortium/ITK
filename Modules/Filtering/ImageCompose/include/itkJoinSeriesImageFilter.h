@@ -51,7 +51,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT JoinSeriesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JoinSeriesImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(JoinSeriesImageFilter);
 
   /** Standard class type aliases. */
   using Self = JoinSeriesImageFilter;

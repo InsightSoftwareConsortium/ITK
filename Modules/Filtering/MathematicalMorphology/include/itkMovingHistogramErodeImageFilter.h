@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * \class MovingHistogramErodeImageFilter
- * \brief gray scale erosion of an image
+ * \brief Grayscale erosion of an image.
  *
  * Erode an image using grayscale morphology. Erode takes the
  * minimum of all the pixels identified by the structuring element.
@@ -48,7 +48,7 @@ class MovingHistogramErodeImageFilter
                                              typename std::less<typename TInputImage ::PixelType>>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MovingHistogramErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = MovingHistogramErodeImageFilter;

@@ -82,7 +82,7 @@ template <typename TParametersValueType, unsigned int NInputDimensions = 3, unsi
 class ITK_TEMPLATE_EXPORT Transform : public TransformBaseTemplate<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Transform);
+  ITK_DISALLOW_COPY_AND_MOVE(Transform);
 
   /** Standard class type aliases. */
   using Self = Transform;

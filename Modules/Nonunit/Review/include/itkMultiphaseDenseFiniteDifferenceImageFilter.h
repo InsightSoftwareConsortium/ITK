@@ -106,7 +106,7 @@ class ITK_TEMPLATE_EXPORT MultiphaseDenseFiniteDifferenceImageFilter
   : public MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseDenseFiniteDifferenceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiphaseDenseFiniteDifferenceImageFilter);
 
   /** Standard class type aliases */
   using Self = MultiphaseDenseFiniteDifferenceImageFilter;

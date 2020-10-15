@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT GPUMeanImageFilter
     public GPUBoxImageFilter<TInputImage, TOutputImage, MeanImageFilter<TInputImage, TOutputImage>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUMeanImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUMeanImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUMeanImageFilter;
@@ -102,7 +102,7 @@ private:
 class GPUMeanImageFilterFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUMeanImageFilterFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUMeanImageFilterFactory);
 
   using Self = GPUMeanImageFilterFactory;
   using Superclass = ObjectFactoryBase;

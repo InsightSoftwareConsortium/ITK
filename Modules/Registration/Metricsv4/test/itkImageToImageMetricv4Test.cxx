@@ -108,7 +108,7 @@ template <typename TFixedImage, typename TMovingImage, typename TVirtualImage>
 class ImageToImageMetricv4TestMetric : public itk::ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetricv4TestMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToImageMetricv4TestMetric);
 
   /** Standard class type aliases. */
   using Self = ImageToImageMetricv4TestMetric;

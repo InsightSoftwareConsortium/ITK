@@ -59,7 +59,7 @@ namespace itk
 class ITKCommon_EXPORT LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LightObject);
+  ITK_DISALLOW_COPY_AND_MOVE(LightObject);
 
   /** Standard class type aliases. */
   using Self = LightObject;

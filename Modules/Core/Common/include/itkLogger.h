@@ -36,7 +36,7 @@ namespace itk
 class ITKCommon_EXPORT Logger : public LoggerBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Logger);
+  ITK_DISALLOW_COPY_AND_MOVE(Logger);
 
   using Self = Logger;
   using Superclass = LoggerBase;

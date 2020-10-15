@@ -53,7 +53,7 @@ template <typename TImageType, typename TFrequencyIterator = FrequencyFFTLayoutI
 class FrequencyBandImageFilter : public UnaryFrequencyDomainFilter<TImageType, TFrequencyIterator>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyBandImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FrequencyBandImageFilter);
 
   /** Standard class type alias. */
   using Self = FrequencyBandImageFilter;

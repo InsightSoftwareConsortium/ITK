@@ -41,7 +41,7 @@ template <typename TOutput, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT WhitakerSparseLevelSetImage : public LevelSetSparseImage<TOutput, VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WhitakerSparseLevelSetImage);
+  ITK_DISALLOW_COPY_AND_MOVE(WhitakerSparseLevelSetImage);
 
   using Self = WhitakerSparseLevelSetImage;
   using Pointer = SmartPointer<Self>;

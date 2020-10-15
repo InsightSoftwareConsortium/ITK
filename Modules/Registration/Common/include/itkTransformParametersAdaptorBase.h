@@ -55,7 +55,7 @@ template <typename TTransform>
 class TransformParametersAdaptorBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformParametersAdaptorBase);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformParametersAdaptorBase);
 
   /** Standard class type aliases. */
   using Self = TransformParametersAdaptorBase;

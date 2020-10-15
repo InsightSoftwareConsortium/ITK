@@ -74,7 +74,7 @@ class ITK_TEMPLATE_EXPORT PDEDeformableRegistrationFilter
   : public DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PDEDeformableRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PDEDeformableRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = PDEDeformableRegistrationFilter;

@@ -212,7 +212,7 @@ class JoinImageFilter
                                       typename Functor::MakeJoin<TInputImage1, TInputImage2>::ImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JoinImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(JoinImageFilter);
 
   /** Capture the output image dimension. */
   static constexpr unsigned int OutputImageDimension = TInputImage1::ImageDimension;

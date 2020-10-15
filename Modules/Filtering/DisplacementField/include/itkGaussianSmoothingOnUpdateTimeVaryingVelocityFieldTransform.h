@@ -40,7 +40,7 @@ class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTrans
   : public TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform);
 
   /** Standard class type aliases. */
   using Self = GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform;

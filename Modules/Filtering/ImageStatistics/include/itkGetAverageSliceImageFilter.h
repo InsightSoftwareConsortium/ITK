@@ -48,7 +48,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GetAverageSliceImageFilter : public AccumulateImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GetAverageSliceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GetAverageSliceImageFilter);
 
   /** Standard class type aliases. */
   using Self = GetAverageSliceImageFilter;

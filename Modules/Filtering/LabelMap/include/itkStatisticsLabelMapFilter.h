@@ -43,7 +43,7 @@ class ITK_TEMPLATE_EXPORT StatisticsLabelMapFilter
   : public ShapeLabelMapFilter<TImage, Image<typename TImage::PixelType, TImage ::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsLabelMapFilter;

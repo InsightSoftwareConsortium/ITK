@@ -45,7 +45,7 @@ template <typename TInputVideoStream, typename TOutputVideoStream>
 class ITK_TEMPLATE_EXPORT VideoToVideoFilter : public VideoSource<TOutputVideoStream>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoToVideoFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VideoToVideoFilter);
 
   /** Standard class type aliases */
   using InputVideoStreamType = TInputVideoStream;

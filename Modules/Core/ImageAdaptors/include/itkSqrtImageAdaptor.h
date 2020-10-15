@@ -78,7 +78,7 @@ class SqrtImageAdaptor
   : public ImageAdaptor<TImage, Accessor::SqrtPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(SqrtImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = SqrtImageAdaptor;

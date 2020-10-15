@@ -56,7 +56,7 @@ template <class TInputImage, class TOutputImage>
 class ITK_TEMPLATE_EXPORT SliceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SliceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SliceImageFilter);
 
   /** Standard class type aliases. */
   using Self = SliceImageFilter;

@@ -111,7 +111,7 @@ class NaryMaximumImageFilter
                                   Functor::Maximum1<typename TInputImage::PixelType, typename TInputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NaryMaximumImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NaryMaximumImageFilter);
 
   /** Standard class type aliases. */
   using Self = NaryMaximumImageFilter;

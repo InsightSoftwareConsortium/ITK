@@ -184,14 +184,31 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   endif()
 
-  # Install the package python files.
-  set(init_file ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py)
-  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py.in
-    ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py
-    )
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
-  set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
+  if(CMAKE_CONFIGURATION_TYPES)
+    foreach(config ${CMAKE_CONFIGURATION_TYPES})
+    set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
+                   "${CMAKE_CURRENT_BINARY_DIR}/${config}/WrapITK.pth"
+                   @ONLY)
+      # Install the package python files.
+      set(init_file ${CMAKE_CURRENT_BINARY_DIR}/${config}/itk/__init__.py)
+      configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py.in
+        "${init_file}"
+        )
+      WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
+      set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
+      WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
+    endforeach()
+  else()
+    # Install the package python files.
+    set(init_file ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py.in
+      ${CMAKE_CURRENT_BINARY_DIR}/itk/__init__.py
+      )
+    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
+    set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
+    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
+  endif()
 endif()
 
 
@@ -199,27 +216,20 @@ endif()
 # Configure and install the custom python .pth files
 
 if(CMAKE_CONFIGURATION_TYPES)
-
   foreach(config ${CMAKE_CONFIGURATION_TYPES})
     set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}")
-    set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${config}")
-    set(CONFIG_ITK_WRAP_SWIG_PYTHON_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+    set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}/itk")
 
-    # SWIG-generated libs files are sent to ${config} subdir, SWIG-generated *.py are not
-    # This assumes that CMAKE_LIBRARY_OUTPUT_DIRECTORY is WrapITK_BINARY_DIR/bin (bad!)
-    # TODO: We need a better way to do this.
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
                    "${CMAKE_CURRENT_BINARY_DIR}/${config}/WrapITK.pth"
                    @ONLY)
   endforeach()
 else()
   set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}")
-  set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-
+  set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/itk")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
                  "${CMAKE_CURRENT_BINARY_DIR}/WrapITK.pth"
                  @ONLY)
-
 endif()
 
 ###############################################################################
@@ -233,8 +243,9 @@ macro(itk_wrap_module_python library_name)
   set(ITK_WRAP_PYTHON_LIBRARY_CALLS "
   PyObject * sysModules = PyImport_GetModuleDict();\n")
   set(ITK_WRAP_PYTHON_CXX_FILES )
+  set(ITK_WRAP_PYTHON_PYTHON_FILES )
   if(MSVC)
-    get_filename_component(python_library_directory "${Python3_LIBRARY}" DIRECTORY)
+    get_filename_component(python_library_directory "${Python3_LIBRARIES}" DIRECTORY)
     # It should use the following code inside `itk_end_wrap_module_python` but
     # `target_link_directories()` was only added to CMake 3.13.
     # target_link_directories(${lib} PUBLIC ${python_library_directory})
@@ -351,16 +362,22 @@ macro(itk_end_wrap_module_python)
   if(NOT "${WRAPPER_LIBRARY_NAME}" STREQUAL "ITKPyBase")
     set(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS "'ITKPyBase', ${ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS}")
     set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import itk.ITKPyBasePython\n${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}")
+    set(ITK_WRAP_PYTHON_SNAKE_CASE "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+  else()
+    unset(ITK_WRAP_PYTHON_SNAKE_CASE)
   endif()
+  set(ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py")
 
   # and create the file, with the var ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES and
   # ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS created earlier
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/ModuleConfig.py.in"
-    "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
+    "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
     @ONLY)
+
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/Configuration
     "${WRAPPER_LIBRARY_NAME}"
-    "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
+    "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
+    "${ITK_WRAP_PYTHON_SNAKE_CASE}"
   )
 
   set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS )
@@ -454,7 +471,15 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
 
   # build all the c++ files from this module in a common lib
   if(NOT TARGET ${lib})
+    # message(FATAL_ERROR "CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} CMAKE_LIBRARY_OUTPUT_DIRECTORY_Release ${CMAKE_LIBRARY_OUTPUT_DIRECTORY_Release}")
     add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
+    if(CMAKE_CONFIGURATION_TYPES)
+      set(package_dir "${ITK_BINARY_DIR}/Wrapping/Generators/Python/$<CONFIG>/itk")
+      set_target_properties(${lib} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${package_dir}")
+      set_target_properties(${lib} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${package_dir}")
+      add_custom_command(TARGET ${lib} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different "${python_file}" ${ITK_WRAP_PYTHON_PYTHON_FILES} "${package_dir}")
+    endif()
     set_target_properties(${lib} PROPERTIES PREFIX "_")
     # gcc 4.4 complains a lot without this flag when building in release mode
     if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -573,9 +598,10 @@ macro(itk_end_wrap_submodule_python group_name)
   # list of python related c++ files, so they can be built at the end
   # of the current module.
   list(APPEND ITK_WRAP_PYTHON_CXX_FILES ${cpp_file})
+  list(APPEND ITK_WRAP_PYTHON_PYTHON_FILES ${python_file})
 
   # add needed files to the deps list
-  list(APPEND ITK_WRAP_PYTHON_LIBRARY_DEPS "${python_file}" "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i" "${cpp_file}")
+  list(APPEND ITK_WRAP_PYTHON_LIBRARY_DEPS "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${base_name}_ext.i" "${cpp_file}")
 
   # add this wrap_*.cmake stuff to the list of modules to init in the main module.
   # first the extern c declaration and then the call of the extern function

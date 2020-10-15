@@ -55,7 +55,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT VTKImageExport : public VTKImageExportBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageExport);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKImageExport);
 
   /** Standard class type aliases. */
   using Self = VTKImageExport;

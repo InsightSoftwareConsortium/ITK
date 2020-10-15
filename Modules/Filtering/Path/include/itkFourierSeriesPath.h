@@ -59,7 +59,7 @@ template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT FourierSeriesPath : public ParametricPath<VDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FourierSeriesPath);
+  ITK_DISALLOW_COPY_AND_MOVE(FourierSeriesPath);
 
   /** Standard class type aliases. */
   using Self = FourierSeriesPath;

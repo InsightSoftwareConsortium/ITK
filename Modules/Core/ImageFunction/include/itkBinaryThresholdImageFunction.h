@@ -44,7 +44,7 @@ template <typename TInputImage, typename TCoordRep = float>
 class ITK_TEMPLATE_EXPORT BinaryThresholdImageFunction : public ImageFunction<TInputImage, bool, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThresholdImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryThresholdImageFunction);
 
   /** Standard class type aliases. */
   using Self = BinaryThresholdImageFunction;

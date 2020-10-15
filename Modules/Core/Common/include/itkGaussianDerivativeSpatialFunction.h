@@ -42,7 +42,7 @@ template <typename TOutput = double, unsigned int VImageDimension = 3, typename 
 class ITK_TEMPLATE_EXPORT GaussianDerivativeSpatialFunction : public SpatialFunction<TOutput, VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDerivativeSpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianDerivativeSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = GaussianDerivativeSpatialFunction;

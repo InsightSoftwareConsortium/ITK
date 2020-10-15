@@ -58,7 +58,7 @@ template <typename TImage, typename TOutputPixelType>
 class NthElementImageAdaptor : public NthElementImageAdaptorHelper<TImage, TOutputPixelType>::Super
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NthElementImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(NthElementImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = NthElementImageAdaptor;

@@ -38,7 +38,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT Rigid3DPerspectiveTransform : public Transform<TParametersValueType, 3, 2>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid3DPerspectiveTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(Rigid3DPerspectiveTransform);
 
   /** Dimension of the domain space. */
   static constexpr unsigned int InputSpaceDimension = 3;

@@ -77,7 +77,7 @@ template <typename TLabelImage, typename TIntensityImage = TLabelImage>
 class ITK_TEMPLATE_EXPORT LabelGeometryImageFilter : public ImageToImageFilter<TLabelImage, TIntensityImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelGeometryImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelGeometryImageFilter);
 
   /** Standard Self type alias */
   using Self = LabelGeometryImageFilter;

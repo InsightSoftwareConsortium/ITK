@@ -35,7 +35,7 @@ template <unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT MetaLineConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaLineConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaLineConverter);
 
   /** Standard class type aliases */
   using Self = MetaLineConverter;

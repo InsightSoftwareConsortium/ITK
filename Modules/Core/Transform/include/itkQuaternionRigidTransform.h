@@ -48,7 +48,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT QuaternionRigidTransform : public Rigid3DTransform<TParametersValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuaternionRigidTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(QuaternionRigidTransform);
 
   /** Standard class type aliases.   */
   using Self = QuaternionRigidTransform;

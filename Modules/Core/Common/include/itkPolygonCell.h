@@ -53,7 +53,7 @@ template <typename TCellInterface>
 class ITK_TEMPLATE_EXPORT PolygonCell : public TCellInterface
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonCell);
+  ITK_DISALLOW_COPY_AND_MOVE(PolygonCell);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(PolygonCell);

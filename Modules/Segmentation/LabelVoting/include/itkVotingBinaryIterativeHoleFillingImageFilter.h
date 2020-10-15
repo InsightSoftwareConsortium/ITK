@@ -56,7 +56,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT VotingBinaryIterativeHoleFillingImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryIterativeHoleFillingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VotingBinaryIterativeHoleFillingImageFilter);
 
   /** Convenient type alias for simplifying declarations. */
   using InputImageType = TImage;

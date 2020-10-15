@@ -58,7 +58,7 @@ template <typename TInputMesh, typename TOutputMesh = TInputMesh>
 class ITK_TEMPLATE_EXPORT SmoothingQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SmoothingQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SmoothingQuadEdgeMeshFilter);
 
   using Self = SmoothingQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;

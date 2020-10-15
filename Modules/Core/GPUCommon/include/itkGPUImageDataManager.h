@@ -49,7 +49,7 @@ class ITK_TEMPLATE_EXPORT GPUImageDataManager : public GPUDataManager
   friend class GPUImage<typename ImageType::PixelType, ImageType::ImageDimension>;
 
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageDataManager);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUImageDataManager);
 
   using Self = GPUImageDataManager;
   using Superclass = GPUDataManager;

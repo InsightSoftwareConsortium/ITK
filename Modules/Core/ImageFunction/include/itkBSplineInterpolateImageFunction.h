@@ -82,7 +82,7 @@ template <typename TImageType, typename TCoordRep = double, typename TCoefficien
 class ITK_TEMPLATE_EXPORT BSplineInterpolateImageFunction : public InterpolateImageFunction<TImageType, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineInterpolateImageFunction;

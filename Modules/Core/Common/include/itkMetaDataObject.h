@@ -75,7 +75,7 @@ template <typename MetaDataObjectType>
 class ITK_TEMPLATE_EXPORT MetaDataObject : public MetaDataObjectBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObject);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaDataObject);
 
   /** Smart pointer type alias support */
   using Self = MetaDataObject;

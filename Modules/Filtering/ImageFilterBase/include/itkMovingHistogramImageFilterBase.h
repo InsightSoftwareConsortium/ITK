@@ -91,7 +91,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT MovingHistogramImageFilterBase : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(MovingHistogramImageFilterBase);
 
   /** Standard class type aliases. */
   using Self = MovingHistogramImageFilterBase;

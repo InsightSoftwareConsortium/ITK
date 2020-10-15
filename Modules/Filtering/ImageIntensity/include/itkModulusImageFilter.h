@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT ModulusImageFilter
   : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ModulusImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ModulusImageFilter);
 
   /** Standard class type aliases. */
   using Self = ModulusImageFilter;

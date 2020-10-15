@@ -19,6 +19,7 @@
 #define itkGrayscaleMorphologicalClosingImageFilter_h
 
 #include "itkKernelImageFilter.h"
+#include "itkMathematicalMorphologyEnums.h"
 #include "itkMovingHistogramErodeImageFilter.h"
 #include "itkMovingHistogramDilateImageFilter.h"
 #include "itkBasicErodeImageFilter.h"
@@ -34,10 +35,9 @@ namespace itk
 {
 /**
  * \class GrayscaleMorphologicalClosingImageFilter
- * \brief gray scale dilation of an image
+ * \brief Grayscale closing of an image.
  *
- * Erode an image using grayscale morphology. Dilation takes the
- * maximum of all the pixels identified by the structuring element.
+ * Close an image using grayscale morphology.
  *
  * The structuring element is assumed to be composed of binary
  * values (zero or one). Only elements of the structuring element
@@ -53,7 +53,7 @@ class ITK_TEMPLATE_EXPORT GrayscaleMorphologicalClosingImageFilter
   : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalClosingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleMorphologicalClosingImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleMorphologicalClosingImageFilter;
@@ -69,15 +69,6 @@ public:
 
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
-
-  /** define values used to determine which algorithm to use */
-  enum AlgorithmType
-  {
-    BASIC = 0,
-    HISTO = 1,
-    ANCHOR = 2,
-    VHGW = 3
-  };
 
   /** Image related type alias. */
   using InputImageType = TInputImage;
@@ -104,14 +95,27 @@ public:
   //   using KernelSuperclass = typename KernelType::Superclass;
   //   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
 
+  using AlgorithmEnum = MathematicalMorphologyEnums::Algorithm;
+
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Backwards compatibility for enum values */
+  using AlgorithmType = AlgorithmEnum;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr AlgorithmType BASIC = AlgorithmEnum::BASIC;
+  static constexpr AlgorithmType HISTO = AlgorithmEnum::HISTO;
+  static constexpr AlgorithmType ANCHOR = AlgorithmEnum::ANCHOR;
+  static constexpr AlgorithmType VHGW = AlgorithmEnum::VHGW;
+#endif
+
   /** Set kernel (structuring element). */
   void
   SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the backend filter class. */
   void
-  SetAlgorithm(int algo);
-  itkGetConstMacro(Algorithm, int);
+  SetAlgorithm(AlgorithmEnum algo);
+  itkGetConstMacro(Algorithm, AlgorithmEnum);
 
   /** GrayscaleMorphologicalClosingImageFilter need to set its internal filters
     as modified */
@@ -150,7 +154,7 @@ private:
   typename AnchorFilterType::Pointer m_AnchorFilter;
 
   // and the name of the filter
-  int m_Algorithm;
+  AlgorithmEnum m_Algorithm;
 
   bool m_SafeBorder;
 }; // end of class

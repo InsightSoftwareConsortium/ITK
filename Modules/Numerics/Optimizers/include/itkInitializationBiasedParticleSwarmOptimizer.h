@@ -72,7 +72,7 @@ namespace itk
 class ITKOptimizers_EXPORT InitializationBiasedParticleSwarmOptimizer : public ParticleSwarmOptimizerBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InitializationBiasedParticleSwarmOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(InitializationBiasedParticleSwarmOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = InitializationBiasedParticleSwarmOptimizer;

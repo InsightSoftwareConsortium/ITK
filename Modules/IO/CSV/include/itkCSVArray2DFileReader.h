@@ -79,7 +79,7 @@ template <typename TData>
 class ITK_TEMPLATE_EXPORT CSVArray2DFileReader : public CSVFileReaderBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CSVArray2DFileReader);
+  ITK_DISALLOW_COPY_AND_MOVE(CSVArray2DFileReader);
 
   /** Standard class type aliases */
   using Self = CSVArray2DFileReader;

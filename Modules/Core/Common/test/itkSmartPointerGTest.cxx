@@ -29,7 +29,7 @@ namespace
 class Derived1 : public itk::Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Derived1);
+  ITK_DISALLOW_COPY_AND_MOVE(Derived1);
 
   /** Standard class type aliases. */
   using Self = Derived1;
@@ -67,7 +67,7 @@ protected:
 class Derived2 : public itk::Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Derived2);
+  ITK_DISALLOW_COPY_AND_MOVE(Derived2);
 
   /** Standard class type aliases. */
   using Self = Derived2;

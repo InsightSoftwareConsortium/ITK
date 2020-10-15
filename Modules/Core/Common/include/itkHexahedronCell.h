@@ -46,7 +46,7 @@ class ITK_TEMPLATE_EXPORT HexahedronCell
   , private HexahedronCellTopology
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HexahedronCell);
+  ITK_DISALLOW_COPY_AND_MOVE(HexahedronCell);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(HexahedronCell);

@@ -61,7 +61,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT OtsuMultipleThresholdsImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OtsuMultipleThresholdsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(OtsuMultipleThresholdsImageFilter);
 
   /** Standard Self type alias */
   using Self = OtsuMultipleThresholdsImageFilter;

@@ -44,7 +44,7 @@ template <typename TSample>
 class ITK_TEMPLATE_EXPORT WeightedCovarianceSampleFilter : public CovarianceSampleFilter<TSample>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCovarianceSampleFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(WeightedCovarianceSampleFilter);
 
   /** Standard class type aliases. */
   using Self = WeightedCovarianceSampleFilter;

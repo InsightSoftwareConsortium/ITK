@@ -57,7 +57,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT HMaximaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HMaximaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HMaximaImageFilter);
 
   /** Standard class type aliases. */
   using Self = HMaximaImageFilter;

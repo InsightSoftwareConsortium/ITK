@@ -40,7 +40,7 @@ template <typename TElement>
 class ITK_TEMPLATE_EXPORT GPUReduction : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUReduction);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUReduction);
 
   /** Standard class type aliases. */
   using Self = GPUReduction;

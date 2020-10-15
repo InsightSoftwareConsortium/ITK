@@ -40,7 +40,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainMapImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetDomainMapImageFilter);
 
   using Self = LevelSetDomainMapImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;

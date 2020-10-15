@@ -62,7 +62,7 @@ template <typename TImageType, typename TFeatureImageType = TImageType>
 class ITK_TEMPLATE_EXPORT CurvesLevelSetFunction : public SegmentationLevelSetFunction<TImageType, TFeatureImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(CurvesLevelSetFunction);
 
   /** Standard class type aliases. */
   using Self = CurvesLevelSetFunction;

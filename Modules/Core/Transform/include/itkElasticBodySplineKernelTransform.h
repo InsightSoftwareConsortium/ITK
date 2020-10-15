@@ -40,7 +40,7 @@ template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT ElasticBodySplineKernelTransform : public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ElasticBodySplineKernelTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ElasticBodySplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = ElasticBodySplineKernelTransform;

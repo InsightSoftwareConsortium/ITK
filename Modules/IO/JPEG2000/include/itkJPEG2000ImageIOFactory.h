@@ -45,7 +45,7 @@ namespace itk
 class ITKIOJPEG2000_EXPORT JPEG2000ImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(JPEG2000ImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = JPEG2000ImageIOFactory;

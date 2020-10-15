@@ -38,7 +38,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT EllipseSpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EllipseSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(EllipseSpatialObject);
 
   using Self = EllipseSpatialObject;
   using ScalarType = double;

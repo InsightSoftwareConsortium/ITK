@@ -145,7 +145,7 @@ class ITK_TEMPLATE_EXPORT MaskedFFTNormalizedCorrelationImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedFFTNormalizedCorrelationImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaskedFFTNormalizedCorrelationImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskedFFTNormalizedCorrelationImageFilter;

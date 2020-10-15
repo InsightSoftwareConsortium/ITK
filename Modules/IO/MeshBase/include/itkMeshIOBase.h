@@ -71,7 +71,7 @@ namespace itk
 class ITKIOMeshBase_EXPORT MeshIOBase : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOBase);
+  ITK_DISALLOW_COPY_AND_MOVE(MeshIOBase);
 
   /** Standard class type aliases. */
   using Self = MeshIOBase;

@@ -75,7 +75,7 @@ template <typename TInputImage, typename TOutputImage, typename THistogramMeasur
 class ITK_TEMPLATE_EXPORT HistogramMatchingImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramMatchingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramMatchingImageFilter);
 
   /** Standard class type aliases. */
   using Self = HistogramMatchingImageFilter;

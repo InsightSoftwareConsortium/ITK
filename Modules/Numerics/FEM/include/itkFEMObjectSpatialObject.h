@@ -41,7 +41,7 @@ template <unsigned int TDimension = 3>
 class ITK_TEMPLATE_EXPORT FEMObjectSpatialObject : public SpatialObject<TDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMObjectSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(FEMObjectSpatialObject);
 
   using Self = FEMObjectSpatialObject<TDimension>;
   using Superclass = SpatialObject<TDimension>;

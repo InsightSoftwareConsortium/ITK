@@ -19,6 +19,7 @@
 #define itkGrayscaleMorphologicalOpeningImageFilter_h
 
 #include "itkKernelImageFilter.h"
+#include "itkMathematicalMorphologyEnums.h"
 #include "itkMovingHistogramDilateImageFilter.h"
 #include "itkMovingHistogramErodeImageFilter.h"
 #include "itkBasicDilateImageFilter.h"
@@ -33,10 +34,9 @@ namespace itk
 {
 /**
  * \class GrayscaleMorphologicalOpeningImageFilter
- * \brief gray scale dilation of an image
+ * \brief Grayscale opening of an image.
  *
- * Dilate an image using grayscale morphology. Dilation takes the
- * maximum of all the pixels identified by the structuring element.
+ * Open an image using grayscale morphology.
  *
  * The structuring element is assumed to be composed of binary
  * values (zero or one). Only elements of the structuring element
@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT GrayscaleMorphologicalOpeningImageFilter
   : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalOpeningImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleMorphologicalOpeningImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleMorphologicalOpeningImageFilter;
@@ -94,29 +94,32 @@ public:
   //   using KernelSuperclass = typename KernelType::Superclass;
   //   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
 
+  using AlgorithmEnum = MathematicalMorphologyEnums::Algorithm;
+
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Backwards compatibility for enum values */
+  using AlgorithmType = AlgorithmEnum;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr AlgorithmType BASIC = AlgorithmEnum::BASIC;
+  static constexpr AlgorithmType HISTO = AlgorithmEnum::HISTO;
+  static constexpr AlgorithmType ANCHOR = AlgorithmEnum::ANCHOR;
+  static constexpr AlgorithmType VHGW = AlgorithmEnum::VHGW;
+#endif
+
   /** Set kernel (structuring element). */
   void
   SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the backend filter class. */
   void
-  SetAlgorithm(int algo);
-
-  itkGetConstMacro(Algorithm, int);
+  SetAlgorithm(AlgorithmEnum algo);
+  itkGetConstMacro(Algorithm, AlgorithmEnum);
 
   /** GrayscaleMorphologicalOpeningImageFilter need to set its internal filters
     as modified */
   void
   Modified() const override;
-
-  /** define values used to determine which algorithm to use */
-  enum AlgorithmType
-  {
-    BASIC = 0,
-    HISTO = 1,
-    ANCHOR = 2,
-    VHGW = 3
-  };
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */
@@ -150,7 +153,7 @@ private:
   typename AnchorFilterType::Pointer m_AnchorFilter;
 
   // and the name of the filter
-  int m_Algorithm;
+  AlgorithmEnum m_Algorithm;
 
   bool m_SafeBorder{ true };
 }; // end of class

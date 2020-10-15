@@ -31,7 +31,7 @@ template <typename TOutputImage>
 class ExampleImageSource : public GaussianImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExampleImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(ExampleImageSource);
 
   /** Standard type alias. */
   using Self = ExampleImageSource;

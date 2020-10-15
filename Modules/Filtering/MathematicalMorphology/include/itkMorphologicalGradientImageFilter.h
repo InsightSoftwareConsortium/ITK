@@ -19,6 +19,7 @@
 #define itkMorphologicalGradientImageFilter_h
 
 #include "itkKernelImageFilter.h"
+#include "itkMathematicalMorphologyEnums.h"
 #include "itkMovingHistogramMorphologicalGradientImageFilter.h"
 #include "itkBasicDilateImageFilter.h"
 #include "itkBasicErodeImageFilter.h"
@@ -34,10 +35,7 @@ namespace itk
 {
 /**
  * \class MorphologicalGradientImageFilter
- * \brief gray scale dilation of an image
- *
- * Dilate an image using grayscale morphology. Dilation takes the
- * maximum of all the pixels identified by the structuring element.
+ * \brief Compute the gradient of a grayscale image.
  *
  * The structuring element is assumed to be composed of binary
  * values (zero or one). Only elements of the structuring element
@@ -53,7 +51,7 @@ class ITK_TEMPLATE_EXPORT MorphologicalGradientImageFilter
   : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalGradientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphologicalGradientImageFilter);
 
   /** Standard class type aliases. */
   using Self = MorphologicalGradientImageFilter;
@@ -95,29 +93,32 @@ public:
   //   using KernelSuperclass = typename KernelType::Superclass;
   //   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
 
+  using AlgorithmEnum = MathematicalMorphologyEnums::Algorithm;
+
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Backwards compatibility for enum values */
+  using AlgorithmType = AlgorithmEnum;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr AlgorithmType BASIC = AlgorithmEnum::BASIC;
+  static constexpr AlgorithmType HISTO = AlgorithmEnum::HISTO;
+  static constexpr AlgorithmType ANCHOR = AlgorithmEnum::ANCHOR;
+  static constexpr AlgorithmType VHGW = AlgorithmEnum::VHGW;
+#endif
+
   /** Set kernel (structuring element). */
   void
   SetKernel(const KernelType & kernel) override;
 
   /** Set/Get the backend filter class. */
   void
-  SetAlgorithm(int algo);
-
-  itkGetConstMacro(Algorithm, int);
+  SetAlgorithm(AlgorithmEnum algo);
+  itkGetConstMacro(Algorithm, AlgorithmEnum);
 
   /** MorphologicalGradientImageFilter need to set its internal filters as
     modified */
   void
   Modified() const override;
-
-  /** define values used to determine which algorithm to use */
-  enum AlgorithmType
-  {
-    BASIC = 0,
-    HISTO = 1,
-    ANCHOR = 2,
-    VHGW = 3
-  };
 
 protected:
   MorphologicalGradientImageFilter();
@@ -145,7 +146,7 @@ private:
   typename VHGWErodeFilterType::Pointer m_VanHerkGilWermanErodeFilter;
 
   // and the name of the filter
-  int m_Algorithm;
+  AlgorithmEnum m_Algorithm;
 }; // end of class
 } // end namespace itk
 

@@ -69,7 +69,7 @@ class ITK_TEMPLATE_EXPORT ImageSource
   , private ImageSourceCommon
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSource);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageSource);
 
   /** Standard class type aliases. */
   using Self = ImageSource;

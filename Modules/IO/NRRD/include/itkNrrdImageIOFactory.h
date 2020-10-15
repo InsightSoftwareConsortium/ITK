@@ -32,7 +32,7 @@ namespace itk
 class ITKIONRRD_EXPORT NrrdImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(NrrdImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = NrrdImageIOFactory;

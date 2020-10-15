@@ -35,7 +35,7 @@ namespace itk
 class ITKIOHDF5_EXPORT HDF5ImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(HDF5ImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = HDF5ImageIOFactory;

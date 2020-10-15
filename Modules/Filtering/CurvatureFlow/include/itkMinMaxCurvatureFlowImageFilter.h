@@ -83,7 +83,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowImageFilter : public CurvatureFlowImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MinMaxCurvatureFlowImageFilter);
 
   /** Standard class type aliases. */
   using Self = MinMaxCurvatureFlowImageFilter;

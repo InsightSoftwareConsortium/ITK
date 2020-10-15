@@ -87,7 +87,7 @@ template <typename TParametersValueType = double, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT CompositeTransform : public MultiTransform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CompositeTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(CompositeTransform);
 
   /** Standard class type aliases. */
   using Self = CompositeTransform;

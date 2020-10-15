@@ -38,7 +38,7 @@ template <typename TInputMesh, typename TOutputMesh = TInputMesh>
 class DiscreteGaussianCurvatureQuadEdgeMeshFilter : public DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianCurvatureQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DiscreteGaussianCurvatureQuadEdgeMeshFilter);
 
   using Self = DiscreteGaussianCurvatureQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;

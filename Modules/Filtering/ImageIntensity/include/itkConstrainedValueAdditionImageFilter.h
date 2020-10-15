@@ -97,7 +97,7 @@ template <typename TInputImage1, typename TInputImage2, typename TOutputImage>
 class ConstrainedValueAdditionImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedValueAdditionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConstrainedValueAdditionImageFilter);
 
   /** Standard class type aliases. */
   using Self = ConstrainedValueAdditionImageFilter;

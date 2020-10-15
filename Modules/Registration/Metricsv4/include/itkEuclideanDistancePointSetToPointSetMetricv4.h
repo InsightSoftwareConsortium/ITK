@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT EuclideanDistancePointSetToPointSetMetricv4
   : public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EuclideanDistancePointSetToPointSetMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(EuclideanDistancePointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = EuclideanDistancePointSetToPointSetMetricv4;

@@ -44,7 +44,7 @@ template <typename TInput, // Input image or mesh
 class ITK_TEMPLATE_EXPORT LevelSetEquationBinaryMaskTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationBinaryMaskTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationBinaryMaskTerm);
 
   using Self = LevelSetEquationBinaryMaskTerm;
   using Pointer = SmartPointer<Self>;

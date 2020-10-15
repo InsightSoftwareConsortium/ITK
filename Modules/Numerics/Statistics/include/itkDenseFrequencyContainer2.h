@@ -43,7 +43,7 @@ namespace Statistics
 class ITKStatistics_EXPORT DenseFrequencyContainer2 : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DenseFrequencyContainer2);
+  ITK_DISALLOW_COPY_AND_MOVE(DenseFrequencyContainer2);
 
   /** Standard class type aliases */
   using Self = DenseFrequencyContainer2;

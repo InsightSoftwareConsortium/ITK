@@ -57,7 +57,7 @@ class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader
       TJointHistogramMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(JointHistogramMutualInformationComputeJointPDFThreader);
 
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationComputeJointPDFThreader;
@@ -99,7 +99,7 @@ class ITK_TEMPLATE_EXPORT
                                                                       TJointHistogramMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JointHistogramMutualInformationComputeJointPDFThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(JointHistogramMutualInformationComputeJointPDFThreader);
 
   /** Standard class type aliases. */
   using Self = JointHistogramMutualInformationComputeJointPDFThreader;

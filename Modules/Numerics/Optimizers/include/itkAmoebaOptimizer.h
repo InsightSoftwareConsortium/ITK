@@ -66,7 +66,7 @@ namespace itk
 class ITKOptimizers_EXPORT AmoebaOptimizer : public SingleValuedNonLinearVnlOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AmoebaOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(AmoebaOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = AmoebaOptimizer;

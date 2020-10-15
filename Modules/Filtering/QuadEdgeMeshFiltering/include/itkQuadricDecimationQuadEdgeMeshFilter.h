@@ -33,7 +33,7 @@ class ITK_TEMPLATE_EXPORT QuadricDecimationQuadEdgeMeshFilter
   : public EdgeDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadricDecimationQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadricDecimationQuadEdgeMeshFilter);
 
   using Self = QuadricDecimationQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;

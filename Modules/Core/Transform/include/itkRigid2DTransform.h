@@ -56,7 +56,7 @@ template <typename TParametersValueType = double>
 class ITK_TEMPLATE_EXPORT Rigid2DTransform : public MatrixOffsetTransformBase<TParametersValueType, 2, 2>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid2DTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(Rigid2DTransform);
 
   /** Standard class type aliases. */
   using Self = Rigid2DTransform;

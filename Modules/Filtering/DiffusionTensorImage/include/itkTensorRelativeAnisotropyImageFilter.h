@@ -78,7 +78,7 @@ class TensorRelativeAnisotropyImageFilter
                                    Functor::TensorRelativeAnisotropyFunction<typename TInputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TensorRelativeAnisotropyImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TensorRelativeAnisotropyImageFilter);
 
   /** Standard class type aliases. */
   using Self = TensorRelativeAnisotropyImageFilter;

@@ -45,7 +45,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ShapeKeepNObjectsLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeKeepNObjectsLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeKeepNObjectsLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeKeepNObjectsLabelMapFilter;

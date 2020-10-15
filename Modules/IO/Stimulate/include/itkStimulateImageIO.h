@@ -62,7 +62,7 @@ namespace itk
 class ITKIOStimulate_EXPORT StimulateImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(StimulateImageIO);
 
   /** Standard class type aliases. */
   using Self = StimulateImageIO;

@@ -65,7 +65,7 @@ template <typename TImageType>
 class ITK_TEMPLATE_EXPORT HashImageFilter : public InPlaceImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HashImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HashImageFilter);
 
   /** Standard Self type alias */
   using Self = HashImageFilter;

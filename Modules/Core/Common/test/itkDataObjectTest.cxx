@@ -25,7 +25,7 @@ namespace itk
 class DataObjectTestHelper : public DataObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DataObjectTestHelper);
+  ITK_DISALLOW_COPY_AND_MOVE(DataObjectTestHelper);
 
   /** Standard type alias. */
   using Self = DataObjectTestHelper;

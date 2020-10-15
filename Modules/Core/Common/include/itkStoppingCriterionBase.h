@@ -38,7 +38,7 @@ namespace itk
 class ITKCommon_EXPORT StoppingCriterionBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StoppingCriterionBase);
+  ITK_DISALLOW_COPY_AND_MOVE(StoppingCriterionBase);
 
   using Self = StoppingCriterionBase;
   using Superclass = Object;

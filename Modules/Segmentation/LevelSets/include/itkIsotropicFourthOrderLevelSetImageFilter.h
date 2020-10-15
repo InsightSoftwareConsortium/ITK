@@ -75,7 +75,7 @@ class ITK_TEMPLATE_EXPORT IsotropicFourthOrderLevelSetImageFilter
   : public SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicFourthOrderLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(IsotropicFourthOrderLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = IsotropicFourthOrderLevelSetImageFilter;

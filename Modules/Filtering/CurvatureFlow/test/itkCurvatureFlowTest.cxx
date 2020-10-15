@@ -52,7 +52,7 @@ template <typename TImageType>
 class DummyFunction : public FiniteDifferenceFunction<TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DummyFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(DummyFunction);
 
   using Self = DummyFunction;
   using Superclass = FiniteDifferenceFunction<TImageType>;

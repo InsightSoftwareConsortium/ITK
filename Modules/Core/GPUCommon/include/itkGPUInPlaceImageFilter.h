@@ -40,7 +40,7 @@ class ITK_TEMPLATE_EXPORT GPUInPlaceImageFilter
   : public GPUImageToImageFilter<TInputImage, TOutputImage, TParentImageFilter>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUInPlaceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUInPlaceImageFilter);
 
   /** Standard class type aliases. */
   using Self = GPUInPlaceImageFilter;

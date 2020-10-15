@@ -40,7 +40,7 @@ namespace itk
 class ITKCommon_EXPORT StreamingProcessObject : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StreamingProcessObject);
+  ITK_DISALLOW_COPY_AND_MOVE(StreamingProcessObject);
 
   /** Standard class types. */
   using Self = StreamingProcessObject;

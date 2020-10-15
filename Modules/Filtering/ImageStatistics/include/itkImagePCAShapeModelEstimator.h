@@ -76,7 +76,7 @@ template <typename TInputImage, typename TOutputImage = Image<double, TInputImag
 class ITK_TEMPLATE_EXPORT ImagePCAShapeModelEstimator : public ImageShapeModelEstimatorBase<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCAShapeModelEstimator);
+  ITK_DISALLOW_COPY_AND_MOVE(ImagePCAShapeModelEstimator);
 
   /** Standard class type aliases. */
   using Self = ImagePCAShapeModelEstimator;

@@ -62,7 +62,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ExponentialDisplacementFieldImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExponentialDisplacementFieldImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExponentialDisplacementFieldImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExponentialDisplacementFieldImageFilter;

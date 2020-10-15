@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT MultiplyImageFilter
   : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiplyImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiplyImageFilter);
 
   /** Standard class type aliases. */
   using Self = MultiplyImageFilter;

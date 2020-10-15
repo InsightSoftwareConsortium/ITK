@@ -41,7 +41,7 @@ class VanHerkGilWermanDilateImageFilter
   : public VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, MaxFunctor<typename TImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VanHerkGilWermanDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VanHerkGilWermanDilateImageFilter);
 
   using Self = VanHerkGilWermanDilateImageFilter;
   using Superclass = VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, MaxFunctor<typename TImage::PixelType>>;

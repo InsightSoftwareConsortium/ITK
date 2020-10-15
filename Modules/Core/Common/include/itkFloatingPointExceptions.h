@@ -55,7 +55,7 @@ struct ExceptionGlobals;
 class ITKCommon_EXPORT FloatingPointExceptions
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FloatingPointExceptions);
+  ITK_DISALLOW_COPY_AND_MOVE(FloatingPointExceptions);
   // default constructor required for wrapping to succeed
   FloatingPointExceptions() = default;
   virtual ~FloatingPointExceptions() = default;

@@ -166,6 +166,11 @@ SegmentTreeGenerator<TScalar>::CompileMergeList(SegmentTableTypePointer segments
 
     // Must take into account any equivalencies that have already been
     // recorded.
+    if (segment_ptr->second.edge_list.empty())
+    {
+      // This is to defend against the referencing below.  This was causing an assert error.
+      itkGenericExceptionMacro(<< "CompileMergeList:: An unexpected and fatal error has occurred.");
+    }
     labelTO = m_MergedSegmentsTable->RecursiveLookup((*segment_ptr).second.edge_list.front().label);
     while (labelTO == labelFROM) // Pop off any bogus merges with ourself
     {                            // that may have been left in this list.

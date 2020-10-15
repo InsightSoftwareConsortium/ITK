@@ -68,7 +68,7 @@ template <typename TInputImage, typename TFeatureImage, typename TSingleData>
 class RegionBasedLevelSetFunctionSharedData : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionSharedData);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionBasedLevelSetFunctionSharedData);
 
   using Self = RegionBasedLevelSetFunctionSharedData;
   using Superclass = LightObject;

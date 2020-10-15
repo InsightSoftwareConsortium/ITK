@@ -120,7 +120,7 @@ class ITK_TEMPLATE_EXPORT ThresholdLabelerImageFilter
       Functor::ThresholdLabeler<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdLabelerImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ThresholdLabelerImageFilter);
 
   /** Standard class type aliases. */
   using Self = ThresholdLabelerImageFilter;

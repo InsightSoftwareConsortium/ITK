@@ -36,7 +36,7 @@ template <typename TPixel>
 class ITK_TEMPLATE_EXPORT LevelSetTestFunction : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetTestFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetTestFunction);
 
   using Self = LevelSetTestFunction;
   using Superclass = LightObject;

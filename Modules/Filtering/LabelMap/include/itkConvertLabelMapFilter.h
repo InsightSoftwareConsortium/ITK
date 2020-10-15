@@ -44,7 +44,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ConvertLabelMapFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConvertLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConvertLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ConvertLabelMapFilter;

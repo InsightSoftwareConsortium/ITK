@@ -134,7 +134,7 @@ class ITK_TEMPLATE_EXPORT BSplineScatteredDataPointSetToImageFilter
   : public PointSetToImageFilter<TInputPointSet, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineScatteredDataPointSetToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineScatteredDataPointSetToImageFilter);
 
   /** Standard class type aliases. */
   using Self = BSplineScatteredDataPointSetToImageFilter;

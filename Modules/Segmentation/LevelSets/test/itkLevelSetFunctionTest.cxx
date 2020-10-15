@@ -145,7 +145,7 @@ private:
 class MorphFilter : public ::itk::DenseFiniteDifferenceImageFilter<::itk::Image<float, 2>, ::itk::Image<float, 2>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MorphFilter);
 
   using Self = MorphFilter;
 

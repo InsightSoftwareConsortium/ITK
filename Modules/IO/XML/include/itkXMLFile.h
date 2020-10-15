@@ -35,7 +35,7 @@ namespace itk
 class ITKIOXML_EXPORT XMLReaderBase : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReaderBase);
+  ITK_DISALLOW_COPY_AND_MOVE(XMLReaderBase);
 
   using Self = XMLReaderBase;
 
@@ -100,7 +100,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT XMLReader : public XMLReaderBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReader);
+  ITK_DISALLOW_COPY_AND_MOVE(XMLReader);
 
   using Self = XMLReader;
 
@@ -144,7 +144,7 @@ template <typename T>
 class ITK_TEMPLATE_EXPORT XMLWriterBase : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLWriterBase);
+  ITK_DISALLOW_COPY_AND_MOVE(XMLWriterBase);
 
   using Self = XMLWriterBase;
 

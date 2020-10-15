@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction
   : public FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>, Array<double>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineInterpolationWeightFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineInterpolationWeightFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineInterpolationWeightFunction;

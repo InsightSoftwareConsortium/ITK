@@ -36,7 +36,7 @@ template <typename TOutput, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT DiscreteLevelSetImage : public LevelSetImage<Index<VDimension>, VDimension, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteLevelSetImage);
+  ITK_DISALLOW_COPY_AND_MOVE(DiscreteLevelSetImage);
 
   using IndexType = Index<VDimension>;
 

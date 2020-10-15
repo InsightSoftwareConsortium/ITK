@@ -50,7 +50,7 @@ template <typename THistogram, typename TImage, typename TFunction>
 class ITK_TEMPLATE_EXPORT HistogramToImageFilter : public ImageSource<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramToImageFilter);
 
   /** Standard class type aliases. */
   using FunctorType = TFunction;

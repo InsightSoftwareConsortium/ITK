@@ -41,7 +41,7 @@ namespace itk
 class ITKIOMeshVTK_EXPORT VTKPolyDataMeshIO : public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataMeshIO);
+  ITK_DISALLOW_COPY_AND_MOVE(VTKPolyDataMeshIO);
 
   /** Standard "Self" type alias. */
   using Self = VTKPolyDataMeshIO;

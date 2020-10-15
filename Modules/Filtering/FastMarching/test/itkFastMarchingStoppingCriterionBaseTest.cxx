@@ -24,7 +24,7 @@ template <typename TInput, typename TOutput>
 class FastMarchingStoppingCriterionBaseHelperTest : public FastMarchingStoppingCriterionBase<TInput, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingStoppingCriterionBaseHelperTest);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingStoppingCriterionBaseHelperTest);
 
   using Self = FastMarchingStoppingCriterionBaseHelperTest;
   using Superclass = FastMarchingStoppingCriterionBase<TInput, TOutput>;

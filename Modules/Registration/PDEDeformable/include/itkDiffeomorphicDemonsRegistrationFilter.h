@@ -79,7 +79,7 @@ class ITK_TEMPLATE_EXPORT DiffeomorphicDemonsRegistrationFilter
   : public PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiffeomorphicDemonsRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DiffeomorphicDemonsRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = DiffeomorphicDemonsRegistrationFilter;

@@ -46,7 +46,7 @@ class ITK_TEMPLATE_EXPORT InterpolateImageFunction
   : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(InterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = InterpolateImageFunction;

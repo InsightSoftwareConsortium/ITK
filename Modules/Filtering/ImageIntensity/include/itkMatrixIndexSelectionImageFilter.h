@@ -97,7 +97,7 @@ class MatrixIndexSelectionImageFilter
       Functor::MatrixIndexSelection<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MatrixIndexSelectionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MatrixIndexSelectionImageFilter);
 
   /** Standard class type aliases. */
   using Self = MatrixIndexSelectionImageFilter<Image<Matrix<unsigned short, 2, 2>, 2>, Image<unsigned char, 2>>;

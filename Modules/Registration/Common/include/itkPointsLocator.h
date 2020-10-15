@@ -42,7 +42,7 @@ template <typename TPointsContainer = VectorContainer<IdentifierType, Point<floa
 class ITK_TEMPLATE_EXPORT PointsLocator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PointsLocator);
+  ITK_DISALLOW_COPY_AND_MOVE(PointsLocator);
 
   /** Standard class type aliases. */
   using Self = PointsLocator;

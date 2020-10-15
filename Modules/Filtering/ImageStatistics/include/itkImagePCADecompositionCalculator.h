@@ -59,7 +59,7 @@ template <typename TInputImage, typename TBasisImage = Image<double, TInputImage
 class ITK_TEMPLATE_EXPORT ImagePCADecompositionCalculator : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImagePCADecompositionCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(ImagePCADecompositionCalculator);
 
   /** Standard class type aliases. */
   using Self = ImagePCADecompositionCalculator;

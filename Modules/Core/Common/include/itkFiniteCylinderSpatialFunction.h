@@ -39,7 +39,7 @@ template <unsigned int VDimension = 3, typename TInput = Point<double, VDimensio
 class ITK_TEMPLATE_EXPORT FiniteCylinderSpatialFunction : public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteCylinderSpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(FiniteCylinderSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = FiniteCylinderSpatialFunction;

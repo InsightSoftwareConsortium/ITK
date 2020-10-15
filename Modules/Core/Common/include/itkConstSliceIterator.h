@@ -108,7 +108,7 @@ public:
   /** Returns the logical && of the boolean == of two slice iterator positions,
    * stride, and start locations. */
   bool
-  operator==(const ConstSliceIterator & orig)
+  operator==(const ConstSliceIterator & orig) const
   {
     return orig.m_Pos == this->m_Pos && orig.m_Slice.stride() == this->m_Slice.stride() &&
            orig.m_Slice.start() == this->m_Slice.start();
@@ -116,7 +116,7 @@ public:
 
   /** Returns the logical inverse of the boolean == of two slice iterators. */
   bool
-  operator!=(const ConstSliceIterator & orig)
+  operator!=(const ConstSliceIterator & orig) const
   {
     return !operator==(orig);
   }
@@ -125,7 +125,7 @@ public:
    * is only true if the slice iterators have the same stride and
    * start location. */
   bool
-  operator<(const ConstSliceIterator & orig)
+  operator<(const ConstSliceIterator & orig) const
   {
     return this->m_Pos < orig.m_Pos && this->m_Slice.stride() == orig.m_Slice.stride() &&
            this->m_Slice.start() == orig.m_Slice.start();

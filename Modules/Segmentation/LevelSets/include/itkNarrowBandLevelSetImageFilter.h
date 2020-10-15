@@ -147,7 +147,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT NarrowBandLevelSetImageFilter : public NarrowBandImageFilterBase<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NarrowBandLevelSetImageFilter);
 
   /** Standard class type aliases */
   using Self = NarrowBandLevelSetImageFilter;

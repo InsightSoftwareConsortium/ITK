@@ -52,7 +52,7 @@ template <typename TInput, // Input image or mesh
 class ITK_TEMPLATE_EXPORT LevelSetEquationAdvectionTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationAdvectionTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationAdvectionTerm);
 
   using Self = LevelSetEquationAdvectionTerm;
   using Pointer = SmartPointer<Self>;

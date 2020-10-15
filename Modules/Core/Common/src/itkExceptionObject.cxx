@@ -31,7 +31,7 @@ namespace itk
 class ExceptionObject::ExceptionData : public ReferenceCounterInterface
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExceptionData);
+  ITK_DISALLOW_COPY_AND_MOVE(ExceptionData);
 
 protected:
   // Constructor. Might throw an exception.
@@ -79,7 +79,7 @@ class ExceptionObject::ReferenceCountedExceptionData
   , public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
+  ITK_DISALLOW_COPY_AND_MOVE(ReferenceCountedExceptionData);
 
   using Self = ReferenceCountedExceptionData;
   using ConstPointer = SmartPointer<const Self>;
@@ -193,7 +193,7 @@ ExceptionObject::operator=(const ExceptionObject & orig) noexcept
 }
 
 bool
-ExceptionObject::operator==(const ExceptionObject & orig)
+ExceptionObject::operator==(const ExceptionObject & orig) const
 {
   // operator== is reimplemented, but it still behaves like the previous
   // version, from ITK 3.6.0.

@@ -35,7 +35,7 @@ template <unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT MetaEllipseConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaEllipseConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaEllipseConverter);
 
   /** Standard class type aliases */
   using Self = MetaEllipseConverter;

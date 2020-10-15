@@ -40,7 +40,7 @@ class ITK_TEMPLATE_EXPORT NearestNeighborInterpolateImageFunction
   : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NearestNeighborInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(NearestNeighborInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = NearestNeighborInterpolateImageFunction;

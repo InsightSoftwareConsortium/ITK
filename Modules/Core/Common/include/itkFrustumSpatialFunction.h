@@ -62,7 +62,7 @@ template <unsigned int VDimension = 3, typename TInput = Point<double, VDimensio
 class ITK_TEMPLATE_EXPORT FrustumSpatialFunction : public InteriorExteriorSpatialFunction<VDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrustumSpatialFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(FrustumSpatialFunction);
 
   /** Standard class type aliases. */
   using Self = FrustumSpatialFunction<VDimension, TInput>;

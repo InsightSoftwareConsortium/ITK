@@ -19,6 +19,7 @@
 #define itkGrayscaleErodeImageFilter_h
 
 #include "itkKernelImageFilter.h"
+#include "itkMathematicalMorphologyEnums.h"
 #include "itkMovingHistogramErodeImageFilter.h"
 #include "itkBasicErodeImageFilter.h"
 #include "itkAnchorErodeImageFilter.h"
@@ -53,7 +54,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT GrayscaleErodeImageFilter : public KernelImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleErodeImageFilter;
@@ -80,15 +81,6 @@ public:
   using OffsetType = typename TInputImage::OffsetType;
   using OutputImageRegionType = typename Superclass::OutputImageRegionType;
 
-  /** define values used to determine which algorithm to use */
-  enum AlgorithmType
-  {
-    BASIC = 0,
-    HISTO = 1,
-    ANCHOR = 2,
-    VHGW = 3
-  };
-
   using HistogramFilterType = MovingHistogramErodeImageFilter<TInputImage, TOutputImage, TKernel>;
   using BasicFilterType = BasicErodeImageFilter<TInputImage, TOutputImage, TKernel>;
 
@@ -108,6 +100,19 @@ public:
   //   using KernelSuperclass = typename KernelType::Superclass;
   //   using KernelSuperclass = Neighborhood< typename KernelType::PixelType, ImageDimension >;
 
+  using AlgorithmEnum = MathematicalMorphologyEnums::Algorithm;
+
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Backwards compatibility for enum values */
+  using AlgorithmType = AlgorithmEnum;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr AlgorithmType BASIC = AlgorithmType::BASIC;
+  static constexpr AlgorithmType HISTO = AlgorithmType::HISTO;
+  static constexpr AlgorithmType ANCHOR = AlgorithmType::ANCHOR;
+  static constexpr AlgorithmType VHGW = AlgorithmType::VHGW;
+#endif
+
   /** Set kernel (structuring element). */
   void
   SetKernel(const KernelType & kernel) override;
@@ -120,9 +125,8 @@ public:
 
   /** Set/Get the backend filter class. */
   void
-  SetAlgorithm(int algo);
-
-  itkGetConstMacro(Algorithm, int);
+  SetAlgorithm(AlgorithmEnum algo);
+  itkGetConstMacro(Algorithm, AlgorithmEnum);
 
   /** GrayscaleErodeImageFilter need to set its internal filters as modified */
   void
@@ -153,7 +157,7 @@ private:
   typename VHGWFilterType::Pointer m_VHGWFilter;
 
   // and the name of the filter
-  int m_Algorithm;
+  AlgorithmEnum m_Algorithm;
 
   // the boundary condition need to be stored here
   DefaultBoundaryConditionType m_BoundaryCondition;

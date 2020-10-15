@@ -64,7 +64,7 @@ template <typename TInputImage1, typename TInputImage2>
 class ITK_TEMPLATE_EXPORT ContourDirectedMeanDistanceImageFilter : public ImageToImageFilter<TInputImage1, TInputImage1>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContourDirectedMeanDistanceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ContourDirectedMeanDistanceImageFilter);
 
   /** Standard Self type alias */
   using Self = ContourDirectedMeanDistanceImageFilter;

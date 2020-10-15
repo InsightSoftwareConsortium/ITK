@@ -75,7 +75,7 @@ class ITK_TEMPLATE_EXPORT RankImageFilter
                                       Function::RankHistogram<typename TInputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RankImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RankImageFilter);
 
   /** Standard class type aliases. */
   using Self = RankImageFilter;

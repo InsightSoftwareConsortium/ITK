@@ -51,7 +51,7 @@ namespace itk
 class ITKIOIPL_EXPORT IPLCommonImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IPLCommonImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(IPLCommonImageIO);
 
   /** Standard class type aliases. */
   using Self = IPLCommonImageIO;

@@ -32,7 +32,7 @@ class AnchorCloseImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorCloseImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AnchorCloseImageFilter);
 
   using Self = AnchorCloseImageFilter;
   using Superclass = AnchorOpenCloseImageFilter<TImage,

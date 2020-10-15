@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT GaussianDerivativeImageFunction
   : public ImageFunction<TInputImage, Vector<TOutput, TInputImage::ImageDimension>, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianDerivativeImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianDerivativeImageFunction);
 
   /** Standard class type aliases. */
   using Self = GaussianDerivativeImageFunction;

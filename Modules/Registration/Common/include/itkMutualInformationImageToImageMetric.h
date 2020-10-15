@@ -94,7 +94,7 @@ template <typename TFixedImage, typename TMovingImage>
 class ITK_TEMPLATE_EXPORT MutualInformationImageToImageMetric : public ImageToImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MutualInformationImageToImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(MutualInformationImageToImageMetric);
 
   /** Standard class type aliases. */
   using Self = MutualInformationImageToImageMetric;

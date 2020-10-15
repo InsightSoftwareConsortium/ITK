@@ -99,7 +99,7 @@ class HistogramToLogProbabilityImageFilter
                                   Function::HistogramLogProbabilityFunction<SizeValueType, typename TImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToLogProbabilityImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HistogramToLogProbabilityImageFilter);
 
   /** Standard class type aliases. */
   using Self = HistogramToLogProbabilityImageFilter;

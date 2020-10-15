@@ -49,7 +49,7 @@ class FastApproximateRankImageFilter
       RankImageFilter<TInputImage, TInputImage, FlatStructuringElement<TInputImage::ImageDimension>>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastApproximateRankImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FastApproximateRankImageFilter);
 
   /** Standard class type aliases. */
   using Self = FastApproximateRankImageFilter;

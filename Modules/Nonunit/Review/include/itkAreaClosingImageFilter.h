@@ -66,7 +66,7 @@ class AreaClosingImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AreaClosingImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AreaClosingImageFilter);
 
   using Self = AreaClosingImageFilter;
   using Superclass = AttributeMorphologyBaseImageFilter<TInputImage,

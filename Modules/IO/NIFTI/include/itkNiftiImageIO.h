@@ -67,7 +67,7 @@ extern ITKIONIFTI_EXPORT std::ostream &
 class ITKIONIFTI_EXPORT NiftiImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(NiftiImageIO);
 
   /** Standard class type aliases. */
   using Self = NiftiImageIO;

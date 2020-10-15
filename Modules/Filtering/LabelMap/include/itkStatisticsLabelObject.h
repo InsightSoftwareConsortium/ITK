@@ -42,7 +42,7 @@ template <typename TLabel, unsigned int VImageDimension>
 class StatisticsLabelObject : public ShapeLabelObject<TLabel, VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelObject);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsLabelObject);
 
   /** Standard class type aliases */
   using Self = StatisticsLabelObject;

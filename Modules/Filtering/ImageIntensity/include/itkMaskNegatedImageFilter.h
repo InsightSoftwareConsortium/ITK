@@ -139,7 +139,7 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage = TIn
 class MaskNegatedImageFilter : public BinaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskNegatedImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaskNegatedImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskNegatedImageFilter;

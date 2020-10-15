@@ -58,7 +58,7 @@ class ITK_TEMPLATE_EXPORT HalfHermitianToRealInverseFFTImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HalfHermitianToRealInverseFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HalfHermitianToRealInverseFFTImageFilter);
 
   /** Standard class type aliases. */
   using InputImageType = TInputImage;

@@ -43,7 +43,7 @@ class ITK_TEMPLATE_EXPORT MultiStartOptimizerv4Template
   : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiStartOptimizerv4Template);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiStartOptimizerv4Template);
 
   /** Standard class type aliases. */
   using Self = MultiStartOptimizerv4Template;

@@ -86,7 +86,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT BSplineUpsampleImageFilter : public ResamplerType
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineUpsampleImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineUpsampleImageFilter);
 
   /** Standard class type aliases. */
   using Self = BSplineUpsampleImageFilter;

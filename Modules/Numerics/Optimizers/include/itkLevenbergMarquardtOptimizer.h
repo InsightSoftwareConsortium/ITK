@@ -37,7 +37,7 @@ namespace itk
 class ITKOptimizers_EXPORT LevenbergMarquardtOptimizer : public MultipleValuedNonLinearVnlOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevenbergMarquardtOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(LevenbergMarquardtOptimizer);
 
   /** Standard "Self" type alias. */
   using Self = LevenbergMarquardtOptimizer;

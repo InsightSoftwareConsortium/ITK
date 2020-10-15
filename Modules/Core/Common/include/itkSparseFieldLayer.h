@@ -172,7 +172,7 @@ template <typename TNodeType>
 class ITK_TEMPLATE_EXPORT SparseFieldLayer : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SparseFieldLayer);
+  ITK_DISALLOW_COPY_AND_MOVE(SparseFieldLayer);
 
   /** Standard type alias. */
   using Self = SparseFieldLayer;

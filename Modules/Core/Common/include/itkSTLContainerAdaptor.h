@@ -45,7 +45,7 @@ template <typename TContainer>
 class STLContainerAdaptor
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(STLContainerAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(STLContainerAdaptor);
 
   using AdapteeType = TContainer;
 

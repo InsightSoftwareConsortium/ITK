@@ -33,7 +33,7 @@ template <typename TPixel, unsigned int VImageDimension = 2>
 class TestImage : public itk::Image<TPixel, VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestImage);
+  ITK_DISALLOW_COPY_AND_MOVE(TestImage);
 
   /** Standard class type aliases.   */
   using Self = TestImage;
@@ -56,7 +56,7 @@ template <typename TPixel, unsigned int VImageDimension = 3>
 class TestImage2 : public itk::Image<TPixel, VImageDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestImage2);
+  ITK_DISALLOW_COPY_AND_MOVE(TestImage2);
 
   /** Standard class type aliases.   */
   using Self = TestImage2;
@@ -78,7 +78,7 @@ public:
 class TestFactory : public itk::ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TestFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(TestFactory);
 
   using Self = TestFactory;
   using Superclass = itk::ObjectFactoryBase;

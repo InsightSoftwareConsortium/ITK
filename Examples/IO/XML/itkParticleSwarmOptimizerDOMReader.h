@@ -42,7 +42,7 @@ class ParticleSwarmOptimizerDOMReader
   : public DOMReader<ParticleSwarmOptimizer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerDOMReader);
+  ITK_DISALLOW_COPY_AND_MOVE(ParticleSwarmOptimizerDOMReader);
 
   /** Standard class type aliases. */
   using Self = ParticleSwarmOptimizerDOMReader;

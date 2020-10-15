@@ -36,7 +36,7 @@ namespace itk
 class ITKIOMeshFreeSurfer_EXPORT FreeSurferAsciiMeshIO : public MeshIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferAsciiMeshIO);
+  ITK_DISALLOW_COPY_AND_MOVE(FreeSurferAsciiMeshIO);
 
   /** Standard class type aliases. */
   using Self = FreeSurferAsciiMeshIO;

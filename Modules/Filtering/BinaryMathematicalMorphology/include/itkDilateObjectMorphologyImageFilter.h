@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT DilateObjectMorphologyImageFilter
   : public ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DilateObjectMorphologyImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DilateObjectMorphologyImageFilter);
 
   /** Standard class type aliases. */
   using Self = DilateObjectMorphologyImageFilter;

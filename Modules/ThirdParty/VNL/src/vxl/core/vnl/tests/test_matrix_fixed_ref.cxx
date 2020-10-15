@@ -127,7 +127,7 @@ test_matrix_fixed_ref()
     std::generate(other.begin(), other.end(), std::rand);
     mfrc cref(other);
     ref = cref;
-    TEST("assign_const_ref", ref, other);
+    TEST("assign_const_ref", ref, other); // mfr vs mf
     // test different addresses
     TEST("assign_const_ref", (ref.begin() != other.begin()), true);
   }

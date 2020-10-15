@@ -77,7 +77,7 @@ template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename 
 class MinimumImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MinimumImageFilter);
 
   /** Standard class type aliases. */
   using Self = MinimumImageFilter;

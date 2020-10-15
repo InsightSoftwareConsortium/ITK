@@ -115,7 +115,7 @@ class ITK_TEMPLATE_EXPORT DisplacementFieldJacobianDeterminantFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldJacobianDeterminantFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DisplacementFieldJacobianDeterminantFilter);
 
   /** Standard class type aliases. */
   using Self = DisplacementFieldJacobianDeterminantFilter;

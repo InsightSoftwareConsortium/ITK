@@ -61,7 +61,7 @@ template <typename TInputImage, typename TFeatureImage>
 class ScalarChanAndVeseLevelSetFunctionData : public RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseLevelSetFunctionData);
+  ITK_DISALLOW_COPY_AND_MOVE(ScalarChanAndVeseLevelSetFunctionData);
 
   using Self = ScalarChanAndVeseLevelSetFunctionData;
   using Superclass = RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>;

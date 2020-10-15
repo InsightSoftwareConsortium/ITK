@@ -34,7 +34,7 @@ class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransformParametersAda
   : public ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianExponentialDiffeomorphicTransformParametersAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(GaussianExponentialDiffeomorphicTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = GaussianExponentialDiffeomorphicTransformParametersAdaptor;

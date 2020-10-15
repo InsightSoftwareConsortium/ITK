@@ -54,7 +54,7 @@ template <typename TSample, typename TRegion>
 class ITK_TEMPLATE_EXPORT RegionConstrainedSubsampler : public SubsamplerBase<TSample>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegionConstrainedSubsampler);
+  ITK_DISALLOW_COPY_AND_MOVE(RegionConstrainedSubsampler);
 
   /** Standard class type aliases */
   using Self = RegionConstrainedSubsampler<TSample, TRegion>;

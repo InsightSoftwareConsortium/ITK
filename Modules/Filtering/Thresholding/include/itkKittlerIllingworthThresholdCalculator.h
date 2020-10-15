@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT KittlerIllingworthThresholdCalculator
   : public HistogramThresholdCalculator<THistogram, TOutput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdCalculator);
+  ITK_DISALLOW_COPY_AND_MOVE(KittlerIllingworthThresholdCalculator);
 
   /** Standard class type aliases. */
   using Self = KittlerIllingworthThresholdCalculator;

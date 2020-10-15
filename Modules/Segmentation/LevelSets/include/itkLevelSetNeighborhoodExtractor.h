@@ -57,7 +57,7 @@ template <typename TLevelSet>
 class ITK_TEMPLATE_EXPORT LevelSetNeighborhoodExtractor : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetNeighborhoodExtractor);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetNeighborhoodExtractor);
 
   /** Standard class typdedefs. */
   using Self = LevelSetNeighborhoodExtractor;

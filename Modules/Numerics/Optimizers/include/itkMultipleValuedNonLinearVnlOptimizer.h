@@ -37,7 +37,7 @@ namespace itk
 class ITKOptimizers_EXPORT MultipleValuedNonLinearVnlOptimizer : public MultipleValuedNonLinearOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultipleValuedNonLinearVnlOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(MultipleValuedNonLinearVnlOptimizer);
 
   /** Standard class type aliases. */
   using Self = MultipleValuedNonLinearVnlOptimizer;

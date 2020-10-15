@@ -27,7 +27,7 @@ namespace itk
 class ITKCommon_EXPORT TextOutput : public OutputWindow
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TextOutput);
+  ITK_DISALLOW_COPY_AND_MOVE(TextOutput);
 
   using Self = TextOutput;
   using Pointer = SmartPointer<Self>;

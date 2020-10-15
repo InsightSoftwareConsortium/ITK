@@ -149,7 +149,7 @@ class VectorImageToImageAdaptor
   : public ImageAdaptor<VectorImage<TPixelType, Dimension>, Accessor::VectorImageToImagePixelAccessor<TPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorImageToImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorImageToImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = VectorImageToImageAdaptor;

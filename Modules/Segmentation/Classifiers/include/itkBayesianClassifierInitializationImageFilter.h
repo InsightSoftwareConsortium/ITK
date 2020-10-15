@@ -78,7 +78,7 @@ class ITK_TEMPLATE_EXPORT BayesianClassifierInitializationImageFilter
   : public ImageToImageFilter<TInputImage, VectorImage<TProbabilityPrecisionType, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierInitializationImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BayesianClassifierInitializationImageFilter);
 
   /** Standard class type aliases. */
   using Self = BayesianClassifierInitializationImageFilter;

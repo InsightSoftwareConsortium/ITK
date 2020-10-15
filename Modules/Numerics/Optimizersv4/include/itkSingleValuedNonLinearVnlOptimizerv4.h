@@ -38,7 +38,7 @@ namespace itk
 class ITKOptimizersv4_EXPORT SingleValuedNonLinearVnlOptimizerv4 : public ObjectToObjectOptimizerBaseTemplate<double>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SingleValuedNonLinearVnlOptimizerv4);
+  ITK_DISALLOW_COPY_AND_MOVE(SingleValuedNonLinearVnlOptimizerv4);
 
   /** Standard class type aliases. */
   using Self = SingleValuedNonLinearVnlOptimizerv4;

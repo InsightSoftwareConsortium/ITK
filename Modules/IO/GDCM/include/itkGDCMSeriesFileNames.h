@@ -62,7 +62,7 @@ using SerieUIDContainer = std::vector<std::string>;
 class ITKIOGDCM_EXPORT GDCMSeriesFileNames : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GDCMSeriesFileNames);
+  ITK_DISALLOW_COPY_AND_MOVE(GDCMSeriesFileNames);
 
   /** Standard class type aliases. */
   using Self = GDCMSeriesFileNames;

@@ -48,7 +48,7 @@ class ITK_TEMPLATE_EXPORT ScatterMatrixImageFunction
                          TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScatterMatrixImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ScatterMatrixImageFunction);
 
   /** Standard class type aliases. */
   using Self = ScatterMatrixImageFunction;

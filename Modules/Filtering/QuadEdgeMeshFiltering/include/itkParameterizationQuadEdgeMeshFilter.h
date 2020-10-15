@@ -58,7 +58,7 @@ class ITK_TEMPLATE_EXPORT ParameterizationQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParameterizationQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ParameterizationQuadEdgeMeshFilter);
 
   /** Basic types. */
   using Self = ParameterizationQuadEdgeMeshFilter;

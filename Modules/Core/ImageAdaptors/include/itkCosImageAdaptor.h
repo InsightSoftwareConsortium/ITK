@@ -78,7 +78,7 @@ class CosImageAdaptor
   : public ImageAdaptor<TImage, Accessor::CosPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CosImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(CosImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = CosImageAdaptor;

@@ -265,7 +265,7 @@ template <typename TInputImage,
 class WindowedSincInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WindowedSincInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(WindowedSincInterpolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = WindowedSincInterpolateImageFunction;

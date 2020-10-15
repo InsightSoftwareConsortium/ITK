@@ -80,7 +80,7 @@ class AtanImageAdaptor
   : public ImageAdaptor<TImage, Accessor::AtanPixelAccessor<typename TImage::PixelType, TOutputPixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AtanImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(AtanImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = AtanImageAdaptor;

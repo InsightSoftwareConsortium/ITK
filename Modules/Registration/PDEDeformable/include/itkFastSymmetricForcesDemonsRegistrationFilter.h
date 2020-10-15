@@ -74,7 +74,7 @@ class ITK_TEMPLATE_EXPORT FastSymmetricForcesDemonsRegistrationFilter
   : public PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastSymmetricForcesDemonsRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FastSymmetricForcesDemonsRegistrationFilter);
 
   /** Standard class type aliases. */
   using Self = FastSymmetricForcesDemonsRegistrationFilter;

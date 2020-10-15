@@ -212,7 +212,7 @@ struct par_parameter // par_parameter
 class ITKIOPhilipsREC_EXPORT PhilipsPAR : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsPAR);
+  ITK_DISALLOW_COPY_AND_MOVE(PhilipsPAR);
 
   /** Standard class type aliases. */
   using Self = PhilipsPAR;

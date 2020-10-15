@@ -64,7 +64,7 @@ class ITK_TEMPLATE_EXPORT RichardsonLucyDeconvolutionImageFilter
   : public IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RichardsonLucyDeconvolutionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RichardsonLucyDeconvolutionImageFilter);
 
   /** Standard type alias. */
   using Self = RichardsonLucyDeconvolutionImageFilter;

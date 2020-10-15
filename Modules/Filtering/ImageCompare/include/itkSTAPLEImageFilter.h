@@ -122,7 +122,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT STAPLEImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(STAPLEImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(STAPLEImageFilter);
 
   /** Standard class type aliases. */
   using Self = STAPLEImageFilter;

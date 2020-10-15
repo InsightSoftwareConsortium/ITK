@@ -69,7 +69,7 @@ template <typename TInputImage, typename TOutputImage>
 class EdgePotentialImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EdgePotentialImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(EdgePotentialImageFilter);
 
   /** Standard class type aliases. */
   using Self = EdgePotentialImageFilter;

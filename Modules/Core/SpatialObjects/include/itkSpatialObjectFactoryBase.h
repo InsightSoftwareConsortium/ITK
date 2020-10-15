@@ -43,7 +43,7 @@ namespace itk
 class ITKSpatialObjects_EXPORT SpatialObjectFactoryBase : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectFactoryBase);
+  ITK_DISALLOW_COPY_AND_MOVE(SpatialObjectFactoryBase);
 
   /** Standard class type aliases. */
   using Self = SpatialObjectFactoryBase;

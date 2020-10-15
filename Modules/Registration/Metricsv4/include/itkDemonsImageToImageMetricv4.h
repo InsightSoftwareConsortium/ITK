@@ -61,7 +61,7 @@ class ITK_TEMPLATE_EXPORT DemonsImageToImageMetricv4
   : public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsImageToImageMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(DemonsImageToImageMetricv4);
 
   /** Standard class type aliases. */
   using Self = DemonsImageToImageMetricv4;

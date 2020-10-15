@@ -75,7 +75,7 @@ class VariableLengthVector;
 class ITKIOImageBase_EXPORT ImageIOBase : public LightProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOBase);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageIOBase);
 
   /** Standard class type aliases. */
   using Self = ImageIOBase;

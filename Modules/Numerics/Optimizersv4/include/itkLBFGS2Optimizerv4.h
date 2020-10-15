@@ -161,7 +161,7 @@ class ITKOptimizersv4_EXPORT LBFGS2Optimizerv4 : public ObjectToObjectOptimizerB
 {
 
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGS2Optimizerv4);
+  ITK_DISALLOW_COPY_AND_MOVE(LBFGS2Optimizerv4);
 
   using LineSearchMethodEnum = LBFGS2Optimizerv4Enums::LineSearchMethod;
 #if !defined(ITK_LEGACY_REMOVE)

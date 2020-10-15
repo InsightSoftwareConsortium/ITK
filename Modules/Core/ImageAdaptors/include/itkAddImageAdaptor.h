@@ -37,7 +37,7 @@ template <typename TImage>
 class AddImageAdaptor : public ImageAdaptor<TImage, Accessor::AddPixelAccessor<typename TImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AddImageAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(AddImageAdaptor);
 
   /** Standard class type aliases. */
   using Self = AddImageAdaptor;

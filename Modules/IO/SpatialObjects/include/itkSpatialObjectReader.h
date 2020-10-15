@@ -36,7 +36,7 @@ template <unsigned int NDimensions = 3,
 class ITK_TEMPLATE_EXPORT SpatialObjectReader : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectReader);
+  ITK_DISALLOW_COPY_AND_MOVE(SpatialObjectReader);
 
   /** SmartPointer type alias support */
   using Self = SpatialObjectReader;

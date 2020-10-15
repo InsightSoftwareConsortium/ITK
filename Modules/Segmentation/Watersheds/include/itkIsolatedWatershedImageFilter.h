@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT IsolatedWatershedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsolatedWatershedImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(IsolatedWatershedImageFilter);
 
   /** Standard class type aliases. */
   using Self = IsolatedWatershedImageFilter;

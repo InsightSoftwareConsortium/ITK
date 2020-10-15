@@ -51,7 +51,7 @@ namespace itk
 class ITKIOBioRad_EXPORT BioRadImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BioRadImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(BioRadImageIO);
 
   /** Standard class type aliases. */
   using Self = BioRadImageIO;

@@ -64,7 +64,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ConfidenceConnectedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConfidenceConnectedImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConfidenceConnectedImageFilter);
 
   /** Standard class type aliases. */
   using Self = ConfidenceConnectedImageFilter;

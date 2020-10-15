@@ -50,7 +50,7 @@ class LabelUniqueLabelMapFilter
                                          typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelUniqueLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelUniqueLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = LabelUniqueLabelMapFilter;

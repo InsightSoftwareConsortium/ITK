@@ -41,7 +41,7 @@ class ITK_TEMPLATE_EXPORT LineSpatialObject
   : public PointBasedSpatialObject<TDimension, LineSpatialObjectPoint<TDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LineSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(LineSpatialObject);
 
   using Self = LineSpatialObject;
   using Superclass = PointBasedSpatialObject<TDimension, LineSpatialObjectPoint<TDimension>>;

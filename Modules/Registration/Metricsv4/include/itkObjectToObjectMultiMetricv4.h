@@ -97,7 +97,7 @@ class ITK_TEMPLATE_EXPORT ObjectToObjectMultiMetricv4
   : public ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMultiMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(ObjectToObjectMultiMetricv4);
 
   /** Standard class type aliases */
   using Self = ObjectToObjectMultiMetricv4;

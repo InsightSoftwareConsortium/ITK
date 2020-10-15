@@ -42,7 +42,7 @@ namespace itk
 class ITKCommon_EXPORT FileOutputWindow : public OutputWindow
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FileOutputWindow);
+  ITK_DISALLOW_COPY_AND_MOVE(FileOutputWindow);
 
   /** Standard class type aliases. */
   using Self = FileOutputWindow;

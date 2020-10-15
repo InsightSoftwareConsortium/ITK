@@ -42,7 +42,7 @@ template <typename TMesh>
 class ITK_TEMPLATE_EXPORT QuadEdgeMeshTopologyChecker : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshTopologyChecker);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshTopologyChecker);
 
   // Standard types
   using Self = QuadEdgeMeshTopologyChecker;

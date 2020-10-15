@@ -44,7 +44,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT CurvatureFlowFunction : public FiniteDifferenceFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureFlowFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(CurvatureFlowFunction);
 
   /**  Standard class type aliases. */
   using Self = CurvatureFlowFunction;

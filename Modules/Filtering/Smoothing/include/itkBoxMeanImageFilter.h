@@ -43,7 +43,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT BoxMeanImageFilter : public BoxImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BoxMeanImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BoxMeanImageFilter);
 
   /** Standard class type aliases. */
   using Self = BoxMeanImageFilter;

@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class GrayscaleGeodesicDilateImageFilter
- * \brief geodesic gray scale dilation of an image
+ * \brief Geodesic grayscale dilation of an image.
  *
  * Geodesic dilation operates on a "marker" image and a "mask"
  * image. The marker image is dilated using an elementary structuring
@@ -64,7 +64,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GrayscaleGeodesicDilateImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleGeodesicDilateImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleGeodesicDilateImageFilter;

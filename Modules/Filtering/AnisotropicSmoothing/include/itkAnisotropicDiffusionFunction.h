@@ -139,7 +139,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT AnisotropicDiffusionFunction : public FiniteDifferenceFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(AnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = AnisotropicDiffusionFunction;

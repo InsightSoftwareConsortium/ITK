@@ -49,7 +49,7 @@ namespace itk
 class ITKCommon_EXPORT XMLFileOutputWindow : public FileOutputWindow
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(XMLFileOutputWindow);
+  ITK_DISALLOW_COPY_AND_MOVE(XMLFileOutputWindow);
 
   /** Standard class type aliases. */
   using Self = XMLFileOutputWindow;

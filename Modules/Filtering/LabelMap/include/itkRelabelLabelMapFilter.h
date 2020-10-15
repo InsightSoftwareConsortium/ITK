@@ -49,7 +49,7 @@ class RelabelLabelMapFilter
                                           typename Functor::LabelLabelObjectAccessor<typename TImage::LabelObjectType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RelabelLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RelabelLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = RelabelLabelMapFilter;

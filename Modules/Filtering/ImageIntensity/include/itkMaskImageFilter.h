@@ -156,7 +156,7 @@ class MaskImageFilter : public BinaryGeneratorImageFilter<TInputImage, TMaskImag
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaskImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaskImageFilter);
 
   /** Standard class type aliases. */
   using Self = MaskImageFilter;

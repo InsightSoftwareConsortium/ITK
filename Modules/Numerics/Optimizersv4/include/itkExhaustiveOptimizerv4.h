@@ -80,7 +80,7 @@ class ITK_TEMPLATE_EXPORT ExhaustiveOptimizerv4
   : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExhaustiveOptimizerv4);
+  ITK_DISALLOW_COPY_AND_MOVE(ExhaustiveOptimizerv4);
 
   /** Standard "Self" type alias. */
   using Self = ExhaustiveOptimizerv4;

@@ -28,7 +28,7 @@ class AnchorErodeImageFilter
 
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AnchorErodeImageFilter);
 
   using Self = AnchorErodeImageFilter;
   using Superclass = AnchorErodeDilateImageFilter<TImage, TKernel, std::less<typename TImage::PixelType>>;

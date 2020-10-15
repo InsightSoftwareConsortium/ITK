@@ -75,7 +75,7 @@ template <typename TOutputImage,
 class ITK_TEMPLATE_EXPORT ImageFileReader : public ImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileReader);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageFileReader);
 
   /** Standard class type aliases. */
   using Self = ImageFileReader;

@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT BinaryClosingByReconstructionImageFilter
   : public KernelImageFilter<TInputImage, TInputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryClosingByReconstructionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryClosingByReconstructionImageFilter);
 
   /** Standard class type aliases. */
   using Self = BinaryClosingByReconstructionImageFilter;

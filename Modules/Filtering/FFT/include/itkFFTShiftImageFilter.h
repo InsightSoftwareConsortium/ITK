@@ -49,7 +49,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT FFTShiftImageFilter : public CyclicShiftImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTShiftImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FFTShiftImageFilter);
 
   /** Standard class type aliases. */
   using Self = FFTShiftImageFilter;

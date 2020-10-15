@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT ExtractOrthogonalSwath2DImageFilter
   : public ImageAndPathToImageFilter<TImage, ParametricPath<2>, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractOrthogonalSwath2DImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExtractOrthogonalSwath2DImageFilter);
 
   /** Standard class type aliases. */
   using Self = ExtractOrthogonalSwath2DImageFilter;

@@ -78,7 +78,7 @@ template <typename TInputImage, typename TOutputImage, typename TFunction1, type
 class ITK_TEMPLATE_EXPORT ValuedRegionalExtremaImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalExtremaImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ValuedRegionalExtremaImageFilter);
 
   /** Standard class type aliases. */
   using Self = ValuedRegionalExtremaImageFilter;

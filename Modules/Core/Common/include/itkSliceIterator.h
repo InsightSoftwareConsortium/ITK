@@ -104,7 +104,7 @@ public:
   /** Returns the logical && of the boolean == of two slice iterator positions,
    * stride, and start locations. */
   bool
-  operator==(const SliceIterator & orig)
+  operator==(const SliceIterator & orig) const
   {
     return orig.m_Pos == this->m_Pos && orig.m_Slice.stride() == this->m_Slice.stride() &&
            orig.m_Slice.start() == this->m_Slice.start();

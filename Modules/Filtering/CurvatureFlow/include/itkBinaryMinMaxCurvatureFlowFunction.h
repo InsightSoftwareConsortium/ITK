@@ -43,7 +43,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT BinaryMinMaxCurvatureFlowFunction : public MinMaxCurvatureFlowFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMinMaxCurvatureFlowFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryMinMaxCurvatureFlowFunction);
 
   /**  Standard class type aliases. */
   using Self = BinaryMinMaxCurvatureFlowFunction;

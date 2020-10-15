@@ -40,7 +40,7 @@ class ITK_TEMPLATE_EXPORT SurfaceSpatialObject
   : public PointBasedSpatialObject<TDimension, SurfaceSpatialObjectPoint<TDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SurfaceSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(SurfaceSpatialObject);
 
   using Self = SurfaceSpatialObject;
   using Superclass = PointBasedSpatialObject<TDimension, SurfaceSpatialObjectPoint<TDimension>>;

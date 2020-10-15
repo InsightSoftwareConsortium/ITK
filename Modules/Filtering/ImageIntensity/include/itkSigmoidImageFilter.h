@@ -152,7 +152,7 @@ class SigmoidImageFilter
                                    Functor::Sigmoid<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SigmoidImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SigmoidImageFilter);
 
   /** Standard class type aliases. */
   using Self = SigmoidImageFilter;

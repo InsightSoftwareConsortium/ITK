@@ -51,7 +51,7 @@ class ITK_TEMPLATE_EXPORT VectorCentralDifferenceImageFunction
                          TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCentralDifferenceImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorCentralDifferenceImageFunction);
 
   using InputPixelType = typename TInputImage::PixelType;
 

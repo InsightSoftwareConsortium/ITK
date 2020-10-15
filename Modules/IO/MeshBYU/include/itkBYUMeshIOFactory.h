@@ -32,7 +32,7 @@ namespace itk
 class ITKIOMeshBYU_EXPORT BYUMeshIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BYUMeshIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(BYUMeshIOFactory);
 
   /** Standard class type aliases. */
   using Self = BYUMeshIOFactory;

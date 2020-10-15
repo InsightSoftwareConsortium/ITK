@@ -45,7 +45,7 @@ template <typename TElementIdentifier, typename TElement>
 class ITK_TEMPLATE_EXPORT ImportImageContainer : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainer);
+  ITK_DISALLOW_COPY_AND_MOVE(ImportImageContainer);
 
   /** Standard class type aliases. */
   using Self = ImportImageContainer;

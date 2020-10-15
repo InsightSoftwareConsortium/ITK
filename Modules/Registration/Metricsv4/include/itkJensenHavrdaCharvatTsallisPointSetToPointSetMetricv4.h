@@ -73,7 +73,7 @@ class ITK_TEMPLATE_EXPORT JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4
   : public PointSetToPointSetMetricv4<TPointSet, TPointSet, TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4;

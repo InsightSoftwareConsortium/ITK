@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class BasicErodeImageFilter
- * \brief gray scale erosion of an image
+ * \brief Grayscale erosion of an image.
  *
  * Erode an image using grayscale morphology. Erosion takes the
  * minimum of all the pixels identified by the structuring element.
@@ -46,7 +46,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 class ITK_TEMPLATE_EXPORT BasicErodeImageFilter : public MorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BasicErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BasicErodeImageFilter);
 
   /** Standard class type aliases. */
   using Self = BasicErodeImageFilter;

@@ -72,7 +72,7 @@ extern ITKOptimizers_EXPORT std::ostream &
 class ITKOptimizers_EXPORT GradientDescentOptimizer : public SingleValuedNonLinearOptimizer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientDescentOptimizer);
 
   /** Standard class type aliases. */
   using Self = GradientDescentOptimizer;

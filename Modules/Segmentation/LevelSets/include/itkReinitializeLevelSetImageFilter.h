@@ -55,7 +55,7 @@ template <typename TLevelSet>
 class ITK_TEMPLATE_EXPORT ReinitializeLevelSetImageFilter : public ImageToImageFilter<TLevelSet, TLevelSet>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ReinitializeLevelSetImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ReinitializeLevelSetImageFilter);
 
   /** Standard class type aliases. */
   using Self = ReinitializeLevelSetImageFilter;

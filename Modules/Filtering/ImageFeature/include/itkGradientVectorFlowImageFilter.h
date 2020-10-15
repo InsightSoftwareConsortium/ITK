@@ -50,7 +50,7 @@ template <typename TInputImage, typename TOutputImage, typename TInternalPixel =
 class ITK_TEMPLATE_EXPORT GradientVectorFlowImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GradientVectorFlowImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GradientVectorFlowImageFilter);
 
   /** Standard "Self" type alias. */
   using Self = GradientVectorFlowImageFilter;

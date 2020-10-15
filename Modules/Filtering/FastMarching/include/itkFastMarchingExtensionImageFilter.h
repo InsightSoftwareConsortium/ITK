@@ -59,7 +59,7 @@ template <typename TLevelSet,
 class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilter : public FastMarchingImageFilter<TLevelSet, TSpeedImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMarchingExtensionImageFilter);
 
   /** Standard class typdedefs. */
   using Self = FastMarchingExtensionImageFilter;

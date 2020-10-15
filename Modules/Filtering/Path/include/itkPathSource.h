@@ -42,7 +42,7 @@ template <typename TOutputPath>
 class ITK_TEMPLATE_EXPORT PathSource : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PathSource);
+  ITK_DISALLOW_COPY_AND_MOVE(PathSource);
 
   /** Standard class type aliases. */
   using Self = PathSource;

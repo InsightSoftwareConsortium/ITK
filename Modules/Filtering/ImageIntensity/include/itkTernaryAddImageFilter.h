@@ -47,7 +47,7 @@ class TernaryAddImageFilter
                                                    typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryAddImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TernaryAddImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryAddImageFilter;

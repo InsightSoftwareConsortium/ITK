@@ -56,7 +56,7 @@ template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename 
 class OrImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(OrImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(OrImageFilter);
 
   /** Standard class type aliases. */
   using Self = OrImageFilter;

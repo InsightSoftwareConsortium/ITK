@@ -85,7 +85,7 @@ template <typename TFixedImage, typename TMovingSpatialObject>
 class ITK_TEMPLATE_EXPORT ImageToSpatialObjectRegistrationMethod : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToSpatialObjectRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToSpatialObjectRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = ImageToSpatialObjectRegistrationMethod;

@@ -54,7 +54,7 @@ class ITK_TEMPLATE_EXPORT NCCRegistrationFunction
   : public PDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NCCRegistrationFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(NCCRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = NCCRegistrationFunction;

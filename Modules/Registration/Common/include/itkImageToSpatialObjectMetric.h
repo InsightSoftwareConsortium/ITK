@@ -61,7 +61,7 @@ template <typename TFixedImage, typename TMovingSpatialObject>
 class ITK_TEMPLATE_EXPORT ImageToSpatialObjectMetric : public SingleValuedCostFunction
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToSpatialObjectMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToSpatialObjectMetric);
 
   using Self = ImageToSpatialObjectMetric;
   using Superclass = SingleValuedCostFunction;

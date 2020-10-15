@@ -166,7 +166,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT KLMRegionGrowImageFilter : public RegionGrowImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KLMRegionGrowImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(KLMRegionGrowImageFilter);
 
   /** Standard class type aliases. */
   using Self = KLMRegionGrowImageFilter;

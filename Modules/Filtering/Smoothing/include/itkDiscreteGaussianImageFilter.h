@@ -63,7 +63,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT DiscreteGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscreteGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DiscreteGaussianImageFilter);
 
   /** Standard class type aliases. */
   using Self = DiscreteGaussianImageFilter;

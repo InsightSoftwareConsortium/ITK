@@ -33,7 +33,7 @@ class ITK_TEMPLATE_EXPORT PolygonSpatialObject
   : public PointBasedSpatialObject<TDimension, SpatialObjectPoint<TDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonSpatialObject);
+  ITK_DISALLOW_COPY_AND_MOVE(PolygonSpatialObject);
 
   using Self = PolygonSpatialObject<TDimension>;
   using Superclass = PointBasedSpatialObject<TDimension>;

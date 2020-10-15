@@ -43,7 +43,7 @@ template <typename TEquationContainer, typename TLevelSet>
 class ITK_TEMPLATE_EXPORT LevelSetEvolutionBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionBase);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolutionBase);
 
   using Self = LevelSetEvolutionBase;
   using Pointer = SmartPointer<Self>;

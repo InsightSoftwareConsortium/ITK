@@ -43,7 +43,7 @@ template <unsigned int VSplineOrder = 3, typename TRealValueType = double>
 class BSplineDerivativeKernelFunction : public KernelFunctionBase<TRealValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDerivativeKernelFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineDerivativeKernelFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineDerivativeKernelFunction;

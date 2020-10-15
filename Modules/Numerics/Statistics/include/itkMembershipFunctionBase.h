@@ -58,7 +58,7 @@ template <typename TVector>
 class ITK_TEMPLATE_EXPORT MembershipFunctionBase : public FunctionBase<TVector, double>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MembershipFunctionBase);
+  ITK_DISALLOW_COPY_AND_MOVE(MembershipFunctionBase);
 
   /** Standard class type aliases */
   using Self = MembershipFunctionBase;

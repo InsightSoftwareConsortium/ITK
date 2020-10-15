@@ -42,7 +42,7 @@ template <typename TCellInterface>
 class ITK_TEMPLATE_EXPORT LineCell : public TCellInterface
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LineCell);
+  ITK_DISALLOW_COPY_AND_MOVE(LineCell);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(LineCell);

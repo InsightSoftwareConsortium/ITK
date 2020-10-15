@@ -72,7 +72,7 @@ template <typename TInputImage, typename TOutputImage>
 class AbsImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AbsImageFilter);
 
   /** Standard class type aliases. */
   using Self = AbsImageFilter;

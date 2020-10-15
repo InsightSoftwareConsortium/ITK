@@ -31,7 +31,7 @@ namespace itk
 class ITKIOTransformInsightLegacy_EXPORT TxtTransformIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TxtTransformIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(TxtTransformIOFactory);
 
   /** Standard class type aliases. */
   using Self = TxtTransformIOFactory;

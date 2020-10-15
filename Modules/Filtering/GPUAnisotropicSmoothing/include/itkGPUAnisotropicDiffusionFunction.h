@@ -38,7 +38,7 @@ template <typename TImage>
 class GPUAnisotropicDiffusionFunction : public GPUFiniteDifferenceFunction<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUAnisotropicDiffusionFunction);
 
   /** Standard class type aliases. */
   using Self = GPUAnisotropicDiffusionFunction;

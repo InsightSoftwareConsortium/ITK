@@ -47,7 +47,7 @@ template <typename TInput, // Input image or mesh
 class ITK_TEMPLATE_EXPORT LevelSetEquationLaplacianTerm : public LevelSetEquationTermBase<TInput, TLevelSetContainer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationLaplacianTerm);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEquationLaplacianTerm);
 
   using Self = LevelSetEquationLaplacianTerm;
   using Pointer = SmartPointer<Self>;

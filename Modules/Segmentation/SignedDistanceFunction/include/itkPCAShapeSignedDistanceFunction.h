@@ -68,7 +68,7 @@ class ITK_TEMPLATE_EXPORT PCAShapeSignedDistanceFunction
   : public ShapeSignedDistanceFunction<TCoordRep, VSpaceDimension>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PCAShapeSignedDistanceFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(PCAShapeSignedDistanceFunction);
 
   /** Standard class type aliases. */
   using Self = PCAShapeSignedDistanceFunction;

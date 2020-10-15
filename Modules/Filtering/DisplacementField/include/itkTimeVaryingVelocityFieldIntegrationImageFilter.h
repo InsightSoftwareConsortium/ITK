@@ -56,7 +56,7 @@ class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldIntegrationImageFilter
   : public ImageToImageFilter<TTimeVaryingVelocityField, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldIntegrationImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TimeVaryingVelocityFieldIntegrationImageFilter);
 
   using Self = TimeVaryingVelocityFieldIntegrationImageFilter;
   using Superclass = ImageToImageFilter<TTimeVaryingVelocityField, TDisplacementField>;

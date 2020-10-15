@@ -45,7 +45,7 @@ class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromShiftBase
   : public RegistrationParameterScalesEstimator<TMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromShiftBase);
+  ITK_DISALLOW_COPY_AND_MOVE(RegistrationParameterScalesFromShiftBase);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromShiftBase;

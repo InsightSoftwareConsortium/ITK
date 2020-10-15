@@ -50,7 +50,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT DerivativeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DerivativeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DerivativeImageFilter);
 
   /** Standard class type aliases. */
   using Self = DerivativeImageFilter;

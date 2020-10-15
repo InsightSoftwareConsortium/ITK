@@ -84,7 +84,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT InPlaceLabelMapFilter : public LabelMapFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(InPlaceLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(InPlaceLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = InPlaceLabelMapFilter;

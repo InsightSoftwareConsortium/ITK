@@ -83,7 +83,7 @@ public:
   }
 
   void
-  Initialize() throw(itk::ExceptionObject) override
+  Initialize() override
   {}
 
   ParametersType m_Parameters;

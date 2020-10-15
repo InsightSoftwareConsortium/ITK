@@ -89,7 +89,7 @@ class ITK_TEMPLATE_EXPORT AzimuthElevationToCartesianTransform
   : public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AzimuthElevationToCartesianTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(AzimuthElevationToCartesianTransform);
 
   /** Standard class type aliases.   */
   using Self = AzimuthElevationToCartesianTransform;

@@ -54,7 +54,7 @@ template <unsigned int ObjectDimension>
 class ITK_TEMPLATE_EXPORT CastSpatialObjectFilter : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CastSpatialObjectFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CastSpatialObjectFilter);
 
   /** Standard class typedefs. */
   using Self = CastSpatialObjectFilter;

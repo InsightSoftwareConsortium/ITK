@@ -39,7 +39,7 @@ class ParticleSwarmOptimizerSAXWriter
   : public XMLWriterBase<ParticleSwarmOptimizer>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerSAXWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(ParticleSwarmOptimizerSAXWriter);
 
   /** Standard class type aliases. */
   using Self = ParticleSwarmOptimizerSAXWriter;

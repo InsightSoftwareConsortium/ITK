@@ -35,7 +35,7 @@ template <typename TParametersValueType, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT ThinPlateSplineKernelTransform : public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ThinPlateSplineKernelTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ThinPlateSplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = ThinPlateSplineKernelTransform;

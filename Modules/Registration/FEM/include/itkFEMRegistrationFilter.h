@@ -139,7 +139,7 @@ template <typename TMovingImage, typename TFixedImage, typename TFemObjectType>
 class ITK_TEMPLATE_EXPORT FEMRegistrationFilter : public ImageToImageFilter<TMovingImage, TFixedImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FEMRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FEMRegistrationFilter);
 
   using Self = FEMRegistrationFilter;
   using Superclass = ImageToImageFilter<TMovingImage, TFixedImage>;

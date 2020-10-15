@@ -46,7 +46,7 @@ template <typename TInputImage, typename TOutputImage = Image<RGBPixel<unsigned 
 class ITK_TEMPLATE_EXPORT LabelMapToRGBImageFilter : public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToRGBImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelMapToRGBImageFilter);
 
   /** Standard class type aliases. */
   using Self = LabelMapToRGBImageFilter;

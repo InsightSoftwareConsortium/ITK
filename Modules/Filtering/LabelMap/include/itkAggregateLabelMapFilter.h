@@ -45,7 +45,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT AggregateLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AggregateLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AggregateLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = AggregateLabelMapFilter;

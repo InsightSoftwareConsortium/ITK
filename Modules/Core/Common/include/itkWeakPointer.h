@@ -47,22 +47,20 @@ public:
   /** Extract information from template parameter. */
   using ObjectType = TObjectType;
 
-  /** Constructor.  */
-  WeakPointer() { m_Pointer = nullptr; }
+  /** Explicitly-defaulted default-constructor.
+   * \note The other five "special member functions" (copy-constructor,
+   * copy-assignment operator, move-constructor, move-assignment operator,
+   * and destructor) are defaulted implicitly, following the C++ "Rule of Zero".
+   */
+  WeakPointer() = default;
 
-  /** Copy constructor.  */
-  WeakPointer(const WeakPointer<ObjectType> & p) = default;
-
-  /** Move constructor */
-  WeakPointer(WeakPointer<ObjectType> && p) = default;
+  /** Constructor, converting from `nullptr`.  */
+  WeakPointer(std::nullptr_t) {}
 
   /** Constructor to pointer p.  */
   WeakPointer(ObjectType * p)
     : m_Pointer(p)
   {}
-
-  /** Destructor.  */
-  ~WeakPointer() = default;
 
   /** Overload operator ->.  */
   ObjectType * operator->() const { return m_Pointer; }
@@ -134,22 +132,6 @@ public:
     return (void *)m_Pointer >= (void *)r.m_Pointer;
   }
 
-  /** Overload operator assignment.  */
-  // cppcheck-suppress operatorEqVarError
-  WeakPointer &
-  operator=(const WeakPointer & r) = default;
-
-  WeakPointer &
-  operator=(WeakPointer && r) = default;
-
-  /** Overload operator assignment.  */
-  WeakPointer &
-  operator=(ObjectType * r)
-  {
-    m_Pointer = r;
-    return *this;
-  }
-
   /** Function to print object pointed to.  */
   ObjectType *
   Print(std::ostream & os) const
@@ -168,7 +150,7 @@ public:
 
 private:
   /** The pointer to the object referred to by this smart pointer. */
-  ObjectType * m_Pointer;
+  ObjectType * m_Pointer{ nullptr };
 };
 
 template <typename T>

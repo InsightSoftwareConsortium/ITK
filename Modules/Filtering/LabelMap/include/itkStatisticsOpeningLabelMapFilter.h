@@ -46,7 +46,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT StatisticsOpeningLabelMapFilter : public ShapeOpeningLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsOpeningLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StatisticsOpeningLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = StatisticsOpeningLabelMapFilter;

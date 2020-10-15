@@ -43,7 +43,7 @@ template <typename TInputMesh, typename TOutputMesh>
 class ITK_TEMPLATE_EXPORT SimplexMeshToTriangleMeshFilter : public MeshToMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMeshToTriangleMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SimplexMeshToTriangleMeshFilter);
 
   /** Standard "Self" type alias. */
   using Self = SimplexMeshToTriangleMeshFilter;

@@ -54,7 +54,7 @@ template <typename TImage, typename TLabelImage = Image<typename TImage::PixelTy
 class ITK_TEMPLATE_EXPORT ShapeLabelMapFilter : public InPlaceLabelMapFilter<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelMapFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ShapeLabelMapFilter);
 
   /** Standard class type aliases. */
   using Self = ShapeLabelMapFilter;

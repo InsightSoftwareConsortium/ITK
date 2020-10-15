@@ -33,7 +33,7 @@ namespace itk
 class ITKIOSiemens_EXPORT SiemensVisionImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SiemensVisionImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(SiemensVisionImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = SiemensVisionImageIOFactory;

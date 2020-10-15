@@ -50,7 +50,7 @@ template <typename TInputImage, typename TOutputImage, typename TFunction>
 class ITK_TEMPLATE_EXPORT UnaryFunctorImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFunctorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(UnaryFunctorImageFilter);
 
   /** Standard class type aliases. */
   using Self = UnaryFunctorImageFilter;

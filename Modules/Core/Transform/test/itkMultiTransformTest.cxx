@@ -75,7 +75,7 @@ template <class TScalar = double, unsigned int NDimensions = itkMultiTransformTe
 class MultiTransformTestTransform : public itk::MultiTransform<TScalar, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransformTestTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(MultiTransformTestTransform);
 
   /** Standard class type aliases. */
   using Self = MultiTransformTestTransform;

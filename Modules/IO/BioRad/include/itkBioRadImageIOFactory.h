@@ -42,7 +42,7 @@ namespace itk
 class ITKIOBioRad_EXPORT BioRadImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BioRadImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(BioRadImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = BioRadImageIOFactory;

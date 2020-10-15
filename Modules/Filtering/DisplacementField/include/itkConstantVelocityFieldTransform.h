@@ -37,7 +37,7 @@ class ITK_TEMPLATE_EXPORT ConstantVelocityFieldTransform
   : public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantVelocityFieldTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ConstantVelocityFieldTransform);
 
   /** Standard class type aliases. */
   using Self = ConstantVelocityFieldTransform;

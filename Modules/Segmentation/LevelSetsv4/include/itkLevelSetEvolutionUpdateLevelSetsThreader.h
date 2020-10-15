@@ -47,7 +47,7 @@ class ITK_TEMPLATE_EXPORT
   : public DomainThreader<ThreadedImageRegionPartitioner<TImage::ImageDimension>, TLevelSetEvolution>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionUpdateLevelSetsThreader);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetEvolutionUpdateLevelSetsThreader);
 
   /** Standard class type aliases. */
   using Self = LevelSetEvolutionUpdateLevelSetsThreader;

@@ -47,7 +47,7 @@ class ITK_TEMPLATE_EXPORT ExpectationBasedPointSetToPointSetMetricv4
   : public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpectationBasedPointSetToPointSetMetricv4);
+  ITK_DISALLOW_COPY_AND_MOVE(ExpectationBasedPointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = ExpectationBasedPointSetToPointSetMetricv4;

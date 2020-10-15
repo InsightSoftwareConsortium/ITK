@@ -39,7 +39,7 @@ class ITK_TEMPLATE_EXPORT ElasticBodyReciprocalSplineKernelTransform
   : public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ElasticBodyReciprocalSplineKernelTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(ElasticBodyReciprocalSplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = ElasticBodyReciprocalSplineKernelTransform;

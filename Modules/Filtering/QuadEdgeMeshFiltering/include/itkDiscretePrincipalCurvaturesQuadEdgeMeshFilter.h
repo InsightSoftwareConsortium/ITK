@@ -35,7 +35,7 @@ class DiscretePrincipalCurvaturesQuadEdgeMeshFilter
   : public DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DiscretePrincipalCurvaturesQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DiscretePrincipalCurvaturesQuadEdgeMeshFilter);
 
   using Self = DiscretePrincipalCurvaturesQuadEdgeMeshFilter;
   using Pointer = SmartPointer<Self>;

@@ -70,7 +70,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GrayscaleGrindPeakImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGrindPeakImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleGrindPeakImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleGrindPeakImageFilter;

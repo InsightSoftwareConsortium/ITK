@@ -42,7 +42,7 @@ template <typename TMetric>
 class ITK_TEMPLATE_EXPORT RegistrationParameterScalesFromJacobian : public RegistrationParameterScalesEstimator<TMetric>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromJacobian);
+  ITK_DISALLOW_COPY_AND_MOVE(RegistrationParameterScalesFromJacobian);
 
   /** Standard class type aliases. */
   using Self = RegistrationParameterScalesFromJacobian;

@@ -43,7 +43,7 @@ template <typename TValue>
 class ITK_TEMPLATE_EXPORT TreeNode : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TreeNode);
+  ITK_DISALLOW_COPY_AND_MOVE(TreeNode);
 
   /** Standard type alias */
   using Superclass = Object;

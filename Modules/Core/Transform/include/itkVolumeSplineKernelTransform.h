@@ -35,7 +35,7 @@ template <typename TParametersValueType, unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT VolumeSplineKernelTransform : public KernelTransform<TParametersValueType, NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VolumeSplineKernelTransform);
+  ITK_DISALLOW_COPY_AND_MOVE(VolumeSplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = VolumeSplineKernelTransform;

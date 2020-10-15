@@ -45,7 +45,7 @@ class ExtrapolateImageFunction
   : public ImageFunction<TInputImage, typename NumericTraits<typename TInputImage::PixelType>::RealType, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExtrapolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(ExtrapolateImageFunction);
 
   /** Standard class type aliases. */
   using Self = ExtrapolateImageFunction;

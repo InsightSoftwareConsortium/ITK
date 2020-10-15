@@ -61,7 +61,7 @@ namespace itk
 class ITKIOXML_EXPORT DOMNodeXMLWriter : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DOMNodeXMLWriter);
+  ITK_DISALLOW_COPY_AND_MOVE(DOMNodeXMLWriter);
 
   /** Standard class type aliases. */
   using Self = DOMNodeXMLWriter;

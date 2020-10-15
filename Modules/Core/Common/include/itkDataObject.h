@@ -290,7 +290,7 @@ protected:
 class ITK_FORCE_EXPORT_MACRO(ITKCommon) DataObject : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DataObject);
+  ITK_DISALLOW_COPY_AND_MOVE(DataObject);
 
   /** Standard class type aliases. */
   using Self = DataObject;

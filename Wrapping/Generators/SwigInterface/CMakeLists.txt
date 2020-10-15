@@ -334,6 +334,7 @@ macro(itk_end_wrap_module_swig_interface)
   set(deps_imports )
 
   list(APPEND mdx_opts --mdx "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+
   foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
     list(APPEND mdx_opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
     list(APPEND deps_imports "%import ${dep}.i\n")
@@ -348,8 +349,12 @@ macro(itk_end_wrap_module_swig_interface)
 
   list(LENGTH i_files number_interface_files)
   if(number_interface_files GREATER 0)
+    # NOTE:  snake_case_config_file is both an input and an output to this command.
+    #        the ${IGENERATOR} script appends to this file.
+    set(snake_case_config_file
+        "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
     add_custom_command(
-      OUTPUT ${i_files} ${typedef_files} ${idx_files}
+      OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file}
       COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
         ${mdx_opts}
         ${swig_libs}
@@ -357,6 +362,7 @@ macro(itk_end_wrap_module_swig_interface)
         -A protected -A private
         -p ${PYGCCXML_DIR}
         -g ${CASTXML_EXECUTABLE}
+        --snake-case-file "${snake_case_config_file}"
         --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
         --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
         --submodule-order "${WRAPPER_SUBMODULE_ORDER}"

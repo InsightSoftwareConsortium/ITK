@@ -41,7 +41,7 @@ namespace itk
 class ITKCommon_EXPORT ProgressTransformer
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProgressTransformer);
+  ITK_DISALLOW_COPY_AND_MOVE(ProgressTransformer);
 
   ProgressTransformer(float start, float end, ProcessObject * targetFilter);
 

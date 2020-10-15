@@ -50,7 +50,7 @@ template <typename TImage>
 class ITK_TEMPLATE_EXPORT ImageToHistogramFilter : public ImageSink<TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToHistogramFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageToHistogramFilter);
 
   /** Standard type alias */
   using Self = ImageToHistogramFilter;

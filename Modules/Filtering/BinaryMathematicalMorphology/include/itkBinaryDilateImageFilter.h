@@ -34,7 +34,7 @@ namespace itk
  * by the intensity value "SetForegroundValue()" (alias as SetDilateValue()) is considered
  * as foreground, and other intensity values are considered background.
  *
- * Gray scale images can be processed as binary images by selecting a
+ * Grayscale images can be processed as binary images by selecting a
  * "ForegroundValue" (alias "DilateValue").  Pixel values matching the dilate value are
  * considered the "foreground" and all other pixels are
  * "background". This is useful in processing segmented images where
@@ -71,7 +71,7 @@ class ITK_TEMPLATE_EXPORT BinaryDilateImageFilter
   : public BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryDilateImageFilter);
 
   /** Extract dimension from input and output image. */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

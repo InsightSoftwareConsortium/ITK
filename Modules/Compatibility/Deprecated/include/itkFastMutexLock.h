@@ -60,7 +60,7 @@ namespace itk
 class ITKDeprecated_EXPORT FastMutexLock : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastMutexLock);
+  ITK_DISALLOW_COPY_AND_MOVE(FastMutexLock);
 
   /** Standard class type aliases. */
   using Self = FastMutexLock;

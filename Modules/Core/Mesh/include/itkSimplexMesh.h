@@ -47,7 +47,7 @@ template <typename TPixelType,
 class ITK_TEMPLATE_EXPORT SimplexMesh : public Mesh<TPixelType, VDimension, TMeshTraits>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimplexMesh);
+  ITK_DISALLOW_COPY_AND_MOVE(SimplexMesh);
 
   /** Standard type alias. */
   using Self = SimplexMesh;

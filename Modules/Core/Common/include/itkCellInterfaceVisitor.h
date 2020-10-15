@@ -45,7 +45,7 @@ template <typename TPixelType, typename TCellTraits>
 class ITK_TEMPLATE_EXPORT CellInterfaceVisitor : public LightObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitor);
+  ITK_DISALLOW_COPY_AND_MOVE(CellInterfaceVisitor);
 
   /** Standard class type aliases. */
   using Self = CellInterfaceVisitor;
@@ -102,7 +102,7 @@ class CellInterfaceVisitorImplementation
   , public UserVisitor
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CellInterfaceVisitorImplementation);
+  ITK_DISALLOW_COPY_AND_MOVE(CellInterfaceVisitorImplementation);
 
   /** Standard class type aliases. */
   using Self = CellInterfaceVisitorImplementation;

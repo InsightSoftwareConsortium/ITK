@@ -56,7 +56,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT GrayscaleFillholeImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleFillholeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GrayscaleFillholeImageFilter);
 
   /** Standard class type aliases. */
   using Self = GrayscaleFillholeImageFilter;

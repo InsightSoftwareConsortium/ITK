@@ -62,7 +62,7 @@ class TanHelperImageFilter
       Function::TanHelper<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TanHelperImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TanHelperImageFilter);
 
   /** Standard class type aliases. */
   using Self = TanHelperImageFilter;

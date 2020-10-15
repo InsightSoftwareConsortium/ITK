@@ -41,7 +41,7 @@ class ITK_TEMPLATE_EXPORT QuadrilateralCell
   , private QuadrilateralCellTopology
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadrilateralCell);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadrilateralCell);
 
   /** Standard class type aliases. */
   itkCellCommonTypedefs(QuadrilateralCell);

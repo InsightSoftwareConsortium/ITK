@@ -38,7 +38,7 @@ namespace itk
 class ITKIOPhilipsREC_EXPORT PhilipsRECImageIOFactory : public ObjectFactoryBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhilipsRECImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(PhilipsRECImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = PhilipsRECImageIOFactory;

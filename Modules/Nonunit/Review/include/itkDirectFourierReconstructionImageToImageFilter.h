@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT DirectFourierReconstructionImageToImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DirectFourierReconstructionImageToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DirectFourierReconstructionImageToImageFilter);
 
   /** Standard Self type alias */
   using Self = DirectFourierReconstructionImageToImageFilter;

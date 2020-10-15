@@ -53,7 +53,7 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOu
 class MomentsThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MomentsThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MomentsThresholdImageFilter);
 
   /** Standard Self type alias */
   using Self = MomentsThresholdImageFilter;

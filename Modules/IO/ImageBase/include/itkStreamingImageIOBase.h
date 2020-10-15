@@ -52,7 +52,7 @@ namespace itk
 class ITKIOImageBase_EXPORT StreamingImageIOBase : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StreamingImageIOBase);
+  ITK_DISALLOW_COPY_AND_MOVE(StreamingImageIOBase);
 
   /** Standard class type aliases. */
   using Self = StreamingImageIOBase;

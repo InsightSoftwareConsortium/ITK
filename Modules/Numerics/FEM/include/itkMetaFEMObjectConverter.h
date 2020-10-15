@@ -44,7 +44,7 @@ template <unsigned int NDimensions = 3>
 class ITK_TEMPLATE_EXPORT MetaFEMObjectConverter : public MetaConverterBase<NDimensions>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MetaFEMObjectConverter);
+  ITK_DISALLOW_COPY_AND_MOVE(MetaFEMObjectConverter);
 
   /** Standard class type aliases */
   using Self = MetaFEMObjectConverter;

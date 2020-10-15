@@ -56,7 +56,7 @@ class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFunction
   : public PDEDeformableRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetMotionRegistrationFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(LevelSetMotionRegistrationFunction);
 
   /** Standard class type aliases. */
   using Self = LevelSetMotionRegistrationFunction;

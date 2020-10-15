@@ -36,7 +36,7 @@ template <typename TVideoStream>
 class ITK_TEMPLATE_EXPORT DecimateFramesVideoFilter : public VideoToVideoFilter<TVideoStream, TVideoStream>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DecimateFramesVideoFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DecimateFramesVideoFilter);
 
   /** Standard class type aliases */
   using VideoStreamType = TVideoStream;

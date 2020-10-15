@@ -34,7 +34,7 @@ class ITK_TEMPLATE_EXPORT BSplineSmoothingOnUpdateDisplacementFieldTransformPara
   : public DisplacementFieldTransformParametersAdaptor<TTransform>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
+  ITK_DISALLOW_COPY_AND_MOVE(BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
 
   /** Standard class type aliases. */
   using Self = BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor;

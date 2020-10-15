@@ -54,7 +54,7 @@ namespace itk
 class ITKIOImageBase_EXPORT NumericSeriesFileNames : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NumericSeriesFileNames);
+  ITK_DISALLOW_COPY_AND_MOVE(NumericSeriesFileNames);
 
   /** Standard class type aliases. */
   using Self = NumericSeriesFileNames;

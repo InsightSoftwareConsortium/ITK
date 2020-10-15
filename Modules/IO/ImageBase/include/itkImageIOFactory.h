@@ -32,7 +32,7 @@ namespace itk
 class ITKIOImageBase_EXPORT ImageIOFactory : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOFactory);
+  ITK_DISALLOW_COPY_AND_MOVE(ImageIOFactory);
 
   /** Standard class type aliases. */
   using Self = ImageIOFactory;

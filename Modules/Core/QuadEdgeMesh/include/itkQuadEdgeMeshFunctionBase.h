@@ -55,7 +55,7 @@ template <typename TMesh, typename TOutput>
 class QuadEdgeMeshFunctionBase : public Object
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshFunctionBase);
+  ITK_DISALLOW_COPY_AND_MOVE(QuadEdgeMeshFunctionBase);
 
   /** Standard class type aliases. */
   using Self = QuadEdgeMeshFunctionBase;
