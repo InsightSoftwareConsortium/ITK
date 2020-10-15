@@ -18,6 +18,7 @@
 
 import os
 import numpy as np
+from typing import Dict
 
 
 class itkCType:
@@ -44,16 +45,15 @@ class itkCType:
 
     def GetCType(name):
         """Get the type corresponding to the provided C primitive type name."""
-        aliases = {
+        aliases: Dict[str, str] = {
             "short": "signed short",
             "int": "signed int",
             "long": "signed long",
             "long long": "signed long long",
         }
-        if name in aliases:
-            name = aliases[name]
+        desired_name: str = aliases.get(name, name)
         try:
-            return itkCType.__c_types__[name]
+            return itkCType.__c_types__[desired_name]
         except KeyError:
             return None
 
