@@ -18,14 +18,14 @@
 
 import os
 import numpy as np
-from typing import Dict
+from typing import Dict, Any
 
 
 class itkCType:
-    __c_types__ = {}
-    __c_types_for_dtype__ = {}
+    __c_types__: Dict[str, Any] = {}
+    __c_types_for_dtype__: Dict[str, Any] = {}
 
-    def __init__(self, name, short_name, np_dtype=None):
+    def __init__(self, name: str, short_name: str, np_dtype=None):
         self.name = name
         self.short_name = short_name
         self.dtype = np_dtype
