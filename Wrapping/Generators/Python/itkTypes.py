@@ -43,6 +43,7 @@ class itkCType:
     def __repr__(self):
         return "<itkCType %s>" % self.name
 
+    @staticmethod
     def GetCType(name):
         """Get the type corresponding to the provided C primitive type name."""
         aliases: Dict[str, str] = {
@@ -57,16 +58,13 @@ class itkCType:
         except KeyError:
             return None
 
-    GetCType = staticmethod(GetCType)
-
+    @staticmethod
     def GetCTypeForDType(np_dtype):
         """Get the type corresponding to the provided numpy.dtype."""
         try:
             return itkCType.__c_types_for_dtype__[np_dtype]
         except KeyError:
             return None
-
-    GetCTypeForDType = staticmethod(GetCTypeForDType)
 
 
 F = itkCType("float", "F", np.float32)
