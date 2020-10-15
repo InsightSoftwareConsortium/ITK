@@ -321,7 +321,7 @@ class itkTemplate(object):
         """
 
         parameters_type = type(parameters)
-        if not parameters_type is tuple and not parameters_type is list:
+        if (parameters_type is not tuple) and (parameters_type is not list):
             # parameters is a single element.
             # include it in a list to manage the 2 cases in the same way
             parameters = [parameters]
