@@ -340,11 +340,11 @@ class itkTemplate(object):
 
         try:
             return self.__template__[tuple(cleanParameters)]
-        except:
+        except KeyError:
             self._LoadModules()
             try:
                 return self.__template__[tuple(cleanParameters)]
-            except:
+            except KeyError:
                 raise TemplateTypeError(self, tuple(cleanParameters))
 
     def __repr__(self):
@@ -793,11 +793,14 @@ def New(self, *args, **kargs):
                 callback(name, self.GetProgress())
 
             self.AddObserver(itk.ProgressEvent(), progress)
-        except:
-            # it seems that something goes wrong...
+        except AttributeError:
             # as this feature is designed for prototyping, it's not really a
             # problem if an object doesn't have progress reporter, so adding
             # reporter can silently fail
+            pass
+        except Exception:
+            # it seems that something else has gone wrong...
+            # silently fail to maintain backward compatibility
             pass
 
     if itkConfig.NotInPlace and "SetInPlace" in dir(self):
