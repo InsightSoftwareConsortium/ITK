@@ -37,7 +37,7 @@ class itkCType:
     def __del__(self):
         try:
             del itkCType.__c_types__[self.name]
-        except:
+        except KeyError:
             pass
 
     def __repr__(self):
