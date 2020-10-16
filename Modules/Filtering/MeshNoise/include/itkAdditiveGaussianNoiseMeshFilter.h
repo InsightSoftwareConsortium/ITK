@@ -42,7 +42,7 @@ class AdditiveGaussianNoiseMeshFilter : public MeshToMeshFilter<TInput, TOutput>
 {
 
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AdditiveGaussianNoiseMeshFilter);
 
   /** Standard class type alias. */
   using Self = AdditiveGaussianNoiseMeshFilter;

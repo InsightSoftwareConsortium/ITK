@@ -41,7 +41,7 @@ template <typename TInputMesh, typename TOutputMesh = TInputMesh>
 class AdditiveGaussianNoiseQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AdditiveGaussianNoiseQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AdditiveGaussianNoiseQuadEdgeMeshFilter);
 
   /** Standard class type alias. */
   using Self = AdditiveGaussianNoiseQuadEdgeMeshFilter;
