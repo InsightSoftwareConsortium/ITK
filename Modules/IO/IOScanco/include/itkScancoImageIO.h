@@ -69,7 +69,7 @@ namespace itk
 class IOScanco_EXPORT ScancoImageIO : public ImageIOBase
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIO);
+  ITK_DISALLOW_COPY_AND_MOVE(ScancoImageIO);
 
   /** Standard class typedefs. */
   using Self = ScancoImageIO;
