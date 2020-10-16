@@ -51,7 +51,7 @@ find_path(SZIP_INCLUDE_DIR szlib.h)
 
 set(szip_names ${SZIP_NAMES} sz szip szip-static libsz libszip libszip-static)
 foreach(name ${szip_names})
-  list(APPEND szip_names_debug "${name}d")
+  list (APPEND szip_names_debug "${name}d")
 endforeach()
 
 if(NOT SZIP_LIBRARY)
