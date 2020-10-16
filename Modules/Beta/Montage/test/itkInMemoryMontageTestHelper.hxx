@@ -41,7 +41,7 @@ public:
   InMemoryMontageTest() = default;
   ~InMemoryMontageTest() override = default;
 
-  ITK_DISALLOW_COPY_AND_ASSIGN(InMemoryMontageTest);
+  ITK_DISALLOW_COPY_AND_MOVE(InMemoryMontageTest);
 
   /** Standard class type aliases. */
   using Self = InMemoryMontageTest;

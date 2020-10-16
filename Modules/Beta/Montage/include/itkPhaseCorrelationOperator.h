@@ -44,7 +44,7 @@ class ITK_TEMPLATE_EXPORT PhaseCorrelationOperator
                               Image<std::complex<TRealPixel>, VImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationOperator);
+  ITK_DISALLOW_COPY_AND_MOVE(PhaseCorrelationOperator);
 
   using Self = PhaseCorrelationOperator;
   using Superclass = ImageToImageFilter<Image<std::complex<TRealPixel>, VImageDimension>,

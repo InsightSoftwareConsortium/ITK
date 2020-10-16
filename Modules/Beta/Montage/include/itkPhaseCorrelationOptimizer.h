@@ -119,7 +119,7 @@ template <typename TRealPixel, unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT PhaseCorrelationOptimizer : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationOptimizer);
+  ITK_DISALLOW_COPY_AND_MOVE(PhaseCorrelationOptimizer);
 
   using Self = PhaseCorrelationOptimizer;
   using Superclass = ProcessObject;
