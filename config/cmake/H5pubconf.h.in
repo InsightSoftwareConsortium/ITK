@@ -104,6 +104,9 @@
 /* Define if the compiler understands the __func__ keyword */
 #cmakedefine H5_HAVE_C99_FUNC @H5_HAVE_C99_FUNC@
 
+/* Define to 1 if you have the <arpa/inet.h> header file. */
+#cmakedefine H5_HAVE_ARPA_INET_H @H5_HAVE_ARPA_INET_H@
+
 /* Define to 1 if you have the `clock_gettime' function. */
 #cmakedefine H5_HAVE_CLOCK_GETTIME @H5_HAVE_CLOCK_GETTIME@
 
@@ -264,11 +267,11 @@
 /* Define to 1 if you have the `lstat' function. */
 #cmakedefine H5_HAVE_LSTAT @H5_HAVE_LSTAT@
 
-/* Define to 1 if you have the <mach/mach_time.h> header file. */
-#cmakedefine H5_HAVE_MACH_MACH_TIME_H @H5_HAVE_MACH_MACH_TIME_H@
-
 /* Define to 1 if you have the <memory.h> header file. */
 #cmakedefine H5_HAVE_MEMORY_H @H5_HAVE_MEMORY_H@
+
+/* Define if we can build the Mirror VFD */
+#cmakedefine H5_HAVE_MIRROR_VFD @H5_HAVE_MIRROR_VFD@
 
 /* Define if we have MPE support */
 #cmakedefine H5_HAVE_MPE @H5_HAVE_MPE@
@@ -281,6 +284,12 @@
 
 /* Define if MPI_Info_c2f and MPI_Info_f2c exists */
 #cmakedefine H5_HAVE_MPI_MULTI_LANG_Info @H5_HAVE_MPI_MULTI_LANG_Info@
+
+/* Define to 1 if you have the <netdb.h> header file. */
+#cmakedefine H5_HAVE_NETDB_H @H5_HAVE_NETDB_H@
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#cmakedefine H5_HAVE_NETINET_IN_H @H5_HAVE_NETINET_IN_H@
 
 /* Define to 1 if you have the <openssl/evp.h> header file. */
 #cmakedefine H5_HAVE_OPENSSL_EVP_H @H5_HAVE_OPENSSL_EVP_H@
@@ -409,9 +418,6 @@
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #cmakedefine H5_HAVE_SYS_STAT_H @H5_HAVE_SYS_STAT_H@
 
-/* Define to 1 if you have the <sys/timeb.h> header file. */
-#cmakedefine H5_HAVE_SYS_TIMEB_H @H5_HAVE_SYS_TIMEB_H@
-
 /* Define to 1 if you have the <sys/time.h> header file. */
 #cmakedefine H5_HAVE_SYS_TIME_H @H5_HAVE_SYS_TIME_H@
 
@@ -479,6 +485,9 @@
 
 /* Define if the compiler understands __inline__ */
 #cmakedefine H5_HAVE___INLINE__ @H5_HAVE___INLINE__@
+
+/* Define if the library will ignore file locks when disabled */                 
+#cmakedefine H5_IGNORE_DISABLED_FILE_LOCKS @H5_IGNORE_DISABLED_FILE_LOCKS@
 
 /* Define if the high-level library headers should be included in hdf5.h */
 #cmakedefine H5_INCLUDE_HL @H5_INCLUDE_HL@
@@ -713,6 +722,9 @@
 
 /* Define using v1.10 public API symbols by default */
 #cmakedefine H5_USE_110_API_DEFAULT @H5_USE_110_API_DEFAULT@
+
+/* Define if the library will use file locking */
+#cmakedefine H5_USE_FILE_LOCKING @H5_USE_FILE_LOCKING@
 
 /* Define if a memory checking tool will be used on the library, to cause
    library to be very picky about memory operations and also disable the

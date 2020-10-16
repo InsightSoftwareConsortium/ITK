@@ -31,7 +31,7 @@ namespace H5 {
                 H5Object is H5File is not an HDF5 object, and renaming H5Object
                 to H5Location will risk breaking user applications.
                 -BMR
-        Apr 2, 2014: Added wrapper getObjName for H5Iget_name 
+        Apr 2, 2014: Added wrapper getObjName for H5Iget_name
         Sep 21, 2016: Rearranging classes (HDFFV-9920) moved H5A wrappers back
                 into H5Object.  This way, C functions that takes attribute id
                 can be in H5Location and those that cannot take attribute id
