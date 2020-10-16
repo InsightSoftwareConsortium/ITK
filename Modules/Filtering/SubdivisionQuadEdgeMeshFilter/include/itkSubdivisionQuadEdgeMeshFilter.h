@@ -40,7 +40,7 @@ template <typename TInputMesh, typename TOutputMesh = TInputMesh>
 class SubdivisionQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SubdivisionQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SubdivisionQuadEdgeMeshFilter);
 
   using Self = SubdivisionQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;

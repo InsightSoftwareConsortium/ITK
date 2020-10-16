@@ -55,7 +55,7 @@ class LoopTriangleCellSubdivisionQuadEdgeMeshFilter
   : public TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LoopTriangleCellSubdivisionQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LoopTriangleCellSubdivisionQuadEdgeMeshFilter);
 
   using Self = LoopTriangleCellSubdivisionQuadEdgeMeshFilter;
   using Superclass = TriangleCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;

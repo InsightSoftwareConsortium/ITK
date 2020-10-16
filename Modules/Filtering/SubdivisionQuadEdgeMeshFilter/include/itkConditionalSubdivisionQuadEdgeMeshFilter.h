@@ -36,7 +36,7 @@ class ConditionalSubdivisionQuadEdgeMeshFilter
   : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TSubdivisionFilter::OutputMeshType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ConditionalSubdivisionQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ConditionalSubdivisionQuadEdgeMeshFilter);
 
   using Self = ConditionalSubdivisionQuadEdgeMeshFilter;
   using Superclass = QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, typename TSubdivisionFilter::OutputMeshType>;

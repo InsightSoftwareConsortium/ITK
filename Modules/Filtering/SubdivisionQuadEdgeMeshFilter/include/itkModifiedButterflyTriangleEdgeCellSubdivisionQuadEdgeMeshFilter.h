@@ -34,7 +34,7 @@ class ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter
   : public TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
 
   using Self = ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter;
   using Superclass = TriangleEdgeCellSubdivisionQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
