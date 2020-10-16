@@ -65,7 +65,7 @@ template <typename TFixedImage, typename TMovingImage>
 class TwoProjectionImageRegistrationMethod : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TwoProjectionImageRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(TwoProjectionImageRegistrationMethod);
 
   /** Standard class type alias. */
   using Self = TwoProjectionImageRegistrationMethod;

@@ -44,7 +44,7 @@ template <typename TFixedImage, typename TMovingImage>
 class NormalizedCorrelationTwoImageToOneImageMetric : public TwoImageToOneImageMetric<TFixedImage, TMovingImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NormalizedCorrelationTwoImageToOneImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(NormalizedCorrelationTwoImageToOneImageMetric);
 
   /** Standard class type alias. */
   using Self = NormalizedCorrelationTwoImageToOneImageMetric;

@@ -57,7 +57,7 @@ template <typename TInputImage, typename TCoordRep = float>
 class SiddonJacobsRayCastInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SiddonJacobsRayCastInterpolateImageFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(SiddonJacobsRayCastInterpolateImageFunction);
 
   /** Standard class type alias. */
   using Self = SiddonJacobsRayCastInterpolateImageFunction;

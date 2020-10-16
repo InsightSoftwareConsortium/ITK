@@ -52,7 +52,7 @@ template <typename TFixedImage, typename TMovingImage>
 class TwoImageToOneImageMetric : public SingleValuedCostFunction
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TwoImageToOneImageMetric);
+  ITK_DISALLOW_COPY_AND_MOVE(TwoImageToOneImageMetric);
 
   /** Standard class type alias. */
   using Self = TwoImageToOneImageMetric;
