@@ -52,7 +52,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 class VariationalRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationFunction);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationFunction;

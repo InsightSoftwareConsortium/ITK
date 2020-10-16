@@ -63,7 +63,7 @@ template <typename TDisplacementField>
 class VariationalRegistrationCurvatureRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationCurvatureRegularizer);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationCurvatureRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationCurvatureRegularizer;

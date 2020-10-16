@@ -51,7 +51,7 @@ template <typename TDisplacementField>
 class VariationalRegistrationDiffusionRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationDiffusionRegularizer);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationDiffusionRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationDiffusionRegularizer;

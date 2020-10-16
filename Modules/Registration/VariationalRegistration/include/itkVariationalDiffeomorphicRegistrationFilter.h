@@ -83,7 +83,7 @@ class VariationalDiffeomorphicRegistrationFilter
   : public VariationalRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalDiffeomorphicRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalDiffeomorphicRegistrationFilter);
 
   /** Standard class type alias */
   using Self = VariationalDiffeomorphicRegistrationFilter;

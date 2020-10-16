@@ -81,7 +81,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 class VariationalRegistrationMultiResolutionFilter : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationMultiResolutionFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationMultiResolutionFilter);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationMultiResolutionFilter;

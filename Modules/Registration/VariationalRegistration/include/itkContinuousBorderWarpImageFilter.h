@@ -59,7 +59,7 @@ template <typename TInputImage, typename TOutputImage, typename TDisplacementFie
 class ContinuousBorderWarpImageFilter : public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ContinuousBorderWarpImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ContinuousBorderWarpImageFilter);
 
   /** Standard class type alias. */
   using Self = ContinuousBorderWarpImageFilter;

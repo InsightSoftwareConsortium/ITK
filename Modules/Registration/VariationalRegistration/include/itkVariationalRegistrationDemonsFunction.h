@@ -57,7 +57,7 @@ class VariationalRegistrationDemonsFunction
   : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationDemonsFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationDemonsFunction);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationDemonsFunction;

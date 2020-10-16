@@ -69,7 +69,7 @@ template <typename TRegistrationFilter, typename TMRFilter>
 class VariationalRegistrationStopCriterion : public Command
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationStopCriterion);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationStopCriterion);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationStopCriterion;

@@ -47,7 +47,7 @@ template <typename TDisplacementField>
 class VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationRegularizer);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationRegularizer;

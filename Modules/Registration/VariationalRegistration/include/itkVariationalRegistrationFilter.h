@@ -99,7 +99,7 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 class VariationalRegistrationFilter : public DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationFilter);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationFilter;

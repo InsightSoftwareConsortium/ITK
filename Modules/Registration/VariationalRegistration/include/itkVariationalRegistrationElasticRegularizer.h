@@ -59,7 +59,7 @@ template <typename TDisplacementField>
 class VariationalRegistrationElasticRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationElasticRegularizer);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationElasticRegularizer);
 
   /** Standard class type alias */
   using Self = VariationalRegistrationElasticRegularizer;

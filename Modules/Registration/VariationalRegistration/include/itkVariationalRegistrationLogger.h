@@ -47,7 +47,7 @@ template <typename TRegistrationFilter, typename TMRFilter>
 class VariationalRegistrationLogger : public Command
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationLogger);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationLogger);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationLogger;

@@ -54,7 +54,7 @@ class VariationalRegistrationSSDFunction
   : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationSSDFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationSSDFunction);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationSSDFunction;

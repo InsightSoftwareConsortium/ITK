@@ -66,7 +66,7 @@ class VariationalRegistrationFastNCCFunction
   : public VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VariationalRegistrationFastNCCFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(VariationalRegistrationFastNCCFunction);
 
   /** Standard class type alias. */
   using Self = VariationalRegistrationFastNCCFunction;
