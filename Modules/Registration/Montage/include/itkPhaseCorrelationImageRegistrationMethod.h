@@ -134,7 +134,7 @@ template <
 class ITK_TEMPLATE_EXPORT PhaseCorrelationImageRegistrationMethod : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseCorrelationImageRegistrationMethod);
+  ITK_DISALLOW_COPY_AND_MOVE(PhaseCorrelationImageRegistrationMethod);
 
   /** Standard class type aliases. */
   using Self = PhaseCorrelationImageRegistrationMethod;
