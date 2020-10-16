@@ -47,7 +47,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT SmoothingRecursiveYvvGaussianImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SmoothingRecursiveYvvGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(SmoothingRecursiveYvvGaussianImageFilter);
 
   /** Standard class type alias. */
   using Self = SmoothingRecursiveYvvGaussianImageFilter;

@@ -55,7 +55,7 @@ class ITK_EXPORT GPUSmoothingRecursiveYvvGaussianImageFilter
                                  SmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUSmoothingRecursiveYvvGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(GPUSmoothingRecursiveYvvGaussianImageFilter);
 
   /** Standard class type alias. */
   using Self = GPUSmoothingRecursiveYvvGaussianImageFilter;

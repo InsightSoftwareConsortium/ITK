@@ -45,7 +45,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT RecursiveLineYvvGaussianImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveLineYvvGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(RecursiveLineYvvGaussianImageFilter);
 
   /** Standard class type alias. */
   using Self = RecursiveLineYvvGaussianImageFilter;
