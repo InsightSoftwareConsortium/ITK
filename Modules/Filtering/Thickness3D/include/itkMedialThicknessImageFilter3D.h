@@ -43,7 +43,7 @@ template <typename TInputImage, typename TOutputImage>
 class MedialThicknessImageFilter3D : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MedialThicknessImageFilter3D);
+  ITK_DISALLOW_COPY_AND_MOVE(MedialThicknessImageFilter3D);
 
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;

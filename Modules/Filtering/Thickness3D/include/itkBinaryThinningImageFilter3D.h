@@ -61,7 +61,7 @@ template <class TInputImage, class TOutputImage>
 class ITK_TEMPLATE_EXPORT BinaryThinningImageFilter3D : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryThinningImageFilter3D);
+  ITK_DISALLOW_COPY_AND_MOVE(BinaryThinningImageFilter3D);
 
   /** Standard class typedefs. */
   using Self = BinaryThinningImageFilter3D;
