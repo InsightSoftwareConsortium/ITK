@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT EigenToMeasureParameterEstimationFilter
   : public StreamingImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureParameterEstimationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(EigenToMeasureParameterEstimationFilter);
 
   /** Standard Self typedef */
   using Self = EigenToMeasureParameterEstimationFilter;

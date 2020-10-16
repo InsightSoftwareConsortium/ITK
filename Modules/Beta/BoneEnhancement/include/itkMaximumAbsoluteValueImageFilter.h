@@ -90,7 +90,7 @@ class ITK_TEMPLATE_EXPORT MaximumAbsoluteValueImageFilter
                                                                   typename TOutputImage::PixelType>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MaximumAbsoluteValueImageFilter);
 
   /** Standard Self type alias */
   using Self = MaximumAbsoluteValueImageFilter;

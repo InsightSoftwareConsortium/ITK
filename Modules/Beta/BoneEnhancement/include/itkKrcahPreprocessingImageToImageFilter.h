@@ -55,7 +55,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT KrcahPreprocessingImageToImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahPreprocessingImageToImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(KrcahPreprocessingImageToImageFilter);
 
   /** Standard Self type alias */
   using Self = KrcahPreprocessingImageToImageFilter;
