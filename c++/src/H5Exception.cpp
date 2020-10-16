@@ -60,7 +60,7 @@ H5std_string Exception::getMajorString(hid_t err_major) const
 {
     // Preliminary call to H5Eget_msg() to get the length of the message
     ssize_t mesg_size = H5Eget_msg(err_major, NULL, NULL, 0);
- 
+
     // If H5Eget_msg() returns a negative value, raise an exception,
     if (mesg_size < 0)
         throw IdComponentException("Exception::getMajorString",
