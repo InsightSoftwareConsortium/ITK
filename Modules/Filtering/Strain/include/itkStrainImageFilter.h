@@ -66,7 +66,7 @@ class StrainImageFilter
       Image<SymmetricSecondRankTensor<TOutputValueType, TInputImage::ImageDimension>, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StrainImageFilter);
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

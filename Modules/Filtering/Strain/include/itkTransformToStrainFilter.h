@@ -56,7 +56,7 @@ class TransformToStrainFilter
                                      TTransform::InputSpaceDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TransformToStrainFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformToStrainFilter);
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TTransform::InputSpaceDimension;
