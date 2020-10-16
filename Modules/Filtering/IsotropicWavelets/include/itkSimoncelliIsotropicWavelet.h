@@ -52,7 +52,7 @@ template <typename TFunctionValue = double,
 class SimoncelliIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(SimoncelliIsotropicWavelet);
+  ITK_DISALLOW_COPY_AND_MOVE(SimoncelliIsotropicWavelet);
 
   /** Standard class type alias. */
   using Self = SimoncelliIsotropicWavelet;

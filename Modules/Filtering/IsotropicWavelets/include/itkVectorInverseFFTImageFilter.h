@@ -45,7 +45,7 @@ template <typename TInputImage,
 class VectorInverseFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VectorInverseFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VectorInverseFFTImageFilter);
 
   /** Standard class type alias. */
   using InputImageType = TInputImage;

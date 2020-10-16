@@ -53,7 +53,7 @@ template <typename TOutputImage,
 class WaveletFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyFilterBankGenerator);
+  ITK_DISALLOW_COPY_AND_MOVE(WaveletFrequencyFilterBankGenerator);
 
   /** Standard type alias */
   using Self = WaveletFrequencyFilterBankGenerator;

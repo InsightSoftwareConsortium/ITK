@@ -45,7 +45,7 @@ class MonogenicSignalFrequencyImageFilter
   : public ImageToImageFilter<TInputImage, VectorImage<typename TInputImage::PixelType, TInputImage::ImageDimension>>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MonogenicSignalFrequencyImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(MonogenicSignalFrequencyImageFilter);
 
   /** Standard class type alias. */
   using Self = MonogenicSignalFrequencyImageFilter;

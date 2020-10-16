@@ -43,7 +43,7 @@ template <typename TInputImage,
 class PhaseAnalysisSoftThresholdImageFilter : public PhaseAnalysisImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisSoftThresholdImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PhaseAnalysisSoftThresholdImageFilter);
 
   /** Standard class type alias. */
   using Self = PhaseAnalysisSoftThresholdImageFilter;

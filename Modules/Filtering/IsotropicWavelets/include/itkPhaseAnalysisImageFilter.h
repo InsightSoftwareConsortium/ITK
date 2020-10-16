@@ -65,7 +65,7 @@ template <typename TInputImage,
 class PhaseAnalysisImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(PhaseAnalysisImageFilter);
 
   /** Standard class type alias. */
   using Self = PhaseAnalysisImageFilter;

@@ -39,7 +39,7 @@ template <typename TFunctionValue = std::complex<double>,
 class RieszFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(RieszFrequencyFunction);
 
   /** Standard class type alias. */
   using Self = RieszFrequencyFunction;

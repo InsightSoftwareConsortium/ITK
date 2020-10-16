@@ -39,7 +39,7 @@ template <typename TFunctionValue = double,
 class IsotropicFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicFrequencyFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(IsotropicFrequencyFunction);
 
   /** Standard class type alias. */
   using Self = IsotropicFrequencyFunction;

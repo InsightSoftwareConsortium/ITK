@@ -56,7 +56,7 @@ template <typename TImageType, typename TWaveletFunction>
 class WaveletCoeffsPhaseAnalyzisImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletCoeffsPhaseAnalyzisImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(WaveletCoeffsPhaseAnalyzisImageFilter);
 
   /** Standard typenames type alias. */
   using Self = WaveletCoeffsPhaseAnalyzisImageFilter;

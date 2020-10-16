@@ -43,7 +43,7 @@ template <typename TInputImage,
 class WaveletFrequencyInverse : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyInverse);
+  ITK_DISALLOW_COPY_AND_MOVE(WaveletFrequencyInverse);
 
   /** Standard classs type alias. */
   using Self = WaveletFrequencyInverse;

@@ -77,7 +77,7 @@ template <typename TImageType>
 class FrequencyShrinkImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyShrinkImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FrequencyShrinkImageFilter);
 
   /** Standard class type alias. */
   using Self = FrequencyShrinkImageFilter;

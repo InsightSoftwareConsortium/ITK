@@ -102,7 +102,7 @@ template <typename TImageType>
 class FrequencyExpandImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyExpandImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FrequencyExpandImageFilter);
 
   /** Standard class type alias. */
   using Self = FrequencyExpandImageFilter;

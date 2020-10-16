@@ -63,7 +63,7 @@ template <typename TInputImage, typename TOutputImage>
 class ExpandWithZerosImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ExpandWithZerosImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ExpandWithZerosImageFilter);
 
   /** Standard class type alias. */
   using Self = ExpandWithZerosImageFilter;

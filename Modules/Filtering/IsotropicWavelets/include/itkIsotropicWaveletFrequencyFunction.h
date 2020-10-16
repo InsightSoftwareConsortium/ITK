@@ -57,7 +57,7 @@ template <typename TFunctionValue = double,
 class IsotropicWaveletFrequencyFunction : public IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicWaveletFrequencyFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(IsotropicWaveletFrequencyFunction);
 
   /** Standard class type alias. */
   using Self = IsotropicWaveletFrequencyFunction;

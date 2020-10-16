@@ -83,7 +83,7 @@ template <typename TInputImage,
 class StructureTensor : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StructureTensor);
+  ITK_DISALLOW_COPY_AND_MOVE(StructureTensor);
 
   /** Some convenient type alias. */
   /** Standard class type alias. */

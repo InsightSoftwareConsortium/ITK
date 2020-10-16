@@ -51,7 +51,7 @@ template <typename TInputImage,
 class WaveletFrequencyForward : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForward);
+  ITK_DISALLOW_COPY_AND_MOVE(WaveletFrequencyForward);
 
   /** Standard typenames type alias. */
   using Self = WaveletFrequencyForward;

@@ -35,7 +35,7 @@ template <typename TFunctionValue = double,
 class FrequencyFunction : public SpatialFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyFunction);
+  ITK_DISALLOW_COPY_AND_MOVE(FrequencyFunction);
 
   /** Standard class type alias. */
   using Self = FrequencyFunction;

@@ -43,7 +43,7 @@ template <typename TImageType>
 class FrequencyShrinkViaInverseFFTImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyShrinkViaInverseFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FrequencyShrinkViaInverseFFTImageFilter);
 
   /** Standard class type alias. */
   using Self = FrequencyShrinkViaInverseFFTImageFilter;

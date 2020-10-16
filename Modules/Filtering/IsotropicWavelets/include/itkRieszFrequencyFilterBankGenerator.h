@@ -42,7 +42,7 @@ template <typename TOutputImage,
 class RieszFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFilterBankGenerator);
+  ITK_DISALLOW_COPY_AND_MOVE(RieszFrequencyFilterBankGenerator);
 
   /** Standard type alias */
   using Self = RieszFrequencyFilterBankGenerator;

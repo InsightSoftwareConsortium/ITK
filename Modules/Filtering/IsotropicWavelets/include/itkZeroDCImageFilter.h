@@ -41,7 +41,7 @@ template <typename TImageType>
 class ZeroDCImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroDCImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ZeroDCImageFilter);
 
   /** Standard class type alias. */
   using Self = ZeroDCImageFilter;

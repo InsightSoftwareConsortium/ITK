@@ -58,7 +58,7 @@ template <typename TImageType, typename TWaveletFunction>
 class WaveletCoeffsSpatialDomainImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletCoeffsSpatialDomainImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(WaveletCoeffsSpatialDomainImageFilter);
 
   /** Standard typenames type alias. */
   using Self = WaveletCoeffsSpatialDomainImageFilter;
