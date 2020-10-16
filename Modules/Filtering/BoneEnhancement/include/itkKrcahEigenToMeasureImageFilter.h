@@ -52,7 +52,7 @@ template <typename TInputImage, typename TOutputImage>
 class KrcahEigenToMeasureImageFilter : public EigenToMeasureImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(KrcahEigenToMeasureImageFilter);
 
   /** Standard Self typedef */
   using Self = KrcahEigenToMeasureImageFilter;

@@ -52,7 +52,7 @@ template <typename TInputImage, typename TOutputImage>
 class DescoteauxEigenToMeasureImageFilter : public EigenToMeasureImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DescoteauxEigenToMeasureImageFilter);
 
   /** Standard Self typedef */
   using Self = DescoteauxEigenToMeasureImageFilter;

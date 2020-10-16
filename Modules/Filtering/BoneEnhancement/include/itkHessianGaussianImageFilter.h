@@ -54,7 +54,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT HessianGaussianImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HessianGaussianImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(HessianGaussianImageFilter);
 
   /** Standard Self typedef */
   using Self = HessianGaussianImageFilter;

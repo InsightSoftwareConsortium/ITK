@@ -79,7 +79,7 @@ class KrcahEigenToMeasureParameterEstimationFilter
   : public EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToMeasureParameterEstimationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(KrcahEigenToMeasureParameterEstimationFilter);
 
   /** Standard Self typedef */
   using Self = KrcahEigenToMeasureParameterEstimationFilter;

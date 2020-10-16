@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT EigenToMeasureImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToMeasureImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(EigenToMeasureImageFilter);
 
   /** Standard Self typedef */
   using Self = EigenToMeasureImageFilter;

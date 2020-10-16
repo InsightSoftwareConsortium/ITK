@@ -54,7 +54,7 @@ class DescoteauxEigenToMeasureParameterEstimationFilter
   : public EigenToMeasureParameterEstimationFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DescoteauxEigenToMeasureParameterEstimationFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DescoteauxEigenToMeasureParameterEstimationFilter);
 
   /** Standard Self typedef */
   using Self = DescoteauxEigenToMeasureParameterEstimationFilter;
