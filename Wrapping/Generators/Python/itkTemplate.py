@@ -202,7 +202,7 @@ class itkTemplate(object):
         # will be the full real name of the class without the itk prefix and
         # _Pointer suffix
         # - the template is not a SmartPointer. In that case, we keep only the
-        # end of the real class name which is a short string discribing the
+        # end of the real class name which is a short string describing the
         # template arguments (for example IUC2)
         if cl.__name__.startswith("itk"):
             if cl.__name__.endswith("_Pointer"):
@@ -443,8 +443,8 @@ class itkTemplate(object):
             DeprecationWarning,
         )
 
-        filt = self.New(*args, **kwargs)
-        return filt.__internal_call__()
+        filter = self.New(*args, **kwargs)
+        return filter.__internal_call__()
 
     def New(self, *args, **kwargs):
         """Instantiate the template with a type implied from its input.
