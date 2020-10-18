@@ -37,8 +37,8 @@ def create_itk_module(name):
         swig_module_name,
         os.path.join(os.path.dirname(__file__), "itk", name + "Python.py"),
     )
-    module = ilu_module_from_spec(spec)
-    return module
+    l_module = ilu_module_from_spec(spec)
+    return l_module
 
 
 def LoadModule(name, namespace=None):
@@ -94,9 +94,9 @@ def LoadModule(name, namespace=None):
     # Dependencies are looked up from the auto-generated configuration files,
     # via the module_data instance defined at the bottom of this file, which
     # knows how to find those configuration files.
-    data = module_data[name]
-    if data:
-        deps = sorted(data["depends"])
+    l_data = module_data[name]
+    if l_data:
+        deps = sorted(l_data["depends"])
         for dep in deps:
             LoadModule(dep, namespace)
 
@@ -106,7 +106,7 @@ def LoadModule(name, namespace=None):
     # SWIG-generated modules have 'Python' appended. Only load the SWIG module
     # if we haven't already.
     loader = LibraryLoader()
-    module = loader.load(swig_module_name)
+    l_module = loader.load(swig_module_name)
 
     # OK, now the modules on which this one depends are loaded and
     # template-instantiated, and the SWIG module for this one is also loaded.
@@ -120,7 +120,7 @@ def LoadModule(name, namespace=None):
     # namespaces between this_module and namespace.
 
     if namespace is None:
-        for k, v in module.__dict__.items():
+        for k, v in l_module.__dict__.items():
             if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v
     else:
@@ -128,14 +128,14 @@ def LoadModule(name, namespace=None):
         if namespace is not None:
             swig = namespace.setdefault("swig", {})
         assert swig is not None
-        for k, v in module.__dict__.items():
+        for k, v in l_module.__dict__.items():
             if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v
                 swig[k] = v
 
-    data = module_data[name]
-    if data:
-        for template in data["templates"]:
+    l_data = module_data[name]
+    if l_data:
+        for template in l_data["templates"]:
             if len(template) == 5:
                 # This is a template description
                 (
@@ -152,7 +152,7 @@ def LoadModule(name, namespace=None):
                 template_container = itkTemplate.itkTemplate(cpp_class_name)
                 try:
                     template_container.__add__(
-                        template_params, getattr(module, swig_class_name)
+                        template_params, getattr(l_module, swig_class_name)
                     )
                     setattr(this_module, py_class_name, template_container)
                     if namespace is not None:
@@ -188,7 +188,7 @@ def LoadModule(name, namespace=None):
                 else:
                     py_class_name, cpp_class_name, swig_class_name = template
                 try:
-                    swigClass = getattr(module, swig_class_name)
+                    swigClass = getattr(l_module, swig_class_name)
                     itkTemplate.registerNoTpl(cpp_class_name, swigClass)
                     setattr(this_module, py_class_name, swigClass)
                     if namespace is not None:
@@ -206,11 +206,11 @@ def LoadModule(name, namespace=None):
                         "%s not found in module %s because of "
                         "exception:\n %s" % (swig_class_name, name, e)
                     )
-        if "snake_case_functions" in data:
-            for snakeCaseFunction in data["snake_case_functions"]:
-                namespace[snakeCaseFunction] = getattr(module, snakeCaseFunction)
+        if "snake_case_functions" in l_data:
+            for snakeCaseFunction in l_data["snake_case_functions"]:
+                namespace[snakeCaseFunction] = getattr(l_module, snakeCaseFunction)
                 init_name = snakeCaseFunction + "_init_docstring"
-                init_function = getattr(module, init_name)
+                init_function = getattr(l_module, init_name)
                 try:
                     init_function()
                 except AttributeError:
@@ -250,9 +250,9 @@ class LibraryLoader(object):
     def load(self, name):
         self.setup()
         try:
-            module = ilu_import_module(name)
-            module.__loader__.exec_module(module)
-            return module
+            l_module = ilu_import_module(name)
+            l_module.__loader__.exec_module(l_module)
+            return l_module
         finally:
             self.cleanup()
 
