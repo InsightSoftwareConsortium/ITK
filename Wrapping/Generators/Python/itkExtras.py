@@ -261,7 +261,6 @@ def _GetArrayFromImage(image_or_filter, function, keep_axes, update):
     keys = [k for k in itk.PyBuffer.keys() if k[0] == output(image_or_filter).__class__]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
-    ImageType = keys[0]
     # Create a numpy array of the type of the input image
     templatedFunction = getattr(itk.PyBuffer[keys[0]], function)
     return templatedFunction(output(image_or_filter), keep_axes, update)
@@ -1145,11 +1144,7 @@ class templated_class:
             yield k
 
     def has_key(self, key):
-        try:
-            value = self[key]
-        except KeyError:
-            return False
-        return True
+        return key in self.__templates__
 
     def __contains__(self, key):
         return key in self
