@@ -156,8 +156,11 @@ def LoadModule(name, namespace=None):
                     )
                     setattr(this_module, py_class_name, template_container)
                     if namespace is not None:
-                        curval = namespace.get(py_class_name)
-                        if curval is not None and curval != template_container:
+                        current_value = namespace.get(py_class_name)
+                        if (
+                            current_value is not None
+                            and current_value != template_container
+                        ):
                             DebugPrintError(
                                 "Namespace already has a value for"
                                 " %s, which is not an itkTemplate"
@@ -189,8 +192,8 @@ def LoadModule(name, namespace=None):
                     itkTemplate.registerNoTpl(cpp_class_name, swigClass)
                     setattr(this_module, py_class_name, swigClass)
                     if namespace is not None:
-                        curval = namespace.get(py_class_name)
-                        if curval is not None and curval != swigClass:
+                        current_value = namespace.get(py_class_name)
+                        if current_value is not None and current_value != swigClass:
                             DebugPrintError(
                                 "Namespace already has a value for"
                                 " %s, which is not class %s. "
@@ -271,13 +274,13 @@ for d in dirs:
         data = {}
         conf = module + "Config.py"
         path = os.path.join(d + os.sep + "Configuration", conf)
-        with open(path, "rb") as modulefile:
-            exec(modulefile.read(), data)
+        with open(path, "rb") as module_file:
+            exec(module_file.read(), data)
         snake_data = {}
         snake_conf = module + "_snake_case.py"
         snake_path = os.path.join(d + os.sep + "Configuration", snake_conf)
         if os.path.exists(snake_path):
-            with open(snake_path, "rb") as snake_modulefile:
-                exec(snake_modulefile.read(), snake_data)
+            with open(snake_path, "rb") as snake_module_file:
+                exec(snake_module_file.read(), snake_data)
         data.update(snake_data)
         module_data[module] = data
