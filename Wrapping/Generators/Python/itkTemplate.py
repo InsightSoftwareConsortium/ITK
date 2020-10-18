@@ -367,7 +367,7 @@ class itkTemplate(object):
             # find the module's name in sys.modules, or create a new module so named
             swig_module_name = "itk." + module + "Python"
             this_module = sys.modules.setdefault(
-                swig_module_name, itkBase._create_itk_module(module)
+                swig_module_name, itkBase.create_itk_module(module)
             )
             namespace = {}
             if not hasattr(this_module, "__templates_loaded"):

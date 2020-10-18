@@ -31,7 +31,7 @@ from importlib.util import module_from_spec as ilu_module_from_spec
 from importlib import import_module as ilu_import_module
 
 
-def _create_itk_module(name):
+def create_itk_module(name):
     swig_module_name = "itk." + name + "Python"
     spec = ilu_spec_from_file_location(
         swig_module_name,
@@ -59,7 +59,7 @@ def LoadModule(name, namespace=None):
 
     swig_module_name = "itk." + name + "Python"
     # find the module's name in sys.modules, or create a new module so named
-    this_module = sys.modules.setdefault(swig_module_name, _create_itk_module(name))
+    this_module = sys.modules.setdefault(swig_module_name, create_itk_module(name))
 
     # if this library and it's template instantiations have already been loaded
     # into sys.modules, bail out after loading the defined symbols into
