@@ -938,6 +938,7 @@ def set_inputs(new_itk_object, args=None, kargs=None):
     # r2 = itk.ImageFileReader.US2.New(FileName='image2.png')
     # s = itk.SubtractImageFilter.US2US2US2.New(r1, r2)
     # itk.ImageFileWriter.US2.New(s, FileName='result.png').Update()
+    setInputNb = -1
     try:
         for setInputNb, arg in enumerate(args):
             methodName = "SetInput%i" % (setInputNb + 1)
@@ -1521,9 +1522,9 @@ def ipython_kw_matches(text):
                 object = object.values()[0]
             namedArgs = []
             is_in = isinstance(object, itk.LightObject)
-            if inspect.isclass(object):
-                issub = issubclass(object, itk.LightObject)
-            if is_in or (inspect.isclass(object) and issub):
+            if is_in or (
+                inspect.isclass(object) and issubclass(object, itk.LightObject)
+            ):
                 namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
         except Exception as e:
             print(e)
