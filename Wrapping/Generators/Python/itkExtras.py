@@ -998,7 +998,7 @@ def set_inputs(new_itk_object, args=None, kargs=None):
                 try:
                     output_value = [output(x) for x in value]
                     attrib(*output_value)
-                except:
+                except Exception:
                     attrib(output(value))
             else:
                 attrib(output(value))
@@ -1217,7 +1217,7 @@ class pipeline:
                 return filter[index]
             try:
                 return filter.GetOutput(index)
-            except:
+            except Exception:
                 if index == 0:
                     return filter.GetOutput()
                 else:
@@ -1332,7 +1332,7 @@ def down_cast(obj):
         for c in t.values():
             try:
                 return c.cast(obj)
-            except:
+            except Exception:
                 # fail silently for now
                 pass
         raise RuntimeError("Can't downcast to a specialization of %s" % className)
