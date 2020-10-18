@@ -22,6 +22,8 @@ from sys import stderr as system_error_stream
 
 import numpy
 
+from itkTemplate import image, output
+
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
 # See http://www.termsys.demon.co.uk/vtansi.htm
@@ -577,7 +579,6 @@ def image_from_vtk_image(vtk_image):
 
 
 # return an image
-from itkTemplate import image, output
 
 
 def template(cl):
@@ -700,7 +701,7 @@ def image_intensity_min_max(image_or_filter):
     comp = itk.MinimumMaximumImageCalculator[img].New(Image=img)
     auto_pipeline.current = tmp_auto_pipeline
     comp.Compute()
-    return (comp.GetMinimum(), comp.GetMaximum())
+    return comp.GetMinimum(), comp.GetMaximum()
 
 
 # range is a python function, and should not be overridden
@@ -1081,7 +1082,7 @@ class templated_class:
     def add_image_templates(self, *args):
         import itk
 
-        if args == []:
+        if not args:
             return
         combinations = [[t] for t in args[0]]
         for types in args[1:]:
@@ -1172,6 +1173,7 @@ class pipeline:
     def __init__(self, *args, **kargs):
         self.clear()
         self.input = None
+        self.filters = []
         set_inputs(self, args, kargs)
 
     def connect(self, filter):
