@@ -488,13 +488,13 @@ class itkTemplate(object):
             return self._NewMeshReader(itk.MeshFileReader, *args, **kwargs)
         primary_input_methods = ("Input", "InputImage", "Input1")
 
-        def ttype_for_input_type(keys, input_type):
-            keys_first = list(filter(lambda k: k[0] == input_type, keys))
+        def ttype_for_input_type(keys_l, input_type_l):
+            keys_first = list(filter(lambda k: k[0] == input_type_l, keys_l))
             # If there is more than one match, prefer the filter where the
             # second template argument, typically the second input or the
             # output, has the same type as the input
             keys_second = list(
-                filter(lambda k: len(k) > 1 and k[1] == input_type, keys_first)
+                filter(lambda k: len(k) > 1 and k[1] == input_type_l, keys_first)
             )
             if len(keys_second):
                 return keys_second
