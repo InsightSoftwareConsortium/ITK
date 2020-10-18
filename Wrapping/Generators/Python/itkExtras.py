@@ -890,8 +890,8 @@ def search(s, case_sensitive=False):  # , fuzzy=True):
 _snake_underscore_re = re.compile("(_)([a-z0-9A-Z])")
 
 
-def _underscore_upper(matchobj):
-    return matchobj.group(2).upper()
+def _underscore_upper(match_obj):
+    return match_obj.group(2).upper()
 
 
 def _snake_to_camel(keyword):
@@ -1286,7 +1286,7 @@ class pipeline:
         return self
 
     def expose(self, name, new_name=None, position=-1):
-        """Expose an attribute from a filter of the minipeline.
+        """Expose an attribute from a filter of the mini-pipeline.
 
         Once called, the pipeline instance has a new Set/Get set of methods to
         access directly the corresponding method of one of the filter of the
@@ -1367,14 +1367,14 @@ def attribute_list(i, name):
     )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
-    l = []
+    l_list = []
     # required because range is overloaded in this module
     import sys
     from builtins import range
 
     for i in range(1, r.GetNumberOfLabelObjects() + 1):
-        l.append(r.GetLabelObject(i).__getattribute__("Get" + name)())
-    return l
+        l_list.append(r.GetLabelObject(i).__getattribute__("Get" + name)())
+    return l_list
 
 
 def attributes_list(i, names):
@@ -1391,7 +1391,7 @@ def attributes_list(i, names):
     )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
-    l = []
+    l_list = []
     # required because range is overloaded in this module
     from builtins import range
 
@@ -1399,8 +1399,8 @@ def attributes_list(i, names):
         attrs = []
         for name in names:
             attrs.append(r.GetLabelObject(i).__getattribute__("Get" + name)())
-        l.append(tuple(attrs))
-    return l
+        l_list.append(tuple(attrs))
+    return l_list
 
 
 def attribute_dict(i, name):
@@ -1425,9 +1425,9 @@ def attribute_dict(i, name):
     for i in range(1, r.GetNumberOfLabelObjects() + 1):
         lo = r.GetLabelObject(i)
         v = lo.__getattribute__("Get" + name)()
-        l = d.get(v, [])
-        l.append(lo)
-        d[v] = l
+        l_list = d.get(v, [])
+        l_list.append(lo)
+        d[v] = l_list
     return d
 
 
@@ -1512,10 +1512,10 @@ def ipython_kw_matches(text):
         if callableMatch.endswith(".New"):
             callableMatch = callableMatch[:-4]
         elif not re.findall("([A-Z])", callableMatch):  # True if snake case
-            # Split at the last '.' occurence
-            splitted = callableMatch.split(".")
-            namespace = splitted[:-1]
-            function_name = splitted[-1]
+            # Split at the last '.' occurrence
+            split_name_parts = callableMatch.split(".")
+            namespace = split_name_parts[:-1]
+            function_name = split_name_parts[-1]
             # Find corresponding object name
             object_name = _snake_to_camel(function_name)
             # Check that this object actually exists
@@ -1535,10 +1535,10 @@ def ipython_kw_matches(text):
                 # the methods
                 object = object.values()[0]
             namedArgs = []
-            isin = isinstance(object, itk.LightObject)
+            is_in = isinstance(object, itk.LightObject)
             if inspect.isclass(object):
                 issub = issubclass(object, itk.LightObject)
-            if isin or (inspect.isclass(object) and issub):
+            if is_in or (inspect.isclass(object) and issub):
                 namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
         except Exception as e:
             print(e)
