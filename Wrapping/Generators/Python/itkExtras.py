@@ -441,19 +441,19 @@ def xarray_from_image(image):
     import numpy as np
 
     array_view = itk.array_view_from_image(image)
-    spacing = itk.spacing(image)
-    origin = itk.origin(image)
-    size = itk.size(image)
+    l_spacing = itk.spacing(image)
+    l_origin = itk.origin(image)
+    l_size = itk.size(image)
     direction = np.flip(itk.array_from_matrix(image.GetDirection()))
     spatial_dimension = image.GetImageDimension()
 
     spatial_dims = ("x", "y", "z")
     coords = {}
-    for index, dim in enumerate(spatial_dims[:spatial_dimension]):
+    for l_index, dim in enumerate(spatial_dims[:spatial_dimension]):
         coords[dim] = np.linspace(
-            origin[index],
-            origin[index] + (size[index] - 1) * spacing[index],
-            size[index],
+            l_origin[l_index],
+            l_origin[l_index] + (l_size[l_index] - 1) * l_spacing[l_index],
+            l_size[l_index],
             dtype=np.float64,
         )
 
@@ -491,17 +491,17 @@ def image_from_xarray(data_array):
     is_vector = "c" in data_array.dims
     itk_image = itk.image_view_from_array(data_array.values, is_vector=is_vector)
 
-    origin = [0.0] * spatial_dimension
-    spacing = [1.0] * spatial_dimension
-    for index, dim in enumerate(spatial_dims):
+    l_origin = [0.0] * spatial_dimension
+    l_spacing = [1.0] * spatial_dimension
+    for l_index, dim in enumerate(spatial_dims):
         coords = data_array.coords[dim]
         if coords.shape[0] > 1:
-            origin[index] = float(coords[0])
-            spacing[index] = float(coords[1]) - float(coords[0])
-    spacing.reverse()
-    itk_image.SetSpacing(spacing)
-    origin.reverse()
-    itk_image.SetOrigin(origin)
+            l_origin[l_index] = float(coords[0])
+            l_spacing[l_index] = float(coords[1]) - float(coords[0])
+    l_spacing.reverse()
+    itk_image.SetSpacing(l_spacing)
+    l_origin.reverse()
+    itk_image.SetOrigin(l_origin)
     if "direction" in data_array.attrs:
         direction = data_array.attrs["direction"]
         itk_image.SetDirection(np.flip(direction))
@@ -524,12 +524,12 @@ def vtk_image_from_image(image):
     # Always set Scalars for (future?) multi-component volume rendering
     vtk_image.GetPointData().SetScalars(data_array)
     dim = image.GetImageDimension()
-    spacing = [1.0,] * 3
-    spacing[:dim] = image.GetSpacing()
-    vtk_image.SetSpacing(spacing)
-    origin = [0.0,] * 3
-    origin[:dim] = image.GetOrigin()
-    vtk_image.SetOrigin(origin)
+    l_spacing = [1.0,] * 3
+    l_spacing[:dim] = image.GetSpacing()
+    vtk_image.SetSpacing(l_spacing)
+    l_origin = [0.0,] * 3
+    l_origin[:dim] = image.GetOrigin()
+    vtk_image.SetOrigin(l_origin)
     dims = [1,] * 3
     dims[:dim] = itk.size(image)
     vtk_image.SetDimensions(dims)
@@ -568,12 +568,12 @@ def image_from_vtk_image(vtk_image):
     image = itk.image_view_from_array(array, is_vector)
 
     dim = image.GetImageDimension()
-    spacing = [1.0] * dim
-    spacing[:dim] = vtk_image.GetSpacing()[:dim]
-    image.SetSpacing(spacing)
-    origin = [0.0] * dim
-    origin[:dim] = vtk_image.GetOrigin()[:dim]
-    image.SetOrigin(origin)
+    l_spacing = [1.0] * dim
+    l_spacing[:dim] = vtk_image.GetSpacing()[:dim]
+    image.SetSpacing(l_spacing)
+    l_origin = [0.0] * dim
+    l_origin[:dim] = vtk_image.GetOrigin()[:dim]
+    image.SetOrigin(l_origin)
     # Todo: Add Direction with VTK 9
     return image
 
@@ -623,7 +623,7 @@ def class_(obj):
         return obj.__class__
 
 
-def python_type(obj):
+def python_type(object_ref):
     """Returns the Python type name of an object
 
     The Python name corresponding to the given instantiated object is printed.
@@ -651,37 +651,37 @@ def python_type(obj):
         else:
             return name
 
-    def recursive(obj, level):
+    def recursive(l_obj, level):
         try:
-            T, P = template(obj)
+            T, P = template(l_obj)
             name = in_itk(T.__name__)
             parameters = []
             for t in P:
                 parameters.append(recursive(t, level + 1))
             return name + "[" + ",".join(parameters) + "]"
         except KeyError:
-            if isinstance(obj, itkCType):  # Handles CTypes differently
-                return "itk." + obj.short_name
-            elif hasattr(obj, "__name__"):
+            if isinstance(l_obj, itkCType):  # Handles CTypes differently
+                return "itk." + l_obj.short_name
+            elif hasattr(l_obj, "__name__"):
                 # This should be where most ITK types end up.
-                return in_itk(obj.__name__)
+                return in_itk(l_obj.__name__)
             elif (
-                not isinstance(obj, type)
-                and type(obj) != itkTemplate.itkTemplate
+                not isinstance(l_obj, type)
+                and type(l_obj) != itkTemplate.itkTemplate
                 and level != 0
             ):
-                # obj should actually be considered a value, not a type,
+                # l_obj should actually be considered a value, not a type,
                 # or it is already an itkTemplate type.
                 # A value can be an integer that is a template parameter.
                 # This does not happen at the first level of the recursion
                 # as it is not possible that this object would be a template
                 # parameter. Checking the level `0` allows e.g. to find the
                 # type of an object that is a `list` or an `int`.
-                return str(obj)
+                return str(l_obj)
             else:
-                return in_itk(type(obj).__name__)
+                return in_itk(type(l_obj).__name__)
 
-    return recursive(obj, 0)
+    return recursive(object_ref, 0)
 
 
 def image_intensity_min_max(image_or_filter):
@@ -1107,11 +1107,13 @@ class templated_class:
         to instantiate.
         """
 
-        def __init__(self, templated_class, template_parameters):
-            self.__templated_class__ = templated_class
-            self.__template_parameters__ = template_parameters
-            if "check_template_parameters" in dir(templated_class.__cls__):
-                templated_class.__cls__.check_template_parameters(template_parameters)
+        def __init__(self, l_templated_class, l_template_parameters):
+            self.__templated_class__ = l_templated_class
+            self.__template_parameters__ = l_template_parameters
+            if "check_template_parameters" in dir(l_templated_class.__cls__):
+                l_templated_class.__cls__.check_template_parameters(
+                    l_template_parameters
+                )
 
         def New(self, *args, **kargs):
             """A New() method to mimic the ITK default behavior, even if the
@@ -1199,7 +1201,7 @@ class pipeline:
         """
         self.filters = []
 
-    def GetOutput(self, index=0):
+    def GetOutput(self, l_index=0):
         """Return the output of the pipeline
 
         If another output is needed, use
@@ -1212,11 +1214,11 @@ class pipeline:
         else:
             filter = self.filters[-1]
             if hasattr(filter, "__getitem__"):
-                return filter[index]
+                return filter[l_index]
             try:
-                return filter.GetOutput(index)
+                return filter.GetOutput(l_index)
             except Exception:
-                if index == 0:
+                if l_index == 0:
                     return filter.GetOutput()
                 else:
                     raise ValueError("Index can only be 0 on that object")
