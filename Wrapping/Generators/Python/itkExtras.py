@@ -1315,7 +1315,8 @@ class auto_pipeline(pipeline):
     def Start(self):
         auto_pipeline.current = self
 
-    def Stop(self):
+    @staticmethod
+    def Stop():
         auto_pipeline.current = None
 
 
