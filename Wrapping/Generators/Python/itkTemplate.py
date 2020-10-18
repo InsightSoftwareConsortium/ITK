@@ -708,6 +708,12 @@ or via one of the following keyword arguments: %s"""
     def keys(self):
         return self.__template__.keys()
 
+    def values(self):
+        return list(self.__template__.values())
+
+    def items(self):
+        return list(self.__template__.items())
+
     # everything after this comment is for dict interface
     # and is a copy/paste from DictMixin
     # only methods to edit dictionary are not there
@@ -717,25 +723,6 @@ or via one of the following keyword arguments: %s"""
 
     def __contains__(self, key):
         return key in self
-
-    # third level takes advantage of second level definitions
-    def iteritems(self):
-        for k in self:
-            yield (k, self[k])
-
-    def iterkeys(self):
-        return self.__iter__()
-
-    # fourth level uses definitions from lower levels
-    def itervalues(self):
-        for _, v in self.iteritems():
-            yield v
-
-    def values(self):
-        return [v for _, v in self.iteritems()]
-
-    def items(self):
-        return list(self.iteritems())
 
     def get(self, key, default=None):
         try:
