@@ -233,6 +233,10 @@ class LibraryLoader(object):
     library can be properly loaded. This involves setting paths defined in
     itkConfig."""
 
+    def __init__(self):
+        self.old_path = sys.path
+        self.old_cwd = os.getcwd()
+
     def setup(self):
         self.old_cwd = os.getcwd()
         try:
