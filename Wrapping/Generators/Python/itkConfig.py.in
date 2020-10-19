@@ -50,7 +50,7 @@ NotInPlace: bool = False
 # Internal settings
 
 
-def itkFormatWarning(msg, *a, **kwa):
+def _itk_format_warning(msg, *_, **__):
     """"Format the warnings issued by itk to display only the message.
 
     This will ignore the filename and the line number where the warning was
@@ -60,10 +60,10 @@ def itkFormatWarning(msg, *a, **kwa):
 
 
 # Redefine the format of the warnings
-warnings.formatwarning = itkFormatWarning
+warnings.formatwarning = _itk_format_warning
 
 
-def normalized_path(relative_posix_path):
+def _normalized_path(relative_posix_path):
     if relative_posix_path != "None":
         file_dir = os.path.split(__file__)[0]
         relative_path = relative_posix_path.replace("/", os.sep)
@@ -71,13 +71,13 @@ def normalized_path(relative_posix_path):
 
 
 # swig_lib: location of the swig-generated shared libraries
-swig_lib = normalized_path("@CONFIG_PYTHON_SWIGLIB_DIR@")
+swig_lib = _normalized_path("@CONFIG_PYTHON_SWIGLIB_DIR@")
 
 # swig_py: location of the xxxPython.py swig-generated python interfaces
-swig_py = normalized_path("@CONFIG_PYTHON_SWIGPY_DIR@")
+swig_py = _normalized_path("@CONFIG_PYTHON_SWIGPY_DIR@")
 
 # config_py: location of xxxConfig.py CMake-generated library descriptions
-config_py = normalized_path("@CONFIG_PYTHON_CONFIGPY_DIR@")
+config_py = _normalized_path("@CONFIG_PYTHON_CONFIGPY_DIR@")
 
 # put the itkConfig.py path in the path list
 path = [os.path.join(config_py, "..")]
@@ -85,10 +85,10 @@ path = [os.path.join(config_py, "..")]
 if "WRAPITK_PYTHON_PATH" in os.environ:
     path.extend(os.environ["WRAPITK_PYTHON_PATH"].split(":"))
 
-doxygen_root = normalized_path("../Doc")
+doxygen_root = _normalized_path("../Doc")
 
-ITK_GLOBAL_VERSION_STRING :str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+ITK_GLOBAL_VERSION_STRING: str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
 
-del normalized_path
+del _normalized_path
 del os
 del warnings
