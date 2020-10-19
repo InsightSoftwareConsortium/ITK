@@ -22,16 +22,15 @@ from sys import stderr as system_error_stream
 
 # Required to work around weird import error with xarray
 import pkg_resources
-import importlib
+
 import itkConfig
 import itkTemplate
 
-from importlib.util import spec_from_file_location as ilu_spec_from_file_location
-from importlib.util import module_from_spec as ilu_module_from_spec
-from importlib import import_module as ilu_import_module
-
 
 def create_itk_module(name):
+    from importlib.util import module_from_spec as ilu_module_from_spec
+    from importlib.util import spec_from_file_location as ilu_spec_from_file_location
+
     swig_module_name = "itk." + name + "Python"
     spec = ilu_spec_from_file_location(
         swig_module_name,
@@ -92,9 +91,9 @@ def LoadModule(name, namespace=None):
     # So, we recursively satisfy the dependencies of named module and create
     # the template instantiations.
     # Dependencies are looked up from the auto-generated configuration files,
-    # via the module_data instance defined at the bottom of this file, which
+    # via the itk_base_global_module_data instance defined at the bottom of this file, which
     # knows how to find those configuration files.
-    l_data = module_data[name]
+    l_data = itk_base_global_module_data[name]
     if l_data:
         deps = sorted(l_data["depends"])
         for dep in deps:
@@ -133,7 +132,7 @@ def LoadModule(name, namespace=None):
                 this_module.swig[k] = v
                 swig[k] = v
 
-    l_data = module_data[name]
+    l_data = itk_base_global_module_data[name]
     if l_data:
         for template in l_data["templates"]:
             if len(template) == 5:
@@ -250,8 +249,12 @@ class LibraryLoader(object):
     def load(self, name):
         self.setup()
         try:
-            l_module = ilu_import_module(name)
-            l_module.__loader__.exec_module(l_module)
+            import importlib
+
+            l_module = importlib.import_module(name)
+            # since version 3.4: Use importlib.util.find_spec() instead.
+            l_spec = importlib.util.find_spec(name)
+            l_spec.loader.exec_module(l_module)
             return l_module
         finally:
             self.cleanup()
@@ -261,30 +264,36 @@ class LibraryLoader(object):
         sys.path = self.old_path
 
 
-# Make a list of all know modules (described in *Config.py files in the
-# config_py directory) and load the information described in those Config.py
-# files.
-dirs = [p for p in itkConfig.path if os.path.isdir(p)]
-module_data = {}
-lazy_attributes = {}
-known_modules = []
-for d in dirs:
-    files = os.listdir(d + os.sep + "Configuration")
-    known_modules = sorted([f[:-9] for f in files if f.endswith("Config.py")])
-    sys.path.append(d)
-    sys.path.append(d + os.sep + ".." + os.sep + "lib")
+def _initialize(l_module_data):
+    # Make a list of all know modules (described in *Config.py files in the
+    # config_py directory) and load the information described in those Config.py
+    # files.
+    dirs = [p for p in itkConfig.path if os.path.isdir(p)]
 
-    for module in known_modules:
-        data = {}
-        conf = module + "Config.py"
-        path = os.path.join(d + os.sep + "Configuration", conf)
-        with open(path, "rb") as module_file:
-            exec(module_file.read(), data)
-        snake_data = {}
-        snake_conf = module + "_snake_case.py"
-        snake_path = os.path.join(d + os.sep + "Configuration", snake_conf)
-        if os.path.exists(snake_path):
-            with open(snake_path, "rb") as snake_module_file:
-                exec(snake_module_file.read(), snake_data)
-        data.update(snake_data)
-        module_data[module] = data
+    for d in dirs:
+        files = os.listdir(d + os.sep + "Configuration")
+        known_modules = sorted([f[:-9] for f in files if f.endswith("Config.py")])
+        sys.path.append(d)
+        sys.path.append(d + os.sep + ".." + os.sep + "lib")
+
+        for module in known_modules:
+            data = {}
+            conf = module + "Config.py"
+            path = os.path.join(d + os.sep + "Configuration", conf)
+            with open(path, "rb") as module_file:
+                exec(module_file.read(), data)
+            snake_data = {}
+            snake_conf = module + "_snake_case.py"
+            snake_path = os.path.join(d + os.sep + "Configuration", snake_conf)
+            if os.path.exists(snake_path):
+                with open(snake_path, "rb") as snake_module_file:
+                    exec(snake_module_file.read(), snake_data)
+            data.update(snake_data)
+            l_module_data[module] = data
+
+
+itk_base_global_lazy_attributes = {}
+itk_base_global_known_modules = []
+itk_base_global_module_data = {}
+_initialize(itk_base_global_module_data)
+del _initialize
