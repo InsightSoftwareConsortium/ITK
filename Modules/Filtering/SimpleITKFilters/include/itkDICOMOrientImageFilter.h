@@ -65,7 +65,7 @@ template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT DICOMOrientImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(DICOMOrientImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(DICOMOrientImageFilter);
 
   /** Standard class type aliases. */
   using Self = DICOMOrientImageFilter;

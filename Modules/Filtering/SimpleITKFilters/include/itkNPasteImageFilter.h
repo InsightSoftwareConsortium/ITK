@@ -60,7 +60,7 @@ template <typename TInputImage, typename TSourceImage = TInputImage, typename TO
 class ITK_TEMPLATE_EXPORT NPasteImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NPasteImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NPasteImageFilter);
 
   /** Standard class type aliases. */
   using Self = NPasteImageFilter;
