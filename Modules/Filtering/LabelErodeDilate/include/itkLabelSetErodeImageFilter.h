@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT LabelSetErodeImageFilter : public LabelSetMorphBaseImageFilter<TInputImage, false, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetErodeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelSetErodeImageFilter);
 
   /** Standard class type alias. */
   using Self = LabelSetErodeImageFilter;

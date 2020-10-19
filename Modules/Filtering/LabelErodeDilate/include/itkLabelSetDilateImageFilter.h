@@ -40,7 +40,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_EXPORT LabelSetDilateImageFilter : public LabelSetMorphBaseImageFilter<TInputImage, true, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(LabelSetDilateImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(LabelSetDilateImageFilter);
 
   /** Standard class type alias. */
   using Self = LabelSetDilateImageFilter;
