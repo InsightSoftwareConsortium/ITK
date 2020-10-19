@@ -29,10 +29,10 @@ __version__ = itkConfig.ITK_GLOBAL_VERSION_STRING
 thisModule = sys.modules[__name__]
 
 
-def _GetLazyAttributes(local_lazy_attributes):
-    templateNames = [t[0] for t in data["templates"]]
-    isInLibrary = [t[3] for t in data["templates"] if len(t) > 3]
-    local_attributes = dict([(n, module) for n in templateNames])
+def _GetLazyAttributes(local_lazy_attributes, l_module, l_data):
+    templateNames = [t[0] for t in l_data["templates"]]
+    isInLibrary = [t[3] for t in l_data["templates"] if len(t) > 3]
+    local_attributes = dict([(n, l_module) for n in templateNames])
     attributesInModule = dict(
         [(n, belongs) for n, belongs in zip(templateNames, isInLibrary)]
     )
@@ -42,10 +42,10 @@ def _GetLazyAttributes(local_lazy_attributes):
             local_lazy_attributes.setdefault(kk, []).insert(0, vv)
         else:
             local_lazy_attributes.setdefault(kk, []).append(vv)
-    if "snake_case_functions" in data:
-        for function in data["snake_case_functions"]:
-            local_lazy_attributes.setdefault(function, []).append(module)
-
+    if "snake_case_functions" in l_data:
+        for function in l_data["snake_case_functions"]:
+            local_lazy_attributes.setdefault(function, []).append(l_module)
+    return l_module, l_data
 
 if itkConfig.LazyLoading:
     # If we are loading lazily (on-demand), make a dict mapping the available
@@ -56,7 +56,7 @@ if itkConfig.LazyLoading:
     # file.
     lazyAttributes = {}
     for module, data in itkBase.module_data.items():
-        _GetLazyAttributes(lazyAttributes)
+        module, data = _GetLazyAttributes(lazyAttributes, module, data)
 
     if isinstance(thisModule, itkLazy.LazyITKModule):
         # Handle reload case where we've already done this once.
@@ -84,7 +84,7 @@ for k, v in itkExtras.__dict__.items():
 # Populate itk.ITKModuleName
 for module, data in itkBase.module_data.items():
     attributes = {}
-    _GetLazyAttributes(attributes)
+    module, data = _GetLazyAttributes(attributes, module, data)
     itkModule = itkLazy.LazyITKModule(module, attributes)
     setattr(thisModule, module, itkModule)
 
