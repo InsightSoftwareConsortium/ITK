@@ -40,7 +40,7 @@ def create_itk_module(name):
     return l_module
 
 
-def LoadModule(name, namespace=None):
+def itk_load_swig_module(name, namespace=None):
     """This function causes a SWIG module to be loaded into memory after its
     dependencies are satisfied. Information about the templates defined therein
     is looked up from a config file, and PyTemplate instances for each are
@@ -97,7 +97,7 @@ def LoadModule(name, namespace=None):
     if l_data:
         deps = sorted(l_data["depends"])
         for dep in deps:
-            LoadModule(dep, namespace)
+            itk_load_swig_module(dep, namespace)
 
     if itkConfig.ImportCallback:
         itkConfig.ImportCallback(name, 0)
