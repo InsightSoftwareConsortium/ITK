@@ -65,7 +65,7 @@ def _initialize_module():
         # file.
         lazyAttributes = {}
         for module, data in itkBase.module_data.items():
-            module, data = _GetLazyAttributes(lazyAttributes, module, data)
+            _GetLazyAttributes(lazyAttributes, module, data)
 
         if isinstance(thisModule, itkLazy.LazyITKModule):
             # Handle reload case where we've already done this once.
