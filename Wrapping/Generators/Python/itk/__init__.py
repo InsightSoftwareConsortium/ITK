@@ -29,16 +29,16 @@ def _initialize_module():
     A function to explicitly avoid polluting the global namespace
     """
 
-    def _GetLazyAttributes(local_lazy_attributes, l_module, l_data):
-        templateNames = [t[0] for t in l_data["templates"]]
-        isInLibrary = [t[3] for t in l_data["templates"] if len(t) > 3]
-        local_attributes = dict([(n, l_module) for n in templateNames])
-        attributesInModule = dict(
-            [(n, belongs) for n, belongs in zip(templateNames, isInLibrary)]
+    def _get_lazy_attributes(local_lazy_attributes, l_module, l_data):
+        template_names = [t[0] for t in l_data["templates"]]
+        is_in_library = [t[3] for t in l_data["templates"] if len(t) > 3]
+        local_attributes = dict([(n, l_module) for n in template_names])
+        attributes_in_module = dict(
+            [(n, belongs) for n, belongs in zip(template_names, is_in_library)]
         )
         items = local_attributes.items()
         for kk, vv in items:
-            if isInLibrary and attributesInModule[kk] is True:
+            if is_in_library and attributes_in_module[kk] is True:
                 local_lazy_attributes.setdefault(kk, []).insert(0, vv)
             else:
                 local_lazy_attributes.setdefault(kk, []).append(vv)
@@ -55,7 +55,7 @@ def _initialize_module():
     import os
     import sys
 
-    thisModule = sys.modules[__name__]
+    this_module = sys.modules[__name__]
     if itkConfig.LazyLoading:
         # If we are loading lazily (on-demand), make a dict mapping the available
         # classes/functions/etc. (read from the configuration modules) to the
@@ -63,52 +63,52 @@ def _initialize_module():
         # instance and (later) do some surgery on sys.modules so that the 'itk'
         # module becomes that new instance instead of what is executed from this
         # file.
-        lazyAttributes = {}
+        lazy_attributes = {}
         for module, data in itkBase.module_data.items():
-            _GetLazyAttributes(lazyAttributes, module, data)
+            _get_lazy_attributes(lazy_attributes, module, data)
 
-        if isinstance(thisModule, itkLazy.LazyITKModule):
+        if isinstance(this_module, itkLazy.LazyITKModule):
             # Handle reload case where we've already done this once.
             # If we made a new module every time, multiple reload()s would fail
             # because the identity of sys.modules['itk'] would always be changing.
-            thisModule.__init__(__name__, lazyAttributes)
-            del lazyAttributes
+            this_module.__init__(__name__, lazy_attributes)
+            del lazy_attributes
         else:
-            thisModule = itkLazy.LazyITKModule(__name__, lazyAttributes)
+            this_module = itkLazy.LazyITKModule(__name__, lazy_attributes)
     else:
         # We're not lazy-loading. Just load the modules in the order specified in
         # the known_modules list for consistency.
         for module in itkBase.known_modules:
-            itkBase.LoadModule(module, thisModule.__dict__)
+            itkBase.LoadModule(module, this_module.__dict__)
 
     # Regardless of how it was loaded, fill up the itk module with the ITK types
     # and extras.
     for k, v in itkTypes.__dict__.items():
         if k != "itkCType" and not k.startswith("_"):
-            setattr(thisModule, k, v)
+            setattr(this_module, k, v)
     for k, v in itkExtras.__dict__.items():
         if not k.startswith("_"):
-            setattr(thisModule, k, v)
+            setattr(this_module, k, v)
 
     # Populate itk.ITKModuleName
     for module, data in itkBase.module_data.items():
         attributes = {}
-        module, data = _GetLazyAttributes(attributes, module, data)
-        itkModule = itkLazy.LazyITKModule(module, attributes)
-        setattr(thisModule, module, itkModule)
+        module, data = _get_lazy_attributes(attributes, module, data)
+        itk_module = itkLazy.LazyITKModule(module, attributes)
+        setattr(this_module, module, itk_module)
 
     # Set the __path__ attribute, which is required for this module to be used as a
     # package
-    setattr(thisModule, "__path__", __path__)
-    setattr(thisModule, "__spec__", __spec__)
+    setattr(this_module, "__path__", __path__)
+    setattr(this_module, "__spec__", __spec__)
 
     if itkConfig.LazyLoading:
         # this has to be the last step, else python gets confused about itkTypes
         # and itkExtras above. I'm not sure why...
-        sys.modules[__name__] = thisModule
+        sys.modules[__name__] = this_module
     else:
         # do some cleanup
-        del module, thisModule, itkModule
+        del module, this_module, itk_module
         del itkBase, itkConfig, itkLazy, itkTypes, itkExtras, os, sys
 
 
