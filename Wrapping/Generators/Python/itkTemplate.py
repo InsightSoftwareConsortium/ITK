@@ -362,7 +362,7 @@ class itkTemplate(object):
         load the module in which the object belongs. The other modules will be loaded only when necessary.
         """
         name = self.__name__.split("::")[-1]  # Remove 'itk::' or 'itk::Function::'
-        modules = itkBase.lazy_attributes[name]
+        modules = itkBase.itk_base_global_lazy_attributes[name]
         for module in modules:
             # find the module's name in sys.modules, or create a new module so named
             swig_module_name = "itk." + module + "Python"
@@ -371,7 +371,7 @@ class itkTemplate(object):
             )
             namespace = {}
             if not hasattr(this_module, "__templates_loaded"):
-                itkBase.LoadModule(module, namespace)
+                itkBase.itk_load_swig_module(module, namespace)
 
     def __dir__(self):
         """Returns the list of the attributes available in the current template.
