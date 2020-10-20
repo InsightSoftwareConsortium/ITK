@@ -22,7 +22,8 @@ from sys import stderr as system_error_stream
 
 import numpy
 
-from itkTemplate import image, output
+from itkTemplate import image
+from itkTemplate import output
 
 # The following line defines an ascii string used for dynamically refreshing
 # the import and progress callbacks on the same terminal line.
@@ -427,7 +428,7 @@ def GetMatrixFromArray(arr):
 matrix_from_array = GetMatrixFromArray
 
 
-def xarray_from_image(image):
+def xarray_from_image(l_image):
     """Convert an itk.Image to an xarray.DataArray.
 
     Origin and spacing metadata is preserved in the xarray's coords. The
@@ -440,12 +441,12 @@ def xarray_from_image(image):
     import itk
     import numpy as np
 
-    array_view = itk.array_view_from_image(image)
-    l_spacing = itk.spacing(image)
-    l_origin = itk.origin(image)
-    l_size = itk.size(image)
-    direction = np.flip(itk.array_from_matrix(image.GetDirection()))
-    spatial_dimension = image.GetImageDimension()
+    array_view = itk.array_view_from_image(l_image)
+    l_spacing = itk.spacing(l_image)
+    l_origin = itk.origin(l_image)
+    l_size = itk.size(l_image)
+    direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
+    spatial_dimension = l_image.GetImageDimension()
 
     spatial_dims = ("x", "y", "z")
     coords = {}
@@ -458,7 +459,7 @@ def xarray_from_image(image):
         )
 
     dims = list(reversed(spatial_dims[:spatial_dimension]))
-    components = image.GetNumberOfComponentsPerPixel()
+    components = l_image.GetNumberOfComponentsPerPixel()
     if components > 1:
         dims.append("c")
         coords["c"] = np.arange(components, dtype=np.uint64)
@@ -509,33 +510,33 @@ def image_from_xarray(data_array):
     return itk_image
 
 
-def vtk_image_from_image(image):
+def vtk_image_from_image(l_image):
     """Convert an itk.Image to a vtk.vtkImageData."""
     import itk
     import vtk
     from vtk.util.numpy_support import numpy_to_vtk
 
-    array = itk.array_view_from_image(image)
+    array = itk.array_view_from_image(l_image)
 
     vtk_image = vtk.vtkImageData()
     data_array = numpy_to_vtk(array.reshape(-1))
-    data_array.SetNumberOfComponents(image.GetNumberOfComponentsPerPixel())
+    data_array.SetNumberOfComponents(l_image.GetNumberOfComponentsPerPixel())
     data_array.SetName("Scalars")
     # Always set Scalars for (future?) multi-component volume rendering
     vtk_image.GetPointData().SetScalars(data_array)
-    dim = image.GetImageDimension()
+    dim = l_image.GetImageDimension()
     l_spacing = [1.0,] * 3
-    l_spacing[:dim] = image.GetSpacing()
+    l_spacing[:dim] = l_image.GetSpacing()
     vtk_image.SetSpacing(l_spacing)
     l_origin = [0.0,] * 3
-    l_origin[:dim] = image.GetOrigin()
+    l_origin[:dim] = l_image.GetOrigin()
     vtk_image.SetOrigin(l_origin)
     dims = [1,] * 3
-    dims[:dim] = itk.size(image)
+    dims[:dim] = itk.size(l_image)
     vtk_image.SetDimensions(dims)
     # Todo: Add Direction with VTK 9
-    if image.GetImageDimension() == 3:
-        PixelType = itk.template(image)[1][0]
+    if l_image.GetImageDimension() == 3:
+        PixelType = itk.template(l_image)[1][0]
         if PixelType == itk.Vector:
             vtk_image.GetPointData().SetVectors(data_array)
         elif PixelType == itk.CovariantVector:
@@ -565,17 +566,17 @@ def image_from_vtk_image(vtk_image):
     else:
         dims.reverse()
     array.shape = tuple(dims)
-    image = itk.image_view_from_array(array, is_vector)
+    l_image = itk.image_view_from_array(array, is_vector)
 
-    dim = image.GetImageDimension()
+    dim = l_image.GetImageDimension()
     l_spacing = [1.0] * dim
     l_spacing[:dim] = vtk_image.GetSpacing()[:dim]
-    image.SetSpacing(l_spacing)
+    l_image.SetSpacing(l_spacing)
     l_origin = [0.0] * dim
     l_origin[:dim] = vtk_image.GetOrigin()[:dim]
-    image.SetOrigin(l_origin)
+    l_image.SetOrigin(l_origin)
     # Todo: Add Direction with VTK 9
-    return image
+    return l_image
 
 
 # return an image
@@ -653,10 +654,10 @@ def python_type(object_ref):
 
     def recursive(l_obj, level):
         try:
-            T, P = template(l_obj)
-            name = in_itk(T.__name__)
+            type_name, param_list = template(l_obj)
+            name = in_itk(type_name.__name__)
             parameters = []
-            for t in P:
+            for t in param_list:
                 parameters.append(recursive(t, level + 1))
             return name + "[" + ",".join(parameters) + "]"
         except KeyError:
@@ -758,31 +759,31 @@ def imread(filename, pixel_type=None, fallback_only=False):
         except (KeyError, itkTemplate.TemplateTypeError):
             pass
     if type(filename) in [list, tuple]:
-        TemplateReaderType = itk.ImageSeriesReader
+        template_reader_type = itk.ImageSeriesReader
         io_filename = filename[0]
         increase_dimension = True
         kwargs = {"FileNames": filename}
     else:
-        TemplateReaderType = itk.ImageFileReader
+        template_reader_type = itk.ImageFileReader
         io_filename = filename
         increase_dimension = False
         kwargs = {"FileName": filename}
     if pixel_type:
-        imageIO = itk.ImageIOFactory.CreateImageIO(
+        image_IO = itk.ImageIOFactory.CreateImageIO(
             io_filename, itk.CommonEnums.IOFileMode_ReadMode
         )
-        if not imageIO:
+        if not image_IO:
             raise RuntimeError("No ImageIO is registered to handle the given file.")
-        imageIO.SetFileName(io_filename)
-        imageIO.ReadImageInformation()
-        dimension = imageIO.GetNumberOfDimensions()
+        image_IO.SetFileName(io_filename)
+        image_IO.ReadImageInformation()
+        dimension = image_IO.GetNumberOfDimensions()
         # Increase dimension if last dimension is not of size one.
-        if increase_dimension and imageIO.GetDimensions(dimension - 1) != 1:
+        if increase_dimension and image_IO.GetDimensions(dimension - 1) != 1:
             dimension += 1
         ImageType = itk.Image[pixel_type, dimension]
-        reader = TemplateReaderType[ImageType].New(**kwargs)
+        reader = template_reader_type[ImageType].New(**kwargs)
     else:
-        reader = TemplateReaderType.New(**kwargs)
+        reader = template_reader_type.New(**kwargs)
     reader.Update()
     return reader.GetOutput()
 
@@ -1179,22 +1180,22 @@ class pipeline:
         self.filters = []
         set_inputs(self, args, kargs)
 
-    def connect(self, filter):
-        """Connect a new filter to the pipeline
+    def connect(self, l_filter):
+        """Connect a new l_filter to the pipeline
 
-        The output of the first filter will be used as the input of this
-        one and the filter passed as parameter will be added to the list
+        The output of the first l_filter will be used as the input of this
+        one and the l_filter passed as parameter will be added to the list
         """
         if self.GetOutput() is not None:
-            set_inputs(filter, [self.GetOutput()])
-        self.append(filter)
+            set_inputs(l_filter, [self.GetOutput()])
+        self.append(l_filter)
 
-    def append(self, filter):
-        """Add a new filter to the pipeline
+    def append(self, l_filter):
+        """Add a new l_filter to the pipeline
 
-        The new filter will not be connected. The user must connect it.
+        The new l_filter will not be connected. The user must connect it.
         """
-        self.filters.append(filter)
+        self.filters.append(l_filter)
 
     def clear(self):
         """Clear the filter list
@@ -1212,14 +1213,14 @@ class pipeline:
         if len(self.filters) == 0:
             return self.GetInput()
         else:
-            filter = self.filters[-1]
-            if hasattr(filter, "__getitem__"):
-                return filter[l_index]
+            l_filter = self.filters[-1]
+            if hasattr(l_filter, "__getitem__"):
+                return l_filter[l_index]
             try:
-                return filter.GetOutput(l_index)
+                return l_filter.GetOutput(l_index)
             except Exception:
                 if l_index == 0:
-                    return filter.GetOutput()
+                    return l_filter.GetOutput()
                 else:
                     raise ValueError("Index can only be 0 on that object")
 
@@ -1231,12 +1232,12 @@ class pipeline:
         else:
             return self.filters[-1].GetNumberOfOutputs()
 
-    def SetInput(self, input):
-        """Set the input of the pipeline
+    def SetInput(self, l_input):
+        """Set the l_input of the pipeline
         """
         if len(self.filters) != 0:
-            set_inputs(self.filters[0], [input])
-        self.input = input
+            set_inputs(self.filters[0], [l_input])
+        self.l_input = l_input
 
     def GetInput(self):
         """Get the input of the pipeline
@@ -1327,8 +1328,8 @@ def down_cast(obj):
     import itk
     import itkTemplate
 
-    className = obj.GetNameOfClass()
-    t = getattr(itk, className)
+    class_name = obj.GetNameOfClass()
+    t = getattr(itk, class_name)
     if isinstance(t, itkTemplate.itkTemplate):
         for c in t.values():
             try:
@@ -1336,7 +1337,7 @@ def down_cast(obj):
             except Exception:
                 # fail silently for now
                 pass
-        raise RuntimeError("Can't downcast to a specialization of %s" % className)
+        raise RuntimeError("Can't downcast to a specialization of %s" % class_name)
     else:
         return t.cast(obj)
 
@@ -1454,87 +1455,87 @@ def ipython_kw_matches(text):
     # 1. Find the nearest identifier that comes before an unclosed
     # parenthesis e.g. for "foo (1+bar(x), pa", the candidate is "foo".
     if ip.Completer.readline:
-        textUntilCursor = ip.Completer.readline.get_line_buffer()[
+        text_until_cursor = ip.Completer.readline.get_line_buffer()[
             : ip.Completer.readline.get_endidx()
         ]
     else:
         # IPython >= 5.0.0, which is based on the Python Prompt Toolkit
-        textUntilCursor = ip.Completer.text_until_cursor
+        text_until_cursor = ip.Completer.text_until_cursor
 
-    tokens = regexp.findall(textUntilCursor)
+    tokens = regexp.findall(text_until_cursor)
     tokens.reverse()
-    iterTokens = iter(tokens)
-    openPar = 0
-    for token in iterTokens:
+    iter_tokens = iter(tokens)
+    open_par = 0
+    for token in iter_tokens:
         if token == ")":
-            openPar -= 1
+            open_par -= 1
         elif token == "(":
-            openPar += 1
-            if openPar > 0:
+            open_par += 1
+            if open_par > 0:
                 # found the last unclosed parenthesis
                 break
     else:
         return []
     # 2. Concatenate dotted names ("foo.bar" for "foo.bar(x, pa" )
     ids = []
-    isId = re.compile(r"\w+$").match
+    is_id = re.compile(r"\w+$").match
     while True:
         try:
-            ids.append(iterTokens.next())
-            if not isId(ids[-1]):
+            ids.append(iter_tokens.next())
+            if not is_id(ids[-1]):
                 ids.pop()
                 break
-            if not iterTokens.next() == ".":
+            if not iter_tokens.next() == ".":
                 break
         except StopIteration:
             break
     # lookup the candidate callable matches either using global_matches
     # or attr_matches for dotted names
     if len(ids) == 1:
-        callableMatches = ip.Completer.global_matches(ids[0])
+        callable_matches = ip.Completer.global_matches(ids[0])
     else:
-        callableMatches = ip.Completer.attr_matches(".".join(ids[::-1]))
-    argMatches = []
-    for callableMatch in callableMatches:
+        callable_matches = ip.Completer.attr_matches(".".join(ids[::-1]))
+    arg_matches = []
+    for callable_match in callable_matches:
         # drop the .New at this end, so we can search in the class members
-        if callableMatch.endswith(".New"):
-            callableMatch = callableMatch[:-4]
-        elif not re.findall("([A-Z])", callableMatch):  # True if snake case
+        if callable_match.endswith(".New"):
+            callable_match = callable_match[:-4]
+        elif not re.findall("([A-Z])", callable_match):  # True if snake case
             # Split at the last '.' occurrence
-            split_name_parts = callableMatch.split(".")
+            split_name_parts = callable_match.split(".")
             namespace = split_name_parts[:-1]
             function_name = split_name_parts[-1]
             # Find corresponding object name
             object_name = _snake_to_camel(function_name)
             # Check that this object actually exists
             try:
-                objectCallableMatch = ".".join(namespace + [object_name])
-                eval(objectCallableMatch, ip.Completer.namespace)
+                object_callable_match = ".".join(namespace + [object_name])
+                eval(object_callable_match, ip.Completer.namespace)
                 # Reconstruct full object name
-                callableMatch = objectCallableMatch
+                callable_match = object_callable_match
             except AttributeError:
-                # callableMatch is not a snake case function with a
+                # callable_match is not a snake case function with a
                 # corresponding object.
                 pass
         try:
-            object = eval(callableMatch, ip.Completer.namespace)
-            if isinstance(object, itkTemplate.itkTemplate):
+            l_object = eval(callable_match, ip.Completer.namespace)
+            if isinstance(l_object, itkTemplate.itkTemplate):
                 # this is a template - lets grab the first entry to search for
                 # the methods
-                object = object.values()[0]
-            namedArgs = []
-            is_in = isinstance(object, itk.LightObject)
+                l_object = l_object.values()[0]
+            named_args = []
+            is_in = isinstance(l_object, itk.LightObject)
             if is_in or (
-                inspect.isclass(object) and issubclass(object, itk.LightObject)
+                inspect.isclass(l_object) and issubclass(l_object, itk.LightObject)
             ):
-                namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
+                named_args = [n[3:] for n in dir(l_object) if n.startswith("Set")]
         except Exception as e:
             print(e)
             continue
-        for namedArg in namedArgs:
+        for namedArg in named_args:
             if namedArg.startswith(text):
-                argMatches.append(u"%s=" % namedArg)
-    return argMatches
+                arg_matches.append(u"%s=" % namedArg)
+    return arg_matches
 
 
 # install progress callback and custom completer if we are in ipython

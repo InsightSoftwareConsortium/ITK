@@ -160,7 +160,7 @@ def itk_load_swig_module(name, namespace=None):
                             current_value is not None
                             and current_value != template_container
                         ):
-                            DebugPrintError(
+                            debug_print_error(
                                 "Namespace already has a value for"
                                 " %s, which is not an itkTemplate"
                                 "instance for class %s. "
@@ -169,7 +169,7 @@ def itk_load_swig_module(name, namespace=None):
                             )
                         namespace[py_class_name] = template_container
                 except Exception as e:
-                    DebugPrintError(
+                    debug_print_error(
                         "%s not loaded from module %s because of "
                         "exception:\n %s" % (swig_class_name, name, e)
                     )
@@ -187,21 +187,21 @@ def itk_load_swig_module(name, namespace=None):
                 else:
                     py_class_name, cpp_class_name, swig_class_name = template
                 try:
-                    swigClass = getattr(l_module, swig_class_name)
-                    itkTemplate.registerNoTpl(cpp_class_name, swigClass)
-                    setattr(this_module, py_class_name, swigClass)
+                    swig_class = getattr(l_module, swig_class_name)
+                    itkTemplate.registerNoTpl(cpp_class_name, swig_class)
+                    setattr(this_module, py_class_name, swig_class)
                     if namespace is not None:
                         current_value = namespace.get(py_class_name)
-                        if current_value is not None and current_value != swigClass:
-                            DebugPrintError(
+                        if current_value is not None and current_value != swig_class:
+                            debug_print_error(
                                 "Namespace already has a value for"
                                 " %s, which is not class %s. "
                                 "Overwriting old value."
                                 % (py_class_name, cpp_class_name)
                             )
-                        namespace[py_class_name] = swigClass
+                        namespace[py_class_name] = swig_class
                 except Exception as e:
-                    DebugPrintError(
+                    debug_print_error(
                         "%s not found in module %s because of "
                         "exception:\n %s" % (swig_class_name, name, e)
                     )
@@ -219,7 +219,7 @@ def itk_load_swig_module(name, namespace=None):
         itkConfig.ImportCallback(name, 1)
 
 
-def DebugPrintError(error):
+def debug_print_error(error):
     if itkConfig.DebugLevel == itkConfig.WARN:
         print(error, file=system_error_stream)
     elif itkConfig.DebugLevel == itkConfig.ERROR:
@@ -254,7 +254,7 @@ class LibraryLoader(object):
             l_module = importlib.import_module(name)
             # since version 3.4: Use importlib.util.find_spec() instead.
             l_spec = importlib.util.find_spec(name)
-            l_spec.loader.exec_module(l_module) # pytype: disable=attribute-error
+            l_spec.loader.exec_module(l_module)  # pytype: disable=attribute-error
             return l_module
         finally:
             self.cleanup()
