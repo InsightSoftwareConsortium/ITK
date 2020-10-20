@@ -254,7 +254,7 @@ class LibraryLoader(object):
             l_module = importlib.import_module(name)
             # since version 3.4: Use importlib.util.find_spec() instead.
             l_spec = importlib.util.find_spec(name)
-            l_spec.loader.exec_module(l_module)
+            l_spec.loader.exec_module(l_module) # pytype: disable=attribute-error
             return l_module
         finally:
             self.cleanup()
