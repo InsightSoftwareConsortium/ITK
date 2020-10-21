@@ -48,8 +48,7 @@ def _initialize_module():
     import itkBase
     import itkConfig
     import itkLazy
-    import itkTypes
-    import itkExtras
+    import itkInitHelpers
     import os
     import sys
 
@@ -76,17 +75,27 @@ def _initialize_module():
     else:
         # We're not lazy-loading. Just load the modules in the order specified in
         # the known_modules list for consistency.
-        for module in itkBase.itk_base_global_known_modules:
+        for module in itkBase.itk_base_global_module_data.keys():
             itkBase.itk_load_swig_module(module, this_module.__dict__)
 
     # Regardless of how it was loaded, fill up the itk module with the ITK types
     # and extras.
+    import itkTypes
+
     for k, v in itkTypes.__dict__.items():
         if k != "itkCType" and not k.startswith("_"):
             setattr(this_module, k, v)
+    del itkTypes
+    for k, v in itkInitHelpers.__dict__.items():
+        if not k.startswith("_"):
+            setattr(this_module, k, v)
+
+    import itkExtras
+
     for k, v in itkExtras.__dict__.items():
         if not k.startswith("_"):
             setattr(this_module, k, v)
+    del itkExtras
 
     # --
     # Needed to propagate symbol to itk.image from itkTemplate.image
@@ -116,7 +125,7 @@ def _initialize_module():
     else:
         # do some cleanup
         del module, this_module, itk_module
-        del itkBase, itkConfig, itkLazy, itkTypes, itkExtras, os, sys
+        del itkBase, itkConfig, itkLazy, itkInitHelpers, os, sys
 
 
 # Now do the initialization

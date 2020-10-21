@@ -111,3 +111,5 @@ class itkCType:
     SLL,
     B,
 ) = itkCType.initialize_c_types_once()
+
+del Dict, Any
