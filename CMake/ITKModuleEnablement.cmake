@@ -1,46 +1,57 @@
 # This script sorts out the module dependencies, provides user options for customizing
 # the list of modules to be built, and enables modules accordingly.
 
-# Load the module DAG.
-set(ITK_MODULES_ALL)
-file(GLOB_RECURSE meta RELATIVE "${ITK_SOURCE_DIR}"
-   "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
-  )
-foreach(f ${meta})
-  include(${ITK_SOURCE_DIR}/${f})
-  list(APPEND ITK_MODULES_ALL ${itk-module})
-  get_filename_component(${itk-module}_BASE ${f} PATH)
-  set(${itk-module}_SOURCE_DIR ${ITK_SOURCE_DIR}/${${itk-module}_BASE})
-  set(${itk-module}_BINARY_DIR ${ITK_BINARY_DIR}/${${itk-module}_BASE})
-  if(BUILD_TESTING AND NOT DISABLE_MODULE_TESTS AND EXISTS ${${itk-module}_SOURCE_DIR}/test)
-    list(APPEND ITK_MODULES_ALL ${itk-module-test})
-    set(${itk-module-test}_SOURCE_DIR ${${itk-module}_SOURCE_DIR}/test)
-    set(${itk-module-test}_BINARY_DIR ${${itk-module}_BINARY_DIR}/test)
-    set(${itk-module-test}_IS_TEST 1)
-    set(${itk-module}_TESTED_BY ${itk-module-test})
-    set(${itk-module-test}_TESTS_FOR ${itk-module})
-  endif()
-
-  # Reject bad dependencies.
-  string(REGEX MATCHALL ";(ITKDeprecated|ITKReview|ITKIntegratedTest);"
-    _bad_deps ";${ITK_MODULE_${itk-module}_DEPENDS};${ITK_MODULE_${itk-module-test}_DEPENDS};")
-  foreach(dep ${_bad_deps})
-    if(NOT "${itk-module}" MATCHES "^(${dep}|ITKIntegratedTest)$")
-      message(FATAL_ERROR
-        "Module \"${itk-module}\" loaded from\n"
-        "  ${${itk-module}_BASE}/itk-module.cmake\n"
-        "may not depend on module \"${dep}\".")
+macro(itk_module_load_DAG)
+  set(ITK_MODULES_ALL)
+  file(GLOB_RECURSE meta RELATIVE "${ITK_SOURCE_DIR}"
+     "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
+    )
+  foreach(f ${meta})
+    include(${ITK_SOURCE_DIR}/${f})
+    list(APPEND ITK_MODULES_ALL ${itk-module})
+    get_filename_component(${itk-module}_BASE ${f} PATH)
+    set(${itk-module}_SOURCE_DIR ${ITK_SOURCE_DIR}/${${itk-module}_BASE})
+    set(${itk-module}_BINARY_DIR ${ITK_BINARY_DIR}/${${itk-module}_BASE})
+    if(BUILD_TESTING AND NOT DISABLE_MODULE_TESTS AND EXISTS ${${itk-module}_SOURCE_DIR}/test)
+      list(APPEND ITK_MODULES_ALL ${itk-module-test})
+      set(${itk-module-test}_SOURCE_DIR ${${itk-module}_SOURCE_DIR}/test)
+      set(${itk-module-test}_BINARY_DIR ${${itk-module}_BINARY_DIR}/test)
+      set(${itk-module-test}_IS_TEST 1)
+      set(${itk-module}_TESTED_BY ${itk-module-test})
+      set(${itk-module-test}_TESTS_FOR ${itk-module})
     endif()
+
+    # Reject bad dependencies.
+    string(REGEX MATCHALL ";(ITKDeprecated|ITKReview|ITKIntegratedTest);"
+      _bad_deps ";${ITK_MODULE_${itk-module}_DEPENDS};${ITK_MODULE_${itk-module-test}_DEPENDS};")
+    foreach(dep ${_bad_deps})
+      if(NOT "${itk-module}" MATCHES "^(${dep}|ITKIntegratedTest)$")
+        message(FATAL_ERROR
+          "Module \"${itk-module}\" loaded from\n"
+          "  ${${itk-module}_BASE}/itk-module.cmake\n"
+          "may not depend on module \"${dep}\".")
+      endif()
+    endforeach()
   endforeach()
-endforeach()
-# Clear variables set later in each module.
-unset(itk-module)
-unset(itk-module-test)
+  # Clear variables set later in each module.
+  unset(itk-module)
+  unset(itk-module-test)
+endmacro()
 
 # Validate the module DAG.
 macro(itk_module_check itk-module _needed_by stack)
   if(NOT ITK_MODULE_${itk-module}_DECLARED)
-    message(AUTHOR_WARNING "No such module \"${itk-module}\" needed by \"${_needed_by}\"")
+    string(SUBSTRING ${itk-module} 0 3 module-name-prefix)
+    if (${module-name-prefix} EQUAL "ITK")
+      message(AUTHOR_WARNING "No such module \"${itk-module}\" needed by \"${_needed_by}\"")
+    else() # This is a remote module which has not been downloaded yet
+      message(STATUS "Including remote module \"${itk-module}\" needed by \"${_needed_by}\"")
+      set(Module_${itk-module} ON CACHE BOOL "Needed by ${_needed_by}" FORCE) # turn it on
+      include("${CMAKE_CURRENT_LIST_DIR}/../Modules/Remote/${itk-module}.remote.cmake")
+      set(Module_${itk-module} OFF CACHE BOOL "Needed by ${_needed_by}" FORCE) # turn it back off
+      set(ModuleEnablementNeedsToRerun ON)
+    endif()
+    unset(module-name-prefix)
   elseif(check_started_${itk-module} AND NOT check_finished_${itk-module})
     # We reached a module while traversing its own dependencies recursively.
     set(msg "")
@@ -61,9 +72,15 @@ macro(itk_module_check itk-module _needed_by stack)
   endif()
 endmacro()
 
-foreach(itk-module ${ITK_MODULES_ALL})
-  itk_module_check("${itk-module}" "" "")
-endforeach()
+set(ModuleEnablementNeedsToRerun ON) # this needs to run at least once
+while(ModuleEnablementNeedsToRerun)
+  itk_module_load_DAG()
+  set(ModuleEnablementNeedsToRerun OFF)
+  message(STATUS "Running module dependency checks")
+  foreach(itk-module ${ITK_MODULES_ALL})
+    itk_module_check("${itk-module}" "" "")
+  endforeach()
+endwhile()
 
 #----------------------------------------------------------------------
 # Provide an option to build the default set of ITK modules. Only a small
