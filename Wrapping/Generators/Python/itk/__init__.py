@@ -100,7 +100,7 @@ def _initialize_module():
     # Set the __path__ attribute, which is required for this module to be used as a
     # package
     setattr(this_module, "__path__", __path__)
-    setattr(this_module, "__spec__", __spec__)
+    setattr(this_module, "__spec__", __spec__)  # pytype: disable=name-error
 
     if itkConfig.LazyLoading:
         # this has to be the last step, else python gets confused about itkTypes
