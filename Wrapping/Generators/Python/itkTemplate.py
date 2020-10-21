@@ -45,7 +45,7 @@ def normalizeName(name):
     """Normalize the class name to remove ambiguity
 
     This function removes the white spaces in the name, and also
-    remove the pointer declaration "*" (it have no sense in python) """
+    remove the pointer declaration "*" (it have no sense in python)"""
 
     name = name.replace(" ", "")
     name = name.replace("*", "")
@@ -55,11 +55,13 @@ def normalizeName(name):
 
 class TemplateTypeError(TypeError):
     def __init__(self, template_type, input_type):
+        import itkExtras
+
         def tuple_to_string_type(t):
             if type(t) == tuple:
-                return ", ".join(itk.python_type(x) for x in t)
+                return ", ".join(itkExtras.python_type(x) for x in t)
             else:
-                itk.python_type(t)
+                itkExtras.python_type(t)
 
         import itk
 
@@ -77,10 +79,14 @@ or
     e.g.: image = itk.imread(my_input_filename, itk.F)
 """
 
-        python_template_type = itk.python_type(template_type)
+        python_template_type = itkExtras.python_type(template_type)
         python_input_type = tuple_to_string_type(input_type)
-        type_list = "\n".join([itk.python_type(x[0]) for x in template_type.keys()])
-        eg_type = ", ".join([itk.python_type(x) for x in list(template_type.keys())[0]])
+        type_list = "\n".join(
+            [itkExtras.python_type(x[0]) for x in template_type.keys()]
+        )
+        eg_type = ", ".join(
+            [itkExtras.python_type(x) for x in list(template_type.keys())[0]]
+        )
         msg = """{template_type} is not wrapped for input type `{input_type}`.
 
 To limit the size of the package, only a limited number of

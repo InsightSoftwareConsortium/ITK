@@ -293,7 +293,6 @@ def _initialize(l_module_data):
 
 
 itk_base_global_lazy_attributes = {}
-itk_base_global_known_modules = []
 itk_base_global_module_data = {}
 _initialize(itk_base_global_module_data)
 del _initialize

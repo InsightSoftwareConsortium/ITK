@@ -150,6 +150,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     itkLazy
     itkHelpers
     itk/__init__
+    itk/itkInitHelpers
     )
   # Done listing files.
 
