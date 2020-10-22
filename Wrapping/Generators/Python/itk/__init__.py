@@ -88,6 +88,15 @@ def _initialize_module():
         if not k.startswith("_"):
             setattr(this_module, k, v)
 
+    # --
+    # Needed to propagate symbol to itk.image from itkTemplate.image
+    import itkTemplate
+
+    setattr(this_module, "image", itkTemplate.image)
+    setattr(this_module, "output", itkTemplate.output)
+    del itkTemplate
+    # --
+
     # Populate itk.ITKModuleName
     for module, data in itkBase.itk_base_global_module_data.items():
         attributes = {}

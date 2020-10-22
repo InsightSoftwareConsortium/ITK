@@ -22,7 +22,6 @@ from sys import stderr as system_error_stream
 
 import numpy
 
-from itkTemplate import image
 from itkTemplate import output
 
 # The following line defines an ascii string used for dynamically refreshing
