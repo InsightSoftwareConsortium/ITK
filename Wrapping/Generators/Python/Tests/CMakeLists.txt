@@ -18,6 +18,7 @@ itk_python_add_test(NAME PythonTypeTest COMMAND PythonTypeTest.py)
 itk_python_add_test(NAME PythonComplex COMMAND complex.py)
 itk_python_add_test(NAME PythonHelperFunctions COMMAND helpers.py)
 itk_python_add_test(NAME PythonLazyModule COMMAND lazy.py)
+itk_python_add_test(NAME PythonNoLazyModule COMMAND nolazy.py)
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
 INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")

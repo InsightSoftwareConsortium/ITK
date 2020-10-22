@@ -18,6 +18,10 @@
 
 # also test the import callback feature
 
+import itk
+import sys
+import os
+
 def custom_callback(name, progress):
     if progress == 0:
         print("Loading %s..." % name, file=sys.stderr)
@@ -26,9 +30,6 @@ def custom_callback(name, progress):
 import itkConfig
 itkConfig.ImportCallback = custom_callback
 
-import itk
-import sys
-import os
 
 # test setting the number of threads
 itk.set_nthreads(4)
