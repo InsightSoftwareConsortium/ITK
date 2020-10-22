@@ -144,11 +144,12 @@ def itk_load_swig_module(name, namespace=None):
                     class_in_module,
                     template_params,
                 ) = template
-                # It doesn't matter if an itkTemplate for this class name
-                # already exists since every instance of itkTemplate with the
-                # same name shares the same state. So we just make a new
-                # instance and add the new templates.
-                template_container = itkTemplate.itkTemplate(cpp_class_name)
+
+                # Get the attribute associated with the class name if it exists
+                template_container = getattr(
+                    this_module, py_class_name, itkTemplate.itkTemplate(cpp_class_name)
+                )
+
                 try:
                     template_container.__add__(
                         template_params, getattr(l_module, swig_class_name)
