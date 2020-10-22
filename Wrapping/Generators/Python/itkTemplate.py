@@ -28,6 +28,7 @@ import itkConfig
 import itkBase
 import itkLazy
 from itkTypes import itkCType
+import math
 
 
 def registerNoTpl(name, cl):
@@ -699,7 +700,9 @@ or via one of the following keyword arguments: %s"""
             PixelType = itk.FixedArray[component, numberOfComponents]
         elif pixel == "matrix":
             PixelType = itk.Matrix[
-                component, int(sqrt(numberOfComponents)), int(sqrt(numberOfComponents))
+                component,
+                int(math.sqrt(numberOfComponents)),
+                int(math.sqrt(numberOfComponents)),
             ]
         else:
             raise RuntimeError("Unknown pixel type: %s." % pixel)
