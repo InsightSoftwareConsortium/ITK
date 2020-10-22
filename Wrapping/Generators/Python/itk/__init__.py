@@ -30,20 +30,19 @@ def _initialize_module():
     """
 
     def _get_lazy_attributes(local_lazy_attributes, l_module, l_data):
-        template_names = [t[0] for t in l_data["templates"]]
-        is_in_library = [t[3] for t in l_data["templates"] if len(t) > 3]
-        local_attributes = dict([(n, l_module) for n in template_names])
-        attributes_in_module = dict(
-            [(n, belongs) for n, belongs in zip(template_names, is_in_library)]
-        )
-        items = local_attributes.items()
-        for kk, vv in items:
-            if is_in_library and attributes_in_module[kk] is True:
-                local_lazy_attributes.setdefault(kk, []).insert(0, vv)
+        template_feature_tuples = [
+            (t[0], t[3]) if len(t) > 3 else (t[0], False) for t in l_data["templates"]
+        ]
+        for (template_name, is_in_library) in template_feature_tuples:
+            if is_in_library:
+                # insert in front front if in library
+                local_lazy_attributes.setdefault(template_name, []).insert(0, l_module)
             else:
-                local_lazy_attributes.setdefault(kk, []).append(vv)
+                # append to end
+                local_lazy_attributes.setdefault(template_name, []).append(l_module)
         if "snake_case_functions" in l_data:
             for function in l_data["snake_case_functions"]:
+                # snake case always appended to end
                 local_lazy_attributes.setdefault(function, []).append(l_module)
 
     import itkBase
