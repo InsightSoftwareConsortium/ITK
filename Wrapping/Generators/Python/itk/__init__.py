@@ -45,7 +45,6 @@ def _initialize_module():
         if "snake_case_functions" in l_data:
             for function in l_data["snake_case_functions"]:
                 local_lazy_attributes.setdefault(function, []).append(l_module)
-        return l_module, l_data
 
     import itkBase
     import itkConfig
@@ -93,7 +92,7 @@ def _initialize_module():
     # Populate itk.ITKModuleName
     for module, data in itkBase.itk_base_global_module_data.items():
         attributes = {}
-        module, data = _get_lazy_attributes(attributes, module, data)
+        _get_lazy_attributes(attributes, module, data)
         itk_module = itkLazy.LazyITKModule(module, attributes)
         setattr(this_module, module, itk_module)
 
