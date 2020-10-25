@@ -72,6 +72,10 @@ def _initialize_module():
             del lazy_attributes
         else:
             this_module = itkLazy.LazyITKModule(__name__, lazy_attributes)
+            # Set the __path__ attribute, which is required for this module to be used as a
+            # package
+            setattr(this_module, "__path__", __path__)
+            setattr(this_module, "__spec__", __spec__)  # pytype: disable=name-error
     else:
         # We're not lazy-loading. Just load the modules in the order specified in
         # the known_modules list for consistency.
@@ -113,19 +117,10 @@ def _initialize_module():
         itk_module = itkLazy.LazyITKModule(module, attributes)
         setattr(this_module, module, itk_module)
 
-    # Set the __path__ attribute, which is required for this module to be used as a
-    # package
-    setattr(this_module, "__path__", __path__)
-    setattr(this_module, "__spec__", __spec__)  # pytype: disable=name-error
-
     if itkConfig.LazyLoading:
         # this has to be the last step, else python gets confused about itkTypes
         # and itkExtras above. I'm not sure why...
         sys.modules[__name__] = this_module
-    else:
-        # do some cleanup
-        del module, this_module, itk_module
-        del itkBase, itkConfig, itkLazy, itkInitHelpers, os, sys
 
 
 # Now do the initialization
