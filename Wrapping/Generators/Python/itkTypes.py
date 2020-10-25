@@ -16,11 +16,12 @@
 #
 # ==========================================================================*/
 
-from typing import Dict, Any
-
 
 # noinspection PyPep8Naming
 class itkCType:
+    # import locally to facilitate dynamic loading in itk/__init__.py
+    from typing import Dict, Any
+
     __c_types__: Dict[str, Any] = {}
     __c_types_for_dtype__: Dict[str, Any] = {}
 
@@ -44,6 +45,9 @@ class itkCType:
 
     @staticmethod
     def GetCType(name):
+        # import locally to facilitate dynamic loading in itk/__init__.py
+        from typing import Dict
+
         """Get the type corresponding to the provided C primitive type name."""
         aliases: Dict[str, str] = {
             "short": "signed short",
@@ -111,5 +115,3 @@ class itkCType:
     SLL,
     B,
 ) = itkCType.initialize_c_types_once()
-
-del Dict, Any
