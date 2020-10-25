@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#include <set>
 #include "itkAdaptiveNonLocalMeansDenoisingImageFilter.h"
 
 #include "itkImageFileReader.h"
@@ -157,6 +159,17 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
   writer->Update();
+
+  // Test streaming enumeration for NonLocalPatchBasedImageFilterEnums::SimilarityMetric elements
+  const std::set<itk::NonLocalPatchBasedImageFilterEnums::SimilarityMetric> allSimilarityMetric{
+    itk::NonLocalPatchBasedImageFilterEnums::SimilarityMetric::PEARSON_CORRELATION,
+    itk::NonLocalPatchBasedImageFilterEnums::SimilarityMetric::MEAN_SQUARES
+  };
+  for (const auto & ee : allSimilarityMetric)
+  {
+    std::cout << "STREAMED ENUM VALUE NonLocalPatchBasedImageFilterEnums::SimilarityMetric: " << ee << std::endl;
+  }
+
 
   return EXIT_SUCCESS;
 }
