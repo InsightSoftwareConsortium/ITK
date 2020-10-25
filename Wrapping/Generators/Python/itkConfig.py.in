@@ -42,8 +42,35 @@ ERROR: int = 2
 DebugLevel: int = WARN
 ImportCallback = None
 ProgressCallback = None
-LazyLoading: bool = True
-NotInPlace: bool = False
+
+
+def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
+    # Use defaults if not available as environmental overrides
+    # True values are y, yes, t, true, on and 1;
+    # False values are n, no, f, false, off and 0.
+    # Raises ValueError if val is anything else.
+    from os import environ as _environ
+    from distutils.util import strtobool as _strtobool
+
+    try:
+        _StringDefault: str = _environ.get(environment_var, default_string)
+        return bool(_strtobool(_StringDefault))
+    except ValueError:
+        print(
+            f"{environment_var} environment variable has invalid value {_StringDefault}"
+        )
+        print(
+            "   Valid True values are (case insensitive): 'y', 'yes', 't', 'true', 'on', and '1'"
+        )
+        print(
+            "   Valid False values are (case insensitive): 'n', 'no', 'f', 'false', 'off', and '0'"
+        )
+    return bool(_strtobool(default_string))
+
+
+LazyLoading: bool = _get_environment_boolean("ITK_PYTHON_LAZYLOADING", "True")
+NotInPlace: bool = _get_environment_boolean("ITK_PYTHON_NOTINPLACE", "False")
+del _get_environment_boolean
 
 # Internal settings
 
@@ -96,6 +123,4 @@ ITK_GLOBAL_VERSION_STRING: str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_V
 
 (swig_lib, swig_py, config_py, doxygen_root, path) = _initialize()
 del _initialize
-del _normalized_path
-del os
 del warnings
