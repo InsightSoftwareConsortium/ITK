@@ -190,13 +190,13 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
         const auto   diff = vindex - index;
         size_t       offsetID = 7 - (diff[0] + diff[1] * 2 + diff[2] * 4);
         const auto   components = this->m_LabelsArray.at(bitmaskID);
-        const auto   numComponents = (*std::max_element(components.begin(), components.end())) + 1;
         const auto   component = components.at(offsetID);
         unsigned int look = (i < 4) ? look0 : look1; // First four are first slice
         if (!lookup[look].GetVertex(vindex[0], vindex[1], component, v[i]))
         {
           // Vertex was not in lookup, create and add to lookup
           v[i] = nextVertexId;
+          const auto numComponents = (*std::max_element(components.begin(), components.end())) + 1;
           const auto pv = AddVertex(nextVertexId, vindex, image, mesh, numComponents);
           lookup[look].AddVertex(vindex[0], vindex[1], pv);
         }
@@ -757,7 +757,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   //  this->m_LabelsArray[126] = { { -1, 0, 0, 1, 0, 1, 1, -1 } };
   //  this->m_LabelsArray[189] = { { 0, -1, 1, 0, 1, 0, -1, 1 } };
   //  this->m_LabelsArray[219] = { { 0, 1, -1, 0, 1, -1, 0, 1 } };
-  //  this->m_LabelsArray[231] = { { 1, 0, 0, -1, -1, 1, 1, 0 } };
+  //  this->m_LabelsArray[231] = { { 0, 1, 1, -1, -1, 0, 0, 1 } };
   //
   //  for (size_t i = 0; i < std::pow(2,8); ++i) {
   //    std::cout << "this->m_LabelsArray[" << i << "] ";
@@ -1001,7 +1001,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::CalculateLa
   this->m_LabelsArray[228] = { { -1, -1, 0, -1, -1, 0, 0, 0 } };
   this->m_LabelsArray[229] = { { 0, -1, 0, -1, -1, 0, 0, 0 } };
   this->m_LabelsArray[230] = { { -1, 0, 0, -1, -1, 0, 0, 0 } };
-  this->m_LabelsArray[231] = { { 1, 0, 0, -1, -1, 1, 1, 0 } };
+  this->m_LabelsArray[231] = { { 0, 1, 1, -1, -1, 0, 0, 1 } };
   this->m_LabelsArray[232] = { { -1, -1, -1, 0, -1, 0, 0, 0 } };
   this->m_LabelsArray[233] = { { 0, -1, -1, 1, -1, 1, 1, 1 } };
   this->m_LabelsArray[234] = { { -1, 0, -1, 0, -1, 0, 0, 0 } };
