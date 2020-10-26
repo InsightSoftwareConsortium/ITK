@@ -48,8 +48,6 @@ def _initialize_module():
     import itkBase
     import itkConfig
     import itkLazy
-    import itkInitHelpers
-    import os
     import sys
 
     if itkConfig.LazyLoading:
@@ -99,9 +97,13 @@ def _initialize_module():
         if k != "itkCType" and not k.startswith("_"):
             setattr(sys.modules[__name__], k, v)
     del itkTypes
+
+    import itkInitHelpers
+
     for k, v in itkInitHelpers.__dict__.items():
         if not k.startswith("_"):
             setattr(sys.modules[__name__], k, v)
+    del itkInitHelpers
 
     import itkExtras
 
