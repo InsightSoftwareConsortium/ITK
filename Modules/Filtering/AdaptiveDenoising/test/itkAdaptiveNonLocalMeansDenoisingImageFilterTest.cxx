@@ -92,13 +92,12 @@ public:
 int
 itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << "  inputImage";
-    std::cerr << "  outputImage";
-    std::cerr << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage"
+              << " outputImage"
+              << " similarityMetric (0: PEARSON_CORRELATION; 1: MEAN_SQUARES)" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -148,6 +147,10 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   filter->SetSmoothingVariance(2.0f);
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(2.0f, filter->GetSmoothingVariance()));
 
+  auto similarityMetric = static_cast<DenoiserType::SimilarityMetricEnum>(std::atoi(argv[3]));
+  filter->SetSimilarityMetric(similarityMetric);
+  ITK_TEST_SET_GET_VALUE(similarityMetric, filter->GetSimilarityMetric())
+
   using CommandType = CommandProgressUpdate<DenoiserType>;
   CommandType::Pointer observer = CommandType::New();
   filter->AddObserver(itk::ProgressEvent(), observer);
@@ -158,7 +161,9 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   // Test streaming enumeration for NonLocalPatchBasedImageFilterEnums::SimilarityMetric elements
   const std::set<itk::NonLocalPatchBasedImageFilterEnums::SimilarityMetric> allSimilarityMetric{
@@ -171,5 +176,6 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
   }
 
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
