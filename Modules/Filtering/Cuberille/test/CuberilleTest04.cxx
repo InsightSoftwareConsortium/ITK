@@ -22,12 +22,6 @@
 #include <itkQuadEdgeMesh.h>
 #include <itkCuberilleImageToMeshFilter.h>
 
-// In the case where a 2x2x2 region contains two background pixels at
-// opposite corners, and foreground pixels elsewhere, it is necessary
-// that there be two vertices at the center.  Previously, this was
-// handled incorrectly with a single vertex, causing non-manifold
-// geometry.  This test covers the four cases in which this occurs.
-
 int
 CuberilleTest04(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
@@ -40,14 +34,7 @@ CuberilleTest04(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   using TPad = itk::ConstantPadImageFilter<TImage, TImage>;
   using TExtract = itk::CuberilleImageToMeshFilter<TImage, TMesh>;
 
-  // 126 01111110
-  // 189 10111101
-  // 219 11011011
-  // 231 11100111
-
-  std::array<size_t, 4> masks{ { 126, 189, 219, 231 } };
-
-  for (const auto & mask : masks)
+  for (size_t mask = 1; mask < std::pow(2, 8); ++mask)
   {
 
     std::bitset<8> bitmask(mask);
@@ -87,10 +74,20 @@ CuberilleTest04(int itkNotUsed(argc), char * itkNotUsed(argv)[])
     extract->GenerateTriangleFacesOn();
     extract->ProjectVerticesToIsoSurfaceOff();
     extract->SavePixelAsCellDataOn();
-    extract->Update();
+    ITK_TRY_EXPECT_NO_EXCEPTION(extract->Update());
 
-    ITK_TEST_EXPECT_EQUAL(extract->GetOutput()->GetNumberOfPoints(), 26);
-    ITK_TEST_EXPECT_EQUAL(extract->GetOutput()->GetNumberOfCells(), 48);
+    const auto out = TMesh::New();
+    out->Graft(extract->GetOutput());
+
+    ITK_TEST_EXPECT_TRUE(out->GetNumberOfFaces() == out->GetCellData()->Size());
+
+    for (auto it = out->GetEdgeCells()->Begin(); it != out->GetEdgeCells()->End(); ++it)
+    {
+      using TEdge = TMesh::EdgeCellType;
+      const auto qe = dynamic_cast<TEdge *>(it.Value())->GetQEGeom();
+      ITK_TEST_EXPECT_TRUE(qe->IsLeftSet());
+      ITK_TEST_EXPECT_TRUE(qe->IsRightSet());
+    }
   }
 
   return EXIT_SUCCESS;
