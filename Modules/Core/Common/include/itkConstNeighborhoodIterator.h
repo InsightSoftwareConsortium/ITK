@@ -40,6 +40,7 @@ namespace itk
  * \ingroup ImageIterators
  *
  * \sa Neighborhood \sa ImageIterator \sa NeighborhoodIterator
+ * \sa ShapedImageNeighborhoodRange
  * \ingroup ITKCommon
  *
  * \sphinx
