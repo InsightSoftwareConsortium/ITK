@@ -70,7 +70,7 @@ class LazyITKModule(types.ModuleType):
         state = self.__dict__.copy()
         lazy_modules = list()
         # import ipdb; ipdb.set_trace()
-        for key in self.lazy_attributes:
+        for key in self.itk_base_global_lazy_attributes:
             if isinstance(state[key], LazyITKModule):
                 lazy_modules.append((key, state[key].itk_base_global_lazy_attributes))
             state[key] = not_loaded

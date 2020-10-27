@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,20 +14,33 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 import itkConfig
+
+# Override environmental variable default to force non-LazyLoading
 itkConfig.LazyLoading = False
 import itk
 
 # Test PEP 366 compliance of LazyITKModule
-assert(itk.__package__ == 'itk')
+assert itk.__package__ == "itk"
 from itk import ITKCommon
-assert(ITKCommon.__package__ == 'itk')
+
+assert ITKCommon.__package__ == "itk"
 
 # Test pickling used bash Dask
+_has_cloudpickle: bool = False
 try:
     import cloudpickle
+
+    _has_cloudpickle = True
+except ImportError:
+    _has_cloudpickle = False
+    pass
+
+if _has_cloudpickle:
+    print("Using cloudpickle to test dumping and loading itk.")
     itkpickled = cloudpickle.dumps(itk)
     cloudpickle.loads(itkpickled)
-except ImportError:
+else:
+    print("cloudpickle module not available for testing.")
     pass
