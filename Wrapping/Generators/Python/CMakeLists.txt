@@ -152,10 +152,9 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     itk/support/itkHelpers
     itk/support/itkInitHelpers
     itk/__init__
-    itk/itkInitHelpers
+    itk_generate_pyi # A utility function used to generate the intreface file
     )
   # Done listing files.
-
   # Now copy these files if necessary.
 
   set(ITK_WRAP_PYTHON_INSTALL_FILES )
@@ -1000,5 +999,5 @@ add_custom_command(OUTPUT ${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/__init__.pyi
     COMMAND ${Python3_EXECUTABLE} ${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk_generate_pyi.py
     DEPENDS ${ITK_WRAP_PYTHON_FILES} ${WRAPPER_LIBRARY_NAME}Swig
     WORKING_DIRECTORY ${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}
-    COMMENT "Building pythong type interface file itk/__init__.pyi for the itk package"
+    COMMENT "Building python type interface file itk/__init__.pyi for the itk package"
 )
