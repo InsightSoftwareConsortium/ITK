@@ -42,6 +42,7 @@ jobs:
       workingDirectory: $(Agent.BuildDirectory)
       displayName: 'Download dashboard script and testing data'
 
+# Note, UsePythonVersion sets PATH to the specified version, so we have to explicitly disable the Windows Registry search in FindPython3
     - bash: |
         cat > dashboard.cmake << EOF
         set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
@@ -57,6 +58,7 @@ jobs:
           ITK_BUILD_DEFAULT_MODULES:BOOL=OFF
           ITKGroup_Core:BOOL=ON
           Module_ITKBridgeNumPy:BOOL=ON
+          Python3_FIND_REGISTRY=LAST
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
         EOF
