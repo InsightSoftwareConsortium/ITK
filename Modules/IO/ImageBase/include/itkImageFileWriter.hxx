@@ -342,7 +342,7 @@ ImageFileWriter<TInputImage>::GenerateData()
   itkDebugMacro(<< "Writing file: " << m_FileName);
 
   // now extract the data as a raw buffer pointer
-  const auto * dataPtr = (const void *)input->GetBufferPointer();
+  const void * dataPtr = input->GetBufferPointer();
 
   // check that the image's buffered region is the same as
   // ImageIO is expecting and we requested
@@ -366,7 +366,7 @@ ImageFileWriter<TInputImage>::GenerateData()
 
       ImageAlgorithm::Copy(input, cacheImage.GetPointer(), ioRegion, ioRegion);
 
-      dataPtr = (const void *)cacheImage->GetBufferPointer();
+      dataPtr = cacheImage->GetBufferPointer();
     }
     else
     {

@@ -82,24 +82,24 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
     }
 
     // we feel bad about accessing the data this way
-    auto * buffer = static_cast<ValueType *>(const_cast<void *>((const void *)input->GetBufferPointer()));
+    const void * const buffer = input->GetBufferPointer();
 
     typename ImageType::RegionType largestRegion = input->GetBufferedRegion();
     const size_t                   numberOfValues = largestRegion.GetNumberOfPixels() * numberOfComponent;
 
-
     // Possible byte swap so we always calculate on little endian data
-    if (Swapper::SystemIsBigEndian())
-    {
-      Swapper::SwapRangeFromSystemToLittleEndian(buffer, static_cast<typename Swapper::BufferSizeType>(numberOfValues));
-    }
+    const auto ByteSwapBigEndian = [buffer, numberOfValues] {
+      if (Swapper::SystemIsBigEndian())
+      {
+        Swapper::SwapRangeFromSystemToLittleEndian(static_cast<ValueType *>(const_cast<void *>(buffer)),
+                                                   static_cast<typename Swapper::BufferSizeType>(numberOfValues));
+      }
+    };
 
-    itksysMD5_Append(md5, (unsigned char *)buffer, static_cast<int>(numberOfValues * sizeof(ValueType)));
-
-    if (Swapper::SystemIsBigEndian())
-    {
-      Swapper::SwapRangeFromSystemToLittleEndian(buffer, static_cast<typename Swapper::BufferSizeType>(numberOfValues));
-    }
+    ByteSwapBigEndian();
+    itksysMD5_Append(
+      md5, static_cast<const unsigned char *>(buffer), static_cast<int>(numberOfValues * sizeof(ValueType)));
+    ByteSwapBigEndian();
 
     ////////
     // NOTE: THIS IS NOT A nullptr TERMINATED STRING!!!
