@@ -24,14 +24,6 @@ itk.auto_progress(2)
 
 itk.force_load()
 
-
-def isEmpty(o):
-    for i in dir(o):
-        if i[0].isupper():
-            return False
-        return True
-
-
 exclude = [
     "AuthalicMatrixCoefficients",
     "MatrixCoefficients",
@@ -72,22 +64,33 @@ exclude = [
     "HammingWindowFunction",
     "LanczosWindowFunction",
     "WelchWindowFunction",
+    "Tile",  # include from itkTileMontage remote module but only templated over dimension.
 ]
 
-total = 0
-empty = 0
 
-for t in dir(itk):
-    if t not in exclude:
-        T = itk.__dict__[t]
-        if isinstance(T, itkTemplate):
-            for I in T.values():
-                total += 1
-                if isEmpty(I):
-                    empty += 1
-                    print("%s: empty class" % I)
+def isEmpty(itk_template_class_object):
+    for template_member_function in dir(itk_template_class_object):
+        if template_member_function[0].isupper():
+            # For ITK, if least one capitalized member function is found
+            # assume that the class is not empty
+            return False
+        return True
 
-print("%s classes checked." % total)
-if empty:
-    print("%s empty classes found" % empty, file=sys.stderr)
+
+num_itk_template_classes_checked = 0
+num_itk_empty_template_classes = 0
+
+for module_element_name, module_element_object in itk.__dict__.items():
+    if module_element_name not in exclude:
+        module_element_object = itk.__dict__[module_element_name]
+        if isinstance(module_element_object, itkTemplate):
+            for template_variant in module_element_object.values():
+                num_itk_template_classes_checked += 1
+                if isEmpty(template_variant):
+                    num_itk_empty_template_classes += 1
+                    print(f"{template_variant}: empty class")
+
+print(f"{num_itk_template_classes_checked} classes checked.")
+if num_itk_empty_template_classes:
+    print(f"{num_itk_empty_template_classes} empty classes found", file=sys.stderr)
     sys.exit(1)
