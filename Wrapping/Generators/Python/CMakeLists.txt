@@ -481,7 +481,11 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
     endif()
     # extension is not the same on windows
     if(WIN32)
+      # normally need *.pyd
+      # python_d requires libraries named *_d.pyd
       set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
+      set_target_properties(${lib} PROPERTIES DEBUG_POSTFIX "_d")
+
       if(MSVC)
         # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
         set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
