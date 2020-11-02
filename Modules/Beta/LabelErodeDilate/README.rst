@@ -1,6 +1,8 @@
 ITKLabelErodeDilate
 ===================
 
+.. image:: https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate/workflows/Build,%20test,%20package/badge.svg
+
 .. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKLabelErodeDilate.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKLabelErodeDilate
 
