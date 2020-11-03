@@ -69,15 +69,15 @@ public:
 
   /** Put the text into the display window.
    * Each new line is converted to a carriage return, new line. */
-  virtual void
-  DisplayText(const char *);
+  void
+  DisplayText(const char *) override;
 
   static LRESULT APIENTRY
                  WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 protected:
-  Win32OutputWindow() {}
-  virtual ~Win32OutputWindow();
+  Win32OutputWindow() = default;
+  ~Win32OutputWindow() override;
 
   void
   PromptText(const char * text);
