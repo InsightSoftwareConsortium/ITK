@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkConjugateGradientOptimizer_hxx
-#define _itkConjugateGradientOptimizer_hxx
 
 #include "itkConjugateGradientOptimizer.h"
 
@@ -159,5 +157,3 @@ ConjugateGradientOptimizer ::GetCurrentIteration() const
   return m_VnlOptimizer->get_num_iterations();
 }
 } // end namespace itk
-
-#endif

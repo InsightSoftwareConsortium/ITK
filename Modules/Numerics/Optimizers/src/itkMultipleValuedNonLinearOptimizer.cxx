@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkMultipleValuedNonLinearOptimizer_hxx
-#define _itkMultipleValuedNonLinearOptimizer_hxx
 
 #include "itkMultipleValuedNonLinearOptimizer.h"
 
@@ -65,5 +63,3 @@ MultipleValuedNonLinearOptimizer ::PrintSelf(std::ostream & os, Indent indent) c
   }
 }
 } // namespace itk
-
-#endif

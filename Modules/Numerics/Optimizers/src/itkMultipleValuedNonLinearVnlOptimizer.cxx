@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkMultipleValuedNonLinearVnlOptimizer_hxx
-#define _itkMultipleValuedNonLinearVnlOptimizer_hxx
 
 #include "itkMultipleValuedNonLinearVnlOptimizer.h"
 
@@ -139,5 +137,3 @@ MultipleValuedNonLinearVnlOptimizer ::PrintSelf(std::ostream & os, Indent indent
   os << "Cost Function adaptor" << m_CostFunctionAdaptor << std::endl;
 }
 } // end namespace itk
-
-#endif

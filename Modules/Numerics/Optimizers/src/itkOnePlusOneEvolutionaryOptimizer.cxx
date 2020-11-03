@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkOnePlusOneEvolutionaryOptimizer_cxx
-#define _itkOnePlusOneEvolutionaryOptimizer_cxx
 
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
 #include "vnl/vnl_matrix.h"
@@ -323,4 +321,3 @@ OnePlusOneEvolutionaryOptimizer ::PrintSelf(std::ostream & os, Indent indent) co
   os << indent << "MetricWorstPossibleValue " << GetMetricWorstPossibleValue() << std::endl;
 }
 } // end of namespace itk
-#endif

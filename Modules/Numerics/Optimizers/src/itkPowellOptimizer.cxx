@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPowellOptimizer_cxx
-#define _itkPowellOptimizer_cxx
 
 #include "itkPowellOptimizer.h"
 #include "itkMath.h"
@@ -561,4 +559,3 @@ PowellOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Stop              " << m_Stop << std::endl;
 }
 } // end of namespace itk
-#endif

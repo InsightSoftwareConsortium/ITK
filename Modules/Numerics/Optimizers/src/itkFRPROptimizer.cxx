@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkFRPROptimizer_cxx
-#define _itkFRPROptimizer_cxx
 
 #include "itkFRPROptimizer.h"
 
@@ -249,4 +247,3 @@ operator<<(std::ostream & out, const FRPROptimizerEnums::Optimization value)
 }
 
 } // end of namespace itk
-#endif

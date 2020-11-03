@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkNumericSeriesFileNames_h
-#define _itkNumericSeriesFileNames_h
 
 #include "itkNumericSeriesFileNames.h"
 #include <cstdio>
@@ -91,5 +89,3 @@ NumericSeriesFileNames ::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 } // namespace itk
-
-#endif

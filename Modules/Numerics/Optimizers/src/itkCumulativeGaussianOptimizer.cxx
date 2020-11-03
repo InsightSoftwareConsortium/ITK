@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkCumulativeGaussianOptimizer_cxx
-#define _itkCumulativeGaussianOptimizer_cxx
 
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkMath.h"
@@ -408,5 +406,3 @@ CumulativeGaussianOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 } // end namespace itk
-
-#endif
