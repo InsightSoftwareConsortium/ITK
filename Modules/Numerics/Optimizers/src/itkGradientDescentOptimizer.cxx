@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkGradientDescentOptimizer_hxx
-#define _itkGradientDescentOptimizer_hxx
 
 #include "itkGradientDescentOptimizer.h"
 
@@ -202,5 +200,3 @@ operator<<(std::ostream & out, const GradientDescentOptimizerEnums::StopConditio
   }();
 }
 } // end namespace itk
-
-#endif

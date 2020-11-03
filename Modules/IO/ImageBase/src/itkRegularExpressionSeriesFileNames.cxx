@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkRegularExpressionSeriesFileNames_cxx
-#define _itkRegularExpressionSeriesFileNames_cxx
-
 
 #include <algorithm>
 
@@ -128,5 +125,3 @@ RegularExpressionSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) co
   }
 }
 } // namespace itk
-
-#endif

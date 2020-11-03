@@ -15,9 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkArchetypeSeriesFileNames_h
-#define _itkArchetypeSeriesFileNames_h
-
 
 #include "itkArchetypeSeriesFileNames.h"
 #include "itkRegularExpressionSeriesFileNames.h"
@@ -235,5 +232,3 @@ ArchetypeSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 } // namespace itk
-
-#endif

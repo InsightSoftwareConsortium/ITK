@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkQuaternionRigidTransformGradientDescentOptimizer_hxx
-#define _itkQuaternionRigidTransformGradientDescentOptimizer_hxx
 
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "vnl/vnl_quaternion.h"
@@ -78,5 +76,3 @@ QuaternionRigidTransformGradientDescentOptimizer::AdvanceOneStep()
   this->SetCurrentPosition(newPosition);
 }
 } // end namespace itk
-
-#endif

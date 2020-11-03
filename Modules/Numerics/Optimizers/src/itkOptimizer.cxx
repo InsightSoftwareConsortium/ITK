@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkOptimizer_hxx
-#define _itkOptimizer_hxx
 
 #include "itkOptimizer.h"
 
@@ -107,5 +105,3 @@ Optimizer::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "StopConditionDescription: " << this->GetStopConditionDescription() << std::endl;
 }
 } // end namespace itk
-
-#endif

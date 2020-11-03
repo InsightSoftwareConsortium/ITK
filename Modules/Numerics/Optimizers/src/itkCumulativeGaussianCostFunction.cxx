@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkCumulativeGaussianCostFunction_cxx
-#define _itkCumulativeGaussianCostFunction_cxx
 
 #include "itkCumulativeGaussianCostFunction.h"
 #include "itkMath.h"
@@ -210,4 +208,3 @@ CumulativeGaussianCostFunction::PrintSelf(std::ostream & os, Indent indent) cons
   os << indent << "Range Dimension = " << m_RangeDimension << std::endl;
 }
 } // end namespace itk
-#endif

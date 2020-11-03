@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkLevenbergMarquardtOptimizer_hxx
-#define _itkLevenbergMarquardtOptimizer_hxx
 
 #include "itkLevenbergMarquardtOptimizer.h"
 
@@ -222,5 +220,3 @@ LevenbergMarquardtOptimizer::GetStopConditionDescription() const
   return reason.str();
 }
 } // end namespace itk
-
-#endif

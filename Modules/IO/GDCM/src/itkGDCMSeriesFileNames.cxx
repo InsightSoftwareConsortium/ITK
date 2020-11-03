@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkGDCMSeriesFileNames_h
-#define _itkGDCMSeriesFileNames_h
 
 #include "itkGDCMSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
@@ -301,5 +299,3 @@ GDCMSeriesFileNames::SetUseSeriesDetails(bool useSeriesDetails)
   m_SerieHelper->CreateDefaultUniqueSeriesIdentifier();
 }
 } // namespace itk
-
-#endif

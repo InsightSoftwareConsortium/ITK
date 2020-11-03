@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkVersorTransformOptimizer_hxx
-#define _itkVersorTransformOptimizer_hxx
 
 #include "itkVersorTransformOptimizer.h"
 
@@ -84,5 +82,3 @@ VersorTransformOptimizer::StepAlongGradient(double factor, const DerivativeType 
   this->SetCurrentPosition(newParameters);
 }
 } // end namespace itk
-
-#endif

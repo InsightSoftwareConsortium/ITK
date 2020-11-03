@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkRegularStepGradientDescentBaseOptimizer_hxx
-#define _itkRegularStepGradientDescentBaseOptimizer_hxx
 
 #include "itkRegularStepGradientDescentBaseOptimizer.h"
 
@@ -305,5 +303,3 @@ operator<<(std::ostream & out, const RegularStepGradientDescentBaseOptimizerEnum
   }();
 }
 } // end namespace itk
-
-#endif

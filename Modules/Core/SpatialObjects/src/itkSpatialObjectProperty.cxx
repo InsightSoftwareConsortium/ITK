@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkSpatialObjectProperty_cxx
-#define itkSpatialObjectProperty_cxx
 
 #include "itkSpatialObjectProperty.h"
 
@@ -199,5 +197,3 @@ SpatialObjectProperty::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "StringDictionary size: " << m_StringDictionary.size() << std::endl;
 }
 } // end of namespace itk
-
-#endif // __SpatialObjectProperty_hxx

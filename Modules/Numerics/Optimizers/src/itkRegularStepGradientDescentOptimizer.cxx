@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkRegularStepGradientDescentOptimizer_hxx
-#define _itkRegularStepGradientDescentOptimizer_hxx
 
 #include "itkRegularStepGradientDescentOptimizer.h"
 
@@ -46,5 +44,3 @@ RegularStepGradientDescentOptimizer::StepAlongGradient(double factor, const Deri
   this->SetCurrentPosition(newPosition);
 }
 } // end namespace itk
-
-#endif
