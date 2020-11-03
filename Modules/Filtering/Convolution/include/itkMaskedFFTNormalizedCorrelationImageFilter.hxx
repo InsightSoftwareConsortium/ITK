@@ -33,7 +33,7 @@
 #include "itkThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkRoundImageFilter.h"
-#include "itkTernaryFunctorImageFilter.h"
+#include "itkTernaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -273,14 +273,14 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // example, when dividing by zero).  So, we loop through the matrix
   // and set to zero all values outside of this range.
   // Also, zero-out the correlation values that arise from too few voxels since they are statistically unreliable.
-  using PostProcessType = itk::TernaryFunctorImageFilter<RealImageType,
-                                                         RealImageType,
-                                                         RealImageType,
-                                                         RealImageType,
-                                                         Functor::PostProcessCorrelation<RealPixelType>>;
+  using PostProcessType = itk::TernaryGeneratorImageFilter<RealImageType, RealImageType, RealImageType, RealImageType>;
   typename PostProcessType::Pointer postProcessor = PostProcessType::New();
-  postProcessor->GetFunctor().SetRequiredNumberOfOverlappingPixels(requiredNumberOfOverlappingPixels);
-  postProcessor->GetFunctor().SetPrecisionTolerance(precisionTolerance);
+
+  auto functor = Functor::PostProcessCorrelation<RealPixelType>();
+  functor.SetRequiredNumberOfOverlappingPixels(requiredNumberOfOverlappingPixels);
+  functor.SetPrecisionTolerance(precisionTolerance);
+  postProcessor->SetFunctor(functor);
+
   postProcessor->SetInput1(NCC);
   postProcessor->SetInput2(denominator);
   postProcessor->SetInput3(numberOfOverlapPixels);

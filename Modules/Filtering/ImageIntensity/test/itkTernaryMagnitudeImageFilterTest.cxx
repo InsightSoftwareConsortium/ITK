@@ -133,14 +133,12 @@ itkTernaryMagnitudeImageFilterTest(int argc, char * argv[])
   // Create the filter
   TernaryMagnitudeImageFilterType::Pointer filter = TernaryMagnitudeImageFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TernaryMagnitudeImageFilter, TernaryFunctorImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TernaryMagnitudeImageFilter, TernaryGeneratorImageFilter);
 
   // Set the input images
   filter->SetInput1(inputImageA);
   filter->SetInput2(inputImageB);
   filter->SetInput3(inputImageC);
-
-  filter->SetFunctor(filter->GetFunctor());
 
   // Execute the filter
   filter->Update();

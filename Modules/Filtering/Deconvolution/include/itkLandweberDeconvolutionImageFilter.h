@@ -21,7 +21,7 @@
 #include "itkIterativeDeconvolutionImageFilter.h"
 
 #include "itkComplexConjugateImageAdaptor.h"
-#include "itkTernaryFunctorImageFilter.h"
+#include "itkTernaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -163,11 +163,10 @@ private:
 
   using LandweberFunctor =
     Functor::LandweberMethod<InternalComplexType, InternalComplexType, InternalComplexType, InternalComplexType>;
-  using LandweberFilterType = TernaryFunctorImageFilter<InternalComplexImageType,
-                                                        InternalComplexImageType,
-                                                        InternalComplexImageType,
-                                                        InternalComplexImageType,
-                                                        LandweberFunctor>;
+  using LandweberFilterType = TernaryGeneratorImageFilter<InternalComplexImageType,
+                                                          InternalComplexImageType,
+                                                          InternalComplexImageType,
+                                                          InternalComplexImageType>;
 
   typename LandweberFilterType::Pointer m_LandweberFilter;
   typename IFFTFilterType::Pointer      m_IFFTFilter;
