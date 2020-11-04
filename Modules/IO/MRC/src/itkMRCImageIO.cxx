@@ -129,12 +129,19 @@ MRCImageIO::ReadImageInformation()
   // fixed types defined by header
   switch (header.mode)
   {
-    case MRCHeaderObject::MRCHEADER_MODE_UINT8:
+    case MRCHeaderObject::MRCHEADER_MODE_INT8:
     {
-      // todo: the format is unclear weather this is signed or
-      // unsigned, it would be best to check the min and max in the
-      // header to see what makes since
-      this->SetComponentType(IOComponentEnum::UCHAR);
+      // There has been some confusion and inconsistency whether this
+      // mode is signed or unsigned, but now MRC2014 clearly defines it
+      // as signed.
+      if (header.amin < 0 && header.amax >= header.amin)
+      {
+        this->SetComponentType(IOComponentEnum::CHAR);
+      }
+      else
+      {
+        this->SetComponentType(IOComponentEnum::UCHAR);
+      }
       this->SetNumberOfComponents(1);
       this->SetPixelType(IOPixelEnum::SCALAR);
       break;
