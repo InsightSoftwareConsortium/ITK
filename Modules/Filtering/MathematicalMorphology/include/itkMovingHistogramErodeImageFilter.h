@@ -45,7 +45,7 @@ class MovingHistogramErodeImageFilter
       TOutputImage,
       TKernel,
       typename Function::MorphologyHistogram<typename TInputImage::PixelType,
-                                             typename std::less<typename TInputImage ::PixelType>>>
+                                             typename std::less<typename TInputImage::PixelType>>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MovingHistogramErodeImageFilter);
@@ -57,7 +57,7 @@ public:
     TOutputImage,
     TKernel,
     typename Function::MorphologyHistogram<typename TInputImage::PixelType,
-                                           typename std::less<typename TInputImage ::PixelType>>>;
+                                           typename std::less<typename TInputImage::PixelType>>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

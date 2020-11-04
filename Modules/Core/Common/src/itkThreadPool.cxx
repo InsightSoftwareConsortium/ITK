@@ -52,14 +52,14 @@ struct ThreadPoolGlobals
 itkGetGlobalSimpleMacro(ThreadPool, ThreadPoolGlobals, PimplGlobals);
 
 ThreadPool::Pointer
-ThreadPool ::New()
+ThreadPool::New()
 {
   return Self::GetInstance();
 }
 
 
 ThreadPool::Pointer
-ThreadPool ::GetInstance()
+ThreadPool::GetInstance()
 {
   // This is called once, on-demand to ensure that m_PimplGlobals is
   // initialized.
@@ -83,20 +83,20 @@ ThreadPool ::GetInstance()
 }
 
 bool
-ThreadPool ::GetDoNotWaitForThreads()
+ThreadPool::GetDoNotWaitForThreads()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return !m_PimplGlobals->m_WaitForThreads;
 }
 
 void
-ThreadPool ::SetDoNotWaitForThreads(bool doNotWaitForThreads)
+ThreadPool::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 {
   itkInitGlobalsMacro(PimplGlobals);
   m_PimplGlobals->m_WaitForThreads = !doNotWaitForThreads;
 }
 
-ThreadPool ::ThreadPool()
+ThreadPool::ThreadPool()
 {
   m_PimplGlobals->m_ThreadPoolInstance = this;        // threads need this
   m_PimplGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
@@ -109,7 +109,7 @@ ThreadPool ::ThreadPool()
 }
 
 void
-ThreadPool ::AddThreads(ThreadIdType count)
+ThreadPool::AddThreads(ThreadIdType count)
 {
   std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
   m_Threads.reserve(m_Threads.size() + count);
@@ -120,13 +120,13 @@ ThreadPool ::AddThreads(ThreadIdType count)
 }
 
 std::mutex &
-ThreadPool ::GetMutex()
+ThreadPool::GetMutex()
 {
   return m_PimplGlobals->m_Mutex;
 }
 
 int
-ThreadPool ::GetNumberOfCurrentlyIdleThreads() const
+ThreadPool::GetNumberOfCurrentlyIdleThreads() const
 {
   std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
   return int(m_Threads.size()) - int(m_WorkQueue.size()); // lousy approximation
@@ -156,7 +156,7 @@ ThreadPool ::~ThreadPool()
 
 
 void
-ThreadPool ::ThreadExecute()
+ThreadPool::ThreadExecute()
 {
   // plain pointer does not increase reference count
   ThreadPool * threadPool = m_PimplGlobals->m_ThreadPoolInstance.GetPointer();

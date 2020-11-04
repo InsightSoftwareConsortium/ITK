@@ -104,10 +104,10 @@ main(int, char *[])
   using SpatialObjectType = itk::SpatialObject<2>;
   using TransformType = SpatialObjectType::TransformType;
 
-  SpatialObjectType::Pointer object1 = SpatialObjectType ::New();
+  SpatialObjectType::Pointer object1 = SpatialObjectType::New();
   object1->GetProperty().SetName("First Object");
 
-  SpatialObjectType::Pointer object2 = SpatialObjectType ::New();
+  SpatialObjectType::Pointer object2 = SpatialObjectType::New();
   object2->GetProperty().SetName("Second Object");
   object1->AddChild(object2);
   // Software Guide : EndCodeSnippet

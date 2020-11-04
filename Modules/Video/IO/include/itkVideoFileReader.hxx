@@ -192,7 +192,7 @@ VideoFileReader<TOutputVideoStream>::InitializeVideoIO()
   }
 
   // See if a buffer conversion is needed
-  IOComponentEnum ioType = ImageIOBase ::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
+  IOComponentEnum ioType = ImageIOBase::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
   if (m_VideoIO->GetComponentType() != ioType ||
       m_VideoIO->GetNumberOfComponents() != ConvertPixelTraits::GetNumberOfComponents())
   {

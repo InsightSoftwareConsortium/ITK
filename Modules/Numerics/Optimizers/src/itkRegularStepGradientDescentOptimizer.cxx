@@ -27,7 +27,7 @@ namespace itk
  * This method will be overridden in non-vector spaces
  */
 void
-RegularStepGradientDescentOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
+RegularStepGradientDescentOptimizer::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   itkDebugMacro(<< "factor = " << factor << "  transformedGradient= " << transformedGradient);
 

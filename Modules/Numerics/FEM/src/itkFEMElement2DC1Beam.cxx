@@ -39,11 +39,11 @@ Element2DC1Beam::CreateAnother() const
   return smartPtr;
 }
 
-Element2DC1Beam ::Element2DC1Beam()
+Element2DC1Beam::Element2DC1Beam()
   : Superclass()
 {}
 
-Element2DC1Beam ::Element2DC1Beam(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_)
+Element2DC1Beam::Element2DC1Beam(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_)
 {
   // Set the geometrical points
   this->SetNode(0, n1_);
@@ -62,7 +62,7 @@ Element2DC1Beam ::Element2DC1Beam(NodeIDType n1_, NodeIDType n2_, Material::Cons
 }
 
 void
-Element2DC1Beam ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
+Element2DC1Beam::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, Float & w, unsigned int order) const
 {
   // default integration order
   if ((order == 0) || (order >= 9))
@@ -77,7 +77,7 @@ Element2DC1Beam ::GetIntegrationPointAndWeight(unsigned int i, VectorType & pt, 
 }
 
 unsigned int
-Element2DC1Beam ::GetNumberOfIntegrationPoints(unsigned int order) const
+Element2DC1Beam::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order
   if ((order == 0) || (order >= 9))
@@ -89,7 +89,7 @@ Element2DC1Beam ::GetNumberOfIntegrationPoints(unsigned int order) const
 }
 
 Element2DC1Beam::VectorType
-Element2DC1Beam ::ShapeFunctions(const VectorType & pt) const
+Element2DC1Beam::ShapeFunctions(const VectorType & pt) const
 {
   // 2D Beam element has four shape functions, but we only
   // define two of them, since we're only interested in
@@ -103,7 +103,7 @@ Element2DC1Beam ::ShapeFunctions(const VectorType & pt) const
 }
 
 void
-Element2DC1Beam ::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
+Element2DC1Beam::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
 {
   // FIXME: write proper implementation, since we need the 2nd
   //        order derivatives
@@ -112,7 +112,7 @@ Element2DC1Beam ::ShapeFunctionDerivatives(const VectorType &, MatrixType & shap
 }
 
 Element2DC1Beam::Float
-Element2DC1Beam ::JacobianDeterminant(const VectorType &, const MatrixType *) const
+Element2DC1Beam::JacobianDeterminant(const VectorType &, const MatrixType *) const
 {
   // FIXME: this is only temporary implementation, so that GenericBodyLoads
   //        implementation works. Write the proper geometric definition
@@ -128,7 +128,7 @@ Element2DC1Beam ::JacobianDeterminant(const VectorType &, const MatrixType *) co
 }
 
 void
-Element2DC1Beam ::GetStiffnessMatrix(MatrixType & Ke) const
+Element2DC1Beam::GetStiffnessMatrix(MatrixType & Ke) const
 {
   const unsigned int NDOF = this->GetNumberOfDegreesOfFreedom();
 
@@ -261,7 +261,7 @@ Element2DC1Beam ::GetStiffnessMatrix(MatrixType & Ke) const
 }
 
 void
-Element2DC1Beam ::GetMassMatrix(MatrixType & Me) const
+Element2DC1Beam::GetMassMatrix(MatrixType & Me) const
 {
   const unsigned int NDOF = this->GetNumberOfDegreesOfFreedom();
   MatrixType         m(NDOF, NDOF, 0.0);

@@ -78,14 +78,14 @@ PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 #endif
 
 void
-PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType itkNotUsed(threadHandle))
+PlatformMultiThreader::SpawnWaitForSingleMethodThread(ThreadProcessIdType itkNotUsed(threadHandle))
 {
   // No threading library specified.  Do nothing.  No joining or waiting
   // necessary.
 }
 
 ThreadProcessIdType
-PlatformMultiThreader ::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * itkNotUsed(threadInfo))
+PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * itkNotUsed(threadInfo))
 {
   // No threading library specified.  Do nothing.  The computation
   // will be run by the main execution thread.

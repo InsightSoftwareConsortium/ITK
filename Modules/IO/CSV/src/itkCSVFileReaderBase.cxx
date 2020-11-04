@@ -35,7 +35,7 @@ CSVFileReaderBase::CSVFileReaderBase()
 }
 
 void
-CSVFileReaderBase ::PrintSelf(std::ostream & os, Indent indent) const
+CSVFileReaderBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "File Name: " << this->m_FileName << std::endl;
@@ -48,7 +48,7 @@ CSVFileReaderBase ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-CSVFileReaderBase ::PrepareForParsing()
+CSVFileReaderBase::PrepareForParsing()
 {
   if (this->m_FileName.empty())
   {
@@ -70,7 +70,7 @@ CSVFileReaderBase ::PrepareForParsing()
 }
 
 void
-CSVFileReaderBase ::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
+CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
 {
 
   this->m_InputStream.seekg(0);
@@ -190,7 +190,7 @@ CSVFileReaderBase ::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
 
 /** Function to get the next entry from the file. */
 void
-CSVFileReaderBase ::GetNextField(std::string & str)
+CSVFileReaderBase::GetNextField(std::string & str)
 {
   /** The process below is as follows: we check if this->m_Line is empty. If it is
    * then we have to get a new line. If not, we have to get the fields that

@@ -19,7 +19,7 @@
 
 namespace itk
 {
-MetaDataDictionary ::MetaDataDictionary()
+MetaDataDictionary::MetaDataDictionary()
   : m_Dictionary(std::make_shared<MetaDataDictionaryMapType>())
 {}
 
@@ -27,7 +27,7 @@ MetaDataDictionary ::~MetaDataDictionary() = default;
 
 // NOTE: Desired behavior is to perform shallow copy, so m_Dictionary is shared
 //       as is thee default behavior for copy constructors.
-MetaDataDictionary ::MetaDataDictionary(const MetaDataDictionary &) = default;
+MetaDataDictionary::MetaDataDictionary(const MetaDataDictionary &) = default;
 
 MetaDataDictionary &
 MetaDataDictionary ::operator=(const MetaDataDictionary & old)
@@ -41,7 +41,7 @@ MetaDataDictionary ::operator=(const MetaDataDictionary & old)
 }
 
 void
-MetaDataDictionary ::Print(std::ostream & os) const
+MetaDataDictionary::Print(std::ostream & os) const
 {
   os << "Dictionary use_count: " << m_Dictionary.use_count() << std::endl;
   for (MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
@@ -70,7 +70,7 @@ const MetaDataObjectBase * MetaDataDictionary ::operator[](const std::string & k
 }
 
 const MetaDataObjectBase *
-MetaDataDictionary ::Get(const std::string & key) const
+MetaDataDictionary::Get(const std::string & key) const
 {
   if (!this->HasKey(key))
   {
@@ -82,20 +82,20 @@ MetaDataDictionary ::Get(const std::string & key) const
 }
 
 void
-MetaDataDictionary ::Set(const std::string & key, MetaDataObjectBase * object)
+MetaDataDictionary::Set(const std::string & key, MetaDataObjectBase * object)
 {
   MakeUnique();
   (*m_Dictionary)[key] = object;
 }
 
 bool
-MetaDataDictionary ::HasKey(const std::string & key) const
+MetaDataDictionary::HasKey(const std::string & key) const
 {
   return m_Dictionary->find(key) != m_Dictionary->end();
 }
 
 std::vector<std::string>
-MetaDataDictionary ::GetKeys() const
+MetaDataDictionary::GetKeys() const
 {
   using VectorType = std::vector<std::string>;
   VectorType ans;
@@ -109,53 +109,53 @@ MetaDataDictionary ::GetKeys() const
 }
 
 MetaDataDictionary::Iterator
-MetaDataDictionary ::Begin()
+MetaDataDictionary::Begin()
 {
   MakeUnique();
   return m_Dictionary->begin();
 }
 
 MetaDataDictionary::ConstIterator
-MetaDataDictionary ::Begin() const
+MetaDataDictionary::Begin() const
 {
   return m_Dictionary->begin();
 }
 
 MetaDataDictionary::Iterator
-MetaDataDictionary ::End()
+MetaDataDictionary::End()
 {
   MakeUnique();
   return m_Dictionary->end();
 }
 
 MetaDataDictionary::ConstIterator
-MetaDataDictionary ::End() const
+MetaDataDictionary::End() const
 {
   return m_Dictionary->end();
 }
 
 MetaDataDictionary::Iterator
-MetaDataDictionary ::Find(const std::string & key)
+MetaDataDictionary::Find(const std::string & key)
 {
   MakeUnique();
   return m_Dictionary->find(key);
 }
 
 MetaDataDictionary::ConstIterator
-MetaDataDictionary ::Find(const std::string & key) const
+MetaDataDictionary::Find(const std::string & key) const
 {
   return m_Dictionary->find(key);
 }
 
 void
-MetaDataDictionary ::Clear()
+MetaDataDictionary::Clear()
 {
   // Construct a new one instead of enforcing uniqueness then clearing
   this->m_Dictionary = std::make_shared<MetaDataDictionaryMapType>();
 }
 
 void
-MetaDataDictionary ::Swap(MetaDataDictionary & other)
+MetaDataDictionary::Swap(MetaDataDictionary & other)
 {
   using std::swap;
   swap(m_Dictionary, other.m_Dictionary);
@@ -163,7 +163,7 @@ MetaDataDictionary ::Swap(MetaDataDictionary & other)
 
 
 bool
-MetaDataDictionary ::MakeUnique()
+MetaDataDictionary::MakeUnique()
 {
   if (m_Dictionary.use_count() > 1)
   {
@@ -175,7 +175,7 @@ MetaDataDictionary ::MakeUnique()
 }
 
 bool
-MetaDataDictionary ::Erase(const std::string & key)
+MetaDataDictionary::Erase(const std::string & key)
 {
   auto                                      it = m_Dictionary->find(key);
   const MetaDataDictionaryMapType::iterator end = m_Dictionary->end();

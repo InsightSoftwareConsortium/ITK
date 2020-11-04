@@ -20,8 +20,8 @@
 namespace itk
 {
 /**  Constructor.  */
-MultipleValuedVnlCostFunctionAdaptor ::MultipleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension,
-                                                                            unsigned int numberOfValues)
+MultipleValuedVnlCostFunctionAdaptor::MultipleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension,
+                                                                           unsigned int numberOfValues)
   : vnl_least_squares_function(spaceDimension, numberOfValues)
 {
   this->m_ScalesInitialized = false;
@@ -30,7 +30,7 @@ MultipleValuedVnlCostFunctionAdaptor ::MultipleValuedVnlCostFunctionAdaptor(unsi
 
 /** Set current parameters scaling. */
 void
-MultipleValuedVnlCostFunctionAdaptor ::SetScales(const ScalesType & scales)
+MultipleValuedVnlCostFunctionAdaptor::SetScales(const ScalesType & scales)
 {
   // Only the inverse is used computes the inverse at each iteration.
   // provides 1 commone place where the inverse can be computes
@@ -156,8 +156,8 @@ MultipleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
 
 /**  Convert external derivative measures into internal type  */
 void
-MultipleValuedVnlCostFunctionAdaptor ::ConvertExternalToInternalGradient(const DerivativeType &   input,
-                                                                         InternalDerivativeType & output)
+MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalGradient(const DerivativeType &   input,
+                                                                        InternalDerivativeType & output)
 {
   const unsigned int rows = input.rows();
   const unsigned int cols = input.cols();
@@ -179,8 +179,8 @@ MultipleValuedVnlCostFunctionAdaptor ::ConvertExternalToInternalGradient(const D
 
 /**  Convert external Measures into internal type  */
 void
-MultipleValuedVnlCostFunctionAdaptor ::ConvertExternalToInternalMeasures(const MeasureType &   input,
-                                                                         InternalMeasureType & output)
+MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalMeasures(const MeasureType &   input,
+                                                                        InternalMeasureType & output)
 {
   const unsigned int size = input.size();
 
@@ -192,7 +192,7 @@ MultipleValuedVnlCostFunctionAdaptor ::ConvertExternalToInternalMeasures(const M
 
 /**  Define if the cost function will provide a Gradient computation */
 void
-MultipleValuedVnlCostFunctionAdaptor ::SetUseGradient(bool useGradient)
+MultipleValuedVnlCostFunctionAdaptor::SetUseGradient(bool useGradient)
 {
   // delegate the task to the base class
   this->vnl_least_squares_function::use_gradient_ = useGradient;
@@ -200,7 +200,7 @@ MultipleValuedVnlCostFunctionAdaptor ::SetUseGradient(bool useGradient)
 
 /**  Return true if the cost function will provide a Gradient computation */
 bool
-MultipleValuedVnlCostFunctionAdaptor ::GetUseGradient() const
+MultipleValuedVnlCostFunctionAdaptor::GetUseGradient() const
 {
   // delegate the task to the base class
   return this->vnl_least_squares_function::has_gradient();
@@ -209,7 +209,7 @@ MultipleValuedVnlCostFunctionAdaptor ::GetUseGradient() const
 /**  This method reports iterations events. It is intended to
  *   help monitoring the progress of the optimization process. */
 void
-MultipleValuedVnlCostFunctionAdaptor ::ReportIteration(const EventObject & event) const
+MultipleValuedVnlCostFunctionAdaptor::ReportIteration(const EventObject & event) const
 {
   this->m_Reporter->InvokeEvent(event);
 }
@@ -217,21 +217,21 @@ MultipleValuedVnlCostFunctionAdaptor ::ReportIteration(const EventObject & event
 /**  Connects a Command/Observer to the internal reporter class.
  *   This is useful for reporting iteration event to potential observers. */
 unsigned long
-MultipleValuedVnlCostFunctionAdaptor ::AddObserver(const EventObject & event, Command * command) const
+MultipleValuedVnlCostFunctionAdaptor::AddObserver(const EventObject & event, Command * command) const
 {
   return this->m_Reporter->AddObserver(event, command);
 }
 
 /**  Return the cached value of the cost function */
 const MultipleValuedVnlCostFunctionAdaptor::MeasureType &
-MultipleValuedVnlCostFunctionAdaptor ::GetCachedValue() const
+MultipleValuedVnlCostFunctionAdaptor::GetCachedValue() const
 {
   return m_CachedValue;
 }
 
 /**  Return the cached value of the cost function derivative */
 const MultipleValuedVnlCostFunctionAdaptor::DerivativeType &
-MultipleValuedVnlCostFunctionAdaptor ::GetCachedDerivative() const
+MultipleValuedVnlCostFunctionAdaptor::GetCachedDerivative() const
 {
   return m_CachedDerivative;
 }
@@ -239,7 +239,7 @@ MultipleValuedVnlCostFunctionAdaptor ::GetCachedDerivative() const
 /**  Return the cached value of the parameters used for computing the function
  */
 const MultipleValuedVnlCostFunctionAdaptor::ParametersType &
-MultipleValuedVnlCostFunctionAdaptor ::GetCachedCurrentParameters() const
+MultipleValuedVnlCostFunctionAdaptor::GetCachedCurrentParameters() const
 {
   return m_CachedCurrentParameters;
 }

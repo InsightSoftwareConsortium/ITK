@@ -40,7 +40,7 @@ namespace itk
  */
 template <typename TImage, typename TFeatureImage>
 class ITK_TEMPLATE_EXPORT StatisticsLabelMapFilter
-  : public ShapeLabelMapFilter<TImage, Image<typename TImage::PixelType, TImage ::ImageDimension>>
+  : public ShapeLabelMapFilter<TImage, Image<typename TImage::PixelType, TImage::ImageDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(StatisticsLabelMapFilter);

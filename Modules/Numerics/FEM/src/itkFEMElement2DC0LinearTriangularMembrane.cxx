@@ -40,14 +40,14 @@ Element2DC0LinearTriangularMembrane::CreateAnother() const
   return smartPtr;
 }
 
-Element2DC0LinearTriangularMembrane ::Element2DC0LinearTriangularMembrane()
+Element2DC0LinearTriangularMembrane::Element2DC0LinearTriangularMembrane()
   : Superclass()
 {}
 
-Element2DC0LinearTriangularMembrane ::Element2DC0LinearTriangularMembrane(NodeIDType             n1_,
-                                                                          NodeIDType             n2_,
-                                                                          NodeIDType             n3_,
-                                                                          Material::ConstPointer m_)
+Element2DC0LinearTriangularMembrane::Element2DC0LinearTriangularMembrane(NodeIDType             n1_,
+                                                                         NodeIDType             n2_,
+                                                                         NodeIDType             n3_,
+                                                                         Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points

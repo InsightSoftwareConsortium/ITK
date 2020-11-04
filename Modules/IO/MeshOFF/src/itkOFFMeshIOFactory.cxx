@@ -24,7 +24,7 @@
 namespace itk
 {
 void
-OFFMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
+OFFMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 OFFMeshIOFactory ::OFFMeshIOFactory()
@@ -35,13 +35,13 @@ OFFMeshIOFactory ::OFFMeshIOFactory()
 OFFMeshIOFactory ::~OFFMeshIOFactory() = default;
 
 const char *
-OFFMeshIOFactory ::GetITKSourceVersion() const
+OFFMeshIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-OFFMeshIOFactory ::GetDescription() const
+OFFMeshIOFactory::GetDescription() const
 {
   return "OFF Mesh IO Factory, allows the loading of OFF mesh into insight";
 }

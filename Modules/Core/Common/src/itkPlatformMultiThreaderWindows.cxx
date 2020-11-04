@@ -165,7 +165,7 @@ PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 #endif
 
 void
-PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+PlatformMultiThreader::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using _beginthreadex on a PC
   WaitForSingleObject(threadHandle, INFINITE);
@@ -173,7 +173,7 @@ PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threa
 }
 
 ThreadProcessIdType
-PlatformMultiThreader ::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
+PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using _beginthreadex on a PC
   DWORD  threadId;

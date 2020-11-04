@@ -45,11 +45,11 @@ Element3DC0LinearHexahedronMembrane::CreateAnother() const
   return smartPtr;
 }
 
-Element3DC0LinearHexahedronMembrane ::Element3DC0LinearHexahedronMembrane()
+Element3DC0LinearHexahedronMembrane::Element3DC0LinearHexahedronMembrane()
   : Superclass()
 {}
 
-Element3DC0LinearHexahedronMembrane ::Element3DC0LinearHexahedronMembrane(NodeIDType ns_[], Material::ConstPointer m_)
+Element3DC0LinearHexahedronMembrane::Element3DC0LinearHexahedronMembrane(NodeIDType ns_[], Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points

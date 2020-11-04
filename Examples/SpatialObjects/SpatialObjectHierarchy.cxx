@@ -43,10 +43,10 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using SpatialObjectType = itk::SpatialObject<3>;
 
-  SpatialObjectType::Pointer object1 = SpatialObjectType ::New();
+  SpatialObjectType::Pointer object1 = SpatialObjectType::New();
   object1->GetProperty().SetName("First Object");
 
-  SpatialObjectType::Pointer object2 = SpatialObjectType ::New();
+  SpatialObjectType::Pointer object2 = SpatialObjectType::New();
   object2->GetProperty().SetName("Second Object");
   // Software Guide : EndCodeSnippet
 

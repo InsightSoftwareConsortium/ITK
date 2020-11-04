@@ -22,7 +22,7 @@ namespace itk
 {
 
 
-AmoebaOptimizer ::AmoebaOptimizer()
+AmoebaOptimizer::AmoebaOptimizer()
   : m_InitialSimplexDelta(1)
 {
   this->m_MaximumNumberOfIterations = 500;
@@ -42,14 +42,14 @@ AmoebaOptimizer ::~AmoebaOptimizer()
 
 
 const std::string
-AmoebaOptimizer ::GetStopConditionDescription() const
+AmoebaOptimizer::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();
 }
 
 
 void
-AmoebaOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+AmoebaOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaximumNumberOfIterations: " << this->m_MaximumNumberOfIterations << std::endl;
@@ -61,7 +61,7 @@ AmoebaOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
 
 
 AmoebaOptimizer::MeasureType
-AmoebaOptimizer ::GetValue() const
+AmoebaOptimizer::GetValue() const
 {
   ParametersType                                               parameters = this->GetCurrentPosition();
   const unsigned int                                           numberOfParameters = parameters.Size();
@@ -92,7 +92,7 @@ AmoebaOptimizer ::GetValue() const
 
 /** Get the Optimizer */
 vnl_amoeba *
-AmoebaOptimizer ::GetOptimizer() const
+AmoebaOptimizer::GetOptimizer() const
 {
   return this->m_VnlOptimizer;
 }
@@ -107,7 +107,7 @@ AmoebaOptimizer::SetInitialSimplexDelta(ParametersType initialSimplexDelta, bool
 
 
 void
-AmoebaOptimizer ::SetCostFunction(SingleValuedCostFunction * costFunction)
+AmoebaOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 {
   // call our ancestors SetCostFunction, we are overriding it - this would
   // be the correct thing to do so that the GetCostFunction() would work
@@ -130,7 +130,7 @@ AmoebaOptimizer ::SetCostFunction(SingleValuedCostFunction * costFunction)
 
 
 void
-AmoebaOptimizer ::StartOptimization()
+AmoebaOptimizer::StartOptimization()
 {
   const ScalesType &                                           scales = GetScales();
   const ParametersType &                                       initialPosition = GetInitialPosition();
@@ -277,7 +277,7 @@ AmoebaOptimizer ::StartOptimization()
 
 
 void
-AmoebaOptimizer ::ValidateSettings()
+AmoebaOptimizer::ValidateSettings()
 {
   // we have to have a cost function
   if (GetCostFunctionAdaptor() == nullptr)

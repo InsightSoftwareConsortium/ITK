@@ -24,10 +24,10 @@
 namespace itk
 {
 void
-FreeSurferAsciiMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
+FreeSurferAsciiMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
-FreeSurferAsciiMeshIOFactory ::FreeSurferAsciiMeshIOFactory()
+FreeSurferAsciiMeshIOFactory::FreeSurferAsciiMeshIOFactory()
 {
   this->RegisterOverride("itkMeshIOBase",
                          "itkFreeSurferAsciiMeshIO",
@@ -39,13 +39,13 @@ FreeSurferAsciiMeshIOFactory ::FreeSurferAsciiMeshIOFactory()
 FreeSurferAsciiMeshIOFactory ::~FreeSurferAsciiMeshIOFactory() = default;
 
 const char *
-FreeSurferAsciiMeshIOFactory ::GetITKSourceVersion() const
+FreeSurferAsciiMeshIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-FreeSurferAsciiMeshIOFactory ::GetDescription() const
+FreeSurferAsciiMeshIOFactory::GetDescription() const
 {
   return "FreeSurfer ASCII Mesh IO Factory, allows the loading of FreeSurfer Ascii mesh into insight";
 }

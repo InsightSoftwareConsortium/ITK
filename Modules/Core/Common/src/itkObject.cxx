@@ -313,7 +313,7 @@ Object::CreateAnother() const
  * Turn debugging output on.
  */
 void
-Object ::DebugOn() const
+Object::DebugOn() const
 {
   m_Debug = true;
 }
@@ -322,7 +322,7 @@ Object ::DebugOn() const
  * Turn debugging output off.
  */
 void
-Object ::DebugOff() const
+Object::DebugOff() const
 {
   m_Debug = false;
 }
@@ -331,7 +331,7 @@ Object ::DebugOff() const
  * Get the value of the debug flag.
  */
 bool
-Object ::GetDebug() const
+Object::GetDebug() const
 {
   return m_Debug;
 }
@@ -340,7 +340,7 @@ Object ::GetDebug() const
  * Set the value of the debug flag. A non-zero value turns debugging on.
  */
 void
-Object ::SetDebug(bool debugFlag) const
+Object::SetDebug(bool debugFlag) const
 {
   m_Debug = debugFlag;
 }
@@ -349,7 +349,7 @@ Object ::SetDebug(bool debugFlag) const
  * Return the modification for this object.
  */
 ModifiedTimeType
-Object ::GetMTime() const
+Object::GetMTime() const
 {
   return m_MTime.GetMTime();
 }
@@ -358,7 +358,7 @@ Object ::GetMTime() const
  * Return the modification for this object.
  */
 const TimeStamp &
-Object ::GetTimeStamp() const
+Object::GetTimeStamp() const
 {
   return m_MTime;
 }
@@ -366,7 +366,7 @@ Object ::GetTimeStamp() const
 /** Set the time stamp of this object. To be used very carefully !!!.
  * Most mortals will never need to call this method. */
 void
-Object ::SetTimeStamp(const TimeStamp & timeStamp)
+Object::SetTimeStamp(const TimeStamp & timeStamp)
 {
   this->m_MTime = timeStamp;
 }
@@ -375,7 +375,7 @@ Object ::SetTimeStamp(const TimeStamp & timeStamp)
  * Make sure this object's modified time is greater than all others.
  */
 void
-Object ::Modified() const
+Object::Modified() const
 {
   m_MTime.Modified();
   InvokeEvent(ModifiedEvent());
@@ -385,7 +385,7 @@ Object ::Modified() const
  * Increase the reference count (mark as used by another object).
  */
 void
-Object ::Register() const
+Object::Register() const
 {
   itkDebugMacro(<< "Registered, "
                 << "ReferenceCount = " << (m_ReferenceCount + 1));
@@ -398,7 +398,7 @@ Object ::Register() const
  * Decrease the reference count (release by another object).
  */
 void
-Object ::UnRegister() const noexcept
+Object::UnRegister() const noexcept
 {
   // call the parent
   itkDebugMacro(<< "UnRegistered, "
@@ -439,7 +439,7 @@ Object ::UnRegister() const noexcept
  * Sets the reference count (use with care)
  */
 void
-Object ::SetReferenceCount(int ref)
+Object::SetReferenceCount(int ref)
 {
   itkDebugMacro(<< "Reference Count set to " << ref);
 
@@ -467,7 +467,7 @@ Object ::SetReferenceCount(int ref)
  * Set the value of the global debug output control flag.
  */
 void
-Object ::SetGlobalWarningDisplay(bool val)
+Object::SetGlobalWarningDisplay(bool val)
 {
   itkInitGlobalsMacro(GlobalWarningDisplay);
   *m_GlobalWarningDisplay = val;
@@ -477,13 +477,13 @@ Object ::SetGlobalWarningDisplay(bool val)
  * Get the value of the global debug output control flag.
  */
 bool
-Object ::GetGlobalWarningDisplay()
+Object::GetGlobalWarningDisplay()
 {
   return *Object::GetGlobalWarningDisplayPointer();
 }
 
 unsigned long
-Object ::AddObserver(const EventObject & event, Command * cmd)
+Object::AddObserver(const EventObject & event, Command * cmd)
 {
   if (!this->m_SubjectImplementation)
   {
@@ -493,7 +493,7 @@ Object ::AddObserver(const EventObject & event, Command * cmd)
 }
 
 unsigned long
-Object ::AddObserver(const EventObject & event, Command * cmd) const
+Object::AddObserver(const EventObject & event, Command * cmd) const
 {
   if (!this->m_SubjectImplementation)
   {
@@ -513,7 +513,7 @@ Object::AddObserver(const EventObject & event, std::function<void(const EventObj
 
 
 Command *
-Object ::GetCommand(unsigned long tag)
+Object::GetCommand(unsigned long tag)
 {
   if (this->m_SubjectImplementation)
   {
@@ -523,7 +523,7 @@ Object ::GetCommand(unsigned long tag)
 }
 
 void
-Object ::RemoveObserver(unsigned long tag)
+Object::RemoveObserver(unsigned long tag)
 {
   if (this->m_SubjectImplementation)
   {
@@ -532,7 +532,7 @@ Object ::RemoveObserver(unsigned long tag)
 }
 
 void
-Object ::RemoveAllObservers()
+Object::RemoveAllObservers()
 {
   if (this->m_SubjectImplementation)
   {
@@ -541,7 +541,7 @@ Object ::RemoveAllObservers()
 }
 
 void
-Object ::InvokeEvent(const EventObject & event)
+Object::InvokeEvent(const EventObject & event)
 {
   if (this->m_SubjectImplementation)
   {
@@ -550,7 +550,7 @@ Object ::InvokeEvent(const EventObject & event)
 }
 
 void
-Object ::InvokeEvent(const EventObject & event) const
+Object::InvokeEvent(const EventObject & event) const
 {
   if (this->m_SubjectImplementation)
   {
@@ -559,7 +559,7 @@ Object ::InvokeEvent(const EventObject & event) const
 }
 
 bool
-Object ::HasObserver(const EventObject & event) const
+Object::HasObserver(const EventObject & event) const
 {
   if (this->m_SubjectImplementation)
   {
@@ -569,7 +569,7 @@ Object ::HasObserver(const EventObject & event) const
 }
 
 bool
-Object ::PrintObservers(std::ostream & os, Indent indent) const
+Object::PrintObservers(std::ostream & os, Indent indent) const
 {
   if (this->m_SubjectImplementation)
   {
@@ -582,7 +582,7 @@ Object ::PrintObservers(std::ostream & os, Indent indent) const
  * Create an object with Debug turned off and modified time initialized
  * to the most recently modified object.
  */
-Object ::Object()
+Object::Object()
   : LightObject()
   , m_ObjectName()
 {
@@ -601,7 +601,7 @@ Object ::~Object()
  * its superclasses.
  */
 void
-Object ::PrintSelf(std::ostream & os, Indent indent) const
+Object::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -616,7 +616,7 @@ Object ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 MetaDataDictionary &
-Object ::GetMetaDataDictionary()
+Object::GetMetaDataDictionary()
 {
   if (m_MetaDataDictionary == nullptr)
   {
@@ -626,7 +626,7 @@ Object ::GetMetaDataDictionary()
 }
 
 const MetaDataDictionary &
-Object ::GetMetaDataDictionary() const
+Object::GetMetaDataDictionary() const
 {
   if (m_MetaDataDictionary == nullptr)
   {
@@ -636,7 +636,7 @@ Object ::GetMetaDataDictionary() const
 }
 
 void
-Object ::SetMetaDataDictionary(const MetaDataDictionary & rhs)
+Object::SetMetaDataDictionary(const MetaDataDictionary & rhs)
 {
   if (m_MetaDataDictionary == nullptr)
   {
@@ -647,7 +647,7 @@ Object ::SetMetaDataDictionary(const MetaDataDictionary & rhs)
 }
 
 void
-Object ::SetMetaDataDictionary(MetaDataDictionary && rrhs)
+Object::SetMetaDataDictionary(MetaDataDictionary && rrhs)
 {
   if (m_MetaDataDictionary == nullptr)
   {

@@ -38,7 +38,7 @@ DCMTKSeriesFileNames ::DCMTKSeriesFileNames()
 DCMTKSeriesFileNames ::~DCMTKSeriesFileNames() = default;
 
 void
-DCMTKSeriesFileNames ::SetInputDirectory(const char * name)
+DCMTKSeriesFileNames::SetInputDirectory(const char * name)
 {
   if (!name)
   {
@@ -49,7 +49,7 @@ DCMTKSeriesFileNames ::SetInputDirectory(const char * name)
 }
 
 void
-DCMTKSeriesFileNames ::SetInputDirectory(std::string const & name)
+DCMTKSeriesFileNames::SetInputDirectory(std::string const & name)
 {
   if (name.empty())
   {
@@ -72,7 +72,7 @@ DCMTKSeriesFileNames ::SetInputDirectory(std::string const & name)
 }
 
 void
-DCMTKSeriesFileNames ::GetDicomData(const std::string & series, bool saveFileNames)
+DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileNames)
 {
   if (saveFileNames)
   {
@@ -158,7 +158,7 @@ DCMTKSeriesFileNames ::GetDicomData(const std::string & series, bool saveFileNam
 }
 
 const DCMTKSeriesFileNames::FileNamesContainerType &
-DCMTKSeriesFileNames ::GetFileNames(const std::string series)
+DCMTKSeriesFileNames::GetFileNames(const std::string series)
 {
   this->GetDicomData(series, true);
   return m_InputFileNames;
@@ -173,7 +173,7 @@ DCMTKSeriesFileNames::GetSeriesUIDs()
 
 
 const DCMTKSeriesFileNames::FileNamesContainerType &
-DCMTKSeriesFileNames ::GetInputFileNames()
+DCMTKSeriesFileNames::GetInputFileNames()
 {
   // Do not specify any UID
   this->GetDicomData("", true);
@@ -181,13 +181,13 @@ DCMTKSeriesFileNames ::GetInputFileNames()
 }
 
 const DCMTKSeriesFileNames::FileNamesContainerType &
-DCMTKSeriesFileNames ::GetOutputFileNames()
+DCMTKSeriesFileNames::GetOutputFileNames()
 {
   return m_InputFileNames;
 }
 
 void
-DCMTKSeriesFileNames ::PrintSelf(std::ostream & os, Indent indent) const
+DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -211,7 +211,7 @@ DCMTKSeriesFileNames ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-DCMTKSeriesFileNames ::SetUseSeriesDetails(bool useSeriesDetails)
+DCMTKSeriesFileNames::SetUseSeriesDetails(bool useSeriesDetails)
 {
   m_UseSeriesDetails = useSeriesDetails;
   //  m_SerieHelper->SetUseSeriesDetails(m_UseSeriesDetails);

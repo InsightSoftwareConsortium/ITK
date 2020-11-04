@@ -154,10 +154,10 @@ PoolMultiThreader::SingleMethodExecute()
 }
 
 void
-PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
-                                     SizeValueType             lastIndexPlus1,
-                                     ArrayThreadingFunctorType aFunc,
-                                     ProcessObject *           filter)
+PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
+                                    SizeValueType             lastIndexPlus1,
+                                    ArrayThreadingFunctorType aFunc,
+                                    ProcessObject *           filter)
 {
   if (!this->GetUpdateProgress())
   {
@@ -224,11 +224,11 @@ PoolMultiThreader ::ParallelizeArray(SizeValueType             firstIndex,
 }
 
 void
-PoolMultiThreader ::ParallelizeImageRegion(unsigned int         dimension,
-                                           const IndexValueType index[],
-                                           const SizeValueType  size[],
-                                           ThreadingFunctorType funcP,
-                                           ProcessObject *      filter)
+PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
+                                          const IndexValueType index[],
+                                          const SizeValueType  size[],
+                                          ThreadingFunctorType funcP,
+                                          ProcessObject *      filter)
 {
   if (!this->GetUpdateProgress())
   {

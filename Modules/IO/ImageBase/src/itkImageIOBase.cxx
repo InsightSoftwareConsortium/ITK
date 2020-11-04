@@ -218,7 +218,7 @@ ImageIOBase::ComputeStrides()
 
 // Calculates the image size in PIXELS
 ImageIOBase::SizeType
-ImageIOBase ::GetImageSizeInPixels() const
+ImageIOBase::GetImageSizeInPixels() const
 {
   unsigned int i;
   SizeType     numPixels = 1;
@@ -232,37 +232,37 @@ ImageIOBase ::GetImageSizeInPixels() const
 }
 
 ImageIOBase::SizeType
-ImageIOBase ::GetImageSizeInComponents() const
+ImageIOBase::GetImageSizeInComponents() const
 {
   return (this->GetImageSizeInPixels() * m_NumberOfComponents);
 }
 
 ImageIOBase::SizeType
-ImageIOBase ::GetImageSizeInBytes() const
+ImageIOBase::GetImageSizeInBytes() const
 {
   return (this->GetImageSizeInComponents() * this->GetComponentSize());
 }
 
 ImageIOBase::SizeType
-ImageIOBase ::GetComponentStride() const
+ImageIOBase::GetComponentStride() const
 {
   return m_Strides[0];
 }
 
 ImageIOBase::SizeType
-ImageIOBase ::GetPixelStride() const
+ImageIOBase::GetPixelStride() const
 {
   return m_Strides[1];
 }
 
 ImageIOBase::SizeType
-ImageIOBase ::GetRowStride() const
+ImageIOBase::GetRowStride() const
 {
   return m_Strides[2];
 }
 
 ImageIOBase::SizeType
-ImageIOBase ::GetSliceStride() const
+ImageIOBase::GetSliceStride() const
 {
   return m_Strides[3];
 }
@@ -302,7 +302,7 @@ ImageIOBase::SetNumberOfDimensions(unsigned int dim)
 }
 
 bool
-ImageIOBase ::ReadBufferAsBinary(std::istream & is, void * buffer, ImageIOBase::SizeType num)
+ImageIOBase::ReadBufferAsBinary(std::istream & is, void * buffer, ImageIOBase::SizeType num)
 {
   const auto numberOfBytesToBeRead = Math::CastWithRangeCheck<std::streamsize>(num);
 
@@ -1079,7 +1079,7 @@ ImageIOBase::GetSplitRegionForWriting(unsigned int          ithPiece,
  * smaller than the LargestPossibleRegion and greater or equal to the
  * RequestedRegion */
 ImageIORegion
-ImageIOBase ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const
+ImageIOBase::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const
 {
   //
   // The default implementations determines that the streamable region is
@@ -1136,7 +1136,7 @@ ImageIOBase ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegio
  *  in the case the recipient image dimension is smaller than the dimension
  *  of the image in file. */
 std::vector<double>
-ImageIOBase ::GetDefaultDirection(unsigned int k) const
+ImageIOBase::GetDefaultDirection(unsigned int k) const
 {
   std::vector<double> axis;
   axis.resize(this->GetNumberOfDimensions());

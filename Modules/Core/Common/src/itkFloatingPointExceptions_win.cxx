@@ -30,7 +30,7 @@ namespace itk
 #  include <cfloat>
 
 void
-FloatingPointExceptions ::Enable()
+FloatingPointExceptions::Enable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   // enable floating point exceptions on MSVC
@@ -39,7 +39,7 @@ FloatingPointExceptions ::Enable()
 }
 
 void
-FloatingPointExceptions ::Disable()
+FloatingPointExceptions::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   // disable floating point exceptions on MSVC
@@ -48,7 +48,7 @@ FloatingPointExceptions ::Disable()
 }
 
 bool
-FloatingPointExceptions ::HasFloatingPointExceptionsSupport()
+FloatingPointExceptions::HasFloatingPointExceptionsSupport()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return true;
@@ -59,21 +59,21 @@ FloatingPointExceptions ::HasFloatingPointExceptionsSupport()
 // MinGW has troubles include'ing float.h.
 
 void
-FloatingPointExceptions ::Enable()
+FloatingPointExceptions::Enable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   itkFloatingPointExceptionsNotSupported();
 }
 
 void
-FloatingPointExceptions ::Disable()
+FloatingPointExceptions::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   itkFloatingPointExceptionsNotSupported();
 }
 
 bool
-FloatingPointExceptions ::HasFloatingPointExceptionsSupport()
+FloatingPointExceptions::HasFloatingPointExceptionsSupport()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return false;

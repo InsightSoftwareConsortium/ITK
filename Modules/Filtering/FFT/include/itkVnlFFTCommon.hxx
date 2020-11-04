@@ -25,7 +25,7 @@ namespace itk
 
 template <typename TSizeValue>
 bool
-VnlFFTCommon ::IsDimensionSizeLegal(TSizeValue n)
+VnlFFTCommon::IsDimensionSizeLegal(TSizeValue n)
 {
   int ifac = 2;
 

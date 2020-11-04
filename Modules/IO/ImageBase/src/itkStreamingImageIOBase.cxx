@@ -33,7 +33,7 @@ StreamingImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 bool
-StreamingImageIOBase ::StreamReadBufferAsBinary(std::istream & file, void * _buffer)
+StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buffer)
 {
   itkDebugMacro(<< "StreamingReadBufferAsBinary called");
 

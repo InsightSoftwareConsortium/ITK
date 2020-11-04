@@ -391,7 +391,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
   size_t sizeOfActualIORegion =
     m_ActualIORegion.GetNumberOfPixels() * (m_ImageIO->GetComponentSize() * m_ImageIO->GetNumberOfComponents());
 
-  IOComponentEnum ioType = ImageIOBase ::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
+  IOComponentEnum ioType = ImageIOBase::MapPixelType<typename ConvertPixelTraits::ComponentType>::CType;
   if (m_ImageIO->GetComponentType() != ioType ||
       (m_ImageIO->GetNumberOfComponents() != ConvertPixelTraits::GetNumberOfComponents()))
   {

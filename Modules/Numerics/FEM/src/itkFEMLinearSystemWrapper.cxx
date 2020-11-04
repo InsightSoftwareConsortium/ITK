@@ -198,7 +198,7 @@ LinearSystemWrapper::OptimizeMatrixStorage(unsigned int matrixIndex, unsigned in
 }
 
 void
-LinearSystemWrapper ::CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
+LinearSystemWrapper::CopyMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
 {
   ColumnArray  cols;
   unsigned int r;
@@ -215,7 +215,7 @@ LinearSystemWrapper ::CopyMatrix(unsigned int matrixIndex1, unsigned int matrixI
 }
 
 void
-LinearSystemWrapper ::AddMatrixMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
+LinearSystemWrapper::AddMatrixMatrix(unsigned int matrixIndex1, unsigned int matrixIndex2)
 {
   ColumnArray  cols;
   unsigned int r;
@@ -230,7 +230,7 @@ LinearSystemWrapper ::AddMatrixMatrix(unsigned int matrixIndex1, unsigned int ma
 }
 
 void
-LinearSystemWrapper ::CopyVector(unsigned int vectorSource, unsigned int vectorDestination)
+LinearSystemWrapper::CopyVector(unsigned int vectorSource, unsigned int vectorDestination)
 {
   unsigned int r;
   for (r = 0; r < this->m_Order; r++)
@@ -240,7 +240,7 @@ LinearSystemWrapper ::CopyVector(unsigned int vectorSource, unsigned int vectorD
 }
 
 void
-LinearSystemWrapper ::AddVectorVector(unsigned int vectorIndex1, unsigned int vectorIndex2)
+LinearSystemWrapper::AddVectorVector(unsigned int vectorIndex1, unsigned int vectorIndex2)
 {
   unsigned int r;
   for (r = 0; r < this->m_Order; r++)

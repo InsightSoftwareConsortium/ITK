@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-RegularStepGradientDescentBaseOptimizer ::RegularStepGradientDescentBaseOptimizer()
+RegularStepGradientDescentBaseOptimizer::RegularStepGradientDescentBaseOptimizer()
 
 {
   itkDebugMacro("Constructor");
@@ -50,7 +50,7 @@ RegularStepGradientDescentBaseOptimizer ::RegularStepGradientDescentBaseOptimize
  * Start the optimization
  */
 void
-RegularStepGradientDescentBaseOptimizer ::StartOptimization()
+RegularStepGradientDescentBaseOptimizer::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
 
@@ -84,7 +84,7 @@ RegularStepGradientDescentBaseOptimizer ::StartOptimization()
  * Resume the optimization
  */
 void
-RegularStepGradientDescentBaseOptimizer ::ResumeOptimization()
+RegularStepGradientDescentBaseOptimizer::ResumeOptimization()
 {
   itkDebugMacro("ResumeOptimization");
 
@@ -132,7 +132,7 @@ RegularStepGradientDescentBaseOptimizer ::ResumeOptimization()
  * Stop optimization
  */
 void
-RegularStepGradientDescentBaseOptimizer ::StopOptimization()
+RegularStepGradientDescentBaseOptimizer::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
 
@@ -144,7 +144,7 @@ RegularStepGradientDescentBaseOptimizer ::StopOptimization()
  * Advance one Step following the gradient direction
  */
 void
-RegularStepGradientDescentBaseOptimizer ::AdvanceOneStep()
+RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
@@ -241,13 +241,13 @@ RegularStepGradientDescentBaseOptimizer ::AdvanceOneStep()
 }
 
 const std::string
-RegularStepGradientDescentBaseOptimizer ::GetStopConditionDescription() const
+RegularStepGradientDescentBaseOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
 
 void
-RegularStepGradientDescentBaseOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+RegularStepGradientDescentBaseOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "MaximumStepLength: " << m_MaximumStepLength << std::endl;

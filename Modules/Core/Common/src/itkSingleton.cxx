@@ -81,7 +81,7 @@ GlobalSingletonIndexInitializer::SingletonIndex * GlobalSingletonIndexInitialize
 namespace itk
 {
 void *
-SingletonIndex ::GetGlobalInstancePrivate(const char * globalName)
+SingletonIndex::GetGlobalInstancePrivate(const char * globalName)
 {
   SingletonData::iterator it;
   it = m_GlobalObjects.find(globalName);
@@ -95,10 +95,10 @@ SingletonIndex ::GetGlobalInstancePrivate(const char * globalName)
 // If globalName is already registered remove it from map,
 // otherwise global is added to the singleton index under globalName
 bool
-SingletonIndex ::SetGlobalInstancePrivate(const char *                globalName,
-                                          void *                      global,
-                                          std::function<void(void *)> func,
-                                          std::function<void(void)>   deleteFunc)
+SingletonIndex::SetGlobalInstancePrivate(const char *                globalName,
+                                         void *                      global,
+                                         std::function<void(void *)> func,
+                                         std::function<void(void)>   deleteFunc)
 {
   m_GlobalObjects.erase(globalName);
   m_GlobalObjects.insert(std::make_pair(globalName, std::make_tuple(global, func, deleteFunc)));
@@ -106,7 +106,7 @@ SingletonIndex ::SetGlobalInstancePrivate(const char *                globalName
 }
 
 SingletonIndex *
-SingletonIndex ::GetInstance()
+SingletonIndex::GetInstance()
 {
   if (m_Instance == nullptr)
   {
@@ -116,7 +116,7 @@ SingletonIndex ::GetInstance()
 }
 
 void
-SingletonIndex ::SetInstance(Self * instance)
+SingletonIndex::SetInstance(Self * instance)
 {
   m_Instance = instance;
 }

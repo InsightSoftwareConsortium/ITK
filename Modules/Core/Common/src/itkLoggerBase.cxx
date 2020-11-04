@@ -63,7 +63,7 @@ LoggerBase::Flush()
 }
 
 std::string
-LoggerBase ::BuildFormattedEntry(PriorityLevelEnum level, std::string const & content)
+LoggerBase::BuildFormattedEntry(PriorityLevelEnum level, std::string const & content)
 {
   static std::string m_LevelString[] = { "(MUSTFLUSH) ", "(FATAL) ", "(CRITICAL) ", "(WARNING) ",
                                          "(INFO) ",      "(DEBUG) ", "(NOTSET) " };

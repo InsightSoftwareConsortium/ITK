@@ -46,42 +46,42 @@ TemporalDataObject ::~TemporalDataObject() = default;
 
 //----------------------------------------------------------------------------
 TemporalDataObject::TemporalUnitType
-TemporalDataObject ::GetTemporalUnit() const
+TemporalDataObject::GetTemporalUnit() const
 {
   return m_TemporalUnit;
 }
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetTemporalUnitToFrame()
+TemporalDataObject::SetTemporalUnitToFrame()
 {
   m_TemporalUnit = TemporalUnitEnum::Frame;
 }
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetTemporalUnitToRealTime()
+TemporalDataObject::SetTemporalUnitToRealTime()
 {
   m_TemporalUnit = TemporalUnitEnum::RealTime;
 }
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetTemporalUnitToFrameAndRealTime()
+TemporalDataObject::SetTemporalUnitToFrameAndRealTime()
 {
   m_TemporalUnit = TemporalUnitEnum::FrameAndRealTime;
 }
 
 //----------------------------------------------------------------------------
 SizeValueType
-TemporalDataObject ::GetNumberOfBuffers()
+TemporalDataObject::GetNumberOfBuffers()
 {
   return m_DataObjectBuffer->GetNumberOfBuffers();
 }
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetNumberOfBuffers(SizeValueType num)
+TemporalDataObject::SetNumberOfBuffers(SizeValueType num)
 {
   m_DataObjectBuffer->SetNumberOfBuffers(num);
 }
@@ -96,14 +96,14 @@ TemporalDataObject::SetLargestPossibleTemporalRegion(const TemporalRegionType & 
 
 //----------------------------------------------------------------------------
 const TemporalDataObject::TemporalRegionType &
-TemporalDataObject ::GetLargestPossibleTemporalRegion() const
+TemporalDataObject::GetLargestPossibleTemporalRegion() const
 {
   return m_LargestPossibleTemporalRegion;
 }
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetBufferedTemporalRegion(const TemporalRegionType & region)
+TemporalDataObject::SetBufferedTemporalRegion(const TemporalRegionType & region)
 {
   m_BufferedTemporalRegion = region;
   this->Modified();
@@ -111,14 +111,14 @@ TemporalDataObject ::SetBufferedTemporalRegion(const TemporalRegionType & region
 
 //----------------------------------------------------------------------------
 const TemporalDataObject::TemporalRegionType &
-TemporalDataObject ::GetBufferedTemporalRegion() const
+TemporalDataObject::GetBufferedTemporalRegion() const
 {
   return m_BufferedTemporalRegion;
 }
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetRequestedTemporalRegion(const TemporalRegionType & region)
+TemporalDataObject::SetRequestedTemporalRegion(const TemporalRegionType & region)
 {
   m_RequestedTemporalRegion = region;
   this->Modified();
@@ -126,14 +126,14 @@ TemporalDataObject ::SetRequestedTemporalRegion(const TemporalRegionType & regio
 
 //----------------------------------------------------------------------------
 const TemporalDataObject::TemporalRegionType &
-TemporalDataObject ::GetRequestedTemporalRegion() const
+TemporalDataObject::GetRequestedTemporalRegion() const
 {
   return m_RequestedTemporalRegion;
 }
 
 //----------------------------------------------------------------------------
 const TemporalDataObject::TemporalRegionType
-TemporalDataObject ::GetUnbufferedRequestedTemporalRegion()
+TemporalDataObject::GetUnbufferedRequestedTemporalRegion()
 {
   // If nothing is buffered or nothing is requested, just return the entire request
   if (m_BufferedTemporalRegion.GetFrameDuration() == 0 || m_RequestedTemporalRegion.GetFrameDuration() == 0)
@@ -192,14 +192,14 @@ TemporalDataObject ::GetUnbufferedRequestedTemporalRegion()
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetRequestedRegionToLargestPossibleRegion()
+TemporalDataObject::SetRequestedRegionToLargestPossibleRegion()
 {
   this->SetRequestedTemporalRegion(this->GetLargestPossibleTemporalRegion());
 }
 
 //----------------------------------------------------------------------------
 bool
-TemporalDataObject ::RequestedRegionIsOutsideOfTheBufferedRegion()
+TemporalDataObject::RequestedRegionIsOutsideOfTheBufferedRegion()
 {
   bool frameFlag = m_RequestedTemporalRegion.GetFrameStart() < m_BufferedTemporalRegion.GetFrameStart();
   frameFlag |= m_RequestedTemporalRegion.GetFrameDuration() + m_RequestedTemporalRegion.GetFrameStart() >
@@ -231,7 +231,7 @@ TemporalDataObject ::RequestedRegionIsOutsideOfTheBufferedRegion()
 
 //----------------------------------------------------------------------------
 bool
-TemporalDataObject ::VerifyRequestedRegion()
+TemporalDataObject::VerifyRequestedRegion()
 {
   bool frameFlag = m_RequestedTemporalRegion.GetFrameStart() >= m_LargestPossibleTemporalRegion.GetFrameStart();
   frameFlag &= m_RequestedTemporalRegion.GetFrameDuration() <= m_LargestPossibleTemporalRegion.GetFrameDuration();
@@ -259,7 +259,7 @@ TemporalDataObject ::VerifyRequestedRegion()
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::CopyInformation(const DataObject * data)
+TemporalDataObject::CopyInformation(const DataObject * data)
 {
   // Standard call to the superclass' method
   Superclass::CopyInformation(data);
@@ -290,7 +290,7 @@ TemporalDataObject ::CopyInformation(const DataObject * data)
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::Graft(const DataObject * data)
+TemporalDataObject::Graft(const DataObject * data)
 {
   const TemporalDataObject * temporalData;
 
@@ -322,7 +322,7 @@ TemporalDataObject ::Graft(const DataObject * data)
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::SetRequestedRegion(const DataObject * data)
+TemporalDataObject::SetRequestedRegion(const DataObject * data)
 {
   const TemporalDataObject * temporalData;
 
@@ -352,7 +352,7 @@ TemporalDataObject ::SetRequestedRegion(const DataObject * data)
 
 //----------------------------------------------------------------------------
 void
-TemporalDataObject ::PrintSelf(std::ostream & os, Indent indent) const
+TemporalDataObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Data Object Buffer: " << m_DataObjectBuffer.GetPointer() << std::endl;

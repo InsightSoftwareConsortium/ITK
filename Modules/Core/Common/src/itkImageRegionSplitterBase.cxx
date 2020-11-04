@@ -22,10 +22,10 @@
 namespace itk
 {
 
-ImageRegionSplitterBase ::ImageRegionSplitterBase() = default;
+ImageRegionSplitterBase::ImageRegionSplitterBase() = default;
 
 void
-ImageRegionSplitterBase ::PrintSelf(std::ostream & os, Indent indent) const
+ImageRegionSplitterBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

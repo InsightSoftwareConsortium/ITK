@@ -27,7 +27,7 @@ namespace itk
  * This method will be overridden in non-vector spaces
  */
 void
-VersorRigid3DTransformOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
+VersorRigid3DTransformOptimizer::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   const ParametersType & currentPosition = this->GetCurrentPosition();
 

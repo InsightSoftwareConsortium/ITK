@@ -23,7 +23,7 @@
 #include "itkMath.h"
 namespace itk
 {
-OnePlusOneEvolutionaryOptimizer ::OnePlusOneEvolutionaryOptimizer()
+OnePlusOneEvolutionaryOptimizer::OnePlusOneEvolutionaryOptimizer()
 {
   m_CatchGetValueException = false;
   m_MetricWorstPossibleValue = 0;
@@ -45,7 +45,7 @@ OnePlusOneEvolutionaryOptimizer ::OnePlusOneEvolutionaryOptimizer()
 }
 
 void
-OnePlusOneEvolutionaryOptimizer ::SetNormalVariateGenerator(NormalVariateGeneratorType * generator)
+OnePlusOneEvolutionaryOptimizer::SetNormalVariateGenerator(NormalVariateGeneratorType * generator)
 {
   if (m_RandomGenerator != generator)
   {
@@ -55,7 +55,7 @@ OnePlusOneEvolutionaryOptimizer ::SetNormalVariateGenerator(NormalVariateGenerat
 }
 
 void
-OnePlusOneEvolutionaryOptimizer ::Initialize(double initialRadius, double grow, double shrink)
+OnePlusOneEvolutionaryOptimizer::Initialize(double initialRadius, double grow, double shrink)
 {
   m_InitialRadius = initialRadius;
 
@@ -78,7 +78,7 @@ OnePlusOneEvolutionaryOptimizer ::Initialize(double initialRadius, double grow, 
 }
 
 void
-OnePlusOneEvolutionaryOptimizer ::StartOptimization()
+OnePlusOneEvolutionaryOptimizer::StartOptimization()
 {
   if (m_CostFunction.IsNull())
   {
@@ -287,7 +287,7 @@ OnePlusOneEvolutionaryOptimizer ::StartOptimization()
  */
 
 const std::string
-OnePlusOneEvolutionaryOptimizer ::GetStopConditionDescription() const
+OnePlusOneEvolutionaryOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
@@ -296,7 +296,7 @@ OnePlusOneEvolutionaryOptimizer ::GetStopConditionDescription() const
  *
  */
 void
-OnePlusOneEvolutionaryOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+OnePlusOneEvolutionaryOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

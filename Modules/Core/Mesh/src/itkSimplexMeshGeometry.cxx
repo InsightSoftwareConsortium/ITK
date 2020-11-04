@@ -23,7 +23,7 @@
 
 namespace itk
 {
-SimplexMeshGeometry ::SimplexMeshGeometry()
+SimplexMeshGeometry::SimplexMeshGeometry()
 {
   double    c = 1.0 / 3.0;
   PointType p;
@@ -61,7 +61,7 @@ SimplexMeshGeometry ::~SimplexMeshGeometry()
 }
 
 void
-SimplexMeshGeometry ::ComputeGeometry()
+SimplexMeshGeometry::ComputeGeometry()
 {
   VectorType b, c, cXb, tmp;
 
@@ -140,7 +140,7 @@ SimplexMeshGeometry::CopyFrom(const SimplexMeshGeometry & input)
 }
 
 void
-SimplexMeshGeometry ::CopyNeigborSet(const NeighborSetType * nset)
+SimplexMeshGeometry::CopyNeigborSet(const NeighborSetType * nset)
 {
   delete this->neighborSet;
   if (nset)

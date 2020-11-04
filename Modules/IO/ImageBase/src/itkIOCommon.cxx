@@ -50,7 +50,7 @@ const char * const ROI_PLANE = "ROI_PLANE";
 const char * const ROI_SCAN_ID = "ROI_SCAN_ID";
 
 std::string
-IOCommon ::AtomicPixelTypeToString(const AtomicPixelEnum pixelType)
+IOCommon::AtomicPixelTypeToString(const AtomicPixelEnum pixelType)
 {
   switch (pixelType)
   {
@@ -90,7 +90,7 @@ IOCommon ::AtomicPixelTypeToString(const AtomicPixelEnum pixelType)
 }
 
 unsigned int
-IOCommon ::ComputeSizeOfAtomicPixelType(const AtomicPixelEnum pixelType)
+IOCommon::ComputeSizeOfAtomicPixelType(const AtomicPixelEnum pixelType)
 {
   switch (pixelType)
   {

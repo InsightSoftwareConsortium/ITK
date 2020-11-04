@@ -47,7 +47,7 @@ struct lt_pair_alphabetic_string_string
 namespace itk
 {
 const std::vector<std::string> &
-RegularExpressionSeriesFileNames ::GetFileNames()
+RegularExpressionSeriesFileNames::GetFileNames()
 {
   // Validate the ivars
   if (m_Directory.empty())
@@ -113,7 +113,7 @@ RegularExpressionSeriesFileNames ::GetFileNames()
 }
 
 void
-RegularExpressionSeriesFileNames ::PrintSelf(std::ostream & os, Indent indent) const
+RegularExpressionSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -20,7 +20,7 @@
 
 namespace itk
 {
-MeshIOBase ::MeshIOBase()
+MeshIOBase::MeshIOBase()
   : m_NumberOfPoints(itk::NumericTraits<SizeValueType>::ZeroValue())
   , m_NumberOfCells(itk::NumericTraits<SizeValueType>::ZeroValue())
   , m_NumberOfPointPixels(itk::NumericTraits<SizeValueType>::ZeroValue())
@@ -30,31 +30,31 @@ MeshIOBase ::MeshIOBase()
 {}
 
 const MeshIOBase::ArrayOfExtensionsType &
-MeshIOBase ::GetSupportedReadExtensions() const
+MeshIOBase::GetSupportedReadExtensions() const
 {
   return this->m_SupportedReadExtensions;
 }
 
 const MeshIOBase::ArrayOfExtensionsType &
-MeshIOBase ::GetSupportedWriteExtensions() const
+MeshIOBase::GetSupportedWriteExtensions() const
 {
   return this->m_SupportedWriteExtensions;
 }
 
 void
-MeshIOBase ::AddSupportedReadExtension(const char * extension)
+MeshIOBase::AddSupportedReadExtension(const char * extension)
 {
   this->m_SupportedReadExtensions.push_back(extension);
 }
 
 void
-MeshIOBase ::AddSupportedWriteExtension(const char * extension)
+MeshIOBase::AddSupportedWriteExtension(const char * extension)
 {
   this->m_SupportedWriteExtensions.push_back(extension);
 }
 
 unsigned int
-MeshIOBase ::GetComponentSize(IOComponentEnum componentType) const
+MeshIOBase::GetComponentSize(IOComponentEnum componentType) const
 {
   switch (componentType)
   {
@@ -91,7 +91,7 @@ MeshIOBase ::GetComponentSize(IOComponentEnum componentType) const
 }
 
 std::string
-MeshIOBase ::GetFileTypeAsString(IOFileEnum t) const
+MeshIOBase::GetFileTypeAsString(IOFileEnum t) const
 {
   switch (t)
   {
@@ -125,7 +125,7 @@ MeshIOBase::GetByteOrderAsString(IOByteOrderEnum t) const
 }
 
 std::string
-MeshIOBase ::GetComponentTypeAsString(IOComponentEnum t) const
+MeshIOBase::GetComponentTypeAsString(IOComponentEnum t) const
 {
   switch (t)
   {
@@ -164,7 +164,7 @@ MeshIOBase ::GetComponentTypeAsString(IOComponentEnum t) const
 }
 
 std::string
-MeshIOBase ::GetPixelTypeAsString(IOPixelEnum t) const
+MeshIOBase::GetPixelTypeAsString(IOPixelEnum t) const
 {
   switch (t)
   {
@@ -207,7 +207,7 @@ MeshIOBase ::GetPixelTypeAsString(IOPixelEnum t) const
 }
 
 void
-MeshIOBase ::PrintSelf(std::ostream & os, Indent indent) const
+MeshIOBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

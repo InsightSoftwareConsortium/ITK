@@ -82,7 +82,7 @@ template <typename TInputVectorImage,
           typename TPosteriorsPrecisionType = double,
           typename TPriorsPrecisionType = double>
 class ITK_TEMPLATE_EXPORT BayesianClassifierImageFilter
-  : public ImageToImageFilter<TInputVectorImage, Image<TLabelsType, TInputVectorImage ::ImageDimension>>
+  : public ImageToImageFilter<TInputVectorImage, Image<TLabelsType, TInputVectorImage::ImageDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BayesianClassifierImageFilter);
@@ -104,7 +104,7 @@ public:
   using InputImageType = typename Superclass::InputImageType;
 
   /** Dimension of the input image. */
-  static constexpr unsigned int Dimension = InputImageType ::ImageDimension;
+  static constexpr unsigned int Dimension = InputImageType::ImageDimension;
 
   using OutputImageType = Image<TLabelsType, Self::Dimension>;
   using InputImagePointer = typename InputImageType::ConstPointer;

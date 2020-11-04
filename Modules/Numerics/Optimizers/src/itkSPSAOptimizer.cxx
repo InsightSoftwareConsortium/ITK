@@ -52,7 +52,7 @@ SPSAOptimizer ::SPSAOptimizer()
  * ************************* PrintSelf **************************
  */
 void
-SPSAOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -90,7 +90,7 @@ SPSAOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
  * Get the cost function value at a position.
  */
 SPSAOptimizer::MeasureType
-SPSAOptimizer ::GetValue(const ParametersType & parameters) const
+SPSAOptimizer::GetValue(const ParametersType & parameters) const
 {
   /**
    * This method just calls the Superclass' implementation,
@@ -105,7 +105,7 @@ SPSAOptimizer ::GetValue(const ParametersType & parameters) const
  * Get the cost function value at the current position.
  */
 SPSAOptimizer::MeasureType
-SPSAOptimizer ::GetValue() const
+SPSAOptimizer::GetValue() const
 {
   /**
    * The SPSA does not compute the cost function value at
@@ -119,7 +119,7 @@ SPSAOptimizer ::GetValue() const
  * *********************** StartOptimization ********************
  */
 void
-SPSAOptimizer ::StartOptimization()
+SPSAOptimizer::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
 
@@ -148,7 +148,7 @@ SPSAOptimizer ::StartOptimization()
  */
 
 void
-SPSAOptimizer ::ResumeOptimization()
+SPSAOptimizer::ResumeOptimization()
 {
   itkDebugMacro("ResumeOptimization");
 
@@ -189,7 +189,7 @@ SPSAOptimizer ::ResumeOptimization()
  * ********************** StopOptimization **********************
  */
 void
-SPSAOptimizer ::StopOptimization()
+SPSAOptimizer::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
   m_Stop = true;
@@ -200,7 +200,7 @@ SPSAOptimizer ::StopOptimization()
  * ********************** AdvanceOneStep ************************
  */
 void
-SPSAOptimizer ::AdvanceOneStep()
+SPSAOptimizer::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
@@ -266,7 +266,7 @@ SPSAOptimizer ::AdvanceOneStep()
  */
 
 double
-SPSAOptimizer ::Compute_a(SizeValueType k) const
+SPSAOptimizer::Compute_a(SizeValueType k) const
 {
   return static_cast<double>(m_Sa / std::pow(m_A + k + 1, m_Alpha));
 } // end Compute_a
@@ -279,7 +279,7 @@ SPSAOptimizer ::Compute_a(SizeValueType k) const
  */
 
 double
-SPSAOptimizer ::Compute_c(SizeValueType k) const
+SPSAOptimizer::Compute_c(SizeValueType k) const
 {
   return static_cast<double>(m_Sc / std::pow(k + 1, m_Gamma));
 } // end Compute_c
@@ -293,7 +293,7 @@ SPSAOptimizer ::Compute_c(SizeValueType k) const
  */
 
 void
-SPSAOptimizer ::GenerateDelta(const unsigned int spaceDimension)
+SPSAOptimizer::GenerateDelta(const unsigned int spaceDimension)
 {
   m_Delta = DerivativeType(spaceDimension);
 

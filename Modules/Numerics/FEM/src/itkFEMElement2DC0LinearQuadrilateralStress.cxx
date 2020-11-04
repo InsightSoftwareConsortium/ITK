@@ -41,17 +41,17 @@ Element2DC0LinearQuadrilateralStress::CreateAnother() const
   return smartPtr;
 }
 
-Element2DC0LinearQuadrilateralStress ::Element2DC0LinearQuadrilateralStress()
+Element2DC0LinearQuadrilateralStress::Element2DC0LinearQuadrilateralStress()
   : Superclass()
 {
   this->PopulateEdgeIds();
 }
 
-Element2DC0LinearQuadrilateralStress ::Element2DC0LinearQuadrilateralStress(NodeIDType             n1_,
-                                                                            NodeIDType             n2_,
-                                                                            NodeIDType             n3_,
-                                                                            NodeIDType             n4_,
-                                                                            Material::ConstPointer m_)
+Element2DC0LinearQuadrilateralStress::Element2DC0LinearQuadrilateralStress(NodeIDType             n1_,
+                                                                           NodeIDType             n2_,
+                                                                           NodeIDType             n3_,
+                                                                           NodeIDType             n4_,
+                                                                           Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points

@@ -40,14 +40,14 @@ Element2DC0LinearTriangularStrain::CreateAnother() const
   return smartPtr;
 }
 
-Element2DC0LinearTriangularStrain ::Element2DC0LinearTriangularStrain()
+Element2DC0LinearTriangularStrain::Element2DC0LinearTriangularStrain()
   : Superclass()
 {}
 
-Element2DC0LinearTriangularStrain ::Element2DC0LinearTriangularStrain(NodeIDType             n1_,
-                                                                      NodeIDType             n2_,
-                                                                      NodeIDType             n3_,
-                                                                      Material::ConstPointer m_)
+Element2DC0LinearTriangularStrain::Element2DC0LinearTriangularStrain(NodeIDType             n1_,
+                                                                     NodeIDType             n2_,
+                                                                     NodeIDType             n3_,
+                                                                     Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points

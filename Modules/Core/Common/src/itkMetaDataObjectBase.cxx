@@ -20,28 +20,28 @@
 namespace itk
 {
 
-MetaDataObjectBase ::MetaDataObjectBase() = default;
+MetaDataObjectBase::MetaDataObjectBase() = default;
 
 
 MetaDataObjectBase ::~MetaDataObjectBase() = default;
 
 
 const char *
-MetaDataObjectBase ::GetMetaDataObjectTypeName() const
+MetaDataObjectBase::GetMetaDataObjectTypeName() const
 {
   return typeid(itk::MetaDataObjectBase).name();
 }
 
 
 const std::type_info &
-MetaDataObjectBase ::GetMetaDataObjectTypeInfo() const
+MetaDataObjectBase::GetMetaDataObjectTypeInfo() const
 {
   return typeid(itk::MetaDataObjectBase);
 }
 
 
 void
-MetaDataObjectBase ::Print(std::ostream & os) const
+MetaDataObjectBase::Print(std::ostream & os) const
 {
   os << "[UNKNOWN_PRINT_CHARACTERISTICS]" << std::endl;
 }

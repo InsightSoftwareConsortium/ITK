@@ -24,19 +24,19 @@ namespace itk
 /**
  *
  */
-ImageRegionSplitterMultidimensional ::ImageRegionSplitterMultidimensional() = default;
+ImageRegionSplitterMultidimensional::ImageRegionSplitterMultidimensional() = default;
 
 void
-ImageRegionSplitterMultidimensional ::PrintSelf(std::ostream & os, Indent indent) const
+ImageRegionSplitterMultidimensional::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 unsigned int
-ImageRegionSplitterMultidimensional ::GetNumberOfSplitsInternal(unsigned int         dim,
-                                                                const IndexValueType regionIndex[],
-                                                                const SizeValueType  regionSize[],
-                                                                unsigned int         requestedNumber) const
+ImageRegionSplitterMultidimensional::GetNumberOfSplitsInternal(unsigned int         dim,
+                                                               const IndexValueType regionIndex[],
+                                                               const SizeValueType  regionSize[],
+                                                               unsigned int         requestedNumber) const
 {
   // number of splits in each dimension
   std::vector<unsigned int> splits(dim); // Note: stack allocation preferred
@@ -47,11 +47,11 @@ ImageRegionSplitterMultidimensional ::GetNumberOfSplitsInternal(unsigned int    
 }
 
 unsigned int
-ImageRegionSplitterMultidimensional ::GetSplitInternal(unsigned int   dim,
-                                                       unsigned int   splitI,
-                                                       unsigned int   numberOfPieces,
-                                                       IndexValueType regionIndex[],
-                                                       SizeValueType  regionSize[]) const
+ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
+                                                      unsigned int   splitI,
+                                                      unsigned int   numberOfPieces,
+                                                      IndexValueType regionIndex[],
+                                                      SizeValueType  regionSize[]) const
 {
   // number of splits in each dimension
   std::vector<unsigned int> splits(dim); // Note: stack allocation preferred
@@ -107,11 +107,11 @@ ImageRegionSplitterMultidimensional ::GetSplitInternal(unsigned int   dim,
  * as "splits" and returns the total number of splitted regions
  */
 unsigned int
-ImageRegionSplitterMultidimensional ::ComputeSplits(unsigned int         dim,
-                                                    unsigned int         requestedNumber,
-                                                    const IndexValueType itkNotUsed(regionIndex)[],
-                                                    const SizeValueType  regionSize[],
-                                                    unsigned int         splits[])
+ImageRegionSplitterMultidimensional::ComputeSplits(unsigned int         dim,
+                                                   unsigned int         requestedNumber,
+                                                   const IndexValueType itkNotUsed(regionIndex)[],
+                                                   const SizeValueType  regionSize[],
+                                                   unsigned int         splits[])
 {
   // size of each splited region
   std::vector<double> splitRegionSize(dim); // Note: stack allocation preferred
