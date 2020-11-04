@@ -22,13 +22,13 @@
 namespace itk
 {
 
-ImageRegionSplitterSlowDimension ::ImageRegionSplitterSlowDimension() = default;
+ImageRegionSplitterSlowDimension::ImageRegionSplitterSlowDimension() = default;
 
 unsigned int
-ImageRegionSplitterSlowDimension ::GetNumberOfSplitsInternal(unsigned int         dim,
-                                                             const IndexValueType itkNotUsed(regionIndex)[],
-                                                             const SizeValueType  regionSize[],
-                                                             unsigned int         requestedNumber) const
+ImageRegionSplitterSlowDimension::GetNumberOfSplitsInternal(unsigned int         dim,
+                                                            const IndexValueType itkNotUsed(regionIndex)[],
+                                                            const SizeValueType  regionSize[],
+                                                            unsigned int         requestedNumber) const
 {
   // split on the outermost dimension available
   int splitAxis = dim - 1;
@@ -51,11 +51,11 @@ ImageRegionSplitterSlowDimension ::GetNumberOfSplitsInternal(unsigned int       
 }
 
 unsigned int
-ImageRegionSplitterSlowDimension ::GetSplitInternal(unsigned int   dim,
-                                                    unsigned int   i,
-                                                    unsigned int   numberOfPieces,
-                                                    IndexValueType regionIndex[],
-                                                    SizeValueType  regionSize[]) const
+ImageRegionSplitterSlowDimension::GetSplitInternal(unsigned int   dim,
+                                                   unsigned int   i,
+                                                   unsigned int   numberOfPieces,
+                                                   IndexValueType regionIndex[],
+                                                   SizeValueType  regionSize[]) const
 {
 
   // split on the outermost dimension available

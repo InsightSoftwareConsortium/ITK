@@ -80,7 +80,7 @@ OneWayEquivalencyTable::RecursiveLookup(const unsigned long a) const
 }
 
 void
-OneWayEquivalencyTable ::PrintSelf(std::ostream & os, Indent indent) const
+OneWayEquivalencyTable::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

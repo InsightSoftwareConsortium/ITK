@@ -52,7 +52,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  DisplacementFieldType ::Pointer inputDisplacementField = DisplacementFieldType ::New();
+  DisplacementFieldType::Pointer inputDisplacementField = DisplacementFieldType::New();
 
   // Define its size, and start index
   SizeType size;

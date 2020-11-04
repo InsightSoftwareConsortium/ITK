@@ -194,7 +194,7 @@ ObjectFactoryBase::GetStrictVersionChecking()
  * factories
  */
 LightObject::Pointer
-ObjectFactoryBase ::CreateInstance(const char * itkclassname)
+ObjectFactoryBase::CreateInstance(const char * itkclassname)
 {
   ObjectFactoryBase::Initialize();
 
@@ -211,7 +211,7 @@ ObjectFactoryBase ::CreateInstance(const char * itkclassname)
 }
 
 std::list<LightObject::Pointer>
-ObjectFactoryBase ::CreateAllInstance(const char * itkclassname)
+ObjectFactoryBase::CreateAllInstance(const char * itkclassname)
 {
   ObjectFactoryBase::Initialize();
 
@@ -228,7 +228,7 @@ ObjectFactoryBase ::CreateAllInstance(const char * itkclassname)
  * A one time initialization method.
  */
 void
-ObjectFactoryBase ::InitializeFactoryList()
+ObjectFactoryBase::InitializeFactoryList()
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -250,7 +250,7 @@ ObjectFactoryBase ::InitializeFactoryList()
  * A one time initialization method.
  */
 void
-ObjectFactoryBase ::Initialize()
+ObjectFactoryBase::Initialize()
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -270,7 +270,7 @@ ObjectFactoryBase ::Initialize()
  * the OpenGL factory, currently this is not done.
  */
 void
-ObjectFactoryBase ::RegisterInternal()
+ObjectFactoryBase::RegisterInternal()
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -290,7 +290,7 @@ ObjectFactoryBase ::RegisterInternal()
  * Load all libraries in ITK_AUTOLOAD_PATH
  */
 void
-ObjectFactoryBase ::LoadDynamicFactories()
+ObjectFactoryBase::LoadDynamicFactories()
 {
 #ifdef ITK_DYNAMIC_LOADING
   /**
@@ -423,7 +423,7 @@ NameIsSharedLibrary(const char * name)
  *
  */
 void
-ObjectFactoryBase ::LoadLibrariesInPath(const char * path)
+ObjectFactoryBase::LoadLibrariesInPath(const char * path)
 {
   Directory::Pointer dir = Directory::New();
 
@@ -500,7 +500,7 @@ ObjectFactoryBase ::LoadLibrariesInPath(const char * path)
  * Recheck the ITK_AUTOLOAD_PATH for new libraries
  */
 void
-ObjectFactoryBase ::ReHash()
+ObjectFactoryBase::ReHash()
 {
   ObjectFactoryBase::UnRegisterAllFactories();
   ObjectFactoryBase::Initialize();
@@ -531,7 +531,7 @@ ObjectFactoryBase ::~ObjectFactoryBase()
  * not to be used by loadable factories.
  */
 void
-ObjectFactoryBase ::RegisterFactoryInternal(ObjectFactoryBase * factory)
+ObjectFactoryBase::RegisterFactoryInternal(ObjectFactoryBase * factory)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -557,7 +557,7 @@ ObjectFactoryBase ::RegisterFactoryInternal(ObjectFactoryBase * factory)
  * Add a factory to the registered list
  */
 bool
-ObjectFactoryBase ::RegisterFactory(ObjectFactoryBase * factory, InsertionPositionEnum where, size_t position)
+ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositionEnum where, size_t position)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -653,7 +653,7 @@ ObjectFactoryBase ::RegisterFactory(ObjectFactoryBase * factory, InsertionPositi
  *
  */
 void
-ObjectFactoryBase ::PrintSelf(std::ostream & os, Indent indent) const
+ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -678,7 +678,7 @@ ObjectFactoryBase ::PrintSelf(std::ostream & os, Indent indent) const
  *
  */
 void
-ObjectFactoryBase ::DeleteNonInternalFactory(ObjectFactoryBase * factory)
+ObjectFactoryBase::DeleteNonInternalFactory(ObjectFactoryBase * factory)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -694,7 +694,7 @@ ObjectFactoryBase ::DeleteNonInternalFactory(ObjectFactoryBase * factory)
  *
  */
 void
-ObjectFactoryBase ::UnRegisterFactory(ObjectFactoryBase * factory)
+ObjectFactoryBase::UnRegisterFactory(ObjectFactoryBase * factory)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -717,7 +717,7 @@ ObjectFactoryBase ::UnRegisterFactory(ObjectFactoryBase * factory)
  * unregister all factories and delete the m_RegisteredFactories list
  */
 void
-ObjectFactoryBase ::UnRegisterAllFactories()
+ObjectFactoryBase::UnRegisterAllFactories()
 {
   itkInitGlobalsMacro(PimplGlobals);
 
@@ -755,11 +755,11 @@ ObjectFactoryBase ::UnRegisterAllFactories()
  *
  */
 void
-ObjectFactoryBase ::RegisterOverride(const char *               classOverride,
-                                     const char *               subclass,
-                                     const char *               description,
-                                     bool                       enableFlag,
-                                     CreateObjectFunctionBase * createFunction)
+ObjectFactoryBase::RegisterOverride(const char *               classOverride,
+                                    const char *               subclass,
+                                    const char *               description,
+                                    bool                       enableFlag,
+                                    CreateObjectFunctionBase * createFunction)
 {
   ObjectFactoryBase::OverrideInformation info;
 
@@ -772,7 +772,7 @@ ObjectFactoryBase ::RegisterOverride(const char *               classOverride,
 }
 
 LightObject::Pointer
-ObjectFactoryBase ::CreateObject(const char * itkclassname)
+ObjectFactoryBase::CreateObject(const char * itkclassname)
 {
   auto start = m_OverrideMap->lower_bound(itkclassname);
   auto end = m_OverrideMap->upper_bound(itkclassname);
@@ -788,7 +788,7 @@ ObjectFactoryBase ::CreateObject(const char * itkclassname)
 }
 
 std::list<LightObject::Pointer>
-ObjectFactoryBase ::CreateAllObject(const char * itkclassname)
+ObjectFactoryBase::CreateAllObject(const char * itkclassname)
 {
   auto start = m_OverrideMap->lower_bound(itkclassname);
   auto end = m_OverrideMap->upper_bound(itkclassname);
@@ -809,7 +809,7 @@ ObjectFactoryBase ::CreateAllObject(const char * itkclassname)
  *
  */
 void
-ObjectFactoryBase ::SetEnableFlag(bool flag, const char * className, const char * subclassName)
+ObjectFactoryBase::SetEnableFlag(bool flag, const char * className, const char * subclassName)
 {
   auto start = m_OverrideMap->lower_bound(className);
   auto end = m_OverrideMap->upper_bound(className);
@@ -827,7 +827,7 @@ ObjectFactoryBase ::SetEnableFlag(bool flag, const char * className, const char 
  *
  */
 bool
-ObjectFactoryBase ::GetEnableFlag(const char * className, const char * subclassName)
+ObjectFactoryBase::GetEnableFlag(const char * className, const char * subclassName)
 {
   auto start = m_OverrideMap->lower_bound(className);
   auto end = m_OverrideMap->upper_bound(className);
@@ -846,7 +846,7 @@ ObjectFactoryBase ::GetEnableFlag(const char * className, const char * subclassN
  *
  */
 void
-ObjectFactoryBase ::Disable(const char * className)
+ObjectFactoryBase::Disable(const char * className)
 {
   auto start = m_OverrideMap->lower_bound(className);
   auto end = m_OverrideMap->upper_bound(className);
@@ -861,7 +861,7 @@ ObjectFactoryBase ::Disable(const char * className)
  *
  */
 void
-ObjectFactoryBase ::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate)
+ObjectFactoryBase::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate)
 {
   // We need to register the previously registered factories with the new pointer.
   // We keep track of the previoulsy registered factory in `previousObjectFactoryBasePrivate`
@@ -883,7 +883,7 @@ ObjectFactoryBase ::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate
  *
  */
 std::list<ObjectFactoryBase *>
-ObjectFactoryBase ::GetRegisteredFactories()
+ObjectFactoryBase::GetRegisteredFactories()
 {
   //  static SingletonIndex * singletonIndex = SingletonIndex::GetInstance();
   //  Unused(singletonIndex);
@@ -895,7 +895,7 @@ ObjectFactoryBase ::GetRegisteredFactories()
  * Return a list of classes that this factory overrides.
  */
 std::list<std::string>
-ObjectFactoryBase ::GetClassOverrideNames()
+ObjectFactoryBase::GetClassOverrideNames()
 {
   std::list<std::string> ret;
   for (auto & i : *m_OverrideMap)
@@ -909,7 +909,7 @@ ObjectFactoryBase ::GetClassOverrideNames()
  * Return a list of the names of classes that override classes.
  */
 std::list<std::string>
-ObjectFactoryBase ::GetClassOverrideWithNames()
+ObjectFactoryBase::GetClassOverrideWithNames()
 {
   std::list<std::string> ret;
   for (auto & i : *m_OverrideMap)
@@ -923,7 +923,7 @@ ObjectFactoryBase ::GetClassOverrideWithNames()
  * Return a list of descriptions for class overrides
  */
 std::list<std::string>
-ObjectFactoryBase ::GetClassOverrideDescriptions()
+ObjectFactoryBase::GetClassOverrideDescriptions()
 {
   std::list<std::string> ret;
   for (auto & i : *m_OverrideMap)
@@ -937,7 +937,7 @@ ObjectFactoryBase ::GetClassOverrideDescriptions()
  * Return a list of enable flags
  */
 std::list<bool>
-ObjectFactoryBase ::GetEnableFlags()
+ObjectFactoryBase::GetEnableFlags()
 {
   std::list<bool> ret;
   for (auto & i : *m_OverrideMap)
@@ -950,7 +950,7 @@ ObjectFactoryBase ::GetEnableFlags()
 /**
  * Return the path to a dynamically loaded factory. */
 const char *
-ObjectFactoryBase ::GetLibraryPath()
+ObjectFactoryBase::GetLibraryPath()
 {
   return m_LibraryPath.c_str();
 }

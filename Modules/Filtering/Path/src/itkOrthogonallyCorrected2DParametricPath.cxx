@@ -20,7 +20,7 @@
 namespace itk
 {
 OrthogonallyCorrected2DParametricPath::OutputType
-OrthogonallyCorrected2DParametricPath ::Evaluate(const InputType & inputValue) const
+OrthogonallyCorrected2DParametricPath::Evaluate(const InputType & inputValue) const
 {
   InputType input = inputValue; // we may want to remap
                                 // the input
@@ -69,7 +69,7 @@ OrthogonallyCorrected2DParametricPath ::Evaluate(const InputType & inputValue) c
 }
 
 void
-OrthogonallyCorrected2DParametricPath ::SetOriginalPath(const OriginalPathType * originalPath)
+OrthogonallyCorrected2DParametricPath::SetOriginalPath(const OriginalPathType * originalPath)
 {
   itkDebugMacro("setting OriginalPath to " << originalPath);
   if (this->m_OriginalPath != originalPath)
@@ -84,7 +84,7 @@ OrthogonallyCorrected2DParametricPath ::SetOriginalPath(const OriginalPathType *
 /**
  * Constructor
  */
-OrthogonallyCorrected2DParametricPath ::OrthogonallyCorrected2DParametricPath()
+OrthogonallyCorrected2DParametricPath::OrthogonallyCorrected2DParametricPath()
 {
   m_OriginalPath = nullptr;
   m_OrthogonalCorrectionTable = OrthogonalCorrectionTableType::New();
@@ -94,7 +94,7 @@ OrthogonallyCorrected2DParametricPath ::OrthogonallyCorrected2DParametricPath()
  * Standard "PrintSelf" method
  */
 void
-OrthogonallyCorrected2DParametricPath ::PrintSelf(std::ostream & os, Indent indent) const
+OrthogonallyCorrected2DParametricPath::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Original Path:  " << m_OriginalPath << std::endl;

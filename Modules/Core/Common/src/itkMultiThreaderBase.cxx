@@ -125,7 +125,7 @@ MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum threaderType)
 }
 
 MultiThreaderBase::ThreaderEnum
-MultiThreaderBase ::GetGlobalDefaultThreader()
+MultiThreaderBase::GetGlobalDefaultThreader()
 {
   // This method must be concurrent thread safe
   itkInitGlobalsMacro(PimplGlobals);
@@ -180,7 +180,7 @@ You should now use ITK_GLOBAL_DEFAULT_THREADER\
 }
 
 MultiThreaderBase::ThreaderEnum
-MultiThreaderBase ::ThreaderTypeFromString(std::string threaderString)
+MultiThreaderBase::ThreaderTypeFromString(std::string threaderString)
 {
   threaderString = itksys::SystemTools::UpperCase(threaderString);
   if (threaderString == "PLATFORM")
@@ -350,7 +350,7 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
 }
 
 ThreadIdType
-MultiThreaderBase ::GetGlobalDefaultNumberOfThreadsByPlatform()
+MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 {
 #if defined(ITK_LEGACY_REMOVE)
   return std::thread::hardware_concurrency();
@@ -432,7 +432,7 @@ MultiThreaderBase::MultiThreaderBase()
 MultiThreaderBase::~MultiThreaderBase() = default;
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-MultiThreaderBase ::SingleMethodProxy(void * arg)
+MultiThreaderBase::SingleMethodProxy(void * arg)
 {
   // grab the WorkUnitInfo originally prescribed
   auto * threadInfoStruct = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
@@ -464,10 +464,10 @@ MultiThreaderBase ::SingleMethodProxy(void * arg)
 }
 
 void
-MultiThreaderBase ::ParallelizeArray(SizeValueType             firstIndex,
-                                     SizeValueType             lastIndexPlus1,
-                                     ArrayThreadingFunctorType aFunc,
-                                     ProcessObject *           filter)
+MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
+                                    SizeValueType             lastIndexPlus1,
+                                    ArrayThreadingFunctorType aFunc,
+                                    ProcessObject *           filter)
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
@@ -496,7 +496,7 @@ MultiThreaderBase ::ParallelizeArray(SizeValueType             firstIndex,
 }
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-MultiThreaderBase ::ParallelizeArrayHelper(void * arg)
+MultiThreaderBase::ParallelizeArrayHelper(void * arg)
 {
   using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   auto *       threadInfo = static_cast<ThreadInfo *>(arg);
@@ -528,11 +528,11 @@ MultiThreaderBase ::ParallelizeArrayHelper(void * arg)
 
 
 void
-MultiThreaderBase ::ParallelizeImageRegion(unsigned int                            dimension,
-                                           const IndexValueType                    index[],
-                                           const SizeValueType                     size[],
-                                           MultiThreaderBase::ThreadingFunctorType funcP,
-                                           ProcessObject *                         filter)
+MultiThreaderBase::ParallelizeImageRegion(unsigned int                            dimension,
+                                          const IndexValueType                    index[],
+                                          const SizeValueType                     size[],
+                                          MultiThreaderBase::ThreadingFunctorType funcP,
+                                          ProcessObject *                         filter)
 {
   // This implementation simply delegates parallelization to the old interface
   // SetSingleMethod+SingleMethodExecute. This method is meant to be overloaded!
@@ -556,7 +556,7 @@ MultiThreaderBase ::ParallelizeImageRegion(unsigned int                         
 }
 
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-MultiThreaderBase ::ParallelizeImageRegionHelper(void * arg)
+MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
 {
   using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
   auto *       threadInfo = static_cast<ThreadInfo *>(arg);

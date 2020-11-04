@@ -109,7 +109,7 @@ public:
   using OutputRegionType = typename TOutputImage::RegionType;
 
   /** Image dimension. */
-  static constexpr unsigned int ImageDimension = InputImageType ::ImageDimension;
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   /** Types for Scales image */
   using ScalesPixelType = float;

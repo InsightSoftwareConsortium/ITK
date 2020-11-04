@@ -23,10 +23,10 @@ namespace itk
 namespace fem
 {
 void
-Element3DC0LinearHexahedron ::GetIntegrationPointAndWeight(unsigned int i,
-                                                           VectorType & pt,
-                                                           Float &      w,
-                                                           unsigned int order) const
+Element3DC0LinearHexahedron::GetIntegrationPointAndWeight(unsigned int i,
+                                                          VectorType & pt,
+                                                          Float &      w,
+                                                          unsigned int order) const
 {
   if (order == 0 || order > 9)
   {
@@ -43,7 +43,7 @@ Element3DC0LinearHexahedron ::GetIntegrationPointAndWeight(unsigned int i,
 }
 
 unsigned int
-Element3DC0LinearHexahedron ::GetNumberOfIntegrationPoints(unsigned int order) const
+Element3DC0LinearHexahedron::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order=2
   if (order == 0 || order > 9)
@@ -55,7 +55,7 @@ Element3DC0LinearHexahedron ::GetNumberOfIntegrationPoints(unsigned int order) c
 }
 
 Element3DC0LinearHexahedron::VectorType
-Element3DC0LinearHexahedron ::ShapeFunctions(const VectorType & pt) const
+Element3DC0LinearHexahedron::ShapeFunctions(const VectorType & pt) const
 {
   /* Linear hexahedral element has eight shape functions  */
   VectorType shapeF(8);
@@ -95,7 +95,7 @@ Element3DC0LinearHexahedron ::ShapeFunctions(const VectorType & pt) const
 }
 
 void
-Element3DC0LinearHexahedron ::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
+Element3DC0LinearHexahedron::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
 {
   /** functions at directions r and s.  */
   shapeD.set_size(3, 8);
@@ -174,7 +174,7 @@ Element3DC0LinearHexahedron ::ShapeFunctionDerivatives(const VectorType & pt, Ma
 }
 
 bool
-Element3DC0LinearHexahedron ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
+Element3DC0LinearHexahedron::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
   int   MAX_ITERATIONS = 10;
   Float CONVERGED = 1.0e-03;

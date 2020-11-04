@@ -23,12 +23,12 @@
 
 namespace itk
 {
-NumericSeriesFileNames ::NumericSeriesFileNames()
+NumericSeriesFileNames::NumericSeriesFileNames()
   : m_SeriesFormat("%d")
 {}
 
 const std::vector<std::string> &
-NumericSeriesFileNames ::GetFileNames()
+NumericSeriesFileNames::GetFileNames()
 {
   // validate the indices
   if (m_StartIndex > m_EndIndex)
@@ -76,7 +76,7 @@ NumericSeriesFileNames ::GetFileNames()
 }
 
 void
-NumericSeriesFileNames ::PrintSelf(std::ostream & os, Indent indent) const
+NumericSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

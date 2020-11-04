@@ -22,7 +22,7 @@ namespace itk
 {
 
 
-ParticleSwarmOptimizerBase ::ParticleSwarmOptimizerBase()
+ParticleSwarmOptimizerBase::ParticleSwarmOptimizerBase()
 
 {
   this->m_PrintSwarm = false;
@@ -41,7 +41,7 @@ ParticleSwarmOptimizerBase ::~ParticleSwarmOptimizerBase() = default;
 
 
 void
-ParticleSwarmOptimizerBase ::SetNumberOfParticles(unsigned int n)
+ParticleSwarmOptimizerBase::SetNumberOfParticles(unsigned int n)
 {
   if (!this->m_Particles.empty() && n != this->m_Particles.size())
   {
@@ -56,7 +56,7 @@ ParticleSwarmOptimizerBase ::SetNumberOfParticles(unsigned int n)
 
 
 void
-ParticleSwarmOptimizerBase ::SetInitialSwarm(const SwarmType & initialSwarm)
+ParticleSwarmOptimizerBase::SetInitialSwarm(const SwarmType & initialSwarm)
 {
   // Always clear the m_Particles.
   this->m_Particles.clear();
@@ -81,7 +81,7 @@ ParticleSwarmOptimizerBase ::SetInitialSwarm(const SwarmType & initialSwarm)
 
 
 void
-ParticleSwarmOptimizerBase ::ClearSwarm()
+ParticleSwarmOptimizerBase::ClearSwarm()
 {
   if (!this->m_Particles.empty())
   {
@@ -92,7 +92,7 @@ ParticleSwarmOptimizerBase ::ClearSwarm()
 
 
 void
-ParticleSwarmOptimizerBase ::SetParameterBounds(ParameterBoundsType & bounds)
+ParticleSwarmOptimizerBase::SetParameterBounds(ParameterBoundsType & bounds)
 {
   this->m_ParameterBounds.clear();
   this->m_ParameterBounds.insert(m_ParameterBounds.begin(), bounds.begin(), bounds.end());
@@ -101,9 +101,8 @@ ParticleSwarmOptimizerBase ::SetParameterBounds(ParameterBoundsType & bounds)
 
 
 void
-ParticleSwarmOptimizerBase ::SetParameterBounds(
-  std::pair<ParametersType::ValueType, ParametersType::ValueType> & bounds,
-  unsigned int                                                      n)
+ParticleSwarmOptimizerBase::SetParameterBounds(std::pair<ParametersType::ValueType, ParametersType::ValueType> & bounds,
+                                               unsigned int                                                      n)
 {
   this->m_ParameterBounds.clear();
   this->m_ParameterBounds.insert(m_ParameterBounds.begin(), n, bounds);
@@ -112,15 +111,15 @@ ParticleSwarmOptimizerBase ::SetParameterBounds(
 
 
 ParticleSwarmOptimizerBase::ParameterBoundsType
-ParticleSwarmOptimizerBase ::GetParameterBounds() const
+ParticleSwarmOptimizerBase::GetParameterBounds() const
 {
   return this->m_ParameterBounds;
 }
 
 
 void
-ParticleSwarmOptimizerBase ::SetParametersConvergenceTolerance(ParametersType::ValueType convergenceTolerance,
-                                                               unsigned int              sz)
+ParticleSwarmOptimizerBase::SetParametersConvergenceTolerance(ParametersType::ValueType convergenceTolerance,
+                                                              unsigned int              sz)
 {
   this->m_ParametersConvergenceTolerance.SetSize(sz);
   this->m_ParametersConvergenceTolerance.Fill(convergenceTolerance);
@@ -128,21 +127,21 @@ ParticleSwarmOptimizerBase ::SetParametersConvergenceTolerance(ParametersType::V
 
 
 ParticleSwarmOptimizerBase::CostFunctionType::MeasureType
-ParticleSwarmOptimizerBase ::GetValue() const
+ParticleSwarmOptimizerBase::GetValue() const
 {
   return this->m_FunctionBestValue;
 }
 
 
 const std::string
-ParticleSwarmOptimizerBase ::GetStopConditionDescription() const
+ParticleSwarmOptimizerBase::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();
 }
 
 
 void
-ParticleSwarmOptimizerBase ::PrintSelf(std::ostream & os, Indent indent) const
+ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
 {
 
   Superclass::PrintSelf(os, indent);
@@ -177,7 +176,7 @@ ParticleSwarmOptimizerBase ::PrintSelf(std::ostream & os, Indent indent) const
 
 
 void
-ParticleSwarmOptimizerBase ::PrintSwarm(std::ostream & os, Indent indent) const
+ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
 {
   std::vector<ParticleData>::const_iterator it, end;
   end = this->m_Particles.end();
@@ -198,7 +197,7 @@ ParticleSwarmOptimizerBase ::PrintSwarm(std::ostream & os, Indent indent) const
 
 
 void
-ParticleSwarmOptimizerBase ::PrintParamtersType(const ParametersType & x, std::ostream & os) const
+ParticleSwarmOptimizerBase::PrintParamtersType(const ParametersType & x, std::ostream & os) const
 {
   unsigned int sz = x.size();
   for (unsigned int i = 0; i < sz; i++)
@@ -209,7 +208,7 @@ ParticleSwarmOptimizerBase ::PrintParamtersType(const ParametersType & x, std::o
 
 
 void
-ParticleSwarmOptimizerBase ::StartOptimization()
+ParticleSwarmOptimizerBase::StartOptimization()
 {
   unsigned int j, k, n, index, prevIndex;
   bool         converged = false;
@@ -289,7 +288,7 @@ ParticleSwarmOptimizerBase ::StartOptimization()
 
 
 void
-ParticleSwarmOptimizerBase ::ValidateSettings()
+ParticleSwarmOptimizerBase::ValidateSettings()
 {
   unsigned int i, n;
 
@@ -375,7 +374,7 @@ ParticleSwarmOptimizerBase ::ValidateSettings()
 }
 
 void
-ParticleSwarmOptimizerBase ::Initialize()
+ParticleSwarmOptimizerBase::Initialize()
 {
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
     Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
@@ -415,7 +414,7 @@ ParticleSwarmOptimizerBase ::Initialize()
 
 
 void
-ParticleSwarmOptimizerBase ::RandomInitialization()
+ParticleSwarmOptimizerBase::RandomInitialization()
 {
   unsigned int i, j, n;
   n = GetInitialPosition().Size();

@@ -22,7 +22,7 @@
 
 namespace itk
 {
-MultipleValuedNonLinearOptimizer ::MultipleValuedNonLinearOptimizer()
+MultipleValuedNonLinearOptimizer::MultipleValuedNonLinearOptimizer()
 {
   m_CostFunction = nullptr;
 }
@@ -31,7 +31,7 @@ MultipleValuedNonLinearOptimizer ::MultipleValuedNonLinearOptimizer()
  * Connect a Cost Function
  */
 void
-MultipleValuedNonLinearOptimizer ::SetCostFunction(CostFunctionType * costFunction)
+MultipleValuedNonLinearOptimizer::SetCostFunction(CostFunctionType * costFunction)
 {
   if (m_CostFunction == costFunction)
   {
@@ -56,7 +56,7 @@ MultipleValuedNonLinearOptimizer ::SetCostFunction(CostFunctionType * costFuncti
 }
 
 void
-MultipleValuedNonLinearOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+MultipleValuedNonLinearOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   if (m_CostFunction)

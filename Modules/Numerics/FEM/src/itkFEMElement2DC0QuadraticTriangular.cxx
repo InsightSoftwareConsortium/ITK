@@ -25,10 +25,10 @@ namespace itk
 namespace fem
 {
 void
-Element2DC0QuadraticTriangular ::GetIntegrationPointAndWeight(unsigned int i,
-                                                              VectorType & pt,
-                                                              Float &      w,
-                                                              unsigned int order) const
+Element2DC0QuadraticTriangular::GetIntegrationPointAndWeight(unsigned int i,
+                                                             VectorType & pt,
+                                                             Float &      w,
+                                                             unsigned int order) const
 {
   // default integration order
   if (order == 0 || order > 5)
@@ -59,7 +59,7 @@ Element2DC0QuadraticTriangular ::GetIntegrationPointAndWeight(unsigned int i,
 }
 
 unsigned int
-Element2DC0QuadraticTriangular ::GetNumberOfIntegrationPoints(unsigned int order) const
+Element2DC0QuadraticTriangular::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order
   if (order == 0 || order > 5)
@@ -71,7 +71,7 @@ Element2DC0QuadraticTriangular ::GetNumberOfIntegrationPoints(unsigned int order
 }
 
 Element2DC0QuadraticTriangular::VectorType
-Element2DC0QuadraticTriangular ::ShapeFunctions(const VectorType & pt) const
+Element2DC0QuadraticTriangular::ShapeFunctions(const VectorType & pt) const
 {
   // Quadratic triangular element has 6 shape functions
   VectorType shapeF(6);
@@ -90,7 +90,7 @@ Element2DC0QuadraticTriangular ::ShapeFunctions(const VectorType & pt) const
 }
 
 void
-Element2DC0QuadraticTriangular ::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
+Element2DC0QuadraticTriangular::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
 {
   VectorType::element_type p2 = 1.0 - pt[0] - pt[1];
 
@@ -111,7 +111,7 @@ Element2DC0QuadraticTriangular ::ShapeFunctionDerivatives(const VectorType & pt,
 }
 
 Element2DC0QuadraticTriangular::Float
-Element2DC0QuadraticTriangular ::JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const
+Element2DC0QuadraticTriangular::JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const
 {
   //  return Superclass::JacobianDeterminant( pt, pJ );
 
@@ -135,7 +135,7 @@ Element2DC0QuadraticTriangular ::JacobianDeterminant(const VectorType & pt, cons
 }
 
 void
-Element2DC0QuadraticTriangular ::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ) const
+Element2DC0QuadraticTriangular::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ) const
 {
   MatrixType * pJlocal = nullptr;
 

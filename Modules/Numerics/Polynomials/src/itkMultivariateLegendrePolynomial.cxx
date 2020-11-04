@@ -20,9 +20,9 @@
 
 namespace itk
 {
-MultivariateLegendrePolynomial ::MultivariateLegendrePolynomial(unsigned int           dimension,
-                                                                unsigned int           degree,
-                                                                const DomainSizeType & domainSize)
+MultivariateLegendrePolynomial::MultivariateLegendrePolynomial(unsigned int           dimension,
+                                                               unsigned int           degree,
+                                                               const DomainSizeType & domainSize)
 {
   if (dimension > 3 || dimension < 2)
   {
@@ -59,7 +59,7 @@ MultivariateLegendrePolynomial ::MultivariateLegendrePolynomial(unsigned int    
 MultivariateLegendrePolynomial ::~MultivariateLegendrePolynomial() = default;
 
 void
-MultivariateLegendrePolynomial ::Print(std::ostream & os) const
+MultivariateLegendrePolynomial::Print(std::ostream & os) const
 {
   itk::Indent indent(4);
 
@@ -67,7 +67,7 @@ MultivariateLegendrePolynomial ::Print(std::ostream & os) const
 }
 
 void
-MultivariateLegendrePolynomial ::PrintSelf(std::ostream & os, Indent indent) const
+MultivariateLegendrePolynomial::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Dimension: " << m_Dimension << std::endl;
   os << indent << "Degree: " << m_Degree << std::endl;
@@ -118,7 +118,7 @@ MultivariateLegendrePolynomial ::PrintSelf(std::ostream & os, Indent indent) con
 }
 
 void
-MultivariateLegendrePolynomial ::SetCoefficients(const CoefficientArrayType & coefficients)
+MultivariateLegendrePolynomial::SetCoefficients(const CoefficientArrayType & coefficients)
 {
   if (coefficients.size() != m_NumberOfCoefficients)
   {
@@ -139,7 +139,7 @@ MultivariateLegendrePolynomial ::SetCoefficients(const CoefficientArrayType & co
 }
 
 void
-MultivariateLegendrePolynomial ::SetCoefficients(const ParametersType & coefficients)
+MultivariateLegendrePolynomial::SetCoefficients(const ParametersType & coefficients)
 {
   if (coefficients.size() != m_NumberOfCoefficients)
   {
@@ -160,13 +160,13 @@ MultivariateLegendrePolynomial ::SetCoefficients(const ParametersType & coeffici
 }
 
 const MultivariateLegendrePolynomial::CoefficientArrayType &
-MultivariateLegendrePolynomial ::GetCoefficients() const
+MultivariateLegendrePolynomial::GetCoefficients() const
 {
   return m_CoefficientArray;
 }
 
 void
-MultivariateLegendrePolynomial ::CalculateXCoef(double norm_y, const CoefficientArrayType & coef)
+MultivariateLegendrePolynomial::CalculateXCoef(double norm_y, const CoefficientArrayType & coef)
 {
   // compute x_coef[i] = sum (0 <= j <= m-i) pij * P(y)]
   int offset = 0;
@@ -180,7 +180,7 @@ MultivariateLegendrePolynomial ::CalculateXCoef(double norm_y, const Coefficient
 }
 
 void
-MultivariateLegendrePolynomial ::CalculateYCoef(double norm_z, const CoefficientArrayType & coef)
+MultivariateLegendrePolynomial::CalculateYCoef(double norm_z, const CoefficientArrayType & coef)
 {
   // compute y_coef[i,j] = sum (0 <= k <= m-i-j) pijk * P(z)
   unsigned int       y_index = 0;
@@ -206,7 +206,7 @@ MultivariateLegendrePolynomial ::CalculateYCoef(double norm_z, const Coefficient
 }
 
 double
-MultivariateLegendrePolynomial ::LegendreSum(const double x, int n, const CoefficientArrayType & coef, int offset)
+MultivariateLegendrePolynomial::LegendreSum(const double x, int n, const CoefficientArrayType & coef, int offset)
 // n+1 elements !
 {
   if (n == 0)
@@ -226,7 +226,7 @@ MultivariateLegendrePolynomial ::LegendreSum(const double x, int n, const Coeffi
 }
 
 unsigned int
-MultivariateLegendrePolynomial ::GetNumberOfCoefficients(unsigned int dimension, unsigned int degree)
+MultivariateLegendrePolynomial::GetNumberOfCoefficients(unsigned int dimension, unsigned int degree)
 {
   // calculate the number of parameters
   unsigned int numerator = 1;

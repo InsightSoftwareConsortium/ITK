@@ -24,7 +24,7 @@ namespace itk
  */
 const int QuadrilateralCellTopology ::m_Edges[4][2] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 } };
 
-QuadrilateralCellTopology ::QuadrilateralCellTopology() = default;
+QuadrilateralCellTopology::QuadrilateralCellTopology() = default;
 
 QuadrilateralCellTopology ::~QuadrilateralCellTopology() = default;
 } // end namespace itk

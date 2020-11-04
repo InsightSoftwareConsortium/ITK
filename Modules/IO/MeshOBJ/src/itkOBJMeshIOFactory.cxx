@@ -24,7 +24,7 @@
 namespace itk
 {
 void
-OBJMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
+OBJMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 OBJMeshIOFactory ::OBJMeshIOFactory()
@@ -35,13 +35,13 @@ OBJMeshIOFactory ::OBJMeshIOFactory()
 OBJMeshIOFactory ::~OBJMeshIOFactory() = default;
 
 const char *
-OBJMeshIOFactory ::GetITKSourceVersion() const
+OBJMeshIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-OBJMeshIOFactory ::GetDescription() const
+OBJMeshIOFactory::GetDescription() const
 {
   return "OBJ Mesh IO Factory, allows the loading of OBJ mesh into insight";
 }

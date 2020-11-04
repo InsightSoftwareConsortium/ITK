@@ -39,11 +39,11 @@ Element2DC0LinearLineStress::CreateAnother() const
   return smartPtr;
 }
 
-Element2DC0LinearLineStress ::Element2DC0LinearLineStress()
+Element2DC0LinearLineStress::Element2DC0LinearLineStress()
   : Superclass()
 {}
 
-Element2DC0LinearLineStress ::Element2DC0LinearLineStress(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_)
+Element2DC0LinearLineStress::Element2DC0LinearLineStress(NodeIDType n1_, NodeIDType n2_, Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points
@@ -64,7 +64,7 @@ Element2DC0LinearLineStress ::Element2DC0LinearLineStress(NodeIDType n1_, NodeID
 }
 
 void
-Element2DC0LinearLineStress ::GetMassMatrix(MatrixType & Me) const
+Element2DC0LinearLineStress::GetMassMatrix(MatrixType & Me) const
 {
   Me.set_size(4, 4);
   Me.fill(0.0);

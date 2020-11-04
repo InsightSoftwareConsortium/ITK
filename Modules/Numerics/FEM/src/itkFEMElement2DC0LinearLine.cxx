@@ -23,10 +23,10 @@ namespace itk
 namespace fem
 {
 void
-Element2DC0LinearLine ::GetIntegrationPointAndWeight(unsigned int i,
-                                                     VectorType & pt,
-                                                     Float &      w,
-                                                     unsigned int order) const
+Element2DC0LinearLine::GetIntegrationPointAndWeight(unsigned int i,
+                                                    VectorType & pt,
+                                                    Float &      w,
+                                                    unsigned int order) const
 {
 
   // default integration order
@@ -42,7 +42,7 @@ Element2DC0LinearLine ::GetIntegrationPointAndWeight(unsigned int i,
 }
 
 unsigned int
-Element2DC0LinearLine ::GetNumberOfIntegrationPoints(unsigned int order) const
+Element2DC0LinearLine::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order
   if ((order == 0) || (order >= Element::gaussMaxOrder))
@@ -54,7 +54,7 @@ Element2DC0LinearLine ::GetNumberOfIntegrationPoints(unsigned int order) const
 }
 
 Element2DC0LinearLine::VectorType
-Element2DC0LinearLine ::ShapeFunctions(const VectorType & pt) const
+Element2DC0LinearLine::ShapeFunctions(const VectorType & pt) const
 {
   /* Linear Line element has two shape functions  */
   VectorType shapeF(2);
@@ -66,7 +66,7 @@ Element2DC0LinearLine ::ShapeFunctions(const VectorType & pt) const
 }
 
 void
-Element2DC0LinearLine ::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
+Element2DC0LinearLine::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
 {
   shapeD.set_size(1, 2);
 
@@ -75,7 +75,7 @@ Element2DC0LinearLine ::ShapeFunctionDerivatives(const VectorType &, MatrixType 
 }
 
 void
-Element2DC0LinearLine ::Jacobian(const VectorType &, MatrixType & J, const MatrixType *) const
+Element2DC0LinearLine::Jacobian(const VectorType &, MatrixType & J, const MatrixType *) const
 {
   // Since the line element defines only one global coordinate
   // and lives in 2D space, we need to provide a custom Jacobian.
@@ -90,7 +90,7 @@ Element2DC0LinearLine ::Jacobian(const VectorType &, MatrixType & J, const Matri
 }
 
 bool
-Element2DC0LinearLine ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & pcoords) const
+Element2DC0LinearLine::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & pcoords) const
 {
   VectorType closestPoint(3);
 

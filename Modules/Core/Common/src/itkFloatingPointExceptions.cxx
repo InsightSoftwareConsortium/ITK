@@ -40,7 +40,7 @@ struct ExceptionGlobals
 };
 
 void
-FloatingPointExceptions ::SetExceptionAction(FloatingPointExceptions::ExceptionActionEnum a)
+FloatingPointExceptions::SetExceptionAction(FloatingPointExceptions::ExceptionActionEnum a)
 {
   itkInitGlobalsMacro(PimplGlobals);
   FloatingPointExceptions::m_PimplGlobals->m_ExceptionAction = a;

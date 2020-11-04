@@ -23,7 +23,7 @@ namespace itk
 //
 // Constructor
 //
-TemporalRegion ::TemporalRegion()
+TemporalRegion::TemporalRegion()
   : m_RealStart()
   , m_RealDuration(0, 0)
 
@@ -36,76 +36,76 @@ TemporalRegion ::~TemporalRegion() = default;
 
 // ---------------------------------------------------------------------------
 void
-TemporalRegion ::SetRealStart(const RealTimeStamp s)
+TemporalRegion::SetRealStart(const RealTimeStamp s)
 {
   this->m_RealStart = s;
 }
 
 // ---------------------------------------------------------------------------
 RealTimeStamp
-TemporalRegion ::GetRealStart() const
+TemporalRegion::GetRealStart() const
 {
   return this->m_RealStart;
 }
 
 // ---------------------------------------------------------------------------
 void
-TemporalRegion ::SetRealDuration(const RealTimeInterval d)
+TemporalRegion::SetRealDuration(const RealTimeInterval d)
 {
   this->m_RealDuration = d;
 }
 
 RealTimeInterval
-TemporalRegion ::GetRealDuration() const
+TemporalRegion::GetRealDuration() const
 {
   return this->m_RealDuration;
 }
 
 // ---------------------------------------------------------------------------
 void
-TemporalRegion ::SetFrameStart(const FrameOffsetType s)
+TemporalRegion::SetFrameStart(const FrameOffsetType s)
 {
   this->m_FrameStart = s;
 }
 
 // ---------------------------------------------------------------------------
 TemporalRegion::FrameOffsetType
-TemporalRegion ::GetFrameStart() const
+TemporalRegion::GetFrameStart() const
 {
   return this->m_FrameStart;
 }
 
 // ---------------------------------------------------------------------------
 void
-TemporalRegion ::SetFrameDuration(const FrameOffsetType d)
+TemporalRegion::SetFrameDuration(const FrameOffsetType d)
 {
   this->m_FrameDuration = d;
 }
 
 // ---------------------------------------------------------------------------
 TemporalRegion::FrameOffsetType
-TemporalRegion ::GetFrameDuration() const
+TemporalRegion::GetFrameDuration() const
 {
   return this->m_FrameDuration;
 }
 
 // ---------------------------------------------------------------------------
 TemporalRegion::RegionEnum
-TemporalRegion ::GetRegionType() const
+TemporalRegion::GetRegionType() const
 {
   return RegionEnum::ITK_STRUCTURED_REGION;
 }
 
 // ---------------------------------------------------------------------------
 bool
-TemporalRegion ::IsEqualInFrames(const Self & region) const
+TemporalRegion::IsEqualInFrames(const Self & region) const
 {
   return m_FrameStart == region.m_FrameStart && m_FrameDuration == region.m_FrameDuration;
 }
 
 // ---------------------------------------------------------------------------
 bool
-TemporalRegion ::IsEqualInRealTime(const Self & region) const
+TemporalRegion::IsEqualInRealTime(const Self & region) const
 {
   return m_RealStart == region.m_RealStart && m_RealDuration == region.m_RealDuration;
 }
@@ -126,7 +126,7 @@ TemporalRegion ::operator!=(const Self & region) const
 
 // ---------------------------------------------------------------------------
 void
-TemporalRegion ::PrintSelf(std::ostream & os, Indent indent) const
+TemporalRegion::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "RealTime Start: " << m_RealStart << std::endl;

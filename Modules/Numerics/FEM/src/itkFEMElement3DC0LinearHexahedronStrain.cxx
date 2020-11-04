@@ -45,11 +45,11 @@ Element3DC0LinearHexahedronStrain::CreateAnother() const
   return smartPtr;
 }
 
-Element3DC0LinearHexahedronStrain ::Element3DC0LinearHexahedronStrain()
+Element3DC0LinearHexahedronStrain::Element3DC0LinearHexahedronStrain()
   : Superclass()
 {}
 
-Element3DC0LinearHexahedronStrain ::Element3DC0LinearHexahedronStrain(NodeIDType ns_[], Material::ConstPointer m_)
+Element3DC0LinearHexahedronStrain::Element3DC0LinearHexahedronStrain(NodeIDType ns_[], Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points

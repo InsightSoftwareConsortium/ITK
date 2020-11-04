@@ -22,7 +22,7 @@ namespace itk
 namespace Statistics
 {
 MinimumDecisionRule::ClassIdentifierType
-MinimumDecisionRule ::Evaluate(const MembershipVectorType & discriminantScores) const
+MinimumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) const
 {
   ClassIdentifierType minIndex = 0;
 

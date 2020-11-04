@@ -21,7 +21,7 @@ namespace itk
 {
 namespace Statistics
 {
-DecisionRule ::DecisionRule() = default;
+DecisionRule::DecisionRule() = default;
 
 DecisionRule ::~DecisionRule() = default;
 

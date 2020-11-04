@@ -48,7 +48,7 @@ public:
   using IndexType = typename LevelSetImageType::IndexType;
 
   /** The definition for the normal vector type of the scalar image. */
-  using NodeDataType = Vector<NodeValueType, TImageType ::ImageDimension>;
+  using NodeDataType = Vector<NodeValueType, TImageType::ImageDimension>;
 
   /** Container for output data (normal vectors). */
   NodeDataType m_Data;

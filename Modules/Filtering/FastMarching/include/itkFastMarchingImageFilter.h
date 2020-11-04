@@ -132,7 +132,7 @@ extern ITKFastMarching_EXPORT std::ostream &
  * \ingroup LevelSetSegmentation
  * \ingroup ITKFastMarching
  */
-template <typename TLevelSet, typename TSpeedImage = Image<float, TLevelSet ::ImageDimension>>
+template <typename TLevelSet, typename TSpeedImage = Image<float, TLevelSet::ImageDimension>>
 class ITK_TEMPLATE_EXPORT FastMarchingImageFilter : public ImageToImageFilter<TSpeedImage, TLevelSet>
 {
 public:

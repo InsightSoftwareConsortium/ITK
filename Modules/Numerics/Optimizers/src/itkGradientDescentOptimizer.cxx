@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-GradientDescentOptimizer ::GradientDescentOptimizer()
+GradientDescentOptimizer::GradientDescentOptimizer()
 
 {
   itkDebugMacro("Constructor");
@@ -34,13 +34,13 @@ GradientDescentOptimizer ::GradientDescentOptimizer()
 }
 
 const std::string
-GradientDescentOptimizer ::GetStopConditionDescription() const
+GradientDescentOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
 
 void
-GradientDescentOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+GradientDescentOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -63,7 +63,7 @@ GradientDescentOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
  * Start the optimization
  */
 void
-GradientDescentOptimizer ::StartOptimization()
+GradientDescentOptimizer::StartOptimization()
 {
   itkDebugMacro("StartOptimization");
 
@@ -77,7 +77,7 @@ GradientDescentOptimizer ::StartOptimization()
  * Resume the optimization
  */
 void
-GradientDescentOptimizer ::ResumeOptimization()
+GradientDescentOptimizer::ResumeOptimization()
 {
   itkDebugMacro("ResumeOptimization");
 
@@ -128,7 +128,7 @@ GradientDescentOptimizer ::ResumeOptimization()
  * Stop optimization
  */
 void
-GradientDescentOptimizer ::StopOptimization()
+GradientDescentOptimizer::StopOptimization()
 {
   itkDebugMacro("StopOptimization");
 
@@ -140,7 +140,7 @@ GradientDescentOptimizer ::StopOptimization()
  * Advance one Step following the gradient direction
  */
 void
-GradientDescentOptimizer ::AdvanceOneStep()
+GradientDescentOptimizer::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 

@@ -22,13 +22,13 @@
 namespace itk
 {
 
-ImageRegionSplitterDirection ::ImageRegionSplitterDirection()
+ImageRegionSplitterDirection::ImageRegionSplitterDirection()
 {
   this->m_Direction = 0;
 }
 
 void
-ImageRegionSplitterDirection ::PrintSelf(std::ostream & os, Indent indent) const
+ImageRegionSplitterDirection::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -36,10 +36,10 @@ ImageRegionSplitterDirection ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 unsigned int
-ImageRegionSplitterDirection ::GetNumberOfSplitsInternal(unsigned int         dim,
-                                                         const IndexValueType itkNotUsed(regionIndex)[],
-                                                         const SizeValueType  regionSize[],
-                                                         unsigned int         requestedNumber) const
+ImageRegionSplitterDirection::GetNumberOfSplitsInternal(unsigned int         dim,
+                                                        const IndexValueType itkNotUsed(regionIndex)[],
+                                                        const SizeValueType  regionSize[],
+                                                        unsigned int         requestedNumber) const
 {
   // split on the outermost dimension available
   int splitAxis = dim - 1;
@@ -62,11 +62,11 @@ ImageRegionSplitterDirection ::GetNumberOfSplitsInternal(unsigned int         di
 }
 
 unsigned int
-ImageRegionSplitterDirection ::GetSplitInternal(unsigned int   dim,
-                                                unsigned int   i,
-                                                unsigned int   numberOfPieces,
-                                                IndexValueType regionIndex[],
-                                                SizeValueType  regionSize[]) const
+ImageRegionSplitterDirection::GetSplitInternal(unsigned int   dim,
+                                               unsigned int   i,
+                                               unsigned int   numberOfPieces,
+                                               IndexValueType regionIndex[],
+                                               SizeValueType  regionSize[]) const
 {
   // split on the outermost dimension available
   // and avoid the current dimension

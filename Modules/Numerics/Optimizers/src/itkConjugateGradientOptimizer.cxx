@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-ConjugateGradientOptimizer ::ConjugateGradientOptimizer()
+ConjugateGradientOptimizer::ConjugateGradientOptimizer()
 {
   m_OptimizerInitialized = false;
   m_VnlOptimizer = nullptr;
@@ -43,7 +43,7 @@ ConjugateGradientOptimizer ::~ConjugateGradientOptimizer()
  * Get the Optimizer
  */
 vnl_conjugate_gradient *
-ConjugateGradientOptimizer ::GetOptimizer()
+ConjugateGradientOptimizer::GetOptimizer()
 {
   return m_VnlOptimizer;
 }
@@ -52,7 +52,7 @@ ConjugateGradientOptimizer ::GetOptimizer()
  * Connect a Cost Function
  */
 void
-ConjugateGradientOptimizer ::SetCostFunction(SingleValuedCostFunction * costFunction)
+ConjugateGradientOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 {
   const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
 
@@ -73,7 +73,7 @@ ConjugateGradientOptimizer ::SetCostFunction(SingleValuedCostFunction * costFunc
 
 /** Return Current Value */
 ConjugateGradientOptimizer::MeasureType
-ConjugateGradientOptimizer ::GetValue() const
+ConjugateGradientOptimizer::GetValue() const
 {
   ParametersType parameters = this->GetCurrentPosition();
 
@@ -92,7 +92,7 @@ ConjugateGradientOptimizer ::GetValue() const
  * Start the optimization
  */
 void
-ConjugateGradientOptimizer ::StartOptimization()
+ConjugateGradientOptimizer::StartOptimization()
 {
   this->InvokeEvent(StartEvent());
 
@@ -145,7 +145,7 @@ ConjugateGradientOptimizer ::StartOptimization()
  * given that an iteration could imply several evaluations.
  */
 SizeValueType
-ConjugateGradientOptimizer ::GetNumberOfIterations() const
+ConjugateGradientOptimizer::GetNumberOfIterations() const
 {
   return m_VnlOptimizer->get_max_function_evals();
 }
@@ -154,7 +154,7 @@ ConjugateGradientOptimizer ::GetNumberOfIterations() const
  * Get the number of iterations in the last optimization.
  */
 SizeValueType
-ConjugateGradientOptimizer ::GetCurrentIteration() const
+ConjugateGradientOptimizer::GetCurrentIteration() const
 {
   return m_VnlOptimizer->get_num_iterations();
 }

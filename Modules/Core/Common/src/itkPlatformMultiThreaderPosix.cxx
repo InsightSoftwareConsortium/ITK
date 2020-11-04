@@ -181,7 +181,7 @@ PlatformMultiThreader::TerminateThread(ThreadIdType WorkUnitID)
 #endif
 
 void
-PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
+PlatformMultiThreader::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
 {
   // Using POSIX threads
   if (pthread_join(threadHandle, nullptr))
@@ -191,7 +191,7 @@ PlatformMultiThreader ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threa
 }
 
 ThreadProcessIdType
-PlatformMultiThreader ::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
+PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using POSIX threads
   pthread_attr_t attr;

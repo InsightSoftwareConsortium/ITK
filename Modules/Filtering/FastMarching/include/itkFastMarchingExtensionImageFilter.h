@@ -55,7 +55,7 @@ namespace itk
 template <typename TLevelSet,
           typename TAuxValue,
           unsigned int VAuxDimension = 1,
-          typename TSpeedImage = Image<float, TLevelSet ::ImageDimension>>
+          typename TSpeedImage = Image<float, TLevelSet::ImageDimension>>
 class ITK_TEMPLATE_EXPORT FastMarchingExtensionImageFilter : public FastMarchingImageFilter<TLevelSet, TSpeedImage>
 {
 public:

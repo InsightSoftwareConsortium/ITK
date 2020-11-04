@@ -31,7 +31,7 @@ const int HexahedronCellTopology ::m_Edges[12][2] = { { 0, 1 }, { 1, 2 }, { 3, 2
 const int HexahedronCellTopology ::m_Faces[6][4] = { { 0, 4, 7, 3 }, { 1, 2, 6, 5 }, { 0, 1, 5, 4 },
                                                      { 3, 7, 6, 2 }, { 0, 3, 2, 1 }, { 4, 5, 6, 7 } };
 
-HexahedronCellTopology ::HexahedronCellTopology() = default;
+HexahedronCellTopology::HexahedronCellTopology() = default;
 
 HexahedronCellTopology ::~HexahedronCellTopology() = default;
 } // end namespace itk

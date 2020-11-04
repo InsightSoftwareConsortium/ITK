@@ -42,7 +42,7 @@ itkGetGlobalSimpleMacro(MersenneTwisterRandomVariateGenerator, MersenneTwisterGl
 MersenneTwisterGlobals * MersenneTwisterRandomVariateGenerator::m_PimplGlobals;
 
 MersenneTwisterRandomVariateGenerator::Pointer
-MersenneTwisterRandomVariateGenerator ::CreateInstance()
+MersenneTwisterRandomVariateGenerator::CreateInstance()
 {
   // Try the factory first
   MersenneTwisterRandomVariateGenerator::Pointer obj = ObjectFactory<Self>::Create();
@@ -58,7 +58,7 @@ MersenneTwisterRandomVariateGenerator ::CreateInstance()
 
 
 MersenneTwisterRandomVariateGenerator::Pointer
-MersenneTwisterRandomVariateGenerator ::New()
+MersenneTwisterRandomVariateGenerator::New()
 {
   MersenneTwisterRandomVariateGenerator::Pointer obj = MersenneTwisterRandomVariateGenerator::CreateInstance();
 
@@ -67,7 +67,7 @@ MersenneTwisterRandomVariateGenerator ::New()
 }
 
 MersenneTwisterRandomVariateGenerator::Pointer
-MersenneTwisterRandomVariateGenerator ::GetInstance()
+MersenneTwisterRandomVariateGenerator::GetInstance()
 {
   itkInitGlobalsMacro(PimplGlobals);
   std::lock_guard<std::recursive_mutex> mutexHolder(m_PimplGlobals->m_StaticInstanceLock);
@@ -81,7 +81,7 @@ MersenneTwisterRandomVariateGenerator ::GetInstance()
   return m_PimplGlobals->m_StaticInstance;
 }
 
-MersenneTwisterRandomVariateGenerator ::MersenneTwisterRandomVariateGenerator()
+MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
 {
   SetSeed(121212);
 }
@@ -118,7 +118,7 @@ MersenneTwisterRandomVariateGenerator ::hash(time_t t, clock_t c)
 }
 
 MersenneTwisterRandomVariateGenerator::IntegerType
-MersenneTwisterRandomVariateGenerator ::GetNextSeed()
+MersenneTwisterRandomVariateGenerator::GetNextSeed()
 {
   itkInitGlobalsMacro(PimplGlobals);
   IntegerType newSeed = GetInstance()->GetSeed();
@@ -129,7 +129,7 @@ MersenneTwisterRandomVariateGenerator ::GetNextSeed()
 }
 
 void
-MersenneTwisterRandomVariateGenerator ::PrintSelf(std::ostream & os, Indent indent) const
+MersenneTwisterRandomVariateGenerator::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

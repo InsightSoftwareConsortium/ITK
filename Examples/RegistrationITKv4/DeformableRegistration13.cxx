@@ -118,7 +118,7 @@ main(int argc, char * argv[])
   }
 
   // For consistent results when regression testing.
-  itk::Statistics::MersenneTwisterRandomVariateGenerator ::GetInstance()
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()
     ->SetSeed(121212);
 
   constexpr unsigned int ImageDimension = 2;

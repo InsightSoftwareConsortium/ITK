@@ -86,7 +86,7 @@ public:
   using ProbabilityPrecisionType = TProbabilityPrecisionType;
 
   /** Dimension of the input image */
-  static constexpr unsigned int Dimension = InputImageType ::ImageDimension;
+  static constexpr unsigned int Dimension = InputImageType::ImageDimension;
 
   using OutputImageType = VectorImage<ProbabilityPrecisionType, Self::Dimension>;
   using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;

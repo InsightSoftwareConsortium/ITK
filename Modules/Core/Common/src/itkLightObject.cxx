@@ -78,7 +78,7 @@ LightObject::InternalClone() const
  * will not work with reference counting.
  */
 void
-LightObject ::Delete()
+LightObject::Delete()
 {
   this->UnRegister();
 }
@@ -119,7 +119,7 @@ LightObject ::operator delete[](void * m, size_t)
  * subclasses (any itk object).
  */
 void
-LightObject ::Print(std::ostream & os, Indent indent) const
+LightObject::Print(std::ostream & os, Indent indent) const
 {
   this->PrintHeader(os, indent);
   this->PrintSelf(os, indent.GetNextIndent());
@@ -131,14 +131,14 @@ LightObject ::Print(std::ostream & os, Indent indent) const
  * the debugger to break on error.
  */
 void
-LightObject ::BreakOnError()
+LightObject::BreakOnError()
 {}
 
 /**
  * Increase the reference count (mark as used by another object).
  */
 void
-LightObject ::Register() const
+LightObject::Register() const
 {
   ++m_ReferenceCount;
 }
@@ -147,7 +147,7 @@ LightObject ::Register() const
  * Decrease the reference count (release by another object).
  */
 void
-LightObject ::UnRegister() const noexcept
+LightObject::UnRegister() const noexcept
 {
   // As ReferenceCount gets unlocked, we may have a race condition
   // to delete the object.
@@ -162,7 +162,7 @@ LightObject ::UnRegister() const noexcept
  * Sets the reference count (use with care)
  */
 void
-LightObject ::SetReferenceCount(int ref)
+LightObject::SetReferenceCount(int ref)
 {
   m_ReferenceCount = ref;
 
@@ -202,7 +202,7 @@ LightObject ::~LightObject()
  * its superclasses.
  */
 void
-LightObject ::PrintSelf(std::ostream & os, Indent indent) const
+LightObject::PrintSelf(std::ostream & os, Indent indent) const
 {
 #ifdef GCC_USEDEMANGLE
   char const * mangledName = typeid(*this).name();
@@ -232,7 +232,7 @@ LightObject ::PrintSelf(std::ostream & os, Indent indent) const
  * Define a default print header for all objects.
  */
 void
-LightObject ::PrintHeader(std::ostream & os, Indent indent) const
+LightObject::PrintHeader(std::ostream & os, Indent indent) const
 {
   os << indent << this->GetNameOfClass() << " (" << this << ")\n";
 }
@@ -241,7 +241,7 @@ LightObject ::PrintHeader(std::ostream & os, Indent indent) const
  * Define a default print trailer for all objects.
  */
 void
-LightObject ::PrintTrailer(std::ostream & itkNotUsed(os), Indent itkNotUsed(indent)) const
+LightObject::PrintTrailer(std::ostream & itkNotUsed(os), Indent itkNotUsed(indent)) const
 {}
 
 std::ostream &

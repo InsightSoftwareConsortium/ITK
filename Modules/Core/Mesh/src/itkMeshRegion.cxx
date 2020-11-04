@@ -22,7 +22,7 @@ namespace itk
 /**
  * Instantiate object.
  */
-MeshRegion ::MeshRegion()
+MeshRegion::MeshRegion()
 {
   m_NumberOfRegions = 0;
   m_Region = 0;

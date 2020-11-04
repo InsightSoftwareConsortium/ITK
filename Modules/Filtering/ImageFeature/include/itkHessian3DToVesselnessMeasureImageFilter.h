@@ -93,7 +93,7 @@ public:
   using OutputPixelType = TPixel;
 
   /** Image dimension = 3. */
-  static constexpr unsigned int ImageDimension = InputImageType ::ImageDimension;
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
   static constexpr unsigned int InputPixelDimension = InputPixelType::Dimension;
 
   using EigenValueArrayType = FixedArray<double, Self::InputPixelDimension>;

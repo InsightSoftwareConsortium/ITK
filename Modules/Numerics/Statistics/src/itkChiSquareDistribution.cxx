@@ -29,14 +29,14 @@ namespace itk
 {
 namespace Statistics
 {
-ChiSquareDistribution ::ChiSquareDistribution()
+ChiSquareDistribution::ChiSquareDistribution()
 {
   m_Parameters = ParametersType(1);
   m_Parameters[0] = 1.0;
 }
 
 void
-ChiSquareDistribution ::SetDegreesOfFreedom(SizeValueType dof)
+ChiSquareDistribution::SetDegreesOfFreedom(SizeValueType dof)
 {
   bool modified = false;
 
@@ -62,7 +62,7 @@ ChiSquareDistribution ::SetDegreesOfFreedom(SizeValueType dof)
 }
 
 SizeValueType
-ChiSquareDistribution ::GetDegreesOfFreedom() const
+ChiSquareDistribution::GetDegreesOfFreedom() const
 {
   if (m_Parameters.GetSize() != 1)
   {
@@ -127,7 +127,7 @@ ChiSquareDistribution ::CDF(double x, const ParametersType & p)
 }
 
 double
-ChiSquareDistribution ::InverseCDF(double p, SizeValueType degreesOfFreedom)
+ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
 {
   if (p <= 0.0)
   {
@@ -189,7 +189,7 @@ ChiSquareDistribution ::InverseCDF(double p, SizeValueType degreesOfFreedom)
 }
 
 double
-ChiSquareDistribution ::InverseCDF(double p, const ParametersType & params)
+ChiSquareDistribution::InverseCDF(double p, const ParametersType & params)
 {
   if (params.GetSize() != 1)
   {
@@ -200,7 +200,7 @@ ChiSquareDistribution ::InverseCDF(double p, const ParametersType & params)
 }
 
 double
-ChiSquareDistribution ::EvaluatePDF(double x) const
+ChiSquareDistribution::EvaluatePDF(double x) const
 {
   if (m_Parameters.GetSize() != 1)
   {
@@ -211,7 +211,7 @@ ChiSquareDistribution ::EvaluatePDF(double x) const
 }
 
 double
-ChiSquareDistribution ::EvaluatePDF(double x, const ParametersType & p) const
+ChiSquareDistribution::EvaluatePDF(double x, const ParametersType & p) const
 {
   if (p.GetSize() != 1)
   {
@@ -222,13 +222,13 @@ ChiSquareDistribution ::EvaluatePDF(double x, const ParametersType & p) const
 }
 
 double
-ChiSquareDistribution ::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
+ChiSquareDistribution::EvaluatePDF(double x, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::PDF(x, degreesOfFreedom);
 }
 
 double
-ChiSquareDistribution ::EvaluateCDF(double x) const
+ChiSquareDistribution::EvaluateCDF(double x) const
 {
   if (m_Parameters.GetSize() != 1)
   {
@@ -239,7 +239,7 @@ ChiSquareDistribution ::EvaluateCDF(double x) const
 }
 
 double
-ChiSquareDistribution ::EvaluateCDF(double x, const ParametersType & p) const
+ChiSquareDistribution::EvaluateCDF(double x, const ParametersType & p) const
 {
   if (p.GetSize() != 1)
   {
@@ -250,13 +250,13 @@ ChiSquareDistribution ::EvaluateCDF(double x, const ParametersType & p) const
 }
 
 double
-ChiSquareDistribution ::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
+ChiSquareDistribution::EvaluateCDF(double x, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::CDF(x, degreesOfFreedom);
 }
 
 double
-ChiSquareDistribution ::EvaluateInverseCDF(double p) const
+ChiSquareDistribution::EvaluateInverseCDF(double p) const
 {
   if (m_Parameters.GetSize() != 1)
   {
@@ -267,7 +267,7 @@ ChiSquareDistribution ::EvaluateInverseCDF(double p) const
 }
 
 double
-ChiSquareDistribution ::EvaluateInverseCDF(double p, const ParametersType & params) const
+ChiSquareDistribution::EvaluateInverseCDF(double p, const ParametersType & params) const
 {
   if (params.GetSize() != 1)
   {
@@ -278,13 +278,13 @@ ChiSquareDistribution ::EvaluateInverseCDF(double p, const ParametersType & para
 }
 
 double
-ChiSquareDistribution ::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
+ChiSquareDistribution::EvaluateInverseCDF(double p, SizeValueType degreesOfFreedom) const
 {
   return ChiSquareDistribution::InverseCDF(p, degreesOfFreedom);
 }
 
 double
-ChiSquareDistribution ::GetMean() const
+ChiSquareDistribution::GetMean() const
 {
   if (m_Parameters.GetSize() != 1)
   {
@@ -295,7 +295,7 @@ ChiSquareDistribution ::GetMean() const
 }
 
 double
-ChiSquareDistribution ::GetVariance() const
+ChiSquareDistribution::GetVariance() const
 {
   if (m_Parameters.GetSize() != 1)
   {
@@ -306,7 +306,7 @@ ChiSquareDistribution ::GetVariance() const
 }
 
 void
-ChiSquareDistribution ::PrintSelf(std::ostream & os, Indent indent) const
+ChiSquareDistribution::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

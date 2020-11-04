@@ -24,10 +24,7 @@ namespace fem
 {
 
 void
-Element3DC0LinearTetrahedron ::GetIntegrationPointAndWeight(unsigned int,
-                                                            VectorType & pt,
-                                                            Float &      w,
-                                                            unsigned int) const
+Element3DC0LinearTetrahedron::GetIntegrationPointAndWeight(unsigned int, VectorType & pt, Float & w, unsigned int) const
 {
   // FIXME: Write rules for other integration orders
   // for tetrahedral elements a single point should suffice
@@ -44,13 +41,13 @@ Element3DC0LinearTetrahedron ::GetIntegrationPointAndWeight(unsigned int,
 }
 
 unsigned int
-Element3DC0LinearTetrahedron ::GetNumberOfIntegrationPoints(unsigned int) const
+Element3DC0LinearTetrahedron::GetNumberOfIntegrationPoints(unsigned int) const
 {
   return 1;
 }
 
 Element3DC0LinearTetrahedron::VectorType
-Element3DC0LinearTetrahedron ::ShapeFunctions(const VectorType & pt) const
+Element3DC0LinearTetrahedron::ShapeFunctions(const VectorType & pt) const
 {
   /* Linear tetrahedral element has four shape functions  */
   VectorType shapeF(4);
@@ -78,7 +75,7 @@ Element3DC0LinearTetrahedron ::ShapeFunctions(const VectorType & pt) const
 }
 
 void
-Element3DC0LinearTetrahedron ::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
+Element3DC0LinearTetrahedron::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
 {
   /** functions at directions r and s.  */
   shapeD.set_size(3, 4);
@@ -96,7 +93,7 @@ Element3DC0LinearTetrahedron ::ShapeFunctionDerivatives(const VectorType &, Matr
 }
 
 bool
-Element3DC0LinearTetrahedron ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
+Element3DC0LinearTetrahedron::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
   Float x = globalPt[0];
   Float y = globalPt[1];

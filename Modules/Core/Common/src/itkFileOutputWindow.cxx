@@ -22,7 +22,7 @@ namespace itk
 /**
  * Prompting off by default
  */
-FileOutputWindow ::FileOutputWindow()
+FileOutputWindow::FileOutputWindow()
 {
   m_Flush = false;
   m_Append = false;
@@ -37,7 +37,7 @@ FileOutputWindow ::~FileOutputWindow()
 }
 
 void
-FileOutputWindow ::PrintSelf(std::ostream & os, Indent indent) const
+FileOutputWindow::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -48,7 +48,7 @@ FileOutputWindow ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-FileOutputWindow ::Initialize()
+FileOutputWindow::Initialize()
 {
   if (!m_Stream)
   {
@@ -71,7 +71,7 @@ FileOutputWindow ::Initialize()
  *
  */
 void
-FileOutputWindow ::DisplayText(const char * txt)
+FileOutputWindow::DisplayText(const char * txt)
 {
   if (!txt)
   {

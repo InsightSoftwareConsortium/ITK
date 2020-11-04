@@ -27,7 +27,7 @@ namespace itk
  * Advance one Step following the gradient direction
  */
 void
-QuaternionRigidTransformGradientDescentOptimizer ::AdvanceOneStep()
+QuaternionRigidTransformGradientDescentOptimizer::AdvanceOneStep()
 {
   const double       direction = (m_Maximize) ? 1.0 : -1.0;
   const ScalesType & scales = this->GetScales();

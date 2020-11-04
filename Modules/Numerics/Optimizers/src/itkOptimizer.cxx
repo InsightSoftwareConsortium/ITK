@@ -26,13 +26,13 @@ namespace itk
  * Constructor
  */
 
-Optimizer ::Optimizer() = default;
+Optimizer::Optimizer() = default;
 
 /**
  * Set scaling as an array of factors
  */
 void
-Optimizer ::SetScales(const ScalesType & scales)
+Optimizer::SetScales(const ScalesType & scales)
 {
   itkDebugMacro("setting scales to " << scales);
   m_Scales = scales;
@@ -57,7 +57,7 @@ Optimizer ::SetScales(const ScalesType & scales)
  * Set the initial position
  */
 void
-Optimizer ::SetInitialPosition(const ParametersType & param)
+Optimizer::SetInitialPosition(const ParametersType & param)
 {
   m_InitialPosition = param;
   this->Modified();
@@ -67,14 +67,14 @@ Optimizer ::SetInitialPosition(const ParametersType & param)
  * Set the current position
  */
 void
-Optimizer ::SetCurrentPosition(const ParametersType & param)
+Optimizer::SetCurrentPosition(const ParametersType & param)
 {
   m_CurrentPosition = param;
   this->Modified();
 }
 
 const std::string
-Optimizer ::GetStopConditionDescription() const
+Optimizer::GetStopConditionDescription() const
 {
   std::ostringstream description;
 
@@ -87,7 +87,7 @@ Optimizer ::GetStopConditionDescription() const
  * Print Self method
  */
 void
-Optimizer ::PrintSelf(std::ostream & os, Indent indent) const
+Optimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

@@ -46,7 +46,7 @@ class MovingHistogramDilateImageFilter
       TOutputImage,
       TKernel,
       typename Function::MorphologyHistogram<typename TInputImage::PixelType,
-                                             typename std::greater<typename TInputImage ::PixelType>>>
+                                             typename std::greater<typename TInputImage::PixelType>>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MovingHistogramDilateImageFilter);
@@ -58,7 +58,7 @@ public:
     TOutputImage,
     TKernel,
     typename Function::MorphologyHistogram<typename TInputImage::PixelType,
-                                           typename std::greater<typename TInputImage ::PixelType>>>;
+                                           typename std::greater<typename TInputImage::PixelType>>>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

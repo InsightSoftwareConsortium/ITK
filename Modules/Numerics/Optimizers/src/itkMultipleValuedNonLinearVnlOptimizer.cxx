@@ -25,7 +25,7 @@ namespace itk
 /**
  * Constructor
  */
-MultipleValuedNonLinearVnlOptimizer ::MultipleValuedNonLinearVnlOptimizer()
+MultipleValuedNonLinearVnlOptimizer::MultipleValuedNonLinearVnlOptimizer()
 {
   m_CostFunctionAdaptor = nullptr;
   m_UseGradient = true;
@@ -46,7 +46,7 @@ MultipleValuedNonLinearVnlOptimizer ::~MultipleValuedNonLinearVnlOptimizer()
 }
 
 void
-MultipleValuedNonLinearVnlOptimizer ::SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor)
+MultipleValuedNonLinearVnlOptimizer::SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor)
 {
   if (m_CostFunctionAdaptor == adaptor)
   {
@@ -63,13 +63,13 @@ MultipleValuedNonLinearVnlOptimizer ::SetCostFunctionAdaptor(CostFunctionAdaptor
 }
 
 const MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
-MultipleValuedNonLinearVnlOptimizer ::GetCostFunctionAdaptor() const
+MultipleValuedNonLinearVnlOptimizer::GetCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }
 
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
-MultipleValuedNonLinearVnlOptimizer ::GetCostFunctionAdaptor()
+MultipleValuedNonLinearVnlOptimizer::GetCostFunctionAdaptor()
 {
   return m_CostFunctionAdaptor;
 }
@@ -77,13 +77,13 @@ MultipleValuedNonLinearVnlOptimizer ::GetCostFunctionAdaptor()
 /** The purpose of this method is to get around the lack of const
  * correctness in vnl cost_functions and optimizers */
 MultipleValuedNonLinearVnlOptimizer::CostFunctionAdaptorType *
-MultipleValuedNonLinearVnlOptimizer ::GetNonConstCostFunctionAdaptor() const
+MultipleValuedNonLinearVnlOptimizer::GetNonConstCostFunctionAdaptor() const
 {
   return m_CostFunctionAdaptor;
 }
 
 void
-MultipleValuedNonLinearVnlOptimizer ::SetUseCostFunctionGradient(bool useGradient)
+MultipleValuedNonLinearVnlOptimizer::SetUseCostFunctionGradient(bool useGradient)
 {
   if (m_CostFunctionAdaptor)
   {
@@ -96,7 +96,7 @@ MultipleValuedNonLinearVnlOptimizer ::SetUseCostFunctionGradient(bool useGradien
 }
 
 bool
-MultipleValuedNonLinearVnlOptimizer ::GetUseCostFunctionGradient() const
+MultipleValuedNonLinearVnlOptimizer::GetUseCostFunctionGradient() const
 {
   if (m_CostFunctionAdaptor)
   {
@@ -115,7 +115,7 @@ MultipleValuedNonLinearVnlOptimizer ::GetUseCostFunctionGradient() const
  * vnl optimizer. Optimizers that evaluate the metric multiple times at each
  * iteration will generate a lot more of Iteration events here. */
 void
-MultipleValuedNonLinearVnlOptimizer ::IterationReport(const EventObject & event)
+MultipleValuedNonLinearVnlOptimizer::IterationReport(const EventObject & event)
 {
   const CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
 
@@ -129,7 +129,7 @@ MultipleValuedNonLinearVnlOptimizer ::IterationReport(const EventObject & event)
  * PrintSelf
  */
 void
-MultipleValuedNonLinearVnlOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+MultipleValuedNonLinearVnlOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Cached Value: " << m_CachedValue << std::endl;

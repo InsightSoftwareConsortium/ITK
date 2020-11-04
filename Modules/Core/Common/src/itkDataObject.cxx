@@ -35,50 +35,50 @@ itkGetGlobalValueMacro(DataObject, bool, GlobalReleaseDataFlag, false);
 // after use by filter
 bool * DataObject::m_GlobalReleaseDataFlag;
 
-DataObjectError ::DataObjectError() noexcept
+DataObjectError::DataObjectError() noexcept
   : ExceptionObject()
 {}
 
-DataObjectError ::DataObjectError(const char * file, unsigned int lineNumber)
+DataObjectError::DataObjectError(const char * file, unsigned int lineNumber)
   : ExceptionObject(file, lineNumber)
 {}
 
-DataObjectError ::DataObjectError(const std::string & file, unsigned int lineNumber)
+DataObjectError::DataObjectError(const std::string & file, unsigned int lineNumber)
   : ExceptionObject(file, lineNumber)
 {}
 
-DataObjectError ::DataObjectError(const DataObjectError & orig) noexcept
+DataObjectError::DataObjectError(const DataObjectError & orig) noexcept
   : ExceptionObject(orig)
 {
   m_DataObject = orig.m_DataObject;
 }
 
 DataObjectError &
-DataObjectError ::operator=(const DataObjectError &) noexcept = default;
+DataObjectError::operator=(const DataObjectError &) noexcept = default;
 
 void
-DataObjectError ::SetDataObject(DataObject * dobj) noexcept
+DataObjectError::SetDataObject(DataObject * dobj) noexcept
 {
   m_DataObject = dobj;
 }
 
 #if !defined(ITK_LEGACY_REMOVE)
 DataObject *
-DataObjectError ::GetDataObject() noexcept
+DataObjectError::GetDataObject() noexcept
 {
   return m_DataObject;
 }
 #endif
 
 const DataObject *
-DataObjectError ::GetDataObject() const noexcept
+DataObjectError::GetDataObject() const noexcept
 {
   return m_DataObject;
 }
 
 
 void
-DataObjectError ::PrintSelf(std::ostream & os, Indent indent) const
+DataObjectError::PrintSelf(std::ostream & os, Indent indent) const
 {
   ExceptionObject::Print(os);
 
@@ -94,25 +94,25 @@ DataObjectError ::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 
-InvalidRequestedRegionError ::InvalidRequestedRegionError() noexcept
+InvalidRequestedRegionError::InvalidRequestedRegionError() noexcept
   : DataObjectError()
 {}
 
-InvalidRequestedRegionError ::InvalidRequestedRegionError(const char * file, unsigned int lineNumber)
+InvalidRequestedRegionError::InvalidRequestedRegionError(const char * file, unsigned int lineNumber)
   : DataObjectError(file, lineNumber)
 {}
 
-InvalidRequestedRegionError ::InvalidRequestedRegionError(const std::string & file, unsigned int lineNumber)
+InvalidRequestedRegionError::InvalidRequestedRegionError(const std::string & file, unsigned int lineNumber)
   : DataObjectError(file, lineNumber)
 {}
 
-InvalidRequestedRegionError ::InvalidRequestedRegionError(const InvalidRequestedRegionError &) noexcept = default;
+InvalidRequestedRegionError::InvalidRequestedRegionError(const InvalidRequestedRegionError &) noexcept = default;
 
 InvalidRequestedRegionError &
-InvalidRequestedRegionError ::operator=(const InvalidRequestedRegionError &) noexcept = default;
+InvalidRequestedRegionError::operator=(const InvalidRequestedRegionError &) noexcept = default;
 
 void
-InvalidRequestedRegionError ::PrintSelf(std::ostream & os, Indent indent) const
+InvalidRequestedRegionError::PrintSelf(std::ostream & os, Indent indent) const
 {
   DataObjectError::PrintSelf(os, indent);
 }
@@ -133,11 +133,11 @@ DataObject::DataObject()
 }
 
 //----------------------------------------------------------------------------
-DataObject ::~DataObject() = default;
+DataObject::~DataObject() = default;
 
 //----------------------------------------------------------------------------
 void
-DataObject ::Initialize()
+DataObject::Initialize()
 {
   // We don't modify ourselves because the "ReleaseData" methods depend upon
   // no modification when initialized.
@@ -146,7 +146,7 @@ DataObject ::Initialize()
 
 //----------------------------------------------------------------------------
 void
-DataObject ::SetGlobalReleaseDataFlag(bool val)
+DataObject::SetGlobalReleaseDataFlag(bool val)
 {
   itkInitGlobalsMacro(GlobalReleaseDataFlag);
   if (val == *m_GlobalReleaseDataFlag)
@@ -158,14 +158,14 @@ DataObject ::SetGlobalReleaseDataFlag(bool val)
 
 //----------------------------------------------------------------------------
 bool
-DataObject ::GetGlobalReleaseDataFlag()
+DataObject::GetGlobalReleaseDataFlag()
 {
   return *DataObject::GetGlobalReleaseDataFlagPointer();
 }
 
 //----------------------------------------------------------------------------
 void
-DataObject ::ReleaseData()
+DataObject::ReleaseData()
 {
   this->Initialize();
   m_DataReleased = true;
@@ -173,7 +173,7 @@ DataObject ::ReleaseData()
 
 //----------------------------------------------------------------------------
 bool
-DataObject ::ShouldIReleaseData() const
+DataObject::ShouldIReleaseData() const
 {
   return (GetGlobalReleaseDataFlag() || m_ReleaseDataFlag);
 }
@@ -182,7 +182,7 @@ DataObject ::ShouldIReleaseData() const
 // Set the process object that generates this data object.
 //
 void
-DataObject ::DisconnectPipeline()
+DataObject::DisconnectPipeline()
 {
   itkDebugMacro("disconnecting from the pipeline.");
 
@@ -204,7 +204,7 @@ DataObject ::DisconnectPipeline()
 }
 
 bool
-DataObject ::DisconnectSource(ProcessObject * arg, const DataObjectIdentifierType & name)
+DataObject::DisconnectSource(ProcessObject * arg, const DataObjectIdentifierType & name)
 {
   if (m_Source == arg && m_SourceOutputName == name)
   {
@@ -223,7 +223,7 @@ DataObject ::DisconnectSource(ProcessObject * arg, const DataObjectIdentifierTyp
 }
 
 bool
-DataObject ::ConnectSource(ProcessObject * arg, const DataObjectIdentifierType & name)
+DataObject::ConnectSource(ProcessObject * arg, const DataObjectIdentifierType & name)
 {
   if (m_Source != arg || m_SourceOutputName != name)
   {
@@ -245,21 +245,21 @@ DataObject ::ConnectSource(ProcessObject * arg, const DataObjectIdentifierType &
 //----------------------------------------------------------------------------
 
 SmartPointer<ProcessObject>
-DataObject ::GetSource() const
+DataObject::GetSource() const
 {
   itkDebugMacro("returning Source address " << m_Source.GetPointer());
   return m_Source.GetPointer();
 }
 
 const DataObject::DataObjectIdentifierType &
-DataObject ::GetSourceOutputName() const
+DataObject::GetSourceOutputName() const
 {
   itkDebugMacro("returning Source name " << m_SourceOutputName);
   return m_SourceOutputName;
 }
 
 DataObject::DataObjectPointerArraySizeType
-DataObject ::GetSourceOutputIndex() const
+DataObject::GetSourceOutputIndex() const
 {
   if (!m_Source)
   {
@@ -270,7 +270,7 @@ DataObject ::GetSourceOutputIndex() const
 
 //----------------------------------------------------------------------------
 void
-DataObject ::PrintSelf(std::ostream & os, Indent indent) const
+DataObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Object::PrintSelf(os, indent);
 
@@ -301,7 +301,7 @@ DataObject ::PrintSelf(std::ostream & os, Indent indent) const
 
 //----------------------------------------------------------------------------
 void
-DataObject ::Update()
+DataObject::Update()
 {
   this->UpdateOutputInformation();
   this->PropagateRequestedRegion();
@@ -309,7 +309,7 @@ DataObject ::Update()
 }
 
 void
-DataObject ::UpdateOutputInformation()
+DataObject::UpdateOutputInformation()
 {
 
   if (this->GetSource())
@@ -319,13 +319,13 @@ DataObject ::UpdateOutputInformation()
 }
 
 void
-DataObject ::ResetPipeline()
+DataObject::ResetPipeline()
 {
   this->PropagateResetPipeline();
 }
 
 void
-DataObject ::PropagateResetPipeline()
+DataObject::PropagateResetPipeline()
 {
   if (m_Source)
   {
@@ -335,7 +335,7 @@ DataObject ::PropagateResetPipeline()
 
 //----------------------------------------------------------------------------
 void
-DataObject ::PropagateRequestedRegion()
+DataObject::PropagateRequestedRegion()
 {
   // If we need to update due to PipelineMTime, or the fact that our
   // data was released, then propagate the update region to the source
@@ -364,7 +364,7 @@ DataObject ::PropagateRequestedRegion()
 
 //----------------------------------------------------------------------------
 void
-DataObject ::UpdateOutputData()
+DataObject::UpdateOutputData()
 {
   // If we need to update due to PipelineMTime, or the fact that our
   // data was released, then propagate the UpdateOutputData to the source
@@ -380,7 +380,7 @@ DataObject ::UpdateOutputData()
 
 //----------------------------------------------------------------------------
 void
-DataObject ::DataHasBeenGenerated()
+DataObject::DataHasBeenGenerated()
 {
   this->m_DataReleased = false;
   this->Modified();
@@ -389,7 +389,7 @@ DataObject ::DataHasBeenGenerated()
 
 //----------------------------------------------------------------------------
 ModifiedTimeType
-DataObject ::GetUpdateMTime() const
+DataObject::GetUpdateMTime() const
 {
   return m_UpdateMTime.GetMTime();
 }
