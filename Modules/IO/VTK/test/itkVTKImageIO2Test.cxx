@@ -46,7 +46,7 @@ public:
 
 #if defined(WIN32) // windows
     // if it ends in \\ just append the name
-    if (outputPath[outputPath.size() - 1] == '\\')
+    if (outputPath.back() == '\\')
     {
       m_OutputFileName << outputPath << m_NameWithIndex.str();
     }
@@ -57,7 +57,7 @@ public:
 
 #else /// POSIX UNIX
     // if it ends in / just append the name
-    if (outputPath[outputPath.size() - 1] == '/')
+    if (outputPath.back() == '/')
     {
       m_OutputFileName << outputPath << m_NameWithIndex.str();
     }
