@@ -82,7 +82,7 @@ public:
  * \sphinxexample{IO/ImageBase/WriteAnImage,Write An image}
  * \endsphinx
  */
-template <typename TInputImage>
+template <typename TInputImage = void>
 class ITK_TEMPLATE_EXPORT ImageFileWriter : public ProcessObject
 {
 public:
@@ -235,6 +235,32 @@ private:
   int  m_CompressionLevel{ -1 };
   bool m_UseInputMetaDataDictionary{ true };
 };
+
+template <>
+class ImageFileWriter<void>
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(ImageFileWriter);
+
+  ImageFileWriter() = delete;
+  ~ImageFileWriter() = delete;
+
+  /** Writes an image to the specified file. Example:
+    \code
+    itk::ImageFileWriter<>::WriteImage(*imagePointer, outputFileName);
+    \endcode
+   */
+  template <typename TInputImage>
+  static void
+  WriteImage(const TInputImage & image, const std::string & fileName)
+  {
+    const auto writer = itk::ImageFileWriter<TInputImage>::New();
+    writer->SetFileName(fileName);
+    writer->SetInput(&image);
+    writer->Update();
+  }
+};
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
