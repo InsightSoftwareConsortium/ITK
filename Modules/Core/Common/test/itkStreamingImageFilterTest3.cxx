@@ -64,13 +64,7 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
   streamer->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   streamer->SetRegionSplitter(splitter);
 
-
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(outputFilename);
-  writer->SetInput(streamer->GetOutput());
-  writer->Update();
-
+  itk::ImageFileWriter<>::WriteImage(*(streamer->GetOutput()), outputFilename);
 
   unsigned int expectedNumberOfStreams =
     splitter->GetNumberOfSplits(streamer->GetOutput()->GetLargestPossibleRegion(), numberOfStreamDivisions);

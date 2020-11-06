@@ -82,16 +82,9 @@ itkSymmetricSecondRankTensorImageReadTest(int ac, char * av[])
     ++itr;
   }
 
-  using MatrixWriterType = itk::ImageFileWriter<MatrixImageType>;
-
-  MatrixWriterType::Pointer matrixWriter = MatrixWriterType::New();
-
-  matrixWriter->SetInput(matrixImage);
-  matrixWriter->SetFileName(av[1]);
-
   try
   {
-    matrixWriter->Update();
+    itk::ImageFileWriter<>::WriteImage(*matrixImage, av[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {

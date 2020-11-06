@@ -37,8 +37,6 @@ itkImageDuplicatorTest2(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
   using DuplicatorType = itk::ImageDuplicator<ImageType>;
   DuplicatorType::Pointer dup = DuplicatorType::New();
   using AbsType = itk::AbsImageFilter<ImageType, ImageType>;
@@ -69,9 +67,7 @@ itkImageDuplicatorTest2(int argc, char * argv[])
     dup->Update();
     ImageType::ConstPointer dupImage = dup->GetOutput();
 
-    writer->SetInput(dupImage);
-    writer->SetFileName(argv[2]);
-    writer->Update();
+    itk::ImageFileWriter<>::WriteImage(*dupImage, argv[2]);
     std::cout << "Test SUCCESS" << std::endl;
   }
   catch (const itk::ExceptionObject & e)
