@@ -51,11 +51,14 @@ LandweberDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
 
   // Set up minipipeline to compute estimate at each iteration
   m_LandweberFilter = LandweberFilterType::New();
+
+  LandweberFunctor functor;
+  functor.m_Alpha = m_Alpha;
+  m_LandweberFilter->SetFunctor(functor);
   m_LandweberFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   // Transform of current estimate will be set as input 1 in Iteration()
   m_LandweberFilter->SetInput2(this->m_TransferFunction);
   m_LandweberFilter->SetInput3(m_TransformedInput);
-  m_LandweberFilter->GetFunctor().m_Alpha = m_Alpha;
   m_LandweberFilter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter(m_LandweberFilter, 0.3f * iterationProgressWeight);
 

@@ -102,7 +102,7 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   using TernaryType = itk::TernaryOperatorImageFilter<MaskImageType, GrayImageType>;
   TernaryType::Pointer tern = TernaryType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(tern, TernaryOperatorImageFilter, TernaryFunctorImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(tern, TernaryOperatorImageFilter, TernaryGeneratorImageFilter);
 
   tern->SetInput1(mask);
   tern->SetInput2(image1);
@@ -126,6 +126,29 @@ itkTernaryOperatorImageFilterTest(int, char *[])
     if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 1 && outIt.Get() != val2)
     {
       std::cerr << "Error: Value should be " << val2 << " but was " << outIt.Get() << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
+  tern->SetInput3(GrayImageType::Pointer(nullptr));
+  tern->SetConstant3(99);
+  tern->Update();
+
+  output = tern->GetOutput();
+
+  // Even indices should be equal to val1 (the value of the second input)
+  // Odd indices should be equal to 99
+  outIt = GrayItType(output, output->GetLargestPossibleRegion());
+  for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
+  {
+    if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 0 && outIt.Get() != val1)
+    {
+      std::cerr << "Error: Value should be " << val1 << " but was " << outIt.Get() << std::endl;
+      return EXIT_FAILURE;
+    }
+    if (outIt.GetIndex()[0] + outIt.GetIndex()[1] % 2 == 1 && outIt.Get() != 99)
+    {
+      std::cerr << "Error: Value should be " << 99 << " but was " << outIt.Get() << std::endl;
       return EXIT_FAILURE;
     }
   }
