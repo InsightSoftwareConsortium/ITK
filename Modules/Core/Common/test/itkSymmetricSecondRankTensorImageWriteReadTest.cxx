@@ -67,16 +67,9 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
     ++itr;
   }
 
-  using TensorWriterType = itk::ImageFileWriter<TensorImageType>;
-
-  TensorWriterType::Pointer tensorWriter = TensorWriterType::New();
-
-  tensorWriter->SetInput(tensorImageInput);
-  tensorWriter->SetFileName(av[1]);
-
   try
   {
-    tensorWriter->Update();
+    itk::WriteImage(tensorImageInput, av[1]);
   }
   catch (const itk::ExceptionObject & excp)
   {

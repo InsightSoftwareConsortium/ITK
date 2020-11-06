@@ -62,24 +62,6 @@ public:
   }
 };
 
-template <typename TImage>
-void
-WriteImage(const TImage * out, const char * filename)
-{
-  using WriterType = itk::ImageFileWriter<TImage>;
-  typename WriterType::Pointer w = WriterType::New();
-  w->SetInput(out);
-  w->SetFileName(filename);
-  try
-  {
-    w->Update();
-  }
-  catch (const itk::ExceptionObject & error)
-  {
-    std::cerr << error << std::endl;
-  }
-}
-
 template <typename TValue>
 TValue
 Convert(std::string optionString)
