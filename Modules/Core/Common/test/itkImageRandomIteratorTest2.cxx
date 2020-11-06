@@ -41,11 +41,8 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
   using PixelType = unsigned long;
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
-  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ImageType::Pointer image = ImageType::New();
-
-  WriterType::Pointer writer = WriterType::New();
 
   ImageType::SizeType size;
 
@@ -84,9 +81,8 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
     ++counter;
   }
 
-  writer->SetInput(image);
-  writer->SetFileName(argv[1]);
-  writer->Update();
+
+  itk::WriteImage(image, argv[1]);
 
   if (argc > 4)
   {
