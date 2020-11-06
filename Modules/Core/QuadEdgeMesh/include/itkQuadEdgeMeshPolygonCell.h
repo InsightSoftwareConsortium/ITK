@@ -223,7 +223,7 @@ public:
     }
     else
     {
-      return &m_PointIds[m_PointIds.size() - 1] + 1;
+      return &m_PointIds.back() + 1;
     }
   }
 
@@ -252,7 +252,7 @@ public:
     }
     else
     {
-      return &m_PointIds[m_PointIds.size() - 1] + 1;
+      return &m_PointIds.back() + 1;
     }
   }
 

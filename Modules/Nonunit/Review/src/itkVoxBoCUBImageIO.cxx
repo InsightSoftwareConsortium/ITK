@@ -503,7 +503,7 @@ VoxBoCUBImageIO::ReadImageInformation()
 
     const std::string::size_type keysize = key.size();
 
-    if ((keysize > 0) && (key[key.size() - 1] == ':'))
+    if ((keysize > 0) && (key.back() == ':'))
     {
       // Strip the colon off the key
       key = key.substr(0, key.size() - 1);

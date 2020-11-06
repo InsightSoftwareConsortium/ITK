@@ -678,7 +678,7 @@ Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Inden
   os << indent << "Bin Maxima: ";
   for (unsigned int i = 0; i < m_Max.size(); i++)
   {
-    os << m_Max[i][m_Max[i].size() - 1] << "  ";
+    os << m_Max[i].back() << "  ";
   }
   os << std::endl;
   os << indent << "ClipBinsAtEnds: " << itk::NumericTraits<bool>::PrintType(this->GetClipBinsAtEnds()) << std::endl;

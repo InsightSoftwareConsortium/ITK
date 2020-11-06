@@ -550,7 +550,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
                    (m_BordersDynamicPointer.end()),
                    std::greater<KLMDynamicBorderArray<BorderType>>());
 
-  m_BorderCandidate = &(m_BordersDynamicPointer[m_BordersDynamicPointer.size() - 1]);
+  m_BorderCandidate = &(m_BordersDynamicPointer.back());
   m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
 
   if (m_InternalLambda < 0.0)
@@ -681,7 +681,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
 
   // Assign new BorderCandidate (it is always the last element).
   // Set Pointer to BorderCandidate to the last element
-  m_BorderCandidate = &(m_BordersDynamicPointer[m_BordersDynamicPointer.size() - 1]);
+  m_BorderCandidate = &(m_BordersDynamicPointer.back());
   m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
 
   // Remove any duplicate borders found during SpliceRegionBorders:
@@ -696,7 +696,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
       itkExceptionMacro(<< "KLM algorithm error");
     }
 
-    m_BorderCandidate = &(m_BordersDynamicPointer[m_BordersDynamicPointer.size() - 1]);
+    m_BorderCandidate = &(m_BordersDynamicPointer.back());
     m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
   }
 } // end MergeRegions

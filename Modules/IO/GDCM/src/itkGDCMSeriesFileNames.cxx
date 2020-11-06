@@ -201,7 +201,7 @@ GDCMSeriesFileNames::GetOutputFileNames()
   }
 
   itksys::SystemTools::ConvertToUnixSlashes(m_OutputDirectory);
-  if (m_OutputDirectory[m_OutputDirectory.size() - 1] != '/')
+  if (m_OutputDirectory.back() != '/')
   {
     m_OutputDirectory += '/';
   }

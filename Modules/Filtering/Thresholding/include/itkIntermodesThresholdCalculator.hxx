@@ -89,7 +89,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
       next = smoothedHist[i + 1];
       smoothedHist[i] = (previous + current + next) / 3.;
     }
-    smoothedHist[smoothedHist.size() - 1] = (current + next) / 3.;
+    smoothedHist.back() = (current + next) / 3.;
     ++smIter;
 
     if (smIter > m_MaximumSmoothingIterations)

@@ -97,7 +97,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
 
 #if defined(WIN32) // windows
     // if it ends in \\ just append the name
-    if (outputPath[outputPath.size() - 1] == '\\')
+    if (outputPath.back() == '\\')
     {
       m_OutputFileName << outputPath << m_NameWithIndex.str();
     }
@@ -109,7 +109,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
 #else /// POSIX UNIX
 
     // if it ends in / just append the name
-    if (outputPath[outputPath.size() - 1] == '/')
+    if (outputPath.back() == '/')
     {
       m_OutputFileName << outputPath << m_NameWithIndex.str();
     }
@@ -164,7 +164,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
 
 #if defined(WIN32) // windows
     // if it ends in \\ just append the name
-    if (outputPath[outputPath.size() - 1] == '\\')
+    if (outputPath.back() == '\\')
     {
       m_OutputFileName << outputPath << m_NameWithIndex.str();
     }
@@ -176,7 +176,7 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
 #else /// POSIX UNIX
 
     // if it ends in / just append the name
-    if (outputPath[outputPath.size() - 1] == '/')
+    if (outputPath.back() == '/')
     {
       m_OutputFileName << outputPath << m_NameWithIndex.str();
     }
