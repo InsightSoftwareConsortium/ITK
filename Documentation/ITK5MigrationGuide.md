@@ -403,7 +403,7 @@ so if you have overridden these virtual member function, make sure that you
 also add `const`. If your application needs to compile with both ITKv4 and ITKv5,
 you should use macro `ITKv5_CONST` instead of `const` keyword.
 This macro is present in ITKv4 since commit
-b40f74e07d74614c75be4aceac63b87e80e589d1 on 2018-11-14.
+[commit b40f74e on 2018-11-14](https://github.com/InsightSoftwareConsortium/ITK/commit/b40f74e07d74614c75be4aceac63b87e80e589d1).
 
 `itk::Barrier`, `itk::VectorResampleImageFilter` and  `itk::VectorCastImageFilter` have been moved to `ITKDeprecated` module.
 
@@ -438,7 +438,7 @@ There is also now CMake configuration option `ITK_NIFTI_IO_ANALYZE_FLAVOR` which
 now has signature
 `void ComputeJacobianWithRespectToPosition(const PointType &, JacobianPositionType &) const`.
 `JacobianPositionType` is publicly exposed in `itk::Transform`.
-See commit 212cae522d8451ea089c41f8a151279e1dd17042 for details.
+See commit [commit 212cae5](https://github.com/InsightSoftwareConsortium/ITK/commit/212cae522d8451ea089c41f8a151279e1dd17042) for details.
 
 Consolidated Vector Filter
 --------------------------
