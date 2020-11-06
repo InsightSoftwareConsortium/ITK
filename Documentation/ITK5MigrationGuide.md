@@ -433,6 +433,13 @@ The method `SetLegacyAnalyze75Mode` is now expecting parameter specifying which 
 * `itk::Analyze75Flavor::AnalyzeFSL` -  use FSL convention
 There is also now CMake configuration option `ITK_NIFTI_IO_ANALYZE_FLAVOR` which specifies default behaviour of the reader, `ITK4Warning` is the default.
 
+`itk::Transform` class had method signature change.
+`void ComputeJacobianWithRespectToPosition(const PointType &, JacobianType &) const`
+now has signature
+`void ComputeJacobianWithRespectToPosition(const PointType &, JacobianPositionType &) const`.
+`JacobianPositionType` is publicly exposed in `itk::Transform`.
+See commit 212cae522d8451ea089c41f8a151279e1dd17042 for details.
+
 Consolidated Vector Filter
 --------------------------
 
