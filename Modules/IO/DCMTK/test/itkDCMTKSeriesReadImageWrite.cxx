@@ -58,13 +58,13 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 
   it->SetInputDirectory(argv[1]);
 
-  auto recursive = static_cast<bool>(std::stoi(argv[3]);
+  auto recursive = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(it, Recursive, recursive);
 
-  auto loadSequences = static_cast<bool>(std::stoi(argv[4]);
+  auto loadSequences = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(it, LoadSequences, loadSequences);
 
-  auto loadPrivateTags = static_cast<bool>(std::stoi(argv[5]);
+  auto loadPrivateTags = static_cast<bool>(std::stoi(argv[5]));
   ITK_TEST_SET_GET_BOOLEAN(it, LoadPrivateTags, loadPrivateTags);
 
   ReaderType::Pointer reader = ReaderType::New();
