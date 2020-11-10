@@ -34,7 +34,7 @@ def create_itk_module(name):
     swig_module_name = "itk." + name + "Python"
     spec = ilu_spec_from_file_location(
         swig_module_name,
-        os.path.join(os.path.dirname(__file__), "itk", name + "Python.py"),
+        os.path.join(os.path.dirname(__file__), "..", name + "Python.py"),
     )
     l_module = ilu_module_from_spec(spec)
     return l_module
