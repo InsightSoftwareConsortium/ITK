@@ -44,22 +44,32 @@ namespace itk
 
 
 // Compile time check
-template class itk::CastImageFilter<itk::Image<std::complex<float>>, itk::Image<std::complex<float>>>;
-template class itk::CastImageFilter<itk::Image<std::complex<double>>, itk::Image<std::complex<double>>>;
-template class itk::CastImageFilter<itk::Image<std::complex<float>>, itk::Image<std::complex<double>>>;
-template class itk::CastImageFilter<itk::Image<std::complex<double>>, itk::Image<std::complex<float>>>;
+template class itk::CastImageFilter<itk::Image<std::complex<float>, 2>, itk::Image<std::complex<float>, 2>>;
+template class itk::CastImageFilter<itk::Image<std::complex<double>, 2>, itk::Image<std::complex<double>, 2>>;
+template class itk::CastImageFilter<itk::Image<std::complex<float>, 2>, itk::Image<std::complex<double>, 2>>;
+template class itk::CastImageFilter<itk::Image<std::complex<double>, 2>, itk::Image<std::complex<float>, 2>>;
 
+template class itk::CastImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2>,
+                                    itk::Image<itk::RGBPixel<unsigned short>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2>, itk::Image<itk::Vector<float, 3>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::Vector<float, 3>, 2>, itk::Image<itk::RGBPixel<unsigned char>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::RGBPixel<unsigned char>, 2>,
+                                    itk::Image<itk::CovariantVector<double, 3>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned char>, 2>,
+                                    itk::Image<itk::RGBAPixel<unsigned short>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned char>, 2>, itk::Image<itk::Vector<float, 4>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::Vector<float, 4>, 2>, itk::Image<itk::RGBAPixel<unsigned char>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned char>, 2>,
+                                    itk::Image<itk::CovariantVector<double, 4>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::Vector<int, 3>, 2>, itk::Image<itk::CovariantVector<float, 3>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::CovariantVector<short, 4>, 2>,
+                                    itk::Image<itk::Vector<double, 4>, 2>>;
 
-template class itk::CastImageFilter<itk::Image<itk::RGBPixel<unsigned char>>,
-                                    itk::Image<itk::RGBPixel<unsigned short>>>;
-template class itk::CastImageFilter<itk::Image<itk::RGBPixel<unsigned char>>, itk::Image<itk::Vector<float, 3>>>;
-template class itk::CastImageFilter<itk::Image<itk::Vector<float, 3>>, itk::Image<itk::RGBPixel<unsigned char>>>;
-template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned char>>,
-                                    itk::Image<itk::RGBAPixel<unsigned short>>>;
-template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned char>>, itk::Image<itk::Vector<float, 4>>>;
-template class itk::CastImageFilter<itk::Image<itk::Vector<float, 4>>, itk::Image<itk::RGBAPixel<unsigned char>>>;
-
-template class itk::CastImageFilter<itk::VectorImage<short>, itk::VectorImage<double>>;
+template class itk::CastImageFilter<itk::VectorImage<short, 2>, itk::VectorImage<double, 2>>;
+template class itk::CastImageFilter<itk::VectorImage<short, 2>, itk::Image<itk::Vector<float, 4>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::CovariantVector<short, 3>, 2>, itk::VectorImage<double, 2>>;
+template class itk::CastImageFilter<itk::VectorImage<unsigned char, 2>, itk::Image<itk::RGBPixel<short>, 2>>;
+template class itk::CastImageFilter<itk::Image<itk::RGBAPixel<unsigned short>, 2>, itk::VectorImage<int, 2>>;
 
 template <typename T>
 std::string
@@ -262,13 +272,11 @@ TestCastFrom()
 }
 
 bool
-TestVectorImageCast()
+TestVectorImageCast1()
 {
   // This function casts a VectorImage<float, 2>
   // to a VectorImage<unsigned char, 2>
-  std::cout << "Casting from a VectorImage<float, 2> \
-                to VectorImage<unsigned char, 2> ..."
-            << std::endl;
+  std::cout << "Casting from a VectorImage<float, 2> to VectorImage<unsigned char, 2> ... ";
 
   using UnsignedCharVectorImageType = itk::VectorImage<unsigned char, 2>;
   using FloatVectorImageType = itk::VectorImage<float, 2>;
@@ -310,7 +318,74 @@ TestVectorImageCast()
     if (static_cast<unsigned char>(originalImageIterator.Get()[0]) != castedImageIterator.Get()[0] ||
         static_cast<unsigned char>(originalImageIterator.Get()[1]) != castedImageIterator.Get()[1])
     {
-      std::cerr << "Error in TestVectorImageCast!" << std::endl;
+      std::cerr << "Error in TestVectorImageCast1!" << std::endl;
+      success = false;
+    }
+    ++originalImageIterator;
+    ++castedImageIterator;
+  }
+
+  if (success)
+  {
+    std::cout << "[PASSED]" << std::endl;
+  }
+  else
+  {
+    std::cout << "[FAILED]" << std::endl;
+  }
+
+  return success;
+}
+
+
+bool
+TestVectorImageCast2()
+{
+  // This function casts a VectorImage<float, 2>
+  // to a Image<Vector<unsigned char, 2>, 2>
+  std::cout << "Casting from a VectorImage<float, 2> to Image<Vector<unsigned char, 2>, 2> ... ";
+
+  using UnsignedCharVectorImageType = itk::Image<itk::Vector<unsigned char, 2>, 2>;
+  using FloatVectorImageType = itk::VectorImage<float, 2>;
+
+  // Create a 1x3 image of 2D vectors
+  FloatVectorImageType::Pointer image = FloatVectorImageType::New();
+
+  const itk::Size<2>  size{ { 1, 3 } };
+  const itk::Index<2> start{ { 0, 0 } };
+
+  itk::ImageRegion<2> region(start, size);
+  image->SetNumberOfComponentsPerPixel(2);
+  image->SetRegions(region);
+  image->Allocate();
+  itk::VariableLengthVector<float> vec;
+  vec.SetSize(2);
+  // All pixels will be the vector (1.3, 5.3)
+  vec[0] = 1.3;
+  vec[1] = 5.3;
+  image->FillBuffer(vec);
+
+  using CastImageFilterType = itk::CastImageFilter<FloatVectorImageType, UnsignedCharVectorImageType>;
+  CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
+  castImageFilter->SetInput(image);
+  castImageFilter->Update();
+
+  // Setup iterators for the original and casted images
+  itk::ImageRegionConstIterator<UnsignedCharVectorImageType> castedImageIterator(
+    castImageFilter->GetOutput(), castImageFilter->GetOutput()->GetLargestPossibleRegion());
+
+  itk::ImageRegionConstIterator<FloatVectorImageType> originalImageIterator(image, image->GetLargestPossibleRegion());
+
+  // Compare both dimensions of all of the pixels from the manually
+  // casted original image to the corresponding pixels in the filter-casted
+  // image
+  bool success = true;
+  while (!originalImageIterator.IsAtEnd())
+  {
+    if (static_cast<unsigned char>(originalImageIterator.Get()[0]) != castedImageIterator.Get()[0] ||
+        static_cast<unsigned char>(originalImageIterator.Get()[1]) != castedImageIterator.Get()[1])
+    {
+      std::cerr << "Error in TestVectorImageCast1!" << std::endl;
       success = false;
     }
     ++originalImageIterator;
@@ -359,7 +434,8 @@ itkCastImageFilterTest(int, char *[])
   success &= TestCastFrom<unsigned long long>();
   success &= TestCastFrom<float>();
   success &= TestCastFrom<double>();
-  success &= TestVectorImageCast();
+  success &= TestVectorImageCast1();
+  success &= TestVectorImageCast2();
 
   std::cout << std::endl;
   if (!success)
