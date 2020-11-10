@@ -430,13 +430,13 @@ def vtk_image_from_image(l_image):
     # Always set Scalars for (future?) multi-component volume rendering
     vtk_image.GetPointData().SetScalars(data_array)
     dim = l_image.GetImageDimension()
-    l_spacing = [1.0,] * 3
+    l_spacing = [1.0] * 3
     l_spacing[:dim] = l_image.GetSpacing()
     vtk_image.SetSpacing(l_spacing)
-    l_origin = [0.0,] * 3
+    l_origin = [0.0] * 3
     l_origin[:dim] = l_image.GetOrigin()
     vtk_image.SetOrigin(l_origin)
-    dims = [1,] * 3
+    dims = [1] * 3
     dims[:dim] = itk.size(l_image)
     vtk_image.SetDimensions(dims)
     # Todo: Add Direction with VTK 9
@@ -672,6 +672,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
             pass
     if type(filename) not in [list, tuple]:
         import os
+
         if os.path.isdir(filename):
             # read DICOM series of 1 image in a folder, refer to: https://github.com/RSIP-Vision/medio
             names_generator = itk.GDCMSeriesFileNames.New()
@@ -682,7 +683,9 @@ def imread(filename, pixel_type=None, fallback_only=False):
             if len(series_uid) == 0:
                 raise FileNotFoundError(f"no DICOMs in: {name}.")
             if len(series_uid) > 1:
-                raise OSError(f"the directory: {name} contains more than one DICOM series.")
+                raise OSError(
+                    f"the directory: {name} contains more than one DICOM series."
+                )
             series_identifier = series_uid[0]
             filename = names_generator.GetFileNames(series_identifier)
     if type(filename) in [list, tuple]:
@@ -1461,7 +1464,7 @@ def ipython_kw_matches(text):
             continue
         for namedArg in named_args:
             if namedArg.startswith(text):
-                arg_matches.append(u"%s=" % namedArg)
+                arg_matches.append("%s=" % namedArg)
     return arg_matches
 
 
