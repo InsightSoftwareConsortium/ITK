@@ -642,14 +642,21 @@ def imread(filename, pixel_type=None, fallback_only=False):
 
     The reader is instantiated with the image type of the image file if
     `pixel_type` is not provided (default). The dimension of the image is
-    automatically found. If the given filename is a list or a tuple, the
-    reader will use an itk.ImageSeriesReader object to read the files.
+    automatically found
+
+    If the filename provided is a directory then the directory is assumed to
+    be for a DICOM series volume.  If there is exactly one DICOM series
+    volume in that directory, the reader will use an itk.ImageSeriesReader
+    object to read the the DICOM filenames within that directory.
+
+    If the given filename is a list or a tuple of file names, the reader
+    will use an itk.ImageSeriesReader object to read the files.
 
     If `fallback_only` is set to `True`, `imread()` will first try to
     automatically deduce the image pixel_type, and only use the given
-    `pixel_type` if automatic deduction fails. Failures typically
-    happen if the pixel type is not supported (e.g. it is not currently
-    wrapped).
+    `pixel_type` if automatic deduction fails. Failures typically happen if
+    the pixel type is not supported (e.g. it is not currently wrapped).
+
     """
     import itk
     import itkTemplate
@@ -663,6 +670,21 @@ def imread(filename, pixel_type=None, fallback_only=False):
             return imread(filename)
         except (KeyError, itkTemplate.TemplateTypeError):
             pass
+    if type(filename) not in [list, tuple]:
+        import os
+        if os.path.isdir(filename):
+            # read DICOM series of 1 image in a folder, refer to: https://github.com/RSIP-Vision/medio
+            names_generator = itk.GDCMSeriesFileNames.New()
+            names_generator.SetUseSeriesDetails(True)
+            names_generator.AddSeriesRestriction("0008|0021")  # Series Date
+            names_generator.SetDirectory(filename)
+            series_uid = names_generator.GetSeriesUIDs()
+            if len(series_uid) == 0:
+                raise FileNotFoundError(f"no DICOMs in: {name}.")
+            if len(series_uid) > 1:
+                raise OSError(f"the directory: {name} contains more than one DICOM series.")
+            series_identifier = series_uid[0]
+            filename = names_generator.GetFileNames(series_identifier)
     if type(filename) in [list, tuple]:
         template_reader_type = itk.ImageSeriesReader
         io_filename = filename[0]
