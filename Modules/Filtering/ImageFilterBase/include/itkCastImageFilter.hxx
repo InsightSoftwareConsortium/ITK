@@ -147,12 +147,12 @@ CastImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateDataDispatche
 
   inputIt.GoToBegin();
   outputIt.GoToBegin();
+  OutputPixelType value{ outputIt.Get() };
   while (!inputIt.IsAtEnd())
   {
     while (!inputIt.IsAtEndOfLine())
     {
       const InputPixelType & inputPixel = inputIt.Get();
-      OutputPixelType        value;
       for (unsigned int k = 0; k < componentsPerPixel; k++)
       {
         value[k] = static_cast<typename OutputPixelType::ValueType>(inputPixel[k]);
