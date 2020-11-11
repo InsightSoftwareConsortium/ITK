@@ -100,6 +100,9 @@ jobs:
         set(dashboard_no_clean 1)
         set(ENV{CC} ${{ matrix.c-compiler }})
         set(ENV{CXX} ${{ matrix.cxx-compiler }})
+        if(WIN32)
+          set(ENV{PATH} "\${CTEST_DASHBOARD_ROOT}/ITK-build/bin;\$ENV{PATH}")
+        endif()
         set(dashboard_cache "
         ITK_DIR:PATH=\${CTEST_DASHBOARD_ROOT}/ITK-build
         BUILD_TESTING:BOOL=ON
