@@ -129,25 +129,6 @@ macro(itk_end_wrap_module)
 endmacro()
 
 
-macro(INCLUDE_LIBRARY library)
-  # TODO: that macro is buggy !!!!
-  # it doesn't store the vars where in the lib sub dir
-
-  itk_wrap_module("${library}")
-  # change some default values
-
-  # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for *.wrap files.
-  set(WRAPPER_LIBRARY_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${library}")
-
-  # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, idx,
-  # and mdx files will be placed.
-  set(WRAPPER_LIBRARY_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${library}")
-
-  add_subdirectory("${library}")
-  itk_end_wrap_module()
-endmacro()
-
-
 ################################################################################
 # Macros for finding and processing *.wrap files.
 ################################################################################
