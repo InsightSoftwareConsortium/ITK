@@ -272,10 +272,24 @@ def _initialize(l_module_data):
     dirs = [p for p in itkConfig.path if os.path.isdir(p)]
 
     for d in dirs:
-        files = os.listdir(d + os.sep + "Configuration")
-        known_modules = sorted([f[:-9] for f in files if f.endswith("Config.py")])
+        # NOT USED OR NEEDED candidate_lib_path: str = os.path.join(os.path.dirname(d), "lib")
+        # NOT USED OR NEEDED if not os.path.isdir(candidate_lib_path):
+        # NOT USED OR NEEDED     print(f"WARNING: Invalid directory for python lib files specified: {candidate_lib_path}")
+        # NOT USED OR NEEDED     raise RuntimeError(f"WARNING: Invalid directory for python lib files specified: {candidate_lib_path}")
+        # NOT USED OR NEEDED sys.path.append(candidate_lib_path)
+
+        candidate_config_path: str = os.path.join(d, "Configuration")
+        if not os.path.isdir(candidate_config_path):
+            print(
+                f"WARNING: Invalid configuration directory requested: {candidate_config_path}"
+            )
+            raise RuntimeError(
+                f"WARNING: Invalid configuration directory requested: {candidate_config_path}"
+            )
+
         sys.path.append(d)
-        sys.path.append(d + os.sep + ".." + os.sep + "lib")
+        files = os.listdir(os.path.join(d, "Configuration"))
+        known_modules = sorted([f[:-9] for f in files if f.endswith("Config.py")])
 
         for module in known_modules:
             data = {}
