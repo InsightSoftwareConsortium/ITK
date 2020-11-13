@@ -38,7 +38,7 @@ EigenToMeasureImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   this->BeforeThreadedGenerateData();
 
-  const OutputImageRegionType requestedRegion( outputPtr->GetRequestedRegion() );
+  const OutputImageRegionType requestedRegion(outputPtr->GetRequestedRegion());
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input
