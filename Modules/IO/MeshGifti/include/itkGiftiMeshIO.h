@@ -170,6 +170,17 @@ private:
 
   bool          m_ReadPointData;
   DirectionType m_Direction;
+
+  // Translate (G|N)ifti datatypes to IOComponentEnum
+  IOComponentEnum
+  GetComponentTypeFromGifti(int datatype);
+
+  // Translate (G|N)ifti datatypes to IOPixelEnum
+  IOPixelEnum
+  GetPixelTypeFromGifti(int datatype);
+
+  int
+  GetNumberOfPixelComponentsFromGifti(int datatype);
 };
 } // end namespace itk
 
