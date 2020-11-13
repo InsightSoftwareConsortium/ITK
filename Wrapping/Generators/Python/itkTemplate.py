@@ -337,23 +337,23 @@ class itkTemplate(object):
         cleanParameters = []
         for param in parameters:
             # In the case of itk class instance, get the class
-            name = param.__class__.__name__
-            isclass = inspect.isclass(param)
-            if not isclass and name[:3] == "itk" and name != "itkCType":
+            name: str = param.__class__.__name__
+            isclass: bool = inspect.isclass(param)
+            if not isclass and name.startswith("itk") and name != "itkCType":
                 param = param.__class__
 
             # append the parameter to the list. If it's not a supported type,
             # it is not in the dictionary and we will raise an exception below
             cleanParameters.append(param)
 
-        try:
-            return self.__template__[tuple(cleanParameters)]
-        except KeyError:
+        key = tuple(cleanParameters)
+        if self.__template__.get(key, None) is None:
             self._LoadModules()
-            try:
-                return self.__template__[tuple(cleanParameters)]
-            except KeyError:
-                raise TemplateTypeError(self, tuple(cleanParameters))
+        try:
+            this_item = self.__template__[key]
+        except KeyError:
+            raise TemplateTypeError(self, key)
+        return this_item
 
     def __repr__(self):
         return "<itkTemplate %s>" % self.__name__
