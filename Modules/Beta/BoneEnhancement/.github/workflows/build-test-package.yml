@@ -13,17 +13,17 @@ jobs:
           - os: ubuntu-18.04
             c-compiler: "gcc"
             cxx-compiler: "g++"
-            itk-git-tag: "v5.1.0"
+            itk-git-tag: "v5.1.1"
             cmake-build-type: "MinSizeRel"
           - os: windows-2019
             c-compiler: "cl.exe"
             cxx-compiler: "cl.exe"
-            itk-git-tag: "v5.1.0"
+            itk-git-tag: "v5.1.1"
             cmake-build-type: "Release"
           - os: macos-10.15
             c-compiler: "clang"
             cxx-compiler: "clang++"
-            itk-git-tag: "v5.1.0"
+            itk-git-tag: "v5.1.1"
             cmake-build-type: "MinSizeRel"
 
     steps:
@@ -130,7 +130,7 @@ jobs:
       matrix:
         python-version: [35, 36, 37, 38]
         include:
-          - itk-python-git-tag: "v5.1.0.post3"
+          - itk-python-git-tag: "v5.1.1.post1"
 
     steps:
     - uses: actions/checkout@v2
@@ -166,7 +166,7 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - itk-python-git-tag: "v5.1.0.post3"
+          - itk-python-git-tag: "v5.1.1.post1"
 
     steps:
     - uses: actions/checkout@v2
@@ -195,7 +195,7 @@ jobs:
       matrix:
         python-version-minor: [5, 6, 7, 8]
         include:
-          - itk-python-git-tag: "v5.1.0.post3"
+          - itk-python-git-tag: "v5.1.1.post1"
 
     steps:
     - uses: actions/checkout@v2
