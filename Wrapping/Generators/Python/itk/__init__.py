@@ -18,9 +18,13 @@
 
 """itk: Top-level container package for ITK wrappers."""
 
-from .conf import itkConfig as _itkConfig
+from .conf.itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
 
-__version__ = _itkConfig.ITK_GLOBAL_VERSION_STRING
+from .conf.itkTemplate import image
+from .conf.itkTemplate import output
+from .conf.itkExtras import *
+from .conf.itkInitHelpers import *
+from itkTypes import *
 
 
 def _initialize_module():
@@ -46,6 +50,7 @@ def _initialize_module():
 
     from .conf import itkBase as _itkBase
     from .conf import itkLazy as _itkLazy
+    from .conf import itkConfig as _itkConfig
     import sys
 
     if _itkConfig.LazyLoading:
@@ -68,12 +73,14 @@ def _initialize_module():
         else:
             # Create a new LazyITKModule
             lzy_module = _itkLazy.LazyITKModule(__name__, lazy_attributes)
-            # Set the __path__ attribute, which is required for this_module
-            # to be used as a package
-            setattr(lzy_module, "__path__", sys.modules[__name__].__path__)
-            setattr(
-                lzy_module, "__spec__", sys.modules[__name__].__spec__
-            )  # pytype: disable=name-error
+
+            # Pre-existing attributes need to be propagated too!
+            # except for the lazy overridden elements
+            exclusion_copy_list = ["__name__", "__loader__", "__builtins__"]
+            for k, v in sys.modules[__name__].__dict__.items():
+                if k not in exclusion_copy_list:
+                    setattr(lzy_module, k, v)
+
             # Now override the default  sys.modules[__name__] (__name__  == 'itk' )
             sys.modules[__name__] = lzy_module
     else:
@@ -89,35 +96,7 @@ def _initialize_module():
         itk_module = _itkLazy.LazyITKModule(module, attributes)
         setattr(sys.modules[__name__], module, itk_module)
 
-    # Regardless of how it was loaded, fill up the itk module with the ITK types
-    # and extras.
-    import itkTypes
 
-    for k, v in itkTypes.__dict__.items():
-        if k != "itkCType" and not k.startswith("_"):
-            setattr(sys.modules[__name__], k, v)
-    del itkTypes
-
-    from .conf import itkInitHelpers as _itkInitHelpers
-
-    for k, v in _itkInitHelpers.__dict__.items():
-        if not k.startswith("_"):
-            setattr(sys.modules[__name__], k, v)
-
-    from .conf import itkExtras as _itkExtras
-
-    for k, v in _itkExtras.__dict__.items():
-        if not k.startswith("_"):
-            setattr(sys.modules[__name__], k, v)
-
-    # --
-    # Needed to propagate symbol to itk.image from itkTemplate.image
-    from .conf import itkTemplate as _itkTemplate
-
-    setattr(sys.modules[__name__], "image", _itkTemplate.image)
-    setattr(sys.modules[__name__], "output", _itkTemplate.output)
-    # --
-
-
-# Now do the initialization
+# After 'lifting' external symbols into this itk namespace,
+# Now do the initialization, and conversion to LazyLoading if necessary
 _initialize_module()
