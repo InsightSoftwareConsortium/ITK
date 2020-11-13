@@ -18,10 +18,9 @@
 
 """itk: Top-level container package for ITK wrappers."""
 
-from itkConfig import ITK_GLOBAL_VERSION_STRING as _LOCAL_ITK_GLOBAL_VERSION_STRING
+from .conf import itkConfig as _itkConfig
 
-__version__ = _LOCAL_ITK_GLOBAL_VERSION_STRING
-del _LOCAL_ITK_GLOBAL_VERSION_STRING
+__version__ = _itkConfig.ITK_GLOBAL_VERSION_STRING
 
 
 def _initialize_module():
@@ -45,12 +44,11 @@ def _initialize_module():
                 # snake case always appended to end
                 local_lazy_attributes.setdefault(function, []).append(l_module)
 
-    import itkBase
-    import itkConfig
-    import itkLazy
+    from .conf import itkBase as _itkBase
+    from .conf import itkLazy as _itkLazy
     import sys
 
-    if itkConfig.LazyLoading:
+    if _itkConfig.LazyLoading:
         # If we are loading lazily (on-demand), make a dict mapping the available
         # classes/functions/etc. (read from the configuration modules) to the
         # modules they are declared in. Then pass that dict to a LazyITKModule
@@ -58,10 +56,10 @@ def _initialize_module():
         # module becomes that new instance instead of what is executed from this
         # file.
         lazy_attributes = {}
-        for module, data in itkBase.itk_base_global_module_data.items():
+        for module, data in _itkBase.itk_base_global_module_data.items():
             _get_lazy_attributes(lazy_attributes, module, data)
 
-        if isinstance(sys.modules[__name__], itkLazy.LazyITKModule):
+        if isinstance(sys.modules[__name__], _itkLazy.LazyITKModule):
             # Handle reload case where we've already done this once.
             # If we made a new module every time, multiple reload()s would fail
             # because the identity of sys.modules['itk'] would always be changing.
@@ -69,7 +67,7 @@ def _initialize_module():
             del lazy_attributes
         else:
             # Create a new LazyITKModule
-            lzy_module = itkLazy.LazyITKModule(__name__, lazy_attributes)
+            lzy_module = _itkLazy.LazyITKModule(__name__, lazy_attributes)
             # Set the __path__ attribute, which is required for this_module
             # to be used as a package
             setattr(lzy_module, "__path__", __path__)
@@ -79,14 +77,14 @@ def _initialize_module():
     else:
         # We're not lazy-loading. Just load the modules in the order specified in
         # the known_modules list for consistency.
-        for module in itkBase.itk_base_global_module_data.keys():
-            itkBase.itk_load_swig_module(module, sys.modules[__name__].__dict__)
+        for module in _itkBase.itk_base_global_module_data.keys():
+            _itkBase.itk_load_swig_module(module, sys.modules[__name__].__dict__)
 
     # Populate itk.ITKModuleName
-    for module, data in itkBase.itk_base_global_module_data.items():
+    for module, data in _itkBase.itk_base_global_module_data.items():
         attributes = {}
         _get_lazy_attributes(attributes, module, data)
-        itk_module = itkLazy.LazyITKModule(module, attributes)
+        itk_module = _itkLazy.LazyITKModule(module, attributes)
         setattr(sys.modules[__name__], module, itk_module)
 
     # Regardless of how it was loaded, fill up the itk module with the ITK types
@@ -98,27 +96,24 @@ def _initialize_module():
             setattr(sys.modules[__name__], k, v)
     del itkTypes
 
-    import itkInitHelpers
+    from .conf import itkInitHelpers as _itkInitHelpers
 
-    for k, v in itkInitHelpers.__dict__.items():
+    for k, v in _itkInitHelpers.__dict__.items():
         if not k.startswith("_"):
             setattr(sys.modules[__name__], k, v)
-    del itkInitHelpers
 
-    import itkExtras
+    from .conf import itkExtras as _itkExtras
 
-    for k, v in itkExtras.__dict__.items():
+    for k, v in _itkExtras.__dict__.items():
         if not k.startswith("_"):
             setattr(sys.modules[__name__], k, v)
-    del itkExtras
 
     # --
     # Needed to propagate symbol to itk.image from itkTemplate.image
-    import itkTemplate
+    from .conf import itkTemplate as _itkTemplate
 
-    setattr(sys.modules[__name__], "image", itkTemplate.image)
-    setattr(sys.modules[__name__], "output", itkTemplate.output)
-    del itkTemplate
+    setattr(sys.modules[__name__], "image", _itkTemplate.image)
+    setattr(sys.modules[__name__], "output", _itkTemplate.output)
     # --
 
 
