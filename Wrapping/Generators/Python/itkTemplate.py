@@ -149,7 +149,7 @@ class itkTemplate(object):
     __templates__ = collections.OrderedDict()
     __class_to_template__ = {}
     __named_templates__ = {}
-    __doxygen_root__ = itkConfig.doxygen_root
+    # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
 
     def __new__(cls, name):
         # Singleton pattern: we only make a single instance of any Template of

@@ -93,28 +93,42 @@ warnings.formatwarning = _itk_format_warning
 def _initialize():
     import os
 
-    def _normalized_path(relative_posix_path):
+    _this_file_dir: str = os.path.dirname(__file__)
+
+    def _normalized_path(relative_posix_path: str, message) -> str:
+        norm_path: str = "None"
         if relative_posix_path != "None":
-            file_dir = os.path.split(__file__)[0]
             relative_path = relative_posix_path.replace("/", os.sep)
-            return os.path.normpath(os.path.join(file_dir, relative_path))
+            norm_path = os.path.normpath(os.path.join(_this_file_dir, relative_path))
+            if not os.path.exists(norm_path):
+                print(f"WARNING: Internal configuration path is invalid: {norm_path}")
+                print(f"WARNING: Invalid: {message}")
+        return norm_path
 
-    # swig_lib: location of the swig-generated shared libraries
-    _swig_lib = _normalized_path("@CONFIG_PYTHON_SWIGLIB_DIR@")
+    _swig_lib: str = _normalized_path(
+        "@CONFIG_PYTHON_SWIGLIB_DIR@",
+        "swig_lib: location of the swig-generated shared libraries",
+    )
+    _swig_py: str = _normalized_path(
+        "@CONFIG_PYTHON_SWIGPY_DIR@",
+        "swig_py: location of the xxxPython.py swig-generated python interfaces",
+    )
+    _config_py: str = _normalized_path(
+        "@CONFIG_PYTHON_CONFIGPY_DIR@",
+        "config_py: location of xxxConfig.py CMake-generated library descriptions",
+    )
 
-    # swig_py: location of the xxxPython.py swig-generated python interfaces
-    _swig_py = _normalized_path("@CONFIG_PYTHON_SWIGPY_DIR@")
-
-    # config_py: location of xxxConfig.py CMake-generated library descriptions
-    _config_py = _normalized_path("@CONFIG_PYTHON_CONFIGPY_DIR@")
+    _config_py_root: str = os.path.dirname(_config_py)
 
     # put the itkConfig.py path in the path list
-    _path = [os.path.join(_config_py, "..")]
+    _path = [_config_py_root]
     # also populate path with the WRAPITK_PYTHON_PATH var
     if "WRAPITK_PYTHON_PATH" in os.environ:
         _path.extend(os.environ["WRAPITK_PYTHON_PATH"].split(":"))
 
-    _doxygen_root = _normalized_path("../Doc")
+    # NOT IMPLEMENTED:
+    # _doxygen_root = _normalized_path("../Doc", "doxygen_root: location of the doxygen xml files.")
+    _doxygen_root: str = "None"
 
     return _swig_lib, _swig_py, _config_py, _doxygen_root, _path
 
