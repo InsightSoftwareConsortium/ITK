@@ -41,7 +41,7 @@ public:
 };
 
 
-GiftiMeshIO ::GiftiMeshIO()
+GiftiMeshIO::GiftiMeshIO()
   : m_GiftiImageHolder(new GiftiImageProxy(nullptr))
   , m_GiftiImage(*m_GiftiImageHolder.get())
 {
@@ -53,10 +53,10 @@ GiftiMeshIO ::GiftiMeshIO()
   this->m_UseCompression = true;
 }
 
-GiftiMeshIO ::~GiftiMeshIO() = default;
+GiftiMeshIO::~GiftiMeshIO() = default;
 
 bool
-GiftiMeshIO ::CanReadFile(const char * fileName)
+GiftiMeshIO::CanReadFile(const char * fileName)
 {
   if (!itksys::SystemTools::FileExists(fileName, true))
   {
@@ -72,7 +72,7 @@ GiftiMeshIO ::CanReadFile(const char * fileName)
 }
 
 bool
-GiftiMeshIO ::CanWriteFile(const char * fileName)
+GiftiMeshIO::CanWriteFile(const char * fileName)
 {
   if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".gii")
   {
@@ -83,7 +83,7 @@ GiftiMeshIO ::CanWriteFile(const char * fileName)
 }
 
 void
-GiftiMeshIO ::SetDirection(const DirectionType & direction)
+GiftiMeshIO::SetDirection(const DirectionType & direction)
 {
   for (unsigned int rr = 0; rr < 4; rr++)
   {
@@ -97,7 +97,7 @@ GiftiMeshIO ::SetDirection(const DirectionType & direction)
 }
 
 GiftiMeshIO::LabelColorContainerPointer
-GiftiMeshIO ::GetLabelColorTable()
+GiftiMeshIO::GetLabelColorTable()
 {
   LabelColorContainerPointer colorMap;
   if (ExposeMetaData<LabelColorContainerPointer>(this->GetMetaDataDictionary(), "colorContainer", colorMap))
@@ -111,7 +111,7 @@ GiftiMeshIO ::GetLabelColorTable()
 }
 
 GiftiMeshIO::LabelNameContainerPointer
-GiftiMeshIO ::GetLabelNameTable()
+GiftiMeshIO::GetLabelNameTable()
 {
   LabelNameContainerPointer labelMap;
   if (ExposeMetaData<LabelNameContainerPointer>(this->GetMetaDataDictionary(), "labelContainer", labelMap))
@@ -125,7 +125,7 @@ GiftiMeshIO ::GetLabelNameTable()
 }
 
 void
-GiftiMeshIO ::SetLabelColorTable(const LabelColorContainer * colorMap)
+GiftiMeshIO::SetLabelColorTable(const LabelColorContainer * colorMap)
 {
   EncapsulateMetaData<LabelColorContainerPointer>(
     this->GetMetaDataDictionary(), "colorContainer", const_cast<LabelColorContainer *>(colorMap));
@@ -133,7 +133,7 @@ GiftiMeshIO ::SetLabelColorTable(const LabelColorContainer * colorMap)
 }
 
 void
-GiftiMeshIO ::SetLabelNameTable(const LabelNameContainer * labelMap)
+GiftiMeshIO::SetLabelNameTable(const LabelNameContainer * labelMap)
 {
   EncapsulateMetaData<LabelNameContainerPointer>(
     this->GetMetaDataDictionary(), "labelContainer", const_cast<LabelNameContainer *>(labelMap));
@@ -141,7 +141,7 @@ GiftiMeshIO ::SetLabelNameTable(const LabelNameContainer * labelMap)
 }
 
 void
-GiftiMeshIO ::ReadMeshInformation()
+GiftiMeshIO::ReadMeshInformation()
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), false);
@@ -851,7 +851,7 @@ GiftiMeshIO ::ReadMeshInformation()
 }
 
 void
-GiftiMeshIO ::ReadPoints(void * buffer)
+GiftiMeshIO::ReadPoints(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
@@ -877,7 +877,7 @@ GiftiMeshIO ::ReadPoints(void * buffer)
 }
 
 void
-GiftiMeshIO ::ReadCells(void * buffer)
+GiftiMeshIO::ReadCells(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
@@ -1025,7 +1025,7 @@ GiftiMeshIO ::ReadCells(void * buffer)
 }
 
 void
-GiftiMeshIO ::ReadPointData(void * buffer)
+GiftiMeshIO::ReadPointData(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
@@ -1055,7 +1055,7 @@ GiftiMeshIO ::ReadPointData(void * buffer)
 }
 
 void
-GiftiMeshIO ::ReadCellData(void * buffer)
+GiftiMeshIO::ReadCellData(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
@@ -1085,7 +1085,7 @@ GiftiMeshIO ::ReadCellData(void * buffer)
 }
 
 void
-GiftiMeshIO ::WriteMeshInformation()
+GiftiMeshIO::WriteMeshInformation()
 {
   // Define number of data arrays
   int nda = 0;
@@ -1462,7 +1462,7 @@ GiftiMeshIO ::WriteMeshInformation()
 }
 
 void
-GiftiMeshIO ::WritePoints(void * buffer)
+GiftiMeshIO::WritePoints(void * buffer)
 {
   const SizeValueType pointsBufferSize = this->m_NumberOfPoints * this->m_PointDimension;
 
@@ -1566,7 +1566,7 @@ GiftiMeshIO ::WritePoints(void * buffer)
 }
 
 void
-GiftiMeshIO ::WriteCells(void * buffer)
+GiftiMeshIO::WriteCells(void * buffer)
 {
   // Get data array contain intent of NIFTI_INTENT_TRIANGLE
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
@@ -1658,7 +1658,7 @@ GiftiMeshIO ::WriteCells(void * buffer)
 }
 
 void
-GiftiMeshIO ::WritePointData(void * buffer)
+GiftiMeshIO::WritePointData(void * buffer)
 {
   // Get data array contain intent of NIFTI_INTENT_SHAPE
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
@@ -1869,7 +1869,7 @@ GiftiMeshIO ::WritePointData(void * buffer)
 }
 
 void
-GiftiMeshIO ::WriteCellData(void * buffer)
+GiftiMeshIO::WriteCellData(void * buffer)
 {
   // Get data array contain intent of NIFTI_INTENT_SHAPE
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
@@ -2079,14 +2079,14 @@ GiftiMeshIO ::WriteCellData(void * buffer)
 }
 
 void
-GiftiMeshIO ::Write()
+GiftiMeshIO::Write()
 {
   gifti_write_image(m_GiftiImage, this->m_FileName.c_str(), 1);
   gifti_free_image(m_GiftiImage);
 }
 
 void
-GiftiMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
+GiftiMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "gii version : " << std::endl;
