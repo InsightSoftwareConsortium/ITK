@@ -245,7 +245,7 @@ class LibraryLoader(object):
             # silently pass to avoid the case where the dir is not there
             pass
         self.old_path = sys.path
-        sys.path = [itkConfig.swig_lib, itkConfig.swig_py, itkConfig.path] + sys.path
+        sys.path = [itkConfig.swig_lib, itkConfig.swig_py] + itkConfig.path + sys.path
 
     def load(self, name):
         self.setup()
