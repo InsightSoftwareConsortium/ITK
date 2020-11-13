@@ -215,7 +215,8 @@ GiftiMeshIO::ReadMeshInformation()
         itkExceptionMacro(<< "Data array " << ii << " with intent NIFTI_INTENT_TRIANGLE requires scalar datatype.");
       }
     }
-    else if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE)
+    else if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
+             m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_NONE)
     {
       if (m_GiftiImage->darray[ii]->num_dim > 0)
       {
@@ -623,7 +624,7 @@ GiftiMeshIO::ReadPointData(void * buffer)
   {
     if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
         m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR ||
-        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL)
+        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_NONE)
     {
       if (static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]) == this->m_NumberOfPointPixels)
       {
@@ -653,7 +654,7 @@ GiftiMeshIO::ReadCellData(void * buffer)
   {
     if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
         m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR ||
-        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL)
+        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_NONE)
     {
       if (static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]) == this->m_NumberOfCellPixels)
       {
