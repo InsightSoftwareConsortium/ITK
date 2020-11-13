@@ -70,8 +70,10 @@ def _initialize_module():
             lzy_module = _itkLazy.LazyITKModule(__name__, lazy_attributes)
             # Set the __path__ attribute, which is required for this_module
             # to be used as a package
-            setattr(lzy_module, "__path__", __path__)
-            setattr(lzy_module, "__spec__", __spec__)  # pytype: disable=name-error
+            setattr(lzy_module, "__path__", sys.modules[__name__].__path__)
+            setattr(
+                lzy_module, "__spec__", sys.modules[__name__].__spec__
+            )  # pytype: disable=name-error
             # Now override the default  sys.modules[__name__] (__name__  == 'itk' )
             sys.modules[__name__] = lzy_module
     else:
