@@ -473,6 +473,8 @@ try:
 
     print("Testing vtk conversion")
 
+    print("Testing vtk conversion")
+
     image = itk.image_from_array(np.random.rand(2, 3, 4))
     vtk_image = itk.vtk_image_from_image(image)
     image_round = itk.image_from_vtk_image(vtk_image)
