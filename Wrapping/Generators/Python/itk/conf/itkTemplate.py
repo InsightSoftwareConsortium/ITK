@@ -31,26 +31,14 @@ from itkTypes import itkCType
 import math
 
 
+# For backward compatibility
 def registerNoTpl(name: str, cl) -> None:
-    """Register a class without template
-
-    It can seem not useful to register classes without template (and it wasn't
-    useful until the SmartPointer template was generated), but those classes
-    can be used as template argument of classes with template.
-    """
-    itkTemplate.__templates__[normalizeName(name)] = cl
+    itkTemplate.registerNoTpl(name, cl)
 
 
+# For backward compatibility
 def normalizeName(name: str) -> str:
-    """Normalize the class name to remove ambiguity
-
-    This function removes the white spaces in the name, and also
-    remove the pointer declaration "*" (it have no sense in python)"""
-    name = name.strip()
-    name = name.replace(" ", "")
-    name = name.replace("*", "")
-
-    return name
+    return itkTemplate.normalizeName(name)
 
 
 class TemplateTypeError(TypeError):
@@ -151,6 +139,28 @@ class itkTemplate(object):
     __named_templates__ = {}
     # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
 
+    @staticmethod
+    def normalizeName(name: str) -> str:
+        """Normalize the class name to remove ambiguity
+
+        This function removes the white spaces in the name, and also
+        remove the pointer declaration "*" (it have no sense in python)"""
+        name = name.strip()
+        name = name.replace(" ", "")
+        name = name.replace("*", "")
+
+        return name
+
+    @classmethod
+    def registerNoTpl(cls, name: str, cl) -> None:
+        """Register a class without template
+
+        It can seem not useful to register classes without template (and it wasn't
+        useful until the SmartPointer template was generated), but those classes
+        can be used as template argument of classes with template.
+        """
+        cls.__templates__[itkTemplate.normalizeName(name)] = cl
+
     def __new__(cls, name):
         # Singleton pattern: we only make a single instance of any Template of
         # a given name. If we have already made the instance, just return it
@@ -175,7 +185,9 @@ class itkTemplate(object):
         cl is the class which corresponds to the couple template-argument set.
         """
         # recreate the full name and normalize it to avoid ambiguity
-        normFullName = normalizeName(self.__name__ + "<" + paramSetString + ">")
+        normFullName = itkTemplate.normalizeName(
+            self.__name__ + "<" + paramSetString + ">"
+        )
 
         # the full class should not be already registered. If it is, there is a
         # problem somewhere so warn the user so he can fix the problem
@@ -284,7 +296,7 @@ class itkTemplate(object):
             # the parameter need to be normalized several time below
             # do it once here
             param_stripped = param.strip()
-            paramNorm = normalizeName(param_stripped)
+            paramNorm = itkTemplate.normalizeName(param_stripped)
             del param
 
             if paramNorm in itkTemplate.__templates__:
