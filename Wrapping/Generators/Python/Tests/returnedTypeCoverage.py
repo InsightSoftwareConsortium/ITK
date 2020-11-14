@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import re
@@ -24,41 +24,38 @@ from optparse import OptionParser
 
 
 ctypes = [
-    'double',
-    'float',
-    'signed_char',
-    'signed_short',
-    'signed_long',
-    'unsigned_char',
-    'unsigned_short',
-    'unsigned_long',
-    'char',
-    'short',
-    'long',
-    'bool',
-    'int',
-    'unsigned_int',
-    'void'
+    "double",
+    "float",
+    "signed_char",
+    "signed_short",
+    "signed_long",
+    "unsigned_char",
+    "unsigned_short",
+    "unsigned_long",
+    "char",
+    "short",
+    "long",
+    "bool",
+    "int",
+    "unsigned_int",
+    "void",
 ]
 
 
 excludedMethodsList = [
-    'Delete',
-    'Unregister',
-    'SetReferenceCount',
-
+    "Delete",
+    "Unregister",
+    "SetReferenceCount",
     # the method broken for all filters
-    'PushBackInput',
-    'PushFrontInput',
-    'GraftOutput',
-    'SetInput',
-    'UpdateOutputData',
-    'PropagateRequestedRegion',
-    'EnlargeOutputRequestedRegion',
-
+    "PushBackInput",
+    "PushFrontInput",
+    "GraftOutput",
+    "SetInput",
+    "UpdateOutputData",
+    "PropagateRequestedRegion",
+    "EnlargeOutputRequestedRegion",
     # functor are not wrapped so exclude GetFunctor
-    'GetFunctor',
-
+    "GetFunctor",
     #'UnCreateAllInstanceRegister',
     #'Update',
     #'UpdateLargestPossibleRegion',
@@ -140,20 +137,20 @@ excludedClasses = [
     #'ImageRegionIteratorWithIndex',
     #'InterpolateImageFilter',
     #'IsolatedConnectedImageFilter',
-    'SmartPointer',
-    'BMPImageIO',
+    "SmartPointer",
+    "BMPImageIO",
 ]
 
 
 def log(s, level):
     if level <= options.verbose:
-        print(logFile, s)
+        print((logFile, s))
         logFile.flush()
 
 
 def cleanType(s):
-    i = s.index('_', 1)
-    return s[i + 1:]
+    i = s.index("_", 1)
+    return s[i + 1 :]
 
 
 def addUnwrappedType(s):
@@ -164,7 +161,7 @@ def addUnwrappedType(s):
 
 
 def exploreTpl(tpl):
-    for cl in tpl.itervalues():
+    for cl in tpl.values():
         exploreMethods(cl, cl)
         # try to instanciate the class
         try:
@@ -182,7 +179,8 @@ def exploreMethods(obj, cl):
     isin = isinstance(i, str)
     ls = excludedMethodsList
     attrNameList = sorted(
-        [i for i in dir(obj) if isin and i[0].isupper() and i not in ls])
+        [i for i in dir(obj) if isin and i[0].isupper() and i not in ls]
+    )
 
     for attrName in attrNameList:
         log(" + " + attrName, 2)
@@ -190,20 +188,20 @@ def exploreMethods(obj, cl):
             parameters = repr((cl.__name__, attrName))
             if parameters not in exclude:
                 log(parameters, 4)
-                exec "s = obj.%s()" % attrName
+                exec("s = obj.%s()" % attrName)
                 if isUnwrappedTypeString(s):
                     addUnwrappedType(s)
                     log("   - " + cleanType(s), 5)
         except:
             # try with some parameters
             if attrName not in excludedMethodsWithParamList:
-                for param in [0, '', False, None]:
+                for param in [0, "", False, None]:
                     parameters = repr((cl.__name__, attrName, param))
                     if parameters not in exclude:
-                        log('  * ' + repr(param), 3)
+                        log("  * " + repr(param), 3)
                         log(parameters, 4)
                         try:
-                            exec "s = obj.%s(param)" % attrName
+                            exec("s = obj.%s(param)" % attrName)
                             if isUnwrappedTypeString(s):
                                 addUnwrappedType(s)
                                 log("   - " + cleanType(s), 5)
@@ -217,37 +215,18 @@ def isUnwrappedTypeString(s):
     if not s[0] == "_":
         return False
     for t in ctypes:
-        if re.match('^_[0-9a-z]+_p_%s$' % t, s):
+        if re.match("^_[0-9a-z]+_p_%s$" % t, s):
             return False
     return True
 
 
 parser = OptionParser(usage="usage: %prog")
+parser.add_option("--exclude", dest="exclude", default=None, metavar="FILE", help="")
+parser.add_option("--log-file", dest="logFile", default="-", metavar="FILE", help="")
 parser.add_option(
-    "--exclude",
-    dest="exclude",
-    default=None,
-    metavar="FILE",
-    help="")
-parser.add_option(
-    "--log-file",
-    dest="logFile",
-    default="-",
-    metavar="FILE",
-    help="")
-parser.add_option(
-    "--start-from",
-    dest="startFrom",
-    default=None,
-    metavar="CLASS",
-    help="")
-parser.add_option(
-    "-v",
-    "--verbose",
-    dest="verbose",
-    default=0,
-    type="int",
-    help="")
+    "--start-from", dest="startFrom", default=None, metavar="CLASS", help=""
+)
+parser.add_option("-v", "--verbose", dest="verbose", default=0, type="int", help="")
 (options, args) = parser.parse_args()
 
 if options.logFile == "-":
@@ -264,13 +243,13 @@ val = [i for i in dir(itk) if i[0].isupper() and len(i) > 2]
 attrNameList = sorted(set(val) - set(excludedClasses))
 
 if options.startFrom:
-    attrNameList = attrNameList[attrNameList.index(options.startFrom):]
+    attrNameList = attrNameList[attrNameList.index(options.startFrom) :]
 
 unwrappedTypes = set()
 
 
 for name in attrNameList:
-    exec "attr = itk." + name
+    exec("attr = itk." + name)
     # attr = itk.__dict__[name]
     log(name, 1)
     if isinstance(attr, itkTemplate):

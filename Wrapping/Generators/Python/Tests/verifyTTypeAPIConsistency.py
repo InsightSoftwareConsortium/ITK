@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,13 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 # a short program to check that ITK's API is consistent across the library.
 
 import itk
 import sys
 import itkTemplate
+
 itk.auto_progress(2)
 
 # must force the load to return all the names with dir(itk)
@@ -32,18 +33,19 @@ totalAPI = 0
 # a list of classes to exclude. Typically, the classes with a custom New()
 # method, which return a subclass of the current class.
 exclude = [
-# The following class API could be updated.
-"GDCMSeriesFileNames",
-"HistogramToRunLengthFeaturesFilter",
-"HistogramToTextureFeaturesFilter",
-"ScalarImageToRunLengthFeaturesFilter",
-"ScalarImageToTextureFeaturesFilter",
-# These classes are just ignored.
-"ScanlineFilterCommon",  # Segfault
-"templated_class",
-"auto_pipeline",
-"pipeline"
+    # The following class API could be updated.
+    "GDCMSeriesFileNames",
+    "HistogramToRunLengthFeaturesFilter",
+    "HistogramToTextureFeaturesFilter",
+    "ScalarImageToRunLengthFeaturesFilter",
+    "ScalarImageToTextureFeaturesFilter",
+    # These classes are just ignored.
+    "ScanlineFilterCommon",  # Segfault
+    "templated_class",
+    "auto_pipeline",
+    "pipeline",
 ]
+
 
 def checkTTypeConsistency(o, t):
     totalAPI = 0
@@ -55,12 +57,16 @@ def checkTTypeConsistency(o, t):
         return totalAPI, wrongAPI
     totalAPI = 1
     list_methods = dir(i)
-    list_setttype = [k for k in list_methods if k.lower() == 'setttype']
+    list_setttype = [k for k in list_methods if k.lower() == "setttype"]
     if list_setttype:
-        msg = "%s: Wrong API: `setttype()` found (%s)" % (i.GetNameOfClass(), list_setttype)
+        msg = "%s: Wrong API: `setttype()` found (%s)" % (
+            i.GetNameOfClass(),
+            list_setttype,
+        )
         print(msg, file=sys.stderr)
         wrongAPI = 1
     return totalAPI, wrongAPI
+
 
 # Test that no ITK templated object uses the keyword `ttype` which is used in
 # Python to select the template types. Specifically, if a class was implementing
@@ -70,7 +76,7 @@ for t in dir(itk):
     if t not in exclude:
         T = itk.__dict__[t]
         # Only check template classes.
-        if isinstance(T,itkTemplate.itkTemplate) and len(T) > 0:
+        if isinstance(T, itkTemplate.itkTemplate) and len(T) > 0:
             # Most templated object would simply instantiate the first type
             # listed if `New()` is called directly on the template type, but
             # this is not the case for all templates
@@ -85,7 +91,5 @@ for t in dir(itk):
 
 print("%s classes checked." % totalAPI)
 if wrongAPI:
-    print(
-        "%s classes are using the method `setttype`." % wrongAPI,
-        file=sys.stderr)
+    print("%s classes are using the method `setttype`." % wrongAPI, file=sys.stderr)
     sys.exit(1)

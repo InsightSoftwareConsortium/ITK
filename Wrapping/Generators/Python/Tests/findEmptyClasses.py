@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import sys
@@ -24,6 +24,7 @@ itk.auto_progress(2)
 
 itk.force_load()
 
+
 def isEmpty(o):
     for i in dir(o):
         if i[0].isupper():
@@ -31,46 +32,47 @@ def isEmpty(o):
         return True
 
 
-exclude = ["AuthalicMatrixCoefficients",
-           "MatrixCoefficients",
-           "OnesMatrixCoefficients",
-           "IntrinsicMatrixCoefficients",
-           "HarmonicMatrixCoefficients",
-           "ConformalMatrixCoefficients",
-           "InverseEuclideanDistanceMatrixCoefficients",
-           "BandNode",
-           "NormalBandNode",
-           "CellTraitsInfo",
-           "DefaultDynamicMeshTraits",
-           "DefaultStaticMeshTraits",
-           "ParallelSparseFieldLevelSetNode",
-           "PyVectorContainer",
-           "SparseFieldLevelSetNode",
-           "QuadEdgeMeshCellTraitsInfo",
-           "QuadEdgeMeshTraits",
-           "complex",
-           "list",
-           "map",
-           "numeric_limits",
-           "set",
-           "vector",
-           "vnl_c_vector",
-           "vnl_diag_matrix",
-           "vnl_matrix",
-           "vnl_matrix_fixed",
-           "vnl_matrix_fixed_ref",
-           "vnl_matrix_fixed_ref_const",
-           "vnl_matrix_ref",
-           "vnl_vector",
-           "vnl_vector_ref",
-           "vnl_file_matrix",
-           "vnl_file_vector",
-           "vnl_fortran_copy",
-           "CosineWindowFunction",
-           "HammingWindowFunction",
-           "LanczosWindowFunction",
-           "WelchWindowFunction",
-           ]
+exclude = [
+    "AuthalicMatrixCoefficients",
+    "MatrixCoefficients",
+    "OnesMatrixCoefficients",
+    "IntrinsicMatrixCoefficients",
+    "HarmonicMatrixCoefficients",
+    "ConformalMatrixCoefficients",
+    "InverseEuclideanDistanceMatrixCoefficients",
+    "BandNode",
+    "NormalBandNode",
+    "CellTraitsInfo",
+    "DefaultDynamicMeshTraits",
+    "DefaultStaticMeshTraits",
+    "ParallelSparseFieldLevelSetNode",
+    "PyVectorContainer",
+    "SparseFieldLevelSetNode",
+    "QuadEdgeMeshCellTraitsInfo",
+    "QuadEdgeMeshTraits",
+    "complex",
+    "list",
+    "map",
+    "numeric_limits",
+    "set",
+    "vector",
+    "vnl_c_vector",
+    "vnl_diag_matrix",
+    "vnl_matrix",
+    "vnl_matrix_fixed",
+    "vnl_matrix_fixed_ref",
+    "vnl_matrix_fixed_ref_const",
+    "vnl_matrix_ref",
+    "vnl_vector",
+    "vnl_vector_ref",
+    "vnl_file_matrix",
+    "vnl_file_vector",
+    "vnl_fortran_copy",
+    "CosineWindowFunction",
+    "HammingWindowFunction",
+    "LanczosWindowFunction",
+    "WelchWindowFunction",
+]
 
 total = 0
 empty = 0

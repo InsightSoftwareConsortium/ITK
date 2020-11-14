@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,14 +14,16 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import os
 import argparse
 
-parser = argparse.ArgumentParser(description='dicomSeries.py dicom_volume_series_files')
-parser.add_argument('files', metavar='file', type=str, nargs='+', help='a file in a DICOM volume series')
+parser = argparse.ArgumentParser(description="dicomSeries.py dicom_volume_series_files")
+parser.add_argument(
+    "files", metavar="file", type=str, nargs="+", help="a file in a DICOM volume series"
+)
 args = parser.parse_args()
 dicom_dir = os.path.dirname(args.files[0])
 image = itk.imread(dicom_dir)

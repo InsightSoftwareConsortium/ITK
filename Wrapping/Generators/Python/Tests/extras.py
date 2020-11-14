@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 # also test the import callback feature
 
@@ -22,12 +22,16 @@ import itk
 import sys
 import os
 
+
 def custom_callback(name, progress):
     if progress == 0:
         print("Loading %s..." % name, file=sys.stderr)
     if progress == 1:
         print("done", file=sys.stderr)
+
+
 import itkConfig
+
 itkConfig.ImportCallback = custom_callback
 
 
@@ -135,21 +139,21 @@ itk.imwrite(reader, sys.argv[3], True)
 
 # test read
 image = itk.imread(filename)
-assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
+assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 image = itk.imread(filename, itk.F)
-assert type(image) == itk.Image[itk.F,2]
+assert type(image) == itk.Image[itk.F, 2]
 image = itk.imread(filename, itk.F, fallback_only=True)
-assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
+assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 try:
-  image = itk.imread(filename, fallback_only=True)
-  # Should never reach this point if test passes since an exception
-  # is expected.
-  raise Exception('`itk.imread()` fallback_only should have failed')
+    image = itk.imread(filename, fallback_only=True)
+    # Should never reach this point if test passes since an exception
+    # is expected.
+    raise Exception("`itk.imread()` fallback_only should have failed")
 except Exception as e:
-  if str(e) == "pixel_type must be set when using the fallback_only option":
-    pass
-  else:
-    raise e
+    if str(e) == "pixel_type must be set when using the fallback_only option":
+        pass
+    else:
+        raise e
 
 # test mesh read / write
 mesh = itk.meshread(mesh_filename)
@@ -182,13 +186,13 @@ assert down_casted.__class__ == ReaderType
 
 # test setting the IO manually
 png_io = itk.PNGImageIO.New()
-assert png_io.GetFileName() == ''
-reader=itk.ImageFileReader.New(FileName=filename, ImageIO=png_io)
+assert png_io.GetFileName() == ""
+reader = itk.ImageFileReader.New(FileName=filename, ImageIO=png_io)
 reader.Update()
 assert png_io.GetFileName() == filename
 
 # test reading image series
-series_reader = itk.ImageSeriesReader.New(FileNames=[filename,filename])
+series_reader = itk.ImageSeriesReader.New(FileNames=[filename, filename])
 series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 assert series_reader.GetOutput().GetLargestPossibleRegion().GetSize()[2] == 2
@@ -199,11 +203,11 @@ image_series = itk.Image[itk.UC, 3].New()
 image_series.SetRegions([10, 7, 1])
 image_series.Allocate()
 image_series.FillBuffer(0)
-image_series3d_filename = os.path.join(
-    sys.argv[5], "image_series_extras_py.mha")
+image_series3d_filename = os.path.join(sys.argv[5], "image_series_extras_py.mha")
 itk.imwrite(image_series, image_series3d_filename)
 series_reader = itk.ImageSeriesReader.New(
-    FileNames=[image_series3d_filename, image_series3d_filename])
+    FileNames=[image_series3d_filename, image_series3d_filename]
+)
 series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 
@@ -235,6 +239,7 @@ assert image_series.GetImageDimension() == 3
 
 # Images
 import numpy as np
+
 image = itk.imread(filename)
 arr = itk.array_from_image(image)
 arr.fill(1)
@@ -255,35 +260,37 @@ image = itk.image_from_array(arr, is_vector=True)
 assert image.GetImageDimension() == 2
 image = itk.GetImageViewFromArray(arr, is_vector=True)
 assert image.GetImageDimension() == 2
-arr = np.array([[1,2,3],[4,5,6]]).astype(np.uint8)
+arr = np.array([[1, 2, 3], [4, 5, 6]]).astype(np.uint8)
 assert arr.shape[0] == 2
 assert arr.shape[1] == 3
-assert arr[1,1] == 5
+assert arr[1, 1] == 5
 image = itk.image_from_array(arr)
 arrKeepAxes = itk.array_from_image(image, keep_axes=True)
 assert arrKeepAxes.shape[0] == 3
 assert arrKeepAxes.shape[1] == 2
-assert arrKeepAxes[1,1] == 4
+assert arrKeepAxes[1, 1] == 4
 arr = itk.array_from_image(image, keep_axes=False)
 assert arr.shape[0] == 2
 assert arr.shape[1] == 3
-assert arr[1,1] == 5
+assert arr[1, 1] == 5
 arrKeepAxes = itk.GetArrayViewFromImage(image, keep_axes=True)
 assert arrKeepAxes.shape[0] == 3
 assert arrKeepAxes.shape[1] == 2
-assert arrKeepAxes[1,1] == 4
+assert arrKeepAxes[1, 1] == 4
 arr = itk.GetArrayViewFromImage(image, keep_axes=False)
 assert arr.shape[0] == 2
 assert arr.shape[1] == 3
-assert arr[1,1] == 5
+assert arr[1, 1] == 5
 arr = arr.copy()
 image = itk.image_from_array(arr)
 image2 = type(image).New()
 image2.Graft(image)
-del image # Delete image but pixel data should be kept in img2
-image = itk.image_from_array(arr+1) # Fill former memory if wrongly released
+del image  # Delete image but pixel data should be kept in img2
+image = itk.image_from_array(arr + 1)  # Fill former memory if wrongly released
 assert np.array_equal(arr, itk.GetArrayViewFromImage(image2))
-image2.SetPixel([0]*image2.GetImageDimension(), 3) # For mem check in dynamic analysis
+image2.SetPixel(
+    [0] * image2.GetImageDimension(), 3
+)  # For mem check in dynamic analysis
 # VNL Vectors
 v1 = itk.vnl_vector.D(2)
 v1.fill(1)
@@ -296,42 +303,42 @@ assert v1.get(0) == view[0]
 view[0] = 0
 assert v1.get(0) == view[0]
 # VNL Matrices
-m1 = itk.vnl_matrix.D(2,2)
+m1 = itk.vnl_matrix.D(2, 2)
 m1.fill(1)
 m_np = itk.GetArrayFromVnlMatrix(m1)
-assert m1.get(0,0) == m_np[0,0]
-m_np[0,0] = 0
-assert m1.get(0,0) != m_np[0,0]
+assert m1.get(0, 0) == m_np[0, 0]
+m_np[0, 0] = 0
+assert m1.get(0, 0) != m_np[0, 0]
 view = itk.GetArrayViewFromVnlMatrix(m1)
-assert m1.get(0,0) == view[0,0]
-view[0,0] = 0
-assert m1.get(0,0) == view[0,0]
-arr = np.zeros([3,3])
+assert m1.get(0, 0) == view[0, 0]
+view[0, 0] = 0
+assert m1.get(0, 0) == view[0, 0]
+arr = np.zeros([3, 3])
 m_vnl = itk.GetVnlMatrixFromArray(arr)
-assert m_vnl(0,0) == 0
-m_vnl.put(0,0,3)
-assert m_vnl(0,0) == 3
-assert arr[0,0] == 0
+assert m_vnl(0, 0) == 0
+m_vnl.put(0, 0, 3)
+assert m_vnl(0, 0) == 3
+assert arr[0, 0] == 0
 # ITK Matrix
-arr = np.zeros([3,3],float)
+arr = np.zeros([3, 3], float)
 m_itk = itk.GetMatrixFromArray(arr)
 # Test snake case function
 m_itk = itk.matrix_from_array(arr)
 m_itk.SetIdentity()
 # Test that the numpy array has not changed,...
-assert arr[0,0] == 0
+assert arr[0, 0] == 0
 # but that the ITK matrix has the correct value.
-assert m_itk(0,0) == 1
+assert m_itk(0, 0) == 1
 arr2 = itk.GetArrayFromMatrix(m_itk)
 # Check that snake case function also works
 arr2 = itk.array_from_matrix(m_itk)
 # Check that the new array has the new value.
-assert arr2[0,0] == 1
-arr2[0,0]=2
+assert arr2[0, 0] == 1
+arr2[0, 0] = 2
 # Change the array value,...
-assert arr2[0,0] == 2
+assert arr2[0, 0] == 2
 # and make sure that the matrix hasn't changed.
-assert m_itk(0,0) == 1
+assert m_itk(0, 0) == 1
 
 # test .astype for itk.Image
 numpyImage = np.random.randint(0, 256, (8, 12, 5)).astype(np.uint8)
@@ -339,48 +346,72 @@ image = itk.image_from_array(numpyImage, is_vector=False)
 cast = image.astype(np.uint8)
 assert cast == image
 (input_image_template, (input_pixel_type, input_image_dimension)) = itk.template(image)
-assert hasattr(itk.CastImageFilter, 'IUC3IF3')
-for t in [[itk.F, np.float32, 'IUC3IF3'], [itk.SS, np.int16, 'IUC3ISS3'], \
-          [itk.UI, np.uint32, 'IUC3IUI3'], [np.float32, np.float32, 'IUC3IF3']]:
+assert hasattr(itk.CastImageFilter, "IUC3IF3")
+for t in [
+    [itk.F, np.float32, "IUC3IF3"],
+    [itk.SS, np.int16, "IUC3ISS3"],
+    [itk.UI, np.uint32, "IUC3IUI3"],
+    [np.float32, np.float32, "IUC3IF3"],
+]:
     if hasattr(itk.CastImageFilter, t[2]):
         cast = image.astype(t[0])
-        (cast_image_template, (cast_pixel_type, cast_image_dimension)) = itk.template(cast)
-        assert cast_image_template == input_image_template and \
-            cast_image_dimension == input_image_dimension and cast.dtype == t[1]
+        (cast_image_template, (cast_pixel_type, cast_image_dimension)) = itk.template(
+            cast
+        )
+        assert (
+            cast_image_template == input_image_template
+            and cast_image_dimension == input_image_dimension
+            and cast.dtype == t[1]
+        )
 
 # test .astype for itk.VectorImage
 numpyImage = np.random.randint(0, 256, (8, 5, 3)).astype(np.float32)
 image = itk.image_from_array(numpyImage, is_vector=True)
-vectorimage = itk.cast_image_filter(Input=image, ttype=(type(image), itk.VectorImage[itk.F, 2]))
+vectorimage = itk.cast_image_filter(
+    Input=image, ttype=(type(image), itk.VectorImage[itk.F, 2])
+)
 cast = vectorimage.astype(np.float32)
 assert cast == vectorimage
-(vector_image_template, (vector_pixel_type, vector_image_dimension)) = itk.template(vectorimage)
-for t in [[itk.D, np.float64, 'VIF2VID2'], [itk.SS, np.int16, 'VIF2VISS2'], \
-          [itk.UI, np.uint32, 'VIF2VIUI2'], [np.float64, np.float64, 'VIF2VID2']]:
+(vector_image_template, (vector_pixel_type, vector_image_dimension)) = itk.template(
+    vectorimage
+)
+for t in [
+    [itk.D, np.float64, "VIF2VID2"],
+    [itk.SS, np.int16, "VIF2VISS2"],
+    [itk.UI, np.uint32, "VIF2VIUI2"],
+    [np.float64, np.float64, "VIF2VID2"],
+]:
     if hasattr(itk.CastImageFilter, t[2]):
         cast = vectorimage.astype(t[0])
-        (cast_image_template, (cast_pixel_type, cast_image_dimension)) = itk.template(cast)
-        assert cast_image_template == vector_image_template and \
-            cast_image_dimension == vector_image_dimension and cast.dtype == t[1]
+        (cast_image_template, (cast_pixel_type, cast_image_dimension)) = itk.template(
+            cast
+        )
+        assert (
+            cast_image_template == vector_image_template
+            and cast_image_dimension == vector_image_dimension
+            and cast.dtype == t[1]
+        )
 
 # Test .astype for conversion between vector-like pixel types.
 components = 3
 numpyImage = np.random.randint(0, 256, (12, 8, components)).astype(np.uint8)
 input_image = itk.image_from_array(numpyImage, is_vector=True)
-if (type(input_image) == itk.Image[itk.RGBPixel[itk.UC],2] and
-    hasattr(itk.CastImageFilter, 'IRGBUC2IVF32')):
-    output_pixel_type = itk.Vector[itk.F,components]
+if type(input_image) == itk.Image[itk.RGBPixel[itk.UC], 2] and hasattr(
+    itk.CastImageFilter, "IRGBUC2IVF32"
+):
+    output_pixel_type = itk.Vector[itk.F, components]
     output_image = input_image.astype(output_pixel_type)
     assert type(output_image) == itk.Image[output_pixel_type, 2]
 
 # xarray conversion
 try:
     import xarray as xr
-    print('Testing xarray conversion')
+
+    print("Testing xarray conversion")
 
     image = itk.imread(filename)
     image.SetSpacing((0.1, 0.2))
-    image.SetOrigin((30., 44.))
+    image.SetOrigin((30.0, 44.0))
     theta = np.radians(30)
     cosine = np.cos(theta)
     sine = np.sin(theta)
@@ -388,23 +419,23 @@ try:
     image.SetDirection(rotation)
 
     data_array = itk.xarray_from_image(image)
-    assert data_array.dims[0] == 'y'
-    assert data_array.dims[1] == 'x'
-    assert data_array.dims[2] == 'c'
+    assert data_array.dims[0] == "y"
+    assert data_array.dims[1] == "x"
+    assert data_array.dims[2] == "c"
     assert np.array_equal(data_array.values, itk.array_from_image(image))
-    assert len(data_array.coords['x']) == 256
-    assert len(data_array.coords['y']) == 256
-    assert len(data_array.coords['c']) == 3
-    assert data_array.coords['x'][0] == 30.0
-    assert data_array.coords['x'][1] == 30.1
-    assert data_array.coords['y'][0] == 44.0
-    assert data_array.coords['y'][1] == 44.2
-    assert data_array.coords['c'][0] == 0
-    assert data_array.coords['c'][1] == 1
-    assert data_array.attrs['direction'][0,0] == cosine
-    assert data_array.attrs['direction'][0,1] == sine
-    assert data_array.attrs['direction'][1,0] == -sine
-    assert data_array.attrs['direction'][1,1] == cosine
+    assert len(data_array.coords["x"]) == 256
+    assert len(data_array.coords["y"]) == 256
+    assert len(data_array.coords["c"]) == 3
+    assert data_array.coords["x"][0] == 30.0
+    assert data_array.coords["x"][1] == 30.1
+    assert data_array.coords["y"][0] == 44.0
+    assert data_array.coords["y"][1] == 44.2
+    assert data_array.coords["c"][0] == 0
+    assert data_array.coords["c"][1] == 1
+    assert data_array.attrs["direction"][0, 0] == cosine
+    assert data_array.attrs["direction"][0, 1] == sine
+    assert data_array.attrs["direction"][1, 0] == -sine
+    assert data_array.attrs["direction"][1, 1] == cosine
 
     round_trip = itk.image_from_xarray(data_array)
     assert np.array_equal(itk.array_from_image(round_trip), itk.array_from_image(image))
@@ -415,12 +446,12 @@ try:
     assert np.isclose(origin[0], 30.0)
     assert np.isclose(origin[1], 44.0)
     direction = round_trip.GetDirection()
-    assert np.isclose(direction(0,0), cosine)
-    assert np.isclose(direction(0,1), -sine)
-    assert np.isclose(direction(1,0), sine)
-    assert np.isclose(direction(1,1), cosine)
+    assert np.isclose(direction(0, 0), cosine)
+    assert np.isclose(direction(0, 1), -sine)
+    assert np.isclose(direction(1, 0), sine)
+    assert np.isclose(direction(1, 1), cosine)
 
-    wrong_order = data_array.swap_dims({'y':'z'})
+    wrong_order = data_array.swap_dims({"y": "z"})
     try:
         round_trip = itk.image_from_xarray(wrong_order)
         assert False
@@ -428,34 +459,41 @@ try:
         pass
 
     empty_array = np.array([], dtype=np.uint8)
-    empty_array.shape = (0,0,0)
+    empty_array.shape = (0, 0, 0)
     empty_image = itk.image_from_array(empty_array)
     empty_da = itk.xarray_from_image(empty_image)
     empty_image_round = itk.image_from_xarray(empty_da)
 except ImportError:
-    print('xarray not imported. Skipping xarray conversion tests')
+    print("xarray not imported. Skipping xarray conversion tests")
     pass
 
 # vtk conversion
 try:
     import vtk
-    print('Testing vtk conversion')
 
-    image = itk.image_from_array(np.random.rand(2,3,4))
+    print("Testing vtk conversion")
+
+    image = itk.image_from_array(np.random.rand(2, 3, 4))
     vtk_image = itk.vtk_image_from_image(image)
     image_round = itk.image_from_vtk_image(vtk_image)
-    assert(np.array_equal(itk.origin(image), itk.origin(image_round)))
-    assert(np.array_equal(itk.spacing(image), itk.spacing(image_round)))
-    assert(np.array_equal(itk.size(image), itk.size(image_round)))
-    assert(np.array_equal(itk.array_view_from_image(image), itk.array_view_from_image(image_round)))
+    assert np.array_equal(itk.origin(image), itk.origin(image_round))
+    assert np.array_equal(itk.spacing(image), itk.spacing(image_round))
+    assert np.array_equal(itk.size(image), itk.size(image_round))
+    assert np.array_equal(
+        itk.array_view_from_image(image), itk.array_view_from_image(image_round)
+    )
 
-    image = itk.image_from_array(np.random.rand(5,4,2).astype(np.float32), is_vector=True)
+    image = itk.image_from_array(
+        np.random.rand(5, 4, 2).astype(np.float32), is_vector=True
+    )
     vtk_image = itk.vtk_image_from_image(image)
     image_round = itk.image_from_vtk_image(vtk_image)
-    assert(np.array_equal(itk.origin(image), itk.origin(image_round)))
-    assert(np.array_equal(itk.spacing(image), itk.spacing(image_round)))
-    assert(np.array_equal(itk.size(image), itk.size(image_round)))
-    assert(np.array_equal(itk.array_view_from_image(image), itk.array_view_from_image(image_round)))
+    assert np.array_equal(itk.origin(image), itk.origin(image_round))
+    assert np.array_equal(itk.spacing(image), itk.spacing(image_round))
+    assert np.array_equal(itk.size(image), itk.size(image_round))
+    assert np.array_equal(
+        itk.array_view_from_image(image), itk.array_view_from_image(image_round)
+    )
 except ImportError:
-    print('vtk not imported. Skipping vtk conversion tests')
+    print("vtk not imported. Skipping vtk conversion tests")
     pass

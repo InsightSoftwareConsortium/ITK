@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,17 +14,17 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 from sys import argv
+
 itk.auto_progress(2)
 
 # define a custom templated pipeline
 
 
 class LabelDilateImageFilter(itk.pipeline):
-
     def __init__(self, *args, **kargs):
         # call the constructor of the superclass but without args and kargs,
         # because the attributes are not all already there!
@@ -43,20 +43,17 @@ class LabelDilateImageFilter(itk.pipeline):
 
         # build the minipipeline
         self.connect(
-            itk.DanielssonDistanceMapImageFilter[
-                ImageType,
-                DistanceMapType].New(
-                UseImageSpacing=True,
-                SquaredDistance=False))
-        self.connect(
-            itk.BinaryThresholdImageFilter[DistanceMapType,
-                                           ImageType].New())
+            itk.DanielssonDistanceMapImageFilter[ImageType, DistanceMapType].New(
+                UseImageSpacing=True, SquaredDistance=False
+            )
+        )
+        self.connect(itk.BinaryThresholdImageFilter[DistanceMapType, ImageType].New())
         self.expose("UpperThreshold", "Radius")
         self.append(
-            itk.MaskImageFilter[ImageType,
-                                ImageType,
-                                ImageType].New(self.filters[0].GetVoronoiMap(),
-                                               Input2=self.filters[1]))
+            itk.MaskImageFilter[ImageType, ImageType, ImageType].New(
+                self.filters[0].GetVoronoiMap(), Input2=self.filters[1]
+            )
+        )
 
         # now we can parse the inputs
         itk.set_inputs(self, args, kargs)
@@ -67,7 +64,9 @@ class LabelDilateImageFilter(itk.pipeline):
         itk.BinaryThresholdImageFilter[DistanceMapType, ImageType]
         itk.CastImageFilter[DistanceMapType, ImageType]
         itk.MaskImageFilter[ImageType, ImageType, ImageType]
+
     check_template_parameters = staticmethod(check_template_parameters)
+
 
 LabelDilateImageFilter = itk.templated_class(LabelDilateImageFilter)
 
