@@ -538,7 +538,7 @@ class SwigInputGenerator(object):
                         self.generate_nested_enum(typedef, member, indent, w)
                     elif isinstance(member, decls.variable_t):
                         self.warn(
-                            52, f"Member variables are not supported: {member.name}", w,
+                            52, f"Member variables are not supported: {member.name}", w
                         )
                     elif isinstance(member, decls.class_declaration.class_t):
                         self.warn(
@@ -733,7 +733,7 @@ class SwigInputGenerator(object):
             typedef.name.startswith("itk") and method.name in names
         ):
             self.warn(
-                3, f"ignoring black listed method '{typedef.name}::{method.name}'.", w,
+                3, f"ignoring black listed method '{typedef.name}::{method.name}'.", w
             )
             return
 

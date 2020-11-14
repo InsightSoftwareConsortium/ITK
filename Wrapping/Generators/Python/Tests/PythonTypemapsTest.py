@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import sys
@@ -47,31 +47,39 @@ idx1 = itk.Index[2](idx)
 idx2 = itk.Index[2](t)
 idx3 = itk.Index[2](l)
 idx4 = itk.Index[2](i)
-assert idx1.GetElement(
-    0) == idx2.GetElement(
-    0) == idx3.GetElement(
-    0) == idx4.GetElement(
-    0) == i
-assert idx1.GetElement(
-    1) == idx2.GetElement(
-    1) == idx3.GetElement(
-    1) == idx4.GetElement(
-    1) == i
+assert (
+    idx1.GetElement(0)
+    == idx2.GetElement(0)
+    == idx3.GetElement(0)
+    == idx4.GetElement(0)
+    == i
+)
+assert (
+    idx1.GetElement(1)
+    == idx2.GetElement(1)
+    == idx3.GetElement(1)
+    == idx4.GetElement(1)
+    == i
+)
 
 size1 = itk.Size[2](size)
 size2 = itk.Size[2](t)
 size3 = itk.Size[2](l)
 size4 = itk.Size[2](i)
-assert size1.GetElement(
-    0) == size2.GetElement(
-    0) == size3.GetElement(
-    0) == size4.GetElement(
-    0) == i
-assert size1.GetElement(
-    1) == size2.GetElement(
-    1) == size3.GetElement(
-    1) == size4.GetElement(
-    1) == i
+assert (
+    size1.GetElement(0)
+    == size2.GetElement(0)
+    == size3.GetElement(0)
+    == size4.GetElement(0)
+    == i
+)
+assert (
+    size1.GetElement(1)
+    == size2.GetElement(1)
+    == size3.GetElement(1)
+    == size4.GetElement(1)
+    == i
+)
 
 median = itk.MedianImageFilter.IUC2IUC2.New()
 median.SetRadius(size)
@@ -82,16 +90,20 @@ median.SetRadius(l)
 size3 = median.GetRadius()
 median.SetRadius(i)
 size4 = median.GetRadius()
-assert size1.GetElement(
-    0) == size2.GetElement(
-    0) == size3.GetElement(
-    0) == size4.GetElement(
-    0) == i
-assert size1.GetElement(
-    1) == size2.GetElement(
-    1) == size3.GetElement(
-    1) == size4.GetElement(
-    1) == i
+assert (
+    size1.GetElement(0)
+    == size2.GetElement(0)
+    == size3.GetElement(0)
+    == size4.GetElement(0)
+    == i
+)
+assert (
+    size1.GetElement(1)
+    == size2.GetElement(1)
+    == size3.GetElement(1)
+    == size4.GetElement(1)
+    == i
+)
 
 
 # smart pointers
@@ -125,8 +137,10 @@ except RuntimeError as e:
 
 # pycommand masked
 def exit():
-    print('exitting on delete...')
+    print("exitting on delete...")
     sys.exit(0)
+
+
 median.AddObserver(itk.DeleteEvent(), exit)
 del median
 

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,10 +14,10 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 import itkHelpers
 
-name = 'MedianImageFilter'
+name = "MedianImageFilter"
 
 snake = itkHelpers.camel_to_snake_case(name)
 
