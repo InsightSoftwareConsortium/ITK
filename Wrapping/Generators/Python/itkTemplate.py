@@ -143,7 +143,7 @@ class itkTemplate(object):
     chosen at compile time. It is also possible, with the dict interface, to
     explore the available parameters sets.
     2. With object attributes. The user can easily find the available parameters
-    sets by pressing tab in interperter like ipython
+    sets by pressing tab in interpreter like ipython
     """
 
     __templates__ = collections.OrderedDict()
