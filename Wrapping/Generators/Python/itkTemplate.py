@@ -31,7 +31,7 @@ from itkTypes import itkCType
 import math
 
 
-def registerNoTpl(name, cl):
+def registerNoTpl(name: str, cl) -> None:
     """Register a class without template
 
     It can seem not useful to register classes without template (and it wasn't
@@ -41,12 +41,12 @@ def registerNoTpl(name, cl):
     itkTemplate.__templates__[normalizeName(name)] = cl
 
 
-def normalizeName(name):
+def normalizeName(name: str) -> str:
     """Normalize the class name to remove ambiguity
 
     This function removes the white spaces in the name, and also
     remove the pointer declaration "*" (it have no sense in python)"""
-
+    name = name.strip()
     name = name.replace(" ", "")
     name = name.replace("*", "")
 
@@ -283,23 +283,24 @@ class itkTemplate(object):
         for param in paramStrings:
             # the parameter need to be normalized several time below
             # do it once here
-            param = param.strip()
-            paramNorm = normalizeName(param)
+            param_stripped = param.strip()
+            paramNorm = normalizeName(param_stripped)
+            del param
 
             if paramNorm in itkTemplate.__templates__:
                 # the parameter is registered.
-                # just get the really class form the dictionary
+                # just get the real class form the dictionary
                 param = itkTemplate.__templates__[paramNorm]
 
-            elif itkCType.GetCType(param):
+            elif itkCType.GetCType(param_stripped):
                 # the parameter is a c type
                 # just get the itkCtype instance
-                param = itkCType.GetCType(param)
+                param = itkCType.GetCType(param_stripped)
 
             elif paramNorm.isdigit():
                 # the parameter is a number
                 # convert the string to a number !
-                param = int(param)
+                param = int(param_stripped)
 
             elif paramNorm == "true":
                 param = True

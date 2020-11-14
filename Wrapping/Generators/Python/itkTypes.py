@@ -16,7 +16,6 @@
 #
 # ==========================================================================*/
 
-
 # noinspection PyPep8Naming
 class itkCType:
     # import locally to facilitate dynamic loading in itk/__init__.py
@@ -26,8 +25,9 @@ class itkCType:
     __c_types_for_dtype__: Dict[str, Any] = {}
 
     def __init__(self, name: str, short_name: str, np_dtype=None):
-        self.name = name
-        self.short_name = short_name
+        # Remove potential white space around type names
+        self.name = name.strip()
+        self.short_name = short_name.strip()
         self.dtype = np_dtype
 
         itkCType.__c_types__[self.name] = self
@@ -55,6 +55,8 @@ class itkCType:
             "long": "signed long",
             "long long": "signed long long",
         }
+        # Remove potential white space around types
+        name = name.strip()
         desired_name: str = aliases.get(name, name)
         try:
             return itkCType.__c_types__[desired_name]
