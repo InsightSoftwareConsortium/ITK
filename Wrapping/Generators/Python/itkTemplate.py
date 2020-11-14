@@ -190,7 +190,7 @@ class itkTemplate(object):
         # __find_param__ will parse the paramSetString and produce a list of
         # the same parameters transformed in corresponding python classes.
         # we transform this list in tuple to make it usable as key of the dict
-        param = tuple(self.__find_param__(paramSetString))
+        param: tuple = tuple(self.__find_param__(paramSetString))
 
         # once again, warn the user if the tuple of parameter is already
         # defined so he can fix the problem
@@ -268,14 +268,15 @@ class itkTemplate(object):
         """
         # split the string in a list of parameters
         paramStrings = []
-        inner = 0
-        part = paramSetString.split(",")
+        num_open_inner_classes: int = 0
+        part: str = paramSetString.split(",")
         for elt in part:
-            if inner == 0:
+            if num_open_inner_classes == 0:
                 paramStrings.append(elt)
             else:
                 paramStrings[-1] += "," + elt
-            inner += elt.count("<") - elt.count(">")
+            #                         (num open)     - (num closed)
+            num_open_inner_classes += elt.count("<") - elt.count(">")
 
         # convert all string parameters into classes (if possible)
         parameters = []
