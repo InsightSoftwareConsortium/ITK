@@ -609,59 +609,45 @@ class SwigInputGenerator(object):
             for processObject in processObjects:
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
-                self.outputFile.write("import itkHelpers\n")
-                self.outputFile.write("@itkHelpers.accept_numpy_array_like_xarray\n")
-                self.outputFile.write(f"def {snakeCase}(*args, **kwargs):\n")
                 self.outputFile.write(
-                    f'    """Procedural interface for {processObject}"""\n'
-                )
-                self.outputFile.write("    import itk\n")
-                self.outputFile.write(
-                    f"    instance = itk.{processObject}.New(*args, **kwargs)\n"
-                )
-                self.outputFile.write("    return instance.__internal_call__()\n\n")
-                self.outputFile.write(f"def {snakeCase}_init_docstring():\n")
-                self.outputFile.write("    import itk\n")
-                self.outputFile.write("    import itkTemplate\n")
-                self.outputFile.write("    import itkHelpers\n")
-                self.outputFile.write(
-                    "    if isinstance(itk.%s, itkTemplate.itkTemplate):\n"
-                    % processObject
-                )
-                self.outputFile.write(
-                    f"        filter_object = itk.{processObject}.values()[0]\n"
-                )
-                self.outputFile.write("    else:\n")
-                self.outputFile.write(
-                    f"        filter_object = itk.{processObject}\n\n"
-                )
-                self.outputFile.write(
-                    f"    {snakeCase}.__doc__ = filter_object.__doc__\n"
-                )
-                self.outputFile.write(
-                    f'    {snakeCase}.__doc__ += "\\n Args are Input(s) to the filter.\\n"\n'
-                )
-                self.outputFile.write(
-                    f'    {snakeCase}.__doc__ += "\\n Available Keyword Arguments:\\n"\n'
-                )
-                self.outputFile.write(
-                    f"    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):\n"
-                )
-                self.outputFile.write(
-                    f"        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[0]\n"
-                )
-                self.outputFile.write(f'        {snakeCase}.__doc__ += "\\n"\n')
-                self.outputFile.write(
-                    f"        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[1]\n"
-                )
-                self.outputFile.write("    else:\n")
-                self.outputFile.write(f'        {snakeCase}.__doc__ += "".join([\n')
-                self.outputFile.write(
-                    '            "  " + itkHelpers.camel_to_snake_case(item[3:]) + "\\n"\n'
-                )
-                self.outputFile.write("            for item in dir(filter_object)\n")
-                self.outputFile.write('            if item.startswith("Set")])\n')
+                    f"""import itkHelpers
+@itkHelpers.accept_numpy_array_like_xarray
+def {snakeCase}(*args, **kwargs):
+    \"\"\"Procedural interface for {processObject}\"\"\"
+    import itk
 
+    instance = itk.{processObject}.New(*args, **kwargs)
+    return instance.__internal_call__()
+
+
+def {snakeCase}_init_docstring():
+    import itk
+    import itkTemplate
+    import itkHelpers
+
+    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):
+        filter_object = itk.{processObject}.values()[0]
+    else:
+        filter_object = itk.{processObject}
+
+    {snakeCase}.__doc__ = filter_object.__doc__
+    {snakeCase}.__doc__ += "\\n Args are Input(s) to the filter.\\n"
+    {snakeCase}.__doc__ += "\\n Available Keyword Arguments:\\n"
+    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):
+        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[0]
+        {snakeCase}.__doc__ += "\\n"
+        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[1]
+    else:
+        {snakeCase}.__doc__ += "".join(
+            [
+                "  " + itkHelpers.camel_to_snake_case(item[3:]) + "\\n"
+                for item in dir(filter_object)
+                if item.startswith("Set")
+            ]
+        )
+
+"""
+                )
             self.outputFile.write("%}\n")
             self.outputFile.write("#endif\n")
 
