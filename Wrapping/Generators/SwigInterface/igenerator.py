@@ -163,7 +163,7 @@ class SwigInputGenerator(object):
           obj.SetThreshold(10)
         """
         obj = {class_name}.__New_orig__()
-        import itkTemplate
+        from itk.support import itkTemplate
         itkTemplate.New(obj, *args, **kargs)
         return obj
     New = staticmethod(New)
@@ -610,7 +610,7 @@ class SwigInputGenerator(object):
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
                 self.outputFile.write(
-                    f"""import itkHelpers
+                    f"""from itk.support import itkHelpers
 @itkHelpers.accept_numpy_array_like_xarray
 def {snakeCase}(*args, **kwargs):
     \"\"\"Procedural interface for {processObject}\"\"\"
@@ -622,8 +622,8 @@ def {snakeCase}(*args, **kwargs):
 
 def {snakeCase}_init_docstring():
     import itk
-    import itkTemplate
-    import itkHelpers
+    from itk.support import itkTemplate
+    from itk.support import itkHelpers
 
     if isinstance(itk.{processObject}, itkTemplate.itkTemplate):
         filter_object = itk.{processObject}.values()[0]

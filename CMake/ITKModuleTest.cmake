@@ -188,12 +188,20 @@ function(itk_python_add_test)
   else()
     set(itk_wrap_python_binary_dir "${ITK_BINARY_DIR}/Wrapping/Generators/Python")
   endif()
+  # itk_wrap_python_binary_dir *MUST* contain the WrapITK.pth file
+  set(WrapITK_PTH_FILE "${itk_wrap_python_binary_dir}/WrapITK.pth")
+  if(NOT EXISTS ${WrapITK_PTH_FILE})
+    # Final installed version of ITK will leverage the WrapITK.pth paths, so
+    # the test environment should also use those same paths.
+    message(FATAL_ERROR "The sys.path must be updated with the WrapITK.pth file content.")
+  endif()
+  unset(WrapITK_PTH_FILE)
 
   if(CMAKE_CONFIGURATION_TYPES)
     itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
       COMMAND itkTestDriver
       --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>"          # parent directory of the itk package
-      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>/itk"      # directory of the itk package ( contains __init__.py)
+      # NOT NEEDED --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>/itk"      # directory of the itk package ( contains __init__.py)
       --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>/itk/conf" # directory of the itkConfig module
       --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIG>"      # directory of shared  libraries + swig artifacts
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIG>"             # itk non-wrapping shared libs
@@ -207,7 +215,7 @@ function(itk_python_add_test)
     itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
       COMMAND itkTestDriver
       --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}"          # parent directory of the itk package
-      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/itk"      # directory of the itk package ( contains __init__.py)
+      # NOT NEEDED --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/itk"      # directory of the itk package ( contains __init__.py)
       --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/itk/conf" # directory of the itkConfig module
       --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"      # directory of shared  libraries + swig artifacts
       --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"             # itk non-wrapping shared libs
