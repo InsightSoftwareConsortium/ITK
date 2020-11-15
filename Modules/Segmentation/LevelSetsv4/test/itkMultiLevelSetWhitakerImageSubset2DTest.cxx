@@ -31,14 +31,8 @@
 #include "itkTestingMacros.h"
 
 int
-itkMultiLevelSetWhitakerImageSubset2DTest(int argc, char * argv[])
+itkMultiLevelSetWhitakerImageSubset2DTest(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cerr << "Missing Arguments: " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    return EXIT_FAILURE;
-  }
-
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned short;

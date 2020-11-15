@@ -45,14 +45,8 @@ CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
 } // namespace
 
 int
-itkEuler2DTransformTest(int argc, char * argv[])
+itkEuler2DTransformTest(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    return EXIT_FAILURE;
-  }
-
   std::cout << "==================================" << std::endl;
   std::cout << "Testing Euler Angles 2D Transform" << std::endl << std::endl;
 

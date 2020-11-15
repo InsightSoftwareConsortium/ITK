@@ -22,14 +22,8 @@
  * correctly for spline orders 2 through 10
  */
 int
-itkCoxDeBoorBSplineKernelFunctionTest2(int argc, char * argv[])
+itkCoxDeBoorBSplineKernelFunctionTest2(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cerr << "Usage: " << argv[0] << std::endl;
-    return EXIT_FAILURE;
-  }
-
   using KernelType = itk::CoxDeBoorBSplineKernelFunction<3>;
   KernelType::Pointer kernel = KernelType::New();
 
