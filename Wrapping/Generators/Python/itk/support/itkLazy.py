@@ -16,7 +16,7 @@
 #
 # ==========================================================================*/
 import types
-import itkBase
+from itk.support import itkBase
 
 not_loaded = "not loaded"
 

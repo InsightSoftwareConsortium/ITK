@@ -22,98 +22,16 @@ import re
 import sys
 import types
 import collections
-import importlib
 import warnings
-import itkConfig
-import itkBase
-import itkLazy
-from itkTypes import itkCType
+from ..conf import itkConfig
+
+from ..support import itkBase
+from ..support.itkExtras import output
+from ..support.itkTypes import itkCType
 import math
 
 
-# For backward compatibility
-def registerNoTpl(name: str, cl) -> None:
-    itkTemplate.registerNoTpl(name, cl)
-
-
-# For backward compatibility
-def normalizeName(name: str) -> str:
-    return itkTemplate.normalizeName(name)
-
-
-class TemplateTypeError(TypeError):
-    def __init__(self, template_type, input_type):
-        import itkExtras
-
-        def tuple_to_string_type(t):
-            if type(t) == tuple:
-                return ", ".join(itkExtras.python_type(x) for x in t)
-            else:
-                itkExtras.python_type(t)
-
-        import itk
-
-        # Special case for ITK readers: Add extra information.
-        extra_eg = ""
-        if template_type in [
-            itk.ImageFileReader,
-            itk.ImageSeriesReader,
-            itk.MeshFileReader,
-        ]:
-            extra_eg = """
-
-or
-
-    e.g.: image = itk.imread(my_input_filename, itk.F)
-"""
-
-        python_template_type = itkExtras.python_type(template_type)
-        python_input_type = tuple_to_string_type(input_type)
-        type_list = "\n".join(
-            [itkExtras.python_type(x[0]) for x in template_type.keys()]
-        )
-        eg_type = ", ".join(
-            [itkExtras.python_type(x) for x in list(template_type.keys())[0]]
-        )
-        msg = """{template_type} is not wrapped for input type `{input_type}`.
-
-To limit the size of the package, only a limited number of
-types are available in ITK Python. To print the supported
-types, run the following command in your python environment:
-
-    {template_type}.GetTypes()
-
-Possible solutions:
-* If you are an application user:
-** Convert your input image into a supported format (see below).
-** Contact developer to report the issue.
-* If you are an application developer, force input images to be
-loaded in a supported pixel type.
-
-    e.g.: instance = {template_type}[{eg_type}].New(my_input){extra_eg}
-
-* (Advanced) If you are an application developer, build ITK Python yourself and
-turned to `ON` the corresponding CMake option to wrap the pixel type or image
-dimension you need. When configuring ITK with CMake, you can set
-`ITK_WRAP_${{type}}` (replace ${{type}} with appropriate pixel type such as
-`double`). If you need to support images with 4 or 5 dimensions, you can add
-these dimensions to the list of dimensions in the CMake variable
-`ITK_WRAP_IMAGE_DIMS`.
-
-Supported input types:
-
-{type_list}
-""".format(
-            template_type=python_template_type,
-            input_type=python_input_type,
-            type_list=type_list,
-            eg_type=eg_type,
-            extra_eg=extra_eg,
-        )
-        TypeError.__init__(self, msg)
-
-
-class itkTemplate(object):
+class itkTemplateBase(object):
 
     """This class manages access to available template arguments of a C++ class.
 
@@ -365,7 +283,9 @@ class itkTemplate(object):
         try:
             this_item = self.__template__[key]
         except KeyError:
-            raise TemplateTypeError(self, key)
+            import itk
+
+            raise itk.TemplateTypeError(self, key)
         return this_item
 
     def __repr__(self):
@@ -452,7 +372,7 @@ class itkTemplate(object):
 
           outputImage = itk.MedianImageFilter(inputImage, Radius=(1,2))
         """
-        import itkHelpers
+        from . import itkHelpers
 
         short_name = re.sub(r".*::", "", self.__name__)
         snake = itkHelpers.camel_to_snake_case(short_name)
@@ -562,7 +482,9 @@ or via one of the following keyword arguments: %s"""
                     % ", ".join(primary_input_methods)
                 )
             else:
-                raise TemplateTypeError(self, input_type)
+                import itk
+
+                raise itk.TemplateTypeError(self, input_type)
         return self[list(keys)[0]].New(*args, **kwargs)
 
     @staticmethod
@@ -788,6 +710,11 @@ or via one of the following keyword arguments: %s"""
         return ctypes + classes + others
 
 
+class itkTemplate(itkTemplateBase):
+    def __repr__(self):
+        return "<itkTemplate %s>" % self.__name__
+
+
 # create a new New function which accepts parameters
 def New(self, *args, **kargs):
     import itk
@@ -833,18 +760,3 @@ def New(self, *args, **kargs):
         itk.auto_pipeline.current.connect(self)
 
     return self
-
-
-def output(input):
-    try:
-        img = input.GetOutput()
-    except AttributeError:
-        img = input
-    return img
-
-
-def image(input):
-    warnings.warn(
-        "WrapITK warning: itk.image() is deprecated. " "Use itk.output() instead."
-    )
-    return output(input)

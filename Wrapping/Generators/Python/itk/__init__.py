@@ -20,11 +20,9 @@
 
 from .conf.itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
 
-from .conf.itkTemplate import image
-from .conf.itkTemplate import output
-from .conf.itkExtras import *
-from .conf.itkInitHelpers import *
-from itkTypes import *
+from .support.itkExtras import *
+from .support.itkInitHelpers import *
+from .support.itkTypes import *
 
 
 def _initialize_module():
@@ -48,8 +46,8 @@ def _initialize_module():
                 # snake case always appended to end
                 local_lazy_attributes.setdefault(function, []).append(l_module)
 
-    from .conf import itkBase as _itkBase
-    from .conf import itkLazy as _itkLazy
+    from .support import itkBase as _itkBase
+    from .support import itkLazy as _itkLazy
     from .conf import itkConfig as _itkConfig
     import sys
 

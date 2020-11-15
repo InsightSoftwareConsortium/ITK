@@ -301,7 +301,7 @@ str = str
                 return the first up-to-date output of a filter with multiple
                 outputs.
                 """
-                import itkHelpers
+                from itk.support import itkHelpers
                 import warnings
 
                 name = self.GetNameOfClass()
@@ -423,7 +423,7 @@ str = str
                 """Cast the image to the provided itk pixel type or equivalent NumPy dtype."""
                 import itk
                 import numpy as np
-                import itkTypes
+                from itk.support import itkTypes
 
                 # if both a numpy dtype and a ctype exist, use the latter.
                 if type(pixel_type) is type:
@@ -441,7 +441,7 @@ str = str
                 return cast
 
             def SetDirection(self, direction):
-                import itkHelpers
+                from itk.support import itkHelpers
                 if itkHelpers.is_arraylike(direction):
                     import itk
                     import numpy as np

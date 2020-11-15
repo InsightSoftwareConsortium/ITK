@@ -15,7 +15,7 @@
 #   limitations under the License.
 #
 # ==========================================================================*/
-import itkHelpers
+from itk.support import itkHelpers
 
 name = "MedianImageFilter"
 

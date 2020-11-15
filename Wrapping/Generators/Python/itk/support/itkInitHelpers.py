@@ -12,7 +12,7 @@ clrLine = "\033[2000D\033[K"
 
 def auto_not_in_place(v=True):
     """Force it to not run in place"""
-    import itkConfig
+    from itk.conf import itkConfig
 
     itkConfig.NotInPlace = v
 
@@ -25,7 +25,7 @@ def auto_progress(progress_type=1):
         2 -> simple auto progress (without special characters)
         0 or False -> disable auto progress
     """
-    import itkConfig
+    from itk.conf import itkConfig
 
     if progress_type is True or progress_type == 1:
         itkConfig.ImportCallback = terminal_import_callback

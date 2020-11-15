@@ -21,10 +21,23 @@ from typing import Dict, Any
 from sys import stderr as system_error_stream
 
 import numpy
-
-from itkTemplate import output
-
+import warnings
 from sys import stderr as system_error_stream
+
+
+def output(input):
+    try:
+        img = input.GetOutput()
+    except AttributeError:
+        img = input
+    return img
+
+
+def image(input):
+    warnings.warn(
+        "WrapITK warning: itk.image() is deprecated. " "Use itk.output() instead."
+    )
+    return output(input)
 
 
 def set_nthreads(number_of_threads):
@@ -69,8 +82,11 @@ def size(image_or_filter):
     This method take care of updating the needed information
     """
     # we don't need the entire output, only its size
+
+    import itk
+
     image_or_filter.UpdateOutputInformation()
-    img = output(image_or_filter)
+    img = itk.output(image_or_filter)
     return img.GetLargestPossibleRegion().GetSize()
 
 
@@ -95,9 +111,11 @@ def spacing(image_or_filter):
 
     This method take care of updating the needed information
     """
+    import itk
+
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
-    img = output(image_or_filter)
+    img = itk.output(image_or_filter)
     return img.GetSpacing()
 
 
@@ -106,9 +124,11 @@ def origin(image_or_filter):
 
     This method take care of updating the needed information
     """
+    import itk
+
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
-    img = output(image_or_filter)
+    img = itk.output(image_or_filter)
     return img.GetOrigin()
 
 
@@ -117,9 +137,11 @@ def index(image_or_filter):
 
     This method take care of updating the needed information
     """
+    import itk
+
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
-    img = output(image_or_filter)
+    img = itk.output(image_or_filter)
     return img.GetLargestPossibleRegion().GetIndex()
 
 
@@ -128,9 +150,11 @@ def region(image_or_filter):
 
     This method take care of updating the needed information
     """
+    import itk
+
     # we don't need the entire output, only its size
     image_or_filter.UpdateOutputInformation()
-    img = output(image_or_filter)
+    img = itk.output(image_or_filter)
     return img.GetLargestPossibleRegion()
 
 
@@ -168,12 +192,14 @@ def _GetArrayFromImage(image_or_filter, function, keep_axes, update):
     # Finds the image type
     import itk
 
-    keys = [k for k in itk.PyBuffer.keys() if k[0] == output(image_or_filter).__class__]
+    keys = [
+        k for k in itk.PyBuffer.keys() if k[0] == itk.output(image_or_filter).__class__
+    ]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create a numpy array of the type of the input image
     templatedFunction = getattr(itk.PyBuffer[keys[0]], function)
-    return templatedFunction(output(image_or_filter), keep_axes, update)
+    return templatedFunction(itk.output(image_or_filter), keep_axes, update)
 
 
 def GetArrayFromImage(image_or_filter, keep_axes=False, update=True):
@@ -487,109 +513,6 @@ def image_from_vtk_image(vtk_image):
 # return an image
 
 
-def template(cl):
-    """Return the template of a class (or of the class of an object) and
-    its parameters
-
-    template() returns a tuple with 2 elements:
-        - the first one is the itkTemplate object
-        - the second is a tuple containing the template parameters
-    """
-    from itkTemplate import itkTemplate
-
-    return itkTemplate.__class_to_template__[class_(cl)]
-
-
-def ctype(s):
-    """Return the c type corresponding to the string passed in parameter
-
-    The string can contain some extra spaces.
-    see also itkCType
-    """
-    from itkTypes import itkCType
-
-    ret = itkCType.GetCType(" ".join(s.split()))
-    if ret is None:
-        raise KeyError("Unrecognized C type '%s'" % s)
-    return ret
-
-
-def class_(obj):
-    """Return a class from an object
-
-    Often in itk, the __class__ is not what the user is expecting.
-    class_() should do a better job
-    """
-    import inspect
-
-    if inspect.isclass(obj):
-        # obj is already a class !
-        return obj
-    else:
-        return obj.__class__
-
-
-def python_type(object_ref):
-    """Returns the Python type name of an object
-
-    The Python name corresponding to the given instantiated object is printed.
-    This includes both the Python name and the parameters of the object. A user
-    can copy and paste the printed value to instantiate a new object of the
-    same type."""
-    import itkTemplate
-    from itkTypes import itkCType
-
-    def in_itk(name):
-        import itk
-
-        # Remove "itk::" and "std::" from template name.
-        # Only happens for ITK objects.
-        shortname = name.split("::")[-1]
-        shortname = shortname.split("itk")[-1]
-
-        namespace = itk
-        # A type cannot be part of ITK if its name was not modified above. This
-        # check avoids having an input of type `list` and return `itk.list` that
-        # also exists.
-        likely_itk = shortname != name or name[:3] == "vnl"
-        if likely_itk and hasattr(namespace, shortname):
-            return namespace.__name__ + "." + shortname  # Prepend name with 'itk.'
-        else:
-            return name
-
-    def recursive(l_obj, level):
-        try:
-            type_name, param_list = template(l_obj)
-            name = in_itk(type_name.__name__)
-            parameters = []
-            for t in param_list:
-                parameters.append(recursive(t, level + 1))
-            return name + "[" + ",".join(parameters) + "]"
-        except KeyError:
-            if isinstance(l_obj, itkCType):  # Handles CTypes differently
-                return "itk." + l_obj.short_name
-            elif hasattr(l_obj, "__name__"):
-                # This should be where most ITK types end up.
-                return in_itk(l_obj.__name__)
-            elif (
-                not isinstance(l_obj, type)
-                and type(l_obj) != itkTemplate.itkTemplate
-                and level != 0
-            ):
-                # l_obj should actually be considered a value, not a type,
-                # or it is already an itkTemplate type.
-                # A value can be an integer that is a template parameter.
-                # This does not happen at the first level of the recursion
-                # as it is not possible that this object would be a template
-                # parameter. Checking the level `0` allows e.g. to find the
-                # type of an object that is a `list` or an `int`.
-                return str(l_obj)
-            else:
-                return in_itk(type(l_obj).__name__)
-
-    return recursive(object_ref, 0)
-
-
 def image_intensity_min_max(image_or_filter):
     """Return the minimum and maximum of values in a image of in the output image of a filter
 
@@ -598,7 +521,7 @@ def image_intensity_min_max(image_or_filter):
     """
     import itk
 
-    img = output(image_or_filter)
+    img = itk.output(image_or_filter)
     img.UpdateOutputInformation()
     img.Update()
     # don't put that calculator in the automatic pipeline
@@ -625,7 +548,7 @@ def imwrite(image_or_filter, filename, compression=False):
     """
     import itk
 
-    img = output(image_or_filter)
+    img = itk.output(image_or_filter)
     img.UpdateOutputInformation()
     # don't put that writer in the automatic pipeline
     tmp_auto_pipeline = auto_pipeline.current
@@ -659,7 +582,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
 
     """
     import itk
-    import itkTemplate
+    from itk.support import itkTemplate
 
     if fallback_only:
         if pixel_type is None:
@@ -681,10 +604,10 @@ def imread(filename, pixel_type=None, fallback_only=False):
             names_generator.SetDirectory(filename)
             series_uid = names_generator.GetSeriesUIDs()
             if len(series_uid) == 0:
-                raise FileNotFoundError(f"no DICOMs in: {name}.")
+                raise FileNotFoundError(f"no DICOMs in: {filename}.")
             if len(series_uid) > 1:
                 raise OSError(
-                    f"the directory: {name} contains more than one DICOM series."
+                    f"the directory: {filename} contains more than one DICOM series."
                 )
             series_identifier = series_uid[0]
             filename = names_generator.GetFileNames(series_identifier)
@@ -750,7 +673,8 @@ def meshread(filename, pixel_type=None, fallback_only=False):
     wrapped).
     """
     import itk
-    import itkTemplate
+
+    # from itk.support import itkTemplate
 
     if fallback_only:
         if pixel_type is None:
@@ -759,7 +683,7 @@ def meshread(filename, pixel_type=None, fallback_only=False):
             )
         try:
             return meshread(filename)
-        except (KeyError, itkTemplate.TemplateTypeError):
+        except (KeyError, itk.TemplateTypeError):
             pass
     TemplateReaderType = itk.MeshFileReader
     io_filename = filename
@@ -926,14 +850,16 @@ def set_inputs(new_itk_object, args=None, kargs=None):
             # segfaults. Instead limit the number of types that are
             # tested. The list of tested type could maybe be replaced by
             # a test that would check for iterables.
+            import itk
+
             if type(value) in [list, tuple]:
                 try:
-                    output_value = [output(x) for x in value]
+                    output_value = [itk.output(x) for x in value]
                     attrib(*output_value)
                 except Exception:
-                    attrib(output(value))
+                    attrib(itk.output(value))
             else:
-                attrib(output(value))
+                attrib(itk.output(value))
 
 
 class templated_class:
@@ -1256,7 +1182,7 @@ def down_cast(obj):
     specialized type.
     """
     import itk
-    import itkTemplate
+    from itk.support import itkTemplate
 
     class_name = obj.GetNameOfClass()
     t = getattr(itk, class_name)
@@ -1368,7 +1294,7 @@ def ipython_kw_matches(text):
     import itk
     import re
     import inspect
-    import itkTemplate
+    from itk.support import itkTemplate
 
     regexp = re.compile(
         r"""
@@ -1468,10 +1394,180 @@ def ipython_kw_matches(text):
     return arg_matches
 
 
+def template(cl):
+    """Return the template of a class (or of the class of an object) and
+    its parameters
+
+    template() returns a tuple with 2 elements:
+        - the first one is the itkTemplate object
+        - the second is a tuple containing the template parameters
+    """
+    from itk.support.itkTemplate import itkTemplate
+
+    return itkTemplate.__class_to_template__[class_(cl)]
+
+
+def ctype(s):
+    """Return the c type corresponding to the string passed in parameter
+
+    The string can contain some extra spaces.
+    see also itkCType
+    """
+    from ..support.itkTypes import itkCType
+
+    ret = itkCType.GetCType(" ".join(s.split()))
+    if ret is None:
+        raise KeyError("Unrecognized C type '%s'" % s)
+    return ret
+
+
+def class_(obj):
+    """Return a class from an object
+
+    Often in itk, the __class__ is not what the user is expecting.
+    class_() should do a better job
+    """
+    import inspect
+
+    if inspect.isclass(obj):
+        # obj is already a class !
+        return obj
+    else:
+        return obj.__class__
+
+
+def python_type(object_ref):
+    """Returns the Python type name of an object
+
+    The Python name corresponding to the given instantiated object is printed.
+    This includes both the Python name and the parameters of the object. A user
+    can copy and paste the printed value to instantiate a new object of the
+    same type."""
+    from itk.support.itkTemplate import itkTemplate
+    from ..support.itkTypes import itkCType
+
+    def in_itk(name):
+        import itk
+
+        # Remove "itk::" and "std::" from template name.
+        # Only happens for ITK objects.
+        shortname = name.split("::")[-1]
+        shortname = shortname.split("itk")[-1]
+
+        namespace = itk
+        # A type cannot be part of ITK if its name was not modified above. This
+        # check avoids having an input of type `list` and return `itk.list` that
+        # also exists.
+        likely_itk = shortname != name or name[:3] == "vnl"
+        if likely_itk and hasattr(namespace, shortname):
+            return namespace.__name__ + "." + shortname  # Prepend name with 'itk.'
+        else:
+            return name
+
+    def recursive(l_obj, level):
+
+        try:
+            type_name, param_list = template(l_obj)
+            name = in_itk(type_name.__name__)
+            parameters = []
+            for t in param_list:
+                parameters.append(recursive(t, level + 1))
+            return name + "[" + ",".join(parameters) + "]"
+        except KeyError:
+            if isinstance(l_obj, itkCType):  # Handles CTypes differently
+                return "itk." + l_obj.short_name
+            elif hasattr(l_obj, "__name__"):
+                # This should be where most ITK types end up.
+                return in_itk(l_obj.__name__)
+            elif (
+                not isinstance(l_obj, type)
+                and type(l_obj) != itkTemplate
+                and level != 0
+            ):
+                # l_obj should actually be considered a value, not a type,
+                # or it is already an itkTemplate type.
+                # A value can be an integer that is a template parameter.
+                # This does not happen at the first level of the recursion
+                # as it is not possible that this object would be a template
+                # parameter. Checking the level `0` allows e.g. to find the
+                # type of an object that is a `list` or an `int`.
+                return str(l_obj)
+            else:
+                return in_itk(type(l_obj).__name__)
+
+    return recursive(object_ref, 0)
+
+
+class TemplateTypeError(TypeError):
+    def __init__(self, template_type, input_type):
+        def tuple_to_string_type(t):
+            if type(t) == tuple:
+                return ", ".join(python_type(x) for x in t)
+            else:
+                python_type(t)
+
+        import itk
+
+        # Special case for ITK readers: Add extra information.
+        extra_eg = ""
+        if template_type in [
+            itk.ImageFileReader,
+            itk.ImageSeriesReader,
+            itk.MeshFileReader,
+        ]:
+            extra_eg = """
+
+or
+
+    e.g.: image = itk.imread(my_input_filename, itk.F)
+"""
+
+        python_template_type = python_type(template_type)
+        python_input_type = tuple_to_string_type(input_type)
+        type_list = "\n".join([python_type(x[0]) for x in template_type.keys()])
+        eg_type = ", ".join([python_type(x) for x in list(template_type.keys())[0]])
+        msg = """{template_type} is not wrapped for input type `{input_type}`.
+
+To limit the size of the package, only a limited number of
+types are available in ITK Python. To print the supported
+types, run the following command in your python environment:
+
+    {template_type}.GetTypes()
+
+Possible solutions:
+* If you are an application user:
+** Convert your input image into a supported format (see below).
+** Contact developer to report the issue.
+* If you are an application developer, force input images to be
+loaded in a supported pixel type.
+
+    e.g.: instance = {template_type}[{eg_type}].New(my_input){extra_eg}
+
+* (Advanced) If you are an application developer, build ITK Python yourself and
+turned to `ON` the corresponding CMake option to wrap the pixel type or image
+dimension you need. When configuring ITK with CMake, you can set
+`ITK_WRAP_${{type}}` (replace ${{type}} with appropriate pixel type such as
+`double`). If you need to support images with 4 or 5 dimensions, you can add
+these dimensions to the list of dimensions in the CMake variable
+`ITK_WRAP_IMAGE_DIMS`.
+
+Supported input types:
+
+{type_list}
+""".format(
+            template_type=python_template_type,
+            input_type=python_input_type,
+            type_list=type_list,
+            eg_type=eg_type,
+            extra_eg=extra_eg,
+        )
+        TypeError.__init__(self, msg)
+
+
 # install progress callback and custom completer if we are in ipython
 # interpreter
 try:
-    import itkConfig
+    from itk.conf import itkConfig
     import IPython
 
     if IPython.get_ipython():

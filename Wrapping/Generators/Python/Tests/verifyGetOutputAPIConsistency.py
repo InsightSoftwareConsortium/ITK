@@ -20,7 +20,7 @@
 
 import itk
 import sys
-import itkTemplate
+from itk.support.itkTemplate import itkTemplate
 
 itk.auto_progress(2)
 
@@ -91,7 +91,7 @@ for t in dir(itk):
     if t not in exclude:
         T = itk.__dict__[t]
         # first case - that's a templated class
-        if isinstance(T, itkTemplate.itkTemplate) and len(T) > 0:
+        if isinstance(T, itkTemplate) and len(T) > 0:
             # Most templated object would simply instantiate the first type
             # listed if `New()` is called directly on the template type, but
             # this is not the case for all templates

@@ -129,7 +129,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   foreach(t ${WRAP_ITK_COMPLEX_REAL})
     list(APPEND ITK_WRAP_PYTHON_COMPLEX_REAL ${ITKT_${t}})
   endforeach()
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itk/conf/itkBuildOptions.py.in"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itk/support/itkBuildOptions.py.in"
                  "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}/itkBuildOptions.py"
                 @ONLY)
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}/itkBuildOptions.py")
@@ -144,13 +144,13 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   # Create a list of Python files.
   # WrapITK/Python/*.py
   set(ITK_PYTHON_FILES
-    itk/conf/itkBase
-    itk/conf/itkTemplate
-    itk/conf/itkTypes
-    itk/conf/itkExtras
-    itk/conf/itkLazy
-    itk/conf/itkHelpers
-    itk/conf/itkInitHelpers
+    itk/support/itkBase
+    itk/support/itkTemplate
+    itk/support/itkTypes
+    itk/support/itkExtras
+    itk/support/itkLazy
+    itk/support/itkHelpers
+    itk/support/itkInitHelpers
     itk/__init__
     itk/itkInitHelpers
     )
@@ -262,8 +262,8 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
     "${_swig_depend}")
 
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-    file(COPY ${WrapITK_SOURCE_DIR}/Generators/Python/PyBase/pyBase.i
-      DESTINATION "${WRAP_ITK_TYPEDEFS_DIRECTORY}")
+    configure_file(${WrapITK_SOURCE_DIR}/Generators/Python/PyBase/pyBase.i
+      "${WRAP_ITK_TYPEDEFS_DIRECTORY}" COPYONLY)
     list(APPEND dependencies "${WRAP_ITK_TYPEDEFS_DIRECTORY}/pyBase.i")
   endif()
 
@@ -353,7 +353,7 @@ macro(itk_end_wrap_module_python)
 
   # and create the file, with the var ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES and
   # ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS created earlier
-  configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/itk/conf/ModuleConfig.py.in"
+  configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/itk/support/ModuleConfig.py.in"
     "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
     @ONLY)
 
