@@ -4,7 +4,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonBinaryDilateImageFilterTest
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonBinaryDilateImageFilterTest.png DATA{Baseline/PythonBinaryDilateImageFilterTest.png}
-    COMMAND BinaryDilateImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/BinaryDilateImageFilterTest.py
     DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonBinaryDilateImageFilterTest.png
       5
@@ -13,7 +13,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonBinaryErodeImageFilterTest.png
       DATA{Baseline/PythonBinaryErodeImageFilterTest.png}
-    COMMAND BinaryErodeImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/BinaryErodeImageFilterTest.py
     DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonBinaryErodeImageFilterTest.png
       5

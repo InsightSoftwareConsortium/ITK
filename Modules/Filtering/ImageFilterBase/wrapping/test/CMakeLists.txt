@@ -4,7 +4,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonCastImageFilterTest
     TEST_DRIVER_ARGS
     --compare ${ITK_TEST_OUTPUT_DIR}/PythonCastImageFilterTest.png DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
-    COMMAND CastImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/CastImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonCastImageFilterTest.png
     )

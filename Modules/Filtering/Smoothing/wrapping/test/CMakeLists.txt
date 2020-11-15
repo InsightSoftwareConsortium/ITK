@@ -7,7 +7,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterTest.png
       DATA{Baseline/PythonMeanImageFilterTest.png}
-    COMMAND MeanImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/MeanImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterTest.png
       3
@@ -18,7 +18,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
       --compare
       ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterFunctionCallTest.png
       DATA{Baseline/PythonMeanImageFilterFunctionCallTest.png}
-    COMMAND MeanImageFilterFunctionCallTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/MeanImageFilterFunctionCallTest.py
       DATA{${test_input_dir}/cthead1UC.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonMeanImageFilterFunctionCallTest.png
       3
@@ -28,21 +28,21 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonMedianImageFilterTest.png
       DATA{Baseline/PythonMedianImageFilterTest.png}
-    COMMAND MedianImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/MedianImageFilterTest.py
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonMedianImageFilterTest.png
       3
     )
   if(ITK_WRAP_DOC)
   itk_python_add_test(NAME PythonMedianImageFilterFunctionalDocumentationTest
-  COMMAND MedianImageFilterFunctionalDocumentationTest.py
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/MedianImageFilterFunctionalDocumentationTest.py
   )
   endif()
   itk_python_add_test(NAME PythonAutoPipelineTest
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonAutoPipelineTest.png
       DATA{Baseline/PythonMedianImageFilterTest.png}
-    COMMAND PythonAutoPipelineTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/PythonAutoPipelineTest.py
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonAutoPipelineTest.png
       3

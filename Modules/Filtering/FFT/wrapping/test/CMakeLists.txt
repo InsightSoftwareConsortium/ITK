@@ -4,7 +4,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonFFTImageFilterRealTest.png DATA{Baseline/PythonFFTImageFilterRealTest.png}
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonFFTImageFilterImaginaryTest.png DATA{Baseline/PythonFFTImageFilterImaginaryTest.png}
-    COMMAND FFTImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/FFTImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonFFTImageFilterRealTest.png
       ${ITK_TEST_OUTPUT_DIR}/PythonFFTImageFilterImaginaryTest.png
