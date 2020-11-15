@@ -21,16 +21,8 @@
 #include "itkTestingMacros.h"
 
 int
-itkLevelSetDomainPartitionImageWithKdTreeTest(int argc, char * argv[])
+itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
 {
-
-  if (argc < 1)
-  {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Program " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    return EXIT_FAILURE;
-  }
-
   constexpr unsigned int Dimension = 2;
 
   using InputPixelType = unsigned short;
