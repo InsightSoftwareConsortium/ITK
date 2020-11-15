@@ -188,23 +188,10 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   endif()
 
-  if(CMAKE_CONFIGURATION_TYPES)
-    foreach(config ${CMAKE_CONFIGURATION_TYPES})
-    set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/itk/conf/${config}")
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
-                   "${CMAKE_CURRENT_BINARY_DIR}/${config}/WrapITK.pth"
-                   @ONLY)
-      # Install the package python files.
-      WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
-      set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
-      WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
-    endforeach()
-  else()
-    # Install the package python files.
-    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
-    set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
-    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
-  endif()
+  # Install the package python files.
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
+  set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
 endif()
 
 
