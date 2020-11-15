@@ -6,7 +6,7 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilterTest.png
               DATA{Baseline/PythonGradientMagnitudeRecursiveGaussianImageFilterTest.png}
-    COMMAND GradientMagnitudeRecursiveGaussianImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/GradientMagnitudeRecursiveGaussianImageFilterTest.py
       DATA{${test_input_dir}/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilterTest.png
       5

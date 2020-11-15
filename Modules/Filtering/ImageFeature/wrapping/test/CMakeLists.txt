@@ -7,7 +7,7 @@ itk_python_add_test(NAME itkGradientVectorFlowImageFilterPythonTest
                 DATA{${test_baseline_dir}/itkGradientVectorFlowImageFilterPythonTestX.png}
       --compare ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestY.png
                 DATA{${test_baseline_dir}/itkGradientVectorFlowImageFilterPythonTestY.png}
-    COMMAND itkGradientVectorFlowImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkGradientVectorFlowImageFilterTest.py
       DATA{${test_input_dir}/Contours.png}
       ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestX.png
       ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestY.png
@@ -16,7 +16,7 @@ itk_python_add_test(NAME itkGradientVectorFlowImageFilterPythonTest
 list(FIND ITK_WRAP_IMAGE_DIMS 2 wrap_2_index)
 if(ITK_WRAP_float AND wrap_2_index GREATER -1)
   itk_python_add_test(NAME PythonLaplacianImageFilterTest
-    COMMAND LaplacianImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/LaplacianImageFilterTest.py
     DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/LaplacianImageFilterTest.png
     )
@@ -25,13 +25,13 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
       --compareNumberOfPixelsTolerance 1
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonCannyEdgeDetectionImageFilterTest.png
         DATA{Baseline/PythonCannyEdgeDetectionImageFilterTest.png}
-    COMMAND CannyEdgeDetectionImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/CannyEdgeDetectionImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonCannyEdgeDetectionImageFilterTest.png
       9
     )
   itk_python_add_test(NAME PythonHoughTransform2DLinesImageFilterTest
-    COMMAND HoughTransform2DLinesImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/HoughTransform2DLinesImageFilterTest.py
       DATA{Baseline/itkHoughTransform2DLinesImageFilterTest.png}
     )
 

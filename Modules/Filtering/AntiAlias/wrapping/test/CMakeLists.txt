@@ -6,7 +6,7 @@
 #  itk_python_add_test(NAME PythonAntiAliasBinaryImageFilterTest
 #    TEST_DRIVER_ARGS
 #      --compare ${ITK_TEST_OUTPUT_DIR}/PythonAntiAliasBinaryImageFilter.png DATA{Baseline/PythonAntiAliasBinaryImageFilterTest.png}
-#    COMMAND AntiAliasBinaryImageFilterTest.py
+#    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/AntiAliasBinaryImageFilterTest.py
 #      DATA{Input/VentricleModel.png}
 #      ${ITK_TEST_OUTPUT_DIR}/PythonAntiAliasBinaryImageFilter.png
 #  )
