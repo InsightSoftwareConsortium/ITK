@@ -43,6 +43,8 @@ def _get_numpy_pixelid(itk_Image_type):
                "SL":np.int64,
                "F":np.float32,
                "D":np.float64,
+               "PF2":np.float32,
+               "PF3":np.float32,
                 }
     import os
     if os.name == 'nt':
