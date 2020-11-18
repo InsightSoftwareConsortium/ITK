@@ -344,6 +344,16 @@ try:
     cast = image.astype(np.float32)
     assert cast.dtype == np.float32
 
+    # Test .astype for conversion between vector-like pixel types.
+    components = 3
+    numpyImage = np.random.randint(0, 256, (12,8,components)).astype(np.uint8)
+    input_image = itk.image_from_array(numpyImage, is_vector=True)
+    if (type(input_image) == itk.Image[itk.RGBPixel[itk.UC],2] and
+        hasattr(itk.CastImageFilter, 'IRGBUC2IVF32')):
+        output_pixel_type = itk.Vector[itk.F,components]
+        output_image = input_image.astype(output_pixel_type)
+        assert type(output_image) == itk.Image[output_pixel_type, 2]
+
 except ImportError:
     print("NumPy not imported. Skipping BridgeNumPy tests")
     # Numpy is not available, do not run the Bridge NumPy tests
