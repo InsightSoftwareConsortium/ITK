@@ -48,7 +48,7 @@ jobs:
           command: |
             sudo apt-get install -y  rsync ninja-build ccache
             sudo pip install --upgrade pip
-            sudo pip install cmake==3.11.4 scikit-ci-addons
+            sudo pip install cmake==3.11.4 scikit-ci-addons numpy
       - run:
           name: CCache initialization
           command: |

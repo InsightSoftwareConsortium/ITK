@@ -17,19 +17,14 @@
 #==========================================================================*/
 
 import itk
-have_numpy = True
-try:
-    import numpy as np
-except ImportError:
-    have_numpy = False
+import numpy as np
 
-if have_numpy:
-    Dimension = 2
-    PixelType = itk.UC
-    ImageType = itk.Image[PixelType, Dimension]
-    image = ImageType.New()
+Dimension = 2
+PixelType = itk.UC
+ImageType = itk.Image[PixelType, Dimension]
+image = ImageType.New()
 
-    new_direction = np.rot90(np.eye(Dimension))
-    image.SetDirection(new_direction)
-    direction = itk.array_from_matrix(image.GetDirection())
-    assert(np.array_equal(new_direction, direction))
+new_direction = np.rot90(np.eye(Dimension))
+image.SetDirection(new_direction)
+direction = itk.array_from_matrix(image.GetDirection())
+assert(np.array_equal(new_direction, direction))
