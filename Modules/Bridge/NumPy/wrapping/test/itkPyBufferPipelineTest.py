@@ -30,7 +30,7 @@ if len(sys.argv) < 2:
 inputImageFileName = sys.argv[1]
 
 image = itk.imread(inputImageFileName)
-array = itk.GetArrayFromImage(image)
+array = itk.array_from_image(image)
 
 extractor = itk.ExtractImageFilter.New(image)
 extractionRegion = image.GetLargestPossibleRegion()
@@ -38,10 +38,10 @@ extractor.SetExtractionRegion(extractionRegion)
 
 # GetArrayFromImage calls UpdateLargestPossibleRegion to ensure the image buffer
 # has been populated
-array = itk.GetArrayFromImage(extractor.GetOutput())
+array = itk.array_from_image(extractor.GetOutput())
 
 # GetArrayFromImage calls UpdateLargestPossibleRegion to ensure the image buffer
 # has been populated with the correct region
 extractionRegion.SetSize(10)
 extractor.SetExtractionRegion(extractionRegion)
-array = itk.GetArrayFromImage(extractor.GetOutput())
+array = itk.array_from_image(extractor.GetOutput())

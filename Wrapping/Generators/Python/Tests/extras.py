@@ -236,22 +236,22 @@ try:
     # Images
     import numpy as np
     image = itk.imread(filename)
-    arr = itk.GetArrayFromImage(image)
-    arr.fill(1)
-    assert np.any(arr != itk.GetArrayFromImage(image))
     arr = itk.array_from_image(image)
     arr.fill(1)
-    assert np.any(arr != itk.GetArrayFromImage(image))
+    assert np.any(arr != itk.array_from_image(image))
+    arr = itk.array_from_image(image)
+    arr.fill(1)
+    assert np.any(arr != itk.array_from_image(image))
     view = itk.GetArrayViewFromImage(image)
     view.fill(1)
-    assert np.all(view == itk.GetArrayFromImage(image))
-    image = itk.GetImageFromArray(arr)
+    assert np.all(view == itk.array_from_image(image))
+    image = itk.image_from_array(arr)
     image.FillBuffer(2)
-    assert np.any(arr != itk.GetArrayFromImage(image))
+    assert np.any(arr != itk.array_from_image(image))
     image = itk.GetImageViewFromArray(arr)
     image.FillBuffer(2)
-    assert np.all(arr == itk.GetArrayFromImage(image))
-    image = itk.GetImageFromArray(arr, is_vector=True)
+    assert np.all(arr == itk.array_from_image(image))
+    image = itk.image_from_array(arr, is_vector=True)
     assert image.GetImageDimension() == 2
     image = itk.GetImageViewFromArray(arr, is_vector=True)
     assert image.GetImageDimension() == 2
@@ -259,12 +259,12 @@ try:
     assert arr.shape[0] == 2
     assert arr.shape[1] == 3
     assert arr[1,1] == 5
-    image = itk.GetImageFromArray(arr)
-    arrKeepAxes = itk.GetArrayFromImage(image, keep_axes=True)
+    image = itk.image_from_array(arr)
+    arrKeepAxes = itk.array_from_image(image, keep_axes=True)
     assert arrKeepAxes.shape[0] == 3
     assert arrKeepAxes.shape[1] == 2
     assert arrKeepAxes[1,1] == 4
-    arr = itk.GetArrayFromImage(image, keep_axes=False)
+    arr = itk.array_from_image(image, keep_axes=False)
     assert arr.shape[0] == 2
     assert arr.shape[1] == 3
     assert arr[1,1] == 5
@@ -277,11 +277,11 @@ try:
     assert arr.shape[1] == 3
     assert arr[1,1] == 5
     arr = arr.copy()
-    image = itk.GetImageFromArray(arr)
+    image = itk.image_from_array(arr)
     image2 = type(image).New()
     image2.Graft(image)
     del image # Delete image but pixel data should be kept in img2
-    image = itk.GetImageFromArray(arr+1) # Fill former memory if wrongly released
+    image = itk.image_from_array(arr+1) # Fill former memory if wrongly released
     assert np.array_equal(arr, itk.GetArrayViewFromImage(image2))
     image2.SetPixel([0]*image2.GetImageDimension(), 3) # For mem check in dynamic analysis
     # VNL Vectors
