@@ -248,7 +248,7 @@ print_vector(std::ofstream & s, vnl_vector<TParametersValueType> const & v)
   }
   if (!v.empty())
   {
-    s << convert(v[v.size() - 1]);
+    s << convert(v.back());
   }
 }
 } // namespace itk_impl_details

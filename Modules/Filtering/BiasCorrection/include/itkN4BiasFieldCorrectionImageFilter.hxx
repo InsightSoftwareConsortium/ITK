@@ -464,7 +464,7 @@ CLANG_SUPPRESS_Wfloat_equal
         }
         else
         {
-          correctedPixel = E[E.size() - 1];
+          correctedPixel = E.back();
         }
         sharpenedImageBufferRange[indexValue] = correctedPixel;
       }
