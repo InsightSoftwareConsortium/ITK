@@ -6,6 +6,7 @@ itkTIFFImageIOCompressionTest.cxx
 itkLargeTIFFImageWriteReadTest.cxx
 itkTIFFImageIOInfoTest.cxx
 itkTIFFImageIOTestPalette.cxx
+itkTIFFImageIOIntPixelTest.cxx
 )
 
 CreateTestDriver(ITKIOTIFF  "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
@@ -302,3 +303,7 @@ itk_add_test(NAME itkTIFFImageIOTestGreyPaletteExpanded
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteExpanded.tif
               1e1a89a70b7cb472f55c450909df7b77
     itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestGreyPaletteExpanded.tif 1 1)
+
+itk_add_test(NAME itkTIFFImageIOIntPixelTest
+      COMMAND ITKIOTIFFTestDriver
+    itkTIFFImageIOIntPixelTest DATA{Input/int.tiff})
