@@ -86,6 +86,7 @@ set(
   SimpleITKFiltersGTest
   itkHessianImageFilterGTest.cxx
   itkDICOMOrientImageFilterGTest.cxx
+  itkMaskedAssignImageFilterGTest.cxx
 )
 
 creategoogletestdriver(SimpleITKFilters "${SimpleITKFilters-Test_LIBRARIES}" "${SimpleITKFiltersGTest}")
