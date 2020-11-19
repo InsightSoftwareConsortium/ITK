@@ -425,13 +425,18 @@ str = str
                 import numpy as np
                 import itkTypes
 
-                # numpy dtype
+                # if both a numpy dtype and a ctype exist, use the latter.
                 if type(pixel_type) is type:
-                    pixel_type = itkTypes.itkCType.GetCTypeForDType(pixel_type)
-                current_pixel_type = itk.template(self)[1][0]
-                if current_pixel_type is pixel_type:
+                    c_pixel_type = itkTypes.itkCType.GetCTypeForDType(pixel_type)
+                    if c_pixel_type is not None:
+                        pixel_type = c_pixel_type
+
+                # input_image_template is Image or VectorImage
+                (input_image_template, (input_pixel_type, input_image_dimension)) = itk.template(self)
+
+                if input_pixel_type is pixel_type:
                     return self
-                OutputImageType = itk.Image[pixel_type, self.GetImageDimension()]
+                OutputImageType = input_image_template[pixel_type, input_image_dimension]
                 cast = itk.cast_image_filter(self, ttype=(type(self), OutputImageType))
                 return cast
 

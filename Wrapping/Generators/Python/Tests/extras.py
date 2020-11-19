@@ -333,16 +333,45 @@ try:
     # and make sure that the matrix hasn't changed.
     assert m_itk(0,0) == 1
 
-    # test .astype
-    image = itk.imread(filename, itk.UC)
-    cast = image.astype(PixelType)
+    # test .astype for itk.Image
+    numpyImage = np.random.randint(0, 256, (8, 12, 5)).astype(np.uint8)
+    image = itk.image_from_array(numpyImage, is_vector=False)
+    cast = image.astype(np.uint8)
     assert cast == image
-    cast = image.astype(itk.F)
-    assert cast.dtype == np.float32
-    cast = image.astype(itk.SS)
-    assert cast.dtype == np.int16
-    cast = image.astype(np.float32)
-    assert cast.dtype == np.float32
+    (input_image_template, (input_pixel_type, input_image_dimension)) = itk.template(image)
+    assert hasattr(itk.CastImageFilter, 'IUC3IF3')
+    for t in [[itk.F, np.float32, 'IUC3IF3'], [itk.SS, np.int16, 'IUC3ISS3'], \
+              [itk.UI, np.uint32, 'IUC3IUI3'], [np.float32, np.float32, 'IUC3IF3']]:
+        if hasattr(itk.CastImageFilter, t[2]):
+            cast = image.astype(t[0])
+            (cast_image_template, (cast_pixel_type, cast_image_dimension)) = itk.template(cast)
+            assert cast_image_template == input_image_template and \
+                cast_image_dimension == input_image_dimension and cast.dtype == t[1]
+
+    # test .astype for itk.VectorImage
+    numpyImage = np.random.randint(0, 256, (8, 5, 3)).astype(np.float32)
+    image = itk.image_from_array(numpyImage, is_vector=True)
+    vectorimage = itk.cast_image_filter(Input=image, ttype=(type(image), itk.VectorImage[itk.F, 2]))
+    cast = vectorimage.astype(np.float32)
+    assert cast == vectorimage
+    (vector_image_template, (vector_pixel_type, vector_image_dimension)) = itk.template(vectorimage)
+    for t in [[itk.D, np.float64, 'VIF2VID2'], [itk.SS, np.int16, 'VIF2VISS2'], \
+              [itk.UI, np.uint32, 'VIF2VIUI2'], [np.float64, np.float64, 'VIF2VID2']]:
+        if hasattr(itk.CastImageFilter, t[2]):
+            cast = vectorimage.astype(t[0])
+            (cast_image_template, (cast_pixel_type, cast_image_dimension)) = itk.template(cast)
+            assert cast_image_template == vector_image_template and \
+                cast_image_dimension == vector_image_dimension and cast.dtype == t[1]
+
+    # Test .astype for conversion between vector-like pixel types.
+    components = 3
+    numpyImage = np.random.randint(0, 256, (12, 8, components)).astype(np.uint8)
+    input_image = itk.image_from_array(numpyImage, is_vector=True)
+    if (type(input_image) == itk.Image[itk.RGBPixel[itk.UC],2] and
+        hasattr(itk.CastImageFilter, 'IRGBUC2IVF32')):
+        output_pixel_type = itk.Vector[itk.F,components]
+        output_image = input_image.astype(output_pixel_type)
+        assert type(output_image) == itk.Image[output_pixel_type, 2]
 
 except ImportError:
     print("NumPy not imported. Skipping BridgeNumPy tests")

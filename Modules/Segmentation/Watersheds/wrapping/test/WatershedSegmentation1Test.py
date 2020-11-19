@@ -37,7 +37,11 @@ watershed = itk.WatershedImageFilter.New(Input=gradient.GetOutput())
 watershed.SetThreshold(0.01)
 watershed.SetLevel(0.2)
 
-relabel = itk.RelabelComponentImageFilter.New(Input=watershed.GetOutput())
+# If `cmake` has `-DITK_WRAP_signed_char:BOOL=ON` at build time then the output image type for this
+# use of `RelabelComponentImageFilter` defaults to `itk.Image[itk.SC,2]`, but that does not provide
+# sufficiently many output labels, giving a runtime error for this test.  So, we explicitly override
+# the output image type here to use `itk.Image[itk.SS,2]`.
+relabel = itk.RelabelComponentImageFilter[type(watershed.GetOutput()),itk.Image[itk.SS,2]].New(Input=watershed.GetOutput())
 
 cast = itk.CastImageFilter[relabel.GetOutput().__class__,
   itk.Image[itk.ctype('unsigned char'), Dimension]].New(Input=relabel.GetOutput())
