@@ -222,9 +222,9 @@ template <typename TRealPixelType, unsigned int VImageDimension>
 void
 PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
 {
-  const ImageType *        fixed = static_cast<ImageType *>(this->GetInput(0));
-  const ImageType *        moving = static_cast<ImageType *>(this->GetInput(1));
-  const ImageType *        input = static_cast<ImageType *>(this->GetInput(2));
+  const ImageType * fixed = static_cast<ImageType *>(this->GetInput(0));
+  const ImageType * moving = static_cast<ImageType *>(this->GetInput(1));
+  const ImageType * input = static_cast<ImageType *>(this->GetInput(2));
 
   const typename ImageType::SpacingType spacing = fixed->GetSpacing();
   const typename ImageType::PointType   fixedOrigin = fixed->GetOrigin();
