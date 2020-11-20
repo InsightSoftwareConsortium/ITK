@@ -30,6 +30,17 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
 
     def test_NumPyBridge_VectorContainer(self):
         "Try to convert a itk.VectorContainer into a Numpy array and back."
+
+        if not (hasattr(itk.VectorContainer, 'ULF') and
+                hasattr(itk.PyVectorContainer, 'F') and
+                hasattr(itk.Point, 'F3') and
+                hasattr(itk.VectorContainer, 'ULPF3') and
+                hasattr(itk.Point, 'F2') and
+                hasattr(itk.VectorContainer, 'ULPF2')
+        ):
+            # There is insufficient wrapping to perform this test; skip it.
+            return
+
         v1 = itk.VectorContainer[itk.UL, itk.F].New()
         v1.Reserve(4)
         v1.SetElement(0, 1.2)
