@@ -402,9 +402,17 @@ TIFFImageIO::ReadImageInformation()
   }
   else if (m_InternalImage->m_BitsPerSample == 32)
   {
-    if (m_InternalImage->m_SampleFormat == 3)
+    switch (m_InternalImage->m_SampleFormat)
     {
-      m_ComponentType = IOComponentEnum::FLOAT;
+      case 1:
+        m_ComponentType = IOComponentEnum::UINT;
+        break;
+      case 2:
+        m_ComponentType = IOComponentEnum::INT;
+        break;
+      case 3:
+        m_ComponentType = IOComponentEnum::FLOAT;
+        break;
     }
   }
   else
