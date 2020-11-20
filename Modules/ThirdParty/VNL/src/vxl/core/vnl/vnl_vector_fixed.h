@@ -301,6 +301,15 @@ class VNL_EXPORT vnl_vector_fixed
   //: Iterator pointing to element beyond end of data
   const_iterator end() const { return data_+n; }
 
+  //: Analogous to std::array::front().
+  T& front() { return *data_; }
+  //: Analogous to std::array::back().
+  T& back() { return data_[n - 1]; }
+
+  //: Analogous to std::array::front() (const overload).
+  const T& front() const { return *data_; }
+  //: Analogous to std::array::back() (const overload).
+  const T& back() const { return data_[n - 1]; }
 
   //: Apply f to each element.
   // Returns a new vector with the result.

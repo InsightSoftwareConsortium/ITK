@@ -44,10 +44,20 @@ test_vector_fixed_ref()
     //      << static_cast<void *>(rval_initialized_independant_matrix.data_block()) << "\n";
   }
 
-  enum
+  constexpr size_t size = 4;
+
   {
-    size = 4
-  };
+    vnl_vector_fixed<unsigned int, size> test_front_back{11, 22, 33, 44};
+    TEST("test_front_back.front()", test_front_back.front() , 11);
+    TEST("test_front_back.back()", test_front_back.back() , 44);
+  }
+
+  {
+    const vnl_vector_fixed<unsigned int, size> test_front_back_const{11, 22, 33, 44};
+    TEST("test_front_back_const.front()", test_front_back_const.front() , 11);
+    TEST("test_front_back_const.back()", test_front_back_const.back() , 44);
+  }
+
   typedef vnl_vector_fixed<double, size> vf;
   typedef vnl_vector_fixed_ref<double, size> vfr;
   typedef vnl_vector_fixed_ref_const<double, size> vfrc;
