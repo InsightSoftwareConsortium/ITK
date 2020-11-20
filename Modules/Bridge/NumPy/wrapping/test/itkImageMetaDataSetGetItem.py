@@ -17,11 +17,7 @@
 #==========================================================================*/
 
 import sys
-try:
-    import numpy as np
-except ImportError:
-    # We don't have numpy -- bail
-    sys.exit(0)
+import numpy as np
 from distutils.version import StrictVersion as VS
 if VS(np.__version__) < VS('1.15.0'):
     print('NumPy 1.15.0 or greater is required')

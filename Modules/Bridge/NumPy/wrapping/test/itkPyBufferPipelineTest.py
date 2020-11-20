@@ -17,11 +17,7 @@
 #==========================================================================*/
 
 import sys
-try:
-    import numpy as np
-except ImportError:
-    # We don't have numpy -- bail
-    sys.exit(0)
+import numpy as np
 import itk
 
 if len(sys.argv) < 2:
