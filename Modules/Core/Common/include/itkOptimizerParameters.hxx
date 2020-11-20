@@ -23,70 +23,51 @@
 
 namespace itk
 {
-/** Default contstructor */
+/** Default constructor */
 template <typename TParametersValueType>
-OptimizerParameters<TParametersValueType>::OptimizerParameters()
-  : Array<TParametersValueType>()
-  , m_Helper(nullptr)
-{
-  this->Initialize();
-}
+OptimizerParameters<TParametersValueType>::OptimizerParameters() = default;
 
 /** Copy constructor */
 template <typename TParametersValueType>
 OptimizerParameters<TParametersValueType>::OptimizerParameters(const OptimizerParameters & rhs)
   : Array<TParametersValueType>(rhs)
-  , m_Helper(nullptr)
 {
   // Note: don't copy the OptimizerParametersHelper.
   // The Array copy constructor will allocate new memory
   // and copy the data to it. So we end up here with a generic
   // OptimizerParameters data object even if 'rhs' points to
   // something different.
-  this->Initialize();
 }
 
 /** Constructor with size */
 template <typename TParametersValueType>
 OptimizerParameters<TParametersValueType>::OptimizerParameters(SizeValueType dimension)
   : Array<TParametersValueType>(dimension)
-  , m_Helper(nullptr)
-{
-  this->Initialize();
-}
+{}
 
-/** Constructor with Array assignment */
+/** Constructor with Array */
 template <typename TParametersValueType>
 OptimizerParameters<TParametersValueType>::OptimizerParameters(const ArrayType & array)
   : Array<TParametersValueType>(array)
-  , m_Helper(nullptr)
-{
-  this->Initialize();
-}
+{}
 
 template <typename TParametersValueType>
 void
 OptimizerParameters<TParametersValueType>::Initialize()
 {
   // Set the default OptimizerParametersHelper
-  auto * helper = new OptimizerParametersHelperType;
-  // OptimizerParameters will manage this memory.
-  this->SetHelper(helper);
+  this->m_Helper.reset(new OptimizerParametersHelperType);
 }
 
 /** Destructor */
 template <typename TParametersValueType>
-OptimizerParameters<TParametersValueType>::~OptimizerParameters()
-{
-  delete this->m_Helper;
-}
+OptimizerParameters<TParametersValueType>::~OptimizerParameters() = default;
 
 template <typename TParametersValueType>
 void
 OptimizerParameters<TParametersValueType>::SetHelper(OptimizerParametersHelperType * helper)
 {
-  delete this->m_Helper;
-  this->m_Helper = helper;
+  this->m_Helper.reset(helper);
 }
 
 /** Copy operator for self */

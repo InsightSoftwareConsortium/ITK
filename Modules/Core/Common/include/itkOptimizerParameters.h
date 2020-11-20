@@ -21,6 +21,8 @@
 #include "itkArray.h"
 #include "itkOptimizerParametersHelper.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 /** \class OptimizerParameters
@@ -94,7 +96,7 @@ public:
   OptimizerParametersHelperType *
   GetHelper()
   {
-    return m_Helper;
+    return m_Helper.get();
   }
 
   /** Copy operators
@@ -114,7 +116,7 @@ public:
   ~OptimizerParameters() override;
 
 private:
-  OptimizerParametersHelperType * m_Helper;
+  std::unique_ptr<OptimizerParametersHelperType> m_Helper{ new OptimizerParametersHelperType };
 };
 
 } // namespace itk
