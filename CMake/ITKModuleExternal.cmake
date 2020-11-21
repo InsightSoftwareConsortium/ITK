@@ -39,15 +39,18 @@ endif()
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_DIR}/bin CACHE PATH "Runtime output directory for ITK")
 endif()
-if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-  if(ITK_WRAP_PYTHON)
-    # If wrapping for python, then put all the shared libraries (both core shared libs,
-    # and python shared libs in the itk python package directory under swiglib.
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_DIR}/Wrapping/Generators/Python/itk/swiglib CACHE PATH "Shared library directory, in wrapped directory.")
-  else()
+if(ITK_WRAP_PYTHON)
+  # IF WRAP_PYTHON then we must unconditionally set the CMAKE_LIBRARY_OUTPUT_DIRECTORY
+  # If wrapping for python, then put all the shared libraries (both core shared libs,
+  # and python shared libs in the itk python package directory under ITK_SWIGLIB_SUBPKG_NAME.
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${ITK_DIR}/Wrapping/Generators/Python/itk/${ITK_SWIGLIB_SUBPKG_NAME}" CACHE PATH "Shared library directory, in wrapped directory.")
+else()
+  if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_DIR}/lib CACHE PATH "Shared library directory")
   endif()
 endif()
+
+
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_DIR}/lib CACHE PATH "Static library install directory")
 endif()
