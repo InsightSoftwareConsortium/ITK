@@ -147,7 +147,7 @@ def itk_load_swig_module(name, namespace=None):
 
                 # Get the attribute associated with the class name if it exists
                 template_container = getattr(
-                    this_module, py_class_name, itkTemplate.itkTemplate(cpp_class_name)
+                    this_module, py_class_name, itkTemplate(cpp_class_name)
                 )
 
                 try:
