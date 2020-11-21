@@ -50,24 +50,41 @@ public:
 
   /** Default constructor. It is created with an empty array
    *  it has to be allocated later by assignment              */
-  OptimizerParameters();
+  OptimizerParameters() = default;
 
   /** Copy constructor.  Uses VNL copy constructor with correct
    *  setting for memory management.
    *  The vnl vector copy constructor creates new memory
    *  no matter the setting of let array manage memory of rhs.
    */
-  OptimizerParameters(const OptimizerParameters & rhs);
+  OptimizerParameters(const OptimizerParameters & rhs)
+    : Array<TParametersValueType>(rhs)
+  {
+    // Note: don't copy the OptimizerParametersHelper.
+    // The Array copy constructor will allocate new memory
+    // and copy the data to it. So we end up here with a generic
+    // OptimizerParameters data object even if 'rhs' points to
+    // something different.
+  }
 
   /** Constructor with size. Size can only be changed by assignment */
-  explicit OptimizerParameters(SizeValueType dimension);
+  explicit OptimizerParameters(SizeValueType dimension)
+    : Array<TParametersValueType>(dimension)
+  {}
 
   /** Constructor with Array assignment */
-  OptimizerParameters(const ArrayType & array);
+  OptimizerParameters(const ArrayType & array)
+    : Array<TParametersValueType>(array)
+  {}
 
   /** Initialize. Initialization called by constructors. */
   void
-  Initialize();
+  Initialize()
+  {
+    // Set the default OptimizerParametersHelper
+    this->m_Helper.reset(new OptimizerParametersHelperType);
+  }
+
 
   /** Set a new data pointer for the parameter data, pointing it to a different
    * memory block. The size of the new memory block must equal the current
@@ -75,14 +92,30 @@ public:
    * This call is passed to the assigned OptimizerParametersHelper.
    * \warning Memory must be managed by caller after this call. */
   virtual void
-  MoveDataPointer(TParametersValueType * pointer);
+  MoveDataPointer(TParametersValueType * pointer)
+  {
+    if (m_Helper == nullptr)
+    {
+      itkGenericExceptionMacro("OptimizerParameters::MoveDataPointer: "
+                               "m_Helper must be set.");
+    }
+    this->m_Helper->MoveDataPointer(this, pointer);
+  }
 
   /** Set an object that holds the parameters. Used by the helper of
    * derived classes that use an object other than itkArray to hold parameter
    * data. The helper class must check that the object is the correct type.
    * The call is passed to the assigned OptimizerParametersHelper. */
   virtual void
-  SetParametersObject(LightObject * object);
+  SetParametersObject(LightObject * object)
+  {
+    if (m_Helper == nullptr)
+    {
+      itkGenericExceptionMacro("OptimizerParameters::SetParameterObject: "
+                               "m_Helper must be set.");
+    }
+    this->m_Helper->SetParametersObject(this, object);
+  }
 
   /** Assign a helper. OptimizerParameters manages the helper once
    *  its been assigned. The generic helper, OptimizerParametersHelper,
@@ -90,7 +123,10 @@ public:
    *  Classes that need a specialized helper should allocate
    *  one themselves and assign it with this method. */
   virtual void
-  SetHelper(OptimizerParametersHelperType * helper);
+  SetHelper(OptimizerParametersHelperType * helper)
+  {
+    this->m_Helper.reset(helper);
+  }
 
   /** Get the helper in use. */
   OptimizerParametersHelperType *
@@ -105,24 +141,36 @@ public:
    *  By default should copy image param data into Array portion of new object,
    *  i.e. into data_block. Is that what we want? */
   const Self &
-  operator=(const Self & rhs);
+  operator=(const Self & rhs)
+  {
+    // Note: there's no need to copy the OptimizerParametersHelper.
+    // Call the superclass implementation.
+    this->ArrayType::operator=(rhs);
+    return *this;
+  }
 
   const Self &
-  operator=(const ArrayType & rhs);
+  operator=(const ArrayType & rhs)
+  {
+    // Call the superclass implementation
+    this->ArrayType::operator=(rhs);
+    return *this;
+  }
 
   const Self &
-  operator=(const VnlVectorType & rhs);
+  operator=(const VnlVectorType & rhs)
+  {
+    // Call the superclass implementation
+    this->ArrayType::operator=(rhs);
+    return *this;
+  }
 
-  ~OptimizerParameters() override;
+  ~OptimizerParameters() override = default;
 
 private:
   std::unique_ptr<OptimizerParametersHelperType> m_Helper{ new OptimizerParametersHelperType };
 };
 
 } // namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkOptimizerParameters.hxx"
-#endif
 
 #endif
