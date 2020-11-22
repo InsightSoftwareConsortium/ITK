@@ -25,21 +25,21 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash a3c929ebd652fd159709826e154d566235fb12903dac04070854e83abf0e091ae369421b83699d4d78d4334ce1c5b7c9fda5f90e0c8e31170b7e902273eb4a09)
+    set(_castxml_hash 85514042f024c705ea9647b4830ac5e58c83167792c2cfe9edab6ea4af52b0f8cb967ff53c5bfee6f8d6096f4de6a83c95d67c538f6fc0c537bc596948817585)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash fa7a38dbdb71e0484cfeb255aef6d085abf23496a85051e3dccac593d9eec042fad5be72110d7f3528b424d90fbf5b5053c31f054470d691a7109c1f13776229)
+    set(_castxml_hash cf7abb0eeb76ede7a36b6f1ac2545f2dcd00303c817810d118d12aaa1fe058d3348b6555e3ebe7bd47aba713ee02d489f1a33ba58d94d5b6e722fd1cae22647e)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash 0ba8deff17b3a8f5a2cd22939ff83a864629201d8b881e44d7ed01d0fd2aa578338e3319e402c226b3648a6027a4538e8c4cd066d6fe2c49eb1a4471e803b827)
+    set(_castxml_hash ed396ebd56301a4dd4c414a02f8c41293d1ed60df0802ccf4eb1f6db63bdf7d2ddea0eb66cc5ce1e1fd244e29d446072eae9fbe9f13159fb0213772a796a10eb)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
