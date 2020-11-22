@@ -58,8 +58,8 @@ LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::LabelSetMorph
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
 void
-LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType &, ThreadIdType)
+LabelSetMorphBaseImageFilter<TInputImage, doDilate, TOutputImage>::ThreadedGenerateData(const OutputImageRegionType &,
+                                                                                        ThreadIdType)
 {}
 
 template <typename TInputImage, bool doDilate, typename TOutputImage>
