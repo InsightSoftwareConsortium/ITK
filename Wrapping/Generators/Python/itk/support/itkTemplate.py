@@ -23,6 +23,8 @@ import sys
 import types
 import collections
 import warnings
+from typing import Dict, Any
+
 from ..conf import itkConfig
 
 from ..support import itkBase
@@ -32,7 +34,202 @@ import math
 
 
 class itkTemplateBase(object):
+    """This itkTemplateBase class has only static and class methods used
+    to manage the singleton instances of template objects.
+    """
 
+    __templates__: Dict[str, Any] = collections.OrderedDict()
+    __class_to_template__: Dict[str, Any] = {}
+    __named_templates__: Dict[str, Any] = {}
+    # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
+
+    @staticmethod
+    def normalizeName(name: str) -> str:
+        """Normalize the class name to remove ambiguity
+
+        This function removes the white spaces in the name, and also
+        remove the pointer declaration "*" (it have no sense in python)"""
+        name = name.strip()
+        name = name.replace(" ", "")
+        name = name.replace("*", "")
+
+        return name
+
+    @staticmethod
+    def registerNoTpl(name: str, cl) -> None:
+        """Register a class without template
+
+        It can seem not useful to register classes without template (and it wasn't
+        useful until the SmartPointer template was generated), but those classes
+        can be used as template argument of classes with template.
+        """
+        itkTemplateBase.__templates__[itkTemplate.normalizeName(name)] = cl
+
+    @staticmethod
+    def _NewImageReader(
+        TemplateReaderType, increase_dimension, primaryInputMethod, *args, **kwargs
+    ):
+        def firstIfList(arg):
+            if type(arg) in [list, tuple]:
+                return arg[0]
+            else:
+                return arg
+
+        inputFileName = ""
+        if len(args) != 0:
+            # try to find a type suitable for the primary input provided
+            inputFileName = firstIfList(args[0])
+        elif primaryInputMethod in kwargs:
+            inputFileName = firstIfList(kwargs[primaryInputMethod])
+        if not inputFileName:
+            raise RuntimeError("No FileName specified.")
+        import itk
+
+        if "ImageIO" in kwargs:
+            imageIO = kwargs["ImageIO"]
+        else:
+            imageIO = itk.ImageIOFactory.CreateImageIO(
+                inputFileName, itk.CommonEnums.IOFileMode_ReadMode
+            )
+        if not imageIO:
+            msg = ""
+            if not os.path.isfile(inputFileName):
+                msg += "\nThe file doesn't exist. \n" + "Filename = %s" % inputFileName
+            raise RuntimeError(
+                "Could not create IO object for reading file %s" % inputFileName + msg
+            )
+        # Read the metadata from the image file.
+        imageIO.SetFileName(inputFileName)
+        imageIO.ReadImageInformation()
+        dimension = imageIO.GetNumberOfDimensions()
+        # For image series, increase dimension if last dimension is not of size one.
+        if increase_dimension and imageIO.GetDimensions(dimension - 1) != 1:
+            dimension += 1
+        componentAsString = imageIO.GetComponentTypeAsString(imageIO.GetComponentType())
+        _io_component_type_dict = {
+            "float": itk.F,
+            "double": itk.D,
+            "unsigned_char": itk.UC,
+            "unsigned_short": itk.US,
+            "unsigned_int": itk.UI,
+            "unsigned_long": itk.UL,
+            "unsigned_long_long": itk.ULL,
+            "char": itk.SC,
+            "short": itk.SS,
+            "int": itk.SI,
+            "long": itk.SL,
+            "long_long": itk.SLL,
+        }
+        component = _io_component_type_dict[componentAsString]
+        pixel = imageIO.GetPixelTypeAsString(imageIO.GetPixelType())
+        numberOfComponents = imageIO.GetNumberOfComponents()
+        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
+        ImageType = itk.Image[PixelType, dimension]
+        ReaderType = TemplateReaderType[ImageType]
+        return ReaderType.New(*args, **kwargs)
+
+    @staticmethod
+    def _NewMeshReader(TemplateReaderType, *args, **kwargs):
+        def firstIfList(arg):
+            if type(arg) in [list, tuple]:
+                return arg[0]
+            else:
+                return arg
+
+        inputFileName = ""
+        if len(args) != 0:
+            # try to find a type suitable for the primary input provided
+            inputFileName = firstIfList(args[0])
+        elif "FileName" in kwargs:
+            inputFileName = firstIfList(kwargs["FileName"])
+        if not inputFileName:
+            raise RuntimeError("No FileName specified.")
+        import itk
+
+        if "MeshIO" in kwargs:
+            meshIO = kwargs["MeshIO"]
+        else:
+            meshIO = itk.MeshIOFactory.CreateMeshIO(
+                inputFileName, itk.CommonEnums.IOFileMode_ReadMode
+            )
+        if not meshIO:
+            msg = ""
+            if not os.path.isfile(inputFileName):
+                msg += "\nThe file doesn't exist. \n" + "Filename = %s" % inputFileName
+            raise RuntimeError(
+                "Could not create IO object for reading file %s" % inputFileName + msg
+            )
+        # Read the metadata from the mesh file.
+        meshIO.SetFileName(inputFileName)
+        meshIO.ReadMeshInformation()
+        dimension = meshIO.GetPointDimension()
+        componentAsString = meshIO.GetComponentTypeAsString(
+            meshIO.GetPointPixelComponentType()
+        )
+        # For meshes with unknown pixel type, a common case, we assign the pixel
+        # type to be float, which is well supported in the wrapping and handles
+        # most use cases.
+        _io_component_type_dict = {
+            "unknown": itk.F,
+            "float": itk.F,
+            "double": itk.D,
+            "unsigned_char": itk.UC,
+            "unsigned_short": itk.US,
+            "unsigned_int": itk.UI,
+            "unsigned_long": itk.UL,
+            "unsigned_long_long": itk.ULL,
+            "char": itk.SC,
+            "short": itk.SS,
+            "int": itk.SI,
+            "long": itk.SL,
+            "long_long": itk.SLL,
+        }
+        component = _io_component_type_dict[componentAsString]
+        pixel = meshIO.GetPixelTypeAsString(meshIO.GetPointPixelType())
+        numberOfComponents = meshIO.GetNumberOfPointPixelComponents()
+        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
+        MeshType = itk.Mesh[PixelType, dimension]
+        ReaderType = TemplateReaderType[MeshType]
+        return ReaderType.New(*args, **kwargs)
+
+    @staticmethod
+    def _pixelTypeFromIO(pixel, component, numberOfComponents):
+        import itk
+
+        if pixel == "scalar":
+            PixelType = component
+        elif pixel == "rgb":
+            PixelType = itk.RGBPixel[component]
+        elif pixel == "rgba":
+            PixelType = itk.RGBAPixel[component]
+        elif pixel == "offset":
+            PixelType = itk.Offset[numberOfComponents]
+        elif pixel == "vector":
+            PixelType = itk.Vector[component, numberOfComponents]
+        elif pixel == "point":
+            PixelType = itk.Point[component, numberOfComponents]
+        elif pixel == "covariant_vector":
+            PixelType = itk.CovariantVector[component, numberOfComponents]
+        elif pixel == "symmetric_second_rank_tensor":
+            PixelType = itk.SymmetricSecondRankTensor[component, numberOfComponents]
+        elif pixel == "diffusion_tensor_3D":
+            PixelType = itk.DiffusionTensor3D[component]
+        elif pixel == "complex":
+            PixelType = itk.complex[component]
+        elif pixel == "fixed_array":
+            PixelType = itk.FixedArray[component, numberOfComponents]
+        elif pixel == "matrix":
+            PixelType = itk.Matrix[
+                component,
+                int(math.sqrt(numberOfComponents)),
+                int(math.sqrt(numberOfComponents)),
+            ]
+        else:
+            raise RuntimeError("Unknown pixel type: %s." % pixel)
+        return PixelType
+
+
+class itkTemplate(itkTemplateBase):
     """This class manages access to available template arguments of a C++ class.
 
     This class is generic and does not give help on the methods available in
@@ -52,34 +249,7 @@ class itkTemplateBase(object):
     sets by pressing tab in interpreter like ipython
     """
 
-    __templates__ = collections.OrderedDict()
-    __class_to_template__ = {}
-    __named_templates__ = {}
-    # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
-
-    @staticmethod
-    def normalizeName(name: str) -> str:
-        """Normalize the class name to remove ambiguity
-
-        This function removes the white spaces in the name, and also
-        remove the pointer declaration "*" (it have no sense in python)"""
-        name = name.strip()
-        name = name.replace(" ", "")
-        name = name.replace("*", "")
-
-        return name
-
-    @classmethod
-    def registerNoTpl(cls, name: str, cl) -> None:
-        """Register a class without template
-
-        It can seem not useful to register classes without template (and it wasn't
-        useful until the SmartPointer template was generated), but those classes
-        can be used as template argument of classes with template.
-        """
-        cls.__templates__[itkTemplate.normalizeName(name)] = cl
-
-    def __new__(cls, name):
+    def __new__(cls, name: str):
         # Singleton pattern: we only make a single instance of any Template of
         # a given name. If we have already made the instance, just return it
         # as-is.
@@ -87,8 +257,8 @@ class itkTemplateBase(object):
             new_instance = object.__new__(cls)
             new_instance.__name__ = name
             new_instance.__template__ = collections.OrderedDict()
-            cls.__named_templates__[name] = new_instance
-        return cls.__named_templates__[name]
+            itkTemplateBase.__named_templates__[name] = new_instance
+        return itkTemplateBase.__named_templates__[name]
 
     def __getnewargs_ex__(self):
         """Return arguments for __new__.
@@ -487,169 +657,6 @@ or via one of the following keyword arguments: %s"""
                 raise itk.TemplateTypeError(self, input_type)
         return self[list(keys)[0]].New(*args, **kwargs)
 
-    @staticmethod
-    def _NewImageReader(
-        TemplateReaderType, increase_dimension, primaryInputMethod, *args, **kwargs
-    ):
-        def firstIfList(arg):
-            if type(arg) in [list, tuple]:
-                return arg[0]
-            else:
-                return arg
-
-        inputFileName = ""
-        if len(args) != 0:
-            # try to find a type suitable for the primary input provided
-            inputFileName = firstIfList(args[0])
-        elif primaryInputMethod in kwargs:
-            inputFileName = firstIfList(kwargs[primaryInputMethod])
-        if not inputFileName:
-            raise RuntimeError("No FileName specified.")
-        import itk
-
-        if "ImageIO" in kwargs:
-            imageIO = kwargs["ImageIO"]
-        else:
-            imageIO = itk.ImageIOFactory.CreateImageIO(
-                inputFileName, itk.CommonEnums.IOFileMode_ReadMode
-            )
-        if not imageIO:
-            msg = ""
-            if not os.path.isfile(inputFileName):
-                msg += "\nThe file doesn't exist. \n" + "Filename = %s" % inputFileName
-            raise RuntimeError(
-                "Could not create IO object for reading file %s" % inputFileName + msg
-            )
-        # Read the metadata from the image file.
-        imageIO.SetFileName(inputFileName)
-        imageIO.ReadImageInformation()
-        dimension = imageIO.GetNumberOfDimensions()
-        # For image series, increase dimension if last dimension is not of size one.
-        if increase_dimension and imageIO.GetDimensions(dimension - 1) != 1:
-            dimension += 1
-        componentAsString = imageIO.GetComponentTypeAsString(imageIO.GetComponentType())
-        _io_component_type_dict = {
-            "float": itk.F,
-            "double": itk.D,
-            "unsigned_char": itk.UC,
-            "unsigned_short": itk.US,
-            "unsigned_int": itk.UI,
-            "unsigned_long": itk.UL,
-            "unsigned_long_long": itk.ULL,
-            "char": itk.SC,
-            "short": itk.SS,
-            "int": itk.SI,
-            "long": itk.SL,
-            "long_long": itk.SLL,
-        }
-        component = _io_component_type_dict[componentAsString]
-        pixel = imageIO.GetPixelTypeAsString(imageIO.GetPixelType())
-        numberOfComponents = imageIO.GetNumberOfComponents()
-        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
-        ImageType = itk.Image[PixelType, dimension]
-        ReaderType = TemplateReaderType[ImageType]
-        return ReaderType.New(*args, **kwargs)
-
-    @staticmethod
-    def _NewMeshReader(TemplateReaderType, *args, **kwargs):
-        def firstIfList(arg):
-            if type(arg) in [list, tuple]:
-                return arg[0]
-            else:
-                return arg
-
-        inputFileName = ""
-        if len(args) != 0:
-            # try to find a type suitable for the primary input provided
-            inputFileName = firstIfList(args[0])
-        elif "FileName" in kwargs:
-            inputFileName = firstIfList(kwargs["FileName"])
-        if not inputFileName:
-            raise RuntimeError("No FileName specified.")
-        import itk
-
-        if "MeshIO" in kwargs:
-            meshIO = kwargs["MeshIO"]
-        else:
-            meshIO = itk.MeshIOFactory.CreateMeshIO(
-                inputFileName, itk.CommonEnums.IOFileMode_ReadMode
-            )
-        if not meshIO:
-            msg = ""
-            if not os.path.isfile(inputFileName):
-                msg += "\nThe file doesn't exist. \n" + "Filename = %s" % inputFileName
-            raise RuntimeError(
-                "Could not create IO object for reading file %s" % inputFileName + msg
-            )
-        # Read the metadata from the mesh file.
-        meshIO.SetFileName(inputFileName)
-        meshIO.ReadMeshInformation()
-        dimension = meshIO.GetPointDimension()
-        componentAsString = meshIO.GetComponentTypeAsString(
-            meshIO.GetPointPixelComponentType()
-        )
-        # For meshes with unknown pixel type, a common case, we assign the pixel
-        # type to be float, which is well supported in the wrapping and handles
-        # most use cases.
-        _io_component_type_dict = {
-            "unknown": itk.F,
-            "float": itk.F,
-            "double": itk.D,
-            "unsigned_char": itk.UC,
-            "unsigned_short": itk.US,
-            "unsigned_int": itk.UI,
-            "unsigned_long": itk.UL,
-            "unsigned_long_long": itk.ULL,
-            "char": itk.SC,
-            "short": itk.SS,
-            "int": itk.SI,
-            "long": itk.SL,
-            "long_long": itk.SLL,
-        }
-        component = _io_component_type_dict[componentAsString]
-        pixel = meshIO.GetPixelTypeAsString(meshIO.GetPointPixelType())
-        numberOfComponents = meshIO.GetNumberOfPointPixelComponents()
-        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
-        MeshType = itk.Mesh[PixelType, dimension]
-        ReaderType = TemplateReaderType[MeshType]
-        return ReaderType.New(*args, **kwargs)
-
-    @staticmethod
-    def _pixelTypeFromIO(pixel, component, numberOfComponents):
-        import itk
-
-        if pixel == "scalar":
-            PixelType = component
-        elif pixel == "rgb":
-            PixelType = itk.RGBPixel[component]
-        elif pixel == "rgba":
-            PixelType = itk.RGBAPixel[component]
-        elif pixel == "offset":
-            PixelType = itk.Offset[numberOfComponents]
-        elif pixel == "vector":
-            PixelType = itk.Vector[component, numberOfComponents]
-        elif pixel == "point":
-            PixelType = itk.Point[component, numberOfComponents]
-        elif pixel == "covariant_vector":
-            PixelType = itk.CovariantVector[component, numberOfComponents]
-        elif pixel == "symmetric_second_rank_tensor":
-            PixelType = itk.SymmetricSecondRankTensor[component, numberOfComponents]
-        elif pixel == "diffusion_tensor_3D":
-            PixelType = itk.DiffusionTensor3D[component]
-        elif pixel == "complex":
-            PixelType = itk.complex[component]
-        elif pixel == "fixed_array":
-            PixelType = itk.FixedArray[component, numberOfComponents]
-        elif pixel == "matrix":
-            PixelType = itk.Matrix[
-                component,
-                int(math.sqrt(numberOfComponents)),
-                int(math.sqrt(numberOfComponents)),
-            ]
-        else:
-            raise RuntimeError("Unknown pixel type: %s." % pixel)
-        return PixelType
-
     def keys(self):
         return self.__template__.keys()
 
@@ -708,11 +715,6 @@ or via one of the following keyword arguments: %s"""
         others = sorted(others)
 
         return ctypes + classes + others
-
-
-class itkTemplate(itkTemplateBase):
-    def __repr__(self):
-        return "<itkTemplate %s>" % self.__name__
 
 
 # create a new New function which accepts parameters
