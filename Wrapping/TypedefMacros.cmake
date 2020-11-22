@@ -29,6 +29,9 @@ endmacro()
 # TODO: is this the place place for this?
 set(WRAPPER_LIBRARY_INCLUDE_DIRECTORIES "" CACHE INTERNAL "additional include directories for each module")
 
+# WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx files will be placed.
+set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_DIR}/Wrapping" CACHE INTERNAL "Need to specify the output library directory globally")
+
 ###############################################################################
 # Define fundamental wrapping macro which sets up the global variables used
 # across all of the wrapping macros included at the end of this file.
@@ -50,10 +53,6 @@ macro(itk_wrap_module library_name)
 
   # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for *.wrap files.
   set(WRAPPER_LIBRARY_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-
-  # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx
-  # files will be placed.
-  set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_DIR}/Wrapping")
 
   # WRAPPER_LIBRARY_DEPENDS. List of names of other wrapper libraries that
   # define symbols used by this wrapper library.
