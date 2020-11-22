@@ -23,6 +23,8 @@
 import itk
 
 # image and transform are in the same module, but filters are in a different module.
+
+
 imType = itk.Image[itk.F, 2]
 imTypeB = itk.Image[itk.UC, 2]
 im = imType.New()
