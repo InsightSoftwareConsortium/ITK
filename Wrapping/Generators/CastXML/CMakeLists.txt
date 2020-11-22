@@ -205,6 +205,8 @@ macro(itk_end_wrap_submodule_castxml module)
     set(_ccache_cmd ${CCACHE_EXECUTABLE})
   endif()
   set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
+  # Avoid missing omp.h include
+  string(REPLACE "-fopenmp" "" _castxml_cc_flags "${_castxml_cc_flags}")
   if(CMAKE_CXX_EXTENSIONS)
     set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX11_EXTENSION_COMPILE_OPTION}")
   else()
