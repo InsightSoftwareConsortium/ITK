@@ -234,17 +234,17 @@ DoLineLabelProp(LineBufferType & LineBuf,
 
 template <class TInIter, class TOutDistIter, class TOutLabIter, class RealType>
 void
-doOneDimensionErodeFirstPass(TInIter &      inputIterator,
-                             TOutDistIter & outputIterator,
-                             TOutLabIter &  outputLabIterator,
+doOneDimensionErodeFirstPass(TInIter &          inputIterator,
+                             TOutDistIter &     outputIterator,
+                             TOutLabIter &      outputLabIterator,
                              ProgressReporter & progress,
-                             const unsigned LineLength,
-                             const unsigned direction,
-                             const int      m_MagnitudeSign,
-                             const bool     m_UseImageSpacing,
-                             const RealType image_scale,
-                             const RealType Sigma,
-                             const bool     lastpass)
+                             const unsigned     LineLength,
+                             const unsigned     direction,
+                             const int          m_MagnitudeSign,
+                             const bool         m_UseImageSpacing,
+                             const RealType     image_scale,
+                             const RealType     Sigma,
+                             const bool         lastpass)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
@@ -372,16 +372,16 @@ doOneDimensionErodeFirstPass(TInIter &      inputIterator,
 
 template <class TInIter, class TOutDistIter, class TOutLabIter, class RealType>
 void
-doOneDimensionDilateFirstPass(TInIter &      inputIterator,
-                              TOutDistIter & outputIterator,
-                              TOutLabIter &  outputLabIterator,
+doOneDimensionDilateFirstPass(TInIter &          inputIterator,
+                              TOutDistIter &     outputIterator,
+                              TOutLabIter &      outputLabIterator,
                               ProgressReporter & progress,
-                              const unsigned LineLength,
-                              const unsigned direction,
-                              const int      m_MagnitudeSign,
-                              const bool     m_UseImageSpacing,
-                              const RealType image_scale,
-                              const RealType Sigma)
+                              const unsigned     LineLength,
+                              const unsigned     direction,
+                              const int          m_MagnitudeSign,
+                              const bool         m_UseImageSpacing,
+                              const RealType     image_scale,
+                              const RealType     Sigma)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
@@ -454,20 +454,20 @@ doOneDimensionDilateFirstPass(TInIter &      inputIterator,
 
 template <class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType>
 void
-doOneDimensionErode(TInIter &      inputIterator,
-                    TDistIter &    inputDistIterator,
-                    TOutDistIter & outputDistIterator,
-                    TOutLabIter &  outputLabIterator,
+doOneDimensionErode(TInIter &          inputIterator,
+                    TDistIter &        inputDistIterator,
+                    TOutDistIter &     outputDistIterator,
+                    TOutLabIter &      outputLabIterator,
                     ProgressReporter & progress,
-                    const unsigned LineLength,
-                    const unsigned direction,
-                    const int      m_MagnitudeSign,
-                    const bool     m_UseImageSpacing,
-                    const RealType m_Extreme,
-                    const RealType image_scale,
-                    const RealType Sigma,
-                    const RealType BaseSigma,
-                    const bool     lastpass)
+                    const unsigned     LineLength,
+                    const unsigned     direction,
+                    const int          m_MagnitudeSign,
+                    const bool         m_UseImageSpacing,
+                    const RealType     m_Extreme,
+                    const RealType     image_scale,
+                    const RealType     Sigma,
+                    const RealType     BaseSigma,
+                    const bool         lastpass)
 {
   // traditional erosion - can't optimise the same way as the first pass
   using LineBufferType = typename itk::Array<RealType>;
@@ -595,18 +595,18 @@ doOneDimensionErode(TInIter &      inputIterator,
 
 template <class TInIter, class TDistIter, class TOutLabIter, class TOutDistIter, class RealType>
 void
-doOneDimensionDilate(TInIter &      inputIterator,
-                     TDistIter &    inputDistIterator,
-                     TOutDistIter & outputDistIterator,
-                     TOutLabIter &  outputLabIterator,
+doOneDimensionDilate(TInIter &          inputIterator,
+                     TDistIter &        inputDistIterator,
+                     TOutDistIter &     outputDistIterator,
+                     TOutLabIter &      outputLabIterator,
                      ProgressReporter & progress,
-                     const unsigned LineLength,
-                     const unsigned direction,
-                     const int      m_MagnitudeSign,
-                     const bool     m_UseImageSpacing,
-                     const RealType m_Extreme,
-                     const RealType image_scale,
-                     const RealType Sigma)
+                     const unsigned     LineLength,
+                     const unsigned     direction,
+                     const int          m_MagnitudeSign,
+                     const bool         m_UseImageSpacing,
+                     const RealType     m_Extreme,
+                     const RealType     image_scale,
+                     const RealType     Sigma)
 {
   // specialised version for binary erosion during first pass. We can
   // compute the results directly because the inputs are flat.
