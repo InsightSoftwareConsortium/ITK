@@ -3,21 +3,6 @@ ITKLabelErodeDilate
 
 .. image:: https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate/workflows/Build,%20test,%20package/badge.svg
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKLabelErodeDilate.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKLabelErodeDilate
-
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKLabelErodeDilate.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKLabelErodeDilate
-
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/itklabelerodedilate.svg
-    :target: https://ci.appveyor.com/project/itkrobot/itklabelerodedilate
-
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
-
 Overview
 --------
 
@@ -35,6 +20,13 @@ For more information, see::
   Spatially-Variant and Label-Set Dilations and Erosions.
   2011 International Conference on Digital Image Computing Techniques and
   Applications (DICTA). 180--185. 2011. IEEE.
+  
+Installation
+------------
+
+::
+
+  pip install itk-labelerodedilate
 
 License
 -------
