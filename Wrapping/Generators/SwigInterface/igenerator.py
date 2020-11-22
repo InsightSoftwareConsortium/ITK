@@ -822,6 +822,7 @@ def {snakeCase}_init_docstring():
                     % (self.moduleName, lang.title())
                 )
                 headerFile.write('%feature("nothreadallow");\n')
+                headerFile.write('%feature("autodoc","1");\n')
             else:
                 headerFile.write(f"%module {self.moduleName}{lang.title()}\n")
             headerFile.write("#endif\n")
