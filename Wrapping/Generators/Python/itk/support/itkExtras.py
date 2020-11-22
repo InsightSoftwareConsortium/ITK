@@ -17,12 +17,15 @@
 # ==========================================================================*/
 
 import re
-from typing import Dict, Any
+from typing import Optional, Union, Dict, Any, List, Tuple
 from sys import stderr as system_error_stream
 
 import numpy
 import warnings
 from sys import stderr as system_error_stream
+import os
+
+fileiotype = Union[str, bytes, os.PathLike]
 
 
 def output(input):
@@ -40,7 +43,7 @@ def image(input):
     return output(input)
 
 
-def set_nthreads(number_of_threads):
+def set_nthreads(number_of_threads: int) -> None:
     """
     Support convenient set of the number of threads.
     Use example (in python):
@@ -57,7 +60,7 @@ def set_nthreads(number_of_threads):
     threader.SetGlobalDefaultNumberOfThreads(number_of_threads)
 
 
-def get_nthreads():
+def get_nthreads() -> int:
     """
     Get the number of threads
     """
@@ -202,7 +205,7 @@ def _GetArrayFromImage(image_or_filter, function, keep_axes, update):
     return templatedFunction(itk.output(image_or_filter), keep_axes, update)
 
 
-def GetArrayFromImage(image_or_filter, keep_axes=False, update=True):
+def GetArrayFromImage(image_or_filter, keep_axes: bool = False, update: bool = True):
     """Get an array with the content of the image buffer"""
     return _GetArrayFromImage(image_or_filter, "GetArrayFromImage", keep_axes, update)
 
@@ -210,7 +213,9 @@ def GetArrayFromImage(image_or_filter, keep_axes=False, update=True):
 array_from_image = GetArrayFromImage
 
 
-def GetArrayViewFromImage(image_or_filter, keep_axes=False, update=True):
+def GetArrayViewFromImage(
+    image_or_filter, keep_axes: bool = False, update: bool = True
+):
     """Get an array view with the content of the image buffer"""
     return _GetArrayFromImage(
         image_or_filter, "GetArrayViewFromImage", keep_axes, update
@@ -220,7 +225,7 @@ def GetArrayViewFromImage(image_or_filter, keep_axes=False, update=True):
 array_view_from_image = GetArrayViewFromImage
 
 
-def _GetImageFromArray(arr, function, is_vector):
+def _GetImageFromArray(arr, function, is_vector: bool):
     """Get an ITK image from a Python array.
     """
     import itk
@@ -245,7 +250,7 @@ def _GetImageFromArray(arr, function, is_vector):
     return templatedFunction(arr, is_vector)
 
 
-def GetImageFromArray(arr, is_vector=False):
+def GetImageFromArray(arr, is_vector: bool = False):
     """Get an ITK image from a Python array.
     """
     return _GetImageFromArray(arr, "GetImageFromArray", is_vector)
@@ -254,7 +259,7 @@ def GetImageFromArray(arr, is_vector=False):
 image_from_array = GetImageFromArray
 
 
-def GetImageViewFromArray(arr, is_vector=False):
+def GetImageViewFromArray(arr, is_vector: bool = False):
     """Get an ITK image view from a Python array.
     """
     return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector)
@@ -379,7 +384,7 @@ def xarray_from_image(l_image):
     direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
     spatial_dimension = l_image.GetImageDimension()
 
-    spatial_dims = ("x", "y", "z")
+    spatial_dims: Tuple[str,str,str] = ("x", "y", "z")
     coords = {}
     for l_index, dim in enumerate(spatial_dims[:spatial_dimension]):
         coords[dim] = np.linspace(
@@ -540,7 +545,7 @@ def range(image_or_filter):
     return image_intensity_min_max(image_or_filter)
 
 
-def imwrite(image_or_filter, filename, compression=False):
+def imwrite(image_or_filter, filename: fileiotype, compression: bool = False) -> None:
     """Write a image or the output image of a filter to a file.
 
     The writer is instantiated with the image type of the image in
@@ -560,7 +565,9 @@ def imwrite(image_or_filter, filename, compression=False):
     writer.Update()
 
 
-def imread(filename, pixel_type=None, fallback_only=False):
+def imread(
+    filename: fileiotype, pixel_type: Optional[Any] = None, fallback_only: bool = False
+):
     """Read an image from a file or series of files and return an itk.Image.
 
     The reader is instantiated with the image type of the image file if
@@ -582,7 +589,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
 
     """
     import itk
-    from itk.support import itkTemplate
+    from itk.support.itkExtras import TemplateTypeError
 
     if fallback_only:
         if pixel_type is None:
@@ -591,7 +598,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
             )
         try:
             return imread(filename)
-        except (KeyError, itkTemplate.TemplateTypeError):
+        except (KeyError, TemplateTypeError):
             pass
     if type(filename) not in [list, tuple]:
         import os
@@ -641,7 +648,7 @@ def imread(filename, pixel_type=None, fallback_only=False):
     return reader.GetOutput()
 
 
-def meshwrite(mesh, filename, compression=False):
+def meshwrite(mesh, filename: fileiotype, compression: bool = False) -> None:
     """Write a mesh to a file.
 
     The writer is instantiated according to the type of the input mesh.
@@ -659,7 +666,9 @@ def meshwrite(mesh, filename, compression=False):
     writer.Update()
 
 
-def meshread(filename, pixel_type=None, fallback_only=False):
+def meshread(
+    filename: fileiotype, pixel_type: Optional[Any] = None, fallback_only: bool = False
+):
     """Read a mesh from a file and return an itk.Mesh.
 
     The reader is instantiated with the mesh type of the mesh file if
@@ -709,7 +718,7 @@ def meshread(filename, pixel_type=None, fallback_only=False):
     return reader.GetOutput()
 
 
-def search(s, case_sensitive=False):  # , fuzzy=True):
+def search(s: str, case_sensitive: bool = False) -> List[str]:  # , fuzzy=True):
     """Search for a class name in the itk module.
     """
     s = s.replace(" ", "")
@@ -749,7 +758,7 @@ def _underscore_upper(match_obj):
     return match_obj.group(2).upper()
 
 
-def _snake_to_camel(keyword):
+def _snake_to_camel(keyword: str):
     camel = keyword[0].upper()
     if _snake_underscore_re.search(keyword[1:]):
         return camel + _snake_underscore_re.sub(_underscore_upper, keyword[1:])
@@ -929,7 +938,7 @@ class templated_class:
         #
         self.__cls__.check_template_parameters(template_parameters)
 
-    def add_template(self, name, params):
+    def add_template(self, name: str, params):
         if not isinstance(params, list) and not isinstance(params, tuple):
             params = (params,)
         params = tuple(params)
@@ -1000,21 +1009,18 @@ class templated_class:
     # everything after this comment is for dict interface
     # and is a copy/paste from DictMixin
     # only methods to edit dictionary are not there
-    def __iter__(self):
+    def __iter__(self) -> str:
         for k in self.keys():
             yield k
 
-    def has_key(self, key):
+    def has_key(self, key: str):
         return key in self.__templates__
 
-    def __contains__(self, key):
+    def __contains__(self, key:str):
         return key in self
 
-    def get(self, key, default=None):
-        try:
-            return self[key]
-        except KeyError:
-            return default
+    def get(self, key:str, default: Optional[str]=None) -> Optional[str]:
+        return self.get(key, default)
 
     def __len__(self):
         return len(self.keys())
@@ -1058,7 +1064,7 @@ class pipeline:
         """
         self.filters = []
 
-    def GetOutput(self, l_index=0):
+    def GetOutput(self, l_index:int =0):
         """Return the output of the pipeline
 
         If another output is needed, use
@@ -1080,7 +1086,7 @@ class pipeline:
                 else:
                     raise ValueError("Index can only be 0 on that object")
 
-    def GetNumberOfOutputs(self):
+    def GetNumberOfOutputs(self) -> int:
         """Return the number of outputs
         """
         if len(self.filters) == 0:
@@ -1129,7 +1135,7 @@ class pipeline:
         self.UpdateLargestPossibleRegion()
         return self
 
-    def expose(self, name, new_name=None, position=-1):
+    def expose(self, name:str, new_name: Optional[str]=None, position: int=-1):
         """Expose an attribute from a filter of the mini-pipeline.
 
         Once called, the pipeline instance has a new Set/Get set of methods to
@@ -1149,8 +1155,8 @@ class pipeline:
         if new_name is None:
             new_name = name
         src = self.filters[position]
-        ok = False
-        set_name = "Set" + name
+        ok:bool = False
+        set_name: str = "Set" + name
         if set_name in dir(src):
             setattr(self, "Set" + new_name, getattr(src, set_name))
             ok = True
@@ -1182,11 +1188,11 @@ def down_cast(obj):
     specialized type.
     """
     import itk
-    from itk.support import itkTemplate
+    from itk.support.itkTemplate import itkTemplate
 
     class_name = obj.GetNameOfClass()
     t = getattr(itk, class_name)
-    if isinstance(t, itkTemplate.itkTemplate):
+    if isinstance(t, itkTemplate):
         for c in t.values():
             try:
                 return c.cast(obj)
@@ -1198,7 +1204,7 @@ def down_cast(obj):
         return t.cast(obj)
 
 
-def attribute_list(i, name):
+def attribute_list(i, name: str):
     """Returns a list of the specified attributes for the objects in the image.
 
     i: the input LabelImage
@@ -1222,7 +1228,7 @@ def attribute_list(i, name):
     return l_list
 
 
-def attributes_list(i, names):
+def attributes_list(i, names: List[str]):
     """Returns a list of the specified attributes for the objects in the image.
 
     i: the input LabelImage
@@ -1248,7 +1254,7 @@ def attributes_list(i, names):
     return l_list
 
 
-def attribute_dict(i, name):
+def attribute_dict(i, name: str):
     """Returns a dict with the attribute values in keys and a list of the
     corresponding objects in value
 
@@ -1276,7 +1282,7 @@ def attribute_dict(i, name):
     return d
 
 
-def number_of_objects(i):
+def number_of_objects(i) -> int:
     """Returns the number of objets in the image.
 
     i: the input LabelImage
@@ -1288,7 +1294,7 @@ def number_of_objects(i):
     return i.GetNumberOfLabelObjects()
 
 
-def ipython_kw_matches(text):
+def ipython_kw_matches(text: str):
     """Match named ITK object's named parameters"""
     import IPython
     import itk
@@ -1380,7 +1386,7 @@ def ipython_kw_matches(text):
                 # the methods
                 l_object = l_object.values()[0]
             named_args = []
-            is_in = isinstance(l_object, itk.LightObject)
+            is_in: bool = isinstance(l_object, itk.LightObject)
             if is_in or (
                 inspect.isclass(l_object) and issubclass(l_object, itk.LightObject)
             ):
@@ -1407,7 +1413,7 @@ def template(cl):
     return itkTemplate.__class_to_template__[class_(cl)]
 
 
-def ctype(s):
+def ctype(s: str):
     """Return the c type corresponding to the string passed in parameter
 
     The string can contain some extra spaces.
@@ -1436,7 +1442,7 @@ def class_(obj):
         return obj.__class__
 
 
-def python_type(object_ref):
+def python_type(object_ref) -> str:
     """Returns the Python type name of an object
 
     The Python name corresponding to the given instantiated object is printed.
@@ -1444,14 +1450,14 @@ def python_type(object_ref):
     can copy and paste the printed value to instantiate a new object of the
     same type."""
     from itk.support.itkTemplate import itkTemplate
-    from ..support.itkTypes import itkCType
+    from itk.support.itkTypes import itkCType
 
     def in_itk(name):
         import itk
 
         # Remove "itk::" and "std::" from template name.
         # Only happens for ITK objects.
-        shortname = name.split("::")[-1]
+        shortname: str = name.split("::")[-1]
         shortname = shortname.split("itk")[-1]
 
         namespace = itk
@@ -1464,7 +1470,7 @@ def python_type(object_ref):
         else:
             return name
 
-    def recursive(l_obj, level):
+    def recursive(l_obj, level: int):
 
         try:
             type_name, param_list = template(l_obj)
@@ -1509,7 +1515,7 @@ class TemplateTypeError(TypeError):
         import itk
 
         # Special case for ITK readers: Add extra information.
-        extra_eg = ""
+        extra_eg:str = ""
         if template_type in [
             itk.ImageFileReader,
             itk.ImageSeriesReader,
@@ -1526,7 +1532,7 @@ or
         python_input_type = tuple_to_string_type(input_type)
         type_list = "\n".join([python_type(x[0]) for x in template_type.keys()])
         eg_type = ", ".join([python_type(x) for x in list(template_type.keys())[0]])
-        msg = """{template_type} is not wrapped for input type `{input_type}`.
+        msg:str = """{template_type} is not wrapped for input type `{input_type}`.
 
 To limit the size of the package, only a limited number of
 types are available in ITK Python. To print the supported
