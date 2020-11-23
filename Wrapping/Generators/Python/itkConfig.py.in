@@ -34,7 +34,7 @@ Currently-supported options are:
   LazyLoading: Only load an itk library when needed. Before the library is
     loaded, the namespace will be inhabited with dummy objects."""
 
-from typing import Dict, List
+from typing import Dict, List, Optional, Type, Union
 
 # User options
 SILENT: int = 0
@@ -76,13 +76,21 @@ del _get_environment_boolean
 # Internal settings
 
 
-def _itk_format_warning(msg, *_, **__):
+def _itk_format_warning(
+    message: Union[Warning, str],
+    category: Type[Warning],  # Ignore category
+    filename: str,  # Ignore filename
+    lineno: int,  # Ignore lineno
+    line: Optional[str] = None,  # Ignore line
+) -> str:
     """"Format the warnings issued by itk to display only the message.
 
     This will ignore the filename and the line number where the warning was
     triggered. The message is returned to the warnings module.
+
+    Ignore the category, filename, lineno, and line elements of a standard warning message
     """
-    return str(msg) + "\n"
+    return str(message) + "\n"
 
 
 import warnings

@@ -126,7 +126,10 @@ print(
 )
 print(
     "Translation: %f, %f"
-    % (initialParameters.GetElement(3), initialParameters.GetElement(4),)
+    % (
+        initialParameters.GetElement(3),
+        initialParameters.GetElement(4),
+    )
 )
 
 
