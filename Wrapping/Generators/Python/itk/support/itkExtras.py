@@ -17,7 +17,7 @@
 # ==========================================================================*/
 
 import re
-from typing import Optional, Union, Dict, Any, List, Tuple
+from typing import Optional, Union, Dict, Any, List, Tuple, Sequence
 from sys import stderr as system_error_stream
 
 import numpy
@@ -29,11 +29,13 @@ fileiotype = Union[str, bytes, os.PathLike]
 
 
 def output(input):
-    try:
-        img = input.GetOutput()
-    except AttributeError:
-        img = input
-    return img
+    """
+    If input object has attribute "GetOutput()" then return an itk image,
+    otherwise this function simply returns the input value
+    """
+    if hasattr(input, "GetOutput"):
+        return input.GetOutput()
+    return input
 
 
 def image(input):
@@ -70,7 +72,7 @@ def get_nthreads() -> int:
     return threader.GetGlobalDefaultNumberOfThreads()
 
 
-def echo(obj, f=system_error_stream):
+def echo(obj, f=system_error_stream) -> None:
     """Print an object to stream
 
     If the object has a method Print(), this method is used.
@@ -79,7 +81,7 @@ def echo(obj, f=system_error_stream):
     print(f, obj)
 
 
-def size(image_or_filter):
+def size(image_or_filter) -> Sequence[int]:
     """Return the size of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -93,7 +95,7 @@ def size(image_or_filter):
     return img.GetLargestPossibleRegion().GetSize()
 
 
-def physical_size(image_or_filter):
+def physical_size(image_or_filter) -> Sequence[float]:
     """Return the physical size of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -109,7 +111,7 @@ def physical_size(image_or_filter):
     return result
 
 
-def spacing(image_or_filter):
+def spacing(image_or_filter) -> Sequence[float]:
     """Return the spacing of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -122,7 +124,7 @@ def spacing(image_or_filter):
     return img.GetSpacing()
 
 
-def origin(image_or_filter):
+def origin(image_or_filter) -> Sequence[float]:
     """Return the origin of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -135,7 +137,7 @@ def origin(image_or_filter):
     return img.GetOrigin()
 
 
-def index(image_or_filter):
+def index(image_or_filter) -> Sequence[int]:
     """Return the index of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -190,19 +192,18 @@ def _get_itk_pixelid(numpy_array_type):
             raise e
 
 
-def _GetArrayFromImage(image_or_filter, function, keep_axes, update):
+def _GetArrayFromImage(image_or_filter, function: str, keep_axes: bool, update: bool):
     """Get an Array with the content of the image buffer"""
     # Finds the image type
     import itk
 
-    keys = [
-        k for k in itk.PyBuffer.keys() if k[0] == itk.output(image_or_filter).__class__
-    ]
+    img = itk.output(image_or_filter)
+    keys = [k for k in itk.PyBuffer.keys() if k[0] == img.__class__]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create a numpy array of the type of the input image
     templatedFunction = getattr(itk.PyBuffer[keys[0]], function)
-    return templatedFunction(itk.output(image_or_filter), keep_axes, update)
+    return templatedFunction(img, keep_axes, update)
 
 
 def GetArrayFromImage(image_or_filter, keep_axes: bool = False, update: bool = True):
@@ -225,7 +226,7 @@ def GetArrayViewFromImage(
 array_view_from_image = GetArrayViewFromImage
 
 
-def _GetImageFromArray(arr, function, is_vector: bool):
+def _GetImageFromArray(arr, function_name: str, is_vector: bool):
     """Get an ITK image from a Python array."""
     import itk
 
@@ -245,7 +246,7 @@ def _GetImageFromArray(arr, function, is_vector: bool):
                 ImageType = itk.Image[itk.RGBAPixel[itk.UC], Dimension]
         else:
             ImageType = itk.Image[itk.Vector[PixelType, VectorDimension], Dimension]
-    templatedFunction = getattr(itk.PyBuffer[ImageType], function)
+    templatedFunction = getattr(itk.PyBuffer[ImageType], function_name)
     return templatedFunction(arr, is_vector)
 
 
@@ -265,7 +266,7 @@ def GetImageViewFromArray(arr, is_vector: bool = False):
 image_view_from_array = GetImageViewFromArray
 
 
-def _GetArrayFromVnlObject(vnl_object, function):
+def _GetArrayFromVnlObject(vnl_object, function_name: str):
     """Get an array with the content of vnl_object"""
     # Finds the vnl object type
     import itk
@@ -275,7 +276,7 @@ def _GetArrayFromVnlObject(vnl_object, function):
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create a numpy array of the type of the vnl object
-    templatedFunction = getattr(itk.PyVnl[keys[0]], function)
+    templatedFunction = getattr(itk.PyVnl[keys[0]], function_name)
     return templatedFunction(vnl_object)
 
 
@@ -308,12 +309,12 @@ def GetArrayViewFromVnlMatrix(vnl_matrix):
 array_from_vnl_matrix = GetArrayFromVnlMatrix
 
 
-def _GetVnlObjectFromArray(arr, function):
+def _GetVnlObjectFromArray(arr, function_name: str):
     """Get a vnl object from a Python array."""
     import itk
 
     PixelType = _get_itk_pixelid(arr)
-    templatedFunction = getattr(itk.PyVnl[PixelType], function)
+    templatedFunction = getattr(itk.PyVnl[PixelType], function_name)
     return templatedFunction(arr)
 
 
@@ -738,22 +739,24 @@ def search(s: str, case_sensitive: bool = False) -> List[str]:  # , fuzzy=True):
     return res
 
 
-# Helpers for set_inputs snake case to CamelCase keyword argument conversion
-_snake_underscore_re = re.compile("(_)([a-z0-9A-Z])")
-
-
-def _underscore_upper(match_obj):
-    return match_obj.group(2).upper()
-
-
 def _snake_to_camel(keyword: str):
+    # Helpers for set_inputs snake case to CamelCase keyword argument conversion
+    _snake_underscore_re = re.compile("(_)([a-z0-9A-Z])")
+
+    def _underscore_upper(match_obj):
+        return match_obj.group(2).upper()
+
     camel = keyword[0].upper()
     if _snake_underscore_re.search(keyword[1:]):
         return camel + _snake_underscore_re.sub(_underscore_upper, keyword[1:])
     return camel + keyword[1:]
 
 
-def set_inputs(new_itk_object, args=None, kargs=None):
+def set_inputs(
+    new_itk_object,
+    inargs: Optional[List[Any]] = None,
+    inkargs: Optional[Dict[str, Any]] = None,
+):
     """Set the inputs of the given objects, according to the non named or the
     named parameters in args and kargs
 
@@ -775,8 +778,8 @@ def set_inputs(new_itk_object, args=None, kargs=None):
 
     # Fix bug with Mutable Default Arguments
     # https://docs.python-guide.org/writing/gotchas/
-    args: list = args if args else []
-    kargs: Dict[str, Any] = kargs if kargs else {}
+    args: List[Any] = inargs if inargs else []
+    kargs: Dict[str, Any] = inkargs if inkargs else {}
 
     # try to get the images from the filters in args
     args = [output(arg) for arg in args]
@@ -790,7 +793,7 @@ def set_inputs(new_itk_object, args=None, kargs=None):
     # r2 = itk.ImageFileReader.US2.New(FileName='image2.png')
     # s = itk.SubtractImageFilter.US2US2US2.New(r1, r2)
     # itk.ImageFileWriter.US2.New(s, FileName='result.png').Update()
-    setInputNb = -1
+    setInputNb: int = -1
     try:
         for setInputNb, arg in enumerate(args):
             methodName = "SetInput%i" % (setInputNb + 1)
@@ -880,7 +883,7 @@ class templated_class:
     class.
     """
 
-    def __init__(self, cls):
+    def __init__(self, cls) -> None:
         """cls is the custom class"""
         self.__cls__ = cls
         self.__templates__ = {}
@@ -905,7 +908,7 @@ class templated_class:
             self, template_parameters
         )
 
-    def check_template_parameters(self, template_parameters):
+    def check_template_parameters(self, template_parameters) -> None:
         """Check the template parameters passed in parameter."""
         # this method is there mainly to make possible to reuse it in the
         # custom class constructor after having used templated_class().
@@ -931,7 +934,7 @@ class templated_class:
         self.__templates__[params] = val
         setattr(self, name, val)
 
-    def add_image_templates(self, *args):
+    def add_image_templates(self, *args) -> None:
         import itk
 
         if not args:
@@ -958,7 +961,7 @@ class templated_class:
         to instantiate.
         """
 
-        def __init__(self, l_templated_class, l_template_parameters):
+        def __init__(self, l_templated_class, l_template_parameters) -> None:
             self.__templated_class__ = l_templated_class
             self.__template_parameters__ = l_template_parameters
             if "check_template_parameters" in dir(l_templated_class.__cls__):
@@ -1021,13 +1024,13 @@ class pipeline:
     and thus can be simply integrated in another pipeline.
     """
 
-    def __init__(self, *args, **kargs):
+    def __init__(self, *args, **kargs) -> None:
         self.clear()
         self.input = None
-        self.filters = []
+        self.filters: List[Any] = []
         set_inputs(self, args, kargs)
 
-    def connect(self, l_filter):
+    def connect(self, l_filter) -> None:
         """Connect a new l_filter to the pipeline
 
         The output of the first l_filter will be used as the input of this
@@ -1037,14 +1040,14 @@ class pipeline:
             set_inputs(l_filter, [self.GetOutput()])
         self.append(l_filter)
 
-    def append(self, l_filter):
+    def append(self, l_filter) -> None:
         """Add a new l_filter to the pipeline
 
         The new l_filter will not be connected. The user must connect it.
         """
         self.filters.append(l_filter)
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear the filter list"""
         self.filters = []
 
@@ -1077,7 +1080,7 @@ class pipeline:
         else:
             return self.filters[-1].GetNumberOfOutputs()
 
-    def SetInput(self, l_input):
+    def SetInput(self, l_input) -> None:
         """Set the l_input of the pipeline"""
         if len(self.filters) != 0:
             set_inputs(self.filters[0], [l_input])
@@ -1097,7 +1100,7 @@ class pipeline:
         if len(self.filters) > 0:
             return self.filters[-1].UpdateLargestPossibleRegion()
 
-    def UpdateOutputInformation(self):
+    def UpdateOutputInformation(self) -> None:
         if "UpdateOutputInformation" in dir(self.filters[-1]):
             self.filters[-1].UpdateOutputInformation()
         else:
@@ -1150,15 +1153,15 @@ class pipeline:
 class auto_pipeline(pipeline):
     current = None
 
-    def __init__(self, *args, **kargs):
+    def __init__(self, *args, **kargs) -> None:
         pipeline.__init__(self, *args, **kargs)
         self.Start()
 
-    def Start(self):
+    def Start(self) -> None:
         auto_pipeline.current = self
 
     @staticmethod
-    def Stop():
+    def Stop() -> None:
         auto_pipeline.current = None
 
 
@@ -1169,7 +1172,7 @@ def down_cast(obj):
     import itk
     from itk.support.itkTemplate import itkTemplate
 
-    class_name = obj.GetNameOfClass()
+    class_name: str = obj.GetNameOfClass()
     t = getattr(itk, class_name)
     if isinstance(t, itkTemplate):
         for c in t.values():
@@ -1183,7 +1186,7 @@ def down_cast(obj):
         return t.cast(obj)
 
 
-def attribute_list(i, name: str):
+def attribute_list(inputobject, name: str):
     """Returns a list of the specified attributes for the objects in the image.
 
     i: the input LabelImage
@@ -1191,13 +1194,13 @@ def attribute_list(i, name: str):
     """
     import itk
 
-    i = itk.output(i)
-    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
-        i, Attribute=name, ReverseOrdering=True, InPlace=False
+    img = itk.output(inputobject)
+    relabel = itk.StatisticsRelabelLabelMapFilter[img].New(
+        img, Attribute=name, ReverseOrdering=True, InPlace=False
     )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
-    l_list = []
+    l_list: List[Any] = []
     # required because range is overloaded in this module
     import sys
     from builtins import range
@@ -1207,7 +1210,7 @@ def attribute_list(i, name: str):
     return l_list
 
 
-def attributes_list(i, names: List[str]):
+def attributes_list(inputObject, names: List[str]):
     """Returns a list of the specified attributes for the objects in the image.
 
     i: the input LabelImage
@@ -1215,13 +1218,13 @@ def attributes_list(i, names: List[str]):
     """
     import itk
 
-    i = itk.output(i)
-    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
-        i, Attribute=names[0], ReverseOrdering=True, InPlace=False
+    img = itk.output(inputObject)
+    relabel = itk.StatisticsRelabelLabelMapFilter[img].New(
+        img, Attribute=names[0], ReverseOrdering=True, InPlace=False
     )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
-    l_list = []
+    l_list: List[Any] = []
     # required because range is overloaded in this module
     from builtins import range
 
@@ -1233,7 +1236,7 @@ def attributes_list(i, names: List[str]):
     return l_list
 
 
-def attribute_dict(i, name: str):
+def attribute_dict(inputobject, name: str):
     """Returns a dict with the attribute values in keys and a list of the
     corresponding objects in value
 
@@ -1242,9 +1245,9 @@ def attribute_dict(i, name: str):
     """
     import itk
 
-    i = itk.output(i)
-    relabel = itk.StatisticsRelabelLabelMapFilter[i].New(
-        i, Attribute=name, ReverseOrdering=True, InPlace=False
+    img = itk.output(inputobject)
+    relabel = itk.StatisticsRelabelLabelMapFilter[img].New(
+        img, Attribute=name, ReverseOrdering=True, InPlace=False
     )
     relabel.UpdateLargestPossibleRegion()
     r = relabel.GetOutput()
@@ -1261,16 +1264,16 @@ def attribute_dict(i, name: str):
     return d
 
 
-def number_of_objects(i) -> int:
+def number_of_objects(image_or_filter) -> int:
     """Returns the number of objets in the image.
 
-    i: the input LabelImage
+    img: the input LabelImage
     """
     import itk
 
-    i.UpdateLargestPossibleRegion()
-    i = itk.output(i)
-    return i.GetNumberOfLabelObjects()
+    image_or_filter.UpdateLargestPossibleRegion()
+    img = itk.output(image_or_filter)
+    return img.GetNumberOfLabelObjects()
 
 
 def ipython_kw_matches(text: str):
@@ -1443,7 +1446,7 @@ def python_type(object_ref) -> str:
         # A type cannot be part of ITK if its name was not modified above. This
         # check avoids having an input of type `list` and return `itk.list` that
         # also exists.
-        likely_itk = shortname != name or name[:3] == "vnl"
+        likely_itk: bool = shortname != name or name[:3] == "vnl"
         if likely_itk and hasattr(namespace, shortname):
             return namespace.__name__ + "." + shortname  # Prepend name with 'itk.'
         else:
