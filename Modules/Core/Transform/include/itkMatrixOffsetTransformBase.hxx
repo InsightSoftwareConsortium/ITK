@@ -484,6 +484,11 @@ void
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::SetFixedParameters(
   const FixedParametersType & fp)
 {
+  if (fp.size() < NInputDimensions)
+  {
+    itkExceptionMacro(<< "Error setting fixed parameters: parameters array size (" << fp.size()
+                      << ") is less than expected  (NInputDimensions = " << NInputDimensions << ")");
+  }
   this->m_FixedParameters = fp;
   InputPointType c;
   for (unsigned int i = 0; i < NInputDimensions; i++)
