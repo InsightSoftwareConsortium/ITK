@@ -52,9 +52,9 @@ INTS: List[itkTypes.itkCType] = SIGN_INTS + USIGN_INTS
 SCALARS: List[itkTypes.itkCType] = INTS + REALS
 VECTORS: List[itkTemplate] = VECTOR_REALS + COV_VECTOR_REALS
 COLORS: List[itkTemplate] = RGBS + RGBAS
-ALL_TYPES: List[
-    Union[itkTypes.itkCType, itkTemplate]
-] = COLORS + VECTORS + SCALARS + COMPLEX_REALS
+ALL_TYPES: List[Union[itkTypes.itkCType, itkTemplate]] = (
+    COLORS + VECTORS + SCALARS + COMPLEX_REALS
+)
 
 del itkTemplate
 del itkTypes

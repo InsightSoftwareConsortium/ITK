@@ -226,8 +226,7 @@ array_view_from_image = GetArrayViewFromImage
 
 
 def _GetImageFromArray(arr, function, is_vector: bool):
-    """Get an ITK image from a Python array.
-    """
+    """Get an ITK image from a Python array."""
     import itk
 
     PixelType = _get_itk_pixelid(arr)
@@ -251,8 +250,7 @@ def _GetImageFromArray(arr, function, is_vector: bool):
 
 
 def GetImageFromArray(arr, is_vector: bool = False):
-    """Get an ITK image from a Python array.
-    """
+    """Get an ITK image from a Python array."""
     return _GetImageFromArray(arr, "GetImageFromArray", is_vector)
 
 
@@ -260,8 +258,7 @@ image_from_array = GetImageFromArray
 
 
 def GetImageViewFromArray(arr, is_vector: bool = False):
-    """Get an ITK image view from a Python array.
-    """
+    """Get an ITK image view from a Python array."""
     return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector)
 
 
@@ -269,8 +266,7 @@ image_view_from_array = GetImageViewFromArray
 
 
 def _GetArrayFromVnlObject(vnl_object, function):
-    """Get an array with the content of vnl_object
-    """
+    """Get an array with the content of vnl_object"""
     # Finds the vnl object type
     import itk
 
@@ -284,8 +280,7 @@ def _GetArrayFromVnlObject(vnl_object, function):
 
 
 def GetArrayFromVnlVector(vnl_vector):
-    """Get an array with the content of vnl_vector
-    """
+    """Get an array with the content of vnl_vector"""
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayFromVnlVector")
 
 
@@ -293,8 +288,7 @@ array_from_vnl_vector = GetArrayFromVnlVector
 
 
 def GetArrayViewFromVnlVector(vnl_vector):
-    """Get an array view of vnl_vector
-    """
+    """Get an array view of vnl_vector"""
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayViewFromVnlVector")
 
 
@@ -302,14 +296,12 @@ array_view_from_vnl_vector = GetArrayFromVnlVector
 
 
 def GetArrayFromVnlMatrix(vnl_matrix):
-    """Get an array with the content of vnl_matrix
-    """
+    """Get an array with the content of vnl_matrix"""
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayFromVnlMatrix")
 
 
 def GetArrayViewFromVnlMatrix(vnl_matrix):
-    """Get an array view of vnl_matrix
-    """
+    """Get an array view of vnl_matrix"""
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayViewFromVnlMatrix")
 
 
@@ -317,8 +309,7 @@ array_from_vnl_matrix = GetArrayFromVnlMatrix
 
 
 def _GetVnlObjectFromArray(arr, function):
-    """Get a vnl object from a Python array.
-    """
+    """Get a vnl object from a Python array."""
     import itk
 
     PixelType = _get_itk_pixelid(arr)
@@ -327,8 +318,7 @@ def _GetVnlObjectFromArray(arr, function):
 
 
 def GetVnlVectorFromArray(arr):
-    """Get a vnl vector from a Python array.
-    """
+    """Get a vnl vector from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray")
 
 
@@ -336,8 +326,7 @@ vnl_vector_from_array = GetVnlVectorFromArray
 
 
 def GetVnlMatrixFromArray(arr):
-    """Get a vnl matrix from a Python array.
-    """
+    """Get a vnl matrix from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray")
 
 
@@ -719,8 +708,7 @@ def meshread(
 
 
 def search(s: str, case_sensitive: bool = False) -> List[str]:  # , fuzzy=True):
-    """Search for a class name in the itk module.
-    """
+    """Search for a class name in the itk module."""
     s = s.replace(" ", "")
     if not case_sensitive:
         s = s.lower()
@@ -893,14 +881,12 @@ class templated_class:
     """
 
     def __init__(self, cls):
-        """cls is the custom class
-        """
+        """cls is the custom class"""
         self.__cls__ = cls
         self.__templates__ = {}
 
     def New(self, *args, **kargs):
-        """Use the parameters to infer the types of the template parameters.
-        """
+        """Use the parameters to infer the types of the template parameters."""
         # extract the types from the arguments to instantiate the class
         import itk
 
@@ -920,8 +906,7 @@ class templated_class:
         )
 
     def check_template_parameters(self, template_parameters):
-        """Check the template parameters passed in parameter.
-        """
+        """Check the template parameters passed in parameter."""
         # this method is there mainly to make possible to reuse it in the
         # custom class constructor after having used templated_class().
         # Without that, the following example doesn't work:
@@ -1060,8 +1045,7 @@ class pipeline:
         self.filters.append(l_filter)
 
     def clear(self):
-        """Clear the filter list
-        """
+        """Clear the filter list"""
         self.filters = []
 
     def GetOutput(self, l_index: int = 0):
@@ -1087,34 +1071,29 @@ class pipeline:
                     raise ValueError("Index can only be 0 on that object")
 
     def GetNumberOfOutputs(self) -> int:
-        """Return the number of outputs
-        """
+        """Return the number of outputs"""
         if len(self.filters) == 0:
             return 1
         else:
             return self.filters[-1].GetNumberOfOutputs()
 
     def SetInput(self, l_input):
-        """Set the l_input of the pipeline
-        """
+        """Set the l_input of the pipeline"""
         if len(self.filters) != 0:
             set_inputs(self.filters[0], [l_input])
         self.l_input = l_input
 
     def GetInput(self):
-        """Get the input of the pipeline
-        """
+        """Get the input of the pipeline"""
         return self.input
 
     def Update(self):
-        """Update the pipeline
-        """
+        """Update the pipeline"""
         if len(self.filters) > 0:
             return self.filters[-1].Update()
 
     def UpdateLargestPossibleRegion(self):
-        """Update the pipeline
-        """
+        """Update the pipeline"""
         if len(self.filters) > 0:
             return self.filters[-1].UpdateLargestPossibleRegion()
 
