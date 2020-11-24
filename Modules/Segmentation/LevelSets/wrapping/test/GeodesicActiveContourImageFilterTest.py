@@ -46,8 +46,7 @@ itk.auto_progress(2)
 def main():
     if len(argv) < 10:
         errMsg = (
-            "Missing parameters\n"
-            "Usage: %s\n" % (argv[0],) + " inputImage  outputImage\n"
+            f"Missing parameters\nUsage: {argv[0]}\n" + " inputImage  outputImage\n"
             " seedX seedY InitialDistance\n"
             " Sigma SigmoidAlpha SigmoidBeta\n"
             " PropagationScaling\n"
@@ -159,10 +158,10 @@ def main():
 
     print("")
     print("Max. no. iterations: %d" % (geodesicActiveContour.GetNumberOfIterations()))
-    print("Max. RMS error: %.3f" % (geodesicActiveContour.GetMaximumRMSError()))
+    print(f"Max. RMS error: {geodesicActiveContour.GetMaximumRMSError():.3f}")
     print("")
     print("No. elapsed iterations: %d" % (geodesicActiveContour.GetElapsedIterations()))
-    print("RMS change: %.3f" % (geodesicActiveContour.GetRMSChange()))
+    print(f"RMS change: {geodesicActiveContour.GetRMSChange():.3f}")
 
     itk.imwrite(
         fastMarching,

@@ -211,7 +211,7 @@ def pixel_type_from_IO(pixel, component, dimension):
     elif pixel == "matrix":
         PixelType = itk.Matrix[component, dimension, dimension]
     else:
-        raise RuntimeError("Unknown pixel type %s." % pixel)
+        raise RuntimeError(f"Unknown pixel type {pixel}.")
     return PixelType
 
 
@@ -301,12 +301,12 @@ for dim in dimensions:
                 reader_error.append(ex)
                 continue
 if reader_error or other_error:
-    print("PixelType error: %s" % pixel_type_error)
-    print("Image error: %s" % image_error)
-    print("Other error: %s" % other_error)
-    print("Writer error: %s" % writer_error)
-    print("Pixel Fill error: %s" % pixel_fill_error)
-    print("Reader error: %s" % reader_error)
+    print(f"PixelType error: {pixel_type_error}")
+    print(f"Image error: {image_error}")
+    print(f"Other error: {other_error}")
+    print(f"Writer error: {writer_error}")
+    print(f"Pixel Fill error: {pixel_fill_error}")
+    print(f"Reader error: {reader_error}")
     raise AssertionError()
 
 # Try to instantiate a template type that does not exist that is

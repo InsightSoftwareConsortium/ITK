@@ -93,7 +93,7 @@ gpu_filter.GetOutput().UpdateBuffers()  # synchronization point (GPU->CPU memcpy
 
 gpu_timer.Stop()
 
-print("GPU NeighborhoodFilter took {0} seconds.\n".format(gpu_timer.GetMean()))
+print(f"GPU NeighborhoodFilter took {gpu_timer.GetMean()} seconds.\n")
 
 output_image = itk.cast_image_filter(
     gpu_filter.GetOutput(), ttype=(OutputGPUImageType, OutputImageType)

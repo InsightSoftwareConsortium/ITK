@@ -39,21 +39,21 @@ def decode_authors(git_output):
 
 def update_previous_authors(revision):
     previous_authors_output = subprocess.check_output(
-        'git log --pretty=format:"%aN" {0} | sort -u'.format(revision), shell=True
+        f'git log --pretty=format:"%aN" {revision} | sort -u', shell=True
     )
     previous_authors.update(decode_authors(previous_authors_output))
 
 
 def update_recent_authors(revision):
     recent_authors_out = subprocess.check_output(
-        'git log --pretty=format:"%aN" {0} | sort -u'.format(revision), shell=True
+        f'git log --pretty=format:"%aN" {revision} | sort -u', shell=True
     )
     recent_authors.update(decode_authors(recent_authors_out))
 
 
 def update_authors_with_email(revision):
     authors_with_email_out = subprocess.check_output(
-        'git log --pretty=format:"%aN <%aE>" {0} | sort -u'.format(revision), shell=True
+        f'git log --pretty=format:"%aN <%aE>" {revision} | sort -u', shell=True
     )
     authors_with_email.update(decode_authors(authors_with_email_out))
 
@@ -111,7 +111,7 @@ def format_shortlog(log, commit_link_prefix):
         if enhancements:
             current_author_output += "\n#### Enhancements\n\n"
             for line, commit in enhancements:
-                current_author_output += "- {0}".format(line)
+                current_author_output += f"- {line}"
                 current_author_output += " ([{0}]({1}{0}))\n".format(
                     commit, commit_link_prefix
                 )
@@ -119,7 +119,7 @@ def format_shortlog(log, commit_link_prefix):
         if performance_improvements:
             current_author_output += "\n#### Performance Improvements\n\n"
             for line, commit in performance_improvements:
-                current_author_output += "- {0}".format(line)
+                current_author_output += f"- {line}"
                 current_author_output += " ([{0}]({1}{0}))\n".format(
                     commit, commit_link_prefix
                 )
@@ -127,7 +127,7 @@ def format_shortlog(log, commit_link_prefix):
         if doc_updates:
             current_author_output += "\n#### Documentation Updates\n\n"
             for line, commit in doc_updates:
-                current_author_output += "- {0}".format(line)
+                current_author_output += f"- {line}"
                 current_author_output += " ([{0}]({1}{0}))\n".format(
                     commit, commit_link_prefix
                 )
@@ -135,7 +135,7 @@ def format_shortlog(log, commit_link_prefix):
         if platform_fixes:
             current_author_output += "\n#### Platform Fixes\n\n"
             for line, commit in platform_fixes:
-                current_author_output += "- {0}".format(line)
+                current_author_output += f"- {line}"
                 current_author_output += " ([{0}]({1}{0}))\n".format(
                     commit, commit_link_prefix
                 )
@@ -143,7 +143,7 @@ def format_shortlog(log, commit_link_prefix):
         if bug_fixes:
             current_author_output += "\n#### Bug Fixes\n\n"
             for line, commit in bug_fixes:
-                current_author_output += "- {0}".format(line)
+                current_author_output += f"- {line}"
                 current_author_output += " ([{0}]({1}{0}))\n".format(
                     commit, commit_link_prefix
                 )
@@ -151,7 +151,7 @@ def format_shortlog(log, commit_link_prefix):
         if style_changes:
             current_author_output += "\n#### Style Changes\n\n"
             for line, commit in style_changes:
-                current_author_output += "- {0}".format(line)
+                current_author_output += f"- {line}"
                 current_author_output += " ([{0}]({1}{0}))\n".format(
                     commit, commit_link_prefix
                 )
@@ -159,7 +159,7 @@ def format_shortlog(log, commit_link_prefix):
         if misc_changes:
             current_author_output += "\n#### Miscellaneous Changes\n\n"
             for line, commit in misc_changes:
-                current_author_output += "- {0}".format(line)
+                current_author_output += f"- {line}"
                 current_author_output += " ([{0}]({1}{0}))\n".format(
                     commit, commit_link_prefix
                 )
@@ -218,19 +218,19 @@ with open(changelog_file, "w") as fp:
 
 def write_changelog(repo_name, commit_link_prefix, git_revision):
     log = subprocess.check_output(
-        "git shortlog --format=%s:%h --topo-order --no-merges {0}".format(git_revision),
+        f"git shortlog --format=%s:%h --topo-order --no-merges {git_revision}",
         shell=True,
     ).decode("utf-8")
     formatted_log = format_shortlog(log, commit_link_prefix)
     with open(changelog_file, "a") as fp:
-        fp.write("{0} Changes Since {1}\n".format(repo_name, revision))
+        fp.write(f"{repo_name} Changes Since {revision}\n")
         fp.write("---------------------------------------------\n\n")
         fp.write(formatted_log)
         fp.write("\n\n")
 
 
 revision_time = subprocess.check_output(
-    'git show -s --format="%ci" {0}^{{commit}}'.format(revision), shell=True
+    f'git show -s --format="%ci" {revision}^{{commit}}', shell=True
 )
 revision_time = revision_time.decode("utf-8").strip()
 print("Revision time: " + revision_time + "\n")
@@ -251,13 +251,11 @@ if not examples_dir.exists():
         "git clone https://github.com/InsightSoftwareConsortium/ITKExamples", shell=True
     )
 os.chdir(examples_dir)
-update_previous_authors('--until="{0}"'.format(revision_time))
-update_recent_authors('--since="{0}"'.format(revision_time))
-update_authors_with_email('--since="{0}"'.format(revision_time))
+update_previous_authors(f'--until="{revision_time}"')
+update_recent_authors(f'--since="{revision_time}"')
+update_authors_with_email(f'--since="{revision_time}"')
 commit_link_prefix = "https://github.com/InsightSoftwareConsortium/ITKExamples/commit/"
-write_changelog(
-    "ITK Examples", commit_link_prefix, '--since="{0}"'.format(revision_time)
-)
+write_changelog("ITK Examples", commit_link_prefix, f'--since="{revision_time}"')
 
 # ITKSoftwareGuide Repository
 os.chdir(scratch_dir)
@@ -268,30 +266,26 @@ if not examples_dir.exists():
         shell=True,
     )
 os.chdir(examples_dir)
-update_previous_authors('--until="{0}"'.format(revision_time))
-update_recent_authors('--since="{0}"'.format(revision_time))
-update_authors_with_email('--since="{0}"'.format(revision_time))
+update_previous_authors(f'--until="{revision_time}"')
+update_recent_authors(f'--since="{revision_time}"')
+update_authors_with_email(f'--since="{revision_time}"')
 commit_link_prefix = (
     "https://github.com/InsightSoftwareConsortium/ITKSoftwareGuide/commit/"
 )
-write_changelog(
-    "ITK Software Guide", commit_link_prefix, '--since="{0}"'.format(revision_time)
-)
+write_changelog("ITK Software Guide", commit_link_prefix, f'--since="{revision_time}"')
 
 # Remote modules
 os.chdir(itk_dir)
 changed_remotes = (
     subprocess.check_output(
-        "git diff-index --diff-filter=AM --name-only {0} -- Modules/Remote/".format(
-            revision
-        ),
+        f"git diff-index --diff-filter=AM --name-only {revision} -- Modules/Remote/",
         shell=True,
     )
     .decode("utf-8")
     .strip()
 )
 with open(changelog_file, "a") as fp:
-    fp.write("Remote Module Changes Since {0}\n".format(revision))
+    fp.write(f"Remote Module Changes Since {revision}\n")
     fp.write("---------------------------------------------\n\n")
 print("Remote module:")
 for remote in changed_remotes.split():
@@ -304,19 +298,17 @@ for remote in changed_remotes.split():
     # The remote file could have been added or its name changed. Use the oldest
     # commit since revision with the current name.
     old_commit = (
-        subprocess.check_output(
-            "git rev-list {0}.. -- {1}".format(revision, remote), shell=True
-        )
+        subprocess.check_output(f"git rev-list {revision}.. -- {remote}", shell=True)
         .decode("utf-8")
         .split()[-1]
     )
     try:
         remote_spec = subprocess.check_output(
-            "git show {0}^:{1}".format(old_commit, remote), shell=True
+            f"git show {old_commit}^:{remote}", shell=True
         ).decode("utf-8")
     except subprocess.CalledProcessError:
         remote_spec = subprocess.check_output(
-            "git show {0}:{1}".format(old_commit, remote), shell=True
+            f"git show {old_commit}:{remote}", shell=True
         ).decode("utf-8")
 
     remote_old_tag = remote_tag(remote_spec)
@@ -330,13 +322,11 @@ for remote in changed_remotes.split():
     os.chdir(scratch_dir)
     remote_dir = scratch_dir / remote_repo.split("/")[-1]
     if not remote_dir.exists():
-        subprocess.check_call(
-            "git clone {0} {1}".format(remote_repo, remote_dir), shell=True
-        )
+        subprocess.check_call(f"git clone {remote_repo} {remote_dir}", shell=True)
     os.chdir(remote_dir)
     # update_previous_authors('..{0}'.format(remote_new_tag))
-    update_recent_authors("{0}..{1}".format(remote_old_tag, remote_new_tag))
-    update_authors_with_email("{0}..{1}".format(remote_old_tag, remote_new_tag))
+    update_recent_authors(f"{remote_old_tag}..{remote_new_tag}")
+    update_authors_with_email(f"{remote_old_tag}..{remote_new_tag}")
 
     log = subprocess.check_output(
         "git shortlog --format=%s:%h --topo-order --no-merges {0}..{1}".format(
@@ -347,7 +337,7 @@ for remote in changed_remotes.split():
     commit_link_prefix = remote_repo.replace(".git", "") + "/commit/"
     formatted_log = format_shortlog(log, commit_link_prefix)
     with open(changelog_file, "a") as fp:
-        fp.write("## {0}:\n".format(module_name))
+        fp.write(f"## {module_name}:\n")
         fp.write(formatted_log)
         fp.write("\n")
 

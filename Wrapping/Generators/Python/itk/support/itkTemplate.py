@@ -94,9 +94,9 @@ class itkTemplateBase(object):
         if not imageIO:
             msg = ""
             if not os.path.isfile(inputFileName):
-                msg += "\nThe file doesn't exist. \n" + "Filename = %s" % inputFileName
+                msg += "\nThe file doesn't exist. \n" + f"Filename = {inputFileName}"
             raise RuntimeError(
-                "Could not create IO object for reading file %s" % inputFileName + msg
+                f"Could not create IO object for reading file {inputFileName}" + msg
             )
         # Read the metadata from the image file.
         imageIO.SetFileName(inputFileName)
@@ -155,9 +155,9 @@ class itkTemplateBase(object):
         if not meshIO:
             msg = ""
             if not os.path.isfile(inputFileName):
-                msg += "\nThe file doesn't exist. \n" + "Filename = %s" % inputFileName
+                msg += "\nThe file doesn't exist. \n" + f"Filename = {inputFileName}"
             raise RuntimeError(
-                "Could not create IO object for reading file %s" % inputFileName + msg
+                f"Could not create IO object for reading file {inputFileName}" + msg
             )
         # Read the metadata from the mesh file.
         meshIO.SetFileName(inputFileName)
@@ -225,7 +225,7 @@ class itkTemplateBase(object):
                 int(math.sqrt(numberOfComponents)),
             ]
         else:
-            raise RuntimeError("Unknown pixel type: %s." % pixel)
+            raise RuntimeError(f"Unknown pixel type: {pixel}.")
         return PixelType
 
 
@@ -295,7 +295,7 @@ class itkTemplate(itkTemplateBase):
         # once again, warn the user if the tuple of parameter is already
         # defined so he can fix the problem
         if param in self.__template__:
-            message = "Warning: template already defined '%s'" % normFullName
+            message = f"Warning: template already defined '{normFullName}'"
             warnings.warn(message)
         # and register the parameter tuple
         self.__template__[param] = cl
@@ -459,7 +459,7 @@ class itkTemplate(itkTemplateBase):
         return this_item
 
     def __repr__(self):
-        return "<itkTemplate %s>" % self.__name__
+        return f"<itkTemplate {self.__name__}>"
 
     def __getattr__(self, attr):
         """Support for lazy loading."""
@@ -498,7 +498,7 @@ class itkTemplate(itkTemplateBase):
                 return []  # slots only
             dict_types = (dict, types.MappingProxyType)
             if not isinstance(obj.__dict__, dict_types):
-                raise TypeError("%s.__dict__ is not a dictionary" "" % obj.__name__)
+                raise TypeError(f"{obj.__name__}.__dict__ is not a dictionary")
             return obj.__dict__.keys()
 
         def dir2(obj):
@@ -688,7 +688,7 @@ or via one of the following keyword arguments: %s"""
     def GetTypes(self):
         """Helper method which prints out the available template parameters."""
 
-        print("<itkTemplate %s>" % self.__name__)
+        print(f"<itkTemplate {self.__name__}>")
         print("Options:")
         for tp in self.GetTypesAsList():
             print("  " + str(tp).replace("(", "[").replace(")", "]"))

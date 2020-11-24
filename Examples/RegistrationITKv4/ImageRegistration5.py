@@ -120,10 +120,9 @@ registration.SetInitialTransform(transform)
 initialParameters = transform.GetParameters()
 
 print("Initial Parameters: ")
-print("Angle: %f" % (initialParameters.GetElement(0),))
+print(f"Angle: {initialParameters.GetElement(0):f}")
 print(
-    "Center: %f, %f"
-    % (initialParameters.GetElement(1), initialParameters.GetElement(2),)
+    f"Center: {initialParameters.GetElement(1):f}, {initialParameters.GetElement(2):f}"
 )
 print(
     "Translation: %f, %f"
@@ -198,11 +197,11 @@ registration.Update()
 finalParameters = registration.GetOutput().Get().GetParameters()
 
 print("Final Registration Parameters ")
-print("Angle in radians  = %f" % finalParameters.GetElement(0))
-print("Rotation Center X = %f" % finalParameters.GetElement(1))
-print("Rotation Center Y = %f" % finalParameters.GetElement(2))
-print("Translation in  X = %f" % finalParameters.GetElement(3))
-print("Translation in  Y = %f" % finalParameters.GetElement(4))
+print(f"Angle in radians  = {finalParameters.GetElement(0):f}")
+print(f"Rotation Center X = {finalParameters.GetElement(1):f}")
+print(f"Rotation Center Y = {finalParameters.GetElement(2):f}")
+print(f"Translation in  X = {finalParameters.GetElement(3):f}")
+print(f"Translation in  Y = {finalParameters.GetElement(4):f}")
 
 
 #

@@ -59,10 +59,7 @@ def checkTTypeConsistency(o, t):
     list_methods = dir(i)
     list_setttype = [k for k in list_methods if k.lower() == "setttype"]
     if list_setttype:
-        msg = "%s: Wrong API: `setttype()` found (%s)" % (
-            i.GetNameOfClass(),
-            list_setttype,
-        )
+        msg = f"{i.GetNameOfClass()}: Wrong API: `setttype()` found ({list_setttype})"
         print(msg, file=sys.stderr)
         wrongAPI = 1
     return totalAPI, wrongAPI
@@ -89,7 +86,7 @@ for t in dir(itk):
             wrongAPI += w
 
 
-print("%s classes checked." % totalAPI)
+print(f"{totalAPI} classes checked.")
 if wrongAPI:
-    print("%s classes are using the method `setttype`." % wrongAPI, file=sys.stderr)
+    print(f"{wrongAPI} classes are using the method `setttype`.", file=sys.stderr)
     sys.exit(1)

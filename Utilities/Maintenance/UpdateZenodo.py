@@ -91,4 +91,4 @@ if __name__ == "__main__":
 
     zenodo["creators"] = creators
 
-    zenodo_file.write_text("%s\n" % json.dumps(zenodo, indent=2))
+    zenodo_file.write_text(f"{json.dumps(zenodo, indent=2)}\n")

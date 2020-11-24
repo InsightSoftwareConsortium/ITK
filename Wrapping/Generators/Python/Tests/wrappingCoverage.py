@@ -98,7 +98,7 @@ print("%i %s" % (len(classes), opts.base), file=sys.stderr)
 print("%i wrapped %s" % (len(wrapped), opts.base), file=sys.stderr)
 print("%i non wrapped %s" % (len(nonWrapped), opts.base), file=sys.stderr)
 covered = len(wrapped) / float(len(classes))
-print("%f%% covered" % (covered * 100), file=sys.stderr)
+print(f"{covered * 100:f}% covered", file=sys.stderr)
 print("", file=sys.stderr)
 
 if not opts.noError:

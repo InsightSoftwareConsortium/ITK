@@ -25,7 +25,7 @@ import os
 
 def custom_callback(name, progress):
     if progress == 0:
-        print("Loading %s..." % name, file=sys.stderr)
+        print(f"Loading {name}...", file=sys.stderr)
     if progress == 1:
         print("done", file=sys.stderr)
 

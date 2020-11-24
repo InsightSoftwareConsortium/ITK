@@ -113,9 +113,9 @@ for sourceName, source in sources:
         destination.SetInput(source)
         try:
             destination.UpdateLargestPossibleRegion()
-            print("%s -> %s pass" % (sourceName, destinationName))
+            print(f"{sourceName} -> {destinationName} pass")
         except RuntimeError as e:
-            print("%s -> %s fail" % (sourceName, destinationName))
+            print(f"{sourceName} -> {destinationName} fail")
             print(e)
             failList.append((sourceName, destinationName))
 

@@ -56,21 +56,17 @@ for line in info_for_conversion.splitlines():
     fname = linevalues[0]
     new_name = fname.replace("ITK_", "").replace(".h", "")
     ITK_replace_head_names[
-        '#include "{0}"'.format(fname)
-    ] = """#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include "{0}"
+        f'#include "{fname}"'
+    ] = f"""#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "{fname}"
 #endif
-#include <{1}>""".format(
-        fname, new_name
-    )
+#include <{new_name}>"""
     ITK_replace_head_names[
-        "#include <{0}>".format(fname)
-    ] = """#if !defined( ITK_LEGACY_FUTURE_REMOVE )
-# include <{0}>
+        f"#include <{fname}>"
+    ] = f"""#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include <{fname}>
 #endif
-#include <{1}>""".format(
-        fname, new_name
-    )
+#include <{new_name}>"""
     ITK_pat = linevalues[1]
     new_pat = linevalues[2]
     ITK_replace_functionnames[ITK_pat] = new_pat
@@ -102,8 +98,8 @@ for searchval, replaceval in ITK_replace_functionnames.items():
 for searchval, replaceval in ITK_replace_manual.items():
     file_as_string = file_as_string.replace(searchval, replaceval)
 if file_as_string != original_string:
-    print("Processing: {0}".format(cfile))
+    print(f"Processing: {cfile}")
     with open(cfile, "w") as wfp:
         wfp.write(file_as_string)
 else:
-    print("SKIPPING: {0}".format(cfile))
+    print(f"SKIPPING: {cfile}")

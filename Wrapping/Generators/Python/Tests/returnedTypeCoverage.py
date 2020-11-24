@@ -188,7 +188,7 @@ def exploreMethods(obj, cl):
             parameters = repr((cl.__name__, attrName))
             if parameters not in exclude:
                 log(parameters, 4)
-                exec("s = obj.%s()" % attrName)
+                exec(f"s = obj.{attrName}()")
                 if isUnwrappedTypeString(s):
                     addUnwrappedType(s)
                     log("   - " + cleanType(s), 5)
@@ -201,7 +201,7 @@ def exploreMethods(obj, cl):
                         log("  * " + repr(param), 3)
                         log(parameters, 4)
                         try:
-                            exec("s = obj.%s(param)" % attrName)
+                            exec(f"s = obj.{attrName}(param)")
                             if isUnwrappedTypeString(s):
                                 addUnwrappedType(s)
                                 log("   - " + cleanType(s), 5)
@@ -215,7 +215,7 @@ def isUnwrappedTypeString(s):
     if not s[0] == "_":
         return False
     for t in ctypes:
-        if re.match("^_[0-9a-z]+_p_%s$" % t, s):
+        if re.match(f"^_[0-9a-z]+_p_{t}$", s):
             return False
     return True
 

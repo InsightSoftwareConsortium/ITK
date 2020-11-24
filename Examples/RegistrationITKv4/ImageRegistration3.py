@@ -129,8 +129,8 @@ registration.Update()
 finalParameters = registration.GetOutput().Get().GetParameters()
 
 print("Final Registration Parameters ")
-print("Translation X =  %f" % (finalParameters.GetElement(0),))
-print("Translation Y =  %f" % (finalParameters.GetElement(1),))
+print(f"Translation X =  {finalParameters.GetElement(0):f}")
+print(f"Translation Y =  {finalParameters.GetElement(1):f}")
 
 
 #
