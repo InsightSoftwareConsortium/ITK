@@ -90,7 +90,7 @@ ExtensionsThatNeedCopyright = [".cxx", ".c", ".h", ".hxx"]
 ############
 
 if len(sys.argv) != 2:
-    print("USAGE:  {0} <Top of ITK tree to process>".format(sys.argv[0]))
+    print(f"USAGE:  {sys.argv[0]} <Top of ITK tree to process>")
     sys.exit(-1)
 
 HeadOfITKTree = sys.argv[1]
@@ -126,7 +126,7 @@ for top, directory, files in os.walk(HeadOfITKTree):
         substitutionMade = 0
         testITKOnlySearch = ITKOnlyOldRE.search(file_text)
         if testITKOnlySearch:
-            print("{0} is ITKOnlyHeader".format(currFile))
+            print(f"{currFile} is ITKOnlyHeader")
             newstring = ITKOnlyOldRE.sub(NewITKCopyrightNotice, file_text)
             newstring = eolSpaceRemove.sub(
                 "", newstring
@@ -135,7 +135,7 @@ for top, directory, files in os.walk(HeadOfITKTree):
 
         testITKVTKSearch = ITKVTKOldRE.search(file_text)
         if testITKVTKSearch:
-            print("{0} is VTKITKHeader".format(currFile))
+            print(f"{currFile} is VTKITKHeader")
             newstring = ITKVTKOldRE.sub(
                 NewITKCopyrightNotice + NewVTKDependantCopyrightNotice, file_text
             )
@@ -151,9 +151,9 @@ for top, directory, files in os.walk(HeadOfITKTree):
                 file_text
             )  # see if new CopyRight notice already exists.
             if testNewITKHeaderRE:
-                print("Already Processed {0}".format(currFile))
+                print(f"Already Processed {currFile}")
             elif substitutionMade == 0:
-                print("{0} needed copyright header.".format(currFile))
+                print(f"{currFile} needed copyright header.")
                 newstring = NewITKCopyrightNotice + file_text
                 newstring = eolSpaceRemove.sub(
                     "", newstring

@@ -69,21 +69,21 @@ for t in dir(itk):
             if "New" in dir(i) and "GetNameOfClass" in dir(i):
                 totalName += 1
                 if wrongClassName(i, t):
-                    msg = "%s: wrong class name: %s" % (T, t)
+                    msg = f"{T}: wrong class name: {t}"
                     print(msg, file=sys.stderr)
                     wrongName += 1
         else:
             if "New" in dir(T) and "GetNameOfClass" in dir(T):
                 totalName += 1
                 if wrongClassName(T, t):
-                    msg = "%s: wrong class name: %s" % (T, t)
+                    msg = f"{T}: wrong class name: {t}"
                     print(msg, file=sys.stderr)
                     o = T.New()
                     print(itk.class_(o), file=sys.stderr)
                     print(o.GetNameOfClass(), file=sys.stderr)
                     wrongName += 1
 
-print("%s classes checked." % totalName)
+print(f"{totalName} classes checked.")
 if wrongName:
-    print("%s classes are not providing the correct name." % wrongName, file=sys.stderr)
+    print(f"{wrongName} classes are not providing the correct name.", file=sys.stderr)
     sys.exit(1)

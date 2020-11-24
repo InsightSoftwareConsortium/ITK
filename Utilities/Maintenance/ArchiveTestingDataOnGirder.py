@@ -54,12 +54,12 @@ class GirderExternalDataCli(GirderClient):
         localFolder = os.path.normpath(localFolder)
         for entry in os.listdir(localFolder):
             if entry in blacklist:
-                print("Ignoring file %s as it is blacklisted" % entry)
+                print(f"Ignoring file {entry} as it is blacklisted")
                 continue
             full_entry = os.path.join(localFolder, entry)
             if os.path.islink(full_entry):
                 # os.walk skips symlinks by default
-                print("Skipping file %s as it is a symlink" % entry)
+                print(f"Skipping file {entry} as it is a symlink")
                 continue
             if os.path.isdir(full_entry):
                 self._uploadFolderRecursive(
@@ -97,7 +97,7 @@ class GirderExternalDataCli(GirderClient):
         if os.path.isfile(content_link) and fnmatch.fnmatch(content_link, "*" + ext):
             if parentType != "folder":
                 raise Exception(
-                    ("Attempting to upload an item under a %s." % parentType)
+                    f"Attempting to upload an item under a {parentType}."
                     + " Items can only be added to folders."
                 )
             else:
@@ -135,7 +135,7 @@ class GirderExternalDataCli(GirderClient):
         localFolder = os.path.normpath(localFolder)
         filename = os.path.basename(localFolder)
         if filename in blacklist:
-            print("Ignoring file %s as it is blacklisted" % filename)
+            print(f"Ignoring file {filename} as it is blacklisted")
             return
 
         # Do not add the folder if it does not contain any content links
@@ -147,7 +147,7 @@ class GirderExternalDataCli(GirderClient):
         if not has_content_link:
             return
 
-        print("Creating Folder from %s" % localFolder)
+        print(f"Creating Folder from {localFolder}")
         if dryRun:
             # create a dryRun placeholder
             folder = {"_id": "dryRun"}
@@ -160,12 +160,12 @@ class GirderExternalDataCli(GirderClient):
 
         for entry in sorted(os.listdir(localFolder)):
             if entry in blacklist:
-                print("Ignoring file %s as it is blacklisted" % entry)
+                print(f"Ignoring file {entry} as it is blacklisted")
                 continue
             full_entry = os.path.join(localFolder, entry)
             if os.path.islink(full_entry):
                 # os.walk skips symlinks by default
-                print("Skipping file %s as it is a symlink" % entry)
+                print(f"Skipping file {entry} as it is a symlink")
                 continue
             elif os.path.isdir(full_entry):
                 # At this point we should have an actual folder, so can

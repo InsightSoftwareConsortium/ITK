@@ -41,7 +41,7 @@ class itkCType:
             pass
 
     def __repr__(self):
-        return "<itkCType %s>" % self.name
+        return f"<itkCType {self.name}>"
 
     @staticmethod
     def GetCType(name):

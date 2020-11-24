@@ -108,7 +108,7 @@ for t in dir(itk):
             totalAPI += tot
             wrongAPI += w
 
-print("%s classes checked." % totalAPI)
+print(f"{totalAPI} classes checked.")
 if wrongAPI:
-    print("%s classes are not providing the API." % wrongAPI, file=sys.stderr)
+    print(f"{wrongAPI} classes are not providing the API.", file=sys.stderr)
     sys.exit(1)

@@ -65,15 +65,15 @@ class itkDoxy2SWIG(Doxy2SWIG):
                     ns_node = anc.getElementsByTagName("compoundname")
                 if ns_node:
                     ns = ns_node[0].firstChild.data
-                    self.add_text(' %s::%s "\n%s' % (ns, name, defn))
+                    self.add_text(f' {ns}::{name} "\n{defn}')
                 else:
-                    self.add_text(' %s "\n%s' % (name, defn))
+                    self.add_text(f' {name} "\n{defn}')
             elif cdef_kind in ("class", "struct"):
                 # Get the full function name.
                 anc_node = anc.getElementsByTagName("compoundname")
                 cname = self.cpp_to_swig_name(anc_node[0].firstChild.data)
                 # self.add_text(' %s::%s "\n%s'%(cname, name, defn))
-                self.add_text(' %s::%s "' % (cname, name))
+                self.add_text(f' {cname}::{name} "')
                 # print("***", name, defn)
 
             # make sure that the docstring won't be empty before writing any text
@@ -114,9 +114,7 @@ def d2s_dir(in_dir_name, out_swig_i):
                     for swig_name in ls[2:]:
                         output.write(tpl.replace("@[{(]})@", swig_name))
                 else:
-                    print(
-                        "Warning: %s does not exist. Ignore it." % xfn, file=sys.stderr
-                    )
+                    print(f"Warning: {xfn} does not exist. Ignore it.", file=sys.stderr)
     with open(out_swig_i, "w") as f:
         f.write(output.getvalue())
         f.close()

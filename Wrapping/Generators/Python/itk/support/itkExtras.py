@@ -1165,7 +1165,7 @@ class pipeline:
             setattr(self, "Get" + new_name, getattr(src, get_name))
             ok = True
         if not ok:
-            raise RuntimeError("No attribute %s at position %s." % (name, position))
+            raise RuntimeError(f"No attribute {name} at position {position}.")
 
 
 class auto_pipeline(pipeline):
@@ -1199,7 +1199,7 @@ def down_cast(obj):
             except Exception:
                 # fail silently for now
                 pass
-        raise RuntimeError("Can't downcast to a specialization of %s" % class_name)
+        raise RuntimeError(f"Can't downcast to a specialization of {class_name}")
     else:
         return t.cast(obj)
 
@@ -1396,7 +1396,7 @@ def ipython_kw_matches(text: str):
             continue
         for namedArg in named_args:
             if namedArg.startswith(text):
-                arg_matches.append("%s=" % namedArg)
+                arg_matches.append(f"{namedArg}=")
     return arg_matches
 
 
@@ -1423,7 +1423,7 @@ def ctype(s: str):
 
     ret = itkCType.GetCType(" ".join(s.split()))
     if ret is None:
-        raise KeyError("Unrecognized C type '%s'" % s)
+        raise KeyError(f"Unrecognized C type '{s}'")
     return ret
 
 

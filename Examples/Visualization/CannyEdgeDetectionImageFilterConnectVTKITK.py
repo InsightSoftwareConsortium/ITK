@@ -69,7 +69,7 @@ rescaler.SetOutputMaximum(65535)
 
 # this is to show off the new PyCommand functionality. :)
 def progressEvent():
-    print("%.0f%s done..." % (canny.GetProgress() * 100.0, "%"))
+    print(f"{canny.GetProgress() * 100.0:.0f}{'%'} done...")
 
 
 pc = itk.itkPyCommand_New()

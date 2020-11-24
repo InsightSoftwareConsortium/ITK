@@ -52,7 +52,7 @@ import os
 
 def tryCompile(fileName):
     # Use -B so that the target is always rebuilt
-    return os.system("make -B %s.o" % fileName)
+    return os.system(f"make -B {fileName}.o")
 
 
 def writeFile(lines, fileName):

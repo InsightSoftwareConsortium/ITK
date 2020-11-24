@@ -133,9 +133,9 @@ basedir = sys.argv[
 if os.path.isfile(
     basedir + "/Documentation/InsightLogo.gif"
 ):  ## Currently hard-coded to only work with ITK dir.
-    print("Processing: {0}".format(basedir))
+    print(f"Processing: {basedir}")
 else:
-    print("The directory must be the base ITK dir: {0} failed".format(basedir))
+    print(f"The directory must be the base ITK dir: {basedir} failed")
     exit(-1)
 
 mymapper = FileToPathMapping()
@@ -160,4 +160,4 @@ for process_file in myDependTree.keys():
         # print("Starting test for: {0} and {1}".format(process_file,remove_test_file))
         mymapper.proc_children(process_file, remove_test_file, process_file)
         file_count += 1
-print("Processed {0} files.".format(file_count))
+print(f"Processed {file_count} files.")

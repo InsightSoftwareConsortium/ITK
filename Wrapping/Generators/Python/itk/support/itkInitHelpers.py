@@ -48,7 +48,7 @@ def terminal_progress_callback(name, p):
 
     This function can be used with itkConfig.ProgressCallback
     """
-    print(clrLine + "%s: %f" % (name, p), file=_system_error_stream, end="")
+    print(clrLine + f"{name}: {p:f}", file=_system_error_stream, end="")
     if p == 1:
         print(clrLine, file=_system_error_stream, end="")
 
@@ -58,7 +58,7 @@ def terminal_import_callback(name, p):
 
     This function can be used with itkConfig.ImportCallback
     """
-    print(clrLine + "Loading %s... " % name, file=_system_error_stream, end="")
+    print(clrLine + f"Loading {name}... ", file=_system_error_stream, end="")
     if p == 1:
         print(clrLine, file=_system_error_stream, end="")
 
@@ -69,7 +69,7 @@ def simple_import_callback(name, p):
     This function can be used with itkConfig.ImportCallback
     """
     if p == 0:
-        print("Loading %s... " % name, file=_system_error_stream, end="")
+        print(f"Loading {name}... ", file=_system_error_stream, end="")
     elif p == 1:
         print("done", file=_system_error_stream)
 
@@ -80,7 +80,7 @@ def simple_progress_callback(name, p):
     This function can be used with itkConfig.ProgressCallback
     """
     if p == 0:
-        print("Running %s... " % name, file=_system_error_stream, end="")
+        print(f"Running {name}... ", file=_system_error_stream, end="")
     elif p == 1:
         print("done", file=_system_error_stream)
 

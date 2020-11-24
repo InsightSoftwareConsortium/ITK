@@ -28,7 +28,7 @@ def replaceOneInstance(desired_outs):
 
 
 for fileName in sys.argv[1:]:
-    print("Processing {fname}".format(fname=fileName))
+    print(f"Processing {fileName}")
     filePtr = open(fileName, "r")
     fileOrignalText = filePtr.read()
     filePtr.close()

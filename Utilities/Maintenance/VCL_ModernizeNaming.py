@@ -698,12 +698,8 @@ for line in info_for_conversion.splitlines():
         continue
     fname = linevalues[0]
     new_name = fname.replace("vcl_", "").replace(".h", "")
-    vcl_replace_head_names['#include "{0}"'.format(fname)] = '#include "{0}"'.format(
-        new_name
-    )
-    vcl_replace_head_names["#include <{0}>".format(fname)] = "#include <{0}>".format(
-        new_name
-    )
+    vcl_replace_head_names[f'#include "{fname}"'] = f'#include "{new_name}"'
+    vcl_replace_head_names[f"#include <{fname}>"] = f"#include <{new_name}>"
     vcl_pat = linevalues[1]
     new_pat = linevalues[2]
     vcl_replace_functionnames[vcl_pat] = new_pat

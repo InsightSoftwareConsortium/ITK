@@ -72,12 +72,12 @@ def create_and_test(t, create_method):
             "itkCType",
         ]
     ):
-        msg = "%s: wrong Python class name: %s" % (t, obj_type)
+        msg = f"{t}: wrong Python class name: {obj_type}"
         wrongType = 1
     else:
         try:
             if eval(obj_type) != actual_type:
-                msg = "%s: wrong Python class name: %s" % (actual_type, obj_type)
+                msg = f"{actual_type}: wrong Python class name: {obj_type}"
                 wrongType = 1
         except Exception as e:
             msg = (
@@ -116,10 +116,10 @@ for t in dir(itk):
             wrongName += w
             totalName += t
 
-print("%s classes checked." % totalName)
+print(f"{totalName} classes checked.")
 if wrongName:
     print(
-        "%s classes are not providing the correct Python class name." % wrongName,
+        f"{wrongName} classes are not providing the correct Python class name.",
         file=sys.stderr,
     )
     sys.exit(1)
