@@ -26,8 +26,10 @@ from sys import argv
 #  INPUTS(movingImage): {BrainProtonDensitySliceShifted13x17y.png}
 #
 if len(argv) < 4:
-    print "Missing Parameters"
-    print "Usage: ImageRegistration3.py fixedImageFile  movingImageFile outputImagefile"
+    print("Missing Parameters")
+    print(
+        "Usage: ImageRegistration3.py fixedImageFile  movingImageFile outputImagefile"
+    )
     exit()
 
 
@@ -98,10 +100,13 @@ registration.SetShrinkFactorsPerLevel([1])
 #
 def iterationUpdate():
     currentParameter = registration.GetOutput().Get().GetParameters()
-    print "M: %f   P: %f %f " % (
-        optimizer.GetValue(),
-        currentParameter.GetElement(0),
-        currentParameter.GetElement(1),
+    print(
+        "M: %f   P: %f %f "
+        % (
+            optimizer.GetValue(),
+            currentParameter.GetElement(0),
+            currentParameter.GetElement(1),
+        )
     )
 
 
@@ -109,7 +114,7 @@ iterationCommand = itk.PyCommand.New()
 iterationCommand.SetCommandCallable(iterationUpdate)
 optimizer.AddObserver(itk.IterationEvent(), iterationCommand)
 
-print "Starting registration"
+print("Starting registration")
 
 
 #
@@ -123,9 +128,9 @@ registration.Update()
 #
 finalParameters = registration.GetOutput().Get().GetParameters()
 
-print "Final Registration Parameters "
-print "Translation X =  %f" % (finalParameters.GetElement(0),)
-print "Translation Y =  %f" % (finalParameters.GetElement(1),)
+print("Final Registration Parameters ")
+print("Translation X =  %f" % (finalParameters.GetElement(0),))
+print("Translation Y =  %f" % (finalParameters.GetElement(1),))
 
 
 #

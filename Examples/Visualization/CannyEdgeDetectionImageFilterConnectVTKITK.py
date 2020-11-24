@@ -69,7 +69,7 @@ rescaler.SetOutputMaximum(65535)
 
 # this is to show off the new PyCommand functionality. :)
 def progressEvent():
-    print "%.0f%s done..." % (canny.GetProgress() * 100.0, "%")
+    print("%.0f%s done..." % (canny.GetProgress() * 100.0, "%"))
 
 
 pc = itk.itkPyCommand_New()
@@ -103,4 +103,4 @@ rescaler.Update()
 # write the file to disk...
 writer.Write()
 
-print "\n\nWrote testout.png to current directory."
+print("\n\nWrote testout.png to current directory.")
