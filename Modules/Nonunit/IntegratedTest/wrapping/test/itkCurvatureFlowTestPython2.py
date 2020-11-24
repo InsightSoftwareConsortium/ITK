@@ -66,12 +66,20 @@ meanDiff = diff.GetMeanDifference()
 totalDiff = diff.GetTotalDifference()
 
 
-print "MeanDifference  = ", meanDiff
-print "TotalDifference = ", totalDiff
+print("MeanDifference  = ", meanDiff)
+print("TotalDifference = ", totalDiff)
 
 
-print '<DartMeasurement name="MeanDifference" type="numeric/double">', meanDiff, "</DartMeasurement>"
-print '<DartMeasurement name="TotalDifference" type="numeric/double">', totalDiff, "</DartMeasurement>"
+print(
+    '<DartMeasurement name="MeanDifference" type="numeric/double">',
+    meanDiff,
+    "</DartMeasurement>",
+)
+print(
+    '<DartMeasurement name="TotalDifference" type="numeric/double">',
+    totalDiff,
+    "</DartMeasurement>",
+)
 
 if meanDiff > 0.1:
     convert = itkCastImageFilterUS2UC2_New()
@@ -101,11 +109,37 @@ if meanDiff > 0.1:
         testOutput + "/" + name + ".valid.png",
     )
 
-    print '<DartMeasurementFile name="TestImage" type="image/png">' + testOutput + "/" + name + ".test.png</DartMeasurementFile>"
-    print '<DartMeasurementFile name="DifferenceImage" type="image/png">' + testOutput + "/" + name + ".diff.png</DartMeasurementFile>"
-    print '<DartMeasurementFile name="ValidImage" type="image/png">' + testOutput + "/" + name + ".valid.png</DartMeasurementFile>"
-    print '<DartMeasurement name="DifferenceShift" type="numeric/double">', rescale.GetShift(), "</DartMeasurement>"
-    print '<DartMeasurement name="DifferenceScale" type="numeric/double">', rescale.GetScale(), "</DartMeasurement>"
+    print(
+        '<DartMeasurementFile name="TestImage" type="image/png">'
+        + testOutput
+        + "/"
+        + name
+        + ".test.png</DartMeasurementFile>"
+    )
+    print(
+        '<DartMeasurementFile name="DifferenceImage" type="image/png">'
+        + testOutput
+        + "/"
+        + name
+        + ".diff.png</DartMeasurementFile>"
+    )
+    print(
+        '<DartMeasurementFile name="ValidImage" type="image/png">'
+        + testOutput
+        + "/"
+        + name
+        + ".valid.png</DartMeasurementFile>"
+    )
+    print(
+        '<DartMeasurement name="DifferenceShift" type="numeric/double">',
+        rescale.GetShift(),
+        "</DartMeasurement>",
+    )
+    print(
+        '<DartMeasurement name="DifferenceScale" type="numeric/double">',
+        rescale.GetScale(),
+        "</DartMeasurement>",
+    )
 
 #  return 1
 

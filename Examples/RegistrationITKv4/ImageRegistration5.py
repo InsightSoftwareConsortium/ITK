@@ -26,8 +26,10 @@ from sys import argv
 #  INPUTS(movingImage): {BrainProtonDensitySliceRotated10.png}
 #
 if len(argv) < 4:
-    print "Missing Parameters"
-    print "Usage: ImageRegistration5.py fixedImageFile  movingImageFile outputImagefile"
+    print("Missing Parameters")
+    print(
+        "Usage: ImageRegistration5.py fixedImageFile  movingImageFile outputImagefile"
+    )
     exit()
 
 
@@ -117,15 +119,15 @@ registration.SetInitialTransform(transform)
 
 initialParameters = transform.GetParameters()
 
-print "Initial Parameters: "
-print "Angle: %f" % (initialParameters.GetElement(0),)
-print "Center: %f, %f" % (
-    initialParameters.GetElement(1),
-    initialParameters.GetElement(2),
+print("Initial Parameters: ")
+print("Angle: %f" % (initialParameters.GetElement(0),))
+print(
+    "Center: %f, %f"
+    % (initialParameters.GetElement(1), initialParameters.GetElement(2),)
 )
-print "Translation: %f, %f" % (
-    initialParameters.GetElement(3),
-    initialParameters.GetElement(4),
+print(
+    "Translation: %f, %f"
+    % (initialParameters.GetElement(3), initialParameters.GetElement(4),)
 )
 
 
@@ -164,13 +166,16 @@ registration.SetShrinkFactorsPerLevel([1])
 #
 def iterationUpdate():
     currentParameter = transform.GetParameters()
-    print "M: %f   P: %f %f %f %f %f " % (
-        optimizer.GetValue(),
-        currentParameter.GetElement(0),
-        currentParameter.GetElement(1),
-        currentParameter.GetElement(2),
-        currentParameter.GetElement(3),
-        currentParameter.GetElement(4),
+    print(
+        "M: %f   P: %f %f %f %f %f "
+        % (
+            optimizer.GetValue(),
+            currentParameter.GetElement(0),
+            currentParameter.GetElement(1),
+            currentParameter.GetElement(2),
+            currentParameter.GetElement(3),
+            currentParameter.GetElement(4),
+        )
     )
 
 
@@ -178,7 +183,7 @@ iterationCommand = itk.PyCommand.New()
 iterationCommand.SetCommandCallable(iterationUpdate)
 optimizer.AddObserver(itk.IterationEvent(), iterationCommand)
 
-print "Starting registration"
+print("Starting registration")
 
 
 #
@@ -192,12 +197,12 @@ registration.Update()
 #
 finalParameters = registration.GetOutput().Get().GetParameters()
 
-print "Final Registration Parameters "
-print "Angle in radians  = %f" % finalParameters.GetElement(0)
-print "Rotation Center X = %f" % finalParameters.GetElement(1)
-print "Rotation Center Y = %f" % finalParameters.GetElement(2)
-print "Translation in  X = %f" % finalParameters.GetElement(3)
-print "Translation in  Y = %f" % finalParameters.GetElement(4)
+print("Final Registration Parameters ")
+print("Angle in radians  = %f" % finalParameters.GetElement(0))
+print("Rotation Center X = %f" % finalParameters.GetElement(1))
+print("Rotation Center Y = %f" % finalParameters.GetElement(2))
+print("Translation in  X = %f" % finalParameters.GetElement(3))
+print("Translation in  Y = %f" % finalParameters.GetElement(4))
 
 
 #
