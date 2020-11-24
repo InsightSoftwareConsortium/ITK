@@ -23,7 +23,7 @@ import sys
 import types
 import collections
 import warnings
-from typing import Dict, Any
+from typing import Dict, Any, List
 
 import itkConfig
 
@@ -33,15 +33,36 @@ from ..support.itkTypes import itkCType
 import math
 
 
-class itkTemplateBase(object):
+class itkTemplateBase:
     """This itkTemplateBase class has only static and class methods used
     to manage the singleton instances of template objects.
     """
 
-    __templates__: Dict[str, Any] = collections.OrderedDict()
-    __class_to_template__: Dict[str, Any] = {}
-    __named_templates__: Dict[str, Any] = {}
+    __templates__: Dict[str, "itkTemplate"] = collections.OrderedDict()
+    __class_to_template__: Dict[str, "itkTemplate"] = {}
+    __named_templates__: Dict[str, "itkTemplate"] = {}
     # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
+
+
+class itkTemplate(object):
+    """This class manages access to available template arguments of a C++ class.
+
+    This class is generic and does not give help on the methods available in
+    the instantiated class. To get help on a specific ITK class, instantiate an
+    object of that class.
+
+    e.g.: median = itk.MedianImageFilter[ImageType, ImageType].New()
+          help(median)
+
+    There are two ways to access types:
+
+    1. With a dict interface. The user can manipulate template parameters
+    similarly to C++, with the exception that the available parameters sets are
+    chosen at compile time. It is also possible, with the dict interface, to
+    explore the available parameters sets.
+    2. With object attributes. The user can easily find the available parameters
+    sets by pressing tab in interpreter like ipython
+    """
 
     @staticmethod
     def normalizeName(name: str) -> str:
@@ -56,7 +77,7 @@ class itkTemplateBase(object):
         return name
 
     @staticmethod
-    def registerNoTpl(name: str, cl) -> None:
+    def registerNoTpl(name: str, cl: "itkTemplate") -> None:
         """Register a class without template
 
         It can seem not useful to register classes without template (and it wasn't
@@ -67,7 +88,11 @@ class itkTemplateBase(object):
 
     @staticmethod
     def _NewImageReader(
-        TemplateReaderType, increase_dimension, primaryInputMethod, *args, **kwargs
+        TemplateReaderType,
+        increase_dimension: bool,
+        primaryInputMethod,
+        *args,
+        **kwargs,
     ):
         def firstIfList(arg):
             if type(arg) in [list, tuple]:
@@ -101,12 +126,12 @@ class itkTemplateBase(object):
         # Read the metadata from the image file.
         imageIO.SetFileName(inputFileName)
         imageIO.ReadImageInformation()
-        dimension = imageIO.GetNumberOfDimensions()
+        dimension: int = imageIO.GetNumberOfDimensions()
         # For image series, increase dimension if last dimension is not of size one.
         if increase_dimension and imageIO.GetDimensions(dimension - 1) != 1:
             dimension += 1
         componentAsString = imageIO.GetComponentTypeAsString(imageIO.GetComponentType())
-        _io_component_type_dict = {
+        _io_component_type_dict: Dict[str, itkCType] = {
             "float": itk.F,
             "double": itk.D,
             "unsigned_char": itk.UC,
@@ -120,10 +145,12 @@ class itkTemplateBase(object):
             "long": itk.SL,
             "long_long": itk.SLL,
         }
-        component = _io_component_type_dict[componentAsString]
+        component: itkCType = _io_component_type_dict[componentAsString]
         pixel = imageIO.GetPixelTypeAsString(imageIO.GetPixelType())
-        numberOfComponents = imageIO.GetNumberOfComponents()
-        PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
+        numberOfComponents: int = imageIO.GetNumberOfComponents()
+        PixelType: itkCType = itkTemplate._pixelTypeFromIO(
+            pixel, component, numberOfComponents
+        )
         ImageType = itk.Image[PixelType, dimension]
         ReaderType = TemplateReaderType[ImageType]
         return ReaderType.New(*args, **kwargs)
@@ -136,7 +163,7 @@ class itkTemplateBase(object):
             else:
                 return arg
 
-        inputFileName = ""
+        inputFileName: str = ""
         if len(args) != 0:
             # try to find a type suitable for the primary input provided
             inputFileName = firstIfList(args[0])
@@ -162,14 +189,14 @@ class itkTemplateBase(object):
         # Read the metadata from the mesh file.
         meshIO.SetFileName(inputFileName)
         meshIO.ReadMeshInformation()
-        dimension = meshIO.GetPointDimension()
+        dimension: int = meshIO.GetPointDimension()
         componentAsString = meshIO.GetComponentTypeAsString(
             meshIO.GetPointPixelComponentType()
         )
         # For meshes with unknown pixel type, a common case, we assign the pixel
         # type to be float, which is well supported in the wrapping and handles
         # most use cases.
-        _io_component_type_dict = {
+        _io_component_type_dict: Dict[str, itkCType] = {
             "unknown": itk.F,
             "float": itk.F,
             "double": itk.D,
@@ -184,16 +211,16 @@ class itkTemplateBase(object):
             "long": itk.SL,
             "long_long": itk.SLL,
         }
-        component = _io_component_type_dict[componentAsString]
+        component: itkCType = _io_component_type_dict[componentAsString]
         pixel = meshIO.GetPixelTypeAsString(meshIO.GetPointPixelType())
-        numberOfComponents = meshIO.GetNumberOfPointPixelComponents()
+        numberOfComponents: int = meshIO.GetNumberOfPointPixelComponents()
         PixelType = itkTemplate._pixelTypeFromIO(pixel, component, numberOfComponents)
         MeshType = itk.Mesh[PixelType, dimension]
         ReaderType = TemplateReaderType[MeshType]
         return ReaderType.New(*args, **kwargs)
 
     @staticmethod
-    def _pixelTypeFromIO(pixel, component, numberOfComponents):
+    def _pixelTypeFromIO(pixel, component, numberOfComponents: int):
         import itk
 
         if pixel == "scalar":
@@ -228,32 +255,11 @@ class itkTemplateBase(object):
             raise RuntimeError(f"Unknown pixel type: {pixel}.")
         return PixelType
 
-
-class itkTemplate(itkTemplateBase):
-    """This class manages access to available template arguments of a C++ class.
-
-    This class is generic and does not give help on the methods available in
-    the instantiated class. To get help on a specific ITK class, instantiate an
-    object of that class.
-
-    e.g.: median = itk.MedianImageFilter[ImageType, ImageType].New()
-          help(median)
-
-    There are two ways to access types:
-
-    1. With a dict interface. The user can manipulate template parameters
-    similarly to C++, with the exception that the available parameters sets are
-    chosen at compile time. It is also possible, with the dict interface, to
-    explore the available parameters sets.
-    2. With object attributes. The user can easily find the available parameters
-    sets by pressing tab in interpreter like ipython
-    """
-
     def __new__(cls, name: str):
         # Singleton pattern: we only make a single instance of any Template of
         # a given name. If we have already made the instance, just return it
         # as-is.
-        if name not in cls.__named_templates__:
+        if name not in itkTemplateBase.__named_templates__:
             new_instance = object.__new__(cls)
             new_instance.__name__ = name
             new_instance.__template__ = collections.OrderedDict()
@@ -273,19 +279,19 @@ class itkTemplate(itkTemplateBase):
         cl is the class which corresponds to the couple template-argument set.
         """
         # recreate the full name and normalize it to avoid ambiguity
-        normFullName = itkTemplate.normalizeName(
-            self.__name__ + "<" + paramSetString + ">"
+        normFullName: str = itkTemplate.normalizeName(
+            f"{self.__name__}<{paramSetString}>"
         )
 
         # the full class should not be already registered. If it is, there is a
         # problem somewhere so warn the user so he can fix the problem
-        if normFullName in itkTemplate.__templates__:
+        if normFullName in itkTemplateBase.__templates__:
             message = (
                 "Template %s\n already defined as %s\n is redefined " "as %s"
             ) % (normFullName, self.__templates__[normFullName], cl)
             warnings.warn(message)
         # register the class
-        itkTemplate.__templates__[normFullName] = cl
+        itkTemplateBase.__templates__[normFullName] = cl
 
         # __find_param__ will parse the paramSetString and produce a list of
         # the same parameters transformed in corresponding python classes.
@@ -301,7 +307,7 @@ class itkTemplate(itkTemplateBase):
         self.__template__[param] = cl
 
         # add in __class_to_template__ dictionary
-        itkTemplate.__class_to_template__[cl] = (self, param)
+        itkTemplateBase.__class_to_template__[cl] = (self, param)
 
         # now populate the template
         # 2 cases:
@@ -323,12 +329,12 @@ class itkTemplate(itkTemplateBase):
                 shortNameSize = len(re.sub(r":.*:", "", self.__name__))
                 attributeName = cl.__name__[shortNameSize:]
         else:
-            shortName = re.sub(r":.*:", "", self.__name__)
+            short_name: str = re.sub(r":.*:", "", self.__name__)
 
-            if not cl.__name__.startswith(shortName):
-                shortName = re.sub(r".*::", "", self.__name__)
+            if not cl.__name__.startswith(short_name):
+                short_name = re.sub(r".*::", "", self.__name__)
 
-            attributeName = cl.__name__[len(shortName) :]
+            attributeName = cl.__name__[len(short_name) :]
 
         if attributeName[0].isdigit():
             # the attribute name can't start with a number
@@ -367,30 +373,29 @@ class itkTemplate(itkTemplateBase):
         in the warning.
         """
         # split the string in a list of parameters
-        paramStrings = []
+        paramStrings: List[str] = []
         num_open_inner_classes: int = 0
         part: str = paramSetString.split(",")
         for elt in part:
             if num_open_inner_classes == 0:
                 paramStrings.append(elt)
             else:
-                paramStrings[-1] += "," + elt
+                paramStrings[-1] += f",{elt}"
             #                         (num open)     - (num closed)
             num_open_inner_classes += elt.count("<") - elt.count(">")
 
         # convert all string parameters into classes (if possible)
-        parameters = []
-        for param in paramStrings:
+        parameters: List[Any] = []
+        for curr_param in paramStrings:
             # the parameter need to be normalized several time below
             # do it once here
-            param_stripped = param.strip()
+            param_stripped = curr_param.strip()
             paramNorm = itkTemplate.normalizeName(param_stripped)
-            del param
 
-            if paramNorm in itkTemplate.__templates__:
+            if paramNorm in itkTemplateBase.__templates__:
                 # the parameter is registered.
                 # just get the real class form the dictionary
-                param = itkTemplate.__templates__[paramNorm]
+                param = itkTemplateBase.__templates__[paramNorm]
 
             elif itkCType.GetCType(param_stripped):
                 # the parameter is a c type
@@ -412,12 +417,14 @@ class itkTemplate(itkTemplateBase):
                 # use it without changes, but display a warning message, to
                 # incite developer to fix the problem
                 message = "Warning: Unknown parameter '%s' in " "template '%s'" % (
-                    param,
+                    paramNorm,
                     self.__name__,
                 )
                 warnings.warn(message)
-
-            parameters.append(param)
+                param = None
+            if param:
+                parameters.append(param)
+                del param
 
         return parameters
 
@@ -458,7 +465,7 @@ class itkTemplate(itkTemplateBase):
             raise itk.TemplateTypeError(self, key)
         return this_item
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<itkTemplate {self.__name__}>"
 
     def __getattr__(self, attr):
@@ -466,7 +473,7 @@ class itkTemplate(itkTemplateBase):
         self._LoadModules()
         return object.__getattribute__(self, attr)
 
-    def _LoadModules(self):
+    def _LoadModules(self) -> None:
         """Loads all the module that may have not been loaded by the lazy loading system.
 
         If multiple modules use the same object, the lazy loading system is only going to
@@ -544,7 +551,7 @@ class itkTemplate(itkTemplateBase):
         """
         from . import itkHelpers
 
-        short_name = re.sub(r".*::", "", self.__name__)
+        short_name: str = re.sub(r".*::", "", self.__name__)
         snake = itkHelpers.camel_to_snake_case(short_name)
 
         warnings.warn(

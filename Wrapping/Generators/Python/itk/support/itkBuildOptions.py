@@ -6,7 +6,7 @@ import itk
 itk.force_load()
 
 from itk.support import itkTypes
-from itk.support.itkTemplate import itkTemplate
+from itk.support.itkTemplate import itkTemplate, itkTemplateBase
 
 from typing import List, Union
 from itkConfig import ITK_GLOBAL_WRAPPING_BUILD_OPTIONS as _itkwrapbo
@@ -23,27 +23,27 @@ REALS: List[itkTypes.itkCType] = [
 ]
 
 VECTOR_REALS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__templates__[itkTemplate.normalizeName(s)]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_VECTOR_REAL"]
     if s
 ]
 COV_VECTOR_REALS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__templates__[itkTemplate.normalizeName(s)]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_COV_VECTOR_REAL"]
     if s
 ]
 RGBS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__templates__[itkTemplate.normalizeName(s)]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_RGB"]
     if s
 ]
 RGBAS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__templates__[itkTemplate.normalizeName(s)]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_RGBA"]
     if s
 ]
 COMPLEX_REALS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__templates__[itkTemplate.normalizeName(s)]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_COMPLEX_REAL"]
     if s
 ]
