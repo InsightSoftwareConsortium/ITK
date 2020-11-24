@@ -18,9 +18,9 @@
 # compiled python files
 *.pyc
 
-# Binary directory
-BUILD*
-build*
+# Binary directory ignore patterns
+BUILD*/
+build*/
 
 # qtcreator
 CMakeLists.txt.user*
