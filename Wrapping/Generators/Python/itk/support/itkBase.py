@@ -162,18 +162,18 @@ def itk_load_swig_module(name, namespace=None):
                             and current_value != template_container
                         ):
                             debug_print_error(
-                                "Namespace already has a value for"
-                                " %s, which is not an itkTemplate"
-                                "instance for class %s. "
-                                "Overwriting old value."
-                                % (py_class_name, cpp_class_name)
+                                f"Namespace already has a value for "
+                                f"{py_class_name}, which is not an itkTemplate "
+                                f"instance for class {cpp_class_name}. "
+                                f"Overwriting old value."
                             )
                         namespace[py_class_name] = template_container
                 except Exception as e:
                     debug_print_error(
-                        "%s not loaded from module %s because of "
-                        "exception:\n %s" % (swig_class_name, name, e)
+                        f"{swig_class_name} not loaded from module {name} because of "
+                        f"exception:\n {e}"
                     )
+                    pass
 
             else:
                 # this is a description of a non-templated class
