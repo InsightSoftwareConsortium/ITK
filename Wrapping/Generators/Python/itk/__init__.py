@@ -18,7 +18,12 @@
 
 """itk: Top-level container package for ITK wrappers."""
 
-from .conf.itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
+# Must import module from python path, not local reference
+# in order to maintain the singular value of the module values.
+# `import .conf.itkConfig` is a different context than
+# `import itkConfig`, even if they are the same file. The
+# LazyLoading and other values may be different in the two contexts.
+from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
 
 from .support.itkExtras import *
 from .support.itkInitHelpers import *
@@ -48,10 +53,10 @@ def _initialize_module():
 
     from .support import itkBase as _itkBase
     from .support import itkLazy as _itkLazy
-    from .conf import itkConfig as _itkConfig
+    from itkConfig import LazyLoading as _LazyLoading
     import sys
 
-    if _itkConfig.LazyLoading:
+    if _LazyLoading:
         # If we are loading lazily (on-demand), make a dict mapping the available
         # classes/functions/etc. (read from the configuration modules) to the
         # modules they are declared in. Then pass that dict to a LazyITKModule

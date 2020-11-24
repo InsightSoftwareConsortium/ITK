@@ -25,7 +25,7 @@ import collections
 import warnings
 from typing import Dict, Any
 
-from ..conf import itkConfig
+import itkConfig
 
 from ..support import itkBase
 from ..support.itkExtras import output

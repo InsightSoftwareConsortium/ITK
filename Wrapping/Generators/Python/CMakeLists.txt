@@ -14,7 +14,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 else()
   set(ITK_WRAP_PYTHON_ROOT_BINARY_DIR "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python" CACHE INTERNAL "python binary dir")
 endif()
-set(ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR  "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/conf" CACHE INTERNAL "python binary dir")
+set(ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR  "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}" CACHE INTERNAL "python binary dir")
 set(ITK_WRAP_PYTHON_SWIG_CONFIGURATION_DIR "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration" CACHE INTERNAL "python binary dir")
 ###############################################################################
 # create the python directory in the classindex dir
@@ -76,7 +76,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   set(ITK_PYTHON_SWIG_LIBS_DIR  "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk" CACHE INTERNAL "where the swig shared libs are place _ITK*.so files")
   file(RELATIVE_PATH CONFIG_PYTHON_SWIGPY_DIR   ${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR} ${ITK_PYTHON_SWIG_LIBS_DIR})
   file(RELATIVE_PATH CONFIG_PYTHON_SWIGLIB_DIR  ${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR} ${ITK_PYTHON_SWIG_LIBS_DIR})
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itk/conf/itkConfig.py.in"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itkConfig.py.in"
                  "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/InstallOnly/itkConfig.py"
                 @ONLY)
 
@@ -99,7 +99,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
     file(RELATIVE_PATH CONFIG_PYTHON_SWIGPY_DIR   ${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR} ${ITK_PYTHON_SWIG_LIBS_DIR})
     file(RELATIVE_PATH CONFIG_PYTHON_SWIGLIB_DIR  ${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR} ${ITK_PYTHON_SWIG_LIBS_DIR})
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itk/conf/itkConfig.py.in"
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itkConfig.py.in"
                    "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}/${config}/itkConfig.py"
                    @ONLY)
   endforeach()
@@ -199,16 +199,16 @@ endif()
 
 if(CMAKE_CONFIGURATION_TYPES)
   foreach(config ${CMAKE_CONFIGURATION_TYPES})
-    set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/itk/conf/${config}")
-    set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}/itk")
+    set(CONFIG_ITK_WRAP_PYTHON_DIR "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}/${config}")
+    #set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${config}/itk")
 
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
                    "${CMAKE_CURRENT_BINARY_DIR}/${config}/WrapITK.pth"
                    @ONLY)
   endforeach()
 else()
-  set(CONFIG_ITK_WRAP_PYTHON_DIR "${CMAKE_CURRENT_BINARY_DIR}/itk/conf")
-  set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/itk")
+  set(CONFIG_ITK_WRAP_PYTHON_DIR "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}")
+  #set(CONFIG_ITK_WRAP_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/itk")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITK.pth.in"
                  "${CMAKE_CURRENT_BINARY_DIR}/WrapITK.pth"
                  @ONLY)
