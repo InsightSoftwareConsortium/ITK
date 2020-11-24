@@ -23,7 +23,7 @@ from sys import stderr as system_error_stream
 # Required to work around weird import error with xarray
 import pkg_resources
 
-from itk.conf import itkConfig
+import itkConfig
 from itk.support.itkTemplate import itkTemplate
 
 

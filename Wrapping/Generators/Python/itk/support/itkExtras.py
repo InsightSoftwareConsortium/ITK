@@ -1573,7 +1573,7 @@ Supported input types:
 # install progress callback and custom completer if we are in ipython
 # interpreter
 try:
-    from itk.conf import itkConfig
+    import itkConfig
     import IPython
 
     if IPython.get_ipython():

@@ -1,3 +1,3 @@
-# Python pth file to add WrapITK's path to sys.path.
+# Python pth file to add itk package path to sys.path
+# for itk version "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
 @CONFIG_ITK_WRAP_PYTHON_DIR@
-@CONFIG_ITK_WRAP_LIBRARY_DIR@
