@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 from sys import argv, stderr, exit
@@ -22,9 +22,13 @@ from sys import argv, stderr, exit
 itk.auto_progress(2)
 
 if len(argv) < 3:
-    print((
-        "Missing Parameters \n Usage: AntiAliasBinaryImageFilter"
-        " inputImage outputImage [RMS] [numberOfIterations]"), file=stderr)
+    print(
+        (
+            "Missing Parameters \n Usage: AntiAliasBinaryImageFilter"
+            " inputImage outputImage [RMS] [numberOfIterations]"
+        ),
+        file=stderr,
+    )
     exit(1)
 
 inputFilename = argv[1]

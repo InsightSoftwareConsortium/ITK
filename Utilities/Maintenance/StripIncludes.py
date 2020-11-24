@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -15,7 +15,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 ## This script is designed to asssit stripping out the unecessary header includes
 ## for all modules.
@@ -29,38 +29,55 @@
 ## Modified by Xiaoxiao Liu.
 
 ########################   Input: need edit ###########################
-sourceDir = "src/ITK" #source tree
-buildDir  = "bin/ITK" #binary tree
-relativeFileList = "filelist.txt" # files to process
-includesToSkip = ["itkVersion.h","<cstring>", "<iostream>", "<fstream>","vnl/vnl_math.h","<string>","itkConfigure.h","<stdlib>","<time.h>"] #keep those headers
+sourceDir = "src/ITK"  # source tree
+buildDir = "bin/ITK"  # binary tree
+relativeFileList = "filelist.txt"  # files to process
+includesToSkip = [
+    "itkVersion.h",
+    "<cstring>",
+    "<iostream>",
+    "<fstream>",
+    "vnl/vnl_math.h",
+    "<string>",
+    "itkConfigure.h",
+    "<stdlib>",
+    "<time.h>",
+]  # keep those headers
 #######################################################################
 
 from __future__ import print_function
 
 import os
 
+
 def tryCompile(fileName):
     # Use -B so that the target is always rebuilt
     return os.system("make -B %s.o" % fileName)
 
+
 def writeFile(lines, fileName):
 
-    f = open(fileName, 'w')
+    f = open(fileName, "w")
     for line in lines:
         f.write(line)
         f.write("\n")
 
+
 def removeLines(lines, removedLines):
     newLines = []
     for i, line in enumerate(lines):
-        if i in removedLines: continue
+        if i in removedLines:
+            continue
         newLines.append(line)
     return newLines
 
+
 def shouldSkipInclude(line):
     for includeFile in includesToSkip:
-        if includeFile in line: return True
+        if includeFile in line:
+            return True
     return False
+
 
 def checkIfDef(line, ifDefCounter):
     if line.startswith("#ifdef") or line.startswith("if defined"):
@@ -69,18 +86,21 @@ def checkIfDef(line, ifDefCounter):
         return ifDefCounter - 1
     return ifDefCounter
 
+
 def processFile(directory, fileName):
 
     absFileName = "/".join([sourceDir, directory, fileName])
-    lines = open(absFileName, 'r').read().splitlines()
+    lines = open(absFileName, "r").read().splitlines()
     removedLines = []
     ifDefCounter = 0
     for i, line in enumerate(lines):
 
         ifDefCounter = checkIfDef(line, ifDefCounter)
-        if ifDefCounter > 0: continue
-        if line.startswith('#include'):
-            if shouldSkipInclude(line): continue
+        if ifDefCounter > 0:
+            continue
+        if line.startswith("#include"):
+            if shouldSkipInclude(line):
+                continue
 
             print("Try remove:", line)
             lines[i] = ""
@@ -101,11 +121,14 @@ def processFile(directory, fileName):
 def processDirectory(directory, directoryFileList):
 
     makeDir = buildDir + "/" + directory
-    try: os.chdir(makeDir)
-    except: return
+    try:
+        os.chdir(makeDir)
+    except:
+        return
 
     for filename in directoryFileList:
         processFile(directory, filename)
+
 
 def getFilesByDirectory(fileList):
 
@@ -117,6 +140,7 @@ def getFilesByDirectory(fileList):
         filesByDirectory[filepath].append(filename)
     return filesByDirectory
 
+
 def processFileList(fileList):
 
     filesByDirectory = getFilesByDirectory(fileList)
@@ -126,7 +150,7 @@ def processFileList(fileList):
 
 def main():
 
-    fileList = open(relativeFileList, 'r').read().splitlines()
+    fileList = open(relativeFileList, "r").read().splitlines()
     processFileList(fileList)
 
 

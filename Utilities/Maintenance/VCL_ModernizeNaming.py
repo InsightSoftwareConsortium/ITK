@@ -23,7 +23,9 @@ Examples:
   for ext in ".h" ".cxx" ".cpp" ".hxx" ".hpp" ".txx"; do
     find ${{SRC_BASE_DIR}} -type f -name "*${{ext}}" -exec python Utilities/Maintenance/VCL_ModernizeNaming.py {{}} \;
   done
-""".format(sys.argv, sys.argv[0])
+""".format(
+        sys.argv, sys.argv[0]
+    )
     print(usage)
     sys.exit(-1)
 
@@ -692,21 +694,22 @@ vcl_replace_manual = OrderedDict()
 for line in info_for_conversion.splitlines():
     linevalues = line.split(",")
     if len(linevalues) != 3:
-        #print("SKIPPING: " + str(linevalues))
+        # print("SKIPPING: " + str(linevalues))
         continue
     fname = linevalues[0]
     new_name = fname.replace("vcl_", "").replace(".h", "")
-    vcl_replace_head_names['#include "{0}"'.format(
-        fname)] = '#include "{0}"'.format(new_name)
-    vcl_replace_head_names['#include <{0}>'.format(
-        fname)] = '#include <{0}>'.format(new_name)
+    vcl_replace_head_names['#include "{0}"'.format(fname)] = '#include "{0}"'.format(
+        new_name
+    )
+    vcl_replace_head_names["#include <{0}>".format(fname)] = "#include <{0}>".format(
+        new_name
+    )
     vcl_pat = linevalues[1]
     new_pat = linevalues[2]
     vcl_replace_functionnames[vcl_pat] = new_pat
     # Need to fix the fact that both std::ios is a base and a prefix
     if "std::ios::" in new_pat:
-        vcl_replace_manual[new_pat.replace(
-            "std::ios::", "std::ios_")] = new_pat
+        vcl_replace_manual[new_pat.replace("std::ios::", "std::ios_")] = new_pat
 
 # print(vcl_replace_head_names)
 # print(vcl_replace_functionnames)
@@ -718,14 +721,17 @@ with open(cfile, "r") as rfp:
     file_as_string = rfp.read()
 orig_file = file_as_string
 
-if file_as_string.find("std::cout") or file_as_string.find("std::cerr") or file_as_string.find("std::cin"):
+if (
+    file_as_string.find("std::cout")
+    or file_as_string.find("std::cerr")
+    or file_as_string.find("std::cin")
+):
     required_header = "#include <vcl_compiler.h>\n#include <iostream>\n"
 else:
     required_header = "#include <vcl_compiler.h>\n"
 
 for searchval, replaceval in vcl_replace_head_names.items():
-    file_as_string_new = file_as_string.replace(
-        searchval, required_header + replaceval)
+    file_as_string_new = file_as_string.replace(searchval, required_header + replaceval)
     if file_as_string_new != file_as_string:
         required_header = ""
     file_as_string = file_as_string_new

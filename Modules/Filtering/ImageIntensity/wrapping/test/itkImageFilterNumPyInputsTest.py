@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,22 +14,23 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import numpy as np
+
 itk.auto_progress(2)
 
-array1 = np.ones((4,4), dtype=np.uint8)
-array2 = 2*np.ones((4,4), dtype=np.uint8)
+array1 = np.ones((4, 4), dtype=np.uint8)
+array2 = 2 * np.ones((4, 4), dtype=np.uint8)
 
 added = itk.add_image_filter(array1, array2)
-assert(isinstance(added, np.ndarray))
-assert(np.all(added == 3))
+assert isinstance(added, np.ndarray)
+assert np.all(added == 3)
 
 added = itk.add_image_filter(Input1=array1, Input2=array2)
-assert(isinstance(added, np.ndarray))
-assert(np.all(added == 3))
+assert isinstance(added, np.ndarray)
+assert np.all(added == 3)
 
 # support kwargs with "image" in the name
 masked = itk.mask_image_filter(array1, mask_image=array2)
@@ -43,12 +44,12 @@ try:
     data_array2 = itk.xarray_from_image(image2)
 
     added = itk.add_image_filter(data_array1, data_array2)
-    assert(isinstance(added, xr.DataArray))
-    assert(np.all(added == 3))
+    assert isinstance(added, xr.DataArray)
+    assert np.all(added == 3)
 
     added = itk.add_image_filter(Input1=data_array1, Input2=data_array2)
-    assert(isinstance(added, xr.DataArray))
-    assert(np.all(added == 3))
+    assert isinstance(added, xr.DataArray)
+    assert np.all(added == 3)
 
     # support kwargs with "image" in the name
     masked = itk.mask_image_filter(data_array1, mask_image=data_array2)

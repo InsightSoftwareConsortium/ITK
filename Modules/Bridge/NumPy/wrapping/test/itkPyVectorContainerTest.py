@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,13 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 import sys
 import unittest
 import datetime as dt
 
 import itk
 import numpy as np
+
 
 class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
     """ This tests numpy array <-> ITK VectorContainer conversion. """
@@ -31,12 +32,13 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
     def test_NumPyBridge_VectorContainer(self):
         "Try to convert a itk.VectorContainer into a Numpy array and back."
 
-        if not (hasattr(itk.VectorContainer, 'ULF') and
-                hasattr(itk.PyVectorContainer, 'F') and
-                hasattr(itk.Point, 'F3') and
-                hasattr(itk.VectorContainer, 'ULPF3') and
-                hasattr(itk.Point, 'F2') and
-                hasattr(itk.VectorContainer, 'ULPF2')
+        if not (
+            hasattr(itk.VectorContainer, "ULF")
+            and hasattr(itk.PyVectorContainer, "F")
+            and hasattr(itk.Point, "F3")
+            and hasattr(itk.VectorContainer, "ULPF3")
+            and hasattr(itk.Point, "F2")
+            and hasattr(itk.VectorContainer, "ULPF2")
         ):
             # There is insufficient wrapping to perform this test; skip it.
             return
@@ -54,12 +56,12 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         # Compute difference between the original vector and numpy array view
         diff = 0.0
         for ii in range(0, v1.Size()):
-          diff += abs(v1.GetElement(ii) - arr[ii])
+            diff += abs(v1.GetElement(ii) - arr[ii])
         self.assertEqual(0, diff)
         # Compute difference between the two vectors
         diff = 0.0
         for ii in range(0, v1.Size()):
-          diff += abs(v1.GetElement(ii) - v2.GetElement(ii))
+            diff += abs(v1.GetElement(ii) - v2.GetElement(ii))
         self.assertEqual(0, diff)
         # Test view
         v1.SetElement(0, 1)
@@ -69,7 +71,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         self.assertEqual(v1.GetElement(0), arr_cp[0])
         v1.SetElement(0, 0)
         self.assertNotEqual(v1.GetElement(0), arr_cp[0])
-        v2_cp=itk.PyVectorContainer[itk.F].vector_container_from_array(arr_cp)
+        v2_cp = itk.PyVectorContainer[itk.F].vector_container_from_array(arr_cp)
         arr_cp[0] = 2
         self.assertNotEqual(v2_cp.GetElement(0), arr_cp[0])
 
@@ -86,7 +88,9 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         point[2] = 9.0
         v_point.SetElement(1, point)
         arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
-        self.assertTrue(np.array_equal(arr, np.array([[1.0, 2.0, 4.0], [6.0, 8.0, 9.0]])))
+        self.assertTrue(
+            np.array_equal(arr, np.array([[1.0, 2.0, 4.0], [6.0, 8.0, 9.0]]))
+        )
 
         PointType = itk.Point[itk.F, 2]
         v_point = itk.VectorContainer[itk.UL, PointType].New()
@@ -101,5 +105,6 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
         self.assertTrue(np.array_equal(arr, np.array([[1.0, 2.0], [6.0, 8.0]])))
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

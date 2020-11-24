@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #
 #  Example on the use of the VoronoiSegmentationImageFilter.
@@ -28,23 +28,22 @@ from sys import argv
 readerInput = itkImageFileReaderUC2_New()
 readerPrior = itkImageFileReaderUC2_New()
 
-readerInput.SetFileName( argv[1] )
-readerPrior.SetFileName( argv[2] )
+readerInput.SetFileName(argv[1])
+readerPrior.SetFileName(argv[2])
 
 readerInput.Update()
 readerPrior.Update()
 
-filter  = itkVoronoiSegmentationImageFilterUC2UC2UC2_New()
+filter = itkVoronoiSegmentationImageFilterUC2UC2UC2_New()
 
-filter.SetInput(   readerInput.GetOutput() )
-filter.TakeAPrior( readerPrior.GetOutput() )
+filter.SetInput(readerInput.GetOutput())
+filter.TakeAPrior(readerPrior.GetOutput())
 
-filter.SetMeanPercentError( eval( argv[4] )  )
-filter.SetSTDPercentError( eval( argv[5] )  )
+filter.SetMeanPercentError(eval(argv[4]))
+filter.SetSTDPercentError(eval(argv[5]))
 
 writer = itkImageFileWriterUC2_New()
-writer.SetFileName( argv[3] )
-writer.SetInput( filter.GetOutput() )
+writer.SetFileName(argv[3])
+writer.SetInput(filter.GetOutput())
 
 writer.Update()
-

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #
 #  Example on the use of the CastImageFilter
@@ -22,6 +22,7 @@
 
 import itk
 from sys import argv
+
 itk.auto_progress(2)
 
 dim = 2

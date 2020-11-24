@@ -384,7 +384,7 @@ def xarray_from_image(l_image):
     direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
     spatial_dimension = l_image.GetImageDimension()
 
-    spatial_dims: Tuple[str,str,str] = ("x", "y", "z")
+    spatial_dims: Tuple[str, str, str] = ("x", "y", "z")
     coords = {}
     for l_index, dim in enumerate(spatial_dims[:spatial_dimension]):
         coords[dim] = np.linspace(
@@ -1016,10 +1016,10 @@ class templated_class:
     def has_key(self, key: str):
         return key in self.__templates__
 
-    def __contains__(self, key:str):
+    def __contains__(self, key: str):
         return key in self
 
-    def get(self, key:str, default: Optional[str]=None) -> Optional[str]:
+    def get(self, key: str, default: Optional[str] = None) -> Optional[str]:
         return self.get(key, default)
 
     def __len__(self):
@@ -1064,7 +1064,7 @@ class pipeline:
         """
         self.filters = []
 
-    def GetOutput(self, l_index:int =0):
+    def GetOutput(self, l_index: int = 0):
         """Return the output of the pipeline
 
         If another output is needed, use
@@ -1135,7 +1135,7 @@ class pipeline:
         self.UpdateLargestPossibleRegion()
         return self
 
-    def expose(self, name:str, new_name: Optional[str]=None, position: int=-1):
+    def expose(self, name: str, new_name: Optional[str] = None, position: int = -1):
         """Expose an attribute from a filter of the mini-pipeline.
 
         Once called, the pipeline instance has a new Set/Get set of methods to
@@ -1155,7 +1155,7 @@ class pipeline:
         if new_name is None:
             new_name = name
         src = self.filters[position]
-        ok:bool = False
+        ok: bool = False
         set_name: str = "Set" + name
         if set_name in dir(src):
             setattr(self, "Set" + new_name, getattr(src, set_name))
@@ -1515,7 +1515,7 @@ class TemplateTypeError(TypeError):
         import itk
 
         # Special case for ITK readers: Add extra information.
-        extra_eg:str = ""
+        extra_eg: str = ""
         if template_type in [
             itk.ImageFileReader,
             itk.ImageSeriesReader,
@@ -1532,7 +1532,7 @@ or
         python_input_type = tuple_to_string_type(input_type)
         type_list = "\n".join([python_type(x[0]) for x in template_type.keys()])
         eg_type = ", ".join([python_type(x) for x in list(template_type.keys())[0]])
-        msg:str = """{template_type} is not wrapped for input type `{input_type}`.
+        msg: str = """{template_type} is not wrapped for input type `{input_type}`.
 
 To limit the size of the package, only a limited number of
 types are available in ITK Python. To print the supported

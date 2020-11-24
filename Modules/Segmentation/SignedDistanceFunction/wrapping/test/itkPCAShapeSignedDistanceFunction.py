@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,11 +14,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 
 import itk
 from sys import argv
+
 itk.auto_progress(2)
 
 dim = 2
@@ -26,11 +27,11 @@ IType = itk.Image[itk.F, dim]
 
 pca_function = itk.PCAShapeSignedDistanceFunction[itk.D, dim, IType].New()
 im = IType.New()
-im.SetRegions([10,10])
+im.SetRegions([10, 10])
 im.Allocate()
 l = [im, im]
 # Test that it is possible to use a list of image
-pca_function.SetPrincipalComponentImages (l)
+pca_function.SetPrincipalComponentImages(l)
 # Test that it is possible to use an std::vector of image
 vec = itk.vector[IType]()
 vec.push_back(im)
