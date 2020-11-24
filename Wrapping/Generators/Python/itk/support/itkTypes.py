@@ -19,12 +19,13 @@
 # noinspection PyPep8Naming
 class itkCType:
     # import locally to facilitate dynamic loading in itk/__init__.py
-    from typing import Dict, Any
+    import numpy as np
+    from typing import Any, Dict, Optional, Tuple
 
-    __c_types__: Dict[str, Any] = {}
-    __c_types_for_dtype__: Dict[str, Any] = {}
+    __c_types__: Dict[str, "itkCType"] = {}
+    __c_types_for_dtype__: Dict[str, np.dtype] = {}
 
-    def __init__(self, name: str, short_name: str, np_dtype=None):
+    def __init__(self, name: str, short_name: str, np_dtype: np.dtype = None) -> None:
         # Remove potential white space around type names
         self.name = name.strip()
         self.short_name = short_name.strip()
@@ -34,17 +35,17 @@ class itkCType:
         if np_dtype:
             itkCType.__c_types_for_dtype__[np_dtype] = self
 
-    def __del__(self):
+    def __del__(self) -> None:
         try:
             del itkCType.__c_types__[self.name]
         except KeyError:
             pass
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<itkCType {self.name}>"
 
     @staticmethod
-    def GetCType(name):
+    def GetCType(name: str) -> Optional["itkCType"]:
         # import locally to facilitate dynamic loading in itk/__init__.py
         from typing import Dict
 
@@ -64,7 +65,7 @@ class itkCType:
             return None
 
     @staticmethod
-    def GetCTypeForDType(np_dtype):
+    def GetCTypeForDType(np_dtype: np.dtype) -> Optional["itkCType"]:
         """Get the type corresponding to the provided numpy.dtype."""
         try:
             return itkCType.__c_types_for_dtype__[np_dtype]
@@ -72,34 +73,65 @@ class itkCType:
             return None
 
     @staticmethod
-    def initialize_c_types_once():
+    def initialize_c_types_once() -> (
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+        "itkCType",
+    ):
         """
         This function is intended to be run only one time
         """
         import os
         import numpy as np
 
-        _F = itkCType("float", "F", np.float32)
-        _D = itkCType("double", "D", np.float64)
-        _UC = itkCType("unsigned char", "UC", np.uint8)
-        _US = itkCType("unsigned short", "US", np.uint16)
-        _UI = itkCType("unsigned int", "UI", np.uint32)
+        _F: "itkCType" = itkCType("float", "F", np.float32)
+        _D: "itkCType" = itkCType("double", "D", np.float64)
+        _UC: "itkCType" = itkCType("unsigned char", "UC", np.uint8)
+        _US: "itkCType" = itkCType("unsigned short", "US", np.uint16)
+        _UI: "itkCType" = itkCType("unsigned int", "UI", np.uint32)
         if os.name == "nt":
-            _UL = itkCType("unsigned long", "UL", np.uint32)
-            _SL = itkCType("signed long", "SL", np.int32)
-            _LD = itkCType("long double", "LD")
+            _UL: "itkCType" = itkCType("unsigned long", "UL", np.uint32)
+            _SL: "itkCType" = itkCType("signed long", "SL", np.int32)
+            _LD: "itkCType" = itkCType("long double", "LD")
         else:
-            _UL = itkCType("unsigned long", "UL", np.uint64)
-            _SL = itkCType("signed long", "SL", np.int64)
-            _LD = itkCType("long double", "LD", np.float128)
-        _ULL = itkCType("unsigned long long", "ULL", np.uint64)
-        _SC = itkCType("signed char", "SC", np.int8)
-        _SS = itkCType("signed short", "SS", np.int16)
-        _SI = itkCType("signed int", "SI", np.int32)
-        _SLL = itkCType("signed long long", "SLL", np.int64)
-        _B = itkCType("bool", "B", np.bool)
+            _UL: "itkCType" = itkCType("unsigned long", "UL", np.uint64)
+            _SL: "itkCType" = itkCType("signed long", "SL", np.int64)
+            _LD: "itkCType" = itkCType("long double", "LD", np.float128)
+        _ULL: "itkCType" = itkCType("unsigned long long", "ULL", np.uint64)
+        _SC: "itkCType" = itkCType("signed char", "SC", np.int8)
+        _SS: "itkCType" = itkCType("signed short", "SS", np.int16)
+        _SI: "itkCType" = itkCType("signed int", "SI", np.int32)
+        _SLL: "itkCType" = itkCType("signed long long", "SLL", np.int64)
+        _B: "itkCType" = itkCType("bool", "B", np.bool)
         return _F, _D, _UC, _US, _UI, _UL, _SL, _LD, _ULL, _SC, _SS, _SI, _SLL, _B
 
+
+# Define typing hints
+F: itkCType
+D: itkCType
+UC: itkCType
+US: itkCType
+UI: itkCType
+UL: itkCType
+SL: itkCType
+LD: itkCType
+ULL: itkCType
+SC: itkCType
+SS: itkCType
+SI: itkCType
+SLL: itkCType
+B: itkCType
 
 (
     F,
