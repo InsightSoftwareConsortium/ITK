@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #
 #  Example on the use of the SmoothingRecursiveGaussianImageFilter
@@ -22,10 +22,9 @@
 
 import itk
 from sys import argv
+
 itk.auto_progress(2)
 
 reader = itk.ImageFileReader.IUC2.New(FileName=argv[1])
-filter = itk.SmoothingRecursiveGaussianImageFilter.New(
-    reader,
-    Sigma=eval(argv[3]))
+filter = itk.SmoothingRecursiveGaussianImageFilter.New(reader, Sigma=eval(argv[3]))
 itk.imwrite(filter, argv[2])

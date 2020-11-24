@@ -7,7 +7,8 @@ import re
 
 program = sys.argv[0]
 if len(sys.argv) < 3:
-    print("""
+    print(
+        """
 Usage: WhatModulesITK.py itkSourceTree applicationFiles...
     Generate a FindPackage(ITK COMPONENTS) that lists all modules referenced by a set of files
 
@@ -35,7 +36,8 @@ NOTE: IO modules, other than ITKIOImageBase, are not discovered
       unless their include file is present in the application
       code. If ITKIOImageBase is present, a cmake variable
       ITK_IO_MODULES_USED is created and added to the module list.
-""")
+"""
+    )
     exit(0)
 
 # Build a dict that maps include files to paths
@@ -47,27 +49,31 @@ def IncludesToPaths(path):
             if prog.match(f):
                 includeFile = prog.findall(f)[0]
                 parts = root.split(os.sep)
-                module = parts[len(parts)-3] + parts[len(parts)-2]
+                module = parts[len(parts) - 3] + parts[len(parts) - 2]
                 includeToPath[includeFile] = module
     return includeToPath
+
 
 # Build a dict that maps paths to modules
 def FindModules(path):
     pathToModule = dict()
     fileProg = re.compile(r"itk-module.cmake")
-    moduleProg = re.compile('.*itk_module[^(]*\(([^ \n]*)',re.S)
+    moduleProg = re.compile(".*itk_module[^(]*\(([^ \n]*)", re.S)
     for root, dirs, files in os.walk(path):
         for f in files:
             if fileProg.match(f):
-                fid = open(root + os.sep + f,"r")
+                fid = open(root + os.sep + f, "r")
                 contents = fid.read()
                 m = moduleProg.match(contents)
                 if m:
                     moduleName = m.group(1)
                     parts = root.split(os.sep)
-                    pathToModule[parts[len(parts)-2] + parts[len(parts)-1]] = moduleName
+                    pathToModule[
+                        parts[len(parts) - 2] + parts[len(parts) - 1]
+                    ] = moduleName
                 fid.close()
     return pathToModule
+
 
 # Build a set that contains itk includes
 def FindIncludes(path):
@@ -80,15 +86,21 @@ def FindIncludes(path):
     fid.close()
     return includes
 
+
 # Start the program
 
 # Generate dict's for mapping includes to modules
-includesToPaths = IncludesToPaths(os.path.join(sys.argv[1],  "Modules"))
+includesToPaths = IncludesToPaths(os.path.join(sys.argv[1], "Modules"))
 pathsToModules = FindModules(os.path.join(sys.argv[1], "Modules"))
 
 # Test to see if ITK source is provided
 if len(pathsToModules) == 0:
-    print(program + ": " + sys.argv[1] + " is not an ITK source directory. It does not contain any itk-module.cmake files.")
+    print(
+        program
+        + ": "
+        + sys.argv[1]
+        + " is not an ITK source directory. It does not contain any itk-module.cmake files."
+    )
     exit(1)
 
 # Build a set of includes for all command line files
@@ -121,4 +133,10 @@ if "ITKIOTransformBase" in allModules:
     print(r"  ITKTransformIO")
 print(")")
 
-print("Your application code includes " + str(len(allModules)) + " of " + str(len(pathsToModules)) + " itk modules.")
+print(
+    "Your application code includes "
+    + str(len(allModules))
+    + " of "
+    + str(len(pathsToModules))
+    + " itk modules."
+)

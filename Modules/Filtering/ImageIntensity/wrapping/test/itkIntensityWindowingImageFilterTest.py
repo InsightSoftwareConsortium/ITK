@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,16 +14,21 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 from sys import argv, stderr, exit
+
 itk.auto_progress(2)
 
 
-if(len(argv) < 2):
-    print((
-        "Missing Parameters \n Usage: IntensityWindowingImageFilter.py inputImageFile"), file=stderr)
+if len(argv) < 2:
+    print(
+        (
+            "Missing Parameters \n Usage: IntensityWindowingImageFilter.py inputImageFile"
+        ),
+        file=stderr,
+    )
     exit(1)
 
 image = itk.imread(argv[1], itk.F)

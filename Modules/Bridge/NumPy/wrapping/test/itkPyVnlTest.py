@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import sys
 import unittest
@@ -22,6 +22,7 @@ import datetime as dt
 
 import itk
 import numpy as np
+
 
 class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
     """ This tests numpy array <-> ITK Scalar Image conversion. """
@@ -44,12 +45,12 @@ class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
         # Compute difference between the original vector and numpy array view
         diff = 0.0
         for ii in range(0, v1.size()):
-          diff += abs(v1.get(ii) - arr[ii])
+            diff += abs(v1.get(ii) - arr[ii])
         self.assertEqual(0, diff)
         # Compute difference between the two vectors
         diff = 0.0
         for ii in range(0, v1.size()):
-          diff += abs(v1.get(ii) - v2.get(ii))
+            diff += abs(v1.get(ii) - v2.get(ii))
         self.assertEqual(0, diff)
         # Test view
         v1.put(0, 1)
@@ -59,7 +60,7 @@ class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
         self.assertEqual(v1.get(0), arr_cp[0])
         v1.put(0, 0)
         self.assertNotEqual(v1.get(0), arr_cp[0])
-        v2_cp=itk.PyVnl.F.GetVnlVectorFromArray(arr_cp)
+        v2_cp = itk.PyVnl.F.GetVnlVectorFromArray(arr_cp)
         arr_cp[0] = 2
         self.assertNotEqual(v2_cp.get(0), arr_cp[0])
 
@@ -83,14 +84,14 @@ class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
         # Compute any difference between the original matrix and the numpy array view
         diff = 0.0
         for ii in range(m1.rows()):
-          for jj in range(m1.cols()):
-            diff += abs(m1.get(ii, jj) - arr[ii, jj])
+            for jj in range(m1.cols()):
+                diff += abs(m1.get(ii, jj) - arr[ii, jj])
         self.assertEqual(0, diff)
         # Compute any difference between the two matrices
         diff = 0.0
         for ii in range(m1.rows()):
-          for jj in range(m1.cols()):
-            diff += abs(m1.get(ii, jj) - m2.get(ii, jj))
+            for jj in range(m1.cols()):
+                diff += abs(m1.get(ii, jj) - m2.get(ii, jj))
         self.assertEqual(0, diff)
         # Test view
         m1.put(0, 0, 1)
@@ -104,19 +105,20 @@ class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
         arr_cp[0, 0] = 2
         self.assertNotEqual(m2.get(0, 0), arr_cp[0, 0])
         # Check that the vnl matrix from a temporary itk Matrix is valid
-        itkm = itk.Matrix[itk.F,3,3]()
+        itkm = itk.Matrix[itk.F, 3, 3]()
         itkm.SetIdentity()
         m3 = itkm.GetVnlMatrix()
         del itkm
         m3 = m3.as_matrix()
         diff = 0.0
         for ii in range(m3.rows()):
-          for jj in range(m3.cols()):
-            if ii == jj:
-              diff += abs(m3.get(ii, jj) - 1.)
-            else:
-              diff += abs(m3.get(ii, jj))
+            for jj in range(m3.cols()):
+                if ii == jj:
+                    diff += abs(m3.get(ii, jj) - 1.0)
+                else:
+                    diff += abs(m3.get(ii, jj))
         self.assertEqual(0, diff)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

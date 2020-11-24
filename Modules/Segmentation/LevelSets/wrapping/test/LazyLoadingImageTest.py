@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,17 +14,17 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 
 # To verify that the lazy loading system works, we try to load
 # a float image (declared in the module ITKCommon)
-image=itk.Image.F3
-image=itk.Image[itk.F,3]
+image = itk.Image.F3
+image = itk.Image[itk.F, 3]
 # And a normal band image (declared in the module LevelSets)
-image=itk.Image.NBNIF33
-image=itk.Image[itk.NormalBandNode.IF3,3]
+image = itk.Image.NBNIF33
+image = itk.Image[itk.NormalBandNode.IF3, 3]
 # The function __dir__ is overridden to load modules that
 # were not loaded by the lazy loading system
 itk.Image.__dir__()

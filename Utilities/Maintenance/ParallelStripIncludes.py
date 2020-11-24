@@ -1,5 +1,5 @@
 #!/usr/bin/python
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -15,7 +15,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 # Author: Pat Marion
 # Modified by Xiaoxiao Liu.
 
@@ -34,13 +34,14 @@ FILES_PER_PROCESS = 2
 NUMBER_OF_PROCESSES = 8
 #################################################
 
+
 def main():
 
-    fileList = open(relativeFileList, 'r').read().splitlines()
+    fileList = open(relativeFileList, "r").read().splitlines()
 
     args = []
     for i in xrange(0, len(fileList), FILES_PER_PROCESS):
-        args.append(fileList[i:i+FILES_PER_PROCESS])
+        args.append(fileList[i : i + FILES_PER_PROCESS])
 
     pool = Pool(processes=NUMBER_OF_PROCESSES)
     pool.map(processFileList, args)

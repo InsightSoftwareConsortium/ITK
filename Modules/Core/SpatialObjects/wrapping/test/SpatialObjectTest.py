@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 
@@ -45,5 +45,6 @@ group.AddChild(box)
 group.AddChild(gaussian)
 
 filter_ = itk.SpatialObjectToImageFilter[SOType, InternalImageType].New(
-    group, Size=[100, 100], UseObjectValue=True)
+    group, Size=[100, 100], UseObjectValue=True
+)
 filter_.Update()

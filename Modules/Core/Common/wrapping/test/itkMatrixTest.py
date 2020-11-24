@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import numpy as np
@@ -27,4 +27,4 @@ image = ImageType.New()
 new_direction = np.rot90(np.eye(Dimension))
 image.SetDirection(new_direction)
 direction = itk.array_from_matrix(image.GetDirection())
-assert(np.array_equal(new_direction, direction))
+assert np.array_equal(new_direction, direction)

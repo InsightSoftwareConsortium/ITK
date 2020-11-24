@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #     INPUTS: {BrainProtonDensitySlice.png}
 #     OUTPUTS: {ThresholdSegmentationLevelSetImageFilterWhiteMatter.png}
@@ -31,16 +31,21 @@
 import itk
 from sys import argv, stderr, exit
 import os
+
 itk.auto_progress(2)
 
 # itk.auto_progress(1)
 
 if len(argv) < 8:
-    print((
-        "Missing Parameters \n Usage: "
-        "ThresholdSegmentationLevelSetImageFilter.py inputImage outputImage "
-        "seedX seedY InitialDistance LowerThreshold UpperThreshold "
-        "[CurvatureScaling == 1.0]"), file=stderr)
+    print(
+        (
+            "Missing Parameters \n Usage: "
+            "ThresholdSegmentationLevelSetImageFilter.py inputImage outputImage "
+            "seedX seedY InitialDistance LowerThreshold UpperThreshold "
+            "[CurvatureScaling == 1.0]"
+        ),
+        file=stderr,
+    )
     exit(1)
 
 InternalPixelType = itk.F
@@ -50,8 +55,7 @@ InternalImageType = itk.Image[InternalPixelType, Dimension]
 OutputPixelType = itk.UC
 OutputImageType = itk.Image[OutputPixelType, Dimension]
 
-thresholder = itk.BinaryThresholdImageFilter[
-    InternalImageType, OutputImageType].New()
+thresholder = itk.BinaryThresholdImageFilter[InternalImageType, OutputImageType].New()
 
 thresholder.SetLowerThreshold(-1000.0)
 thresholder.SetUpperThreshold(0.0)
@@ -70,14 +74,13 @@ writer.SetFileName(argv[2])
 
 
 FastMarchingFilterType = itk.FastMarchingImageFilter[
-    InternalImageType,
-    InternalImageType]
+    InternalImageType, InternalImageType
+]
 fastMarching = FastMarchingFilterType.New()
 
 ThresholdSegLvlSetImgFilterType = itk.ThresholdSegmentationLevelSetImageFilter[
-    InternalImageType,
-    InternalImageType,
-    InternalPixelType]
+    InternalImageType, InternalImageType, InternalPixelType
+]
 thresholdSegmentation = ThresholdSegLvlSetImgFilterType.New()
 thresholdSegmentation.SetPropagationScaling(1.0)
 if len(argv) > 8:
@@ -106,7 +109,7 @@ initialDistance = float(argv[5])
 
 node = NodeType()
 
-seedValue = - initialDistance
+seedValue = -initialDistance
 
 node.SetValue(seedValue)
 node.SetIndex(seedPosition)
@@ -120,8 +123,7 @@ fastMarching.SetSpeedConstant(1.0)
 
 
 reader.Update()
-fastMarching.SetOutputSize(
-    reader.GetOutput().GetBufferedRegion().GetSize())
+fastMarching.SetOutputSize(reader.GetOutput().GetBufferedRegion().GetSize())
 writer.Update()
 
 itk.echo(thresholdSegmentation)

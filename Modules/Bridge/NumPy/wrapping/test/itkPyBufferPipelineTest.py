@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,14 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import sys
 import numpy as np
 import itk
 
 if len(sys.argv) < 2:
-    print('Usage: ' + sys.argv[0] + ' <inputImage>')
+    print("Usage: " + sys.argv[0] + " <inputImage>")
     sys.exit(1)
 inputImageFileName = sys.argv[1]
 
