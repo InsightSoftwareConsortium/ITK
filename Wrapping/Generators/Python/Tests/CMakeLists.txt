@@ -12,6 +12,7 @@ itk_python_add_test(NAME PythonTransformCoverage COMMAND ${CMAKE_CURRENT_SOURCE_
 itk_python_add_test(NAME PythonFindEmptyClasses COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py)
 itk_python_add_test(NAME PythonGetNameOfClass COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py)
 itk_python_add_test(NAME PythonTiming COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
+itk_python_add_test(NAME PythonBuildOptions COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build_options.py)
 itk_python_add_test(NAME PythonVerifyGetOutputAPIConsistency COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/verifyGetOutputAPIConsistency.py)
 itk_python_add_test(NAME PythonVerifyTTypeAPIConsistency COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/verifyTTypeAPIConsistency.py)
 itk_python_add_test(NAME PythonTypeTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypeTest.py)

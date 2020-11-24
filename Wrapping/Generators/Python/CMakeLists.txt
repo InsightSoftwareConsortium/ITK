@@ -72,6 +72,33 @@ endmacro()
 # bundled up into an install conventiently. Python will take care of turning
 # the / path separator into \ on windows if needed.
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+
+  # copy the files to expose build options in python
+  set(ITK_WRAP_PYTHON_VECTOR_REAL )
+  foreach(t ${WRAP_ITK_VECTOR_REAL})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+      list(APPEND ITK_WRAP_PYTHON_VECTOR_REAL ${ITKT_${t}${d}})
+    endforeach()
+  endforeach()
+  set(ITK_WRAP_PYTHON_COV_VECTOR_REAL )
+  foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+      list(APPEND ITK_WRAP_PYTHON_COV_VECTOR_REAL ${ITKT_${t}${d}})
+    endforeach()
+  endforeach()
+  set(ITK_WRAP_PYTHON_RGB )
+  foreach(t ${WRAP_ITK_RGB})
+    list(APPEND ITK_WRAP_PYTHON_RGB ${ITKT_${t}})
+  endforeach()
+  set(ITK_WRAP_PYTHON_RGBA )
+  foreach(t ${WRAP_ITK_RGBA})
+    list(APPEND ITK_WRAP_PYTHON_RGBA ${ITKT_${t}})
+  endforeach()
+  set(ITK_WRAP_PYTHON_COMPLEX_REAL )
+  foreach(t ${WRAP_ITK_COMPLEX_REAL})
+    list(APPEND ITK_WRAP_PYTHON_COMPLEX_REAL ${ITKT_${t}})
+  endforeach()
+
   # First setup the InstallOnly directory
   set(ITK_PYTHON_SWIG_LIBS_DIR  "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk" CACHE INTERNAL "where the swig shared libs are place _ITK*.so files")
   file(RELATIVE_PATH CONFIG_PYTHON_SWIGPY_DIR   ${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR} ${ITK_PYTHON_SWIG_LIBS_DIR})
@@ -103,36 +130,6 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                    "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}/${config}/itkConfig.py"
                    @ONLY)
   endforeach()
-
-  # copy the files to expose build options in python
-  set(ITK_WRAP_PYTHON_VECTOR_REAL )
-  foreach(t ${WRAP_ITK_VECTOR_REAL})
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      list(APPEND ITK_WRAP_PYTHON_VECTOR_REAL ${ITKT_${t}${d}})
-    endforeach()
-  endforeach()
-  set(ITK_WRAP_PYTHON_COV_VECTOR_REAL )
-  foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
-    foreach(d ${ITK_WRAP_IMAGE_DIMS})
-      list(APPEND ITK_WRAP_PYTHON_COV_VECTOR_REAL ${ITKT_${t}${d}})
-    endforeach()
-  endforeach()
-  set(ITK_WRAP_PYTHON_RGB )
-  foreach(t ${WRAP_ITK_RGB})
-    list(APPEND ITK_WRAP_PYTHON_RGB ${ITKT_${t}})
-  endforeach()
-  set(ITK_WRAP_PYTHON_RGBA )
-  foreach(t ${WRAP_ITK_RGBA})
-    list(APPEND ITK_WRAP_PYTHON_RGBA ${ITKT_${t}})
-  endforeach()
-  set(ITK_WRAP_PYTHON_COMPLEX_REAL )
-  foreach(t ${WRAP_ITK_COMPLEX_REAL})
-    list(APPEND ITK_WRAP_PYTHON_COMPLEX_REAL ${ITKT_${t}})
-  endforeach()
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itk/support/itkBuildOptions.py.in"
-                 "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}/itkBuildOptions.py"
-                @ONLY)
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" "${ITK_PYTHON_PACKAGE_CONFIG_SUPPORT_DIR}/itkBuildOptions.py")
 endif()
 
 
@@ -151,6 +148,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     itk/support/itkLazy
     itk/support/itkHelpers
     itk/support/itkInitHelpers
+    itk/support/itkBuildOptions
     itk/__init__
     itk_generate_pyi # A utility function used to generate the intreface file
     )

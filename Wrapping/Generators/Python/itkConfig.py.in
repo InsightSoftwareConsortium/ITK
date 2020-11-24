@@ -34,6 +34,7 @@ Currently-supported options are:
   LazyLoading: Only load an itk library when needed. Before the library is
     loaded, the namespace will be inhabited with dummy objects."""
 
+from typing import Dict, List
 
 # User options
 SILENT: int = 0
@@ -134,6 +135,17 @@ def _initialize():
 
 
 ITK_GLOBAL_VERSION_STRING: str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+ITK_GLOBAL_WRAPPING_BUILD_OPTIONS: Dict[str, List[str]] = {
+    "ITK_WRAP_IMAGE_DIMS": "@ITK_WRAP_IMAGE_DIMS@".split(";"),
+    "WRAP_ITK_USIGN_INT": "@WRAP_ITK_USIGN_INT@".split(";"),
+    "WRAP_ITK_SIGN_INT": "@WRAP_ITK_SIGN_INT@".split(";"),
+    "WRAP_ITK_REAL": "@WRAP_ITK_REAL@".split(";"),
+    "ITK_WRAP_PYTHON_VECTOR_REAL": "@ITK_WRAP_PYTHON_VECTOR_REAL@".split(";"),
+    "ITK_WRAP_PYTHON_COV_VECTOR_REAL": "@ITK_WRAP_PYTHON_COV_VECTOR_REAL@".split(";"),
+    "ITK_WRAP_PYTHON_RGB": "@ITK_WRAP_PYTHON_RGB@".split(";"),
+    "ITK_WRAP_PYTHON_RGBA": "@ITK_WRAP_PYTHON_RGBA@".split(";"),
+    "ITK_WRAP_PYTHON_COMPLEX_REAL": "@ITK_WRAP_PYTHON_COMPLEX_REAL@".split(";"),
+}
 
 (swig_lib, swig_py, config_py, doxygen_root, path) = _initialize()
 del _initialize
