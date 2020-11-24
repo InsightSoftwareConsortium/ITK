@@ -754,7 +754,7 @@ def _snake_to_camel(keyword: str):
 
 def set_inputs(
     new_itk_object,
-    inargs: Optional[List[Any]] = None,
+    inargs: Optional[Sequence[Any]] = None,
     inkargs: Optional[Dict[str, Any]] = None,
 ):
     """Set the inputs of the given objects, according to the non named or the
@@ -1390,9 +1390,9 @@ def template(cl):
         - the first one is the itkTemplate object
         - the second is a tuple containing the template parameters
     """
-    from itk.support.itkTemplate import itkTemplate
+    from itk.support.itkTemplate import itkTemplateBase
 
-    return itkTemplate.__class_to_template__[class_(cl)]
+    return itkTemplateBase.__class_to_template__[class_(cl)]
 
 
 def ctype(s: str):

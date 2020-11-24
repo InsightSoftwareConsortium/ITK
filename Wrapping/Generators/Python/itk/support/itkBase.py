@@ -21,26 +21,28 @@ import sys
 from sys import stderr as system_error_stream
 
 # Required to work around weird import error with xarray
+from typing import Dict, Any
+
 import pkg_resources
 
 import itkConfig
 from itk.support.itkTemplate import itkTemplate
 
 
-def create_itk_module(name):
+def create_itk_module(name: str):
     from importlib.util import module_from_spec as ilu_module_from_spec
     from importlib.util import spec_from_file_location as ilu_spec_from_file_location
 
-    swig_module_name = "itk." + name + "Python"
+    swig_module_name: str = f"itk.{name}Python"
     spec = ilu_spec_from_file_location(
         swig_module_name,
-        os.path.join(os.path.dirname(__file__), "..", name + "Python.py"),
+        os.path.join(os.path.dirname(__file__), "..", f"{name}Python.py"),
     )
     l_module = ilu_module_from_spec(spec)
     return l_module
 
 
-def itk_load_swig_module(name, namespace=None):
+def itk_load_swig_module(name: str, namespace=None):
     """This function causes a SWIG module to be loaded into memory after its
     dependencies are satisfied. Information about the templates defined therein
     is looked up from a config file, and PyTemplate instances for each are
@@ -56,7 +58,7 @@ def itk_load_swig_module(name, namespace=None):
     information will be placed in a sub-module named 'swig' therein as well.
     This later submodule will be created if it does not already exist."""
 
-    swig_module_name = "itk." + name + "Python"
+    swig_module_name: str = f"itk.{name}Python"
     # find the module's name in sys.modules, or create a new module so named
     this_module = sys.modules.setdefault(swig_module_name, create_itk_module(name))
 
@@ -233,7 +235,7 @@ class LibraryLoader(object):
     library can be properly loaded. This involves setting paths defined in
     itkConfig."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.old_path = sys.path
         self.old_cwd = os.getcwd()
 
@@ -247,7 +249,7 @@ class LibraryLoader(object):
         self.old_path = sys.path
         sys.path = [itkConfig.swig_lib, itkConfig.swig_py] + itkConfig.path + sys.path
 
-    def load(self, name):
+    def load(self, name: str):
         self.setup()
         try:
             import importlib
@@ -292,13 +294,13 @@ def _initialize(l_module_data):
         known_modules = sorted([f[:-9] for f in files if f.endswith("Config.py")])
 
         for module in known_modules:
-            data = {}
-            conf = module + "Config.py"
+            data: Dict[str, Any] = {}
+            conf = f"{module}Config.py"
             path = os.path.join(d + os.sep + "Configuration", conf)
             with open(path, "rb") as module_file:
                 exec(module_file.read(), data)
-            snake_data = {}
-            snake_conf = module + "_snake_case.py"
+            snake_data: Dict[str, Any] = {}
+            snake_conf = "{module}_snake_case.py"
             snake_path = os.path.join(d + os.sep + "Configuration", snake_conf)
             if os.path.exists(snake_path):
                 with open(snake_path, "rb") as snake_module_file:
@@ -307,7 +309,7 @@ def _initialize(l_module_data):
             l_module_data[module] = data
 
 
-itk_base_global_lazy_attributes = {}
-itk_base_global_module_data = {}
+itk_base_global_lazy_attributes: Dict[str, Any] = {}
+itk_base_global_module_data: Dict[str, Any] = {}
 _initialize(itk_base_global_module_data)
 del _initialize
