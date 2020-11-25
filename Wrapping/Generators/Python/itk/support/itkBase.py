@@ -21,7 +21,7 @@ import sys
 from sys import stderr as system_error_stream
 
 # Required to work around weird import error with xarray
-from typing import Dict, Any
+from typing import Dict, Any, List, Optional, Sequence, Union
 
 import pkg_resources
 
@@ -46,12 +46,12 @@ def itk_load_swig_module(name: str, namespace=None):
     """This function causes a SWIG module to be loaded into memory after its
     dependencies are satisfied. Information about the templates defined therein
     is looked up from a config file, and PyTemplate instances for each are
-    created. These template instances are placed in a module with the given
+    created. These template_feature instances are placed in a module with the given
     name that is either looked up from sys.modules or created and placed there
     if it does not already exist.
 
     Optionally, a 'namespace' parameter can be provided. If it is provided,
-    this namespace will be updated with the new template instantiations.
+    this namespace will be updated with the new template_feature instantiations.
 
     The raw classes loaded from the named module's SWIG interface are placed in
     a 'swig' sub-module. If the namespace parameter is provided, this
@@ -62,7 +62,7 @@ def itk_load_swig_module(name: str, namespace=None):
     # find the module's name in sys.modules, or create a new module so named
     this_module = sys.modules.setdefault(swig_module_name, create_itk_module(name))
 
-    # if this library and it's template instantiations have already been loaded
+    # if this library and it's template_feature instantiations have already been loaded
     # into sys.modules, bail out after loading the defined symbols into
     # 'namespace'
     if hasattr(this_module, "__templates_loaded"):
@@ -85,19 +85,19 @@ def itk_load_swig_module(name: str, namespace=None):
     # dependencies that could kill the recursive lookup below.
     this_module.__templates_loaded = True
 
-    # Now, we definitely need to load the template instantiations from the
+    # Now, we definitely need to load the template_feature instantiations from the
     # named module, and possibly also load the underlying SWIG module. Before
-    # we can load the template instantiations of this module, we need to load
+    # we can load the template_feature instantiations of this module, we need to load
     # those of the modules on which this one depends. Ditto for the SWIG
     # modules.
     # So, we recursively satisfy the dependencies of named module and create
-    # the template instantiations.
+    # the template_feature instantiations.
     # Dependencies are looked up from the auto-generated configuration files,
     # via the itk_base_global_module_data instance defined at the bottom of this file, which
     # knows how to find those configuration files.
     l_data = itk_base_global_module_data[name]
     if l_data:
-        deps = sorted(l_data["depends"])
+        deps = l_data.get_module_dependencies()
         for dep in deps:
             itk_load_swig_module(dep, namespace)
 
@@ -110,7 +110,7 @@ def itk_load_swig_module(name: str, namespace=None):
     l_module = loader.load(swig_module_name)
 
     # OK, now the modules on which this one depends are loaded and
-    # template-instantiated, and the SWIG module for this one is also loaded.
+    # template_feature-instantiated, and the SWIG module for this one is also loaded.
     # We're going to put the things we load and create in two places: the
     # optional 'namespace' parameter, and the this_module variable's namespace.
 
@@ -134,89 +134,89 @@ def itk_load_swig_module(name: str, namespace=None):
                 this_module.swig[k] = v
                 swig[k] = v
 
-    l_data = itk_base_global_module_data[name]
-    if l_data:
-        for template in l_data["templates"]:
-            if len(template) == 5:
-                # This is a template description
-                (
-                    py_class_name,
-                    cpp_class_name,
-                    swig_class_name,
-                    class_in_module,
-                    template_params,
-                ) = template
+    l_data: ITKModuleInfo = itk_base_global_module_data[name]
+    for template_feature in l_data.get_all_template_features():
+        if template_feature.is_itk_class():
+            # Get the attribute associated with the class name if it exists,
+            # otherwise make a new templated class
+            # template_container =  this_module.'py_class_name'
+            template_container = getattr(
+                this_module,
+                template_feature.get_python_class_name(),
+                itkTemplate(template_feature.get_cpp_class_name()),
+            )
 
-                # Get the attribute associated with the class name if it exists
-                template_container = getattr(
-                    this_module, py_class_name, itkTemplate(cpp_class_name)
+            try:
+                template_container.__add__(
+                    template_feature.get_template_parameters(),
+                    getattr(l_module, template_feature.get_swig_class_name()),
+                )
+                setattr(
+                    this_module,
+                    template_feature.get_python_class_name(),
+                    template_container,
+                )
+                if namespace is not None:
+                    current_value = namespace.get(
+                        template_feature.get_python_class_name()
+                    )
+                    if (
+                        current_value is not None
+                        and current_value != template_container
+                    ):
+                        debug_print_error(
+                            f"Namespace already has a value for "
+                            f"{template_feature.get_python_class_name()}, which is not an itkTemplate "
+                            f"instance for class {template_feature.get_cpp_class_name()}. "
+                            f"Overwriting old value."
+                        )
+                    namespace[
+                        template_feature.get_python_class_name()
+                    ] = template_container
+            except Exception as e:
+                debug_print_error(
+                    f"{template_feature.get_swig_class_name()} not loaded from module {name} because of "
+                    f"exception:\n {e}"
+                )
+                pass
+
+        else:
+            # this is a description of a non-templated class
+            try:
+                swig_class = getattr(l_module, template_feature.get_swig_class_name())
+                itkTemplate.registerNoTpl(
+                    template_feature.get_cpp_class_name(), swig_class
+                )
+                setattr(
+                    this_module,
+                    template_feature.get_python_class_name(),
+                    swig_class,
+                )
+                if namespace is not None:
+                    current_value = namespace.get(
+                        template_feature.get_python_class_name()
+                    )
+                    if current_value is not None and current_value != swig_class:
+                        debug_print_error(
+                            f"Namespace already has a value for"
+                            f" {template_feature.get_python_class_name()}, which is not class {template_feature.get_cpp_class_name()}. "
+                            f"Overwriting old value."
+                        )
+                    namespace[template_feature.get_python_class_name()] = swig_class
+            except Exception as e:
+                debug_print_error(
+                    f"{template_feature.get_swig_class_name()} not found in module {name} because of "
+                    f"exception:\n {e}"
                 )
 
-                try:
-                    template_container.__add__(
-                        template_params, getattr(l_module, swig_class_name)
-                    )
-                    setattr(this_module, py_class_name, template_container)
-                    if namespace is not None:
-                        current_value = namespace.get(py_class_name)
-                        if (
-                            current_value is not None
-                            and current_value != template_container
-                        ):
-                            debug_print_error(
-                                f"Namespace already has a value for "
-                                f"{py_class_name}, which is not an itkTemplate "
-                                f"instance for class {cpp_class_name}. "
-                                f"Overwriting old value."
-                            )
-                        namespace[py_class_name] = template_container
-                except Exception as e:
-                    debug_print_error(
-                        f"{swig_class_name} not loaded from module {name} because of "
-                        f"exception:\n {e}"
-                    )
-                    pass
-
-            else:
-                # this is a description of a non-templated class
-                # It may have 3 or 4 arguments, the last one can be a boolean value
-                if len(template) == 4:
-                    (
-                        py_class_name,
-                        cpp_class_name,
-                        swig_class_name,
-                        class_in_module,
-                    ) = template
-                else:
-                    py_class_name, cpp_class_name, swig_class_name = template
-                try:
-                    swig_class = getattr(l_module, swig_class_name)
-                    itkTemplate.registerNoTpl(cpp_class_name, swig_class)
-                    setattr(this_module, py_class_name, swig_class)
-                    if namespace is not None:
-                        current_value = namespace.get(py_class_name)
-                        if current_value is not None and current_value != swig_class:
-                            debug_print_error(
-                                "Namespace already has a value for"
-                                " %s, which is not class %s. "
-                                "Overwriting old value."
-                                % (py_class_name, cpp_class_name)
-                            )
-                        namespace[py_class_name] = swig_class
-                except Exception as e:
-                    debug_print_error(
-                        "%s not found in module %s because of "
-                        "exception:\n %s" % (swig_class_name, name, e)
-                    )
-        if "snake_case_functions" in l_data:
-            for snakeCaseFunction in l_data["snake_case_functions"]:
-                namespace[snakeCaseFunction] = getattr(l_module, snakeCaseFunction)
-                init_name = snakeCaseFunction + "_init_docstring"
-                init_function = getattr(l_module, init_name)
-                try:
-                    init_function()
-                except AttributeError:
-                    pass
+    for snakeCaseFunction in l_data.get_snake_case_functions():
+        namespace[snakeCaseFunction] = getattr(l_module, snakeCaseFunction)
+        init_name = snakeCaseFunction + "_init_docstring"
+        init_function = getattr(l_module, init_name)
+        try:
+            init_function()
+        except AttributeError:
+            pass
 
     if itkConfig.ImportCallback:
         itkConfig.ImportCallback(name, 1)
@@ -267,6 +267,95 @@ class LibraryLoader(object):
         sys.path = self.old_path
 
 
+class ITKTemplateFeatures:
+    """
+    Objects to hold the 'template' features specified in the '*Config.py'
+    files generated during swig configuration.
+
+    (py_class_name, cpp_class_name, swig_class_name, class_in_module, template_parameters)
+    ('Image',       'itk::Image',   'itkImageSS2',   True,            'signed short,2'),
+    """
+
+    def __init__(self, feature_tuple: Sequence[Union[str, bool]]) -> None:
+        feature_length: int = len(feature_tuple)
+        # ITK classes have exactly 5 elements in the tuple, otherwise they are swig classes
+        self._is_itk_class: bool = feature_length == 5
+        if feature_length < 3 or feature_length > 5:
+            raise Exception(
+                f"ERROR: Ivalid number of features specified (3 <= {feature_length} <= 5): {feature_tuple}."
+            )
+        self._py_class_name: str = feature_tuple[0]
+        self._cpp_class_name: str = feature_tuple[1]
+        self._swig_class_name: str = feature_tuple[2]
+        self._class_in_module: bool = feature_tuple[3] if feature_length >= 4 else False
+        self._template_parameters: Optional[str] = (
+            feature_tuple[4] if feature_length == 5 else None
+        )
+
+    def is_itk_class(self) -> bool:
+        return self._is_itk_class
+
+    def get_python_class_name(self) -> str:
+        return self._py_class_name
+
+    def get_cpp_class_name(self) -> str:
+        return self._cpp_class_name
+
+    def get_swig_class_name(self) -> str:
+        return self._swig_class_name
+
+    def get_class_in_module(self) -> bool:
+        return self._class_in_module
+
+    def get_template_parameters(self) -> str:
+        return self._template_parameters
+
+
+class ITKModuleInfo:
+    """
+    A structure to hold information loaded from the *Config.py
+    files generated during swig wrapping.  The *Config.py
+    files define actual names of the swig wrapped classes
+    so that they may be used to build convenience dispatch
+    factories from the itkTemplate base class.
+    """
+
+    def __init__(self, path: str, snake_path: str) -> None:
+        # Store paths for debugging ease, not used in the code outside this function
+        self._module_config_path: str = path
+        self._module_snake_path: str = snake_path
+
+        module_content_info: Dict[str, Any] = {}
+        with open(path, "rb") as module_file:
+            exec(module_file.read(), module_content_info)
+        _templates = module_content_info.get(
+            "templates", tuple()
+        )  # Template Definitions
+        self._depends = sorted(
+            module_content_info.get("depends", tuple())
+        )  # The sorted dependencies of this module on other modules
+        self._template_feature_tuples: List[ITKTemplateFeatures] = [
+            ITKTemplateFeatures(tfeat) for tfeat in _templates
+        ]
+
+        snake_data: Dict[str, Any] = {}
+        if os.path.exists(snake_path):
+            with open(snake_path, "rb") as snake_module_file:
+                exec(snake_module_file.read(), snake_data)
+        self._snake_case_functions: Sequence[str] = snake_data.get(
+            "snake_case_functions", []
+        )
+
+    def get_module_dependencies(self) -> Sequence[str]:
+        return self._depends
+
+    def get_all_template_features(self) -> Sequence[ITKTemplateFeatures]:
+        return self._template_feature_tuples
+
+    def get_snake_case_functions(self) -> Sequence[str]:
+        return self._snake_case_functions
+
+
 def _initialize(l_module_data):
     # Make a list of all know modules (described in *Config.py files in the
     # config_py directory) and load the information described in those Config.py
@@ -282,34 +371,24 @@ def _initialize(l_module_data):
 
         candidate_config_path: str = os.path.join(d, "Configuration")
         if not os.path.isdir(candidate_config_path):
-            print(
-                f"WARNING: Invalid configuration directory requested: {candidate_config_path}"
-            )
-            raise RuntimeError(
-                f"WARNING: Invalid configuration directory requested: {candidate_config_path}"
-            )
+            error_message: str = f"WARNING: Invalid configuration directory requested: {candidate_config_path}"
+            raise RuntimeError(error_message)
 
         sys.path.append(d)
         files = os.listdir(os.path.join(d, "Configuration"))
-        known_modules = sorted([f[:-9] for f in files if f.endswith("Config.py")])
-
+        known_modules: List[str] = sorted(
+            [f[:-9] for f in files if f.endswith("Config.py")]
+        )
         for module in known_modules:
-            data: Dict[str, Any] = {}
-            conf = f"{module}Config.py"
-            path = os.path.join(d + os.sep + "Configuration", conf)
-            with open(path, "rb") as module_file:
-                exec(module_file.read(), data)
-            snake_data: Dict[str, Any] = {}
-            snake_conf = "{module}_snake_case.py"
-            snake_path = os.path.join(d + os.sep + "Configuration", snake_conf)
-            if os.path.exists(snake_path):
-                with open(snake_path, "rb") as snake_module_file:
-                    exec(snake_module_file.read(), snake_data)
-            data.update(snake_data)
-            l_module_data[module] = data
+            conf: str = f"{module}Config.py"
+            path: str = os.path.join(d, "Configuration", conf)
+            snake_conf = f"{module}_snake_case.py"
+            snake_path = os.path.join(d, "Configuration", snake_conf)
+
+            l_module_data[module] = ITKModuleInfo(path, snake_path)
 
 
 itk_base_global_lazy_attributes: Dict[str, Any] = {}
-itk_base_global_module_data: Dict[str, Any] = {}
+itk_base_global_module_data: Dict[str, ITKModuleInfo] = {}
 _initialize(itk_base_global_module_data)
 del _initialize

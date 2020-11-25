@@ -23,7 +23,7 @@ import sys
 import types
 import collections
 import warnings
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Callable
 
 import itkConfig
 
@@ -31,6 +31,7 @@ from ..support import itkBase
 from ..support.itkExtras import output
 from ..support.itkTypes import itkCType
 import math
+from collections.abc import Mapping
 
 
 class itkTemplateBase:
@@ -38,13 +39,13 @@ class itkTemplateBase:
     to manage the singleton instances of template objects.
     """
 
-    __templates__: Dict[str, "itkTemplate"] = collections.OrderedDict()
+    __all_templates__: Dict[str, "itkTemplate"] = collections.OrderedDict()
     __class_to_template__: Dict[str, "itkTemplate"] = {}
     __named_templates__: Dict[str, "itkTemplate"] = {}
     # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
 
 
-class itkTemplate(object):
+class itkTemplate(Mapping):
     """This class manages access to available template arguments of a C++ class.
 
     This class is generic and does not give help on the methods available in
@@ -84,7 +85,7 @@ class itkTemplate(object):
         useful until the SmartPointer template was generated), but those classes
         can be used as template argument of classes with template.
         """
-        itkTemplateBase.__templates__[itkTemplate.normalizeName(name)] = cl
+        itkTemplateBase.__all_templates__[itkTemplate.normalizeName(name)] = cl
 
     @staticmethod
     def _NewImageReader(
@@ -220,7 +221,7 @@ class itkTemplate(object):
         return ReaderType.New(*args, **kwargs)
 
     @staticmethod
-    def _pixelTypeFromIO(pixel, component, numberOfComponents: int):
+    def _pixelTypeFromIO(pixel: str, component, numberOfComponents: int) -> Any:
         import itk
 
         if pixel == "scalar":
@@ -272,7 +273,7 @@ class itkTemplate(object):
         """
         return (self.__name__,), {}
 
-    def __add__(self, paramSetString, cl):
+    def __add__(self, paramSetString: str, cl: Callable[..., Any]):
         """Add a new argument set and the resulting class to the template.
 
         paramSetString is the C++ string which defines the parameters set.
@@ -285,13 +286,14 @@ class itkTemplate(object):
 
         # the full class should not be already registered. If it is, there is a
         # problem somewhere so warn the user so he can fix the problem
-        if normFullName in itkTemplateBase.__templates__:
+        if normFullName in itkTemplateBase.__all_templates__:
             message = (
-                "Template %s\n already defined as %s\n is redefined " "as %s"
-            ) % (normFullName, self.__templates__[normFullName], cl)
+                f"Template {normFullName}\n already defined as {itkTemplateBase.__all_templates__[normFullName]}\n is redefined "
+                "as {cl}"
+            )
             warnings.warn(message)
         # register the class
-        itkTemplateBase.__templates__[normFullName] = cl
+        itkTemplateBase.__all_templates__[normFullName] = cl
 
         # __find_param__ will parse the paramSetString and produce a list of
         # the same parameters transformed in corresponding python classes.
@@ -392,10 +394,10 @@ class itkTemplate(object):
             param_stripped = curr_param.strip()
             paramNorm = itkTemplate.normalizeName(param_stripped)
 
-            if paramNorm in itkTemplateBase.__templates__:
+            if paramNorm in itkTemplateBase.__all_templates__:
                 # the parameter is registered.
                 # just get the real class form the dictionary
-                param = itkTemplateBase.__templates__[paramNorm]
+                param = itkTemplateBase.__all_templates__[paramNorm]
 
             elif itkCType.GetCType(param_stripped):
                 # the parameter is a c type
