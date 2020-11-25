@@ -89,7 +89,7 @@ public:
     , m_Start(start)
   {}
 
-  QuadEdgeMeshBaseIterator(const QuadEdgeMeshBaseIterator & other) = default;
+  QuadEdgeMeshBaseIterator(const QuadEdgeMeshBaseIterator &) = default;
 
   virtual ~QuadEdgeMeshBaseIterator() = default;
 
@@ -256,7 +256,7 @@ public:
     : Superclass(e, op, start)
   {}
 
-  QuadEdgeMeshIterator(const QuadEdgeMeshIterator & other) = default;
+  QuadEdgeMeshIterator(const QuadEdgeMeshIterator &) = default;
 
   ~QuadEdgeMeshIterator() override = default;
 
@@ -296,7 +296,7 @@ public:
     : Superclass(e, op, start)
   {}
 
-  QuadEdgeMeshIteratorGeom(const QuadEdgeMeshIteratorGeom & other) = default;
+  QuadEdgeMeshIteratorGeom(const QuadEdgeMeshIteratorGeom &) = default;
 
   OriginRefType operator*() { return (this->m_Iterator->GetOrigin()); }
 };
@@ -325,7 +325,7 @@ public:
     : Superclass(const_cast<QuadEdgeType *>(e), op, start)
   {}
 
-  QuadEdgeMeshConstIterator(const QuadEdgeMeshConstIterator & other) = default;
+  QuadEdgeMeshConstIterator(const QuadEdgeMeshConstIterator &) = default;
 
   ~QuadEdgeMeshConstIterator() override = default;
 
@@ -372,7 +372,7 @@ public:
     : Superclass(e, op, start)
   {}
 
-  QuadEdgeMeshConstIteratorGeom(const QuadEdgeMeshConstIteratorGeom & other) = default;
+  QuadEdgeMeshConstIteratorGeom(const QuadEdgeMeshConstIteratorGeom &) = default;
 
   ~QuadEdgeMeshConstIteratorGeom() override = default;
 
