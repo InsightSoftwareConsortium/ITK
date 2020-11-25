@@ -51,6 +51,7 @@ exclude = [
     "RealToHalfHermitianForwardFFTImageFilter",
     "CustomColormapFunction",
     "ScanlineFilterCommon",  # Segfault
+    "cvar",
 ]
 
 wrongName = 0
