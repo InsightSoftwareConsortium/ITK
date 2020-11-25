@@ -44,6 +44,7 @@ exclude = [
     "templated_class",
     "auto_pipeline",
     "pipeline",
+    "cvar",
 ]
 
 
