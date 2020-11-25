@@ -34,22 +34,24 @@ def _initialize_module():
     """
     A function to explicitly avoid polluting the global namespace
     """
+    from .support.itkBase import ITKModuleInfo, ITKTemplateFeatures
 
-    def _get_lazy_attributes(local_lazy_attributes, l_module, l_data):
-        template_feature_tuples = [
-            (t[0], t[3]) if len(t) > 3 else (t[0], False) for t in l_data["templates"]
-        ]
-        for (template_name, is_in_library) in template_feature_tuples:
-            if is_in_library:
+    def _get_lazy_attributes(local_lazy_attributes, l_module, l_data: ITKModuleInfo):
+        for template_feature in l_data._template_feature_tuples:
+            if template_feature._class_in_module:
                 # insert in front front if in library
-                local_lazy_attributes.setdefault(template_name, []).insert(0, l_module)
+                local_lazy_attributes.setdefault(
+                    template_feature._py_class_name, []
+                ).insert(0, l_module)
             else:
                 # append to end
-                local_lazy_attributes.setdefault(template_name, []).append(l_module)
-        if "snake_case_functions" in l_data:
-            for function in l_data["snake_case_functions"]:
-                # snake case always appended to end
-                local_lazy_attributes.setdefault(function, []).append(l_module)
+                local_lazy_attributes.setdefault(
+                    template_feature._py_class_name, []
+                ).append(l_module)
+
+        for function in l_data._snake_case_functions:
+            # snake case always appended to end
+            local_lazy_attributes.setdefault(function, []).append(l_module)
 
     from .support import itkBase as _itkBase
     from .support import itkLazy as _itkLazy
