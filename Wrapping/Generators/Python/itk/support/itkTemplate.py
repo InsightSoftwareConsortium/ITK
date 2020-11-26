@@ -23,7 +23,7 @@ import sys
 import types
 import collections
 import warnings
-from typing import Dict, Any, List, Callable
+from typing import Dict, Any, List, Callable, Union
 
 import itkConfig
 
@@ -33,15 +33,18 @@ from ..support.itkTypes import itkCType
 import math
 from collections.abc import Mapping
 
+# A valid type for holding swig classes and functions
+SWIG_CALLABLE_TYPE = Callable[..., Any]
+
 
 class itkTemplateBase:
     """This itkTemplateBase class has only static and class methods used
     to manage the singleton instances of template objects.
     """
 
-    __all_templates__: Dict[str, "itkTemplate"] = collections.OrderedDict()
-    __class_to_template__: Dict[str, "itkTemplate"] = {}
-    __named_templates__: Dict[str, "itkTemplate"] = {}
+    __all_templates__: Dict[str, SWIG_CALLABLE_TYPE] = collections.OrderedDict()
+    __class_to_template__: Dict[SWIG_CALLABLE_TYPE, "itkTemplate"] = {}
+    __named_template_registry__: Dict[str, "itkTemplate"] = {}
     # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
 
 
@@ -256,16 +259,23 @@ class itkTemplate(Mapping):
             raise RuntimeError(f"Unknown pixel type: {pixel}.")
         return PixelType
 
-    def __new__(cls, name: str):
-        # Singleton pattern: we only make a single instance of any Template of
+    def __init__(self, new_object_name: str) -> None:
+        self.__template__: Dict[str, Union[str, Callable[..., Any]]] = collections.OrderedDict()
+        self.__name__: str = new_object_name
+
+    def __new__(cls, new_object_name: str) -> "itkTemplate":
+        # Singleton pattern: we only make a single instance of any itkTemplate of
         # a given name. If we have already made the instance, just return it
         # as-is.
-        if name not in itkTemplateBase.__named_templates__:
+        if new_object_name not in itkTemplateBase.__named_template_registry__:
+            # Create an raw itkTemplate object without calling the __init__
+            # New object of type itkTemplate
             new_instance = object.__new__(cls)
-            new_instance.__name__ = name
+            new_instance.__name__ = new_object_name
             new_instance.__template__ = collections.OrderedDict()
-            itkTemplateBase.__named_templates__[name] = new_instance
-        return itkTemplateBase.__named_templates__[name]
+            # Must explicitly initialize the raw object.
+            itkTemplateBase.__named_template_registry__[new_object_name] = new_instance
+        return itkTemplateBase.__named_template_registry__[new_object_name]
 
     def __getnewargs_ex__(self):
         """Return arguments for __new__.
