@@ -168,7 +168,8 @@ public:
   ~OptimizerParameters() override = default;
 
 private:
-  std::unique_ptr<OptimizerParametersHelperType> m_Helper{ new OptimizerParametersHelperType };
+  std::unique_ptr<OptimizerParametersHelperType> m_Helper =
+    std::unique_ptr<OptimizerParametersHelperType>{ new OptimizerParametersHelperType };
 };
 
 } // namespace itk
