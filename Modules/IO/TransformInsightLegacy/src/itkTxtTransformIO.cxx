@@ -123,32 +123,10 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
                                                                       << "Filename: \"" << this->GetFileName() << "\"");
   }
 
-  std::ostringstream InData;
-
-  // in.get ( InData );
-  std::filebuf * pbuf;
-  pbuf = in.rdbuf();
-
-  // get file size using buffer's members
-  int size = pbuf->pubseekoff(0, std::ios::end, std::ios::in);
-  pbuf->pubseekpos(0, std::ios::in);
-
-  // allocate memory to contain file data
-  auto * buffer = new char[size + 1];
-
-  // get file data
-  pbuf->sgetn(buffer, size);
-  buffer[size] = '\0';
   itkDebugMacro("Read file transform Data");
-  InData << buffer;
-
-  delete[] buffer;
-  std::string data = InData.str();
-  in.close();
 
   // Read line by line
   typename TransformType::ParametersType VectorBuffer;
-  std::string::size_type                 position = 0;
 
   typename TransformType::ParametersType TmpParameterArray;
   TmpParameterArray.clear();
@@ -157,30 +135,11 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
   bool haveFixedParameters = false;
   bool haveParameters = false;
 
-  //
-  // check for line end convention
-  std::string line_end("\n");
+  std::string line;
 
-  if (data.find('\n') == std::string::npos)
+  while (std::getline(in, line))
   {
-    if (data.find('\r') == std::string::npos)
-    {
-      itkExceptionMacro("No line ending character found, not a valid ITK Transform TXT file");
-    }
-    line_end = "\r";
-  }
-  while (position != std::string::npos && position < data.size())
-  {
-    // Find the next string
-    std::string::size_type end = data.find(line_end, position);
-
-    if (end == std::string::npos)
-    {
-      itkExceptionMacro("Couldn't find end of line in " << data);
-    }
-
-    std::string line = trim(data.substr(position, end - position));
-    position = end + 1;
+    line = trim(line);
     itkDebugMacro("Found line: \"" << line << "\"");
 
     if (line.length() == 0)
@@ -194,7 +153,7 @@ TxtTransformIOTemplate<TParametersValueType>::Read()
     }
 
     // Get the name
-    end = line.find(":");
+    const std::string::size_type end = line.find(":");
     if (end == std::string::npos)
     {
       // Throw an error
@@ -289,7 +248,7 @@ print_vector(std::ofstream & s, vnl_vector<TParametersValueType> const & v)
   }
   if (!v.empty())
   {
-    s << convert(v[v.size() - 1]);
+    s << convert(v.back());
   }
 }
 } // namespace itk_impl_details

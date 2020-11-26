@@ -133,7 +133,7 @@ namespace itk
 {
 
 void
-FloatingPointExceptions ::Enable()
+FloatingPointExceptions::Enable()
 {
   itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY) && !defined(__EMSCRIPTEN__)
@@ -155,7 +155,7 @@ FloatingPointExceptions ::Enable()
 }
 
 void
-FloatingPointExceptions ::Disable()
+FloatingPointExceptions::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY) && !defined(__EMSCRIPTEN__)
@@ -168,7 +168,7 @@ FloatingPointExceptions ::Disable()
 }
 
 bool
-FloatingPointExceptions ::HasFloatingPointExceptionsSupport()
+FloatingPointExceptions::HasFloatingPointExceptionsSupport()
 {
   itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)

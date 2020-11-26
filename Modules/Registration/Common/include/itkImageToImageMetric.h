@@ -433,7 +433,7 @@ protected:
   static constexpr unsigned int DeformationSplineOrder = 3;
 
   using BSplineTransformType =
-    BSplineBaseTransform<CoordinateRepresentationType, FixedImageType ::ImageDimension, Self::DeformationSplineOrder>;
+    BSplineBaseTransform<CoordinateRepresentationType, FixedImageType::ImageDimension, Self::DeformationSplineOrder>;
 
   using BSplineTransformWeightsType = typename BSplineTransformType::WeightsType;
   using WeightsValueType = typename BSplineTransformWeightsType::ValueType;
@@ -445,7 +445,7 @@ protected:
 
   using MovingImagePointArrayType = std::vector<MovingImagePointType>;
   using BooleanArrayType = std::vector<bool>;
-  using BSplineParametersOffsetType = FixedArray<SizeValueType, FixedImageType ::ImageDimension>;
+  using BSplineParametersOffsetType = FixedArray<SizeValueType, FixedImageType::ImageDimension>;
   /**
    * If a BSplineInterpolationFunction is used, this class obtain
    * image derivatives from the BSpline interpolator. Otherwise,

@@ -18,6 +18,9 @@ if(_have_numpy_return_code EQUAL 0)
                         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkImageMetaDataSetGetItem.py
                         DATA{${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm}
   )
+  itk_python_add_test(NAME itkPyVectorContainerTest
+                      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkPyVectorContainerTest.py
+  )
 endif()
 
 if(NOT WIN32)

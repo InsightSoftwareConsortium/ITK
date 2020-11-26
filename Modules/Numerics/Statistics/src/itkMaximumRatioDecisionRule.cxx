@@ -22,10 +22,10 @@ namespace itk
 {
 namespace Statistics
 {
-MaximumRatioDecisionRule ::MaximumRatioDecisionRule() = default;
+MaximumRatioDecisionRule::MaximumRatioDecisionRule() = default;
 
 void
-MaximumRatioDecisionRule ::PrintSelf(std::ostream & os, Indent indent) const
+MaximumRatioDecisionRule::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -52,7 +52,7 @@ MaximumRatioDecisionRule ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-MaximumRatioDecisionRule ::SetPriorProbabilities(const PriorProbabilityVectorType & p)
+MaximumRatioDecisionRule::SetPriorProbabilities(const PriorProbabilityVectorType & p)
 {
   if (p.size() != m_PriorProbabilities.size())
   {
@@ -79,7 +79,7 @@ MaximumRatioDecisionRule ::SetPriorProbabilities(const PriorProbabilityVectorTyp
 }
 
 MaximumRatioDecisionRule::ClassIdentifierType
-MaximumRatioDecisionRule ::Evaluate(const MembershipVectorType & discriminantScores) const
+MaximumRatioDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) const
 {
   bool uniformPrior = false;
   if (discriminantScores.size() != m_PriorProbabilities.size())

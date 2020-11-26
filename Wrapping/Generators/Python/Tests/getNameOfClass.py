@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,12 +14,13 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 # a short program to check the value returned by the GetNameOfClass() methods
 
 import itk
 import sys
+
 itk.auto_progress(2)
 
 # must force the load to return all the names with dir(itk)
@@ -35,20 +36,22 @@ def wrongClassName(cl, name):
     # In that case, the one of the superclass is used.
     return o.GetNameOfClass() != name and itk.class_(o) == cl
 
+
 # a list of classes to exclude. Typically, the classes with a custom New()
 # method, which return a subclass of the current class
-exclude = ["ForwardFFTImageFilter",
-           "InverseFFTImageFilter",
-           "OutputWindow",
-           "MultiThreaderBase",
-           "FFTComplexToComplexImageFilter",
-           "ComplexToComplexFFTImageFilter",
-           "templated_class",
-           "HalfHermitianToRealInverseFFTImageFilter",
-           "RealToHalfHermitianForwardFFTImageFilter",
-           "CustomColormapFunction",
-           "ScanlineFilterCommon"  # Segfault
-           ]
+exclude = [
+    "ForwardFFTImageFilter",
+    "InverseFFTImageFilter",
+    "OutputWindow",
+    "MultiThreaderBase",
+    "FFTComplexToComplexImageFilter",
+    "ComplexToComplexFFTImageFilter",
+    "templated_class",
+    "HalfHermitianToRealInverseFFTImageFilter",
+    "RealToHalfHermitianForwardFFTImageFilter",
+    "CustomColormapFunction",
+    "ScanlineFilterCommon",  # Segfault
+]
 
 wrongName = 0
 totalName = 0
@@ -63,26 +66,24 @@ for t in dir(itk):
             i = T.values()[0]
             # GetNameOfClass() is a virtual method of the LightObject class,
             # so we must instantiate an object with the New() method
-            if 'New' in dir(i) and 'GetNameOfClass' in dir(i):
+            if "New" in dir(i) and "GetNameOfClass" in dir(i):
                 totalName += 1
                 if wrongClassName(i, t):
-                    msg = "%s: wrong class name: %s" % (T, t)
+                    msg = f"{T}: wrong class name: {t}"
                     print(msg, file=sys.stderr)
                     wrongName += 1
         else:
-            if 'New' in dir(T) and 'GetNameOfClass' in dir(T):
+            if "New" in dir(T) and "GetNameOfClass" in dir(T):
                 totalName += 1
                 if wrongClassName(T, t):
-                    msg = "%s: wrong class name: %s" % (T, t)
+                    msg = f"{T}: wrong class name: {t}"
                     print(msg, file=sys.stderr)
                     o = T.New()
                     print(itk.class_(o), file=sys.stderr)
                     print(o.GetNameOfClass(), file=sys.stderr)
                     wrongName += 1
 
-print("%s classes checked." % totalName)
+print(f"{totalName} classes checked.")
 if wrongName:
-    print(
-        "%s classes are not providing the correct name." % wrongName,
-        file=sys.stderr)
+    print(f"{wrongName} classes are not providing the correct name.", file=sys.stderr)
     sys.exit(1)

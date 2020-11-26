@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkVersorTransformOptimizer_hxx
-#define _itkVersorTransformOptimizer_hxx
 
 #include "itkVersorTransformOptimizer.h"
 
@@ -27,7 +25,7 @@ namespace itk
  * This method will be overridden in non-vector spaces
  */
 void
-VersorTransformOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
+VersorTransformOptimizer::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   const ParametersType & currentPosition = this->GetCurrentPosition();
   unsigned int           NumberOfParameters = m_CostFunction->GetNumberOfParameters();
@@ -84,5 +82,3 @@ VersorTransformOptimizer ::StepAlongGradient(double factor, const DerivativeType
   this->SetCurrentPosition(newParameters);
 }
 } // end namespace itk
-
-#endif

@@ -22,7 +22,7 @@ namespace itk
 namespace Statistics
 {
 MaximumDecisionRule::ClassIdentifierType
-MaximumDecisionRule ::Evaluate(const MembershipVectorType & discriminantScores) const
+MaximumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) const
 {
   ClassIdentifierType maxIndex = 0;
 

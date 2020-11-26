@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkFRPROptimizer_cxx
-#define _itkFRPROptimizer_cxx
 
 #include "itkFRPROptimizer.h"
 
@@ -33,7 +31,7 @@ FRPROptimizer ::FRPROptimizer()
 FRPROptimizer ::~FRPROptimizer() = default;
 
 void
-FRPROptimizer ::GetValueAndDerivative(ParametersType & p, double * val, ParametersType * xi)
+FRPROptimizer::GetValueAndDerivative(ParametersType & p, double * val, ParametersType * xi)
 {
   this->m_CostFunction->GetValueAndDerivative(p, *val, *xi);
   if (this->GetMaximize())
@@ -60,7 +58,7 @@ FRPROptimizer ::GetValueAndDerivative(ParametersType & p, double * val, Paramete
 }
 
 void
-FRPROptimizer ::LineOptimize(ParametersType * p, ParametersType & xi, double * val)
+FRPROptimizer::LineOptimize(ParametersType * p, ParametersType & xi, double * val)
 {
   ParametersType tempCoord(this->GetSpaceDimension());
 
@@ -68,7 +66,7 @@ FRPROptimizer ::LineOptimize(ParametersType * p, ParametersType & xi, double * v
 }
 
 void
-FRPROptimizer ::LineOptimize(ParametersType * p, ParametersType & xi, double * val, ParametersType & tempCoord)
+FRPROptimizer::LineOptimize(ParametersType * p, ParametersType & xi, double * val, ParametersType & tempCoord)
 {
   this->SetLine(*p, xi);
 
@@ -93,7 +91,7 @@ FRPROptimizer ::LineOptimize(ParametersType * p, ParametersType & xi, double * v
 }
 
 void
-FRPROptimizer ::StartOptimization()
+FRPROptimizer::StartOptimization()
 {
   unsigned int i;
 
@@ -205,7 +203,7 @@ FRPROptimizer ::StartOptimization()
  *
  */
 void
-FRPROptimizer ::SetToPolakRibiere()
+FRPROptimizer::SetToPolakRibiere()
 {
   m_OptimizationType = OptimizationEnum::PolakRibiere;
 }
@@ -214,7 +212,7 @@ FRPROptimizer ::SetToPolakRibiere()
  *
  */
 void
-FRPROptimizer ::SetToFletchReeves()
+FRPROptimizer::SetToFletchReeves()
 {
   m_OptimizationType = OptimizationEnum::FletchReeves;
 }
@@ -223,7 +221,7 @@ FRPROptimizer ::SetToFletchReeves()
  *
  */
 void
-FRPROptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+FRPROptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Optimization Type = " << m_OptimizationType << std::endl;
@@ -249,4 +247,3 @@ operator<<(std::ostream & out, const FRPROptimizerEnums::Optimization value)
 }
 
 } // end of namespace itk
-#endif

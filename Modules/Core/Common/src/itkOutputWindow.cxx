@@ -35,7 +35,7 @@ OutputWindow::Pointer OutputWindow::m_Instance = nullptr;
 /**
  * Prompting off by default
  */
-OutputWindow ::OutputWindow()
+OutputWindow::OutputWindow()
 {
   m_PromptUser = false;
 }
@@ -73,7 +73,7 @@ OutputWindowDisplayDebugText(const char * message)
 }
 
 void
-OutputWindow ::PrintSelf(std::ostream & os, Indent indent) const
+OutputWindow::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -86,7 +86,7 @@ OutputWindow ::PrintSelf(std::ostream & os, Indent indent) const
  * default implementation outputs to cerr only
  */
 void
-OutputWindow ::DisplayText(const char * txt)
+OutputWindow::DisplayText(const char * txt)
 {
   std::cerr << txt;
   if (m_PromptUser)
@@ -105,7 +105,7 @@ OutputWindow ::DisplayText(const char * txt)
  * Return the single instance of the OutputWindow
  */
 OutputWindow::Pointer
-OutputWindow ::GetInstance()
+OutputWindow::GetInstance()
 {
   if (!OutputWindow::m_Instance)
   {
@@ -126,7 +126,7 @@ OutputWindow ::GetInstance()
 }
 
 void
-OutputWindow ::SetInstance(OutputWindow * instance)
+OutputWindow::SetInstance(OutputWindow * instance)
 {
   if (OutputWindow::m_Instance == instance)
   {
@@ -139,7 +139,7 @@ OutputWindow ::SetInstance(OutputWindow * instance)
  * This just calls GetInstance
  */
 OutputWindow::Pointer
-OutputWindow ::New()
+OutputWindow::New()
 {
   return GetInstance();
 }

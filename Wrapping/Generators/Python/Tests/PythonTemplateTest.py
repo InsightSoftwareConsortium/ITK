@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import tempfile
@@ -56,14 +56,16 @@ assert isinstance(obj, itk.ImageFileReader)
 # the template must raise a KeyError exception if the template parameter
 # is unknown
 try:
-    itk.ImageFileReader['unknown parameter']
-    raise Exception('no exception sent for unknown parameter')
+    itk.ImageFileReader["unknown parameter"]
+    raise Exception("no exception sent for unknown parameter")
 except TypeError as e:
     print("Exception caught!")
     print(e)
     if not "imread" in str(e):
-        raise Exception('Expected to find extra information about'
-                        ' `itk.imread()` in exception message.')
+        raise Exception(
+            "Expected to find extra information about"
+            " `itk.imread()` in exception message."
+        )
     pass
 
 # TODO: test the rest of the dict interface
@@ -78,27 +80,27 @@ reader = readerType.New()
 reader2 = readerType.New()
 
 # with an attribute parameter
-reader = readerType.New(FileName='test.png')
-assert reader.GetFileName() == 'test.png'
+reader = readerType.New(FileName="test.png")
+assert reader.GetFileName() == "test.png"
 
 # with a wrong attribute name
 try:
-    reader = readerType.New(WrongName='test.png')
-    raise Exception('no exception sent for wrong attribute name')
+    reader = readerType.New(WrongName="test.png")
+    raise Exception("no exception sent for wrong attribute name")
 except AttributeError:
     pass
 
 # with a wrong attribute type
 try:
     reader = readerType.New(FileName=1)
-    raise Exception('no exception sent for wrong attribute type')
+    raise Exception("no exception sent for wrong attribute type")
 except:
     pass
 
 # with a wrong file name
 try:
     reader = itk.ImageFileReader.New(FileName="wrong filename")
-    raise Exception('no exception sent for wrong file name')
+    raise Exception("no exception sent for wrong file name")
 except RuntimeError as e:
     if not "The file doesn't exist." in str(e):
         raise e
@@ -145,20 +147,21 @@ assert im2 == sub.GetInput(1)
 # pass invalid input
 try:
     itk.MedianImageFilter[ImageType, ImageType].New(1)
-    raise Exception('no exception sent for wrong input type')
+    raise Exception("no exception sent for wrong input type")
 except:
     pass
 
 try:
     itk.SubtractImageFilter[ImageType, ImageType, ImageType].New(im, "wrong")
-    raise Exception('no exception sent for wrong 2nd input type')
+    raise Exception("no exception sent for wrong 2nd input type")
 except TypeError:
     pass
 
 
 # pass both input and attribute
-recons = itk.ReconstructionByDilationImageFilter[
-    ImageType, ImageType].New(reader.GetOutput(), im, FullyConnected=True)
+recons = itk.ReconstructionByDilationImageFilter[ImageType, ImageType].New(
+    reader.GetOutput(), im, FullyConnected=True
+)
 assert reader.GetOutput() == recons.GetInput(0)
 assert im == recons.GetInput(1)
 assert recons.GetFullyConnected()
@@ -167,7 +170,7 @@ assert recons.GetFullyConnected()
 # pass input to object which do not take one
 try:
     ImageType.New(im)
-    raise Exception('no exception sent for object without input')
+    raise Exception("no exception sent for object without input")
 except AttributeError:
     pass
 
@@ -179,45 +182,69 @@ except AttributeError:
 # write the images on the hard disk the first time. We only care about exception raised from
 # the reader.
 
+
 def pixel_type_from_IO(pixel, component, dimension):
     import itk
-    if pixel == 'scalar':
+
+    if pixel == "scalar":
         PixelType = component
-    elif pixel == 'rgb':
+    elif pixel == "rgb":
         PixelType = itk.RGBPixel[component]
-    elif pixel == 'rgba':
+    elif pixel == "rgba":
         PixelType = itk.RGBAPixel[component]
-    elif pixel == 'offset':
+    elif pixel == "offset":
         PixelType = itk.Offset[dimension]
-    elif pixel == 'vector':
+    elif pixel == "vector":
         PixelType = itk.Vector[component, dimension]
-    elif pixel == 'point':
+    elif pixel == "point":
         PixelType = itk.Point[component, dimension]
-    elif pixel == 'covariant_vector':
+    elif pixel == "covariant_vector":
         PixelType = itk.CovariantVector[component, dimension]
-    elif pixel == 'symmetric_second_rank_tensor':
+    elif pixel == "symmetric_second_rank_tensor":
         PixelType = itk.SymmetricSecondRankTensor[component, dimension]
-    elif pixel == 'diffusion_tensor_3D':
+    elif pixel == "diffusion_tensor_3D":
         PixelType = itk.DiffusionTensor3D[component]
-    elif pixel == 'complex':
+    elif pixel == "complex":
         PixelType = itk.complex[component]
-    elif pixel == 'fixed_array':
+    elif pixel == "fixed_array":
         PixelType = itk.FixedArray[component, dimension]
-    elif pixel == 'matrix':
+    elif pixel == "matrix":
         PixelType = itk.Matrix[component, dimension, dimension]
     else:
-        raise RuntimeError("Unknown pixel type %s." % pixel)
+        raise RuntimeError(f"Unknown pixel type {pixel}.")
     return PixelType
 
+
 dimensions = [2, 3]
-component_type_dic= {"float":itk.F, "double":itk.D,
-        "unsigned_char":itk.UC, "unsigned_short":itk.US, "unsigned_int":itk.UI,
-        "unsigned_long":itk.UL, "unsigned_long_long":itk.ULL, "char":itk.SC, "short":itk.SS,
-        "int":itk.SI, "long":itk.SL, "bool":itk.B}
-pixel_types = ['scalar', 'rgb', 'rgba', 'offset', 'vector', 'point',
-               'covariant_vector', 'symmetric_second_rank_tensor',
-               'diffusion_tensor_3D', 'complex', 'fixed_array', 'matrix']
-dir_name=tempfile.mkdtemp()
+component_type_dic = {
+    "float": itk.F,
+    "double": itk.D,
+    "unsigned_char": itk.UC,
+    "unsigned_short": itk.US,
+    "unsigned_int": itk.UI,
+    "unsigned_long": itk.UL,
+    "unsigned_long_long": itk.ULL,
+    "char": itk.SC,
+    "short": itk.SS,
+    "int": itk.SI,
+    "long": itk.SL,
+    "bool": itk.B,
+}
+pixel_types = [
+    "scalar",
+    "rgb",
+    "rgba",
+    "offset",
+    "vector",
+    "point",
+    "covariant_vector",
+    "symmetric_second_rank_tensor",
+    "diffusion_tensor_3D",
+    "complex",
+    "fixed_array",
+    "matrix",
+]
+dir_name = tempfile.mkdtemp()
 pixel_type_error = []
 image_error = []
 other_error = []
@@ -233,8 +260,8 @@ for dim in dimensions:
                 pixel_type_error.append(ex)
                 continue
             try:
-                ImageType=itk.Image[PixelType, dim]
-                im=ImageType.New()
+                ImageType = itk.Image[PixelType, dim]
+                im = ImageType.New()
             except Exception as ex:
                 image_error.append(ex)
                 continue
@@ -252,8 +279,8 @@ for dim in dimensions:
             try:
                 im.SetRegions(5)
                 im.Allocate()
-                im.FillBuffer( zero_value )
-                filename = os.path.join(dir_name, "_".join([p,c,str(dim)]) + ".nrrd")
+                im.FillBuffer(zero_value)
+                filename = os.path.join(dir_name, "_".join([p, c, str(dim)]) + ".nrrd")
             except Exception as ex:
                 other_error.append(ex)
                 continue
@@ -266,27 +293,30 @@ for dim in dimensions:
             try:
                 reader = itk.ImageFileReader.New(FileName=filename)
                 reader.Update()
-                print("Dimension: %i ; Pixel Type: %s ; Component Type: %s - OK" % (dim, p, c))
+                print(
+                    "Dimension: %i ; Pixel Type: %s ; Component Type: %s - OK"
+                    % (dim, p, c)
+                )
             except Exception as ex:
                 reader_error.append(ex)
                 continue
 if reader_error or other_error:
-    print("PixelType error: %s" % pixel_type_error)
-    print("Image error: %s" % image_error)
-    print("Other error: %s" % other_error)
-    print("Writer error: %s" % writer_error)
-    print("Pixel Fill error: %s" % pixel_fill_error)
-    print("Reader error: %s" % reader_error)
+    print(f"PixelType error: {pixel_type_error}")
+    print(f"Image error: {image_error}")
+    print(f"Other error: {other_error}")
+    print(f"Writer error: {writer_error}")
+    print(f"Pixel Fill error: {pixel_fill_error}")
+    print(f"Reader error: {reader_error}")
     raise AssertionError()
 
 # Try to instantiate a template type that does not exist that is
 # not an `itk.ImageFileReader` (tested above) since that object
 # is handled slightly differently.
 try:
-    itk.Image['unknown parameter'].New()
+    itk.Image["unknown parameter"].New()
     # We should never arrive to this point, so raise an exception if
     # we do.
-    raise Exception('no exception sent for unknown parameter')
+    raise Exception("no exception sent for unknown parameter")
 except TypeError as e:
     print("Exception caught!")
     print(e)
@@ -294,7 +324,7 @@ except TypeError as e:
 
 # Test that ImageFileWriter can be called with filter given as input
 # with 'Input' keyword.
-reader=itk.ImageFileReader[itk.Image[itk.F,3]].New()
+reader = itk.ImageFileReader[itk.Image[itk.F, 3]].New()
 try:
     writer = itk.ImageFileWriter.New(Input=reader, FileName=filename)
 except TypeError:
@@ -314,7 +344,9 @@ except RuntimeError:
 # Check that if a tuple is given, it still works. This is especially useful since
 # the function `itk.template()` which returns the template arguments of an object
 # returns tuples and its returned value should be usable in this context.
-template_tuple = itk.template(cast_filter)[1]  # [0] is `<itkTemplate itk::CastImageFilter>`
+template_tuple = itk.template(cast_filter)[
+    1
+]  # [0] is `<itkTemplate itk::CastImageFilter>`
 cast_filter = itk.CastImageFilter.New(ttype=template_tuple)
 
 # TODO: test auto_progress

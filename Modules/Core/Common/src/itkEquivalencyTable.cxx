@@ -139,7 +139,7 @@ EquivalencyTable::RecursiveLookup(const unsigned long a) const
 }
 
 void
-EquivalencyTable ::PrintSelf(std::ostream & os, Indent indent) const
+EquivalencyTable::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

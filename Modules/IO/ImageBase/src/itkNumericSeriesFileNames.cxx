@@ -15,20 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkNumericSeriesFileNames_h
-#define _itkNumericSeriesFileNames_h
 
 #include "itkNumericSeriesFileNames.h"
 #include <cstdio>
 
 namespace itk
 {
-NumericSeriesFileNames ::NumericSeriesFileNames()
+NumericSeriesFileNames::NumericSeriesFileNames()
   : m_SeriesFormat("%d")
 {}
 
 const std::vector<std::string> &
-NumericSeriesFileNames ::GetFileNames()
+NumericSeriesFileNames::GetFileNames()
 {
   // validate the indices
   if (m_StartIndex > m_EndIndex)
@@ -76,7 +74,7 @@ NumericSeriesFileNames ::GetFileNames()
 }
 
 void
-NumericSeriesFileNames ::PrintSelf(std::ostream & os, Indent indent) const
+NumericSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -91,5 +89,3 @@ NumericSeriesFileNames ::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 } // namespace itk
-
-#endif

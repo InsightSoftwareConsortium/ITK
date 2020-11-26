@@ -29,7 +29,7 @@ const int TetrahedronCellTopology ::m_Faces[4][3] = { { 0, 1, 3 }, { 1, 2, 3 }, 
  */
 const int TetrahedronCellTopology ::m_Edges[6][2] = { { 0, 1 }, { 1, 2 }, { 2, 0 }, { 0, 3 }, { 1, 3 }, { 2, 3 } };
 
-TetrahedronCellTopology ::TetrahedronCellTopology() = default;
+TetrahedronCellTopology::TetrahedronCellTopology() = default;
 
 TetrahedronCellTopology ::~TetrahedronCellTopology() = default;
 } // end namespace itk

@@ -20,7 +20,7 @@
 namespace itk
 {
 /**  Constructor.  */
-SingleValuedVnlCostFunctionAdaptor ::SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension)
+SingleValuedVnlCostFunctionAdaptor::SingleValuedVnlCostFunctionAdaptor(unsigned int spaceDimension)
   : vnl_cost_function(spaceDimension)
 {
   m_ScalesInitialized = false;
@@ -32,7 +32,7 @@ SingleValuedVnlCostFunctionAdaptor ::SingleValuedVnlCostFunctionAdaptor(unsigned
 
 /** Set current parameters scaling. */
 void
-SingleValuedVnlCostFunctionAdaptor ::SetScales(const ScalesType & scales)
+SingleValuedVnlCostFunctionAdaptor::SetScales(const ScalesType & scales)
 {
   // Only the inverse is used computes the inverse at each iteration.
   // provides 1 commone place where the inverse can be computes
@@ -178,8 +178,8 @@ SingleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
 
 /**  Convert external derivative measures into internal type  */
 void
-SingleValuedVnlCostFunctionAdaptor ::ConvertExternalToInternalGradient(const DerivativeType &   input,
-                                                                       InternalDerivativeType & output) const
+SingleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalGradient(const DerivativeType &   input,
+                                                                      InternalDerivativeType & output) const
 {
   const unsigned int size = input.size();
 
@@ -206,7 +206,7 @@ SingleValuedVnlCostFunctionAdaptor ::ConvertExternalToInternalGradient(const Der
 /**  Set whether the cost function should be negated or not. This is useful for
  * adapting optimizers that are only minimizers. */
 void
-SingleValuedVnlCostFunctionAdaptor ::SetNegateCostFunction(bool flag)
+SingleValuedVnlCostFunctionAdaptor::SetNegateCostFunction(bool flag)
 {
   m_NegateCostFunction = flag;
 }
@@ -214,7 +214,7 @@ SingleValuedVnlCostFunctionAdaptor ::SetNegateCostFunction(bool flag)
 /**  Returns whether the cost function is going to be negated or not.
  *   This is useful for adapting optimizers that are only minimizers. */
 bool
-SingleValuedVnlCostFunctionAdaptor ::GetNegateCostFunction() const
+SingleValuedVnlCostFunctionAdaptor::GetNegateCostFunction() const
 {
   return m_NegateCostFunction;
 }
@@ -222,7 +222,7 @@ SingleValuedVnlCostFunctionAdaptor ::GetNegateCostFunction() const
 /**  This method reports iterations events. It is intended to
  *   help monitoring the progress of the optimization process. */
 void
-SingleValuedVnlCostFunctionAdaptor ::ReportIteration(const EventObject & event) const
+SingleValuedVnlCostFunctionAdaptor::ReportIteration(const EventObject & event) const
 {
   this->m_Reporter->InvokeEvent(event);
 }
@@ -230,21 +230,21 @@ SingleValuedVnlCostFunctionAdaptor ::ReportIteration(const EventObject & event) 
 /**  Connects a Command/Observer to the internal reporter class.
  *   This is useful for reporting iteration event to potential observers. */
 unsigned long
-SingleValuedVnlCostFunctionAdaptor ::AddObserver(const EventObject & event, Command * command) const
+SingleValuedVnlCostFunctionAdaptor::AddObserver(const EventObject & event, Command * command) const
 {
   return m_Reporter->AddObserver(event, command);
 }
 
 /**  Return the cached value of the cost function */
 const SingleValuedVnlCostFunctionAdaptor::MeasureType &
-SingleValuedVnlCostFunctionAdaptor ::GetCachedValue() const
+SingleValuedVnlCostFunctionAdaptor::GetCachedValue() const
 {
   return m_CachedValue;
 }
 
 /**  Return the cached value of the cost function derivative */
 const SingleValuedVnlCostFunctionAdaptor::DerivativeType &
-SingleValuedVnlCostFunctionAdaptor ::GetCachedDerivative() const
+SingleValuedVnlCostFunctionAdaptor::GetCachedDerivative() const
 {
   return m_CachedDerivative;
 }
@@ -252,7 +252,7 @@ SingleValuedVnlCostFunctionAdaptor ::GetCachedDerivative() const
 /**  Return the cached value of the parameters used for computing the function
  */
 const SingleValuedVnlCostFunctionAdaptor::ParametersType &
-SingleValuedVnlCostFunctionAdaptor ::GetCachedCurrentParameters() const
+SingleValuedVnlCostFunctionAdaptor::GetCachedCurrentParameters() const
 {
   return m_CachedCurrentParameters;
 }

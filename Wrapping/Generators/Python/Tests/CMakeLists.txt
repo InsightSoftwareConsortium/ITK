@@ -1,31 +1,37 @@
 # TODO: drop -E option once all filters/spatial objects/cost functions are actually wrapped
-itk_python_add_test(NAME NonBlockingPythonFilterCoverage COMMAND wrappingCoverage.py -E -b Filter -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-filters.txt ${ITK_INCLUDE_DIRS})
-itk_python_add_test(NAME NonBlockingPythonSpatialObjectCoverage COMMAND wrappingCoverage.py -E -b SpatialObject ${ITK_INCLUDE_DIRS})
+itk_python_add_test(NAME NonBlockingPythonFilterCoverage COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b Filter -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-filters.txt ${ITK_INCLUDE_DIRS})
+itk_python_add_test(NAME NonBlockingPythonSpatialObjectCoverage COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b SpatialObject ${ITK_INCLUDE_DIRS})
 if(ITK_BUILD_DEFAULT_MODULES)
-  itk_python_add_test(NAME NonBlockingPythonCostFunctionCoverage COMMAND wrappingCoverage.py -E -b CostFunction ${ITK_INCLUDE_DIRS})
-  itk_python_add_test(NAME PythonOptimizerCoverage COMMAND wrappingCoverage.py -b Optimizer ${ITK_INCLUDE_DIRS})
+  itk_python_add_test(NAME NonBlockingPythonCostFunctionCoverage COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -E -b CostFunction ${ITK_INCLUDE_DIRS})
+  itk_python_add_test(NAME PythonOptimizerCoverage COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Optimizer ${ITK_INCLUDE_DIRS})
 endif()
 
-itk_python_add_test(NAME PythonImageIOCoverage COMMAND wrappingCoverage.py -b ImageIO -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt ${ITK_INCLUDE_DIRS})
-itk_python_add_test(NAME PythonTransformCoverage COMMAND wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
+itk_python_add_test(NAME PythonImageIOCoverage COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b ImageIO -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-imageio.txt ${ITK_INCLUDE_DIRS})
+itk_python_add_test(NAME PythonTransformCoverage COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
 
-itk_python_add_test(NAME PythonFindEmptyClasses COMMAND findEmptyClasses.py)
-itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
-itk_python_add_test(NAME PythonTiming COMMAND timing.py)
-itk_python_add_test(NAME PythonVerifyGetOutputAPIConsistency COMMAND verifyGetOutputAPIConsistency.py)
-itk_python_add_test(NAME PythonVerifyTTypeAPIConsistency COMMAND verifyTTypeAPIConsistency.py)
-itk_python_add_test(NAME PythonTypeTest COMMAND PythonTypeTest.py)
-itk_python_add_test(NAME PythonComplex COMMAND complex.py)
-itk_python_add_test(NAME PythonHelperFunctions COMMAND helpers.py)
-itk_python_add_test(NAME PythonLazyModule COMMAND lazy.py)
+itk_python_add_test(NAME PythonFindEmptyClasses COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/findEmptyClasses.py)
+itk_python_add_test(NAME PythonGetNameOfClass COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/getNameOfClass.py)
+itk_python_add_test(NAME PythonTiming COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/timing.py)
+itk_python_add_test(NAME PythonBuildOptions COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build_options.py)
+itk_python_add_test(NAME PythonVerifyGetOutputAPIConsistency COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/verifyGetOutputAPIConsistency.py)
+itk_python_add_test(NAME PythonVerifyTTypeAPIConsistency COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/verifyTTypeAPIConsistency.py)
+itk_python_add_test(NAME PythonTypeTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypeTest.py)
+itk_python_add_test(NAME PythonComplex COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/complex.py)
+itk_python_add_test(NAME PythonHelperFunctions COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/helpers.py)
+itk_python_add_test(NAME PythonLazyModule COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lazy.py)
+itk_python_add_test(NAME PythonNoLazyModule COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/nolazy.py)
+itk_python_add_test(NAME PythonDICOMSeries COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/dicomSeries.py
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
+              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
 INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
 if(ITK_WRAP_unsigned_char AND WRAP_2)
   if(ITK_BUILD_DEFAULT_MODULES)
-    itk_python_add_test(NAME PythonTypemapsTest COMMAND PythonTypemapsTest.py)
-    itk_python_add_test(NAME PythonTemplateTest COMMAND PythonTemplateTest.py)
-    itk_python_add_test(NAME PythonModifiedTimeTest COMMAND ModifiedTime.py)
+    itk_python_add_test(NAME PythonTypemapsTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/PythonTypemapsTest.py)
+    itk_python_add_test(NAME PythonTemplateTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/PythonTemplateTest.py)
+    itk_python_add_test(NAME PythonModifiedTimeTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/ModifiedTime.py)
     itk_python_add_test(NAME PythonTemplatedPipelineTest
       TEST_DRIVER_ARGS
         --compare ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
@@ -35,12 +41,12 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         10
       )
     itk_python_add_test(NAME PythonModuleToModuleTest
-      COMMAND module2module.py
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/module2module.py
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
         5
       )
     itk_python_add_test(NAME PythonExtrasTest
-      COMMAND extras.py
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/extras.py
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
         DATA{../../../../Testing/Data/Input/mushroom.vtk}
         ${ITK_TEST_OUTPUT_DIR}/out.png

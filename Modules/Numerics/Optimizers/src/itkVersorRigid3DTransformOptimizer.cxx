@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkVersorRigid3DTransformOptimizer_hxx
-#define _itkVersorRigid3DTransformOptimizer_hxx
 
 #include "itkVersorRigid3DTransformOptimizer.h"
 
@@ -27,7 +25,7 @@ namespace itk
  * This method will be overridden in non-vector spaces
  */
 void
-VersorRigid3DTransformOptimizer ::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
+VersorRigid3DTransformOptimizer::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
   const ParametersType & currentPosition = this->GetCurrentPosition();
 
@@ -83,5 +81,3 @@ VersorRigid3DTransformOptimizer ::StepAlongGradient(double factor, const Derivat
   this->SetCurrentPosition(newParameters);
 }
 } // end namespace itk
-
-#endif

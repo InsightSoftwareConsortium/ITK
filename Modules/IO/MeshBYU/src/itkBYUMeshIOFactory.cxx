@@ -24,7 +24,7 @@
 namespace itk
 {
 void
-BYUMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
+BYUMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 
@@ -38,14 +38,14 @@ BYUMeshIOFactory ::~BYUMeshIOFactory() = default;
 
 
 const char *
-BYUMeshIOFactory ::GetITKSourceVersion() const
+BYUMeshIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 
 const char *
-BYUMeshIOFactory ::GetDescription() const
+BYUMeshIOFactory::GetDescription() const
 {
   return "BYU Mesh IO Factory, allows the loading of BYU mesh into insight";
 }

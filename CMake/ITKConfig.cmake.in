@@ -47,6 +47,9 @@ set(ITK_USE_FILE "@ITK_USE_FILE@")
 # Whether ITK was built with shared libraries.
 set(ITK_BUILD_SHARED "@ITK_BUILD_SHARED_LIBS@")
 
+# Export the library build type (SHARED or STATIC) for external builds
+set(ITK_LIBRARY_BUILD_TYPE "@ITK_LIBRARY_BUILD_TYPE@")
+
 # Whether ITK examples were built.
 set(ITK_BUILD_EXAMPLES "@BUILD_EXAMPLES@")
 

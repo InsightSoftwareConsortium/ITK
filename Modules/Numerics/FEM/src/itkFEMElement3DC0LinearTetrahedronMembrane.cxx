@@ -41,11 +41,11 @@ Element3DC0LinearTetrahedronMembrane::CreateAnother() const
   return smartPtr;
 }
 
-Element3DC0LinearTetrahedronMembrane ::Element3DC0LinearTetrahedronMembrane()
+Element3DC0LinearTetrahedronMembrane::Element3DC0LinearTetrahedronMembrane()
   : Superclass()
 {}
 
-Element3DC0LinearTetrahedronMembrane ::Element3DC0LinearTetrahedronMembrane(NodeIDType ns_[], Material::ConstPointer m_)
+Element3DC0LinearTetrahedronMembrane::Element3DC0LinearTetrahedronMembrane(NodeIDType ns_[], Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points

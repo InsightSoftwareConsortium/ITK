@@ -7,7 +7,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
     --compare ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest1.png
               DATA{Baseline/PythonResampleImageFilterTest1.png}
-    COMMAND ResampleImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilterTest.py
       DATA{${test_input_dir}/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest1.png
       0
@@ -17,7 +17,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest2.png
                 DATA{Baseline/PythonResampleImageFilterTest2.png}
-    COMMAND ResampleImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilterTest.py
       DATA{${test_input_dir}/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest2.png
       1
@@ -27,7 +27,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest3.png
       DATA{Baseline/PythonResampleImageFilterTest3.png}
-    COMMAND ResampleImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilterTest.py
       DATA{${test_input_dir}/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest3.png
       2
@@ -37,7 +37,7 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest4.png
                 DATA{Baseline/PythonResampleImageFilterTest4.png}
-    COMMAND ResampleImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/ResampleImageFilterTest.py
       DATA{${test_input_dir}/BrainProtonDensitySlice.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonResampleImageFilterTest4.png
       3

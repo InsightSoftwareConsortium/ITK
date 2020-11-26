@@ -163,7 +163,7 @@ class SwigInputGenerator(object):
           obj.SetThreshold(10)
         """
         obj = {class_name}.__New_orig__()
-        import itkTemplate
+        from itk.support import itkTemplate
         itkTemplate.New(obj, *args, **kargs)
         return obj
     New = staticmethod(New)
@@ -538,7 +538,7 @@ class SwigInputGenerator(object):
                         self.generate_nested_enum(typedef, member, indent, w)
                     elif isinstance(member, decls.variable_t):
                         self.warn(
-                            52, f"Member variables are not supported: {member.name}", w,
+                            52, f"Member variables are not supported: {member.name}", w
                         )
                     elif isinstance(member, decls.class_declaration.class_t):
                         self.warn(
@@ -609,59 +609,45 @@ class SwigInputGenerator(object):
             for processObject in processObjects:
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
-                self.outputFile.write("import itkHelpers\n")
-                self.outputFile.write("@itkHelpers.accept_numpy_array_like_xarray\n")
-                self.outputFile.write(f"def {snakeCase}(*args, **kwargs):\n")
                 self.outputFile.write(
-                    f'    """Procedural interface for {processObject}"""\n'
-                )
-                self.outputFile.write("    import itk\n")
-                self.outputFile.write(
-                    f"    instance = itk.{processObject}.New(*args, **kwargs)\n"
-                )
-                self.outputFile.write("    return instance.__internal_call__()\n\n")
-                self.outputFile.write(f"def {snakeCase}_init_docstring():\n")
-                self.outputFile.write("    import itk\n")
-                self.outputFile.write("    import itkTemplate\n")
-                self.outputFile.write("    import itkHelpers\n")
-                self.outputFile.write(
-                    "    if isinstance(itk.%s, itkTemplate.itkTemplate):\n"
-                    % processObject
-                )
-                self.outputFile.write(
-                    f"        filter_object = itk.{processObject}.values()[0]\n"
-                )
-                self.outputFile.write("    else:\n")
-                self.outputFile.write(
-                    f"        filter_object = itk.{processObject}\n\n"
-                )
-                self.outputFile.write(
-                    f"    {snakeCase}.__doc__ = filter_object.__doc__\n"
-                )
-                self.outputFile.write(
-                    f'    {snakeCase}.__doc__ += "\\n Args are Input(s) to the filter.\\n"\n'
-                )
-                self.outputFile.write(
-                    f'    {snakeCase}.__doc__ += "\\n Available Keyword Arguments:\\n"\n'
-                )
-                self.outputFile.write(
-                    f"    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):\n"
-                )
-                self.outputFile.write(
-                    f"        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[0]\n"
-                )
-                self.outputFile.write(f'        {snakeCase}.__doc__ += "\\n"\n')
-                self.outputFile.write(
-                    f"        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[1]\n"
-                )
-                self.outputFile.write("    else:\n")
-                self.outputFile.write(f'        {snakeCase}.__doc__ += "".join([\n')
-                self.outputFile.write(
-                    '            "  " + itkHelpers.camel_to_snake_case(item[3:]) + "\\n"\n'
-                )
-                self.outputFile.write("            for item in dir(filter_object)\n")
-                self.outputFile.write('            if item.startswith("Set")])\n')
+                    f"""from itk.support import itkHelpers
+@itkHelpers.accept_numpy_array_like_xarray
+def {snakeCase}(*args, **kwargs):
+    \"\"\"Procedural interface for {processObject}\"\"\"
+    import itk
 
+    instance = itk.{processObject}.New(*args, **kwargs)
+    return instance.__internal_call__()
+
+
+def {snakeCase}_init_docstring():
+    import itk
+    from itk.support import itkTemplate
+    from itk.support import itkHelpers
+
+    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):
+        filter_object = itk.{processObject}.values()[0]
+    else:
+        filter_object = itk.{processObject}
+
+    {snakeCase}.__doc__ = filter_object.__doc__
+    {snakeCase}.__doc__ += "\\n Args are Input(s) to the filter.\\n"
+    {snakeCase}.__doc__ += "\\n Available Keyword Arguments:\\n"
+    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):
+        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[0]
+        {snakeCase}.__doc__ += "\\n"
+        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[1]
+    else:
+        {snakeCase}.__doc__ += "".join(
+            [
+                "  " + itkHelpers.camel_to_snake_case(item[3:]) + "\\n"
+                for item in dir(filter_object)
+                if item.startswith("Set")
+            ]
+        )
+
+"""
+                )
             self.outputFile.write("%}\n")
             self.outputFile.write("#endif\n")
 
@@ -733,7 +719,7 @@ class SwigInputGenerator(object):
             typedef.name.startswith("itk") and method.name in names
         ):
             self.warn(
-                3, f"ignoring black listed method '{typedef.name}::{method.name}'.", w,
+                3, f"ignoring black listed method '{typedef.name}::{method.name}'.", w
             )
             return
 
@@ -836,6 +822,7 @@ class SwigInputGenerator(object):
                     % (self.moduleName, lang.title())
                 )
                 headerFile.write('%feature("nothreadallow");\n')
+                headerFile.write('%feature("autodoc","1");\n')
             else:
                 headerFile.write(f"%module {self.moduleName}{lang.title()}\n")
             headerFile.write("#endif\n")
@@ -1242,21 +1229,13 @@ if __name__ == "__main__":
         generate_swig_input(moduleName)
 
     snake_case_file = options.snake_case_file
-    main_config_file = snake_case_file.replace("_snake_case.py","Config.py")
-    if not os.path.exists(main_config_file):
-        print(
-            f"ERROR: required {main_config_file} file does not exist\n"
-            f"can not append to {snake_case_file}\n"
+    with open(snake_case_file, "w") as ff:
+        ff.write("snake_case_functions = (")
+        # Ensure that the functions are sorted alphabetically to ensure consistency
+        # in the generated file structure.
+        sorted_snake_case_process_object_functions = sorted(
+            snake_case_process_object_functions
         )
-        sys.exit(-1)
-    else:
-        with open(snake_case_file, "a") as ff:
-            ff.write("snake_case_functions = (")
-            # Ensure that the functions are sorted alphabetically to ensure consistency
-            # in the generated file structure.
-            sorted_snake_case_process_object_functions = sorted(
-                snake_case_process_object_functions
-            )
-            for function in sorted_snake_case_process_object_functions:
-                ff.write("'" + function + "', ")
-            ff.write(")\n")
+        for function in sorted_snake_case_process_object_functions:
+            ff.write("'" + function + "', ")
+        ff.write(")\n")

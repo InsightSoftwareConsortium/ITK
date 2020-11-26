@@ -19,8 +19,8 @@
 
 namespace itk
 {
-CompositeValleyFunction ::CompositeValleyFunction(const MeasureArrayType & classMeans,
-                                                  const MeasureArrayType & classSigmas)
+CompositeValleyFunction::CompositeValleyFunction(const MeasureArrayType & classMeans,
+                                                 const MeasureArrayType & classSigmas)
 {
   const std::size_t length = classMeans.size();
 
@@ -51,7 +51,7 @@ CompositeValleyFunction ::CompositeValleyFunction(const MeasureArrayType & class
 CompositeValleyFunction::~CompositeValleyFunction() = default;
 
 void
-CompositeValleyFunction ::Initialize()
+CompositeValleyFunction::Initialize()
 {
   SizeValueType i, low, high;
 

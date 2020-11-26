@@ -22,7 +22,7 @@ namespace itk
 /**
  * Constructor
  */
-ExhaustiveOptimizer ::ExhaustiveOptimizer()
+ExhaustiveOptimizer::ExhaustiveOptimizer()
 {
   itkDebugMacro("Constructor");
 
@@ -48,7 +48,7 @@ ExhaustiveOptimizer::StartOptimization()
 }
 
 void
-ExhaustiveOptimizer ::StartWalking()
+ExhaustiveOptimizer::StartWalking()
 {
   itkDebugMacro("StartWalking");
   this->InvokeEvent(StartEvent());
@@ -101,7 +101,7 @@ ExhaustiveOptimizer ::StartWalking()
  * Resume the optimization
  */
 void
-ExhaustiveOptimizer ::ResumeWalking()
+ExhaustiveOptimizer::ResumeWalking()
 {
   itkDebugMacro("ResumeWalk");
   m_Stop = false;
@@ -146,7 +146,7 @@ ExhaustiveOptimizer ::ResumeWalking()
 }
 
 void
-ExhaustiveOptimizer ::StopWalking()
+ExhaustiveOptimizer::StopWalking()
 {
   itkDebugMacro("StopWalking");
 
@@ -155,7 +155,7 @@ ExhaustiveOptimizer ::StopWalking()
 }
 
 void
-ExhaustiveOptimizer ::AdvanceOneStep()
+ExhaustiveOptimizer::AdvanceOneStep()
 {
   itkDebugMacro("AdvanceOneStep");
 
@@ -170,7 +170,7 @@ ExhaustiveOptimizer ::AdvanceOneStep()
 }
 
 void
-ExhaustiveOptimizer ::IncrementIndex(ParametersType & newPosition)
+ExhaustiveOptimizer::IncrementIndex(ParametersType & newPosition)
 {
   unsigned int       idx = 0;
   const unsigned int spaceDimension = m_CostFunction->GetNumberOfParameters();
@@ -207,13 +207,13 @@ ExhaustiveOptimizer ::IncrementIndex(ParametersType & newPosition)
 }
 
 const std::string
-ExhaustiveOptimizer ::GetStopConditionDescription() const
+ExhaustiveOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
 
 void
-ExhaustiveOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+ExhaustiveOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

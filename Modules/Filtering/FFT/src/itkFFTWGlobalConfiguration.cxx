@@ -51,34 +51,34 @@ struct FFTWGlobalConfigurationGlobals
   std::mutex                       m_CreationLock;
 };
 
-WisdomFilenameGeneratorBase ::WisdomFilenameGeneratorBase() = default;
+WisdomFilenameGeneratorBase::WisdomFilenameGeneratorBase() = default;
 
 WisdomFilenameGeneratorBase ::~WisdomFilenameGeneratorBase() = default;
 
-ManualWisdomFilenameGenerator ::ManualWisdomFilenameGenerator(std::string wfn)
+ManualWisdomFilenameGenerator::ManualWisdomFilenameGenerator(std::string wfn)
   : m_WisdomFilename(std::move(wfn))
 {}
 
 void
-ManualWisdomFilenameGenerator ::SetWisdomFilename(const std::string & wfn)
+ManualWisdomFilenameGenerator::SetWisdomFilename(const std::string & wfn)
 {
   this->m_WisdomFilename = wfn;
 }
 
 std::string
-ManualWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string &) const
+ManualWisdomFilenameGenerator::GenerateWisdomFilename(const std::string &) const
 {
   return this->m_WisdomFilename;
 }
 
 std::string
-SimpleWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
+SimpleWisdomFilenameGenerator::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
 {
   return baseCacheDirectory + FFTWPathSep + ".itksimple.wisdom";
 }
 
 std::string
-HostnameWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
+HostnameWisdomFilenameGenerator::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
 {
 
   itksys::SystemInformation hostInfo;
@@ -88,7 +88,7 @@ HostnameWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string & bas
 }
 
 int
-FFTWGlobalConfiguration ::GetPlanRigorValue(const std::string & name)
+FFTWGlobalConfiguration::GetPlanRigorValue(const std::string & name)
 {
   if (name == "FFTW_ESTIMATE")
   {
@@ -110,7 +110,7 @@ FFTWGlobalConfiguration ::GetPlanRigorValue(const std::string & name)
 }
 
 std::string
-FFTWGlobalConfiguration ::GetPlanRigorName(const int & value)
+FFTWGlobalConfiguration::GetPlanRigorName(const int & value)
 {
   switch (value)
   {
@@ -143,7 +143,7 @@ itkGetGlobalSimpleMacro(FFTWGlobalConfiguration, FFTWGlobalConfigurationGlobals,
 FFTWGlobalConfigurationGlobals * FFTWGlobalConfiguration::m_PimplGlobals;
 
 FFTWGlobalConfiguration::Pointer
-FFTWGlobalConfiguration ::GetInstance()
+FFTWGlobalConfiguration::GetInstance()
 {
   itkInitGlobalsMacro(PimplGlobals);
   if (!m_PimplGlobals->m_Instance)
@@ -170,10 +170,10 @@ FFTWGlobalConfiguration ::GetInstance()
   return m_PimplGlobals->m_Instance;
 }
 
-HardwareWisdomFilenameGenerator ::HardwareWisdomFilenameGenerator() = default;
+HardwareWisdomFilenameGenerator::HardwareWisdomFilenameGenerator() = default;
 
 std::string
-HardwareWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
+HardwareWisdomFilenameGenerator::GenerateWisdomFilename(const std::string & baseCacheDirectory) const
 {
   // Now build the hardware string by system interogation
   itksys::SystemInformation hardwareInfo;
@@ -240,133 +240,133 @@ HardwareWisdomFilenameGenerator ::GenerateWisdomFilename(const std::string & bas
 
 
 void
-HardwareWisdomFilenameGenerator ::SetUseOSName(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseOSName(const bool flag)
 {
   this->m_UseOSName = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseOSRelease(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseOSRelease(const bool flag)
 {
   this->m_UseOSRelease = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseOSVersion(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseOSVersion(const bool flag)
 {
   this->m_UseOSVersion = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseOSPlatform(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseOSPlatform(const bool flag)
 {
   this->m_UseOSPlatform = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseOSBitSize(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseOSBitSize(const bool flag)
 {
   this->m_UseOSBitSize = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseNumberOfProcessors(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseNumberOfProcessors(const bool flag)
 {
   this->m_UseNumberOfProcessors = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseVendorString(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseVendorString(const bool flag)
 {
   this->m_UseVendorString = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseTypeID(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseTypeID(const bool flag)
 {
   this->m_UseTypeID = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseFamilyID(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseFamilyID(const bool flag)
 {
   this->m_UseFamilyID = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseModelID(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseModelID(const bool flag)
 {
   this->m_UseModelID = flag;
 }
 
 void
-HardwareWisdomFilenameGenerator ::SetUseSteppingCode(const bool flag)
+HardwareWisdomFilenameGenerator::SetUseSteppingCode(const bool flag)
 {
   this->m_UseSteppingCode = flag;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseOSName() const
+HardwareWisdomFilenameGenerator::GetUseOSName() const
 {
   return this->m_UseOSName;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseOSRelease() const
+HardwareWisdomFilenameGenerator::GetUseOSRelease() const
 {
   return this->m_UseOSRelease;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseOSVersion() const
+HardwareWisdomFilenameGenerator::GetUseOSVersion() const
 {
   return this->m_UseOSVersion;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseOSPlatform() const
+HardwareWisdomFilenameGenerator::GetUseOSPlatform() const
 {
   return this->m_UseOSPlatform;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseOSBitSize() const
+HardwareWisdomFilenameGenerator::GetUseOSBitSize() const
 {
   return this->m_UseOSBitSize;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseNumberOfProcessors() const
+HardwareWisdomFilenameGenerator::GetUseNumberOfProcessors() const
 {
   return this->m_UseNumberOfProcessors;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseVendorString() const
+HardwareWisdomFilenameGenerator::GetUseVendorString() const
 {
   return this->m_UseVendorString;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseTypeID() const
+HardwareWisdomFilenameGenerator::GetUseTypeID() const
 {
   return this->m_UseTypeID;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseFamilyID() const
+HardwareWisdomFilenameGenerator::GetUseFamilyID() const
 {
   return this->m_UseFamilyID;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseModelID() const
+HardwareWisdomFilenameGenerator::GetUseModelID() const
 {
   return this->m_UseModelID;
 }
 
 bool
-HardwareWisdomFilenameGenerator ::GetUseSteppingCode() const
+HardwareWisdomFilenameGenerator::GetUseSteppingCode() const
 {
   return this->m_UseSteppingCode;
 }
@@ -528,7 +528,7 @@ FFTWGlobalConfiguration ::~FFTWGlobalConfiguration()
 }
 
 void
-FFTWGlobalConfiguration ::SetWisdomFilenameGenerator(WisdomFilenameGeneratorBase * wfg)
+FFTWGlobalConfiguration::SetWisdomFilenameGenerator(WisdomFilenameGeneratorBase * wfg)
 {
   GetInstance()->m_WisdomFilenameGenerator = wfg;
   // Now we need to try to re-read the wisdom file
@@ -536,13 +536,13 @@ FFTWGlobalConfiguration ::SetWisdomFilenameGenerator(WisdomFilenameGeneratorBase
 }
 
 std::string
-FFTWGlobalConfiguration ::GetWisdomFileDefaultBaseName()
+FFTWGlobalConfiguration::GetWisdomFileDefaultBaseName()
 {
   return GetInstance()->m_WisdomFilenameGenerator->GenerateWisdomFilename(GetInstance()->m_WisdomCacheBase);
 }
 
 bool
-FFTWGlobalConfiguration ::ImportDefaultWisdomFile()
+FFTWGlobalConfiguration::ImportDefaultWisdomFile()
 {
   bool all_succeed = true;
 #  if defined(ITK_USE_FFTWF)
@@ -555,7 +555,7 @@ FFTWGlobalConfiguration ::ImportDefaultWisdomFile()
 }
 
 bool
-FFTWGlobalConfiguration ::ExportDefaultWisdomFile()
+FFTWGlobalConfiguration::ExportDefaultWisdomFile()
 {
   // import the wisdom files again to be sure to not erase the wisdom saved in another process
   bool all_succeed = true;
@@ -569,33 +569,33 @@ FFTWGlobalConfiguration ::ExportDefaultWisdomFile()
 }
 
 bool
-FFTWGlobalConfiguration ::ImportDefaultWisdomFileFloat()
+FFTWGlobalConfiguration::ImportDefaultWisdomFileFloat()
 {
   return ImportWisdomFileFloat(GetWisdomFileDefaultBaseName() + "f");
 }
 
 bool
-FFTWGlobalConfiguration ::ImportDefaultWisdomFileDouble()
+FFTWGlobalConfiguration::ImportDefaultWisdomFileDouble()
 {
   return ImportWisdomFileDouble(GetWisdomFileDefaultBaseName());
 }
 
 bool
-FFTWGlobalConfiguration ::ExportDefaultWisdomFileFloat()
+FFTWGlobalConfiguration::ExportDefaultWisdomFileFloat()
 {
   return ExportWisdomFileFloat(GetWisdomFileDefaultBaseName() + "f");
 }
 
 bool
-FFTWGlobalConfiguration ::ExportDefaultWisdomFileDouble()
+FFTWGlobalConfiguration::ExportDefaultWisdomFileDouble()
 {
   return ExportWisdomFileDouble(GetWisdomFileDefaultBaseName());
 }
 
 bool
-FFTWGlobalConfiguration ::ImportWisdomFileFloat(const std::string &
+FFTWGlobalConfiguration::ImportWisdomFileFloat(const std::string &
 #  if defined(ITK_USE_FFTWF) // Only define if ITK_USE_FFTWF, to avoid compiler warning
-                                                  path
+                                                 path
 #  endif
 )
 {
@@ -627,9 +627,9 @@ FFTWGlobalConfiguration ::ImportWisdomFileFloat(const std::string &
 }
 
 bool
-FFTWGlobalConfiguration ::ImportWisdomFileDouble(const std::string &
+FFTWGlobalConfiguration::ImportWisdomFileDouble(const std::string &
 #  if defined(ITK_USE_FFTWD) // Only define if ITK_USE_FFTWD, to avoid compiler warning
-                                                   path
+                                                  path
 #  endif
 )
 {
@@ -661,9 +661,9 @@ FFTWGlobalConfiguration ::ImportWisdomFileDouble(const std::string &
 }
 
 bool
-FFTWGlobalConfiguration ::ExportWisdomFileFloat(const std::string &
+FFTWGlobalConfiguration::ExportWisdomFileFloat(const std::string &
 #  if defined(ITK_USE_FFTWF) // Only define if ITK_USE_FFTWF, to avoid compiler warning
-                                                  path
+                                                 path
 #  endif
 )
 {
@@ -703,9 +703,9 @@ FFTWGlobalConfiguration ::ExportWisdomFileFloat(const std::string &
 }
 
 bool
-FFTWGlobalConfiguration ::ExportWisdomFileDouble(const std::string &
+FFTWGlobalConfiguration::ExportWisdomFileDouble(const std::string &
 #  if defined(ITK_USE_FFTWD) // Only define if ITK_USE_FFTWD, to avoid compiler warning
-                                                   path
+                                                  path
 #  endif
 )
 {
@@ -738,27 +738,27 @@ FFTWGlobalConfiguration ::ExportWisdomFileDouble(const std::string &
 }
 
 std::mutex &
-FFTWGlobalConfiguration ::GetLockMutex()
+FFTWGlobalConfiguration::GetLockMutex()
 {
   return GetInstance()->m_Lock;
 }
 
 void
-FFTWGlobalConfiguration ::SetNewWisdomAvailable(const bool & v)
+FFTWGlobalConfiguration::SetNewWisdomAvailable(const bool & v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_NewWisdomAvailable = v;
 }
 
 bool
-FFTWGlobalConfiguration ::GetNewWisdomAvailable()
+FFTWGlobalConfiguration::GetNewWisdomAvailable()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_NewWisdomAvailable;
 }
 
 void
-FFTWGlobalConfiguration ::SetPlanRigor(const int & v)
+FFTWGlobalConfiguration::SetPlanRigor(const int & v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   // use that method to check the value
@@ -767,21 +767,21 @@ FFTWGlobalConfiguration ::SetPlanRigor(const int & v)
 }
 
 int
-FFTWGlobalConfiguration ::GetPlanRigor()
+FFTWGlobalConfiguration::GetPlanRigor()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_PlanRigor;
 }
 
 void
-FFTWGlobalConfiguration ::SetPlanRigor(const std::string & name)
+FFTWGlobalConfiguration::SetPlanRigor(const std::string & name)
 {
   itkInitGlobalsMacro(PimplGlobals);
   SetPlanRigor(GetPlanRigorValue(name));
 }
 
 void
-FFTWGlobalConfiguration ::SetReadWisdomCache(const bool & v)
+FFTWGlobalConfiguration::SetReadWisdomCache(const bool & v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_ReadWisdomCache = v;
@@ -792,21 +792,21 @@ FFTWGlobalConfiguration ::SetReadWisdomCache(const bool & v)
 }
 
 bool
-FFTWGlobalConfiguration ::GetReadWisdomCache()
+FFTWGlobalConfiguration::GetReadWisdomCache()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_ReadWisdomCache;
 }
 
 void
-FFTWGlobalConfiguration ::SetWriteWisdomCache(const bool & v)
+FFTWGlobalConfiguration::SetWriteWisdomCache(const bool & v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_WriteWisdomCache = v;
 }
 
 bool
-FFTWGlobalConfiguration ::GetWriteWisdomCache()
+FFTWGlobalConfiguration::GetWriteWisdomCache()
 {
   itkInitGlobalsMacro(PimplGlobals);
   return GetInstance()->m_WriteWisdomCache;
@@ -814,7 +814,7 @@ FFTWGlobalConfiguration ::GetWriteWisdomCache()
 
 
 void
-FFTWGlobalConfiguration ::SetWisdomCacheBase(const std::string & v)
+FFTWGlobalConfiguration::SetWisdomCacheBase(const std::string & v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_WisdomCacheBase = v;
@@ -823,7 +823,7 @@ FFTWGlobalConfiguration ::SetWisdomCacheBase(const std::string & v)
 }
 
 std::string
-FFTWGlobalConfiguration ::GetWisdomCacheBase()
+FFTWGlobalConfiguration::GetWisdomCacheBase()
 {
   itkInitGlobalsMacro(PimplGlobals);
 

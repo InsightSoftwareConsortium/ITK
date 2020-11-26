@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,13 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 # a short program to check that ITK's API is consistent across the library.
 
 import itk
 import sys
-import itkTemplate
+from itk.support.itkTemplate import itkTemplate
+
 itk.auto_progress(2)
 
 # must force the load to return all the names with dir(itk)
@@ -32,18 +33,19 @@ totalAPI = 0
 # a list of classes to exclude. Typically, the classes with a custom New()
 # method, which return a subclass of the current class.
 exclude = [
-# The following class API could be updated.
-"GDCMSeriesFileNames",
-"HistogramToRunLengthFeaturesFilter",
-"HistogramToTextureFeaturesFilter",
-"ScalarImageToRunLengthFeaturesFilter",
-"ScalarImageToTextureFeaturesFilter",
-# These classes are just ignored.
-"ScanlineFilterCommon",  # Segfault
-"templated_class",
-"auto_pipeline",
-"pipeline"
+    # The following class API could be updated.
+    "GDCMSeriesFileNames",
+    "HistogramToRunLengthFeaturesFilter",
+    "HistogramToTextureFeaturesFilter",
+    "ScalarImageToRunLengthFeaturesFilter",
+    "ScalarImageToTextureFeaturesFilter",
+    # These classes are just ignored.
+    "ScanlineFilterCommon",  # Segfault
+    "templated_class",
+    "auto_pipeline",
+    "pipeline",
 ]
+
 
 def checkGetOutputConsistency(o, t):
     totalAPI = 0
@@ -61,15 +63,24 @@ def checkGetOutputConsistency(o, t):
     if issubclass(o, itk.ProcessObject):
         totalAPI = 1
         numberOfIndexedOutputs = i.GetNumberOfIndexedOutputs()
-        has_GetOutput = hasattr(i, 'GetOutput')
-        if (((numberOfIndexedOutputs == 0) == has_GetOutput)
-                or (numberOfIndexedOutputs >= 1 and not has_GetOutput)):
-            msg = "%s: Wrong API: `GetOutput()` %s found, NumberOfIndexedOutputs: %d" % (i.GetNameOfClass(), 'not' * (not has_GetOutput), numberOfIndexedOutputs)
+        has_GetOutput = hasattr(i, "GetOutput")
+        if ((numberOfIndexedOutputs == 0) == has_GetOutput) or (
+            numberOfIndexedOutputs >= 1 and not has_GetOutput
+        ):
+            msg = (
+                "%s: Wrong API: `GetOutput()` %s found, NumberOfIndexedOutputs: %d"
+                % (
+                    i.GetNameOfClass(),
+                    "not" * (not has_GetOutput),
+                    numberOfIndexedOutputs,
+                )
+            )
             print(msg, file=sys.stderr)
             wrongAPI = 1
         elif numberOfIndexedOutputs >= 1:
             i.GetOutput()
     return totalAPI, wrongAPI
+
 
 # Test that `itkProcessObject` derived class have an API that is consistent
 # with what is expected in the Python wrapping.
@@ -80,7 +91,7 @@ for t in dir(itk):
     if t not in exclude:
         T = itk.__dict__[t]
         # first case - that's a templated class
-        if isinstance(T,itkTemplate.itkTemplate) and len(T) > 0:
+        if isinstance(T, itkTemplate) and len(T) > 0:
             # Most templated object would simply instantiate the first type
             # listed if `New()` is called directly on the template type, but
             # this is not the case for all templates
@@ -97,9 +108,7 @@ for t in dir(itk):
             totalAPI += tot
             wrongAPI += w
 
-print("%s classes checked." % totalAPI)
+print(f"{totalAPI} classes checked.")
 if wrongAPI:
-    print(
-        "%s classes are not providing the API." % wrongAPI,
-        file=sys.stderr)
+    print(f"{wrongAPI} classes are not providing the API.", file=sys.stderr)
     sys.exit(1)

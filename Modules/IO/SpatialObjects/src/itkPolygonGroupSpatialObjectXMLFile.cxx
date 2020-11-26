@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPolygonGroupSpatialObjectXMLFile_hxx
-#define _itkPolygonGroupSpatialObjectXMLFile_hxx
 
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
 #include "itksys/SystemTools.hxx"
@@ -270,5 +268,3 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   return 0;
 }
 } // namespace itk
-
-#endif

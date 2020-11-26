@@ -85,7 +85,7 @@ class ITK_TEMPLATE_EXPORT NarrowBandThresholdSegmentationLevelSetImageFilter
   : public NarrowBandLevelSetImageFilter<TInputImage,
                                          TFeatureImage,
                                          TOutputPixelType,
-                                         Image<TOutputPixelType, TInputImage ::ImageDimension>>
+                                         Image<TOutputPixelType, TInputImage::ImageDimension>>
 {
 public:
   /** Standard class type aliases */

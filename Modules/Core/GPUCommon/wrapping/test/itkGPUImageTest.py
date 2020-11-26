@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 import itk
 
 width = 256
@@ -57,9 +57,9 @@ kernel_manager = itk.GPUKernelManager.New()
 gpu_source = itk.GPUImageOps.GetOpenCLSource()
 print(gpu_source)
 
-kernel_manager.LoadProgramFromString(gpu_source, '#define PIXELTYPE float\n')
+kernel_manager.LoadProgramFromString(gpu_source, "#define PIXELTYPE float\n")
 
-kernel_add = kernel_manager.CreateKernel('ImageAdd')
+kernel_add = kernel_manager.CreateKernel("ImageAdd")
 
 srcA.SetCurrentCommandQueue(0)
 srcB.SetCurrentCommandQueue(0)
@@ -72,95 +72,95 @@ print("======================")
 print("Kernel : Addition")
 print("------------------")
 print("Before GPU kernel execution")
-print("SrcA : {0}".format(srcA.GetPixel(idx)))
-print("SrcB : {0}".format(srcB.GetPixel(idx)))
-print("Dest : {0}".format(dest.GetPixel(idx)))
+print(f"SrcA : {srcA.GetPixel(idx)}")
+print(f"SrcB : {srcB.GetPixel(idx)}")
+print(f"Dest : {dest.GetPixel(idx)}")
 
-kernel_manager.SetKernelArgWithImage(kernel_add, 0, srcA.GetGPUDataManager());
-kernel_manager.SetKernelArgWithImage(kernel_add, 1, srcB.GetGPUDataManager());
-kernel_manager.SetKernelArgWithImage(kernel_add, 2, dest.GetGPUDataManager());
-kernel_manager.SetKernelArgWithUInt(kernel_add, 3, number_of_elements);
-kernel_manager.LaunchKernel2D(kernel_add, width, height, 16, 16);
+kernel_manager.SetKernelArgWithImage(kernel_add, 0, srcA.GetGPUDataManager())
+kernel_manager.SetKernelArgWithImage(kernel_add, 1, srcB.GetGPUDataManager())
+kernel_manager.SetKernelArgWithImage(kernel_add, 2, dest.GetGPUDataManager())
+kernel_manager.SetKernelArgWithUInt(kernel_add, 3, number_of_elements)
+kernel_manager.LaunchKernel2D(kernel_add, width, height, 16, 16)
 
 print("------------------")
 print("After GPU kernel execution")
-print("SrcA : {0}".format(srcA.GetPixel(idx)))
-print("SrcB : {0}".format(srcB.GetPixel(idx)))
-print("Dest : {0}".format(dest.GetPixel(idx)))
+print(f"SrcA : {srcA.GetPixel(idx)}")
+print(f"SrcB : {srcB.GetPixel(idx)}")
+print(f"Dest : {dest.GetPixel(idx)}")
 print("======================")
 
 #
 # create multiplication kernel
 #
-kernel_mult = kernel_manager.CreateKernel("ImageMult");
+kernel_mult = kernel_manager.CreateKernel("ImageMult")
 
 print("======================")
 print("Kernel : Multiplication")
 print("------------------")
 print("Before GPU kernel execution")
-print("SrcA : {0}".format(srcA.GetPixel(idx)))
-print("SrcB : {0}".format(srcB.GetPixel(idx)))
-print("Dest : {0}".format(dest.GetPixel(idx)))
+print(f"SrcA : {srcA.GetPixel(idx)}")
+print(f"SrcB : {srcB.GetPixel(idx)}")
+print(f"Dest : {dest.GetPixel(idx)}")
 
-kernel_manager.SetKernelArgWithImage(kernel_mult, 0, srcA.GetGPUDataManager());
-kernel_manager.SetKernelArgWithImage(kernel_mult, 1, srcB.GetGPUDataManager());
-kernel_manager.SetKernelArgWithImage(kernel_mult, 2, dest.GetGPUDataManager());
-kernel_manager.SetKernelArgWithUInt(kernel_mult, 3, number_of_elements);
-kernel_manager.LaunchKernel2D(kernel_mult, width, height, 16, 16);
+kernel_manager.SetKernelArgWithImage(kernel_mult, 0, srcA.GetGPUDataManager())
+kernel_manager.SetKernelArgWithImage(kernel_mult, 1, srcB.GetGPUDataManager())
+kernel_manager.SetKernelArgWithImage(kernel_mult, 2, dest.GetGPUDataManager())
+kernel_manager.SetKernelArgWithUInt(kernel_mult, 3, number_of_elements)
+kernel_manager.LaunchKernel2D(kernel_mult, width, height, 16, 16)
 
 print("------------------")
 print("After GPU kernel execution")
-print("SrcA : {0}".format(srcA.GetPixel(idx)))
-print("SrcB : {0}".format(srcB.GetPixel(idx)))
-print("Dest : {0}".format(dest.GetPixel(idx)))
+print(f"SrcA : {srcA.GetPixel(idx)}")
+print(f"SrcB : {srcB.GetPixel(idx)}")
+print(f"Dest : {dest.GetPixel(idx)}")
 print("======================")
 
 #
 # Change Command Queue if more than one GPU device exists
 # otherwise, use same command queue
 #
-queueID = 0;
-context_manager = itk.GPUContextManager.GetInstance();
+queueID = 0
+context_manager = itk.GPUContextManager.GetInstance()
 if context_manager.GetNumberOfCommandQueues() >= 2:
-    queueID = 1;
+    queueID = 1
     print("More than one GPU device available, switching command queues.")
 else:
     print("Only one GPU device available, using same command queue.")
 
-print("Current Command Queue ID : {0}".format(queueID))
+print(f"Current Command Queue ID : {queueID}")
 
 #
 # create subtraction kernel
 #
-kernel_sub = kernel_manager.CreateKernel("ImageSub");
+kernel_sub = kernel_manager.CreateKernel("ImageSub")
 
-srcA.FillBuffer(2.0);
-srcB.FillBuffer(4.0);
-dest.FillBuffer(1.0);
+srcA.FillBuffer(2.0)
+srcB.FillBuffer(4.0)
+dest.FillBuffer(1.0)
 
 # default queue id was 0
-srcA.SetCurrentCommandQueue(queueID);
-srcB.SetCurrentCommandQueue(queueID);
-dest.SetCurrentCommandQueue(queueID);
-kernel_manager.SetCurrentCommandQueue(queueID);
+srcA.SetCurrentCommandQueue(queueID)
+srcB.SetCurrentCommandQueue(queueID)
+dest.SetCurrentCommandQueue(queueID)
+kernel_manager.SetCurrentCommandQueue(queueID)
 
 print("======================")
 print("Kernel : Subtraction")
 print("------------------")
 print("Before GPU kernel execution")
-print("SrcA : {0}".format(srcA.GetPixel(idx)))
-print("SrcB : {0}".format(srcB.GetPixel(idx)))
-print("Dest : {0}".format(dest.GetPixel(idx)))
+print(f"SrcA : {srcA.GetPixel(idx)}")
+print(f"SrcB : {srcB.GetPixel(idx)}")
+print(f"Dest : {dest.GetPixel(idx)}")
 
-kernel_manager.SetKernelArgWithImage(kernel_sub, 0, srcA.GetGPUDataManager());
-kernel_manager.SetKernelArgWithImage(kernel_sub, 1, srcB.GetGPUDataManager());
-kernel_manager.SetKernelArgWithImage(kernel_sub, 2, dest.GetGPUDataManager());
-kernel_manager.SetKernelArgWithUInt(kernel_sub, 3, number_of_elements);
-kernel_manager.LaunchKernel2D(kernel_sub, width, height, 16, 16);
+kernel_manager.SetKernelArgWithImage(kernel_sub, 0, srcA.GetGPUDataManager())
+kernel_manager.SetKernelArgWithImage(kernel_sub, 1, srcB.GetGPUDataManager())
+kernel_manager.SetKernelArgWithImage(kernel_sub, 2, dest.GetGPUDataManager())
+kernel_manager.SetKernelArgWithUInt(kernel_sub, 3, number_of_elements)
+kernel_manager.LaunchKernel2D(kernel_sub, width, height, 16, 16)
 
 print("------------------")
 print("After GPU kernel execution")
-print("SrcA : {0}".format(srcA.GetPixel(idx)))
-print("SrcB : {0}".format(srcB.GetPixel(idx)))
-print("Dest : {0}".format(dest.GetPixel(idx)))
+print(f"SrcA : {srcA.GetPixel(idx)}")
+print(f"SrcB : {srcB.GetPixel(idx)}")
+print(f"Dest : {dest.GetPixel(idx)}")
 print("======================")

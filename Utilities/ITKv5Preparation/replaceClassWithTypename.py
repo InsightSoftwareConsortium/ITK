@@ -11,33 +11,35 @@
 import re
 import sys
 
+
 def replaceOneInstance(desired_outs):
-    templateSearchPattern = r'\S*template *<([^>]*?\bclass\b[^>]*?)>'
-    compiledSearchPattern = re.compile(templateSearchPattern,re.MULTILINE|re.DOTALL)
+    templateSearchPattern = r"\S*template *<([^>]*?\bclass\b[^>]*?)>"
+    compiledSearchPattern = re.compile(templateSearchPattern, re.MULTILINE | re.DOTALL)
     foundMatch = compiledSearchPattern.search(desired_outs)
     if not foundMatch:
-        return desired_outs ##Break recursion
+        return desired_outs  ##Break recursion
     else:
         oldguts = foundMatch.groups(0)[0]
-        replacePattern = re.compile(r'\bclass\b')
-        newguts = replacePattern.sub(r'typename', oldguts)
-        desired_outs = desired_outs.replace(oldguts,newguts)
-        desired_outs=replaceOneInstance(desired_outs)
+        replacePattern = re.compile(r"\bclass\b")
+        newguts = replacePattern.sub(r"typename", oldguts)
+        desired_outs = desired_outs.replace(oldguts, newguts)
+        desired_outs = replaceOneInstance(desired_outs)
     return desired_outs
 
+
 for fileName in sys.argv[1:]:
-    print("Processing {fname}".format(fname=fileName))
-    filePtr = open(fileName,'r')
-    fileOrignalText=filePtr.read()
+    print(f"Processing {fileName}")
+    filePtr = open(fileName, "r")
+    fileOrignalText = filePtr.read()
     filePtr.close()
 
     fixed_text = replaceOneInstance(fileOrignalText)
 
-    filePtr = open(sys.argv[1],'w')
+    filePtr = open(sys.argv[1], "w")
     filePtr.write(fixed_text)
     filePtr.close()
 
-commit_message="""
+commit_message = """
 STYLE: Use "typename" for template parameters
 
 For naming template parameters, typename and class are equivalent. ref:14.1.2:

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import sys
 import commands
@@ -23,25 +23,14 @@ from optparse import OptionParser
 
 parser = OptionParser(usage="usage: %prog")
 parser.add_option(
-    "--start-from",
-    dest="startFrom",
-    default=None,
-    metavar="CLASS",
-    help="")
+    "--start-from", dest="startFrom", default=None, metavar="CLASS", help=""
+)
 parser.add_option(
-    "-v",
-    "--verbose",
-    action="store_true",
-    dest="verbose",
-    default=False,
-    help="")
+    "-v", "--verbose", action="store_true", dest="verbose", default=False, help=""
+)
 parser.add_option(
-    "-k",
-    "--keep",
-    action="store_true",
-    dest="keep",
-    default=False,
-    help="")
+    "-k", "--keep", action="store_true", dest="keep", default=False, help=""
+)
 (options, args) = parser.parse_args()
 
 if options.keep:
@@ -55,8 +44,13 @@ logs = tempfile.NamedTemporaryFile()
 lastClass = options.startFrom
 ret = 1
 while ret != 0:
-    command = "python returnedTypeCoverage.py -v5 --exclude " + \
-        sys.argv[1] + " --log-file '" + logs.name + "'"
+    command = (
+        "python returnedTypeCoverage.py -v5 --exclude "
+        + sys.argv[1]
+        + " --log-file '"
+        + logs.name
+        + "'"
+    )
     if lastClass:
         command += " --start-from " + lastClass
     if options.verbose:
@@ -68,7 +62,7 @@ while ret != 0:
         logs.file.seek(0)
         for l in reversed(logs.file.readlines()):
             l = l.strip()
-            if faultyArgs is None and l.startswith('('):
+            if faultyArgs is None and l.startswith("("):
                 faultyArgs = l
             if faultyArgs is not None:
                 # find the last class

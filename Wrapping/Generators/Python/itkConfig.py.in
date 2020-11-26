@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 """Insight Toolkit (itk) configuration module.
 
@@ -34,56 +34,119 @@ Currently-supported options are:
   LazyLoading: Only load an itk library when needed. Before the library is
     loaded, the namespace will be inhabited with dummy objects."""
 
+from typing import Dict, List
 
 # User options
-SILENT = 0; WARN = 1; ERROR = 2
-DebugLevel = WARN
+SILENT: int = 0
+WARN: int = 1
+ERROR: int = 2
+DebugLevel: int = WARN
 ImportCallback = None
 ProgressCallback = None
-LazyLoading = True
-NotInPlace = False
 
 
+def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
+    # Use defaults if not available as environmental overrides
+    # True values are y, yes, t, true, on and 1;
+    # False values are n, no, f, false, off and 0.
+    # Raises ValueError if val is anything else.
+    from os import environ as _environ
+    from distutils.util import strtobool as _strtobool
+
+    try:
+        _StringDefault: str = _environ.get(environment_var, default_string)
+        return bool(_strtobool(_StringDefault))
+    except ValueError:
+        print(
+            f"{environment_var} environment variable has invalid value {_StringDefault}"
+        )
+        print(
+            "   Valid True values are (case insensitive): 'y', 'yes', 't', 'true', 'on', and '1'"
+        )
+        print(
+            "   Valid False values are (case insensitive): 'n', 'no', 'f', 'false', 'off', and '0'"
+        )
+    return bool(_strtobool(default_string))
+
+
+LazyLoading: bool = _get_environment_boolean("ITK_PYTHON_LAZYLOADING", "True")
+NotInPlace: bool = _get_environment_boolean("ITK_PYTHON_NOTINPLACE", "False")
+del _get_environment_boolean
 
 # Internal settings
 
-import warnings
-def itkFormatWarning(msg, *a, **kwa):
+
+def _itk_format_warning(msg, *_, **__):
     """"Format the warnings issued by itk to display only the message.
 
-    This will ignore the filename and the linenumber where the warning was
+    This will ignore the filename and the line number where the warning was
     triggered. The message is returned to the warnings module.
     """
+    return str(msg) + "\n"
 
-    return str(msg) + '\n'
+
+import warnings
 
 # Redefine the format of the warnings
-warnings.formatwarning = itkFormatWarning
+warnings.formatwarning = _itk_format_warning
 
 
-import os
-def normalized_path(relative_posix_path):
-    if relative_posix_path != 'None':
-        file_dir = os.path.split(__file__)[0]
-        relative_path = relative_posix_path.replace('/', os.sep)
-        return os.path.normpath(os.path.join(file_dir, relative_path))
+def _initialize():
+    import os
 
-# swig_lib: location of the swig-generated shared libraries
-swig_lib = normalized_path('@CONFIG_PYTHON_SWIGLIB_DIR@')
+    _this_file_dir: str = os.path.dirname(__file__)
 
-# swig_py: location of the xxxPython.py swig-generated python interfaces
-swig_py = normalized_path('@CONFIG_PYTHON_SWIGPY_DIR@')
+    def _normalized_path(relative_posix_path: str, message) -> str:
+        norm_path: str = "None"
+        if relative_posix_path != "None":
+            relative_path = relative_posix_path.replace("/", os.sep)
+            norm_path = os.path.normpath(os.path.join(_this_file_dir, relative_path))
+            if not os.path.exists(norm_path):
+                print(f"WARNING: Internal configuration path is invalid: {norm_path}")
+                print(f"WARNING: Invalid: {message}")
+        return norm_path
 
-# config_py: location of xxxConfix.py CMake-generated library descriptions
-config_py = normalized_path('@CONFIG_PYTHON_CONFIGPY_DIR@')
+    _swig_lib: str = _normalized_path(
+        "@CONFIG_PYTHON_SWIGLIB_DIR@",
+        "swig_lib: location of the swig-generated shared libraries",
+    )
+    _swig_py: str = _normalized_path(
+        "@CONFIG_PYTHON_SWIGPY_DIR@",
+        "swig_py: location of the xxxPython.py swig-generated python interfaces",
+    )
+    _config_py: str = _normalized_path(
+        "@CONFIG_PYTHON_CONFIGPY_DIR@",
+        "config_py: location of xxxConfig.py CMake-generated library descriptions",
+    )
 
-# put the itkConfig.py path in the path list
-path = [os.path.join(config_py, '..')]
-# also populate path with the WRAPITK_PYTHON_PATH var
-if 'WRAPITK_PYTHON_PATH' in os.environ:
-  path.extend(os.environ['WRAPITK_PYTHON_PATH'].split(':'))
+    _config_py_root: str = os.path.dirname(_config_py)
 
-doxygen_root = normalized_path('../Doc')
+    # put the itkConfig.py path in the path list
+    _path = [_config_py_root]
+    # also populate path with the WRAPITK_PYTHON_PATH var
+    if "WRAPITK_PYTHON_PATH" in os.environ:
+        _path.extend(os.environ["WRAPITK_PYTHON_PATH"].split(":"))
 
-del normalized_path
-del os
+    # NOT IMPLEMENTED:
+    # _doxygen_root = _normalized_path("../Doc", "doxygen_root: location of the doxygen xml files.")
+    _doxygen_root: str = "None"
+
+    return _swig_lib, _swig_py, _config_py, _doxygen_root, _path
+
+
+ITK_GLOBAL_VERSION_STRING: str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+ITK_GLOBAL_WRAPPING_BUILD_OPTIONS: Dict[str, List[str]] = {
+    "ITK_WRAP_IMAGE_DIMS": "@ITK_WRAP_IMAGE_DIMS@".split(";"),
+    "WRAP_ITK_USIGN_INT": "@WRAP_ITK_USIGN_INT@".split(";"),
+    "WRAP_ITK_SIGN_INT": "@WRAP_ITK_SIGN_INT@".split(";"),
+    "WRAP_ITK_REAL": "@WRAP_ITK_REAL@".split(";"),
+    "ITK_WRAP_PYTHON_VECTOR_REAL": "@ITK_WRAP_PYTHON_VECTOR_REAL@".split(";"),
+    "ITK_WRAP_PYTHON_COV_VECTOR_REAL": "@ITK_WRAP_PYTHON_COV_VECTOR_REAL@".split(";"),
+    "ITK_WRAP_PYTHON_RGB": "@ITK_WRAP_PYTHON_RGB@".split(";"),
+    "ITK_WRAP_PYTHON_RGBA": "@ITK_WRAP_PYTHON_RGBA@".split(";"),
+    "ITK_WRAP_PYTHON_COMPLEX_REAL": "@ITK_WRAP_PYTHON_COMPLEX_REAL@".split(";"),
+}
+
+(swig_lib, swig_py, config_py, doxygen_root, path) = _initialize()
+del _initialize
+del warnings

@@ -30,7 +30,7 @@
 namespace itk
 {
 SpatialOrientationAdapter::OrientationType
-SpatialOrientationAdapter ::FromDirectionCosines(const DirectionType & Dir)
+SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
 {
   int      axes[9] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
   unsigned dominant_axis;
@@ -88,7 +88,7 @@ SpatialOrientationAdapter ::FromDirectionCosines(const DirectionType & Dir)
 }
 
 SpatialOrientationAdapter::DirectionType
-SpatialOrientationAdapter ::ToDirectionCosines(const OrientationType & Or)
+SpatialOrientationAdapter::ToDirectionCosines(const OrientationType & Or)
 {
   using CoordinateTerms = SpatialOrientation::CoordinateTerms;
 

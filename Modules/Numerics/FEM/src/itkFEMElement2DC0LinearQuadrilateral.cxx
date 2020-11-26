@@ -23,10 +23,10 @@ namespace itk
 namespace fem
 {
 void
-Element2DC0LinearQuadrilateral ::GetIntegrationPointAndWeight(unsigned int i,
-                                                              VectorType & pt,
-                                                              Float &      w,
-                                                              unsigned int order) const
+Element2DC0LinearQuadrilateral::GetIntegrationPointAndWeight(unsigned int i,
+                                                             VectorType & pt,
+                                                             Float &      w,
+                                                             unsigned int order) const
 {
   // default integration order
   if ((order == 0) || (order >= Element::gaussMaxOrder))
@@ -43,7 +43,7 @@ Element2DC0LinearQuadrilateral ::GetIntegrationPointAndWeight(unsigned int i,
 }
 
 unsigned int
-Element2DC0LinearQuadrilateral ::GetNumberOfIntegrationPoints(unsigned int order) const
+Element2DC0LinearQuadrilateral::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order
   if ((order == 0) || (order >= Element::gaussMaxOrder))
@@ -55,7 +55,7 @@ Element2DC0LinearQuadrilateral ::GetNumberOfIntegrationPoints(unsigned int order
 }
 
 Element2DC0LinearQuadrilateral::VectorType
-Element2DC0LinearQuadrilateral ::ShapeFunctions(const VectorType & pt) const
+Element2DC0LinearQuadrilateral::ShapeFunctions(const VectorType & pt) const
 {
   /* Linear quadrilateral element has four shape functions  */
   VectorType shapeF(4);
@@ -83,7 +83,7 @@ Element2DC0LinearQuadrilateral ::ShapeFunctions(const VectorType & pt) const
 }
 
 void
-Element2DC0LinearQuadrilateral ::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
+Element2DC0LinearQuadrilateral::ShapeFunctionDerivatives(const VectorType & pt, MatrixType & shapeD) const
 {
   /** functions at directions r and s.  */
   shapeD.set_size(2, 4);
@@ -114,7 +114,7 @@ Element2DC0LinearQuadrilateral ::ShapeFunctionDerivatives(const VectorType & pt,
 }
 
 bool
-Element2DC0LinearQuadrilateral ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
+Element2DC0LinearQuadrilateral::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
   Float x1, x2, x3, x4, y1, y2, y3, y4, xce, yce, xb, yb, xcn, ycn, A, J1, J2, x0, y0, dx, dy, be, bn, ce, cn;
 

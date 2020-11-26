@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,16 +14,18 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 
+
 def TestComplex(selectedType):
     cType = itk.complex[itk.ctype(selectedType)]
-    c = cType(2.0,3.0)
+    c = cType(2.0, 3.0)
     assert c.real() == 2.0
     assert c.imag() == 3.0
-    assert complex(c) == 2.0+3.0j
+    assert complex(c) == 2.0 + 3.0j
 
-TestComplex('float')
-TestComplex('double')
+
+TestComplex("float")
+TestComplex("double")

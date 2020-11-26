@@ -140,6 +140,7 @@ namespace itk
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
+ * \sa ShapedImageNeighborhoodRange
  * \ingroup ITKCommon
  *
  * \sphinx

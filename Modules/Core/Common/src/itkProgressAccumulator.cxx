@@ -19,7 +19,7 @@
 
 namespace itk
 {
-ProgressAccumulator ::ProgressAccumulator()
+ProgressAccumulator::ProgressAccumulator()
 {
   m_MiniPipelineFilter = nullptr;
 
@@ -38,7 +38,7 @@ ProgressAccumulator ::~ProgressAccumulator()
 }
 
 void
-ProgressAccumulator ::RegisterInternalFilter(GenericFilterType * filter, float weight)
+ProgressAccumulator::RegisterInternalFilter(GenericFilterType * filter, float weight)
 {
   // Observe the filter
   unsigned long progressTag = filter->AddObserver(ProgressEvent(), m_CallbackCommand);
@@ -57,7 +57,7 @@ ProgressAccumulator ::RegisterInternalFilter(GenericFilterType * filter, float w
 }
 
 void
-ProgressAccumulator ::UnregisterAllFilters()
+ProgressAccumulator::UnregisterAllFilters()
 {
   // The filters should no longer be observing us
   FilterRecordVector::iterator it;
@@ -78,7 +78,7 @@ ProgressAccumulator ::UnregisterAllFilters()
 
 #if !defined(ITK_LEGACY_REMOVE)
 void
-ProgressAccumulator ::ResetProgress()
+ProgressAccumulator::ResetProgress()
 {
   // Reset the accumulated progress
   m_AccumulatedProgress = 0.0f;
@@ -95,14 +95,14 @@ ProgressAccumulator ::ResetProgress()
 
 #if !defined(ITK_LEGACY_REMOVE)
 void
-ProgressAccumulator ::ResetFilterProgressAndKeepAccumulatedProgress()
+ProgressAccumulator::ResetFilterProgressAndKeepAccumulatedProgress()
 {
   // Do nothing.  After all, this method is deprecated.
 }
 #endif
 
 void
-ProgressAccumulator ::ReportProgress(Object * who, const EventObject & event)
+ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
 {
   ProgressEvent pe;
   StartEvent    se;
@@ -161,7 +161,7 @@ ProgressAccumulator ::ReportProgress(Object * who, const EventObject & event)
 }
 
 void
-ProgressAccumulator ::PrintSelf(std::ostream & os, Indent indent) const
+ProgressAccumulator::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

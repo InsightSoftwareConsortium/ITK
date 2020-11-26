@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,13 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 # a short program to check the value returned by the GetNameOfClass() methods
 
 import itk
 import sys
 import types
+
 itk.auto_progress(2)
 
 # must force the load to return all the names with dir(itk)
@@ -32,19 +33,19 @@ totalName = 0
 # a list of classes to exclude. Typically, the classes with a custom New()
 # method, which return a subclass of the current class
 exclude = [
-"ScanlineFilterCommon",  # Segfault
-"templated_class",
-"auto_pipeline",
-"pipeline"
+    "ScanlineFilterCommon",  # Segfault
+    "templated_class",
+    "auto_pipeline",
+    "pipeline",
 ]
 
 
 def create_and_test(t, create_method):
     wrongType = 0
     # Local scope in which objects are created.
-    if create_method == 'New':
+    if create_method == "New":
         I = t.New()
-    elif create_method == 'call':
+    elif create_method == "call":
         try:
             I = t()
         except:  # Call function needs parameters or class is abstract
@@ -56,33 +57,50 @@ def create_and_test(t, create_method):
     actual_type = type(I)
     totalName = 1
     # Check that there is no C++ character left in Python obj_type
-    if any(substring in obj_type for substring in ['<', ':', '>', 'class', 'itkTemplate', 'std', ' ', '(', ')', 'itkCType']):
-            msg = "%s: wrong Python class name: %s" % (t, obj_type)
-            wrongType = 1
+    if any(
+        substring in obj_type
+        for substring in [
+            "<",
+            ":",
+            ">",
+            "class",
+            "itkTemplate",
+            "std",
+            " ",
+            "(",
+            ")",
+            "itkCType",
+        ]
+    ):
+        msg = f"{t}: wrong Python class name: {obj_type}"
+        wrongType = 1
     else:
         try:
             if eval(obj_type) != actual_type:
-                msg = "%s: wrong Python class name: %s" % (actual_type, obj_type)
+                msg = f"{actual_type}: wrong Python class name: {obj_type}"
                 wrongType = 1
         except Exception as e:
-            msg = ("%s, %s: wrong Python class name: %s. "
-            "Exception while evaluating it: %s" %
-            (t, actual_type, obj_type, e))
+            msg = (
+                "%s, %s: wrong Python class name: %s. "
+                "Exception while evaluating it: %s" % (t, actual_type, obj_type, e)
+            )
             wrongType = 1
     if wrongType:
         print(msg, file=sys.stderr)
     return totalName, wrongType
 
+
 def create_method(i):
-    if 'New' in dir(i):
-        return 'New'
-    elif '__call__' in dir(i) and not isinstance(i, types.FunctionType):
-        return 'call'
+    if "New" in dir(i):
+        return "New"
+    elif "__call__" in dir(i) and not isinstance(i, types.FunctionType):
+        return "call"
     else:
         return None
 
+
 for t in dir(itk):
-    if t not in exclude and not t.startswith('stdnumeric_limits'):
+    if t not in exclude and not t.startswith("stdnumeric_limits"):
         T = itk.__dict__[t]
         # first case - that's a templated class
         if isinstance(T, itk.Vector.__class__) and len(T) > 0:
@@ -98,11 +116,12 @@ for t in dir(itk):
             wrongName += w
             totalName += t
 
-print("%s classes checked." % totalName)
+print(f"{totalName} classes checked.")
 if wrongName:
     print(
-        "%s classes are not providing the correct Python class name." % wrongName,
-        file=sys.stderr)
+        f"{wrongName} classes are not providing the correct Python class name.",
+        file=sys.stderr,
+    )
     sys.exit(1)
 
 # Also test for Python types:

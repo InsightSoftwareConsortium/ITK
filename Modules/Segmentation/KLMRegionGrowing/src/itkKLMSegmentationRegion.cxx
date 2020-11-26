@@ -27,7 +27,7 @@ KLMSegmentationRegion ::KLMSegmentationRegion()
 KLMSegmentationRegion ::~KLMSegmentationRegion() = default;
 
 void
-KLMSegmentationRegion ::PrintSelf(std::ostream & os, Indent indent) const
+KLMSegmentationRegion::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Mean region intensity   : " << m_MeanRegionIntensity << std::endl;
@@ -35,9 +35,9 @@ KLMSegmentationRegion ::PrintSelf(std::ostream & os, Indent indent) const
 } // end PrintSelf
 
 void
-KLMSegmentationRegion ::SetRegionParameters(MeanRegionIntensityType meanRegionIntensity,
-                                            double                  regionArea,
-                                            RegionLabelType         label)
+KLMSegmentationRegion::SetRegionParameters(MeanRegionIntensityType meanRegionIntensity,
+                                           double                  regionArea,
+                                           RegionLabelType         label)
 {
   // Set the area, mean, and label associated with the region
   this->SetRegionArea(regionArea);
@@ -46,7 +46,7 @@ KLMSegmentationRegion ::SetRegionParameters(MeanRegionIntensityType meanRegionIn
 } // end SetRegionParameters
 
 void
-KLMSegmentationRegion ::CombineRegionParameters(const Self * region)
+KLMSegmentationRegion::CombineRegionParameters(const Self * region)
 {
   // Reset the area and mean associated with the merged region
 
@@ -69,7 +69,7 @@ KLMSegmentationRegion ::CombineRegionParameters(const Self * region)
 } // end CombineRegionParameters
 
 double
-KLMSegmentationRegion ::EnergyFunctional(const Self * region)
+KLMSegmentationRegion::EnergyFunctional(const Self * region)
 {
   MeanRegionIntensityType region1_2MeanDiff = this->m_MeanRegionIntensity - region->m_MeanRegionIntensity;
 
@@ -86,7 +86,7 @@ KLMSegmentationRegion ::EnergyFunctional(const Self * region)
 }
 
 void
-KLMSegmentationRegion ::DeleteRegionBorder(KLMSegmentationBorder * pBorderCandidate)
+KLMSegmentationRegion::DeleteRegionBorder(KLMSegmentationBorder * pBorderCandidate)
 {
   if (pBorderCandidate == nullptr)
   {
@@ -116,7 +116,7 @@ KLMSegmentationRegion ::DeleteRegionBorder(KLMSegmentationBorder * pBorderCandid
 } // end DeleteRegionBorder()
 
 void
-KLMSegmentationRegion ::PushBackRegionBorder(KLMSegmentationBorder * pBorderCandidate)
+KLMSegmentationRegion::PushBackRegionBorder(KLMSegmentationBorder * pBorderCandidate)
 {
   if (pBorderCandidate == nullptr)
   {
@@ -126,7 +126,7 @@ KLMSegmentationRegion ::PushBackRegionBorder(KLMSegmentationBorder * pBorderCand
 }
 
 void
-KLMSegmentationRegion ::PushFrontRegionBorder(KLMSegmentationBorder * pBorderCandidate)
+KLMSegmentationRegion::PushFrontRegionBorder(KLMSegmentationBorder * pBorderCandidate)
 {
   if (pBorderCandidate == nullptr)
   {
@@ -136,7 +136,7 @@ KLMSegmentationRegion ::PushFrontRegionBorder(KLMSegmentationBorder * pBorderCan
 }
 
 void
-KLMSegmentationRegion ::InsertRegionBorder(KLMSegmentationBorder * pBorderCandidate)
+KLMSegmentationRegion::InsertRegionBorder(KLMSegmentationBorder * pBorderCandidate)
 {
   // Ensure that the border candidate is not a null pointer
   if (pBorderCandidate == nullptr)
@@ -187,8 +187,8 @@ KLMSegmentationRegion ::InsertRegionBorder(KLMSegmentationBorder * pBorderCandid
 } // end InsertRegionBorder
 
 void
-KLMSegmentationRegion ::InsertRegionBorder(RegionBorderVectorIterator RegionBorderVectorIt,
-                                           KLMSegmentationBorder *    pBorderCandidate)
+KLMSegmentationRegion::InsertRegionBorder(RegionBorderVectorIterator RegionBorderVectorIt,
+                                          KLMSegmentationBorder *    pBorderCandidate)
 {
   // Ensure that the border candidate is not a null pointer
   if (pBorderCandidate == nullptr)
@@ -204,7 +204,7 @@ KLMSegmentationRegion ::InsertRegionBorder(RegionBorderVectorIterator RegionBord
 } // end InsertRegionBorder
 
 void
-KLMSegmentationRegion ::ResetRegionLabelAndUpdateBorders(Self * region)
+KLMSegmentationRegion::ResetRegionLabelAndUpdateBorders(Self * region)
 {
   // Assign new equivalence label to the old region
   this->SetRegionLabel(region->GetRegionLabel());
@@ -277,7 +277,7 @@ KLMSegmentationRegion ::ResetRegionLabelAndUpdateBorders(Self * region)
 } // end ResetRegionLabelAndUpdateBorders
 
 void
-KLMSegmentationRegion ::SpliceRegionBorders(Self * region)
+KLMSegmentationRegion::SpliceRegionBorders(Self * region)
 {
   // Do the actual union of the borders
 
@@ -396,7 +396,7 @@ KLMSegmentationRegion ::SpliceRegionBorders(Self * region)
 } // end SpliceRegionBorders
 
 void
-KLMSegmentationRegion ::UpdateRegionBorderLambda()
+KLMSegmentationRegion::UpdateRegionBorderLambda()
 {
   // Check if the number of borders for this region is nullptr
   if (m_RegionBorderVector.empty())
@@ -417,43 +417,43 @@ KLMSegmentationRegion ::UpdateRegionBorderLambda()
 } // end UpdateRegionBorderLambda
 
 void
-KLMSegmentationRegion ::DeleteAllRegionBorders()
+KLMSegmentationRegion::DeleteAllRegionBorders()
 {
   m_RegionBorderVector.resize(0);
 } // end DeleteAllRegionBorders
 
 KLMSegmentationRegion::RegionBorderVectorIterator
-KLMSegmentationRegion ::GetRegionBorderItBegin()
+KLMSegmentationRegion::GetRegionBorderItBegin()
 {
   return m_RegionBorderVector.begin();
 } // end GetRegionBorderItBegin
 
 KLMSegmentationRegion::RegionBorderVectorConstIterator
-KLMSegmentationRegion ::GetRegionBorderConstItBegin()
+KLMSegmentationRegion::GetRegionBorderConstItBegin()
 {
   return m_RegionBorderVector.begin();
 } // end GetRegionBorderConstItBegin
 
 KLMSegmentationRegion::RegionBorderVectorIterator
-KLMSegmentationRegion ::GetRegionBorderItEnd()
+KLMSegmentationRegion::GetRegionBorderItEnd()
 {
   return m_RegionBorderVector.end();
 } // end GetRegionBorderItEnd
 
 KLMSegmentationRegion::RegionBorderVectorConstIterator
-KLMSegmentationRegion ::GetRegionBorderConstItEnd()
+KLMSegmentationRegion::GetRegionBorderConstItEnd()
 {
   return m_RegionBorderVector.end();
 } // end GetRegionBorderConstItEnd
 
 KLMSegmentationRegion::RegionBorderVectorSizeType
-KLMSegmentationRegion ::GetRegionBorderSize() const
+KLMSegmentationRegion::GetRegionBorderSize() const
 {
   return m_RegionBorderVector.size();
 } // end GetRegionBorderSize
 
 void
-KLMSegmentationRegion ::PrintRegionInfo()
+KLMSegmentationRegion::PrintRegionInfo()
 {
   int region1label;
   int region2label;

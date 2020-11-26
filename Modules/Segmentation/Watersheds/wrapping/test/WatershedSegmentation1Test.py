@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,13 +14,14 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import sys
+
 itk.auto_progress(2)
 
-PixelType = itk.ctype('float')
+PixelType = itk.ctype("float")
 Dimension = 2
 ImageType = itk.Image[PixelType, Dimension]
 reader = itk.ImageFileReader[ImageType].New()
@@ -37,10 +38,17 @@ watershed = itk.WatershedImageFilter.New(Input=gradient.GetOutput())
 watershed.SetThreshold(0.01)
 watershed.SetLevel(0.2)
 
-relabel = itk.RelabelComponentImageFilter.New(Input=watershed.GetOutput())
+# If `cmake` has `-DITK_WRAP_signed_char:BOOL=ON` at build time then the output image type for this
+# use of `RelabelComponentImageFilter` defaults to `itk.Image[itk.SC,2]`, but that does not provide
+# sufficiently many output labels, giving a runtime error for this test.  So, we explicitly override
+# the output image type here to use `itk.Image[itk.SS,2]`.
+relabel = itk.RelabelComponentImageFilter[
+    type(watershed.GetOutput()), itk.Image[itk.SS, 2]
+].New(Input=watershed.GetOutput())
 
-cast = itk.CastImageFilter[relabel.GetOutput().__class__,
-  itk.Image[itk.ctype('unsigned char'), Dimension]].New(Input=relabel.GetOutput())
+cast = itk.CastImageFilter[
+    relabel.GetOutput().__class__, itk.Image[itk.ctype("unsigned char"), Dimension]
+].New(Input=relabel.GetOutput())
 
 writer = itk.ImageFileWriter.New(Input=cast.GetOutput())
 writer.SetFileName(sys.argv[2])

@@ -104,7 +104,7 @@ public:
     svd.zero_out_relative(m_SVDRelativeThreshold);
     CoordType oError = inner_product(iP.GetVnlVector(), svd.recompose() * iP.GetVnlVector());
 
-    return this->m_Coefficients[this->m_Coefficients.size() - 1] - oError;
+    return this->m_Coefficients.back() - oError;
     /*
     CoordType oError( 0. );
 

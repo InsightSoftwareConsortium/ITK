@@ -351,8 +351,9 @@ macro(itk_end_wrap_module_swig_interface)
   if(number_interface_files GREATER 0)
     # NOTE:  snake_case_config_file is both an input and an output to this command.
     #        the ${IGENERATOR} script appends to this file.
+    # NOTE: The Configuration files should be placed in the itk package directory.
     set(snake_case_config_file
-        "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+        "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
     add_custom_command(
       OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file}
       COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}

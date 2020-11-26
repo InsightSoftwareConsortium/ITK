@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #
 #  Test BinaryThresholdImageFilter
@@ -22,6 +22,7 @@
 
 import sys
 import itk
+
 itk.auto_progress(2)
 
 inputImage = sys.argv[1]

@@ -317,7 +317,7 @@ PolygonCell<TCellInterface>::PointIdsEnd()
 {
   if (!m_PointIds.empty())
   {
-    return &m_PointIds[m_PointIds.size() - 1] + 1;
+    return &m_PointIds.back() + 1;
   }
   else
   {
@@ -336,7 +336,7 @@ PolygonCell<TCellInterface>::PointIdsEnd() const
 {
   if (!m_PointIds.empty())
   {
-    return &m_PointIds[m_PointIds.size() - 1] + 1;
+    return &m_PointIds.back() + 1;
   }
   else
   {

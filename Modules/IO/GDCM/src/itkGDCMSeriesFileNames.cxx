@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkGDCMSeriesFileNames_h
-#define _itkGDCMSeriesFileNames_h
 
 #include "itkGDCMSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
@@ -203,7 +201,7 @@ GDCMSeriesFileNames::GetOutputFileNames()
   }
 
   itksys::SystemTools::ConvertToUnixSlashes(m_OutputDirectory);
-  if (m_OutputDirectory[m_OutputDirectory.size() - 1] != '/')
+  if (m_OutputDirectory.back() != '/')
   {
     m_OutputDirectory += '/';
   }
@@ -301,5 +299,3 @@ GDCMSeriesFileNames::SetUseSeriesDetails(bool useSeriesDetails)
   m_SerieHelper->CreateDefaultUniqueSeriesIdentifier();
 }
 } // namespace itk
-
-#endif

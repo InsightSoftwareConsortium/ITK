@@ -23,14 +23,8 @@
  * derived using the Cox-DeBoor recursion algorithm
  */
 int
-itkCoxDeBoorBSplineKernelFunctionTest(int argc, char * argv[])
+itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    return EXIT_FAILURE;
-  }
-
   using KernelType = itk::CoxDeBoorBSplineKernelFunction<3>;
   KernelType::Pointer    kernel = KernelType::New();
   KernelType::MatrixType coefficients;

@@ -19,7 +19,7 @@
 
 namespace itk
 {
-CacheableScalarFunction ::CacheableScalarFunction()
+CacheableScalarFunction::CacheableScalarFunction()
   : m_CacheTable(0)
 
 {}
@@ -27,7 +27,7 @@ CacheableScalarFunction ::CacheableScalarFunction()
 CacheableScalarFunction::~CacheableScalarFunction() = default;
 
 void
-CacheableScalarFunction ::CreateCache(double lowerBound, double upperBound, SizeValueType sampleSize)
+CacheableScalarFunction::CreateCache(double lowerBound, double upperBound, SizeValueType sampleSize)
 {
   m_NumberOfSamples = sampleSize;
   m_CacheLowerBound = lowerBound;

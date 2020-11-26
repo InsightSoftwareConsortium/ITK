@@ -20,7 +20,7 @@
 namespace itk
 {
 
-InitializationBiasedParticleSwarmOptimizer ::InitializationBiasedParticleSwarmOptimizer()
+InitializationBiasedParticleSwarmOptimizer::InitializationBiasedParticleSwarmOptimizer()
 {
   // magic numbers from Wachowiak et al. "An approach to multimodal biomedical
   // image registration utilizing particle swarm optimization"
@@ -32,7 +32,7 @@ InitializationBiasedParticleSwarmOptimizer ::InitializationBiasedParticleSwarmOp
 
 
 void
-InitializationBiasedParticleSwarmOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+InitializationBiasedParticleSwarmOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "Acceleration coefficients [inertia, personal, global, initialization]: ";
@@ -42,7 +42,7 @@ InitializationBiasedParticleSwarmOptimizer ::PrintSelf(std::ostream & os, Indent
 
 
 void
-InitializationBiasedParticleSwarmOptimizer ::UpdateSwarm()
+InitializationBiasedParticleSwarmOptimizer::UpdateSwarm()
 {
   unsigned int                                                    j, k, n;
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =

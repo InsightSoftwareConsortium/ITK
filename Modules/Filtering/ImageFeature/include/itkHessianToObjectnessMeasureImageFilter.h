@@ -76,7 +76,7 @@ public:
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Image dimension */
-  static constexpr unsigned int ImageDimension = InputImageType ::ImageDimension;
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   using EigenValueType = double;
   using EigenValueArrayType = itk::FixedArray<EigenValueType, Self::ImageDimension>;

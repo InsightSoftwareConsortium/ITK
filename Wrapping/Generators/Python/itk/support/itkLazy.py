@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,11 +14,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 import types
-import itkBase
+from itk.support import itkBase
 
-not_loaded = 'not loaded'
+not_loaded = "not loaded"
+
 
 def _lazy_itk_module_reconstructor(module_name, state):
     # Similar to copyreg._reconstructor
@@ -26,6 +27,7 @@ def _lazy_itk_module_reconstructor(module_name, state):
     types.ModuleType.__init__(lazy_module, module_name)
 
     return lazy_module
+
 
 class LazyITKModule(types.ModuleType):
 
@@ -35,21 +37,23 @@ class LazyITKModule(types.ModuleType):
     def __init__(self, name, lazy_attributes):
         types.ModuleType.__init__(self, name)
         for k, v in lazy_attributes.items():
-            itkBase.lazy_attributes.setdefault(k,set()).update(v)
-        self.__belong_lazy_attributes = dict( (k,v[0]) for k,v in lazy_attributes.items() if len(v) > 0 )
+            itkBase.itk_base_global_lazy_attributes.setdefault(k, set()).update(v)
+        self.__belong_lazy_attributes = dict(
+            (k, v[0]) for k, v in lazy_attributes.items() if len(v) > 0
+        )
         for k in lazy_attributes:
             setattr(self, k, not_loaded)
         # For PEP 366
-        setattr(self, '__package__', 'itk')
-        setattr(self, 'lazy_attributes', lazy_attributes)
-        setattr(self, 'loaded_lazy_modules', set())
+        setattr(self, "__package__", "itk")
+        setattr(self, "itk_base_global_lazy_attributes", lazy_attributes)
+        setattr(self, "loaded_lazy_modules", set())
 
     def __getattribute__(self, attr):
         value = types.ModuleType.__getattribute__(self, attr)
         if value is not_loaded:
             module = self.__belong_lazy_attributes[attr]
             namespace = {}
-            itkBase.LoadModule(module, namespace)
+            itkBase.itk_load_swig_module(module, namespace)
             self.loaded_lazy_modules.add(module)
             for k, v in namespace.items():
                 setattr(self, k, v)
@@ -66,23 +70,23 @@ class LazyITKModule(types.ModuleType):
         state = self.__dict__.copy()
         lazy_modules = list()
         # import ipdb; ipdb.set_trace()
-        for key in self.lazy_attributes:
+        for key in self.itk_base_global_lazy_attributes:
             if isinstance(state[key], LazyITKModule):
-                lazy_modules.append((key, state[key].lazy_attributes))
+                lazy_modules.append((key, state[key].itk_base_global_lazy_attributes))
             state[key] = not_loaded
-        state['lazy_modules'] = lazy_modules
+        state["lazy_modules"] = lazy_modules
 
         return state
 
     # For pickle support
     def __setstate__(self, state):
         self.__dict__.update(state)
-        for module_name, lazy_attributes in state['lazy_modules']:
-            self.__dict__.add(module_name, LazyITKModule(module_name,
-                lazy_attributes))
-
-        for module in state['loaded_lazy_modules']:
+        for module_name, lazy_attributes in state["lazy_modules"]:
+            self.__dict__.update(
+                {module_name: LazyITKModule(module_name, lazy_attributes)}
+            )
+        for module in state["loaded_lazy_modules"]:
             namespace = {}
-            itkBase.LoadModule(module, namespace)
+            itkBase.itk_load_swig_module(module, namespace)
             for k, v in namespace.items():
                 setattr(self, k, v)

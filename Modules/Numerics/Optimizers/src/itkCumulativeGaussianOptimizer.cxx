@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkCumulativeGaussianOptimizer_cxx
-#define _itkCumulativeGaussianOptimizer_cxx
 
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkMath.h"
@@ -47,9 +45,9 @@ CumulativeGaussianOptimizer::~CumulativeGaussianOptimizer()
 }
 
 CumulativeGaussianOptimizer::MeasureType *
-CumulativeGaussianOptimizer ::ExtendGaussian(MeasureType * originalArray,
-                                             MeasureType * extendedArray,
-                                             int           startingPointForInsertion)
+CumulativeGaussianOptimizer::ExtendGaussian(MeasureType * originalArray,
+                                            MeasureType * extendedArray,
+                                            int           startingPointForInsertion)
 {
   // Use the parameters from originalArray to construct a Gaussian in
   // extendedArray
@@ -73,7 +71,7 @@ CumulativeGaussianOptimizer ::ExtendGaussian(MeasureType * originalArray,
 }
 
 double
-CumulativeGaussianOptimizer ::FindAverageSumOfSquaredDifferences(MeasureType * array1, MeasureType * array2)
+CumulativeGaussianOptimizer::FindAverageSumOfSquaredDifferences(MeasureType * array1, MeasureType * array2)
 {
   // Given two arrays array1 and array2 of equal length, calculate the average
   // sum of squared
@@ -89,7 +87,7 @@ CumulativeGaussianOptimizer ::FindAverageSumOfSquaredDifferences(MeasureType * a
 }
 
 void
-CumulativeGaussianOptimizer ::FindParametersOfGaussian(MeasureType * sampledGaussianArray)
+CumulativeGaussianOptimizer::FindParametersOfGaussian(MeasureType * sampledGaussianArray)
 {
   // Measure the parameters of the sampled Gaussian curve and use these
   // parameters to
@@ -164,7 +162,7 @@ CumulativeGaussianOptimizer ::FindParametersOfGaussian(MeasureType * sampledGaus
 }
 
 void
-CumulativeGaussianOptimizer ::MeasureGaussianParameters(MeasureType * array)
+CumulativeGaussianOptimizer::MeasureGaussianParameters(MeasureType * array)
 {
   // Assuming the input array is Gaussian, compute the mean, SD, amplitude, and
   // change in intensity.
@@ -201,7 +199,7 @@ CumulativeGaussianOptimizer ::MeasureGaussianParameters(MeasureType * array)
 }
 
 void
-CumulativeGaussianOptimizer ::PrintComputedParameterHeader()
+CumulativeGaussianOptimizer::PrintComputedParameterHeader()
 {
   std::cerr << "Mean\t"
             << "SD\t"
@@ -210,7 +208,7 @@ CumulativeGaussianOptimizer ::PrintComputedParameterHeader()
 }
 
 void
-CumulativeGaussianOptimizer ::PrintComputedParameters() const
+CumulativeGaussianOptimizer::PrintComputedParameters() const
 {
   std::cerr << m_ComputedMean - m_OffsetForMean << "\t" // Printed mean is
                                                         // shifted.
@@ -219,9 +217,9 @@ CumulativeGaussianOptimizer ::PrintComputedParameters() const
 }
 
 CumulativeGaussianOptimizer::MeasureType *
-CumulativeGaussianOptimizer ::RecalculateExtendedArrayFromGaussianParameters(MeasureType * originalArray,
-                                                                             MeasureType * extendedArray,
-                                                                             int startingPointForInsertion) const
+CumulativeGaussianOptimizer::RecalculateExtendedArrayFromGaussianParameters(MeasureType * originalArray,
+                                                                            MeasureType * extendedArray,
+                                                                            int startingPointForInsertion) const
 {
   // From the Gaussian parameters stored with the extendedArray,
   // recalculate the extended portion of the extendedArray,
@@ -242,13 +240,13 @@ CumulativeGaussianOptimizer ::RecalculateExtendedArrayFromGaussianParameters(Mea
 }
 
 void
-CumulativeGaussianOptimizer ::SetDataArray(MeasureType * cumGaussianArray)
+CumulativeGaussianOptimizer::SetDataArray(MeasureType * cumGaussianArray)
 {
   m_CumulativeGaussianArray = cumGaussianArray;
 }
 
 void
-CumulativeGaussianOptimizer ::StartOptimization()
+CumulativeGaussianOptimizer::StartOptimization()
 {
   this->InvokeEvent(StartEvent());
   m_StopConditionDescription.str("");
@@ -341,7 +339,7 @@ CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
 }
 
 double
-CumulativeGaussianOptimizer ::VerticalBestShift(MeasureType * originalArray, MeasureType * newArray)
+CumulativeGaussianOptimizer::VerticalBestShift(MeasureType * originalArray, MeasureType * newArray)
 {
   // Find the constant to minimize the sum of squares of the difference between
   // original Array and newArray+c
@@ -375,13 +373,13 @@ CumulativeGaussianOptimizer ::VerticalBestShift(MeasureType * originalArray, Mea
 }
 
 const std::string
-CumulativeGaussianOptimizer ::GetStopConditionDescription() const
+CumulativeGaussianOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
 
 void
-CumulativeGaussianOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+CumulativeGaussianOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -408,5 +406,3 @@ CumulativeGaussianOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 } // end namespace itk
-
-#endif

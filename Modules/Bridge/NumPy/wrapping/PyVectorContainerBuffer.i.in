@@ -1,0 +1,61 @@
+%extend itkPyVectorContainer@PyVectorContainerTypes@{
+    %pythoncode %{
+
+    def array_view_from_vector_container(vector_container):
+        """Get a NumPy array view of an itk.VectorContainer.
+
+        Warning: No copy of the data is performed. Using an array
+        view after its source vector has been deleted can results in corrupt values
+        or a segfault.
+        """
+
+        import itk
+
+        itksize = vector_container.Size()
+        container_type = itk.template(vector_container)
+        if isinstance(container_type[1][1], type):
+            element_type = itk.template(container_type[1][1])
+            dimension = element_type[1][1]
+            shape   = (itksize, dimension)
+        else:
+            shape   = (itksize,)
+
+        pixelType     = "@PixelType@"
+        numpydatatype = _get_numpy_pixelid(pixelType)
+        memview       = itkPyVectorContainer@PyVectorContainerTypes@._array_view_from_vector_container(vector_container)
+        ndarrview  = np.asarray(memview).view(dtype = numpydatatype).reshape(shape).view(np.ndarray)
+
+        return ndarrview
+
+    array_view_from_vector_container = staticmethod(array_view_from_vector_container)
+
+    def array_from_vector_container(vector_container):
+        """Get a NumPy ndarray from an itk.VectorContainer.
+
+        This is a deep copy of the itk.VectorContainer and is completely safe and without potential side effects.
+        """
+
+        arrayView = itkPyVectorContainer@PyVectorContainerTypes@.array_view_from_vector_container(vector_container)
+
+        # perform deep copy of the buffer
+        return np.array(arrayView, copy=True)
+
+    array_from_vector_container = staticmethod(array_from_vector_container)
+
+    def vector_container_from_array(ndarr):
+        """Get an itk.VectorContainer from a NumPy array.
+
+        This is a deep copy of the NumPy array buffer and is completely safe without potential
+        side effects.
+        """
+
+        assert ndarr.ndim == 1 , "Only arrays of 1 dimension are supported."
+
+        vec = itkPyVectorContainer@PyVectorContainerTypes@._vector_container_from_array(ndarr, ndarr.shape)
+
+        return vec
+
+    vector_container_from_array = staticmethod(vector_container_from_array)
+
+  %}
+};

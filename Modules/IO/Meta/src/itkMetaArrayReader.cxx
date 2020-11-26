@@ -20,7 +20,7 @@
 namespace itk
 {
 
-MetaArrayReader ::MetaArrayReader()
+MetaArrayReader::MetaArrayReader()
   : m_FileName("")
 
 {}
@@ -28,19 +28,19 @@ MetaArrayReader ::MetaArrayReader()
 MetaArrayReader ::~MetaArrayReader() = default;
 
 void
-MetaArrayReader ::SetBuffer(void * _buffer)
+MetaArrayReader::SetBuffer(void * _buffer)
 {
   m_Buffer = _buffer;
 }
 
 MetaArray *
-MetaArrayReader ::GetMetaArrayPointer()
+MetaArrayReader::GetMetaArrayPointer()
 {
   return &m_MetaArray;
 }
 
 void
-MetaArrayReader ::Update()
+MetaArrayReader::Update()
 {
   m_MetaArray.Read(m_FileName.c_str(), true, m_Buffer);
 }

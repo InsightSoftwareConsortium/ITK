@@ -41,14 +41,14 @@ Element3DC0LinearTriangularLaplaceBeltrami::CreateAnother() const
   return smartPtr;
 }
 
-Element3DC0LinearTriangularLaplaceBeltrami ::Element3DC0LinearTriangularLaplaceBeltrami()
+Element3DC0LinearTriangularLaplaceBeltrami::Element3DC0LinearTriangularLaplaceBeltrami()
   : Superclass()
 {}
 
-Element3DC0LinearTriangularLaplaceBeltrami ::Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType             n1_,
-                                                                                        NodeIDType             n2_,
-                                                                                        NodeIDType             n3_,
-                                                                                        Material::ConstPointer m_)
+Element3DC0LinearTriangularLaplaceBeltrami::Element3DC0LinearTriangularLaplaceBeltrami(NodeIDType             n1_,
+                                                                                       NodeIDType             n2_,
+                                                                                       NodeIDType             n3_,
+                                                                                       Material::ConstPointer m_)
   : Superclass()
 {
   // Set the geometrical points

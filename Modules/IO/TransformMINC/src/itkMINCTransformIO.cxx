@@ -236,8 +236,8 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       Transform_elem(lin, 3, 3) = 1.0;
 
       xfm.emplace_back();
-      memset(&xfm[xfm.size() - 1], 0, sizeof(VIO_General_transform));
-      create_linear_transform(&xfm[xfm.size() - 1], &lin);
+      memset(&xfm.back(), 0, sizeof(VIO_General_transform));
+      create_linear_transform(&xfm.back(), &lin);
     }
     else if (transformType.find("DisplacementFieldTransform_") != std::string::npos &&
              transformType.find("_3_3") != std::string::npos && curTransform->GetFixedParameters().Size() == 18)
@@ -272,10 +272,10 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       writer->Update();
 
       xfm.emplace_back();
-      create_grid_transform_no_copy(&xfm[xfm.size() - 1], nullptr, nullptr); // relying on volume_io using the same name
+      create_grid_transform_no_copy(&xfm.back(), nullptr, nullptr); // relying on volume_io using the same name
       if (_inverse_grid)
       {
-        xfm[xfm.size() - 1].inverse_flag = TRUE;
+        xfm.back().inverse_flag = TRUE;
       }
     }
     else
@@ -324,7 +324,7 @@ MINCTransformIOTemplate<TParametersValueType>::Write()
     this->WriteOneTransform(count, (*it).GetPointer(), xfm, xfm_file_base.c_str(), serial);
   }
 
-  VIO_General_transform transform = xfm[xfm.size() - 1];
+  VIO_General_transform transform = xfm.back();
 
   for (int i = xfm.size() - 2; i >= 0; --i)
   {

@@ -53,15 +53,15 @@ namespace itk
 {
 
 void
-DCMTKItem ::SetDcmItem(DcmItem * item)
+DCMTKItem::SetDcmItem(DcmItem * item)
 {
   this->m_DcmItem = item;
 }
 int
-DCMTKItem ::GetElementSQ(const unsigned short group,
-                         const unsigned short entry,
-                         DCMTKSequence &      sequence,
-                         const bool           throwException) const
+DCMTKItem::GetElementSQ(const unsigned short group,
+                        const unsigned short entry,
+                        DCMTKSequence &      sequence,
+                        const bool           throwException) const
 {
   DcmSequenceOfItems * seq;
   DcmTagKey            tagKey(group, entry);
@@ -76,10 +76,10 @@ DCMTKItem ::GetElementSQ(const unsigned short group,
 
 
 int
-DCMTKSequence ::GetStack(const unsigned short group,
-                         const unsigned short element,
-                         DcmStack &           resultStack,
-                         const bool           throwException) const
+DCMTKSequence::GetStack(const unsigned short group,
+                        const unsigned short element,
+                        DcmStack &           resultStack,
+                        const bool           throwException) const
 {
   DcmTagKey tagkey(group, element);
   if (this->m_DcmSequenceOfItems->search(tagkey, resultStack) != EC_Normal)
@@ -91,7 +91,7 @@ DCMTKSequence ::GetStack(const unsigned short group,
 
 
 void
-DCMTKSequence ::SetDcmSequenceOfItems(DcmSequenceOfItems * seq)
+DCMTKSequence::SetDcmSequenceOfItems(DcmSequenceOfItems * seq)
 {
   this->m_DcmSequenceOfItems = seq;
 }
@@ -103,7 +103,7 @@ DCMTKSequence ::card() const
 }
 
 int
-DCMTKSequence ::GetSequence(unsigned long index, DCMTKSequence & target, const bool throwException) const
+DCMTKSequence::GetSequence(unsigned long index, DCMTKSequence & target, const bool throwException) const
 {
   DcmItem * item = this->m_DcmSequenceOfItems->getItem(index);
   auto *    sequence = dynamic_cast<DcmSequenceOfItems *>(item);
@@ -116,10 +116,10 @@ DCMTKSequence ::GetSequence(unsigned long index, DCMTKSequence & target, const b
 }
 
 int
-DCMTKSequence ::GetElementCS(const unsigned short group,
-                             const unsigned short element,
-                             std::string &        target,
-                             const bool           throwException) const
+DCMTKSequence::GetElementCS(const unsigned short group,
+                            const unsigned short element,
+                            std::string &        target,
+                            const bool           throwException) const
 {
   DcmTagKey tagkey(group, element);
   DcmStack  resultStack;
@@ -146,10 +146,10 @@ DCMTKSequence ::GetElementCS(const unsigned short group,
 }
 
 int
-DCMTKSequence ::GetElementOB(const unsigned short group,
-                             const unsigned short element,
-                             std::string &        target,
-                             const bool           throwException) const
+DCMTKSequence::GetElementOB(const unsigned short group,
+                            const unsigned short element,
+                            std::string &        target,
+                            const bool           throwException) const
 {
   DcmTagKey tagkey(group, element);
   DcmStack  resultStack;
@@ -174,10 +174,10 @@ DCMTKSequence ::GetElementOB(const unsigned short group,
 }
 
 int
-DCMTKSequence ::GetElementCSorOB(const unsigned short group,
-                                 const unsigned short element,
-                                 std::string &        target,
-                                 const bool           throwException) const
+DCMTKSequence::GetElementCSorOB(const unsigned short group,
+                                const unsigned short element,
+                                std::string &        target,
+                                const bool           throwException) const
 {
   if (this->GetElementCS(group, element, target, false) == EXIT_SUCCESS)
   {
@@ -227,20 +227,20 @@ DCMTKSequence::GetElementFD(const unsigned short group,
 }
 
 int
-DCMTKSequence ::GetElementFD(const unsigned short group,
-                             const unsigned short element,
-                             double &             target,
-                             const bool           throwException) const
+DCMTKSequence::GetElementFD(const unsigned short group,
+                            const unsigned short element,
+                            double &             target,
+                            const bool           throwException) const
 {
   this->GetElementFD(group, element, 1, &target, throwException);
   return EXIT_SUCCESS;
 }
 
 int
-DCMTKSequence ::GetElementDS(const unsigned short group,
-                             const unsigned short element,
-                             std::string &        target,
-                             const bool           throwException) const
+DCMTKSequence::GetElementDS(const unsigned short group,
+                            const unsigned short element,
+                            std::string &        target,
+                            const bool           throwException) const
 {
   DcmStack resultStack;
   this->GetStack(group, element, resultStack);
@@ -265,10 +265,10 @@ DCMTKSequence ::GetElementDS(const unsigned short group,
 }
 
 int
-DCMTKSequence ::GetElementSQ(const unsigned short group,
-                             const unsigned short element,
-                             DCMTKSequence &      target,
-                             const bool           throwException) const
+DCMTKSequence::GetElementSQ(const unsigned short group,
+                            const unsigned short element,
+                            DCMTKSequence &      target,
+                            const bool           throwException) const
 {
   DcmTagKey tagkey(group, element);
   DcmStack  resultStack;
@@ -284,7 +284,7 @@ DCMTKSequence ::GetElementSQ(const unsigned short group,
 }
 
 int
-DCMTKSequence ::GetElementItem(unsigned short index, DCMTKItem & target, const bool throwException) const
+DCMTKSequence::GetElementItem(unsigned short index, DCMTKItem & target, const bool throwException) const
 {
   DcmItem * itemElement = this->m_DcmSequenceOfItems->getItem(index);
   if (itemElement == nullptr)
@@ -296,10 +296,10 @@ DCMTKSequence ::GetElementItem(unsigned short index, DCMTKItem & target, const b
 }
 
 int
-DCMTKSequence ::GetElementTM(const unsigned short group,
-                             const unsigned short element,
-                             std::string &        target,
-                             const bool           throwException) const
+DCMTKSequence::GetElementTM(const unsigned short group,
+                            const unsigned short element,
+                            std::string &        target,
+                            const bool           throwException) const
 {
   DcmTagKey tagkey(group, element);
   DcmStack  resultStack;
@@ -322,19 +322,19 @@ DCMTKFileReader ::~DCMTKFileReader()
 }
 
 void
-DCMTKFileReader ::SetFileName(const std::string & fileName)
+DCMTKFileReader::SetFileName(const std::string & fileName)
 {
   this->m_FileName = fileName;
 }
 
 const std::string &
-DCMTKFileReader ::GetFileName() const
+DCMTKFileReader::GetFileName() const
 {
   return this->m_FileName;
 }
 
 bool
-DCMTKFileReader ::CanReadFile(const std::string & filename)
+DCMTKFileReader::CanReadFile(const std::string & filename)
 {
   auto * MInfo = new DcmMetaInfo();
   if (!MInfo)
@@ -351,7 +351,7 @@ DCMTKFileReader ::CanReadFile(const std::string & filename)
 }
 
 bool
-DCMTKFileReader ::IsImageFile(const std::string & filename)
+DCMTKFileReader::IsImageFile(const std::string & filename)
 {
   if (!DCMTKFileReader::CanReadFile(filename))
   {
@@ -369,7 +369,7 @@ DCMTKFileReader ::IsImageFile(const std::string & filename)
 }
 
 void
-DCMTKFileReader ::LoadFile()
+DCMTKFileReader::LoadFile()
 {
   if (this->m_FileName.empty())
   {
@@ -408,10 +408,10 @@ DCMTKFileReader ::LoadFile()
 }
 
 int
-DCMTKFileReader ::GetElementLO(const unsigned short group,
-                               const unsigned short element,
-                               std::string &        target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementLO(const unsigned short group,
+                              const unsigned short element,
+                              std::string &        target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -440,10 +440,10 @@ DCMTKFileReader ::GetElementLO(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementLO(const unsigned short       group,
-                               const unsigned short       element,
-                               std::vector<std::string> & target,
-                               const bool                 throwException) const
+DCMTKFileReader::GetElementLO(const unsigned short       group,
+                              const unsigned short       element,
+                              std::vector<std::string> & target,
+                              const bool                 throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -474,10 +474,10 @@ DCMTKFileReader ::GetElementLO(const unsigned short       group,
 /** Get a DecimalString Item as a single string
  */
 int
-DCMTKFileReader ::GetElementDS(const unsigned short group,
-                               const unsigned short element,
-                               std::string &        target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementDS(const unsigned short group,
+                              const unsigned short element,
+                              std::string &        target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -506,11 +506,11 @@ DCMTKFileReader ::GetElementDS(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementFD(const unsigned short group,
-                               const unsigned short element,
-                               int                  count,
-                               double *             target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementFD(const unsigned short group,
+                              const unsigned short element,
+                              int                  count,
+                              double *             target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -547,19 +547,19 @@ DCMTKFileReader ::GetElementFD(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementFD(const unsigned short group,
-                               const unsigned short element,
-                               double &             target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementFD(const unsigned short group,
+                              const unsigned short element,
+                              double &             target,
+                              const bool           throwException) const
 {
   return this->GetElementFD(group, element, 1, &target, throwException);
 }
 
 int
-DCMTKFileReader ::GetElementFL(const unsigned short group,
-                               const unsigned short element,
-                               float &              target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementFL(const unsigned short group,
+                              const unsigned short element,
+                              float &              target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -581,10 +581,10 @@ DCMTKFileReader ::GetElementFL(const unsigned short group,
   return EXIT_SUCCESS;
 }
 int
-DCMTKFileReader ::GetElementFLorOB(const unsigned short group,
-                                   const unsigned short element,
-                                   float &              target,
-                                   const bool           throwException) const
+DCMTKFileReader::GetElementFLorOB(const unsigned short group,
+                                  const unsigned short element,
+                                  float &              target,
+                                  const bool           throwException) const
 {
   if (this->GetElementFL(group, element, target, false) == EXIT_SUCCESS)
   {
@@ -616,10 +616,10 @@ DCMTKFileReader ::GetElementFLorOB(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementUS(const unsigned short group,
-                               const unsigned short element,
-                               unsigned short &     target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementUS(const unsigned short group,
+                              const unsigned short element,
+                              unsigned short &     target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -641,10 +641,10 @@ DCMTKFileReader ::GetElementUS(const unsigned short group,
   return EXIT_SUCCESS;
 }
 int
-DCMTKFileReader ::GetElementUS(const unsigned short group,
-                               const unsigned short element,
-                               unsigned short *&    target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementUS(const unsigned short group,
+                              const unsigned short element,
+                              unsigned short *&    target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -668,10 +668,10 @@ DCMTKFileReader ::GetElementUS(const unsigned short group,
 /** Get a DecimalString Item as a single string
  */
 int
-DCMTKFileReader ::GetElementCS(const unsigned short group,
-                               const unsigned short element,
-                               std::string &        target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementCS(const unsigned short group,
+                              const unsigned short element,
+                              std::string &        target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -699,10 +699,10 @@ DCMTKFileReader ::GetElementCS(const unsigned short group,
   return EXIT_SUCCESS;
 }
 int
-DCMTKFileReader ::GetElementCSorOB(const unsigned short group,
-                                   const unsigned short element,
-                                   std::string &        target,
-                                   const bool           throwException) const
+DCMTKFileReader::GetElementCSorOB(const unsigned short group,
+                                  const unsigned short element,
+                                  std::string &        target,
+                                  const bool           throwException) const
 {
   if (this->GetElementCS(group, element, target, false) == EXIT_SUCCESS)
   {
@@ -717,10 +717,10 @@ DCMTKFileReader ::GetElementCSorOB(const unsigned short group,
 
 
 int
-DCMTKFileReader ::GetElementPN(const unsigned short group,
-                               const unsigned short element,
-                               std::string &        target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementPN(const unsigned short group,
+                              const unsigned short element,
+                              std::string &        target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -751,10 +751,10 @@ DCMTKFileReader ::GetElementPN(const unsigned short group,
 /** get an IS (Integer String Item
  */
 int
-DCMTKFileReader ::GetElementIS(const unsigned short group,
-                               const unsigned short element,
-                               ::itk::int32_t &     target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementIS(const unsigned short group,
+                              const unsigned short element,
+                              ::itk::int32_t &     target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -780,10 +780,10 @@ DCMTKFileReader ::GetElementIS(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementSL(const unsigned short group,
-                               const unsigned short element,
-                               ::itk::int32_t &     target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementSL(const unsigned short group,
+                              const unsigned short element,
+                              ::itk::int32_t &     target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -809,10 +809,10 @@ DCMTKFileReader ::GetElementSL(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementISorOB(const unsigned short group,
-                                   const unsigned short element,
-                                   ::itk::int32_t &     target,
-                                   const bool           throwException) const
+DCMTKFileReader::GetElementISorOB(const unsigned short group,
+                                  const unsigned short element,
+                                  ::itk::int32_t &     target,
+                                  const bool           throwException) const
 {
   if (this->GetElementIS(group, element, target, false) == EXIT_SUCCESS)
   {
@@ -846,10 +846,10 @@ DCMTKFileReader ::GetElementISorOB(const unsigned short group,
 /** get an OB OtherByte Item
  */
 int
-DCMTKFileReader ::GetElementOB(const unsigned short group,
-                               const unsigned short element,
-                               std::string &        target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementOB(const unsigned short group,
+                              const unsigned short element,
+                              std::string &        target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
   DcmElement * el;
@@ -876,10 +876,10 @@ DCMTKFileReader ::GetElementOB(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementSQ(const unsigned short group,
-                               unsigned short       entry,
-                               DCMTKSequence &      sequence,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementSQ(const unsigned short group,
+                              unsigned short       entry,
+                              DCMTKSequence &      sequence,
+                              const bool           throwException) const
 {
   DcmSequenceOfItems * seq;
   DcmTagKey            tagKey(group, entry);
@@ -893,10 +893,10 @@ DCMTKFileReader ::GetElementSQ(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementUI(const unsigned short group,
-                               unsigned short       entry,
-                               std::string &        target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementUI(const unsigned short group,
+                              unsigned short       entry,
+                              std::string &        target,
+                              const bool           throwException) const
 {
   DcmTagKey    tagKey(group, entry);
   DcmElement * el;
@@ -947,10 +947,10 @@ DCMTKFileReader::GetElementDA(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetElementTM(const unsigned short group,
-                               const unsigned short element,
-                               std::string &        target,
-                               const bool           throwException) const
+DCMTKFileReader::GetElementTM(const unsigned short group,
+                              const unsigned short element,
+                              std::string &        target,
+                              const bool           throwException) const
 {
 
   DcmTagKey    tagkey(group, element);
@@ -971,7 +971,7 @@ DCMTKFileReader ::GetElementTM(const unsigned short group,
 }
 
 int
-DCMTKFileReader ::GetDirCosArray(double * const dircos) const
+DCMTKFileReader::GetDirCosArray(double * const dircos) const
 {
   int           rval;
   DCMTKSequence planeSeq;
@@ -1029,7 +1029,7 @@ DCMTKFileReader ::GetDirCosArray(double * const dircos) const
 }
 
 int
-DCMTKFileReader ::GetDirCosines(vnl_vector<double> & dir1, vnl_vector<double> & dir2, vnl_vector<double> & dir3) const
+DCMTKFileReader::GetDirCosines(vnl_vector<double> & dir1, vnl_vector<double> & dir2, vnl_vector<double> & dir3) const
 {
   double dircos[6];
   int    rval = this->GetDirCosArray(dircos);
@@ -1047,7 +1047,7 @@ DCMTKFileReader ::GetDirCosines(vnl_vector<double> & dir1, vnl_vector<double> & 
 }
 
 int
-DCMTKFileReader ::GetSlopeIntercept(double & slope, double & intercept) const
+DCMTKFileReader::GetSlopeIntercept(double & slope, double & intercept) const
 {
   if (this->GetElementDS<double>(0x0028, 0x1053, 1, &slope, false) != EXIT_SUCCESS)
   {
@@ -1061,7 +1061,7 @@ DCMTKFileReader ::GetSlopeIntercept(double & slope, double & intercept) const
 }
 
 IOPixelEnum
-DCMTKFileReader ::GetImagePixelType() const
+DCMTKFileReader::GetImagePixelType() const
 {
   unsigned short SamplesPerPixel;
   if (this->GetElementUS(0x0028, 0x0100, SamplesPerPixel, false) != EXIT_SUCCESS)
@@ -1085,7 +1085,7 @@ DCMTKFileReader ::GetImagePixelType() const
 }
 
 IOComponentEnum
-DCMTKFileReader ::GetImageDataType() const
+DCMTKFileReader::GetImageDataType() const
 {
   unsigned short  IsSigned;
   unsigned short  BitsAllocated;
@@ -1159,7 +1159,7 @@ DCMTKFileReader ::GetImageDataType() const
 
 
 int
-DCMTKFileReader ::GetDimensions(unsigned short & rows, unsigned short & columns) const
+DCMTKFileReader::GetDimensions(unsigned short & rows, unsigned short & columns) const
 {
   if (this->GetElementUS(0x0028, 0x0010, rows, false) != EXIT_SUCCESS ||
       this->GetElementUS(0x0028, 0x0011, columns, false) != EXIT_SUCCESS)
@@ -1170,7 +1170,7 @@ DCMTKFileReader ::GetDimensions(unsigned short & rows, unsigned short & columns)
 }
 
 int
-DCMTKFileReader ::GetSpacing(double * const spacing) const
+DCMTKFileReader::GetSpacing(double * const spacing) const
 {
   double _spacing[3];
   //
@@ -1273,7 +1273,7 @@ DCMTKFileReader ::GetSpacing(double * const spacing) const
 }
 
 int
-DCMTKFileReader ::GetOrigin(double * const origin) const
+DCMTKFileReader::GetOrigin(double * const origin) const
 {
   int rval = EXIT_SUCCESS;
   // if the origin has yet to be cached
@@ -1323,7 +1323,7 @@ DCMTKFileReader ::GetOrigin(double * const origin) const
 }
 
 bool
-DCMTKFileReader ::HasPixelData() const
+DCMTKFileReader::HasPixelData() const
 {
   DcmTagKey tagkey(0x7fe0, 0x0010);
   DcmStack  resultStack;
@@ -1331,25 +1331,25 @@ DCMTKFileReader ::HasPixelData() const
 }
 
 int
-DCMTKFileReader ::GetFrameCount() const
+DCMTKFileReader::GetFrameCount() const
 {
   return this->m_FrameCount;
 }
 
 E_TransferSyntax
-DCMTKFileReader ::GetTransferSyntax() const
+DCMTKFileReader::GetTransferSyntax() const
 {
   return m_Xfer;
 }
 
 long
-DCMTKFileReader ::GetFileNumber() const
+DCMTKFileReader::GetFileNumber() const
 {
   return m_FileNumber;
 }
 
 void
-DCMTKFileReader ::AddDictEntry(DcmDictEntry * entry)
+DCMTKFileReader::AddDictEntry(DcmDictEntry * entry)
 {
   DcmDataDictionary & dict = dcmDataDict.wrlock();
   dict.addEntry(entry);

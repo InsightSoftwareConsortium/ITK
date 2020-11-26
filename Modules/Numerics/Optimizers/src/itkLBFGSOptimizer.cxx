@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkLBFGSOptimizer_hxx
-#define _itkLBFGSOptimizer_hxx
 
 #include "itkLBFGSOptimizer.h"
 #include "itkMath.h"
@@ -49,7 +47,7 @@ LBFGSOptimizer ::~LBFGSOptimizer()
  * PrintSelf
  */
 void
-LBFGSOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+LBFGSOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Trace: ";
@@ -72,7 +70,7 @@ LBFGSOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
  * Set the optimizer trace flag
  */
 void
-LBFGSOptimizer ::SetTrace(bool flag)
+LBFGSOptimizer::SetTrace(bool flag)
 {
   if (flag == m_Trace)
   {
@@ -92,7 +90,7 @@ LBFGSOptimizer ::SetTrace(bool flag)
  * Set the maximum number of function evaluations
  */
 void
-LBFGSOptimizer ::SetMaximumNumberOfFunctionEvaluations(unsigned int n)
+LBFGSOptimizer::SetMaximumNumberOfFunctionEvaluations(unsigned int n)
 {
   if (n == m_MaximumNumberOfFunctionEvaluations)
   {
@@ -112,7 +110,7 @@ LBFGSOptimizer ::SetMaximumNumberOfFunctionEvaluations(unsigned int n)
  * Set the gradient convergence tolerance
  */
 void
-LBFGSOptimizer ::SetGradientConvergenceTolerance(double f)
+LBFGSOptimizer::SetGradientConvergenceTolerance(double f)
 {
   if (Math::ExactlyEquals(f, m_GradientConvergenceTolerance))
   {
@@ -132,7 +130,7 @@ LBFGSOptimizer ::SetGradientConvergenceTolerance(double f)
  * Set the line search accuracy
  */
 void
-LBFGSOptimizer ::SetLineSearchAccuracy(double f)
+LBFGSOptimizer::SetLineSearchAccuracy(double f)
 {
   if (Math::ExactlyEquals(f, m_LineSearchAccuracy))
   {
@@ -152,7 +150,7 @@ LBFGSOptimizer ::SetLineSearchAccuracy(double f)
  * Set the default step length
  */
 void
-LBFGSOptimizer ::SetDefaultStepLength(double f)
+LBFGSOptimizer::SetDefaultStepLength(double f)
 {
   if (Math::ExactlyEquals(f, m_DefaultStepLength))
   {
@@ -170,7 +168,7 @@ LBFGSOptimizer ::SetDefaultStepLength(double f)
 
 /** Return Current Value */
 LBFGSOptimizer::MeasureType
-LBFGSOptimizer ::GetValue() const
+LBFGSOptimizer::GetValue() const
 {
   return this->GetCachedValue();
 }
@@ -179,7 +177,7 @@ LBFGSOptimizer ::GetValue() const
  * Connect a Cost Function
  */
 void
-LBFGSOptimizer ::SetCostFunction(SingleValuedCostFunction * costFunction)
+LBFGSOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 {
   const unsigned int numberOfParameters = costFunction->GetNumberOfParameters();
 
@@ -212,7 +210,7 @@ LBFGSOptimizer ::SetCostFunction(SingleValuedCostFunction * costFunction)
  * Start the optimization
  */
 void
-LBFGSOptimizer ::StartOptimization()
+LBFGSOptimizer::StartOptimization()
 {
   this->InvokeEvent(StartEvent());
 
@@ -265,7 +263,7 @@ LBFGSOptimizer ::StartOptimization()
  * Get the Optimizer
  */
 vnl_lbfgs *
-LBFGSOptimizer ::GetOptimizer()
+LBFGSOptimizer::GetOptimizer()
 {
   return m_VnlOptimizer;
 }
@@ -322,5 +320,3 @@ LBFGSOptimizer::GetStopConditionDescription() const
   }
 }
 } // end namespace itk
-
-#endif

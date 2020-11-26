@@ -57,7 +57,7 @@ namespace itk
  *
  * \ingroup ITKFastMarching
  */
-template <typename TLevelSet, typename TSpeedImage = Image<float, TLevelSet ::ImageDimension>>
+template <typename TLevelSet, typename TSpeedImage = Image<float, TLevelSet::ImageDimension>>
 class ITK_TEMPLATE_EXPORT FastMarchingUpwindGradientImageFilter : public FastMarchingImageFilter<TLevelSet, TSpeedImage>
 {
 public:

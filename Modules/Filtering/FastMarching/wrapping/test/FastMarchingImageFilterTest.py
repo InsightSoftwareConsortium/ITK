@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #     INPUTS:  BrainProtonDensitySlice.png
 #     OUTPUTS: FastMarchingImageFilterOutput5.png
@@ -40,11 +40,15 @@ from sys import argv, stderr, exit
 import os
 
 
-if(len(argv) < 10):
-    print((
-        "Missing Parameters \n Usage: FastMarchingImageFilter.py inputImage "
-        "outputImage seedX seedY Sigma SigmoidAlpha SigmoidBeta TimeThreshold "
-        "StoppingValue"), file=stderr)
+if len(argv) < 10:
+    print(
+        (
+            "Missing Parameters \n Usage: FastMarchingImageFilter.py inputImage "
+            "outputImage seedX seedY Sigma SigmoidAlpha SigmoidBeta TimeThreshold "
+            "StoppingValue"
+        ),
+        file=stderr,
+    )
     exit(1)
 
 itk.auto_progress(2)
@@ -57,8 +61,7 @@ InternalImageType = itk.Image[InternalPixelType, Dimension]
 OutputPixelType = itk.UC
 OutputImageType = itk.Image[OutputPixelType, Dimension]
 
-thresholder = itk.BinaryThresholdImageFilter[
-    InternalImageType, OutputImageType].New()
+thresholder = itk.BinaryThresholdImageFilter[InternalImageType, OutputImageType].New()
 
 timeThreshold = float(argv[8])
 thresholder.SetLowerThreshold(0.0)
@@ -77,23 +80,19 @@ reader.SetFileName(argv[1])
 writer.SetFileName(argv[2])
 
 
-CastFilterType = itk.RescaleIntensityImageFilter[
-    InternalImageType,
-    OutputImageType]
+CastFilterType = itk.RescaleIntensityImageFilter[InternalImageType, OutputImageType]
 
 SmoothingFilterType = itk.CurvatureAnisotropicDiffusionImageFilter[
-    InternalImageType,
-    InternalImageType]
+    InternalImageType, InternalImageType
+]
 
 smoothing = SmoothingFilterType.New()
 
 GradientFilterType = itk.GradientMagnitudeRecursiveGaussianImageFilter[
-    InternalImageType,
-    InternalImageType]
+    InternalImageType, InternalImageType
+]
 
-SigmoidFilterType = itk.SigmoidImageFilter[
-    InternalImageType,
-    InternalImageType]
+SigmoidFilterType = itk.SigmoidImageFilter[InternalImageType, InternalImageType]
 
 gradientMagnitude = GradientFilterType.New()
 sigmoid = SigmoidFilterType.New()
@@ -101,8 +100,9 @@ sigmoid = SigmoidFilterType.New()
 sigmoid.SetOutputMinimum(0.0)
 sigmoid.SetOutputMaximum(1.0)
 
-FastMarchingFilterType = itk.FastMarchingImageFilter[InternalImageType,
-                                                     InternalImageType]
+FastMarchingFilterType = itk.FastMarchingImageFilter[
+    InternalImageType, InternalImageType
+]
 
 fastMarching = FastMarchingFilterType.New()
 
@@ -184,8 +184,7 @@ caster4.SetOutputMinimum(0)
 caster4.SetOutputMaximum(255)
 
 
-fastMarching.SetOutputSize(
-    reader.GetOutput().GetBufferedRegion().GetSize())
+fastMarching.SetOutputSize(reader.GetOutput().GetBufferedRegion().GetSize())
 
 stoppingTime = float(argv[9])
 
@@ -211,5 +210,7 @@ speedWriter.Update()
 
 gradientWriter = InternalWriterType.New()
 gradientWriter.SetInput(gradientMagnitude.GetOutput())
-gradientWriter.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput2.mha"))
+gradientWriter.SetFileName(
+    os.path.join(outputDirectory, "FastMarchingFilterOutput2.mha")
+)
 gradientWriter.Update()

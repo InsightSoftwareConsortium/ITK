@@ -18,7 +18,7 @@
 #ifndef itkTernaryMagnitudeImageFilter_h
 #define itkTernaryMagnitudeImageFilter_h
 
-#include "itkTernaryFunctorImageFilter.h"
+#include "itkTernaryGeneratorImageFilter.h"
 
 namespace itk
 {
@@ -68,40 +68,36 @@ public:
  */
 template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
 class TernaryMagnitudeImageFilter
-  : public TernaryFunctorImageFilter<TInputImage1,
-                                     TInputImage2,
-                                     TInputImage3,
-                                     TOutputImage,
-                                     Functor::Modulus3<typename TInputImage1::PixelType,
-                                                       typename TInputImage2::PixelType,
-                                                       typename TInputImage3::PixelType,
-                                                       typename TOutputImage::PixelType>>
+  : public TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(TernaryMagnitudeImageFilter);
 
   /** Standard class type aliases. */
   using Self = TernaryMagnitudeImageFilter;
-  using Superclass = TernaryFunctorImageFilter<TInputImage1,
-                                               TInputImage2,
-                                               TInputImage3,
-                                               TOutputImage,
-                                               Functor::Modulus3<typename TInputImage1::PixelType,
-                                                                 typename TInputImage2::PixelType,
-                                                                 typename TInputImage3::PixelType,
-                                                                 typename TOutputImage::PixelType>>;
+  using Superclass = TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
+
+  using FunctorType = Functor::Modulus3<typename TInputImage1::PixelType,
+                                        typename TInputImage2::PixelType,
+                                        typename TInputImage3::PixelType,
+                                        typename TOutputImage::PixelType>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TernaryMagnitudeImageFilter, TernaryFunctorImageFilter);
+  itkTypeMacro(TernaryMagnitudeImageFilter, TernaryGeneratorImageFilter);
 
 protected:
-  TernaryMagnitudeImageFilter() = default;
+  TernaryMagnitudeImageFilter()
+  {
+#if !defined(ITK_WRAPPING_PARSER)
+    Superclass::SetFunctor(FunctorType());
+#endif
+  }
   ~TernaryMagnitudeImageFilter() override = default;
 };
 } // end namespace itk

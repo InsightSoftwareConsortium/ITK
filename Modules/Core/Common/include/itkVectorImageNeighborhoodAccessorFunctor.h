@@ -47,7 +47,7 @@ public:
   using VectorLengthType = unsigned int;
   using OffsetType = typename ImageType::OffsetType;
 
-  using NeighborhoodType = Neighborhood<InternalPixelType *, TImage ::ImageDimension>;
+  using NeighborhoodType = Neighborhood<InternalPixelType *, TImage::ImageDimension>;
 
   template <typename TOutput = ImageType>
   using ImageBoundaryConditionType = ImageBoundaryCondition<ImageType, TOutput>;

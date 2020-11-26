@@ -4,8 +4,8 @@
 if(NOT ITK_FOUND)
   message(FATAL_ERROR "ITK must be found before module macros can be used.")
 endif()
-if(NOT ITK_VERSION VERSION_GREATER "4.8")
-  message(FATAL_ERROR "Requires ITK 4.9 or later to work.")
+if(NOT ITK_VERSION VERSION_GREATER "5.1")
+  message(FATAL_ERROR "Requires ITK 5.1 or later to work.")
 endif()
 if(NOT EXISTS ${ITK_CMAKE_DIR}/ITKModuleMacros.cmake)
   message(FATAL_ERROR "Modules can only be built against an ITK build tree; they cannot be built against an ITK install tree.")
@@ -37,17 +37,22 @@ endif()
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_DIR}/bin)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_DIR}/bin CACHE PATH "Runtime output directory for ITK")
 endif()
-if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-  if(ITK_WRAP_PYTHON)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_DIR}/Wrapping/Generators/Python/itk)
-  else()
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_DIR}/lib)
+if(ITK_WRAP_PYTHON)
+  # IF WRAP_PYTHON then we must unconditionally set the CMAKE_LIBRARY_OUTPUT_DIRECTORY
+  # If wrapping for python, then put all the shared libraries (both core shared libs,
+  # and python shared libs in the itk python package directory under ITK_SWIGLIB_SUBPKG_NAME.
+  set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${ITK_DIR}/Wrapping/Generators/Python/itk/${ITK_SWIGLIB_SUBPKG_NAME}" CACHE PATH "Shared library directory, in wrapped directory.")
+else()
+  if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_DIR}/lib CACHE PATH "Shared library directory")
   endif()
 endif()
+
+
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_DIR}/lib)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_DIR}/lib CACHE PATH "Static library install directory")
 endif()
 
 # ITK installation structure

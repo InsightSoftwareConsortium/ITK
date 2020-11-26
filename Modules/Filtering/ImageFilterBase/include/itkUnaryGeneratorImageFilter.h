@@ -34,8 +34,8 @@ namespace itk
  * the type of the output image.
  *
  * This filter allows per-pixel operations to be specified in several
- * way:
- * - ITK traditional "Functor" class with operator()
+ * ways:
+ * - traditional ITK "Functor" class with operator()
  * - C++11 lambda functions, with closures
  * - C++ std::function
  * - C-style function pointers

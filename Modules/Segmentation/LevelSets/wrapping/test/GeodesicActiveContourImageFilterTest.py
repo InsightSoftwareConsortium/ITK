@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 # GeodesicActiveContourImageFilter.py
 # Translated by Charl P. Botha <http://cpbotha.net/> from the cxx original.
@@ -39,17 +39,18 @@
 import itk
 from sys import argv, stderr
 import os
+
 itk.auto_progress(2)
 
 
 def main():
     if len(argv) < 10:
-        errMsg = "Missing parameters\n" \
-                 "Usage: %s\n" % (argv[0],) + \
-                 " inputImage  outputImage\n" \
-                 " seedX seedY InitialDistance\n" \
-                 " Sigma SigmoidAlpha SigmoidBeta\n" \
-                 " PropagationScaling\n"
+        errMsg = (
+            f"Missing parameters\nUsage: {argv[0]}\n" + " inputImage  outputImage\n"
+            " seedX seedY InitialDistance\n"
+            " Sigma SigmoidAlpha SigmoidBeta\n"
+            " PropagationScaling\n"
+        )
 
         print(errMsg, file=stderr)
         return
@@ -78,25 +79,20 @@ def main():
     outputDirectory = os.path.dirname(argv[2])
 
     smoothing = itk.CurvatureAnisotropicDiffusionImageFilter[
-        InternalImageType,
-        InternalImageType].New(
-        reader,
-        TimeStep=0.125,
-        NumberOfIterations=5,
-        ConductanceParameter=9.0)
+        InternalImageType, InternalImageType
+    ].New(reader, TimeStep=0.125, NumberOfIterations=5, ConductanceParameter=9.0)
 
     gradientMagnitude = itk.GradientMagnitudeRecursiveGaussianImageFilter[
-        InternalImageType,
-        InternalImageType].New(
-        smoothing,
-        Sigma=float(argv[6]))
+        InternalImageType, InternalImageType
+    ].New(smoothing, Sigma=float(argv[6]))
 
     sigmoid = itk.SigmoidImageFilter[InternalImageType, InternalImageType].New(
         gradientMagnitude,
         OutputMinimum=0.0,
         OutputMaximum=1.1,
         Alpha=float(argv[7]),
-        Beta=float(argv[8]))
+        Beta=float(argv[8]),
+    )
 
     seedPosition = itk.Index[2]()
     seedPosition.SetElement(0, int(argv[3]))
@@ -107,22 +103,23 @@ def main():
     node.SetIndex(seedPosition)
 
     seeds = itk.VectorContainer[
-        itk.UI, itk.LevelSetNode[InternalPixelType, Dimension]].New()
+        itk.UI, itk.LevelSetNode[InternalPixelType, Dimension]
+    ].New()
     seeds.Initialize()
     seeds.InsertElement(0, node)
 
     fastMarching = itk.FastMarchingImageFilter[
-        InternalImageType,
-        InternalImageType].New(
+        InternalImageType, InternalImageType
+    ].New(
         sigmoid,
         TrialPoints=seeds,
         SpeedConstant=1.0,
-        OutputSize=reader.GetOutput().GetBufferedRegion().GetSize())
+        OutputSize=reader.GetOutput().GetBufferedRegion().GetSize(),
+    )
 
     geodesicActiveContour = itk.GeodesicActiveContourLevelSetImageFilter[
-        InternalImageType,
-        InternalImageType,
-        InternalPixelType].New(
+        InternalImageType, InternalImageType, InternalPixelType
+    ].New(
         fastMarching,
         # it is required to use the explicitly the FeatureImage
         # - itk segfault without that :-(
@@ -131,60 +128,53 @@ def main():
         CurvatureScaling=1.0,
         AdvectionScaling=1.0,
         MaximumRMSError=0.02,
-        NumberOfIterations=800)
+        NumberOfIterations=800,
+    )
 
     thresholder = itk.BinaryThresholdImageFilter[
-        InternalImageType,
-        OutputImageType].New(
+        InternalImageType, OutputImageType
+    ].New(
         geodesicActiveContour,
         LowerThreshold=-1000,
         UpperThreshold=0,
         OutsideValue=0,
-        InsideValue=255)
+        InsideValue=255,
+    )
 
-    writer = itk.ImageFileWriter[OutputImageType].New(
-        thresholder,
-        FileName=argv[2])
+    writer = itk.ImageFileWriter[OutputImageType].New(thresholder, FileName=argv[2])
 
     def rescaleAndWrite(filter, fileName):
         caster = itk.RescaleIntensityImageFilter[
-            InternalImageType,
-            OutputImageType].New(
-            filter,
-            OutputMinimum=0,
-            OutputMaximum=255)
+            InternalImageType, OutputImageType
+        ].New(filter, OutputMinimum=0, OutputMaximum=255)
         itk.imwrite(caster, os.path.join(outputDirectory, fileName))
 
     rescaleAndWrite(smoothing, "GeodesicActiveContourImageFilterOutput1.png")
-    rescaleAndWrite(
-        gradientMagnitude,
-        "GeodesicActiveContourImageFilterOutput2.png")
+    rescaleAndWrite(gradientMagnitude, "GeodesicActiveContourImageFilterOutput2.png")
     rescaleAndWrite(sigmoid, "GeodesicActiveContourImageFilterOutput3.png")
-    rescaleAndWrite(
-        fastMarching,
-        "GeodesicActiveContourImageFilterOutput4.png")
+    rescaleAndWrite(fastMarching, "GeodesicActiveContourImageFilterOutput4.png")
 
     writer.Update()
 
     print("")
-    print(
-        "Max. no. iterations: %d" %
-        (geodesicActiveContour.GetNumberOfIterations()))
-    print(
-        "Max. RMS error: %.3f" %
-        (geodesicActiveContour.GetMaximumRMSError()))
+    print("Max. no. iterations: %d" % (geodesicActiveContour.GetNumberOfIterations()))
+    print(f"Max. RMS error: {geodesicActiveContour.GetMaximumRMSError():.3f}")
     print("")
-    print(
-        "No. elapsed iterations: %d"
-        % (geodesicActiveContour.GetElapsedIterations()))
-    print("RMS change: %.3f" % (geodesicActiveContour.GetRMSChange()))
+    print("No. elapsed iterations: %d" % (geodesicActiveContour.GetElapsedIterations()))
+    print(f"RMS change: {geodesicActiveContour.GetRMSChange():.3f}")
 
-    itk.imwrite(fastMarching, os.path.join(outputDirectory,
-        "GeodesicActiveContourImageFilterOutput4.mha"))
-    itk.imwrite(sigmoid, os.path.join(outputDirectory,
-        "GeodesicActiveContourImageFilterOutput3.mha"))
-    itk.imwrite(gradientMagnitude, os.path.join(outputDirectory,
-        "GeodesicActiveContourImageFilterOutput2.mha"))
+    itk.imwrite(
+        fastMarching,
+        os.path.join(outputDirectory, "GeodesicActiveContourImageFilterOutput4.mha"),
+    )
+    itk.imwrite(
+        sigmoid,
+        os.path.join(outputDirectory, "GeodesicActiveContourImageFilterOutput3.mha"),
+    )
+    itk.imwrite(
+        gradientMagnitude,
+        os.path.join(outputDirectory, "GeodesicActiveContourImageFilterOutput2.mha"),
+    )
 
 
 if __name__ == "__main__":

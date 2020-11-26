@@ -1,0 +1,3 @@
+itk_wrap_class("itk::TernaryGeneratorImageFilter" POINTER)
+  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 4)
+itk_end_wrap_class()

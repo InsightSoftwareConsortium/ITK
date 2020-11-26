@@ -60,6 +60,14 @@ VTKImageExport<TInputImage>::VTKImageExport()
   {
     m_ScalarTypeName = "unsigned long";
   }
+  else if (typeid(ScalarType) == typeid(long long))
+  {
+    m_ScalarTypeName = "long long";
+  }
+  else if (typeid(ScalarType) == typeid(unsigned long long))
+  {
+    m_ScalarTypeName = "unsigned long long";
+  }
   else if (typeid(ScalarType) == typeid(int))
   {
     m_ScalarTypeName = "int";

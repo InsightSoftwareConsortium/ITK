@@ -22,7 +22,7 @@ namespace itk
 /**
  * Instantiate object with no start, end, or progress methods.
  */
-LightProcessObject ::LightProcessObject()
+LightProcessObject::LightProcessObject()
 {
   m_AbortGenerateData = false;
   m_Progress = 0.0f;
@@ -40,7 +40,7 @@ LightProcessObject ::~LightProcessObject() = default;
  * should range between (0,1).
  */
 void
-LightProcessObject ::UpdateProgress(float amount)
+LightProcessObject::UpdateProgress(float amount)
 {
   m_Progress = amount;
   this->InvokeEvent(ProgressEvent());
@@ -50,7 +50,7 @@ LightProcessObject ::UpdateProgress(float amount)
  *
  */
 void
-LightProcessObject ::PrintSelf(std::ostream & os, Indent indent) const
+LightProcessObject::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -62,7 +62,7 @@ LightProcessObject ::PrintSelf(std::ostream & os, Indent indent) const
  *
  */
 void
-LightProcessObject ::UpdateOutputData()
+LightProcessObject::UpdateOutputData()
 {
   this->InvokeEvent(StartEvent());
 

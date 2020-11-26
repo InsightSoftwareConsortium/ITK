@@ -58,13 +58,13 @@ const double Element2DC0LinearTriangular ::trigGaussRuleInfo[6][7][4] = {
     { 0.47014206410511509, 0.47014206410511509, 0.05971587178976982, 0.13239415278850618 } }
 };
 
-const unsigned int Element2DC0LinearTriangular ::Nip[6] = { 0, 1, 3, 3, 6, 7 };
+const unsigned int Element2DC0LinearTriangular::Nip[6] = { 0, 1, 3, 3, 6, 7 };
 
 void
-Element2DC0LinearTriangular ::GetIntegrationPointAndWeight(unsigned int i,
-                                                           VectorType & pt,
-                                                           Float &      w,
-                                                           unsigned int order) const
+Element2DC0LinearTriangular::GetIntegrationPointAndWeight(unsigned int i,
+                                                          VectorType & pt,
+                                                          Float &      w,
+                                                          unsigned int order) const
 {
   // default integration order
   if (order == 0 || order > 5)
@@ -95,7 +95,7 @@ Element2DC0LinearTriangular ::GetIntegrationPointAndWeight(unsigned int i,
 }
 
 unsigned int
-Element2DC0LinearTriangular ::GetNumberOfIntegrationPoints(unsigned int order) const
+Element2DC0LinearTriangular::GetNumberOfIntegrationPoints(unsigned int order) const
 {
   // default integration order
   if (order == 0 || order > 5)
@@ -107,7 +107,7 @@ Element2DC0LinearTriangular ::GetNumberOfIntegrationPoints(unsigned int order) c
 }
 
 Element2DC0LinearTriangular::VectorType
-Element2DC0LinearTriangular ::ShapeFunctions(const VectorType & pt) const
+Element2DC0LinearTriangular::ShapeFunctions(const VectorType & pt) const
 {
   // Linear triangular element has 3 shape functions
   VectorType shapeF(3);
@@ -119,7 +119,7 @@ Element2DC0LinearTriangular ::ShapeFunctions(const VectorType & pt) const
 }
 
 void
-Element2DC0LinearTriangular ::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
+Element2DC0LinearTriangular::ShapeFunctionDerivatives(const VectorType &, MatrixType & shapeD) const
 {
   // Matrix of shape functions derivatives is an
   // identity matrix for linear triangular element.
@@ -131,7 +131,7 @@ Element2DC0LinearTriangular ::ShapeFunctionDerivatives(const VectorType &, Matri
 }
 
 bool
-Element2DC0LinearTriangular ::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
+Element2DC0LinearTriangular::GetLocalFromGlobalCoordinates(const VectorType & globalPt, VectorType & localPt) const
 {
   Float x, x1, x2, x3, y, y1, y2, y3, A;
 
@@ -163,7 +163,7 @@ Element2DC0LinearTriangular ::GetLocalFromGlobalCoordinates(const VectorType & g
 }
 
 Element2DC0LinearTriangular::Float
-Element2DC0LinearTriangular ::JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const
+Element2DC0LinearTriangular::JacobianDeterminant(const VectorType & pt, const MatrixType * pJ) const
 {
 
   MatrixType * pJlocal = nullptr;
@@ -186,7 +186,7 @@ Element2DC0LinearTriangular ::JacobianDeterminant(const VectorType & pt, const M
 }
 
 void
-Element2DC0LinearTriangular ::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ) const
+Element2DC0LinearTriangular::JacobianInverse(const VectorType & pt, MatrixType & invJ, const MatrixType * pJ) const
 {
   MatrixType * pJlocal = nullptr;
 

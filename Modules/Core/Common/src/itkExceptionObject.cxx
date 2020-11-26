@@ -297,7 +297,7 @@ ExceptionObject::what() const noexcept
 }
 
 void
-ExceptionObject ::Print(std::ostream & os) const
+ExceptionObject::Print(std::ostream & os) const
 {
   Indent indent;
 

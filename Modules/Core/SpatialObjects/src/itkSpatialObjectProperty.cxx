@@ -15,20 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkSpatialObjectProperty_cxx
-#define itkSpatialObjectProperty_cxx
 
 #include "itkSpatialObjectProperty.h"
 
 namespace itk
 {
-SpatialObjectProperty ::SpatialObjectProperty()
+SpatialObjectProperty::SpatialObjectProperty()
 {
   this->Clear();
 }
 
 void
-SpatialObjectProperty ::Clear()
+SpatialObjectProperty::Clear()
 {
   m_Color.SetRed(1);
   m_Color.SetGreen(1);
@@ -42,7 +40,7 @@ SpatialObjectProperty ::Clear()
 }
 
 void
-SpatialObjectProperty ::SetColor(double r, double g, double b)
+SpatialObjectProperty::SetColor(double r, double g, double b)
 {
   m_Color.SetRed(r);
   m_Color.SetGreen(g);
@@ -50,67 +48,67 @@ SpatialObjectProperty ::SetColor(double r, double g, double b)
 }
 
 void
-SpatialObjectProperty ::SetRed(double r)
+SpatialObjectProperty::SetRed(double r)
 {
   m_Color.SetRed(r);
 }
 
 double
-SpatialObjectProperty ::GetRed() const
+SpatialObjectProperty::GetRed() const
 {
   return m_Color.GetRed();
 }
 
 void
-SpatialObjectProperty ::SetGreen(double g)
+SpatialObjectProperty::SetGreen(double g)
 {
   m_Color.SetGreen(g);
 }
 
 double
-SpatialObjectProperty ::GetGreen() const
+SpatialObjectProperty::GetGreen() const
 {
   return m_Color.GetGreen();
 }
 
 void
-SpatialObjectProperty ::SetBlue(double b)
+SpatialObjectProperty::SetBlue(double b)
 {
   m_Color.SetBlue(b);
 }
 
 double
-SpatialObjectProperty ::GetBlue() const
+SpatialObjectProperty::GetBlue() const
 {
   return m_Color.GetBlue();
 }
 
 void
-SpatialObjectProperty ::SetAlpha(double a)
+SpatialObjectProperty::SetAlpha(double a)
 {
   m_Color.SetAlpha(a);
 }
 
 double
-SpatialObjectProperty ::GetAlpha() const
+SpatialObjectProperty::GetAlpha() const
 {
   return m_Color.GetAlpha();
 }
 
 void
-SpatialObjectProperty ::SetTagScalarValue(const std::string & tag, double value)
+SpatialObjectProperty::SetTagScalarValue(const std::string & tag, double value)
 {
   m_ScalarDictionary[tag] = value;
 }
 
 void
-SpatialObjectProperty ::SetTagStringValue(const std::string & tag, const std::string & value)
+SpatialObjectProperty::SetTagStringValue(const std::string & tag, const std::string & value)
 {
   m_StringDictionary[tag] = value;
 }
 
 bool
-SpatialObjectProperty ::GetTagScalarValue(const std::string & tag, double & value) const
+SpatialObjectProperty::GetTagScalarValue(const std::string & tag, double & value) const
 {
   auto it = m_ScalarDictionary.find(tag);
   if (it != m_ScalarDictionary.end())
@@ -125,7 +123,7 @@ SpatialObjectProperty ::GetTagScalarValue(const std::string & tag, double & valu
 }
 
 bool
-SpatialObjectProperty ::GetTagStringValue(const std::string & tag, std::string & value) const
+SpatialObjectProperty::GetTagStringValue(const std::string & tag, std::string & value) const
 {
   auto it = m_StringDictionary.find(tag);
   if (it != m_StringDictionary.end())
@@ -140,37 +138,37 @@ SpatialObjectProperty ::GetTagStringValue(const std::string & tag, std::string &
 }
 
 std::map<std::string, double> &
-SpatialObjectProperty ::GetTagScalarDictionary()
+SpatialObjectProperty::GetTagScalarDictionary()
 {
   return m_ScalarDictionary;
 }
 
 const std::map<std::string, double> &
-SpatialObjectProperty ::GetTagScalarDictionary() const
+SpatialObjectProperty::GetTagScalarDictionary() const
 {
   return m_ScalarDictionary;
 }
 
 std::map<std::string, std::string> &
-SpatialObjectProperty ::GetTagStringDictionary()
+SpatialObjectProperty::GetTagStringDictionary()
 {
   return m_StringDictionary;
 }
 
 const std::map<std::string, std::string> &
-SpatialObjectProperty ::GetTagStringDictionary() const
+SpatialObjectProperty::GetTagStringDictionary() const
 {
   return m_StringDictionary;
 }
 
 void
-SpatialObjectProperty ::SetTagScalarDictionary(const std::map<std::string, double> & dict)
+SpatialObjectProperty::SetTagScalarDictionary(const std::map<std::string, double> & dict)
 {
   m_ScalarDictionary = dict;
 }
 
 void
-SpatialObjectProperty ::SetTagStringDictionary(const std::map<std::string, std::string> & dict)
+SpatialObjectProperty::SetTagStringDictionary(const std::map<std::string, std::string> & dict)
 {
   m_StringDictionary = dict;
 }
@@ -190,7 +188,7 @@ SpatialObjectProperty ::operator=(const SpatialObjectProperty & rhs)
 }
 
 void
-SpatialObjectProperty ::PrintSelf(std::ostream & os, Indent indent) const
+SpatialObjectProperty::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Name: " << m_Name << std::endl;
   os << indent << "RGBA: " << m_Color.GetRed() << " " << m_Color.GetGreen() << " " << m_Color.GetBlue() << " "
@@ -199,5 +197,3 @@ SpatialObjectProperty ::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "StringDictionary size: " << m_StringDictionary.size() << std::endl;
 }
 } // end of namespace itk
-
-#endif // __SpatialObjectProperty_hxx

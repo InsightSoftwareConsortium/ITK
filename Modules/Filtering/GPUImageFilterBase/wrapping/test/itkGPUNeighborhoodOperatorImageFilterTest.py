@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,12 +14,12 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 import itk
 import sys
 
 if len(sys.argv) < 3:
-    print('Usage: ' + sys.argv[0] + ' inputFile outputFile [numberOfDimensions]')
+    print("Usage: " + sys.argv[0] + " inputFile outputFile [numberOfDimensions]")
     sys.exit(1)
 input_file = sys.argv[1]
 output_file = sys.argv[2]
@@ -37,14 +37,19 @@ InputGPUImageType = itk.GPUImage[InputPixelType, Dimension]
 OutputGPUImageType = itk.GPUImage[OutputPixelType, Dimension]
 
 input_image = itk.imread(input_file, InputPixelType)
-input_gpu_image = itk.cast_image_filter(input_image, in_place=False,
-        ttype=(InputImageType, InputGPUImageType))
+input_gpu_image = itk.cast_image_filter(
+    input_image, in_place=False, ttype=(InputImageType, InputGPUImageType)
+)
 input_gpu_image.UpdateBuffers()
 
-RealOutputPixelType = OutputPixelType;
+RealOutputPixelType = OutputPixelType
 
-NeighborhoodFilterType = itk.NeighborhoodOperatorImageFilter[InputImageType, OutputImageType, RealOutputPixelType]
-GPUNeighborhoodFilterType = itk.GPUNeighborhoodOperatorImageFilter[InputGPUImageType, OutputGPUImageType, RealOutputPixelType]
+NeighborhoodFilterType = itk.NeighborhoodOperatorImageFilter[
+    InputImageType, OutputImageType, RealOutputPixelType
+]
+GPUNeighborhoodFilterType = itk.GPUNeighborhoodOperatorImageFilter[
+    InputGPUImageType, OutputGPUImageType, RealOutputPixelType
+]
 
 # Create 1D Gaussian operator
 OperatorType = itk.GaussianOperator[RealOutputPixelType, Dimension]
@@ -55,7 +60,7 @@ oper.SetVariance(8.0)
 oper.CreateDirectional()
 
 # test 1~8 work units for CPU
-for number_of_work_units in range(1,9):
+for number_of_work_units in range(1, 9):
     cpu_filter = NeighborhoodFilterType.New()
     cpu_timer = itk.TimeProbe()
 
@@ -69,8 +74,11 @@ for number_of_work_units in range(1,9):
 
     cpu_timer.Stop()
 
-    print("CPU NeighborhoodFilter took {0} seconds with {1} work units.\n".format(cpu_timer.GetMean(),
-                cpu_filter.GetNumberOfWorkUnits()))
+    print(
+        "CPU NeighborhoodFilter took {0} seconds with {1} work units.\n".format(
+            cpu_timer.GetMean(), cpu_filter.GetNumberOfWorkUnits()
+        )
+    )
 
 
 gpu_filter = GPUNeighborhoodFilterType.New()
@@ -82,13 +90,14 @@ gpu_filter.SetInput(input_gpu_image)
 gpu_filter.SetOperator(oper)
 gpu_filter.Update()
 
-gpu_filter.GetOutput().UpdateBuffers() # synchronization point (GPU->CPU memcpy)
+gpu_filter.GetOutput().UpdateBuffers()  # synchronization point (GPU->CPU memcpy)
 
 gpu_timer.Stop()
 
-print("GPU NeighborhoodFilter took {0} seconds.\n".format(gpu_timer.GetMean()))
+print(f"GPU NeighborhoodFilter took {gpu_timer.GetMean()} seconds.\n")
 
-output_image = itk.cast_image_filter(gpu_filter.GetOutput(),
-        ttype=(OutputGPUImageType, OutputImageType))
+output_image = itk.cast_image_filter(
+    gpu_filter.GetOutput(), ttype=(OutputGPUImageType, OutputImageType)
+)
 output_gpu_image = gpu_filter.GetOutput()
 itk.imwrite(output_image, output_file)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -16,7 +16,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #
 #  Test BinaryDilateImageFilter
@@ -24,6 +24,7 @@
 
 import sys
 import itk
+
 itk.auto_progress(2)
 
 inputImage = sys.argv[1]
@@ -43,7 +44,8 @@ StructuringElementType = itk.FlatStructuringElement[Dimension]
 structuringElement = StructuringElementType.Ball(radiusValue)
 
 ErodeFilterType = itk.BinaryErodeImageFilter[
-    ImageType, ImageType, StructuringElementType]
+    ImageType, ImageType, StructuringElementType
+]
 erodeFilter = ErodeFilterType.New()
 erodeFilter.SetInput(reader.GetOutput())
 erodeFilter.SetKernel(structuringElement)

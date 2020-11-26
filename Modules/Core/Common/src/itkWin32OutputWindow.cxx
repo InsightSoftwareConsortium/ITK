@@ -43,7 +43,7 @@ Win32OutputWindow ::~Win32OutputWindow()
 
 /** */
 LRESULT APIENTRY
-        Win32OutputWindow ::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+        Win32OutputWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
   switch (message)
   {
@@ -77,7 +77,7 @@ LRESULT APIENTRY
 
 /** Display text in the window, and translate the \n to \r\n. */
 void
-Win32OutputWindow ::DisplayText(const char * text)
+Win32OutputWindow::DisplayText(const char * text)
 {
   if (!text)
   {
@@ -121,7 +121,7 @@ Win32OutputWindow ::DisplayText(const char * text)
 
 /** Add some text to the EDIT control. */
 void
-Win32OutputWindow ::AddText(const char * text)
+Win32OutputWindow::AddText(const char * text)
 {
   if (!Initialize() || (strlen(text) == 0))
   {
@@ -138,7 +138,7 @@ Win32OutputWindow ::AddText(const char * text)
 /** initialize the output window with an EDIT control and
  *  a container window. */
 int
-Win32OutputWindow ::Initialize()
+Win32OutputWindow::Initialize()
 {
   /** check to see if it is already initialized */
   if (Win32OutputWindow::m_OutputWindow)
@@ -219,7 +219,7 @@ Win32OutputWindow ::Initialize()
 
 /** Prompt some text */
 void
-Win32OutputWindow ::PromptText(const char * text)
+Win32OutputWindow::PromptText(const char * text)
 {
   std::ostringstream msg;
 

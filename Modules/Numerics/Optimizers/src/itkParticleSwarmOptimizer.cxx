@@ -21,7 +21,7 @@ namespace itk
 {
 
 
-ParticleSwarmOptimizer ::ParticleSwarmOptimizer()
+ParticleSwarmOptimizer::ParticleSwarmOptimizer()
 {
   // magic numbers based on the analysis described in M. Clerc, J. Kennedy,
   //"The particle swarm - explosion, stability, and convergence in a
@@ -35,7 +35,7 @@ ParticleSwarmOptimizer ::ParticleSwarmOptimizer()
 ParticleSwarmOptimizer ::~ParticleSwarmOptimizer() = default;
 
 void
-ParticleSwarmOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+ParticleSwarmOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "Acceleration coefficients [inertia, personal, global]: ";
@@ -44,7 +44,7 @@ ParticleSwarmOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-ParticleSwarmOptimizer ::UpdateSwarm()
+ParticleSwarmOptimizer::UpdateSwarm()
 {
   unsigned int                                                    j, k, n;
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =

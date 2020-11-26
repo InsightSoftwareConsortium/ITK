@@ -5,13 +5,13 @@ if(ITK_WRAP_unsigned_char AND wrap_2_index GREATER -1)
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/PythonSigmoidImageFilterTest.png
       DATA{Baseline/PythonSigmoidImageFilterTest.png}
-    COMMAND SigmoidImageFilterTest.py
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/SigmoidImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/PythonSigmoidImageFilterTest.png
       10 240 10 170
     )
     itk_python_add_test(NAME PythonIntensityWindowingImageFilterTest
-      COMMAND itkIntensityWindowingImageFilterTest.py
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkIntensityWindowingImageFilterTest.py
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       )
 endif()

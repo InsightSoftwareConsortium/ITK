@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkPowellOptimizer_cxx
-#define _itkPowellOptimizer_cxx
 
 #include "itkPowellOptimizer.h"
 #include "itkMath.h"
@@ -24,7 +22,7 @@
 
 namespace itk
 {
-PowellOptimizer ::PowellOptimizer()
+PowellOptimizer::PowellOptimizer()
 {
   m_CatchGetValueException = false;
   m_MetricWorstPossibleValue = 0;
@@ -52,7 +50,7 @@ PowellOptimizer ::PowellOptimizer()
 PowellOptimizer ::~PowellOptimizer() = default;
 
 void
-PowellOptimizer ::SetLine(const PowellOptimizer::ParametersType & origin, const vnl_vector<double> & direction)
+PowellOptimizer::SetLine(const PowellOptimizer::ParametersType & origin, const vnl_vector<double> & direction)
 {
   const Optimizer::ScalesType & inv_scales = this->GetInverseScales();
   for (unsigned int i = 0; i < m_SpaceDimension; ++i)
@@ -63,7 +61,7 @@ PowellOptimizer ::SetLine(const PowellOptimizer::ParametersType & origin, const 
 }
 
 double
-PowellOptimizer ::GetLineValue(double x) const
+PowellOptimizer::GetLineValue(double x) const
 {
   PowellOptimizer::ParametersType tempCoord(m_SpaceDimension);
 
@@ -71,7 +69,7 @@ PowellOptimizer ::GetLineValue(double x) const
 }
 
 double
-PowellOptimizer ::GetLineValue(double x, ParametersType & tempCoord) const
+PowellOptimizer::GetLineValue(double x, ParametersType & tempCoord) const
 {
   for (unsigned int i = 0; i < m_SpaceDimension; i++)
   {
@@ -103,7 +101,7 @@ PowellOptimizer ::GetLineValue(double x, ParametersType & tempCoord) const
 }
 
 void
-PowellOptimizer ::SetCurrentLinePoint(double x, double fx)
+PowellOptimizer::SetCurrentLinePoint(double x, double fx)
 {
   for (unsigned int i = 0; i < m_SpaceDimension; i++)
   {
@@ -121,7 +119,7 @@ PowellOptimizer ::SetCurrentLinePoint(double x, double fx)
 }
 
 void
-PowellOptimizer ::Swap(double * a, double * b) const
+PowellOptimizer::Swap(double * a, double * b) const
 {
   double tf;
 
@@ -131,7 +129,7 @@ PowellOptimizer ::Swap(double * a, double * b) const
 }
 
 void
-PowellOptimizer ::Shift(double * a, double * b, double * c, double d) const
+PowellOptimizer::Shift(double * a, double * b, double * c, double d) const
 {
   *a = *b;
   *b = *c;
@@ -157,7 +155,7 @@ PowellOptimizer ::Shift(double * a, double * b, double * c, double d) const
 // the end of the iterations.
 //
 void
-PowellOptimizer ::LineBracket(double * x1, double * x2, double * x3, double * f1, double * f2, double * f3)
+PowellOptimizer::LineBracket(double * x1, double * x2, double * x3, double * f1, double * f2, double * f3)
 {
   PowellOptimizer::ParametersType tempCoord(m_SpaceDimension);
 
@@ -165,13 +163,13 @@ PowellOptimizer ::LineBracket(double * x1, double * x2, double * x3, double * f1
 }
 
 void
-PowellOptimizer ::LineBracket(double *         x1,
-                              double *         x2,
-                              double *         x3,
-                              double *         f1,
-                              double *         f2,
-                              double *         f3,
-                              ParametersType & tempCoord)
+PowellOptimizer::LineBracket(double *         x1,
+                             double *         x2,
+                             double *         x3,
+                             double *         f1,
+                             double *         f2,
+                             double *         f3,
+                             ParametersType & tempCoord)
 {
   //
   // Compute the golden ratio as a constant to be
@@ -218,14 +216,14 @@ PowellOptimizer ::LineBracket(double *         x1,
 }
 
 void
-PowellOptimizer ::BracketedLineOptimize(double   ax,
-                                        double   bx,
-                                        double   cx,
-                                        double   fa,
-                                        double   functionValueOfb,
-                                        double   fc,
-                                        double * extX,
-                                        double * extVal)
+PowellOptimizer::BracketedLineOptimize(double   ax,
+                                       double   bx,
+                                       double   cx,
+                                       double   fa,
+                                       double   functionValueOfb,
+                                       double   fc,
+                                       double * extX,
+                                       double * extVal)
 {
   PowellOptimizer::ParametersType tempCoord(m_SpaceDimension);
 
@@ -233,15 +231,15 @@ PowellOptimizer ::BracketedLineOptimize(double   ax,
 }
 
 void
-PowellOptimizer ::BracketedLineOptimize(double           ax,
-                                        double           bx,
-                                        double           cx,
-                                        double           itkNotUsed(fa),
-                                        double           functionValueOfb,
-                                        double           itkNotUsed(fc),
-                                        double *         extX,
-                                        double *         extVal,
-                                        ParametersType & tempCoord)
+PowellOptimizer::BracketedLineOptimize(double           ax,
+                                       double           bx,
+                                       double           cx,
+                                       double           itkNotUsed(fa),
+                                       double           functionValueOfb,
+                                       double           itkNotUsed(fc),
+                                       double *         extX,
+                                       double *         extVal,
+                                       ParametersType & tempCoord)
 {
   double x;
   double v = 0.0;
@@ -406,7 +404,7 @@ PowellOptimizer ::BracketedLineOptimize(double           ax,
 }
 
 void
-PowellOptimizer ::StartOptimization()
+PowellOptimizer::StartOptimization()
 {
   if (m_CostFunction.IsNull())
   {
@@ -531,7 +529,7 @@ PowellOptimizer ::StartOptimization()
  *
  */
 const std::string
-PowellOptimizer ::GetStopConditionDescription() const
+PowellOptimizer::GetStopConditionDescription() const
 {
   return m_StopConditionDescription.str();
 }
@@ -540,7 +538,7 @@ PowellOptimizer ::GetStopConditionDescription() const
  *
  */
 void
-PowellOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+PowellOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -561,4 +559,3 @@ PowellOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Stop              " << m_Stop << std::endl;
 }
 } // end of namespace itk
-#endif

@@ -70,7 +70,7 @@ public:
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Type to hold the number of checker boxes per dimension. */
-  using PatternArrayType = FixedArray<unsigned int, TImage ::ImageDimension>;
+  using PatternArrayType = FixedArray<unsigned int, TImage::ImageDimension>;
 
   /** Set the first operand for checker board. */
   void

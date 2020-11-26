@@ -18,6 +18,14 @@ test_common_interface()
 
   const typename TContainer::element_type l_values[4] = { 0, 1, 2, 3 };
   TContainer l(4, 4, l_values);
+  TEST("l.front()", l.front() , 0);
+  TEST("l.back()", l.back() , 3);
+
+  const TContainer l_const(4, 4, l_values);
+
+  TEST("l_const.front()", l_const.front() , 0);
+  TEST("l_const.back()", l_const.back() , 3);
+
   TContainer l_swap(l);
   TContainer l_std_swap(l);
 
@@ -33,6 +41,7 @@ test_common_interface()
   std::swap(l_std_swap, r_std_swap);
   TEST("std::swap left-right", l.is_equal(r_std_swap, 10e-6), true);
   TEST("std::swap right-left", r.is_equal(l_std_swap, 10e-6), true);
+
 }
 
 

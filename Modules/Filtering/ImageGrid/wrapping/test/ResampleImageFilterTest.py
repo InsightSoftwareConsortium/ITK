@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 
 #     INPUTS: {BrainProtonDensitySlice.png}
@@ -35,18 +35,23 @@
 
 import itk
 from sys import argv, stderr, exit
+
 itk.auto_progress(2)
 
 
-if(len(argv) < 3):
-    print((
-        "Missing Parameters \n Usage: ResampleImageFilter.py inputImageFile "
-        "outputImageFile [exampleAction={0,1,2,3}]"), file=stderr)
+if len(argv) < 3:
+    print(
+        (
+            "Missing Parameters \n Usage: ResampleImageFilter.py inputImageFile "
+            "outputImageFile [exampleAction={0,1,2,3}]"
+        ),
+        file=stderr,
+    )
     exit(1)
 
 exampleAction = 0
 
-if(len(argv) >= 4):
+if len(argv) >= 4:
     exampleAction = int(argv[3])
 
 Dimension = 2
@@ -74,8 +79,7 @@ TransformType = itk.AffineTransform[itk.D, Dimension]
 transform = TransformType.New()
 filter.SetTransform(transform)
 
-InterpolatorType = itk.NearestNeighborInterpolateImageFunction[
-    InputImageType, itk.D]
+InterpolatorType = itk.NearestNeighborInterpolateImageFunction[InputImageType, itk.D]
 
 interpolator = InterpolatorType.New()
 filter.SetInterpolator(interpolator)
@@ -111,21 +115,23 @@ writer.Update()
 # transform.Translate( translation, 0 )
 transform.Translate([-30, -50], False)
 
-if(exampleAction == 1):
+if exampleAction == 1:
     writer.Update()
 
 
 filter.SetDefaultPixelValue(100)
 
-if(exampleAction == 2):
+if exampleAction == 2:
     writer.Update()
 
 
 # Make sure we can instantiate with a windowed sinc interpolator
-ImageType = itk.Image[itk.F,3]
+ImageType = itk.Image[itk.F, 3]
 
-resample = itk.ResampleImageFilter[ImageType,ImageType].New()
-interpolator = itk.WindowedSincInterpolateImageFunction[ImageType,3,itk.HammingWindowFunction[3,]].New()
+resample = itk.ResampleImageFilter[ImageType, ImageType].New()
+interpolator = itk.WindowedSincInterpolateImageFunction[
+    ImageType, 3, itk.HammingWindowFunction[3,]
+].New()
 resample.SetInterpolator(interpolator)
 
 image = ImageType.New()

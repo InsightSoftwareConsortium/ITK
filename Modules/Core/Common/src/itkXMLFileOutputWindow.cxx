@@ -30,13 +30,13 @@ XMLFileOutputWindow ::XMLFileOutputWindow() = default;
 XMLFileOutputWindow ::~XMLFileOutputWindow() = default;
 
 void
-XMLFileOutputWindow ::PrintSelf(std::ostream & os, Indent indent) const
+XMLFileOutputWindow::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
 void
-XMLFileOutputWindow ::Initialize()
+XMLFileOutputWindow::Initialize()
 {
   if (!m_Stream)
   {
@@ -56,13 +56,13 @@ XMLFileOutputWindow ::Initialize()
 }
 
 void
-XMLFileOutputWindow ::DisplayTag(const char * text)
+XMLFileOutputWindow::DisplayTag(const char * text)
 {
   Superclass::DisplayText(text);
 }
 
 void
-XMLFileOutputWindow ::DisplayXML(const char * tag, const char * text)
+XMLFileOutputWindow::DisplayXML(const char * tag, const char * text)
 {
   char * xmlText;
 
@@ -137,31 +137,31 @@ XMLFileOutputWindow ::DisplayXML(const char * tag, const char * text)
 }
 
 void
-XMLFileOutputWindow ::DisplayText(const char * text)
+XMLFileOutputWindow::DisplayText(const char * text)
 {
   this->DisplayXML("Text", text);
 }
 
 void
-XMLFileOutputWindow ::DisplayErrorText(const char * text)
+XMLFileOutputWindow::DisplayErrorText(const char * text)
 {
   this->DisplayXML("Error", text);
 }
 
 void
-XMLFileOutputWindow ::DisplayWarningText(const char * text)
+XMLFileOutputWindow::DisplayWarningText(const char * text)
 {
   this->DisplayXML("Warning", text);
 }
 
 void
-XMLFileOutputWindow ::DisplayGenericOutputText(const char * text)
+XMLFileOutputWindow::DisplayGenericOutputText(const char * text)
 {
   this->DisplayXML("GenericOutput", text);
 }
 
 void
-XMLFileOutputWindow ::DisplayDebugText(const char * text)
+XMLFileOutputWindow::DisplayDebugText(const char * text)
 {
   this->DisplayXML("Debug", text);
 }

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,23 +14,19 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import sys
-try:
-    import numpy as np
-except ImportError:
-    # We don't have numpy -- bail
-    sys.exit(0)
+import numpy as np
 import itk
 
 if len(sys.argv) < 2:
-    print('Usage: ' + sys.argv[0] + ' <inputImage>')
+    print("Usage: " + sys.argv[0] + " <inputImage>")
     sys.exit(1)
 inputImageFileName = sys.argv[1]
 
 image = itk.imread(inputImageFileName)
-array = itk.GetArrayFromImage(image)
+array = itk.array_from_image(image)
 
 extractor = itk.ExtractImageFilter.New(image)
 extractionRegion = image.GetLargestPossibleRegion()
@@ -38,10 +34,10 @@ extractor.SetExtractionRegion(extractionRegion)
 
 # GetArrayFromImage calls UpdateLargestPossibleRegion to ensure the image buffer
 # has been populated
-array = itk.GetArrayFromImage(extractor.GetOutput())
+array = itk.array_from_image(extractor.GetOutput())
 
 # GetArrayFromImage calls UpdateLargestPossibleRegion to ensure the image buffer
 # has been populated with the correct region
 extractionRegion.SetSize(10)
 extractor.SetExtractionRegion(extractionRegion)
-array = itk.GetArrayFromImage(extractor.GetOutput())
+array = itk.array_from_image(extractor.GetOutput())

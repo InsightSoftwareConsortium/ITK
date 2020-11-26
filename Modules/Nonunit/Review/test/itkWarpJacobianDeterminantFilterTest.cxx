@@ -48,7 +48,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  DisplacementFieldType ::Pointer inputDisplacementField = DisplacementFieldType ::New();
+  DisplacementFieldType::Pointer inputDisplacementField = DisplacementFieldType::New();
 
   // Define their size, and start index
   SizeType size;

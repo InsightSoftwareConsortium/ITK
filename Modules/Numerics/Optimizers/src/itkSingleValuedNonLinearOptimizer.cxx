@@ -15,14 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkSingleValuedNonLinearOptimizer_hxx
-#define _itkSingleValuedNonLinearOptimizer_hxx
 
 #include "itkSingleValuedNonLinearOptimizer.h"
 
 namespace itk
 {
-SingleValuedNonLinearOptimizer ::SingleValuedNonLinearOptimizer()
+SingleValuedNonLinearOptimizer::SingleValuedNonLinearOptimizer()
 {
   m_CostFunction = nullptr;
 }
@@ -31,7 +29,7 @@ SingleValuedNonLinearOptimizer ::SingleValuedNonLinearOptimizer()
  * Connect a Cost Function
  */
 void
-SingleValuedNonLinearOptimizer ::SetCostFunction(CostFunctionType * costFunction)
+SingleValuedNonLinearOptimizer::SetCostFunction(CostFunctionType * costFunction)
 {
   if (m_CostFunction == costFunction)
   {
@@ -59,7 +57,7 @@ SingleValuedNonLinearOptimizer ::SetCostFunction(CostFunctionType * costFunction
  * Get the cost function value at the given parameters
  */
 SingleValuedNonLinearOptimizer::MeasureType
-SingleValuedNonLinearOptimizer ::GetValue(const ParametersType & parameters) const
+SingleValuedNonLinearOptimizer::GetValue(const ParametersType & parameters) const
 {
   itkDebugMacro("Computing CostFunction value at " << parameters);
 
@@ -75,7 +73,7 @@ SingleValuedNonLinearOptimizer ::GetValue(const ParametersType & parameters) con
 }
 
 void
-SingleValuedNonLinearOptimizer ::PrintSelf(std::ostream & os, Indent indent) const
+SingleValuedNonLinearOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   if (m_CostFunction)
@@ -84,5 +82,3 @@ SingleValuedNonLinearOptimizer ::PrintSelf(std::ostream & os, Indent indent) con
   }
 }
 } // namespace itk
-
-#endif

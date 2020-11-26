@@ -79,6 +79,12 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
   // Computes the difference between convolution of estimate with
   // parametric kernel at the current kernel parameters
   m_DifferenceFilter = DifferenceFilterType::New();
+  auto parametricBlindLeastSquaresDeconvolutionDifference =
+    [](const InternalComplexType & estimateFT,
+       const InternalComplexType & kernelEstimateFT,
+       const InternalComplexType & inputFT) -> InternalComplexType { return estimateFT * kernelEstimateFT - inputFT; };
+
+  m_DifferenceFilter->SetFunctor(parametricBlindLeastSquaresDeconvolutionDifference);
   // Transform of current estimate will be set as input 1 and
   // transform of current kernel estimate will be set as input 2 in
   // Iteration()
@@ -86,6 +92,17 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
 
   // Computes the updated image estimate
   m_ImageUpdateFilter = ImageUpdateFilterType::New();
+  const auto & alpha = m_Alpha;
+  auto         parametricBlindLeastSquaresDeconvolutionImageUpdate =
+    [alpha](const InternalComplexType & estimateFT,
+            const InternalComplexType & differenceFT,
+            const InternalComplexType & kernelFT) -> InternalComplexType {
+    // Because of the linearity of the Fourier transform, we can
+    // perform the update step in the Fourier domain
+    return estimateFT - alpha * (differenceFT * std::conj(kernelFT));
+  };
+
+  m_ImageUpdateFilter->SetFunctor(parametricBlindLeastSquaresDeconvolutionImageUpdate);
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
@@ -112,7 +129,6 @@ ParametricBlindLeastSquaresDeconvolutionImageFilter<TInputImage, TKernelImage, T
   m_ImageUpdateFilter->SetInput1(m_TransformedCurrentEstimate);
   m_ImageUpdateFilter->SetInput2(m_DifferenceFilter->GetOutput());
   m_ImageUpdateFilter->SetInput3(preparedKernel);
-  m_ImageUpdateFilter->GetFunctor().SetAlpha(m_Alpha);
   m_ImageUpdateFilter->UpdateLargestPossibleRegion();
 
   m_TransformedCurrentEstimate = m_ImageUpdateFilter->GetOutput();

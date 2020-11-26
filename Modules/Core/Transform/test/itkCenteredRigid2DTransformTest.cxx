@@ -44,14 +44,8 @@ CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 } // namespace
 
 int
-itkCenteredRigid2DTransformTest(int argc, char * argv[])
+itkCenteredRigid2DTransformTest(int, char *[])
 {
-  if (argc < 1)
-  {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    return EXIT_FAILURE;
-  }
-
   std::cout << "==================================" << std::endl;
   std::cout << "Testing CenteredRigid 2D Transform" << std::endl << std::endl;
 

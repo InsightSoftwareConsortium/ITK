@@ -591,7 +591,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMovingImage,
                                             TVirtualImage,
                                             TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager ::DoubleBufferSize()
+                                            TMetricTraits>::DerivativeBufferManager::DoubleBufferSize()
 {
   m_MaxBufferSize = m_MaxBufferSize * 2;
   m_MemoryBlockSize = m_MemoryBlockSize * 2;
@@ -614,7 +614,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMovingImage,
                                             TVirtualImage,
                                             TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager ::CheckAndReduceIfNecessary()
+                                            TMetricTraits>::DerivativeBufferManager::CheckAndReduceIfNecessary()
 {
   if (m_CurrentFillSize == m_MaxBufferSize)
   {
@@ -653,7 +653,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMovingImage,
                                             TVirtualImage,
                                             TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager ::BlockAndReduce()
+                                            TMetricTraits>::DerivativeBufferManager::BlockAndReduce()
 {
   if (m_CurrentFillSize > 0)
   {
@@ -672,7 +672,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
                                             TMovingImage,
                                             TVirtualImage,
                                             TInternalComputationValueType,
-                                            TMetricTraits>::DerivativeBufferManager ::ReduceBuffer()
+                                            TMetricTraits>::DerivativeBufferManager::ReduceBuffer()
 {
   auto BufferOffsetContainerIter(this->m_BufferOffsetContainer.begin());
   auto BufferPDFValuesContainerIter(this->m_BufferPDFValuesContainer.begin());

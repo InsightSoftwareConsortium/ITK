@@ -34,8 +34,8 @@ namespace itk
  * and the type of the output image.
  *
  * This filter allows per-pixel operations to be specified in several
- * way:
- * - ITK traditional "Functor", with operator()
+ * ways:
+ * - traditional ITK "Functor", with operator()
  * - C++11 lambda functions, with closures
  * - C++ std::function
  * - C-style function pointers
@@ -105,7 +105,7 @@ public:
   virtual void
   SetConstant1(const Input1ImagePixelType & input1);
 
-  /** Get the constant value of the first operand. An exception is sent if
+  /** Get the constant value of the first operand. An exception is thrown if
    * the first operand is not a constant. */
   virtual const Input1ImagePixelType &
   GetConstant1() const;
@@ -133,7 +133,7 @@ public:
     return this->GetConstant2();
   }
 
-  /** Get the constant value of the second operand. An exception is sent if
+  /** Get the constant value of the second operand. An exception is thrown if
    * the second operand is not a constant. */
   virtual const Input2ImagePixelType &
   GetConstant2() const;
@@ -146,7 +146,7 @@ public:
   void
   SetFunctor(const std::function<ConstRefFunctionType> & f)
   {
-    // the closure create a copy of f
+    // the closure creates a copy of f
     m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread) {
       return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread);
     };
@@ -156,7 +156,7 @@ public:
   void
   SetFunctor(const std::function<ValueFunctionType> & f)
   {
-    // the capture create a copy of f
+    // the capture creates a copy of f
     m_DynamicThreadedGenerateDataFunction = [this, f](const OutputImageRegionType & outputRegionForThread) {
       return this->DynamicThreadedGenerateDataWithFunctor(f, outputRegionForThread);
     };
@@ -177,8 +177,6 @@ public:
 
     this->Modified();
   }
-
-
   void
   SetFunctor(ValueFunctionType * funcPointer)
   {

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 #
 #  Example on the use of the CastImageFilter
@@ -22,14 +22,15 @@
 
 import itk
 from sys import argv
+
 itk.auto_progress(2)
 
 dim = 2
-IType = itk.Image[itk.F, dim]
-OIType = itk.Image[itk.UC, dim]
+InputImageType = itk.Image[itk.F, dim]
+OutputImageType = itk.Image[itk.UC, dim]
 
-reader = itk.ImageFileReader[IType].New(FileName=argv[1])
-filter = itk.CastImageFilter[IType, OIType].New(reader)
-writer = itk.ImageFileWriter[OIType].New(filter, FileName=argv[2])
+reader = itk.ImageFileReader[InputImageType].New(FileName=argv[1])
+filt = itk.CastImageFilter[InputImageType, OutputImageType].New(reader)
+writer = itk.ImageFileWriter[OutputImageType].New(filt, FileName=argv[2])
 
 writer.Update()

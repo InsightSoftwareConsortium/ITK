@@ -29,6 +29,9 @@ endmacro()
 # TODO: is this the place place for this?
 set(WRAPPER_LIBRARY_INCLUDE_DIRECTORIES "" CACHE INTERNAL "additional include directories for each module")
 
+# WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx files will be placed.
+set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_DIR}/Wrapping" CACHE INTERNAL "Need to specify the output library directory globally")
+
 ###############################################################################
 # Define fundamental wrapping macro which sets up the global variables used
 # across all of the wrapping macros included at the end of this file.
@@ -50,10 +53,6 @@ macro(itk_wrap_module library_name)
 
   # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for *.wrap files.
   set(WRAPPER_LIBRARY_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
-
-  # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx
-  # files will be placed.
-  set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_DIR}/Wrapping")
 
   # WRAPPER_LIBRARY_DEPENDS. List of names of other wrapper libraries that
   # define symbols used by this wrapper library.
@@ -126,25 +125,6 @@ macro(itk_end_wrap_module)
   if(BUILD_TESTING AND EXISTS ${wrapping_test_directory}/CMakeLists.txt)
     add_subdirectory(${wrapping_test_directory})
   endif()
-endmacro()
-
-
-macro(INCLUDE_LIBRARY library)
-  # TODO: that macro is buggy !!!!
-  # it doesn't store the vars where in the lib sub dir
-
-  itk_wrap_module("${library}")
-  # change some default values
-
-  # WRAPPER_LIBRARY_SOURCE_DIR. Directory to be scanned for *.wrap files.
-  set(WRAPPER_LIBRARY_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${library}")
-
-  # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, idx,
-  # and mdx files will be placed.
-  set(WRAPPER_LIBRARY_OUTPUT_DIR "${CMAKE_CURRENT_BINARY_DIR}/${library}")
-
-  add_subdirectory("${library}")
-  itk_end_wrap_module()
 endmacro()
 
 

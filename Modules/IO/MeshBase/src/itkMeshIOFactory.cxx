@@ -21,13 +21,13 @@
 namespace itk
 {
 
-MeshIOFactory ::MeshIOFactory() = default;
+MeshIOFactory::MeshIOFactory() = default;
 
 MeshIOFactory ::~MeshIOFactory() = default;
 
 
 MeshIOBase::Pointer
-MeshIOFactory ::CreateMeshIO(const char * path, IOFileModeEnum mode)
+MeshIOFactory::CreateMeshIO(const char * path, IOFileModeEnum mode)
 {
   std::list<MeshIOBase::Pointer> possibleMeshIO;
 

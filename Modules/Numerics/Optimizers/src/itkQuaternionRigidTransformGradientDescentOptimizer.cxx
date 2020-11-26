@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef _itkQuaternionRigidTransformGradientDescentOptimizer_hxx
-#define _itkQuaternionRigidTransformGradientDescentOptimizer_hxx
 
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "vnl/vnl_quaternion.h"
@@ -27,7 +25,7 @@ namespace itk
  * Advance one Step following the gradient direction
  */
 void
-QuaternionRigidTransformGradientDescentOptimizer ::AdvanceOneStep()
+QuaternionRigidTransformGradientDescentOptimizer::AdvanceOneStep()
 {
   const double       direction = (m_Maximize) ? 1.0 : -1.0;
   const ScalesType & scales = this->GetScales();
@@ -78,5 +76,3 @@ QuaternionRigidTransformGradientDescentOptimizer ::AdvanceOneStep()
   this->SetCurrentPosition(newPosition);
 }
 } // end namespace itk
-
-#endif

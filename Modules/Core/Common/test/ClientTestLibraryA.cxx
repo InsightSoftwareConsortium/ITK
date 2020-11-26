@@ -57,13 +57,13 @@ ITKObjectProducer ::ITKObjectProducer()
 }
 
 itk::Object *
-ITKObjectProducer ::EquivalencyTable()
+ITKObjectProducer::EquivalencyTable()
 {
   return m_EquivalencyTable.GetPointer();
 }
 
 itk::Object *
-ITKObjectProducer ::Image()
+ITKObjectProducer::Image()
 {
   return m_Image.GetPointer();
 }

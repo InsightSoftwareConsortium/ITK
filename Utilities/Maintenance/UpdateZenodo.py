@@ -7,30 +7,31 @@ from pathlib import Path
 from fuzzywuzzy import fuzz, process
 
 skip = {
-    'KWSys Robot',
-    'ITK Robot',
-    'VXL Maintainers',
-    'MetaIO Maintainers',
-    'GDCM Upstream',
-    'ITK Migration V4',
-    'KWSys Upstream',
-    'Eigen Upstream',
-    'GCC-XML Upstream',
-    'HDF Group',
-    'HDF5 Maintainers',
-    'Google double-conversion Maintainers',
-    'GoogleTest Upstream',
-    'KWIML Upstream',
-    'LIBPNG Upstream',
-    'Zlib Upstream',
-    'ITK Developers',
-    'ITK Maintainer',
-    'Kitware SysAdmin',
-    }
+    "KWSys Robot",
+    "ITK Robot",
+    "VXL Maintainers",
+    "MetaIO Maintainers",
+    "GDCM Upstream",
+    "ITK Migration V4",
+    "KWSys Upstream",
+    "Eigen Upstream",
+    "GCC-XML Upstream",
+    "HDF Group",
+    "HDF5 Maintainers",
+    "Google double-conversion Maintainers",
+    "GoogleTest Upstream",
+    "KWIML Upstream",
+    "LIBPNG Upstream",
+    "Zlib Upstream",
+    "ITK Developers",
+    "ITK Maintainer",
+    "Kitware SysAdmin",
+}
 
 
 def decommify(name):
     return " ".join(name.split(", ")[::-1])
+
 
 def commify(name):
     return ", ".join(name.split(" ", 1)[::-1])
@@ -60,7 +61,9 @@ if __name__ == "__main__":
     # Stable sort:
     # Number of commits in descending order
     # Ties broken by alphabetical order of first name
-    for committer, count in sorted(commit_counts.items(), key=lambda x: (-int(x[1]), x[0])):
+    for committer, count in sorted(
+        commit_counts.items(), key=lambda x: (-int(x[1]), x[0])
+    ):
         # Require >= 10 commits
         if int(count) < 10:
             continue
@@ -81,11 +84,11 @@ if __name__ == "__main__":
         committers.append(unmatched)
 
     creators = [
-        creator_map.get(committer, {'name': commify(committer)})
+        creator_map.get(committer, {"name": commify(committer)})
         for committer in committers
         if committer not in skip
-        ]
+    ]
 
     zenodo["creators"] = creators
 
-    zenodo_file.write_text("%s\n" % json.dumps(zenodo, indent=2))
+    zenodo_file.write_text(f"{json.dumps(zenodo, indent=2)}\n")

@@ -198,6 +198,7 @@ std::cout << *iterator[c]              << std::endl;
  * \sa NeighborhoodIterator \sa PathConstIterator  \sa PathIterator
  * \sa ShapedNeighborhoodIterator  \sa SliceIterator
  * \sa ImageConstIteratorWithIndex
+ * \sa ShapedImageNeighborhoodRange
  *
  * \ingroup Operators
  * \ingroup ITKCommon

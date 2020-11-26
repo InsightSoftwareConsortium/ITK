@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 import sys
@@ -64,7 +64,8 @@ sources.append(("ITKImageIntensity", absFilter.GetOutput()))
 absFilter.InPlaceOff()
 
 BinaryDilateType = ITKBinaryMathematicalMorphology.BinaryDilateImageFilter[
-    ImageType, ImageType, StructuringElementType]
+    ImageType, ImageType, StructuringElementType
+]
 binaryDilateFilter = BinaryDilateType.New()
 binaryDilateFilter.SetInput(reader.GetOutput())
 binaryDilateFilter.SetKernel(structuringElement)
@@ -75,8 +76,9 @@ sources.append(("ITKBinaryMathematicalMorphology", output))
 median = ITKSmoothing.MedianImageFilter[ImageType, ImageType].New(reader)
 sources.append(("ITKSmoothing", median.GetOutput()))
 
-distance = ITKDistanceMap.DanielssonDistanceMapImageFilter[
-    ImageType, ImageType].New(reader)
+distance = ITKDistanceMap.DanielssonDistanceMapImageFilter[ImageType, ImageType].New(
+    reader
+)
 sources.append(("ITKDistanceMap", distance.GetOutput()))
 
 
@@ -98,8 +100,7 @@ dests.append(("ITKBinaryMathematicalMorphology", dbinaryDilateFilter))
 dmedian = ITKSmoothing.MedianImageFilter[ImageType, ImageType].New()
 dests.append(("ITKSmoothing", dmedian))
 
-DistanceMapType = ITKDistanceMap.DanielssonDistanceMapImageFilter[ImageType,
-                                                                  ImageType]
+DistanceMapType = ITKDistanceMap.DanielssonDistanceMapImageFilter[ImageType, ImageType]
 ddistance = DistanceMapType.New()
 dests.append(("ITKDistanceMap", ddistance))
 
@@ -112,9 +113,9 @@ for sourceName, source in sources:
         destination.SetInput(source)
         try:
             destination.UpdateLargestPossibleRegion()
-            print("%s -> %s pass" % (sourceName, destinationName))
+            print(f"{sourceName} -> {destinationName} pass")
         except RuntimeError as e:
-            print("%s -> %s fail" % (sourceName, destinationName))
+            print(f"{sourceName} -> {destinationName} fail")
             print(e)
             failList.append((sourceName, destinationName))
 

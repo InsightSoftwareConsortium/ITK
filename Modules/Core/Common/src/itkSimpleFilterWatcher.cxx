@@ -29,7 +29,7 @@
 
 namespace itk
 {
-SimpleFilterWatcher ::SimpleFilterWatcher(ProcessObject * o, const char * comment)
+SimpleFilterWatcher::SimpleFilterWatcher(ProcessObject * o, const char * comment)
 {
   // Initialize state
   m_Process = o;
@@ -46,13 +46,13 @@ SimpleFilterWatcher ::SimpleFilterWatcher(ProcessObject * o, const char * commen
   this->CreateCommands();
 }
 
-SimpleFilterWatcher ::SimpleFilterWatcher()
+SimpleFilterWatcher::SimpleFilterWatcher()
   : m_Comment("Not watching an object")
   , m_Process(nullptr)
 
 {}
 
-SimpleFilterWatcher ::SimpleFilterWatcher(const SimpleFilterWatcher & watch)
+SimpleFilterWatcher::SimpleFilterWatcher(const SimpleFilterWatcher & watch)
 {
   this->DeepCopy(watch);
 }
@@ -65,7 +65,7 @@ SimpleFilterWatcher ::operator=(const SimpleFilterWatcher & watch)
 }
 
 void
-SimpleFilterWatcher ::CreateCommands()
+SimpleFilterWatcher::CreateCommands()
 {
   // Create a series of commands
   m_StartFilterCommand = CommandType::New();
@@ -90,7 +90,7 @@ SimpleFilterWatcher ::CreateCommands()
 }
 
 void
-SimpleFilterWatcher ::DeepCopy(const SimpleFilterWatcher & watch)
+SimpleFilterWatcher::DeepCopy(const SimpleFilterWatcher & watch)
 {
   if (this != &watch)
   {
@@ -123,7 +123,7 @@ SimpleFilterWatcher ::DeepCopy(const SimpleFilterWatcher & watch)
 }
 
 void
-SimpleFilterWatcher ::RemoveObservers()
+SimpleFilterWatcher::RemoveObservers()
 {
   if (m_StartFilterCommand)
   {

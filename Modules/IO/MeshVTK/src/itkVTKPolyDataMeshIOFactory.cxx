@@ -25,7 +25,7 @@ namespace itk
 {
 
 void
-VTKPolyDataMeshIOFactory ::PrintSelf(std::ostream &, Indent) const
+VTKPolyDataMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 
@@ -39,14 +39,14 @@ VTKPolyDataMeshIOFactory ::~VTKPolyDataMeshIOFactory() = default;
 
 
 const char *
-VTKPolyDataMeshIOFactory ::GetITKSourceVersion() const
+VTKPolyDataMeshIOFactory::GetITKSourceVersion() const
 {
   return ITK_SOURCE_VERSION;
 }
 
 
 const char *
-VTKPolyDataMeshIOFactory ::GetDescription() const
+VTKPolyDataMeshIOFactory::GetDescription() const
 {
   return "VTK MeshIO Factory, allows the loading of VTK polydata into insight";
 }

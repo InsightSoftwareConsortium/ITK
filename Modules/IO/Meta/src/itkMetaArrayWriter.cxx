@@ -19,7 +19,7 @@
 
 namespace itk
 {
-MetaArrayWriter ::MetaArrayWriter()
+MetaArrayWriter::MetaArrayWriter()
   : m_FileName("")
   , m_DataFileName("")
 
@@ -28,7 +28,7 @@ MetaArrayWriter ::MetaArrayWriter()
 MetaArrayWriter ::~MetaArrayWriter() = default;
 
 void
-MetaArrayWriter ::ConvertTo(MET_ValueEnumType _metaElementType)
+MetaArrayWriter::ConvertTo(MET_ValueEnumType _metaElementType)
 {
   if (m_Buffer != nullptr)
   {
@@ -38,7 +38,7 @@ MetaArrayWriter ::ConvertTo(MET_ValueEnumType _metaElementType)
 }
 
 void
-MetaArrayWriter ::Update()
+MetaArrayWriter::Update()
 {
   m_MetaArray.SetDoublePrecision(m_Precision);
 

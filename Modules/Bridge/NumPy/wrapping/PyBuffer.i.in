@@ -9,10 +9,6 @@
         i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
         algorithms in NumPy / SciPy.
         """
-
-        if not HAVE_NUMPY:
-            raise ImportError('Numpy not available.')
-
         if update:
             # Ensure the image regions and image pixel buffer have been updated
             # correctly
@@ -77,9 +73,6 @@
         same for an array and its transpose. If flipping is desired, see
         *np.reshape*.
         """
-
-        if not HAVE_NUMPY:
-            raise ImportError('Numpy not available.')
 
         assert ndarr.ndim in ( 1, 2, 3, 4 ), \
             "Only arrays of 1, 2, 3 or 4 dimensions are supported."

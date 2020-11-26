@@ -39,7 +39,7 @@ itkGetGlobalValueMacro(TimeStamp, TimeStamp::GlobalTimeStampType, GlobalTimeStam
  * Instance creation.
  */
 TimeStamp *
-TimeStamp ::New()
+TimeStamp::New()
 {
   return new Self;
 }
@@ -49,7 +49,7 @@ TimeStamp ::New()
  * Make sure the new time stamp is greater than all others so far.
  */
 void
-TimeStamp ::Modified()
+TimeStamp::Modified()
 {
   // This is called once, on-demand to ensure that m_GlobalTimeStamp is
   // initialized.

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 
 import itk
 
@@ -26,5 +26,5 @@ md.Set("double", dv)
 print(md.Get("double"))
 # other way of setting and retrieving double value (leverages Python's
 # weak type system)
-md['double'] = 10.0
-print(md['double'])
+md["double"] = 10.0
+print(md["double"])

@@ -1,4 +1,4 @@
-#==========================================================================
+# ==========================================================================
 #
 #   Copyright NumFOCUS
 #
@@ -14,7 +14,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
-#==========================================================================*/
+# ==========================================================================*/
 import itk
 import numpy as np
 
@@ -31,11 +31,11 @@ image.Allocate()
 image.FillBuffer(4)
 
 array = image.__array__()
-assert(array[0,0] == 4)
-assert(array[0,1] == 4)
-assert(isinstance(array, np.ndarray))
+assert array[0, 0] == 4
+assert array[0, 1] == 4
+assert isinstance(array, np.ndarray)
 
 array = np.asarray(image)
-assert(array[0,0] == 4)
-assert(array[0,1] == 4)
-assert(isinstance(array, np.ndarray))
+assert array[0, 0] == 4
+assert array[0, 1] == 4
+assert isinstance(array, np.ndarray)

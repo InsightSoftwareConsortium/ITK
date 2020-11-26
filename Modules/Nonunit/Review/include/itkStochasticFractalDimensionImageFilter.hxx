@@ -71,7 +71,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100);
 
-  using FaceCalculatorType = typename NeighborhoodAlgorithm ::ImageBoundaryFacesCalculator<InputImageType>;
+  using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   FaceCalculatorType faceCalculator;
 
   typename FaceCalculatorType::FaceListType faceList = faceCalculator(inputImage, region, this->m_NeighborhoodRadius);
