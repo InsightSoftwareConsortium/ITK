@@ -143,6 +143,7 @@ def itk_load_swig_module(name: str, namespace=None):
             template_container = getattr(
                 this_module,
                 template_feature.get_python_class_name(),
+                # Create a new template_container if not already found
                 itkTemplate(template_feature.get_cpp_class_name()),
             )
 
@@ -151,6 +152,7 @@ def itk_load_swig_module(name: str, namespace=None):
                     template_feature.get_template_parameters(),
                     getattr(l_module, template_feature.get_swig_class_name()),
                 )
+                # Now set the updated template_container to this_module
                 setattr(
                     this_module,
                     template_feature.get_python_class_name(),

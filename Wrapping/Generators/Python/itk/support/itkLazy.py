@@ -18,7 +18,7 @@
 import types
 from itk.support import itkBase
 
-not_loaded = "not loaded"
+not_loaded: str = "not loaded"
 
 
 def _lazy_itk_module_reconstructor(module_name, state):
@@ -42,7 +42,7 @@ class LazyITKModule(types.ModuleType):
             (k, v[0]) for k, v in lazy_attributes.items() if len(v) > 0
         )
         for k in lazy_attributes:
-            setattr(self, k, not_loaded)
+            setattr(self, k, not_loaded)  # use default known value
         # For PEP 366
         setattr(self, "__package__", "itk")
         setattr(self, "itk_base_global_lazy_attributes", lazy_attributes)
