@@ -1392,7 +1392,7 @@ def template(cl):
     """
     from itk.support.itkTemplate import itkTemplateBase
 
-    return itkTemplateBase.__class_to_template__[class_(cl)]
+    return itkTemplateBase.__template_instantiations_object_to_name__[class_(cl)]
 
 
 def ctype(s: str):

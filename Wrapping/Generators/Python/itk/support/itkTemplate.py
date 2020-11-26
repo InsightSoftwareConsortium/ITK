@@ -34,7 +34,7 @@ import math
 from collections.abc import Mapping
 
 # A valid type for holding swig classes and functions
-SWIG_CALLABLE_TYPE = Callable[..., Any]
+_SWIG_CALLABLE_TYPE = Callable[..., Any]
 
 
 class itkTemplateBase:
@@ -42,8 +42,30 @@ class itkTemplateBase:
     to manage the singleton instances of template objects.
     """
 
-    __all_templates__: Dict[str, SWIG_CALLABLE_TYPE] = collections.OrderedDict()
-    __class_to_template__: Dict[SWIG_CALLABLE_TYPE, "itkTemplate"] = {}
+    #
+    # 'itk::FixedArray<unsignedint,2>' = {type} <class 'itk.itkFixedArrayPython.itkFixedArrayUI2'>
+    #          thisown = {property} <property object at 0x7ff800995710>
+    __template_instantiations_name_to_object__: Dict[str, _SWIG_CALLABLE_TYPE] = collections.OrderedDict()
+
+    #
+    # __template_instantiations_name_to_object__ = {dict}
+    #          <class 'itk.itkFixedArrayPython.itkFixedArrayF2'> = {tuple}
+    #               0 = {itkTemplate} <itkTemplate itk::FixedArray>
+    #               1 = {tuple} (<itkCType float>, 2)
+    __template_instantiations_object_to_name__: Dict[_SWIG_CALLABLE_TYPE, "itkTemplate"] = {}
+
+    # __named_template_registry__ = {dict}
+    #    'std::list' = {itkTemplate}
+    #                 B = {type} <class 'itk.pyBasePython.listB'>
+    #                 D = {type} <class 'itk.pyBasePython.listD'>
+    #                 F = {type} <class 'itk.pyBasePython.listF'>
+    #                      ...
+    #    'itk::Image' = {itkTemplate} <itkTemplate itk::Image>
+    #                B2 = {type} <class 'itk.itkImagePython.itkImageB2'>
+    #             CVD22 = {type} <class 'itk.itkImagePython.itkImageCVD22'>
+    #             CVD23 = {type} <class 'itk.itkImagePython.itkImageCVD23'>
+    #                      ...
+    #     ...
     __named_template_registry__: Dict[str, "itkTemplate"] = {}
     # NOT IMPLEMENTED: __doxygen_root__ = itkConfig.doxygen_root
 
@@ -88,7 +110,7 @@ class itkTemplate(Mapping):
         useful until the SmartPointer template was generated), but those classes
         can be used as template argument of classes with template.
         """
-        itkTemplateBase.__all_templates__[itkTemplate.normalizeName(name)] = cl
+        itkTemplateBase.__template_instantiations_name_to_object__[itkTemplate.normalizeName(name)] = cl
 
     @staticmethod
     def _NewImageReader(
@@ -259,7 +281,12 @@ class itkTemplate(Mapping):
             raise RuntimeError(f"Unknown pixel type: {pixel}.")
         return PixelType
 
-    def __init__(self, new_object_name: str) -> None:
+    def __local__init__(self, new_object_name: str) -> None:
+        """
+        Can not have a __init__ because we must use __new__
+        so that the singleton takes preference.
+        Use this to define the class member elements
+        """
         self.__template__: Dict[str, Union[str, Callable[..., Any]]] = collections.OrderedDict()
         self.__name__: str = new_object_name
 
@@ -270,11 +297,9 @@ class itkTemplate(Mapping):
         if new_object_name not in itkTemplateBase.__named_template_registry__:
             # Create an raw itkTemplate object without calling the __init__
             # New object of type itkTemplate
-            new_instance = object.__new__(cls)
-            new_instance.__name__ = new_object_name
-            new_instance.__template__ = collections.OrderedDict()
+            itkTemplateBase.__named_template_registry__[new_object_name] = object.__new__(cls)
             # Must explicitly initialize the raw object.
-            itkTemplateBase.__named_template_registry__[new_object_name] = new_instance
+            itkTemplateBase.__named_template_registry__[new_object_name].__local__init__(new_object_name)
         return itkTemplateBase.__named_template_registry__[new_object_name]
 
     def __getnewargs_ex__(self):
@@ -283,7 +308,7 @@ class itkTemplate(Mapping):
         """
         return (self.__name__,), {}
 
-    def __add__(self, paramSetString: str, cl: Callable[..., Any]):
+    def __add__(self, paramSetString: str, cl: Callable[..., Any]) -> None:
         """Add a new argument set and the resulting class to the template.
 
         paramSetString is the C++ string which defines the parameters set.
@@ -296,14 +321,14 @@ class itkTemplate(Mapping):
 
         # the full class should not be already registered. If it is, there is a
         # problem somewhere so warn the user so he can fix the problem
-        if normFullName in itkTemplateBase.__all_templates__:
+        if normFullName in itkTemplateBase.__template_instantiations_name_to_object__:
             message = (
-                f"Template {normFullName}\n already defined as {itkTemplateBase.__all_templates__[normFullName]}\n is redefined "
+                f"Template {normFullName}\n already defined as {itkTemplateBase.__template_instantiations_name_to_object__[normFullName]}\n is redefined "
                 "as {cl}"
             )
             warnings.warn(message)
         # register the class
-        itkTemplateBase.__all_templates__[normFullName] = cl
+        itkTemplateBase.__template_instantiations_name_to_object__[normFullName] = cl
 
         # __find_param__ will parse the paramSetString and produce a list of
         # the same parameters transformed in corresponding python classes.
@@ -318,8 +343,8 @@ class itkTemplate(Mapping):
         # and register the parameter tuple
         self.__template__[param] = cl
 
-        # add in __class_to_template__ dictionary
-        itkTemplateBase.__class_to_template__[cl] = (self, param)
+        # add in __template_instantiations_object_to_name__ dictionary
+        itkTemplateBase.__template_instantiations_object_to_name__[cl] = (self, param)
 
         # now populate the template
         # 2 cases:
@@ -357,7 +382,7 @@ class itkTemplate(Mapping):
         # add the attribute to this object
         self.__dict__[attributeName] = cl
 
-    def __instancecheck__(self, instance):
+    def __instancecheck__(self, instance) -> bool:
         """Overloads `isinstance()` when called on an `itkTemplate` object.
 
         This function allows to compare an object to a filter without
@@ -366,11 +391,11 @@ class itkTemplate(Mapping):
         and return `True` if one that corresponds to the object is found.
         """
         for k in self.keys():
-            if isinstance(instance, self[k]):
+            if isinstance(instance, self.__getitem__(k)):
                 return True
         return False
 
-    def __find_param__(self, paramSetString):
+    def __find_param__(self, paramSetString) -> List[Any]:
         """Find the parameters of the template.
 
         paramSetString is the C++ string which defines the parameters set.
@@ -404,10 +429,10 @@ class itkTemplate(Mapping):
             param_stripped = curr_param.strip()
             paramNorm = itkTemplate.normalizeName(param_stripped)
 
-            if paramNorm in itkTemplateBase.__all_templates__:
+            if paramNorm in itkTemplateBase.__template_instantiations_name_to_object__:
                 # the parameter is registered.
                 # just get the real class form the dictionary
-                param = itkTemplateBase.__all_templates__[paramNorm]
+                param = itkTemplateBase.__template_instantiations_name_to_object__[paramNorm]
 
             elif itkCType.GetCType(param_stripped):
                 # the parameter is a c type
@@ -440,7 +465,7 @@ class itkTemplate(Mapping):
 
         return parameters
 
-    def __getitem__(self, parameters):
+    def __getitem__(self, parameters) -> _SWIG_CALLABLE_TYPE:
         """Return the class which corresponds to the given template parameters.
 
         parameters can be:
