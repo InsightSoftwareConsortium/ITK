@@ -227,8 +227,7 @@ GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::SetNorma
 
 template <typename TInputImage, typename TOutputImage>
 void
-GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion() throw(
-  InvalidRequestedRegionError)
+GPUSmoothingRecursiveYvvGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion() ITK_NOEXCEPT
 {
   // call the superclass' implementation of this method. this should
   // copy the output requested region to the input requested region
