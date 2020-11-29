@@ -43,7 +43,7 @@
 
 # Contact: Arnaud Gelas <arnaudgelas@gmail.com>
 itk_fetch_module(MinimalPathExtraction
- "http://www.insight-journal.org/browse/publication/213
+ "https://www.insight-journal.org/browse/publication/213
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMinimalPathExtraction.git

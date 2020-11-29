@@ -84,7 +84,7 @@ extern ITKCommon_EXPORT std::ostream &
  * \author Ivan Macia, VICOMTech, Spain, http://www.vicomtech.es
  *
  * This implementation is derived from the Insight Journal paper:
- * https://hdl.handle.net/1926/1290
+ * https://www.insight-journal.org/browse/publication/179
  *
  * \note GaussianDerivativeOperator does not have any user-declared "special member function",
  * following the C++ Rule of Zero: the compiler will generate them if necessary.

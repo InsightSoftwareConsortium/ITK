@@ -47,7 +47,7 @@ itk_fetch_module(BoneMorphometry
   Vimort J., McCormick M., Paniagua B.
   Computing Bone Morphometric Feature Maps from 3-Dimensional Images
   The Insight Journal. January-December. 2017.
-  http://hdl.handle.net/10380/3588
+  https://www.insight-journal.org/browse/publication/988
   "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBoneMorphometry.git

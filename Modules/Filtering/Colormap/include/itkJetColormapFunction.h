@@ -36,8 +36,7 @@ namespace Function
  * This code was contributed in the Insight Journal paper:
  *
  * "Meeting Andy Warhol Somewhere Over the Rainbow: RGB Colormapping and ITK"
- * http://www.insight-journal.org/browse/publication/285
- * https://hdl.handle.net/1926/1452
+ * https://www.insight-journal.org/browse/publication/285
  *
  * \ingroup ITKColormap
  *

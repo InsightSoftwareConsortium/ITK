@@ -33,8 +33,7 @@ namespace itk
  * \brief Helper class for a group of filters which operate on scan-lines.
  *
  * This implementation was taken from the Insight Journal paper:
- * https://hdl.handle.net/1926/584  or
- * http://www.insight-journal.org/browse/publication/176
+ * https://www.insight-journal.org/browse/publication/176
  *
  * \ingroup ITKImageLabel
  */

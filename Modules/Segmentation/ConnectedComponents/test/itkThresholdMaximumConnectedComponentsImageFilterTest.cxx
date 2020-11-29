@@ -23,10 +23,10 @@
  * works for the Insight Journal:
  *
  * Urish KL, August J, Huard J. "Unsupervised segmentation for myofiber
- * counting in immunoflourescent images". Insight Journal.
+ * counting in immunoflourescent microscopy images". Insight Journal.
  * ISC/NA-MIC/MICCAI Workshop on Open-Source Software (2005)
- *
- * Dspace handle: https://hdl.handle.net/1926/48 */
+ * http://insight-journal.org/browse/publication/40
+ */
 
 
 // itk header files

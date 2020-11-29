@@ -43,7 +43,7 @@ namespace itk
  *
  * This class was contributed to the Insight Journal by Emilian Beronich and
  * Gaetan Lehmann. The original paper can be found at
- *      https://hdl.handle.net/1926/164
+ * https://www.insight-journal.org/browse/publication/71
  *
  * \author Emiliano Beronich
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,

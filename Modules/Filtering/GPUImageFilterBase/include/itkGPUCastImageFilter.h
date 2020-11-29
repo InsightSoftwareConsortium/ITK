@@ -41,7 +41,7 @@ class itkGPUKernelClassMacro(GPUCastImageFilterKernel);
  * Scientific Research (NWO NRG-2010.02 and NWO 639.021.124).
  *
  * \note Imported from elastix. More information can be found in the Insight Journal
- * article: http://hdl.handle.net/10380/3393
+ * article: https://www.insight-journal.org/browse/publication/884
  *
  * \ingroup ITKGPUImageFilterBase
  */

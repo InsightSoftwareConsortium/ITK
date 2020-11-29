@@ -47,8 +47,8 @@ itk_fetch_module(LabelErodeDilate
   operations are efficient (approximately constant time wrt
   structuring element size). Only circular/spherical/hyperspherical
   structuring elements are supported.
-  http://www.insight-journal.org/browse/publication/228
-  https://hdl.handle.net/10380/3399"
+  https://www.insight-journal.org/browse/publication/886
+  https://www.insight-journal.org/browse/publication/228"
   MODULE_COMPLIANCE_LEVEL 2
   #UPSTREAM_GIT_REPOSITORY
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate.git

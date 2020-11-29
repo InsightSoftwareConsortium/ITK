@@ -46,7 +46,7 @@ namespace itk
  * and do not necessarily represent the official view of NCRR or NIH.
  *
  * This class was taken from the Insight Journal paper:
- * https://hdl.handle.net/1926/326
+ * http://insight-journal.org/browse/publication/128
  *
  * \sa ComposeImageFilter
  *

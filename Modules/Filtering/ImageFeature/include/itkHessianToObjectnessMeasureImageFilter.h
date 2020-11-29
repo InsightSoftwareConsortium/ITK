@@ -44,7 +44,7 @@ namespace itk
  * Science, pages 130-137, Springer Verlag, 1998.
  *
  * Additional information can be from in the Insight Journal:
- * https://hdl.handle.net/1926/576
+ * https://www.insight-journal.org/browse/publication/175
  *
  * \author Luca Antiga Ph.D.  Medical Imaging Unit,
  *                            Bioengineering Department, Mario Negri Institute, Italy.

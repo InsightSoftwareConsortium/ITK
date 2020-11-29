@@ -58,9 +58,9 @@ namespace itk
  *
  * \par References:
  * 1) Urish KL, August J, Huard J. "Unsupervised segmentation for myofiber
- * counting in immunoflourescent images". Insight Journal.
+ * counting in immunoflourescent microscopy images". Insight Journal.
  * ISC/NA-MIC/MICCAI Workshop on Open-Source Software (2005)
- * Dspace handle: https://hdl.handle.net/1926/48
+ * http://insight-journal.org/browse/publication/40
  * 2) Pikaz A, Averbuch, A. "Digital image thresholding based on topological
  * stable-state". Pattern Recognition, 29(5): 829-843, 1996.
  *
