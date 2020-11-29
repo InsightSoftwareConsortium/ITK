@@ -40,7 +40,7 @@ namespace itk
  * INRA de Jouy-en-Josas, France.
  *
  * This class was contributed to the Insight Journal
- *     https://hdl.handle.net/1926/172
+ * https://www.insight-journal.org/browse/publication/79
  *
  * \sa LabelToRGBImageFilter
  * \sa LabelMapOverlayImageFilter, LabelOverlayFunctor

@@ -43,7 +43,7 @@ namespace itk
  *
  * \author Gaetan Lehmann
  * \note This class was taken from the Insight Journal paper:
- * https://hdl.handle.net/1926/367
+ * https://www.insight-journal.org/browse/publication/132
  *
  * \ingroup Operators
  * \ingroup ITKThresholding

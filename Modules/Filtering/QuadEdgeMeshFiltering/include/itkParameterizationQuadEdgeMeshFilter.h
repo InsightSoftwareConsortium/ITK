@@ -44,8 +44,7 @@ namespace itk
  *
  *
  *  This implementation was taken from the Insight Journal paper:
- *  https://hdl.handle.net/1926/1315 or
- *  http://www.insight-journal.org/browse/publication/202
+ *  https://www.insight-journal.org/browse/publication/202
  *
  * \ingroup ITKQuadEdgeMeshFiltering
  *

@@ -46,7 +46,7 @@ itk_fetch_module(SplitComponents
 "This module contains filter called
 itk::SplitComponentsImageFilter.  This filter generates component images from an
 itk::Image of, for example, itk::Vector, itk::CovariantVector, or
-itk::SymmetricSecondRankTensor. https://hdl.handle.net/10380/3230"
+itk::SymmetricSecondRankTensor. https://www.insight-journal.org/browse/publication/774"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKSplitComponents.git
   GIT_TAG e78f0eeb1c5d4b81470af399bf2f912896c334ad

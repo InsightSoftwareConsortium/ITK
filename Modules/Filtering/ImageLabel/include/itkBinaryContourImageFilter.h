@@ -36,7 +36,7 @@ namespace itk
  * The connectivity can be changed to minimum or maximum connectivity with
  * SetFullyConnected(). Full connectivity produces thicker contours.
  *
- * https://hdl.handle.net/1926/1352
+ * https://www.insight-journal.org/browse/publication/217
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

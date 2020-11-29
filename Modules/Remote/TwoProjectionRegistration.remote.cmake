@@ -56,8 +56,7 @@ to compute projection images from a 3D image volume.
 A more detailed description can be found in the Insight Journal article::
 
 Wu, J. \"ITK-Based Implementation of Two-Projection 2D/3D Registration Method with an Application in Patient Setup for External Beam Radiotherapy\".
-  https://hdl.handle.net/10380/3245
-  http://www.insight-journal.org/browse/publication/784
+  https://www.insight-journal.org/browse/publication/784
   December, 2010.
 "
   MODULE_COMPLIANCE_LEVEL 2

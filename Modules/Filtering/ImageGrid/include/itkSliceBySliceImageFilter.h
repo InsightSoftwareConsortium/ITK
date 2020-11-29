@@ -65,7 +65,7 @@ namespace itk
  * \author Gaetan Lehmann
  *
  * This class was taken from the Insight Journal paper:
- * https://hdl.handle.net/1926/368
+ * http://insight-journal.org/browse/publication/133
  *
  * \ingroup ITKImageGrid
  */
