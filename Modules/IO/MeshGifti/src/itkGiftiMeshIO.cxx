@@ -140,6 +140,10 @@ GiftiMeshIO::SetLabelNameTable(const LabelNameContainer * labelMap)
   this->Modified();
 }
 
+// TODO:  Need to be able to read/write RGB images into ITK.
+//    case DT_RGB:
+// DEBUG -- Assuming this is a triple, not quad
+// image.setDataType( uiig::DATA_RGBQUAD );
 void
 GiftiMeshIO::ReadMeshInformation()
 {
