@@ -856,7 +856,7 @@ GiftiMeshIO::ReadPoints(void * buffer)
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
@@ -1030,13 +1030,12 @@ GiftiMeshIO::ReadPointData(void * buffer)
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
   }
-
-  // Read point or cell Data
+  // Read point data
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
   {
     if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
@@ -1066,7 +1065,7 @@ GiftiMeshIO::ReadCellData(void * buffer)
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
   }
 
-  // Read point or cell Data
+  // Read cell data
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
   {
     if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
