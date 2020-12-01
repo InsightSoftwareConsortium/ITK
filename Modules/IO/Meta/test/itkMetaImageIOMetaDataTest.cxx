@@ -180,6 +180,17 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
     std::string value("world");
     itk::EncapsulateMetaData<std::string>(dict, key, value);
   }
+
+  const auto maxSupportedStringSize = (MET_MAX_NUMBER_OF_FIELD_VALUES * sizeof(double)) - 1;
+  static_assert(maxSupportedStringSize == std::numeric_limits<std::int16_t>::max(),
+                "Assert that this max value is 32767");
+
+  {
+    // Add string of the maximum supported size.
+    const std::string key("max_string");
+    const std::string value(maxSupportedStringSize, 'x');
+    itk::EncapsulateMetaData<std::string>(dict, key, value);
+  }
   {
     // Add double
     std::string key("double");
@@ -263,6 +274,10 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
 
   std::string value("world");
   if (!TestMatch<std::string>(dict, "hello", value))
+  {
+    return 1; // error
+  }
+  if (!TestMatch<std::string>(dict, "max_string", std::string(maxSupportedStringSize, 'x')))
   {
     return 1; // error
   }
