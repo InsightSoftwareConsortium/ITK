@@ -192,86 +192,121 @@ def _get_itk_pixelid(numpy_array_type):
             raise e
 
 
-def _GetArrayFromImage(image_or_filter, function: str, keep_axes: bool, update: bool):
+def _GetArrayFromImage(image_or_filter, function_name: str, keep_axes: bool, update: bool, ttype):
     """Get an Array with the content of the image buffer"""
     # Finds the image type
     import itk
 
     img = itk.output(image_or_filter)
-    keys = [k for k in itk.PyBuffer.keys() if k[0] == img.__class__]
+    if ttype is not None:
+        if isinstance(ttype, (tuple, list)):
+            if len(ttype) != 1:
+                raise RuntimeError("Expected 1 component in ttype tuple.")
+            ImageType = ttype[0]
+        else:
+            ImageType = ttype
+    else:
+        ImageType = img.__class__
+    keys = [k for k in itk.PyBuffer.keys() if k[0] == ImageType]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create a numpy array of the type of the input image
-    templatedFunction = getattr(itk.PyBuffer[keys[0]], function)
+    templatedFunction = getattr(itk.PyBuffer[keys[0]], function_name)
     return templatedFunction(img, keep_axes, update)
 
 
-def GetArrayFromImage(image_or_filter, keep_axes: bool = False, update: bool = True):
+def GetArrayFromImage(image_or_filter, keep_axes: bool = False, update: bool = True, ttype = None):
     """Get an array with the content of the image buffer"""
-    return _GetArrayFromImage(image_or_filter, "GetArrayFromImage", keep_axes, update)
+    return _GetArrayFromImage(image_or_filter, "GetArrayFromImage", keep_axes, update, ttype)
 
 
 array_from_image = GetArrayFromImage
 
 
 def GetArrayViewFromImage(
-    image_or_filter, keep_axes: bool = False, update: bool = True
+    image_or_filter, keep_axes: bool = False, update: bool = True, ttype = None
 ):
     """Get an array view with the content of the image buffer"""
     return _GetArrayFromImage(
-        image_or_filter, "GetArrayViewFromImage", keep_axes, update
+        image_or_filter, "GetArrayViewFromImage", keep_axes, update, ttype
     )
 
 
 array_view_from_image = GetArrayViewFromImage
 
 
-def _GetImageFromArray(arr, function_name: str, is_vector: bool):
+def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
     """Get an ITK image from a Python array."""
     import itk
 
-    PixelType = _get_itk_pixelid(arr)
-    Dimension = arr.ndim
-    ImageType = itk.Image[PixelType, Dimension]
-    if is_vector:
-        Dimension = arr.ndim - 1
-        if arr.flags["C_CONTIGUOUS"]:
-            VectorDimension = arr.shape[-1]
+    if ttype is not None:
+        if is_vector:
+            raise RuntimeError("Cannot specify both `is_vector` and `ttype`.")
+        if isinstance(ttype, (tuple, list)):
+            if len(ttype) != 1:
+                raise RuntimeError("Expected 1 component in ttype tuple.")
+            ImageType = ttype[0]
         else:
-            VectorDimension = arr.shape[0]
-        if PixelType == itk.UC:
-            if VectorDimension == 3:
-                ImageType = itk.Image[itk.RGBPixel[itk.UC], Dimension]
-            elif VectorDimension == 4:
-                ImageType = itk.Image[itk.RGBAPixel[itk.UC], Dimension]
-        else:
-            ImageType = itk.Image[itk.Vector[PixelType, VectorDimension], Dimension]
-    templatedFunction = getattr(itk.PyBuffer[ImageType], function_name)
+            ImageType = ttype
+        if type(itk.template(ImageType)) != tuple or len(itk.template(ImageType)) < 2:
+            raise RuntimeError("Cannot determine pixel type from supplied ttype.")
+        is_vector = (type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType)
+    else:
+        PixelType = _get_itk_pixelid(arr)
+        Dimension = arr.ndim
+        ImageType = itk.Image[PixelType, Dimension]
+        if is_vector:
+            Dimension = arr.ndim - 1
+            if arr.flags["C_CONTIGUOUS"]:
+                VectorDimension = arr.shape[-1]
+            else:
+                VectorDimension = arr.shape[0]
+            if PixelType == itk.UC:
+                if VectorDimension == 3:
+                    ImageType = itk.Image[itk.RGBPixel[itk.UC], Dimension]
+                elif VectorDimension == 4:
+                    ImageType = itk.Image[itk.RGBAPixel[itk.UC], Dimension]
+            else:
+                ImageType = itk.Image[itk.Vector[PixelType, VectorDimension], Dimension]
+    keys = [k for k in itk.PyBuffer.keys() if k[0] == ImageType]
+    if len(keys) == 0:
+        raise RuntimeError("""No suitable template parameter can be found.
+
+Please specify an output type via the 'ttype' keyword parameter.""")
+    templatedFunction = getattr(itk.PyBuffer[keys[0]], function_name)
     return templatedFunction(arr, is_vector)
 
 
-def GetImageFromArray(arr, is_vector: bool = False):
+def GetImageFromArray(arr, is_vector: bool = False, ttype = None):
     """Get an ITK image from a Python array."""
-    return _GetImageFromArray(arr, "GetImageFromArray", is_vector)
+    return _GetImageFromArray(arr, "GetImageFromArray", is_vector, ttype)
 
 
 image_from_array = GetImageFromArray
 
 
-def GetImageViewFromArray(arr, is_vector: bool = False):
+def GetImageViewFromArray(arr, is_vector: bool = False, ttype = None):
     """Get an ITK image view from a Python array."""
-    return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector)
+    return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector, ttype)
 
 
 image_view_from_array = GetImageViewFromArray
 
 
-def _GetArrayFromVnlObject(vnl_object, function_name: str):
+def _GetArrayFromVnlObject(vnl_object, function_name: str, ttype):
     """Get an array with the content of vnl_object"""
     # Finds the vnl object type
     import itk
 
-    PixelType = itk.template(vnl_object)[1][0]
+    if ttype is not None:
+        if isinstance(ttype, (tuple, list)):
+            if len(ttype) != 1:
+                raise RuntimeError("Expected 1 component in ttype tuple.")
+            PixelType = ttype[0]
+        else:
+            PixelType = ttype
+    else:
+        PixelType = itk.template(vnl_object)[1][0]
     keys = [k for k in itk.PyVnl.keys() if k[0] == PixelType]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
@@ -280,55 +315,66 @@ def _GetArrayFromVnlObject(vnl_object, function_name: str):
     return templatedFunction(vnl_object)
 
 
-def GetArrayFromVnlVector(vnl_vector):
+def GetArrayFromVnlVector(vnl_vector, ttype = None):
     """Get an array with the content of vnl_vector"""
-    return _GetArrayFromVnlObject(vnl_vector, "GetArrayFromVnlVector")
+    return _GetArrayFromVnlObject(vnl_vector, "GetArrayFromVnlVector", ttype)
 
 
 array_from_vnl_vector = GetArrayFromVnlVector
 
 
-def GetArrayViewFromVnlVector(vnl_vector):
+def GetArrayViewFromVnlVector(vnl_vector, ttype = None):
     """Get an array view of vnl_vector"""
-    return _GetArrayFromVnlObject(vnl_vector, "GetArrayViewFromVnlVector")
+    return _GetArrayFromVnlObject(vnl_vector, "GetArrayViewFromVnlVector", ttype)
 
 
 array_view_from_vnl_vector = GetArrayFromVnlVector
 
 
-def GetArrayFromVnlMatrix(vnl_matrix):
+def GetArrayFromVnlMatrix(vnl_matrix, ttype = None):
     """Get an array with the content of vnl_matrix"""
-    return _GetArrayFromVnlObject(vnl_matrix, "GetArrayFromVnlMatrix")
+    return _GetArrayFromVnlObject(vnl_matrix, "GetArrayFromVnlMatrix", ttype)
 
 
-def GetArrayViewFromVnlMatrix(vnl_matrix):
+def GetArrayViewFromVnlMatrix(vnl_matrix, ttype = None):
     """Get an array view of vnl_matrix"""
-    return _GetArrayFromVnlObject(vnl_matrix, "GetArrayViewFromVnlMatrix")
+    return _GetArrayFromVnlObject(vnl_matrix, "GetArrayViewFromVnlMatrix", ttype)
 
 
 array_from_vnl_matrix = GetArrayFromVnlMatrix
 
 
-def _GetVnlObjectFromArray(arr, function_name: str):
+def _GetVnlObjectFromArray(arr, function_name: str, ttype):
     """Get a vnl object from a Python array."""
     import itk
 
-    PixelType = _get_itk_pixelid(arr)
-    templatedFunction = getattr(itk.PyVnl[PixelType], function_name)
+    if ttype is not None:
+        if isinstance(ttype, (tuple, list)):
+            if len(ttype) != 1:
+                raise RuntimeError("Expected 1 component in ttype tuple.")
+            PixelType = ttype[0]
+        else:
+            PixelType = ttype
+    else:
+        PixelType = _get_itk_pixelid(arr)
+    keys = [k for k in itk.PyVnl.keys() if k[0] == PixelType]
+    if len(keys) == 0:
+        raise RuntimeError("No suitable template parameter can be found.")
+    templatedFunction = getattr(itk.PyVnl[keys[0]], function_name)
     return templatedFunction(arr)
 
 
-def GetVnlVectorFromArray(arr):
+def GetVnlVectorFromArray(arr, ttype = None):
     """Get a vnl vector from a Python array."""
-    return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray")
+    return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray", ttype)
 
 
 vnl_vector_from_array = GetVnlVectorFromArray
 
 
-def GetVnlMatrixFromArray(arr):
+def GetVnlMatrixFromArray(arr, ttype = None):
     """Get a vnl matrix from a Python array."""
-    return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray")
+    return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray", ttype)
 
 
 vnl_matrix_from_array = GetVnlMatrixFromArray
