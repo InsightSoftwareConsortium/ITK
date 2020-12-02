@@ -83,6 +83,12 @@ public:
   bool
   ComputeTangentsAndNormals();
 
+  bool
+  ComputeTangentAndNormals()
+  {
+    return this->ComputeTangetsAndNormals();
+  };
+
   /** Remove duplicate points */
   unsigned int
   RemoveDuplicatePointsInObjectSpace(double minSpacingInObjectSpace = 0);
