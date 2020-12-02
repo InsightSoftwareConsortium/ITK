@@ -86,7 +86,7 @@ public:
   bool
   ComputeTangentAndNormals()
   {
-    return this->ComputeTangetsAndNormals();
+    return this->ComputeTangentsAndNormals();
   };
 
   /** Remove duplicate points */
