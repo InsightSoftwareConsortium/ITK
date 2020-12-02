@@ -1227,7 +1227,7 @@ bool MET_Read(std::istream &fp,
         MET_FieldRecordType * mF = new MET_FieldRecordType;
         MET_InitReadField(mF, s, MET_STRING, false);
         MET_ASCII_CHAR_TYPE * str = (MET_ASCII_CHAR_TYPE *)(mF->value);
-        fp.getline( str, 500 );
+        fp.getline( str, sizeof(mF->value) );
         MET_StringStripEnd(str);
         mF->length = static_cast<int>( strlen( str ) );
         newFields->push_back(mF);

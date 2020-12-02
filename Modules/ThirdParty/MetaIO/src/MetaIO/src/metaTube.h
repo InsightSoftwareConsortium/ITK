@@ -117,9 +117,9 @@ class METAIO_EXPORT MetaTube : public MetaObject
 
     void PrintInfo(void) const override;
 
-    void CopyInfo(const MetaObject * _object) override;
+    void CopyInfo(const MetaTube * _object);
 
-    void Clear(void) override;
+    void Clear(void);
 
     MET_ValueEnumType ElementType(void) const;
     void              ElementType(MET_ValueEnumType _elementType);
