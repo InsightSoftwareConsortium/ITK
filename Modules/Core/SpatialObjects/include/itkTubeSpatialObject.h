@@ -83,6 +83,11 @@ public:
   bool
   ComputeTangentsAndNormals();
 
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Calculate the normalized tangent - Old spelling of function name */
+  itkLegacyMacro(bool ComputeTangentAndNormals()) { return ComputeTangentsAndNormals(); }
+#endif
+
   /** Remove duplicate points */
   unsigned int
   RemoveDuplicatePointsInObjectSpace(double minSpacingInObjectSpace = 0);
