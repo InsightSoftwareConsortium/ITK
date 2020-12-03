@@ -83,6 +83,13 @@ public:
   bool
   ComputeTangentsAndNormals();
 
+  /** Calculate the normalized tangent - Old spelling of function name */
+  bool
+  ComputeTangentAndNormals()
+  {
+    return ComputeTangentsAndNormals();
+  }
+
   /** Remove duplicate points */
   unsigned int
   RemoveDuplicatePointsInObjectSpace(double minSpacingInObjectSpace = 0);
