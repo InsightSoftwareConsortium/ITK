@@ -661,9 +661,14 @@ class itkTemplate(Mapping):
             # Note that the function `itk.template()` which returns the template
             # arguments of an object returns tuples and its returned value
             # should be usable in this context.
-            # However, it is easy for a user to pass a list (e.g. [ImageType, ImageType]) and
-            # this needs to work too.
-            ttype = tuple(kwargs.pop("ttype"))
+            # However, it is easy for a user to pass a list (e.g. [ImageType, ImageType]) or
+            # a type (e.g., ImageType), and these need to work too.
+            ttype = kwargs.pop("ttype")
+            if not isinstance(ttype, tuple):
+                if isinstance(ttype, list):
+                    ttype = tuple(ttype)
+                else:
+                    ttype = (ttype,)
             # If there is not the correct number of template parameters, throw an error.
             if len(ttype) != len(list(keys)[0]):
                 raise RuntimeError(
