@@ -30,7 +30,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y python3-venv python3-numpy python-numpy
         sudo python3 -m pip install --upgrade setuptools
-        sudo python3 -m pip install scikit-ci-addons
+        sudo python3 -m pip install scikit-ci-addons dask distributed
       displayName: 'Install dependencies'
 
     - bash: |
