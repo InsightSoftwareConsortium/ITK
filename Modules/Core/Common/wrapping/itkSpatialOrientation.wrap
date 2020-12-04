@@ -1,2 +1,0 @@
-itk_wrap_include("itkSpatialOrientation.h")
-itk_wrap_named_simple_class("itk::SpatialOrientation::ValidCoordinateOrientationFlags" itkSpatialOrientation ENUM)

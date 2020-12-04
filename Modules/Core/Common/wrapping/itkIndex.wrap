@@ -1,6 +1,0 @@
-itk_wrap_class("itk::Index")
-  UNIQUE(dims "${ITK_WRAP_IMAGE_DIMS_INCREMENTED};1;2")
-  foreach(d ${dims})
-    itk_wrap_template(${d} ${d})
-  endforeach()
-itk_end_wrap_class()

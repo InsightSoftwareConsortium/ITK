@@ -1,8 +1,0 @@
-UNIQUE(types "D;${WRAP_ITK_REAL}")
-itk_wrap_class("itk::LandmarkBasedTransformInitializer" POINTER)
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${types})
-      itk_wrap_template("T${t}${d}${d}" "itk::Transform<${ITKT_${t}},${d},${d}>")
-    endforeach()
-  endforeach()
-itk_end_wrap_class()

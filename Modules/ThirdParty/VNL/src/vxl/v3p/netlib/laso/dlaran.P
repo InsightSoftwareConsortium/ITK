@@ -1,2 +1,0 @@
-extern int dlaran_(integer *n, doublereal *x);
-/*:ref: urand_ 6 1 4 */
