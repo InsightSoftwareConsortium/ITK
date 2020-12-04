@@ -816,13 +816,24 @@ def {snakeCase}_init_docstring():
         for lang in langs:
             headerFile.write(f"#ifdef SWIG{lang}\n")
             if lang == "PYTHON":
+                headerFile.write(
+"""
+%include <pyabc.i>
+%pythonbegin %{
+import collections
+
+from sys import version_info as _version_info
+if _version_info < (3, 6, 0):
+    raise RuntimeError("Python 3.6 or later required")
+%}
+"""
+                        )
                 # Also, release the GIL
                 headerFile.write(
-                    '%%module(package="itk",threads="1") %s%s\n'
-                    % (self.moduleName, lang.title())
+                    f'%module(package="itk",threads="1") {self.moduleName}{lang.title()}\n'
                 )
                 headerFile.write('%feature("nothreadallow");\n')
-                headerFile.write('%feature("autodoc","1");\n')
+                headerFile.write('%feature("autodoc","2");\n')
             else:
                 headerFile.write(f"%module {self.moduleName}{lang.title()}\n")
             headerFile.write("#endif\n")
