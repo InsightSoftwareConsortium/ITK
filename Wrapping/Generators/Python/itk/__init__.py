@@ -37,6 +37,9 @@ def _initialize_module():
     from .support.itkBase import ITKModuleInfo, ITKTemplateFeatures
 
     def _get_lazy_attributes(local_lazy_attributes, l_module, l_data: ITKModuleInfo):
+        """
+        Set up lazy attribute relationships
+        """
         for template_feature in l_data._template_feature_tuples:
             if template_feature._class_in_module:
                 # insert in front front if in library
@@ -52,6 +55,14 @@ def _initialize_module():
         for function in l_data._snake_case_functions:
             # snake case always appended to end
             local_lazy_attributes.setdefault(function, []).append(l_module)
+        # Remove duplicates in attributes, preserving only the first
+        def _dedup(seq):
+            seen = set()
+            seen_add = seen.add
+            return [x for x in seq if not (x in seen or seen_add(x))]
+
+        for k, v in local_lazy_attributes.items():
+            local_lazy_attributes[k] = _dedup(v)
 
     from .support import itkBase as _itkBase
     from .support import itkLazy as _itkLazy
