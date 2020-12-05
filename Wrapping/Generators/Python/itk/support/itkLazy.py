@@ -23,6 +23,17 @@ from itk.support import itkBase
 # use of the builtin set
 from builtins import set as _builtin_set
 
+# Need to use a recursive lock for thread ownership
+# within the given thread you can acquire a RLock as often as you like.
+# Other threads need to wait until this thread releases the resource again.
+from multiprocessing import RLock as _mp_RLock
+
+# A single lock is needed for all lazy loading.  This lock blocks
+# across all threads until this thread has completed all its imports
+# and dependancies.  The complex inter-relationship, and the recursive
+# nature of imports, makes a more fine-grained locking very difficult
+# to implement robustly.
+_gbl_lazy_load_lock: _mp_RLock = _mp_RLock()
 
 not_loaded: str = "not loaded"
 
@@ -59,13 +70,22 @@ class LazyITKModule(types.ModuleType):
     def __getattribute__(self, attr):
         value = types.ModuleType.__getattribute__(self, attr)
         if value is not_loaded:
-            module = self.__belong_lazy_attributes[attr]
-            namespace = {}
-            itkBase.itk_load_swig_module(module, namespace)
-            self.loaded_lazy_modules.add(module)
-            for k, v in namespace.items():
-                setattr(self, k, v)
-            value = namespace[attr]
+            with _gbl_lazy_load_lock:  # All but one thread will block here.
+                if value is not_loaded:
+                    # Only the first thread needs to run this code, all other blocked threads skip
+                    module = self.__belong_lazy_attributes[attr]
+                    namespace = {}
+                    itkBase.itk_load_swig_module(module, namespace)
+                    self.loaded_lazy_modules.add(module)
+                    for k, v in namespace.items():
+                        setattr(self, k, v)
+                    value = namespace[attr]
+                else:  # one of the other threads that had been blocking
+                    # waiting for first thread to complete. Now the
+                    # attribute is REQUIRED to be available
+                    # can just fall through now.
+                    value = types.ModuleType.__getattribute__(self, attr)
+                    assert value is not not_loaded
         return value
 
     # For pickle support
