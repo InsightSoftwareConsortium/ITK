@@ -3,7 +3,8 @@
 
 #include <metaForm.h>
 
-int main(int, char * [])
+int
+main(int, char *[])
 {
   MetaForm tObj;
 
@@ -14,19 +15,19 @@ int main(int, char * [])
 
   // Add user's defined fields
   int myarray[3];
-  myarray[0]=1;
-  myarray[1]=2;
-  myarray[2]=3;
+  myarray[0] = 1;
+  myarray[1] = 2;
+  myarray[2] = 3;
   tObj.AddUserField("MyName", MET_STRING, (int)strlen("Julien"), "Julien");
-  tObj.AddUserField("MyArray", MET_INT_ARRAY,3,myarray);
+  tObj.AddUserField("MyArray", MET_INT_ARRAY, 3, myarray);
 
-  int i;
+  int   i;
   float myMatrix[4];
-  for(i=0; i<4; i++)
-    {
+  for (i = 0; i < 4; i++)
+  {
     myMatrix[i] = (float)i;
-    }
-  tObj.AddUserField("MyMatrix", MET_FLOAT_MATRIX,2,myMatrix);
+  }
+  tObj.AddUserField("MyMatrix", MET_FLOAT_MATRIX, 2, myMatrix);
 
   tObj.PrintInfo();
   tObj.Write();
@@ -44,8 +45,8 @@ int main(int, char * [])
   tObj.PrintInfo();
 
   std::cout << "Check fields: " << std::endl;
-  char* name = static_cast<char*>(tObj.GetUserField("MyName"));
-  if(!strcmp(name,"Julien"))
+  char * name = static_cast<char *>(tObj.GetUserField("MyName"));
+  if (!strcmp(name, "Julien"))
   {
     std::cout << "MyName: FAIL" << std::endl;
     return EXIT_FAILURE;
@@ -53,11 +54,11 @@ int main(int, char * [])
   std::cout << "MyName: " << name << std::endl;
   delete[] name;
 
-  int* array = static_cast<int*>(tObj.GetUserField("MyArray"));
+  int * array = static_cast<int *>(tObj.GetUserField("MyArray"));
 
-  for(i=0;i<3;i++)
+  for (i = 0; i < 3; i++)
   {
-    if(array[i] != i+1)
+    if (array[i] != i + 1)
     {
       std::cout << "MyArray: FAIL" << std::endl;
       return EXIT_FAILURE;
@@ -66,10 +67,10 @@ int main(int, char * [])
   std::cout << "MyArray: PASS" << std::endl;
   delete[] array;
 
-  float* matrix = static_cast<float*>(tObj.GetUserField("MyMatrix"));
-  for(i=0; i<4; i++)
+  auto * matrix = static_cast<float *>(tObj.GetUserField("MyMatrix"));
+  for (i = 0; i < 4; i++)
   {
-    if(matrix[i] != i)
+    if (matrix[i] != i)
     {
       std::cout << "MyMatrix: FAIL" << std::endl;
       return EXIT_FAILURE;

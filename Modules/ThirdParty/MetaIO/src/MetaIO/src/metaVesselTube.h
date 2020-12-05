@@ -12,17 +12,17 @@
 #include "metaTypes.h"
 
 #ifndef ITKMetaIO_METAVESSELTUBE_H
-#define ITKMetaIO_METAVESSELTUBE_H
+#  define ITKMetaIO_METAVESSELTUBE_H
 
-#include "metaUtils.h"
-#include "metaObject.h"
-#include "metaTube.h"
+#  include "metaUtils.h"
+#  include "metaObject.h"
+#  include "metaTube.h"
 
-#ifdef _MSC_VER
-#pragma warning ( disable: 4251 )
-#endif
+#  ifdef _MSC_VER
+#    pragma warning(disable : 4251)
+#  endif
 
-#include <list>
+#  include <list>
 
 
 /*!    MetaVesselTube (.h and .cpp)
@@ -35,12 +35,12 @@
  * \date May 22, 2002
  */
 
-#if (METAIO_USE_NAMESPACE)
-namespace METAIO_NAMESPACE {
-#endif
+#  if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE
+{
+#  endif
 
-class METAIO_EXPORT VesselTubePnt
-  : public TubePnt
+class METAIO_EXPORT VesselTubePnt : public TubePnt
 {
 public:
   VesselTubePnt(int dim);
@@ -48,34 +48,29 @@ public:
 };
 
 
-
-
 class METAIO_EXPORT MetaVesselTube : public MetaTube
 {
-  /////
-  //
   // PUBLIC
-  //
-  ////
-  public:
+public:
+  MetaVesselTube(void);
 
-    MetaVesselTube(void);
+  MetaVesselTube(const char * _headerName);
 
-    MetaVesselTube(const char *_headerName);
+  MetaVesselTube(const MetaVesselTube * _vesselTube);
 
-    MetaVesselTube(const MetaVesselTube *_VesselTube);
+  MetaVesselTube(unsigned int dim);
 
-    MetaVesselTube(unsigned int dim);
+  ~MetaVesselTube(void) override;
 
-    ~MetaVesselTube(void) override;
+  void
+  Clear(void) override;
 
-    void Clear(void) override;
-
-    void PrintInfo(void) const override;
+  void
+  PrintInfo(void) const override;
 };
 
-#if (METAIO_USE_NAMESPACE)
+#  if (METAIO_USE_NAMESPACE)
 };
-#endif
+#  endif
 
 #endif
