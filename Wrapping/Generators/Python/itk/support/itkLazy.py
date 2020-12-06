@@ -18,6 +18,12 @@
 import types
 from itk.support import itkBase
 
+# Needed to avoid problem with aliasing of itk.set (itkTemplate)
+# inside the itk namespace.  We need to explictly specify the
+# use of the builtin set
+from builtins import set as _builtin_set
+
+
 not_loaded: str = "not loaded"
 
 
@@ -37,7 +43,9 @@ class LazyITKModule(types.ModuleType):
     def __init__(self, name, lazy_attributes):
         types.ModuleType.__init__(self, name)
         for k, v in lazy_attributes.items():
-            itkBase.itk_base_global_lazy_attributes.setdefault(k, set()).update(v)
+            itkBase.itk_base_global_lazy_attributes.setdefault(
+                k, _builtin_set()
+            ).update(v)
         self.__belong_lazy_attributes = dict(
             (k, v[0]) for k, v in lazy_attributes.items() if len(v) > 0
         )
@@ -46,7 +54,7 @@ class LazyITKModule(types.ModuleType):
         # For PEP 366
         setattr(self, "__package__", "itk")
         setattr(self, "itk_base_global_lazy_attributes", lazy_attributes)
-        setattr(self, "loaded_lazy_modules", set())
+        setattr(self, "loaded_lazy_modules", _builtin_set())
 
     def __getattribute__(self, attr):
         value = types.ModuleType.__getattribute__(self, attr)
