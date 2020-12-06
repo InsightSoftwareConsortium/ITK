@@ -45,14 +45,18 @@ class itkTemplateBase:
     #
     # 'itk::FixedArray<unsignedint,2>' = {type} <class 'itk.itkFixedArrayPython.itkFixedArrayUI2'>
     #          thisown = {property} <property object at 0x7ff800995710>
-    __template_instantiations_name_to_object__: Dict[str, _SWIG_CALLABLE_TYPE] = collections.OrderedDict()
+    __template_instantiations_name_to_object__: Dict[
+        str, _SWIG_CALLABLE_TYPE
+    ] = collections.OrderedDict()
 
     #
     # __template_instantiations_name_to_object__ = {dict}
     #          <class 'itk.itkFixedArrayPython.itkFixedArrayF2'> = {tuple}
     #               0 = {itkTemplate} <itkTemplate itk::FixedArray>
     #               1 = {tuple} (<itkCType float>, 2)
-    __template_instantiations_object_to_name__: Dict[_SWIG_CALLABLE_TYPE, "itkTemplate"] = {}
+    __template_instantiations_object_to_name__: Dict[
+        _SWIG_CALLABLE_TYPE, "itkTemplate"
+    ] = {}
 
     # __named_template_registry__ = {dict}
     #    'std::list' = {itkTemplate}
@@ -110,7 +114,9 @@ class itkTemplate(Mapping):
         useful until the SmartPointer template was generated), but those classes
         can be used as template argument of classes with template.
         """
-        itkTemplateBase.__template_instantiations_name_to_object__[itkTemplate.normalizeName(name)] = cl
+        itkTemplateBase.__template_instantiations_name_to_object__[
+            itkTemplate.normalizeName(name)
+        ] = cl
 
     @staticmethod
     def _NewImageReader(
@@ -287,7 +293,9 @@ class itkTemplate(Mapping):
         so that the singleton takes preference.
         Use this to define the class member elements
         """
-        self.__template__: Dict[str, Union[str, Callable[..., Any]]] = collections.OrderedDict()
+        self.__template__: Dict[
+            str, Union[str, Callable[..., Any]]
+        ] = collections.OrderedDict()
         self.__name__: str = new_object_name
 
     def __new__(cls, new_object_name: str) -> "itkTemplate":
@@ -297,9 +305,13 @@ class itkTemplate(Mapping):
         if new_object_name not in itkTemplateBase.__named_template_registry__:
             # Create an raw itkTemplate object without calling the __init__
             # New object of type itkTemplate
-            itkTemplateBase.__named_template_registry__[new_object_name] = object.__new__(cls)
+            itkTemplateBase.__named_template_registry__[
+                new_object_name
+            ] = object.__new__(cls)
             # Must explicitly initialize the raw object.
-            itkTemplateBase.__named_template_registry__[new_object_name].__local__init__(new_object_name)
+            itkTemplateBase.__named_template_registry__[
+                new_object_name
+            ].__local__init__(new_object_name)
         return itkTemplateBase.__named_template_registry__[new_object_name]
 
     def __getnewargs_ex__(self):
@@ -432,7 +444,9 @@ class itkTemplate(Mapping):
             if paramNorm in itkTemplateBase.__template_instantiations_name_to_object__:
                 # the parameter is registered.
                 # just get the real class form the dictionary
-                param = itkTemplateBase.__template_instantiations_name_to_object__[paramNorm]
+                param = itkTemplateBase.__template_instantiations_name_to_object__[
+                    paramNorm
+                ]
 
             elif itkCType.GetCType(param_stripped):
                 # the parameter is a c type
