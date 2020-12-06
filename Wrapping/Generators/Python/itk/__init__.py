@@ -36,6 +36,11 @@ def _initialize_module():
     """
     from .support.itkBase import ITKModuleInfo, ITKTemplateFeatures
 
+    # Needed to avoid problem with aliasing of itk.set (itkTemplate)
+    # inside the itk namespace.  We need to explictly specify the
+    # use of the builtin set
+    from builtins import set as _builtin_set
+
     def _get_lazy_attributes(local_lazy_attributes, l_module, l_data: ITKModuleInfo):
         """
         Set up lazy attribute relationships
@@ -57,7 +62,7 @@ def _initialize_module():
             local_lazy_attributes.setdefault(function, []).append(l_module)
         # Remove duplicates in attributes, preserving only the first
         def _dedup(seq):
-            seen = set()
+            seen = _builtin_set()
             seen_add = seen.add
             return [x for x in seq if not (x in seen or seen_add(x))]
 

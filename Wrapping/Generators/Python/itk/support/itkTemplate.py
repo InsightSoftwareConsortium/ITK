@@ -33,6 +33,11 @@ from ..support.itkTypes import itkCType
 import math
 from collections.abc import Mapping
 
+# Needed to avoid problem with aliasing of itk.set (itkTemplate)
+# inside the itk namespace.  We need to explictly specify the
+# use of the builtin set
+from builtins import set as _builtin_set
+
 # A valid type for holding swig classes and functions
 _SWIG_CALLABLE_TYPE = Callable[..., Any]
 
@@ -560,7 +565,7 @@ class itkTemplate(Mapping):
             return obj.__dict__.keys()
 
         def dir2(obj):
-            attrs = set()
+            attrs = _builtin_set()
             if not hasattr(obj, "__bases__"):
                 # obj is an instance
                 if not hasattr(obj, "__class__"):
