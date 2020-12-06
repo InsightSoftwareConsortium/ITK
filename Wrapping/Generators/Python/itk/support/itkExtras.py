@@ -192,7 +192,9 @@ def _get_itk_pixelid(numpy_array_type):
             raise e
 
 
-def _GetArrayFromImage(image_or_filter, function_name: str, keep_axes: bool, update: bool, ttype):
+def _GetArrayFromImage(
+    image_or_filter, function_name: str, keep_axes: bool, update: bool, ttype
+):
     """Get an Array with the content of the image buffer"""
     # Finds the image type
     import itk
@@ -215,16 +217,20 @@ def _GetArrayFromImage(image_or_filter, function_name: str, keep_axes: bool, upd
     return templatedFunction(img, keep_axes, update)
 
 
-def GetArrayFromImage(image_or_filter, keep_axes: bool = False, update: bool = True, ttype = None):
+def GetArrayFromImage(
+    image_or_filter, keep_axes: bool = False, update: bool = True, ttype=None
+):
     """Get an array with the content of the image buffer"""
-    return _GetArrayFromImage(image_or_filter, "GetArrayFromImage", keep_axes, update, ttype)
+    return _GetArrayFromImage(
+        image_or_filter, "GetArrayFromImage", keep_axes, update, ttype
+    )
 
 
 array_from_image = GetArrayFromImage
 
 
 def GetArrayViewFromImage(
-    image_or_filter, keep_axes: bool = False, update: bool = True, ttype = None
+    image_or_filter, keep_axes: bool = False, update: bool = True, ttype=None
 ):
     """Get an array view with the content of the image buffer"""
     return _GetArrayFromImage(
@@ -250,7 +256,7 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
             ImageType = ttype
         if type(itk.template(ImageType)) != tuple or len(itk.template(ImageType)) < 2:
             raise RuntimeError("Cannot determine pixel type from supplied ttype.")
-        is_vector = (type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType)
+        is_vector = type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType
     else:
         PixelType = _get_itk_pixelid(arr)
         Dimension = arr.ndim
@@ -270,14 +276,16 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
                 ImageType = itk.Image[itk.Vector[PixelType, VectorDimension], Dimension]
     keys = [k for k in itk.PyBuffer.keys() if k[0] == ImageType]
     if len(keys) == 0:
-        raise RuntimeError("""No suitable template parameter can be found.
+        raise RuntimeError(
+            """No suitable template parameter can be found.
 
-Please specify an output type via the 'ttype' keyword parameter.""")
+Please specify an output type via the 'ttype' keyword parameter."""
+        )
     templatedFunction = getattr(itk.PyBuffer[keys[0]], function_name)
     return templatedFunction(arr, is_vector)
 
 
-def GetImageFromArray(arr, is_vector: bool = False, ttype = None):
+def GetImageFromArray(arr, is_vector: bool = False, ttype=None):
     """Get an ITK image from a Python array."""
     return _GetImageFromArray(arr, "GetImageFromArray", is_vector, ttype)
 
@@ -285,7 +293,7 @@ def GetImageFromArray(arr, is_vector: bool = False, ttype = None):
 image_from_array = GetImageFromArray
 
 
-def GetImageViewFromArray(arr, is_vector: bool = False, ttype = None):
+def GetImageViewFromArray(arr, is_vector: bool = False, ttype=None):
     """Get an ITK image view from a Python array."""
     return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector, ttype)
 
@@ -315,7 +323,7 @@ def _GetArrayFromVnlObject(vnl_object, function_name: str, ttype):
     return templatedFunction(vnl_object)
 
 
-def GetArrayFromVnlVector(vnl_vector, ttype = None):
+def GetArrayFromVnlVector(vnl_vector, ttype=None):
     """Get an array with the content of vnl_vector"""
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayFromVnlVector", ttype)
 
@@ -323,7 +331,7 @@ def GetArrayFromVnlVector(vnl_vector, ttype = None):
 array_from_vnl_vector = GetArrayFromVnlVector
 
 
-def GetArrayViewFromVnlVector(vnl_vector, ttype = None):
+def GetArrayViewFromVnlVector(vnl_vector, ttype=None):
     """Get an array view of vnl_vector"""
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayViewFromVnlVector", ttype)
 
@@ -331,12 +339,12 @@ def GetArrayViewFromVnlVector(vnl_vector, ttype = None):
 array_view_from_vnl_vector = GetArrayFromVnlVector
 
 
-def GetArrayFromVnlMatrix(vnl_matrix, ttype = None):
+def GetArrayFromVnlMatrix(vnl_matrix, ttype=None):
     """Get an array with the content of vnl_matrix"""
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayFromVnlMatrix", ttype)
 
 
-def GetArrayViewFromVnlMatrix(vnl_matrix, ttype = None):
+def GetArrayViewFromVnlMatrix(vnl_matrix, ttype=None):
     """Get an array view of vnl_matrix"""
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayViewFromVnlMatrix", ttype)
 
@@ -364,7 +372,7 @@ def _GetVnlObjectFromArray(arr, function_name: str, ttype):
     return templatedFunction(arr)
 
 
-def GetVnlVectorFromArray(arr, ttype = None):
+def GetVnlVectorFromArray(arr, ttype=None):
     """Get a vnl vector from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray", ttype)
 
@@ -372,7 +380,7 @@ def GetVnlVectorFromArray(arr, ttype = None):
 vnl_vector_from_array = GetVnlVectorFromArray
 
 
-def GetVnlMatrixFromArray(arr, ttype = None):
+def GetVnlMatrixFromArray(arr, ttype=None):
     """Get a vnl matrix from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray", ttype)
 

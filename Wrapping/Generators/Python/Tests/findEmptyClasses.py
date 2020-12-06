@@ -64,7 +64,7 @@ exclude = [
     "HammingWindowFunction",
     "LanczosWindowFunction",
     "WelchWindowFunction",
-    "Tile", # include from itkTileMontage remote module but only templated over dimension.
+    "Tile",  # include from itkTileMontage remote module but only templated over dimension.
     "cvar",
 ]
 
