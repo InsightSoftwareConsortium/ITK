@@ -119,6 +119,8 @@ public:
   void
   PrintInfo(void) const override;
 
+  using MetaObject::CopyInfo;
+
   void
   CopyInfo(const MetaTube * _object);
 
