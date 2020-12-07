@@ -13,18 +13,18 @@
 
 
 #ifndef ITKMetaIO_METADTITUBE_H
-#define ITKMetaIO_METADTITUBE_H
+#  define ITKMetaIO_METADTITUBE_H
 
 
-#if defined(_MSC_VER)
-#pragma warning ( disable : 4786 )
-#pragma warning ( disable: 4251 )
-#endif
+#  if defined(_MSC_VER)
+#    pragma warning(disable : 4786)
+#    pragma warning(disable : 4251)
+#  endif
 
-#include "metaUtils.h"
-#include "metaObject.h"
+#  include "metaUtils.h"
+#  include "metaObject.h"
 
-#include <list>
+#  include <list>
 
 
 /*!    MetaDTITube (.h and .cpp)
@@ -37,139 +37,153 @@
  * \date May 22, 2002
  */
 
-#if (METAIO_USE_NAMESPACE)
-namespace METAIO_NAMESPACE {
-#endif
+#  if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE
+{
+#  endif
 
 class METAIO_EXPORT DTITubePnt
 {
 public:
-
-  typedef std::pair<std::string,float>  FieldType;
+  typedef std::pair<std::string, float> FieldType;
   typedef std::vector<FieldType>        FieldListType;
 
   DTITubePnt(int dim);
 
   ~DTITubePnt();
 
-  const FieldListType & GetExtraFields() const;
+  const FieldListType &
+  GetExtraFields() const;
 
-  void AddField(const char* name, float value);
+  void
+  AddField(const char * name, float value);
 
-  float GetField(const char* name) const;
+  float
+  GetField(const char * name) const;
 
   unsigned int m_Dim;
-  float* m_X;
-  float* m_TensorMatrix;
+  float *      m_X;
+  float *      m_TensorMatrix;
 
   FieldListType m_ExtraFields;
 };
 
 
-
-
 class METAIO_EXPORT MetaDTITube : public MetaObject
 {
 
-  /////
-  //
   // PUBLIC
-  //
-  ////
-  public:
+public:
+  typedef std::list<DTITubePnt *>              PointListType;
+  typedef std::pair<std::string, unsigned int> PositionType;
 
-   typedef std::list<DTITubePnt*> PointListType;
-   typedef std::pair<std::string,unsigned int> PositionType;
+  // Constructors & Destructor
+  MetaDTITube(void);
 
-   ////
-    //
-    // Constructors & Destructor
-    //
-    ////
-    MetaDTITube(void);
+  MetaDTITube(const char * _headerName);
 
-    MetaDTITube(const char *_headerName);
+  MetaDTITube(const MetaDTITube * _dtiTube);
 
-    MetaDTITube(const MetaDTITube *_DTITube);
+  MetaDTITube(unsigned int dim);
 
-    MetaDTITube(unsigned int dim);
+  ~MetaDTITube(void) override;
 
-    ~MetaDTITube(void) override;
+  void
+  PrintInfo(void) const override;
 
-    void PrintInfo(void) const override;
+  void
+  CopyInfo(const MetaObject * _object) override;
 
-    void CopyInfo(const MetaObject * _object) override;
+  //    NPoints(...)
+  //       Required Field
+  //       Number of points which compose the DTITube
+  void
+  NPoints(int npnt);
+  int
+  NPoints(void) const;
 
-    //    NPoints(...)
-    //       Required Field
-    //       Number of points which compose the DTITube
-    void  NPoints(int npnt);
-    int   NPoints(void) const;
+  //    PointDim(...)
+  //       Required Field
+  //       Definition of points
+  void
+  PointDim(const char * pointDim);
+  const char *
+  PointDim(void) const;
 
-    //    PointDim(...)
-    //       Required Field
-    //       Definition of points
-    void        PointDim(const char* pointDim);
-    const char* PointDim(void) const;
-
-    //    Root(...)
-    //       Optional Field
-    //       Set if this DTITube is a root
-    void  Root(bool root);
-    bool   Root(void) const;
+  //    Root(...)
+  //       Optional Field
+  //       Set if this DTITube is a root
+  void
+  Root(bool root);
+  bool
+  Root(void) const;
 
 
-    //    ParentPoint(...)
-    //       Optional Field
-    //       Set the point number of the parent DTITube where the branch occurs
-    void  ParentPoint(int parentpoint);
-    int   ParentPoint(void) const;
+  //    ParentPoint(...)
+  //       Optional Field
+  //       Set the point number of the parent DTITube where the branch occurs
+  void
+  ParentPoint(int parentpoint);
+  int
+  ParentPoint(void) const;
 
-    void  Clear(void) override;
+  void
+  Clear(void) override;
 
-    PointListType &  GetPoints(void) {return m_PointList;}
-    const PointListType &  GetPoints(void) const {return m_PointList;}
+  PointListType &
+  GetPoints(void)
+  {
+    return m_PointList;
+  }
+  const PointListType &
+  GetPoints(void) const
+  {
+    return m_PointList;
+  }
 
-    MET_ValueEnumType ElementType(void) const;
-    void  ElementType(MET_ValueEnumType _elementType);
+  MET_ValueEnumType
+  ElementType(void) const;
+  void
+  ElementType(MET_ValueEnumType _elementType);
 
-  ////
-  //
   // PROTECTED
-  //
-  ////
-  protected:
+protected:
+  bool m_ElementByteOrderMSB;
 
-    bool  m_ElementByteOrderMSB;
+  void
+  M_Destroy(void) override;
 
-    void  M_Destroy(void) override;
+  void
+  M_SetupReadFields(void) override;
 
-    void  M_SetupReadFields(void) override;
+  void
+  M_SetupWriteFields(void) override;
 
-    void  M_SetupWriteFields(void) override;
+  bool
+  M_Read(void) override;
 
-    bool  M_Read(void) override;
+  bool
+  M_Write(void) override;
 
-    bool  M_Write(void) override;
+  int m_ParentPoint; // "ParentPoint = "     -1
 
-    int m_ParentPoint;  // "ParentPoint = "     -1
+  bool m_Root; // "Root = "            False
 
-    bool m_Root;         // "Root = "            False
+  int m_NPoints; // "NPoints = "         0
 
-    int m_NPoints;      // "NPoints = "         0
+  std::string m_PointDim; // "PointDim = "       "x y z r"
 
-    std::string m_PointDim; // "PointDim = "       "x y z r"
+  PointListType             m_PointList;
+  MET_ValueEnumType         m_ElementType;
+  std::vector<PositionType> m_Positions;
 
-    PointListType m_PointList;
-    MET_ValueEnumType m_ElementType;
-    std::vector<PositionType> m_Positions;
-
-    int GetPosition(const char*) const;
+  int
+  GetPosition(const char *) const;
 };
 
-#if (METAIO_USE_NAMESPACE)
+#  if (METAIO_USE_NAMESPACE)
 };
-#endif
+#  endif
 
 
 #endif

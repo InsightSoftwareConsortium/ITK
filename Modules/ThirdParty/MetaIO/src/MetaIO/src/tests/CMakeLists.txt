@@ -7,9 +7,9 @@ if (NOT ITK_TEST_OUTPUT_DIR) # we are not part of ITK source tree
 endif()
 
 function(MetaAddTest ExeName)
-  ADD_EXECUTABLE( ${ExeName} ${ExeName}.cxx )
-  TARGET_LINK_LIBRARIES( ${ExeName} ${METAIO_NAMESPACE} ${ZLIB_LIBRARIES})
-  ADD_TEST(NAME ${ExeName}
+  add_executable( ${ExeName} ${ExeName}.cxx )
+  target_link_libraries( ${ExeName} ${METAIO_NAMESPACE} ${ZLIB_LIBRARIES})
+  add_test(NAME ${ExeName}
            COMMAND ${ExeName}
            WORKING_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
 endfunction()

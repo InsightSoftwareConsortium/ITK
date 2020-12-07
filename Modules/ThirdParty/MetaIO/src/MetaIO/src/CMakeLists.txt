@@ -127,13 +127,13 @@ else ()
   )
 endif ()
 
-INCLUDE_REGULAR_EXPRESSION("^.*$")
+include_regular_expression("^.*$")
 
 # Need nsl to resolve gethostbyname on SunOS-5.8
 # and socket also
-IF(CMAKE_SYSTEM MATCHES "SunOS.*")
-  TARGET_LINK_LIBRARIES(${METAIO_TARGET} PRIVATE socket nsl)
-ENDIF(CMAKE_SYSTEM MATCHES "SunOS.*")
+if(CMAKE_SYSTEM MATCHES "SunOS.*")
+  target_link_libraries(${METAIO_TARGET} PRIVATE socket nsl)
+endif()
 
 target_link_libraries(${METAIO_TARGET} PUBLIC
   ${METAIO_LIBXML2_LIBRARIES}
@@ -144,16 +144,16 @@ if(METAIO_LIBRARY_PROPERTIES)
                         PROPERTIES ${METAIO_LIBRARY_PROPERTIES})
 endif()
 
-IF(WIN32)
-  IF(BORLAND)
-    TARGET_LINK_LIBRARIES(${METAIO_TARGET} PRIVATE import32)
-  ELSE(BORLAND)
-    TARGET_LINK_LIBRARIES(${METAIO_TARGET} PRIVATE comctl32 wsock32)
-  ENDIF(BORLAND)
-ENDIF(WIN32)
+if(WIN32)
+  if(BORLAND)
+    target_link_libraries(${METAIO_TARGET} PRIVATE import32)
+  else()
+    target_link_libraries(${METAIO_TARGET} PRIVATE comctl32 wsock32)
+  endif()
+endif()
 
 if(BUILD_TESTING)
-  ADD_SUBDIRECTORY(tests)
+  add_subdirectory(tests)
 endif()
 
 if(NOT METAIO_INSTALL_NO_LIBRARIES)
@@ -163,7 +163,7 @@ if(NOT METAIO_INSTALL_NO_LIBRARIES)
     LIBRARY DESTINATION ${METAIO_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
     ARCHIVE DESTINATION ${METAIO_INSTALL_ARCHIVE_DIR} COMPONENT Development
     )
-endif(NOT METAIO_INSTALL_NO_LIBRARIES)
+endif()
 # TODO: Install Copyright.txt
 if(NOT METAIO_INSTALL_NO_DEVELOPMENT)
   install(FILES ${headers}

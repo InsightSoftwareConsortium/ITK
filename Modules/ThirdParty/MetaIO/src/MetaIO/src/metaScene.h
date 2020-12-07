@@ -12,16 +12,16 @@
 #include "metaTypes.h"
 
 #ifndef ITKMetaIO_METASCENE_H
-#define ITKMetaIO_METASCENE_H
+#  define ITKMetaIO_METASCENE_H
 
-#include "metaUtils.h"
-#include "metaObject.h"
+#  include "metaUtils.h"
+#  include "metaObject.h"
 
-#ifdef _MSC_VER
-#pragma warning ( disable: 4251 )
-#endif
+#  ifdef _MSC_VER
+#    pragma warning(disable : 4251)
+#  endif
 
-#include <list>
+#  include <list>
 
 
 /*!    MetaScene (.h and .cpp)
@@ -35,90 +35,95 @@
  *
  */
 
-#if (METAIO_USE_NAMESPACE)
-namespace METAIO_NAMESPACE {
-#endif
+#  if (METAIO_USE_NAMESPACE)
+namespace METAIO_NAMESPACE
+{
+#  endif
 
 class METAIO_EXPORT MetaScene : public MetaObject
 {
 
-  /////
-  //
   // PUBLIC
-  //
-  ////
-  public:
+public:
+  typedef std::list<MetaObject *> ObjectListType;
 
-   typedef std::list<MetaObject*>    ObjectListType;
+  // Constructors & Destructor
+  MetaScene(void);
 
-   ////
-    //
-    // Constructors & Destructor
-    //
-    ////
-    MetaScene(void);
+  MetaScene(const MetaScene * _scene);
 
-    MetaScene(const MetaScene *_scene);
+  MetaScene(unsigned int dim);
 
-    MetaScene(unsigned int dim);
+  ~MetaScene(void) override;
 
-    ~MetaScene(void) override;
+  void
+  PrintInfo(void) const override;
 
-    void PrintInfo(void) const override;
+  void
+  CopyInfo(const MetaObject * _object) override;
 
-    void CopyInfo(const MetaObject * _object) override;
+  void
+  AddObject(MetaObject * object);
 
-    void AddObject(MetaObject* object);
+  // This function only reads registered tubes
+  bool
+  Read(const char * _headerName = nullptr);
 
-    //
-    //
-    //
-    // This function only reads registered tubes
-    bool Read(const char *_headerName=nullptr);
+  bool
+  Write(const char * _headName = nullptr);
 
-    bool Write(const char *_headName=nullptr);
+  bool
+  Append(const char * = nullptr) override
+  {
+    std::cout << "Not Implemented !" << std::endl;
+    return true;
+  }
 
-    bool Append(const char* =nullptr) override {std::cout << "Not Implemented !" << std::endl;return true;}
-
-    void  Clear(void) override;
-
-
-    //    NObjects(...)
-    //       Required Field
-    //       Number of points which compose the tube
-    void  NObjects(int nobjects);
-    int   NObjects(void) const;
+  void
+  Clear(void) override;
 
 
-    ObjectListType * GetObjectList(void) {return & m_ObjectList;}
+  //    NObjects(...)
+  //       Required Field
+  //       Number of points which compose the tube
+  void
+  NObjects(int nobjects);
+  int
+  NObjects(void) const;
 
-  ////
-  //
+
+  ObjectListType *
+  GetObjectList(void)
+  {
+    return &m_ObjectList;
+  }
+
   // PROTECTED
-  //
-  ////
-  protected:
+protected:
+  bool m_ElementByteOrderMSB;
 
-    bool  m_ElementByteOrderMSB;
+  void
+  M_Destroy(void) override;
 
-    void  M_Destroy(void) override;
+  void
+  M_SetupReadFields(void) override;
 
-    void  M_SetupReadFields(void) override;
+  void
+  M_SetupWriteFields(void) override;
 
-    void  M_SetupWriteFields(void) override;
+  bool
+  M_Read(void) override;
 
-    bool  M_Read(void) override;
+  bool
+  M_Write(void) override;
 
-    bool  M_Write(void) override;
+  int m_NObjects; // "NObjects = "         0
 
-    int m_NObjects;      // "NObjects = "         0
-
-    ObjectListType    m_ObjectList;
-
+  ObjectListType m_ObjectList;
 };
 
-#if (METAIO_USE_NAMESPACE)
+#  if (METAIO_USE_NAMESPACE)
 };
-#endif
+#  endif
 
 #endif
