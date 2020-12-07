@@ -35,6 +35,7 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ei
   this->SetNthOutput(0, this->MakeOutput(0));
   this->SetNthOutput(1, this->MakeOutput(1));
   this->SetNthOutput(2, this->MakeOutput(2));
+  static_assert(EigenVectorType::Dimension == 2, "Error: PixelType of EigenVector Image must have exactly 2 elements!");
 }
 
 /**

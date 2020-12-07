@@ -235,7 +235,8 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Compu
   {
     return m_ZeroUpdateReturn;
   }
-
+  static_assert(PixelType::Dimension == CovariantVectorType::Dimension,
+                "ERROR: PixelType and CovariantVectorType must have the same dimension!");
   PixelType update;
   for (unsigned int j = 0; j < ImageDimension; j++)
   {
