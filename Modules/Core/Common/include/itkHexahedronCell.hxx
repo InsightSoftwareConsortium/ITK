@@ -356,7 +356,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
     for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
     {
       pt = points->GetElement(m_PointIds[i]);
-      for (unsigned int j = 0; j < Self::CellDimension; ++j)
+      for (unsigned int j = 0; j < PointType::Dimension; ++j)
       {
         fcol[j] += pt[j] * weights[i];
         rcol[j] += pt[j] * derivs[i];
@@ -581,9 +581,9 @@ HexahedronCell<TCellInterface>::EvaluateLocation(int &                     itkNo
   std::fill_n(x, Self::CellDimension, 0.0);
   for (unsigned int i = 0; i < Self::NumberOfPoints; i++)
   {
-    PointType pt = points->GetElement(m_PointIds[i]);
+    const PointType pt{ points->GetElement(m_PointIds[i]) };
 
-    for (unsigned int j = 0; j < Self::CellDimension; j++)
+    for (unsigned int j = 0; j < PointType::Dimension; j++)
     {
       const CoordRepType t = pt[j] * weights[i];
       x[j] += t;
