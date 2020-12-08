@@ -115,7 +115,8 @@ void evaluateProductBlockingSizesHeuristic(Index& k, Index& m, Index& n, Index n
     // registers. However once the latency is hidden there is no point in
     // increasing the value of k, so we'll cap it at 320 (value determined
     // experimentally).
-    const Index k_cache = (numext::mini<Index>)((l1-ksub)/kdiv, 320);
+    // To avoid that k vanishes, we make k_cache at least as big as kr
+    const Index k_cache = numext::maxi<Index>(kr, (numext::mini<Index>)((l1-ksub)/kdiv, 320));
     if (k_cache < k) {
       k = k_cache - (k_cache % kr);
       eigen_internal_assert(k > 0);

@@ -104,6 +104,9 @@ class no_assignment_operator
 {
   private:
     no_assignment_operator& operator=(const no_assignment_operator&);
+  protected:
+    EIGEN_DEFAULT_COPY_CONSTRUCTOR(no_assignment_operator)
+    EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(no_assignment_operator)
 };
 
 /** \internal return the index type with the largest number of bits */
