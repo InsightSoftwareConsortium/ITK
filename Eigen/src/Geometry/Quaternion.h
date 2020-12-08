@@ -198,6 +198,9 @@ class QuaternionBase : public RotationBase<Derived, 3>
 #ifdef EIGEN_QUATERNIONBASE_PLUGIN
 # include EIGEN_QUATERNIONBASE_PLUGIN
 #endif
+protected:
+  EIGEN_DEFAULT_COPY_CONSTRUCTOR(QuaternionBase)
+  EIGEN_DEFAULT_EMPTY_CONSTRUCTOR_AND_DESTRUCTOR(QuaternionBase)
 };
 
 /***************************************************************************
