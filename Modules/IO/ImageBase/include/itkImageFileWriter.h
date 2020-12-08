@@ -235,6 +235,63 @@ private:
   int  m_CompressionLevel{ -1 };
   bool m_UseInputMetaDataDictionary{ true };
 };
+
+
+/** Convenience function for writing an image. */
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(const TImage * image, const char * filename, bool compress = false)
+{
+  using WriterType = ImageFileWriter<TImage>;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(image);
+  writer->SetFileName(filename);
+  writer->SetUseCompression(compress);
+  writer->Update();
+}
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(const SmartPointer<const TImage> image, const char * filename, bool compress = false)
+{
+  WriteImage(image.GetPointer(), filename, compress);
+}
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(TImage * image, const char * filename, bool compress = false)
+{
+  const TImage * constImage = image;
+  WriteImage(constImage, filename, compress);
+}
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(SmartPointer<TImage> image, const char * filename, bool compress = false)
+{
+  WriteImage(image.GetPointer(), filename, compress);
+}
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(const TImage * image, const std::string & filename, bool compress = false)
+{
+  WriteImage(image, filename.c_str(), compress);
+}
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(const SmartPointer<const TImage> image, const std::string & filename, bool compress = false)
+{
+  WriteImage(image, filename.c_str(), compress);
+}
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(TImage * image, const std::string & filename, bool compress = false)
+{
+  WriteImage(image, filename.c_str(), compress);
+}
+template <typename TImage>
+ITK_TEMPLATE_EXPORT void
+WriteImage(SmartPointer<TImage> image, const std::string & filename, bool compress = false)
+{
+  WriteImage(image, filename.c_str(), compress);
+}
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
