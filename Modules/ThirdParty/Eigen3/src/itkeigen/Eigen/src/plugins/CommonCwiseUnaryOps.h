@@ -64,6 +64,49 @@ cast() const
   return typename CastXpr<NewType>::Type(derived());
 }
 
+template<int N> struct ShiftRightXpr {
+  typedef CwiseUnaryOp<internal::scalar_shift_right_op<Scalar, N>, const Derived> Type;
+};
+
+/// \returns an expression of \c *this with the \a Scalar type arithmetically
+/// shifted right by \a N bit positions.
+///
+/// The template parameter \a N specifies the number of bit positions to shift.
+///
+EIGEN_DOC_UNARY_ADDONS(cast,conversion function)
+///
+/// \sa class CwiseUnaryOp
+///
+template<int N>
+EIGEN_DEVICE_FUNC
+typename ShiftRightXpr<N>::Type
+shift_right() const
+{
+  return typename ShiftRightXpr<N>::Type(derived());
+}
+
+
+template<int N> struct ShiftLeftXpr {
+  typedef CwiseUnaryOp<internal::scalar_shift_left_op<Scalar, N>, const Derived> Type;
+};
+
+/// \returns an expression of \c *this with the \a Scalar type logically
+/// shifted left by \a N bit positions.
+///
+/// The template parameter \a N specifies the number of bit positions to shift.
+///
+EIGEN_DOC_UNARY_ADDONS(cast,conversion function)
+///
+/// \sa class CwiseUnaryOp
+///
+template<int N>
+EIGEN_DEVICE_FUNC
+typename ShiftLeftXpr<N>::Type
+shift_left() const
+{
+  return typename ShiftLeftXpr<N>::Type(derived());
+}
+
 /// \returns an expression of the complex conjugate of \c *this.
 ///
 EIGEN_DOC_UNARY_ADDONS(conjugate,complex conjugate)
@@ -74,6 +117,20 @@ inline ConjugateReturnType
 conjugate() const
 {
   return ConjugateReturnType(derived());
+}
+
+/// \returns an expression of the complex conjugate of \c *this if Cond==true, returns derived() otherwise.
+///
+EIGEN_DOC_UNARY_ADDONS(conjugate,complex conjugate)
+///
+/// \sa conjugate()
+template<bool Cond>
+EIGEN_DEVICE_FUNC
+inline typename internal::conditional<Cond,ConjugateReturnType,const Derived&>::type
+conjugateIf() const
+{
+  typedef typename internal::conditional<Cond,ConjugateReturnType,const Derived&>::type ReturnType;
+  return ReturnType(derived());
 }
 
 /// \returns a read-only expression of the real part of \c *this.

@@ -425,6 +425,7 @@ struct svd_precondition_2x2_block_to_be_real<MatrixType, QRPreconditioner, true>
 
 template<typename _MatrixType, int QRPreconditioner> 
 struct traits<JacobiSVD<_MatrixType,QRPreconditioner> >
+        : traits<_MatrixType>
 {
   typedef _MatrixType MatrixType;
 };
@@ -610,7 +611,7 @@ template<typename _MatrixType, int QRPreconditioner> class JacobiSVD
 };
 
 template<typename MatrixType, int QRPreconditioner>
-void JacobiSVD<MatrixType, QRPreconditioner>::allocate(Index rows, Index cols, unsigned int computationOptions)
+void JacobiSVD<MatrixType, QRPreconditioner>::allocate(Eigen::Index rows, Eigen::Index cols, unsigned int computationOptions)
 {
   eigen_assert(rows >= 0 && cols >= 0);
 

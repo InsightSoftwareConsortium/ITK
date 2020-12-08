@@ -3,8 +3,11 @@
 thirdparty_module_name="Eigen3"
 
 # readonly repo="https://gitlab.kitware.com/third-party/eigen.git"
-upstream_git_url="https://gitlab.kitware.com/phcerdan/eigen.git"
-upstream_git_branch="for/itk-3.3-find_package"
+# upstream_git_url="https://gitlab.kitware.com/phcerdan/eigen.git"
+# upstream_git_branch="for/itk-3.3-find_package"
+
+upstream_git_url="https://gitlab.com/libeigen/eigen.git"
+upstream_git_branch="master"
 
 snapshot_author_name="Eigen Upstream"
 snapshot_author_email="kwrobot@kitware.com"

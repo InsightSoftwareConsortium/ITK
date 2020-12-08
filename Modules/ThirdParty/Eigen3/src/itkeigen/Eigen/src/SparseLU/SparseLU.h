@@ -26,7 +26,7 @@ template <typename MatrixLType, typename MatrixUType> struct SparseLUMatrixURetu
   * This class implements the supernodal LU factorization for general matrices.
   * It uses the main techniques from the sequential SuperLU package 
   * (http://crd-legacy.lbl.gov/~xiaoye/SuperLU/). It handles transparently real 
-  * and complex arithmetics with single and double precision, depending on the 
+  * and complex arithmetic with single and double precision, depending on the 
   * scalar type of your input matrix. 
   * The code has been optimized to provide BLAS-3 operations during supernode-panel updates. 
   * It benefits directly from the built-in high-performant Eigen BLAS routines. 
@@ -193,7 +193,7 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
     
     /** \brief Reports whether previous computation was successful.
       *
-      * \returns \c Success if computation was succesful,
+      * \returns \c Success if computation was successful,
       *          \c NumericalIssue if the LU factorization reports a problem, zero diagonal for instance
       *          \c InvalidInput if the input matrix is invalid
       *
@@ -355,6 +355,9 @@ class SparseLU : public SparseSolverBase<SparseLU<_MatrixType,_OrderingType> >, 
       return (m_detPermR * m_detPermC) > 0 ? det : -det;
     }
 
+    Index nnzL() const { return m_nnzL; };
+    Index nnzU() const { return m_nnzU; };
+
   protected:
     // Functions 
     void initperfvalues()
@@ -500,7 +503,6 @@ void SparseLU<MatrixType, OrderingType>::factorize(const MatrixType& matrix)
   eigen_assert((matrix.rows() == matrix.cols()) && "Only for squared matrices");
   
   m_isInitialized = true;
-  
   
   // Apply the column permutation computed in analyzepattern()
   //   m_mat = matrix * m_perm_c.inverse(); 
@@ -704,8 +706,8 @@ struct SparseLUMatrixLReturnType : internal::no_assignment_operator
   typedef typename MappedSupernodalType::Scalar Scalar;
   explicit SparseLUMatrixLReturnType(const MappedSupernodalType& mapL) : m_mapL(mapL)
   { }
-  Index rows() { return m_mapL.rows(); }
-  Index cols() { return m_mapL.cols(); }
+  Index rows() const { return m_mapL.rows(); }
+  Index cols() const { return m_mapL.cols(); }
   template<typename Dest>
   void solveInPlace( MatrixBase<Dest> &X) const
   {
@@ -721,8 +723,8 @@ struct SparseLUMatrixUReturnType : internal::no_assignment_operator
   SparseLUMatrixUReturnType(const MatrixLType& mapL, const MatrixUType& mapU)
   : m_mapL(mapL),m_mapU(mapU)
   { }
-  Index rows() { return m_mapL.rows(); }
-  Index cols() { return m_mapL.cols(); }
+  Index rows() const { return m_mapL.rows(); }
+  Index cols() const { return m_mapL.cols(); }
 
   template<typename Dest>   void solveInPlace(MatrixBase<Dest> &X) const
   {
@@ -745,8 +747,9 @@ struct SparseLUMatrixUReturnType : internal::no_assignment_operator
       }
       else
       {
+        // FIXME: the following lines should use Block expressions and not Map!
         Map<const Matrix<Scalar,Dynamic,Dynamic, ColMajor>, 0, OuterStride<> > A( &(m_mapL.valuePtr()[luptr]), nsupc, nsupc, OuterStride<>(lda) );
-        Map< Matrix<Scalar,Dynamic,Dest::ColsAtCompileTime, ColMajor>, 0, OuterStride<> > U (&(X(fsupc,0)), nsupc, nrhs, OuterStride<>(n) );
+        Map< Matrix<Scalar,Dynamic,Dest::ColsAtCompileTime, ColMajor>, 0, OuterStride<> > U (&(X.coeffRef(fsupc,0)), nsupc, nrhs, OuterStride<>(n) );
         U = A.template triangularView<Upper>().solve(U);
       }
 

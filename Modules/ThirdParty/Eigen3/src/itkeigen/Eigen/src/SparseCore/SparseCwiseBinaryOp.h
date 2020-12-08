@@ -101,7 +101,7 @@ public:
       }
       else
       {
-        m_value = 0; // this is to avoid a compilation warning
+        m_value = Scalar(0); // this is to avoid a compilation warning
         m_id = -1;
       }
       return *this;
@@ -212,8 +212,7 @@ public:
 
   enum {
     CoeffReadCost = evaluator<Lhs>::CoeffReadCost + evaluator<Rhs>::CoeffReadCost + functor_traits<BinaryOp>::Cost,
-    // Expose storage order of the sparse expression
-    Flags = (XprType::Flags & ~RowMajorBit) | (int(Rhs::Flags)&RowMajorBit)
+    Flags = XprType::Flags
   };
 
   explicit binary_evaluator(const XprType& xpr)
@@ -300,8 +299,7 @@ public:
 
   enum {
     CoeffReadCost = evaluator<Lhs>::CoeffReadCost + evaluator<Rhs>::CoeffReadCost + functor_traits<BinaryOp>::Cost,
-    // Expose storage order of the sparse expression
-    Flags = (XprType::Flags & ~RowMajorBit) | (int(Lhs::Flags)&RowMajorBit)
+    Flags = XprType::Flags
   };
 
   explicit binary_evaluator(const XprType& xpr)
@@ -533,8 +531,7 @@ public:
   
   enum {
     CoeffReadCost = evaluator<LhsArg>::CoeffReadCost + evaluator<RhsArg>::CoeffReadCost + functor_traits<BinaryOp>::Cost,
-    // Expose storage order of the sparse expression
-    Flags = (XprType::Flags & ~RowMajorBit) | (int(RhsArg::Flags)&RowMajorBit)
+    Flags = XprType::Flags
   };
   
   explicit sparse_conjunction_evaluator(const XprType& xpr)
@@ -608,8 +605,7 @@ public:
   
   enum {
     CoeffReadCost = evaluator<LhsArg>::CoeffReadCost + evaluator<RhsArg>::CoeffReadCost + functor_traits<BinaryOp>::Cost,
-    // Expose storage order of the sparse expression
-    Flags = (XprType::Flags & ~RowMajorBit) | (int(LhsArg::Flags)&RowMajorBit)
+    Flags = XprType::Flags
   };
   
   explicit sparse_conjunction_evaluator(const XprType& xpr)

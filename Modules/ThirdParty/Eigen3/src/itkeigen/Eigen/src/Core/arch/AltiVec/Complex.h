@@ -60,7 +60,7 @@ template<> struct packet_traits<std::complex<float> >  : default_packet_traits
   };
 };
 
-template<> struct unpacket_traits<Packet2cf> { typedef std::complex<float> type; enum {size=2, alignment=Aligned16}; typedef Packet2cf half; };
+template<> struct unpacket_traits<Packet2cf> { typedef std::complex<float> type; enum {size=2, alignment=Aligned16, vectorizable=true, masked_load_available=false, masked_store_available=false}; typedef Packet2cf half; };
 
 template<> EIGEN_STRONG_INLINE Packet2cf pset1<Packet2cf>(const std::complex<float>&  from)
 {
@@ -82,14 +82,14 @@ template<> EIGEN_STRONG_INLINE void pstoreu<std::complex<float> >(std::complex<f
 
 template<> EIGEN_DEVICE_FUNC inline Packet2cf pgather<std::complex<float>, Packet2cf>(const std::complex<float>* from, Index stride)
 {
-  std::complex<float> EIGEN_ALIGN16 af[2];
+  EIGEN_ALIGN16 std::complex<float> af[2];
   af[0] = from[0*stride];
   af[1] = from[1*stride];
   return pload<Packet2cf>(af);
 }
 template<> EIGEN_DEVICE_FUNC inline void pscatter<std::complex<float>, Packet2cf>(std::complex<float>* to, const Packet2cf& from, Index stride)
 {
-  std::complex<float> EIGEN_ALIGN16 af[2];
+  EIGEN_ALIGN16 std::complex<float> af[2];
   pstore<std::complex<float> >((std::complex<float> *) af, from);
   to[0*stride] = af[0];
   to[1*stride] = af[1];
@@ -128,7 +128,7 @@ template<> EIGEN_STRONG_INLINE void prefetch<std::complex<float> >(const std::co
 
 template<> EIGEN_STRONG_INLINE std::complex<float>  pfirst<Packet2cf>(const Packet2cf& a)
 {
-  std::complex<float> EIGEN_ALIGN16 res[2];
+  EIGEN_ALIGN16 std::complex<float> res[2];
   pstore((float *)&res, a.v);
 
   return res[0];
@@ -149,22 +149,6 @@ template<> EIGEN_STRONG_INLINE std::complex<float> predux<Packet2cf>(const Packe
   return pfirst<Packet2cf>(Packet2cf(b));
 }
 
-template<> EIGEN_STRONG_INLINE Packet2cf preduxp<Packet2cf>(const Packet2cf* vecs)
-{
-  Packet4f b1, b2;
-#ifdef _BIG_ENDIAN  
-  b1 = vec_sld(vecs[0].v, vecs[1].v, 8);
-  b2 = vec_sld(vecs[1].v, vecs[0].v, 8);
-#else
-  b1 = vec_sld(vecs[1].v, vecs[0].v, 8);
-  b2 = vec_sld(vecs[0].v, vecs[1].v, 8);
-#endif
-  b2 = vec_sld(b2, b2, 8);
-  b2 = padd<Packet4f>(b1, b2);
-
-  return Packet2cf(b2);
-}
-
 template<> EIGEN_STRONG_INLINE std::complex<float> predux_mul<Packet2cf>(const Packet2cf& a)
 {
   Packet4f b;
@@ -174,22 +158,6 @@ template<> EIGEN_STRONG_INLINE std::complex<float> predux_mul<Packet2cf>(const P
 
   return pfirst<Packet2cf>(prod);
 }
-
-template<int Offset>
-struct palign_impl<Offset,Packet2cf>
-{
-  static EIGEN_STRONG_INLINE void run(Packet2cf& first, const Packet2cf& second)
-  {
-    if (Offset==1)
-    {
-#ifdef _BIG_ENDIAN
-      first.v = vec_sld(first.v, second.v, 8);
-#else
-      first.v = vec_sld(second.v, first.v, 8);
-#endif
-    }
-  }
-};
 
 template<> struct conj_helper<Packet2cf, Packet2cf, false,true>
 {
@@ -246,6 +214,11 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet2cf,2>& kernel)
   kernel.packet[0].v = tmp;
 }
 
+template<> EIGEN_STRONG_INLINE Packet2cf pcmp_eq(const Packet2cf& a, const Packet2cf& b) {
+  Packet4f eq = reinterpret_cast<Packet4f>(vec_cmpeq(a.v,b.v));
+  return Packet2cf(vec_and(eq, vec_perm(eq, eq, p16uc_COMPLEX32_REV)));
+}
+
 #ifdef __VSX__
 template<> EIGEN_STRONG_INLINE Packet2cf pblend(const Selector<2>& ifPacket, const Packet2cf& thenPacket, const Packet2cf& elsePacket) {
   Packet2cf result;
@@ -286,7 +259,7 @@ template<> struct packet_traits<std::complex<double> >  : default_packet_traits
   };
 };
 
-template<> struct unpacket_traits<Packet1cd> { typedef std::complex<double> type; enum {size=1, alignment=Aligned16}; typedef Packet1cd half; };
+template<> struct unpacket_traits<Packet1cd> { typedef std::complex<double> type; enum {size=1, alignment=Aligned16, vectorizable=true, masked_load_available=false, masked_store_available=false}; typedef Packet1cd half; };
 
 template<> EIGEN_STRONG_INLINE Packet1cd pload <Packet1cd>(const std::complex<double>* from) { return Packet1cd(pload<Packet2d>((const double*)from)); }
 template<> EIGEN_STRONG_INLINE Packet1cd ploadu<Packet1cd>(const std::complex<double>* from) { return Packet1cd(ploadu<Packet2d>((const double*)from)); }
@@ -296,19 +269,13 @@ template<> EIGEN_STRONG_INLINE void pstoreu<std::complex<double> >(std::complex<
 template<> EIGEN_STRONG_INLINE Packet1cd pset1<Packet1cd>(const std::complex<double>&  from)
 { /* here we really have to use unaligned loads :( */ return ploadu<Packet1cd>(&from); }
 
-template<> EIGEN_DEVICE_FUNC inline Packet1cd pgather<std::complex<double>, Packet1cd>(const std::complex<double>* from, Index stride)
+template<> EIGEN_DEVICE_FUNC inline Packet1cd pgather<std::complex<double>, Packet1cd>(const std::complex<double>* from, Index)
 {
-  std::complex<double> EIGEN_ALIGN16 af[2];
-  af[0] = from[0*stride];
-  af[1] = from[1*stride];
-  return pload<Packet1cd>(af);
+  return pload<Packet1cd>(from);
 }
-template<> EIGEN_DEVICE_FUNC inline void pscatter<std::complex<double>, Packet1cd>(std::complex<double>* to, const Packet1cd& from, Index stride)
+template<> EIGEN_DEVICE_FUNC inline void pscatter<std::complex<double>, Packet1cd>(std::complex<double>* to, const Packet1cd& from, Index)
 {
-  std::complex<double> EIGEN_ALIGN16 af[2];
-  pstore<std::complex<double> >(af, from);
-  to[0*stride] = af[0];
-  to[1*stride] = af[1];
+  pstore<std::complex<double> >(to, from);
 }
 
 template<> EIGEN_STRONG_INLINE Packet1cd padd<Packet1cd>(const Packet1cd& a, const Packet1cd& b) { return Packet1cd(a.v + b.v); }
@@ -345,7 +312,7 @@ template<> EIGEN_STRONG_INLINE void prefetch<std::complex<double> >(const std::c
 
 template<> EIGEN_STRONG_INLINE std::complex<double>  pfirst<Packet1cd>(const Packet1cd& a)
 {
-  std::complex<double> EIGEN_ALIGN16 res[2];
+  EIGEN_ALIGN16 std::complex<double> res[2];
   pstore<std::complex<double> >(res, a);
 
   return res[0];
@@ -354,19 +321,8 @@ template<> EIGEN_STRONG_INLINE std::complex<double>  pfirst<Packet1cd>(const Pac
 template<> EIGEN_STRONG_INLINE Packet1cd preverse(const Packet1cd& a) { return a; }
 
 template<> EIGEN_STRONG_INLINE std::complex<double> predux<Packet1cd>(const Packet1cd& a) { return pfirst(a); }
-template<> EIGEN_STRONG_INLINE Packet1cd preduxp<Packet1cd>(const Packet1cd* vecs)        { return vecs[0]; }
 
 template<> EIGEN_STRONG_INLINE std::complex<double> predux_mul<Packet1cd>(const Packet1cd& a) { return pfirst(a); }
-
-template<int Offset>
-struct palign_impl<Offset,Packet1cd>
-{
-  static EIGEN_STRONG_INLINE void run(Packet1cd& /*first*/, const Packet1cd& /*second*/)
-  {
-    // FIXME is it sure we never have to align a Packet1cd?
-    // Even though a std::complex<double> has 16 bytes, it is not necessarily aligned on a 16 bytes boundary...
-  }
-};
 
 template<> struct conj_helper<Packet1cd, Packet1cd, false,true>
 {
@@ -422,6 +378,18 @@ EIGEN_STRONG_INLINE void ptranspose(PacketBlock<Packet1cd,2>& kernel)
   kernel.packet[1].v = vec_perm(kernel.packet[0].v, kernel.packet[1].v, p16uc_TRANSPOSE64_LO);
   kernel.packet[0].v = tmp;
 }
+
+template<> EIGEN_STRONG_INLINE Packet1cd pcmp_eq(const Packet1cd& a, const Packet1cd& b) {
+  // Compare real and imaginary parts of a and b to get the mask vector:
+  // [re(a)==re(b), im(a)==im(b)]
+  Packet2d eq = reinterpret_cast<Packet2d>(vec_cmpeq(a.v,b.v));
+  // Swap real/imag elements in the mask in to get:
+  // [im(a)==im(b), re(a)==re(b)]
+  Packet2d eq_swapped = reinterpret_cast<Packet2d>(vec_sld(reinterpret_cast<Packet4ui>(eq), reinterpret_cast<Packet4ui>(eq), 8));
+  // Return re(a)==re(b) & im(a)==im(b) by computing bitwise AND of eq and eq_swapped
+  return Packet1cd(vec_and(eq, eq_swapped));
+}
+
 #endif // __VSX__
 } // end namespace internal
 

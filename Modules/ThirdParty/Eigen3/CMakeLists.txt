@@ -11,7 +11,7 @@ else()
 endif()
 set(ITKEigen3_LIBRARIES ${_eigen_itk_target})
 # Assume that Eigen generates a Eigen3Config.cmake
-set(_Eigen3_min_version 3.3)
+set(_Eigen3_min_version 3.3.8)
 
 # Docs:
 # find_package(ITK REQUIRED COMPONENTS

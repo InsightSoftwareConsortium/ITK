@@ -120,7 +120,7 @@ class Select : public internal::dense_xpr_base< Select<ConditionMatrixType, Then
   */
 template<typename Derived>
 template<typename ThenDerived,typename ElseDerived>
-inline const Select<Derived,ThenDerived,ElseDerived>
+inline EIGEN_DEVICE_FUNC const Select<Derived,ThenDerived,ElseDerived>
 DenseBase<Derived>::select(const DenseBase<ThenDerived>& thenMatrix,
                             const DenseBase<ElseDerived>& elseMatrix) const
 {
@@ -134,7 +134,7 @@ DenseBase<Derived>::select(const DenseBase<ThenDerived>& thenMatrix,
   */
 template<typename Derived>
 template<typename ThenDerived>
-inline const Select<Derived,ThenDerived, typename ThenDerived::ConstantReturnType>
+inline EIGEN_DEVICE_FUNC const Select<Derived,ThenDerived, typename ThenDerived::ConstantReturnType>
 DenseBase<Derived>::select(const DenseBase<ThenDerived>& thenMatrix,
                            const typename ThenDerived::Scalar& elseScalar) const
 {
@@ -149,7 +149,7 @@ DenseBase<Derived>::select(const DenseBase<ThenDerived>& thenMatrix,
   */
 template<typename Derived>
 template<typename ElseDerived>
-inline const Select<Derived, typename ElseDerived::ConstantReturnType, ElseDerived >
+inline EIGEN_DEVICE_FUNC const Select<Derived, typename ElseDerived::ConstantReturnType, ElseDerived >
 DenseBase<Derived>::select(const typename ElseDerived::Scalar& thenScalar,
                            const DenseBase<ElseDerived>& elseMatrix) const
 {

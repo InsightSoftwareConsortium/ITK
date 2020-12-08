@@ -97,6 +97,9 @@ template<int Mode> struct transform_make_affine;
   *              - #AffineCompact: the transformation is stored as a (Dim)x(Dim+1) matrix.
   *              - #Projective: the transformation is stored as a (Dim+1)^2 matrix
   *                             without any assumption.
+  *              - #Isometry: same as #Affine with the additional assumption that
+  *                           the linear part represents a rotation. This assumption is exploited
+  *                           to speed up some functions such as inverse() and rotation().
   * \tparam _Options has the same meaning as in class Matrix. It allows to specify DontAlign and/or RowMajor.
   *                  These Options are passed directly to the underlying matrix type.
   *
@@ -115,7 +118,7 @@ template<int Mode> struct transform_make_affine;
   * \end{array} \right) \f$
   *
   * Note that for a projective transformation the last row can be anything,
-  * and then the interpretation of different parts might be sightly different.
+  * and then the interpretation of different parts might be slightly different.
   *
   * However, unlike a plain matrix, the Transform class provides many features
   * simplifying both its assembly and usage. In particular, it can be composed
@@ -259,12 +262,6 @@ public:
     internal::transform_make_affine<(int(Mode)==Affine || int(Mode)==Isometry) ? Affine : AffineCompact>::run(m_matrix);
   }
 
-  EIGEN_DEVICE_FUNC inline Transform(const Transform& other)
-  {
-    check_template_params();
-    m_matrix = other.m_matrix;
-  }
-
   EIGEN_DEVICE_FUNC inline explicit Transform(const TranslationType& t)
   {
     check_template_params();
@@ -281,9 +278,6 @@ public:
     check_template_params();
     *this = r;
   }
-
-  EIGEN_DEVICE_FUNC inline Transform& operator=(const Transform& other)
-  { m_matrix = other.m_matrix; return *this; }
 
   typedef internal::transform_take_affine_part<Transform> take_affine_part;
 
@@ -335,7 +329,7 @@ public:
            OtherModeIsAffineCompact = OtherMode == int(AffineCompact)
     };
 
-    if(ModeIsAffineCompact == OtherModeIsAffineCompact)
+    if(EIGEN_CONST_CONDITIONAL(ModeIsAffineCompact == OtherModeIsAffineCompact))
     {
       // We need the block expression because the code is compiled for all
       // combinations of transformations and will trigger a compile time error
@@ -343,7 +337,7 @@ public:
       m_matrix.template block<Dim,Dim+1>(0,0) = other.matrix().template block<Dim,Dim+1>(0,0);
       makeAffine();
     }
-    else if(OtherModeIsAffineCompact)
+    else if(EIGEN_CONST_CONDITIONAL(OtherModeIsAffineCompact))
     {
       typedef typename Transform<Scalar,Dim,OtherMode,OtherOptions>::MatrixType OtherMatrixType;
       internal::transform_construct_from_matrix<OtherMatrixType,Mode,Options,Dim,HDim>::run(this, other.matrix());
@@ -481,7 +475,7 @@ public:
     TransformTimeDiagonalReturnType res;
     res.linear().noalias() = a*b.linear();
     res.translation().noalias() = a*b.translation();
-    if (Mode!=int(AffineCompact))
+    if (EIGEN_CONST_CONDITIONAL(Mode!=int(AffineCompact)))
       res.matrix().row(Dim) = b.matrix().row(Dim);
     return res;
   }
@@ -602,7 +596,9 @@ public:
   template<typename Derived>
   EIGEN_DEVICE_FUNC inline Transform operator*(const RotationBase<Derived,Dim>& r) const;
 
-  EIGEN_DEVICE_FUNC const LinearMatrixType rotation() const;
+  typedef typename internal::conditional<int(Mode)==Isometry,ConstLinearPart,const LinearMatrixType>::type RotationReturnType;
+  EIGEN_DEVICE_FUNC RotationReturnType rotation() const;
+
   template<typename RotationMatrixType, typename ScalingMatrixType>
   EIGEN_DEVICE_FUNC
   void computeRotationScaling(RotationMatrixType *rotation, ScalingMatrixType *scaling) const;
@@ -755,7 +751,7 @@ template<typename Scalar, int Dim, int Mode,int Options>
 Transform<Scalar,Dim,Mode,Options>& Transform<Scalar,Dim,Mode,Options>::operator=(const QMatrix& other)
 {
   EIGEN_STATIC_ASSERT(Dim==2, YOU_MADE_A_PROGRAMMING_MISTAKE)
-  if (Mode == int(AffineCompact))
+  if (EIGEN_CONST_CONDITIONAL(Mode == int(AffineCompact)))
     m_matrix << other.m11(), other.m21(), other.dx(),
                 other.m12(), other.m22(), other.dy();
   else
@@ -801,7 +797,7 @@ Transform<Scalar,Dim,Mode,Options>& Transform<Scalar,Dim,Mode,Options>::operator
 {
   check_template_params();
   EIGEN_STATIC_ASSERT(Dim==2, YOU_MADE_A_PROGRAMMING_MISTAKE)
-  if (Mode == int(AffineCompact))
+  if (EIGEN_CONST_CONDITIONAL(Mode == int(AffineCompact)))
     m_matrix << other.m11(), other.m21(), other.dx(),
                 other.m12(), other.m22(), other.dy();
   else
@@ -819,7 +815,7 @@ template<typename Scalar, int Dim, int Mode, int Options>
 QTransform Transform<Scalar,Dim,Mode,Options>::toQTransform(void) const
 {
   EIGEN_STATIC_ASSERT(Dim==2, YOU_MADE_A_PROGRAMMING_MISTAKE)
-  if (Mode == int(AffineCompact))
+  if (EIGEN_CONST_CONDITIONAL(Mode == int(AffineCompact)))
     return QTransform(m_matrix.coeff(0,0), m_matrix.coeff(1,0),
                       m_matrix.coeff(0,1), m_matrix.coeff(1,1),
                       m_matrix.coeff(0,2), m_matrix.coeff(1,2));
@@ -912,7 +908,7 @@ EIGEN_DEVICE_FUNC Transform<Scalar,Dim,Mode,Options>&
 Transform<Scalar,Dim,Mode,Options>::pretranslate(const MatrixBase<OtherDerived> &other)
 {
   EIGEN_STATIC_ASSERT_VECTOR_SPECIFIC_SIZE(OtherDerived,int(Dim))
-  if(int(Mode)==int(Projective))
+  if(EIGEN_CONST_CONDITIONAL(int(Mode)==int(Projective)))
     affine() += other * m_matrix.row(Dim);
   else
     translation() += other;
@@ -939,9 +935,9 @@ Transform<Scalar,Dim,Mode,Options>::pretranslate(const MatrixBase<OtherDerived> 
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename RotationType>
 EIGEN_DEVICE_FUNC Transform<Scalar,Dim,Mode,Options>&
-Transform<Scalar,Dim,Mode,Options>::rotate(const RotationType& r)
+Transform<Scalar,Dim,Mode,Options>::rotate(const RotationType& rotation)
 {
-  linearExt() *= internal::toRotationMatrix<Scalar,Dim>(r);
+  linearExt() *= internal::toRotationMatrix<Scalar,Dim>(rotation);
   return *this;
 }
 
@@ -955,9 +951,9 @@ Transform<Scalar,Dim,Mode,Options>::rotate(const RotationType& r)
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename RotationType>
 EIGEN_DEVICE_FUNC Transform<Scalar,Dim,Mode,Options>&
-Transform<Scalar,Dim,Mode,Options>::prerotate(const RotationType& r)
+Transform<Scalar,Dim,Mode,Options>::prerotate(const RotationType& rotation)
 {
-  m_matrix.template block<Dim,HDim>(0,0) = internal::toRotationMatrix<Scalar,Dim>(r)
+  m_matrix.template block<Dim,HDim>(0,0) = internal::toRotationMatrix<Scalar,Dim>(rotation)
                                          * m_matrix.template block<Dim,HDim>(0,0);
   return *this;
 }
@@ -1046,20 +1042,43 @@ EIGEN_DEVICE_FUNC inline Transform<Scalar,Dim,Mode,Options> Transform<Scalar,Dim
 *** Special functions ***
 ************************/
 
+namespace internal {
+template<int Mode> struct transform_rotation_impl {
+  template<typename TransformType>
+  EIGEN_DEVICE_FUNC static inline
+  const typename TransformType::LinearMatrixType run(const TransformType& t)
+  {
+    typedef typename TransformType::LinearMatrixType LinearMatrixType; 
+    LinearMatrixType result;
+    t.computeRotationScaling(&result, (LinearMatrixType*)0);
+    return result;
+  }
+};
+template<> struct transform_rotation_impl<Isometry> {
+  template<typename TransformType>
+  EIGEN_DEVICE_FUNC static inline
+  typename TransformType::ConstLinearPart run(const TransformType& t)
+  {
+    return t.linear();
+  }
+};
+}
 /** \returns the rotation part of the transformation
   *
+  * If Mode==Isometry, then this method is an alias for linear(),
+  * otherwise it calls computeRotationScaling() to extract the rotation
+  * through a SVD decomposition.
   *
   * \svd_module
   *
   * \sa computeRotationScaling(), computeScalingRotation(), class SVD
   */
 template<typename Scalar, int Dim, int Mode, int Options>
-EIGEN_DEVICE_FUNC const typename Transform<Scalar,Dim,Mode,Options>::LinearMatrixType
+EIGEN_DEVICE_FUNC
+typename Transform<Scalar,Dim,Mode,Options>::RotationReturnType
 Transform<Scalar,Dim,Mode,Options>::rotation() const
 {
-  LinearMatrixType result;
-  computeRotationScaling(&result, (LinearMatrixType*)0);
-  return result;
+  return internal::transform_rotation_impl<Mode>::run(*this);
 }
 
 
@@ -1076,19 +1095,19 @@ Transform<Scalar,Dim,Mode,Options>::rotation() const
   */
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename RotationMatrixType, typename ScalingMatrixType>
-EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeRotationScaling(RotationMatrixType *r, ScalingMatrixType *s) const
+EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeRotationScaling(RotationMatrixType *rotation, ScalingMatrixType *scaling) const
 {
   JacobiSVD<LinearMatrixType> svd(linear(), ComputeFullU | ComputeFullV);
 
   Scalar x = (svd.matrixU() * svd.matrixV().adjoint()).determinant(); // so x has absolute value 1
   VectorType sv(svd.singularValues());
   sv.coeffRef(0) *= x;
-  if(s) s->lazyAssign(svd.matrixV() * sv.asDiagonal() * svd.matrixV().adjoint());
-  if(r)
+  if(scaling) *scaling = svd.matrixV() * sv.asDiagonal() * svd.matrixV().adjoint();
+  if(rotation)
   {
     LinearMatrixType m(svd.matrixU());
     m.col(0) /= x;
-    r->lazyAssign(m * svd.matrixV().adjoint());
+    *rotation = m * svd.matrixV().adjoint();
   }
 }
 
@@ -1105,19 +1124,19 @@ EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeRotationScalin
   */
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename ScalingMatrixType, typename RotationMatrixType>
-EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeScalingRotation(ScalingMatrixType *s, RotationMatrixType *r) const
+EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeScalingRotation(ScalingMatrixType *scaling, RotationMatrixType *rotation) const
 {
   JacobiSVD<LinearMatrixType> svd(linear(), ComputeFullU | ComputeFullV);
 
   Scalar x = (svd.matrixU() * svd.matrixV().adjoint()).determinant(); // so x has absolute value 1
   VectorType sv(svd.singularValues());
   sv.coeffRef(0) *= x;
-  if(s) s->lazyAssign(svd.matrixU() * sv.asDiagonal() * svd.matrixU().adjoint());
-  if(r)
+  if(scaling) *scaling = svd.matrixU() * sv.asDiagonal() * svd.matrixU().adjoint();
+  if(rotation)
   {
     LinearMatrixType m(svd.matrixU());
     m.col(0) /= x;
-    r->lazyAssign(m * svd.matrixV().adjoint());
+    *rotation = m * svd.matrixV().adjoint();
   }
 }
 
@@ -1127,12 +1146,12 @@ EIGEN_DEVICE_FUNC void Transform<Scalar,Dim,Mode,Options>::computeScalingRotatio
 template<typename Scalar, int Dim, int Mode, int Options>
 template<typename PositionDerived, typename OrientationType, typename ScaleDerived>
 EIGEN_DEVICE_FUNC Transform<Scalar,Dim,Mode,Options>&
-Transform<Scalar,Dim,Mode,Options>::fromPositionOrientationScale(const MatrixBase<PositionDerived> &p,
-  const OrientationType& o, const MatrixBase<ScaleDerived> &s)
+Transform<Scalar,Dim,Mode,Options>::fromPositionOrientationScale(const MatrixBase<PositionDerived> &position,
+  const OrientationType& orientation, const MatrixBase<ScaleDerived> &scale)
 {
-  linear() = internal::toRotationMatrix<Scalar,Dim>(o);
-  linear() *= s.asDiagonal();
-  translation() = p;
+  linear() = internal::toRotationMatrix<Scalar,Dim>(orientation);
+  linear() *= scale.asDiagonal();
+  translation() = position;
   makeAffine();
   return *this;
 }

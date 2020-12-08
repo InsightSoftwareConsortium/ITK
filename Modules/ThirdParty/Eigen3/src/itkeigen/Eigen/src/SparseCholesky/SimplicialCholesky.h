@@ -80,11 +80,19 @@ class SimplicialCholeskyBase : public SparseSolverBase<Derived>
 
     /** Default constructor */
     SimplicialCholeskyBase()
-      : m_info(Success), m_shiftOffset(0), m_shiftScale(1)
+      : m_info(Success),
+        m_factorizationIsOk(false),
+        m_analysisIsOk(false),
+        m_shiftOffset(0),
+        m_shiftScale(1)
     {}
 
     explicit SimplicialCholeskyBase(const MatrixType& matrix)
-      : m_info(Success), m_shiftOffset(0), m_shiftScale(1)
+      : m_info(Success),
+        m_factorizationIsOk(false),
+        m_analysisIsOk(false),
+        m_shiftOffset(0),
+        m_shiftScale(1)
     {
       derived().compute(matrix);
     }
@@ -101,7 +109,7 @@ class SimplicialCholeskyBase : public SparseSolverBase<Derived>
     
     /** \brief Reports whether previous computation was successful.
       *
-      * \returns \c Success if computation was succesful,
+      * \returns \c Success if computation was successful,
       *          \c NumericalIssue if the matrix.appears to be negative.
       */
     ComputationInfo info() const

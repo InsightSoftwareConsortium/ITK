@@ -17,24 +17,28 @@ namespace internal {
 
 /** \internal \returns the hyperbolic tan of \a a (coeff-wise)
     Doesn't do anything fancy, just a 13/6-degree rational interpolant which
-    is accurate up to a couple of ulp in the range [-9, 9], outside of which
-    the tanh(x) = +/-1.
+    is accurate up to a couple of ulps in the (approximate) range [-8, 8],
+    outside of which tanh(x) = +/-1 in single precision. The input is clamped
+    to the range [-c, c]. The value c is chosen as the smallest value where
+    the approximation evaluates to exactly 1. In the reange [-0.0004, 0.0004]
+    the approxmation tanh(x) ~= x is used for better accuracy as x tends to zero.
 
     This implementation works on both scalars and packets.
 */
 template<typename T>
 T generic_fast_tanh_float(const T& a_x)
 {
-  // Clamp the inputs to the range [-9, 9] since anything outside
-  // this range is +/-1.0f in single-precision.
-  const T plus_9 = pset1<T>(9.f);
-  const T minus_9 = pset1<T>(-9.f);
-  // NOTE GCC prior to 6.3 might improperly optimize this max/min
-  //      step such that if a_x is nan, x will be either 9 or -9,
-  //      and tanh will return 1 or -1 instead of nan.
-  //      This is supposed to be fixed in gcc6.3,
-  //      see: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=72867
-  const T x = pmax(minus_9,pmin(plus_9,a_x));
+  // Clamp the inputs to the range [-c, c]
+#ifdef EIGEN_VECTORIZE_FMA
+  const T plus_clamp = pset1<T>(7.99881172180175781f);
+  const T minus_clamp = pset1<T>(-7.99881172180175781f);
+#else
+  const T plus_clamp = pset1<T>(7.90531110763549805f);
+  const T minus_clamp = pset1<T>(-7.90531110763549805f);
+#endif
+  const T tiny = pset1<T>(0.0004f);
+  const T x = pmax(pmin(a_x, plus_clamp), minus_clamp);
+  const T tiny_mask = pcmp_lt(pabs(a_x), tiny);
   // The monomial coefficients of the numerator polynomial (odd).
   const T alpha_1 = pset1<T>(4.89352455891786e-03f);
   const T alpha_3 = pset1<T>(6.37261928875436e-04f);
@@ -62,24 +66,24 @@ T generic_fast_tanh_float(const T& a_x)
   p = pmadd(x2, p, alpha_1);
   p = pmul(x, p);
 
-  // Evaluate the denominator polynomial p.
+  // Evaluate the denominator polynomial q.
   T q = pmadd(x2, beta_6, beta_4);
   q = pmadd(x2, q, beta_2);
   q = pmadd(x2, q, beta_0);
 
   // Divide the numerator by the denominator.
-  return pdiv(p, q);
+  return pselect(tiny_mask, x, pdiv(p, q));
 }
 
 template<typename RealScalar>
-EIGEN_STRONG_INLINE
+EIGEN_DEVICE_FUNC EIGEN_STRONG_INLINE
 RealScalar positive_real_hypot(const RealScalar& x, const RealScalar& y)
 {
-  EIGEN_USING_STD_MATH(sqrt);
+  EIGEN_USING_STD(sqrt);
   RealScalar p, qp;
   p = numext::maxi(x,y);
   if(p==RealScalar(0)) return RealScalar(0);
-  qp = numext::mini(y,x) / p;    
+  qp = numext::mini(y,x) / p;
   return p * sqrt(RealScalar(1) + qp*qp);
 }
 
@@ -87,9 +91,10 @@ template<typename Scalar>
 struct hypot_impl
 {
   typedef typename NumTraits<Scalar>::Real RealScalar;
-  static inline RealScalar run(const Scalar& x, const Scalar& y)
+  static EIGEN_DEVICE_FUNC
+  inline RealScalar run(const Scalar& x, const Scalar& y)
   {
-    EIGEN_USING_STD_MATH(abs);
+    EIGEN_USING_STD(abs);
     return positive_real_hypot<RealScalar>(abs(x), abs(y));
   }
 };

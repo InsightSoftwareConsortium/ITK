@@ -11,9 +11,18 @@
 #ifndef EIGEN_META_H
 #define EIGEN_META_H
 
-#if defined(__CUDA_ARCH__)
-#include <cfloat>
-#include <math_constants.h>
+#if defined(EIGEN_GPU_COMPILE_PHASE)
+
+ #include <cfloat>
+
+ #if defined(EIGEN_CUDA_ARCH)
+  #include <math_constants.h>
+ #endif
+
+ #if defined(EIGEN_HIP_DEVICE_COMPILE)
+  #include "Eigen/src/Core/arch/HIP/hcc/math_constants.h"
+  #endif
+
 #endif
 
 #if EIGEN_COMP_ICC>=1600 &&  __cplusplus >= 201103L
@@ -54,14 +63,20 @@ typedef std::size_t UIntPtr;
 struct true_type {  enum { value = 1 }; };
 struct false_type { enum { value = 0 }; };
 
+template<bool Condition>
+struct bool_constant;
+
+template<>
+struct bool_constant<true> : true_type {};
+
+template<>
+struct bool_constant<false> : false_type {};
+
 template<bool Condition, typename Then, typename Else>
 struct conditional { typedef Then type; };
 
 template<typename Then, typename Else>
 struct conditional <false, Then, Else> { typedef Else type; };
-
-template<typename T, typename U> struct is_same { enum { value = 0 }; };
-template<typename T> struct is_same<T,T> { enum { value = 1 }; };
 
 template<typename T> struct remove_reference { typedef T type; };
 template<typename T> struct remove_reference<T&> { typedef T type; };
@@ -97,23 +112,31 @@ template<> struct is_arithmetic<unsigned int>  { enum { value = true }; };
 template<> struct is_arithmetic<signed long>   { enum { value = true }; };
 template<> struct is_arithmetic<unsigned long> { enum { value = true }; };
 
+template<typename T, typename U> struct is_same { enum { value = 0 }; };
+template<typename T> struct is_same<T,T> { enum { value = 1 }; };
+
+template< class T >
+struct is_void : is_same<void, typename remove_const<T>::type> {};
+
 #if EIGEN_HAS_CXX11
+template<> struct is_arithmetic<signed long long>   { enum { value = true }; };
+template<> struct is_arithmetic<unsigned long long> { enum { value = true }; };
 using std::is_integral;
 #else
-template<typename T> struct is_integral        { enum { value = false }; };
-template<> struct is_integral<bool>            { enum { value = true }; };
-template<> struct is_integral<char>            { enum { value = true }; };
-template<> struct is_integral<signed char>     { enum { value = true }; };
-template<> struct is_integral<unsigned char>   { enum { value = true }; };
-template<> struct is_integral<signed short>    { enum { value = true }; };
-template<> struct is_integral<unsigned short>  { enum { value = true }; };
-template<> struct is_integral<signed int>      { enum { value = true }; };
-template<> struct is_integral<unsigned int>    { enum { value = true }; };
-template<> struct is_integral<signed long>     { enum { value = true }; };
-template<> struct is_integral<unsigned long>   { enum { value = true }; };
+template<typename T> struct is_integral               { enum { value = false }; };
+template<> struct is_integral<bool>                   { enum { value = true }; };
+template<> struct is_integral<char>                   { enum { value = true }; };
+template<> struct is_integral<signed char>            { enum { value = true }; };
+template<> struct is_integral<unsigned char>          { enum { value = true }; };
+template<> struct is_integral<signed short>           { enum { value = true }; };
+template<> struct is_integral<unsigned short>         { enum { value = true }; };
+template<> struct is_integral<signed int>             { enum { value = true }; };
+template<> struct is_integral<unsigned int>           { enum { value = true }; };
+template<> struct is_integral<signed long>            { enum { value = true }; };
+template<> struct is_integral<unsigned long>          { enum { value = true }; };
 #if EIGEN_COMP_MSVC
-template<> struct is_integral<signed __int64>  { enum { value = true }; };
-template<> struct is_integral<unsigned __int64>{ enum { value = true }; };
+template<> struct is_integral<signed __int64>         { enum { value = true }; };
+template<> struct is_integral<unsigned __int64>       { enum { value = true }; };
 #endif
 #endif
 
@@ -137,6 +160,10 @@ template<> struct make_unsigned<unsigned long>    { typedef unsigned long type; 
 template<> struct make_unsigned<signed __int64>   { typedef unsigned __int64 type; };
 template<> struct make_unsigned<unsigned __int64> { typedef unsigned __int64 type; };
 #endif
+
+// TODO: Some platforms define int64_t as long long even for C++03. In this case
+// we are missing the definition for make_unsigned. If we just define it, we get
+// duplicated definitions for platforms defining int64_t as signed long for C++03
 #endif
 
 template <typename T> struct add_const { typedef const T type; };
@@ -151,6 +178,11 @@ template<typename T> struct add_const_on_value_type<T*>        { typedef T const
 template<typename T> struct add_const_on_value_type<T* const>  { typedef T const* const type; };
 template<typename T> struct add_const_on_value_type<T const* const>  { typedef T const* const type; };
 
+#if EIGEN_HAS_CXX11
+
+using std::is_convertible;
+
+#else
 
 template<typename From, typename To>
 struct is_convertible_impl
@@ -164,16 +196,19 @@ private:
   struct yes {int a[1];};
   struct no  {int a[2];};
 
-  static yes test(const To&, int);
+  template<typename T>
+  static yes test(T, int);
+
+  template<typename T>
   static no  test(any_conversion, ...);
 
 public:
-  static From ms_from;
+  static typename internal::remove_reference<From>::type* ms_from;
 #ifdef __INTEL_COMPILER
   #pragma warning push
   #pragma warning ( disable : 2259 )
 #endif
-  enum { value = sizeof(test(ms_from, 0))==sizeof(yes) };
+  enum { value = sizeof(test<To>(*ms_from, 0))==sizeof(yes) };
 #ifdef __INTEL_COMPILER
   #pragma warning pop
 #endif
@@ -182,9 +217,16 @@ public:
 template<typename From, typename To>
 struct is_convertible
 {
-  enum { value = is_convertible_impl<typename remove_all<From>::type,
-                                     typename remove_all<To  >::type>::value };
+  enum { value = is_convertible_impl<From,To>::value };
 };
+
+template<typename T>
+struct is_convertible<T,T&> { enum { value = false }; };
+
+template<typename T>
+struct is_convertible<const T,const T&> { enum { value = true }; };
+
+#endif
 
 /** \internal Allows to enable/disable an overload
   * according to a compile time condition.
@@ -194,7 +236,7 @@ template<bool Condition, typename T=void> struct enable_if;
 template<typename T> struct enable_if<true,T>
 { typedef T type; };
 
-#if defined(__CUDA_ARCH__)
+#if defined(EIGEN_GPU_COMPILE_PHASE)
 #if !defined(__FLT_EPSILON__)
 #define __FLT_EPSILON__ FLT_EPSILON
 #define __DBL_EPSILON__ DBL_EPSILON
@@ -216,13 +258,31 @@ template<> struct numeric_limits<float>
   EIGEN_DEVICE_FUNC
   static float epsilon() { return __FLT_EPSILON__; }
   EIGEN_DEVICE_FUNC
-  static float (max)() { return CUDART_MAX_NORMAL_F; }
+  static float (max)() {
+  #if defined(EIGEN_CUDA_ARCH)
+    return CUDART_MAX_NORMAL_F;
+  #else
+    return HIPRT_MAX_NORMAL_F;
+  #endif
+  }
   EIGEN_DEVICE_FUNC
   static float (min)() { return FLT_MIN; }
   EIGEN_DEVICE_FUNC
-  static float infinity() { return CUDART_INF_F; }
+  static float infinity() {
+  #if defined(EIGEN_CUDA_ARCH)
+    return CUDART_INF_F;
+  #else
+    return HIPRT_INF_F;
+  #endif
+  }
   EIGEN_DEVICE_FUNC
-  static float quiet_NaN() { return CUDART_NAN_F; }
+  static float quiet_NaN() {
+  #if defined(EIGEN_CUDA_ARCH)
+    return CUDART_NAN_F;
+  #else
+    return HIPRT_NAN_F;
+  #endif
+  }
 };
 template<> struct numeric_limits<double>
 {
@@ -233,9 +293,21 @@ template<> struct numeric_limits<double>
   EIGEN_DEVICE_FUNC
   static double (min)() { return DBL_MIN; }
   EIGEN_DEVICE_FUNC
-  static double infinity() { return CUDART_INF; }
+  static double infinity() {
+  #if defined(EIGEN_CUDA_ARCH)
+    return CUDART_INF;
+  #else
+    return HIPRT_INF;
+  #endif
+  }
   EIGEN_DEVICE_FUNC
-  static double quiet_NaN() { return CUDART_NAN; }
+  static double quiet_NaN() {
+  #if defined(EIGEN_CUDA_ARCH)
+    return CUDART_NAN;
+  #else
+    return HIPRT_NAN;
+  #endif
+  }
 };
 template<> struct numeric_limits<int>
 {
@@ -291,13 +363,22 @@ template<> struct numeric_limits<unsigned long long>
   EIGEN_DEVICE_FUNC
   static unsigned long long (min)() { return 0; }
 };
+template<> struct numeric_limits<bool>
+{
+  EIGEN_DEVICE_FUNC
+  static bool epsilon() { return false; }
+  EIGEN_DEVICE_FUNC
+  static bool (max)() { return true; }
+  EIGEN_DEVICE_FUNC
+  static bool (min)() { return false; }
+};
 
 }
 
 #endif
 
 /** \internal
-  * A base class do disable default copy ctor and copy assignement operator.
+  * A base class do disable default copy ctor and copy assignment operator.
   */
 class noncopyable
 {
@@ -307,6 +388,59 @@ protected:
   EIGEN_DEVICE_FUNC noncopyable() {}
   EIGEN_DEVICE_FUNC ~noncopyable() {}
 };
+
+/** \internal
+  * Provides access to the number of elements in the object of as a compile-time constant expression.
+  * It "returns" Eigen::Dynamic if the size cannot be resolved at compile-time (default).
+  *
+  * Similar to std::tuple_size, but more general.
+  *
+  * It currently supports:
+  *  - any types T defining T::SizeAtCompileTime
+  *  - plain C arrays as T[N]
+  *  - std::array (c++11)
+  *  - some internal types such as SingleRange and AllRange
+  *
+  * The second template parameter eases SFINAE-based specializations.
+  */
+template<typename T, typename EnableIf = void> struct array_size {
+  enum { value = Dynamic };
+};
+
+template<typename T> struct array_size<T,typename internal::enable_if<((T::SizeAtCompileTime&0)==0)>::type> {
+  enum { value = T::SizeAtCompileTime };
+};
+
+template<typename T, int N> struct array_size<const T (&)[N]> {
+  enum { value = N };
+};
+template<typename T, int N> struct array_size<T (&)[N]> {
+  enum { value = N };
+};
+
+#if EIGEN_HAS_CXX11
+template<typename T, std::size_t N> struct array_size<const std::array<T,N> > {
+  enum { value = N };
+};
+template<typename T, std::size_t N> struct array_size<std::array<T,N> > {
+  enum { value = N };
+};
+#endif
+
+/** \internal
+  * Analogue of the std::size free function.
+  * It returns the size of the container or view \a x of type \c T
+  *
+  * It currently supports:
+  *  - any types T defining a member T::size() const
+  *  - plain C arrays as T[N]
+  *
+  */
+template<typename T>
+Index size(const T& x) { return x.size(); }
+
+template<typename T,std::size_t N>
+Index size(const T (&) [N]) { return N; }
 
 /** \internal
   * Convenient struct to get the result type of a unary or binary functor.
@@ -405,10 +539,10 @@ struct meta_no  { char a[2]; };
 template <typename T>
 struct has_ReturnType
 {
-  template <typename C> static meta_yes testFunctor(typename C::ReturnType const *);
-  template <typename C> static meta_no testFunctor(...);
+  template <typename C> static meta_yes testFunctor(C const *, typename C::ReturnType const * = 0);
+  template <typename C> static meta_no  testFunctor(...);
 
-  enum { value = sizeof(testFunctor<T>(0)) == sizeof(meta_yes) };
+  enum { value = sizeof(testFunctor<T>(static_cast<T*>(0))) == sizeof(meta_yes) };
 };
 
 template<typename T> const T* return_ptr();
@@ -491,17 +625,27 @@ template<typename T, typename U> struct scalar_product_traits
 // typedef typename scalar_product_traits<typename remove_all<ArgType0>::type, typename remove_all<ArgType1>::type>::ReturnType type;
 // };
 
+/** \internal Obtains a POD type suitable to use as storage for an object of a size
+  * of at most Len bytes, aligned as specified by \c Align.
+  */
+template<unsigned Len, unsigned Align>
+struct aligned_storage {
+  struct type {
+    EIGEN_ALIGN_TO_BOUNDARY(Align) unsigned char data[Len];
+  };
+};
+
 } // end namespace internal
 
 namespace numext {
-  
-#if defined(__CUDA_ARCH__)
+
+#if defined(EIGEN_GPU_COMPILE_PHASE)
 template<typename T> EIGEN_DEVICE_FUNC   void swap(T &a, T &b) { T tmp = b; b = a; a = tmp; }
 #else
 template<typename T> EIGEN_STRONG_INLINE void swap(T &a, T &b) { std::swap(a,b); }
 #endif
 
-#if defined(__CUDA_ARCH__)
+#if defined(EIGEN_GPU_COMPILE_PHASE)
 using internal::device::numeric_limits;
 #else
 using std::numeric_limits;
@@ -510,6 +654,7 @@ using std::numeric_limits;
 // Integer division with rounding up.
 // T is assumed to be an integer type with a>=0, and b>0
 template<typename T>
+EIGEN_DEVICE_FUNC
 T div_ceil(const T &a, const T &b)
 {
   return (a+b-1) / b;
@@ -517,23 +662,27 @@ T div_ceil(const T &a, const T &b)
 
 // The aim of the following functions is to bypass -Wfloat-equal warnings
 // when we really want a strict equality comparison on floating points.
-template<typename X, typename Y> EIGEN_STRONG_INLINE
+template<typename X, typename Y> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 bool equal_strict(const X& x,const Y& y) { return x == y; }
 
-template<> EIGEN_STRONG_INLINE
+#if !defined(EIGEN_GPU_COMPILE_PHASE) || (!defined(EIGEN_CUDA_ARCH) && defined(EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
+template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 bool equal_strict(const float& x,const float& y) { return std::equal_to<float>()(x,y); }
 
-template<> EIGEN_STRONG_INLINE
+template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 bool equal_strict(const double& x,const double& y) { return std::equal_to<double>()(x,y); }
+#endif
 
-template<typename X, typename Y> EIGEN_STRONG_INLINE
+template<typename X, typename Y> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 bool not_equal_strict(const X& x,const Y& y) { return x != y; }
 
-template<> EIGEN_STRONG_INLINE
+#if !defined(EIGEN_GPU_COMPILE_PHASE) || (!defined(EIGEN_CUDA_ARCH) && defined(EIGEN_CONSTEXPR_ARE_DEVICE_FUNC))
+template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 bool not_equal_strict(const float& x,const float& y) { return std::not_equal_to<float>()(x,y); }
 
-template<> EIGEN_STRONG_INLINE
+template<> EIGEN_STRONG_INLINE EIGEN_DEVICE_FUNC
 bool not_equal_strict(const double& x,const double& y) { return std::not_equal_to<double>()(x,y); }
+#endif
 
 } // end namespace numext
 
@@ -544,6 +693,10 @@ bool not_equal_strict(const double& x,const double& y) { return std::not_equal_t
 #include <cstdint>
 namespace Eigen {
 namespace numext {
+typedef std::uint8_t  uint8_t;
+typedef std::int8_t   int8_t;
+typedef std::uint16_t uint16_t;
+typedef std::int16_t  int16_t;
 typedef std::uint32_t uint32_t;
 typedef std::int32_t  int32_t;
 typedef std::uint64_t uint64_t;
@@ -556,6 +709,10 @@ typedef std::int64_t  int64_t;
 #include <stdint.h>
 namespace Eigen {
 namespace numext {
+typedef ::uint8_t  uint8_t;
+typedef ::int8_t   int8_t;
+typedef ::uint16_t uint16_t;
+typedef ::int16_t  int16_t;
 typedef ::uint32_t uint32_t;
 typedef ::int32_t  int32_t;
 typedef ::uint64_t uint64_t;
@@ -563,6 +720,5 @@ typedef ::int64_t  int64_t;
 }
 }
 #endif
-
 
 #endif // EIGEN_META_H

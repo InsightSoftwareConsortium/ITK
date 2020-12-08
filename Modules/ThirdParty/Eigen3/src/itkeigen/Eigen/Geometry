@@ -49,9 +49,8 @@
 #include "src/Geometry/AlignedBox.h"
 #include "src/Geometry/Umeyama.h"
 
-// Use the SSE optimized version whenever possible. At the moment the
-// SSE version doesn't compile when AVX is enabled
-#if defined EIGEN_VECTORIZE_SSE && !defined EIGEN_VECTORIZE_AVX
+// Use the SSE optimized version whenever possible.
+#if defined EIGEN_VECTORIZE_SSE
 #include "src/Geometry/arch/Geometry_SSE.h"
 #endif
 
@@ -59,4 +58,3 @@
 
 #endif // EIGEN_GEOMETRY_MODULE_H
 /* vim: set filetype=cpp et sw=2 ts=2 ai: */
-

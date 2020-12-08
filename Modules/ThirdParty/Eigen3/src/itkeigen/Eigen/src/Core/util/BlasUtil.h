@@ -24,7 +24,7 @@ struct gebp_kernel;
 template<typename Scalar, typename Index, typename DataMapper, int nr, int StorageOrder, bool Conjugate = false, bool PanelMode=false>
 struct gemm_pack_rhs;
 
-template<typename Scalar, typename Index, typename DataMapper, int Pack1, int Pack2, int StorageOrder, bool Conjugate = false, bool PanelMode = false>
+template<typename Scalar, typename Index, typename DataMapper, int Pack1, int Pack2, typename Packet, int StorageOrder, bool Conjugate = false, bool PanelMode = false>
 struct gemm_pack_lhs;
 
 template<
@@ -159,11 +159,9 @@ template<typename Scalar, typename Index, int AlignmentType, int Incr=1>
 class BlasLinearMapper;
 
 template<typename Scalar, typename Index, int AlignmentType>
-class BlasLinearMapper<Scalar,Index,AlignmentType,1> {
-  public:
-  typedef typename packet_traits<Scalar>::type Packet;
-  typedef typename packet_traits<Scalar>::half HalfPacket;
-
+class BlasLinearMapper<Scalar,Index,AlignmentType>
+{
+public:
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar *data, Index incr=1)
     : m_data(data)
   {
@@ -179,19 +177,17 @@ class BlasLinearMapper<Scalar,Index,AlignmentType,1> {
     return m_data[i];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet loadPacket(Index i) const {
-    return ploadt<Packet, AlignmentType>(m_data + i);
+  template<typename PacketType>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
+    return ploadt<PacketType, AlignmentType>(m_data + i);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE HalfPacket loadHalfPacket(Index i) const {
-    return ploadt<HalfPacket, AlignmentType>(m_data + i);
+  template<typename PacketType>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacket(Index i, const PacketType &p) const {
+    pstoret<Scalar, PacketType, AlignmentType>(m_data + i, p);
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacket(Index i, const Packet &p) const {
-    pstoret<Scalar, Packet, AlignmentType>(m_data + i, p);
-  }
-
-  protected:
+protected:
   Scalar *m_data;
 };
 
@@ -199,13 +195,59 @@ class BlasLinearMapper<Scalar,Index,AlignmentType,1> {
 template<typename Scalar, typename Index, int StorageOrder, int AlignmentType = Unaligned, int Incr = 1>
 class blas_data_mapper;
 
+// TMP to help PacketBlock store implementation.
+// There's currently no known use case for PacketBlock load.
+// The default implementation assumes ColMajor order.
+// It always store each packet sequentially one `stride` apart.
+template<typename Index, typename Scalar, typename Packet, int n, int idx, int StorageOrder>
+struct PacketBlockManagement
+{
+  PacketBlockManagement<Index, Scalar, Packet, n, idx - 1, StorageOrder> pbm;
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+    pbm.store(to, stride, i, j, block);
+    pstoreu<Scalar>(to + i + (j + idx)*stride, block.packet[idx]);
+  }
+};
+
+// PacketBlockManagement specialization to take care of RowMajor order without ifs.
+template<typename Index, typename Scalar, typename Packet, int n, int idx>
+struct PacketBlockManagement<Index, Scalar, Packet, n, idx, RowMajor>
+{
+  PacketBlockManagement<Index, Scalar, Packet, n, idx - 1, RowMajor> pbm;
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+    pbm.store(to, stride, i, j, block);
+    pstoreu<Scalar>(to + j + (i + idx)*stride, block.packet[idx]);
+  }
+};
+
+template<typename Index, typename Scalar, typename Packet, int n, int StorageOrder>
+struct PacketBlockManagement<Index, Scalar, Packet, n, -1, StorageOrder>
+{
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+    EIGEN_UNUSED_VARIABLE(to);
+    EIGEN_UNUSED_VARIABLE(stride);
+    EIGEN_UNUSED_VARIABLE(i);
+    EIGEN_UNUSED_VARIABLE(j);
+    EIGEN_UNUSED_VARIABLE(block);
+  }
+};
+
+template<typename Index, typename Scalar, typename Packet, int n>
+struct PacketBlockManagement<Index, Scalar, Packet, n, -1, RowMajor>
+{
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(Scalar *to, const Index stride, Index i, Index j, const PacketBlock<Packet, n> &block) const {
+    EIGEN_UNUSED_VARIABLE(to);
+    EIGEN_UNUSED_VARIABLE(stride);
+    EIGEN_UNUSED_VARIABLE(i);
+    EIGEN_UNUSED_VARIABLE(j);
+    EIGEN_UNUSED_VARIABLE(block);
+  }
+};
+
 template<typename Scalar, typename Index, int StorageOrder, int AlignmentType>
 class blas_data_mapper<Scalar,Index,StorageOrder,AlignmentType,1>
 {
 public:
-  typedef typename packet_traits<Scalar>::type Packet;
-  typedef typename packet_traits<Scalar>::half HalfPacket;
-
   typedef BlasLinearMapper<Scalar, Index, AlignmentType> LinearMapper;
   typedef BlasVectorMapper<Scalar, Index> VectorMapper;
 
@@ -235,12 +277,14 @@ public:
     return m_data[StorageOrder==RowMajor ? j + i*m_stride : i + j*m_stride];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet loadPacket(Index i, Index j) const {
-    return ploadt<Packet, AlignmentType>(&operator()(i, j));
+  template<typename PacketType>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i, Index j) const {
+    return ploadt<PacketType, AlignmentType>(&operator()(i, j));
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE HalfPacket loadHalfPacket(Index i, Index j) const {
-    return ploadt<HalfPacket, AlignmentType>(&operator()(i, j));
+  template <typename PacketT, int AlignmentT>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketT load(Index i, Index j) const {
+    return ploadt<PacketT, AlignmentT>(&operator()(i, j));
   }
 
   template<typename SubPacket>
@@ -263,7 +307,12 @@ public:
     return internal::first_default_aligned(m_data, size);
   }
 
-  protected:
+  template<typename SubPacket, int n>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacketBlock(Index i, Index j, const PacketBlock<SubPacket, n> &block) const {
+    PacketBlockManagement<Index, Scalar, SubPacket, n, n-1, StorageOrder> pbm;
+    pbm.store(m_data, m_stride, i, j, block);
+  }
+protected:
   Scalar* EIGEN_RESTRICT m_data;
   const Index m_stride;
 };
@@ -275,9 +324,6 @@ template<typename Scalar, typename Index, int AlignmentType, int Incr>
 class BlasLinearMapper
 {
 public:
-  typedef typename packet_traits<Scalar>::type Packet;
-  typedef typename packet_traits<Scalar>::half HalfPacket;
-
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE BlasLinearMapper(Scalar *data,Index incr) : m_data(data), m_incr(incr) {}
 
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void prefetch(int i) const {
@@ -288,8 +334,9 @@ public:
     return m_data[i*m_incr.value()];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet loadPacket(Index i) const {
-    return pgather<Scalar,Packet>(m_data + i*m_incr.value(), m_incr.value());
+  template<typename PacketType>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i) const {
+    return pgather<Scalar,PacketType>(m_data + i*m_incr.value(), m_incr.value());
   }
 
   template<typename PacketType>
@@ -306,9 +353,6 @@ template<typename Scalar, typename Index, int StorageOrder, int AlignmentType,in
 class blas_data_mapper
 {
 public:
-  typedef typename packet_traits<Scalar>::type Packet;
-  typedef typename packet_traits<Scalar>::half HalfPacket;
-
   typedef BlasLinearMapper<Scalar, Index, AlignmentType,Incr> LinearMapper;
 
   EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE blas_data_mapper(Scalar* data, Index stride, Index incr) : m_data(data), m_stride(stride), m_incr(incr) {}
@@ -327,8 +371,9 @@ public:
     return m_data[StorageOrder==RowMajor ? j*m_incr.value() + i*m_stride : i*m_incr.value() + j*m_stride];
   }
 
-  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE Packet loadPacket(Index i, Index j) const {
-    return pgather<Scalar,Packet>(&operator()(i, j),m_incr.value());
+  template<typename PacketType>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE PacketType loadPacket(Index i, Index j) const {
+    return pgather<Scalar,PacketType>(&operator()(i, j),m_incr.value());
   }
 
   template <typename PacketT, int AlignmentT>
@@ -346,6 +391,77 @@ public:
     return pgather<Scalar, SubPacket>(&operator()(i, j), m_stride);
   }
 
+  // storePacketBlock_helper defines a way to access values inside the PacketBlock, this is essentially required by the Complex types.
+  template<typename SubPacket, typename ScalarT, int n, int idx>
+  struct storePacketBlock_helper
+  {
+    storePacketBlock_helper<SubPacket, ScalarT, n, idx-1> spbh;
+    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
+      spbh.store(sup, i,j,block);
+      for(int l = 0; l < unpacket_traits<SubPacket>::size; l++)
+      {
+        ScalarT *v = &sup->operator()(i+l, j+idx);
+        *v = block.packet[idx][l];
+      }
+    }
+  };
+
+  template<typename SubPacket, int n, int idx>
+  struct storePacketBlock_helper<SubPacket, std::complex<float>, n, idx>
+  {
+    storePacketBlock_helper<SubPacket, std::complex<float>, n, idx-1> spbh;
+    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
+      spbh.store(sup,i,j,block);
+      for(int l = 0; l < unpacket_traits<SubPacket>::size; l++)
+      {
+        std::complex<float> *v = &sup->operator()(i+l, j+idx);
+        v->real(block.packet[idx].v[2*l+0]);
+        v->imag(block.packet[idx].v[2*l+1]);
+      }
+    }
+  };
+
+  template<typename SubPacket, int n, int idx>
+  struct storePacketBlock_helper<SubPacket, std::complex<double>, n, idx>
+  {
+    storePacketBlock_helper<SubPacket, std::complex<double>, n, idx-1> spbh;
+    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>* sup, Index i, Index j, const PacketBlock<SubPacket, n>& block) const {
+      spbh.store(sup,i,j,block);
+      for(int l = 0; l < unpacket_traits<SubPacket>::size; l++)
+      {
+        std::complex<double> *v = &sup->operator()(i+l, j+idx);
+        v->real(block.packet[idx].v[2*l+0]);
+        v->imag(block.packet[idx].v[2*l+1]);
+      }
+    }
+  };
+
+  template<typename SubPacket, typename ScalarT, int n>
+  struct storePacketBlock_helper<SubPacket, ScalarT, n, -1>
+  {
+    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
+    }
+  };
+
+  template<typename SubPacket, int n>
+  struct storePacketBlock_helper<SubPacket, std::complex<float>, n, -1>
+  {
+    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
+    }
+  };
+
+  template<typename SubPacket, int n>
+  struct storePacketBlock_helper<SubPacket, std::complex<double>, n, -1>
+  {
+    EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void store(const blas_data_mapper<Scalar, Index, StorageOrder, AlignmentType, Incr>*, Index, Index, const PacketBlock<SubPacket, n>& ) const {
+    }
+  };
+  // This function stores a PacketBlock on m_data, this approach is really quite slow compare to Incr=1 and should be avoided when possible.
+  template<typename SubPacket, int n>
+  EIGEN_DEVICE_FUNC EIGEN_ALWAYS_INLINE void storePacketBlock(Index i, Index j, const PacketBlock<SubPacket, n>&block) const {
+    storePacketBlock_helper<SubPacket, Scalar, n, n-1> spb;
+    spb.store(this, i,j,block);
+  }
 protected:
   Scalar* EIGEN_RESTRICT m_data;
   const Index m_stride;
@@ -379,14 +495,15 @@ template<typename XprType> struct blas_traits
     HasUsableDirectAccess = (    (int(XprType::Flags)&DirectAccessBit)
                               && (   bool(XprType::IsVectorAtCompileTime)
                                   || int(inner_stride_at_compile_time<XprType>::ret) == 1)
-                             ) ?  1 : 0
+                             ) ?  1 : 0,
+    HasScalarFactor = false
   };
   typedef typename conditional<bool(HasUsableDirectAccess),
     ExtractType,
     typename _ExtractType::PlainObject
     >::type DirectLinearAccessType;
-  static inline ExtractType extract(const XprType& x) { return x; }
-  static inline const Scalar extractScalarFactor(const XprType&) { return Scalar(1); }
+  static inline EIGEN_DEVICE_FUNC ExtractType extract(const XprType& x) { return x; }
+  static inline EIGEN_DEVICE_FUNC const Scalar extractScalarFactor(const XprType&) { return Scalar(1); }
 };
 
 // pop conjugate
@@ -411,17 +528,23 @@ template<typename Scalar, typename NestedXpr, typename Plain>
 struct blas_traits<CwiseBinaryOp<scalar_product_op<Scalar>, const CwiseNullaryOp<scalar_constant_op<Scalar>,Plain>, NestedXpr> >
  : blas_traits<NestedXpr>
 {
+  enum {
+    HasScalarFactor = true
+  };
   typedef blas_traits<NestedXpr> Base;
   typedef CwiseBinaryOp<scalar_product_op<Scalar>, const CwiseNullaryOp<scalar_constant_op<Scalar>,Plain>, NestedXpr> XprType;
   typedef typename Base::ExtractType ExtractType;
-  static inline ExtractType extract(const XprType& x) { return Base::extract(x.rhs()); }
-  static inline Scalar extractScalarFactor(const XprType& x)
+  static inline EIGEN_DEVICE_FUNC ExtractType extract(const XprType& x) { return Base::extract(x.rhs()); }
+  static inline EIGEN_DEVICE_FUNC Scalar extractScalarFactor(const XprType& x)
   { return x.lhs().functor().m_other * Base::extractScalarFactor(x.rhs()); }
 };
 template<typename Scalar, typename NestedXpr, typename Plain>
 struct blas_traits<CwiseBinaryOp<scalar_product_op<Scalar>, NestedXpr, const CwiseNullaryOp<scalar_constant_op<Scalar>,Plain> > >
  : blas_traits<NestedXpr>
 {
+  enum {
+    HasScalarFactor = true
+  };
   typedef blas_traits<NestedXpr> Base;
   typedef CwiseBinaryOp<scalar_product_op<Scalar>, NestedXpr, const CwiseNullaryOp<scalar_constant_op<Scalar>,Plain> > XprType;
   typedef typename Base::ExtractType ExtractType;
@@ -440,6 +563,9 @@ template<typename Scalar, typename NestedXpr>
 struct blas_traits<CwiseUnaryOp<scalar_opposite_op<Scalar>, NestedXpr> >
  : blas_traits<NestedXpr>
 {
+  enum {
+    HasScalarFactor = true
+  };
   typedef blas_traits<NestedXpr> Base;
   typedef CwiseUnaryOp<scalar_opposite_op<Scalar>, NestedXpr> XprType;
   typedef typename Base::ExtractType ExtractType;
