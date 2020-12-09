@@ -46,5 +46,5 @@ itk_fetch_module(Montage
 "Reconstruction of 3D volumetric dataset from a collection of 2D slices"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMontage.git
-  GIT_TAG 2b98d2b720c682b5e64e2e421a00cd597ab906fb
+  GIT_TAG f88e14160bd7c45c21c2b03aa3dce0901cfeef28
   )

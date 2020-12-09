@@ -47,5 +47,5 @@ itk_fetch_module(SmoothingRecursiveYvvGaussianFilter
   MODULE_COMPLIANCE_LEVEL 2
   #UPSTREAM_REPO GIT_REPOSITORY ${git_protocol}://github.com/Inria-Asclepios/SmoothingRecursiveYvvGaussianFilter
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKSmoothingRecursiveYvvGaussianFilter.git
-  GIT_TAG 93fcef7831eae91bde1ce9f3173c19f369993cc8
+  GIT_TAG ba3407a2207aac98d740ecc6eeebc005e7ab8307
   )
