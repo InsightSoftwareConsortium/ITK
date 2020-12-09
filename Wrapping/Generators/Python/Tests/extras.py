@@ -344,6 +344,8 @@ assert m_itk(0, 0) == 1
 numpyImage = np.random.randint(0, 256, (8, 12, 5)).astype(np.uint8)
 image = itk.image_from_array(numpyImage, is_vector=False)
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=(type(image),)))
+assert type(image) == type(itk.image_from_array(numpyImage, ttype=[type(image)]))
+assert type(image) == type(itk.image_from_array(numpyImage, ttype=type(image)))
 cast = image.astype(np.uint8)
 assert cast == image
 (input_image_template, (input_pixel_type, input_image_dimension)) = itk.template(image)
@@ -369,6 +371,8 @@ for t in [
 numpyImage = np.random.randint(0, 256, (8, 5, 3)).astype(np.float32)
 image = itk.image_from_array(numpyImage, is_vector=True)
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=(type(image),)))
+assert type(image) == type(itk.image_from_array(numpyImage, ttype=[type(image)]))
+assert type(image) == type(itk.image_from_array(numpyImage, ttype=type(image)))
 vectorimage = itk.cast_image_filter(
     Input=image, ttype=(type(image), itk.VectorImage[itk.F, 2])
 )
