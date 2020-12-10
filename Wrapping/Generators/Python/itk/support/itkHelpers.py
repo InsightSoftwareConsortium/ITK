@@ -99,6 +99,24 @@ def is_arraylike(arr):
         and hasattr(arr, "ndim")
     )
 
+def move_first_dimension_to_last(arr):
+    import numpy as np
+    dest = list(range(arr.ndim))
+    source = dest.copy()
+    end = source.pop()
+    source.insert(0, end)
+    arr_contiguous_channels = np.moveaxis(arr, source, dest).copy()
+    return arr_contiguous_channels
+
+
+def move_last_dimension_to_first(arr):
+    import numpy as np
+    dest = list(range(arr.ndim))
+    source = dest.copy()
+    end = source.pop()
+    source.insert(0, end)
+    arr_interleaved_channels = np.moveaxis(arr, dest, source).copy()
+    return arr_interleaved_channels
 
 def accept_numpy_array_like_xarray(image_filter):
     """Decorator that allows itk.ProcessObject snake_case functions to accept
@@ -122,7 +140,11 @@ def accept_numpy_array_like_xarray(image_filter):
                 args_list[index] = image
             elif _HAVE_TORCH and isinstance(arg, torch.Tensor):
                 have_torch_input = True
-                image = itk.image_view_from_array(np.asarray(arg))
+                channels = arg.shape[0] # assume first dimension is channels
+                arr = np.asarray(arg)
+                if channels > 1: # change from contiguous to interleaved channel order
+                    arr = move_last_dimension_to_first(arr)
+                image = itk.image_view_from_array(arr, is_vector=channels>1)
                 args_list[index] = image
             elif not isinstance(arg, itk.Object) and is_arraylike(arg):
                 have_array_input = True
@@ -139,7 +161,11 @@ def accept_numpy_array_like_xarray(image_filter):
                     kwargs[key] = image
                 elif _HAVE_TORCH and isinstance(value, torch.Tensor):
                     have_torch_input = True
-                    image = itk.image_view_from_array(np.asarray(value))
+                    channels = value.shape[0] # assume first dimension is channels
+                    arr = np.asarray(value)
+                    if channels > 1: # change from contiguous to interleaved channel order
+                        arr = move_last_dimension_to_first(arr)
+                    image = itk.image_view_from_array(arr, is_vector=channels>1)
                     kwargs[key] = image
                 elif not isinstance(value, itk.Object) and is_arraylike(value):
                     have_array_input = True
@@ -158,7 +184,10 @@ def accept_numpy_array_like_xarray(image_filter):
                             data_array = itk.xarray_from_image(value)
                             output_list[index] = data_array
                         elif have_torch_input:
+                            channels = value.GetNumberOfComponentsPerPixel()
                             data_array = itk.array_view_from_image(value)
+                            if channels > 1: # change from interleaved to contiguous channel order
+                                data_array = move_first_dimension_to_last(data_array)
                             torch_tensor = torch.from_numpy(data_array)
                             output_list[index] = torch_tensor
                         else:
@@ -170,7 +199,10 @@ def accept_numpy_array_like_xarray(image_filter):
                     if have_xarray_input:
                         output = itk.xarray_from_image(output)
                     elif have_torch_input:
+                        channels = output.GetNumberOfComponentsPerPixel()
                         output = itk.array_view_from_image(output)
+                        if channels > 1: # change from interleaved to contiguous channel order
+                            output = move_first_dimension_to_last(output)
                         output = torch.from_numpy(output)
                     else:
                         output = itk.array_view_from_image(output)
