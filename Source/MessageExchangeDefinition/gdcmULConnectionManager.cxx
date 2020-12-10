@@ -1175,10 +1175,9 @@ EStateID ULConnectionManager::RunEventLoop(ULEvent& currentEvent, ULConnection* 
               receivingData = true; //to continue the loop to process the release
               break;
             case eAABORTPDUReceivedOpen:
-              {
               raisedEvent = eEventDoesNotExist;
               theState = eStaDoesNotExist;
-              } // explicitly declare fall-through for some picky compiler
+              /* fall through */
             case eAABORTRequest:
               waitingForEvent = false;
               inWhichConnection->StopProtocol();
