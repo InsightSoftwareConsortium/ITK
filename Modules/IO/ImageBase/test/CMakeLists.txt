@@ -355,3 +355,11 @@ itk_add_test(NAME itkVectorImageReadWriteTest2
 add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
 itk_module_target_label(itkUnicodeIOTest)
 itk_add_test(NAME itkUnicodeIOTest COMMAND itkUnicodeIOTest)
+
+
+set(ITKIOImageBaseGTests
+        itkWriteImageFunctionGTest.cxx
+        )
+CreateGoogleTestDriver(ITKIOImageBase  "${ITKIOImageBase-Test_LIBRARIES}" "${ITKIOImageBaseGTests}")
+
+target_compile_definitions(ITKIOImageBaseGTestDriver PRIVATE "-DITK_TEST_OUTPUT_DIR=${ITK_TEST_OUTPUT_DIR}")

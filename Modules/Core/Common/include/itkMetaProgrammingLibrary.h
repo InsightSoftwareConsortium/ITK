@@ -210,6 +210,23 @@ struct Not : NotC<TF::Value>
   using Type = typename NotC<TF::Value>::Type;
 };
 
+/** MPL type trait to check if type is a SmartPointer.
+ */
+template <typename T>
+struct IsSmartPointer : FalseType
+{};
+
+
+/// \cond SPECIALIZATION_IMPLEMENTATION
+template <typename T>
+struct IsSmartPointer<SmartPointer<T>> : TrueType
+{};
+
+template <typename T>
+struct IsSmartPointer<const SmartPointer<T>> : TrueType
+{};
+/// \endcond
+
 /** MPL relational type trait to check if a static_cast conversion
  * exists.
  *

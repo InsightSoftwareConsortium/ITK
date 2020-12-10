@@ -1,1 +1,2 @@
 itkConvertPixelBuffer\.hxx Namespace Disable
+test/itkWriteImageFunctionGTest.cxx Namespace Disable
