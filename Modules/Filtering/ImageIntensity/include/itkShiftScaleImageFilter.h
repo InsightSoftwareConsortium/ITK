@@ -20,6 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkArray.h"
+#include <mutex>
 
 namespace itk
 {
@@ -90,8 +91,8 @@ public:
   itkGetConstMacro(Scale, RealType);
 
   /** Get the number of pixels that underflowed and overflowed. */
-  itkGetConstMacro(UnderflowCount, long);
-  itkGetConstMacro(OverflowCount, long);
+  itkGetConstMacro(UnderflowCount, SizeValueType);
+  itkGetConstMacro(OverflowCount, SizeValueType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -102,8 +103,9 @@ public:
 #endif
 
 protected:
-  ShiftScaleImageFilter();
+  ShiftScaleImageFilter() = default;
   ~ShiftScaleImageFilter() override = default;
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -111,32 +113,17 @@ protected:
   void
   BeforeThreadedGenerateData() override;
 
-  /** Tally accumulated in threads. */
   void
-  AfterThreadedGenerateData() override;
-
-  /** Multi-thread version GenerateData. */
-  void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
-
-  void
-  DynamicThreadedGenerateData(const OutputImageRegionType &) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  DynamicThreadedGenerateData(const OutputImageRegionType &) override;
 
 private:
-  RealType m_Shift;
-  RealType m_Scale;
+  RealType m_Shift{ NumericTraits<RealType>::ZeroValue() };
+  RealType m_Scale{ NumericTraits<RealType>::OneValue() };
 
-  long m_UnderflowCount;
-  long m_OverflowCount;
+  SizeValueType m_UnderflowCount{ 0 };
+  SizeValueType m_OverflowCount{ 0 };
 
-  Array<long> m_ThreadUnderflow;
-  Array<long> m_ThreadOverflow;
-
-  const TInputImage * m_InputImage;
-  TOutputImage *      m_OutputImage;
+  std::mutex m_Mutex;
 };
 } // end namespace itk
 
