@@ -349,11 +349,18 @@ macro(itk_end_wrap_module_swig_interface)
 
   list(LENGTH i_files number_interface_files)
   if(number_interface_files GREATER 0)
-    # NOTE:  snake_case_config_file is both an input and an output to this command.
-    #        the ${IGENERATOR} script appends to this file.
-    # NOTE: The Configuration files should be placed in the itk package directory.
-    set(snake_case_config_file
-        "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+      if(${module_prefix}_WRAP_PYTHON)
+        # NOTE:  snake_case_config_file is both an input and an output to this command.
+        #        the ${IGENERATOR} script appends to this file.
+        # NOTE: The Configuration files should be placed in the itk package directory.
+        set(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR
+          "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration"
+        )
+        set(snake_case_config_file
+            "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+      else()
+        unset(snake_case_config_file)
+      endif()
     add_custom_command(
       OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file}
       COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
@@ -368,6 +375,7 @@ macro(itk_end_wrap_module_swig_interface)
         --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
         --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
         DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
+        WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
       VERBATIM
     )
   endif()

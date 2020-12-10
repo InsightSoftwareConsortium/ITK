@@ -1240,13 +1240,14 @@ if __name__ == "__main__":
         generate_swig_input(moduleName)
 
     snake_case_file = options.snake_case_file
-    with open(snake_case_file, "w") as ff:
-        ff.write("snake_case_functions = (")
-        # Ensure that the functions are sorted alphabetically to ensure consistency
-        # in the generated file structure.
-        sorted_snake_case_process_object_functions = sorted(
-            snake_case_process_object_functions
-        )
-        for function in sorted_snake_case_process_object_functions:
-            ff.write("'" + function + "', ")
-        ff.write(")\n")
+    if len(snake_case_file) > 1:
+        with open(snake_case_file, "w") as ff:
+            ff.write("snake_case_functions = (")
+            # Ensure that the functions are sorted alphabetically to ensure consistency
+            # in the generated file structure.
+            sorted_snake_case_process_object_functions = sorted(
+                snake_case_process_object_functions
+            )
+            for function in sorted_snake_case_process_object_functions:
+                ff.write("'" + function + "', ")
+            ff.write(")\n")
