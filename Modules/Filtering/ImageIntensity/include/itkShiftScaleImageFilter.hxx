@@ -19,94 +19,76 @@
 #define itkShiftScaleImageFilter_hxx
 #include "itkShiftScaleImageFilter.h"
 
-#include "itkImageRegionIterator.h"
+#include "itkImageScanlineIterator.h"
 #include "itkNumericTraits.h"
-#include "itkProgressReporter.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
-template <typename TInputImage, typename TOutputImage>
-ShiftScaleImageFilter<TInputImage, TOutputImage>::ShiftScaleImageFilter()
-{
-  m_Shift = NumericTraits<RealType>::ZeroValue();
-  m_Scale = NumericTraits<RealType>::OneValue();
-  m_UnderflowCount = 0;
-  m_OverflowCount = 0;
-  m_ThreadUnderflow.SetSize(1);
-  m_ThreadOverflow.SetSize(1);
-  m_InputImage = nullptr;
-  m_OutputImage = nullptr;
-  this->DynamicMultiThreadingOff();
-}
 
 template <typename TInputImage, typename TOutputImage>
 void
 ShiftScaleImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
-  //  Allocate and initialize the thread temporaries
-  m_ThreadUnderflow.SetSize(numberOfThreads);
-  m_ThreadUnderflow.Fill(0);
-  m_ThreadOverflow.SetSize(numberOfThreads);
-  m_ThreadOverflow.Fill(0);
-  m_InputImage = this->GetInput();
-  m_OutputImage = this->GetOutput();
-}
-
-template <typename TInputImage, typename TOutputImage>
-void
-ShiftScaleImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
-{
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
+  //  reset output variables
   m_UnderflowCount = 0;
   m_OverflowCount = 0;
-
-  // Accumulate counts for each thread
-  for (ThreadIdType i = 0; i < numberOfThreads; i++)
-  {
-    m_UnderflowCount += m_ThreadUnderflow[i];
-    m_OverflowCount += m_ThreadOverflow[i];
-  }
 }
+
 
 template <typename TInputImage, typename TOutputImage>
 void
-ShiftScaleImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
-  const OutputImageRegionType & outputRegionForThread,
-  ThreadIdType                  threadId)
+ShiftScaleImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
+  const OutputImageRegionType & outputRegion)
 {
 
-  ImageRegionConstIterator<TInputImage> it(this->m_InputImage, outputRegionForThread);
-  ImageRegionIterator<TOutputImage>     ot(this->m_OutputImage, outputRegionForThread);
+  const TInputImage * inputPtr = this->GetInput();
+  TOutputImage *      outputPtr = this->GetOutput();
+
+  SizeValueType underflow = 0;
+  SizeValueType overflow = 0;
+
+  ImageScanlineIterator<TOutputImage>     ot(outputPtr, outputRegion);
+  ImageScanlineConstIterator<TInputImage> it(inputPtr, outputRegion);
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
-  // shift and scale the input pixels
+  TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
+
+  it.GoToBegin();
+  ot.GoToBegin();
+  // do the work
   while (!it.IsAtEnd())
   {
-    const RealType value = (static_cast<RealType>(it.Get()) + m_Shift) * m_Scale;
-    if (value < NumericTraits<OutputImagePixelType>::NonpositiveMin())
+    while (!it.IsAtEndOfLine())
     {
-      ot.Set(NumericTraits<OutputImagePixelType>::NonpositiveMin());
-      m_ThreadUnderflow[threadId]++;
+      // shift and scale the input pixels
+      const RealType value = (static_cast<RealType>(it.Get()) + m_Shift) * m_Scale;
+      if (value < NumericTraits<OutputImagePixelType>::NonpositiveMin())
+      {
+        ot.Set(NumericTraits<OutputImagePixelType>::NonpositiveMin());
+        ++underflow;
+      }
+      else if (value > static_cast<RealType>(NumericTraits<OutputImagePixelType>::max()))
+      {
+        ot.Set(NumericTraits<OutputImagePixelType>::max());
+        ++overflow;
+      }
+      else
+      {
+        ot.Set(static_cast<OutputImagePixelType>(value));
+      }
+      ++it;
+      ++ot;
     }
-    else if (value > static_cast<RealType>(NumericTraits<OutputImagePixelType>::max()))
-    {
-      ot.Set(NumericTraits<OutputImagePixelType>::max());
-      m_ThreadOverflow[threadId]++;
-    }
-    else
-    {
-      ot.Set(static_cast<OutputImagePixelType>(value));
-    }
-    ++it;
-    ++ot;
-
-    progress.CompletedPixel();
+    it.NextLine();
+    ot.NextLine();
+    progress.Completed(outputRegion.GetSize()[0]);
   }
+
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
+  m_OverflowCount += overflow;
+  m_UnderflowCount += underflow;
 }
 
 template <typename TInputImage, typename TOutputImage>
