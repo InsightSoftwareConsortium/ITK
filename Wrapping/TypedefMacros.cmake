@@ -29,9 +29,6 @@ endmacro()
 # TODO: is this the place place for this?
 set(WRAPPER_LIBRARY_INCLUDE_DIRECTORIES "" CACHE INTERNAL "additional include directories for each module")
 
-# WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx files will be placed.
-set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_DIR}/Wrapping" CACHE INTERNAL "Need to specify the output library directory globally")
-
 ###############################################################################
 # Define fundamental wrapping macro which sets up the global variables used
 # across all of the wrapping macros included at the end of this file.

@@ -191,51 +191,22 @@ function(itk_python_add_test)
   # itk_wrap_python_binary_dir *MUST* contain the WrapITK.pth file
   # Final installed version of ITK will leverage the WrapITK.pth paths, so
   # the test environment should also use those same paths.
-  if (NOT DEFINED CMAKE_CONFIGURATION_TYPES) # single mode generator (ninja, makefile)
-    set(WrapITK_PTH_FILE "${itk_wrap_python_binary_dir}/WrapITK.pth")
-    if(NOT EXISTS ${WrapITK_PTH_FILE})
-      message(FATAL_ERROR "${WrapITK_PTH_FILE} must exist.")
-    endif()
-  else() # multi-mode generator (Visual Studio, XCode)
-    foreach(config ${CMAKE_CONFIGURATION_TYPES})
-      set(WrapITK_PTH_FILE "${itk_wrap_python_binary_dir}/${config}/WrapITK.pth")
-      if(NOT EXISTS ${WrapITK_PTH_FILE})
-        message(FATAL_ERROR "${WrapITK_PTH_FILE} must exist.")
-      endif()
-      unset(WrapITK_PTH_FILE)
-    endforeach()
+  set(WrapITK_PTH_FILE "${itk_wrap_python_binary_dir}/WrapITK.pth")
+  if(NOT EXISTS ${WrapITK_PTH_FILE})
+    message(FATAL_ERROR "${WrapITK_PTH_FILE} must exist.")
   endif()
   unset(WrapITK_PTH_FILE)
 
-  if(CMAKE_CONFIGURATION_TYPES)
-    itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
-      COMMAND itkTestDriver
-      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>"          # parent directory of the itk package
-      # NOT NEEDED --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>/itk"      # directory of the itk package ( contains __init__.py)
-      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIG>/itk/conf" # directory of the itkConfig module
-      --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIG>"      # directory of shared  libraries + swig artifacts
-      --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIG>"             # itk non-wrapping shared libs
-      --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIG>"             # ???
+  itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
+    COMMAND itkTestDriver
+      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}"  # parent directory of the itk package
+      --add-before-env PYTHONPATH "${ITK_PYTHON_PACKAGE_DIR}"      # package directory and shared libraries + swig artifacts
+      --add-before-libpath "${ITK_PYTHON_PACKAGE_DIR}"             # itk non-wrapping shared libs
       ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
       ${command}
       ${PYTHON_ADD_TEST_COMMAND}
-      WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
-      )
-  else()
-    itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
-      COMMAND itkTestDriver
-      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}"          # parent directory of the itk package
-      # NOT NEEDED --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/itk"      # directory of the itk package ( contains __init__.py)
-      --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/itk/conf" # directory of the itkConfig module
-      --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"      # directory of shared  libraries + swig artifacts
-      --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"             # itk non-wrapping shared libs
-      --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"             # ???
-      ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
-      ${command}
-      ${PYTHON_ADD_TEST_COMMAND}
-      WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
-      )
-  endif()
+    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
+  )
   set_property(TEST ${PYTHON_ADD_TEST_NAME} APPEND PROPERTY LABELS Python)
 endfunction()
 
