@@ -667,11 +667,7 @@ itkVectorImageTest(int, char * argv[])
 
 
     // Now write this out this VectorImage and read it again
-    using WriterType = itk::ImageFileWriter<VectorImageType>;
-    WriterType::Pointer writer = WriterType::New();
-    writer->SetInput(vectorImage);
-    writer->SetFileName(argv[1]);
-    writer->Update();
+    itk::WriteImage(vectorImage, argv[1]);
   }
 
 

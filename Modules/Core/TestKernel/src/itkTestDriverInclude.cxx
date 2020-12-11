@@ -900,7 +900,6 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   using ReaderType = itk::ImageFileReader<ImageType>;
   using RescaleType = itk::Testing::StretchIntensityImageFilter<SliceImageType, OutputType>;
   using ExtractType = itk::Testing::ExtractSliceImageFilter<ImageType, SliceImageType>;
-  using WriterType = itk::ImageFileWriter<OutputType>;
 
   // setup reader
   ReaderType::Pointer reader = ReaderType::New();
@@ -937,19 +936,13 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   rescale->SetOutputMaximum(itk::NumericTraits<unsigned char>::max());
   rescale->SetInput(extract->GetOutput());
 
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(rescale->GetOutput());
-
-
   std::ostringstream testName;
   testName << testImageFilename << ".test.png";
-
-  writer->SetFileName(testName.str().c_str());
 
   try
   {
     rescale->UpdateLargestPossibleRegion();
-    writer->Update();
+    itk::WriteImage(rescale->GetOutput(), testName.str());
   }
   catch (const std::exception & e)
   {
