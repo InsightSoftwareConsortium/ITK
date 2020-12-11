@@ -20,7 +20,7 @@ if (NOT TEST_GET_PROGRAM)
   message (FATAL_ERROR "Require TEST_GET_PROGRAM getub to be defined")
 endif ()
 if (NOT TEST_FOLDER)
-  message ( FATAL_ERROR "Require TEST_FOLDER to be defined")
+  message (FATAL_ERROR "Require TEST_FOLDER to be defined")
 endif ()
 if (NOT TEST_HFILE)
   message (FATAL_ERROR "Require TEST_HFILE the hdf file to be defined")
@@ -55,14 +55,14 @@ if (TEST_CHECKUB STREQUAL "YES")
     #  of the user block
     #s2=`$JAM_BIN/tellub $origfile`
     EXECUTE_PROCESS (
-        COMMAND ${TEST_PROGRAM} ${TEST_OFILE}
+        COMMAND ${TEST_EMULATOR} ${TEST_PROGRAM} ${TEST_OFILE}
         WORKING_DIRECTORY ${TEST_FOLDER}
         RESULT_VARIABLE TEST_RESULT
         OUTPUT_FILE ${TEST_HFILE}.len.txt
         OUTPUT_VARIABLE TEST_OUT
         ERROR_VARIABLE TEST_ERROR
     )
-    if (NOT ${TEST_RESULT} STREQUAL "0")
+    if (TEST_RESULT)
       message (FATAL_ERROR "Failed: The output of ${TEST_PROGRAM} ${TEST_OFILE} is: ${TEST_ERROR}")
     endif ()
     file (READ ${TEST_HFILE}.len.txt TEST_O_STRING_LEN)
@@ -70,10 +70,10 @@ if (TEST_CHECKUB STREQUAL "YES")
 
   math( EXPR TEST_STRING_SIZE "${TEST_U_STRING_LEN} + ${TEST_O_STRING_LEN}" )
 
-  if (NOT TEST_O_STRING_LEN STREQUAL "0")
+  if (TEST_O_STRING_LEN)
     #$JAM_BIN/getub -c $s2 $origfile > $cmpfile
     EXECUTE_PROCESS (
-        COMMAND ${TEST_GET_PROGRAM} -c ${TEST_O_STRING_LEN} ${TEST_OFILE}
+        COMMAND ${TEST_EMULATOR} ${TEST_GET_PROGRAM} -c ${TEST_O_STRING_LEN} ${TEST_OFILE}
         WORKING_DIRECTORY ${TEST_FOLDER}
         RESULT_VARIABLE TEST_RESULT
         OUTPUT_FILE ${TEST_HFILE}-ub.cmp
@@ -91,7 +91,7 @@ if (TEST_CHECKUB STREQUAL "YES")
 
   #$JAM_BIN/getub -c $size $hfile > $tfile
   EXECUTE_PROCESS (
-      COMMAND ${TEST_GET_PROGRAM} -c ${TEST_STRING_SIZE} ${TEST_HFILE}
+      COMMAND ${TEST_EMULATOR} ${TEST_GET_PROGRAM} -c ${TEST_STRING_SIZE} ${TEST_HFILE}
       WORKING_DIRECTORY ${TEST_FOLDER}
       RESULT_VARIABLE TEST_RESULT
       OUTPUT_FILE ${TEST_HFILE}.cmp
@@ -108,24 +108,24 @@ if (TEST_CHECKUB STREQUAL "YES")
 
   message (STATUS "COMPARE Result: ${TEST_RESULT}: ${TEST_STRING_SIZE}=${TEST_U_STRING_LEN}+${TEST_O_STRING_LEN}")
   # if the return value is !=${TEST_EXPECT} bail out
-  if (NOT ${TEST_RESULT} STREQUAL ${TEST_EXPECT})
+  if (NOT TEST_RESULT EQUAL TEST_EXPECT)
     message (FATAL_ERROR "Failed: The output of ${TEST_HFILE}-ub did not match ${TEST_HFILE}.\n${TEST_ERROR}")
   endif ()
 else ()
     # call 'ubsize' to get the size of the user block
     #ubsize=`$JAM_BIN/tellub $hfile`
     EXECUTE_PROCESS (
-        COMMAND ${TEST_PROGRAM} ${TEST_HFILE}
+        COMMAND ${TEST_EMULATOR} ${TEST_PROGRAM} ${TEST_HFILE}
         WORKING_DIRECTORY ${TEST_FOLDER}
         RESULT_VARIABLE TEST_H_STRING_LEN
         OUTPUT_VARIABLE TEST_OUT
         ERROR_VARIABLE TEST_ERROR
     )
-  if (NOT TEST_H_STRING_LEN STREQUAL "0")
+  if (TEST_H_STRING_LEN)
     message (FATAL_ERROR "Failed: The output of ${TEST_HFILE} was NOT empty")
   endif ()
 endif ()
 
 # everything went fine...
-message ("Passed: The output of CHECK matched expectation")
+message (STATUS "Passed: The output of CHECK matched expectation")
 

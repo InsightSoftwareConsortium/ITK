@@ -1,5 +1,5 @@
 set (CTEST_CUSTOM_MAXIMUM_NUMBER_OF_WARNINGS 3000)
- 
+
 set (CTEST_CUSTOM_WARNING_EXCEPTION
     ${CTEST_CUSTOM_WARNING_EXCEPTION}
     "note.*expected.*void.*but argument is of type.*volatile"
@@ -10,7 +10,7 @@ set (CTEST_CUSTOM_WARNING_EXCEPTION
     "warning.*implicit declaration of function"
     "note: expanded from macro"
 )
- 
+
 set (CTEST_CUSTOM_MEMCHECK_IGNORE
     ${CTEST_CUSTOM_MEMCHECK_IGNORE}
 )
