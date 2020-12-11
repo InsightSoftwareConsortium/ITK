@@ -1066,7 +1066,7 @@ void H5Location::link(const char *curr_name, const Group& new_loc,
     hid_t lcpl_id = lcpl.getId();
     hid_t lapl_id = lapl.getId();
 
-    ret_value = H5Lcreate_hard(getId(), curr_name, new_loc.getId(), new_name, H5P_DEFAULT, H5P_DEFAULT);
+    ret_value = H5Lcreate_hard(getId(), curr_name, new_loc_id, new_name, lcpl_id, lapl_id);
    if (ret_value < 0)
         throwException("link", "creating link failed");
 }
@@ -1102,14 +1102,13 @@ void H5Location::link(const H5std_string& curr_name, const Group& new_loc,
 ///             H5Lcreate_hard APIs in the HDF5 C Reference Manual.
 //  March 2018
 //--------------------------------------------------------------------------
-void H5Location::link(const char *curr_name, const hid_t same_loc,
-             const char *new_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void H5Location::link(const char *curr_name, const hid_t same_loc, const char *new_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
 {
     herr_t ret_value = -1;
     hid_t lcpl_id = lcpl.getId();
     hid_t lapl_id = lapl.getId();
 
-    ret_value = H5Lcreate_hard(getId(), curr_name, same_loc, new_name, H5P_DEFAULT, H5P_DEFAULT);
+    ret_value = H5Lcreate_hard(getId(), curr_name, same_loc, new_name, lcpl_id, lapl_id);
 
    if (ret_value < 0)
         throwException("link", "creating link failed");

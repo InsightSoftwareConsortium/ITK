@@ -242,9 +242,6 @@ done:
  *
  * Purpose:     Internal routine to copy an object
  *
- * Note:        This routine is needed so that there's a non-API routine
- *              that can set up VOL / SWMR info (which need a DXPL).
- *
  * Return:	Success:	Non-negative
  *		Failure:	Negative
  *
@@ -265,7 +262,7 @@ H5O__copy(const H5G_loc_t *loc, const char *src_name, H5G_loc_t *dst_loc,
     hbool_t     obj_open = FALSE;       /* Entry at 'name' found */
     herr_t      ret_value = SUCCEED;	/* Return value */
 
-    FUNC_ENTER_STATIC_VOL
+    FUNC_ENTER_STATIC
 
     /* Check arguments */
     HDassert(loc);
@@ -312,6 +309,9 @@ H5O__copy(const H5G_loc_t *loc, const char *src_name, H5G_loc_t *dst_loc,
         if(TRUE != H5P_isa_class(ocpypl_id, H5P_OBJECT_COPY))
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not object copy property list")
 
+    /* Set the LCPL for the API context */
+    H5CX_set_lcpl(lcpl_id);
+
     /* Do the actual copying of the object */
     if(H5O__copy_obj(&src_loc, dst_loc, dst_name, ocpypl_id, lcpl_id) < 0)
         HGOTO_ERROR(H5E_OHDR, H5E_CANTCOPY, FAIL, "unable to copy object")
@@ -322,7 +322,7 @@ done:
     if(obj_open && H5O_close(&src_oloc, NULL) < 0)
         HDONE_ERROR(H5E_OHDR, H5E_CLOSEERROR, FAIL, "unable to release object header")
 
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5O__copy() */
 
 

@@ -91,6 +91,7 @@ const H5D_layout_ops_t H5D_LOPS_EFL[1] = {{
     H5D__efl_construct,
     NULL,
     H5D__efl_is_space_alloc,
+    NULL,
     H5D__efl_io_init,
     H5D__contig_read,
     H5D__contig_write,
@@ -288,12 +289,19 @@ H5D__efl_read(const H5O_efl_t *efl, const H5D_t *dset, haddr_t addr, size_t size
             HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "external file address overflowed")
         if(H5_combine_path(dset->shared->extfile_prefix, efl->slot[u].name, &full_name) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_NOSPACE, FAIL, "can't build external file name")
+/* ITK --start */
 #if defined(H5_HAVE_WIN32_API) && !defined(_MSC_VER)
 /* With MinGW, pass the required third argument to the HDopen macro, which is ignored by _open. */
+/* ITK --stop */
         if((fd = HDopen(full_name, O_RDONLY, NULL)) < 0)
+/* ITK --stop */
+/* ITK --start */
 #else
+/* ITK --stop */
         if((fd = HDopen(full_name, O_RDONLY)) < 0)
+/* ITK --start */
 #endif
+/* ITK --stop */
             HGOTO_ERROR(H5E_EFL, H5E_CANTOPENFILE, FAIL, "unable to open external raw data file")
         if(HDlseek(fd, (HDoff_t)(efl->slot[u].offset + (HDoff_t)skip), SEEK_SET) < 0)
             HGOTO_ERROR(H5E_EFL, H5E_SEEKERROR, FAIL, "unable to seek in external raw data file")
@@ -481,7 +489,6 @@ H5D__efl_readvv(const H5D_io_info_t *io_info,
     HDassert(io_info->u.rbuf);
     HDassert(io_info->dset);
     HDassert(io_info->dset->shared);
-    HDassert(io_info->dset->shared->extfile_prefix);
     HDassert(dset_curr_seq);
     HDassert(dset_len_arr);
     HDassert(dset_off_arr);
@@ -565,7 +572,6 @@ H5D__efl_writevv(const H5D_io_info_t *io_info,
     HDassert(io_info->u.wbuf);
     HDassert(io_info->dset);
     HDassert(io_info->dset->shared);
-    HDassert(io_info->dset->shared->extfile_prefix);
     HDassert(dset_curr_seq);
     HDassert(dset_len_arr);
     HDassert(dset_off_arr);

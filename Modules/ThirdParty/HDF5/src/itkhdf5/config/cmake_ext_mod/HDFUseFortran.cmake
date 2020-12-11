@@ -13,7 +13,7 @@
 # This file provides functions for Fortran support.
 #
 #-------------------------------------------------------------------------------
-ENABLE_LANGUAGE (Fortran)
+enable_language (Fortran)
 set (HDF_PREFIX "H5")
 
 #-------------------------------------------------------------------------------
@@ -48,9 +48,9 @@ set (H5_FC_FUNC_ "H5_FC_FUNC_(name,NAME) ${CMAKE_MATCH_1}")
 #-----------------------------------------------------------------------------
 macro (CHECK_FORTRAN_FEATURE FUNCTION CODE VARIABLE)
     message (STATUS "Testing Fortran ${FUNCTION}")
-    if (CMAKE_REQUIRED_LIBRARIES)
+    if (HDF5_REQUIRED_LIBRARIES)
       set (CHECK_FUNCTION_EXISTS_ADD_LIBRARIES
-          "-DLINK_LIBRARIES:STRING=${CMAKE_REQUIRED_LIBRARIES}")
+          "-DLINK_LIBRARIES:STRING=${HDF5_REQUIRED_LIBRARIES}")
     else ()
       set (CHECK_FUNCTION_EXISTS_ADD_LIBRARIES)
     endif ()
@@ -65,9 +65,9 @@ macro (CHECK_FORTRAN_FEATURE FUNCTION CODE VARIABLE)
         OUTPUT_VARIABLE OUTPUT
     )
 
-#    message ( "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
-#    message ( "Test result ${OUTPUT}")
-#    message ( "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+#    message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+#    message (STATUS "Test result ${OUTPUT}")
+#    message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
 
     if (${RESULT_VAR})
       set (${VARIABLE} 1 CACHE INTERNAL "Have Fortran function ${FUNCTION}")
@@ -191,8 +191,8 @@ CHECK_FORTRAN_FEATURE(iso_c_binding
 # Add debug information (intel Fortran : JB)
 #-----------------------------------------------------------------------------
 if (CMAKE_Fortran_COMPILER MATCHES ifort)
-    if (WIN32)
-        set (CMAKE_Fortran_FLAGS_DEBUG "/debug:full /dbglibs " CACHE "flags" STRING FORCE)
-        set (CMAKE_EXE_LINKER_FLAGS_DEBUG "/DEBUG" CACHE "flags" STRING FORCE)
+    if (WIN32 AND NOT MINGW)
+        set (CMAKE_Fortran_FLAGS_DEBUG "/debug:full /dbglibs " CACHE STRING "flags" FORCE)
+        set (CMAKE_EXE_LINKER_FLAGS_DEBUG "/DEBUG" CACHE STRING "flags" FORCE)
     endif ()
 endif ()

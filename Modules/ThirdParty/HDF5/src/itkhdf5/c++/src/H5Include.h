@@ -11,8 +11,9 @@
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
+/* ITK --start */
 #include "itk_hdf5.h"
+/* ITK --stop */
 
 // Define bool type for platforms that don't support bool yet
 #ifdef BOOL_NOTDEFINED

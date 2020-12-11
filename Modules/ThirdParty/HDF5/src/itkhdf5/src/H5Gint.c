@@ -32,13 +32,13 @@
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"		/* Generic Functions			*/
-#include "H5Eprivate.h"		/* Error handling		  	*/
-#include "H5FOprivate.h"        /* File objects                         */
-#include "H5Gpkg.h"		/* Groups		  		*/
-#include "H5Iprivate.h"		/* IDs			  		*/
-#include "H5Lprivate.h"         /* Links                                */
-#include "H5MMprivate.h"	/* Memory management			*/
+#include "H5private.h"          /* Generic Functions                        */
+#include "H5Eprivate.h"         /* Error handling                           */
+#include "H5FOprivate.h"        /* File objects                             */
+#include "H5Gpkg.h"             /* Groups                                   */
+#include "H5Iprivate.h"         /* IDs                                      */
+#include "H5Lprivate.h"         /* Links                                    */
+#include "H5MMprivate.h"        /* Memory management                        */
 
 
 /****************/
@@ -134,7 +134,7 @@ H5G__create_named(const H5G_loc_t *loc, const char *name, hid_t lcpl_id,
     H5G_obj_create_t gcrt_info;         /* Information for group creation */
     H5G_t *ret_value = NULL;            /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     /* Check arguments */
     HDassert(loc);
@@ -161,45 +161,8 @@ H5G__create_named(const H5G_loc_t *loc, const char *name, hid_t lcpl_id,
     ret_value = (H5G_t *)ocrt_info.new_obj;
 
 done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G__create_named() */
-
-
-/*-------------------------------------------------------------------------
- * Function:    H5G__create_anon
- *
- * Purpose:     Internal routine to create a new anonymous group.
- *
- * Note:        This routine is needed so that there's a non-API routine for
- *              creating groups that can set up VOL / SWMR info
- *              (which need a DXPL).
- *
- * Return:      Success:    Non-NULL, pointer to new group object.
- *              Failure:    NULL
- *
- * Programmer:	Quincey Koziol
- *		December 17, 2017
- *
- *-------------------------------------------------------------------------
- */
-H5G_t *
-H5G__create_anon(H5F_t *file, H5G_obj_create_t *gcrt_info)
-{
-    H5G_t       *ret_value = NULL;      /* Return value */
-
-    FUNC_ENTER_PACKAGE_VOL
-
-    /* Check arguments */
-    HDassert(file);
-    HDassert(gcrt_info);
-
-    /* Create the new group & get its ID */
-    if(NULL == (ret_value = H5G__create(file, gcrt_info)))
-        HGOTO_ERROR(H5E_SYM, H5E_CANTCREATE, NULL, "unable to create group")
-
-done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
-} /* end H5G__create_anon() */
 
 
 /*-------------------------------------------------------------------------
@@ -302,7 +265,7 @@ H5G__open_name(const H5G_loc_t *loc, const char *name)
     H5O_type_t  obj_type;               /* Type of object at location */
     H5G_t *ret_value = NULL;            /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
     HDassert(loc);
@@ -336,7 +299,7 @@ done:
         if(loc_found && H5G_loc_free(&grp_loc) < 0)
             HDONE_ERROR(H5E_SYM, H5E_CANTRELEASE, NULL, "can't free location")
 
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G__open_name() */
 
 
@@ -502,7 +465,7 @@ H5G__close_cb(H5G_t *grp)
 {
     herr_t ret_value = SUCCEED;                 /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
     HDassert(grp && grp->shared);
@@ -513,7 +476,7 @@ H5G__close_cb(H5G_t *grp)
         HGOTO_ERROR(H5E_FILE, H5E_CANTCLOSEOBJ, FAIL, "problem closing group")
 
 done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G__close_cb() */
 
 
@@ -842,12 +805,11 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5G_iterate
+ * Function:    H5G_iterate
  *
  * Purpose:     Private function for iterating over links in a group
  *
- * Return:	Success:        Non-negative
- *		Failure:	Negative
+ * Return:      SUCCEED/FAIL
  *
  * Programmer:	Quincey Koziol
  *	        Oct  3, 2005
@@ -860,10 +822,10 @@ H5G_iterate(hid_t loc_id, const char *group_name,
     const H5G_link_iterate_t *lnk_op, void *op_data)
 {
     H5G_loc_t	loc;            /* Location of parent for group */
-    hid_t gid = -1;             /* ID of group to iterate over */
-    H5G_t *grp = NULL;          /* Pointer to group data structure to iterate over */
-    H5G_iter_appcall_ud_t udata; /* User data for callback */
-    herr_t ret_value = FAIL;    /* Return value */
+    hid_t gid = H5I_INVALID_HID;    /* ID of group to iterate over */
+    H5G_t *grp = NULL;              /* Pointer to group data structure to iterate over */
+    H5G_iter_appcall_ud_t udata;    /* User data for callback */
+    herr_t ret_value = FAIL;        /* Return value */
 
     FUNC_ENTER_NOAPI(FAIL)
 
@@ -872,8 +834,7 @@ H5G_iterate(hid_t loc_id, const char *group_name,
     HDassert(last_lnk);
     HDassert(lnk_op && lnk_op->op_func.op_new);
 
-    /*
-     * Open the group on which to operate.  We also create a group ID which
+    /* Open the group on which to operate.  We also create a group ID which
      * we can pass to the application-defined operator.
      */
     if(H5G_loc(loc_id, &loc) < 0)
@@ -897,7 +858,7 @@ done:
     if(gid > 0) {
         if(H5I_dec_app_ref(gid) < 0)
             HDONE_ERROR(H5E_SYM, H5E_CANTRELEASE, FAIL, "unable to close group")
-    } /* end if */
+    }
     else if(grp && H5G_close(grp) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CLOSEERROR, FAIL, "unable to release group")
 
@@ -1091,9 +1052,9 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5G_visit
+ * Function:    H5G_visit
  *
- * Purpose:	Recursively visit all the links in a group and all
+ * Purpose:     Recursively visit all the links in a group and all
  *              the groups that are linked to from that group.  Links within
  *              each group are visited according to the order within the
  *              specified index (unless the specified index does not exist for
@@ -1105,18 +1066,13 @@ done:
  *              callback with more than one link that points to a particular
  *              _object_.
  *
- * Return:	Success:	The return value of the first operator that
- *				returns non-zero, or zero if all members were
- *				processed with no operator returning non-zero.
+ * Return:      Success:    The return value of the first operator that
+ *                          returns non-zero, or zero if all members were
+ *                          processed with no operator returning non-zero.
  *
- *		Failure:	Negative if something goes wrong within the
- *				library, or the negative value returned by one
- *				of the operators.
- *
- *
- *
- * Programmer:	Quincey Koziol
- *		November 4 2007
+ *              Failure:    Negative if something goes wrong within the
+ *                          library, or the negative value returned by one
+ *                          of the operators.
  *
  *-------------------------------------------------------------------------
  */
@@ -1127,7 +1083,7 @@ H5G_visit(hid_t loc_id, const char *group_name, H5_index_t idx_type,
     H5G_iter_visit_ud_t udata;      /* User data for callback */
     H5O_linfo_t	linfo;		    /* Link info message */
     htri_t linfo_exists;            /* Whether the link info message exists */
-    hid_t       gid = (-1);         /* Group ID */
+    hid_t       gid = H5I_INVALID_HID;         /* Group ID */
     H5G_t      *grp = NULL;         /* Group opened */
     H5G_loc_t	loc;                /* Location of group passed in */
     H5G_loc_t	start_loc;          /* Location of starting group */
@@ -1230,50 +1186,12 @@ done:
     if(gid > 0) {
         if(H5I_dec_app_ref(gid) < 0)
             HDONE_ERROR(H5E_SYM, H5E_CANTRELEASE, FAIL, "unable to close group")
-    } /* end if */
+    }
     else if(grp && H5G_close(grp) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CLOSEERROR, FAIL, "unable to release group")
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G_visit() */
-
-
-/*-------------------------------------------------------------------------
- * Function:    H5G__get_create_plist
- *
- * Purpose:     Internal routine to retrieve a group's creation property list.
- *
- * Note:        This routine is needed so that there's a non-API routine
- *              that can set up VOL / SWMR info (which need a DXPL).
- *
- * Return:	Success:	ID for a copy of the group creation property
- *				list.  The property list ID should be released
- *				by calling H5Pclose().
- *
- *		Failure:	H5I_INVALID_HID
- *
- * Programmer:	Quincey Koziol
- *		December 17, 2017
- *
- *-------------------------------------------------------------------------
- */
-hid_t
-H5G__get_create_plist(const H5G_t *grp)
-{
-    hid_t ret_value = H5I_INVALID_HID;  /* Return value */
-
-    FUNC_ENTER_PACKAGE_VOL
-
-    /* Check arguments */
-    HDassert(grp);
-
-    /* Retrieve the GCPL */
-    if((ret_value = H5G_get_create_plist(grp)) < 0)
-	HGOTO_ERROR(H5E_SYM, H5E_CANTGET, H5I_INVALID_HID, "can't get group's creation property list")
-
-done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
-} /* end H5G__get_create_plist() */
 
 
 /*-------------------------------------------------------------------------
@@ -1335,7 +1253,7 @@ H5G_get_create_plist(const H5G_t *grp)
 
     /* Check for the group having a link info message */
     if((linfo_exists = H5G__obj_get_linfo(&(grp->oloc), &linfo)) < 0)
-	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, H5I_INVALID_HID, "unable to read object header")
+        HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, H5I_INVALID_HID, "unable to read object header")
     if(linfo_exists) {
         /* Set the link info for the property list */
         if(H5P_set(new_plist, H5G_CRT_LINK_INFO_NAME, &linfo) < 0)
@@ -1372,51 +1290,11 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5G__get_info
- *
- * Purpose:     Internal routine to retrieve the info for a group.
- *
- * Note:        This routine is needed so that there's a non-API routine
- *              that can set up VOL / SWMR info (which need a DXPL).
- *
- * Return:	Success:	Non-negative
- *		Failure:	Negative
- *
- * Programmer:	Quincey Koziol
- *		December 18, 2017
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5G__get_info(const H5G_loc_t *loc, H5G_info_t *grp_info)
-{
-    herr_t ret_value = SUCCEED;         /* Return value */
-
-    FUNC_ENTER_PACKAGE_VOL
-
-    /* Check arguments */
-    HDassert(loc);
-    HDassert(grp_info);
-
-    /* Retrieve the group's information */
-    if(H5G__obj_info(loc->oloc, grp_info) < 0)
-        HGOTO_ERROR(H5E_SYM, H5E_CANTGET, FAIL, "can't retrieve group info")
-
-done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
-} /* end H5G__get_info() */
-
-
-/*-------------------------------------------------------------------------
  * Function:    H5G__get_info_by_name
  *
  * Purpose:     Internal routine to retrieve the info for a group, by name.
  *
- * Note:        This routine is needed so that there's a non-API routine
- *              that can set up VOL / SWMR info (which need a DXPL).
- *
- * Return:	Success:	Non-negative
- *		Failure:	Negative
+ * Return:      SUCCEED/FAIL
  *
  * Programmer:	Quincey Koziol
  *		December 18, 2017
@@ -1432,7 +1310,7 @@ H5G__get_info_by_name(const H5G_loc_t *loc, const char *name, H5G_info_t *grp_in
     hbool_t     loc_found = FALSE;      /* Location at 'name' found */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     /* Check arguments */
     HDassert(loc);
@@ -1457,7 +1335,7 @@ done:
     if(loc_found && H5G_loc_free(&grp_loc) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CANTRELEASE, FAIL, "can't free location")
 
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G__get_info_by_name() */
 
 
@@ -1466,11 +1344,7 @@ done:
  *
  * Purpose:     Internal routine to retrieve the info for a group, by index.
  *
- * Note:        This routine is needed so that there's a non-API routine
- *              that can set up VOL / SWMR info (which need a DXPL).
- *
- * Return:	Success:	Non-negative
- *		Failure:	Negative
+ * Return:      SUCCEED/FAIL
  *
  * Programmer:	Quincey Koziol
  *		December 18, 2017
@@ -1487,7 +1361,7 @@ H5G__get_info_by_idx(const H5G_loc_t *loc, const char *group_name,
     hbool_t     loc_found = FALSE;      /* Location at 'name' found */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     /* Check arguments */
     HDassert(loc);
@@ -1512,76 +1386,6 @@ done:
     if(loc_found && H5G_loc_free(&grp_loc) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CANTRELEASE, FAIL, "can't free location")
 
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5G__get_info_by_idx() */
-
-
-/*-------------------------------------------------------------------------
- * Function:    H5G__flush
- *
- * Purpose:     Internal routine to flushes a group to disk.
- *
- * Note:        This routine is needed so that there's a non-API routine
- *              that can set up VOL / SWMR info (which need a DXPL).
- *
- * Return:      Success:    Non-negative
- *              Failure:    Negative
- *
- * Programmer:  Quincey Koziol
- *              December 18, 2017
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5G__flush(H5G_t *grp, hid_t group_id)
-{
-    herr_t ret_value = SUCCEED;         /* Return value */
-
-    FUNC_ENTER_PACKAGE_VOL
-
-    /* Sanity check */
-    HDassert(grp);
-
-    /* Flush metadata to file */
-    if(H5O_flush_common(&grp->oloc, group_id) < 0)
-        HGOTO_ERROR(H5E_SYM, H5E_CANTFLUSH, FAIL, "unable to flush group and object flush callback")
-
-done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
-} /* H5G__flush */
-
-
-/*-------------------------------------------------------------------------
- * Function:    H5G__refresh
- *
- * Purpose:     Internal routine to refresh a group.
- *
- * Note:        This routine is needed so that there's a non-API routine
- *              that can set up VOL / SWMR info (which need a DXPL).
- *
- * Return:      Success:    Non-negative
- *              Failure:    Negative
- *
- * Programmer:  Quincey Koziol
- *              December 18, 2017
- *
- *-------------------------------------------------------------------------
- */
-herr_t
-H5G__refresh(H5G_t *grp, hid_t group_id)
-{
-    herr_t ret_value = SUCCEED;         /* Return value */
-
-    FUNC_ENTER_PACKAGE_VOL
-
-    /* Sanity check */
-    HDassert(grp);
-
-    /* Call private function to refresh group object */
-    if((H5O_refresh_metadata(group_id, grp->oloc)) < 0)
-        HGOTO_ERROR(H5E_SYM, H5E_CANTLOAD, FAIL, "unable to refresh group")
-
-done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
-} /* H5G__refresh */
 
