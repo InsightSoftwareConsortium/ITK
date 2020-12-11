@@ -105,12 +105,7 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
 
   if (argc > 1)
   {
-    using WriterType = itk::ImageFileWriter<ImageType>;
-
-    WriterType::Pointer ImageWriter = WriterType::New();
-    ImageWriter->SetInput(imageFilter->GetOutput());
-    ImageWriter->SetFileName(argv[1]);
-    ImageWriter->Update();
+    itk::WriteImage(imageFilter->GetOutput(), argv[1]);
   }
 
   std::cout << "[TEST DONE]" << std::endl;

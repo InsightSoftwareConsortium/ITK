@@ -75,9 +75,6 @@ public:
     using FixedReaderType = itk::ImageFileReader<FixedImageType>;
     using MovingReaderType = itk::ImageFileReader<MovingImageType>;
 
-    using MovingWriterType = itk::ImageFileWriter<MovingImageType>;
-
-
     typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
     fixedReader->SetFileName(argv[2]);
 
@@ -94,11 +91,8 @@ public:
 
 
     typename MovingReaderType::Pointer movingReader = MovingReaderType::New();
-    typename MovingWriterType::Pointer movingWriter = MovingWriterType::New();
 
     movingReader->SetFileName(argv[3]);
-    movingWriter->SetFileName(argv[4]);
-
 
     typename FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
@@ -129,9 +123,6 @@ public:
 
 
     resampler->SetInput(movingReader->GetOutput());
-
-    movingWriter->SetInput(resampler->GetOutput());
-
 
     const unsigned int SpaceDimension = ImageDimension;
     using CoordinateRepType = double;
@@ -208,7 +199,7 @@ public:
 
     try
     {
-      movingWriter->Update();
+      itk::WriteImage(resampler->GetOutput(), argv[4]);
     }
     catch (const itk::ExceptionObject & excp)
     {
@@ -249,18 +240,11 @@ public:
       ++fi;
     }
 
-
-    using FieldWriterType = itk::ImageFileWriter<DeformationFieldType>;
-    typename FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
-
-    fieldWriter->SetInput(field);
-
     if (argc >= 6)
     {
-      fieldWriter->SetFileName(argv[5]);
       try
       {
-        fieldWriter->Update();
+        itk::WriteImage(field, argv[5]);
       }
       catch (const itk::ExceptionObject & excp)
       {

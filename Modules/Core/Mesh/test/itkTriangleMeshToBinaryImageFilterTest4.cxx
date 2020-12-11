@@ -264,12 +264,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
   // Exercising Printself//
   imageFilter->Print(std::cout);
 
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer imageWriter = WriterType::New();
-  imageWriter->SetInput(imageFilter->GetOutput());
-  imageWriter->SetFileName(argv[2]);
-  imageWriter->UseCompressionOn();
-  imageWriter->Update();
+  itk::WriteImage(imageFilter->GetOutput(), argv[2], true);
 
   std::cout << "[TEST DONE]" << std::endl;
   return EXIT_SUCCESS;

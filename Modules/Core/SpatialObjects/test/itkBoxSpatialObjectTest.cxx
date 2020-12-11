@@ -37,7 +37,6 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   using SceneType = itk::GroupSpatialObject<Dimension>;
   using BoxType = itk::BoxSpatialObject<Dimension>;
   using OutputImageType = itk::Image<unsigned char, Dimension>;
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<SceneType, OutputImageType>;
 
   SceneType::Pointer scene = SceneType::New();
@@ -155,13 +154,7 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   imageFilter->SetOutsideValue(0);
   imageFilter->Update();
 
-  const char *        outputFilename = argv[1];
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(outputFilename);
-  writer->SetInput(imageFilter->GetOutput());
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(imageFilter->GetOutput(), argv[1]));
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
