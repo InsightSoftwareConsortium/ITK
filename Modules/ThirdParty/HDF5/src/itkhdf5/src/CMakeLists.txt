@@ -1024,7 +1024,8 @@ else ()
   )
   if (BUILD_SHARED_LIBS)
     add_custom_command (
-        OUTPUT     ${HDF5_GENERATED_SOURCE_DIR}/shared/shared_gen_SRCS.stamp1
+        OUTPUT     ${HDF5_GENERATED_SOURCE_DIR}/shared/H5Tinit.c
+                   ${HDF5_GENERATED_SOURCE_DIR}/shared/shared_gen_SRCS.stamp1
         COMMAND    ${CMAKE_COMMAND}
         ARGS       -E copy_if_different "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c" "${HDF5_GENERATED_SOURCE_DIR}/shared/H5Tinit.c"
         COMMAND    ${CMAKE_COMMAND}
