@@ -22,6 +22,7 @@
 #include "itkProcessObject.h"
 #include "itkImageIOBase.h"
 #include "itkMacro.h"
+#include "itkMetaProgrammingLibrary.h"
 
 namespace itk
 {
@@ -237,61 +238,27 @@ private:
 };
 
 
-/** Convenience function for writing an image. */
-template <typename TImage>
+/** Convenience function for writing an image.
+ *
+ * The image parameter may be a either SmartPointer or a raw pointer and const or non-const.
+ * */
+template <typename TImagePointer>
 ITK_TEMPLATE_EXPORT void
-WriteImage(const TImage * image, const char * filename, bool compress = false)
+WriteImage(TImagePointer && image, const std::string & filename, bool compress = false)
 {
-  using WriterType = ImageFileWriter<TImage>;
-  typename WriterType::Pointer writer = WriterType::New();
+  using NonReferenceImagePointer = typename std::remove_reference<TImagePointer>::type;
+  static_assert(std::is_pointer<NonReferenceImagePointer>::value ||
+                  mpl::IsSmartPointer<NonReferenceImagePointer>::Value,
+                "WriteImage requires a raw pointer or SmartPointer.");
+
+  using ImageType = typename std::remove_const<typename std::remove_reference<decltype(*image)>::type>::type;
+  auto writer = ImageFileWriter<ImageType>::New();
   writer->SetInput(image);
   writer->SetFileName(filename);
   writer->SetUseCompression(compress);
   writer->Update();
 }
-template <typename TImage>
-ITK_TEMPLATE_EXPORT void
-WriteImage(const SmartPointer<const TImage> image, const char * filename, bool compress = false)
-{
-  WriteImage(image.GetPointer(), filename, compress);
-}
-template <typename TImage>
-ITK_TEMPLATE_EXPORT void
-WriteImage(TImage * image, const char * filename, bool compress = false)
-{
-  const TImage * constImage = image;
-  WriteImage(constImage, filename, compress);
-}
-template <typename TImage>
-ITK_TEMPLATE_EXPORT void
-WriteImage(SmartPointer<TImage> image, const char * filename, bool compress = false)
-{
-  WriteImage(image.GetPointer(), filename, compress);
-}
-template <typename TImage>
-ITK_TEMPLATE_EXPORT void
-WriteImage(const TImage * image, const std::string & filename, bool compress = false)
-{
-  WriteImage(image, filename.c_str(), compress);
-}
-template <typename TImage>
-ITK_TEMPLATE_EXPORT void
-WriteImage(const SmartPointer<const TImage> image, const std::string & filename, bool compress = false)
-{
-  WriteImage(image, filename.c_str(), compress);
-}
-template <typename TImage>
-ITK_TEMPLATE_EXPORT void
-WriteImage(TImage * image, const std::string & filename, bool compress = false)
-{
-  WriteImage(image, filename.c_str(), compress);
-}
-template <typename TImage>
-ITK_TEMPLATE_EXPORT void
-WriteImage(SmartPointer<TImage> image, const std::string & filename, bool compress = false)
-{
-  WriteImage(image, filename.c_str(), compress);
-}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
