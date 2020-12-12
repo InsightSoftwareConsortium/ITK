@@ -36,6 +36,9 @@ namespace itk
  * \todo When reviewing this class, the documentation of the  template
  * parameters MUST be fixed.
  *
+ * NOTE: ONLY 3D implementations are instrumented.  All other dimensions
+ *       result in incorrect processing.
+ *
  * \ingroup MeshObjects
  * \ingroup ITKCommon
  */
@@ -74,6 +77,13 @@ public:
   static constexpr unsigned int NumberOfFaces = 6;
   static constexpr unsigned int CellDimension = 3;
 
+  /** HARDCODE Implementation requirements, while
+   * allowing general interface.  The General interface
+   * is needed to facilitate the general SpatialObject
+   * loader.
+   */
+  static constexpr unsigned int CellDimension3D = 3;
+  static constexpr unsigned int PointDimension3D = 3;
   /** Implement the standard CellInterface. */
   CellGeometryEnum
   GetType() const override
