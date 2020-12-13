@@ -98,7 +98,7 @@ On Windows, run:
    $ git update-index --chmod=+x UpdateFromUpstream.sh
 ```
 
-Also add an entry to CMakeLists.txt` and `itk-module.cmake` as appropriate.
+Also add an entry to `CMakeLists.txt` and `itk-module.cmake` as appropriate.
 
 Process
 -------
