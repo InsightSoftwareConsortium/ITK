@@ -58,8 +58,7 @@ class EigenAnalysis2DImageFilterTester
 
     // Define their size, and start index
     mySizeType size;
-    size[0] = 2;
-    size[1] = 2;
+    size.Fill(2);
 
     myIndexType start;
     start.Fill(0);
