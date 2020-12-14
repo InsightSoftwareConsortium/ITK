@@ -36,13 +36,15 @@ struct ITKWriteImageFunctionTest : public ::testing::Test
     itksys::SystemTools::ChangeDirectory(STRING(ITK_TEST_OUTPUT_DIR_STR));
   }
   using ImageType = itk::Image<float, 2>;
+  using RegionType = ImageType::RegionType;
+  using SizeType = ImageType::SizeType;
 
   ImageType::Pointer
   MakeImage()
   {
     auto image = ImageType::New();
 
-    ImageType::RegionType region({ 3, 2 });
+    RegionType region(SizeType{ { 3, 2 } });
 
     image->SetRegions(region);
 
