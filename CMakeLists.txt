@@ -263,6 +263,11 @@ if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
 else()
   set(NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} CACHE PATH "Shared library directory")
 endif()
+if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+  set(NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/bin CACHE PATH "Shared library directory")
+else()
+  set(NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} CACHE PATH "Shared library directory")
+endif()
 
 if(ITK_WRAPPING)
   # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx files will be placed.
@@ -293,9 +298,11 @@ if(ITK_WRAPPING)
     # of allowing only a single element int the CMAKE_CONFIGURATION_TYPES and enforcing
     # that CMAKE_BUILD_TYPE match that type (see Wrapping/CMakeLists.txt enforcement)
     set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>" CACHE PATH "Shared library directory with generator override")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>" CACHE PATH "Shared library directory with generator override")
   endif()
 else()
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY}   CACHE PATH "Shared library directory")
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY}   CACHE PATH "Runtime library directory")
 endif()
 # Setup build locations for shared libraries ----STOP
 
@@ -312,9 +319,6 @@ if(CMAKE_CONFIGURATION_TYPES AND ITK_WRAPPING)
   )
 endif()
 
-if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
-  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/bin)
-endif()
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
 endif()
