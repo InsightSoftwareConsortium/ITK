@@ -5,7 +5,10 @@ option(ITK_USE_SYSTEM_VXL "Use an outside build of VXL." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_VXL)
 
 if(ITK_USE_SYSTEM_VXL)
-  find_package(VXL 2.0.2 REQUIRED)
+  find_package(VXL 3.0.0 REQUIRED)
+  # 3.0.0 is the first version of VXL that supports
+  # the requirement of front() and back() members
+  # in the vnl_vector and vnl_vector_fixed.
   set(ITKVNL_SYSTEM_INCLUDE_DIRS
     ${VXL_NETLIB_INCLUDE_DIR}
     ${VXL_VCL_INCLUDE_DIRS}
