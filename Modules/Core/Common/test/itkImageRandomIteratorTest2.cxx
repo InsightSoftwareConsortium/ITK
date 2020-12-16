@@ -86,13 +86,6 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   if (argc > 4)
   {
-
-    using ReaderType = itk::ImageFileReader<ImageType>;
-
-    ReaderType::Pointer reader = ReaderType::New();
-
-    reader->SetFileName(argv[2]);
-
     using DifferencePixelType = signed long;
     using DifferenceImageType = itk::Image<DifferencePixelType, ImageDimension>;
 
@@ -101,7 +94,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
     DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
 
     difference->SetValidInput(image);
-    difference->SetTestInput(reader->GetOutput());
+    difference->SetTestInput(itk::ReadImage<ImageType>(argv[2]));
     difference->SetToleranceRadius(0);
     difference->SetDifferenceThreshold(0);
 

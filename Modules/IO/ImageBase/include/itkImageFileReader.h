@@ -45,7 +45,7 @@ namespace itk
  * filter. If data stored in the file is stored in a different format
  * then specified by TOutputImage, than this filter converts data
  * between the file type and the external expected type.  The
- * ConvertTraits template argument is used to do the conversion.
+ * `ConvertPixelTraits` template parameter is used to do the conversion.
  *
  * A Pluggable factory pattern is used this allows different kinds of readers
  * to be registered (even at run time) without having to modify the
@@ -167,6 +167,29 @@ private:
   // produce the requested region.
   ImageIORegion m_ActualIORegion;
 };
+
+
+/** Convenience function for reading an image.
+ *
+ * `TOutputImage` is the expected output image type, and the optional
+ * `ConvertPixelTraits` template parameter is used to do the conversion,
+ * as specified by ImageFileReader.
+ *
+ * The function reads the image from the specified file, and returns the
+ * image that it has read.
+ * */
+template <typename TOutputImage,
+          typename ConvertPixelTraits = DefaultConvertPixelTraits<typename TOutputImage::IOPixelType>>
+typename TOutputImage::Pointer
+ReadImage(const std::string & filename)
+{
+  const auto reader = ImageFileReader<TOutputImage, ConvertPixelTraits>::New();
+  reader->SetFileName(filename);
+  reader->Update();
+  return reader->GetOutput();
+}
+
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
