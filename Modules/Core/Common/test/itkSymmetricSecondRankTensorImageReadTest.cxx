@@ -85,64 +85,46 @@ itkSymmetricSecondRankTensorImageReadTest(int ac, char * av[])
   try
   {
     itk::WriteImage(matrixImage, av[1]);
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+    const TensorImageType::ConstPointer tensorImage = itk::ReadImage<TensorImageType>(av[1]);
 
+    // Compare the read values to the original values
+    const float tolerance = 1e-5;
 
-  using TensorReaderType = itk::ImageFileReader<TensorImageType>;
+    itk::ImageRegionConstIterator<TensorImageType> tItr(tensorImage, region);
+    itk::ImageRegionConstIterator<MatrixImageType> mItr(matrixImage, region);
 
-  TensorReaderType::Pointer tensorReader = TensorReaderType::New();
+    tItr.GoToBegin();
+    mItr.GoToBegin();
 
-  tensorReader->SetFileName(av[1]);
-
-  try
-  {
-    tensorReader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  TensorImageType::ConstPointer tensorImage = tensorReader->GetOutput();
-
-  // Compare the read values to the original values
-  const float tolerance = 1e-5;
-
-  itk::ImageRegionConstIterator<TensorImageType> tItr(tensorImage, region);
-  itk::ImageRegionConstIterator<MatrixImageType> mItr(matrixImage, region);
-
-  tItr.GoToBegin();
-  mItr.GoToBegin();
-
-  while (!mItr.IsAtEnd())
-  {
-    matrixPixel = mItr.Get();
-    const TensorPixelType tensorPixel = tItr.Get();
-
-    for (unsigned int i = 0; i < 3; i++)
+    while (!mItr.IsAtEnd())
     {
-      for (unsigned int j = 0; j < 3; j++)
+      matrixPixel = mItr.Get();
+      const TensorPixelType tensorPixel = tItr.Get();
+
+      for (unsigned int i = 0; i < 3; i++)
       {
-        if (std::abs(matrixPixel[i][j] - tensorPixel(i, j)) > tolerance)
+        for (unsigned int j = 0; j < 3; j++)
         {
-          std::cerr << "Tensor read does not match expected values " << std::endl;
-          std::cerr << "Index " << tItr.GetIndex() << std::endl;
-          std::cerr << "Tensor value " << std::endl << tensorPixel << std::endl;
-          std::cerr << "Matrix value " << std::endl << matrixPixel << std::endl;
-          return EXIT_FAILURE;
+          if (std::abs(matrixPixel[i][j] - tensorPixel(i, j)) > tolerance)
+          {
+            std::cerr << "Tensor read does not match expected values " << std::endl;
+            std::cerr << "Index " << tItr.GetIndex() << std::endl;
+            std::cerr << "Tensor value " << std::endl << tensorPixel << std::endl;
+            std::cerr << "Matrix value " << std::endl << matrixPixel << std::endl;
+            return EXIT_FAILURE;
+          }
         }
       }
+      ++mItr;
+      ++tItr;
     }
-    ++mItr;
-    ++tItr;
+
+
+    return EXIT_SUCCESS;
   }
-
-
-  return EXIT_SUCCESS;
+  catch (const itk::ExceptionObject & excp)
+  {
+    std::cerr << excp << std::endl;
+    return EXIT_FAILURE;
+  }
 }
