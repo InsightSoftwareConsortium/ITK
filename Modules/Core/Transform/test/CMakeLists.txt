@@ -181,6 +181,7 @@ set_tests_properties( itkTestTransformGetInverse PROPERTIES COST 50 )
 
 set(ITKTransformGTests
   itkBSplineTransformGTest.cxx
+  itkEuler3DTransformGTest.cxx
   itkMatrixOffsetTransformBaseGTest.cxx
 )
 CreateGoogleTestDriver(ITKTransform "${ITKTransform-Test_LIBRARIES}" "${ITKTransformGTests}")
