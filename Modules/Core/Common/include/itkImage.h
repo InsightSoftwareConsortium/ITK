@@ -318,6 +318,51 @@ public:
   unsigned int
   GetNumberOfComponentsPerPixel() const override;
 
+  /** Returns (image1 == image2). */
+  friend bool
+  operator==(const Image & lhs, const Image & rhs)
+  {
+    if ((lhs.GetBufferedRegion() != rhs.GetBufferedRegion()) || (lhs.m_Spacing != rhs.m_Spacing) ||
+        (lhs.m_Origin != rhs.m_Origin) || (lhs.m_Direction != rhs.m_Direction) ||
+        (lhs.m_InverseDirection != rhs.m_InverseDirection))
+    {
+      return false;
+    }
+
+    if (lhs.m_Buffer == rhs.m_Buffer)
+    {
+      return true;
+    }
+
+    if ((lhs.m_Buffer == nullptr) || (rhs.m_Buffer == nullptr))
+    {
+      return false;
+    }
+
+    auto & lhsBuffer = *(lhs.m_Buffer);
+    auto & rhsBuffer = *(rhs.m_Buffer);
+
+    const auto bufferSize = lhsBuffer.Size();
+
+    if (bufferSize != rhsBuffer.Size())
+    {
+      return false;
+    }
+
+    const TPixel * const lhsBufferPointer = lhsBuffer.GetBufferPointer();
+    const TPixel * const rhsBufferPointer = rhsBuffer.GetBufferPointer();
+
+    return ((lhsBufferPointer == rhsBufferPointer) ||
+            std::equal(lhsBufferPointer, lhsBufferPointer + bufferSize, rhsBufferPointer));
+  }
+
+  /** Returns (image1 != image2). */
+  friend bool
+  operator!=(const Image & lhs, const Image & rhs)
+  {
+    return !(lhs == rhs);
+  }
+
 protected:
   Image();
   void
