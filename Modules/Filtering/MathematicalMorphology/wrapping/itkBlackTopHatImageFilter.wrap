@@ -1,8 +1,0 @@
-itk_wrap_include("itkFlatStructuringElement.h")
-itk_wrap_class("itk::BlackTopHatImageFilter" POINTER)
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${WRAP_ITK_SCALAR})
-      itk_wrap_template("${ITKM_I${t}${d}}${ITKM_I${t}${d}}${ITKM_SE${d}}"    "${ITKT_I${t}${d}},${ITKT_I${t}${d}},${ITKT_SE${d}}")
-    endforeach()
-  endforeach()
-itk_end_wrap_class()

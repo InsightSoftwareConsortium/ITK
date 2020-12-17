@@ -1,5 +1,0 @@
-itk_wrap_class("itk::QuadEdgeMeshPoint")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("F${d}GQE${ITKM_IT}${ITKM_IT}BBT" "float,${d},itk::GeometricalQuadEdge< ${ITKT_IT},${ITKT_IT},bool,bool,true >")
-  endforeach()
-itk_end_wrap_class()

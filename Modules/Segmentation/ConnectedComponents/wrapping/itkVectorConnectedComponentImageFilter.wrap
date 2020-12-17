@@ -1,3 +1,0 @@
-itk_wrap_class("itk::VectorConnectedComponentImageFilter" POINTER_WITH_SUPERCLASS)
-  itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_INT}" 2+)
-itk_end_wrap_class()

@@ -1,9 +1,0 @@
-project(ITKFFT)
-
-if(ITK_USE_CUFFTW)
-  set(ITKFFT_LIBRARIES ITKFFT ${FFTWF_LIBRARIES})
-else()
-  set(ITKFFT_LIBRARIES ITKFFT)
-endif()
-set(ITKFFT_INCLUDE_DIRS ${FFTW_INCLUDE})
-itk_module_impl()

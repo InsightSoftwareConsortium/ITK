@@ -1,3 +1,0 @@
-itkStatisticsImageFilter\.h InternalVariables Disable
-test/.*\.cxx Namespace Disable
-Examples/.*\.cxx Namespace Disable
