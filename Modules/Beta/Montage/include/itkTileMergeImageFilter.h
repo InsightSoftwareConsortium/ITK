@@ -52,7 +52,7 @@ class ITK_TEMPLATE_EXPORT TileMergeImageFilter
       typename TInterpolator::CoordRepType>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TileMergeImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TileMergeImageFilter);
 
   /** We define superclass with scalar pixel type, to enable compiling even when RGB pixel is supplied. */
   using Superclass =
