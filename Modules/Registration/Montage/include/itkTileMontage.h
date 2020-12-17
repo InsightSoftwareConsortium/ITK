@@ -45,7 +45,7 @@ template <typename TImageType,
 class ITK_TEMPLATE_EXPORT TileMontage : public ProcessObject
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TileMontage);
+  ITK_DISALLOW_COPY_AND_MOVE(TileMontage);
 
   /** Standard class type aliases. */
   using Self = TileMontage;
