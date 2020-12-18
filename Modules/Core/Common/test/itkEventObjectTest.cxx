@@ -21,9 +21,12 @@
 
 namespace itk
 {
-itkEventMacro(TestEvent, UserEvent);
-itkEventMacro(TestDerivedEvent, TestEvent);
-itkEventMacro(TestOtherEvent, AnyEvent);
+itkEventMacroDeclaration(TestEvent, UserEvent);
+itkEventMacroDefinition(TestEvent, UserEvent);
+itkEventMacroDeclaration(TestDerivedEvent, TestEvent);
+itkEventMacroDefinition(TestDerivedEvent, TestEvent);
+itkEventMacroDeclaration(TestOtherEvent, AnyEvent);
+itkEventMacroDefinition(TestOtherEvent, AnyEvent);
 } // namespace itk
 
 
