@@ -9,4 +9,10 @@
 set( NETLIB_FOUND "YES" )
 set( NETLIB_INCLUDE_DIR ${VXL_ROOT_SOURCE_DIR}/v3p/netlib )
 set( NETLIB_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/netlib )
+# Incompatible with ITK's License
+if(0)
+set( NETLIB_LIBRARIES ${VXL_LIB_PREFIX}netlib ${VXL_LIB_PREFIX}v3p_netlib )
+else()
 set( NETLIB_LIBRARIES ${VXL_LIB_PREFIX}v3p_netlib )
+# Incompatible with ITK's License
+endif()

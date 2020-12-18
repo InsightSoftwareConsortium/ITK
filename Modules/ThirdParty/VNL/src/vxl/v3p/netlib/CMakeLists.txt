@@ -376,7 +376,6 @@ set(V3P_NETLIB_datapac_SOURCES
 set(V3P_NETLIB_mathews_SOURCES
      mathews/simpson.c mathews/simpson.h
      mathews/trapezod.c mathews/trapezod.h
-     mathews/adaquad.c mathews/adaquad.h
    )
 set(V3P_NETLIB_sparse_SOURCES
      sparse/spAllocate.c

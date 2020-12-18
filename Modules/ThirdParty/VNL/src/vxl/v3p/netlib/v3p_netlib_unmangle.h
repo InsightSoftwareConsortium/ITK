@@ -5,7 +5,6 @@
 /* Functions */
 
 #undef active_
-#undef adaptquad_
 #undef balanc_
 #undef balbak_
 #undef bmv_
