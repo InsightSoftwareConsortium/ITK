@@ -26,7 +26,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ConstantBoundaryCondition<TInputImage, TOutputImage>::ConstantBoundaryCondition()
 {
-  OutputPixelType p;
+  OutputPixelType p{};
   m_Constant = NumericTraits<OutputPixelType>::ZeroValue(p);
 }
 
