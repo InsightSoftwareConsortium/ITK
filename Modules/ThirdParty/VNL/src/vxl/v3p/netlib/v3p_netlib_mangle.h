@@ -14,7 +14,6 @@ nm libv3p_netlib.a |grep " [TR] "
 /* Functions */
 
 #define active_ v3p_netlib_active_
-#define adaptquad_ v3p_netlib_adaptquad_
 #define balanc_ v3p_netlib_balanc_
 #define balbak_ v3p_netlib_balbak_
 #define bmv_ v3p_netlib_bmv_
