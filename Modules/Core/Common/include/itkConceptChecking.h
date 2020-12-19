@@ -706,8 +706,7 @@ struct HasNumericTraits
       Detail::UniqueType<typename NumericTraits<T>::RealType>();
       Detail::UniqueType<typename NumericTraits<T>::ScalarRealType>();
       Detail::UniqueType<typename NumericTraits<T>::FloatType>();
-      T    a;
-      bool b;
+      T a{ 0 };
 
       // Test these methods that take an instance of T to
       // allow for types with variable length.
@@ -715,10 +714,10 @@ struct HasNumericTraits
       a = NumericTraits<T>::ZeroValue(a);
       a = NumericTraits<T>::OneValue(a);
 
-      b = NumericTraits<T>::IsPositive(a);
-      b = NumericTraits<T>::IsNonpositive(a);
-      b = NumericTraits<T>::IsNegative(a);
-      b = NumericTraits<T>::IsNonnegative(a);
+      bool b = NumericTraits<T>::IsPositive(a);
+      b &= NumericTraits<T>::IsNonpositive(a);
+      b &= NumericTraits<T>::IsNegative(a);
+      b &= NumericTraits<T>::IsNonnegative(a);
       Detail::IgnoreUnusedVariable(a);
       Detail::IgnoreUnusedVariable(b);
     }
