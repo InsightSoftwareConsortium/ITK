@@ -31,9 +31,9 @@ itkGrayscaleConnectedOpeningImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
-    std::cerr << " outputImageFile seedX seedY " << std::endl;
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
+              << " outputImageFile seedX seedY " << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -52,27 +52,25 @@ itkGrayscaleConnectedOpeningImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
-
-  // readers/writers
-  using ReaderType = itk::ImageFileReader<InputImageType>;
-  using WriterType = itk::ImageFileWriter<WriteImageType>;
-
-  // define the fillhole filter
+  // Define the fillhole filter
   using ConnectedOpeningFilterType = itk::GrayscaleConnectedOpeningImageFilter<InputImageType, OutputImageType>;
-
-
-  // Creation of Reader and Writer filters
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
 
   // Create the filter
   ConnectedOpeningFilterType::Pointer connectedOpening = ConnectedOpeningFilterType::New();
-  itk::SimpleFilterWatcher            watcher(connectedOpening, "Opening");
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(connectedOpening, GrayscaleConnectedOpeningImageFilter, ImageToImageFilter);
+
+
+  itk::SimpleFilterWatcher watcher(connectedOpening, "Opening");
   watcher.QuietOn();
 
-  // Setup the input and output files
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
+
   reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   // Setup the connected opening method
   connectedOpening->SetInput(reader->GetOutput());
@@ -81,10 +79,20 @@ itkGrayscaleConnectedOpeningImageFilterTest(int argc, char * argv[])
   seed[0] = std::stoi(argv[3]);
   seed[1] = std::stoi(argv[4]);
   connectedOpening->SetSeed(seed);
+  ITK_TEST_SET_GET_VALUE(seed, connectedOpening->GetSeed());
 
-  // Run the filter
+  ITK_TRY_EXPECT_NO_EXCEPTION(connectedOpening->Update());
+
+
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName(argv[2]);
   writer->SetInput(connectedOpening->GetOutput());
-  writer->Update();
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

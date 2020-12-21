@@ -20,14 +20,15 @@
 #include "itkImageFileWriter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 8)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0]
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " OutputImage Radius PreserveIntensities(0,1) OriginX OriginY SpacingX SpacingY [Diffmage]"
               << std::endl;
     return EXIT_FAILURE;
@@ -43,8 +44,6 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   using SpacingType = InputImageType::SpacingType;
   using OriginType = InputImageType::PointType;
 
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
   // Declare the type of the Structuring element to be used
   using StructuringElementType = itk::BinaryBallStructuringElement<PixelType, Dimension>;
 
@@ -52,10 +51,7 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   using MorphologicalFilterType =
     itk::OpeningByReconstructionImageFilter<InputImageType, OutputImageType, StructuringElementType>;
 
-
-  WriterType::Pointer writer = WriterType::New();
-
-  // create image
+  // Create image
   InputImageType::Pointer inputImage = InputImageType::New();
 
   // Define regions of input image
@@ -84,12 +80,13 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   // Fill with zero values
   inputImage->FillBuffer(static_cast<PixelType>(0));
 
-  // Create writer
-  writer->SetFileName(argv[1]);
-
   // Create the filter
   MorphologicalFilterType::Pointer filter = MorphologicalFilterType::New();
-  itk::SimpleFilterWatcher         watcher(filter, "Opening");
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OpeningByReconstructionImageFilter, ImageToImageFilter);
+
+
+  itk::SimpleFilterWatcher watcher(filter, "Opening");
   watcher.QuietOn();
 
   StructuringElementType structuringElement;
@@ -98,33 +95,25 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   structuringElement.CreateStructuringElement();
 
   filter->SetKernel(structuringElement);
-  if (std::stoi(argv[3]) == 0)
-  {
-    filter->PreserveIntensitiesOff();
-  }
-  else
-  {
-    filter->PreserveIntensitiesOn();
-  }
+  ITK_TEST_SET_GET_VALUE(structuringElement, filter->GetKernel());
 
-  // Connect the pipelines
+  bool preserveIntensities = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, PreserveIntensities, preserveIntensities);
+
   filter->SetInput(inputImage);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
+  // Write the output
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName(argv[1]);
   writer->SetInput(filter->GetOutput());
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  // Execute print
-  filter->Print(std::cout);
-
-  // Execute the filter
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught:" << excp << std::endl;
-    return EXIT_FAILURE;
-  }
 
   // Create a difference image if one is requested
   if (argc == 8)
@@ -133,17 +122,14 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
       itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
     subtract->SetInput(0, inputImage);
     subtract->SetInput(1, filter->GetOutput());
-    try
-    {
-      writer->SetFileName(argv[7]);
-      writer->SetInput(subtract->GetOutput());
-      writer->Update();
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << "Exception caught writing diff image:" << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+
+    writer->SetFileName(argv[7]);
+    writer->SetInput(subtract->GetOutput());
+
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
   }
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
