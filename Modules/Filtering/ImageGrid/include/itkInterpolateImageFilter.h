@@ -100,7 +100,8 @@ public:
   itkGetConstMacro(Distance, double);
 
   /** Get/Set the interpolator function */
-  itkSetObjectMacro(Interpolator, InterpolatorType) itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
+  itkSetObjectMacro(Interpolator, InterpolatorType);
+  itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** This method is used to set the state of the filter before
    * multi-threading. */

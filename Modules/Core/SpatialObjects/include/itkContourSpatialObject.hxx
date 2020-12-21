@@ -231,7 +231,7 @@ ContourSpatialObject<TDimension>::Update()
         this->m_Points.push_back(newSOPoint);
       }
       break;
-  };
+  }
 
   // Call this last to compute MyBoundingBoxInWorldSpace
   Superclass::Update();

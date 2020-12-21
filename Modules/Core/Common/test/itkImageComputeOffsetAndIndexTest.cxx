@@ -142,7 +142,9 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
       repeat = 1;                                                                                                      \
     ComputeFastIndex<ImageType>(myImage, totalSize, repeat);                                                           \
     collector.Stop("ComputeIndexFast " #dim "D");                                                                      \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
+
 #define TRY_INDEX(dim)                                                                                                 \
   {                                                                                                                    \
     using PixelType = char;                                                                                            \
@@ -172,7 +174,8 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
       repeat = 1;                                                                                                      \
     ComputeIndex<ImageType>(myImage, totalSize, repeat);                                                               \
     collector.Stop("ComputeIndex " #dim "D");                                                                          \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define TRY_FAST_OFFSET(dim)                                                                                           \
   {                                                                                                                    \
@@ -199,7 +202,8 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
       totalSize *= size[i];                                                                                            \
     ComputeFastOffset<ImageType>(myImage, size[0], totalSize * repeat);                                                \
     collector.Stop("ComputeOffsetFast " #dim "D");                                                                     \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 #define TRY_OFFSET(dim)                                                                                                \
   {                                                                                                                    \
     using PixelType = char;                                                                                            \
@@ -225,7 +229,8 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
       totalSize *= size[i];                                                                                            \
     ComputeOffset<ImageType>(myImage, size[0], totalSize * repeat);                                                    \
     collector.Stop("ComputeOffset " #dim "D");                                                                         \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   TRY_INDEX(1);
   TRY_INDEX(2);

@@ -33,14 +33,16 @@
     itkmsg << "Debug: In " __FILE__ ", line " << __LINE__ << "\n"                                                      \
            << " (" << this << "): " x << "\n\n";                                                                       \
     OutputWindowDisplayDebugText(itkmsg.str().c_str());                                                                \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 #define itkQEWarningMacro(x)                                                                                           \
   {                                                                                                                    \
     std::ostringstream itkmsg;                                                                                         \
     itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n"                                                    \
            << " (" << this << "): " x << "\n\n";                                                                       \
     OutputWindowDisplayWarningText(itkmsg.str().c_str());                                                              \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // -------------------------------------------------------------------------
 /**

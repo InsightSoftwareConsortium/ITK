@@ -108,7 +108,7 @@ itkConvertBufferTest(int, char *[])
   for (int i = 0; i < arraySize; ++i)
   {
     std::cerr << farray[i] << " ";
-    ITK_TEST_EXPECT_EQUAL(darray[i], static_cast<double>(farray[i]))
+    ITK_TEST_EXPECT_EQUAL(darray[i], static_cast<double>(farray[i]));
   }
   // convert a float array to an int array
   itk::ConvertPixelBuffer<float, int, itk::DefaultConvertPixelTraits<int>>::Convert(farray, 1, iarray, arraySize);

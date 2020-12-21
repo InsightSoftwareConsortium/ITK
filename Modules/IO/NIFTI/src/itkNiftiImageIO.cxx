@@ -1969,7 +1969,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
       return this->m_NiftiImage->qto_xyz;
     }
 
-    itkGenericExceptionMacro("ITK only supports orthonormal direction cosines.  No orthonormal definition found!")
+    itkGenericExceptionMacro("ITK only supports orthonormal direction cosines.  No orthonormal definition found!");
   }();
 
   //

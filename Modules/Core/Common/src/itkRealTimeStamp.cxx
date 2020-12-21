@@ -28,7 +28,8 @@
   {                                                                                                                    \
     seconds += 1;                                                                                                      \
     micro_seconds -= 1000000L;                                                                                         \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define CARRY_UNITS_OVER_SIGNED(seconds, micro_seconds)                                                                \
   if (micro_seconds > 1000000L)                                                                                        \
@@ -40,7 +41,8 @@
   {                                                                                                                    \
     seconds -= 1;                                                                                                      \
     micro_seconds += 1000000L;                                                                                         \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // This macro ensures that the sign of the seconds is the same as the sign of
 // the microseconds. In other words, both of them are measured toward the same
@@ -55,7 +57,8 @@
   {                                                                                                                    \
     seconds += 1;                                                                                                      \
     micro_seconds = 1000000L + micro_seconds;                                                                          \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {

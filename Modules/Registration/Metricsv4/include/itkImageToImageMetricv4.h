@@ -369,7 +369,7 @@ public:
     }
     else
     {
-      itkExceptionMacro("Incorrect object type.  Should be an image.")
+      itkExceptionMacro("Incorrect object type.  Should be an image.");
     }
   }
 
@@ -384,7 +384,7 @@ public:
     }
     else
     {
-      itkExceptionMacro("Incorrect object type.  Should be an image.")
+      itkExceptionMacro("Incorrect object type.  Should be an image.");
     }
   }
 

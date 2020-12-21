@@ -304,10 +304,10 @@ protected:
 
   /** Get the current sampling strategy. Note that this is changed
    * internally as the class is used for scale or step estimation. */
-  itkGetMacro(SamplingStrategy, SamplingStrategyType)
+  itkGetMacro(SamplingStrategy, SamplingStrategyType);
 
-    /** the metric object */
-    MetricPointer m_Metric;
+  /** the metric object */
+  MetricPointer m_Metric;
 
   /** the samples in the virtual domain */
   SamplePointContainerType m_SamplePoints;

@@ -32,7 +32,8 @@ itkTemporalDataObjectTest(int, char *[])
       std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl;                               \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_CHECK_FOR_VALUE(a, b)                                                                                      \
   {                                                                                                                    \
@@ -44,7 +45,8 @@ itkTemporalDataObjectTest(int, char *[])
       b.Print(std::cerr);                                                                                              \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   // TODO HACK FIXME
   // This should be also verify that the temporal region functions handle

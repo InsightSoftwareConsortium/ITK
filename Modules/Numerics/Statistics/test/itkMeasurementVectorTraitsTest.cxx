@@ -23,7 +23,8 @@
   if (itk::NumericTraits<type>::GetLength((measure)) != len2)                                                          \
   {                                                                                                                    \
     std::cerr << "Set/GetLength() failed in measure " << std::endl;                                                    \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSetLengthExceptionMacro(measure, type, len)                                                                 \
   try                                                                                                                  \
@@ -34,7 +35,8 @@
     return EXIT_FAILURE;                                                                                               \
   }                                                                                                                    \
   catch (itk::ExceptionObject &)                                                                                       \
-  {}
+  {}                                                                                                                   \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkAssertLengthExceptionMacro(m1, m2)                                                                          \
   try                                                                                                                  \
@@ -45,7 +47,8 @@
     return EXIT_FAILURE;                                                                                               \
   }                                                                                                                    \
   catch (itk::ExceptionObject &)                                                                                       \
-  {}
+  {}                                                                                                                   \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkAssertLengthSameValueReturn(m1, type1, m2)                                                                  \
   if (itk::Statistics::MeasurementVectorTraits::Assert((m1), (m2)) != itk::NumericTraits<type1>::GetLength((m1)))      \
@@ -53,7 +56,8 @@
     std::cerr << "Failed to get expected VLenght for Assert() ";                                                       \
     std::cerr << std::endl;                                                                                            \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkAssertSameLengthTest(m1, m2)                                                                                \
   if (itk::Statistics::MeasurementVectorTraits::Assert((m1), (m2)) != 0)                                               \
@@ -61,7 +65,8 @@
     std::cerr << "Failed to recognize same length in Assert() ";                                                       \
     std::cerr << std::endl;                                                                                            \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 int

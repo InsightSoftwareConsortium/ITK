@@ -60,12 +60,14 @@
     template <void (Constraints::*)()>                                                                                 \
     struct Enforcer                                                                                                    \
     {};                                                                                                                \
-    using EnforcerInstantiation = Enforcer<&Constraints::constraints>;
+    using EnforcerInstantiation = Enforcer<&Constraints::constraints>;                                                 \
+    ITK_MACROEND_NOOP_STATEMENT
 #  define itkConceptMacro(name, concept)                                                                               \
     enum                                                                                                               \
     {                                                                                                                  \
       name = sizeof concept                                                                                            \
-    }
+    };                                                                                                                 \
+    ITK_MACROEND_NOOP_STATEMENT
 
 #elif defined(ITK_CONCEPT_IMPLEMENTATION_VTABLE)
 

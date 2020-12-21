@@ -84,7 +84,8 @@ namespace itk
   {                                                                                                                    \
     std::cerr << "Superclass name provided does not match object's Superclass::NameOfClass" << std::endl;              \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_TRY_EXPECT_EXCEPTION(command)                                                                              \
   try                                                                                                                  \
@@ -99,7 +100,8 @@ namespace itk
   {                                                                                                                    \
     std::cout << "Caught expected exception" << std::endl;                                                             \
     std::cout << excp << std::endl;                                                                                    \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 #define ITK_TRY_EXPECT_NO_EXCEPTION(command)                                                                           \
@@ -113,7 +115,8 @@ namespace itk
     std::cerr << excp << std::endl;                                                                                    \
     std::cerr << "  In " __FILE__ ", line " << __LINE__ << std::endl;                                                  \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_TEST_EXPECT_TRUE_STATUS_VALUE(command, statusVal)                                                          \
   {                                                                                                                    \
@@ -128,7 +131,8 @@ namespace itk
       std::cerr << "  but got  " << _ITK_TEST_EXPECT_TRUE_command << std::endl;                                        \
       statusVal = EXIT_FAILURE;                                                                                        \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_TEST_EXPECT_TRUE(command)                                                                                  \
   {                                                                                                                    \
@@ -143,7 +147,8 @@ namespace itk
       std::cerr << "  but got  " << _ITK_TEST_EXPECT_TRUE_command << std::endl;                                        \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 #define ITK_TEST_EXPECT_EQUAL_STATUS_VALUE(lh, rh, statusVal)                                                          \
@@ -160,7 +165,8 @@ namespace itk
       std::cerr << "Expression is not equal" << std::endl;                                                             \
       statusVal = EXIT_FAILURE;                                                                                        \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_TEST_EXPECT_EQUAL(lh, rh)                                                                                  \
   {                                                                                                                    \
@@ -176,7 +182,8 @@ namespace itk
       std::cerr << "Expression is not equal" << std::endl;                                                             \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 #define ITK_TEST_SET_GET(variable, command)                                                                            \
@@ -187,7 +194,8 @@ namespace itk
     std::cerr << "Expected " << variable.GetPointer() << std::endl;                                                    \
     std::cerr << "but got  " << command << std::endl;                                                                  \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 #define ITK_TEST_SET_GET_VALUE(variable, command)                                                                      \
@@ -199,7 +207,8 @@ namespace itk
     std::cerr << "Expected " << variable << std::endl;                                                                 \
     std::cerr << "but got  " << command << std::endl;                                                                  \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_TEST_SET_GET_NULL_VALUE(command)                                                                           \
   if (nullptr != command)                                                                                              \
@@ -210,7 +219,8 @@ namespace itk
               << "nullptr" << std::endl;                                                                               \
     std::cerr << "but got  " << command << std::endl;                                                                  \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define ITK_TEST_SET_GET_BOOLEAN(object, variable, value)                                                              \
   object->Set##variable(false);                                                                                        \
@@ -242,7 +252,7 @@ namespace itk
               << " instead of 0" << std::endl;                                                                         \
     return EXIT_FAILURE;                                                                                               \
   }                                                                                                                    \
-  object->Set##variable(value);
+  object->Set##variable(value)
 
 /** The name of the executable, argv[0], is not always available as argv[0] may be null.
  * In that case, use the name of the test function.

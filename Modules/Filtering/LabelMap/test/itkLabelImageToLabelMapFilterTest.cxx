@@ -81,9 +81,9 @@ itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
   conversion->SetBackgroundValue(255);
   conversion->Update();
 
-  itkAssertOrThrowMacro((conversion->GetBackgroundValue() == 255), "Error conversion background value.")
+  itkAssertOrThrowMacro((conversion->GetBackgroundValue() == 255), "Error conversion background value.");
 
-    LabelMapType::Pointer map;
+  LabelMapType::Pointer map;
   map = conversion->GetOutput();
 
   itkAssertOrThrowMacro((map->GetBackgroundValue() == 255), "Error in Label Image (background).");

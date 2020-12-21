@@ -78,7 +78,7 @@ itkLabelMapToBinaryImageFilterTest(int argc, char * argv[])
   l2i->SetInput(i2l->GetOutput());
   writer->SetInput(l2i->GetOutput());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update())
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   i2l->GetOutput()->PrintLabelObjects();
 

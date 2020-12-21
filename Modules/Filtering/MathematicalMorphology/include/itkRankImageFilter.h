@@ -118,9 +118,10 @@ public:
   using RadiusType = typename KernelType::SizeType;
 
   itkSetClampMacro(Rank, float, 0.0, 1.0);
-  itkGetConstMacro(Rank, float)
+  itkGetConstMacro(Rank, float);
 
-    bool GetUseVectorBasedAlgorithm() const
+  bool
+  GetUseVectorBasedAlgorithm() const
   {
     return HistogramType::UseVectorBasedAlgorithm();
   }

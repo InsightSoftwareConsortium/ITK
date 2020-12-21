@@ -65,12 +65,30 @@ namespace itk
  * avoiding compile-time warnings. */
 #define itkNotUsed(x)
 
-/** The `do {} while(0)`  idiom is commonly employed for
- *  allowing a macro to be used anywhere that a statement
- *  is expected, and to enforce consistent use of ; after
- *  macro */
 // clang-format off
-#  define ITK_NOOP_STATEMENT    do {} while(0)
+
+/** The `static_assert(true, "")`  idiom is commonly employed for
+ *  C++11 or greater to ensure that it is compile-time only
+ *  check that can not be part of the binary file.
+ *  This allows a macro to be used anywhere that a statement
+ *  is expected, and to enforce consistent use of ; after
+ *  a macro. The static_assert is a constexpr that can be used
+ *  in places where raw statements (i.e. 'do{} while(0)') are
+ *  not allowed (i.e. after class member function definitions).
+ *  */
+#  define ITK_NOOP_STATEMENT static_assert(true, "")
+
+
+#if defined(ITK_FUTURE_LEGACY_REMOVE)
+
+#  define ITK_MACROEND_NOOP_STATEMENT ITK_NOOP_STATEMENT
+#else
+   /* NOTE:  The ITK_MACROEND_NOOP_STATEMENT must be defined to nothing
+    * in order to maintain backwards compatibility with earlier macro
+    * uses that may or may not have ';' after the macro is used. */
+    /* Purposefully empty */
+#  define ITK_MACROEND_NOOP_STATEMENT
+#endif
 // clang-format on
 
 // Define ITK_PRAGMA macro.
@@ -289,7 +307,11 @@ namespace itk
  * Break the methods into itkSimpleNewMacro and itkCreateAnotherMacro
  * so we can selectively overload CreateAnother() without having to
  * provide a definition for New(). */
-#define itkNewMacro(x) itkSimpleNewMacro(x) itkCreateAnotherMacro(x) itkCloneMacro(x)
+#define itkNewMacro(x)                                                                                                 \
+  itkSimpleNewMacro(x);                                                                                                \
+  itkCreateAnotherMacro(x);                                                                                            \
+  itkCloneMacro(x);                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSimpleNewMacro(x)                                                                                           \
   static Pointer New()                                                                                                 \
@@ -301,7 +323,8 @@ namespace itk
     }                                                                                                                  \
     smartPtr->UnRegister();                                                                                            \
     return smartPtr;                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkCreateAnotherMacro(x)                                                                                       \
   ::itk::LightObject::Pointer CreateAnother() const override                                                           \
@@ -309,14 +332,16 @@ namespace itk
     ::itk::LightObject::Pointer smartPtr;                                                                              \
     smartPtr = x::New().GetPointer();                                                                                  \
     return smartPtr;                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkCloneMacro(x)                                                                                               \
   Pointer Clone() const                                                                                                \
   {                                                                                                                    \
     Pointer rval = dynamic_cast<x *>(this->InternalClone().GetPointer());                                              \
     return rval;                                                                                                       \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class but does not defer to a factory.
@@ -344,7 +369,8 @@ namespace itk
     ::itk::LightObject::Pointer smartPtr;                                                                              \
     smartPtr = x::New().GetPointer();                                                                                  \
     return smartPtr;                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 //
 // A macro to disallow the copy constructor, copy assignment,
@@ -368,10 +394,12 @@ namespace itk
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
 #define itkTypeMacro(thisClass, superclass)                                                                            \
-  const char * GetNameOfClass() const override { return #thisClass; }
+  const char * GetNameOfClass() const override { return #thisClass; }                                                  \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkTypeMacroNoParent(thisClass)                                                                                \
-  virtual const char * GetNameOfClass() const { return #thisClass; }
+  virtual const char * GetNameOfClass() const { return #thisClass; }                                                   \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {
@@ -473,7 +501,8 @@ OutputWindowDisplayDebugText(const char *);
     {}                                                                                                                 \
     itkTypeMacro(newexcp, parentexcp);                                                                                 \
   };                                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 #define itkSpecializedMessageExceptionMacro(ExceptionType, x)                                                          \
@@ -482,13 +511,15 @@ OutputWindowDisplayDebugText(const char *);
     message << "itk::ERROR: " x;                                                                                       \
     throw ::itk::ExceptionType(                                                                                        \
       std::string{ __FILE__ }, __LINE__, std::string{ message.str() }, std::string{ ITK_LOCATION });                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSpecializedExceptionMacro(ExceptionType)                                                                    \
   {                                                                                                                    \
     itkSpecializedMessageExceptionMacro(ExceptionType,                                                                 \
-                                        "itk::ERROR: " << ::itk::ExceptionType::default_exception_message)             \
-  }
+                                        "itk::ERROR: " << ::itk::ExceptionType::default_exception_message);            \
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** The itkExceptionMacro macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
@@ -497,12 +528,14 @@ OutputWindowDisplayDebugText(const char *);
   {                                                                                                                    \
     itkSpecializedMessageExceptionMacro(ExceptionObject,                                                               \
                                         "itk::ERROR: " << this->GetNameOfClass() << "(" << this << "): " x);           \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkGenericExceptionMacro(x)                                                                                    \
   {                                                                                                                    \
     itkSpecializedMessageExceptionMacro(ExceptionObject, x);                                                           \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkGenericOutputMacro(x)                                                                                       \
   {                                                                                                                    \
@@ -512,7 +545,8 @@ OutputWindowDisplayDebugText(const char *);
       itkmsg << "WARNING: In " __FILE__ ", line " << __LINE__ << "\n" x << "\n\n";                                     \
       ::itk::OutputWindowDisplayGenericOutputText(itkmsg.str().c_str());                                               \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 //----------------------------------------------------------------------------
 // Macros for simplifying the use of logging
@@ -523,7 +557,8 @@ OutputWindowDisplayDebugText(const char *);
     {                                                                                                                  \
       this->GetLogger()->Write(::itk::LoggerBase::x, y);                                                               \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define itkLogMacroStatic(obj, x, y)                                                                                   \
   {                                                                                                                    \
@@ -531,7 +566,8 @@ OutputWindowDisplayDebugText(const char *);
     {                                                                                                                  \
       obj->GetLogger()->Write(::itk::LoggerBase::x, y);                                                                \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 //----------------------------------------------------------------------------
 // Setup legacy code policy.
@@ -735,7 +771,8 @@ compilers.
     std::ostringstream msgstr;                                                                                         \
     msgstr << message;                                                                                                 \
     itkAssertInDebugOrThrowInReleaseMacro(msgstr.str().c_str());                                                       \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #ifndef NDEBUG
 #  define itkAssertInDebugAndIgnoreInReleaseMacro(X) assert(X)
@@ -777,7 +814,8 @@ compilers.
       this->ProcessObject::SetInput(#name, const_cast<type *>(_arg));                                                  \
       this->Modified();                                                                                                \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Get an input. This defines the Get"name"() method */
 #define itkGetInputMacro(name, type)                                                                                   \
@@ -785,7 +823,8 @@ compilers.
   {                                                                                                                    \
     itkDebugMacro("returning input " << #name " of " << this->ProcessObject::GetInput(#name));                         \
     return itkDynamicCastInDebugMode<const type *>(this->ProcessObject::GetInput(#name));                              \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // clang-format off
 /** Set a decorated input. This defines the Set"name"() and a Set"name"Input() method */
@@ -816,7 +855,8 @@ compilers.
     typename DecoratorType::Pointer newInput = DecoratorType::New();                                                   \
     newInput->Set(_arg);                                                                                               \
     this->Set##name##Input(newInput);                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
 /** Set a decorated input. This defines the Set"name"() and Set"name"Input() method */
@@ -837,12 +877,14 @@ compilers.
       itkExceptionMacro(<< "input" #name " is not set");                                                               \
     }                                                                                                                  \
     return input->Get();                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Set a decorated input. This defines the Set"name"() and Set"name"Input() method
  * and Get"name" and Get"name"Input methods */
 #define itkSetGetDecoratedInputMacro(name, type)                                                                       \
-  itkSetDecoratedInputMacro(name, type) itkGetDecoratedInputMacro(name, type)
+  itkSetDecoratedInputMacro(name, type);                                                                               \
+  itkGetDecoratedInputMacro(name, type)
 
 /** Set a decorated input that derives from itk::Object, but not from
  * itk::DataObject. This defines the Set"name"() and Set"name"Input
@@ -871,7 +913,8 @@ compilers.
     typename DecoratorType::Pointer newInput = DecoratorType::New();                                                   \
     newInput->Set(_arg);                                                                                               \
     this->Set##name##Input(newInput);                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Get a decorated input that derives from itk::Object, but not from
  * itk::DataObject. This defines the Get"name"() and Get"name"Input
@@ -894,12 +937,14 @@ compilers.
       return nullptr;                                                                                                  \
     }                                                                                                                  \
     return input->Get();                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Set a decorated input. This defines the Set"name"() and Set"name"Input() method
  * and Get"name" and Get"name"Input methods */
 #define itkSetGetDecoratedObjectInputMacro(name, type)                                                                 \
-  itkSetDecoratedObjectInputMacro(name, type) itkGetDecoratedObjectInputMacro(name, type)
+  itkSetDecoratedObjectInputMacro(name, type);                                                                         \
+  itkGetDecoratedObjectInputMacro(name, type)
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 // clang-format off
@@ -915,24 +960,28 @@ compilers.
       this->Modified();                                                                                                \
     }                                                                                                                  \
     CLANG_PRAGMA_POP                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
 #define itkGetMacro(name, type)                                                                                        \
-  virtual type Get##name() { return this->m_##name; }
+  virtual type Get##name() { return this->m_##name; }                                                                  \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine. */
 #define itkGetConstMacro(name, type)                                                                                   \
-  virtual type Get##name() const { return this->m_##name; }
+  virtual type Get##name() const { return this->m_##name; }                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine.
  * This versions returns a const reference to the variable. */
 #define itkGetConstReferenceMacro(name, type)                                                                          \
-  virtual const type & Get##name() const { return this->m_##name; }
+  virtual const type & Get##name() const { return this->m_##name; }                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
  * This should be used when the type is an enum. It is used to avoid warnings on
@@ -947,14 +996,16 @@ compilers.
       this->m_##name = _arg;                                                                                           \
       this->Modified();                                                                                                \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This should be use when the type is an enum. It is use to avoid warnings on
  * some compilers with non specified enum types passed to
  * itkDebugMacro. */
 #define itkGetEnumMacro(name, type)                                                                                    \
-  virtual type Get##name() const { return this->m_##name; }
+  virtual type Get##name() const { return this->m_##name; }                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Set character string.  Creates member Set"name"()
  * (e.g., SetFilename(char *)). The macro assumes that
@@ -976,14 +1027,16 @@ compilers.
     }                                                                                                                  \
     this->Modified();                                                                                                  \
   }                                                                                                                    \
-  virtual void Set##name(const std::string & _arg) { this->Set##name(_arg.c_str()); }
+  virtual void Set##name(const std::string & _arg) { this->Set##name(_arg.c_str()); }                                  \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 /** Get character string.  Creates member Get"name"()
  * (e.g., SetFilename(char *)). The macro assumes that
  * the class member (name) is declared as a type std::string. */
 #define itkGetStringMacro(name)                                                                                        \
-  virtual const char * Get##name() const { return this->m_##name.c_str(); }
+  virtual const char * Get##name() const { return this->m_##name.c_str(); }                                            \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // clang-format off
 /** Set built-in type where value is constrained between min/max limits.
@@ -1002,7 +1055,8 @@ compilers.
       this->Modified();                                                                                                \
     }                                                                                                                  \
     CLANG_PRAGMA_POP                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
 // clang-format off
@@ -1023,7 +1077,8 @@ compilers.
       this->Modified();                                                                                                \
     }                                                                                                                  \
     CLANG_PRAGMA_POP                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
 /** Get a smart pointer to an object.  Creates the member
@@ -1052,7 +1107,8 @@ compilers.
 /** Get a smart const pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
 #define itkGetConstObjectMacro(name, type)                                                                             \
-  virtual const type * Get##name() const { return this->m_##name.GetPointer(); }
+  virtual const type * Get##name() const { return this->m_##name.GetPointer(); }                                       \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 #if defined(ITK_FUTURE_LEGACY_REMOVE)
@@ -1075,10 +1131,12 @@ compilers.
 /** Get a smart pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
 #  define itkGetObjectMacro(name, type)                                                                                \
-    virtual type * Get##name() { return this->m_##name.GetPointer(); }
+    virtual type * Get##name() { return this->m_##name.GetPointer(); }                                                 \
+    ITK_MACROEND_NOOP_STATEMENT
 #  define itkGetModifiableObjectMacro(name, type)                                                                      \
     virtual type * GetModifiable##name() { return this->m_##name.GetPointer(); }                                       \
-    itkGetConstObjectMacro(name, type) itkGetObjectMacro(name, type)
+    itkGetConstObjectMacro(name, type);                                                                                \
+    itkGetObjectMacro(name, type)
 #endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
 
 // For backwards compatibility define ITK_EXPORT to nothing
@@ -1088,7 +1146,8 @@ compilers.
 /** Get a const reference to a smart pointer to an object.
  * Creates the member Get"name"() (e.g., GetPoints()). */
 #define itkGetConstReferenceObjectMacro(name, type)                                                                    \
-  virtual const typename type::Pointer & Get##name() const { return this->m_##name; }
+  virtual const typename type::Pointer & Get##name() const { return this->m_##name; }                                  \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Set const pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
@@ -1103,7 +1162,8 @@ compilers.
       this->m_##name = _arg;                                                                                           \
       this->Modified();                                                                                                \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
  * Set method must be defined to use this macro. */
@@ -1137,13 +1197,15 @@ compilers.
         this->m_##name[i] = data[i];                                                                                   \
       }                                                                                                                \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
 /** Get vector macro. Returns pointer to type (i.e., array of type).
  * This is for efficiency. */
 #define itkGetVectorMacro(name, type, count)                                                                           \
-  virtual type * Get##name() const { return this->m_##name; }
+  virtual type * Get##name() const { return this->m_##name; }                                                          \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /**\def itkGPUKernelClassMacro
  * Construct a non-templatized helper class that
@@ -1176,7 +1238,8 @@ compilers.
   {                                                                                                                    \
     os << indent << #name << ": " << std::endl;                                                                        \
     this->m_##name->Print(os, indent.GetNextIndent());                                                                 \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 /** Set a decorated output. This defines the Set"name"() and a Set"name"Output() method */
@@ -1212,7 +1275,8 @@ compilers.
       newOutput->Set(_arg);                                                                                            \
       this->Set##name##Output(newOutput);                                                                              \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 /** Set a decorated output. This defines the Get"name"() and Get"name"Output() method */
 #define itkGetDecoratedOutputMacro(name, type)                                                                         \
@@ -1232,7 +1296,8 @@ compilers.
       itkExceptionMacro(<< "output" #name " is not set");                                                              \
     }                                                                                                                  \
     return output->Get();                                                                                              \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 /** Defines to provide compatibility with derived iterators.

@@ -145,7 +145,9 @@ itkFixedArrayTest(int, char *[])
       std::cerr << "index failed" << std::endl;                                                                        \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
+
   TRY_INDEX_CONST(short);
   TRY_INDEX_CONST(unsigned short);
   TRY_INDEX_CONST(int);
@@ -158,7 +160,9 @@ itkFixedArrayTest(int, char *[])
   {                                                                                                                    \
     T in = 10;                                                                                                         \
     array20[in] = 10;                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
+
   TRY_INDEX(short);
   TRY_INDEX(unsigned short);
   TRY_INDEX(int);

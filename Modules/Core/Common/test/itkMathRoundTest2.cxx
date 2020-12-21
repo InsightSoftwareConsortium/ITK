@@ -25,7 +25,8 @@
     std::cout << "Failure! " << #rndname << "(" << (int)(input) << ") expected " << (int)(output) << " but got "       \
               << (int)rndname((input)) << std::endl;                                                                   \
     ok = false;                                                                                                        \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace
 {
