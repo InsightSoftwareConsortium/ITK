@@ -87,8 +87,11 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   /* Create and initialize the interpolator */
   RayCastInterpolatorType::Pointer interp = RayCastInterpolatorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(interp, RayCastInterpolateImageFunction, InterpolateImageFunction);
+
+
   interp->SetInputImage(image);
-  interp->Print(std::cout);
 
   PointType focus;
   focus[0] = 15.0;
@@ -96,13 +99,16 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   focus[2] = 100.0;
 
   interp->SetFocalPoint(focus);
+  ITK_TEST_SET_GET_VALUE(focus, interp->GetFocalPoint());
 
 
   /* Create the transform */
   using TransformType = itk::TranslationTransform<double, ImageDimension>;
 
   TransformType::Pointer transform = TransformType::New();
+
   interp->SetTransform(transform);
+  ITK_TEST_SET_GET_VALUE(transform, interp->GetTransform());
 
   /* Create the auxiliary interpolator */
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
@@ -110,9 +116,12 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   InterpolatorType::Pointer auxInterpolator = InterpolatorType::New();
 
   interp->SetInterpolator(auxInterpolator);
+  ITK_TEST_SET_GET_VALUE(auxInterpolator, interp->GetInterpolator());
 
   /* Exercise the SetThreshold() method */
-  interp->SetThreshold(1.0);
+  double threshold = 1.0;
+  interp->SetThreshold(threshold);
+  ITK_TEST_SET_GET_VALUE(threshold, interp->GetThreshold());
 
   /* Evaluate the function */
   double    integral;
@@ -132,5 +141,7 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(integral, 1276.));
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
