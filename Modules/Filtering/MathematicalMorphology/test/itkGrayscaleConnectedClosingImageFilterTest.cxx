@@ -52,26 +52,24 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
-
-  // readers/writers
-  using ReaderType = itk::ImageFileReader<InputImageType>;
-  using WriterType = itk::ImageFileWriter<WriteImageType>;
-
-  // define the connected closing filter
+  // Define the connected closing filter
   using ConnectedClosingFilterType = itk::GrayscaleConnectedClosingImageFilter<InputImageType, OutputImageType>;
-
-
-  // Creation of Reader and Writer filters
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
 
   // Create the filter
   ConnectedClosingFilterType::Pointer connectedClosing = ConnectedClosingFilterType::New();
-  itk::SimpleFilterWatcher            watcher(connectedClosing, "connectedClosing");
 
-  // Setup the input and output files
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(connectedClosing, GrayscaleConnectedClosingImageFilter, ImageToImageFilter);
+
+
+  itk::SimpleFilterWatcher watcher(connectedClosing, "connectedClosing");
+
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
+
   reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   // Setup the connectedopening method
   connectedClosing->SetInput(reader->GetOutput());
@@ -80,10 +78,20 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   seed[0] = std::stoi(argv[3]);
   seed[1] = std::stoi(argv[4]);
   connectedClosing->SetSeed(seed);
+  ITK_TEST_SET_GET_VALUE(seed, connectedClosing->GetSeed());
 
-  // Run the filter
+  ITK_TRY_EXPECT_NO_EXCEPTION(connectedClosing->Update());
+
+
+  using WriterType = itk::ImageFileWriter<WriteImageType>;
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName(argv[2]);
   writer->SetInput(connectedClosing->GetOutput());
-  writer->Update();
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
