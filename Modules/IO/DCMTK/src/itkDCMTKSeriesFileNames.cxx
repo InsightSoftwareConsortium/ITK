@@ -184,7 +184,7 @@ DCMTKSeriesFileNames::GetInputFileNames()
 const DCMTKSeriesFileNames::FileNamesContainerType &
 DCMTKSeriesFileNames::GetOutputFileNames()
 {
-  return m_InputFileNames;
+  return m_OutputFileNames;
 }
 
 void
