@@ -55,8 +55,15 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(it, DCMTKSeriesFileNames, ProcessObject);
 
+  // Test exceptions
+  std::string inputDirectory = "";
+  ITK_TRY_EXPECT_EXCEPTION(it->SetInputDirectory());
 
-  it->SetInputDirectory(argv[1]);
+  inputDirectory = "NotADirectory";
+  ITK_TRY_EXPECT_EXCEPTION(it->SetInputDirectory());
+
+  inputDirectory = argv[1];
+  it->SetInputDirectory(inputDirectory);
 
   auto recursive = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(it, Recursive, recursive);
@@ -79,6 +86,8 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   }
 
   reader->SetFileNames(fileNames);
+  ITK_TEST_SET_GET_VALUE(fileNames, reader->GetFileNames());
+
   reader->SetImageIO(dcmtkIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
