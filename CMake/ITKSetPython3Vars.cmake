@@ -1,6 +1,6 @@
 # This file provides a work-around to provide consistent
 # python3 cmake variables for cmake versions pre/post 3.12.0
-# NOTE: Only python 3 versions 3.5 and above are searched for.
+# NOTE: Only python 3 versions 3.6 and above are searched for.
 
 # If the cmake variable "PYTHON_DEVELOPMENT_REQUIRED" is set to ON
 # then the development environments are found.
@@ -19,7 +19,7 @@ if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.15.0")
   # Unstable behavior of FindPython between CMake 3.12 and 3.15, so including in this
   # Only use deprecated mechanisms for older versions of cmake
   #
-  set(Python_ADDITIONAL_VERSIONS 3.9 3.8 3.7 3.6 3.5)
+  set(Python_ADDITIONAL_VERSIONS 3.9 3.8 3.7 3.6)
   find_package(PythonInterp)
   if(PYTHON_DEVELOPMENT_REQUIRED)
     find_package(PythonLibs REQUIRED)
