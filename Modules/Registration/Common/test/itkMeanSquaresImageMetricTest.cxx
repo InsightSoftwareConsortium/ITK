@@ -360,7 +360,8 @@ itkMeanSquaresImageMetricTest(int, char *[])
   {                                                                                                                    \
     std::cout << "Test failed." << std::endl;                                                                          \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   TEST_INITIALIZATION_ERROR(Transform, nullptr, transform);
   TEST_INITIALIZATION_ERROR(FixedImage, nullptr, fixedImage);

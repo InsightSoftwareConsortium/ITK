@@ -1204,7 +1204,8 @@ TIFFImageIO::ReadTIFFTags()
   else                                                                                                                 \
   {                                                                                                                    \
     EncapsulateMetaData<T1>(dict, field_name, (static_cast<const T2 *>(raw_data))[0]);                                 \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
     try
     {
@@ -1295,7 +1296,7 @@ TIFFImageIO::ReadCurrentPage(void * buffer, size_t pixelOffset)
     }
     else
     {
-      itkExceptionMacro("Logic Error: Unexpected buffer type!")
+      itkExceptionMacro("Logic Error: Unexpected buffer type!");
     }
 
     if (!TIFFReadRGBAImageOriented(m_InternalImage->m_Image, width, height, tempImage, ORIENTATION_TOPLEFT, 1))

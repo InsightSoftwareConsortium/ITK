@@ -76,9 +76,10 @@ public:
    * harmonics (due to the Nyquist criterion), then as many harmonics as are
    * possible (input->NumberOfSteps()/2) will be calculated, but at least 2
    * harmonics will always be calculated.*/
-  itkSetMacro(NumberOfHarmonics, unsigned int)
+  itkSetMacro(NumberOfHarmonics, unsigned int);
 
-    protected : ChainCodeToFourierSeriesPathFilter();
+protected:
+  ChainCodeToFourierSeriesPathFilter();
   ~ChainCodeToFourierSeriesPathFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

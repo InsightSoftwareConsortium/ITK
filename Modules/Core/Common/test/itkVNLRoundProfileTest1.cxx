@@ -38,7 +38,8 @@ itkVNLRoundTestHelperFunction(double x)
   else                                                                                                                 \
   {                                                                                                                    \
     y = static_cast<int>(x - 0.5f);                                                                                    \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 
 int

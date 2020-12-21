@@ -651,7 +651,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcRayIntercepts()
 
   if (nSidesCrossed >= 5)
   {
-    itkDebugStatement(std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << std::endl;);
+    itkDebugStatement(std::cerr << "WARNING: No. of sides crossed equals: " << nSidesCrossed << std::endl);
   }
 
   // If 'nSidesCrossed' is larger than 2, this means that the ray goes through

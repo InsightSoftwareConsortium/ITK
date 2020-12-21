@@ -72,7 +72,7 @@ ImageVectorOptimizerParametersHelper<TValue, NVectorDimension, VImageDimension>:
     {
       itkGenericExceptionMacro("ImageVectorOptimizerParametersHelper::SetParametersObject: object is "
                                "not of proper image type. Expected VectorImage, received "
-                               << object->GetNameOfClass())
+                               << object->GetNameOfClass());
     }
     m_ParameterImage = image;
     // The PixelContainer for Image<Vector> points to type Vector, so we have

@@ -128,7 +128,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::BeforeThreadedGe
 
   if (numberOfComponents != this->GetInput()->GetNumberOfComponentsPerPixel())
   {
-    PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(zeroComponent);
+    PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(PixelComponentType{});
     numberOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
     NumericTraits<PixelType>::SetLength(m_EdgePaddingValue, numberOfComponents);
 

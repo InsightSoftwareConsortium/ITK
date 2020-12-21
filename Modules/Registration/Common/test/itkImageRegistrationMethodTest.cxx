@@ -133,7 +133,8 @@ itkImageRegistrationMethodTest(int, char *[])
   {                                                                                                                    \
     std::cout << "Test failed." << std::endl;                                                                          \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   TEST_INITIALIZATION_ERROR(InitialTransformParameters, badParameters, initialParameters);
   TEST_INITIALIZATION_ERROR(Metric, nullptr, metric);

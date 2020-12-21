@@ -89,7 +89,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::VerifyPreconditions()
 
   if (sourceInput == nullptr && constantInput == nullptr)
   {
-    itkExceptionMacro("The Source or the Constant input are required.")
+    itkExceptionMacro("The Source or the Constant input are required.");
   }
 
 
@@ -283,7 +283,7 @@ PasteImageFilter<TInputImage, TSourceImage, TOutputImage>::GetPresumedDestinatio
 
   if (numberSkippedAxis != (InputImageDimension - SourceImageDimension))
   {
-    itkExceptionMacro("Number of skipped axis " << m_DestinationSkipAxes)
+    itkExceptionMacro("Number of skipped axis " << m_DestinationSkipAxes);
   }
 
   InputImageSizeType ret;

@@ -61,7 +61,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInputIma
           itkExceptionMacro("The OutputType is not the right size (" << nComponents << ") for the given pixel size ("
                                                                      << inputData->GetNumberOfComponentsPerPixel()
                                                                      << ") and image dimension ("
-                                                                     << TInputImage::ImageDimension << ").")
+                                                                     << TInputImage::ImageDimension << ").");
         }
       }
     }

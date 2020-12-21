@@ -409,7 +409,8 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   {                                                                                                                    \
     std::cout << "Test failed." << std::endl;                                                                          \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   TEST_INITIALIZATION_ERROR(ShapeFunction, nullptr, shape);
   TEST_INITIALIZATION_ERROR(CostFunction, nullptr, costFunction);

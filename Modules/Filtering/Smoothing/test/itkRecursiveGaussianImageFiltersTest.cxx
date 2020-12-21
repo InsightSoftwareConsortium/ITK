@@ -431,7 +431,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     }
 
     filter->SetSigma(0.0);
-    ITK_TRY_EXPECT_EXCEPTION(filter->Update())
+    ITK_TRY_EXPECT_EXCEPTION(filter->Update());
   }
 
   {
@@ -508,7 +508,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     }
 
     filter->SetSigma(0.0);
-    ITK_TRY_EXPECT_EXCEPTION(filter->Update())
+    ITK_TRY_EXPECT_EXCEPTION(filter->Update());
   }
 
   // Test streaming enumeration for RecursiveGaussianImageFilterEnums::GaussianOrder elements

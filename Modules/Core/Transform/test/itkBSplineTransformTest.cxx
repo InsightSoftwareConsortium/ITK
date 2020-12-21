@@ -291,7 +291,8 @@ itkBSplineTransformTest1()
 
 #define PRINT_VALUE(R, C)                                                                                              \
   std::cout << "Jacobian[" #R "," #C "] = ";                                                                           \
-  std::cout << jacobian[R][C] << std::endl;
+  std::cout << jacobian[R][C] << std::endl;                                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
 
   {
     // point inside the grid support region

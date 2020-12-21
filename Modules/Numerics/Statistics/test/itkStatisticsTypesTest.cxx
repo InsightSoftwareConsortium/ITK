@@ -28,8 +28,8 @@
   else                                                                                                                 \
   {                                                                                                                    \
     std::cout << " Real type " << std::endl;                                                                           \
-  }
-
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 int
 itkStatisticsTypesTest(int, char *[])

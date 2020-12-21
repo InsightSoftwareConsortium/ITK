@@ -80,7 +80,8 @@ itkBSplineKernelFunctionTest(int, char *[])
         return EXIT_FAILURE;                                                                                           \
       }                                                                                                                \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   TEST_BSPLINE_KERNEL(0);
   TEST_BSPLINE_KERNEL(1);

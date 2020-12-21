@@ -65,9 +65,9 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ParticleSwarmOptimizerBase, SingleValuedNonLinearOptimizer)
+  itkTypeMacro(ParticleSwarmOptimizerBase, SingleValuedNonLinearOptimizer);
 
-    using ParameterBoundsType = std::vector<std::pair<ParametersType::ValueType, ParametersType::ValueType>>;
+  using ParameterBoundsType = std::vector<std::pair<ParametersType::ValueType, ParametersType::ValueType>>;
 
   struct ParticleData
   {
@@ -91,15 +91,17 @@ public:
    * If the optimum is expected to be near the initial value it is likely
    * that initializing with a normal distribution will result in faster
    * convergence.*/
-  itkSetMacro(InitializeNormalDistribution, bool) itkGetMacro(InitializeNormalDistribution, bool)
-    itkBooleanMacro(InitializeNormalDistribution)
+  itkSetMacro(InitializeNormalDistribution, bool);
+  itkGetMacro(InitializeNormalDistribution, bool);
+  itkBooleanMacro(InitializeNormalDistribution);
 
-    /**
-     * Specify the initial swarm. Useful for evaluating PSO variants. If the
-     * initial swarm is set it will be used. To revert to random initialization
-     * (uniform or normal particle distributions) set using an empty swarm.
-     */
-    void SetInitialSwarm(const SwarmType & initialSwarm);
+  /**
+   * Specify the initial swarm. Useful for evaluating PSO variants. If the
+   * initial swarm is set it will be used. To revert to random initialization
+   * (uniform or normal particle distributions) set using an empty swarm.
+   */
+  void
+  SetInitialSwarm(const SwarmType & initialSwarm);
   void
   ClearSwarm();
 
@@ -108,34 +110,38 @@ public:
    * object. By default this option is turned off as it generates too much
    * information.
    */
-  itkSetMacro(PrintSwarm, bool) itkGetMacro(PrintSwarm, bool) itkBooleanMacro(PrintSwarm)
+  itkSetMacro(PrintSwarm, bool);
+  itkGetMacro(PrintSwarm, bool);
+  itkBooleanMacro(PrintSwarm);
 
-    /** Start optimization. */
-    void StartOptimization() override;
+  /** Start optimization. */
+  void
+  StartOptimization() override;
 
 
   /** Set/Get number of particles in the swarm - the maximal number of function
       evaluations is m_MaximalNumberOfIterations*m_NumberOfParticles */
   void
   SetNumberOfParticles(NumberOfParticlesType n);
-  itkGetMacro(NumberOfParticles, NumberOfParticlesType)
+  itkGetMacro(NumberOfParticles, NumberOfParticlesType);
 
-    /** Set/Get maximal number of iterations - the maximal number of function
-        evaluations is m_MaximalNumberOfIterations*m_NumberOfParticles */
-    itkSetMacro(MaximalNumberOfIterations, NumberOfIterationsType)
-      itkGetMacro(MaximalNumberOfIterations, NumberOfIterationsType)
+  /** Set/Get maximal number of iterations - the maximal number of function
+      evaluations is m_MaximalNumberOfIterations*m_NumberOfParticles */
+  itkSetMacro(MaximalNumberOfIterations, NumberOfIterationsType);
+  itkGetMacro(MaximalNumberOfIterations, NumberOfIterationsType);
 
-    /** Set/Get the number of generations to continue with minimal improvement in
-     *  the function value, |f_best(g_i) - f_best(g_k)|<threshold where
-     *  k <= i+NumberOfGenerationsWithMinimalImprovement
-     *  Minimal value is one.*/
-    itkSetMacro(NumberOfGenerationsWithMinimalImprovement, NumberOfGenerationsType)
-      itkGetMacro(NumberOfGenerationsWithMinimalImprovement, NumberOfGenerationsType)
+  /** Set/Get the number of generations to continue with minimal improvement in
+   *  the function value, |f_best(g_i) - f_best(g_k)|<threshold where
+   *  k <= i+NumberOfGenerationsWithMinimalImprovement
+   *  Minimal value is one.*/
+  itkSetMacro(NumberOfGenerationsWithMinimalImprovement, NumberOfGenerationsType);
+  itkGetMacro(NumberOfGenerationsWithMinimalImprovement, NumberOfGenerationsType);
 
-    /**Set/Get the parameter bounds. Search for optimal value is inside these
-       bounds. NOTE: It is assumed that the first entry is the minimal value,
-       second is the maximal value. */
-    virtual void SetParameterBounds(ParameterBoundsType & bounds);
+  /**Set/Get the parameter bounds. Search for optimal value is inside these
+     bounds. NOTE: It is assumed that the first entry is the minimal value,
+     second is the maximal value. */
+  virtual void
+  SetParameterBounds(ParameterBoundsType & bounds);
   void
   SetParameterBounds(std::pair<ParametersType::ValueType, ParametersType::ValueType> & bounds, unsigned int n);
 
@@ -156,29 +162,35 @@ public:
    *         translation). Alternatively, we could use ITK's parameter scaling
    *         approach. The current approach seems more intuitive.
    */
-  itkSetMacro(FunctionConvergenceTolerance, MeasureType) itkGetMacro(FunctionConvergenceTolerance, MeasureType)
-    /**Set parameters convergence tolerance using the same value for all, sz,
-       parameters*/
-    void SetParametersConvergenceTolerance(ValueType convergenceTolerance, unsigned int sz);
-  itkSetMacro(ParametersConvergenceTolerance, ParametersType)
-    itkGetMacro(ParametersConvergenceTolerance, ParametersType) itkGetMacro(PercentageParticlesConverged, double)
-      itkSetMacro(PercentageParticlesConverged, double)
+  itkSetMacro(FunctionConvergenceTolerance, MeasureType);
+  itkGetMacro(FunctionConvergenceTolerance, MeasureType);
+  /**Set parameters convergence tolerance using the same value for all, sz,
+     parameters*/
+  void
+  SetParametersConvergenceTolerance(ValueType convergenceTolerance, unsigned int sz);
+  itkSetMacro(ParametersConvergenceTolerance, ParametersType);
+  itkGetMacro(ParametersConvergenceTolerance, ParametersType);
+  itkGetMacro(PercentageParticlesConverged, double);
+  itkSetMacro(PercentageParticlesConverged, double);
 
-    /**Set the random number seed for the swarm. Use this method to
-     * produce reaptible results, typically, for testing.
-     */
-    itkSetMacro(Seed, RandomVariateGeneratorType::IntegerType)
-      itkGetMacro(Seed, RandomVariateGeneratorType::IntegerType)
+  /**Set the random number seed for the swarm. Use this method to
+   * produce reaptible results, typically, for testing.
+   */
+  itkSetMacro(Seed, RandomVariateGeneratorType::IntegerType);
+  itkGetMacro(Seed, RandomVariateGeneratorType::IntegerType);
 
-    /** Use a specific seed to initialize the random number
-     * generator. If On, use m_Seed to seed the random number
-     * generator. Default is Off. */
-    itkSetMacro(UseSeed, bool) itkGetMacro(UseSeed, bool) itkBooleanMacro(UseSeed)
+  /** Use a specific seed to initialize the random number
+   * generator. If On, use m_Seed to seed the random number
+   * generator. Default is Off. */
+  itkSetMacro(UseSeed, bool);
+  itkGetMacro(UseSeed, bool);
+  itkBooleanMacro(UseSeed);
 
-    /** Get the function value for the current position.
-     *  NOTE: This value is only valid during and after the execution of the
-     *        StartOptimization() method.*/
-    MeasureType GetValue() const;
+  /** Get the function value for the current position.
+   *  NOTE: This value is only valid during and after the execution of the
+   *        StartOptimization() method.*/
+  MeasureType
+  GetValue() const;
 
   /** Get the reason for termination */
   const std::string

@@ -124,10 +124,10 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter)
+  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
-    /** Input types. */
-    using InputMeshType = TInputMesh;
+  /** Input types. */
+  using InputMeshType = TInputMesh;
   using InputPointType = typename Superclass::InputPointType;
 
   static constexpr unsigned int InputPointDimension = InputMeshType::PointDimension;

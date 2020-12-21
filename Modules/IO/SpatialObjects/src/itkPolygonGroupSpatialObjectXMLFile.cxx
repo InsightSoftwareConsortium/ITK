@@ -25,7 +25,8 @@
     ExceptionObject exception(__FILE__, __LINE__);                                                                     \
     exception.SetDescription(s);                                                                                       \
     throw exception;                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {

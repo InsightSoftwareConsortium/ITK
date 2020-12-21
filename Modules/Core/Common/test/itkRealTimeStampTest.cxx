@@ -31,7 +31,8 @@
       std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl;                               \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define CHECK_FOR_BOOLEAN(x, expected)                                                                                 \
   {                                                                                                                    \
@@ -40,8 +41,8 @@
       std::cerr << "Error in " #x << std::endl;                                                                        \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
-
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 int
 itkRealTimeStampTest(int, char *[])

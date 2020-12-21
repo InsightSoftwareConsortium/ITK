@@ -163,7 +163,7 @@ public:
           }
           offsetValue = -1;
         }
-      };
+      }
     }
   }
 

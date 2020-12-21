@@ -265,7 +265,7 @@ AmoebaOptimizerv4 ::ValidateSettings()
   {
     if (m_InitialSimplexDelta.size() != n)
     {
-      itkExceptionMacro(<< "cost function and simplex delta dimensions mismatch")
+      itkExceptionMacro(<< "cost function and simplex delta dimensions mismatch");
     }
   }
 
@@ -274,19 +274,19 @@ AmoebaOptimizerv4 ::ValidateSettings()
   {
     if (this->GetScales().Size() != n)
     {
-      itkExceptionMacro(<< "cost function and scaling information dimensions mismatch")
+      itkExceptionMacro(<< "cost function and scaling information dimensions mismatch");
     }
   }
 
   // parameters' convergence tolerance has to be positive
   if (this->m_ParametersConvergenceTolerance < 0)
   {
-    itkExceptionMacro(<< "negative parameters convergence tolerance")
+    itkExceptionMacro(<< "negative parameters convergence tolerance");
   }
   // function convergence tolerance has to be positive
   if (this->m_FunctionConvergenceTolerance < 0)
   {
-    itkExceptionMacro(<< "negative function convergence tolerance")
+    itkExceptionMacro(<< "negative function convergence tolerance");
   }
 }
 

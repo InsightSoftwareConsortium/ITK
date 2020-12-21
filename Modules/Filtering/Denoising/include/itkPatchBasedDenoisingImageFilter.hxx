@@ -231,7 +231,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
     // throw an exception when this isn't the case
     itkExceptionMacro(<< "Patch is larger than the entire image (in at least one dimension)."
                       << "\nImage region: " << largestRegion << "\nPatch length (2*radius + 1): "
-                      << this->GetPatchDiameterInVoxels() << "\nUse a smaller patch for this image.\n";)
+                      << this->GetPatchDiameterInVoxels() << "\nUse a smaller patch for this image.\n";);
   }
 
   // Get the number of pixels in the input image.

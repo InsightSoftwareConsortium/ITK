@@ -31,7 +31,8 @@ itkTemporalRegionTest(int, char *[])
       std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl;                               \
       return EXIT_FAILURE;                                                                                             \
     }                                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   // Test arrays for frame durations
   itk::SizeValueType testFrameStart = 0;

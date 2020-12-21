@@ -42,7 +42,7 @@ StreamingImageIOBase::StreamReadBufferAsBinary(std::istream & file, void * _buff
   std::streampos dataPos = this->GetDataPosition();
 
   itkDebugStatement(const std::streamsize sizeOfRegion =
-                      static_cast<std::streamsize>(m_IORegion.GetNumberOfPixels()) * this->GetPixelSize(););
+                      static_cast<std::streamsize>(m_IORegion.GetNumberOfPixels()) * this->GetPixelSize());
 
   // compute the number of continuous bytes to be read
   std::streamsize sizeOfChunk = 1;
