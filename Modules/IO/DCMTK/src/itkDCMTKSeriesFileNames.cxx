@@ -20,6 +20,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkProgressReporter.h"
 #include "itkDCMTKFileReader.h"
+#include "itkPrintHelper.h"
 #include "itksys/Directory.hxx"
 #include <algorithm>
 
@@ -191,10 +192,21 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  unsigned int i;
   os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
-  os << indent << "LoadSequences:" << m_LoadSequences << std::endl;
-  os << indent << "LoadPrivateTags:" << m_LoadPrivateTags << std::endl;
+  os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
+  os << indent << "InputFileNames: " << m_InputFileNames << std::endl;
+  os << indent << "OutputFileNames: " << m_OutputFileNames << std::endl;
+  os << indent << "SeriesUIDs: " << m_SeriesUIDs << std::endl;
+
+  if (m_UseSeriesDetails)
+  {
+    os << indent << "UseSeriesDetails: True" << std::endl;
+  }
+  else
+  {
+    os << indent << "UseSeriesDetails: False" << std::endl;
+  }
+
   if (m_Recursive)
   {
     os << indent << "Recursive: True" << std::endl;
@@ -204,9 +216,22 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Recursive: False" << std::endl;
   }
 
-  for (i = 0; i < m_InputFileNames.size(); i++)
+  if (m_LoadSequences)
   {
-    os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
+    os << indent << "LoadSequences: True" << std::endl;
+  }
+  else
+  {
+    os << indent << "LoadSequences: False" << std::endl;
+  }
+
+  if (m_LoadPrivateTags)
+  {
+    os << indent << "LoadPrivateTags: True" << std::endl;
+  }
+  else
+  {
+    os << indent << "LoadPrivateTags: False" << std::endl;
   }
 }
 
