@@ -279,6 +279,10 @@ TEST(FixedArray, IteratorIncrementReturnValue)
 TEST(FixedArray, StdMemberFunctionsWork)
 {
   using FixedArrayType = itk::FixedArray<double, 3>;
+
+  // FixedArray::size() may be evaluated at compile-time, just like std::array::size().
+  static_assert(FixedArrayType{}.size() == FixedArrayType::Dimension, "FixedArray::size() should equal its dimension");
+
   auto d3arr = FixedArrayType(3);
   d3arr[0] = 1;
   d3arr[1] = 2;

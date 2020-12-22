@@ -162,13 +162,6 @@ FixedArray<TValue, VLength>::Size() const
   return VLength;
 }
 
-template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::SizeType
-FixedArray<TValue, VLength>::size() const
-{
-  return VLength;
-}
-
 /**
  * Fill all elements of the array with the given value.
  */
