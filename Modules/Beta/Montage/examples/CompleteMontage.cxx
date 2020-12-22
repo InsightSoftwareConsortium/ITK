@@ -33,29 +33,6 @@
 #include "itkBilateralImageFilter.h"
 #include "itkComposeImageFilter.h"
 
-template <typename TImage>
-typename TImage::Pointer
-ReadImage(const char * filename)
-{
-  using ReaderType = itk::ImageFileReader<TImage>;
-  typename ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(filename);
-  reader->Update();
-  return reader->GetOutput();
-}
-
-template <typename TImage>
-void
-WriteImage(const TImage * out, const char * filename, bool compress)
-{
-  using WriterType = itk::ImageFileWriter<TImage>;
-  typename WriterType::Pointer w = WriterType::New();
-  w->SetInput(out);
-  w->SetFileName(filename);
-  w->SetUseCompression(compress);
-  w->Update();
-}
-
 template <typename TransformType>
 void
 WriteTransform(const TransformType * transform, std::string filename)
@@ -397,7 +374,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   for (size_t t = 0; t < stageTiles.LinearSize(); t++)
   {
     std::string                         filename = inputPath + stageTiles.Tiles[t].FileName;
-    typename OriginalImageType::Pointer image = ReadImage<OriginalImageType>(filename.c_str());
+    typename OriginalImageType::Pointer image = itk::ReadImage<OriginalImageType>(filename.c_str());
     typename TileConfig::PointType      origin = stageTiles.Tiles[t].Position;
     std::cout << 'R' << std::flush;
 
@@ -421,7 +398,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
       avgSpacing = std::pow(avgSpacing, 1.0 / Dimension);
 
       image = denoiseImage<PixelType, Dimension>(image, avgSpacing);
-      WriteImage(image.GetPointer(), (outputPath + stageTiles.Tiles[t].FileName + "-bil.nrrd").c_str(), true);
+      itk::WriteImage(image.GetPointer(), (outputPath + stageTiles.Tiles[t].FileName + "-bil.nrrd").c_str(), true);
       std::cout << 'D' << std::flush;
     }
 
@@ -439,7 +416,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
       std::string baseFileName = itksys::SystemTools::GetFilenameWithoutLastExtension(stageTiles.Tiles[t].FileName);
       std::string flatFileName = baseFileName + "-flat" + fileNameExt;
       actualTiles.Tiles[t].FileName = flatFileName;
-      WriteImage(image.GetPointer(), (outputPath + flatFileName).c_str(), true);
+      itk::WriteImage(image.GetPointer(), (outputPath + flatFileName).c_str(), true);
     }
     oImages[t] = image;
 
@@ -495,7 +472,7 @@ completeMontage(const itk::TileConfiguration<Dimension> & stageTiles,
   std::cout << std::endl;
 
   std::cout << "Writing the final image...";
-  WriteImage(resampleF->GetOutput(), outFilename.c_str(), true);
+  itk::WriteImage(resampleF->GetOutput(), outFilename.c_str(), true);
   std::cout << "Done!" << std::endl;
 }
 

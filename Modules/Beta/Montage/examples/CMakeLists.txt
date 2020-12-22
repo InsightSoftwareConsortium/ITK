@@ -8,7 +8,7 @@ set(ExampleSpecificComponents
   )
 
 if(NOT ITK_SOURCE_DIR)
-  find_package(ITK REQUIRED COMPONENTS Montage ITKImageIO ITKTransformIO ITKTestKernel ${ExampleSpecificComponents})
+  find_package(ITK 5.2 REQUIRED COMPONENTS Montage ITKImageIO ITKTransformIO ITKTestKernel ${ExampleSpecificComponents})
 else()
   # when being built as part of ITK, ITKImageIO and ITKTransformIO
   # lists of modules are not yet ready, causing a configure error
