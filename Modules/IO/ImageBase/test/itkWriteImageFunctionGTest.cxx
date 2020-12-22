@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkImageFileWriter.h"
+#include "itkImageFileReader.h"
 #include "itkImage.h"
 
 #include "itkGTest.h"
@@ -58,22 +59,30 @@ struct ITKWriteImageFunctionTest : public ::testing::Test
 
 TEST_F(ITKWriteImageFunctionTest, ImageTypes)
 {
+  const std::string fileName = "test1.mha";
+
   ImageType::Pointer image_ptr = MakeImage();
-  itk::WriteImage(image_ptr, "test1.mha");
-  itk::WriteImage(std::move(image_ptr), "test1.mha");
+  itk::WriteImage(image_ptr, fileName);
+  itk::WriteImage(std::move(image_ptr), fileName);
 
   ImageType::ConstPointer image_cptr = MakeImage();
-  itk::WriteImage(image_cptr, "test1.mha");
-  itk::WriteImage(std::move(image_cptr), "test1.mha");
+  itk::WriteImage(image_cptr, fileName);
+  itk::WriteImage(std::move(image_cptr), fileName);
 
   const ImageType::ConstPointer image_ccptr = MakeImage();
-  itk::WriteImage(image_ccptr, "test1.mha");
-  itk::WriteImage(std::move(image_ccptr), "test1.mha");
+  itk::WriteImage(image_ccptr, fileName);
+  itk::WriteImage(std::move(image_ccptr), fileName);
 
   image_ptr = MakeImage();
   ImageType * image_rptr = image_ptr.GetPointer();
-  itk::WriteImage(image_rptr, "test1.mha");
+  itk::WriteImage(image_rptr, fileName);
 
   const ImageType * image_crptr = image_ptr.GetPointer();
-  itk::WriteImage(image_crptr, "test1.mha");
+  itk::WriteImage(image_crptr, fileName);
+
+  // Test that what is written is also read back.
+  const ImageType::ConstPointer readImage = itk::ReadImage<ImageType>(fileName);
+  ASSERT_NE(readImage, nullptr);
+  ASSERT_NE(image_ccptr, nullptr);
+  EXPECT_EQ(*readImage, *image_ccptr);
 }
