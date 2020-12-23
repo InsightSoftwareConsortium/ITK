@@ -22,6 +22,7 @@
 #include "itkDCMTKSeriesFileNames.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 /// \brief is comparison with a percentage tolerance
 ///

@@ -86,8 +86,6 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   }
 
   reader->SetFileNames(fileNames);
-  ITK_TEST_SET_GET_VALUE(fileNames, reader->GetFileNames());
-
   reader->SetImageIO(dcmtkIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
