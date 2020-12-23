@@ -46,12 +46,12 @@ namespace METAIO_NAMESPACE
 class METAIO_EXPORT BlobPnt
 {
 public:
-  BlobPnt(int dim);
+  explicit BlobPnt(int dim);
   ~BlobPnt();
 
   unsigned int m_Dim;
   float *      m_X;
-  float        m_Color[4];
+  float        m_Color[4]{};
 };
 
 
@@ -62,18 +62,18 @@ class METAIO_EXPORT MetaBlob : public MetaObject
 public:
   typedef std::list<BlobPnt *> PointListType;
   // Constructors & Destructor
-  MetaBlob(void);
+  MetaBlob();
 
-  MetaBlob(const char * _headerName);
+  explicit MetaBlob(const char * _headerName);
 
-  MetaBlob(const MetaBlob * _blob);
+  explicit MetaBlob(const MetaBlob * _blob);
 
-  MetaBlob(unsigned int dim);
+  explicit MetaBlob(unsigned int dim);
 
-  ~MetaBlob(void) override;
+  ~MetaBlob() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
@@ -84,7 +84,7 @@ public:
   void
   NPoints(size_t npnt);
   size_t
-  NPoints(void) const;
+  NPoints() const;
 
   //    PointDim(...)
   //       Required Field
@@ -92,50 +92,47 @@ public:
   void
   PointDim(const char * pointDim);
   const char *
-  PointDim(void) const;
+  PointDim() const;
 
 
   void
-  Clear(void) override;
+  Clear() override;
 
   PointListType &
-  GetPoints(void)
+  GetPoints()
   {
     return m_PointList;
   }
   const PointListType &
-  GetPoints(void) const
+  GetPoints() const
   {
     return m_PointList;
   }
 
   MET_ValueEnumType
-  ElementType(void) const;
+  ElementType() const;
   void
   ElementType(MET_ValueEnumType _elementType);
 
   // PROTECTED
 protected:
-  bool m_ElementByteOrderMSB;
+  bool m_ElementByteOrderMSB{};
 
   void
-  M_Destroy(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupReadFields(void) override;
-
-  void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
   bool
-  M_Write(void) override;
+  M_Write() override;
 
   size_t m_NPoints; // "NPoints = "         0
 
-  char m_PointDim[255]; // "PointDim = "       "x y z r"
+  char m_PointDim[255]{}; // "PointDim = "       "x y z r"
 
   PointListType m_PointList;
 

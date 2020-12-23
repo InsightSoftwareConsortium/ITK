@@ -16,10 +16,6 @@
 
 #include "metaBlob.h"
 
-#include <cctype>
-#include <cstdio>
-#include <string>
-
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
 {
@@ -27,7 +23,7 @@ namespace METAIO_NAMESPACE
 
 BlobPnt::BlobPnt(int dim)
 {
-  m_Dim = dim;
+  m_Dim = static_cast<unsigned int>(dim);
   m_X = new float[m_Dim];
   for (unsigned int i = 0; i < m_Dim; i++)
   {
@@ -52,38 +48,29 @@ BlobPnt::~BlobPnt()
 MetaBlob::MetaBlob()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob()" );
   m_NPoints = 0;
-  Clear();
+  MetaBlob::Clear();
 }
 
 //
 MetaBlob::MetaBlob(const char * _headerName)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob()" );
   m_NPoints = 0;
-  Clear();
-  Read(_headerName);
+  MetaBlob::Clear();
+  MetaBlob::Read(_headerName);
 }
 
 //
 MetaBlob::MetaBlob(const MetaBlob * _blob)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob()" );
   m_NPoints = 0;
-  Clear();
-  CopyInfo(_blob);
+  MetaBlob::Clear();
+  MetaBlob::CopyInfo(_blob);
 }
 
 
@@ -91,19 +78,16 @@ MetaBlob::MetaBlob(const MetaBlob * _blob)
 MetaBlob::MetaBlob(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob()" );
   m_NPoints = 0;
-  Clear();
+  MetaBlob::Clear();
 }
 
 //
 MetaBlob::~MetaBlob()
 {
-  Clear();
-  M_Destroy();
+  MetaBlob::Clear();
+  MetaObject::M_Destroy();
 }
 
 //
@@ -154,19 +138,13 @@ MetaBlob::NPoints() const
 void
 MetaBlob::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob: Clear" );
 
   MetaObject::Clear();
 
   strcpy(m_ObjectTypeName, "Blob");
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob: Clear: m_NPoints" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob: Clear: m_NPoints" );
   // Delete the list of pointers to blobs.
   auto it = m_PointList.begin();
   while (it != m_PointList.end())
@@ -181,21 +159,11 @@ MetaBlob::Clear()
   m_ElementType = MET_FLOAT;
 }
 
-/** Destroy blob information */
-void
-MetaBlob::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaBlob::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -253,7 +221,7 @@ MetaBlob::M_SetupWriteFields()
     m_Fields.push_back(mF);
   }
 
-  m_NPoints = (int)m_PointList.size();
+  m_NPoints = static_cast<int>(m_PointList.size());
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NPoints", MET_INT, static_cast<double>(m_NPoints));
   m_Fields.push_back(mF);
@@ -267,10 +235,7 @@ MetaBlob::M_SetupWriteFields()
 bool
 MetaBlob::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -278,30 +243,27 @@ MetaBlob::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaBlob: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaBlob: M_Read: Parsing Header" );
 
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if (mF->defined)
   {
-    m_NPoints = (int)mF->value[0];
+    m_NPoints = static_cast<size_t>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);
   if (mF->defined)
   {
-    MET_StringToType((char *)(mF->value), &m_ElementType);
+    MET_StringToType(reinterpret_cast<char *>(mF->value), &m_ElementType);
   }
 
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if (mF->defined)
   {
-    strcpy(m_PointDim, (char *)(mF->value));
+    strcpy(m_PointDim, reinterpret_cast<char *>(mF->value));
   }
 
   int * posDim = new int[m_NDims];
@@ -348,7 +310,7 @@ MetaBlob::M_Read()
     size_t readSize = m_NPoints * (m_NDims + 4) * elementSize;
 
     char * _data = new char[readSize];
-    m_ReadStream->read((char *)_data, readSize);
+    m_ReadStream->read(_data, readSize);
 
     auto gc = static_cast<size_t>(m_ReadStream->gcount());
     if (gc != readSize)
@@ -469,18 +431,18 @@ MetaBlob::M_Write()
       {
         float pntX = (*it)->m_X[d];
         MET_SwapByteIfSystemMSB(&pntX, MET_FLOAT);
-        MET_DoubleToValue((double)pntX, m_ElementType, data, i++);
+        MET_DoubleToValue(static_cast<double>(pntX), m_ElementType, data, i++);
       }
 
       for (d = 0; d < 4; d++)
       {
         float c = (*it)->m_Color[d];
         MET_SwapByteIfSystemMSB(&c, MET_FLOAT);
-        MET_DoubleToValue((double)c, m_ElementType, data, i++);
+        MET_DoubleToValue(static_cast<double>(c), m_ElementType, data, i++);
       }
       ++it;
     }
-    m_WriteStream->write((char *)data, (m_NDims + 4) * m_NPoints * elementSize);
+    m_WriteStream->write(data, (m_NDims + 4) * m_NPoints * elementSize);
     m_WriteStream->write("\n", 1);
     delete[] data;
   }

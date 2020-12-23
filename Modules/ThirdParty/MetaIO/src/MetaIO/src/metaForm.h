@@ -29,28 +29,28 @@ namespace METAIO_NAMESPACE
 class METAIO_EXPORT MetaForm
 {
 public:
-  MetaForm(void);
-  MetaForm(const char * _fileName);
+  MetaForm();
+  explicit MetaForm(const char * _fileName);
 
-  virtual ~MetaForm(void);
+  virtual ~MetaForm();
 
   virtual void
-  PrintInfo(void) const;
+  PrintInfo() const;
 
   virtual void
   CopyInfo(const MetaForm * _form);
 
   virtual void
-  Clear(void);
+  Clear();
 
   void
-  ClearFields(void);
+  ClearFields();
 
-  bool
+  static bool
   InitializeEssential();
 
   const char *
-  FileName(void) const;
+  FileName() const;
   void
   FileName(const char * _fileName);
 
@@ -59,14 +59,14 @@ public:
   //       Optional Field
   //       Arbitrary string
   const char *
-  Comment(void) const;
+  Comment() const;
   void
   Comment(const char * _comment);
 
   //     FormTypeName()
   //       The intended type: vector, co-vector, matrix....
   const char *
-  FormTypeName(void) const;
+  FormTypeName() const;
   void
   FormTypeName(const char * _formTypeName);
 
@@ -74,22 +74,22 @@ public:
   //       Optional Field
   //       Name of the current metaForm
   const char *
-  Name(void) const;
+  Name() const;
   void
   Name(const char * _name);
 
   bool
-  BinaryData(void) const;
+  BinaryData() const;
   void
   BinaryData(bool _binaryData);
 
   bool
-  BinaryDataByteOrderMSB(void) const;
+  BinaryDataByteOrderMSB() const;
   void
   BinaryDataByteOrderMSB(bool _elementByteOrderMSB);
 
   bool
-  CompressedData(void) const;
+  CompressedData() const;
   void
   CompressedData(bool _compressedData);
 
@@ -111,9 +111,9 @@ public:
   }
 
   MetaEvent *
-  Event(void);
+  Event();
   MetaEvent *
-  GetEvent(void)
+  GetEvent()
   {
     return Event();
   }
@@ -141,25 +141,25 @@ public:
                bool              _required = true,
                int               _dependsOn = -1)
   {
-    MET_FieldRecordType * mFw = new MET_FieldRecordType;
-    MET_InitWriteField(mFw, _fieldName, _type, _length, _v);
+    auto * mFw = new MET_FieldRecordType;
+    MET_InitWriteField(mFw, _fieldName, _type, static_cast<size_t>(_length), _v);
     m_UserDefinedWriteFields.push_back(mFw);
 
-    MET_FieldRecordType * mFr = new MET_FieldRecordType;
-    MET_InitReadField(mFr, _fieldName, _type, _required, _dependsOn, _length);
+    auto * mFr = new MET_FieldRecordType;
+    MET_InitReadField(mFr, _fieldName, _type, _required, _dependsOn, static_cast<size_t>(_length));
     m_UserDefinedReadFields.push_back(mFr);
 
     return true;
   }
 
-  bool
-  CanRead(const char * _fileName = nullptr) const;
+  static bool
+  CanRead(const char * _fileName = nullptr) ;
 
   bool
   Read(const char * _fileName = nullptr);
 
-  bool
-  CanReadStream(std::ifstream * _stream) const;
+  static bool
+  CanReadStream(std::ifstream * _stream) ;
 
   bool
   ReadStream(std::ifstream * _stream);
@@ -179,16 +179,16 @@ protected:
 
   std::string m_FileName;
 
-  char m_Comment[255];
+  char m_Comment[255]{};
 
-  char m_FormTypeName[255];
+  char m_FormTypeName[255]{};
 
-  char m_Name[255];
+  char m_Name[255]{};
 
-  bool m_BinaryData;
-  bool m_BinaryDataByteOrderMSB;
+  bool m_BinaryData{};
+  bool m_BinaryDataByteOrderMSB{};
 
-  bool m_CompressedData;
+  bool m_CompressedData{};
 
   unsigned int m_DoublePrecision;
 
@@ -200,20 +200,20 @@ protected:
 
   // protected functions
 
-  virtual void
-  M_Destroy(void);
+  static void
+  M_Destroy();
 
   virtual void
-  M_SetupReadFields(void);
+  M_SetupReadFields();
 
   virtual void
-  M_SetupWriteFields(void);
+  M_SetupWriteFields();
 
   virtual bool
-  M_Read(void);
+  M_Read();
 
   virtual bool
-  M_Write(void);
+  M_Write();
 };
 
 #  if (METAIO_USE_NAMESPACE)

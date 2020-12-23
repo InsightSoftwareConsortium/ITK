@@ -45,29 +45,29 @@ class METAIO_EXPORT MetaArrow : public MetaObject
   // PUBLIC
 public:
   // Constructors & Destructor
-  MetaArrow(void);
+  MetaArrow();
 
-  MetaArrow(const char * _headerName);
+  explicit MetaArrow(const char * _headerName);
 
-  MetaArrow(const MetaArrow * _arrow);
+  explicit MetaArrow(const MetaArrow * _arrow);
 
-  MetaArrow(unsigned int dim);
+  explicit MetaArrow(unsigned int dim);
 
-  ~MetaArrow(void) override;
+  ~MetaArrow() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
 
   void
-  Clear(void) override;
+  Clear() override;
 
   void
   Length(float length);
   float
-  Length(void) const;
+  Length() const;
 
   void
   Lenght(float length)
@@ -75,7 +75,7 @@ public:
     this->Length(length);
   }
   float
-  Lenght(void) const
+  Lenght() const
   {
     return Length();
   }
@@ -83,26 +83,23 @@ public:
   void
   Direction(const double * direction);
   const double *
-  Direction(void) const;
+  Direction() const;
 
 
   // PROTECTED
 protected:
   void
-  M_Destroy(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupReadFields(void) override;
-
-  void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
-  float M_Length; // default 1.0
+  float M_Length{1.0}; // default 1.0
 
-  double M_Direction[10];
+  double M_Direction[10]{};
 };
 
 #  if (METAIO_USE_NAMESPACE)

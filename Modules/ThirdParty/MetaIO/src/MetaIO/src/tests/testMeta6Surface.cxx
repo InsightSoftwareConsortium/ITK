@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 
 #include <metaSurface.h>
 
@@ -15,10 +14,10 @@ main(int, char *[])
   for (i = 0; i < 10; i++)
   {
     pnt = new SurfacePnt(3);
-    pnt->m_X[0] = (float)0.2;
+    pnt->m_X[0] = static_cast<float>(0.2);
     pnt->m_X[1] = i;
     pnt->m_X[2] = i;
-    pnt->m_V[0] = (float)0.8;
+    pnt->m_V[0] = static_cast<float>(0.8);
     pnt->m_V[1] = i;
     pnt->m_V[2] = i;
     surface->GetPoints().push_back(pnt);
@@ -39,21 +38,20 @@ main(int, char *[])
   MetaSurface::PointListType                 list = surface->GetPoints();
   MetaSurface::PointListType::const_iterator it = list.begin();
 
-  unsigned int d = 0;
   while (it != list.end())
   {
-    for (d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_X[d] << " ";
     }
     std::cout << std::endl;
-    for (d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[d] << " ";
     }
 
     std::cout << std::endl;
-    for (d = 0; d < 4; d++)
+    for (unsigned int d = 0; d < 4; d++)
     {
       std::cout << (*it)->m_Color[d] << " ";
     }
@@ -78,12 +76,12 @@ main(int, char *[])
 
   while (it != list2.end())
   {
-    for (d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_X[d] << " ";
     }
     std::cout << std::endl;
-    for (d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[d] << " ";
     }

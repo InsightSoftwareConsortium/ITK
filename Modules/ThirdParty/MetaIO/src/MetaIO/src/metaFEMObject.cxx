@@ -18,10 +18,6 @@
 
 #include "metaFEMObject.h"
 
-#include <cctype>
-#include <cstdio>
-#include <string>
-
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
 {
@@ -29,7 +25,7 @@ namespace METAIO_NAMESPACE
 
 FEMObjectNode::FEMObjectNode(int dim)
 {
-  m_Dim = dim;
+  m_Dim = static_cast<unsigned int>(dim);
   m_GN = -1;
   m_X = new float[m_Dim];
   for (unsigned int i = 0; i < m_Dim; i++)
@@ -45,7 +41,7 @@ FEMObjectNode::~FEMObjectNode()
 
 FEMObjectElement::FEMObjectElement(int dim)
 {
-  m_Dim = dim;
+  m_Dim = static_cast<unsigned int>(dim);
   m_GN = -1;
   m_NodesId = new int[m_Dim];
   for (unsigned int i = 0; i < m_Dim; i++)
@@ -79,12 +75,9 @@ FEMObjectLoad::~FEMObjectLoad()
 MetaFEMObject::MetaFEMObject()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaFEMObject()" );
 
-  Clear();
+  MetaFEMObject::Clear();
 
   this->m_ClassNameList.push_back("Node");
   this->m_ClassNameList.push_back("MaterialLinearElasticity");
@@ -116,12 +109,9 @@ MetaFEMObject::MetaFEMObject()
 MetaFEMObject::MetaFEMObject(const char * _headerName)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject()" << std::endl;
-  }
-  Clear();
-  Read(_headerName);
+  META_DEBUG_PRINT( "MetaFEMObject()" );
+  MetaFEMObject::Clear();
+  MetaFEMObject::Read(_headerName);
   this->m_ElementDataFileName = "LOCAL";
 }
 
@@ -129,12 +119,9 @@ MetaFEMObject::MetaFEMObject(const char * _headerName)
 MetaFEMObject::MetaFEMObject(const MetaFEMObject * _mesh)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_mesh);
+  META_DEBUG_PRINT( "MetaFEMObject()" );
+  MetaFEMObject::Clear();
+  MetaFEMObject::CopyInfo(_mesh);
 }
 
 
@@ -142,11 +129,8 @@ MetaFEMObject::MetaFEMObject(const MetaFEMObject * _mesh)
 MetaFEMObject::MetaFEMObject(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaFEMObject()" );
+  MetaFEMObject::Clear();
   this->m_ElementDataFileName = "LOCAL";
 }
 
@@ -188,7 +172,7 @@ MetaFEMObject::~MetaFEMObject()
     delete Load;
   }
 
-  M_Destroy();
+MetaObject::M_Destroy();
 }
 
 //
@@ -208,19 +192,13 @@ MetaFEMObject::CopyInfo(const MetaObject * _object)
 void
 MetaFEMObject::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaFEMObject: Clear" );
 
   MetaObject::Clear();
 
   strcpy(m_ObjectTypeName, "FEMObject");
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject: Clear: m_NPoints" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaFEMObject: Clear: m_NPoints" );
 
   // Delete the list of pointers to Nodes.
   auto it_Node = m_NodeList.begin();
@@ -264,21 +242,11 @@ MetaFEMObject::Clear()
   m_MaterialList.clear();
 }
 
-/** Destroy tube information */
-void
-MetaFEMObject::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaFEMObject::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaFEMObject: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -308,10 +276,7 @@ MetaFEMObject::M_SetupWriteFields()
 bool
 MetaFEMObject::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaFEMObject: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -319,10 +284,7 @@ MetaFEMObject::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaFEMObject: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaFEMObject: M_Read: Parsing Header" );
 
   // currently reader handles only ASCII data
   if (m_BinaryData)
@@ -339,7 +301,6 @@ MetaFEMObject::M_Read()
   do
   {
     // local variables
-    std::streampos         l(0);
     char                   buf[256];
     std::string            s;
     std::string::size_type b;
@@ -353,7 +314,7 @@ MetaFEMObject::M_Read()
       return true; // end of FEM segment in spatial object reader.
     }
 
-    l = this->m_ReadStream->tellg(); // remember the stream position
+    this->m_ReadStream->tellg(); // remember the stream position
     this->SkipWhiteSpace();          // skip comments and whitespaces
     if (this->m_ReadStream->eof())
     {
@@ -429,6 +390,8 @@ MetaFEMObject::M_Read()
         case LOAD:
           this->M_Read_Load(s);
           break;
+        default:
+          return false;
       }
     }
   } while (segment_read <= 3); // end of FEM segment in spatial object reader.
@@ -698,7 +661,7 @@ MetaFEMObject::SkipWhiteSpace()
 }
 
 bool
-MetaFEMObject::IsClassNamePresent(std::string c_string)
+MetaFEMObject::IsClassNamePresent(const std::string& c_string)
 {
   ClassNameListType::const_iterator it = this->m_ClassNameList.begin();
   while (it != this->m_ClassNameList.end())
@@ -715,7 +678,7 @@ MetaFEMObject::IsClassNamePresent(std::string c_string)
 bool
 MetaFEMObject::M_Read_Node()
 {
-  unsigned int n;
+  unsigned int n = 0;
   float        coor[3];
   /**
    * First call the parent's read function
@@ -758,7 +721,7 @@ MetaFEMObject::M_Read_Node()
 }
 
 bool
-MetaFEMObject::M_Read_Material(std::string material_name)
+MetaFEMObject::M_Read_Material(const std::string& material_name)
 {
   /**
    * First call the parent's read function
@@ -773,7 +736,7 @@ MetaFEMObject::M_Read_Material(std::string material_name)
   /*
    * Read material properties
    */
-  double d;
+  double d = 0;
 
   std::streampos         l(0);
   char                   buf[256];
@@ -945,12 +908,12 @@ MetaFEMObject::M_Read_Material(std::string material_name)
 }
 
 bool
-MetaFEMObject::M_Read_Element(std::string element_name)
+MetaFEMObject::M_Read_Element(const std::string& element_name)
 {
-  unsigned int n;
-  unsigned int materialGN;
+  unsigned int n = 0;
+  unsigned int materialGN = 0;
   int          info[2];
-  if (this->GetElementDimensionAndNumberOfNodes(element_name, info) == nullptr)
+  if (MetaFEMObject::GetElementDimensionAndNumberOfNodes(element_name, info) == nullptr)
   {
     std::cout << "Invalid element_name" << std::endl;
     return false;
@@ -997,8 +960,8 @@ MetaFEMObject::M_Read_Element(std::string element_name)
     element->m_NodesId[p] = NodesId[p];
   }
   element->m_MaterialGN = materialGN;
-  element->m_NumNodes = info[0];
-  element->m_Dim = info[1];
+  element->m_NumNodes = static_cast<unsigned int>(info[0]);
+  element->m_Dim = static_cast<unsigned int>(info[1]);
   strcpy(element->m_ElementName, element_name.c_str());
 
   delete[] NodesId;
@@ -1007,16 +970,16 @@ MetaFEMObject::M_Read_Element(std::string element_name)
 }
 
 bool
-MetaFEMObject::M_Read_Load(std::string load_name)
+MetaFEMObject::M_Read_Load(const std::string& load_name)
 {
   int GN;
-  int elementGN;
-  int DOF;
-  int NumRHS;
-  int NodeNumber;
-  int Dim;
-  int NumLHS;
-  int Value;
+  int elementGN = 0;
+  int DOF = 0;
+  int NumRHS = 0;
+  int NodeNumber = 0;
+  int Dim = 0;
+  int NumLHS = 0;
+  int Value = 0;
 
   auto * load = new FEMObjectLoad;
   strcpy(load->m_LoadName, load_name.c_str());
@@ -1065,7 +1028,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
       return false;
     }
     load->m_NumRHS = NumRHS;
-    load->m_RHS.resize(NumRHS);
+    load->m_RHS.resize(static_cast<unsigned long>(NumRHS));
 
     for (int i = 0; i < NumRHS; i++)
     {
@@ -1113,7 +1076,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
     }
     load->m_Dim = Dim;
 
-    load->m_ForceVector.resize(Dim);
+    load->m_ForceVector.resize(static_cast<unsigned long>(Dim));
     for (int i = 0; i < Dim; i++)
     {
       this->SkipWhiteSpace();
@@ -1172,7 +1135,8 @@ MetaFEMObject::M_Read_Load(std::string load_name)
       }
 
       /** add a new MFCTerm to the lhs */
-      auto * mfcTerm = new FEMObjectMFCTerm(elementGN, DOF, static_cast<float>(Value));
+      auto * mfcTerm = new FEMObjectMFCTerm(
+        static_cast<unsigned int>(elementGN), static_cast<unsigned int>(DOF), static_cast<float>(Value));
       load->m_LHS.push_back(mfcTerm);
     }
 
@@ -1187,7 +1151,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
     }
 
     load->m_NumRHS = NumRHS;
-    load->m_RHS.resize(NumRHS);
+    load->m_RHS.resize(static_cast<unsigned long>(NumRHS));
     for (int i = 0; i < NumRHS; i++)
     {
       this->SkipWhiteSpace();
@@ -1202,9 +1166,9 @@ MetaFEMObject::M_Read_Load(std::string load_name)
   }
   else if (load_name == "LoadEdge")
   {
-    int edgeNum;
-    int numRows;
-    int numCols;
+    int edgeNum = 0;
+    int numRows = 0;
+    int numCols = 0;
 
     /* read the global number of the element on which the load acts */
     this->SkipWhiteSpace();
@@ -1251,7 +1215,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
     for (int i = 0; i < numRows; i++)
     {
       this->SkipWhiteSpace();
-      std::vector<float> F(numCols);
+      std::vector<float> F(static_cast<unsigned long>(numCols));
       for (int j = 0; j < numCols; j++)
       {
         *this->m_ReadStream >> F[j];
@@ -1301,7 +1265,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
       return false;
     }
 
-    float loadcomp;
+    float loadcomp = 0;
     /** then the actual values */
     for (int i = 0; i < load->m_Dim; i++)
     {
@@ -1319,8 +1283,8 @@ MetaFEMObject::M_Read_Load(std::string load_name)
   else if (load_name == "LoadLandmark")
   {
     this->SkipWhiteSpace();
-    int n1;
-    int n2;
+    int n1 = 0;
+    int n2 = 0;
 
     // read the dimensions of the undeformed point and set the size of the point
     // accordingly
@@ -1330,7 +1294,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
     {
       return false;
     }
-    load->m_Undeformed.resize(n1);
+    load->m_Undeformed.resize(static_cast<unsigned long>(n1));
     for (int i = 0; i < n1; i++)
     {
       this->SkipWhiteSpace();
@@ -1352,7 +1316,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
     {
       return false;
     }
-    load->m_Deformed.resize(n2);
+    load->m_Deformed.resize(static_cast<unsigned long>(n2));
     for (int i = 0; i < n2; i++)
     {
       this->SkipWhiteSpace();
@@ -1390,7 +1354,7 @@ MetaFEMObject::M_Read_Load(std::string load_name)
 }
 
 int *
-MetaFEMObject::GetElementDimensionAndNumberOfNodes(std::string c_string, int info[2])
+MetaFEMObject::GetElementDimensionAndNumberOfNodes(const std::string& c_string, int info[2])
 {
   if ((c_string == "Element2DC0LinearLineStress") || (c_string == "Element2DC1Beam"))
   {
@@ -1441,7 +1405,7 @@ MetaFEMObject::GetElementDimensionAndNumberOfNodes(std::string c_string, int inf
 int
 MetaFEMObject::ReadGlobalNumber()
 {
-  int n;
+  int n = 0;
 
   /** Read and set the global object number */
   this->SkipWhiteSpace();

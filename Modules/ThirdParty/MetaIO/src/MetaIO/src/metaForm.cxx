@@ -16,9 +16,6 @@
 
 #include "metaForm.h"
 
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
 #include <cstring>
 
 #if defined(__BORLANDC__) && (__BORLANDC__ >= 0x0580)
@@ -69,7 +66,7 @@ MetaForm::MetaForm(const char * _fileName)
 
 MetaForm::~MetaForm()
 {
-  M_Destroy();
+  MetaForm::M_Destroy();
 
   if (m_ReadStream != nullptr)
   {
@@ -155,7 +152,7 @@ MetaForm::PrintInfo() const
 
       if ((*it)->type == MET_STRING)
       {
-        printf("%s", (char *)(*it)->value);
+        printf("%s", reinterpret_cast<char *>((*it)->value));
       }
       else if ((*it)->type == MET_ASCII_CHAR || (*it)->type == MET_CHAR || (*it)->type == MET_UCHAR ||
                (*it)->type == MET_SHORT || (*it)->type == MET_USHORT || (*it)->type == MET_LONG ||
@@ -214,10 +211,7 @@ MetaForm::CopyInfo(const MetaForm * _form)
 void
 MetaForm::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: Clear()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: Clear()" );
 
   // Preserve m_FileName
 
@@ -238,10 +232,7 @@ MetaForm::Clear()
 void
 MetaForm::ClearFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm:ClearFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm:ClearFields" );
 
   auto it = m_Fields.begin();
   auto end = m_Fields.end();
@@ -290,12 +281,9 @@ MetaForm::ClearFields()
 bool
 MetaForm::InitializeEssential()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: Initialize" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: Initialize" );
 
-  M_Destroy();
+  MetaForm::M_Destroy();
 
   return true;
 }
@@ -531,7 +519,7 @@ MetaForm::GetUserField(const char * _name)
 }
 
 bool
-MetaForm::CanRead(const char * _fileName) const
+MetaForm::CanRead(const char * _fileName)
 {
   if (_fileName)
   {
@@ -546,10 +534,7 @@ MetaForm::CanRead(const char * _fileName) const
 bool
 MetaForm::Read(const char * _fileName)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: Read" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: Read" );
 
   if (_fileName != nullptr)
   {
@@ -588,7 +573,7 @@ MetaForm::Read(const char * _fileName)
 }
 
 bool
-MetaForm::CanReadStream(std::ifstream * _stream) const
+MetaForm::CanReadStream(std::ifstream * _stream)
 {
   if (_stream)
   {
@@ -603,12 +588,9 @@ MetaForm::CanReadStream(std::ifstream * _stream) const
 bool
 MetaForm::ReadStream(std::ifstream * _stream)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: ReadStream" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: ReadStream" );
 
-  M_Destroy();
+  MetaForm::M_Destroy();
 
   fflush(nullptr);
 
@@ -684,20 +666,14 @@ MetaForm::WriteStream(std::ofstream * _stream)
 void
 MetaForm::M_Destroy()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: Destroy" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: Destroy" );
 }
 
 void
 MetaForm::M_SetupReadFields()
 {
   this->ClearFields();
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: M_SetupReadFields" );
 
   MET_FieldRecordType * mF;
 
@@ -739,17 +715,11 @@ MetaForm::M_SetupReadFields()
 void
 MetaForm::M_SetupWriteFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: M_SetupWriteFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: M_SetupWriteFields" );
 
   this->ClearFields();
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaForm: M_SetupWriteFields: Creating Fields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaForm: M_SetupWriteFields: Creating Fields" );
 
   MET_FieldRecordType * mF;
 
@@ -834,25 +804,25 @@ MetaForm::M_Read()
   mF = MET_GetFieldRecord("Comment", &m_Fields);
   if (mF && mF->defined)
   {
-    strcpy(m_Comment, (char *)(mF->value));
+    strcpy(m_Comment, reinterpret_cast<char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("FormTypeName", &m_Fields);
   if (mF && mF->defined)
   {
-    strcpy(m_FormTypeName, (char *)(mF->value));
+    strcpy(m_FormTypeName, reinterpret_cast<char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("Name", &m_Fields);
   if (mF && mF->defined)
   {
-    strcpy(m_Name, (char *)(mF->value));
+    strcpy(m_Name, reinterpret_cast<char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("BinaryData", &m_Fields);
   if (mF && mF->defined)
   {
-    if (((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' || ((char *)(mF->value))[0] == '1')
+    if ((reinterpret_cast<char *>(mF->value))[0] == 'T' || (reinterpret_cast<char *>(mF->value))[0] == 't' || (reinterpret_cast<char *>(mF->value))[0] == '1')
     {
       m_BinaryData = true;
     }
@@ -869,7 +839,7 @@ MetaForm::M_Read()
   mF = MET_GetFieldRecord("BinaryDataByteOrderMSB", &m_Fields);
   if (mF && mF->defined)
   {
-    if (((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' || ((char *)(mF->value))[0] == '1')
+    if ((reinterpret_cast<char *>(mF->value))[0] == 'T' || (reinterpret_cast<char *>(mF->value))[0] == 't' || (reinterpret_cast<char *>(mF->value))[0] == '1')
     {
       m_BinaryDataByteOrderMSB = true;
     }
@@ -882,7 +852,7 @@ MetaForm::M_Read()
   mF = MET_GetFieldRecord("CompressedData", &m_Fields);
   if (mF && mF->defined)
   {
-    if (((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' || ((char *)(mF->value))[0] == '1')
+    if ((reinterpret_cast<char *>(mF->value))[0] == 'T' || (reinterpret_cast<char *>(mF->value))[0] == 't' || (reinterpret_cast<char *>(mF->value))[0] == '1')
     {
       m_CompressedData = true;
     }

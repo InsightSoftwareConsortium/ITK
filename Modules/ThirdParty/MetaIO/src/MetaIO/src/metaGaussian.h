@@ -47,22 +47,22 @@ public:
   // Constructors & Destructor
   MetaGaussian();
 
-  MetaGaussian(const char * _headerName);
+  explicit MetaGaussian(const char * _headerName);
 
-  MetaGaussian(const MetaGaussian * _gaussian);
+  explicit MetaGaussian(const MetaGaussian * _gaussian);
 
-  MetaGaussian(unsigned int dim);
+  explicit MetaGaussian(unsigned int dim);
 
-  ~MetaGaussian(void) override;
+  ~MetaGaussian() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
 
   void
-  Clear(void) override;
+  Clear() override;
 
   /** Set/Get the maximum value. */
   void
@@ -102,29 +102,27 @@ public:
 
   // PROTECTED
 protected:
-  void
-  M_Destroy(void) override;
 
   /** Set up the fields to read a MetaGaussian file. */
   void
-  M_SetupReadFields(void) override;
+  M_SetupReadFields() override;
 
   /** Set up the fields to write a MetaGaussian file. */
   void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   /** Read the MetaGaussian file properties. */
   bool
-  M_Read(void) override;
+  M_Read() override;
 
   /** The maximum value of the MetaGaussian object. */
-  float m_Maximum;
+  float m_Maximum{};
 
   /** The radius of the MetaGaussian object. */
-  float m_Radius;
+  float m_Radius{};
 
   /** The standard deviation of the MetaGaussian object. */
-  float m_Sigma;
+  float m_Sigma{};
 };
 
 

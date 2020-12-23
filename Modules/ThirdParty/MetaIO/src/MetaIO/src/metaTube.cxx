@@ -16,10 +16,6 @@
 
 #include "metaTube.h"
 
-#include <cctype>
-#include <cstdio>
-#include <string>
-
 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
@@ -28,7 +24,7 @@ namespace METAIO_NAMESPACE
 
 TubePnt::TubePnt(int dim)
 {
-  m_NDims = dim;
+  m_NDims = static_cast<unsigned int>(dim);
 
   m_ID = -1;
 
@@ -49,11 +45,11 @@ TubePnt::TubePnt(int dim)
   m_T = new float[m_NDims];
   m_V1 = new float[m_NDims];
   m_V2 = new float[m_NDims];
-  for (unsigned int i = 0; i < m_NDims; i++)
+  for (unsigned int ii = 0; ii < m_NDims; ii++)
   {
-    m_T[i] = 0;
-    m_V1[i] = 0;
-    m_V2[i] = 0;
+    m_T[ii] = 0;
+    m_V1[ii] = 0;
+    m_V2[ii] = 0;
   }
   m_Alpha1 = 0;
   m_Alpha2 = 0;
@@ -73,7 +69,7 @@ TubePnt::TubePnt(int dim)
 
 TubePnt::TubePnt(const TubePnt * _tubePnt)
 {
-  CopyInfo(_tubePnt);
+  TubePnt::CopyInfo(_tubePnt);
 }
 
 TubePnt::~TubePnt()
@@ -150,7 +146,7 @@ TubePnt::GetNumberOfExtraFields() const
 void
 TubePnt::SetNumberOfExtraFields(int size)
 {
-  m_ExtraFields.resize(size);
+  m_ExtraFields.resize(static_cast<unsigned long>(size));
 }
 
 void
@@ -236,46 +232,34 @@ TubePnt::GetField(const char * name) const
 /** MetaTube Constructors */
 MetaTube::MetaTube()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaTube()" );
+  MetaTube::Clear();
 }
 
 
 MetaTube::MetaTube(const char * _headerName)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube()" << std::endl;
-  }
-  Clear();
-  Read(_headerName);
+  META_DEBUG_PRINT( "MetaTube()" );
+  MetaTube::Clear();
+  MetaTube::Read(_headerName);
 }
 
 
-MetaTube::MetaTube(const MetaTube * _Tube)
+MetaTube::MetaTube(const MetaTube * Tube)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_Tube);
+  META_DEBUG_PRINT( "MetaTube()" );
+  MetaTube::Clear();
+  CopyInfo(Tube);
 }
 
 
 MetaTube::MetaTube(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaTube()" );
+  MetaTube::Clear();
 }
 
 /** Destructor */
@@ -290,7 +274,7 @@ MetaTube::~MetaTube()
     delete pnt;
   }
   m_PointList.clear();
-  M_Destroy();
+  MetaObject::M_Destroy();
 }
 
 //
@@ -347,10 +331,7 @@ MetaTube::CopyInfo(const MetaTube * _object)
 void
 MetaTube::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaTube: Clear" );
 
   MetaObject::Clear();
 
@@ -408,22 +389,11 @@ MetaTube::NPoints() const
   return m_NPoints;
 }
 
-
-/** Destroy Tube information */
-void
-MetaTube::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaTube::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaTube: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -523,7 +493,7 @@ MetaTube::M_SetupWriteFields()
   MET_InitWriteField(mF, "PointDim", MET_STRING, m_PointDim.size(), m_PointDim.c_str());
   m_Fields.push_back(mF);
 
-  m_NPoints = (int)m_PointList.size();
+  m_NPoints = static_cast<int>(m_PointList.size());
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NPoints", MET_INT, m_NPoints);
   m_Fields.push_back(mF);
@@ -558,23 +528,23 @@ void
 MetaTube::M_SetFloatIntoBinaryData(float val, char * _data, int i) const
 {
   MET_SwapByteIfSystemMSB(&val, MET_FLOAT);
-  MET_DoubleToValue((double)val, m_ElementType, _data, i);
+  MET_DoubleToValue(static_cast<double>(val), m_ElementType, _data, i);
 }
 
 float
-MetaTube::M_GetFloatFromBinaryData(size_t pos, const char * _data, size_t readSize) const
+MetaTube::M_GetFloatFromBinaryData(size_t pos, const char * _data, size_t readSize)
 {
   if (pos >= 0 && pos < readSize)
   {
     float        tf;
-    char * const num = (char *)(&tf);
+    char * const num = reinterpret_cast<char *>(&tf);
     size_t       posChar = pos * sizeof(float);
     for (size_t k = 0; k < sizeof(float) && posChar + k < readSize; k++)
     {
       num[k] = _data[posChar + k];
     }
     MET_SwapByteIfSystemMSB(&tf, MET_FLOAT);
-    return (float)tf;
+    return tf;
   }
   return -1;
 }
@@ -582,10 +552,7 @@ MetaTube::M_GetFloatFromBinaryData(size_t pos, const char * _data, size_t readSi
 bool
 MetaTube::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaTube: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -593,24 +560,21 @@ MetaTube::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaTube: M_Read: Parsing Header" );
 
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("ParentPoint", &m_Fields);
   if (mF && mF->defined)
   {
-    m_ParentPoint = (int)mF->value[0];
+    m_ParentPoint = static_cast<int>(mF->value[0]);
   }
 
   m_Root = false;
   mF = MET_GetFieldRecord("Root", &m_Fields);
   if (mF && mF->defined)
   {
-    if (*((char *)(mF->value)) == 'T' || *((char *)(mF->value)) == 't' || *((char *)(mF->value)) == '1')
+    if (*(reinterpret_cast<char *>(mF->value)) == 'T' || *(reinterpret_cast<char *>(mF->value)) == 't' || *(reinterpret_cast<char *>(mF->value)) == '1')
     {
       m_Root = true;
     }
@@ -624,7 +588,7 @@ MetaTube::M_Read()
   mF = MET_GetFieldRecord("Artery", &m_Fields);
   if (mF && mF->defined)
   {
-    if (*((char *)(mF->value)) == 'T' || *((char *)(mF->value)) == 't')
+    if (*(reinterpret_cast<char *>(mF->value)) == 'T' || *(reinterpret_cast<char *>(mF->value)) == 't')
     {
       m_Artery = true;
     }
@@ -637,19 +601,19 @@ MetaTube::M_Read()
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if (mF->defined)
   {
-    m_NPoints = (int)mF->value[0];
+    m_NPoints = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);
   if (mF && mF->defined)
   {
-    MET_StringToType((char *)(mF->value), &m_ElementType);
+    MET_StringToType(reinterpret_cast<char *>(mF->value), &m_ElementType);
   }
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if (mF->defined)
   {
-    m_PointDim = (char *)(mF->value);
+    m_PointDim = reinterpret_cast<char *>(mF->value);
   }
 
 
@@ -665,16 +629,13 @@ MetaTube::M_Read()
 
   MET_StringToWordArray(pointDim, &pntDim, &pntVal);
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube: Parsing point dim" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaTube: Parsing point dim" );
 
   m_Positions.clear();
   std::vector<bool> positionUsed;
   for (int i = 0; i < pntDim; i++)
   {
-    PositionType p(pntVal[i], i);
+    PositionType p(pntVal[i], static_cast<const unsigned int &>(i));
     m_Positions.push_back(p);
     positionUsed.push_back(false);
   }
@@ -689,7 +650,7 @@ MetaTube::M_Read()
 
   if (m_Event)
   {
-    m_Event->StartReading(m_NPoints);
+    m_Event->StartReading(static_cast<unsigned int>(m_NPoints));
   }
 
   int posId = M_GetPosition("id", positionUsed);
@@ -761,7 +722,7 @@ MetaTube::M_Read()
     int readSize = m_NPoints * pntDim * elementSize;
 
     char * _data = new char[readSize];
-    m_ReadStream->read((char *)_data, readSize);
+    m_ReadStream->read(_data, readSize);
 
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
@@ -776,43 +737,43 @@ MetaTube::M_Read()
     {
       auto * pnt = new TubePnt(m_NDims);
 
-      size_t pntPos = j * pntDim;
+      auto pntPos = static_cast<size_t>(j * pntDim);
 
       if (posId >= 0)
       {
-        pnt->m_ID = M_GetFloatFromBinaryData(pntPos + posId, _data, readSize);
+        pnt->m_ID = static_cast<int>(M_GetFloatFromBinaryData(pntPos + posId, _data, static_cast<size_t>(readSize)));
       }
       if (posX >= 0)
       {
-        pnt->m_X[0] = M_GetFloatFromBinaryData(pntPos + posX, _data, readSize);
+        pnt->m_X[0] = M_GetFloatFromBinaryData(pntPos + posX, _data, static_cast<size_t>(readSize));
       }
       if (posY >= 0)
       {
-        pnt->m_X[1] = M_GetFloatFromBinaryData(pntPos + posY, _data, readSize);
+        pnt->m_X[1] = M_GetFloatFromBinaryData(pntPos + posY, _data, static_cast<size_t>(readSize));
       }
       if (m_NDims > 2 && posZ >= 0)
       {
-        pnt->m_X[2] = M_GetFloatFromBinaryData(pntPos + posZ, _data, readSize);
+        pnt->m_X[2] = M_GetFloatFromBinaryData(pntPos + posZ, _data, static_cast<size_t>(readSize));
       }
       if (posRed >= 0)
       {
-        pnt->m_Color[0] = M_GetFloatFromBinaryData(pntPos + posRed, _data, readSize);
+        pnt->m_Color[0] = M_GetFloatFromBinaryData(pntPos + posRed, _data, static_cast<size_t>(readSize));
       }
       if (posGreen >= 0)
       {
-        pnt->m_Color[1] = M_GetFloatFromBinaryData(pntPos + posGreen, _data, readSize);
+        pnt->m_Color[1] = M_GetFloatFromBinaryData(pntPos + posGreen, _data, static_cast<size_t>(readSize));
       }
       if (posBlue >= 0)
       {
-        pnt->m_Color[2] = M_GetFloatFromBinaryData(pntPos + posBlue, _data, readSize);
+        pnt->m_Color[2] = M_GetFloatFromBinaryData(pntPos + posBlue, _data, static_cast<size_t>(readSize));
       }
       if (posAlpha >= 0)
       {
-        pnt->m_Color[3] = M_GetFloatFromBinaryData(pntPos + posAlpha, _data, readSize);
+        pnt->m_Color[3] = M_GetFloatFromBinaryData(pntPos + posAlpha, _data, static_cast<size_t>(readSize));
       }
       if (posMark >= 0)
       {
-        if (M_GetFloatFromBinaryData(pntPos + posMark, _data, readSize) != 0)
+        if (M_GetFloatFromBinaryData(pntPos + posMark, _data, static_cast<size_t>(readSize)) != 0)
         {
           pnt->m_Mark = true;
         }
@@ -823,83 +784,83 @@ MetaTube::M_Read()
       }
       if (posR != -1)
       {
-        pnt->m_R = M_GetFloatFromBinaryData(pntPos + posR, _data, readSize);
+        pnt->m_R = M_GetFloatFromBinaryData(pntPos + posR, _data, static_cast<size_t>(readSize));
       }
       if (posMn != -1)
       {
-        pnt->m_Medialness = M_GetFloatFromBinaryData(pntPos + posMn, _data, readSize);
+        pnt->m_Medialness = M_GetFloatFromBinaryData(pntPos + posMn, _data, static_cast<size_t>(readSize));
       }
       if (posRn != -1)
       {
-        pnt->m_Ridgeness = M_GetFloatFromBinaryData(pntPos + posRn, _data, readSize);
+        pnt->m_Ridgeness = M_GetFloatFromBinaryData(pntPos + posRn, _data, static_cast<size_t>(readSize));
       }
       if (posBn != -1)
       {
-        pnt->m_Branchness = M_GetFloatFromBinaryData(pntPos + posBn, _data, readSize);
+        pnt->m_Branchness = M_GetFloatFromBinaryData(pntPos + posBn, _data, static_cast<size_t>(readSize));
       }
       if (posCv != -1)
       {
-        pnt->m_Curvature = M_GetFloatFromBinaryData(pntPos + posCv, _data, readSize);
+        pnt->m_Curvature = M_GetFloatFromBinaryData(pntPos + posCv, _data, static_cast<size_t>(readSize));
       }
       if (posLv != -1)
       {
-        pnt->m_Levelness = M_GetFloatFromBinaryData(pntPos + posLv, _data, readSize);
+        pnt->m_Levelness = M_GetFloatFromBinaryData(pntPos + posLv, _data, static_cast<size_t>(readSize));
       }
       if (posRo != -1)
       {
-        pnt->m_Roundness = M_GetFloatFromBinaryData(pntPos + posRo, _data, readSize);
+        pnt->m_Roundness = M_GetFloatFromBinaryData(pntPos + posRo, _data, static_cast<size_t>(readSize));
       }
       if (posIn != -1)
       {
-        pnt->m_Intensity = M_GetFloatFromBinaryData(pntPos + posIn, _data, readSize);
+        pnt->m_Intensity = M_GetFloatFromBinaryData(pntPos + posIn, _data, static_cast<size_t>(readSize));
       }
       if (posTx != -1)
       {
-        pnt->m_T[0] = M_GetFloatFromBinaryData(pntPos + posTx, _data, readSize);
+        pnt->m_T[0] = M_GetFloatFromBinaryData(pntPos + posTx, _data, static_cast<size_t>(readSize));
       }
       if (posTy != -1)
       {
-        pnt->m_T[1] = M_GetFloatFromBinaryData(pntPos + posTy, _data, readSize);
+        pnt->m_T[1] = M_GetFloatFromBinaryData(pntPos + posTy, _data, static_cast<size_t>(readSize));
       }
       if (m_NDims > 2 && posTz != -1)
       {
-        pnt->m_T[2] = M_GetFloatFromBinaryData(pntPos + posTz, _data, readSize);
+        pnt->m_T[2] = M_GetFloatFromBinaryData(pntPos + posTz, _data, static_cast<size_t>(readSize));
       }
       if (posV1x != -1)
       {
-        pnt->m_V1[0] = M_GetFloatFromBinaryData(pntPos + posV1x, _data, readSize);
+        pnt->m_V1[0] = M_GetFloatFromBinaryData(pntPos + posV1x, _data, static_cast<size_t>(readSize));
       }
       if (posV1y != -1)
       {
-        pnt->m_V1[1] = M_GetFloatFromBinaryData(pntPos + posV1y, _data, readSize);
+        pnt->m_V1[1] = M_GetFloatFromBinaryData(pntPos + posV1y, _data, static_cast<size_t>(readSize));
       }
       if (m_NDims > 2 && posV1z != -1)
       {
-        pnt->m_V1[2] = M_GetFloatFromBinaryData(pntPos + posV1z, _data, readSize);
+        pnt->m_V1[2] = M_GetFloatFromBinaryData(pntPos + posV1z, _data, static_cast<size_t>(readSize));
       }
       if (posV2x != -1)
       {
-        pnt->m_V2[0] = M_GetFloatFromBinaryData(pntPos + posV2x, _data, readSize);
+        pnt->m_V2[0] = M_GetFloatFromBinaryData(pntPos + posV2x, _data, static_cast<size_t>(readSize));
       }
       if (posV2y != -1)
       {
-        pnt->m_V2[1] = M_GetFloatFromBinaryData(pntPos + posV2y, _data, readSize);
+        pnt->m_V2[1] = M_GetFloatFromBinaryData(pntPos + posV2y, _data, static_cast<size_t>(readSize));
       }
       if (m_NDims > 2 && posV2z != -1)
       {
-        pnt->m_V2[2] = M_GetFloatFromBinaryData(pntPos + posV2z, _data, readSize);
+        pnt->m_V2[2] = M_GetFloatFromBinaryData(pntPos + posV2z, _data, static_cast<size_t>(readSize));
       }
       if (posA1 != -1)
       {
-        pnt->m_Alpha1 = M_GetFloatFromBinaryData(pntPos + posA1, _data, readSize);
+        pnt->m_Alpha1 = M_GetFloatFromBinaryData(pntPos + posA1, _data, static_cast<size_t>(readSize));
       }
       if (posA2 != -1)
       {
-        pnt->m_Alpha2 = M_GetFloatFromBinaryData(pntPos + posA2, _data, readSize);
+        pnt->m_Alpha2 = M_GetFloatFromBinaryData(pntPos + posA2, _data, static_cast<size_t>(readSize));
       }
       if (posA3 != -1)
       {
-        pnt->m_Alpha3 = M_GetFloatFromBinaryData(pntPos + posA3, _data, readSize);
+        pnt->m_Alpha3 = M_GetFloatFromBinaryData(pntPos + posA3, _data, static_cast<size_t>(readSize));
       }
 
       std::vector<PositionType>::const_iterator itFields = m_Positions.begin();
@@ -913,7 +874,7 @@ MetaTube::M_Read()
           (*itUsed) = false;
           if (pos >= 0)
           {
-            float tf = M_GetFloatFromBinaryData(pntPos + pos, _data, readSize);
+            float tf = M_GetFloatFromBinaryData(pntPos + pos, _data, static_cast<size_t>(readSize));
             pnt->AddField((*itFields).first.c_str(), tf);
           }
         }
@@ -937,7 +898,7 @@ MetaTube::M_Read()
     {
       if (m_Event)
       {
-        m_Event->SetCurrentIteration(j + 1);
+        m_Event->SetCurrentIteration(static_cast<unsigned int>(j + 1));
       }
 
       for (int k = 0; k < pntDim; k++)
@@ -950,7 +911,7 @@ MetaTube::M_Read()
 
       if (posId >= 0)
       {
-        pnt->m_ID = v[posId];
+        pnt->m_ID = static_cast<int>(v[posId]);
       }
       if (posX >= 0)
       {
@@ -1124,16 +1085,13 @@ MetaTube::M_Write()
 
   MET_StringToWordArray(pointDim, &pntDim, &pntVal);
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaTube: Parsing point dim" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaTube: Parsing point dim" );
 
   m_Positions.clear();
   std::vector<bool> positionUsed;
   for (int i = 0; i < pntDim; i++)
   {
-    PositionType p(pntVal[i], i);
+    PositionType p(pntVal[i], static_cast<const unsigned int &>(i));
     m_Positions.push_back(p);
     positionUsed.push_back(false);
   }
@@ -1238,145 +1196,145 @@ MetaTube::M_Write()
     int dataPos = 0;
     while (it != itEnd)
     {
-      std::vector<PositionType>::const_iterator itFields = m_Positions.begin();
-      std::vector<PositionType>::const_iterator itFieldsEnd = m_Positions.end();
-      while (itFields != itFieldsEnd)
+      std::vector<PositionType>::const_iterator l_itFields = m_Positions.begin();
+      std::vector<PositionType>::const_iterator l_itFieldsEnd = m_Positions.end();
+      while (l_itFields != l_itFieldsEnd)
       {
-        if (itFields->second == posId)
+        if (l_itFields->second == posId)
         {
-          M_SetFloatIntoBinaryData((*it)->m_ID, data, dataPos++);
+          M_SetFloatIntoBinaryData(static_cast<float>((*it)->m_ID), data, dataPos++);
         }
-        else if (itFields->second == posX)
+        else if (l_itFields->second == posX)
         {
           M_SetFloatIntoBinaryData((*it)->m_X[0], data, dataPos++);
         }
-        else if (itFields->second == posY)
+        else if (l_itFields->second == posY)
         {
           M_SetFloatIntoBinaryData((*it)->m_X[1], data, dataPos++);
         }
-        else if (m_NDims > 2 && itFields->second == posZ)
+        else if (m_NDims > 2 && l_itFields->second == posZ)
         {
           M_SetFloatIntoBinaryData((*it)->m_X[2], data, dataPos++);
         }
-        else if (itFields->second == posRed)
+        else if (l_itFields->second == posRed)
         {
           M_SetFloatIntoBinaryData((*it)->m_Color[0], data, dataPos++);
         }
-        else if (itFields->second == posGreen)
+        else if (l_itFields->second == posGreen)
         {
           M_SetFloatIntoBinaryData((*it)->m_Color[1], data, dataPos++);
         }
-        else if (itFields->second == posBlue)
+        else if (l_itFields->second == posBlue)
         {
           M_SetFloatIntoBinaryData((*it)->m_Color[2], data, dataPos++);
         }
-        else if (itFields->second == posAlpha)
+        else if (l_itFields->second == posAlpha)
         {
           M_SetFloatIntoBinaryData((*it)->m_Color[3], data, dataPos++);
         }
-        else if (itFields->second == posR)
+        else if (l_itFields->second == posR)
         {
           M_SetFloatIntoBinaryData((*it)->m_R, data, dataPos++);
         }
-        else if (itFields->second == posRn)
+        else if (l_itFields->second == posRn)
         {
           M_SetFloatIntoBinaryData((*it)->m_Ridgeness, data, dataPos++);
         }
-        else if (itFields->second == posMn)
+        else if (l_itFields->second == posMn)
         {
           M_SetFloatIntoBinaryData((*it)->m_Medialness, data, dataPos++);
         }
-        else if (itFields->second == posBn)
+        else if (l_itFields->second == posBn)
         {
           M_SetFloatIntoBinaryData((*it)->m_Branchness, data, dataPos++);
         }
-        else if (itFields->second == posCv)
+        else if (l_itFields->second == posCv)
         {
           M_SetFloatIntoBinaryData((*it)->m_Curvature, data, dataPos++);
         }
-        else if (itFields->second == posRo)
+        else if (l_itFields->second == posRo)
         {
           M_SetFloatIntoBinaryData((*it)->m_Roundness, data, dataPos++);
         }
-        else if (itFields->second == posLv)
+        else if (l_itFields->second == posLv)
         {
           M_SetFloatIntoBinaryData((*it)->m_Levelness, data, dataPos++);
         }
-        else if (itFields->second == posIn)
+        else if (l_itFields->second == posIn)
         {
           M_SetFloatIntoBinaryData((*it)->m_Intensity, data, dataPos++);
         }
-        else if (itFields->second == posMark)
+        else if (l_itFields->second == posMark)
         {
-          M_SetFloatIntoBinaryData((*it)->m_Mark ? 1 : 0, data, dataPos++);
+          M_SetFloatIntoBinaryData((*it)->m_Mark ? 1.0f : 0.0f, data, dataPos++);
         }
-        else if (itFields->second == posTx)
+        else if (l_itFields->second == posTx)
         {
           M_SetFloatIntoBinaryData((*it)->m_T[0], data, dataPos++);
         }
-        else if (itFields->second == posTy)
+        else if (l_itFields->second == posTy)
         {
           M_SetFloatIntoBinaryData((*it)->m_T[1], data, dataPos++);
         }
-        else if (m_NDims > 2 && itFields->second == posTz)
+        else if (m_NDims > 2 && l_itFields->second == posTz)
         {
           M_SetFloatIntoBinaryData((*it)->m_T[2], data, dataPos++);
         }
-        else if (itFields->second == posV1x)
+        else if (l_itFields->second == posV1x)
         {
           M_SetFloatIntoBinaryData((*it)->m_V1[0], data, dataPos++);
         }
-        else if (itFields->second == posV1y)
+        else if (l_itFields->second == posV1y)
         {
           M_SetFloatIntoBinaryData((*it)->m_V1[1], data, dataPos++);
         }
-        else if (m_NDims > 2 && itFields->second == posV1z)
+        else if (m_NDims > 2 && l_itFields->second == posV1z)
         {
           M_SetFloatIntoBinaryData((*it)->m_V1[2], data, dataPos++);
         }
-        else if (itFields->second == posV2x)
+        else if (l_itFields->second == posV2x)
         {
           M_SetFloatIntoBinaryData((*it)->m_V2[0], data, dataPos++);
         }
-        else if (itFields->second == posV2y)
+        else if (l_itFields->second == posV2y)
         {
           M_SetFloatIntoBinaryData((*it)->m_V2[1], data, dataPos++);
         }
-        else if (m_NDims > 2 && itFields->second == posV2z)
+        else if (m_NDims > 2 && l_itFields->second == posV2z)
         {
           M_SetFloatIntoBinaryData((*it)->m_V2[2], data, dataPos++);
         }
-        else if (itFields->second == posA1)
+        else if (l_itFields->second == posA1)
         {
           M_SetFloatIntoBinaryData((*it)->m_Alpha1, data, dataPos++);
         }
-        else if (itFields->second == posA2)
+        else if (l_itFields->second == posA2)
         {
           M_SetFloatIntoBinaryData((*it)->m_Alpha2, data, dataPos++);
         }
-        else if (itFields->second == posA3)
+        else if (l_itFields->second == posA3)
         {
           M_SetFloatIntoBinaryData((*it)->m_Alpha3, data, dataPos++);
         }
         else
         {
-          int indx = (*it)->GetFieldIndex(itFields->first.c_str());
+          int indx = (*it)->GetFieldIndex(l_itFields->first.c_str());
           if (indx >= 0)
           {
             M_SetFloatIntoBinaryData((*it)->GetField(indx), data, dataPos++);
           }
           else
           {
-            std::cerr << "Cannot find value for field " << itFields->first << std::endl;
+            std::cerr << "Cannot find value for field " << l_itFields->first << std::endl;
           }
         }
-        ++itFields;
+        ++l_itFields;
       }
 
       ++it;
     }
 
-    m_WriteStream->write((char *)data, dataSize);
+    m_WriteStream->write(data, dataSize);
     m_WriteStream->write("\n", 1);
 
     delete[] data;
@@ -1389,91 +1347,91 @@ MetaTube::M_Write()
     int dataPos = 0;
     while (it != itEnd)
     {
-      std::vector<PositionType>::const_iterator itFields = m_Positions.begin();
-      std::vector<PositionType>::const_iterator itFieldsEnd = m_Positions.end();
-      while (itFields != itFieldsEnd)
+      std::vector<PositionType>::const_iterator l_itFields = m_Positions.begin();
+      std::vector<PositionType>::const_iterator l_itFieldsEnd = m_Positions.end();
+      while (l_itFields != l_itFieldsEnd)
       {
-        if (itFields->second == posId)
+        if (l_itFields->second == posId)
         {
           *m_WriteStream << (*it)->m_ID << " ";
           dataPos++;
         }
-        else if (itFields->second == posX)
+        else if (l_itFields->second == posX)
         {
           *m_WriteStream << (*it)->m_X[0] << " ";
           dataPos++;
         }
-        else if (itFields->second == posY)
+        else if (l_itFields->second == posY)
         {
           *m_WriteStream << (*it)->m_X[1] << " ";
           dataPos++;
         }
-        else if (m_NDims > 2 && itFields->second == posZ)
+        else if (m_NDims > 2 && l_itFields->second == posZ)
         {
           *m_WriteStream << (*it)->m_X[2] << " ";
           dataPos++;
         }
-        else if (itFields->second == posRed)
+        else if (l_itFields->second == posRed)
         {
           *m_WriteStream << (*it)->m_Color[0] << " ";
           dataPos++;
         }
-        else if (itFields->second == posGreen)
+        else if (l_itFields->second == posGreen)
         {
           *m_WriteStream << (*it)->m_Color[1] << " ";
           dataPos++;
         }
-        else if (itFields->second == posBlue)
+        else if (l_itFields->second == posBlue)
         {
           *m_WriteStream << (*it)->m_Color[2] << " ";
           dataPos++;
         }
-        else if (itFields->second == posAlpha)
+        else if (l_itFields->second == posAlpha)
         {
           *m_WriteStream << (*it)->m_Color[3] << " ";
           dataPos++;
         }
-        else if (itFields->second == posR)
+        else if (l_itFields->second == posR)
         {
           *m_WriteStream << (*it)->m_R << " ";
           dataPos++;
         }
-        else if (itFields->second == posRn)
+        else if (l_itFields->second == posRn)
         {
           *m_WriteStream << (*it)->m_Ridgeness << " ";
           dataPos++;
         }
-        else if (itFields->second == posMn)
+        else if (l_itFields->second == posMn)
         {
           *m_WriteStream << (*it)->m_Medialness << " ";
           dataPos++;
         }
-        else if (itFields->second == posBn)
+        else if (l_itFields->second == posBn)
         {
           *m_WriteStream << (*it)->m_Branchness << " ";
           dataPos++;
         }
-        else if (itFields->second == posCv)
+        else if (l_itFields->second == posCv)
         {
           *m_WriteStream << (*it)->m_Curvature << " ";
           dataPos++;
         }
-        else if (itFields->second == posRo)
+        else if (l_itFields->second == posRo)
         {
           *m_WriteStream << (*it)->m_Roundness << " ";
           dataPos++;
         }
-        else if (itFields->second == posLv)
+        else if (l_itFields->second == posLv)
         {
           *m_WriteStream << (*it)->m_Levelness << " ";
           dataPos++;
         }
-        else if (itFields->second == posIn)
+        else if (l_itFields->second == posIn)
         {
           *m_WriteStream << (*it)->m_Intensity << " ";
           dataPos++;
         }
-        else if (itFields->second == posMark)
+        else if (l_itFields->second == posMark)
         {
           if ((*it)->m_Mark)
           {
@@ -1485,69 +1443,69 @@ MetaTube::M_Write()
           }
           dataPos++;
         }
-        else if (itFields->second == posTx)
+        else if (l_itFields->second == posTx)
         {
           *m_WriteStream << (*it)->m_T[0] << " ";
           dataPos++;
         }
-        else if (itFields->second == posTy)
+        else if (l_itFields->second == posTy)
         {
           *m_WriteStream << (*it)->m_T[1] << " ";
           dataPos++;
         }
-        else if (m_NDims > 2 && itFields->second == posTz)
+        else if (m_NDims > 2 && l_itFields->second == posTz)
         {
           *m_WriteStream << (*it)->m_T[2] << " ";
           dataPos++;
         }
-        else if (itFields->second == posV1x)
+        else if (l_itFields->second == posV1x)
         {
           *m_WriteStream << (*it)->m_V1[0] << " ";
           dataPos++;
         }
-        else if (itFields->second == posV1y)
+        else if (l_itFields->second == posV1y)
         {
           *m_WriteStream << (*it)->m_V1[1] << " ";
           dataPos++;
         }
-        else if (m_NDims > 2 && itFields->second == posV1z)
+        else if (m_NDims > 2 && l_itFields->second == posV1z)
         {
           *m_WriteStream << (*it)->m_V1[2] << " ";
           dataPos++;
         }
-        else if (itFields->second == posV2x)
+        else if (l_itFields->second == posV2x)
         {
           *m_WriteStream << (*it)->m_V2[0] << " ";
           dataPos++;
         }
-        else if (itFields->second == posV2y)
+        else if (l_itFields->second == posV2y)
         {
           *m_WriteStream << (*it)->m_V2[1] << " ";
           dataPos++;
         }
-        else if (m_NDims > 2 && itFields->second == posV2z)
+        else if (m_NDims > 2 && l_itFields->second == posV2z)
         {
           *m_WriteStream << (*it)->m_V2[2] << " ";
           dataPos++;
         }
-        else if (itFields->second == posA1)
+        else if (l_itFields->second == posA1)
         {
           *m_WriteStream << (*it)->m_Alpha1 << " ";
           dataPos++;
         }
-        else if (itFields->second == posA2)
+        else if (l_itFields->second == posA2)
         {
           *m_WriteStream << (*it)->m_Alpha2 << " ";
           dataPos++;
         }
-        else if (itFields->second == posA3)
+        else if (l_itFields->second == posA3)
         {
           *m_WriteStream << (*it)->m_Alpha3 << " ";
           dataPos++;
         }
         else
         {
-          int indx = (*it)->GetFieldIndex(itFields->first.c_str());
+          int indx = (*it)->GetFieldIndex(l_itFields->first.c_str());
           if (indx >= 0)
           {
             *m_WriteStream << (*it)->GetField(indx) << " ";
@@ -1555,10 +1513,10 @@ MetaTube::M_Write()
           }
           else
           {
-            std::cerr << "Cannot find value for field " << itFields->first << std::endl;
+            std::cerr << "Cannot find value for field " << l_itFields->first << std::endl;
           }
         }
-        ++itFields;
+        ++l_itFields;
       }
 
       *m_WriteStream << std::endl;
