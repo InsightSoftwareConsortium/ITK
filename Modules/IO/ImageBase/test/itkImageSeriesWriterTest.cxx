@@ -23,14 +23,17 @@
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
-itkImageSeriesWriterTest(int ac, char * av[])
+itkImageSeriesWriterTest(int argc, char * argv[])
 {
 
-  if (ac < 4)
+  if (argc < 4)
   {
-    std::cerr << "Usage: " << av[0] << " DicomDirectory OutputDirectory FileSuffix\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomDirectory OutputDirectory FileSuffix"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -41,7 +44,7 @@ itkImageSeriesWriterTest(int ac, char * av[])
 
   // Get the DICOM filenames from the directory
   itk::GDCMSeriesFileNames::Pointer nameGenerator = itk::GDCMSeriesFileNames::New();
-  nameGenerator->SetDirectory(av[1]);
+  nameGenerator->SetDirectory(argv[1]);
 
   using SeriesIdContainer = std::vector<std::string>;
   const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
@@ -53,16 +56,11 @@ itkImageSeriesWriterTest(int ac, char * av[])
 
   itk::SimpleFilterWatcher watcher(reader);
 
-  try
-  {
-    reader->Update();
-    reader->GetOutput()->Print(std::cout);
-  }
-  catch (const itk::ExceptionObject & ex)
-  {
-    std::cout << ex;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+  reader->GetOutput()->Print(std::cout);
+
 
   using WritePixelType = unsigned char;
   using RescaleImageType = itk::Image<WritePixelType, 3>;
@@ -86,33 +84,18 @@ itkImageSeriesWriterTest(int ac, char * av[])
 
     writer->SetInput(rescaler->GetOutput());
     char format[4096];
-    sprintf(format, "%s/series.%%d.%s", av[2], av[3]);
+    sprintf(format, "%s/series.%%d.%s", argv[2], argv[3]);
     writer->SetSeriesFormat(format);
 
-    try
-    {
-      writer->Update();
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << "Error while writing the series with old API" << std::endl;
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
     // Verify that attempting to use a MetaDataDictionary without setting the ImageIO
     // should throw an exception.
     writer->SetMetaDataDictionaryArray(reader->GetMetaDataDictionaryArray());
-    try
-    {
-      writer->Update();
-      std::cerr << "Failed to throw expected exception of using MetaDataDictionary without ImageIO" << std::endl;
-      return EXIT_FAILURE;
-    }
-    catch (itk::ExceptionObject &)
-    {
-      std::cout << "Exercised expected exception" << std::endl;
-    }
+
+    ITK_TRY_EXPECT_EXCEPTION(writer->Update());
+
 
     std::cout << "Old API PASSED !" << std::endl;
   }
@@ -126,7 +109,7 @@ itkImageSeriesWriterTest(int ac, char * av[])
 
 
     char format[4096];
-    sprintf(format, "%s/series.%%d.%s", av[2], av[3]);
+    sprintf(format, "%s/series.%%d.%s", argv[2], argv[3]);
 
     std::cout << "Format = " << format << std::endl;
 
@@ -151,33 +134,19 @@ itkImageSeriesWriterTest(int ac, char * av[])
     writer->UseCompressionOn();
     writer->UseCompressionOff();
 
-    try
-    {
-      writer->Update();
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << "Error while writing the series with SeriesFileNames generator" << std::endl;
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
     // Verify that attempting to use a MetaDataDictionary without setting the ImageIO
     // should throw an exception.
     writer->SetMetaDataDictionaryArray(reader->GetMetaDataDictionaryArray());
-    try
-    {
-      writer->Update();
-      std::cerr << "Failed to throw expected exception of using MetaDataDictionary without ImageIO" << std::endl;
-      return EXIT_FAILURE;
-    }
-    catch (itk::ExceptionObject &)
-    {
-      std::cout << "Exercised expected exception" << std::endl;
-    }
+
+    ITK_TRY_EXPECT_EXCEPTION(writer->Update());
+
 
     std::cout << "Test with NumericSeriesFileNames PASSED !" << std::endl;
   }
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
