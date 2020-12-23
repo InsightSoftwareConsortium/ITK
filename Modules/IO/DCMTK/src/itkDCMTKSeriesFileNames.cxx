@@ -194,9 +194,21 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
   os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
-  os << indent << "InputFileNames: " << m_InputFileNames << std::endl;
-  os << indent << "OutputFileNames: " << m_OutputFileNames << std::endl;
-  os << indent << "SeriesUIDs: " << m_SeriesUIDs << std::endl;
+
+  for (unsigned int i = 0; i < m_InputFileNames.size(); i++)
+  {
+    os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
+  }
+
+  for (unsigned int i = 0; i < m_OutputFileNames.size(); i++)
+  {
+    os << indent << "OutputFileNames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
+  }
+
+  for (unsigned int i = 0; i < m_SeriesUIDs.size(); i++)
+  {
+    os << indent << "SeriesUIDs[" << i << "]: " << m_SeriesUIDs[i] << std::endl;
+  }
 
   if (m_UseSeriesDetails)
   {
