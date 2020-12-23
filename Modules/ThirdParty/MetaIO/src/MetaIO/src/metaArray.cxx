@@ -16,11 +16,7 @@
 #  pragma warning(disable : 4996)
 #endif
 
-#include <cctype>
-#include <cmath>
-#include <cstdio>
 #include <cstring> // for memcpy
-#include <string>
 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
@@ -34,10 +30,7 @@ namespace METAIO_NAMESPACE
 MetaArray::MetaArray()
   : MetaForm()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray()" );
 
   m_ElementData = nullptr;
   m_AutoFreeElementData = false;
@@ -53,10 +46,7 @@ MetaArray::MetaArray()
 MetaArray::MetaArray(const char * _headerName)
   : MetaForm()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray()" );
 
   m_ElementData = nullptr;
   m_AutoFreeElementData = false;
@@ -74,10 +64,7 @@ MetaArray::MetaArray(const char * _headerName)
 MetaArray::MetaArray(MetaArray * _vector, bool _allocateElementData, bool _autoFreeElementData)
   : MetaForm()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray()" );
 
   m_ElementData = nullptr;
   m_AutoFreeElementData = false;
@@ -94,8 +81,7 @@ MetaArray::MetaArray(MetaArray * _vector, bool _allocateElementData, bool _autoF
                       _vector->ElementData(),
                       _allocateElementData,
                       _autoFreeElementData);
-
-  CopyInfo(_vector);
+  MetaForm::CopyInfo(_vector);
 }
 
 //
@@ -107,10 +93,7 @@ MetaArray::MetaArray(int               _length,
                      bool              _autoFreeElementData)
   : MetaForm()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray()" );
 
   m_ElementData = nullptr;
   m_AutoFreeElementData = false;
@@ -128,7 +111,7 @@ MetaArray::MetaArray(int               _length,
 //
 MetaArray::~MetaArray()
 {
-  M_Destroy();
+  MetaArray::M_ResetValues();
 }
 
 //
@@ -137,7 +120,7 @@ MetaArray::PrintInfo() const
 {
   MetaForm::PrintInfo();
 
-  std::cout << "Length = " << (int)m_Length << std::endl;
+  std::cout << "Length = " << m_Length << std::endl;
 
   std::cout << "BinaryData = " << ((m_BinaryData) ? "True" : "False") << std::endl;
 
@@ -167,10 +150,7 @@ MetaArray::CopyInfo(const MetaForm * _form)
 void
 MetaArray::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: Clear" );
 
   m_Length = 0;
 
@@ -186,7 +166,7 @@ MetaArray::Clear()
   {
     if (m_ElementData != nullptr)
     {
-      delete[](char *) m_ElementData;
+      delete[]static_cast<char *>(m_ElementData);
     }
   }
   m_ElementData = nullptr;
@@ -203,23 +183,20 @@ MetaArray::InitializeEssential(int               _length,
                                bool              _allocateElementData,
                                bool              _autoFreeElementData)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: Initialize" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: Initialize" );
 
   MetaForm::InitializeEssential();
 
   bool result = true;
 
   if (m_Length != _length || m_ElementType != _elementType || m_ElementNumberOfChannels != _elementNumberOfChannels ||
-      _elementData != nullptr || _allocateElementData == true)
+      _elementData != nullptr || _allocateElementData)
   {
     if (m_AutoFreeElementData)
     {
       if (m_ElementData != nullptr)
       {
-        delete[](char *) m_ElementData;
+        delete[]static_cast<char *>(m_ElementData);
       }
     }
     m_ElementData = nullptr;
@@ -230,7 +207,7 @@ MetaArray::InitializeEssential(int               _length,
 
     if (_elementData != nullptr)
     {
-      m_ElementData = (void *)_elementData;
+      m_ElementData = _elementData;
     }
     else
     {
@@ -257,7 +234,7 @@ MetaArray::AllocateElementData(bool _autoFreeElementData)
   {
     if (m_ElementData != nullptr)
     {
-      delete[](char *) m_ElementData;
+      delete[]static_cast<char *>(m_ElementData);
     }
   }
   m_ElementData = nullptr;
@@ -338,10 +315,7 @@ MetaArray::ElementNumberOfChannels(int _elementNumberOfChannels)
 void
 MetaArray::ElementByteOrderSwap()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: ElementByteOrderSwap" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: ElementByteOrderSwap" );
 
   int eSize;
   MET_SizeOfType(m_ElementType, &eSize);
@@ -358,7 +332,7 @@ MetaArray::ElementByteOrderSwap()
       int i;
       for (i = 0; i < m_Length * m_ElementNumberOfChannels; i++)
       {
-        ((MET_USHORT_TYPE *)m_ElementData)[i] = MET_ByteOrderSwapShort(((MET_USHORT_TYPE *)m_ElementData)[i]);
+        (static_cast<MET_USHORT_TYPE *>(m_ElementData))[i] = MET_ByteOrderSwapShort((static_cast<MET_USHORT_TYPE *>(m_ElementData))[i]);
       }
       break;
     }
@@ -367,14 +341,14 @@ MetaArray::ElementByteOrderSwap()
       int i;
       for (i = 0; i < m_Length * m_ElementNumberOfChannels; i++)
       {
-        ((MET_UINT_TYPE *)m_ElementData)[i] = MET_ByteOrderSwapLong(((MET_UINT_TYPE *)m_ElementData)[i]);
+        (static_cast<MET_UINT_TYPE *>(m_ElementData))[i] = MET_ByteOrderSwapLong((static_cast<MET_UINT_TYPE *>(m_ElementData))[i]);
       }
       break;
     }
     case 8:
     {
       int    i;
-      char * data = (char *)m_ElementData;
+      char * data = static_cast<char *>(m_ElementData);
       for (i = 0; i < m_Length * m_ElementNumberOfChannels; i++)
       {
         MET_ByteOrderSwap8(data);
@@ -427,7 +401,7 @@ MetaArray::ConvertElementDataTo(MET_ValueEnumType _toElementType,
   {
     if (curAutoFreeElementData)
     {
-      delete[](char *) curBuffer;
+      delete[]static_cast<char *>(curBuffer);
     }
   }
 
@@ -530,7 +504,7 @@ MetaArray::ElementData(void * _elementData, bool _arrayControlsElementData)
 {
   if (m_AutoFreeElementData)
   {
-    delete[](char *) m_ElementData;
+    delete[]static_cast<char *>(m_ElementData);
   }
   m_ElementData = _elementData;
   m_AutoFreeElementData = _arrayControlsElementData;
@@ -650,12 +624,9 @@ MetaArray::CanReadStream(std::ifstream * _stream) const
 bool
 MetaArray::ReadStream(std::ifstream * _stream, bool _readElements, void * _elementDataBuffer, bool _autoFreeElementData)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: ReadStream" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: ReadStream" );
 
-  M_Destroy();
+  MetaArray::M_ResetValues();
 
   Clear();
 
@@ -844,12 +815,12 @@ MetaArray::WriteStream(std::ofstream * _stream, bool _writeElements, const void 
     if (_constElementData == nullptr)
     {
       compressedElementData = MET_PerformCompression(
-        (const unsigned char *)m_ElementData, m_Length * elementNumberOfBytes, &m_CompressedElementDataSize, 2);
+        static_cast<const unsigned char *>(m_ElementData), m_Length * elementNumberOfBytes, &m_CompressedElementDataSize, 2);
     }
     else
     {
       compressedElementData = MET_PerformCompression(
-        (const unsigned char *)_constElementData, m_Length * elementNumberOfBytes, &m_CompressedElementDataSize, 2);
+        static_cast<const unsigned char *>(_constElementData), m_Length * elementNumberOfBytes, &m_CompressedElementDataSize, 2);
     }
   }
 
@@ -890,11 +861,11 @@ MetaArray::WriteStream(std::ofstream * _stream, bool _writeElements, const void 
 }
 
 void
-MetaArray::M_Destroy()
+MetaArray::M_ResetValues()
 {
   if (m_AutoFreeElementData && m_ElementData != nullptr)
   {
-    delete[](char *) m_ElementData;
+    delete[]static_cast<char *>(m_ElementData);
   }
   m_ElementData = nullptr;
 
@@ -904,16 +875,11 @@ MetaArray::M_Destroy()
 void
 MetaArray::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: M_SetupReadFields" );
 
   MetaForm::M_SetupReadFields();
 
-  MET_FieldRecordType * mF;
-
-  mF = new MET_FieldRecordType;
+  auto * mF = new MET_FieldRecordType;
   MET_InitReadField(mF, "Length", MET_INT, false);
   m_Fields.push_back(mF);
 
@@ -956,7 +922,7 @@ MetaArray::M_SetupWriteFields()
     m_Fields.push_back(mF);
   }
 
-  char s[80];
+  char s[METAIO_MAX_WORD_SIZE];
   mF = new MET_FieldRecordType;
   MET_TypeToString(m_ElementType, s);
   MET_InitWriteField(mF, "ElementType", MET_STRING, strlen(s), s);
@@ -972,33 +938,27 @@ MetaArray::M_SetupWriteFields()
 bool
 MetaArray::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: M_Read: Loading Header" );
   if (!MetaForm::M_Read())
   {
     std::cout << "MetaArray: M_Read: Error parsing file" << std::endl;
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: M_Read: Parsing Header" );
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("Length", &m_Fields);
   if (mF && mF->defined)
   {
-    m_Length = (int)mF->value[0];
+    m_Length = static_cast<int>(mF->value[0]);
   }
   else
   {
     mF = MET_GetFieldRecord("NDims", &m_Fields);
     if (mF && mF->defined)
     {
-      m_Length = (int)mF->value[0];
+      m_Length = static_cast<int>(mF->value[0]);
     }
     else
     {
@@ -1010,19 +970,19 @@ MetaArray::M_Read()
   mF = MET_GetFieldRecord("ElementNumberOfChannels", &m_Fields);
   if (mF && mF->defined)
   {
-    m_ElementNumberOfChannels = (int)mF->value[0];
+    m_ElementNumberOfChannels = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);
   if (mF && mF->defined)
   {
-    MET_StringToType((char *)(mF->value), &m_ElementType);
+    MET_StringToType(reinterpret_cast<char *>(mF->value), &m_ElementType);
   }
 
   mF = MET_GetFieldRecord("ElementDataFile", &m_Fields);
   if (mF && mF->defined)
   {
-    m_ElementDataFileName = (char *)(mF->value);
+    m_ElementDataFileName = reinterpret_cast<char *>(mF->value);
   }
 
   return true;
@@ -1031,18 +991,12 @@ MetaArray::M_Read()
 bool
 MetaArray::M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: M_ReadElements" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: M_ReadElements" );
 
   int elementSize;
   MET_SizeOfType(m_ElementType, &elementSize);
   int readSize = _dataQuantity * m_ElementNumberOfChannels * elementSize;
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArray: M_ReadElements: ReadSize = " << readSize << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArray: M_ReadElements: ReadSize = " << readSize );
 
   // If compressed we inflate
   if (m_CompressedData)
@@ -1057,9 +1011,9 @@ MetaArray::M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuant
     }
 
     auto * compr = new unsigned char[static_cast<size_t>(m_CompressedElementDataSize)];
-    _fstream->read((char *)compr, (size_t)m_CompressedElementDataSize);
+    _fstream->read(reinterpret_cast<char *>(compr), static_cast<size_t>(m_CompressedElementDataSize));
 
-    MET_PerformUncompression(compr, m_CompressedElementDataSize, (unsigned char *)_data, readSize);
+    MET_PerformUncompression(compr, m_CompressedElementDataSize, static_cast<unsigned char *>(_data), readSize);
   }
   else // if not compressed
   {
@@ -1075,7 +1029,7 @@ MetaArray::M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuant
     }
     else
     {
-      _fstream->read((char *)_data, readSize);
+      _fstream->read(static_cast<char *>(_data), readSize);
       int gc = static_cast<int>(_fstream->gcount());
       if (gc != readSize)
       {
@@ -1092,7 +1046,7 @@ MetaArray::M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuant
 bool
 MetaArray::M_WriteElements(std::ofstream * _fstream, const void * _data, std::streamoff _dataQuantity)
 {
-  bool            localData = false;
+  bool            localData;
   std::ofstream * tmpWriteStream;
   if (m_ElementDataFileName == "LOCAL")
   {
@@ -1135,7 +1089,7 @@ MetaArray::M_WriteElements(std::ofstream * _fstream, const void * _data, std::st
     for (int i = 0; i < m_Length * m_ElementNumberOfChannels; i++)
     {
       MET_ValueToDouble(m_ElementType, _data, i, &tf);
-      if ((i + 1) / 10 == (double)(i + 1.0) / 10.0)
+      if ((i + 1) / 10 == (i + 1.0) / 10.0)
       {
         (*tmpWriteStream) << tf << std::endl;
       }
@@ -1147,7 +1101,7 @@ MetaArray::M_WriteElements(std::ofstream * _fstream, const void * _data, std::st
   }
   else
   {
-    tmpWriteStream->write((const char *)_data, (size_t)_dataQuantity);
+    tmpWriteStream->write(static_cast<const char *>(_data), static_cast<size_t>(_dataQuantity));
   }
 
   if (!localData)

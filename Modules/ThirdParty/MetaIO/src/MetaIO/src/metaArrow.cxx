@@ -15,10 +15,6 @@
 #  pragma warning(disable : 4702)
 #endif
 
-#include <cctype>
-#include <cstdio>
-#include <string>
-
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
 {
@@ -30,52 +26,40 @@ namespace METAIO_NAMESPACE
 MetaArrow::MetaArrow()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaArrow()" );
+  MetaArrow::Clear();
 }
 
 //
 MetaArrow::MetaArrow(const char * _headerName)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow()" << std::endl;
-  }
-  Clear();
-  Read(_headerName);
+  META_DEBUG_PRINT( "MetaArrow()" );
+  MetaArrow::Clear();
+  MetaArrow::Read(_headerName);
 }
 
 //
 MetaArrow::MetaArrow(const MetaArrow * _arrow)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_arrow);
+  META_DEBUG_PRINT( "MetaArrow()" );
+  MetaArrow::Clear();
+  MetaArrow::CopyInfo(_arrow);
 }
 
 MetaArrow::MetaArrow(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaArrow()" );
+  MetaArrow::Clear();
   m_NDims = dim;
 }
 
 //
 MetaArrow::~MetaArrow()
 {
-  M_Destroy();
+MetaObject::M_Destroy();
 }
 
 //
@@ -102,7 +86,7 @@ MetaArrow::CopyInfo(const MetaObject * _object)
     const MetaArrow * arrow;
     try
     {
-      arrow = static_cast<const MetaArrow *>(_object);
+      arrow = dynamic_cast<const MetaArrow *>(_object);
     }
     catch (...)
     {
@@ -152,10 +136,7 @@ MetaArrow::Direction() const
 void
 MetaArrow::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArrow: Clear" );
   MetaObject::Clear();
 
   strcpy(m_ObjectTypeName, "Arrow");
@@ -167,21 +148,11 @@ MetaArrow::Clear()
   M_Direction[0] = 1.0;
 }
 
-/** Destroy Arrow information */
-void
-MetaArrow::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaArrow::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArrow: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -212,7 +183,7 @@ MetaArrow::M_SetupWriteFields()
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "Direction", MET_DOUBLE_ARRAY, m_NDims, M_Direction);
+  MET_InitWriteField(mF, "Direction", MET_DOUBLE_ARRAY, static_cast<size_t>(m_NDims), M_Direction);
   m_Fields.push_back(mF);
 }
 
@@ -220,10 +191,7 @@ MetaArrow::M_SetupWriteFields()
 bool
 MetaArrow::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArrow: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -231,16 +199,13 @@ MetaArrow::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaArrow: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaArrow: M_Read: Parsing Header" );
 
   MET_FieldRecordType * mF_length;
   mF_length = MET_GetFieldRecord("Length", &m_Fields);
   if (mF_length->defined)
   {
-    M_Length = (float)mF_length->value[0];
+    M_Length = static_cast<float>(mF_length->value[0]);
   }
 
   MET_FieldRecordType * mF_direction;
@@ -249,7 +214,7 @@ MetaArrow::M_Read()
   {
     for (int i = 0; i < m_NDims; i++)
     {
-      M_Direction[i] = (double)mF_direction->value[i];
+      M_Direction[i] = mF_direction->value[i];
     }
   }
 

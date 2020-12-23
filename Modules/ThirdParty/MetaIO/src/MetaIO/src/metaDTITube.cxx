@@ -17,9 +17,6 @@
 
 #include "metaDTITube.h"
 
-#include <cctype>
-#include <cstdio>
-#include <string>
 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
@@ -28,7 +25,7 @@ namespace METAIO_NAMESPACE
 
 DTITubePnt::DTITubePnt(int dim)
 {
-  m_Dim = dim;
+  m_Dim = static_cast<unsigned int>(dim);
   m_X = new float[m_Dim];
   m_TensorMatrix = new float[6];
 
@@ -89,46 +86,34 @@ DTITubePnt::GetField(const char * name) const
 MetaDTITube::MetaDTITube()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaDTITube()" );
+  MetaDTITube::Clear();
 }
 
 
 MetaDTITube::MetaDTITube(const char * _headerName)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube()" << std::endl;
-  }
-  Clear();
-  Read(_headerName);
+  META_DEBUG_PRINT( "MetaDTITube()" );
+  MetaDTITube::Clear();
+  MetaDTITube::Read(_headerName);
 }
 
 
 MetaDTITube::MetaDTITube(const MetaDTITube * _dtiTube)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_dtiTube);
+  META_DEBUG_PRINT( "MetaDTITube()" );
+  MetaDTITube::Clear();
+  MetaDTITube::CopyInfo(_dtiTube);
 }
 
 
 MetaDTITube::MetaDTITube(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaDTITube()" );
+  MetaDTITube::Clear();
 }
 
 /** Destructor */
@@ -143,7 +128,7 @@ MetaDTITube::~MetaDTITube()
     delete pnt;
   }
   m_PointList.clear();
-  M_Destroy();
+  MetaObject::M_Destroy();
 }
 
 //
@@ -229,10 +214,7 @@ MetaDTITube::ParentPoint() const
 void
 MetaDTITube::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaDTITube: Clear" );
 
   MetaObject::Clear();
 
@@ -256,21 +238,11 @@ MetaDTITube::Clear()
   m_ElementType = MET_FLOAT;
 }
 
-/** Destroy DTITube information */
-void
-MetaDTITube::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaDTITube::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaDTITube: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -348,7 +320,7 @@ MetaDTITube::M_SetupWriteFields()
     m_Fields.push_back(mF);
   }
 
-  m_NPoints = (int)m_PointList.size();
+  m_NPoints = static_cast<int>(m_PointList.size());
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NPoints", MET_INT, m_NPoints);
   m_Fields.push_back(mF);
@@ -379,10 +351,7 @@ MetaDTITube::GetPosition(const char * name) const
 bool
 MetaDTITube::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaDTITube: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -390,24 +359,21 @@ MetaDTITube::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaDTITube: M_Read: Parsing Header" );
 
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("ParentPoint", &m_Fields);
   if (mF->defined)
   {
-    m_ParentPoint = (int)mF->value[0];
+    m_ParentPoint = static_cast<int>(mF->value[0]);
   }
 
   m_Root = false;
   mF = MET_GetFieldRecord("Root", &m_Fields);
   if (mF->defined)
   {
-    if (*((char *)(mF->value)) == 'T' || *((char *)(mF->value)) == 't' || *((char *)(mF->value)) == '1')
+    if (*(reinterpret_cast<char *>(mF->value)) == 'T' || *(reinterpret_cast<char *>(mF->value)) == 't' || *(reinterpret_cast<char *>(mF->value)) == '1')
     {
       m_Root = true;
     }
@@ -420,13 +386,13 @@ MetaDTITube::M_Read()
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if (mF->defined)
   {
-    m_NPoints = (int)mF->value[0];
+    m_NPoints = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if (mF->defined)
   {
-    m_PointDim = (char *)(mF->value);
+    m_PointDim = reinterpret_cast<char *>(mF->value);
   }
 
   int i;
@@ -443,16 +409,13 @@ MetaDTITube::M_Read()
 
   MET_StringToWordArray(pointDim, &pntDim, &pntVal);
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaDTITube: Parsing point dim" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaDTITube: Parsing point dim" );
 
   int j;
   m_Positions.clear();
   for (j = 0; j < pntDim; j++)
   {
-    PositionType p(pntVal[j], j);
+    PositionType p(pntVal[j], static_cast<const unsigned int &>(j));
     m_Positions.push_back(p);
   }
 
@@ -466,7 +429,7 @@ MetaDTITube::M_Read()
 
   if (m_Event)
   {
-    m_Event->StartReading(m_NPoints);
+    m_Event->StartReading(static_cast<unsigned int>(m_NPoints));
   }
 
   if (m_BinaryData)
@@ -476,7 +439,7 @@ MetaDTITube::M_Read()
     int readSize = m_NPoints * pntDim * elementSize;
 
     char * _data = new char[readSize];
-    m_ReadStream->read((char *)_data, readSize);
+    m_ReadStream->read(_data, readSize);
 
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
@@ -497,27 +460,27 @@ MetaDTITube::M_Read()
       for (d = 0; d < m_NDims; d++)
       {
         float        td;
-        char * const num = (char *)(&td);
+        char * const num = reinterpret_cast<char *>(&td);
         for (k = 0; k < sizeof(float); k++)
         {
           num[k] = _data[i + k];
         }
         MET_SwapByteIfSystemMSB(&td, MET_FLOAT);
         i += sizeof(float);
-        pnt->m_X[d] = (float)td;
+        pnt->m_X[d] = td;
       }
 
       for (d = 0; d < 6; d++)
       {
         float        td;
-        char * const num = (char *)(&td);
+        char * const num = reinterpret_cast<char *>(&td);
         for (k = 0; k < sizeof(float); k++)
         {
           num[k] = _data[i + k];
         }
         MET_SwapByteIfSystemMSB(&td, MET_FLOAT);
         i += sizeof(float);
-        pnt->m_TensorMatrix[d] = (float)td;
+        pnt->m_TensorMatrix[d] = td;
       }
 
       std::vector<PositionType>::const_iterator itFields = m_Positions.begin();
@@ -531,14 +494,14 @@ MetaDTITube::M_Read()
             strcmp((*itFields).first.c_str(), "tensor6") != 0)
         {
           float        td;
-          char * const num = (char *)(&td);
+          char * const num = reinterpret_cast<char *>(&td);
           for (k = 0; k < sizeof(float); k++)
           {
             num[k] = _data[i + k];
           }
           MET_SwapByteIfSystemMSB(&td, MET_FLOAT);
           i += sizeof(float);
-          pnt->AddField((*itFields).first.c_str(), (float)td);
+          pnt->AddField((*itFields).first.c_str(), td);
         }
         ++itFields;
       }
@@ -553,7 +516,7 @@ MetaDTITube::M_Read()
     {
       if (m_Event)
       {
-        m_Event->SetCurrentIteration(j + 1);
+        m_Event->SetCurrentIteration(static_cast<unsigned int>(j + 1));
       }
 
       for (int k = 0; k < pntDim; k++)
@@ -691,7 +654,7 @@ MetaDTITube::M_Write()
     int                           elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
 
-    unsigned int                      pntDim = m_NDims + 6;
+    auto                      pntDim = static_cast<unsigned int>(m_NDims + 6);
     const DTITubePnt::FieldListType & extraList = (*(m_PointList.begin()))->GetExtraFields();
     pntDim += static_cast<unsigned int>(extraList.size());
 
@@ -704,14 +667,14 @@ MetaDTITube::M_Write()
       {
         float x = (*it)->m_X[d];
         MET_SwapByteIfSystemMSB(&x, MET_FLOAT);
-        MET_DoubleToValue((double)x, m_ElementType, data, i++);
+        MET_DoubleToValue(static_cast<double>(x), m_ElementType, data, i++);
       }
 
       for (d = 0; d < 6; d++)
       {
         float x = (*it)->m_TensorMatrix[d];
         MET_SwapByteIfSystemMSB(&x, MET_FLOAT);
-        MET_DoubleToValue((double)x, m_ElementType, data, i++);
+        MET_DoubleToValue(static_cast<double>(x), m_ElementType, data, i++);
       }
 
       // Add the extra fields
@@ -722,14 +685,14 @@ MetaDTITube::M_Write()
       {
         float x = (*itFields).second;
         MET_SwapByteIfSystemMSB(&x, MET_FLOAT);
-        MET_DoubleToValue((double)x, m_ElementType, data, i++);
+        MET_DoubleToValue(static_cast<double>(x), m_ElementType, data, i++);
         ++itFields;
       }
 
       ++it;
     }
 
-    m_WriteStream->write((char *)data, i * elementSize);
+    m_WriteStream->write(data, i * elementSize);
     m_WriteStream->write("\n", 1);
     delete[] data;
   }

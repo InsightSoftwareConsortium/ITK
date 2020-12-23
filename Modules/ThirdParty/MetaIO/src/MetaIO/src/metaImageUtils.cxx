@@ -10,11 +10,6 @@
   See the License for more information.
 ============================================================================*/
 
-#include <memory>
-#include <iostream>
-#include <string>
-#include <cstdio>
-
 #ifdef _MSC_VER
 #  pragma warning(disable : 4702)
 #  pragma warning(disable : 4996)
@@ -22,7 +17,6 @@
 
 
 #include "metaImageUtils.h"
-#include <cstring>
 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
@@ -31,7 +25,7 @@ namespace METAIO_NAMESPACE
 
 
 bool
-MET_StringToImageModality(const std::string _str, MET_ImageModalityEnumType * _type)
+MET_StringToImageModality(const std::string& _str, MET_ImageModalityEnumType * _type)
 {
   int i;
 
@@ -39,7 +33,7 @@ MET_StringToImageModality(const std::string _str, MET_ImageModalityEnumType * _t
   {
     if (MET_ImageModalityTypeName[i] == _str)
     {
-      *_type = (MET_ImageModalityEnumType)i;
+      *_type = static_cast<MET_ImageModalityEnumType>(i);
       return true;
     }
   }
@@ -52,7 +46,7 @@ MET_StringToImageModality(const std::string _str, MET_ImageModalityEnumType * _t
 bool
 MET_ImageModalityToString(MET_ImageModalityEnumType _type, std::string & _str)
 {
-  _str = MET_ImageModalityTypeName[(int)_type];
+  _str = MET_ImageModalityTypeName[static_cast<int>(_type)];
   return true;
 }
 

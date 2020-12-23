@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 
 #include <metaUtils.h>
 
@@ -38,7 +37,7 @@ main(int, char *[])
 
   MET_ValueEnumType metType = MET_USHORT;
   MET_ValueEnumType tmpMetType = MET_USHORT;
-  char              buffer[80];
+  char              buffer[METAIO_MAX_WORD_SIZE];
   snprintf(buffer, sizeof(buffer), "MET_USHORT");
   std::cout << "MET_StringToType: ";
   MET_StringToType(buffer, &tmpMetType);
@@ -53,7 +52,7 @@ main(int, char *[])
 
   std::cout << "MET_TypeToString: ";
   MET_TypeToString(MET_USHORT, buffer);
-  if (strcmp(buffer, "MET_USHORT"))
+  if (strcmp(buffer, "MET_USHORT") != 0)
   {
     std::cout << "FAILED" << std::endl;
     exitCode = EXIT_FAILURE;
@@ -86,7 +85,7 @@ main(int, char *[])
     std::cout << "PASSED" << std::endl;
 }
   std::cout << "MET_StringToWordArray: 1: ";
-  if (strcmp(wordArray[0], "This"))
+  if (strcmp(wordArray[0], "This") != 0)
   {
     std::cout << "FAILED" << std::endl;
     exitCode = EXIT_FAILURE;
@@ -95,7 +94,7 @@ main(int, char *[])
     std::cout << "PASSED" << std::endl;
 }
   std::cout << "MET_StringToWordArray: 2: ";
-  if (strcmp(wordArray[1], "is"))
+  if (strcmp(wordArray[1], "is") != 0)
   {
     std::cout << "FAILED" << std::endl;
     exitCode = EXIT_FAILURE;
@@ -104,7 +103,7 @@ main(int, char *[])
     std::cout << "PASSED" << std::endl;
 }
   std::cout << "MET_StringToWordArray: 3: ";
-  if (strcmp(wordArray[2], "a"))
+  if (strcmp(wordArray[2], "a") != 0)
   {
     std::cout << "FAILED" << std::endl;
     exitCode = EXIT_FAILURE;
@@ -113,7 +112,7 @@ main(int, char *[])
     std::cout << "PASSED" << std::endl;
 }
   std::cout << "MET_StringToWordArray: 4: ";
-  if (strcmp(wordArray[3], "test"))
+  if (strcmp(wordArray[3], "test") != 0)
   {
     std::cout << "FAILED" << std::endl;
     exitCode = EXIT_FAILURE;
@@ -218,7 +217,7 @@ main(int, char *[])
   MET_InitWriteField(mF, "ElementSize", MET_FLOAT_ARRAY, 2, vTmp);
   mFields.push_back(mF);
 
-  char s[80];
+  char s[METAIO_MAX_WORD_SIZE];
   strcpy(s, "X-AXIS Y-AXIS");
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "DirNames", MET_STRING, strlen(s), s);
@@ -274,10 +273,10 @@ main(int, char *[])
 }
 
   fieldIter = mFields.begin();
-  int nDims = 0;
+
   if ((*fieldIter)->defined)
   {
-    nDims = (int)((*fieldIter)->value[0]);
+    int nDims = static_cast<int>((*fieldIter)->value[0]);
     if (nDims != 2)
     {
       std::cout << "nDims not equal to 2" << std::endl;
@@ -319,10 +318,10 @@ main(int, char *[])
   ++fieldIter;
   if ((*fieldIter)->defined)
   {
-    MET_StringToWordArray((char *)((*fieldIter)->value), &nNames, &names);
+    MET_StringToWordArray(reinterpret_cast<char *>((*fieldIter)->value), &nNames, &names);
     if (nNames != 2) {
       std::cout << "nNames wrong : " << nNames << std::endl;
-    } else if (strcmp(names[0], "X-AXIS") || strcmp(names[1], "Y-AXIS"))
+    } else if (strcmp(names[0], "X-AXIS") != 0 || strcmp(names[1], "Y-AXIS") != 0)
     {
       std::cout << "names wrong : _" << names[0] << "_, _" << names[1] << "_" << std::endl;
       exitCode = EXIT_FAILURE;

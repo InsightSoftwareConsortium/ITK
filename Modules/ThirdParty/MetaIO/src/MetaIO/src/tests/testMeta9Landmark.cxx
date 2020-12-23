@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 
 #include <metaLandmark.h>
 
@@ -16,7 +15,7 @@ main(int, char *[])
   for (i = 0; i < 10; i++)
   {
     pnt = new LandmarkPnt(3);
-    pnt->m_X[0] = (float)0.2;
+    pnt->m_X[0] = static_cast<float>(0.2);
     pnt->m_X[1] = i;
     pnt->m_X[2] = i;
     Landmark.GetPoints().push_back(pnt);

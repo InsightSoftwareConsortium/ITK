@@ -31,44 +31,32 @@ VesselTubePnt::~VesselTubePnt() = default;
 MetaVesselTube::MetaVesselTube()
   : MetaTube()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaVesselTube()" << std::endl;
-  }
-  this->Clear();
+  META_DEBUG_PRINT( "MetaVesselTube()" );
+  MetaVesselTube::Clear();
 }
 
 
 MetaVesselTube::MetaVesselTube(const char * _headerName)
   : MetaTube(_headerName)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaVesselTube()" << std::endl;
-  }
-  this->Clear();
+  META_DEBUG_PRINT( "MetaVesselTube()" );
+  MetaVesselTube::Clear();
 }
 
 
 MetaVesselTube::MetaVesselTube(const MetaVesselTube * _vesselTube)
   : MetaTube(_vesselTube)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaVesselTube()" << std::endl;
-  }
-  this->Clear();
+  META_DEBUG_PRINT( "MetaVesselTube()" );
+  MetaVesselTube::Clear();
 }
 
 
 MetaVesselTube::MetaVesselTube(unsigned int dim)
   : MetaTube(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaVesselTube()" << std::endl;
-  }
-  this->Clear();
+  META_DEBUG_PRINT( "MetaVesselTube()" );
+  MetaVesselTube::Clear();
 }
 
 /** Destructor */
@@ -78,10 +66,7 @@ MetaVesselTube::~MetaVesselTube() = default;
 void
 MetaVesselTube::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaVesselTube: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaVesselTube: Clear" );
 
   MetaTube::Clear();
 

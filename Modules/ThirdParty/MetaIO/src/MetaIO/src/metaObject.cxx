@@ -12,9 +12,7 @@
 #include "metaObject.h"
 
 #include <algorithm>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
+
 #include <cstring>
 #if defined(__BORLANDC__) && (__BORLANDC__ >= 0x0580)
 #  include <mem.h>
@@ -54,7 +52,7 @@ MetaObject::MetaObject(const char * _fileName)
   MetaObject::Clear();
   m_ReadStream = nullptr;
   m_WriteStream = nullptr;
-  this->Read(_fileName);
+  MetaObject::Read(_fileName);
   m_Event = nullptr;
   m_DoublePrecision = METAIO_MAX_DIGITS10;
   m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;
@@ -79,7 +77,7 @@ MetaObject::MetaObject(unsigned int dim)
 
 MetaObject::~MetaObject()
 {
-  M_Destroy();
+MetaObject::M_Destroy();
   delete m_ReadStream;
   delete m_WriteStream;
 
@@ -93,10 +91,7 @@ MetaObject::~MetaObject()
 void
 MetaObject::ClearFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject:ClearFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject:ClearFields" );
 
   auto it = m_Fields.begin();
   auto end = m_Fields.end();
@@ -255,10 +250,7 @@ MetaObject::CopyInfo(const MetaObject * _object)
 bool
 MetaObject::Read(const char * _fileName)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: Read" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: Read" );
 
   if (_fileName != nullptr)
   {
@@ -297,12 +289,9 @@ MetaObject::Read(const char * _fileName)
 bool
 MetaObject::ReadStream(int _nDims, std::ifstream * _stream)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: ReadStream" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: ReadStream" );
 
-  M_Destroy();
+MetaObject::M_Destroy();
 
   fflush(nullptr);
 
@@ -469,7 +458,7 @@ MetaObject::PrintInfo() const
 
     if ((*it)->type == MET_STRING)
     {
-      printf("%s", (char *)(*it)->value);
+      printf("%s", reinterpret_cast<char *>((*it)->value));
     }
     else if ((*it)->type == MET_ASCII_CHAR || (*it)->type == MET_CHAR || (*it)->type == MET_UCHAR ||
              (*it)->type == MET_SHORT || (*it)->type == MET_USHORT || (*it)->type == MET_LONG ||
@@ -818,7 +807,7 @@ MetaObject::AnatomicalOrientation(const char * _ao)
     {
       if (_ao[i] == MET_OrientationTypeName[j][0])
       {
-        m_AnatomicalOrientation[i] = (MET_OrientationEnumType)j;
+        m_AnatomicalOrientation[i] = static_cast<MET_OrientationEnumType>(j);
         break;
       }
     }
@@ -853,7 +842,7 @@ MetaObject::AnatomicalOrientation(int _dim, char _ao)
   {
     if (_ao == MET_OrientationTypeName[j][0])
     {
-      m_AnatomicalOrientation[_dim] = (MET_OrientationEnumType)j;
+      m_AnatomicalOrientation[_dim] = static_cast<MET_OrientationEnumType>(j);
       return;
     }
   }
@@ -1031,10 +1020,7 @@ MetaObject::BinaryDataByteOrderMSB(bool _elementByteOrderMSB)
 void
 MetaObject::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: Clear()" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: Clear()" );
   strcpy(m_Comment, "");
   strcpy(m_ObjectTypeName, "Object");
   strcpy(m_ObjectSubTypeName, "");
@@ -1061,10 +1047,7 @@ MetaObject::Clear()
 
   m_DistanceUnits = MET_DISTANCE_UNITS_UNKNOWN;
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: Clear: m_NDims=" << m_NDims << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: Clear: m_NDims=" << m_NDims );
   int i;
   for (i = 0; i < 10; i++)
   {
@@ -1088,12 +1071,9 @@ MetaObject::Clear()
 bool
 MetaObject::InitializeEssential(int _nDims)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: Initialize" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: Initialize" );
 
-  M_Destroy();
+MetaObject::M_Destroy();
 
   if (_nDims > 10)
   {
@@ -1117,20 +1097,14 @@ MetaObject::InitializeEssential(int _nDims)
 void
 MetaObject::M_Destroy()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: Destroy" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: Destroy" );
 }
 
 void
 MetaObject::M_SetupReadFields()
 {
   this->ClearFields();
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: M_SetupReadFields" );
 
   MET_FieldRecordType * mF;
 
@@ -1252,17 +1226,11 @@ MetaObject::M_SetupReadFields()
 void
 MetaObject::M_SetupWriteFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: M_SetupWriteFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: M_SetupWriteFields" );
 
   this->ClearFields();
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: M_SetupWriteFields: Creating Fields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: M_SetupWriteFields: Creating Fields" );
 
   MET_FieldRecordType * mF;
 
@@ -1394,15 +1362,15 @@ MetaObject::M_SetupWriteFields()
     }
   }
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "TransformMatrix", MET_FLOAT_MATRIX, m_NDims, m_TransformMatrix);
+  MET_InitWriteField(mF, "TransformMatrix", MET_FLOAT_MATRIX, static_cast<size_t>(m_NDims), m_TransformMatrix);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "Offset", MET_FLOAT_ARRAY, m_NDims, m_Offset);
+  MET_InitWriteField(mF, "Offset", MET_FLOAT_ARRAY, static_cast<size_t>(m_NDims), m_Offset);
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "CenterOfRotation", MET_FLOAT_ARRAY, m_NDims, m_CenterOfRotation);
+  MET_InitWriteField(mF, "CenterOfRotation", MET_FLOAT_ARRAY, static_cast<size_t>(m_NDims), m_CenterOfRotation);
   m_Fields.push_back(mF);
 
   if (m_DistanceUnits != MET_DISTANCE_UNITS_UNKNOWN)
@@ -1422,7 +1390,7 @@ MetaObject::M_SetupWriteFields()
   }
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, m_NDims, m_ElementSpacing);
+  MET_InitWriteField(mF, "ElementSpacing", MET_FLOAT_ARRAY, static_cast<size_t>(m_NDims), m_ElementSpacing);
   m_Fields.push_back(mF);
 
   // Add User's field
@@ -1451,25 +1419,25 @@ MetaObject::M_Read()
   mF = MET_GetFieldRecord("Comment", &m_Fields);
   if (mF && mF->defined)
   {
-    strcpy(m_Comment, (char *)(mF->value));
+    strcpy(m_Comment, reinterpret_cast<char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("ObjectType", &m_Fields);
   if (mF && mF->defined)
   {
-    strcpy(m_ObjectTypeName, (char *)(mF->value));
+    strcpy(m_ObjectTypeName, reinterpret_cast<char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("ObjectSubType", &m_Fields);
   if (mF && mF->defined)
   {
-    strcpy(m_ObjectSubTypeName, (char *)(mF->value));
+    strcpy(m_ObjectSubTypeName, reinterpret_cast<char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("NDims", &m_Fields);
   if (mF && mF->defined)
   {
-    m_NDims = (int)mF->value[0];
+    m_NDims = static_cast<int>(mF->value[0]);
   }
 
   if (m_NDims > 0)
@@ -1480,35 +1448,35 @@ MetaObject::M_Read()
   mF = MET_GetFieldRecord("Name", &m_Fields);
   if (mF && mF->defined)
   {
-    strcpy(m_Name, (char *)(mF->value));
+    strcpy(m_Name, reinterpret_cast<char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("ID", &m_Fields);
   if (mF && mF->defined)
   {
-    m_ID = (int)mF->value[0];
+    m_ID = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("ParentID", &m_Fields);
   if (mF && mF->defined)
   {
-    m_ParentID = (int)mF->value[0];
+    m_ParentID = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("AcquisitionDate", &m_Fields);
   if (mF && mF->defined)
   {
-    for (size_t i = 0; i < strlen((char *)mF->value); i++)
+    for (size_t i = 0; i < strlen(reinterpret_cast<char *>(mF->value)); i++)
     {
-      m_AcquisitionDate[i] = ((char *)mF->value)[i];
+      m_AcquisitionDate[i] = (reinterpret_cast<char *>(mF->value))[i];
     }
-    m_AcquisitionDate[strlen((char *)mF->value)] = '\0';
+    m_AcquisitionDate[strlen(reinterpret_cast<char *>(mF->value))] = '\0';
   }
 
   mF = MET_GetFieldRecord("CompressedData", &m_Fields);
   if (mF && mF->defined)
   {
-    if (((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' || ((char *)(mF->value))[0] == '1')
+    if ((reinterpret_cast<char *>(mF->value))[0] == 'T' || (reinterpret_cast<char *>(mF->value))[0] == 't' || (reinterpret_cast<char *>(mF->value))[0] == '1')
     {
       m_CompressedData = true;
     }
@@ -1521,13 +1489,13 @@ MetaObject::M_Read()
   mF = MET_GetFieldRecord("CompressedDataSize", &m_Fields);
   if (mF && mF->defined)
   {
-    m_CompressedDataSize = (unsigned long long)mF->value[0];
+    m_CompressedDataSize = static_cast<long>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("BinaryData", &m_Fields);
   if (mF && mF->defined)
   {
-    if (((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' || ((char *)(mF->value))[0] == '1')
+    if ((reinterpret_cast<char *>(mF->value))[0] == 'T' || (reinterpret_cast<char *>(mF->value))[0] == 't' || (reinterpret_cast<char *>(mF->value))[0] == '1')
     {
       m_BinaryData = true;
     }
@@ -1540,7 +1508,7 @@ MetaObject::M_Read()
   mF = MET_GetFieldRecord("ElementByteOrderMSB", &m_Fields);
   if (mF && mF->defined)
   {
-    if (((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' || ((char *)(mF->value))[0] == '1')
+    if ((reinterpret_cast<char *>(mF->value))[0] == 'T' || (reinterpret_cast<char *>(mF->value))[0] == 't' || (reinterpret_cast<char *>(mF->value))[0] == '1')
     {
       m_BinaryDataByteOrderMSB = true;
     }
@@ -1553,7 +1521,7 @@ MetaObject::M_Read()
   mF = MET_GetFieldRecord("BinaryDataByteOrderMSB", &m_Fields);
   if (mF && mF->defined)
   {
-    if (((char *)(mF->value))[0] == 'T' || ((char *)(mF->value))[0] == 't' || ((char *)(mF->value))[0] == '1')
+    if ((reinterpret_cast<char *>(mF->value))[0] == 'T' || (reinterpret_cast<char *>(mF->value))[0] == 't' || (reinterpret_cast<char *>(mF->value))[0] == '1')
     {
       m_BinaryDataByteOrderMSB = true;
     }
@@ -1588,7 +1556,7 @@ MetaObject::M_Read()
   {
     for (i = 0; i < mF->length; i++)
     {
-      m_Offset[i] = static_cast<double>(mF->value[i]);
+      m_Offset[i] = mF->value[i];
     }
   }
   mF = MET_GetFieldRecord("Offset", &m_Fields);
@@ -1596,7 +1564,7 @@ MetaObject::M_Read()
   {
     for (i = 0; i < mF->length; i++)
     {
-      m_Offset[i] = static_cast<double>(mF->value[i]);
+      m_Offset[i] = mF->value[i];
     }
   }
   mF = MET_GetFieldRecord("Origin", &m_Fields);
@@ -1604,7 +1572,7 @@ MetaObject::M_Read()
   {
     for (i = 0; i < mF->length; i++)
     {
-      m_Offset[i] = static_cast<double>(mF->value[i]);
+      m_Offset[i] = mF->value[i];
     }
   }
 
@@ -1616,7 +1584,7 @@ MetaObject::M_Read()
     int len = mF->length;
     for (i = 0; i < len * len; i++)
     {
-      m_TransformMatrix[i] = static_cast<double>(mF->value[i]);
+      m_TransformMatrix[i] = mF->value[i];
     }
   }
   mF = MET_GetFieldRecord("Rotation", &m_Fields);
@@ -1626,7 +1594,7 @@ MetaObject::M_Read()
     int len = mF->length;
     for (i = 0; i < len * len; i++)
     {
-      m_TransformMatrix[i] = static_cast<double>(mF->value[i]);
+      m_TransformMatrix[i] = mF->value[i];
     }
   }
   mF = MET_GetFieldRecord("TransformMatrix", &m_Fields);
@@ -1636,7 +1604,7 @@ MetaObject::M_Read()
     int len = mF->length;
     for (i = 0; i < len * len; i++)
     {
-      m_TransformMatrix[i] = static_cast<double>(mF->value[i]);
+      m_TransformMatrix[i] = mF->value[i];
     }
   }
   if (!transformMatrixDefined)
@@ -1652,7 +1620,7 @@ MetaObject::M_Read()
   {
     for (i = 0; i < mF->length; i++)
     {
-      m_CenterOfRotation[i] = static_cast<double>(mF->value[i]);
+      m_CenterOfRotation[i] = mF->value[i];
     }
   }
   else
@@ -1666,13 +1634,13 @@ MetaObject::M_Read()
   mF = MET_GetFieldRecord("DistanceUnits", &m_Fields);
   if (mF && mF->defined)
   {
-    DistanceUnits((const char *)(mF->value));
+    DistanceUnits(reinterpret_cast<const char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("AnatomicalOrientation", &m_Fields);
   if (mF && mF->defined)
   {
-    AnatomicalOrientation((const char *)(mF->value));
+    AnatomicalOrientation(reinterpret_cast<const char *>(mF->value));
   }
 
   mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
@@ -1683,10 +1651,7 @@ MetaObject::M_Read()
       for (i = 0; i < mF->length && i < 10; i++)
       {
         m_ElementSpacing[i] = mF->value[i];
-        if (META_DEBUG)
-        {
-          std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " << m_ElementSpacing[i] << std::endl;
-        }
+        META_DEBUG_PRINT( "metaObject: M_Read: elementSpacing[" << i << "] = " << m_ElementSpacing[i] );
       }
     }
     else
@@ -1694,10 +1659,7 @@ MetaObject::M_Read()
       for (i = 0; i < mF->length && i < 10; i++)
       {
         m_ElementSpacing[i] = 1;
-        if (META_DEBUG)
-        {
-          std::cout << "metaObject: M_Read: elementSpacing[" << i << "] = " << m_ElementSpacing[i] << std::endl;
-        }
+        META_DEBUG_PRINT( "metaObject: M_Read: elementSpacing[" << i << "] = " << m_ElementSpacing[i] );
       }
     }
   }
@@ -1747,10 +1709,7 @@ MetaObject::M_Write()
 bool
 MetaObject ::Append(const char * _headName)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaObject: Append" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaObject: Append" );
 
   if (_headName != nullptr)
   {
@@ -1840,7 +1799,7 @@ MetaObject ::GetUserField(const char * _name)
 int
 MetaObject ::GetNumberOfAdditionalReadFields()
 {
-  return (int)(m_AdditionalReadFields.size());
+  return static_cast<int>(m_AdditionalReadFields.size());
 }
 
 char *
@@ -1852,7 +1811,7 @@ MetaObject ::GetAdditionalReadFieldName(int i)
 char *
 MetaObject ::GetAdditionalReadFieldValue(int i)
 {
-  return (char *)(m_AdditionalReadFields[i]->value);
+  return reinterpret_cast<char *>(m_AdditionalReadFields[i]->value);
 }
 
 int
@@ -1865,7 +1824,7 @@ bool
 MetaObject ::AddUserField(const char * _fieldName, MET_ValueEnumType _type, int _length, bool _required, int _dependsOn)
 {
   auto * mFr = new MET_FieldRecordType;
-  MET_InitReadField(mFr, _fieldName, _type, _required, _dependsOn, _length);
+  MET_InitReadField(mFr, _fieldName, _type, _required, _dependsOn, static_cast<size_t>(_length));
   m_UserDefinedReadFields.push_back(mFr);
   return true;
 }

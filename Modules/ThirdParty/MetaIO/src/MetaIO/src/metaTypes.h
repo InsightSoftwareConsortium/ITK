@@ -11,7 +11,7 @@
 ============================================================================*/
 #include "localMetaConfiguration.h"
 #if !defined(_MSC_VER) || (_MSC_VER > 1500) // do not include this file for Visual Studio 2008
-#  include <stdint.h>
+#  include <cstdint>
 #endif
 
 #ifndef ITKMetaIO_METATYPES_H
@@ -36,6 +36,8 @@ namespace METAIO_NAMESPACE
 {
 #  endif
 
+constexpr size_t METAIO_MAX_WORD_SIZE=80;
+
 typedef char     MET_ASCII_CHAR_TYPE;
 typedef int8_t   MET_CHAR_TYPE;
 typedef uint8_t  MET_UCHAR_TYPE;
@@ -57,11 +59,11 @@ typedef char *   MET_STRING_TYPE;
 //    <variable> = <value>
 //       where <variable> is a designated fieldname/keyword (e.g., NDims)
 //          and value is an instance of that fieldname's associated valueType
-#  define MET_NUM_VALUE_TYPES 29
+constexpr size_t MET_NUM_VALUE_TYPES = 29;
 
 typedef enum
 {
-  MET_NONE,
+  MET_NONE = 0,
   MET_ASCII_CHAR,
   MET_CHAR,
   MET_UCHAR,
@@ -92,10 +94,13 @@ typedef enum
   MET_OTHER
 } MET_ValueEnumType;
 
-const unsigned char MET_ValueTypeSize[MET_NUM_VALUE_TYPES] = { 0, 1, 1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 1,
-                                                               1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 4, 0 };
 
-const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][21] = {
+constexpr unsigned char MET_ValueTypeSize[MET_NUM_VALUE_TYPES] = { 0, 1, 1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 1,
+                                                                   1, 1, 2, 2, 4, 4, 4, 4, 8, 8, 4, 8, 4, 0 };
+
+static_assert((MET_OTHER + 1) == MET_NUM_VALUE_TYPES, "ERROR: Number of types defined is incorrect.");
+
+constexpr char MET_ValueTypeName[MET_NUM_VALUE_TYPES][21] = {
   { 'M', 'E', 'T', '_', 'N', 'O', 'N', 'E', '\0', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
   { 'M', 'E', 'T', '_', 'A', 'S', 'C', 'I', 'I', '_', 'C', 'H', 'A', 'R', '\0', ' ', ' ', ' ', ' ', ' ', ' ' },
   { 'M', 'E', 'T', '_', 'C', 'H', 'A', 'R', '\0', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
@@ -128,7 +133,7 @@ const char MET_ValueTypeName[MET_NUM_VALUE_TYPES][21] = {
 };
 
 
-#  define MET_NUM_ORIENTATION_TYPES 7
+constexpr size_t MET_NUM_ORIENTATION_TYPES = 7;
 
 typedef enum
 {
@@ -141,12 +146,14 @@ typedef enum
   MET_ORIENTATION_UNKNOWN
 } MET_OrientationEnumType;
 
-const char MET_OrientationTypeName[MET_NUM_ORIENTATION_TYPES][3] = { { 'R', 'L', '\0' }, { 'L', 'R', '\0' },
-                                                                     { 'A', 'P', '\0' }, { 'P', 'A', '\0' },
-                                                                     { 'S', 'I', '\0' }, { 'I', 'S', '\0' },
-                                                                     { '?', '?', '\0' } };
+static_assert((MET_ORIENTATION_UNKNOWN + 1) == MET_NUM_ORIENTATION_TYPES, "ERROR: Incorrect number of items.");
 
-#  define MET_NUM_DISTANCE_UNITS_TYPES 4
+constexpr char MET_OrientationTypeName[MET_NUM_ORIENTATION_TYPES][3] = { { 'R', 'L', '\0' }, { 'L', 'R', '\0' },
+                                                                         { 'A', 'P', '\0' }, { 'P', 'A', '\0' },
+                                                                         { 'S', 'I', '\0' }, { 'I', 'S', '\0' },
+                                                                         { '?', '?', '\0' } };
+
+constexpr size_t MET_NUM_DISTANCE_UNITS_TYPES = 4;
 
 typedef enum
 {
@@ -156,12 +163,14 @@ typedef enum
   MET_DISTANCE_UNITS_CM
 } MET_DistanceUnitsEnumType;
 
-const char MET_DistanceUnitsTypeName[MET_NUM_DISTANCE_UNITS_TYPES][3] = { { '?', '\0', '\0' },
-                                                                          { 'u', 'm', '\0' },
-                                                                          { 'm', 'm', '\0' },
-                                                                          { 'c', 'm', '\0' } };
+static_assert((MET_DISTANCE_UNITS_CM + 1) == MET_NUM_DISTANCE_UNITS_TYPES, "ERROR: Structure mismatch in size.");
 
-#  define MET_NUM_INTERPOLATION_TYPES 4
+constexpr char MET_DistanceUnitsTypeName[MET_NUM_DISTANCE_UNITS_TYPES][3] = { { '?', '\0', '\0' },
+                                                                              { 'u', 'm', '\0' },
+                                                                              { 'm', 'm', '\0' },
+                                                                              { 'c', 'm', '\0' } };
+
+constexpr size_t MET_NUM_INTERPOLATION_TYPES = 4;
 
 typedef enum
 {
@@ -170,8 +179,9 @@ typedef enum
   MET_BEZIER_INTERPOLATION,
   MET_LINEAR_INTERPOLATION
 } MET_InterpolationEnumType;
+static_assert((MET_LINEAR_INTERPOLATION + 1) == MET_NUM_INTERPOLATION_TYPES, "ERROR: Structure mismatch in size.");
 
-const char MET_InterpolationTypeName[MET_NUM_INTERPOLATION_TYPES][17] = {
+constexpr char MET_InterpolationTypeName[MET_NUM_INTERPOLATION_TYPES][17] = {
   { 'M', 'E', 'T', '_', 'N', 'O', 'N', 'E', '\0', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
   { 'M', 'E', 'T', '_', 'E', 'X', 'P', 'L', 'I', 'C', 'I', 'T', '\0', ' ', ' ', ' ', ' ' },
   { 'M', 'E', 'T', '_', 'B', 'E', 'Z', 'I', 'E', 'R', '\0', ' ', ' ', ' ', ' ', ' ', ' ' },
@@ -179,21 +189,22 @@ const char MET_InterpolationTypeName[MET_NUM_INTERPOLATION_TYPES][17] = {
 };
 
 
-#  define MET_MAX_NUMBER_OF_FIELD_VALUES 4096
+constexpr size_t MET_MAX_NUMBER_OF_FIELD_VALUES = 4096;
+constexpr size_t MET_MAX_NAME_SIZE = 255;
 
 // Structure used to define a field
 // (variable = value definition) in a MetaFile
 typedef struct
 {
-  char              name[255]; // Fieldname / keyword to designate a variable
-  MET_ValueEnumType type;      // Expected value type of the field
-  bool              required;  // Is this field a required field in a metaFile
-  int               dependsOn; // If value type is an array, the size of this
-                               //    array can be defined by a different field
-                               //    (e.g., DimSize array depends on NDims)
-  bool defined;                // Has this field already been defined in the
-                               //    MetaFile being parsed
-  int    length;               // Actual/expect length of an array
+  char              name[MET_MAX_NAME_SIZE]; // Fieldname / keyword to designate a variable
+  MET_ValueEnumType type;                    // Expected value type of the field
+  bool              required;                // Is this field a required field in a metaFile
+  int               dependsOn;               // If value type is an array, the size of this
+                                             //    array can be defined by a different field
+                                             //    (e.g., DimSize array depends on NDims)
+  bool defined;                              // Has this field already been defined in the
+                                             //    MetaFile being parsed
+  int    length;                             // Actual/expect length of an array
   double value[MET_MAX_NUMBER_OF_FIELD_VALUES];
   // Memory and pointers for the field's value(s).
   bool terminateRead; // Set to true if field indicates end of

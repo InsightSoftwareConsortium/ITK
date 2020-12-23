@@ -36,7 +36,7 @@ class METAIO_EXPORT MetaEvent
 
 public:
   MetaEvent() { m_Level = -1; }
-  virtual ~MetaEvent() {}
+  virtual ~MetaEvent() = default;
 
   virtual void
   SetCurrentIteration(unsigned int n)
@@ -56,8 +56,8 @@ public:
   }
 
 protected:
-  unsigned int m_CurrentIteration;
-  unsigned int m_NumberOfIterations;
+  unsigned int m_CurrentIteration{};
+  unsigned int m_NumberOfIterations{};
   int          m_Level;
 };
 

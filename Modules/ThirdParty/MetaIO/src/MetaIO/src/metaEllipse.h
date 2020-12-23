@@ -46,24 +46,24 @@ class METAIO_EXPORT MetaEllipse : public MetaObject
   // PUBLIC
 public:
   // Constructors & Destructor
-  MetaEllipse(void);
+  MetaEllipse();
 
-  MetaEllipse(const char * _headerName);
+  explicit MetaEllipse(const char * _headerName);
 
-  MetaEllipse(const MetaEllipse * _ellipse);
+  explicit MetaEllipse(const MetaEllipse * _ellipse);
 
-  MetaEllipse(unsigned int dim);
+  explicit MetaEllipse(unsigned int dim);
 
-  ~MetaEllipse(void) override;
+  ~MetaEllipse() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
 
   void
-  Clear(void) override;
+  Clear() override;
 
   void
   Radius(const float * radius);
@@ -74,24 +74,22 @@ public:
   void
   Radius(float r1, float r2, float r3);
   const float *
-  Radius(void) const;
+  Radius() const;
 
 
   // PROTECTED
 protected:
-  void
-  M_Destroy(void) override;
 
   void
-  M_SetupReadFields(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
-  float m_Radius[100]; // "Radius = "     0
+  float m_Radius[100]{}; // "Radius = "     0
 };
 
 #  if (METAIO_USE_NAMESPACE)

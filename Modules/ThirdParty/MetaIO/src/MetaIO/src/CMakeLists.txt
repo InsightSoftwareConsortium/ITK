@@ -72,7 +72,6 @@ set(sources
   metaLine.cxx
   metaMesh.cxx
   metaObject.cxx
-  metaOutput.cxx
   metaScene.cxx
   metaSurface.cxx
   metaTube.cxx
@@ -98,12 +97,10 @@ set(headers
   metaImage.h
   metaImageTypes.h
   metaImageUtils.h
-  metaITKUtils.h
   metaLandmark.h
   metaLine.h
   metaMesh.h
   metaObject.h
-  metaOutput.h
   metaScene.h
   metaSurface.h
   metaTube.h

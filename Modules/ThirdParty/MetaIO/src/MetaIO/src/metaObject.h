@@ -45,58 +45,57 @@ protected:
 
   std::string m_FileName;
 
-  char m_Comment[255]; // "Comment = "       ""
+  char m_Comment[255]{}; // "Comment = "       ""
 
-  char m_ObjectTypeName[255];    // "ObjectType = "    defined by suffix
-  char m_ObjectSubTypeName[255]; // "ObjectSubType = " defined by suffix
+  char m_ObjectTypeName[255]{};    // "ObjectType = "    defined by suffix
+  char m_ObjectSubTypeName[255]{}; // "ObjectSubType = " defined by suffix
 
   int m_NDims; // "NDims = "         required
 
-  double m_Offset[10];           // "Offset = "          0,0,0
-  double m_TransformMatrix[100]; // "TransformMatrix = " 1,0,0,0,1,0,0,0,1
-  double m_CenterOfRotation[10]; // "CenterOfRotation = "  0 0 0
+  double m_Offset[10]{};           // "Offset = "          0,0,0
+  double m_TransformMatrix[100]{}; // "TransformMatrix = " 1,0,0,0,1,0,0,0,1
+  double m_CenterOfRotation[10]{}; // "CenterOfRotation = "  0 0 0
 
-  MET_OrientationEnumType m_AnatomicalOrientation[10];
-  mutable char            m_OrientationAcronym[10];
+  MET_OrientationEnumType m_AnatomicalOrientation[10]{};
+  mutable char            m_OrientationAcronym[10]{};
 
   MET_DistanceUnitsEnumType m_DistanceUnits; // "DistanceUnits = mm"
 
-  double m_ElementSpacing[10]; // "ElementSpacing = "   0,0,0
+  double m_ElementSpacing[10]{}; // "ElementSpacing = "   0,0,0
 
-  float m_Color[4]; // "Color = "            1.0, 0.0, 0.0, 1.0
+  float m_Color[4]{}; // "Color = "            1.0, 0.0, 0.0, 1.0
 
-  char m_AcquisitionDate[255]; // "AcquisitionDate = "  "2007.03.21"
+  char m_AcquisitionDate[255]{}; // "AcquisitionDate = "  "2007.03.21"
 
-  int m_ID; // "ID = "               0
+  int m_ID{}; // "ID = "               0
 
-  int m_ParentID; // "ParentID = "         -1
+  int m_ParentID{}; // "ParentID = "         -1
 
-  char m_Name[255]; // "Name = "             ""
+  char m_Name[255]{}; // "Name = "             ""
 
-  bool m_BinaryData; // "BinaryData = "      False
+  bool m_BinaryData{}; // "BinaryData = "      False
 
-  bool m_BinaryDataByteOrderMSB;
+  bool m_BinaryDataByteOrderMSB{};
 
-  std::streamoff m_CompressedDataSize;
+  std::streamoff m_CompressedDataSize{};
   // Used internally to set if the dataSize should be written
-  bool m_WriteCompressedDataSize;
-  bool m_CompressedData;
-  int  m_CompressionLevel;
+  bool m_WriteCompressedDataSize{};
+  bool m_CompressedData{};
+  int  m_CompressionLevel{};
+
+  static void M_Destroy();
 
   virtual void
-  M_Destroy(void);
+  M_SetupReadFields();
 
   virtual void
-  M_SetupReadFields(void);
-
-  virtual void
-  M_SetupWriteFields(void);
+  M_SetupWriteFields();
 
   virtual bool
-  M_Read(void);
+  M_Read();
 
   virtual bool
-  M_Write(void);
+  M_Write();
 
   virtual void
   M_PrepareNewReadStream();
@@ -110,27 +109,27 @@ protected:
   // PUBLIC
 public:
   // Constructors & Destructor
-  MetaObject(void);
-  MetaObject(const char * _fileName);
-  MetaObject(unsigned int dim);
+  MetaObject();
+  explicit MetaObject(const char * _fileName);
+  explicit MetaObject(unsigned int dim);
 
-  virtual ~MetaObject(void);
+  virtual ~MetaObject();
 
   void
   FileName(const char * _fileName);
   const char *
-  FileName(void) const;
+  FileName() const;
 
   virtual void
   CopyInfo(const MetaObject * _object);
 
-  bool
+  virtual bool
   Read(const char * _fileName = nullptr);
 
   bool
   ReadStream(int _nDims, std::ifstream * _stream);
 
-  bool
+  virtual bool
   Write(const char * _fileName = nullptr);
 
   virtual bool
@@ -141,22 +140,22 @@ public:
   //    PrintMetaInfo()
   //       Writes image parameters to stdout
   virtual void
-  PrintInfo(void) const;
+  PrintInfo() const;
 
   //    Comment(...)
   //       Optional Field
   //       Arbitrary string
   const char *
-  Comment(void) const;
+  Comment() const;
   void
   Comment(const char * _comment);
 
   const char *
-  ObjectTypeName(void) const;
+  ObjectTypeName() const;
   void
   ObjectTypeName(const char * _objectTypeName);
   const char *
-  ObjectSubTypeName(void) const;
+  ObjectSubTypeName() const;
   void
   ObjectSubTypeName(const char * _objectSubTypeName);
 
@@ -164,14 +163,14 @@ public:
   //       REQUIRED Field
   //       Number of dimensions to the image
   int
-  NDims(void) const;
+  NDims() const;
 
   //    Offset(...)
   //       Optional Field
   //       Physical location (in millimeters and wrt machine coordinate
   //         system or the patient) of the first element in the image
   const double *
-  Offset(void) const;
+  Offset() const;
   double
   Offset(int _i) const;
   void
@@ -179,7 +178,7 @@ public:
   void
   Offset(int _i, double _value);
   const double *
-  Position(void) const;
+  Position() const;
   double
   Position(int _i) const;
   void
@@ -187,7 +186,7 @@ public:
   void
   Position(int _i, double _value);
   const double *
-  Origin(void) const;
+  Origin() const;
   double
   Origin(int _i) const;
   void
@@ -199,7 +198,7 @@ public:
   //       Optional Field
   //       Physical orientation of the object as an NDims x NDims matrix
   const double *
-  TransformMatrix(void) const;
+  TransformMatrix() const;
   double
   TransformMatrix(int _i, int _j) const;
   void
@@ -207,7 +206,7 @@ public:
   void
   TransformMatrix(int _i, int _j, double _value);
   const double *
-  Rotation(void) const;
+  Rotation() const;
   double
   Rotation(int _i, int _j) const;
   void
@@ -215,7 +214,7 @@ public:
   void
   Rotation(int _i, int _j, double _value);
   const double *
-  Orientation(void) const;
+  Orientation() const;
   double
   Orientation(int _i, int _j) const;
   void
@@ -224,7 +223,7 @@ public:
   Orientation(int _i, int _j, double _value);
 
   const double *
-  CenterOfRotation(void) const;
+  CenterOfRotation() const;
   double
   CenterOfRotation(int _i) const;
   void
@@ -233,18 +232,18 @@ public:
   CenterOfRotation(int _i, double _value);
 
   const char *
-  DistanceUnitsName(void) const;
+  DistanceUnitsName() const;
   MET_DistanceUnitsEnumType
-  DistanceUnits(void) const;
+  DistanceUnits() const;
   void
   DistanceUnits(MET_DistanceUnitsEnumType _distanceUnits);
   void
   DistanceUnits(const char * _distanceUnits);
 
   const char *
-  AnatomicalOrientationAcronym(void) const;
+  AnatomicalOrientationAcronym() const;
   const MET_OrientationEnumType *
-  AnatomicalOrientation(void) const;
+  AnatomicalOrientation() const;
   MET_OrientationEnumType
   AnatomicalOrientation(int _dim) const;
   void
@@ -261,7 +260,7 @@ public:
   //       Optional Field
   //       Physical Spacing (in same units as position)
   const double *
-  ElementSpacing(void) const;
+  ElementSpacing() const;
   double
   ElementSpacing(int _i) const;
   void
@@ -277,13 +276,13 @@ public:
   void
   Name(const char * _name);
   const char *
-  Name(void) const;
+  Name() const;
 
   //    Color(...)
   //       Optional Field
   //       Color of the current metaObject
   const float *
-  Color(void) const;
+  Color() const;
   void
   Color(float _r, float _g, float _b, float _a);
   void
@@ -295,7 +294,7 @@ public:
   void
   ID(int _id);
   int
-  ID(void) const;
+  ID() const;
 
   //    ParentID(...)
   //       Optional Field
@@ -303,7 +302,7 @@ public:
   void
   ParentID(int _parentId);
   int
-  ParentID(void) const;
+  ParentID() const;
 
   //    AcquisitionDate(...)
   //       Optional Field
@@ -311,7 +310,7 @@ public:
   void
   AcquisitionDate(const char * _acquisitionDate);
   const char *
-  AcquisitionDate(void) const;
+  AcquisitionDate() const;
 
   //    BinaryData(...)
   //       Optional Field
@@ -319,18 +318,18 @@ public:
   void
   BinaryData(bool _binaryData);
   bool
-  BinaryData(void) const;
+  BinaryData() const;
 
   void
   BinaryDataByteOrderMSB(bool _elementByteOrderMSB);
   bool
-  BinaryDataByteOrderMSB(void) const;
+  BinaryDataByteOrderMSB() const;
 
 
   void
   CompressedData(bool _compressedData);
   bool
-  CompressedData(void) const;
+  CompressedData() const;
 
   // Compression level 0-9. 0 = no compression.
   void
@@ -339,13 +338,13 @@ public:
   CompressionLevel() const;
 
   virtual void
-  Clear(void);
+  Clear();
 
   void
-  ClearFields(void);
+  ClearFields();
 
   void
-  ClearAdditionalFields(void);
+  ClearAdditionalFields();
 
   bool
   InitializeEssential(int _nDims);
@@ -359,7 +358,7 @@ public:
                int               _dependsOn = -1);
 
   // find a field record in a field vector
-  MET_FieldRecordType *
+  static MET_FieldRecordType *
   FindFieldRecord(FieldsContainerType & container, const char * fieldName)
   {
     FieldsContainerType::iterator it;
@@ -387,27 +386,27 @@ public:
     // a field of the same name gets added more than once,
     // over-write the existing FieldRecord
     bool                  duplicate(true);
-    MET_FieldRecordType * mFw = this->FindFieldRecord(m_UserDefinedWriteFields, _fieldName);
+    MET_FieldRecordType * mFw = MetaObject::FindFieldRecord(m_UserDefinedWriteFields, _fieldName);
     if (mFw == nullptr)
     {
       duplicate = false;
       mFw = new MET_FieldRecordType;
     }
-    MET_InitWriteField(mFw, _fieldName, _type, _length, _v);
+    MET_InitWriteField(mFw, _fieldName, _type, static_cast<size_t>(_length), _v);
     if (!duplicate)
     {
       m_UserDefinedWriteFields.push_back(mFw);
     }
 
     duplicate = true;
-    MET_FieldRecordType * mFr = this->FindFieldRecord(m_UserDefinedReadFields, _fieldName);
+    MET_FieldRecordType * mFr = MetaObject::FindFieldRecord(m_UserDefinedReadFields, _fieldName);
     if (mFr == nullptr)
     {
       duplicate = false;
       mFr = new MET_FieldRecordType;
     }
 
-    MET_InitReadField(mFr, _fieldName, _type, _required, _dependsOn, _length);
+    MET_InitReadField(mFr, _fieldName, _type, _required, _dependsOn, static_cast<size_t>(_length));
     if (!duplicate)
     {
       m_UserDefinedReadFields.push_back(mFr);
@@ -445,7 +444,7 @@ public:
     m_DoublePrecision = precision;
   }
   unsigned int
-  GetDoublePrecision()
+  GetDoublePrecision() const
   {
     return m_DoublePrecision;
   }

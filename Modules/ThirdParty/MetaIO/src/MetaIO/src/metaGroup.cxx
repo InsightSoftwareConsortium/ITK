@@ -15,10 +15,6 @@
 #  pragma warning(disable : 4702)
 #endif
 
-#include <cctype>
-#include <cstdio>
-#include <string>
-
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
 {
@@ -30,51 +26,39 @@ namespace METAIO_NAMESPACE
 MetaGroup::MetaGroup()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaGroup()" );
+  MetaGroup::Clear();
 }
 
 //
 MetaGroup::MetaGroup(const char * _headerName)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup()" << std::endl;
-  }
-  Clear();
-  Read(_headerName);
+  META_DEBUG_PRINT( "MetaGroup()" );
+  MetaGroup::Clear();
+  MetaGroup::Read(_headerName);
 }
 
 //
 MetaGroup::MetaGroup(const MetaGroup * _group)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_group);
+  META_DEBUG_PRINT( "MetaGroup()" );
+  MetaGroup::Clear();
+  MetaGroup::CopyInfo(_group);
 }
 
 MetaGroup::MetaGroup(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaGroup()" );
+  MetaGroup::Clear();
 }
 
 //
 MetaGroup::~MetaGroup()
 {
-  M_Destroy();
+MetaObject::M_Destroy();
 }
 
 //
@@ -94,31 +78,18 @@ MetaGroup::CopyInfo(const MetaObject * _object)
 void
 MetaGroup::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaGroup: Clear" );
 
   MetaObject::Clear();
 
   strcpy(m_ObjectTypeName, "Group");
 }
 
-/** Destroy group information */
-void
-MetaGroup::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaGroup::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaGroup: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -145,10 +116,7 @@ MetaGroup::M_SetupWriteFields()
 bool
 MetaGroup::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaGroup: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -156,10 +124,7 @@ MetaGroup::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaGroup: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaGroup: M_Read: Parsing Header" );
 
   return true;
 }

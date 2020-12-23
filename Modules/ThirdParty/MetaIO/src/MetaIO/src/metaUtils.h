@@ -52,7 +52,7 @@
 #  include <iostream>
 //#include <iomanip>
 #  include <typeinfo>
-#  include <string.h>
+#  include <cstring>
 
 #  if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
@@ -60,6 +60,13 @@ namespace METAIO_NAMESPACE
 #  endif
 
 extern bool META_DEBUG;
+
+#  define META_DEBUG_PRINT(content)                                                                                  \
+      if (META_DEBUG)                                                                                                \
+        {                                                                                                            \
+        std::cout << content << std::endl;                                                                           \
+        }                                                                                                            \
+    static_assert(true, "Compiled away assert that syntactically require semicolon at end of macro.")
 
 // Types used for storing the compression table
 typedef struct MET_CompressionOffset
@@ -92,12 +99,12 @@ MET_SizeOfType(MET_ValueEnumType _vType, int * s);
 // Byte Order
 METAIO_EXPORT
 bool
-MET_SystemByteOrderMSB(void);
+MET_SystemByteOrderMSB();
 
 inline unsigned short
 MET_ByteOrderSwapShort(unsigned short x)
 {
-  return (unsigned short)((unsigned short)(x << 8) | (unsigned short)(x >> 8));
+  return x << 8 | x >> 8;
 }
 
 inline unsigned int
