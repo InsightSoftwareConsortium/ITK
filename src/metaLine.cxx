@@ -16,10 +16,6 @@
 
 #include "metaLine.h"
 
-#include <cctype>
-#include <cstdio>
-#include <string>
-
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
 {
@@ -27,7 +23,7 @@ namespace METAIO_NAMESPACE
 
 LinePnt::LinePnt(int dim)
 {
-  m_Dim = dim;
+  m_Dim = static_cast<unsigned int>(dim);
 
   m_X = new float[m_Dim];
   m_V = new float *[m_Dim - 1];
@@ -65,35 +61,26 @@ LinePnt::~LinePnt()
 MetaLine::MetaLine()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaLine()" );
+  MetaLine::Clear();
 }
 
 //
 MetaLine::MetaLine(const char * _headerName)
   : MetaObject(_headerName)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine()" << std::endl;
-  }
-  Clear();
-  Read(_headerName);
+  META_DEBUG_PRINT( "MetaLine()" );
+  MetaLine::Clear();
+  MetaLine::Read(_headerName);
 }
 
 //
 MetaLine::MetaLine(const MetaLine * _line)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_line);
+  META_DEBUG_PRINT( "MetaLine()" );
+  MetaLine::Clear();
+  MetaLine::CopyInfo(_line);
 }
 
 
@@ -101,18 +88,15 @@ MetaLine::MetaLine(const MetaLine * _line)
 MetaLine::MetaLine(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaLine()" );
+  MetaLine::Clear();
 }
 
 //
 MetaLine::~MetaLine()
 {
-  Clear();
-  M_Destroy();
+  MetaLine::Clear();
+  MetaObject::M_Destroy();
 }
 
 //
@@ -162,10 +146,7 @@ MetaLine::NPoints() const
 void
 MetaLine::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaLine: Clear" );
 
   MetaObject::Clear();
 
@@ -186,21 +167,11 @@ MetaLine::Clear()
   m_ElementType = MET_FLOAT;
 }
 
-/** Destroy line information */
-void
-MetaLine::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaLine::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaLine: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -247,7 +218,7 @@ MetaLine::M_SetupWriteFields()
     m_Fields.push_back(mF);
   }
 
-  m_NPoints = (int)m_PointList.size();
+  m_NPoints = static_cast<int>(m_PointList.size());
   mF = new MET_FieldRecordType;
   MET_InitWriteField(mF, "NPoints", MET_INT, m_NPoints);
   m_Fields.push_back(mF);
@@ -273,10 +244,7 @@ MetaLine::ElementType(MET_ValueEnumType _elementType)
 bool
 MetaLine::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaLine: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -284,29 +252,26 @@ MetaLine::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaLine: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaLine: M_Read: Parsing Header" );
 
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("NPoints", &m_Fields);
   if (mF->defined)
   {
-    m_NPoints = (int)mF->value[0];
+    m_NPoints = static_cast<int>(mF->value[0]);
   }
 
   mF = MET_GetFieldRecord("ElementType", &m_Fields);
   if (mF->defined)
   {
-    MET_StringToType((char *)(mF->value), &m_ElementType);
+    MET_StringToType(reinterpret_cast<char *>(mF->value), &m_ElementType);
   }
 
   mF = MET_GetFieldRecord("PointDim", &m_Fields);
   if (mF->defined)
   {
-    strcpy(m_PointDim, (char *)(mF->value));
+    strcpy(m_PointDim, reinterpret_cast<char *>(mF->value));
   }
 
   int     pntDim;
@@ -329,7 +294,7 @@ MetaLine::M_Read()
     int readSize = m_NPoints * (m_NDims * m_NDims + 4) * elementSize;
 
     char * _data = new char[readSize];
-    m_ReadStream->read((char *)_data, readSize);
+    m_ReadStream->read(_data, readSize);
 
     int gc = static_cast<int>(m_ReadStream->gcount());
     if (gc != readSize)
@@ -350,14 +315,14 @@ MetaLine::M_Read()
       for (d = 0; d < m_NDims; d++)
       {
         float        td;
-        char * const num = (char *)(&td);
+        char * const num = reinterpret_cast<char *>(&td);
         for (k = 0; k < sizeof(float); k++)
         {
           num[k] = _data[i + k];
         }
         MET_SwapByteIfSystemMSB(&td, MET_FLOAT);
         i += sizeof(float);
-        pnt->m_X[d] = (float)td;
+        pnt->m_X[d] = td;
       }
 
       for (int l = 0; l < m_NDims - 1; l++)
@@ -365,28 +330,28 @@ MetaLine::M_Read()
         for (d = 0; d < m_NDims; d++)
         {
           float        td;
-          char * const num = (char *)(&td);
+          char * const num = reinterpret_cast<char *>(&td);
           for (k = 0; k < sizeof(float); k++)
           {
             num[k] = _data[i + k];
           }
           MET_SwapByteIfSystemMSB(&td, MET_FLOAT);
           i += sizeof(float);
-          pnt->m_V[l][d] = (float)td;
+          pnt->m_V[l][d] = td;
         }
       }
 
       for (d = 0; d < 4; d++)
       {
         float        td;
-        char * const num = (char *)(&td);
+        char * const num = reinterpret_cast<char *>(&td);
         for (k = 0; k < sizeof(float); k++)
         {
           num[k] = _data[i + k];
         }
         MET_SwapByteIfSystemMSB(&td, MET_FLOAT);
         i += sizeof(float);
-        pnt->m_Color[d] = (float)td;
+        pnt->m_Color[d] = td;
       }
 
       m_PointList.push_back(pnt);
@@ -478,7 +443,7 @@ MetaLine::M_Write()
       {
         float pntX = (*it)->m_X[d];
         MET_SwapByteIfSystemMSB(&pntX, MET_FLOAT);
-        MET_DoubleToValue((double)pntX, m_ElementType, data, i++);
+        MET_DoubleToValue(static_cast<double>(pntX), m_ElementType, data, i++);
       }
 
       for (int j = 0; j < m_NDims - 1; j++)
@@ -487,7 +452,7 @@ MetaLine::M_Write()
         {
           float v = (*it)->m_V[j][d];
           MET_SwapByteIfSystemMSB(&v, MET_FLOAT);
-          MET_DoubleToValue((double)v, m_ElementType, data, i++);
+          MET_DoubleToValue(static_cast<double>(v), m_ElementType, data, i++);
         }
       }
 
@@ -495,13 +460,13 @@ MetaLine::M_Write()
       {
         float c = (*it)->m_Color[d];
         MET_SwapByteIfSystemMSB(&c, MET_FLOAT);
-        MET_DoubleToValue((double)c, m_ElementType, data, i++);
+        MET_DoubleToValue(static_cast<double>(c), m_ElementType, data, i++);
       }
 
       ++it;
     }
 
-    m_WriteStream->write((char *)data, (m_NDims * m_NDims + 4) * m_NPoints * elementSize);
+    m_WriteStream->write(data, (m_NDims * m_NDims + 4) * m_NPoints * elementSize);
     m_WriteStream->write("\n", 1);
     delete[] data;
   }

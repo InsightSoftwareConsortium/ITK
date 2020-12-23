@@ -29,16 +29,11 @@
 #include "metaLine.h"
 #include "metaGroup.h"
 #include "metaSurface.h"
-#include "metaLandmark.h"
 #include "metaMesh.h"
 #include "metaArrow.h"
 #include "metaTransform.h"
 #include "metaTubeGraph.h"
 #include "metaFEMObject.h"
-
-#include <cctype>
-#include <cstdio>
-#include <string>
 
 #if (METAIO_USE_NAMESPACE)
 namespace METAIO_NAMESPACE
@@ -49,41 +44,32 @@ namespace METAIO_NAMESPACE
 MetaScene::MetaScene()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaScene()" );
+  MetaScene::Clear();
 }
 
 
 MetaScene::MetaScene(const MetaScene * _scene)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_scene);
+  META_DEBUG_PRINT( "MetaScene()" );
+  MetaScene::Clear();
+  MetaScene::CopyInfo(_scene);
 }
 
 MetaScene::MetaScene(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaScene()" );
+  MetaScene::Clear();
 }
 
 
 /** Destructor */
 MetaScene::~MetaScene()
 {
-  Clear();
-  M_Destroy();
+  MetaScene::Clear();
+  MetaObject::M_Destroy();
 }
 
 void
@@ -121,20 +107,17 @@ MetaScene::AddObject(MetaObject * object)
 bool
 MetaScene::Read(const char * _headerName)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene: Read" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaScene: Read" );
 
   int  i = 0;
-  char suf[80];
+  char suf[METAIO_MAX_WORD_SIZE];
   suf[0] = '\0';
   if (MET_GetFileSuffixPtr(_headerName, &i))
   {
     strcpy(suf, &_headerName[i]);
   }
 
-  M_Destroy();
+MetaObject::M_Destroy();
 
   Clear();
 
@@ -145,10 +128,7 @@ MetaScene::Read(const char * _headerName)
     m_FileName = _headerName;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene: Read: Opening stream" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaScene: Read: Opening stream" );
 
   M_PrepareNewReadStream();
 
@@ -174,20 +154,17 @@ MetaScene::Read(const char * _headerName)
 
   if (m_Event)
   {
-    m_Event->StartReading(m_NObjects);
+    m_Event->StartReading(static_cast<unsigned int>(m_NObjects));
   }
 
   /** Objects should be added here */
   for (i = 0; i < m_NObjects; i++)
   {
-    if (META_DEBUG)
-    {
-      std::cout << MET_ReadType(*m_ReadStream).c_str() << std::endl;
-    }
+    META_DEBUG_PRINT( MET_ReadType(*m_ReadStream).c_str() );
 
     if (m_Event)
     {
-      m_Event->SetCurrentIteration(i + 1);
+      m_Event->SetCurrentIteration(static_cast<unsigned int>(i + 1));
     }
 
     const std::string objectType = MET_ReadType(*m_ReadStream);
@@ -353,10 +330,7 @@ MetaScene::Read(const char * _headerName)
 bool
 MetaScene::Write(const char * _headName)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene: Write" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaScene: Write" );
 
   if (_headName != nullptr)
   {
@@ -414,10 +388,7 @@ MetaScene::Write(const char * _headName)
 void
 MetaScene::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaScene: Clear" );
 
   MetaObject::Clear();
 
@@ -434,21 +405,11 @@ MetaScene::Clear()
   m_ObjectList.clear();
 }
 
-/** Destroy tube information */
-void
-MetaScene::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaScene::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaScene: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -495,10 +456,7 @@ MetaScene::M_SetupWriteFields()
 bool
 MetaScene::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaScene: M_Read: Loading Header" );
 
   if (strncmp(MET_ReadType(*m_ReadStream).c_str(), "Scene", 5) != 0)
   {
@@ -512,17 +470,14 @@ MetaScene::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaScene: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaScene: M_Read: Parsing Header" );
 
   MET_FieldRecordType * mF;
 
   mF = MET_GetFieldRecord("NObjects", &m_Fields);
   if (mF->defined)
   {
-    m_NObjects = (int)mF->value[0];
+    m_NObjects = static_cast<int>(mF->value[0]);
   }
 
   return true;

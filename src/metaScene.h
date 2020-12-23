@@ -48,16 +48,16 @@ public:
   typedef std::list<MetaObject *> ObjectListType;
 
   // Constructors & Destructor
-  MetaScene(void);
+  MetaScene();
 
-  MetaScene(const MetaScene * _scene);
+  explicit MetaScene(const MetaScene * _scene);
 
-  MetaScene(unsigned int dim);
+  explicit MetaScene(unsigned int dim);
 
-  ~MetaScene(void) override;
+  ~MetaScene() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
@@ -67,10 +67,10 @@ public:
 
   // This function only reads registered tubes
   bool
-  Read(const char * _headerName = nullptr);
+  Read(const char * _headerName = nullptr) override;
 
   bool
-  Write(const char * _headName = nullptr);
+  Write(const char * _headName = nullptr) override;
 
   bool
   Append(const char * = nullptr) override
@@ -80,7 +80,7 @@ public:
   }
 
   void
-  Clear(void) override;
+  Clear() override;
 
 
   //    NObjects(...)
@@ -89,35 +89,32 @@ public:
   void
   NObjects(int nobjects);
   int
-  NObjects(void) const;
+  NObjects() const;
 
 
   ObjectListType *
-  GetObjectList(void)
+  GetObjectList()
   {
     return &m_ObjectList;
   }
 
   // PROTECTED
 protected:
-  bool m_ElementByteOrderMSB;
+  bool m_ElementByteOrderMSB{};
 
   void
-  M_Destroy(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupReadFields(void) override;
-
-  void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
   bool
-  M_Write(void) override;
+  M_Write() override;
 
-  int m_NObjects; // "NObjects = "         0
+  int m_NObjects{}; // "NObjects = "         0
 
   ObjectListType m_ObjectList;
 };

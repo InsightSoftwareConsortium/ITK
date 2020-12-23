@@ -1,5 +1,4 @@
 #include <iostream>
-#include <cstdlib>
 
 #include <metaContour.h>
 
@@ -21,9 +20,9 @@ main(int, char *[])
     pnt->m_XPicked[0] = 0;
     pnt->m_XPicked[1] = 1;
     pnt->m_XPicked[2] = 2;
-    pnt->m_X[0] = (float)0.2;
-    pnt->m_X[1] = (float)i;
-    pnt->m_X[2] = (float)i;
+    pnt->m_X[0] = static_cast<float>(0.2);
+    pnt->m_X[1] = static_cast<float>(i);
+    pnt->m_X[2] = static_cast<float>(i);
     Contour.GetControlPoints().push_back(pnt);
   }
 
@@ -34,9 +33,9 @@ main(int, char *[])
   {
     pntI = new ContourInterpolatedPnt(3);
     pntI->m_Id = i;
-    pntI->m_X[0] = (float)0.2;
-    pntI->m_X[1] = (float)i;
-    pntI->m_X[2] = (float)i;
+    pntI->m_X[0] = static_cast<float>(0.2);
+    pntI->m_X[1] = static_cast<float>(i);
+    pntI->m_X[2] = static_cast<float>(i);
     Contour.GetInterpolatedPoints().push_back(pntI);
   }
 

@@ -15,10 +15,7 @@
 #  pragma warning(disable : 4702)
 #endif
 
-#include <cctype>
-#include <cstdio>
 #include <cstring> // for memset
-#include <string>
 
 #if defined(__BORLANDC__) && (__BORLANDC__ >= 0x0580)
 #  include <mem.h>
@@ -35,51 +32,39 @@ namespace METAIO_NAMESPACE
 MetaEllipse::MetaEllipse()
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaEllipse()" );
+  MetaEllipse::Clear();
 }
 
 //
 MetaEllipse::MetaEllipse(const char * _headerName)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse()" << std::endl;
-  }
-  Clear();
-  Read(_headerName);
+  META_DEBUG_PRINT( "MetaEllipse()" );
+  MetaEllipse::Clear();
+  MetaEllipse::Read(_headerName);
 }
 
 //
 MetaEllipse::MetaEllipse(const MetaEllipse * _ellipse)
   : MetaObject()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse()" << std::endl;
-  }
-  Clear();
-  CopyInfo(_ellipse);
+  META_DEBUG_PRINT( "MetaEllipse()" );
+  MetaEllipse::Clear();
+  MetaEllipse::CopyInfo(_ellipse);
 }
 
 MetaEllipse::MetaEllipse(unsigned int dim)
   : MetaObject(dim)
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse()" << std::endl;
-  }
-  Clear();
+  META_DEBUG_PRINT( "MetaEllipse()" );
+  MetaEllipse::Clear();
 }
 
 //
 MetaEllipse::~MetaEllipse()
 {
-  M_Destroy();
+MetaObject::M_Destroy();
 }
 
 //
@@ -145,10 +130,7 @@ MetaEllipse::Radius() const
 void
 MetaEllipse::Clear()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse: Clear" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaEllipse: Clear" );
 
   MetaObject::Clear();
 
@@ -162,21 +144,11 @@ MetaEllipse::Clear()
   }
 }
 
-/** Destroy ellipse information */
-void
-MetaEllipse::M_Destroy()
-{
-  MetaObject::M_Destroy();
-}
-
 /** Set Read fields */
 void
 MetaEllipse::M_SetupReadFields()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse: M_SetupReadFields" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaEllipse: M_SetupReadFields" );
 
   MetaObject::M_SetupReadFields();
 
@@ -198,7 +170,7 @@ MetaEllipse::M_SetupWriteFields()
   MET_FieldRecordType * mF;
 
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "Radius", MET_FLOAT_ARRAY, m_NDims, m_Radius);
+  MET_InitWriteField(mF, "Radius", MET_FLOAT_ARRAY, static_cast<size_t>(m_NDims), m_Radius);
   m_Fields.push_back(mF);
 }
 
@@ -206,10 +178,7 @@ MetaEllipse::M_SetupWriteFields()
 bool
 MetaEllipse::M_Read()
 {
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse: M_Read: Loading Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaEllipse: M_Read: Loading Header" );
 
   if (!MetaObject::M_Read())
   {
@@ -217,10 +186,7 @@ MetaEllipse::M_Read()
     return false;
   }
 
-  if (META_DEBUG)
-  {
-    std::cout << "MetaEllipse: M_Read: Parsing Header" << std::endl;
-  }
+  META_DEBUG_PRINT( "MetaEllipse: M_Read: Parsing Header" );
 
   MET_FieldRecordType * mF;
 
@@ -229,7 +195,7 @@ MetaEllipse::M_Read()
   {
     for (int i = 0; i < m_NDims; i++)
     {
-      m_Radius[i] = (float)mF->value[i];
+      m_Radius[i] = static_cast<float>(mF->value[i]);
     }
   }
 

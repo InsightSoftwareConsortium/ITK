@@ -42,9 +42,9 @@ namespace METAIO_NAMESPACE
 class TubeGraphPnt
 {
 public:
-  TubeGraphPnt(int dim)
+  explicit TubeGraphPnt(int dim)
   {
-    m_Dim = dim;
+    m_Dim = static_cast<unsigned int>(dim);
     m_GraphNode = -1;
     m_R = 0;
     m_P = 0;
@@ -68,18 +68,18 @@ class METAIO_EXPORT MetaTubeGraph : public MetaObject
 public:
   typedef std::vector<TubeGraphPnt *> PointListType;
   // Constructors & Destructor
-  MetaTubeGraph(void);
+  MetaTubeGraph();
 
-  MetaTubeGraph(const char * _headerName);
+  explicit MetaTubeGraph(const char * _headerName);
 
-  MetaTubeGraph(const MetaTubeGraph * _tube);
+  explicit MetaTubeGraph(const MetaTubeGraph * _tube);
 
-  MetaTubeGraph(unsigned int dim);
+  explicit MetaTubeGraph(unsigned int dim);
 
-  ~MetaTubeGraph(void) override;
+  ~MetaTubeGraph() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
@@ -90,7 +90,7 @@ public:
   void
   NPoints(int npnt);
   int
-  NPoints(void) const;
+  NPoints() const;
 
   //    PointDim(...)
   //       Required Field
@@ -98,7 +98,7 @@ public:
   void
   PointDim(const char * pointDim);
   const char *
-  PointDim(void) const;
+  PointDim() const;
 
   //    Root(...)
   //       Optional Field
@@ -106,50 +106,48 @@ public:
   void
   Root(int root);
   int
-  Root(void) const;
+  Root() const;
 
 
   void
-  Clear(void) override;
+  Clear() override;
 
   PointListType &
-  GetPoints(void)
+  GetPoints()
   {
     return m_PointList;
   }
   const PointListType &
-  GetPoints(void) const
+  GetPoints() const
   {
     return m_PointList;
   }
 
   MET_ValueEnumType
-  ElementType(void) const;
+  ElementType() const;
   void
   ElementType(MET_ValueEnumType _elementType);
 
   // PROTECTED
 protected:
-  void
-  M_Destroy(void) override;
 
   void
-  M_SetupReadFields(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
   bool
-  M_Write(void) override;
+  M_Write() override;
 
-  int m_Root; // "Root = "            0
+  int m_Root{}; // "Root = "            0
 
-  int m_NPoints; // "NPoints = "         0
+  int m_NPoints{}; // "NPoints = "         0
 
-  char m_PointDim[255]; // "PointDim = "       "x y z r"
+  char m_PointDim[255]{}; // "PointDim = "       "x y z r"
 
   PointListType m_PointList;
 

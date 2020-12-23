@@ -46,39 +46,39 @@ class METAIO_EXPORT MetaTransform : public MetaObject
   // PUBLIC
 public:
   // Constructors & Destructor
-  MetaTransform(void);
+  MetaTransform();
 
-  MetaTransform(const char * _headerName);
+  explicit MetaTransform(const char * _headerName);
 
-  MetaTransform(const MetaTransform * _group);
+  explicit MetaTransform(const MetaTransform * _group);
 
-  MetaTransform(unsigned int dim);
+  explicit MetaTransform(unsigned int dim);
 
-  ~MetaTransform(void) override;
+  ~MetaTransform() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
 
   void
-  Clear(void) override;
+  Clear() override;
 
   // Set/Get the parameters of the transforms
   const double *
-  Parameters(void) const;
+  Parameters() const;
   void
   Parameters(unsigned int dimension, const double * _parameters);
 
   unsigned int
-  NParameters()
+  NParameters() const
   {
     return parametersDimension;
   }
 
   unsigned int
-  TransformOrder()
+  TransformOrder() const
   {
     return transformOrder;
   }
@@ -90,53 +90,50 @@ public:
 
   // Set/Get the grid spacing
   const double *
-  GridSpacing(void) const;
+  GridSpacing() const;
   void
   GridSpacing(const double * _gridSpacing);
 
   // Set/Get the grid origin
   const double *
-  GridOrigin(void) const;
+  GridOrigin() const;
   void
   GridOrigin(const double * _gridOrigin);
 
   // Set/Get the grid region size
   const double *
-  GridRegionSize(void) const;
+  GridRegionSize() const;
   void
   GridRegionSize(const double * _gridRegionSize);
 
   // Set/Get the grid region index
   const double *
-  GridRegionIndex(void) const;
+  GridRegionIndex() const;
   void
   GridRegionIndex(const double * _gridRegionIndex);
 
   // PROTECTED
 protected:
   void
-  M_Destroy(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupReadFields(void) override;
-
-  void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
   bool
-  M_Write(void) override;
+  M_Write() override;
 
-  double *     parameters;
-  unsigned int parametersDimension;
-  unsigned int transformOrder;
+  double *     parameters{};
+  unsigned int parametersDimension{};
+  unsigned int transformOrder{};
 
   // This ivars are used for the BSplineTransform
-  double gridSpacing[100];
-  double gridOrigin[100];
-  double gridRegionSize[100];
-  double gridRegionIndex[100];
+  double gridSpacing[100]{};
+  double gridOrigin[100]{};
+  double gridRegionSize[100]{};
+  double gridRegionIndex[100]{};
 };
 
 #  if (METAIO_USE_NAMESPACE)

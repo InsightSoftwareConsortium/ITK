@@ -45,29 +45,29 @@ public:
   typedef std::pair<std::string, float> FieldType;
   typedef std::vector<FieldType>        FieldListType;
 
-  TubePnt(int dim);
-  TubePnt(const TubePnt * _tubePnt);
-  ~TubePnt();
+  explicit TubePnt(int dim);
+  explicit TubePnt(const TubePnt * _tubePnt);
+  virtual ~TubePnt();
 
-  unsigned int m_NDims;
-  int          m_ID;
-  float *      m_X;
-  float        m_Color[4];
-  bool         m_Mark;
-  float        m_R;
-  float        m_Ridgeness;
-  float        m_Medialness;
-  float        m_Branchness;
-  float        m_Curvature;
-  float        m_Levelness;
-  float        m_Roundness;
-  float        m_Intensity;
-  float *      m_T;
-  float *      m_V1;
-  float *      m_V2;
-  float        m_Alpha1;
-  float        m_Alpha2;
-  float        m_Alpha3;
+  unsigned int m_NDims{};
+  int          m_ID{};
+  float *      m_X{};
+  float        m_Color[4]{};
+  bool         m_Mark{};
+  float        m_R{};
+  float        m_Ridgeness{};
+  float        m_Medialness{};
+  float        m_Branchness{};
+  float        m_Curvature{};
+  float        m_Levelness{};
+  float        m_Roundness{};
+  float        m_Intensity{};
+  float *      m_T{};
+  float *      m_V1{};
+  float *      m_V2{};
+  float        m_Alpha1{};
+  float        m_Alpha2{};
+  float        m_Alpha3{};
 
   FieldListType m_ExtraFields;
 
@@ -78,7 +78,7 @@ public:
   GetExtraFields() const;
 
   size_t
-  GetNumberOfExtraFields(void) const;
+  GetNumberOfExtraFields() const;
   void
   SetNumberOfExtraFields(int size);
 
@@ -106,35 +106,39 @@ public:
   typedef std::list<PointType *> PointListType;
 
   // Constructors & Destructor
-  MetaTube(void);
+  MetaTube();
 
-  MetaTube(const char * _headerName);
+  explicit MetaTube(const char * _headerName);
 
-  MetaTube(const MetaTube * _Tube);
+  explicit MetaTube(const MetaTube * Tube);
 
-  MetaTube(unsigned int dim);
+  explicit MetaTube(unsigned int dim);
 
-  ~MetaTube(void) override;
+  ~MetaTube() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
+
+  using MetaObject::CopyInfo;
 
   void
   CopyInfo(const MetaTube * _object);
 
   void
-  Clear(void) override;
+  Clear() override;
 
+#if 0  // NOT YET IMPLEMENTED
   MET_ValueEnumType
-  ElementType(void) const;
+  ElementType() const;
   void
   ElementType(MET_ValueEnumType _elementType);
+#endif
 
   //    PointDim(...)
   //       Required Field
   //       Definition of points
   const char *
-  PointDim(void) const;
+  PointDim() const;
   void
   PointDim(const char * pntDim);
 
@@ -144,15 +148,15 @@ public:
   void
   NPoints(int npnt);
   int
-  NPoints(void) const;
+  NPoints() const;
 
   PointListType &
-  GetPoints(void)
+  GetPoints()
   {
     return m_PointList;
   }
   const PointListType &
-  GetPoints(void) const
+  GetPoints() const
   {
     return m_PointList;
   }
@@ -166,7 +170,7 @@ public:
     m_Root = root;
   };
   bool
-  Root(void) const
+  Root() const
   {
     return m_Root;
   };
@@ -180,7 +184,7 @@ public:
     m_Artery = artery;
   };
   bool
-  Artery(void) const
+  Artery() const
   {
     return m_Artery;
   };
@@ -194,40 +198,37 @@ public:
     m_ParentPoint = parentPoint;
   };
   int
-  ParentPoint(void) const
+  ParentPoint() const
   {
     return m_ParentPoint;
   };
 
   // PROTECTED
 protected:
-  typedef std::pair<std::string, unsigned int> PositionType;
+  typedef std::pair<std::string, int> PositionType;
 
   int
   M_GetPosition(const char *, std::vector<bool> & used) const;
 
-  float
-  M_GetFloatFromBinaryData(size_t pos, const char * _data, size_t readSize) const;
+  static float
+  M_GetFloatFromBinaryData(size_t pos, const char * _data, size_t readSize) ;
 
   void
   M_SetFloatIntoBinaryData(float val, char * _data, int i) const;
 
   void
-  M_Destroy(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupReadFields(void) override;
-
-  void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
   bool
-  M_Write(void) override;
+  M_Write() override;
 
-  int m_NPoints;
+  int m_NPoints{};
 
   std::string m_PointDim;
 
@@ -235,11 +236,11 @@ protected:
 
   MET_ValueEnumType m_ElementType;
 
-  int m_ParentPoint;
+  int m_ParentPoint{};
 
-  bool m_Root;
+  bool m_Root{};
 
-  bool m_Artery;
+  bool m_Artery{};
 
   std::vector<PositionType> m_Positions;
 };

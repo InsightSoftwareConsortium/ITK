@@ -53,11 +53,11 @@ class METAIO_EXPORT MetaArray : public MetaForm
   // PUBLIC
 public:
   // Constructors & Destructor
-  MetaArray(void);
+  MetaArray();
 
-  MetaArray(const char * _headerName);
+  explicit MetaArray(const char * _headerName);
 
-  MetaArray(MetaArray * _vector, bool _allocateElementData = false, bool _autoFreeElementData = false);
+  explicit MetaArray(MetaArray * _vector, bool _allocateElementData = false, bool _autoFreeElementData = false);
 
   MetaArray(int               _length,
             MET_ValueEnumType _elementType,
@@ -66,16 +66,16 @@ public:
             bool              _allocateElementData = false,
             bool              _autoFreeElementData = false);
 
-  ~MetaArray(void) override;
+  ~MetaArray() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaForm * _form) override;
 
   void
-  Clear(void) override;
+  Clear() override;
 
   bool
   InitializeEssential(int               _length,
@@ -89,29 +89,29 @@ public:
   AllocateElementData(bool _autoFreeElementData = true);
 
   int
-  Length(void) const;
+  Length() const;
   void
   Length(int _length);
 
   int
-  NDims(void) const;
+  NDims() const;
   void
   NDims(int _length);
 
   MET_ValueEnumType
-  ElementType(void) const;
+  ElementType() const;
   void
   ElementType(MET_ValueEnumType _elementType);
 
   int
-  ElementNumberOfChannels(void) const;
+  ElementNumberOfChannels() const;
   void
   ElementNumberOfChannels(int _elementNumberOfChannels);
 
   void
-  ElementByteOrderSwap(void);
+  ElementByteOrderSwap();
   bool
-  ElementByteOrderFix(void);
+  ElementByteOrderFix();
 
   //    ConverTo(...)
   //       Converts to a new data type
@@ -131,17 +131,17 @@ public:
                             double            _toMax = 0);
 
   bool
-  AutoFreeElementData(void) const;
+  AutoFreeElementData() const;
   void
   AutoFreeElementData(bool _autoFreeElementData);
 
   const char *
-  ElementDataFileName(void) const;
+  ElementDataFileName() const;
   void
   ElementDataFileName(const char * _elementDataFileName);
 
   void *
-  ElementData(void);
+  ElementData();
   double
   ElementData(int _i) const;
   void
@@ -178,11 +178,11 @@ public:
 
   // PROTECTED
 protected:
-  int m_Length;
+  int m_Length{};
 
   MET_ValueEnumType m_ElementType;
 
-  int m_ElementNumberOfChannels;
+  int m_ElementNumberOfChannels{};
 
   bool m_AutoFreeElementData;
 
@@ -193,16 +193,16 @@ protected:
   void * m_ElementData;
 
   void
-  M_Destroy(void) override;
+  M_ResetValues();
 
   void
-  M_SetupReadFields(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
   bool
   M_ReadElements(std::ifstream * _fstream, void * _data, int _dataQuantity);

@@ -65,11 +65,11 @@ class METAIO_EXPORT MetaImage : public MetaObject
 {
 public:
   // Constructors & Destructor
-  MetaImage(void);
+  MetaImage();
 
-  MetaImage(const char * _headerName);
+  explicit MetaImage(const char * _headerName);
 
-  MetaImage(MetaImage * _im); // share memory
+  explicit MetaImage(MetaImage * _im); // share memory
 
   MetaImage(int               _nDims,
             const int *       _dimSize,
@@ -103,16 +103,16 @@ public:
             int               _elementNumberOfChannels = 1,
             void *            _elementData = nullptr);
 
-  ~MetaImage(void) override;
+  ~MetaImage() override;
 
   void
-  PrintInfo(void) const override;
+  PrintInfo() const override;
 
   void
   CopyInfo(const MetaObject * _object) override;
 
   void
-  Clear(void) override;
+  Clear() override;
 
   // Legacy for floating point elementSpacing
   bool
@@ -134,12 +134,12 @@ public:
                       bool              _allocElementMemory = true);
 
   int
-  HeaderSize(void) const;
+  HeaderSize() const;
   void
   HeaderSize(int _headerSize);
 
   MET_ImageModalityEnumType
-  Modality(void) const;
+  Modality() const;
   void
   Modality(MET_ImageModalityEnumType _modality);
 
@@ -147,7 +147,7 @@ public:
   //       REQUIRED Field
   //       Number of elements along each dimension
   const int *
-  DimSize(void) const;
+  DimSize() const;
   int
   DimSize(int _i) const;
   // void  DimSize(const int * _dimSize);
@@ -157,14 +157,14 @@ public:
   //       Not a field in file
   //       Total number of elements in image (Prod(dimSize[i]))
   std::streamoff
-  Quantity(void) const;
+  Quantity() const;
 
   //    SubQuantity(...)
   //       Not a field in file
   //       Number of elements in image spanning sub-dimensions
   //       E.g., elements per line, 2D sub-image, 3D sub-volume,
   const std::streamoff *
-  SubQuantity(void) const;
+  SubQuantity() const;
   std::streamoff
   SubQuantity(int _i) const;
 
@@ -173,7 +173,7 @@ public:
   //       DICOM designation of this image relative to other images
   //         acquired at the same time
   const float *
-  SequenceID(void) const;
+  SequenceID() const;
   float
   SequenceID(int _i) const;
   void
@@ -186,11 +186,11 @@ public:
   //       Physical size (in MM) of each element in the image
   //       (0 = xSize, 1 = ySize, 2 = zSize)
   bool
-  ElementSizeValid(void) const;
+  ElementSizeValid() const;
   void
   ElementSizeValid(bool _elementSizeValid);
   const double *
-  ElementSize(void) const;
+  ElementSize() const;
   double
   ElementSize(int _i) const;
   void
@@ -201,12 +201,12 @@ public:
   ElementSize(int _i, double _value);
 
   MET_ValueEnumType
-  ElementType(void) const;
+  ElementType() const;
   void
   ElementType(MET_ValueEnumType _elementType);
 
   int
-  ElementNumberOfChannels(void) const;
+  ElementNumberOfChannels() const;
   void
   ElementNumberOfChannels(int _elementNumberOfChannels);
 
@@ -228,42 +228,42 @@ public:
   //       This may not represent the true max.   Use _reCalc=true
   //         to force a calcuation of the actual max element value.
   bool
-  ElementMinMaxValid(void) const;
+  ElementMinMaxValid() const;
   void
   ElementMinMaxValid(bool _elementMinMaxValid);
   void
-  ElementMinMaxRecalc(void);
+  ElementMinMaxRecalc();
   double
-  ElementMin(void) const;
+  ElementMin() const;
   void
   ElementMin(double _elementMin);
   double
-  ElementMax(void) const;
+  ElementMax() const;
   void
   ElementMax(double _elementMax);
 
   double
-  ElementToIntensityFunctionSlope(void) const;
+  ElementToIntensityFunctionSlope() const;
   void
   ElementToIntensityFunctionSlope(double _elementToIntensityFunctionSlope);
   double
-  ElementToIntensityFunctionOffset(void) const;
+  ElementToIntensityFunctionOffset() const;
   void
   ElementToIntensityFunctionOffset(double _elementOffset);
 
   bool
-  AutoFreeElementData(void) const;
+  AutoFreeElementData() const;
   void
   AutoFreeElementData(bool _autoFreeElementData);
 
 
   const char *
-  ElementDataFileName(void) const;
+  ElementDataFileName() const;
   void
   ElementDataFileName(const char * _elementDataFileName);
 
   void *
-  ElementData(void);
+  ElementData();
   double
   ElementData(std::streamoff _i) const;
   bool
@@ -281,11 +281,17 @@ public:
   bool
   ConvertIntensityDataToElementData(MET_ValueEnumType _elementType = MET_USHORT);
 
-  bool
-  CanRead(const char * _headerName = nullptr) const;
+  static bool
+  CanRead(const char * _headerName = nullptr) ;
 
   bool
-  Read(const char * _headerName = nullptr, bool _readElements = true, void * _buffer = nullptr);
+  Read(const char * _headerName = nullptr ) override
+  {
+    return MetaImage::Read(_headerName, true, nullptr);
+  }
+
+  bool
+  Read(const char * _headerName, bool _readElements, void * _buffer = nullptr);
 
   bool
   ReadROI(int *        _indexMin,
@@ -296,8 +302,8 @@ public:
           unsigned int subSamplingFactor = 1);
 
 
-  bool
-  CanReadStream(std::ifstream * _stream) const;
+  static bool
+  CanReadStream(std::ifstream * _stream) ;
 
   bool
   ReadStream(int _nDims, std::ifstream * _stream, bool _readElements = true, void * _buffer = nullptr);
@@ -312,8 +318,14 @@ public:
                 unsigned int    subSamplingFactor = 1);
 
   bool
-  Write(const char * _headName = nullptr,
-        const char * _dataName = nullptr,
+  Write(const char * _headName = nullptr) override
+  {
+    return MetaImage::Write(_headName, nullptr, true, nullptr, false);
+  }
+
+  bool
+  Write(const char * _headName,
+        const char * _dataName,
         bool         _writeElements = true,
         const void * _constElementData = nullptr,
         bool         _append = false);
@@ -342,48 +354,48 @@ protected:
   MET_ImageModalityEnumType m_Modality;
 
 
-  MET_CompressionTableType * m_CompressionTable;
+  MET_CompressionTableType * m_CompressionTable{};
 
-  int            m_DimSize[10];
-  std::streamoff m_SubQuantity[10];
-  std::streamoff m_Quantity;
+  int            m_DimSize[10]{};
+  std::streamoff m_SubQuantity[10]{};
+  std::streamoff m_Quantity{};
 
-  int m_HeaderSize;
+  int m_HeaderSize{};
 
-  float m_SequenceID[4];
+  float m_SequenceID[4]{};
 
-  bool   m_ElementSizeValid;
-  double m_ElementSize[10];
+  bool   m_ElementSizeValid{};
+  double m_ElementSize[10]{};
 
   MET_ValueEnumType m_ElementType;
 
-  int m_ElementNumberOfChannels;
+  int m_ElementNumberOfChannels{};
 
-  bool   m_ElementMinMaxValid;
-  double m_ElementMin;
-  double m_ElementMax;
+  bool   m_ElementMinMaxValid{};
+  double m_ElementMin{};
+  double m_ElementMax{};
 
-  double m_ElementToIntensityFunctionSlope;
-  double m_ElementToIntensityFunctionOffset;
+  double m_ElementToIntensityFunctionSlope{};
+  double m_ElementToIntensityFunctionOffset{};
 
-  bool m_AutoFreeElementData;
+  bool m_AutoFreeElementData{};
 
-  void * m_ElementData;
+  void * m_ElementData{};
 
   std::string m_ElementDataFileName;
 
 
   void
-  M_Destroy(void) override;
+  M_ResetValues();
 
   void
-  M_SetupReadFields(void) override;
+  M_SetupReadFields() override;
 
   void
-  M_SetupWriteFields(void) override;
+  M_SetupWriteFields() override;
 
   bool
-  M_Read(void) override;
+  M_Read() override;
 
   // _dataQuantity is expressed in number of pixels. Internally it will be
   // scaled by the number of components and number of bytes per component.
@@ -418,14 +430,14 @@ protected:
   bool
   M_WriteElementData(std::ofstream * _fstream, const void * _data, std::streamoff _dataQuantity);
 
-  bool
-  M_FileExists(const char * filename) const;
+  static bool
+  M_FileExists(const char * filename) ;
 
-  bool
-  FileIsFullPath(const char * in_name) const;
+  static bool
+  FileIsFullPath(const char * in_name) ;
 
-  std::string
-  M_GetTagValue(const std::string & buffer, const char * tag) const;
+  static std::string
+  M_GetTagValue(const std::string & buffer, const char * tag) ;
 
   // PRIVATE
 private:
