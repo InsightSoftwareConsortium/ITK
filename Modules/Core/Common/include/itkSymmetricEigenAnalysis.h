@@ -412,7 +412,7 @@ private:
    *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
    *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
   void
-  ReduceToTridiagonalMatrixAndGetTransformation(double * a, double * d, double * e, double * z) const;
+  ReduceToTridiagonalMatrixAndGetTransformation(const double * a, double * d, double * e, double * z) const;
 
   /** Finds the eigenvalues of a symmetric tridiagonal matrix by the ql method.
    *

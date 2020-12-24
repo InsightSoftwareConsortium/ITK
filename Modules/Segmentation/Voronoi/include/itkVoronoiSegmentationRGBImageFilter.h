@@ -82,9 +82,9 @@ public:
 
   /** \todo Document. */
   void
-  SetMeanPercentError(double x[6]);
+  SetMeanPercentError(const double x[6]);
   void
-  SetSTDPercentError(double x[6]);
+  SetSTDPercentError(const double x[6]);
   void
   GetMeanPercentError(double x[6])
   {
@@ -118,7 +118,7 @@ public:
     }
   }
   void
-  SetMean(double x[6])
+  SetMean(const double x[6])
   {
     for (int i = 0; i < 6; i++)
     {
@@ -126,7 +126,7 @@ public:
     }
   }
   void
-  SetSTD(double x[6])
+  SetSTD(const double x[6])
   {
     for (int i = 0; i < 6; i++)
     {
