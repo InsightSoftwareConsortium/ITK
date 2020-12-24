@@ -82,11 +82,11 @@ public:
 
   /** Set input image. */
   void
-  SetInput1(const InputImageType * image);
+  SetInput1(const InputImageType * input);
 
   /** Set input polyline. */
   void
-  SetInput2(const PolylineType * polyline);
+  SetInput2(const PolylineType * input);
 
   /** Set/Get viewing direction vector. */
   itkSetMacro(ViewVector, VectorType);

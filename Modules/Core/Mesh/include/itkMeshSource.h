@@ -119,7 +119,7 @@ public:
    * filter's pipeline mechanism must be consistent with what the
    * mini-pipeline will do). */
   virtual void
-  GraftOutput(DataObject * output);
+  GraftOutput(DataObject * graft);
 
   /** Graft the specified data object onto this ProcessObject's named
    * output. This is similar to the GraftOutput method except it
@@ -127,10 +127,10 @@ public:
    * See the GraftOutput for general usage information.
    */
   virtual void
-  GraftOutput(const DataObjectIdentifierType & key, DataObject * output);
+  GraftOutput(const DataObjectIdentifierType & key, DataObject * graft);
 
   virtual void
-  GraftNthOutput(unsigned int idx, DataObject * output);
+  GraftNthOutput(unsigned int idx, DataObject * graft);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a

@@ -88,7 +88,7 @@ public:
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
                         MeasureType &                   Value,
-                        DerivativeType &                derivative) const override;
+                        DerivativeType &                Derivative) const override;
 
   /** Set/Get Lambda value. This factor regulates the capture radius of
       this metric */

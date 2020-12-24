@@ -76,7 +76,7 @@ public:
 
   /** Return the location of the parametric path at the specified location. */
   OutputType
-  Evaluate(const InputType & input) const override;
+  Evaluate(const InputType & inputValue) const override;
 
   /** Set pointer to the original path.  The path MUST be continuous in its
    * first derivative to prevent discontinuities in the corrected path.  The

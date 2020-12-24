@@ -259,7 +259,7 @@ protected:
 private:
   /** Fill layer adjacent (OutputLayer) to the layer (LayerToBeScanned) */
   void
-  PropagateToOuterLayers(LayerIdType LayerToBeScanned, LayerIdType OutputLayer, LayerIdType TestValue);
+  PropagateToOuterLayers(LayerIdType layerToBeScanned, LayerIdType outputLayer, LayerIdType testValue);
 
   /** Fill the layer corresponding to zero level set */
   void

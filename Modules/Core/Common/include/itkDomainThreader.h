@@ -88,7 +88,7 @@ public:
    * the virtual methods \c BeforeThreadedExecution, \c ThreadedExecution, and
    * \c AfterThreadedExecution. are run, in order. */
   void
-  Execute(AssociateType * enclosingClass, const DomainType & domain);
+  Execute(AssociateType * enclosingClass, const DomainType & completeDomain);
 
   /** Set/Get the DomainPartitioner. */
   itkSetObjectMacro(DomainPartitioner, DomainPartitionerType);

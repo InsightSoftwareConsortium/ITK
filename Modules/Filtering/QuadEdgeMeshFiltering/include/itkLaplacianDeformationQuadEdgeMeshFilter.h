@@ -243,7 +243,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   OutputCoordRepType
-  ComputeMixedAreaForGivenVertex(OutputPointIdentifier vId);
+  ComputeMixedAreaForGivenVertex(OutputPointIdentifier iId);
   OutputCoordRepType
   ComputeMixedArea(OutputQEPrimal * iQE1, OutputQEPrimal * iQE2);
 

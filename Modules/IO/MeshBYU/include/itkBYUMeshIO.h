@@ -63,7 +63,7 @@ public:
    * \return Returns true if this MeshIO can read the file specified.
    */
   bool
-  CanReadFile(const char * FileNameToRead) override;
+  CanReadFile(const char * fileName) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void
@@ -90,7 +90,7 @@ public:
    * \return Returns true if this MeshIO can write the file specified.
    */
   bool
-  CanWriteFile(const char * FileNameToWrite) override;
+  CanWriteFile(const char * fileName) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void

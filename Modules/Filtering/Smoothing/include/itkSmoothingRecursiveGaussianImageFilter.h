@@ -109,7 +109,7 @@ public:
    * SetSigma to set the same value across each axis or use the method
    * SetSigmaArray if you need different values along each axis. */
   void
-  SetSigmaArray(const SigmaArrayType & sigmas);
+  SetSigmaArray(const SigmaArrayType & sigma);
   void
   SetSigma(ScalarRealType sigma);
 
@@ -127,7 +127,7 @@ public:
    *
    * \sa RecursiveGaussianImageFilter::SetNormalizeAcrossScale */
   void
-  SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+  SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
 

@@ -102,7 +102,7 @@ protected:
 
 private:
   void
-  FillZeissStruct(char * z);
+  FillZeissStruct(char * cz);
 };
 } // end namespace itk
 

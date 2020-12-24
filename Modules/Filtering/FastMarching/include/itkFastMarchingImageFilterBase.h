@@ -191,7 +191,7 @@ protected:
   GetTotalNumberOfNodes() const override;
 
   void
-  SetOutputValue(OutputImageType * oDomain, const NodeType & iNode, const OutputPixelType & iValue) override;
+  SetOutputValue(OutputImageType * oImage, const NodeType & iNode, const OutputPixelType & iValue) override;
 
   /** Returns the output value for a given node */
   const OutputPixelType
@@ -211,7 +211,7 @@ protected:
 
   /** Update value for a given node */
   void
-  UpdateValue(OutputImageType * oImage, const NodeType & iValue) override;
+  UpdateValue(OutputImageType * oImage, const NodeType & iNode) override;
 
   /** Make sure the given node does not violate any topological constraint*/
   bool
@@ -225,7 +225,7 @@ protected:
 
   /** Solve the quadratic equation */
   double
-  Solve(OutputImageType * oImage, const NodeType & iNode, InternalNodeStructureArray & ioNeighbors) const;
+  Solve(OutputImageType * oImage, const NodeType & iNode, InternalNodeStructureArray & iNeighbors) const;
 
   //
   // Functions and variables to check for topology changes (2D/3D only).

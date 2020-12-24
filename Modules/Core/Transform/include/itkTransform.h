@@ -276,7 +276,7 @@ public:
    * By default, \c point is ignored and \c TransformDiffusionTensor(tensor) is
    * called */
   virtual OutputDiffusionTensor3DType
-  TransformDiffusionTensor3D(const InputDiffusionTensor3DType & tensor, const InputPointType & point) const;
+  TransformDiffusionTensor3D(const InputDiffusionTensor3DType & inputTensor, const InputPointType & point) const;
 
   /** Method to transform a diffusion tensor stored in a VectorImage */
   virtual OutputVectorPixelType
@@ -288,7 +288,7 @@ public:
   }
 
   virtual OutputVectorPixelType
-  TransformDiffusionTensor3D(const InputVectorPixelType & tensor, const InputPointType & point) const;
+  TransformDiffusionTensor3D(const InputVectorPixelType & inputTensor, const InputPointType & point) const;
 
   /** Method to transform a diffusion tensor at a point. Global transforms
    * can ignore the \c point parameter. Local transforms (e.g. deformation
@@ -296,7 +296,7 @@ public:
    * By default, \c point is ignored and \c TransformSymmetricSecondRankTensor(tensor) is
    * called */
   virtual OutputSymmetricSecondRankTensorType
-  TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & tensor,
+  TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & inputTensor,
                                      const InputPointType &                     point) const;
 
   /** Method to transform a ssr tensor stored in a VectorImage */
@@ -324,7 +324,7 @@ public:
    * By default, \c point is ignored and \c TransformDiffusionTensor(tensor) is
    * called */
   virtual OutputVectorPixelType
-  TransformSymmetricSecondRankTensor(const InputVectorPixelType & tensor, const InputPointType & point) const;
+  TransformSymmetricSecondRankTensor(const InputVectorPixelType & inputTensor, const InputPointType & point) const;
 
   /** Set the transformation parameters and update internal transformation.
    * SetParameters gives the transform the option to set it's
@@ -538,7 +538,7 @@ public:
    *  Generally, global transforms should return an identity jacobian
    *  since there is no change with respect to position. */
   virtual void
-  ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, InverseJacobianPositionType & jacobian) const;
+  ComputeInverseJacobianWithRespectToPosition(const InputPointType & pnt, InverseJacobianPositionType & jacobian) const;
   itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
                                                                           JacobianType &         jacobian) const);
 
@@ -552,7 +552,7 @@ protected:
   InternalClone() const override;
 
   Transform();
-  Transform(NumberOfParametersType NumberOfParameters);
+  Transform(NumberOfParametersType numberOfParameters);
 #if defined(__GNUC__)
   // A bug in some versions of the GCC and Clang compilers
   // result in an ICE or linker error when "= default" is requested.

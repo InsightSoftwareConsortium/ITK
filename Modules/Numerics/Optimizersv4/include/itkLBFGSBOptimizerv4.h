@@ -141,7 +141,7 @@ public:
    *           = 3 if x[1] has only an upper bound
    */
   void
-  SetBoundSelection(const BoundSelectionType & select);
+  SetBoundSelection(const BoundSelectionType & value);
 
   itkGetConstReferenceMacro(BoundSelection, BoundSelectionType);
 

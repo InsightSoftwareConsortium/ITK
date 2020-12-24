@@ -137,7 +137,7 @@ protected:
 
 private:
   void
-  SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels);
+  SwapBytesIfNecessary(void * buff, SizeValueType components);
 
   IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UCHAR };
   IOByteOrderEnum m_MachineByteOrder;

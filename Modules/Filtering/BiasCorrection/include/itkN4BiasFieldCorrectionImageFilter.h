@@ -404,7 +404,7 @@ private:
    * image.
    */
   void
-  SharpenImage(const RealImageType * uncorrected, RealImageType * sharpened) const;
+  SharpenImage(const RealImageType * unsharpenedImage, RealImageType * sharpenedImage) const;
 
   /**
    * Given the unsmoothed estimate of the bias field, this function smooths

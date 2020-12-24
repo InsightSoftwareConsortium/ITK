@@ -165,7 +165,7 @@ public:
 
   /** Initialize with a simple IntegerType */
   void
-  Initialize(const IntegerType oneSeed);
+  Initialize(const IntegerType seed);
 
   /* Initialize with clock time */
   void

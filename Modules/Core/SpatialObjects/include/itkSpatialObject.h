@@ -315,7 +315,7 @@ public:
                             CovariantVectorType &        value,
                             unsigned int                 depth = 0,
                             const std::string &          name = "",
-                            const DerivativeOffsetType & spacing = 1);
+                            const DerivativeOffsetType & offset = 1);
 
   /** Return the n-th order derivative value at the specified point. */
   virtual void
@@ -324,7 +324,7 @@ public:
                            CovariantVectorType &        value,
                            unsigned int                 depth = 0,
                            const std::string &          name = "",
-                           const DerivativeOffsetType & spacing = 1);
+                           const DerivativeOffsetType & offset = 1);
 
 
   /*********************/
@@ -371,7 +371,7 @@ public:
   /** Remove the object passed as arguments from the list of
    * children. */
   bool
-  RemoveChild(Self * object);
+  RemoveChild(Self * pointer);
 
   /** Remove all children to a given depth */
   void
@@ -386,7 +386,7 @@ public:
   GetChildren(unsigned int depth = 0, const std::string & name = "") const;
 
   virtual void
-  AddChildrenToList(ChildrenListType * children, unsigned int depth = 0, const std::string & name = "") const;
+  AddChildrenToList(ChildrenListType * childrenList, unsigned int depth = 0, const std::string & name = "") const;
 
   /** Returns the number of children currently assigned to the object. */
   unsigned int
@@ -394,7 +394,7 @@ public:
 
   /** Return a SpatialObject given its ID, if it is a child */
   SpatialObject<VDimension> *
-  GetObjectById(int Id);
+  GetObjectById(int id);
 
   /** In practice, this is used to transform an imported MetaIO scene hierarchy
    * specified only by Ids into the SpatialObject hierarchy specified by

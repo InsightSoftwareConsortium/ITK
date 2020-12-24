@@ -146,28 +146,28 @@ public:
   /** Aritmetic operations between pixels. Return a new
     SymmetricSecondRankTensor. */
   Self
-  operator+(const Self & vec) const;
+  operator+(const Self & r) const;
 
   Self
-  operator-(const Self & vec) const;
+  operator-(const Self & r) const;
 
   const Self &
-  operator+=(const Self & vec);
+  operator+=(const Self & r);
 
   const Self &
-  operator-=(const Self & vec);
+  operator-=(const Self & r);
 
   /** Arithmetic operations between tensors and scalars */
-  Self operator*(const RealValueType & scalar) const;
+  Self operator*(const RealValueType & r) const;
 
   Self
-  operator/(const RealValueType & scalar) const;
+  operator/(const RealValueType & r) const;
 
   const Self &
-  operator*=(const RealValueType & scalar);
+  operator*=(const RealValueType & r);
 
   const Self &
-  operator/=(const RealValueType & scalar);
+  operator/=(const RealValueType & r);
 
   /** Return the number of components. */
   static unsigned int
@@ -256,7 +256,7 @@ operator<<(OutputStreamType & os, const SymmetricSecondRankTensor<TComponent, ND
 
 template <typename TComponent, unsigned int NDimension>
 InputStreamType &
-operator>>(InputStreamType & is, SymmetricSecondRankTensor<TComponent, NDimension> & c);
+operator>>(InputStreamType & is, SymmetricSecondRankTensor<TComponent, NDimension> & dt);
 
 template <typename T>
 inline void

@@ -149,7 +149,7 @@ protected:
 
   /** Convertions related to complex */
   static void
-  ConvertGrayToComplex(InputPixelType * inputData, OutputPixelType * OutputData, size_t size);
+  ConvertGrayToComplex(InputPixelType * inputData, OutputPixelType * outputData, size_t size);
 
   static void
   ConvertComplexToComplex(InputPixelType * inputData, OutputPixelType * outputData, size_t size);

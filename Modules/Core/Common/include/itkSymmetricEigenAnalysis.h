@@ -234,7 +234,7 @@ public:
    * The matrix is not checked to see if it is symmetric.
    */
   unsigned int
-  ComputeEigenValues(const TMatrix & A, TVector & EigenValues) const;
+  ComputeEigenValues(const TMatrix & A, TVector & D) const;
 
   /** Compute Eigen values and vectors of A
    * A is any type that overloads the [][] operator and contains the
@@ -388,7 +388,7 @@ private:
    *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
    *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
   void
-  ReduceToTridiagonalMatrix(double * inputMatrix, double * d, double * e, double * e2) const;
+  ReduceToTridiagonalMatrix(double * a, double * d, double * e, double * e2) const;
 
   /** Reduces a real symmetric matrix to a symmetric tridiagonal matrix using
    *  and accumulating orthogonal similarity transformations.
@@ -412,10 +412,7 @@ private:
    *  num. math. 11, 181-195(1968) by martin, reinsch, and wilkinson.
    *    handbook for auto. comp., vol.ii-linear algebra, 212-226(1971).    */
   void
-  ReduceToTridiagonalMatrixAndGetTransformation(double * inputMatrix,
-                                                double * diagonalElements,
-                                                double * subDiagonalElements,
-                                                double * transformMatrix) const;
+  ReduceToTridiagonalMatrixAndGetTransformation(double * a, double * d, double * e, double * z) const;
 
   /** Finds the eigenvalues of a symmetric tridiagonal matrix by the ql method.
    *
@@ -493,7 +490,7 @@ private:
    * \sa ComputeEigenValues and \sa ComputeEigenValuesAndVectors
    */
   unsigned int
-  ComputeEigenValuesLegacy(const TMatrix & A, TVector & EigenValues) const;
+  ComputeEigenValuesLegacy(const TMatrix & A, TVector & D) const;
 
   unsigned int
   ComputeEigenValuesAndVectorsLegacy(const TMatrix & A, TVector & EigenValues, TEigenMatrix & EigenVectors) const;

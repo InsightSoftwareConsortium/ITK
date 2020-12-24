@@ -127,7 +127,7 @@ public:
   /** Set the spline order for interpolation.  Value must be between 0 and 3 with a
    * default of 0. */
   void
-  SetSplineOrder(int SplineOrder);
+  SetSplineOrder(int splineOrder);
 
   /** Get the spline order */
   itkGetConstMacro(SplineOrder, int);
@@ -135,11 +135,11 @@ public:
 protected:
   /** Reduces an N-dimension image by a factor of 2 in each dimension. */
   void
-  ReduceNDImage(OutputImageIterator & OutItr);
+  ReduceNDImage(OutputImageIterator & outItr);
 
   /** Expands an N-dimension image by a factor of 2 in each dimension. */
   void
-  ExpandNDImage(OutputImageIterator & OutItr);
+  ExpandNDImage(OutputImageIterator & outItr);
 
   /** Initializes the pyramid spline coefficients.  Called when Spline order
    *   has been set. */
@@ -148,16 +148,16 @@ protected:
 
   /** The basic operator for reducing a line of data by a factor of 2 */
   virtual void
-  Reduce1DImage(const std::vector<double> & In,
-                OutputImageIterator &       Iter,
-                unsigned int                traverseSize,
+  Reduce1DImage(const std::vector<double> & in,
+                OutputImageIterator &       out,
+                unsigned int                inTraverseSize,
                 ProgressReporter &          progress);
 
   /** The basic operator for expanding a line of data by a factor of 2 */
   virtual void
-  Expand1DImage(const std::vector<double> & In,
-                OutputImageIterator &       Iter,
-                unsigned int                traverseSize,
+  Expand1DImage(const std::vector<double> & in,
+                OutputImageIterator &       out,
+                unsigned int                inTraverseSize,
                 ProgressReporter &          progress);
 
   BSplineResampleImageFilterBase();

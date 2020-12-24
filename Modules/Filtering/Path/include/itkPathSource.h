@@ -149,7 +149,7 @@ public:
    * mini-pipeline will do). */
   // just calls GraftNthOutput()
   virtual void
-  GraftOutput(OutputPathType * output);
+  GraftOutput(OutputPathType * graft);
 
   /** Graft the specified data object onto this ProcessObject's idx'th
    * output. This is the similar to GraftOutput method except is
@@ -158,7 +158,7 @@ public:
    * ProcessObject::GetNumberOfIndexedOutputs()). See the GraftOutput for
    * general usage information. */
   virtual void
-  GraftNthOutput(unsigned int idx, OutputPathType * output);
+  GraftNthOutput(unsigned int idx, OutputPathType * graft);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a

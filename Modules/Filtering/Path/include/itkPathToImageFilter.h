@@ -67,7 +67,7 @@ public:
   /** Set/Get the path input of this process object.  */
   using Superclass::SetInput;
   virtual void
-  SetInput(const InputPathType * path);
+  SetInput(const InputPathType * input);
 
   virtual void
   SetInput(unsigned int, const TInputPath * path);

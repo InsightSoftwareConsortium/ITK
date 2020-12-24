@@ -95,7 +95,7 @@ public:
    * The original documentation of this method is below.
    * \sa ProcessObject::GenerateOutputRequestedRegion(); */
   void
-  GenerateOutputRequestedRegion(DataObject * output) override;
+  GenerateOutputRequestedRegion(DataObject * ptr) override;
 
   /** RecursiveMultiResolutionPyramidImageFilter requires a larger input
    * requested region than the output requested regions to accommodate the

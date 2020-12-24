@@ -153,7 +153,7 @@ public:
 protected:
   ComposeScaleSkewVersor3DTransform();
   ComposeScaleSkewVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
-  ComposeScaleSkewVersor3DTransform(unsigned int paramDims);
+  ComposeScaleSkewVersor3DTransform(unsigned int parametersDimension);
   ~ComposeScaleSkewVersor3DTransform() override = default;
 
   void

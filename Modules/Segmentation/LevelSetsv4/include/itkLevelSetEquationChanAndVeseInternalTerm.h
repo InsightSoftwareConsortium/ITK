@@ -103,7 +103,7 @@ public:
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
   virtual void
-  ComputeProduct(const LevelSetInputIndexType & inputPixel, LevelSetOutputRealType & prod);
+  ComputeProduct(const LevelSetInputIndexType & inputIndex, LevelSetOutputRealType & prod);
 
   /** Compute the product of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
@@ -113,7 +113,7 @@ public:
 
   /** Supply updates at pixels to keep the term parameters always updated */
   void
-  UpdatePixel(const LevelSetInputIndexType & inputPixel,
+  UpdatePixel(const LevelSetInputIndexType & inputIndex,
               const LevelSetOutputRealType & oldValue,
               const LevelSetOutputRealType & newValue) override;
 
@@ -125,12 +125,12 @@ protected:
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
   LevelSetOutputRealType
-  Value(const LevelSetInputIndexType & inputPixel) override;
+  Value(const LevelSetInputIndexType & inputIndex) override;
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */
   LevelSetOutputRealType
-  Value(const LevelSetInputIndexType & inputPixel, const LevelSetDataType & data) override;
+  Value(const LevelSetInputIndexType & inputIndex, const LevelSetDataType & data) override;
 
   /** Accumulate contribution to term parameters from a given pixel */
   void

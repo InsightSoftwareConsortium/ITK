@@ -174,7 +174,7 @@ public:
 
   /** Set the cluster centers. */
   void
-  SetCodebook(CodebookMatrixOfDoubleType InCodebook);
+  SetCodebook(CodebookMatrixOfDoubleType inCodebook);
 
   /** Get the cluster centers. */
   itkGetConstMacro(Codebook, CodebookMatrixOfDoubleType);

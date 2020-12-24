@@ -194,7 +194,7 @@ public:
    * in the image - usit with care.
    */
   void
-  SetPixel(const IndexType & idx, const LabelType & label);
+  SetPixel(const IndexType & idx, const LabelType & iLabel);
 
   /**
    * Add index \c idx to the label object whose label is \c label. If no label object
@@ -509,7 +509,7 @@ private:
   LabelType                m_BackgroundValue;
 
   void
-  AddPixel(const LabelObjectContainerIterator & it, const IndexType & idx, const LabelType & iLabel);
+  AddPixel(const LabelObjectContainerIterator & it, const IndexType & idx, const LabelType & label);
 
   void
   RemovePixel(const LabelObjectContainerIterator & it, const IndexType & idx, bool iEmitModifiedEvent);

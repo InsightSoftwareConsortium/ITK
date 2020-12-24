@@ -579,7 +579,7 @@ private:
    * indicates which of the source's outputs corresponds to this data
    * object. */
   bool
-  ConnectSource(ProcessObject * s, const DataObjectIdentifierType & name);
+  ConnectSource(ProcessObject * arg, const DataObjectIdentifierType & name);
 
   /** Disconnect the specified process object from the data
    * object. This should only be called from a process object. An
@@ -590,7 +590,7 @@ private:
    * match the name cached when the data object was connected to the
    * pipeline (see ConnectSource), then nothing is done. */
   bool
-  DisconnectSource(ProcessObject * s, const DataObjectIdentifierType & name);
+  DisconnectSource(ProcessObject * arg, const DataObjectIdentifierType & name);
 
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(bool, GlobalReleaseDataFlag);

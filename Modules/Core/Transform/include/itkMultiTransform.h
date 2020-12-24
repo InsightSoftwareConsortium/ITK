@@ -260,7 +260,7 @@ public:
   /* SetParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
   void
-  SetParameters(const ParametersType & p) override;
+  SetParameters(const ParametersType & inputParameters) override;
 
   /* GetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
@@ -270,7 +270,7 @@ public:
   /* SetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
   void
-  SetFixedParameters(const FixedParametersType & fixedParameters) override;
+  SetFixedParameters(const FixedParametersType & inputParameters) override;
 
   /* Get total number of parameters. Sum of all sub-transforms. */
   NumberOfParametersType

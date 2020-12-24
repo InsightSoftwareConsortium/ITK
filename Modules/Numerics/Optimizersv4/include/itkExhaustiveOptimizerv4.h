@@ -158,7 +158,7 @@ protected:
   AdvanceOneStep();
 
   void
-  IncrementIndex(ParametersType & param);
+  IncrementIndex(ParametersType & newPosition);
 
 protected:
   ParametersType m_InitialPosition;

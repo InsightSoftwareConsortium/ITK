@@ -98,7 +98,7 @@ public:
   /** returns the measurement vector that is specified by the instance
    * identifier argument. */
   const MeasurementVectorType &
-  GetMeasurementVector(InstanceIdentifier id) const override;
+  GetMeasurementVector(InstanceIdentifier identifier) const override;
 
   /** returns 1 as other subclasses of ListSampleBase does */
   AbsoluteFrequencyType
