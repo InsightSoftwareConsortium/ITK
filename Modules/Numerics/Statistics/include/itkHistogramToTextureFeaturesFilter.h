@@ -248,7 +248,7 @@ public:
 
   /** convenience method to access the texture values */
   MeasurementType
-  GetFeature(TextureFeatureEnum name);
+  GetFeature(TextureFeatureEnum feature);
 
 protected:
   HistogramToTextureFeaturesFilter();

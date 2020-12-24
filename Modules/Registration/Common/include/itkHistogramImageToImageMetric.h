@@ -141,14 +141,14 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   Value,
-                        DerivativeType &                Derivative) const override;
+                        MeasureType &                   value,
+                        DerivativeType &                derivative) const override;
 
   /** Set the lower bounds of the intensities to be considered for computing
    * the histogram. This option allows to focus the computation of the Metric in
    * a particular range of intensities that correspond to features of interest. */
   void
-  SetLowerBound(const MeasurementVectorType & bound);
+  SetLowerBound(const MeasurementVectorType & bounds);
 
   /** Returns the current state of m_LowerBound. */
   const MeasurementVectorType &
@@ -158,7 +158,7 @@ public:
    * the histogram. This option allows to focus the computation of the Metric in
    * a particular range of intensities that correspond to features of interest.  */
   void
-  SetUpperBound(const MeasurementVectorType & bound);
+  SetUpperBound(const MeasurementVectorType & bounds);
 
   /** Returns the current state of m_UpperBound. */
   const MeasurementVectorType &

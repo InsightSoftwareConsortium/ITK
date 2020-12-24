@@ -69,7 +69,7 @@ public:
 
   /** Set the Mesh. */
   void
-  SetMesh(MeshType * Mesh);
+  SetMesh(MeshType * mesh);
 
   /** Get a pointer to the Mesh currently attached to the object. */
   MeshType *

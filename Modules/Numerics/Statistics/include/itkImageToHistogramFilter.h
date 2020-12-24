@@ -124,7 +124,7 @@ public:
   /** Method that facilitates the use of this filter in the internal
    * pipeline of another filter. */
   virtual void
-  GraftOutput(DataObject * output);
+  GraftOutput(DataObject * graft);
 
 
   // Change the access from protected to public to expose streaming option, a using statement can not be used due to

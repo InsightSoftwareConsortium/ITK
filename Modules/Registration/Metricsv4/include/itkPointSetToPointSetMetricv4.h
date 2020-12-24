@@ -394,7 +394,7 @@ protected:
   /** Helper method allows for code reuse while skipping the metric value
    * calculation when appropriate */
   void
-  CalculateValueAndDerivative(MeasureType & value, DerivativeType & derivative, bool calculateValue) const;
+  CalculateValueAndDerivative(MeasureType & calculatedValue, DerivativeType & derivative, bool calculateValue) const;
 
   /**
    * Warp the fixed point set into the moving domain based on the fixed transform,

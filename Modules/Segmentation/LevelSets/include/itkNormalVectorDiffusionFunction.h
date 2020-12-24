@@ -143,9 +143,7 @@ public:
 
   /** The actual update rule for the normal vectors. */
   NormalVectorType
-  ComputeSparseUpdate(NeighborhoodType &      neighborhood,
-                      void *                  globalData,
-                      const FloatOffsetType & offset) const override;
+  ComputeSparseUpdate(NeighborhoodType & it, void * globalData, const FloatOffsetType & offset) const override;
 
 protected:
   NormalVectorDiffusionFunction();

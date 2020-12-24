@@ -79,7 +79,7 @@ public:
   // If UseStreamedReading is true, then returned region is the
   // requested region parameter.
   ImageIORegion
-  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
+  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const override;
 
   // see super class for documentation
   //
@@ -120,7 +120,7 @@ protected:
    * \todo Move this methods to itk::ImageIOBase
    */
   virtual bool
-  WriteBufferAsBinary(std::ostream & is, const void * buffer, SizeType num);
+  WriteBufferAsBinary(std::ostream & os, const void * buffer, SizeType num);
 
   /** \brief Reads the set IORegion from os into buffer
    *
@@ -139,7 +139,7 @@ protected:
    * slices, but not blocks for this methods to be used.
    */
   virtual bool
-  StreamReadBufferAsBinary(std::istream & os, void * buffer);
+  StreamReadBufferAsBinary(std::istream & file, void * _buffer);
 
   /** \brief Writes the set IORegion from buffer into os
    *
@@ -153,7 +153,7 @@ protected:
    * region to written.
    */
   virtual bool
-  StreamWriteBufferAsBinary(std::ostream & os, const void * buffer);
+  StreamWriteBufferAsBinary(std::ostream & file, const void * _buffer);
 
   /** \brief Returns the size of the header in the file */
   virtual SizeType

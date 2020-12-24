@@ -77,7 +77,7 @@ public:
   WriteMeta(SpatialObjectType * soScene,
             const std::string & fileName,
             unsigned int        depth = SpatialObjectType::MaximumDepth,
-            const std::string & spatialObjectTypeName = "");
+            const std::string & soName = "");
 
   itkGetMacro(Event, MetaEvent *);
   itkSetObjectMacro(Event, MetaEvent);

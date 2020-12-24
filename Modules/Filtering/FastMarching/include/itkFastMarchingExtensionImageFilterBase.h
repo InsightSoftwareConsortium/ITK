@@ -135,7 +135,7 @@ protected:
   InitializeOutput(OutputImageType *) override;
 
   void
-  UpdateValue(OutputImageType * oImage, const NodeType & iValue) override;
+  UpdateValue(OutputImageType * oImage, const NodeType & iNode) override;
 
   /** Generate the output image meta information */
   void

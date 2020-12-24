@@ -109,12 +109,12 @@ protected:
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
   LevelSetOutputRealType
-  Value(const LevelSetInputIndexType & iP) override;
+  Value(const LevelSetInputIndexType & index) override;
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
   LevelSetOutputRealType
-  Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
+  Value(const LevelSetInputIndexType & index, const LevelSetDataType & iData) override;
 
 
   InputImagePointer m_Mask;

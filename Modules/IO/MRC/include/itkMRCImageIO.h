@@ -141,10 +141,10 @@ private:
 
   // reimplemented
   void
-  InternalReadImageInformation(std::ifstream & is);
+  InternalReadImageInformation(std::ifstream & file);
 
   virtual void
-  WriteImageInformation(const void * bufferBegin);
+  WriteImageInformation(const void * buffer);
 
   MRCHeaderObject::Pointer m_MRCHeader;
 };

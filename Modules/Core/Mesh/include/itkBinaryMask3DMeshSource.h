@@ -133,7 +133,7 @@ public:
   /** accept the input image */
   using Superclass::SetInput;
   virtual void
-  SetInput(const InputImageType * inputImage);
+  SetInput(const InputImageType * image);
 
   void
   SetRegionOfInterest(const RegionType & iRegion)
@@ -172,25 +172,25 @@ private:
   CreateMesh();
 
   void
-  XFlip(unsigned char * tp); // 7 kinds of transformation
+  XFlip(unsigned char * x); // 7 kinds of transformation
 
   void
-  YFlip(unsigned char * tp);
+  YFlip(unsigned char * x);
 
   void
-  ZFlip(unsigned char * tp);
+  ZFlip(unsigned char * x);
 
   void
-  XRotation(unsigned char * tp);
+  XRotation(unsigned char * x);
 
   void
-  YRotation(unsigned char * tp);
+  YRotation(unsigned char * x);
 
   void
-  ZRotation(unsigned char * tp);
+  ZRotation(unsigned char * x);
 
   void
-  inverse(unsigned char * tp);
+  inverse(unsigned char * x);
 
   void
   InitializeLUT(); // initialize the look up table before the mesh

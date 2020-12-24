@@ -195,7 +195,7 @@ public:
    * documentation of this method is below.  \sa
    * ProcessObject::GenerateOutputRequestedRegion(); */
   void
-  GenerateOutputRequestedRegion(DataObject * output) override;
+  GenerateOutputRequestedRegion(DataObject * refOutput) override;
 
   /** MultiResolutionPyramidImageFilter requires a larger input requested
    * region than the output requested regions to accommodate the shrinkage and

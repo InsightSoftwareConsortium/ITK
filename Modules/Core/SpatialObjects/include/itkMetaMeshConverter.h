@@ -68,7 +68,7 @@ public:
 
   /** Convert the SpatialObject to MetaObject */
   MetaObjectType *
-  SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) override;
+  SpatialObjectToMetaObject(const SpatialObjectType * so) override;
 
 protected:
   /** Create the specific MetaObject for this class */

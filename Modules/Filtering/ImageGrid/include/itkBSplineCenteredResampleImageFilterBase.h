@@ -91,15 +91,15 @@ protected:
   InitializePyramidSplineFilter(int SplineOrder) override;
 
   void
-  Reduce1DImage(const std::vector<double> & In,
-                OutputImageIterator &       Iter,
-                unsigned int                traverseSize,
+  Reduce1DImage(const std::vector<double> & in,
+                OutputImageIterator &       out,
+                unsigned int                inTraverseSize,
                 ProgressReporter &          progress) override;
 
   void
-  Expand1DImage(const std::vector<double> & In,
-                OutputImageIterator &       Iter,
-                unsigned int                traverseSize,
+  Expand1DImage(const std::vector<double> & in,
+                OutputImageIterator &       out,
+                unsigned int                inTraverseSize,
                 ProgressReporter &          progress) override;
 
 protected:

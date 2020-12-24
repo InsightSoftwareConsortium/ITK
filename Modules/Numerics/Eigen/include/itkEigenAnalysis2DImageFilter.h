@@ -81,19 +81,19 @@ public:
   /** Connect the image containing the elements [0,0]
    * of the input 2D matrix */
   void
-  SetInput1(TInputImage * image1);
+  SetInput1(TInputImage * image);
 
   /** Connect the image containing the elements [0,1]
    * of the input 2D matrix. This is the same [1,0]
    * element given that the input matrix is expected
    * to be symmetric */
   void
-  SetInput2(TInputImage * image2);
+  SetInput2(TInputImage * image);
 
   /** Connect the image containing the elements [1,1]
    * of the input 2D matrix */
   void
-  SetInput3(TInputImage * image3);
+  SetInput3(TInputImage * image);
 
   /** Get the Output image with the greatest eigenvalue */
   EigenValueImageType *

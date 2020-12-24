@@ -139,19 +139,16 @@ protected:
 
   /** Convenient method to read a buffer as ASCII text. */
   void
-  ReadBufferAsASCII(std::istream & os, void * buffer, IOComponentEnum ctype, SizeType numberOfBytesToBeRead) override;
+  ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum ctype, SizeType numComp) override;
 
   /** Convenient method to write a buffer as ASCII text. */
   void
-  WriteBufferAsASCII(std::ostream &  os,
-                     const void *    buffer,
-                     IOComponentEnum ctype,
-                     SizeType        numberOfBytesToWrite) override;
+  WriteBufferAsASCII(std::ostream & os, const void * buffer, IOComponentEnum ctype, SizeType numComp) override;
 
   /** We have a special method to read symmetric second rank tensors because
    * the VTK file format expands the symmetry and only supports 3D tensors. */
   virtual void
-  ReadSymmetricTensorBufferAsBinary(std::istream & os, void * buffer, StreamingImageIOBase::SizeType num);
+  ReadSymmetricTensorBufferAsBinary(std::istream & is, void * buffer, StreamingImageIOBase::SizeType num);
 
   /** We have a special method to write symmetric second rank tensors because
    * the VTK file format expands the symmetry and only supports 3D tensors. */

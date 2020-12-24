@@ -99,7 +99,7 @@ public:
    * the input-to-output transform that you might naively expect. */
   using Superclass::SetInput;
   virtual void
-  SetInput(const TransformInputType * transform);
+  SetInput(const TransformInputType * input);
   const TransformInputType *
   GetInput() const;
   itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
@@ -116,7 +116,7 @@ public:
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
   virtual void
-  SetOutputSpacing(const SpacePrecisionType * values);
+  SetOutputSpacing(const SpacePrecisionType * spacing);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
@@ -124,7 +124,7 @@ public:
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, OriginType);
   virtual void
-  SetOutputOrigin(const SpacePrecisionType * values);
+  SetOutputOrigin(const SpacePrecisionType * origin);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginType);

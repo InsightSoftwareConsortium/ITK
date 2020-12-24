@@ -192,7 +192,7 @@ public:
    * \sa GetValueArray
    * \sa GetWeightedValue */
   void
-  GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override;
+  GetValueAndDerivative(MeasureType & firstValue, DerivativeType & derivativeResult) const override;
 
   /** Returns an itkArray of metric values, one for each component metric. It
    *  only has meaning after a call to GetValue(), GetDerivative() or GetValueAndDerivative(). */

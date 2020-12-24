@@ -105,20 +105,20 @@ public:
   /** Get the measurement associated with the specified
    * InstanceIdentifier */
   const MeasurementVectorType &
-  GetMeasurementVector(InstanceIdentifier id) const override;
+  GetMeasurementVector(InstanceIdentifier instanceId) const override;
 
   /** Set a component a measurement to a particular value. */
   void
-  SetMeasurement(InstanceIdentifier id, unsigned int dim, const MeasurementType & value);
+  SetMeasurement(InstanceIdentifier instanceId, unsigned int dim, const MeasurementType & value);
 
   /** Replace a measurement with a different measurement */
   void
-  SetMeasurementVector(InstanceIdentifier id, const MeasurementVectorType & mv);
+  SetMeasurementVector(InstanceIdentifier instanceId, const MeasurementVectorType & mv);
 
   /** Get the frequency of a measurement. Returns 1 if the measurement
    * exist. */
   AbsoluteFrequencyType
-  GetFrequency(InstanceIdentifier id) const override;
+  GetFrequency(InstanceIdentifier instanceId) const override;
 
   /** Get the total frequency of the sample.  This is equivalent to
    * the size of the sample. */

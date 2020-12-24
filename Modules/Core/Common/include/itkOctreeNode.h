@@ -103,7 +103,7 @@ public:
    * the desired value.
    */
   void
-  SetColor(int NodeColor);
+  SetColor(int color);
 
   /**
    * Sets the color value of the specified Child for this OctreeNode

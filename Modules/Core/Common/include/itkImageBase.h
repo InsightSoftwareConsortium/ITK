@@ -711,7 +711,7 @@ public:
    * Subclasses of ImageBase are responsible for copying the pixel
    * container. */
   virtual void
-  Graft(const Self * data);
+  Graft(const Self * image);
 
   /** Update the information for this DataObject so that it can be used
    * as an output of a ProcessObject.  This method is used the pipeline

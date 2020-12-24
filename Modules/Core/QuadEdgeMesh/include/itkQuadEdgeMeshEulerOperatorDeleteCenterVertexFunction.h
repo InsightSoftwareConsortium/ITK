@@ -58,7 +58,7 @@ public:
 
   /** Evaluate at the specified input position */
   virtual OutputType
-  Evaluate(QEType * e);
+  Evaluate(QEType * g);
 
   PointIdentifier
   GetOldPointID()

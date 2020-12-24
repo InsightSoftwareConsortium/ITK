@@ -256,7 +256,7 @@ protected:
   GenerateData() override;
 
   void
-  ParallelComputeLabels(const RegionType & inputRegion);
+  ParallelComputeLabels(const RegionType & inputRegionForThread);
 
   /** RelabelComponentImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
