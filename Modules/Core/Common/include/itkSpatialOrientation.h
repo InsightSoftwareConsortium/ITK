@@ -41,8 +41,7 @@ namespace SpatialOrientation
 //  Right to Left varies fastest, then Inferior to Superior, and Posterior
 //  to
 //  Anterior varies the slowest.
-typedef enum
-{
+using CoordinateTerms = enum {
   ITK_COORDINATE_UNKNOWN = 0,
   ITK_COORDINATE_Right = 2,
   ITK_COORDINATE_Left = 3,
@@ -52,10 +51,9 @@ typedef enum
   ITK_COORDINATE_Superior = 9   // above
                                 // ITK_COORDINATE_Historical=16,
                                 // ITK_COORDINATE_Future=17
-} CoordinateTerms;
+};
 
-typedef enum
-{
+using CoordinateMajornessTerms = enum {
   // These code place values have to be far enough apart to
   // separate the CoordinateTerms above.
   // However, if we added History/Future direction in time,
@@ -69,7 +67,7 @@ typedef enum
   // major than the
   // PrimaryMajor==TertiaryMinor.
   // ITK_COORDINATE_QuaternaryMinor=24
-} CoordinateMajornessTerms;
+};
 // Adding time IN GENERAL would make these 8 x 6 = 48 triples into 16
 // x 24 = 384 4-tuples.
 // A general fourth dimension would need a unique pair of letters to
@@ -81,8 +79,7 @@ typedef enum
 // co-registered and pieced together.... PD-T2 interleaving of
 // slices is handled with choosing
 // which spectrum to load via the prototypical file name.
-typedef enum
-{
+using ValidCoordinateOrientationFlags = enum {
   ITK_COORDINATE_ORIENTATION_INVALID = ITK_COORDINATE_UNKNOWN,
   ITK_COORDINATE_ORIENTATION_RIP = (ITK_COORDINATE_Right << ITK_COORDINATE_PrimaryMinor) +
                                    (ITK_COORDINATE_Inferior << ITK_COORDINATE_SecondaryMinor) +
@@ -233,7 +230,7 @@ typedef enum
   ITK_COORDINATE_ORIENTATION_ASL = (ITK_COORDINATE_Anterior << ITK_COORDINATE_PrimaryMinor) +
                                    (ITK_COORDINATE_Superior << ITK_COORDINATE_SecondaryMinor) +
                                    (ITK_COORDINATE_Left << ITK_COORDINATE_TertiaryMinor)
-} ValidCoordinateOrientationFlags;
+};
 // ^^^
 // |||
 // ||\Sequential indexes are separated by (planes=rows*columns) memory
@@ -243,8 +240,7 @@ typedef enum
 // \Sequential indexes are adjacent memory locations (sweep out a row)
 
 #ifndef __TEMPORARILY_INCLUDED_IN_COMPILATIONS__
-typedef enum
-{
+using ValidOriginFlags = enum {
   ITK_ORIGIN_IRP = 0, /**< Denotes a zeroCorner (image origin) */
   /* is Inferior Right Posterior */
   ITK_ORIGIN_IRA = 1, /**< Denotes a zeroCorner (image origin) */
@@ -261,7 +257,7 @@ typedef enum
   /* is Superior Left Posterior */
   ITK_ORIGIN_SLA = 7 /**< Denotes a zeroCorner (image origin) */
                      /* is Superior Left Anterior */
-} ValidOriginFlags;
+};
 #endif
 } // end of namespace SpatialOrientation
 } // end namespace itk
