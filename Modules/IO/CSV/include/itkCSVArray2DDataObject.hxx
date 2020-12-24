@@ -25,12 +25,6 @@
 
 namespace itk
 {
-template <typename TData>
-CSVArray2DDataObject<TData>::CSVArray2DDataObject()
-{
-  this->m_HasRowHeaders = false;
-  this->m_HasColumnHeaders = false;
-}
 
 template <typename TData>
 typename CSVArray2DDataObject<TData>::StringVectorType

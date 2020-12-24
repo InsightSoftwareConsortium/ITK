@@ -131,9 +131,9 @@ public:
   }
 
 private:
-  RealType m_Alpha;
-  RealType m_Beta;
-  RealType m_KernelSize;
+  RealType m_Alpha{};
+  RealType m_Beta{};
+  RealType m_KernelSize{};
 
   TInputPixel m_Minimum;
   TInputPixel m_Maximum;

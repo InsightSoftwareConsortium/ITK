@@ -153,7 +153,7 @@ private:
   typename AnchorFilterType::Pointer m_AnchorFilter;
 
   // and the name of the filter
-  AlgorithmEnum m_Algorithm;
+  AlgorithmEnum m_Algorithm{ AlgorithmEnum::HISTO };
 
   bool m_SafeBorder{ true };
 }; // end of class
