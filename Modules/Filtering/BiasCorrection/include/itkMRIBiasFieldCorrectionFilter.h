@@ -112,7 +112,7 @@ public:
   /** Sets the sampling factors of the energy function in each direction.
    *   Default is 1 in each dimension */
   void
-  SetSamplingFactors(SamplingFactorType factor)
+  SetSamplingFactors(const SamplingFactorType factor)
   {
     for (unsigned int i = 0; i < SpaceDimension; i++)
     {

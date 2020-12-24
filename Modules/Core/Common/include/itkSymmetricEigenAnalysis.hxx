@@ -261,9 +261,9 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatri
 
 template <typename TMatrix, typename TVector, typename TEigenMatrix>
 void
-SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatrixAndGetTransformation(double * a,
-                                                                                                      double * d,
-                                                                                                      double * e,
+SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ReduceToTridiagonalMatrixAndGetTransformation(const double * a,
+                                                                                                      double *       d,
+                                                                                                      double *       e,
                                                                                                       double * z) const
 {
   double d__1;

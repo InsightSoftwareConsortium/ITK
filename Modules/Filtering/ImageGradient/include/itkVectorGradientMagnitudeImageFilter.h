@@ -272,7 +272,7 @@ public:
   /** A specialized solver for finding the roots of a cubic polynomial.
    *  Necessary to multi-thread the 3D case */
   static int
-  CubicSolver(double *, double *);
+  CubicSolver(const double *, double *);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

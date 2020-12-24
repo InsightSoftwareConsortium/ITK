@@ -51,7 +51,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::VoronoiSegmentatio
 
 template <typename TInputImage, typename TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetMeanPercentError(double x[6])
+VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetMeanPercentError(const double x[6])
 {
   for (unsigned int i = 0; i < 6; i++)
   {
@@ -62,7 +62,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetMeanPercentErro
 
 template <typename TInputImage, typename TOutputImage>
 void
-VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetSTDPercentError(double x[6])
+VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetSTDPercentError(const double x[6])
 {
   for (unsigned int i = 0; i < 6; i++)
   {

@@ -44,7 +44,7 @@ public:
   unsigned int m_Index;
 
   ImageVoxel() = default;
-  ImageVoxel(int * pos, double * subpos, double val, double dist, unsigned int ind)
+  ImageVoxel(const int * pos, const double * subpos, double val, double dist, unsigned int ind)
   {
     this->m_Vpos[0] = pos[0];
     this->m_Vpos[1] = pos[1];
