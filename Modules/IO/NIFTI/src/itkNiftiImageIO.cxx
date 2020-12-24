@@ -1782,7 +1782,7 @@ IsAffine(const mat44 & nifti_mat)
 void
 NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 {
-  typedef SpatialOrientationAdapter OrientAdapterType;
+  using OrientAdapterType = SpatialOrientationAdapter;
   // in the case of an Analyze75 file, use old analyze orient method.
   // but this could be a nifti file without qform and sform
   if (this->m_NiftiImage->qform_code == NIFTI_XFORM_UNKNOWN && this->m_NiftiImage->sform_code == NIFTI_XFORM_UNKNOWN)
