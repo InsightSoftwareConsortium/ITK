@@ -35,7 +35,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 int
 MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *                  regIndices,
-                                                                          long *                  regLimit,
+                                                                          const long *            regLimit,
                                                                           std::vector<long> *     indices,
                                                                           std::vector<long> *     sizes,
                                                                           OutputImageRegionType & outputRegion)
@@ -92,7 +92,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
 template <typename TInputImage, typename TOutputImage>
 int
 MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextInputRegion(long *                 regIndices,
-                                                                         long *                 regLimit,
+                                                                         const long *           regLimit,
                                                                          std::vector<long> *    indices,
                                                                          std::vector<long> *    sizes,
                                                                          InputImageRegionType & inputRegion)
@@ -181,7 +181,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::ConvertOutputIndexToInputIndex(
                                                                                 InputImageIndexType &   inputIndex,
                                                                                 OutputImageRegionType & outputRegion,
                                                                                 InputImageRegionType &  inputRegion,
-                                                                                int *                   oddRegionArray,
+                                                                                const int *             oddRegionArray,
                                                                                 double &                outDecayFactor)
 {
   unsigned int dimCtr;

@@ -153,7 +153,7 @@ public:
    * operators. The defaults a 1.0. These can be set to take the image
    * spacing into account. */
   void
-  SetScaleCoefficients(PixelRealType vals[ImageDimension]);
+  SetScaleCoefficients(const PixelRealType vals[ImageDimension]);
 
   /** Returns the current scale coefficients. */
   void
