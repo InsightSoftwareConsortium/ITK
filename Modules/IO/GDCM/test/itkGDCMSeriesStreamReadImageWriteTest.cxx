@@ -49,17 +49,13 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " DicomDirectory  outputFile ";
-    std::cerr << " spacingX spacingY spacingZ [ force-no-streaming 1|0]" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomDirectory  outputFile "
+              << " spacingX spacingY spacingZ [ force-no-streaming 1|0]" << std::endl;
     return EXIT_FAILURE;
   }
 
   using ImageType = itk::Image<unsigned short, 3>;
-  using ReaderType = itk::ImageSeriesReader<ImageType>;
-  using ImageIOType = itk::GDCMImageIO;
-  using SeriesFileNames = itk::GDCMSeriesFileNames;
-
 
   unsigned int numberOfDataPieces = 4;
 
@@ -81,10 +77,30 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
 
   bool expectedToStream = !forceNoStreaming;
 
+  using ImageIOType = itk::GDCMImageIO;
+  using SeriesFileNames = itk::GDCMSeriesFileNames;
+
   ImageIOType::Pointer     gdcmIO = ImageIOType::New();
   SeriesFileNames::Pointer filenameGenerator = SeriesFileNames::New();
-  filenameGenerator->SetInputDirectory(argv[1]);
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filenameGenerator, GDCMSeriesFileNames, ProcessObject);
+
+
+  // Test exceptions
+  const char * pInputDirectory = nullptr;
+  ITK_TRY_EXPECT_EXCEPTION(filenameGenerator->SetInputDirectory(pInputDirectory));
+
+  // Exercise warnings
+  std::string inputDirectory = "";
+  filenameGenerator->SetInputDirectory(inputDirectory);
+
+  inputDirectory = "NotADirectory";
+  filenameGenerator->SetInputDirectory(inputDirectory);
+
+  inputDirectory = argv[1];
+  filenameGenerator->SetInputDirectory(inputDirectory);
+
+  using ReaderType = itk::ImageSeriesReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & filenames = filenameGenerator->GetInputFileNames();
@@ -153,7 +169,7 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
   }
 
   std::cout << "Origin: " << reader->GetOutput()->GetOrigin() << std::endl;
-  std::cout << "direction: " << reader->GetOutput()->GetDirection() << std::endl;
+  std::cout << "Direction: " << reader->GetOutput()->GetDirection() << std::endl;
   std::cout << "Spacing: " << reader->GetOutput()->GetSpacing() << std::endl;
   std::cout << "Expected Spacing: " << expectedSpacing << std::endl;
 
@@ -178,16 +194,9 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
   writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown while writing the image" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
