@@ -145,7 +145,7 @@ protected:
   LevelSetEvolutionComputeIterationThreader() = default;
 
   void
-  ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId) override;
+  ThreadedExecution(const DomainType & imageSubDomain, const ThreadIdType threadId) override;
 };
 
 // For Whitaker sparse level set split by putting part of the level set in each

@@ -463,7 +463,7 @@ protected:
 
   /** Progress callback from libLBFGS forwards it to the specific instance */
   static int
-  UpdateProgressCallback(void *                Instance,
+  UpdateProgressCallback(void *                instance,
                          const PrecisionType * x,
                          const PrecisionType * g,
                          const PrecisionType   fx,

@@ -203,7 +203,7 @@ protected:
    * determine if one of its neighboring pixels (8-neigh in 2d, etc) is a
    * non-ObjectValue pixel. */
   bool
-  IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType & nit);
+  IsObjectPixelOnBoundary(const InputNeighborhoodIteratorType & iNIter);
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */

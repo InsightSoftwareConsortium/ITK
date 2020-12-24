@@ -104,7 +104,7 @@ protected:
    * I = identity matrix
    */
   void
-  ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
+  ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const override;
 
   /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$

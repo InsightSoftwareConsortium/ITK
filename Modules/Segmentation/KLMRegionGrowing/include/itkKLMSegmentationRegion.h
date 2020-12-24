@@ -174,7 +174,7 @@ public:
 
   /** Insert a region border into the border list at a given location. */
   void
-  InsertRegionBorder(RegionBorderVectorIterator it, KLMSegmentationBorder * pBorderCandidate);
+  InsertRegionBorder(RegionBorderVectorIterator RegionBorderVectorIt, KLMSegmentationBorder * pBorderCandidate);
 
   /** Delete a region border from the border list. */
   void

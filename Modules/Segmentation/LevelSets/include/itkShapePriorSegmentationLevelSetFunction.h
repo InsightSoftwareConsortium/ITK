@@ -119,12 +119,12 @@ public:
   /** Compute the equation value with the additional shape prior term. */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
+                void *                   gd,
                 const FloatOffsetType & = FloatOffsetType(0.0)) override;
 
   /** Compute global time step from the global data structure. */
   TimeStepType
-  ComputeGlobalTimeStep(void * globalData) const override;
+  ComputeGlobalTimeStep(void * gd) const override;
 
   /** A global data type used to store values needed to compute the time step.
    */

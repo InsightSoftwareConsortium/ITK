@@ -198,7 +198,7 @@ public:
   SetInput(const InputImageType * input) override;
 
   void
-  SetInput(unsigned int, const InputImageType * image) override;
+  SetInput(unsigned int, const InputImageType * input) override;
 
   /** ImageDimension enumeration   */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

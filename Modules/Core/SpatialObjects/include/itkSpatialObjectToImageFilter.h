@@ -80,7 +80,7 @@ public:
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
   virtual void
-  SetInput(const InputSpatialObjectType * object);
+  SetInput(const InputSpatialObjectType * input);
 
   virtual void
   SetInput(unsigned int, const InputSpatialObjectType * object);
@@ -122,7 +122,7 @@ public:
   /** Directions of the output image. The
    * direction is for oriented images. */
   virtual void
-  SetDirection(const DirectionType & direction);
+  SetDirection(const DirectionType & dir);
 
   virtual const DirectionType &
   GetDirection() const;

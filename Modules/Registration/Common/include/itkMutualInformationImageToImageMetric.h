@@ -135,7 +135,7 @@ public:
 
   /** Get the derivatives of the match measure. */
   void
-  GetDerivative(const ParametersType & parameters, DerivativeType & Derivative) const override;
+  GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override;
 
   /**  Get the value. */
   MeasureType
@@ -144,8 +144,8 @@ public:
   /**  Get the value and derivatives for single valued optimizers. */
   void
   GetValueAndDerivative(const ParametersType & parameters,
-                        MeasureType &          Value,
-                        DerivativeType &       Derivative) const override;
+                        MeasureType &          value,
+                        DerivativeType &       derivative) const override;
 
   /** Set the number of spatial samples. This is the number of image
    * samples used to calculate the joint probability distribution.

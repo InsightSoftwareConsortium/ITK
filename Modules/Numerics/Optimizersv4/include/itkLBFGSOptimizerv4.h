@@ -124,7 +124,7 @@ public:
    * the value to a small value (say 0.1).
    */
   void
-  SetLineSearchAccuracy(double tol);
+  SetLineSearchAccuracy(double f);
 
   itkGetConstMacro(LineSearchAccuracy, double);
 
@@ -133,7 +133,7 @@ public:
    * search.
    */
   void
-  SetDefaultStepLength(double stp);
+  SetDefaultStepLength(double f);
 
   itkGetConstMacro(DefaultStepLength, double);
 

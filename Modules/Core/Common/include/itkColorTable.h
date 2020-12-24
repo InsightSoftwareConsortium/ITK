@@ -89,7 +89,7 @@ public:
 
   /** Get the color stored at a given index. */
   RGBPixel<TPixel>
-  GetColor(unsigned int colorId);
+  GetColor(unsigned int c);
 
   /** Set the color at a given index. Optionally provide a name for
    * the color. If a name is not provided, the name "UserDefined" is
@@ -104,11 +104,11 @@ public:
    * returns the value.
    */
   TPixel
-  GetColorComponent(unsigned int colorId, char rgb);
+  GetColorComponent(unsigned int c, char rgb);
 
   /** Get the name of the color at a given index. */
   std::string
-  GetColorName(unsigned int colorId);
+  GetColorName(unsigned int c);
 
   /** Find the color closest to a given pixel. Uses a L2 distance
    * metric.

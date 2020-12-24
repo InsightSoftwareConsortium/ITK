@@ -148,7 +148,7 @@ public:
    * @param pass_high_threshold flag to let pass or not high boundary
    */
   void
-  SetPassBand(const bool pass_low_threshold, const bool pass_high_threshold);
+  SetPassBand(const bool passLowThreshold, const bool passHighThreshold);
 
   /**
    * Utility method equivalent to:
@@ -160,7 +160,7 @@ public:
    * @param pass_high_threshold flag to let pass or not high boundary
    */
   void
-  SetStopBand(const bool pass_low_threshold, const bool pass_high_threshold);
+  SetStopBand(const bool passLowThreshold, const bool passHighThreshold);
 
   /** If true the frequency cut-off uses the radius of the frequency vector. If false, it uses the max absolute value of
    * the frequency vector. */
@@ -192,7 +192,7 @@ protected:
 
   /* This is the box functor, which implements the filter's behavior. */
   void
-  BandPass(FrequencyIteratorType & frequency);
+  BandPass(FrequencyIteratorType & freqIt);
 
 private:
   std::function<void(const ImageRegionType &)> m_DynamicThreadedGenerateDataFunction;

@@ -176,7 +176,7 @@ public:
    * Valid indices are from 0 to LabelObject->GetSize() - 1.
    */
   IndexType
-  GetIndex(SizeValueType i) const;
+  GetIndex(SizeValueType offset) const;
 
   /** Copy the lines of another node to this one */
   template <typename TSourceLabelObject>

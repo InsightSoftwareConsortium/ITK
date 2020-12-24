@@ -89,7 +89,7 @@ public:
   /** Set/Get the input of this process object.  */
   using Superclass::SetInput;
   virtual void
-  SetInput(const HistogramType * histogram);
+  SetInput(const HistogramType * input);
 
   const HistogramType *
   GetInput();

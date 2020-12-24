@@ -133,7 +133,7 @@ public:
    * ||G|| < gtol max(1,||X||) where ||.|| denotes the Euclidean norm.
    */
   virtual void
-  SetGradientConvergenceTolerance(double gtol);
+  SetGradientConvergenceTolerance(double f);
 
   itkGetConstMacro(GradientConvergenceTolerance, double);
 

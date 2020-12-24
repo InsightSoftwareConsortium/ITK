@@ -72,7 +72,7 @@ public:
 
   /** Estimate parameter scales. */
   void
-  EstimateScales(ScalesType & scales) override;
+  EstimateScales(ScalesType & parameterScales) override;
 
   /**
    *  Estimate the scale for \f$\Delta p\f$, the step of change on parameters.

@@ -153,7 +153,7 @@ protected:
                           long *                 regLimit,
                           std::vector<long> *    indices,
                           std::vector<long> *    sizes,
-                          InputImageRegionType & outputRegion);
+                          InputImageRegionType & inputRegion);
 
   /** Given an n dimensional list of output region breakpoints in indices
    * and size (where the current region and maximum region for each dimension

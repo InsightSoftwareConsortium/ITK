@@ -133,7 +133,7 @@ protected:
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer
-  MakeOutput(DataObjectPointerArraySizeType idx) override;
+  MakeOutput(DataObjectPointerArraySizeType index) override;
 
   void
   GenerateData() override;

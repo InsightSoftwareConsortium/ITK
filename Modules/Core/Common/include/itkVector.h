@@ -196,7 +196,7 @@ public:
 
   /** Vector operator*.  Performs the inner product of two vectors.
    * this is also known as the scalar product. */
-  ValueType operator*(const Self & vec) const;
+  ValueType operator*(const Self & other) const;
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */
@@ -302,12 +302,12 @@ inline Vector<T, NVectorDimension> operator*(const T & scalar, const Vector<T, N
 /** Print content to an ostream */
 template <typename T, unsigned int NVectorDimension>
 std::ostream &
-operator<<(std::ostream & os, const Vector<T, NVectorDimension> & v);
+operator<<(std::ostream & os, const Vector<T, NVectorDimension> & vct);
 
 /** Read content from an istream */
 template <typename T, unsigned int NVectorDimension>
 std::istream &
-operator>>(std::istream & is, Vector<T, NVectorDimension> & v);
+operator>>(std::istream & is, Vector<T, NVectorDimension> & vct);
 
 ITKCommon_EXPORT Vector<double, 3>
                  CrossProduct(const Vector<double, 3> &, const Vector<double, 3> &);

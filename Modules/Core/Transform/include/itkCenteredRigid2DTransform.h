@@ -151,7 +151,7 @@ public:
    * This method creates and returns a new CenteredRigid2DTransform object
    * which is the inverse of self. */
   void
-  CloneInverseTo(Pointer & newinverse) const;
+  CloneInverseTo(Pointer & result) const;
 
   /** Get an inverse of this transform. */
   bool
@@ -165,13 +165,13 @@ public:
    * This method creates and returns a new CenteredRigid2DTransform object
    * which has the same parameters as self. */
   void
-  CloneTo(Pointer & clone) const;
+  CloneTo(Pointer & result) const;
 
 protected:
   CenteredRigid2DTransform();
   ~CenteredRigid2DTransform() override = default;
 
-  CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  CenteredRigid2DTransform(unsigned int spaceDimension, unsigned int parametersDimension);
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

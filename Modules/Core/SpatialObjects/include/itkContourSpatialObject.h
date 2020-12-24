@@ -128,7 +128,7 @@ public:
 
   /** Set the list of control points. */
   void
-  SetControlPoints(const ControlPointListType & newPoints);
+  SetControlPoints(const ControlPointListType & points);
 
   /** Set the list of control points. */
   void

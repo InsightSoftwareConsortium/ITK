@@ -114,7 +114,7 @@ public:
 
   /** Get the Jacobian matrix. */
   void
-  ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & j) const override;
 
   /** Get the jacobian with respect to position, which simply is the
    *  matrix because the transform is position-invariant.
@@ -157,14 +157,14 @@ public:
 
   using Superclass::TransformVector;
   OutputVectorType
-  TransformVector(const InputVectorType & vector) const override;
+  TransformVector(const InputVectorType & vect) const override;
 
   OutputVnlVectorType
-  TransformVector(const InputVnlVectorType & vector) const override;
+  TransformVector(const InputVnlVectorType & vect) const override;
 
   using Superclass::TransformCovariantVector;
   OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType & vector) const override;
+  TransformCovariantVector(const InputCovariantVectorType & vect) const override;
 
   /** Back transform by a scale transformation
    * This method finds the point or vector that maps to a given
@@ -174,13 +174,13 @@ public:
   BackTransform(const OutputPointType & point) const;
 
   inline InputVectorType
-  BackTransform(const OutputVectorType & vector) const;
+  BackTransform(const OutputVectorType & vect) const;
 
   inline InputVnlVectorType
-  BackTransform(const OutputVnlVectorType & vector) const;
+  BackTransform(const OutputVnlVectorType & vect) const;
 
   inline InputCovariantVectorType
-  BackTransform(const OutputCovariantVectorType & vector) const;
+  BackTransform(const OutputCovariantVectorType & vect) const;
 
   /** Find inverse of a scale transformation
    * This method creates and returns a new ScaleTransform object

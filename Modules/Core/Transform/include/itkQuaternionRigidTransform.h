@@ -136,7 +136,7 @@ public:
 
 protected:
   QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);
-  QuaternionRigidTransform(unsigned int paramDims);
+  QuaternionRigidTransform(unsigned int parametersDimension);
   QuaternionRigidTransform();
   ~QuaternionRigidTransform() override = default;
 
