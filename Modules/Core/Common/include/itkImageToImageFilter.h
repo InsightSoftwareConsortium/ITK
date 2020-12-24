@@ -139,7 +139,7 @@ public:
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
   virtual void
-  SetInput(const InputImageType * image);
+  SetInput(const InputImageType * input);
 
   virtual void
   SetInput(unsigned int, const TInputImage * image);
@@ -170,13 +170,13 @@ public:
    * an input to a filter.
    */
   virtual void
-  PushBackInput(const InputImageType * image);
+  PushBackInput(const InputImageType * input);
 
   void
   PopBackInput() override;
 
   virtual void
-  PushFrontInput(const InputImageType * image);
+  PushFrontInput(const InputImageType * input);
 
   void
   PopFrontInput() override;

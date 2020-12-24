@@ -85,10 +85,10 @@ public:
 
   /** Read in image and polyline inputs */
   void
-  SetInput1(const InputImageType * image);
+  SetInput1(const InputImageType * input);
 
   void
-  SetInput2(const PolylineType * polyline);
+  SetInput2(const PolylineType * input);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

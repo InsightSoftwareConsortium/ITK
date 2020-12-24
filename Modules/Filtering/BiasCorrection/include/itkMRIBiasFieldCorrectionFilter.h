@@ -552,7 +552,7 @@ protected:
    * the dimension of the resulting domain size will be one less than that of
    * he image region. */
   void
-  GetBiasFieldSize(InputImageRegionType region, BiasFieldType::DomainSizeType & domainSize);
+  GetBiasFieldSize(InputImageRegionType region, BiasFieldType::DomainSizeType & biasSize);
 
   /** Find overlapping regions between the slab regions and the output image's
    * requested region. And then replace the original slab regions with

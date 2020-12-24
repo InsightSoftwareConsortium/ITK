@@ -186,7 +186,7 @@ public:
   /** Get/Set the inverse displacement field. This must be supplied by the user for
    * GetInverse() to work. */
   virtual void
-  SetInverseDisplacementField(DisplacementFieldType * inverseDisplacementField);
+  SetInverseDisplacementField(DisplacementFieldType * inverseField);
   itkGetModifiableObjectMacro(InverseDisplacementField, DisplacementFieldType);
 
   /** Get/Set the interpolator.
@@ -207,7 +207,7 @@ public:
   /**  Method to transform a point. Out-of-bounds points will
    * be returned with zero displacement. */
   OutputPointType
-  TransformPoint(const InputPointType & thisPoint) const override;
+  TransformPoint(const InputPointType & inputPoint) const override;
 
   /**  Method to transform a vector. */
   using Superclass::TransformVector;
@@ -338,7 +338,7 @@ public:
    * \c j will be resized as needed.
    */
   void
-  ComputeJacobianWithRespectToPosition(const InputPointType & x, JacobianPositionType & j) const override;
+  ComputeJacobianWithRespectToPosition(const InputPointType & point, JacobianPositionType & jacobian) const override;
   using Superclass::ComputeJacobianWithRespectToPosition;
 
   /**
@@ -346,7 +346,8 @@ public:
    * \c j will be resized as needed.
    */
   void
-  ComputeInverseJacobianWithRespectToPosition(const InputPointType & x, InverseJacobianPositionType & j) const override;
+  ComputeInverseJacobianWithRespectToPosition(const InputPointType &        point,
+                                              InverseJacobianPositionType & jacobian) const override;
   using Superclass::ComputeInverseJacobianWithRespectToPosition;
 
   /**
@@ -354,7 +355,7 @@ public:
    * \c j will be resized as needed.
    */
   virtual void
-  ComputeJacobianWithRespectToPosition(const IndexType & x, JacobianPositionType & j) const;
+  ComputeJacobianWithRespectToPosition(const IndexType & index, JacobianPositionType & jacobian) const;
 
   /**
    * Compute the inverse jacobian of the forward displacement field with

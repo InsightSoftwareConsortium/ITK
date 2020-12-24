@@ -80,7 +80,7 @@ public:
 
   /** Print out the indentation. Basically output a bunch of spaces.  */
   friend ITKCommon_EXPORT std::ostream &
-                          operator<<(std::ostream & os, const Indent & o);
+                          operator<<(std::ostream & os, const Indent & ind);
 
 private:
   int m_Indent;

@@ -163,11 +163,11 @@ protected:
    *  http://en.wikipedia.org/wiki/BFGS_method .
    */
   virtual bool
-  ComputeHessianAndStepWithBFGS(IndexValueType location);
+  ComputeHessianAndStepWithBFGS(IndexValueType loc);
 
   /** Reset the Hessian to identity matrix and the Newton step to zeros. */
   virtual void
-  ResetNewtonStep(IndexValueType location);
+  ResetNewtonStep(IndexValueType loc);
 
   /**
    * Combine a gradient step with a Newton step. The Newton step will be used

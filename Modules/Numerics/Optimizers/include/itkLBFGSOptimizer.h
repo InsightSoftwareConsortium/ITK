@@ -138,7 +138,7 @@ public:
    * ||G|| < gtol max(1,||X||) where ||.|| denotes the Euclidean norm.
    */
   virtual void
-  SetGradientConvergenceTolerance(double gtol);
+  SetGradientConvergenceTolerance(double f);
 
   itkGetMacro(GradientConvergenceTolerance, double);
 
@@ -149,7 +149,7 @@ public:
    * the value to a small value (say 0.1).
    */
   virtual void
-  SetLineSearchAccuracy(double tol);
+  SetLineSearchAccuracy(double f);
 
   itkGetMacro(LineSearchAccuracy, double);
 
@@ -158,7 +158,7 @@ public:
    * search.
    */
   virtual void
-  SetDefaultStepLength(double stp);
+  SetDefaultStepLength(double f);
 
   itkGetMacro(DefaultStepLength, double);
 

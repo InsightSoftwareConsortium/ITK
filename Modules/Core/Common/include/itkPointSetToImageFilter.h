@@ -73,7 +73,7 @@ public:
   /** Set/Get the input point-set of this process object.  */
   using Superclass::SetInput;
   virtual void
-  SetInput(const InputPointSetType * pointset);
+  SetInput(const InputPointSetType * input);
 
   virtual void
   SetInput(unsigned int, const InputPointSetType * pointset);
@@ -90,10 +90,10 @@ public:
    * float. \sa GetSpacing() */
   itkSetMacro(Spacing, SpacingType);
   virtual void
-  SetSpacing(const double * spacing);
+  SetSpacing(const double * v);
 
   virtual void
-  SetSpacing(const float * spacing);
+  SetSpacing(const float * v);
 
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
@@ -113,10 +113,10 @@ public:
    * \sa GetOrigin() */
   itkSetMacro(Origin, PointType);
   virtual void
-  SetOrigin(const double * origin);
+  SetOrigin(const double * v);
 
   virtual void
-  SetOrigin(const float * origin);
+  SetOrigin(const float * v);
 
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a pointer

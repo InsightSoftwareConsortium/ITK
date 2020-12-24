@@ -75,7 +75,7 @@ public:
   using Superclass::SetInput;
 
   void
-  SetInput(const SpatialObjectType * object);
+  SetInput(const SpatialObjectType * input);
 
   void
   SetInput(const DataObjectIdentifierType & key, const SpatialObjectType * object);

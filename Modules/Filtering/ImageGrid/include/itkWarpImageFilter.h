@@ -153,7 +153,7 @@ public:
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
   virtual void
-  SetOutputSpacing(const double * values);
+  SetOutputSpacing(const double * spacing);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
@@ -161,7 +161,7 @@ public:
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, PointType);
   virtual void
-  SetOutputOrigin(const double * values);
+  SetOutputOrigin(const double * origin);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, PointType);
@@ -262,13 +262,13 @@ protected:
    * can be obtained using the GetDisplacementField() method
    */
   void
-  EvaluateDisplacementAtPhysicalPoint(const PointType & p, DisplacementType & output);
+  EvaluateDisplacementAtPhysicalPoint(const PointType & point, DisplacementType & output);
 
   /** This function should be in an interpolator but none of the ITK
    * interpolators at this point handle edge conditions properly
    */
   void
-  EvaluateDisplacementAtPhysicalPoint(const PointType &             p,
+  EvaluateDisplacementAtPhysicalPoint(const PointType &             point,
                                       const DisplacementFieldType * fieldPtr,
                                       DisplacementType &            output);
 

@@ -239,7 +239,7 @@ public:
    * If the two weight are \f$ \in [0,1] \f$ , The resulting point will alway be placed
    * inside the triangle formed by the three points given as arguments. */
   void
-  SetToBarycentricCombination(const Self & A, const Self & B, const Self & C, double weightA, double weightB);
+  SetToBarycentricCombination(const Self & A, const Self & B, const Self & C, double weightForA, double weightForB);
 
   /** Set the current point to a barycentric combination of an array of N points
    * An array of (N-1) values is expected to weight the contribution of the
@@ -302,11 +302,11 @@ public:
 
 template <typename T, unsigned int NPointDimension>
 std::ostream &
-operator<<(std::ostream & os, const Point<T, NPointDimension> & v);
+operator<<(std::ostream & os, const Point<T, NPointDimension> & vct);
 
 template <typename T, unsigned int NPointDimension>
 std::istream &
-operator>>(std::istream & is, Point<T, NPointDimension> & v);
+operator>>(std::istream & is, Point<T, NPointDimension> & vct);
 
 /**
  *\class BarycentricCombination

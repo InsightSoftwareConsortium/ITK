@@ -271,7 +271,7 @@ protected:
 
   // Compute the statistics of the pixels inside the cell.
   void
-  GetPixelIndexFromPolygon(PointTypeDeque VertList, IndexList * PixelPool);
+  GetPixelIndexFromPolygon(PointTypeDeque vertlist, IndexList * PixelPool);
 
   virtual bool
   TestHomogeneity(IndexList &)

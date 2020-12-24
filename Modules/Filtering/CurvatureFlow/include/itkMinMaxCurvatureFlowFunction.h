@@ -72,7 +72,7 @@ public:
 
   /** Set/Get the stencil radius. */
   void
-  SetStencilRadius(const RadiusValueType radius);
+  SetStencilRadius(const RadiusValueType value);
 
   const RadiusValueType &
   GetRadiusValueType() const
@@ -90,7 +90,7 @@ public:
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
   PixelType
-  ComputeUpdate(const NeighborhoodType & neighborhood,
+  ComputeUpdate(const NeighborhoodType & it,
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
@@ -119,13 +119,13 @@ private:
   /** This method computes the threshold by averaging the intensity
    *  in direction perpendicular to the image gradient. */
   PixelType
-  ComputeThreshold(const Dispatch<2> &, const NeighborhoodType & neighborhood) const;
+  ComputeThreshold(const Dispatch<2> &, const NeighborhoodType & it) const;
 
   PixelType
-  ComputeThreshold(const Dispatch<3> &, const NeighborhoodType & neighborhood) const;
+  ComputeThreshold(const Dispatch<3> &, const NeighborhoodType & it) const;
 
   PixelType
-  ComputeThreshold(const DispatchBase &, const NeighborhoodType & neighborhood) const;
+  ComputeThreshold(const DispatchBase &, const NeighborhoodType & it) const;
 };
 } // end namespace itk
 

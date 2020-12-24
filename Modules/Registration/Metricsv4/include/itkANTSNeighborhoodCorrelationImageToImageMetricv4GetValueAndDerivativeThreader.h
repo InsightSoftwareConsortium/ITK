@@ -239,7 +239,7 @@ protected:
   void
   ThreadedExecution_impl(
     IdentityHelper<ThreadedImageRegionPartitioner<TImageToImageMetric::VirtualImageDimension>> itkNotUsed(self),
-    const DomainType &                                                                         domain,
+    const DomainType &                                                                         virtualImageSubRegion,
     const ThreadIdType                                                                         threadId);
 
   /* for other default case */
@@ -292,7 +292,7 @@ protected:
                                    ScanMemType &              scanMem,
                                    const ScanParametersType & scanParameters,
                                    DerivativeType &           deriv,
-                                   MeasureType &              local_cc,
+                                   MeasureType &              localCC,
                                    const ThreadIdType         threadId) const;
 
 private:

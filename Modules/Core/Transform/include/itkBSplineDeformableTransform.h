@@ -202,7 +202,7 @@ public:
    *
    */
   void
-  SetFixedParameters(const FixedParametersType & parameters) override;
+  SetFixedParameters(const FixedParametersType & passedParameters) override;
 
   /** Parameters as SpaceDimension number of images. */
   using ImageType = typename Superclass::ImageType;

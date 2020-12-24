@@ -122,7 +122,7 @@ public:
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
   void
-  SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+  SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   /** HessianRecursiveGaussianImageFilter needs all of the input to produce an

@@ -481,7 +481,7 @@ public:
    * when multithreaded.  The actual number of work units used (may be less than
    * this value) can be obtained with \c GetNumberOfWorkUnitsUsed. */
   virtual void
-  SetMaximumNumberOfWorkUnits(const ThreadIdType workUnits);
+  SetMaximumNumberOfWorkUnits(const ThreadIdType number);
   virtual ThreadIdType
   GetMaximumNumberOfWorkUnits() const;
 

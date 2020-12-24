@@ -226,7 +226,7 @@ protected:
   /** Register object creation information with the factory. */
   void
   RegisterOverride(const char *               classOverride,
-                   const char *               overrideClassName,
+                   const char *               subclass,
                    const char *               description,
                    bool                       enableFlag,
                    CreateObjectFunctionBase * createFunction);

@@ -85,7 +85,7 @@ public:
    * a list of seed pixels for the flood fill */
   FloodFilledFunctionConditionalConstIterator(const ImageType *        imagePtr,
                                               FunctionType *           fnPtr,
-                                              std::vector<IndexType> & startIndices);
+                                              std::vector<IndexType> & startIndex);
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor

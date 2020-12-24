@@ -71,7 +71,7 @@ public:
   using LevelSetDataType = typename Superclass::LevelSetDataType;
 
   virtual void
-  SetImage(ImageType * iImage);
+  SetImage(ImageType * inputImage);
   itkGetModifiableObjectMacro(Image, ImageType);
 
   /** Returns the value of the level set function at a given location inputIndex */

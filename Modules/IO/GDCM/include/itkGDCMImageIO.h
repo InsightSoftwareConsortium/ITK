@@ -135,7 +135,7 @@ public:
 
   /** Reads the data from disk into the memory buffer provided. */
   void
-  Read(void * buffer) override;
+  Read(void * pointer) override;
 
   /** Set/Get the original component type of the image. This differs from
    * ComponentType which may change as a function of rescale slope and
@@ -202,49 +202,49 @@ public:
   GetPatientName(char * name, size_t len = 512);
 
   void
-  GetPatientID(char * id, size_t len = 512);
+  GetPatientID(char * name, size_t len = 512);
 
   void
-  GetPatientSex(char * sex, size_t len = 512);
+  GetPatientSex(char * name, size_t len = 512);
 
   void
-  GetPatientAge(char * age, size_t len = 512);
+  GetPatientAge(char * name, size_t len = 512);
 
   void
-  GetStudyID(char * id, size_t len = 512);
+  GetStudyID(char * name, size_t len = 512);
 
   void
-  GetPatientDOB(char * dob, size_t len = 512);
+  GetPatientDOB(char * name, size_t len = 512);
 
   void
-  GetStudyDescription(char * desc, size_t len = 512);
+  GetStudyDescription(char * name, size_t len = 512);
 
   void
-  GetBodyPart(char * part, size_t len = 512);
+  GetBodyPart(char * name, size_t len = 512);
 
   void
-  GetNumberOfSeriesInStudy(char * series, size_t len = 512);
+  GetNumberOfSeriesInStudy(char * name, size_t len = 512);
 
   void
-  GetNumberOfStudyRelatedSeries(char * series, size_t len = 512);
+  GetNumberOfStudyRelatedSeries(char * name, size_t len = 512);
 
   void
-  GetStudyDate(char * date, size_t len = 512);
+  GetStudyDate(char * name, size_t len = 512);
 
   void
-  GetModality(char * modality, size_t len = 512);
+  GetModality(char * name, size_t len = 512);
 
   void
-  GetManufacturer(char * manu, size_t len = 512);
+  GetManufacturer(char * name, size_t len = 512);
 
   void
-  GetInstitution(char * ins, size_t len = 512);
+  GetInstitution(char * name, size_t len = 512);
 
   void
-  GetModel(char * model, size_t len = 512);
+  GetModel(char * name, size_t len = 512);
 
   void
-  GetScanOptions(char * options, size_t len = 512);
+  GetScanOptions(char * name, size_t len = 512);
 #endif
 
   /** More general method to retrieve an arbitrary DICOM value based

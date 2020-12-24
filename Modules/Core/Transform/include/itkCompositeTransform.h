@@ -348,7 +348,7 @@ public:
   /* SetParameters only for transforms that are set to be optimized
    * See GetParameters() for parameter ordering. */
   void
-  SetParameters(const ParametersType & p) override;
+  SetParameters(const ParametersType & inputParameters) override;
 
   /* GetFixedParameters only for transforms that are set to be optimized
    * See GetParameters() for parameter ordering. */
@@ -358,7 +358,7 @@ public:
   /* SetFixedParameters only for transforms that are set to be optimized.
    * See GetParameters() for parameter ordering. */
   void
-  SetFixedParameters(const FixedParametersType & fixedParameters) override;
+  SetFixedParameters(const FixedParametersType & inputParameters) override;
 
   /* Get total number of parameters for transforms that are set to be
    * optimized */
@@ -391,7 +391,7 @@ public:
    * transform using Jacobian rule. See comments in the implementation.
    */
   void
-  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & j) const override;
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & outJacobian) const override;
 
   /**
    * Expanded interface to Compute the Jacobian with respect to the parameters for the composite

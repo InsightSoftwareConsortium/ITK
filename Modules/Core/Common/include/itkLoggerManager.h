@@ -105,7 +105,7 @@ protected:
 
   /** Print contents of a LoggerManager */
   void
-  PrintSelf(std::ostream & s, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   using ContainerType = std::map<NameType, LoggerPointer>;

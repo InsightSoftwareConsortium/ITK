@@ -371,7 +371,7 @@ public:
 
   /** Add a polygonal face to the Mesh, suppose QE layer ready */
   virtual void
-  AddFace(QEPrimal * e);
+  AddFace(QEPrimal * entry);
 
   /** Add a polygonal face to the Mesh. The list of points
    * is expected to be ordered counter-clock wise. The inside
@@ -401,7 +401,7 @@ public:
   DeleteEdge(QEPrimal * e);
 
   virtual void
-  LightWeightDeleteEdge(EdgeCellType * e);
+  LightWeightDeleteEdge(EdgeCellType * edgeCell);
 
   virtual void
   LightWeightDeleteEdge(QEPrimal * e);

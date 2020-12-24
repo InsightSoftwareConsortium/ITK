@@ -67,7 +67,7 @@ public:
    * WARNING: If the size is set smaller than the current buffer size, the tail
    * of the buffer will be chopped off */
   void
-  SetNumberOfBuffers(SizeValueType sz);
+  SetNumberOfBuffers(SizeValueType n);
 
   /** Get the buffer size */
   SizeValueType

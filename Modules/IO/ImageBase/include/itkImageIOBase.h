@@ -215,7 +215,7 @@ public:
   /** Return the directions to be assigned by default to recipient
    *  images whose dimension is smaller than the image dimension in file.  */
   virtual std::vector<double>
-  GetDefaultDirection(unsigned int i) const;
+  GetDefaultDirection(unsigned int k) const;
 
   /** Specify the region of the image data to either read or
    * write. The IORegion specifies the part of the image to read or
@@ -715,7 +715,7 @@ protected:
    * is converted to uppercase for case insensitive comparisons.
    **/
   virtual void
-  InternalSetCompressor(const std::string & COMPRESSOR);
+  InternalSetCompressor(const std::string & _compressor);
 
   /** Should we use streaming for reading */
   bool m_UseStreamedReading;
@@ -828,15 +828,15 @@ protected:
 
   /** Convenient method to write a buffer as ASCII text. */
   virtual void
-  WriteBufferAsASCII(std::ostream & os, const void * buffer, IOComponentEnum ctype, SizeType numberOfBytesToWrite);
+  WriteBufferAsASCII(std::ostream & os, const void * buffer, IOComponentEnum ctype, SizeType numComp);
 
   /** Convenient method to read a buffer as ASCII text. */
   virtual void
-  ReadBufferAsASCII(std::istream & os, void * buffer, IOComponentEnum ctype, SizeType numberOfBytesToBeRead);
+  ReadBufferAsASCII(std::istream & is, void * buffer, IOComponentEnum ctype, SizeType numComp);
 
   /** Convenient method to read a buffer as binary. Return true on success. */
   bool
-  ReadBufferAsBinary(std::istream & os, void * buffer, SizeType numberOfBytesToBeRead);
+  ReadBufferAsBinary(std::istream & is, void * buffer, SizeType num);
 
   /** Insert an extension to the list of supported extensions for reading. */
   void
@@ -867,7 +867,7 @@ protected:
 
 private:
   bool
-  HasSupportedExtension(const char *, const ArrayOfExtensionsType &, bool tolower = true);
+  HasSupportedExtension(const char *, const ArrayOfExtensionsType &, bool ignoreCase = true);
 
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;

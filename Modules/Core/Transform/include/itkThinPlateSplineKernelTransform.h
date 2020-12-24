@@ -89,12 +89,12 @@ protected:
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix. */
   void
-  ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
+  ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const override;
 
   /** Compute the contribution of the landmarks weighted by the kernel function
       to the global deformation of the space  */
   void
-  ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const override;
+  ComputeDeformationContribution(const InputPointType & thisPoint, OutputPointType & result) const override;
 };
 } // namespace itk
 
