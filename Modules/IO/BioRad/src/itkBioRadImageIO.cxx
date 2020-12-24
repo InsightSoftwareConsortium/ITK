@@ -68,15 +68,13 @@ struct bioradheader
   unsigned char reserved[6];   // 70  6    NOT USED (old ver.=real lens mag.)
 };
 
-typedef enum
-{
+using biorad_notestatus = enum {
   NOTE_STATUS_ALL = 0x0100,
   NOTE_STATUS_DISPLAY = 0x0200,
   NOTE_STATUS_POSITION = 0x0400
-} biorad_notestatus;
+};
 
-typedef enum
-{
+using biorad_notetype = enum {
   NOTE_TYPE_LIVE = 1,       // info about live collection
   NOTE_TYPE_FILE1 = 2,      // note from image #1
   NOTE_TYPE_NUMBER = 3,     // number in multiple image file
@@ -92,7 +90,7 @@ typedef enum
   NOTE_TYPE_STRUCTURE = 21, // again internal variable, as a
                             // structure.
   NOTE_TYPE_4D_SERIES = 22  // 4D acquisition information
-} biorad_notetype;
+};
 
 struct bioradnote
 {

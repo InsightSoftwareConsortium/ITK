@@ -58,14 +58,7 @@ public:
   using DelayType = unsigned int;
 
   /** Definition of types of operations for ThreadLogger. */
-  typedef enum
-  {
-    SET_PRIORITY_LEVEL,
-    SET_LEVEL_FOR_FLUSHING,
-    ADD_LOG_OUTPUT,
-    WRITE,
-    FLUSH
-  } OperationType;
+  using OperationType = enum { SET_PRIORITY_LEVEL, SET_LEVEL_FOR_FLUSHING, ADD_LOG_OUTPUT, WRITE, FLUSH };
 
   /** Set the priority level for the current logger. Only messages that have
    * priorities equal or greater than the one set here will be posted to the
