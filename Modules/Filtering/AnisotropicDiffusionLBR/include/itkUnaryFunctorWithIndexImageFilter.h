@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutputImage, typename TFunctor>
 class UnaryFunctorWithIndexImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnaryFunctorWithIndexImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(UnaryFunctorWithIndexImageFilter);
 
   using Self = UnaryFunctorWithIndexImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;

@@ -48,7 +48,7 @@ template <typename TImage, typename TScalar = typename NumericTraits<typename TI
 class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter<TImage, TImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionLBRImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(AnisotropicDiffusionLBRImageFilter);
 
   using Self = AnisotropicDiffusionLBRImageFilter;
   using Superclass = ImageToImageFilter<TImage, TImage>;

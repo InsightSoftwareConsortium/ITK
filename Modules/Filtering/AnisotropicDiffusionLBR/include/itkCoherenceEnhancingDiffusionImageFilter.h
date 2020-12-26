@@ -65,7 +65,7 @@ template <typename TImage, typename TScalar = typename NumericTraits<typename TI
 class CoherenceEnhancingDiffusionImageFilter : public AnisotropicDiffusionLBRImageFilter<TImage, TScalar>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(CoherenceEnhancingDiffusionImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(CoherenceEnhancingDiffusionImageFilter);
 
   using Self = CoherenceEnhancingDiffusionImageFilter;
   using Superclass = AnisotropicDiffusionLBRImageFilter<TImage, TScalar>;

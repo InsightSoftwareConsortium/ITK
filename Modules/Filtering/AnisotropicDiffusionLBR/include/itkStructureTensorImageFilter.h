@@ -53,7 +53,7 @@ template <typename TImage,
 class StructureTensorImageFilter : public ImageToImageFilter<TImage, TTensorImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StructureTensorImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(StructureTensorImageFilter);
 
   using Self = StructureTensorImageFilter;
   using Superclass = ImageToImageFilter<TImage, TImage>;
