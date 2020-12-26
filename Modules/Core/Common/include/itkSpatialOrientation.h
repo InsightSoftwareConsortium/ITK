@@ -234,35 +234,6 @@ typedef enum
                                    (ITK_COORDINATE_Superior << ITK_COORDINATE_SecondaryMinor) +
                                    (ITK_COORDINATE_Left << ITK_COORDINATE_TertiaryMinor)
 } ValidCoordinateOrientationFlags;
-// ^^^
-// |||
-// ||\Sequential indexes are separated by (planes=rows*columns) memory
-// locations
-// |\Sequential indexes are separated by rows memory locations (sweep out
-// a plane)
-// \Sequential indexes are adjacent memory locations (sweep out a row)
-
-#ifndef __TEMPORARILY_INCLUDED_IN_COMPILATIONS__
-typedef enum
-{
-  ITK_ORIGIN_IRP = 0, /**< Denotes a zeroCorner (image origin) */
-  /* is Inferior Right Posterior */
-  ITK_ORIGIN_IRA = 1, /**< Denotes a zeroCorner (image origin) */
-  /* is Inferior Right Anterior */
-  ITK_ORIGIN_ILP = 2, /**< Denotes a zeroCorner (image origin) */
-  /* is Inferior Left Posterior */
-  ITK_ORIGIN_ILA = 3, /**< Denotes a zeroCorner (image origin) */
-  /* is Inferior Left Anterior */
-  ITK_ORIGIN_SRP = 4, /**< Denotes a zeroCorner (image origin) */
-  /* is Superior Right Posterior */
-  ITK_ORIGIN_SRA = 5, /**< Denotes a zeroCorner (image origin) */
-  /* is Superior Right Anterior */
-  ITK_ORIGIN_SLP = 6, /**< Denotes a zeroCorner (image origin) */
-  /* is Superior Left Posterior */
-  ITK_ORIGIN_SLA = 7 /**< Denotes a zeroCorner (image origin) */
-                     /* is Superior Left Anterior */
-} ValidOriginFlags;
-#endif
 } // end of namespace SpatialOrientation
 } // end namespace itk
 
