@@ -13,7 +13,7 @@ echo "-------------------------------------------------------"
 echo This script will update source code for the double-conversion
 echo library from http://code.google.com
 echo "-------------------------------------------------------"
-if [ ! -f Modules/ThirdParty/DoubleConversion/src/README-ITK.txt ]
+if [ ! -f Modules/ThirdParty/DoubleConversion/src/README.md ]
 then
     echo The current working directory $(pwd) is not the top level
     echo of the ITK source code tree. Please change to the
@@ -26,7 +26,7 @@ fi
 # next update...
 #
 # This merge done May 31, 2017
-git branch DoubleConversion-upstream a1b6d065083d00c8
+git branch DoubleConversion-upstream 0d3733a4168dd739f45cef8a55718f8b02ee3073
 
 #
 # Make a temp directory to handle the import of the upstream source
