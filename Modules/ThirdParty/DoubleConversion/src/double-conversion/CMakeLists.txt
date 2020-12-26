@@ -22,28 +22,32 @@ configure_file(double-conversion-configure.h.in double-conversion-configure.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 set(headers
+  bignum-dtoa.h
   bignum.h
   cached-powers.h
   diy-fp.h
   double-conversion.h
+  double-to-string.h
   fast-dtoa.h
   fixed-dtoa.h
   ieee.h
+  string-to-double.h
   strtod.h
   utils.h
   ${CMAKE_CURRENT_BINARY_DIR}/double-conversion-configure.h
-  )
+)
+
 
 add_library(itkdouble-conversion
-bignum.cc
-bignum-dtoa.cc
-cached-powers.cc
-diy-fp.cc
-double-conversion.cc
-fast-dtoa.cc
-fixed-dtoa.cc
-strtod.cc
-${headers}
+  bignum.cc
+  bignum-dtoa.cc
+  cached-powers.cc
+  double-to-string.cc
+  fast-dtoa.cc
+  fixed-dtoa.cc
+  string-to-double.cc
+  strtod.cc
+  ${headers}
 )
 
 if(ITK_LIBRARY_PROPERTIES)
