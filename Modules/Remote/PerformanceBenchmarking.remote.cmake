@@ -58,5 +58,5 @@ For more information, see::
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPerformanceBenchmarking.git
-  GIT_TAG 322b59ee3b074fabc8d9816bac3a0e6e2f91cc17
+  GIT_TAG 3d127e159ed79310c68c694f24b6d677b526af7d
   )
