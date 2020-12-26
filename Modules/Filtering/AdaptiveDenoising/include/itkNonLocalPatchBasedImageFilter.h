@@ -62,7 +62,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT NonLocalPatchBasedImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(NonLocalPatchBasedImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(NonLocalPatchBasedImageFilter);
 
   /** Standard class typedefs. */
   using Self = NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>;
