@@ -85,8 +85,6 @@ struct GEImageHeader
   short int imageYsize;
   float     imageXres;
   float     imageYres;
-  // itk::IOCommon::ValidAnalyzeOrientationFlags imagePlane;
-  // itk::IOCommon::ValidOriginFlags origin;
   itk::SpatialOrientation::ValidCoordinateOrientationFlags coordinateOrientation;
   short int                                                numberOfSlices;
   short int                                                offset;
