@@ -149,7 +149,7 @@ itkAdaptiveNonLocalMeansDenoisingImageFilterTest(int argc, char * argv[])
 
   auto similarityMetric = static_cast<DenoiserType::SimilarityMetricEnum>(std::atoi(argv[3]));
   filter->SetSimilarityMetric(similarityMetric);
-  ITK_TEST_SET_GET_VALUE(similarityMetric, filter->GetSimilarityMetric())
+  ITK_TEST_SET_GET_VALUE(similarityMetric, filter->GetSimilarityMetric());
 
   using CommandType = CommandProgressUpdate<DenoiserType>;
   CommandType::Pointer observer = CommandType::New();
