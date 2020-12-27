@@ -82,7 +82,7 @@ protected:
   ConjugateGradientOptimizer();
   ~ConjugateGradientOptimizer() override;
 
-  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
+  using Superclass::CostFunctionAdaptorType;
 
 private:
   /**  The vnl optimization method for conjugate gradient. */

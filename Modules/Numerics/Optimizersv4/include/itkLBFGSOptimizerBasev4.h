@@ -87,15 +87,15 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LBFGSOptimizerBasev4, SingleValuedNonLinearVnlOptimizerv4);
 
-  using MetricType = Superclass::MetricType;
-  using ParametersType = Superclass::ParametersType;
-  using ScalesType = Superclass::ScalesType;
+  using Superclass::MetricType;
+  using Superclass::ParametersType;
+  using Superclass::ScalesType;
 
   /** Stop condition return string type */
-  using StopConditionReturnStringType = Superclass::StopConditionReturnStringType;
+  using Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  using StopConditionDescriptionType = Superclass::StopConditionDescriptionType;
+  using Superclass::StopConditionDescriptionType;
 
   /** The vnl optimizer */
   using InternalOptimizerType = LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>;
@@ -147,7 +147,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
+  using Superclass::CostFunctionAdaptorType;
 
   bool m_OptimizerInitialized{ false };
 

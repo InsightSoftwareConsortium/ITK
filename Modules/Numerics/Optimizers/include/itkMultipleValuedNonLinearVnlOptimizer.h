@@ -50,7 +50,7 @@ public:
 
   /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
 
   /** Set the cost Function. This method has to be overloaded
    *  by derived classes because the CostFunctionAdaptor requires

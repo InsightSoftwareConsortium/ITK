@@ -90,7 +90,7 @@ public:
   using OrientationType = SpatialOrientation::ValidCoordinateOrientationFlags;
 
   /** type alias for direction cosines */
-  using DirectionType = Superclass::DirectionType;
+  using Superclass::DirectionType;
 
   /** Constructor */
   SpatialOrientationAdapter() = default;

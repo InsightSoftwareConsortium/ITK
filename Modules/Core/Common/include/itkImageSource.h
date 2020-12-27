@@ -80,8 +80,8 @@ public:
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
 
-  using DataObjectIdentifierType = Superclass::DataObjectIdentifierType;
-  using DataObjectPointerArraySizeType = Superclass::DataObjectPointerArraySizeType;
+  using Superclass::DataObjectIdentifierType;
+  using Superclass::DataObjectPointerArraySizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSource, ProcessObject);

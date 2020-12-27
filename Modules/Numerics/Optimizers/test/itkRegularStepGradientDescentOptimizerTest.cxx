@@ -50,9 +50,9 @@ public:
     SpaceDimension = 2
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
 
   RSGCostFunction() = default;

@@ -55,16 +55,16 @@ public:
    * iteration */
   using CommandType = ReceptorMemberCommand<Self>;
 
-  using MetricType = Superclass::MetricType;
-  using DerivativeType = Superclass::DerivativeType;
-  using ParametersType = Superclass::ParametersType;
-  using ScalesType = Superclass::ScalesType;
+  using Superclass::MetricType;
+  using Superclass::DerivativeType;
+  using Superclass::ParametersType;
+  using Superclass::ScalesType;
 
   /** Stop condition return string type */
-  using StopConditionReturnStringType = Superclass::StopConditionReturnStringType;
+  using Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  using StopConditionDescriptionType = Superclass::StopConditionDescriptionType;
+  using Superclass::StopConditionDescriptionType;
 
   void
   StartOptimization(bool doOnlyInitialization = false) override;

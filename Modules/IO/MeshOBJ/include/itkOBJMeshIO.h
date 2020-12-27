@@ -44,7 +44,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Pointer = SmartPointer<Self>;
 
-  using SizeValueType = Superclass::SizeValueType;
+  using Superclass::SizeValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

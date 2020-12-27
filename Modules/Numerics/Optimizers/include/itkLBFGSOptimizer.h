@@ -176,7 +176,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
+  using Superclass::CostFunctionAdaptorType;
 
 private:
   bool                       m_OptimizerInitialized;

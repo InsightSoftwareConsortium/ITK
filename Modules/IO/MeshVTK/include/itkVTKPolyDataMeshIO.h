@@ -49,7 +49,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using SizeValueType = Superclass::SizeValueType;
+  using Superclass::SizeValueType;
 
   using StringType = std::string;
   using StringVectorType = std::vector<StringType>;

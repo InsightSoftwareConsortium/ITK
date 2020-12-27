@@ -92,7 +92,7 @@ protected:
   LevenbergMarquardtOptimizer();
   ~LevenbergMarquardtOptimizer() override;
 
-  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
+  using Superclass::CostFunctionAdaptorType;
 
 private:
   bool                    m_OptimizerInitialized;

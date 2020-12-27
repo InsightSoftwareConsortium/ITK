@@ -123,7 +123,7 @@ public:
   using RegionBorderVectorConstIterator = RegionBorderVectorType::const_iterator;
 
   /** type definition for the region label type. */
-  using RegionLabelType = Superclass::RegionLabelType;
+  using Superclass::RegionLabelType;
 
   /** Get a head pointer to the vector container storing the borders
    * associated with a region. */

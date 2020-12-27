@@ -68,7 +68,7 @@ public:
   using OutputMeshType = TOutputMesh;
   using OutputMeshPointer = typename OutputMeshType::Pointer;
 
-  using DataObjectIdentifierType = Superclass::DataObjectIdentifierType;
+  using Superclass::DataObjectIdentifierType;
 
   /** Get the mesh output of this process object.  */
   OutputMeshType *

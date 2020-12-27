@@ -94,9 +94,9 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using MetricType = Superclass::MetricType;
-  using ParametersType = Superclass::ParametersType;
-  using ScalesType = Superclass::ScalesType;
+  using Superclass::MetricType;
+  using Superclass::ParametersType;
+  using Superclass::ScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

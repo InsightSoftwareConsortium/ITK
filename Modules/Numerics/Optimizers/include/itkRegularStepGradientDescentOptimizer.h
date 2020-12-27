@@ -48,7 +48,7 @@ public:
   itkTypeMacro(RegularStepGradientDescentOptimizer, RegularStepGradientDescentBaseOptimizer);
 
   /** Cost function type alias. */
-  using CostFunctionType = Superclass::CostFunctionType;
+  using Superclass::CostFunctionType;
   using CostFunctionPointer = CostFunctionType::Pointer;
 
 protected:

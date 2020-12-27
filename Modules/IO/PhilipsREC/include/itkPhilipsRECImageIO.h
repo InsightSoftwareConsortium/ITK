@@ -84,7 +84,7 @@ public:
    * 4 = Special/Processed. */
   using ImageTypesType = vnl_vector_fixed<int, 8>;
   using ScanningSequencesType = vnl_vector_fixed<int, 8>;
-  using IndexValueType = Superclass::IndexValueType;
+  using Superclass::IndexValueType;
   using SliceIndexType = std::vector<IndexValueType>;
   using ImageTypeRescaleValuesType = vnl_vector_fixed<double, 3>;
 

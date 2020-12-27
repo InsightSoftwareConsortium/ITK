@@ -43,9 +43,9 @@ itkQuadrilateralCellTest(int, char *[])
   class QuadrilateralHelper : public QuadrilateralCellType
   {
     using Superclass = QuadrilateralCellType;
-    using CoordRepType = Superclass::CoordRepType;
-    using PointsContainer = Superclass::PointsContainer;
-    using InterpolationWeightType = Superclass::InterpolationWeightType;
+    using Superclass::CoordRepType;
+    using Superclass::PointsContainer;
+    using Superclass::InterpolationWeightType;
 
   public:
     bool

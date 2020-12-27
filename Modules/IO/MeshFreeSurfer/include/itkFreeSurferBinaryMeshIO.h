@@ -46,8 +46,8 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Pointer = SmartPointer<Self>;
 
-  using SizeValueType = Superclass::SizeValueType;
-  using StreamOffsetType = Superclass::StreamOffsetType;
+  using Superclass::SizeValueType;
+  using Superclass::StreamOffsetType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

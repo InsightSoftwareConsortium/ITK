@@ -199,7 +199,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
+  using Superclass::CostFunctionAdaptorType;
 
 private:
   // give the helper access to member variables, to update iteration

@@ -89,13 +89,13 @@ public:
   using TransformJacobianType = typename TransformType::JacobianType;
 
   /**  Type of the measure. */
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::MeasureType;
 
   /**  Type of the derivative. */
-  using DerivativeType = Superclass::DerivativeType;
+  using Superclass::DerivativeType;
 
   /**  Type of the parameters. */
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
 
   /** Get/Set the Fixed Pointset.  */
   itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);

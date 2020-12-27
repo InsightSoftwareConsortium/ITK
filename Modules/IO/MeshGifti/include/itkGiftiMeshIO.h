@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Pointer = SmartPointer<Self>;
 
-  using SizeValueType = Superclass::SizeValueType;
+  using Superclass::SizeValueType;
   using DirectionType = Matrix<double, 4, 4>;
   using RGBAPixelType = RGBAPixel<float>;
   using LabelColorContainer = MapContainer<int, RGBAPixelType>;

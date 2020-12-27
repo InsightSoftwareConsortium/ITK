@@ -68,7 +68,7 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
 
   /** Advance one step following the gradient direction. */
   void

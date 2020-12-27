@@ -50,10 +50,10 @@ public:
     SpaceDimension = 2
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using ParametersValueType = Superclass::ParametersValueType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::ParametersValueType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   ConjugateGradientLineSearchOptimizerv4TestMetric()
   {

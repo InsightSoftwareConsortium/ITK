@@ -80,10 +80,10 @@ public:
   using ParametersType = typename Superclass::ParametersType;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
-  using DerivativeType = Superclass::DerivativeType;
+  using Superclass::DerivativeType;
 
   /** The cost value type. */
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::MeasureType;
 
   static constexpr unsigned int SpaceDimension = 3;
 

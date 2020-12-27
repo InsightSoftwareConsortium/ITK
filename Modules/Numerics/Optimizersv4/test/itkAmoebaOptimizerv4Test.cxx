@@ -59,9 +59,9 @@ public:
     SpaceDimension = 2
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
@@ -171,9 +171,9 @@ public:
     SpaceDimension = 1
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
