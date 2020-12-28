@@ -49,18 +49,19 @@ public:
   using ConstPointer = itk::SmartPointer<const Self>;
 
   /** New macro for creation of through a Smart Pointer. */
-  itkNewMacro(Self)
+  itkNewMacro(Self);
 
-    enum class TestVariation : unsigned int {
-      UOrigin_USpacing_UTransform = 0,
-      UOrigin_DSpacing_UTransform,
-      UOrigin_USpacing_DTransform,
-      UOrigin_DSpacing_DTransform,
-      DOrigin_USpacing_UTransform,
-      DOrigin_DSpacing_UTransform,
-      DOrigin_USpacing_DTransform,
-      DOrigin_DSpacing_DTransform,
-    };
+  enum class TestVariation : unsigned int
+  {
+    UOrigin_USpacing_UTransform = 0,
+    UOrigin_DSpacing_UTransform,
+    UOrigin_USpacing_DTransform,
+    UOrigin_DSpacing_DTransform,
+    DOrigin_USpacing_UTransform,
+    DOrigin_DSpacing_UTransform,
+    DOrigin_USpacing_DTransform,
+    DOrigin_DSpacing_DTransform,
+  };
 
   /* -----------------------------------------------------------------------------------------------
    * This method tests stitching images with different combinations of origins, spacings, and

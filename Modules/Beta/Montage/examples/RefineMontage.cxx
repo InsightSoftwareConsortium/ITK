@@ -104,7 +104,7 @@ mainHelper(std::string inputPath, std::string inFile, std::string outFile)
   {
     itkGenericExceptionMacro("Tile configuration has dimension " << Dimension << ", but image\n"
                                                                  << firstFilename << "\nhas dimension "
-                                                                 << numDimensions)
+                                                                 << numDimensions);
   }
 
   const itk::IOComponentEnum componentType = imageIO->GetComponentType();
@@ -122,7 +122,7 @@ mainHelper(std::string inputPath, std::string inFile, std::string outFile)
     default: // instantiating too many types leads to long compilation time and big executable
       itkGenericExceptionMacro(
         "Only unsigned char, unsigned short and short are supported as pixel component types! Trying to montage "
-        << itk::ImageIOBase::GetComponentTypeAsString(componentType))
+        << itk::ImageIOBase::GetComponentTypeAsString(componentType));
   }
 
   actualTiles.Write(outFile);
