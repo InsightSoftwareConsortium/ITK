@@ -197,7 +197,7 @@ DICOMOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
         break;
       }
       default:
-        itkGenericExceptionMacro("Unexpected Axis")
+        itkGenericExceptionMacro("Unexpected Axis");
     }
   }
 
