@@ -40,8 +40,8 @@ namespace itk
  * repositioned to DestinationIndex, then the output will just be
  * a copy of the input.
  *
- * This filter supports running "InPlace" to efficiently reuses the destination image buffer for the output, removing the
- * need to copy the destination pixels to the output.
+ * This filter supports running "InPlace" to efficiently reuses the destination image buffer for the output, removing
+ * the need to copy the destination pixels to the output.
  *
  * When the source image is a lower dimension than the destination image then the DestinationSkipAxes parameter
  * specifies which axes in the destination image are set to 1 when copying the region or filling with a constant.

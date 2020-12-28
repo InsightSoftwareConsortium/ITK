@@ -62,8 +62,7 @@ namespace itk
  * \ingroup SimpleITKFilters
  */
 template <typename TInputImage>
-class ITK_TEMPLATE_EXPORT DICOMOrientImageFilter
-  : public ImageToImageFilter<TInputImage, TInputImage>
+class ITK_TEMPLATE_EXPORT DICOMOrientImageFilter : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(DICOMOrientImageFilter);
@@ -140,7 +139,7 @@ public:
   void
   GenerateOutputInformation() override;
 
-  static_assert(ImageDimension == 3, "Only 3 dimensional images are support!" );
+  static_assert(ImageDimension == 3, "Only 3 dimensional images are support!");
 
 protected:
   DICOMOrientImageFilter();
@@ -154,7 +153,7 @@ protected:
 
   /*** Member functions used by GenerateData: */
   void
-  DeterminePermutationsAndFlips(DICOMOrientation desired,  DICOMOrientation given);
+  DeterminePermutationsAndFlips(DICOMOrientation desired, DICOMOrientation given);
 
   /** Returns true if a permute is required. Returns false otherwise. */
   bool

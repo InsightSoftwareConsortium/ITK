@@ -20,25 +20,29 @@
 
 #include "itkMaskedAssignImageFilter.h"
 
-namespace itk {
-    template<typename TInputImage, typename TMaskImage, typename TOutputImage>
-    MaskedAssignImageFilter<TInputImage, TMaskImage, TOutputImage>::MaskedAssignImageFilter() {
-        this->SetPrimaryInputName("InputImage");
-        this->AddRequiredInputName("MaskImage", 1);
-        this->AddRequiredInputName("AssignImage", 2);
+namespace itk
+{
+template <typename TInputImage, typename TMaskImage, typename TOutputImage>
+MaskedAssignImageFilter<TInputImage, TMaskImage, TOutputImage>::MaskedAssignImageFilter()
+{
+  this->SetPrimaryInputName("InputImage");
+  this->AddRequiredInputName("MaskImage", 1);
+  this->AddRequiredInputName("AssignImage", 2);
 
-        auto func = [](const typename InputImageType::PixelType &input,
-                       const typename MaskImageType::PixelType &mask,
-                       const typename AssignImageType::PixelType &assign) ->
-                OutputPixelType {
-            if (mask != NumericTraits<typename MaskImageType::PixelType>::Zero) {
-                return assign;
-            } else {
-                return static_cast<OutputPixelType>(input);
-            }
-        };
-        this->SetFunctor(func);
+  auto func = [](const typename InputImageType::PixelType &  input,
+                 const typename MaskImageType::PixelType &   mask,
+                 const typename AssignImageType::PixelType & assign) -> OutputPixelType {
+    if (mask != NumericTraits<typename MaskImageType::PixelType>::Zero)
+    {
+      return assign;
     }
+    else
+    {
+      return static_cast<OutputPixelType>(input);
+    }
+  };
+  this->SetFunctor(func);
+}
 
 } // end namespace itk
 

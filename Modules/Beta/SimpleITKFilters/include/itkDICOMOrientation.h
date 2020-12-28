@@ -216,7 +216,7 @@ public:
 
 
   friend SimpleITKFilters_EXPORT std::ostream &
-  operator<<(std::ostream & out, OrientationEnum value);
+                                 operator<<(std::ostream & out, OrientationEnum value);
 
 
 private:

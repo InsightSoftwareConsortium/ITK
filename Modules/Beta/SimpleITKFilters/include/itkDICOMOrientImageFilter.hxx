@@ -29,7 +29,7 @@ namespace itk
 
 template <typename TInputImage>
 DICOMOrientImageFilter<TInputImage>::DICOMOrientImageFilter()
-  : m_FlipAxes{false}
+  : m_FlipAxes{ false }
 {
   for (unsigned int dimension = 0; dimension < ImageDimension; ++dimension)
   {
@@ -159,7 +159,7 @@ DICOMOrientImageFilter<TInputImage>::SetDesiredCoordinateOrientation(const std::
 {
   DICOMOrientation o(desired);
 
-  if ( OrientationEnum(o) == OrientationEnum::INVALID)
+  if (OrientationEnum(o) == OrientationEnum::INVALID)
   {
     itkWarningMacro("Invalid desired coordinate direction string: \"" << desired << "\"!");
   }
@@ -301,7 +301,7 @@ DICOMOrientImageFilter<TInputImage>::VerifyPreconditions() ITKv5_CONST
 
   if (this->m_DesiredCoordinateOrientation == OrientationEnum::INVALID)
   {
-    itkExceptionMacro(<<"DesiredCoordinateOrientation is 'INVALID'.")
+    itkExceptionMacro(<< "DesiredCoordinateOrientation is 'INVALID'.");
   }
 }
 

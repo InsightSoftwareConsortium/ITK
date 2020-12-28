@@ -56,47 +56,55 @@ namespace itk
  * \ingroup SimpleITKFilters
  *
  */
-    template <typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage>
-    class MaskedAssignImageFilter : public TernaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage, TOutputImage>
+template <typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage>
+class MaskedAssignImageFilter : public TernaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage, TOutputImage>
 
-    {
-    public:
-        ITK_DISALLOW_COPY_AND_MOVE(MaskedAssignImageFilter);
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(MaskedAssignImageFilter);
 
-        /** Standard class type aliases. */
-        using Self = MaskedAssignImageFilter;
-        using Superclass = TernaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage, TOutputImage>;
+  /** Standard class type aliases. */
+  using Self = MaskedAssignImageFilter;
+  using Superclass = TernaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage, TOutputImage>;
 
-        using Pointer = SmartPointer<Self>;
-        using ConstPointer = SmartPointer<const Self>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
-        /** Method for creation through the object factory. */
-        itkNewMacro(Self);
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-        /** Runtime information support. */
-        itkTypeMacro(MaskedAssignImageFilter, TernaryGeneratorImageFilter);
+  /** Runtime information support. */
+  itkTypeMacro(MaskedAssignImageFilter, TernaryGeneratorImageFilter);
 
-        /** Typedefs **/
-        using InputImageType = TInputImage;
-        using MaskImageType = TMaskImage;
-        using AssignImageType = TOutputImage;
-        using OutputImageType = TOutputImage;
+  /** Typedefs **/
+  using InputImageType = TInputImage;
+  using MaskImageType = TMaskImage;
+  using AssignImageType = TOutputImage;
+  using OutputImageType = TOutputImage;
 
-        using OutputPixelType = typename OutputImageType::PixelType;
+  using OutputPixelType = typename OutputImageType::PixelType;
 
-        itkSetInputMacro(MaskImage, MaskImageType);
-        itkGetInputMacro(MaskImage, MaskImageType);
+  itkSetInputMacro(MaskImage, MaskImageType);
+  itkGetInputMacro(MaskImage, MaskImageType);
 
-        itkSetInputMacro(AssignImage, AssignImageType);
-        itkGetInputMacro(AssignImage, AssignImageType);
+  itkSetInputMacro(AssignImage, AssignImageType);
+  itkGetInputMacro(AssignImage, AssignImageType);
 
-        virtual void SetAssignConstant( const OutputPixelType &v) { this->SetConstant3(v); }
-        virtual OutputPixelType GetAssignConstant( ) const {return this->GetConstant3(); }
+  virtual void
+  SetAssignConstant(const OutputPixelType & v)
+  {
+    this->SetConstant3(v);
+  }
+  virtual OutputPixelType
+  GetAssignConstant() const
+  {
+    return this->GetConstant3();
+  }
 
-    protected:
-        MaskedAssignImageFilter();
-        ~MaskedAssignImageFilter() override = default;
-    };
+protected:
+  MaskedAssignImageFilter();
+  ~MaskedAssignImageFilter() override = default;
+};
 } // end namespace itk
 
 #endif
