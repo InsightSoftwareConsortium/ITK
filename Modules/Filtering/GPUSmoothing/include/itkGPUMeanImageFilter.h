@@ -146,7 +146,8 @@ private:
                            "GPU Mean Image Filter Override",                                                           \
                            true,                                                                                       \
                            CreateObjectFunction<GPUMeanImageFilter<InputImageType, OutputImageType>>::New());          \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   GPUMeanImageFilterFactory()
   {
