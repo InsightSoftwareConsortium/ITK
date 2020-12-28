@@ -120,9 +120,10 @@ public:
   /** Set/Get the order of accuracy of the derivative operator.  For more
    * information, see HigherOrderAccurateDerivativeOperator. */
   itkSetMacro(OrderOfAccuracy, unsigned int);
-itkGetConstMacro(OrderOfAccuracy, unsigned int)
+  itkGetConstMacro(OrderOfAccuracy, unsigned int);
 
-  protected : HigherOrderAccurateGradientImageFilter();
+protected:
+  HigherOrderAccurateGradientImageFilter();
   ~HigherOrderAccurateGradientImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
