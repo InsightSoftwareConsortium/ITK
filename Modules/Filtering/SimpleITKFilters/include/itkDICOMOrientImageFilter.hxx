@@ -301,7 +301,7 @@ DICOMOrientImageFilter<TInputImage>::VerifyPreconditions() ITKv5_CONST
 
   if (this->m_DesiredCoordinateOrientation == OrientationEnum::INVALID)
   {
-    itkExceptionMacro(<< "DesiredCoordinateOrientation is 'INVALID'.")
+    itkExceptionMacro(<< "DesiredCoordinateOrientation is 'INVALID'.");
   }
 }
 
