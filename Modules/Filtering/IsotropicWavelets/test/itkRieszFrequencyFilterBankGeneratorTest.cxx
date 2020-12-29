@@ -68,19 +68,19 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   using RieszFilterBankType = itk::RieszFrequencyFilterBankGenerator<ComplexImageType>;
   auto filterBank = RieszFilterBankType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
 
   filterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
 
   // Test exception cases
   unsigned int inputOrder = 0;
-  TRY_EXPECT_EXCEPTION(filterBank->SetOrder(inputOrder));
+  ITK_TRY_EXPECT_EXCEPTION(filterBank->SetOrder(inputOrder));
 
   inputOrder = std::stoi(argv[3]);
   filterBank->SetOrder(inputOrder);
-  TEST_SET_GET_VALUE(inputOrder, filterBank->GetOrder());
+  ITK_TEST_SET_GET_VALUE(inputOrder, filterBank->GetOrder());
 
-  TRY_EXPECT_NO_EXCEPTION(filterBank->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filterBank->Update());
 
   // Get iterator to Indices of RieszFunction.
   using IndicesType = RieszFilterBankType::RieszFunctionType::SetType;

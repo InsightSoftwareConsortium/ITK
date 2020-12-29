@@ -55,7 +55,7 @@ runWaveletCoeffsSpatialDomainImageFilterTest(const std::string &  inputImage,
   waveletCoeffsSpatialDomainImageFilter->SetLevels(inputLevels);
   waveletCoeffsSpatialDomainImageFilter->SetHighPassSubBands(inputBands);
 
-  TRY_EXPECT_NO_EXCEPTION(waveletCoeffsSpatialDomainImageFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(waveletCoeffsSpatialDomainImageFilter->Update());
 
   itk::NumberToString<unsigned int> n2s;
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -75,7 +75,7 @@ runWaveletCoeffsSpatialDomainImageFilterTest(const std::string &  inputImage,
 
     try
     {
-      TRY_EXPECT_NO_EXCEPTION(writer->Update());
+      ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
     }
     catch (itk::ExceptionObject & e)
     {
@@ -126,7 +126,7 @@ itkWaveletCoeffsSpatialDomainImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
@@ -144,7 +144,7 @@ itkWaveletCoeffsSpatialDomainImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
@@ -162,7 +162,7 @@ itkWaveletCoeffsSpatialDomainImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(
@@ -180,7 +180,7 @@ itkWaveletCoeffsSpatialDomainImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsSpatialDomainImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsSpatialDomainImageFilter = WaveletCoeffsSpatialDomainImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsSpatialDomainImageFilter, WaveletCoeffsSpatialDomainImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsSpatialDomainImageFilterTest<3, WaveletType>(

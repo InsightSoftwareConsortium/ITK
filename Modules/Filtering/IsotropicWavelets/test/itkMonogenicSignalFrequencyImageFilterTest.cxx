@@ -57,7 +57,7 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
-  TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Perform FFT on input image.
   using FFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
@@ -69,10 +69,10 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
   using MonogenicSignalFilterType = itk::MonogenicSignalFrequencyImageFilter<ComplexImageType>;
   auto monoFilter = MonogenicSignalFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(monoFilter, MonogenicSignalFrequencyImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(monoFilter, MonogenicSignalFrequencyImageFilter, ImageToImageFilter);
 
   monoFilter->SetInput(fftFilter->GetOutput());
-  TRY_EXPECT_NO_EXCEPTION(monoFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(monoFilter->Update());
 
   unsigned int expectedNumberOfComponentsPerPixel = monoFilter->GetOutput()->GetNumberOfComponentsPerPixel();
   unsigned int computedNumberOfComponentsPerPixel = Dimension + 1;

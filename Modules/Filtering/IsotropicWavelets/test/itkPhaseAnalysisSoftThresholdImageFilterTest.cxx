@@ -67,7 +67,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 
   reader->SetFileName(inputImage);
 
-  TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Perform FFT on input image.
   using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
@@ -75,7 +75,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 
   fftForwardFilter->SetInput(reader->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(fftForwardFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(fftForwardFilter->Update());
 
   using ComplexImageType = FFTForwardFilterType::OutputImageType;
 
@@ -85,7 +85,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 
   monoFilter->SetInput(fftForwardFilter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(monoFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(monoFilter->Update());
 
   using VectorMonoOutputType = MonogenicSignalFrequencyFilterType::OutputImageType;
 
@@ -94,25 +94,25 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 
   vecInverseFFT->SetInput(monoFilter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(vecInverseFFT->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(vecInverseFFT->Update());
 
   // Input to the PhaseAnalysisSoftThreshold
   using PhaseAnalysisSoftThresholdFilterType =
     itk::PhaseAnalysisSoftThresholdImageFilter<VectorInverseFFTType::OutputImageType>;
   auto phaseAnalyzer = PhaseAnalysisSoftThresholdFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
 
   auto applySoftThreshold = static_cast<bool>(std::stoi(argv[3]));
-  TEST_SET_GET_BOOLEAN(phaseAnalyzer, ApplySoftThreshold, applySoftThreshold);
+  ITK_TEST_SET_GET_BOOLEAN(phaseAnalyzer, ApplySoftThreshold, applySoftThreshold);
 
   auto numOfSigmas = static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(std::stod(argv[4]));
   phaseAnalyzer->SetNumOfSigmas(numOfSigmas);
-  TEST_SET_GET_VALUE(numOfSigmas, phaseAnalyzer->GetNumOfSigmas());
+  ITK_TEST_SET_GET_VALUE(numOfSigmas, phaseAnalyzer->GetNumOfSigmas());
 
   phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(phaseAnalyzer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(phaseAnalyzer->Update());
 
 
   // Regression tests

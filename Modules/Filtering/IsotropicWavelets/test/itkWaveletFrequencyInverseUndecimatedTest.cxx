@@ -141,7 +141,7 @@ runWaveletFrequencyInverseUndecimatedTest(const std::string &  inputImage,
   writer->SetFileName(outputImage);
   writer->SetInput(inverseFFT->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
   itk::ViewImage<ImageType>::View(reader->GetOutput(), "Original");

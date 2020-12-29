@@ -70,7 +70,7 @@ itkVowIsotropicWaveletTest(int, char *[])
   // Specific methods for this type:
   Wavelet2DFloat::FunctionValueType differentKappa = 0.750001;
   wavelet2Dfloat->SetKappa(differentKappa);
-  TEST_SET_GET_VALUE(differentKappa, wavelet2Dfloat->GetKappa());
+  ITK_TEST_SET_GET_VALUE(differentKappa, wavelet2Dfloat->GetKappa());
 
   if (testPassed)
   {

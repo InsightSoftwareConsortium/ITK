@@ -78,7 +78,7 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
   typename ExpandType::ExpandFactorsType expandFactors;
   expandFactors.Fill(expandFactor);
   expandFilter->SetExpandFactors(expandFactors);
-  TEST_SET_GET_VALUE(expandFactors, expandFilter->GetExpandFactors());
+  ITK_TEST_SET_GET_VALUE(expandFactors, expandFilter->GetExpandFactors());
   expandFilter->Update();
 
   // Test size and metadata
@@ -219,7 +219,7 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
 
   writer->SetInput(castFilter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
   itk::ViewImage<ImageType>::View(zeroDCFilter->GetOutput(), "Original");
@@ -278,7 +278,7 @@ itkFrequencyExpandTest(int argc, char * argv[])
   using FrequencyExpandImageFilterType = itk::FrequencyExpandImageFilter<ComplexImageType>;
   auto expandFilter = FrequencyExpandImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(expandFilter, FrequencyExpandImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(expandFilter, FrequencyExpandImageFilter, ImageToImageFilter);
 
   unsigned int dimension = 3;
   if (argc == 4)

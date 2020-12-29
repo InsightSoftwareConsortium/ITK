@@ -56,7 +56,7 @@ itkHeldIsotropicWaveletTest(int, char *[])
 
   auto wavelet2Dfloat = Wavelet2DFloat::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(wavelet2Dfloat, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(wavelet2Dfloat, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   Point2D point2D;
   point2D[0] = 0.2;
@@ -75,7 +75,7 @@ itkHeldIsotropicWaveletTest(int, char *[])
   for (unsigned int p = 0; p < maxPolynomialOrder + 1; ++p)
   {
     wavelet2Dfloat->SetPolynomialOrder(p);
-    TEST_SET_GET_VALUE(p, wavelet2Dfloat->GetPolynomialOrder());
+    ITK_TEST_SET_GET_VALUE(p, wavelet2Dfloat->GetPolynomialOrder());
     Wavelet2DFloat::FunctionValueType value = wavelet2Dfloat->EvaluateMagnitude(freq2D);
     std::cout << "Order: " << p << "; Evaluate: " << value << std::endl;
   }
@@ -84,9 +84,9 @@ itkHeldIsotropicWaveletTest(int, char *[])
   // Test exception cases
   unsigned int polynomialOrder = 6;
   wavelet2Dfloat->SetPolynomialOrder(polynomialOrder);
-  TEST_SET_GET_VALUE(polynomialOrder, wavelet2Dfloat->GetPolynomialOrder());
+  ITK_TEST_SET_GET_VALUE(polynomialOrder, wavelet2Dfloat->GetPolynomialOrder());
 
-  TRY_EXPECT_EXCEPTION(wavelet2Dfloat->EvaluateMagnitude(freq2D));
+  ITK_TRY_EXPECT_EXCEPTION(wavelet2Dfloat->EvaluateMagnitude(freq2D));
 
 
   if (testPassed)

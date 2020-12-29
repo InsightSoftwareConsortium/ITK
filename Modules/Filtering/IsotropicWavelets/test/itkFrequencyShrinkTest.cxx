@@ -83,12 +83,12 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   {
     shrinkFilter->SetShrinkFactor(i, shrinkFactors[i]);
   }
-  TEST_SET_GET_VALUE(shrinkFactors, shrinkFilter->GetShrinkFactors());
+  ITK_TEST_SET_GET_VALUE(shrinkFactors, shrinkFilter->GetShrinkFactors());
 
   shrinkFactor = 2;
   shrinkFactors.Fill(shrinkFactor);
   shrinkFilter->SetShrinkFactors(shrinkFactors);
-  TEST_SET_GET_VALUE(shrinkFactors, shrinkFilter->GetShrinkFactors());
+  ITK_TEST_SET_GET_VALUE(shrinkFactors, shrinkFilter->GetShrinkFactors());
 
   shrinkFilter->SetInput(fftFilter->GetOutput());
 
@@ -252,21 +252,21 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
 
   auto shrinkBandFilter = ShrinkType::New();
   bool applyBandFilter = true;
-  TEST_SET_GET_BOOLEAN(shrinkBandFilter, ApplyBandFilter, applyBandFilter);
+  ITK_TEST_SET_GET_BOOLEAN(shrinkBandFilter, ApplyBandFilter, applyBandFilter);
   shrinkBandFilter->SetInput(changeInputInfoFilter->GetOutput());
   bool lowFreqThresholdPassing = true;
   bool highFreqThresholdPassing = true;
   shrinkBandFilter->GetFrequencyBandFilter()->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
 
   auto shrinkNoIntersectionFilter = ShrinkType::New();
-  TEST_SET_GET_BOOLEAN(shrinkNoIntersectionFilter, ApplyBandFilter, applyBandFilter);
+  ITK_TEST_SET_GET_BOOLEAN(shrinkNoIntersectionFilter, ApplyBandFilter, applyBandFilter);
   shrinkNoIntersectionFilter->SetInput(changeInputInfoFilter->GetOutput());
   lowFreqThresholdPassing = true;
   highFreqThresholdPassing = false;
   shrinkNoIntersectionFilter->GetFrequencyBandFilter()->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
 
   auto shrinkIntersectionPassFilter = ShrinkType::New();
-  TEST_SET_GET_BOOLEAN(shrinkIntersectionPassFilter, ApplyBandFilter, applyBandFilter);
+  ITK_TEST_SET_GET_BOOLEAN(shrinkIntersectionPassFilter, ApplyBandFilter, applyBandFilter);
   shrinkIntersectionPassFilter->SetInput(changeInputInfoFilter->GetOutput());
   lowFreqThresholdPassing = true;
   highFreqThresholdPassing = true;
@@ -312,7 +312,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   writer->SetFileName(outputImage);
   writer->SetInput(castFilter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
   itk::ViewImage<ImageType>::View(zeroDCFilter->GetOutput(), "Original");
@@ -383,7 +383,7 @@ itkFrequencyShrinkTest(int argc, char * argv[])
   using ShrinkType = itk::FrequencyShrinkImageFilter<ComplexImageType>;
   auto shrinkFilter = ShrinkType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(shrinkFilter, FrequencyShrinkImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(shrinkFilter, FrequencyShrinkImageFilter, ImageToImageFilter);
 
   unsigned int dimension = 3;
   if (argc == 4)

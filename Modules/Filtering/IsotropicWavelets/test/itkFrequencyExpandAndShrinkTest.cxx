@@ -92,12 +92,12 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   typename ExpandViaInverseFFTType::ExpandFactorsType expandFactors;
   expandFactors.Fill(resizeFactor);
   expandViaInverseFFTFilter->SetExpandFactors(resizeFactor);
-  TEST_SET_GET_VALUE(expandFactors, expandViaInverseFFTFilter->GetExpandFactors());
+  ITK_TEST_SET_GET_VALUE(expandFactors, expandViaInverseFFTFilter->GetExpandFactors());
 
   expandViaInverseFFTFilter->SetExpandFactors(expandFactors);
-  TEST_SET_GET_VALUE(expandFactors, expandViaInverseFFTFilter->GetExpandFactors());
+  ITK_TEST_SET_GET_VALUE(expandFactors, expandViaInverseFFTFilter->GetExpandFactors());
 
-  TRY_EXPECT_NO_EXCEPTION(expandViaInverseFFTFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(expandViaInverseFFTFilter->Update());
 
   // #ifdef ITK_VISUALIZE_TESTS
   //   auto inverseFFTExpand1 = InverseFFTFilterType::New();
@@ -116,7 +116,7 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   shrinkFilter->SetInput(expandFilter->GetOutput());
   shrinkFilter->SetShrinkFactors(resizeFactor);
 
-  TRY_EXPECT_NO_EXCEPTION(shrinkFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(shrinkFilter->Update());
 
   using ShrinkViaInverseFFTType = itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType>;
   auto shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
@@ -125,12 +125,12 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   typename ShrinkViaInverseFFTType::ShrinkFactorsType shrinkFactors;
   shrinkFactors.Fill(resizeFactor);
   shrinkViaInverseFFTFilter->SetShrinkFactors(resizeFactor);
-  TEST_SET_GET_VALUE(shrinkFactors, shrinkViaInverseFFTFilter->GetShrinkFactors());
+  ITK_TEST_SET_GET_VALUE(shrinkFactors, shrinkViaInverseFFTFilter->GetShrinkFactors());
 
   shrinkViaInverseFFTFilter->SetShrinkFactors(shrinkFactors);
-  TEST_SET_GET_VALUE(shrinkFactors, shrinkViaInverseFFTFilter->GetShrinkFactors());
+  ITK_TEST_SET_GET_VALUE(shrinkFactors, shrinkViaInverseFFTFilter->GetShrinkFactors());
 
-  TRY_EXPECT_NO_EXCEPTION(shrinkViaInverseFFTFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(shrinkViaInverseFFTFilter->Update());
 
 
   // Test size and metadata
@@ -215,7 +215,7 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   writer->SetFileName(outputImage);
   writer->SetInput(castFilter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   if (testPassed)
   {
@@ -250,12 +250,14 @@ itkFrequencyExpandAndShrinkTest(int argc, char * argv[])
   using ExpandViaInverseFFTType = itk::FrequencyExpandViaInverseFFTImageFilter<ComplexImageType>;
   auto expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(expandViaInverseFFTFilter, FrequencyExpandViaInverseFFTImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    expandViaInverseFFTFilter, FrequencyExpandViaInverseFFTImageFilter, ImageToImageFilter);
 
   using ShrinkViaInverseFFTType = itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType>;
   auto shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(shrinkViaInverseFFTFilter, FrequencyShrinkViaInverseFFTImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    shrinkViaInverseFFTFilter, FrequencyShrinkViaInverseFFTImageFilter, ImageToImageFilter);
 
   unsigned int dimension = 3;
   if (argc == 4)

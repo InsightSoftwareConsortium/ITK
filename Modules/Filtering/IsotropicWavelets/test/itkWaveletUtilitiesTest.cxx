@@ -189,7 +189,7 @@ itkWaveletUtilitiesTest(int, char *[])
     unsigned int linearIndex = 4;
     unsigned int levels = 1;
     unsigned int bands = 1;
-    TRY_EXPECT_EXCEPTION(itk::utils::IndexToLevelBandSteerablePyramid(linearIndex, levels, bands));
+    ITK_TRY_EXPECT_EXCEPTION(itk::utils::IndexToLevelBandSteerablePyramid(linearIndex, levels, bands));
   }
   {
     unsigned int linearIndex = 0;
@@ -240,7 +240,7 @@ itkWaveletUtilitiesTest(int, char *[])
     unsigned int linearIndex = 5;
     unsigned int levels = 2;
     unsigned int bands = 2;
-    TRY_EXPECT_EXCEPTION(itk::utils::IndexToLevelBandSteerablePyramid(linearIndex, levels, bands));
+    ITK_TRY_EXPECT_EXCEPTION(itk::utils::IndexToLevelBandSteerablePyramid(linearIndex, levels, bands));
   }
 
   if (!testOutputIndexToLevelBandPassed)

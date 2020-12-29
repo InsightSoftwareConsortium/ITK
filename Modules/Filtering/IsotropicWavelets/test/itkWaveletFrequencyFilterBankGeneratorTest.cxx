@@ -73,8 +73,8 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   forwardFilterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
 
   // Test Get/Set
-  TEST_SET_GET_VALUE(highSubBands, forwardFilterBank->GetHighPassSubBands());
-  TEST_SET_GET_BOOLEAN(forwardFilterBank, InverseBank, false);
+  ITK_TEST_SET_GET_VALUE(highSubBands, forwardFilterBank->GetHighPassSubBands());
+  ITK_TEST_SET_GET_BOOLEAN(forwardFilterBank, InverseBank, false);
   auto waveletInstance = forwardFilterBank->GetModifiableWaveletFunction();
   waveletInstance->Print(std::cout);
 
@@ -106,7 +106,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   writer->SetFileName(outputImage);
   writer->SetInput(complexToRealFilter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   // Inverse FFT Transform
   using InverseFFTFilterType = itk::InverseFFTImageFilter<ComplexImageType, ImageType>;
@@ -206,17 +206,18 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   using ShannonIsotropicWaveletType = itk::ShannonIsotropicWavelet<PixelType, ImageDimension, PointType>;
 
   auto heldIsotropicWavelet = HeldIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(heldIsotropicWavelet, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(heldIsotropicWavelet, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   auto vowIsotropicWavelet = VowIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(vowIsotropicWavelet, VowIsotropicWavelet, IsotropicWaveletFrequencyFunction);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(vowIsotropicWavelet, VowIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   auto simoncellidIsotropicWavelet = SimoncelliIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
     simoncellidIsotropicWavelet, SimoncelliIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   auto shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   using HeldWavelet = itk::HeldIsotropicWavelet<>;
   using VowWavelet = itk::VowIsotropicWavelet<>;
@@ -229,19 +230,19 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   using ShannonWaveletFilterBankType = itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, ShannonWavelet>;
 
   auto heldWaveletFilterBankGenerator = HeldWaveletFilterBankType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
     heldWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 
   auto vowWaveletFilterBankGenerator = VowWaveletFilterBankType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
     vowWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 
   auto simoncelliWaveletFilterBankGenerator = SimoncelliWaveletFilterBankType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
     simoncelliWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 
   auto shannonWaveletFilterBankGenerator = ShannonWaveletFilterBankType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
     shannonWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
 
   if (dimension == 2)

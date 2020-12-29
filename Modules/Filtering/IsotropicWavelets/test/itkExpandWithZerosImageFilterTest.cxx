@@ -59,10 +59,10 @@ runExpandWithZerosImageFilterTest(unsigned int expandFactor)
   typename ExpanderType::ExpandFactorsType expandFactors;
   expandFactors.Fill(expandFactor);
   expander->SetExpandFactors(expandFactors);
-  TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
+  ITK_TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
 
   expander->SetExpandFactors(expandFactor);
-  TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
+  ITK_TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
 
   expander->SetInput(input);
   expander->Update();
@@ -165,7 +165,7 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
   // when calling overloaded base class functions.
   using ExpanderType = itk::ExpandWithZerosImageFilter<ImageType, ImageType>;
   auto expander = ExpanderType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(expander, ExpandWithZerosImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(expander, ExpandWithZerosImageFilter, ImageToImageFilter);
 
   // Parse input arguments
   unsigned int dimension = std::stoi(argv[1]);

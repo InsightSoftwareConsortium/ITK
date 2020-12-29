@@ -44,13 +44,13 @@ runZeroDCImageFilterTest(const std::string & inputImage)
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
   auto zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
-  TRY_EXPECT_NO_EXCEPTION(zeroDCFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(zeroDCFilter->Update());
 
   // Perform FFT on zeroDC image and check freq bin 0 has zero value.
   using FFTForwardFilterType = itk::ForwardFFTImageFilter<ImageType>;
   auto fftForwardFilter = FFTForwardFilterType::New();
   fftForwardFilter->SetInput(zeroDCFilter->GetOutput());
-  TRY_EXPECT_NO_EXCEPTION(fftForwardFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(fftForwardFilter->Update());
 
   using ComplexImageType = typename FFTForwardFilterType::OutputImageType;
   typename ComplexImageType::IndexType zeroIndex;
@@ -106,7 +106,7 @@ itkZeroDCImageFilterTest(int argc, char * argv[])
   using ZeroDCFilterType = itk::ZeroDCImageFilter<ImageType>;
 
   auto zeroDCFilter = ZeroDCFilterType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(zeroDCFilter, ZeroDCImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(zeroDCFilter, ZeroDCImageFilter, ImageToImageFilter);
 
   if (dimension == 2)
   {

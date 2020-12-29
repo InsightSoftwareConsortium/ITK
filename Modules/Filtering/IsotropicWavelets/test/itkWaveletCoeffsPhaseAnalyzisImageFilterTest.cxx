@@ -60,7 +60,7 @@ runWaveletCoeffsPhaseAnalyzisImageFilterTest(const std::string &  inputImage,
   waveletCoeffsPhaseAnalyzisImageFilter->SetApplySoftThreshold(applySoftThreshold);
   waveletCoeffsPhaseAnalyzisImageFilter->SetThresholdNumOfSigmas(thresholdNumOfSigmas);
 
-  TRY_EXPECT_NO_EXCEPTION(waveletCoeffsPhaseAnalyzisImageFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(waveletCoeffsPhaseAnalyzisImageFilter->Update());
 
   // Write output image
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -74,7 +74,7 @@ runWaveletCoeffsPhaseAnalyzisImageFilterTest(const std::string &  inputImage,
   writer->SetFileName(outputFile);
   writer->UseCompressionOn();
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
@@ -139,7 +139,7 @@ itkWaveletCoeffsPhaseAnalyzisImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
@@ -157,7 +157,7 @@ itkWaveletCoeffsPhaseAnalyzisImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
@@ -175,7 +175,7 @@ itkWaveletCoeffsPhaseAnalyzisImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(
@@ -193,7 +193,7 @@ itkWaveletCoeffsPhaseAnalyzisImageFilterTest(int argc, char * argv[])
         itk::WaveletCoeffsPhaseAnalyzisImageFilter<ImageType, WaveletType>;
 
       auto waveletCoeffsPhaseAnalyzisImageFilter = WaveletCoeffsPhaseAnalyzisImageFilterType::New();
-      EXERCISE_BASIC_OBJECT_METHODS(
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(
         waveletCoeffsPhaseAnalyzisImageFilter, WaveletCoeffsPhaseAnalyzisImageFilter, ImageToImageFilter);
 
       return runWaveletCoeffsPhaseAnalyzisImageFilterTest<3, WaveletType>(

@@ -110,13 +110,13 @@ runStructureTensorTest()
   // WindowRadius
   unsigned int nonDefaultGaussianRadius = 3;
   tensor->SetGaussianWindowRadius(nonDefaultGaussianRadius);
-  TEST_SET_GET_VALUE(nonDefaultGaussianRadius, tensor->GetGaussianWindowRadius());
+  ITK_TEST_SET_GET_VALUE(nonDefaultGaussianRadius, tensor->GetGaussianWindowRadius());
   tensor->SetGaussianWindowRadius(2); // Restore default.
 
   // WindowSigma
   typename StructureTensorType::FloatType nonDefaultGaussianSigma = 2.0;
   tensor->SetGaussianWindowSigma(nonDefaultGaussianSigma);
-  TEST_SET_GET_VALUE(nonDefaultGaussianSigma, tensor->GetGaussianWindowSigma());
+  ITK_TEST_SET_GET_VALUE(nonDefaultGaussianSigma, tensor->GetGaussianWindowSigma());
   tensor->SetGaussianWindowSigma(1.0); // Restore default.
   // Use a external, new GaussianSource:
   // The gaussian source is modified in BeforeThreadedGenerateData() only if

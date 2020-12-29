@@ -71,17 +71,17 @@ runShrinkDecimateImageFilterTest()
     {
       decimator->SetShrinkFactor(i, shrinkFactors[i]);
     }
-    TEST_SET_GET_VALUE(shrinkFactors, decimator->GetShrinkFactors());
+    ITK_TEST_SET_GET_VALUE(shrinkFactors, decimator->GetShrinkFactors());
 
     // Update with 2,2 shrink factor
     shrinkFactor = 2;
     shrinkFactors.Fill(shrinkFactor);
     decimator->SetShrinkFactors(shrinkFactors);
-    TEST_SET_GET_VALUE(shrinkFactors, decimator->GetShrinkFactors());
+    ITK_TEST_SET_GET_VALUE(shrinkFactors, decimator->GetShrinkFactors());
 
     decimator->SetInput(input);
 
-    TRY_EXPECT_NO_EXCEPTION(decimator->Update());
+    ITK_TRY_EXPECT_NO_EXCEPTION(decimator->Update());
 
     // Check values
     itk::ImageRegionConstIteratorWithIndex<ImageType> outIt(decimator->GetOutput(),
@@ -136,7 +136,7 @@ itkShrinkDecimateImageFilterTest(int argc, char * argv[])
   using ShrinkDecimateImageFilterType = itk::ShrinkDecimateImageFilter<ImageType, ImageType>;
   auto decimator = ShrinkDecimateImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(decimator, ShrinkDecimateImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(decimator, ShrinkDecimateImageFilter, ImageToImageFilter);
 
   unsigned int dimension = 3;
   if (argc == 2)
