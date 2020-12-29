@@ -38,7 +38,7 @@ template <typename TInputImage, typename TOutputImage>
 class ProxTVImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ProxTVImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ProxTVImageFilter);
 
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
