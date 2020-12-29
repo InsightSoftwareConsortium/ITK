@@ -601,9 +601,14 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
   char *        h = this->m_RawHeader;
   int           intSize = 0;
   unsigned long headerSize = 0;
-  if (strcmp(h, "AIMDATA_V030   ") == 0)
+
+  // True for AIM v030, False for AIM v020
+  bool versionV030 = !strcmp(h, "AIMDATA_V030   ");
+
+  if (versionV030)
   {
-    // header uses 64-bit ints (8 bytes)
+    // All header data is saved as 64-bit ints (8 bytes), except for the datatype which is a 32-bit int
+    // AIMDATA_V030 data has 16-bits (2 bytes) extra at the front of the header for a string containing "AIMDATA_V030"
     intSize = 8;
     strcpy(this->m_Version, h);
     headerSize = 16;
@@ -611,12 +616,13 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
   }
   else
   {
-    // header uses 32-bit ints (4 bytes)
+    // All header data is saved as 32-bit ints (4 bytes), except for element size which is saved as a float
     intSize = 4;
     strcpy(this->m_Version, "AIMDATA_V020   ");
   }
 
-  // read the pre-header
+  // Read the pre-header
+  // AIM header is divided into 3 sections: a preheader, a struct containing volume info, and a processing log
   char * preheader = h;
   int    preheaderSize = ScancoImageIO::DecodeInt(h);
   h += intSize;
@@ -627,7 +633,8 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
 
   // read the rest of the header
   headerSize += preheaderSize + structSize + logSize;
-  // this->SetHeaderSize(headerSize);
+  this->m_HeaderSize = headerSize;
+
   if (headerSize > bytesRead)
   {
     h = new char[headerSize];
@@ -644,24 +651,61 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
 
   // decode the struct header
   h = preheader + preheaderSize;
-  h += 20; // not sure what these 20 bytes are for
+
+  // The datatype value is stored as a 4 byte block for both AIM v020 and v030.
+  // There are some extra bytes before the datatype:
+  // 3 4-byte blocks for AIMDATA_V030
+  // 5 4-byte blocks for AIMDATA_V020
+  if (versionV030)
+  {
+    h += 12;
+  }
+  else
+  {
+    h += 20;
+  }
+
   int dataType = ScancoImageIO::DecodeInt(h);
   h += 4;
+
+  // The struct contains the following data:
+  // structValues[0] to structValues[2] = image position
+  // structValues[3] to structValues[5] = image dimensions
+  // structValues[6] to structValues[21] = 15 blocks of zeros
   int structValues[21];
   for (int & structValue : structValues)
   {
     structValue = ScancoImageIO::DecodeInt(h);
     h += intSize;
   }
+
+  // Element Size is float in AIMDATA_V020, but 64-bit int in AIMDATA_V030
   float elementSize[3];
-  for (float & i : elementSize)
+  if (versionV030)
   {
-    i = ScancoImageIO::DecodeFloat(h);
-    if (i == 0)
+    // AIMDATA_V030
+    for (float & i : elementSize)
     {
-      i = 1.0;
+      i = 1e-6 * ScancoImageIO::DecodeInt(h);
+      if (i == 0)
+      {
+        i = 1.0;
+      }
+      h += intSize;
     }
-    h += 4;
+  }
+  else
+  {
+    // AIMDATA_V020
+    for (float & i : elementSize)
+    {
+      i = ScancoImageIO::DecodeFloat(h);
+      if (i == 0)
+      {
+        i = 1.0;
+      }
+      h += intSize;
+    }
   }
 
   // number of components per pixel is 1 by default
