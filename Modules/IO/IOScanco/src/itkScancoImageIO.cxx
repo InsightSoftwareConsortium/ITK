@@ -1335,7 +1335,7 @@ ScancoImageIO ::Write(const void * buffer)
 
   if (this->GetComponentType() != IOComponentEnum::SHORT)
   {
-    itkExceptionMacro("ScancoImageIO only supports writing short files.")
+    itkExceptionMacro("ScancoImageIO only supports writing short files.");
   }
 
   if (itk::ByteSwapper<short>::SystemIsBigEndian())
