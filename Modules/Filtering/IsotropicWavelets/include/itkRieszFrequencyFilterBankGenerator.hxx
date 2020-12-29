@@ -39,7 +39,7 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Order: " << this->m_Order << std::endl;
-  itkPrintSelfObjectMacro(Evaluator)
+  itkPrintSelfObjectMacro(Evaluator);
 }
 
 /* ******* Get Outputs *****/
