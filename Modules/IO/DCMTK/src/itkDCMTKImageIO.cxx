@@ -264,7 +264,7 @@ DCMTKImageIO ::OpenDicomImage()
   }
   if (this->m_DImage == nullptr)
   {
-    itkExceptionMacro(<< "Can't create DicomImage for " << this->m_FileName)
+    itkExceptionMacro(<< "Can't create DicomImage for " << this->m_FileName);
   }
 }
 
@@ -276,7 +276,7 @@ DCMTKImageIO ::Read(void * buffer)
   this->OpenDicomImage();
   if (m_DImage->getStatus() != EIS_Normal)
   {
-    itkExceptionMacro(<< "Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ")")
+    itkExceptionMacro(<< "Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ")");
   }
 
   m_Dimensions[0] = (unsigned int)(m_DImage->getWidth());
