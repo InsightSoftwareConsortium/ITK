@@ -51,8 +51,8 @@ public:
   itkTypeMacro(NonLinearOptimizer, Optimizer);
 
   /**  Types inherited from the superclass */
-  using ParametersType = Superclass::ParametersType;
-  using ScalesType = Superclass::ScalesType;
+  using Superclass::ParametersType;
+  using Superclass::ScalesType;
 
 protected:
   NonLinearOptimizer() = default;

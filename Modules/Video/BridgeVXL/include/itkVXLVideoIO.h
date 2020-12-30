@@ -53,10 +53,10 @@ public:
   using Superclass = VideoIOBase;
   using Pointer = SmartPointer<Self>;
 
-  using TemporalOffsetType = Superclass::TemporalOffsetType;
-  using FrameOffsetType = Superclass::FrameOffsetType;
-  using TemporalRatioType = Superclass::TemporalRatioType;
-  using CameraIDType = Superclass::CameraIDType;
+  using Superclass::TemporalOffsetType;
+  using Superclass::FrameOffsetType;
+  using Superclass::TemporalRatioType;
+  using Superclass::CameraIDType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

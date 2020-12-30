@@ -123,7 +123,7 @@ protected:
                                  InputImageIndexType &   inputIndex,
                                  OutputImageRegionType & outputRegion,
                                  InputImageRegionType &  inputRegion,
-                                 int *                   oddRegionArray,
+                                 const int *             oddRegionArray,
                                  double &                outDecayFactor);
 
   /** Decide whether test falls within an odd or even number
@@ -150,17 +150,17 @@ protected:
    * is encoded in regIndices and regLimit), choose the next input region. */
   int
   GenerateNextInputRegion(long *                 regIndices,
-                          long *                 regLimit,
+                          const long *           regLimit,
                           std::vector<long> *    indices,
                           std::vector<long> *    sizes,
-                          InputImageRegionType & outputRegion);
+                          InputImageRegionType & inputRegion);
 
   /** Given an n dimensional list of output region breakpoints in indices
    * and size (where the current region and maximum region for each dimension
    * is encoded in regIndices and regLimit), choose the next output region. */
   int
   GenerateNextOutputRegion(long *                  regIndices,
-                           long *                  regLimit,
+                           const long *            regLimit,
                            std::vector<long> *     indices,
                            std::vector<long> *     sizes,
                            OutputImageRegionType & outputRegion);

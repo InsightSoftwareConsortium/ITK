@@ -84,7 +84,7 @@ protected:
 
   unsigned int
   GetSplitInternal(unsigned int   dim,
-                   unsigned int   i,
+                   unsigned int   splitI,
                    unsigned int   numberOfPieces,
                    IndexValueType regionIndex[],
                    SizeValueType  regionSize[]) const override;

@@ -196,11 +196,11 @@ public:
    * Performs the inner product of two covariant vectors.
    * \warning This is equivalent to the scalar product only if the reference
    * system has orthogonal axis and equal scales.  */
-  ValueType operator*(const Self & vec) const;
+  ValueType operator*(const Self & other) const;
 
   /** operator*.  Performs the scalar product with a vector (contravariant).
    * This scalar product is invariant under affine transformations */
-  ValueType operator*(const Vector<T, NVectorDimension> & vec) const;
+  ValueType operator*(const Vector<T, NVectorDimension> & other) const;
 
   /** Scalar operator*. Scale the elements of a vector by a scalar.
    * Return a new vector. */

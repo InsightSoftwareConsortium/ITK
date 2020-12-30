@@ -47,7 +47,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Pointer = SmartPointer<Self>;
 
-  using SizeValueType = Superclass::SizeValueType;
+  using Superclass::SizeValueType;
   using DirectionType = Matrix<double, 4, 4>;
   using RGBAPixelType = RGBAPixel<float>;
   using LabelColorContainer = MapContainer<int, RGBAPixelType>;
@@ -87,7 +87,7 @@ public:
    * \return Returns true if this MeshIO can read the file specified.
    */
   bool
-  CanReadFile(const char * FileNameToRead) override;
+  CanReadFile(const char * fileName) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void
@@ -114,7 +114,7 @@ public:
    * \return Returns true if this MeshIO can write the file specified.
    */
   bool
-  CanWriteFile(const char * FileNameToWrite) override;
+  CanWriteFile(const char * fileName) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void

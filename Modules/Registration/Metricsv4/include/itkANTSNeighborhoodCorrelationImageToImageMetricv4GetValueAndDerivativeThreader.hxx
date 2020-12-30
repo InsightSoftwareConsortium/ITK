@@ -78,8 +78,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
       // NOTE: there must be a cleaner way to do this:
       std::string msg("Caught exception: \n");
       msg += exc.what();
-      ExceptionObject err(__FILE__, __LINE__, msg);
-      throw err;
+      throw ExceptionObject(__FILE__, __LINE__, msg);
     }
 
     /* Assign the results */
@@ -196,8 +195,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
         // NOTE: there must be a cleaner way to do this:
         std::string msg("Caught exception: \n");
         msg += exc.what();
-        ExceptionObject err(__FILE__, __LINE__, msg);
-        throw err;
+        throw ExceptionObject(__FILE__, __LINE__, msg);
       }
 
 
@@ -281,8 +279,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       // NOTE: there must be a cleaner way to do this:
       std::string msg("Caught exception: \n");
       msg += exc.what();
-      ExceptionObject err(__FILE__, __LINE__, msg);
-      throw err;
+      throw ExceptionObject(__FILE__, __LINE__, msg);
     }
     if (pointIsValid)
     {
@@ -475,8 +472,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");
     msg += exc.what();
-    ExceptionObject err(__FILE__, __LINE__, msg);
-    throw err;
+    throw ExceptionObject(__FILE__, __LINE__, msg);
   }
 
   if (pointIsValid)
@@ -624,8 +620,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");
     msg += exc.what();
-    ExceptionObject err(__FILE__, __LINE__, msg);
-    throw err;
+    throw ExceptionObject(__FILE__, __LINE__, msg);
   }
 
   /* Assign the results */

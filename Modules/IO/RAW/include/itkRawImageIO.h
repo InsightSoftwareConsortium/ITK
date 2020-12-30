@@ -67,7 +67,7 @@ public:
   using PixelType = TPixel;
 
   /** Type used for counting elements. */
-  using SizeValueType = Superclass::SizeValueType;
+  using Superclass::SizeValueType;
 
   /** this type is used in case the pixel has several components */
   using ComponentType = typename PixelTraits<PixelType>::ValueType;

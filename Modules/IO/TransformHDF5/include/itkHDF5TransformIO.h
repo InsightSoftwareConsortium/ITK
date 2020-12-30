@@ -140,15 +140,15 @@ private:
   void
   WriteParameters(const std::string & name, const ParametersType & parameters);
   void
-  WriteFixedParameters(const std::string & name, const FixedParametersType & parameters);
+  WriteFixedParameters(const std::string & name, const FixedParametersType & fixedParameters);
 
   /** write a string variable */
   void
   WriteString(const std::string & path, const std::string & value);
   void
-  WriteString(const std::string & path, const char * value);
+  WriteString(const std::string & path, const char * s);
   void
-  WriteOneTransform(const int transformIndex, const TransformType * transform);
+  WriteOneTransform(const int transformIndex, const TransformType * curTransform);
 
   std::unique_ptr<H5::H5File> m_H5File;
 

@@ -105,11 +105,11 @@ protected:
   ProcessPoint(const VirtualIndexType &        virtualIndex,
                const VirtualPointType &        virtualPoint,
                const FixedImagePointType &     mappedFixedPoint,
-               const FixedImagePixelType &     mappedFixedPixelValue,
+               const FixedImagePixelType &     fixedImageValue,
                const FixedImageGradientType &  mappedFixedImageGradient,
                const MovingImagePointType &    mappedMovingPoint,
-               const MovingImagePixelType &    mappedMovingPixelValue,
-               const MovingImageGradientType & mappedMovingImageGradient,
+               const MovingImagePixelType &    movingImageValue,
+               const MovingImageGradientType & movingImageGradient,
                MeasureType &                   metricValueReturn,
                DerivativeType &                localDerivativeReturn,
                const ThreadIdType              threadId) const override;
@@ -117,7 +117,7 @@ protected:
   /** Compute PDF derivative contribution for each parameter of a displacement field. */
   virtual void
   ComputePDFDerivativesLocalSupportTransform(const JacobianType &            jacobian,
-                                             const MovingImageGradientType & movingGradient,
+                                             const MovingImageGradientType & movingImageGradient,
                                              const PDFValueType &            cubicBSplineDerivativeValue,
                                              DerivativeValueType *           localSupportDerivativeResultPtr) const;
 

@@ -153,10 +153,10 @@ public:
    * match the number returned by GetNumberOfCoefficients()
    * otherwise an exception is thrown.  */
   void
-  SetCoefficients(const CoefficientArrayType & coef);
+  SetCoefficients(const CoefficientArrayType & coefficients);
 
   void
-  SetCoefficients(const ParametersType & coef);
+  SetCoefficients(const ParametersType & coefficients);
 
   /** \brief Gets Legendre polynomials' coefficients. */
   const CoefficientArrayType &

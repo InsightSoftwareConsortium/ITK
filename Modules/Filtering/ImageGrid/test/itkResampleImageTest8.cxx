@@ -60,8 +60,8 @@ public:
 
   using Superclass::TransformCovariantVector;
   using Superclass::TransformVector;
-  using OutputVectorPixelType = Superclass::OutputVectorPixelType;
-  using InputVectorPixelType = Superclass::InputVectorPixelType;
+  using Superclass::OutputVectorPixelType;
+  using Superclass::InputVectorPixelType;
 
   OutputVectorType
   TransformVector(const InputVectorType & itkNotUsed(vector)) const override

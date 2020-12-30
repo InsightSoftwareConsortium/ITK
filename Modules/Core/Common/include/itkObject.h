@@ -129,7 +129,7 @@ public:
   /** This is a global flag that controls whether any debug, warning
    *  or error messages are displayed.  */
   static void
-  SetGlobalWarningDisplay(bool flag);
+  SetGlobalWarningDisplay(bool val);
 
   static bool
   GetGlobalWarningDisplay();
@@ -256,7 +256,7 @@ protected:
    * This method must be used very carefully !!!.
    * Most mortals will never need to call this method. */
   virtual void
-  SetTimeStamp(const TimeStamp & time);
+  SetTimeStamp(const TimeStamp & timeStamp);
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/

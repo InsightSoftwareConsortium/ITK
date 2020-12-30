@@ -59,8 +59,8 @@ public:
     SpaceDimension = 3
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using DerivativeType = Superclass::DerivativeType;
+  using Superclass::ParametersType;
+  using Superclass::DerivativeType;
 
   using VersorType = itk::Versor<double>;
   using AxisType = VersorType::VectorType;

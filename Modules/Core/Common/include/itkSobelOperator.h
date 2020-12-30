@@ -150,7 +150,7 @@ protected:
    * Arranges coefficients spatially in the memory buffer.
    */
   void
-  Fill(const CoefficientVector & c) override;
+  Fill(const CoefficientVector & coeff) override;
 };
 } // namespace itk
 

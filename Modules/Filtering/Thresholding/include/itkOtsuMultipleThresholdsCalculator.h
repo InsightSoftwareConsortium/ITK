@@ -109,8 +109,8 @@ protected:
 
   /** Increment the thresholds of one position along the histogram. */
   bool
-  IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,
-                      MeanType                       totalMean,
+  IncrementThresholds(InstanceIdentifierVectorType & thresholdIndexes,
+                      MeanType                       globalMean,
                       MeanVectorType &               classMean,
                       FrequencyVectorType &          classFrequency);
 

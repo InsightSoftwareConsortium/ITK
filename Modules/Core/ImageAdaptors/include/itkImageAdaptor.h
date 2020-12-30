@@ -284,13 +284,13 @@ public:
 
   /** Set the spacing (size of a pixel) of the image. */
   void
-  SetSpacing(const SpacingType & values) override;
+  SetSpacing(const SpacingType & spacing) override;
 
   void
-  SetSpacing(const double * values /*[ImageDimension]*/) override;
+  SetSpacing(const double * spacing /*[ImageDimension]*/) override;
 
   void
-  SetSpacing(const float * values /*[ImageDimension]*/) override;
+  SetSpacing(const float * spacing /*[ImageDimension]*/) override;
 
   /** Get the spacing (size of a pixel) of the image. The
    * spacing is the geometric distance between image samples.
@@ -306,13 +306,13 @@ public:
 
   /** Set the origin of the image. */
   void
-  SetOrigin(const PointType values) override;
+  SetOrigin(const PointType origin) override;
 
   void
-  SetOrigin(const double * values /*[ImageDimension]*/) override;
+  SetOrigin(const double * origin /*[ImageDimension]*/) override;
 
   void
-  SetOrigin(const float * values /*[ImageDimension]*/) override;
+  SetOrigin(const float * origin /*[ImageDimension]*/) override;
 
   /** Set the direction of the image. */
   void

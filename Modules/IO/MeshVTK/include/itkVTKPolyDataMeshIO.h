@@ -49,7 +49,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using SizeValueType = Superclass::SizeValueType;
+  using Superclass::SizeValueType;
 
   using StringType = std::string;
   using StringVectorType = std::vector<StringType>;
@@ -72,7 +72,7 @@ public:
    * \return Returns true if this MeshIO can read the file specified.
    */
   bool
-  CanReadFile(const char * FileNameToRead) override;
+  CanReadFile(const char * fileName) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void
@@ -98,7 +98,7 @@ public:
    * \return Returns true if this MeshIO can write the file specified.
    */
   bool
-  CanWriteFile(const char * FileNameToWrite) override;
+  CanWriteFile(const char * fileName) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void
@@ -1188,7 +1188,7 @@ protected:
 
   /** Convenience method returns the IOComponentEnum corresponding to a string. */
   IOComponentEnum
-  GetComponentTypeFromString(const std::string & pixelType);
+  GetComponentTypeFromString(const std::string & pointType);
 };
 } // end namespace itk
 

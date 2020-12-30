@@ -588,8 +588,8 @@ protected:
    *  out of the active layer. */
   void
   ThreadedUpdateActiveLayerValues(const TimeStepType & dt,
-                                  LayerType *          StatusUpList,
-                                  LayerType *          StatusDownList,
+                                  LayerType *          UpList,
+                                  LayerType *          DownList,
                                   ThreadIdType         ThreadId);
 
   /** Make a copy of the nodes in the FromList and insert them into the ToList.
@@ -605,7 +605,7 @@ protected:
    *  and insert them into the thread's own list. */
   void
   CopyInsertInterNeighborNodeTransferBufferLayers(ThreadIdType     ThreadId,
-                                                  LayerPointerType InputList,
+                                                  LayerPointerType List,
                                                   unsigned int     InOrOut,
                                                   unsigned int     BufferLayerNumber);
 
@@ -660,7 +660,7 @@ protected:
   ThreadedPropagateLayerValues(const StatusType & from,
                                const StatusType & to,
                                const StatusType & promote,
-                               unsigned int       InorOut,
+                               unsigned int       InOrOut,
                                ThreadIdType       ThreadId);
 
   /** Split the volume uniformly along the chosen dimension for post processing

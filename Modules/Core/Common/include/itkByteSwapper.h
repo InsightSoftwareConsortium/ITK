@@ -144,45 +144,45 @@ protected:
 
   /** Swap 2 bytes. */
   static void
-  Swap2(void * p);
+  Swap2(void * pin);
 
   /** Swap a range of two-byte words. Num is the number of two-byte
    * words to swap. */
   static void
-  Swap2Range(void * p, BufferSizeType num);
+  Swap2Range(void * ptr, BufferSizeType num);
 
   /** Swap and write a range of two-byte words. Num is the number of two-byte
    * words to swap and write. */
   static void
-  SwapWrite2Range(void * p, BufferSizeType num, OStreamType * fp);
+  SwapWrite2Range(void * ptr, BufferSizeType num, OStreamType * fp);
 
   /** Swap four bytes. */
   static void
-  Swap4(void * p);
+  Swap4(void * ptr);
 
   /** Swap a range of four-byte words. Num is the number of four-byte words
    * to swap. */
   static void
-  Swap4Range(void * p, BufferSizeType num);
+  Swap4Range(void * ptr, BufferSizeType num);
 
   /** Swap and write a range of four-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void
-  SwapWrite4Range(void * p, BufferSizeType num, OStreamType * fp);
+  SwapWrite4Range(void * ptr, BufferSizeType num, OStreamType * fp);
 
   /** Swap 8 bytes. */
   static void
-  Swap8(void * p);
+  Swap8(void * ptr);
 
   /** Swap a range of 8-byte words. Num is the number of four-byte words
    * to swap. */
   static void
-  Swap8Range(void * p, BufferSizeType num);
+  Swap8Range(void * ptr, BufferSizeType num);
 
   /** Swap and write a range of 8-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void
-  SwapWrite8Range(void * p, BufferSizeType num, OStreamType * fp);
+  SwapWrite8Range(void * ptr, BufferSizeType num, OStreamType * fp);
 };
 } // end namespace itk
 

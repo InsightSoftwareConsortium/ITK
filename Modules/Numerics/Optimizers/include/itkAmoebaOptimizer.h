@@ -83,7 +83,7 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
 
   /** InternalParameters type alias. */
   using InternalParametersType = vnl_vector<double>;
@@ -162,7 +162,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
+  using Superclass::CostFunctionAdaptorType;
 
 private:
   /**Check that the settings are valid. If not throw an exception.*/

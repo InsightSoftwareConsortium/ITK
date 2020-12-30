@@ -107,7 +107,7 @@ public:
 
   /** Set the labelled image. */
   void
-  SetLabelledImage(LabelledImageType LabelledImage);
+  SetLabelledImage(LabelledImageType image);
 
   /** Get the labelled image. */
   LabelledImageType

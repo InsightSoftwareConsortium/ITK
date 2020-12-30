@@ -435,7 +435,7 @@ protected:
    *  "up" and "down" list for promotion/demotion of indices leaving the
    *  active set. */
   void
-  UpdateActiveLayerValues(TimeStepType dt, LayerType * StatusUpList, LayerType * StatusDownList);
+  UpdateActiveLayerValues(TimeStepType dt, LayerType * UpList, LayerType * DownList);
 
   /** */
   void

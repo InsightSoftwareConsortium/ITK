@@ -101,10 +101,10 @@ public:
   using VectorType = vnl_vector_fixed<double, Self::ObjectDimension>;
 
   /**  Type of the match measure */
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::MeasureType;
 
   /** Type of the derivative of the match measure */
-  using DerivativeType = Superclass::DerivativeType;
+  using Superclass::DerivativeType;
 
   /** Pointer type for the FixedImage  */
   using FixedImagePointer = typename FixedImageType::Pointer;
@@ -120,7 +120,7 @@ public:
 
   /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageToSpatialObjectMetric, Object);

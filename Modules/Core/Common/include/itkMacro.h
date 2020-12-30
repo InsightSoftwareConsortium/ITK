@@ -389,6 +389,9 @@ namespace itk
 
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
 #  define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName) ITK_DISALLOW_COPY_AND_MOVE(TypeName)
+#else
+#  define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName)                                                                       \
+    static_assert(false, "Replace deprecated ITK_DISALLOW_COPY_AND_ASSIGN with modern ITK_DISALLOW_COPY_AND_MOVE")
 #endif
 
 /** Macro used to add standard methods to all classes, mainly type

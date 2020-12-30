@@ -51,8 +51,8 @@ public:
 
   /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  using ParametersType = Superclass::ParametersType;
-  using ParametersValueType = Superclass::ParametersValueType;
+  using Superclass::ParametersType;
+  using Superclass::ParametersValueType;
 
   /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative.  */

@@ -170,7 +170,7 @@ public:
    * which is the inverse of self.
    */
   void
-  CloneInverseTo(Pointer & newinverse) const;
+  CloneInverseTo(Pointer & result) const;
 
   /** Get an inverse of this transform. */
   bool
@@ -185,7 +185,7 @@ public:
    * which has the same parameters.
    */
   void
-  CloneTo(Pointer & clone) const;
+  CloneTo(Pointer & result) const;
 
   /**
    * Set the rotation Matrix of a Similarity 2D Transform

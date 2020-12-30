@@ -171,13 +171,13 @@ public:
   BackTransform(const OutputPointType & point) const;
 
   inline InputVectorType
-  BackTransform(const OutputVectorType & vector) const;
+  BackTransform(const OutputVectorType & vect) const;
 
   inline InputVnlVectorType
-  BackTransform(const OutputVnlVectorType & vector) const;
+  BackTransform(const OutputVnlVectorType & vect) const;
 
   inline InputCovariantVectorType
-  BackTransform(const OutputCovariantVectorType & vector) const;
+  BackTransform(const OutputCovariantVectorType & vect) const;
 
   /** Set/Get the angle of rotation in radians */
   void
@@ -228,14 +228,14 @@ public:
   /** Compute the Jacobian Matrix of the transformation at one point,
    *  allowing for thread-safety. */
   void
-  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & j) const override;
 
   /**
    * This method creates and returns a new Rigid2DTransform object
    * which is the inverse of self.
    */
   void
-  CloneInverseTo(Pointer & newinverse) const;
+  CloneInverseTo(Pointer & result) const;
 
   /** Get an inverse of this transform. */
   bool
@@ -250,7 +250,7 @@ public:
    * which has the same parameters.
    */
   void
-  CloneTo(Pointer & clone) const;
+  CloneTo(Pointer & result) const;
 
   /** Reset the parameters to create and identity transform. */
   void

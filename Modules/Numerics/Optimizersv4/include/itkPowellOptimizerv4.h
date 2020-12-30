@@ -181,10 +181,10 @@ protected:
    * IMPORTANT: The value of ax and the value of the function at ax (i.e., fa),
    * must both be provided to this function. */
   virtual void
-  LineBracket(double * ax, double * bx, double * cx, double * fa, double * fb, double * fc);
+  LineBracket(double * x1, double * x2, double * x3, double * f1, double * f2, double * f3);
 
   virtual void
-  LineBracket(double * ax, double * bx, double * cx, double * fa, double * fb, double * fc, ParametersType & tempCoord);
+  LineBracket(double * x1, double * x2, double * x3, double * f1, double * f2, double * f3, ParametersType & tempCoord);
 
   /** Given a bracketing triple of points and their function values, returns
    * a bounded extreme.  These values are in parameter space, along the
@@ -196,7 +196,7 @@ protected:
                         double   bx,
                         double   cx,
                         double   fa,
-                        double   fb,
+                        double   functionValueOfb,
                         double   fc,
                         double * extX,
                         double * extVal);
@@ -206,7 +206,7 @@ protected:
                         double           bx,
                         double           cx,
                         double           fa,
-                        double           fb,
+                        double           functionValueOfb,
                         double           fc,
                         double *         extX,
                         double *         extVal,

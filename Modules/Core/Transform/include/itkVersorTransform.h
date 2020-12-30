@@ -136,7 +136,7 @@ public:
 protected:
   /** Construct an VersorTransform object */
   VersorTransform(const MatrixType & matrix, const OutputVectorType & offset);
-  VersorTransform(unsigned int paramDims);
+  VersorTransform(unsigned int parametersDimension);
   VersorTransform();
 
   /** Destroy an VersorTransform object */

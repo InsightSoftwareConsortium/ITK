@@ -44,8 +44,8 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(ParticleSwarmTestF1, SingleValuedCostFunction);
 
-  using ParametersType = Superclass::ParametersType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::MeasureType;
 
   ParticleSwarmTestF1() = default;
 
@@ -100,9 +100,9 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(ParticleSwarmTestF2, SingleValuedCostFunction);
 
-  using ParametersType = Superclass::ParametersType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   using VectorType = vnl_vector<double>;
   using MatrixType = vnl_matrix<double>;
@@ -160,8 +160,8 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(ParticleSwarmTestF3, SingleValuedCostFunction);
 
-  using ParametersType = Superclass::ParametersType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::MeasureType;
 
   ParticleSwarmTestF3() = default;
 

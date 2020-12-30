@@ -137,7 +137,7 @@ protected:
   AdvanceOneStep();
 
   void
-  IncrementIndex(ParametersType & param);
+  IncrementIndex(ParametersType & newPosition);
 
 protected:
   MeasureType m_CurrentValue;

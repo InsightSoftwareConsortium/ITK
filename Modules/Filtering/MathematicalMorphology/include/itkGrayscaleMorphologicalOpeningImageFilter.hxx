@@ -36,8 +36,6 @@ GrayscaleMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Gr
   , m_VanHerkGilWermanDilateFilter(VanHerkGilWermanDilateFilterType::New())
   , m_VanHerkGilWermanErodeFilter(VanHerkGilWermanErodeFilterType::New())
   , m_AnchorFilter(AnchorFilterType::New())
-  , m_Algorithm(AlgorithmEnum::HISTO)
-
 {}
 
 template <typename TInputImage, typename TOutputImage, typename TKernel>

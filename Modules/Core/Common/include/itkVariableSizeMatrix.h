@@ -56,7 +56,7 @@ public:
   using InternalMatrixType = vnl_matrix<T>;
 
   /** Matrix by Vector multiplication.  */
-  Array<T> operator*(const Array<T> & vector) const;
+  Array<T> operator*(const Array<T> & vect) const;
 
   /** Matrix by Matrix multiplication.  */
   Self operator*(const Self & matrix) const;
@@ -91,7 +91,7 @@ public:
   operator*=(const vnl_matrix<T> & matrix);
 
   /** Matrix by vnl_vector multiplication.  */
-  vnl_vector<T> operator*(const vnl_vector<T> & matrix) const;
+  vnl_vector<T> operator*(const vnl_vector<T> & vc) const;
 
   /** Matrix by scalar multiplication.  */
   void

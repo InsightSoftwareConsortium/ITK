@@ -107,7 +107,7 @@ protected:
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
   void
-  ThreadedExecution(const DomainType & subdomain, const ThreadIdType threadId) override;
+  ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId) override;
 
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).
@@ -183,7 +183,7 @@ protected:
   /** Walk through the given virtual image domain, and call \c ProcessVirtualPoint on every
    * point. */
   void
-  ThreadedExecution(const DomainType & subdomain, const ThreadIdType threadId) override;
+  ThreadedExecution(const DomainType & indexSubRange, const ThreadIdType threadId) override;
 
   /** Get cached values for efficiency. Only valid once threading has started.
    *  These methods should be used in tight loops (inlining helps measurably).

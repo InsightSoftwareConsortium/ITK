@@ -67,16 +67,16 @@ public:
   itkTypeMacro(ChainCodePath2D, ChainCodePath);
 
   /** OutputType type alias support */
-  using OutputType = Superclass::OutputType;
-  using InputType = Superclass::InputType;
+  using Superclass::OutputType;
+  using Superclass::InputType;
 
   /** The output type of this function is an Index */
   using OffsetType = OutputType;
   using IndexType = Index<2>;
 
   /** ChainCodeType is a useless relic of the parent class */
-  using ChainCodeType = Superclass::ChainCodeType;
-  using ChainCodeSizeType = Superclass::ChainCodeSizeType;
+  using Superclass::ChainCodeType;
+  using Superclass::ChainCodeSizeType;
 
   /** ChainCodePath2D stores its data as a Freeman-encoded chain code */
   using ChainCode2DType = std::vector<int>;

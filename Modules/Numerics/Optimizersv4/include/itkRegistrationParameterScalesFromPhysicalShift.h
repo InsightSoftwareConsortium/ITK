@@ -72,12 +72,12 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  ComputeSampleShifts(const ParametersType & deltaParameters, ScalesType & localShifts) override;
+  ComputeSampleShifts(const ParametersType & deltaParameters, ScalesType & sampleShifts) override;
 
 private:
   template <typename TTransform>
   void
-  ComputeSampleShiftsInternal(const ParametersType & deltaParameters, ScalesType & localShifts);
+  ComputeSampleShiftsInternal(const ParametersType & deltaParameters, ScalesType & sampleShifts);
 
 }; // class RegistrationParameterScalesFromPhysicalShift
 

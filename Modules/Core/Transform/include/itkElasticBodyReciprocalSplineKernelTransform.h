@@ -102,7 +102,7 @@ protected:
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix */
   void
-  ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const override;
+  ComputeG(const InputVectorType & x, GMatrixType & gmatrix) const override;
 
   /** alpha, Poisson's ratio */
   TParametersValueType m_Alpha;

@@ -94,9 +94,9 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using MetricType = Superclass::MetricType;
-  using ParametersType = Superclass::ParametersType;
-  using ScalesType = Superclass::ScalesType;
+  using Superclass::MetricType;
+  using Superclass::ParametersType;
+  using Superclass::ScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -124,7 +124,7 @@ public:
    * the value to a small value (say 0.1).
    */
   void
-  SetLineSearchAccuracy(double tol);
+  SetLineSearchAccuracy(double f);
 
   itkGetConstMacro(LineSearchAccuracy, double);
 
@@ -133,7 +133,7 @@ public:
    * search.
    */
   void
-  SetDefaultStepLength(double stp);
+  SetDefaultStepLength(double f);
 
   itkGetConstMacro(DefaultStepLength, double);
 

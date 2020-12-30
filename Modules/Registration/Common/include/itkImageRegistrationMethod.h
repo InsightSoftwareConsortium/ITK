@@ -194,7 +194,7 @@ public:
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObjectPointer
-  MakeOutput(DataObjectPointerArraySizeType idx) override;
+  MakeOutput(DataObjectPointerArraySizeType output) override;
 
   /** Method to return the latest modified time of this object or
    * any of its cached ivars */

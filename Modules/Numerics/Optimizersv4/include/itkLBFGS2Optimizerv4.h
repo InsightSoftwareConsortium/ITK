@@ -191,9 +191,9 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using MetricType = Superclass::MetricType;
-  using ParametersType = Superclass::ParametersType;
-  using ScalesType = Superclass::ScalesType;
+  using Superclass::MetricType;
+  using Superclass::ParametersType;
+  using Superclass::ScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -463,7 +463,7 @@ protected:
 
   /** Progress callback from libLBFGS forwards it to the specific instance */
   static int
-  UpdateProgressCallback(void *                Instance,
+  UpdateProgressCallback(void *                instance,
                          const PrecisionType * x,
                          const PrecisionType * g,
                          const PrecisionType   fx,

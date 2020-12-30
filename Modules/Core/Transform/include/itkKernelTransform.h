@@ -302,7 +302,7 @@ protected:
   /** Compute the contribution of the landmarks weighted by the kernel function
       to the global deformation of the space  */
   virtual void
-  ComputeDeformationContribution(const InputPointType & inputPoint, OutputPointType & result) const;
+  ComputeDeformationContribution(const InputPointType & thisPoint, OutputPointType & result) const;
 
   /** Compute K matrix. */
   void

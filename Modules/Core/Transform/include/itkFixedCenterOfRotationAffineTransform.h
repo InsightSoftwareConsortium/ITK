@@ -120,7 +120,7 @@ public:
 protected:
   /** Construct an FixedCenterOfRotationAffineTransform object */
   FixedCenterOfRotationAffineTransform(const MatrixType & matrix, const OutputVectorType & offset);
-  FixedCenterOfRotationAffineTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
+  FixedCenterOfRotationAffineTransform(unsigned int outputSpaceDims, unsigned int paramsDims);
   FixedCenterOfRotationAffineTransform();
 
   /** Destroy an FixedCenterOfRotationAffineTransform object   */

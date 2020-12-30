@@ -85,7 +85,7 @@ public:
 
   /**  Delegate computation of value and gradient to the costFunction.     */
   void
-  compute(const InternalParametersType & x, InternalMeasureType * f, InternalDerivativeType * g) override;
+  compute(const InternalParametersType & x, InternalMeasureType * fun, InternalDerivativeType * g) override;
 
   /**  Convert external derivative measures into internal type   */
   void

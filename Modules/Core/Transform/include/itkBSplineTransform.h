@@ -184,7 +184,7 @@ public:
    *
    */
   void
-  SetFixedParameters(const FixedParametersType & parameters) override;
+  SetFixedParameters(const FixedParametersType & passedParameters) override;
 
   /** Parameters as SpaceDimension number of images. */
   using ImageType = typename Superclass::ImageType;
@@ -233,7 +233,7 @@ public:
    */
   using Superclass::TransformPoint;
   void
-  TransformPoint(const InputPointType &    inputPoint,
+  TransformPoint(const InputPointType &    point,
                  OutputPointType &         outputPoint,
                  WeightsType &             weights,
                  ParameterIndexArrayType & indices,

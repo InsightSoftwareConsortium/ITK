@@ -67,9 +67,9 @@ public:
     RangeDimension = (2 * XRange + 1) * (2 * YRange + 1)
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   LMCostFunction()
     : m_Measure(RangeDimension)

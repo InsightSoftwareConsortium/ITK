@@ -214,7 +214,7 @@ public:
 
   /** Compute the equation value. */
   PixelType
-  ComputeUpdate(const NeighborhoodType & neighborhood,
+  ComputeUpdate(const NeighborhoodType & it,
                 void *                   globalData,
                 const FloatOffsetType & = FloatOffsetType(0.0)) override;
 
@@ -342,7 +342,7 @@ protected:
 
   ~LevelSetFunction() override = default;
   void
-  PrintSelf(std::ostream & s, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Constants used in the time step calculation. */
   static double m_WaveDT;

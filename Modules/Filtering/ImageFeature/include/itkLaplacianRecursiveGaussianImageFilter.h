@@ -109,7 +109,7 @@ public:
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
   void
-  SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+  SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
 protected:

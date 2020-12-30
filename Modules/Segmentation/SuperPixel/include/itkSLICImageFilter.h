@@ -178,13 +178,13 @@ protected:
   ThreadedUpdateDistanceAndLabel(const OutputImageRegionType & outputRegionForThread);
 
   void
-  ThreadedUpdateClusters(const OutputImageRegionType & outputRegionForThread);
+  ThreadedUpdateClusters(const OutputImageRegionType & updateRegionForThread);
 
   void
-  ThreadedPerturbClusters(SizeValueType idx);
+  ThreadedPerturbClusters(SizeValueType clusterIndex);
 
   void
-  ThreadedConnectivity(SizeValueType idx);
+  ThreadedConnectivity(SizeValueType clusterIndex);
 
   void
   SingleThreadedConnectivity();
@@ -200,7 +200,7 @@ protected:
   Distance(const ClusterType & cluster1, const ClusterType & cluster2);
 
   DistanceType
-  Distance(const ClusterType & cluster, const InputPixelType & v, const PointType & pt);
+  Distance(const ClusterType & cluster, const InputPixelType & _v, const PointType & pt);
 
 private:
   SuperGridSizeType m_SuperGridSize;

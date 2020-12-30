@@ -236,7 +236,7 @@ protected:
 
   /** Compute the transform Jacobian at a physical point. */
   void
-  ComputeSquaredJacobianNorms(const VirtualPointType & p, ParametersType & squareNorms);
+  ComputeSquaredJacobianNorms(const VirtualPointType & point, ParametersType & squareNorms);
 
   /** Check if the transform being optimized has local support. */
   bool

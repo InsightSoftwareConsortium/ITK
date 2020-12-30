@@ -104,7 +104,7 @@ public:
 
   /** Compute incremental update. */
   PixelType
-  ComputeUpdate(const NeighborhoodType & neighborhood,
+  ComputeUpdate(const NeighborhoodType & it,
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 

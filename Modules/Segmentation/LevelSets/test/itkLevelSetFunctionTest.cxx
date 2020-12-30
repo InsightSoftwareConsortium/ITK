@@ -102,8 +102,8 @@ public:
   using Self = MorphFunction;
 
   using Superclass = ::itk::LevelSetFunction<::itk::Image<float, 2>>;
-  using RadiusType = Superclass::RadiusType;
-  using GlobalDataStruct = Superclass::GlobalDataStruct;
+  using Superclass::RadiusType;
+  using Superclass::GlobalDataStruct;
 
   /**
    * Smart pointer support for this class.

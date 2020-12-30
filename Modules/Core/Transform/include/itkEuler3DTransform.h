@@ -136,7 +136,7 @@ public:
 
 protected:
   Euler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
-  Euler3DTransform(unsigned int paramsSpaceDims);
+  Euler3DTransform(unsigned int parametersDimension);
   Euler3DTransform();
 
   ~Euler3DTransform() override = default;

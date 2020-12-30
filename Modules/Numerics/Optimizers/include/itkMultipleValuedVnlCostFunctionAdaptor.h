@@ -85,7 +85,7 @@ public:
 
   /**  Delegate computation of value and gradient to the costFunction.     */
   virtual void
-  compute(const InternalParametersType & x, InternalMeasureType * f, InternalDerivativeType * g);
+  compute(const InternalParametersType & x, InternalMeasureType * ff, InternalDerivativeType * g);
 
   /**  Convert external derivative measures  into internal type */
   void

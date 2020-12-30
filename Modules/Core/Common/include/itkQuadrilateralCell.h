@@ -119,7 +119,7 @@ public:
 
   /** Evaluate the position inside the cell */
   bool
-  EvaluatePosition(CoordRepType *    position,
+  EvaluatePosition(CoordRepType *    x,
                    PointsContainer * points,
                    CoordRepType *    closestPoint,
                    CoordRepType[CellDimension],

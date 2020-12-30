@@ -73,11 +73,11 @@ public:
   itkNewMacro(Self);
 
   /** Types for discriminant values and vectors. */
-  using MembershipValueType = Superclass::MembershipValueType;
-  using MembershipVectorType = Superclass::MembershipVectorType;
+  using Superclass::MembershipValueType;
+  using Superclass::MembershipVectorType;
 
   /** Types for class identifiers. */
-  using ClassIdentifierType = Superclass::ClassIdentifierType;
+  using Superclass::ClassIdentifierType;
 
   /** Types for priors and values */
   using PriorProbabilityValueType = MembershipValueType;

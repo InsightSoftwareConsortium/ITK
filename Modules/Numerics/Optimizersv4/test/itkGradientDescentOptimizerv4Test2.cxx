@@ -46,11 +46,11 @@ public:
     SpaceDimension = 3
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using ParametersValueType = Superclass::ParametersValueType;
-  using NumberOfParametersType = Superclass::NumberOfParametersType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::ParametersValueType;
+  using Superclass::NumberOfParametersType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   GradientDescentOptimizerv4Test2Metric()
   {

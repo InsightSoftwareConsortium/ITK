@@ -232,7 +232,7 @@ protected:
 
   /** Arranges coefficients spatially in the memory buffer. */
   void
-  Fill(const CoefficientVector & c) override;
+  Fill(const CoefficientVector & coeff) override;
 
 private:
   double      m_InnerRadius{ 1.0 };

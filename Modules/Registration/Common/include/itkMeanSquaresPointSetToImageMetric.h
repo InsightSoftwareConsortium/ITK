@@ -77,7 +77,7 @@ public:
 
   /** Get the derivatives of the match measure. */
   void
-  GetDerivative(const TransformParametersType & parameters, DerivativeType & Derivative) const override;
+  GetDerivative(const TransformParametersType & parameters, DerivativeType & derivative) const override;
 
   /**  Get the value for single valued optimizers. */
   MeasureType
@@ -86,8 +86,8 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   Value,
-                        DerivativeType &                Derivative) const override;
+                        MeasureType &                   value,
+                        DerivativeType &                derivative) const override;
 
 protected:
   MeanSquaresPointSetToImageMetric() = default;

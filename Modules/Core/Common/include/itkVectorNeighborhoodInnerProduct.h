@@ -75,7 +75,7 @@ public:
   }
 
   PixelType
-  operator()(const std::slice & s, const NeighborhoodType & N, const OperatorType & op) const;
+  operator()(const std::slice & s, const NeighborhoodType & it, const OperatorType & op) const;
 };
 } // end namespace itk
 

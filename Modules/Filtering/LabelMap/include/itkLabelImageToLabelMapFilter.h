@@ -114,7 +114,7 @@ protected:
   BeforeThreadedGenerateData() override;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) override;
+  ThreadedGenerateData(const OutputImageRegionType & regionForThread, ThreadIdType threadId) override;
 
   void
   DynamicThreadedGenerateData(const OutputImageRegionType &) override

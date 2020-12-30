@@ -71,16 +71,16 @@ public:
   using CompatibleSquareMatrixType = Matrix<T, NColumns, NColumns>;
 
   /** Matrix by Vector multiplication.  */
-  Vector<T, NRows> operator*(const Vector<T, NColumns> & vector) const;
+  Vector<T, NRows> operator*(const Vector<T, NColumns> & vect) const;
 
   /** Matrix by Point multiplication.  */
-  Point<T, NRows> operator*(const Point<T, NColumns> & vector) const;
+  Point<T, NRows> operator*(const Point<T, NColumns> & pnt) const;
 
   /** Matrix by CovariantVector multiplication.  */
-  CovariantVector<T, NRows> operator*(const CovariantVector<T, NColumns> & vector) const;
+  CovariantVector<T, NRows> operator*(const CovariantVector<T, NColumns> & covect) const;
 
   /** Matrix by vnl_vector_fixed multiplication.  */
-  vnl_vector_fixed<T, NRows> operator*(const vnl_vector_fixed<T, NColumns> & vector) const;
+  vnl_vector_fixed<T, NRows> operator*(const vnl_vector_fixed<T, NColumns> & inVNLvect) const;
 
   /** Matrix by Matrix multiplication.  */
   Self operator*(const CompatibleSquareMatrixType & matrix) const;
@@ -118,7 +118,7 @@ public:
   operator*=(const vnl_matrix<T> & matrix);
 
   /** Matrix by vnl_vector multiplication.  */
-  vnl_vector<T> operator*(const vnl_vector<T> & matrix) const;
+  vnl_vector<T> operator*(const vnl_vector<T> & vc) const;
 
   /** Matrix by scalar multiplication. */
   void

@@ -45,9 +45,9 @@ itkTriangleCellTest(int, char *[])
   class TriangleHelper : public TriangleCellType
   {
     using Superclass = TriangleCellType;
-    using CoordRepType = Superclass::CoordRepType;
-    using PointsContainer = Superclass::PointsContainer;
-    using InterpolationWeightType = Superclass::InterpolationWeightType;
+    using Superclass::CoordRepType;
+    using Superclass::PointsContainer;
+    using Superclass::InterpolationWeightType;
 
   public:
     bool

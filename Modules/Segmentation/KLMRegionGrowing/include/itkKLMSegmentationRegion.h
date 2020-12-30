@@ -123,7 +123,7 @@ public:
   using RegionBorderVectorConstIterator = RegionBorderVectorType::const_iterator;
 
   /** type definition for the region label type. */
-  using RegionLabelType = Superclass::RegionLabelType;
+  using Superclass::RegionLabelType;
 
   /** Get a head pointer to the vector container storing the borders
    * associated with a region. */
@@ -174,7 +174,7 @@ public:
 
   /** Insert a region border into the border list at a given location. */
   void
-  InsertRegionBorder(RegionBorderVectorIterator it, KLMSegmentationBorder * pBorderCandidate);
+  InsertRegionBorder(RegionBorderVectorIterator RegionBorderVectorIt, KLMSegmentationBorder * pBorderCandidate);
 
   /** Delete a region border from the border list. */
   void

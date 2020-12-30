@@ -100,8 +100,8 @@ public:
   /**  Get value and derivatives for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
-                        MeasureType &                   Value,
-                        DerivativeType &                Derivative) const;
+                        MeasureType &                   value,
+                        DerivativeType &                derivative) const;
 
   /** Set/Get the distance map. */
   itkSetConstObjectMacro(DistanceMap, DistanceMapType);

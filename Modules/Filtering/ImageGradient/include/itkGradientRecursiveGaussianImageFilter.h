@@ -131,7 +131,7 @@ public:
 
   /** Set Sigma value. Sigma is measured in the units of image spacing. */
   void
-  SetSigmaArray(const SigmaArrayType & sigmas);
+  SetSigmaArray(const SigmaArrayType & sigma);
   void
   SetSigma(ScalarRealType sigma);
 
@@ -144,7 +144,7 @@ public:
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
   void
-  SetNormalizeAcrossScale(bool normalizeInScaleSpace);
+  SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
 
   /** GradientRecursiveGaussianImageFilter needs all of the input to produce an

@@ -80,7 +80,7 @@ public:
   itkGetMacro(FitError, double);
 
   void
-  SetDataArray(MeasureType * dataArray);
+  SetDataArray(MeasureType * cumGaussianArray);
 
   /** Start the optimizer. */
   void

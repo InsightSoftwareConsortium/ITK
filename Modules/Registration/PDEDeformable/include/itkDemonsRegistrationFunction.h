@@ -148,7 +148,7 @@ public:
 
   /** Release memory for global data structure. */
   void
-  ReleaseGlobalDataPointer(void * GlobalData) const override;
+  ReleaseGlobalDataPointer(void * gd) const override;
 
   /** Set the object's state before each iteration. */
   void
@@ -157,9 +157,7 @@ public:
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
   PixelType
-  ComputeUpdate(const NeighborhoodType & neighborhood,
-                void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
+  ComputeUpdate(const NeighborhoodType & it, void * gd, const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 
   /** Get the metric value. The metric value is the mean square difference
    * in intensity between the fixed image and transforming moving image

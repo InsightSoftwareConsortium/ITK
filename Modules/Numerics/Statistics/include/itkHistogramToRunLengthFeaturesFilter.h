@@ -216,7 +216,7 @@ public:
 
   /** convenience method to access the run length values */
   MeasurementType
-  GetFeature(RunLengthFeatureEnum name);
+  GetFeature(RunLengthFeatureEnum feature);
 
 protected:
   HistogramToRunLengthFeaturesFilter();

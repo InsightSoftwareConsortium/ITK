@@ -299,7 +299,7 @@ public:
    * 3 x 3 x 3 kernel. The labeler needs to be extended for a different
    * kernel size. */
   virtual void
-  SetMRFNeighborhoodWeight(std::vector<double> BetaMatrix);
+  SetMRFNeighborhoodWeight(std::vector<double> betaMatrix);
 
   virtual std::vector<double>
   GetMRFNeighborhoodWeight()

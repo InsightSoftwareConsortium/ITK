@@ -51,10 +51,10 @@ public:
     SpaceDimension = 2
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using DerivativeType = Superclass::DerivativeType;
-  using ParametersValueType = Superclass::ParametersValueType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::DerivativeType;
+  using Superclass::ParametersValueType;
+  using Superclass::MeasureType;
 
 
   RSGv4TestMetric()

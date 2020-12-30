@@ -203,7 +203,8 @@ private:
       true,                                                                                                            \
       CreateObjectFunction<                                                                                            \
         GPUDemonsRegistrationFilter<InputImageType, OutputImageType, DisplacementFieldType>>::New());                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   GPUDemonsRegistrationFilterFactory()
   {

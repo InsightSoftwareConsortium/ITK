@@ -179,7 +179,7 @@ public:
 
   /** Add a vertex located at the given point, and return its ID. */
   IdentifierType
-  AddVertex(const IdentifierArrayType & pointIds);
+  AddVertex(const IdentifierArrayType & pointIDs);
 
   IdentifierType
   AddVertex(IdentifierType pointId0);
@@ -195,7 +195,7 @@ public:
    * line in the order that they are specified the first time the
    * function is called. */
   IdentifierType
-  AddLine(const IdentifierArrayType & pointIds);
+  AddLine(const IdentifierArrayType & pointIDs);
 
   IdentifierType
   AddLine(IdentifierType pointId0, IdentifierType pointId1);
@@ -217,7 +217,7 @@ public:
    * Lines: (p0, p1), (p1, p2), (p2, p0).
    * */
   IdentifierType
-  AddTriangle(const IdentifierArrayType & pointIds);
+  AddTriangle(const IdentifierArrayType & pointIDs);
 
   IdentifierType
   AddTriangle(IdentifierType pointId0, IdentifierType pointId1, IdentifierType pointId2);
@@ -249,7 +249,7 @@ public:
    * <tt>meshSource->AddQuadrilateral(p0, p1, p2, p3)</tt>.
    * */
   IdentifierType
-  AddQuadrilateral(const IdentifierArrayType & pointIds);
+  AddQuadrilateral(const IdentifierArrayType & pointIDs);
 
   IdentifierType
   AddQuadrilateral(IdentifierType pointId0, IdentifierType pointId1, IdentifierType pointId2, IdentifierType pointId3);
@@ -276,7 +276,7 @@ public:
    * Triangles: (p0, p1, p2), (p0, p1, p3), (p0, p2, p3), (p1, p2, * p3).
    * */
   IdentifierType
-  AddTetrahedron(const IdentifierArrayType & pointIds);
+  AddTetrahedron(const IdentifierArrayType & pointIDs);
 
   IdentifierType
   AddTetrahedron(IdentifierType pointId0, IdentifierType pointId1, IdentifierType pointId2, IdentifierType pointId3);
@@ -319,7 +319,7 @@ public:
    * <tt>meshSource->AddQuadrilateral(p0, p1, p2, p3, p4, p5, p6,
    * p7)</tt>. */
   IdentifierType
-  AddHexahedron(const IdentifierArrayType & pointIds);
+  AddHexahedron(const IdentifierArrayType & pointIDs);
 
   IdentifierType
   AddHexahedron(IdentifierType pointId0,

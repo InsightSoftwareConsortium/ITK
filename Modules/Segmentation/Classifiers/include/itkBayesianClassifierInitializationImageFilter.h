@@ -131,7 +131,7 @@ public:
    * are Gaussian density functions centered around the K-means of the
    * input image.  */
   virtual void
-  SetMembershipFunctions(MembershipFunctionContainerType * densityFunctionContainer);
+  SetMembershipFunctions(MembershipFunctionContainerType * membershipFunction);
   itkGetModifiableObjectMacro(MembershipFunctionContainer, MembershipFunctionContainerType);
 
   /** Set/Get methods for the number of classes. The user must supply this. */

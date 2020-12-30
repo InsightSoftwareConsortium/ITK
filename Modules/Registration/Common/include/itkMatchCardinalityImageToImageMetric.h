@@ -150,7 +150,7 @@ protected:
    * subregion to the overall metric.  Can only be called from
    * GetValue(). */
   virtual void
-  ThreadedGetValue(const FixedImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  ThreadedGetValue(const FixedImageRegionType & regionForThread, ThreadIdType threadId);
 
   /** Split the FixedImageRegion into "num" pieces, returning
    * region "i" as "splitRegion". This method is called "num" times. The

@@ -108,7 +108,7 @@ public:
 
   /** Evaluate the function at specified ContinuousIndex position. */
   OutputType
-  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override;
 
   /**
    * UseImageSpacing controls the extent of the computations.

@@ -56,11 +56,11 @@ public:
     SpaceDimension = 2
   };
 
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
   using ParametersPointer = Superclass::ParametersType *;
-  using ParametersValueType = Superclass::ParametersValueType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersValueType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   MultiGradientOptimizerv4TestMetric() = default;
 
@@ -169,11 +169,11 @@ public:
     SpaceDimension = 2
   };
 
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
   using ParametersPointer = Superclass::ParametersType *;
-  using ParametersValueType = Superclass::ParametersValueType;
-  using DerivativeType = Superclass::DerivativeType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersValueType;
+  using Superclass::DerivativeType;
+  using Superclass::MeasureType;
 
   MultiGradientOptimizerv4TestMetric2() = default;
 

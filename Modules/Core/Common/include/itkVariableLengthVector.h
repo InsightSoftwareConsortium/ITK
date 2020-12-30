@@ -334,7 +334,7 @@ public:
    * \post \c m_NumElements is \c dimension
    * \post \c m_LetArrayManageMemory is true
    */
-  explicit VariableLengthVector(unsigned int dimension);
+  explicit VariableLengthVector(unsigned int length);
 
   /** Constructor that initializes array with contents from a user supplied
    * buffer.
@@ -349,7 +349,7 @@ public:
    * \post `m_NumElements == sz`
    * \post `m_LetArrayManageMemory == LetArrayManageMemory`
    */
-  VariableLengthVector(ValueType * data, unsigned int sz, bool LetArrayManageMemory = false);
+  VariableLengthVector(ValueType * datain, unsigned int sz, bool LetArrayManageMemory = false);
 
   /** Constructor that initializes array with contents from a user supplied
    * buffer.
@@ -370,7 +370,7 @@ public:
    * \post `m_NumElements == sz`
    * \post `m_LetArrayManageMemory == LetArrayManageMemory`
    */
-  VariableLengthVector(const ValueType * data, unsigned int sz, bool LetArrayManageMemory = false);
+  VariableLengthVector(const ValueType * datain, unsigned int sz, bool LetArrayManageMemory = false);
 
   /** Copy constructor. The reason why the copy constructor and the assignment
    * operator are templated is that it will allow implicit casts to be
@@ -693,7 +693,7 @@ public:
    * \post \c Size() is left unmodified.
    */
   void
-  SetData(TValue * data, bool LetArrayManageMemory = false);
+  SetData(TValue * datain, bool LetArrayManageMemory = false);
 
   /** Similar to the previous method. In the above method, the size must be
    * separately set prior to using user-supplied data. This introduces an
@@ -710,7 +710,7 @@ public:
    * \post `m_NumElements == sz`
    */
   void
-  SetData(TValue * data, unsigned int sz, bool LetArrayManageMemory = false);
+  SetData(TValue * datain, unsigned int sz, bool LetArrayManageMemory = false);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory.

@@ -99,7 +99,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  InitializeOutput(OutputImageType * oImage) override;
+  InitializeOutput(OutputImageType * output) override;
 
   void
   UpdateNeighbors(OutputImageType * oImage, const NodeType & iNode) override;

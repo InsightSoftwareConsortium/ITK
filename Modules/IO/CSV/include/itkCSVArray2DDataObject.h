@@ -169,7 +169,7 @@ public:
   EraseFirstColumnHeader();
 
 protected:
-  CSVArray2DDataObject();
+  CSVArray2DDataObject() = default;
   ~CSVArray2DDataObject() override = default;
   /** Print method */
   void
@@ -177,10 +177,10 @@ protected:
 
 private:
   MatrixType       m_Matrix;
-  StringVectorType m_ColumnHeaders;
-  StringVectorType m_RowHeaders;
-  bool             m_HasRowHeaders;
-  bool             m_HasColumnHeaders;
+  StringVectorType m_ColumnHeaders{};
+  StringVectorType m_RowHeaders{};
+  bool             m_HasRowHeaders{ false };
+  bool             m_HasColumnHeaders{ false };
 };
 
 } // end namespace itk

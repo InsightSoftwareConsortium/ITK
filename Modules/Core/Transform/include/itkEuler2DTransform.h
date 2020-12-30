@@ -97,7 +97,7 @@ public:
    * which is the inverse of self.
    */
   void
-  CloneInverseTo(Pointer & newinverse) const;
+  CloneInverseTo(Pointer & result) const;
 
   /** Get an inverse of this transform. */
   bool
@@ -112,7 +112,7 @@ public:
    * which has the same parameters as self.
    */
   void
-  CloneTo(Pointer & clone) const;
+  CloneTo(Pointer & result) const;
 
   /**
    * Update the angle from the underlying matrix. This method

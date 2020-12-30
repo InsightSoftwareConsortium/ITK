@@ -98,7 +98,7 @@ Updated style
 Important changes in style have also been integrated in ITK to match
 C++11 best practices. This includes replacing `typedef` calls with
 the keyword `using`, the usage of the keyword `auto` when appropriate,
-and moving the macro `ITK_DISALLOW_COPY_AND_ASSIGN` from the private
+and moving the macros `ITK_DISALLOW_COPY_AND_ASSIGN` or `ITK_DISALLOW_COPY_AND_MOVE` from the private
 class section to the public class section. The ITK Software Guide has
 been updated to match these changes.
 

@@ -285,7 +285,7 @@ protected:
   /** This method computes curvature from normal vectors stored in a sparse
       image neighborhood. */
   ValueType
-  ComputeCurvatureFromSparseImageNeighborhood(SparseImageIteratorType & neighborhood) const;
+  ComputeCurvatureFromSparseImageNeighborhood(SparseImageIteratorType & it) const;
 
   /** This method computes curvature from the processed normal vectors over
    *  the region specified by the CurvatureBandWidth parameter. The

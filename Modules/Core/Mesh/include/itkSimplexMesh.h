@@ -175,13 +175,13 @@ public:
    * Get the three direct neighbors of a point
    */
   IndexArray
-  GetNeighbors(PointIdentifier pointId) const;
+  GetNeighbors(PointIdentifier idx) const;
 
   /**
    * Get all neighbor points with a specified radius
    */
   NeighborListType *
-  GetNeighbors(PointIdentifier pointId, unsigned int radius, NeighborListType * list = nullptr) const;
+  GetNeighbors(PointIdentifier idx, unsigned int radius, NeighborListType * list = nullptr) const;
 
   /**
    * Add a neighbor to a point.
@@ -189,19 +189,19 @@ public:
    * Better use te simplex mesh creation filters.
    */
   void
-  AddNeighbor(PointIdentifier pointId, PointIdentifier neighborId);
+  AddNeighbor(PointIdentifier pointIdx, PointIdentifier neighborIdx);
 
   /**
    * Replace a neighbor of a specific point by a new one
    */
   void
-  ReplaceNeighbor(PointIdentifier pointId, PointIdentifier oldNeighborId, PointIdentifier newNeighborIdx);
+  ReplaceNeighbor(PointIdentifier pointIdx, PointIdentifier oldIdx, PointIdentifier newIdx);
 
   /**
    * Swap the order of two neighbors
    */
   void
-  SwapNeighbors(PointIdentifier pointId, PointIdentifier firstNeighborId, PointIdentifier secondNeighborId);
+  SwapNeighbors(PointIdentifier pointIdx, PointIdentifier firstIdx, PointIdentifier secondIdx);
 
   /**
    * Set the geometry data for a specified point
@@ -213,7 +213,7 @@ public:
    * Set the geometry data for a specified point
    */
   void
-  SetBarycentricCoordinates(PointIdentifier idx, PointType values);
+  SetBarycentricCoordinates(PointIdentifier idx, PointType value);
 
   /**
    * Set the barycentric coordinates for a specified point
@@ -225,7 +225,7 @@ public:
    * Set the reference metrics for a specified point
    */
   void
-  SetReferenceMetrics(PointIdentifier idx, PointType values);
+  SetReferenceMetrics(PointIdentifier idx, PointType value);
 
   /**
    *  Return the reference metrics for the specified point
@@ -237,7 +237,7 @@ public:
    * Set the simplex angle for the specified point
    */
   void
-  SetPhi(PointIdentifier idx, double values);
+  SetPhi(PointIdentifier idx, double value);
 
   /**
    * Get the simplex angle for the specified point
@@ -249,7 +249,7 @@ public:
    * Set the mean curvature for the specified point
    */
   void
-  SetMeanCurvature(PointIdentifier idx, double values);
+  SetMeanCurvature(PointIdentifier idx, double value);
 
   /**
    * Get the mean curvature for the specified point
@@ -261,7 +261,7 @@ public:
    * Set the circum circles radius for the specified point
    */
   void
-  SetRadius(PointIdentifier idx, double values);
+  SetRadius(PointIdentifier idx, double value);
 
   /**
    * Get the circum circles radius for the specified point
@@ -273,7 +273,7 @@ public:
    * Set the distance to the foot point for the specified point
    */
   void
-  SetDistance(PointIdentifier idx, double values);
+  SetDistance(PointIdentifier idx, double value);
 
   /**
    * Get the distance to the foot point for the specified point

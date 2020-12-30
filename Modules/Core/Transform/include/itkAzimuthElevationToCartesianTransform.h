@@ -130,7 +130,7 @@ public:
   /** Set the transformation parameters. */
   void
   SetAzimuthElevationToCartesianParameters(const double sampleSize,
-                                           const double blanking,
+                                           const double firstSampleDistance,
                                            const long   maxAzimuth,
                                            const long   maxElevation,
                                            const double azimuthAngleSeparation,
@@ -138,7 +138,7 @@ public:
 
   void
   SetAzimuthElevationToCartesianParameters(const double sampleSize,
-                                           const double blanking,
+                                           const double firstSampleDistance,
                                            const long   maxAzimuth,
                                            const long   maxElevation);
 
@@ -237,7 +237,7 @@ protected:
 
   /** Print contents of an AzimuthElevationTransform. */
   void
-  PrintSelf(std::ostream & s, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   long   m_MaxAzimuth;

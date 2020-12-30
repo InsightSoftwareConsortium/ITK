@@ -114,7 +114,7 @@ public:
   void
   Graft(const DataObject *) override;
   void
-  Graft(const Self * decorator);
+  Graft(const Self * data);
 
   /** Method to aid in dynamic Graft of polymorphic types.
    *

@@ -57,16 +57,16 @@ public:
   itkTypeMacro(OrthogonallyCorrected2DParametricPath, ParametricPath);
 
   /** Input type */
-  using InputType = Superclass::InputType;
+  using Superclass::InputType;
 
   /** Output type */
-  using OutputType = Superclass::OutputType;
+  using Superclass::OutputType;
 
   /** Basic data-structure types used */
   using ContinuousIndexType = ContinuousIndex<double, 2>;
   using IndexType = Index<2>;
   using OffsetType = Offset<2>;
-  using VectorType = Superclass::VectorType;
+  using Superclass::VectorType;
   using OriginalPathType = ParametricPath<2>;
   using OriginalPathConstPointer = OriginalPathType::ConstPointer;
   using OrthogonalCorrectionTableType = VectorContainer<unsigned, double>;
@@ -76,7 +76,7 @@ public:
 
   /** Return the location of the parametric path at the specified location. */
   OutputType
-  Evaluate(const InputType & input) const override;
+  Evaluate(const InputType & inputValue) const override;
 
   /** Set pointer to the original path.  The path MUST be continuous in its
    * first derivative to prevent discontinuities in the corrected path.  The

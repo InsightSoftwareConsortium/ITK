@@ -93,13 +93,13 @@ public:
   /** Graft the provided VideoStream onto the TemporalProcessObject's idx'th
    * output using VideoStream's Graft implementation */
   virtual void
-  GraftNthOutput(unsigned int idx, OutputVideoStreamType * output);
+  GraftNthOutput(unsigned int idx, OutputVideoStreamType * graft);
 
   /** Graft the provided VideoStream onto the 0th output. This is useful for
    * ImageSources that use a mini-pipeline internally. See comment in
    * ImageSource for more information. */
   virtual void
-  GraftOutput(OutputVideoStreamType * output);
+  GraftOutput(OutputVideoStreamType * graft);
 
   /** Make a DataObject of the correct type for the specified output port. The
    * default always creates an OutputVideoStreamType object, so subclasses with

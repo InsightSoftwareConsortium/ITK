@@ -79,7 +79,7 @@ public:
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
   virtual void
-  SetInput(const TInputImage * image);
+  SetInput(const TInputImage * input);
   const TInputImage *
   GetInput() const;
 

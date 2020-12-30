@@ -34,7 +34,7 @@ class FileTools
 public:
   /** Helper function to create the directory, if it does not exist. */
   static void
-  CreateDirectory(const std::string & fn);
+  CreateDirectory(const std::string & dir);
 
   /** Function to create a file, if it does not exist. */
   static void

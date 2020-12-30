@@ -123,7 +123,7 @@ public:
    *
    * \sa SetImportPointer() */
   void
-  Reserve(ElementIdentifier num, const bool UseDefaultConstructor = false);
+  Reserve(ElementIdentifier size, const bool UseDefaultConstructor = false);
 
   /** Tell the container to try to minimize its memory usage for
    * storage of the current number of elements.  If new memory is

@@ -124,7 +124,7 @@ public:
   /** Counts the number of rows and columns in a file and prepares the file
    * for iterative reading using the GetNextField() method. */
   void
-  GetDataDimension(SizeValueType & rows, SizeValueType & columns);
+  GetDataDimension(SizeValueType & rows, SizeValueType & cols);
 
   /** Gets the next entry in the file. Returns a string. This function
    *  must always only be called after GetDataDimension(). */

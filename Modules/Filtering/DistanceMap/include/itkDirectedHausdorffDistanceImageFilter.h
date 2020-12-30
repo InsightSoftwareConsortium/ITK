@@ -160,7 +160,7 @@ protected:
 
   /** Multi-thread version GenerateData. */
   void
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId) override;
+  ThreadedGenerateData(const RegionType & regionForThread, ThreadIdType threadId) override;
 
   void
   DynamicThreadedGenerateData(const RegionType &) override

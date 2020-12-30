@@ -135,7 +135,7 @@ public:
   /** Set/Gets the initial proportion values. The size of proportion
    * vector should be same as the number of component (or classes) */
   void
-  SetInitialProportions(ProportionVectorType & propotion);
+  SetInitialProportions(ProportionVectorType & proportions);
 
   const ProportionVectorType &
   GetInitialProportions() const;

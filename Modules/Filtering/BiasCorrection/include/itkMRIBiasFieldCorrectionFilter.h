@@ -80,10 +80,10 @@ public:
   using ParametersType = typename Superclass::ParametersType;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
-  using DerivativeType = Superclass::DerivativeType;
+  using Superclass::DerivativeType;
 
   /** The cost value type. */
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::MeasureType;
 
   static constexpr unsigned int SpaceDimension = 3;
 
@@ -112,7 +112,7 @@ public:
   /** Sets the sampling factors of the energy function in each direction.
    *   Default is 1 in each dimension */
   void
-  SetSamplingFactors(SamplingFactorType factor)
+  SetSamplingFactors(const SamplingFactorType factor)
   {
     for (unsigned int i = 0; i < SpaceDimension; i++)
     {
@@ -552,7 +552,7 @@ protected:
    * the dimension of the resulting domain size will be one less than that of
    * he image region. */
   void
-  GetBiasFieldSize(InputImageRegionType region, BiasFieldType::DomainSizeType & domainSize);
+  GetBiasFieldSize(InputImageRegionType region, BiasFieldType::DomainSizeType & biasSize);
 
   /** Find overlapping regions between the slab regions and the output image's
    * requested region. And then replace the original slab regions with

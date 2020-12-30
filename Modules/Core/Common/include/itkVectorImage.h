@@ -325,7 +325,7 @@ public:
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
   virtual void
-  Graft(const Self * data);
+  Graft(const Self * image);
 
   /** Return the Pixel Accessor object */
   AccessorType

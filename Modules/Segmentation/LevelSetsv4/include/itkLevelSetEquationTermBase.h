@@ -97,7 +97,7 @@ public:
   itkGetModifiableObjectMacro(CurrentLevelSetPointer, LevelSetType);
 
   virtual void
-  SetLevelSetContainer(LevelSetContainerType * ptr);
+  SetLevelSetContainer(LevelSetContainerType * iContainer);
   itkGetModifiableObjectMacro(LevelSetContainer, LevelSetContainerType);
 
   /** Returns the weighted term contribution at the given location iP, i.e.

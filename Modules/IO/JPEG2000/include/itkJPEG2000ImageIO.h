@@ -135,7 +135,7 @@ public:
    * streamable region, which will be smaller than the LargestPossibleRegion and
    * greater or equal to the RequestedRegion */
   ImageIORegion
-  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const override;
+  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const override;
 
   /** Method required by the base class StreamingImageIOBase */
   SizeType

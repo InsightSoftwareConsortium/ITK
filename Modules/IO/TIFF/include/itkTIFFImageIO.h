@@ -253,11 +253,11 @@ private:
   AllocateTiffPalette(uint16_t bps);
 
   void
-  ReadCurrentPage(void * out, size_t pixelOffset);
+  ReadCurrentPage(void * buffer, size_t pixelOffset);
 
   template <typename TComponent>
   void
-  ReadGenericImage(void * out, unsigned int width, unsigned int height);
+  ReadGenericImage(void * _out, unsigned int width, unsigned int height);
 
   template <typename TComponent>
   void

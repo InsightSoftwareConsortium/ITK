@@ -273,7 +273,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 int
-VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicSolver(double * c, double * s)
+VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::CubicSolver(const double * c, double * s)
 {
   // IMPORTANT
   // This code is specialized for particular case of positive symmetric

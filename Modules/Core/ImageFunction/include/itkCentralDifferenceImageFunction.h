@@ -221,7 +221,7 @@ private:
   template <typename Type>
   inline void
   EvaluateAtIndexSpecialized(const IndexType & index,
-                             OutputType &      derivative,
+                             OutputType &      orientedDerivative,
                              OutputTypeSpecializationStructType<OutputType>) const;
   template <typename Type>
   inline void
@@ -232,12 +232,12 @@ private:
   /** Specialized versions of EvaluteAtContinuousIndex() method to handle scalar or vector pixel types.*/
   template <typename Type>
   inline void
-  EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & index,
-                                       OutputType &                derivative,
+  EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex,
+                                       OutputType &                orientedDerivative,
                                        OutputTypeSpecializationStructType<OutputType>) const;
   template <typename Type>
   inline void
-  EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & index,
+  EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex,
                                        OutputType &                derivative,
                                        OutputTypeSpecializationStructType<Type>) const;
 
@@ -246,7 +246,7 @@ private:
   template <typename Type>
   void
   EvaluateSpecialized(const PointType & point,
-                      OutputType &      derivative,
+                      OutputType &      orientedDerivative,
                       OutputTypeSpecializationStructType<OutputType>) const;
   template <typename Type>
   void

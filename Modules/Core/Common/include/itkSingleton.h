@@ -79,7 +79,7 @@ public:
   static Self *
   GetInstance();
   static void
-  SetInstance(Self * SingletonIndex);
+  SetInstance(Self * instance);
   ~SingletonIndex();
 
 private:

@@ -144,7 +144,7 @@ public:
   GetImage();
 
   void
-  BuildFromBuffer(const void *       buffer,
+  BuildFromBuffer(const void *       frombuffer,
                   const unsigned int xsize,
                   const unsigned int ysize,
                   const unsigned int zsize) override;

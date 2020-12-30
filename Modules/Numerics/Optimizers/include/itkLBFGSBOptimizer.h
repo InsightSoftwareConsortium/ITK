@@ -130,7 +130,7 @@ public:
    *           = 3 if x[1] has only an upper bound
    */
   virtual void
-  SetBoundSelection(const BoundSelectionType & select);
+  SetBoundSelection(const BoundSelectionType & value);
   itkGetConstReferenceMacro(BoundSelection, BoundSelectionType);
 
   /** Set/Get the CostFunctionConvergenceFactor. Algorithm terminates
@@ -199,7 +199,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
+  using Superclass::CostFunctionAdaptorType;
 
 private:
   // give the helper access to member variables, to update iteration

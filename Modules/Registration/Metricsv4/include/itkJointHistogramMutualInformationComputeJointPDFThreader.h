@@ -85,7 +85,7 @@ protected:
 
   /** Walk through the domain, and call this->ProcessPoint on every point. */
   void
-  ThreadedExecution(const DomainType & subdomain, const ThreadIdType threadId) override;
+  ThreadedExecution(const DomainType & imageSubRegion, const ThreadIdType threadId) override;
 };
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
@@ -129,7 +129,7 @@ protected:
 
   /** Walk through the domain, and call this->ProcessPoint on every point. */
   void
-  ThreadedExecution(const DomainType & subdomain, const ThreadIdType threadId) override;
+  ThreadedExecution(const DomainType & indexSubRange, const ThreadIdType threadId) override;
 };
 } // end namespace itk
 

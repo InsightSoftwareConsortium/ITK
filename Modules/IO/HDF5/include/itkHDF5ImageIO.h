@@ -126,7 +126,7 @@ public:
    * \return Returns true if this ImageIO can write the file specified.
    */
   bool
-  CanWriteFile(const char * FileNameToWrite) override;
+  CanWriteFile(const char * name) override;
 
   /** Set the spacing and dimension information for the set filename. */
   void
@@ -190,10 +190,10 @@ private:
 
   template <typename TType>
   bool
-  WriteMeta(const std::string & name, MetaDataObjectBase * metaObj);
+  WriteMeta(const std::string & name, MetaDataObjectBase * metaObjBase);
   template <typename TType>
   bool
-  WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObj);
+  WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObjBase);
   template <typename TType>
   void
   StoreMetaData(MetaDataDictionary * metaDict,

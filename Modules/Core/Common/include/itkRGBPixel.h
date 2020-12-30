@@ -111,29 +111,29 @@ public:
 
   /** Aritmetic operations between pixels. Return a new RGBPixel. */
   Self
-  operator+(const Self & vec) const;
+  operator+(const Self & r) const;
   Self
-       operator-(const Self & vec) const;
-  Self operator*(const ComponentType & f) const;
+       operator-(const Self & r) const;
+  Self operator*(const ComponentType & r) const;
   Self
-  operator/(const ComponentType & f) const;
+  operator/(const ComponentType & r) const;
 
   /** Arithmetic-assignment operators. */
   const Self &
-  operator+=(const Self & vec);
+  operator+=(const Self & r);
   const Self &
-  operator-=(const Self & vec);
+  operator-=(const Self & r);
   const Self &
-  operator*=(const ComponentType & f);
+  operator*=(const ComponentType & r);
   const Self &
-  operator/=(const ComponentType & f);
+  operator/=(const ComponentType & r);
 
   /** Implements strict weak ordering. For use in STL, e.g. std::map. */
   bool
-  operator<(const Self & vec) const;
+  operator<(const Self & r) const;
 
   bool
-  operator==(const Self & vec) const;
+  operator==(const Self & r) const;
 
   /** Return the number of components. */
   static unsigned int

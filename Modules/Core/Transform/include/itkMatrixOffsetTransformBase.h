@@ -392,21 +392,21 @@ public:
   using Superclass::TransformVector;
 
   OutputVectorType
-  TransformVector(const InputVectorType & vector) const override;
+  TransformVector(const InputVectorType & vect) const override;
 
   OutputVnlVectorType
-  TransformVector(const InputVnlVectorType & vector) const override;
+  TransformVector(const InputVnlVectorType & vect) const override;
 
   OutputVectorPixelType
-  TransformVector(const InputVectorPixelType & vector) const override;
+  TransformVector(const InputVectorPixelType & vect) const override;
 
   using Superclass::TransformCovariantVector;
 
   OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType & vector) const override;
+  TransformCovariantVector(const InputCovariantVectorType & vec) const override;
 
   OutputVectorPixelType
-  TransformCovariantVector(const InputVectorPixelType & vector) const override;
+  TransformCovariantVector(const InputVectorPixelType & vect) const override;
 
   using Superclass::TransformDiffusionTensor3D;
 
@@ -418,10 +418,10 @@ public:
 
   using Superclass::TransformSymmetricSecondRankTensor;
   OutputSymmetricSecondRankTensorType
-  TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & tensor) const override;
+  TransformSymmetricSecondRankTensor(const InputSymmetricSecondRankTensorType & inputTensor) const override;
 
   OutputVectorPixelType
-  TransformSymmetricSecondRankTensor(const InputVectorPixelType & tensor) const override;
+  TransformSymmetricSecondRankTensor(const InputVectorPixelType & inputTensor) const override;
 
 
   /** Compute the Jacobian of the transformation
@@ -434,7 +434,7 @@ public:
    * \c j will sized properly as needed.
    */
   void
-  ComputeJacobianWithRespectToParameters(const InputPointType & x, JacobianType & j) const override;
+  ComputeJacobianWithRespectToParameters(const InputPointType & p, JacobianType & jacobian) const override;
 
 
   /** Get the jacobian with respect to position. This simply returns
@@ -511,7 +511,7 @@ protected:
 
   /** Print contents of an MatrixOffsetTransformBase */
   void
-  PrintSelf(std::ostream & s, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   const InverseMatrixType &
   GetVarInverseMatrix() const

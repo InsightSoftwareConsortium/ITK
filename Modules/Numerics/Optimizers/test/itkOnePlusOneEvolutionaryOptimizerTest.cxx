@@ -56,8 +56,8 @@ public:
     SpaceDimension = 2
   };
 
-  using ParametersType = Superclass::ParametersType;
-  using MeasureType = Superclass::MeasureType;
+  using Superclass::ParametersType;
+  using Superclass::MeasureType;
 
   OnePlusOneCostFunction() = default;
 

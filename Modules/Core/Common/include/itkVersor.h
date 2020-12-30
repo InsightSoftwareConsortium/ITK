@@ -158,21 +158,21 @@ public:
 
   /** Versor operator*.  Performs the composition of two versors.
    * this operation is NOT commutative. */
-  Self operator*(const Self & vec) const;
+  Self operator*(const Self & v) const;
 
   /** Versor operator/.  Performs the division of two versors. */
   Self
-  operator/(const Self & vec) const;
+  operator/(const Self & v) const;
 
   /** Versor operator==  Performs the comparison between two versors.
    * this operation uses an arbitrary threshold for the comparison.  */
   bool
-  operator==(const Self & vec) const;
+  operator==(const Self & v) const;
 
   /** Versor operator!=  Performs the comparison between two versors.
    * this operation uses an arbitrary threshold for the comparison.  */
   bool
-  operator!=(const Self & vec) const;
+  operator!=(const Self & v) const;
 
   /** Returns the Scalar part. */
   ValueType
@@ -234,7 +234,7 @@ public:
    *  conversions/matrixToQuaternion/index.htm
    */
   void
-  Set(const MatrixType & m);
+  Set(const MatrixType & mat);
 
   /** Set the versor using the right part.
    * the magnitude of the vector given is assumed to

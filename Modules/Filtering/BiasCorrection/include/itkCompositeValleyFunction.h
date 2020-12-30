@@ -117,8 +117,8 @@ public:
   using Superclass = CacheableScalarFunction;
 
   /** Cost value type. */
-  using MeasureType = Superclass::MeasureType;
-  using MeasureArrayType = Superclass::MeasureArrayType;
+  using Superclass::MeasureType;
+  using Superclass::MeasureArrayType;
 
   /** Constructor. */
   CompositeValleyFunction(const MeasureArrayType & classMeans, const MeasureArrayType & classSigmas);

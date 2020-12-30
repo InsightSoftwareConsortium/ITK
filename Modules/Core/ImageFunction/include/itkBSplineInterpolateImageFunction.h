@@ -172,7 +172,7 @@ public:
   }
 
   virtual OutputType
-  EvaluateAtContinuousIndex(const ContinuousIndexType & index, ThreadIdType threadId) const;
+  EvaluateAtContinuousIndex(const ContinuousIndexType & x, ThreadIdType threadId) const;
 
   CovariantVectorType
   EvaluateDerivative(const PointType & point) const
@@ -259,7 +259,7 @@ public:
   void
   EvaluateValueAndDerivativeAtContinuousIndex(const ContinuousIndexType & x,
                                               OutputType &                value,
-                                              CovariantVectorType &       deriv,
+                                              CovariantVectorType &       derivativeValue,
                                               ThreadIdType                threadId) const;
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
@@ -318,7 +318,7 @@ protected:
    *  in-turn dependent on the dimensionality of the image and the order of the spline.
    */
   virtual OutputType
-  EvaluateAtContinuousIndexInternal(const ContinuousIndexType & index,
+  EvaluateAtContinuousIndexInternal(const ContinuousIndexType & x,
                                     vnl_matrix<long> &          evaluateIndex,
                                     vnl_matrix<double> &        weights) const;
 

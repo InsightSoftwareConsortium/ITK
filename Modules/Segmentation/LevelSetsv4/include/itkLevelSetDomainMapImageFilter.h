@@ -123,7 +123,7 @@ protected:
   /** Computes a consistent region for the same set of overlapping
    * level set support. */
   InputImageRegionType
-  ComputeConsistentRegion(const InputImageRegionType & subRegion) const;
+  ComputeConsistentRegion(const InputImageRegionType & inputRegion) const;
 
   /** Identify image partitions where each partition has the same overlapping
    *  level set support */

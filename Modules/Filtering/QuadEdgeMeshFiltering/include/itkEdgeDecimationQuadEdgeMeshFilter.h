@@ -142,7 +142,7 @@ protected:
   DeleteElement(OutputQEType * iEdge);
 
   virtual void
-  DeletePoint(const OutputPointIdentifier & iIdToBeDeleted, const OutputPointIdentifier & iRemaing);
+  DeletePoint(const OutputPointIdentifier & iIdToBeDeleted, const OutputPointIdentifier & iRemaining);
 
   /**
    * \brief Push iEdge in the priority queue if it is not already, else

@@ -49,7 +49,7 @@ FiniteDifferenceFunction<TImageType>::GetRadius() const
 
 template <typename TImageType>
 void
-FiniteDifferenceFunction<TImageType>::SetScaleCoefficients(PixelRealType vals[ImageDimension])
+FiniteDifferenceFunction<TImageType>::SetScaleCoefficients(const PixelRealType vals[ImageDimension])
 {
   for (unsigned int i = 0; i < ImageDimension; i++)
   {

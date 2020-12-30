@@ -155,7 +155,7 @@ public:
    * true, and postcomposed otherwise.
    * This updates Translation based on current center. */
   void
-  Translate(const OutputVectorType & offset, bool pre = false);
+  Translate(const OutputVectorType & trans, bool pre = false);
 
   /** Compose affine transformation with a scaling
    *
@@ -275,7 +275,7 @@ protected:
    * omitted, then the AffineTransform is initialized to an identity
    * transformation in the appropriate number of dimensions.   */
   AffineTransform(const MatrixType & matrix, const OutputVectorType & offset);
-  AffineTransform(unsigned int paramDims);
+  AffineTransform(unsigned int parametersDimension);
   AffineTransform();
 
   /** Destroy an AffineTransform object   */
@@ -283,7 +283,7 @@ protected:
 
   /** Print contents of an AffineTransform */
   void
-  PrintSelf(std::ostream & s, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 }; // class AffineTransform
 
 } // namespace itk

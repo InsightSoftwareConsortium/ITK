@@ -459,7 +459,7 @@ public:
    * options for controlling memory utilization is the
    * ReleaseDataBeforeUpdateFlag. */
   virtual void
-  SetReleaseDataFlag(bool flag);
+  SetReleaseDataFlag(bool val);
   virtual bool
   GetReleaseDataFlag() const;
   void
@@ -561,7 +561,7 @@ protected:
   virtual void
   SetInput(const DataObjectIdentifierType & key, DataObject * input);
   virtual void
-  SetNthInput(DataObjectPointerArraySizeType num, DataObject * input);
+  SetNthInput(DataObjectPointerArraySizeType idx, DataObject * input);
 
   /** Sets first nullptr indexed input, appends to the end otherwise */
   virtual void
@@ -617,7 +617,7 @@ protected:
 
   /** Set the main input */
   virtual void
-  SetPrimaryInput(DataObject * input);
+  SetPrimaryInput(DataObject * object);
 
   /** \brief Define the number of indexed inputs defined.
    *
@@ -711,13 +711,13 @@ protected:
 
   /** Method used internally for getting an indexed output. */
   DataObject *
-  GetOutput(DataObjectPointerArraySizeType idx);
+  GetOutput(DataObjectPointerArraySizeType i);
   const DataObject *
-  GetOutput(DataObjectPointerArraySizeType idx) const;
+  GetOutput(DataObjectPointerArraySizeType i) const;
 
   /** Set an output */
   virtual void
-  SetOutput(const DataObjectIdentifierType & key, DataObject * output);
+  SetOutput(const DataObjectIdentifierType & name, DataObject * output);
 
   /** Remove an output */
   virtual void
@@ -737,12 +737,12 @@ protected:
 
   /** Set the main output */
   virtual void
-  SetPrimaryOutput(DataObject * output);
+  SetPrimaryOutput(DataObject * object);
 
   /** Protected methods for setting outputs.
    * Subclasses make use of them for getting output. */
   virtual void
-  SetNthOutput(DataObjectPointerArraySizeType num, DataObject * output);
+  SetNthOutput(DataObjectPointerArraySizeType idx, DataObject * output);
 
   virtual void
   AddOutput(DataObject * output);

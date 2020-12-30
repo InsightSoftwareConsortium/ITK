@@ -201,7 +201,7 @@ public:
   /** Set the pixel value of the mask that should be considered "inside" the
       object. Optional; for default value see above. */
   void
-  SetInsidePixelValue(PixelType InsidePixelValue);
+  SetInsidePixelValue(PixelType insidePixelValue);
 
   itkGetConstMacro(FastCalculations, bool);
   itkSetMacro(FastCalculations, bool);

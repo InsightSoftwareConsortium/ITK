@@ -147,14 +147,14 @@ public:
 
   using Superclass::TransformVector;
   OutputVectorType
-  TransformVector(const InputVectorType & vector) const override;
+  TransformVector(const InputVectorType & vect) const override;
 
   OutputVnlVectorType
-  TransformVector(const InputVnlVectorType & vector) const override;
+  TransformVector(const InputVnlVectorType & vect) const override;
 
   using Superclass::TransformCovariantVector;
   OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType & vector) const override;
+  TransformCovariantVector(const InputCovariantVectorType & vect) const override;
 
   /** This method finds the point or vector that maps to a given
    * point or vector under the affine transformation defined by
@@ -163,13 +163,13 @@ public:
   BackTransform(const OutputPointType & point) const;
 
   inline InputVectorType
-  BackTransform(const OutputVectorType & vector) const;
+  BackTransform(const OutputVectorType & vect) const;
 
   inline InputVnlVectorType
-  BackTransform(const OutputVnlVectorType & vector) const;
+  BackTransform(const OutputVnlVectorType & vect) const;
 
   inline InputCovariantVectorType
-  BackTransform(const OutputCovariantVectorType & vector) const;
+  BackTransform(const OutputCovariantVectorType & vect) const;
 
   /** Find inverse of an affine transformation.
    * This method creates and returns a new TranslationTransform object
@@ -184,7 +184,7 @@ public:
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   void
-  ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & j) const override;
+  ComputeJacobianWithRespectToParameters(const InputPointType & point, JacobianType & jacobian) const override;
 
 
   /** Get the jacobian with respect to position, which simply is an identity

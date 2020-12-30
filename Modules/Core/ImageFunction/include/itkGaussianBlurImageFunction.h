@@ -102,7 +102,7 @@ public:
 
   /** Evaluate the function at specified ContinuousIndex position. */
   TOutput
-  EvaluateAtContinuousIndex(const ContinuousIndexType & index) const override;
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const override;
 
   /** The standard deviation for the discrete Gaussian kernel.  Sets the
    * standard deviation independently for each dimension.

@@ -150,7 +150,7 @@ protected:
 
   /** Print contents of an ScalableAffineTransform */
   void
-  PrintSelf(std::ostream & s, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
   SetVarScale(const double * scale)

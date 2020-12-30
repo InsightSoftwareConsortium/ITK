@@ -51,7 +51,7 @@ public:
 
   /**  Parameters type.
    *  It defines a position in the optimization search space. */
-  using ParametersType = Superclass::ParametersType;
+  using Superclass::ParametersType;
 
   /** Type of the Cost Function   */
   using CostFunctionType = SingleValuedCostFunction;

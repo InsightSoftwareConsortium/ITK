@@ -60,7 +60,7 @@ public:
   itkTypeMacro(ThreadedIndexedContainerPartitioner, ThreadedDomainPartitioner);
 
   /** Type for convenience of base class methods */
-  using DomainType = Superclass::DomainType;
+  using Superclass::DomainType;
 
   /** Synonym for the domain that is more descriptive. */
   using IndexRangeType = DomainType;

@@ -151,7 +151,7 @@ public:
   /** Set the covariance matrix.
    * Set this covariance matrix to the membership function. */
   void
-  SetCovariance(const CovarianceMatrixType & cov);
+  SetCovariance(const CovarianceMatrixType & covariance);
 
   /** Get the covariance matrix.
    * The covariance matrix set on the membership function matches this value. */

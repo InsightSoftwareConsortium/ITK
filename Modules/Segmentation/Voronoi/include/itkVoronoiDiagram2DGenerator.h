@@ -262,7 +262,7 @@ private:
   createHalfEdge(FortuneHalfEdge * task, FortuneEdge * e, bool pm);
 
   void
-  PQshowMin(PointType * task);
+  PQshowMin(PointType * answer);
 
   FortuneHalfEdge *
   findLeftHE(PointType * p);
@@ -290,7 +290,7 @@ private:
   insertEdgeList(FortuneHalfEdge * lbase, FortuneHalfEdge * lnew);
 
   void
-  intersect(FortuneSite * task, FortuneHalfEdge * el1, FortuneHalfEdge * el2);
+  intersect(FortuneSite * newV, FortuneHalfEdge * el1, FortuneHalfEdge * el2);
 
   void
   deletePQ(FortuneHalfEdge * task);

@@ -185,7 +185,7 @@ public:
   SetFixedImageIndexes(const FixedImageIndexContainer & indexes);
 
   void
-  SetUseFixedImageIndexes(bool useIndex);
+  SetUseFixedImageIndexes(bool useIndexes);
 
   itkGetConstReferenceMacro(UseFixedImageIndexes, bool);
 
@@ -283,7 +283,7 @@ public:
    * pixel will be chosen if it meets any mask or threshold limits set.  If
    * set to false, then UseAllPixels will be set to false. */
   void
-  SetUseSequentialSampling(bool sequentialSampling);
+  SetUseSequentialSampling(bool useSequential);
 
   itkGetConstReferenceMacro(UseSequentialSampling, bool);
 
@@ -482,16 +482,16 @@ protected:
   virtual void
   TransformPoint(unsigned int           sampleNumber,
                  MovingImagePointType & mappedPoint,
-                 bool &                 sampleWithinSupportRegion,
+                 bool &                 sampleOk,
                  double &               movingImageValue,
                  ThreadIdType           threadId) const;
 
   virtual void
   TransformPointWithDerivatives(unsigned int           sampleNumber,
                                 MovingImagePointType & mappedPoint,
-                                bool &                 sampleWithinSupportRegion,
+                                bool &                 sampleOk,
                                 double &               movingImageValue,
-                                ImageDerivativesType & gradient,
+                                ImageDerivativesType & movingImageGradient,
                                 ThreadIdType           threadId) const;
 
   /** Boolean to indicate if the interpolator BSpline. */
@@ -577,10 +577,10 @@ protected:
   GetValueMultiThreadedPostProcessInitiate() const;
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-  GetValueMultiThreaded(void * arg);
+  GetValueMultiThreaded(void * workunitInfoAsVoid);
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-  GetValueMultiThreadedPostProcess(void * arg);
+  GetValueMultiThreadedPostProcess(void * workunitInfoAsVoid);
 
   virtual inline void
   GetValueThread(ThreadIdType threadId) const;
@@ -607,10 +607,10 @@ protected:
   GetValueAndDerivativeMultiThreadedPostProcessInitiate() const;
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-  GetValueAndDerivativeMultiThreaded(void * arg);
+  GetValueAndDerivativeMultiThreaded(void * workunitInfoAsVoid);
 
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
-  GetValueAndDerivativeMultiThreadedPostProcess(void * arg);
+  GetValueAndDerivativeMultiThreadedPostProcess(void * workunitInfoAsVoid);
 
   virtual inline void
   GetValueAndDerivativeThread(ThreadIdType threadId) const;

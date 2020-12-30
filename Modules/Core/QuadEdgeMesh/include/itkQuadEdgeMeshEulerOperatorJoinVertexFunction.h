@@ -82,7 +82,7 @@ public:
 
   /** Evaluate at the specified input position */
   virtual OutputType
-  Evaluate(QEType * h);
+  Evaluate(QEType * e);
 
   enum EdgeStatusType
   {

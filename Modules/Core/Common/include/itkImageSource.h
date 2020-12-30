@@ -80,8 +80,8 @@ public:
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = DataObject::Pointer;
 
-  using DataObjectIdentifierType = Superclass::DataObjectIdentifierType;
-  using DataObjectPointerArraySizeType = Superclass::DataObjectPointerArraySizeType;
+  using Superclass::DataObjectIdentifierType;
+  using Superclass::DataObjectPointerArraySizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageSource, ProcessObject);
@@ -189,7 +189,7 @@ public:
    * mini-pipeline will do).
    *  */
   virtual void
-  GraftOutput(DataObject * output);
+  GraftOutput(DataObject * graft);
 
   /** Graft the specified data object onto this ProcessObject's named
    * output. This is similar to the GraftOutput method except it
@@ -197,7 +197,7 @@ public:
    * See the GraftOutput for general usage information.
    */
   virtual void
-  GraftOutput(const DataObjectIdentifierType & key, DataObject * output);
+  GraftOutput(const DataObjectIdentifierType & key, DataObject * graft);
 
   /** Graft the specified data object onto this ProcessObject's idx'th
    * output. This is similar to the GraftOutput method except it
@@ -206,7 +206,7 @@ public:
    * ProcessObject::GetNumberOfIndexedOutputs()). See the GraftOutput for
    * general usage information. */
   virtual void
-  GraftNthOutput(unsigned int idx, DataObject * output);
+  GraftNthOutput(unsigned int idx, DataObject * graft);
 
   /** Make a DataObject of the correct type to used as the specified
    * output.  Every ProcessObject subclass must be able to create a
@@ -296,7 +296,7 @@ protected:
    *
    * \sa GenerateData(), SplitRequestedRegion() */
   virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  ThreadedGenerateData(const OutputImageRegionType & region, ThreadIdType threadId);
   virtual void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread);
 

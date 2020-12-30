@@ -64,9 +64,9 @@ public:
   itkNewMacro(Self);
 
   /** Array Typedefs. */
-  using ParametersType = Superclass::ParametersType;
-  using MeasureType = Superclass::MeasureType;
-  using DerivativeType = Superclass::DerivativeType;
+  using Superclass::ParametersType;
+  using Superclass::MeasureType;
+  using Superclass::DerivativeType;
 
   /** The dimensions of parameter space; mean, standard deviation, lower and
     upper asymptotes. */

@@ -119,7 +119,7 @@ protected:
   ProgressAccumulator();
   ~ProgressAccumulator() override;
   void
-  PrintSelf(std::ostream & s, Indent indent) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /**  Command for observing progress of pipeline filters */
@@ -142,7 +142,7 @@ private:
 
   /** A callback function that is called by the progressing filters */
   void
-  ReportProgress(Object * object, const EventObject & event);
+  ReportProgress(Object * who, const EventObject & event);
 
   /** The client mini-pipeline filter */
   GenericFilterPointer m_MiniPipelineFilter;

@@ -161,7 +161,7 @@ public:
   /** Set the output image spacing. */
   itkSetMacro(OutputSpacing, SpacingType);
   virtual void
-  SetOutputSpacing(const double * values);
+  SetOutputSpacing(const double * spacing);
 
   /** Get the output image spacing. */
   itkGetConstReferenceMacro(OutputSpacing, SpacingType);
@@ -169,7 +169,7 @@ public:
   /** Set the output image origin. */
   itkSetMacro(OutputOrigin, PointType);
   virtual void
-  SetOutputOrigin(const double * values);
+  SetOutputOrigin(const double * origin);
 
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, PointType);
