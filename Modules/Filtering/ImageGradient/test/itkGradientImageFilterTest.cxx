@@ -32,66 +32,74 @@ operator<<(std::ostream & o, const itk::CovariantVector<float, 3> & v)
 }
 
 int
-itkGradientImageFilterTest(int, char *[])
+itkGradientImageFilterTest(int argc, char * argv[])
 {
-  try
+  if (argc != 3)
   {
-    using ImageType = itk::Image<unsigned short, 2>;
-    using FilterType = itk::GradientImageFilter<ImageType, float, float>;
-    using OutputImageType = FilterType::OutputImageType;
-
-
-    // Set up filter
-    FilterType::Pointer filter = FilterType::New();
-
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientImageFilter, ImageToImageFilter);
-
-    // Run test
-    itk::Size<2> sz;
-    sz[0] = 100;
-    sz[1] = 100;
-    itk::NullImageToImageFilterDriver<ImageType, OutputImageType> test1;
-    test1.SetImageSize(sz);
-    test1.SetFilter(filter);
-    test1.Execute();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    (&err)->Print(std::cerr);
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing useImageDirection" << std::endl;
     return EXIT_FAILURE;
   }
+
+  using InputImageType1 = itk::Image<unsigned short, 2>;
+  using FilterType1 = itk::GradientImageFilter<InputImageType1, float, float>;
+  using OutputImageType1 = FilterType1::OutputImageType;
+
+
+  // Set up filter
+  FilterType1::Pointer filter1 = FilterType1::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter1, GradientImageFilter, ImageToImageFilter);
+
+
+  auto useImageSpacing = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(filter1, UseImageSpacing, useImageSpacing);
+
+  auto useImageDirection = static_cast<bool>(std::stoi(argv[2]));
+  ITK_TEST_SET_GET_BOOLEAN(filter1, UseImageDirection, useImageDirection);
+
+  // Run test
+  itk::Size<2> sz1;
+  sz1[0] = 100;
+  sz1[1] = 100;
+  itk::NullImageToImageFilterDriver<InputImageType1, OutputImageType1> test1;
+  test1.SetImageSize(sz1);
+  test1.SetFilter(filter1);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
+
 
   // Verify that we can run with VectorImages
-  try
-  {
-    using InputImageType = itk::Image<float, 3>;
-    using OutputImageType = itk::VectorImage<float, 3>;
+  using InputImageType2 = itk::Image<float, 3>;
+  using OutputImageType2 = itk::VectorImage<float, 3>;
 
-    using FilterType = itk::GradientImageFilter<InputImageType, float, float, OutputImageType>;
+  using FilterType2 = itk::GradientImageFilter<InputImageType2, float, float, OutputImageType2>;
 
-    FilterType::Pointer filter = FilterType::New();
+  FilterType2::Pointer filter2 = FilterType2::New();
 
-    using PeriodicBoundaryType = itk::PeriodicBoundaryCondition<InputImageType>;
-    // Test the OverrideBoundaryCondition setting;
-    filter->OverrideBoundaryCondition(new PeriodicBoundaryType);
+  using PeriodicBoundaryType = itk::PeriodicBoundaryCondition<InputImageType2>;
+  // Test the OverrideBoundaryCondition setting;
+  filter2->OverrideBoundaryCondition(new PeriodicBoundaryType);
 
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter2, GradientImageFilter, ImageToImageFilter);
 
-    // Run test
-    itk::Size<3> sz;
-    sz[0] = 25;
-    sz[1] = 25;
-    sz[2] = 25;
-    itk::NullImageToImageFilterDriver<InputImageType, OutputImageType> test1;
-    test1.SetImageSize(sz);
-    test1.SetFilter(filter);
-    test1.Execute();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    (&err)->Print(std::cerr);
-    return EXIT_FAILURE;
-  }
 
+  ITK_TEST_SET_GET_BOOLEAN(filter2, UseImageSpacing, useImageSpacing);
+
+  ITK_TEST_SET_GET_BOOLEAN(filter2, UseImageDirection, useImageDirection);
+
+  // Run test
+  itk::Size<3> sz2;
+  sz2[0] = 25;
+  sz2[1] = 25;
+  sz2[2] = 25;
+  itk::NullImageToImageFilterDriver<InputImageType2, OutputImageType2> test2;
+  test2.SetImageSize(sz2);
+  test2.SetFilter(filter2);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(test2.Execute());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

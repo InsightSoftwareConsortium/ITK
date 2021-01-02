@@ -18,7 +18,7 @@ itkGradientRecursiveGaussianFilterSpeedTest.cxx
 CreateTestDriver(ITKImageGradient  "${ITKImageGradient-Test_LIBRARIES}" "${ITKImageGradientTests}")
 
 itk_add_test(NAME itkGradientImageFilterTest
-      COMMAND ITKImageGradientTestDriver itkGradientImageFilterTest)
+      COMMAND ITKImageGradientTestDriver itkGradientImageFilterTest 1 1)
 itk_add_test(NAME itkGradientImageFilterTest2
       COMMAND ITKImageGradientTestDriver
    --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/GradientMagnitudeImageFilterTest2.mha}
@@ -30,12 +30,12 @@ itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest1a
       COMMAND ITKImageGradientTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest1a.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1a.png
-    itkVectorGradientMagnitudeImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1a.png 0)
+    itkVectorGradientMagnitudeImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1a.png 1 1.0 1.0 0)
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest1b
       COMMAND ITKImageGradientTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest1b.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1b.png
-    itkVectorGradientMagnitudeImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1b.png 1)
+    itkVectorGradientMagnitudeImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest1b.png 1 1.0 1.0 1)
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest2
       COMMAND ITKImageGradientTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest2.png}

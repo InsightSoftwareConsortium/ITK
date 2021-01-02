@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkRGBToVectorImageAdaptor.h"
+#include "itkTestingMacros.h"
 
 int
 itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
@@ -54,22 +55,18 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(adaptor);
 
-  const int mode = ::std::stoi(av[3]);
-
-  if (mode == 1)
-  {
+  auto mode = static_cast<bool>(std::stoi(av[3]));
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  if (mode)
+  {
     filter->SetUsePrincipleComponentsOn();
-#endif
-    filter->UsePrincipleComponentsOn();
   }
   else
   {
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
     filter->SetUsePrincipleComponentsOff();
-#endif
-    filter->UsePrincipleComponentsOff();
   }
+#endif
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsePrincipleComponents, mode);
 
   Monitor2Filter::Pointer monitor2 = Monitor2Filter::New();
   monitor2->SetInput(filter->GetOutput());
