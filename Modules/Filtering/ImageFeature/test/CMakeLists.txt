@@ -32,7 +32,7 @@ CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImag
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(NAME itkZeroCrossingBasedEdgeDetectionImageFilterTest
-      COMMAND ITKImageFeatureTestDriver itkZeroCrossingBasedEdgeDetectionImageFilterTest)
+      COMMAND ITKImageFeatureTestDriver itkZeroCrossingBasedEdgeDetectionImageFilterTest 1.0 0.01)
 itk_add_test(NAME itkLaplacianImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkLaplacianImageFilterTest)
 itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest

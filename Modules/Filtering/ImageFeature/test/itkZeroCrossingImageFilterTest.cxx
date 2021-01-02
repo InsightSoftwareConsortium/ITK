@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkZeroCrossingImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkTestingMacros.h"
 
 inline std::ostream &
 operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
@@ -30,29 +31,28 @@ operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
 int
 itkZeroCrossingImageFilterTest(int, char *[])
 {
-  try
-  {
-    using ImageType = itk::Image<float, 2>;
+  using ImageType = itk::Image<float, 2>;
 
-    // Set up filter
-    itk::ZeroCrossingImageFilter<ImageType, ImageType>::Pointer filter =
-      itk::ZeroCrossingImageFilter<ImageType, ImageType>::New();
+  // Set up filter
+  itk::ZeroCrossingImageFilter<ImageType, ImageType>::Pointer filter =
+    itk::ZeroCrossingImageFilter<ImageType, ImageType>::New();
 
-    std::cout << "filter: " << filter;
-    // Run Test
-    itk::Size<2> sz;
-    sz[0] = 100;
-    sz[1] = 100;
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ZeroCrossingImageFilter, ImageToImageFilter);
 
-    itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
-    test1.SetImageSize(sz);
-    test1.SetFilter(filter);
-    test1.Execute();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    (&err)->Print(std::cerr);
-    return EXIT_FAILURE;
-  }
+
+  std::cout << "filter: " << filter;
+  // Run Test
+  itk::Size<2> sz;
+  sz[0] = 100;
+  sz[1] = 100;
+
+  itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
+  test1.SetImageSize(sz);
+  test1.SetFilter(filter);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
