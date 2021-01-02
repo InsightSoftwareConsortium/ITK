@@ -58,11 +58,17 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
 
   if (mode == 1)
   {
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
     filter->SetUsePrincipleComponentsOn();
+#endif
+    filter->UsePrincipleComponentsOn();
   }
   else
   {
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
     filter->SetUsePrincipleComponentsOff();
+#endif
+    filter->UsePrincipleComponentsOff();
   }
 
   Monitor2Filter::Pointer monitor2 = Monitor2Filter::New();
