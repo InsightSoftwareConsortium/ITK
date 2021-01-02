@@ -19,20 +19,22 @@
 #include <iostream>
 
 #include "itkScaleLogarithmicTransform.h"
+#include "itkTestingMacros.h"
 
 int
 itkScaleLogarithmicTransformTest(int, char *[])
 {
-
-
   using TransformType = itk::ScaleLogarithmicTransform<double>;
-
 
   const double           epsilon = 1e-10;
   constexpr unsigned int N = 3;
 
+  bool testStatus = true;
 
-  bool Ok = true;
+
+  TransformType::Pointer scaleLogTransform = TransformType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(scaleLogTransform, ScaleLogarithmicTransform, ScaleTransform);
 
 
   /* Create a 3D identity transformation and show its parameters */
@@ -49,11 +51,11 @@ itkScaleLogarithmicTransformTest(int, char *[])
     {
       if (std::fabs(scale[i] - 1.0) > epsilon)
       {
-        Ok = false;
+        testStatus = false;
         break;
       }
     }
-    if (!Ok)
+    if (!testStatus)
     {
       std::cerr << "Identity doesn't have a unit scale " << std::endl;
       return EXIT_FAILURE;
@@ -81,11 +83,11 @@ itkScaleLogarithmicTransformTest(int, char *[])
     {
       if (std::fabs(scale[i] - iscale[i]) > epsilon)
       {
-        Ok = false;
+        testStatus = false;
         break;
       }
     }
-    if (!Ok)
+    if (!testStatus)
     {
       std::cerr << "GetScale  differs from SetScale value " << std::endl;
       return EXIT_FAILURE;
@@ -106,11 +108,11 @@ itkScaleLogarithmicTransformTest(int, char *[])
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
-          Ok = false;
+          testStatus = false;
           break;
         }
       }
-      if (!Ok)
+      if (!testStatus)
       {
         std::cerr << "Error scaling point : " << p << std::endl;
         std::cerr << "Result should be    : " << q << std::endl;
@@ -119,7 +121,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       else
       {
-        std::cout << "Ok scaling an itk::Point " << std::endl;
+        std::cout << "Successful scaling an itk::Point " << std::endl;
       }
     }
 
@@ -138,11 +140,11 @@ itkScaleLogarithmicTransformTest(int, char *[])
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
-          Ok = false;
+          testStatus = false;
           break;
         }
       }
-      if (!Ok)
+      if (!testStatus)
       {
         std::cerr << "Error scaling vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
@@ -150,7 +152,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       else
       {
-        std::cout << "Ok scaling an itk::Vector " << std::endl;
+        std::cout << "Successful scaling an itk::Vector " << std::endl;
       }
     }
 
@@ -169,11 +171,11 @@ itkScaleLogarithmicTransformTest(int, char *[])
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
-          Ok = false;
+          testStatus = false;
           break;
         }
       }
-      if (!Ok)
+      if (!testStatus)
       {
         std::cerr << "Error scaling covariant vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
@@ -181,7 +183,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       else
       {
-        std::cout << "Ok scaling an itk::CovariantVector " << std::endl;
+        std::cout << "Successful scaling an itk::CovariantVector " << std::endl;
       }
     }
 
@@ -202,11 +204,11 @@ itkScaleLogarithmicTransformTest(int, char *[])
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
-          Ok = false;
+          testStatus = false;
           break;
         }
       }
-      if (!Ok)
+      if (!testStatus)
       {
         std::cerr << "Error scaling vnl_vector: " << p << std::endl;
         std::cerr << "Reported Result is      : " << q << std::endl;
@@ -214,7 +216,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       else
       {
-        std::cout << "Ok scaling an vnl_Vector " << std::endl;
+        std::cout << "Successful scaling an vnl_Vector " << std::endl;
       }
     }
 
@@ -239,7 +241,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       else
       {
-        std::cout << "Ok SetCenter() / GetCenter() " << std::endl;
+        std::cout << "Successful SetCenter() / GetCenter() " << std::endl;
       }
     }
 
@@ -257,16 +259,16 @@ itkScaleLogarithmicTransformTest(int, char *[])
 
       ParametersType p2 = scaleTransform->GetParameters();
 
-      Ok = true;
+      testStatus = true;
       for (unsigned int i = 0; i < N; i++)
       {
         if (std::fabs(p2[i] - parameters[i]) > 1e-5)
         {
-          Ok = false;
+          testStatus = false;
           break;
         }
       }
-      if (!Ok)
+      if (!testStatus)
       {
         std::cerr << "Error in Set/Get parameters." << std::endl;
         std::cerr << "It was SetParameters() to    : " << parameters << std::endl;
@@ -275,10 +277,12 @@ itkScaleLogarithmicTransformTest(int, char *[])
       }
       else
       {
-        std::cout << "Ok SetParameters() / GetParameters() " << std::endl;
+        std::cout << "Successful SetParameters() / GetParameters() " << std::endl;
       }
     }
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
