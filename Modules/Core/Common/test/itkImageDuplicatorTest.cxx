@@ -22,6 +22,7 @@
 #include "itkRGBPixel.h"
 #include "itkVectorImage.h"
 #include "itkShiftScaleImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageDuplicatorTest(int, char *[])
@@ -68,6 +69,9 @@ itkImageDuplicatorTest(int, char *[])
     std::cout << "Testing duplicator with float images: ";
     using DuplicatorType = itk::ImageDuplicator<ImageType>;
     DuplicatorType::Pointer duplicator = DuplicatorType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(duplicator, ImageDuplicator, Object);
+
 
     duplicator->SetInputImage(shift->GetOutput());
     duplicator->Update();
@@ -284,5 +288,8 @@ itkImageDuplicatorTest(int, char *[])
 
     std::cout << "[DONE]" << std::endl;
   }
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
