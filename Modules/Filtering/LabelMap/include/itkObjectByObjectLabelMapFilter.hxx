@@ -339,10 +339,8 @@ ObjectByObjectLabelMapFilter<TInputImage,
   os << indent << "KeepLabels: " << m_KeepLabels << std::endl;
   os << indent << "InternalForegroundValue: "
      << static_cast<typename NumericTraits<InternalOutputPixelType>::PrintType>(m_InternalForegroundValue) << std::endl;
-  os << indent << "InputFilter: " << this->m_InputFilter->GetNameOfClass() << " " << this->m_InputFilter.GetPointer()
-     << std::endl;
-  os << indent << "OutputFilter: " << this->m_OutputFilter->GetNameOfClass() << " " << this->m_OutputFilter.GetPointer()
-     << std::endl;
+  os << indent << "InputFilter: " << m_InputFilter << std::endl;
+  os << indent << "OutputFilter: " << m_OutputFilter << std::endl;
   os << indent << "Label: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Label)
      << std::endl;
 }
