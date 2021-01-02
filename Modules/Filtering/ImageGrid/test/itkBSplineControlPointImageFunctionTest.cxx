@@ -71,9 +71,43 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   size.Fill(101);
 
   bspliner->SetOrigin(origin);
+  ITK_TEST_SET_GET_VALUE(origin, bspliner->GetOrigin());
+
   bspliner->SetSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, bspliner->GetSpacing());
+
   bspliner->SetSize(size);
-  bspliner->SetSplineOrder(3);
+  ITK_TEST_SET_GET_VALUE(size, bspliner->GetSize());
+
+  unsigned int bSplineOrderValue = 3;
+  bspliner->SetSplineOrder(bSplineOrderValue);
+  for (auto i : bspliner->GetSplineOrder())
+  {
+    if (i != bSplineOrderValue)
+    {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in itk::BSplineControlPointImageFunction::GetSplineOrder" << std::endl;
+      std::cerr << "Expected: " << bSplineOrderValue << ", but got: " << i << std::endl;
+      return EXIT_FAILURE;
+    }
+  }
+
+  BSplinerType::ArrayType bSplineOrder;
+  bSplineOrder.Fill(bSplineOrderValue);
+  bspliner->SetSplineOrder(bSplineOrder);
+  ITK_TEST_SET_GET_VALUE(bSplineOrder, bspliner->GetSplineOrder());
+
+  BSplinerType::ArrayType::ValueType closeDimensionValue = 0;
+  BSplinerType::ArrayType            closeDimension;
+  closeDimension.Fill(closeDimensionValue);
+  bspliner->SetCloseDimension(closeDimension);
+  ITK_TEST_SET_GET_VALUE(closeDimension, bspliner->GetCloseDimension());
+
+  BSplinerType::RealType bSplineEpsilon = 1e-3;
+  bspliner->SetBSplineEpsilon(bSplineEpsilon);
+  ITK_TEST_SET_GET_VALUE(bSplineEpsilon, bspliner->GetBSplineEpsilon());
+
+
   bspliner->SetInputImage(phiLattice);
 
   BSplinerType::PointType    point;
@@ -149,5 +183,7 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
