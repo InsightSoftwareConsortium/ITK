@@ -55,12 +55,17 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(it, DCMTKSeriesFileNames, ProcessObject);
 
+
   // Test exceptions
-  std::string inputDirectory = "";
+  const char * pInputDirectory = nullptr;
   ITK_TRY_EXPECT_EXCEPTION(it->SetInputDirectory(inputDirectory));
 
+  // Exercise warnings
+  std::string inputDirectory = "";
+  it->SetInputDirectory(inputDirectory);
+
   inputDirectory = "NotADirectory";
-  ITK_TRY_EXPECT_EXCEPTION(it->SetInputDirectory(inputDirectory));
+  it->SetInputDirectory(inputDirectory);
 
   inputDirectory = argv[1];
   it->SetInputDirectory(inputDirectory);
