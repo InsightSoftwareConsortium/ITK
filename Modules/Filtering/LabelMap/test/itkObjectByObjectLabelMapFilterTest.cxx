@@ -29,11 +29,12 @@ int
 itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
 {
 
-  if (argc != 4)
+  if (argc != 6)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output keepLabel" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " input output keepLabel binaryInternalOutput constrainPaddingToImage" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr int dim = 2;
@@ -60,11 +61,30 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
 
   using ObOType = itk::ObjectByObjectLabelMapFilter<LabelMapType>;
   ObOType::Pointer obo = ObOType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(obo, ObjectByObjectLabelMapFilter, LabelMapFilter);
+
+
   obo->SetInput(i2l->GetOutput());
   obo->SetFilter(dilate);
+
   obo->SetPadSize(rad);
-  obo->SetKeepLabels(std::stoi(argv[3]));
-  //  obo->SetBinaryInternalOutput( false );
+  ITK_TEST_SET_GET_VALUE(rad, obo->GetPadSize());
+
+  auto keepLabels = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(obo, KeepLabels, keepLabels);
+
+  bool binaryInternalOutput = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(obo, BinaryInternalOutput, binaryInternalOutput);
+
+  bool constrainPaddingToImage = static_cast<bool>(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_BOOLEAN(obo, ConstrainPaddingToImage, constrainPaddingToImage);
+
+  ObOType::InternalOutputPixelType internalForegroundValue =
+    itk::NumericTraits<ObOType::InternalOutputPixelType>::max();
+  obo->SetInternalForegroundValue(internalForegroundValue);
+  ITK_TEST_SET_GET_VALUE(internalForegroundValue, obo->GetInternalForegroundValue());
+
   itk::SimpleFilterWatcher watcher(obo, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
@@ -75,7 +95,10 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
 
-  return 0;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
+  return EXIT_SUCCESS;
 }
