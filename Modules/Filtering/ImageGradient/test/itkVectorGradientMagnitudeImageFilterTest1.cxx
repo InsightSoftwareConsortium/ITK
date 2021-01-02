@@ -53,11 +53,17 @@ itkVectorGradientMagnitudeImageFilterTest1(int ac, char * av[])
   int mode = ::std::stoi(av[3]);
   if (mode == 1)
   {
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
     filter->SetUsePrincipleComponentsOn();
+#endif
+    filter->UsePrincipleComponentsOn();
   }
   else
   {
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
     filter->SetUsePrincipleComponentsOff();
+#endif
+    filter->UsePrincipleComponentsOff();
   }
 
   RescaleFilterType::Pointer rescale = RescaleFilterType::New();
