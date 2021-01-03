@@ -58,7 +58,7 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 
   // Test exceptions
   const char * pInputDirectory = nullptr;
-  ITK_TRY_EXPECT_EXCEPTION(it->SetInputDirectory(inputDirectory));
+  ITK_TRY_EXPECT_EXCEPTION(it->SetInputDirectory(pInputDirectory));
 
   // Exercise warnings
   std::string inputDirectory = "";
