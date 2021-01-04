@@ -192,6 +192,8 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
+  using namespace itk::print_helper;
+
   os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
   os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
   os << indent << "InputFileNames: " << m_InputFileNames << std::endl;

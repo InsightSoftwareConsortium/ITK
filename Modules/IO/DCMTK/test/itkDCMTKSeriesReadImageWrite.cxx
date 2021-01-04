@@ -29,7 +29,9 @@
 #include "itkDCMTKImageIO.h"
 #include "itkDCMTKSeriesFileNames.h"
 #include "itkTestingMacros.h"
+#include "itkPrintHelper.h"
 
+using namespace itk::print_helper;
 int
 itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 {
