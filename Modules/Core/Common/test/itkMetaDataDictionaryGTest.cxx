@@ -252,3 +252,53 @@ TEST(MetaDataDictionary, CopyOnWrite)
     EXPECT_EQ(f, 1.0f);
   }
 }
+
+
+TEST(MetaDataDictionary, Equal)
+{
+  const auto expectEqual = [](const itk::MetaDataDictionary & object1, const itk::MetaDataDictionary & object2) {
+    // Test that equal objects can be used as arguments to GoogleTest EXPECT_EQ.
+    EXPECT_EQ(object1, object2);
+    EXPECT_EQ(object2, object1);
+
+    // Test symmetry, as well as consistency between equal and unequal.
+    EXPECT_TRUE(object1 == object2);
+    EXPECT_TRUE(object2 == object1);
+    EXPECT_FALSE(object1 != object2);
+    EXPECT_FALSE(object2 != object1);
+  };
+
+  const auto expectUnequal = [](const itk::MetaDataDictionary & object1, const itk::MetaDataDictionary & object2) {
+    // Test that unequal objects can be used as arguments to GoogleTest EXPECT_NE.
+    EXPECT_NE(object1, object2);
+    EXPECT_NE(object2, object1);
+
+    // Test symmetry, as well as consistency between equal and unequal.
+    EXPECT_TRUE(object1 != object2);
+    EXPECT_TRUE(object2 != object1);
+    EXPECT_FALSE(object1 == object2);
+    EXPECT_FALSE(object2 == object1);
+  };
+
+  const itk::MetaDataDictionary defaultMetaDataDictionary{};
+
+  expectEqual(defaultMetaDataDictionary, {});
+
+  const auto createMetaDataDictionary = [](const int value) {
+    itk::MetaDataDictionary metaDataDictionary;
+    itk::EncapsulateMetaData(metaDataDictionary, "key", value);
+    return metaDataDictionary;
+  };
+
+  const auto metaDataDictionary1 = createMetaDataDictionary(1);
+  const auto metaDataDictionary2 = createMetaDataDictionary(2);
+
+  expectEqual(metaDataDictionary1, metaDataDictionary1);
+  expectEqual(metaDataDictionary2, metaDataDictionary2);
+  expectEqual(metaDataDictionary1, createMetaDataDictionary(1));
+  expectEqual(metaDataDictionary2, createMetaDataDictionary(2));
+
+  expectUnequal(metaDataDictionary1, metaDataDictionary2);
+  expectUnequal(metaDataDictionary1, defaultMetaDataDictionary);
+  expectUnequal(metaDataDictionary2, defaultMetaDataDictionary);
+}

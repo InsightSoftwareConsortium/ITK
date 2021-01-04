@@ -72,6 +72,21 @@ public:
   virtual const std::type_info &
   GetMetaDataObjectTypeInfo() const;
 
+  /** Returns (metaDataBase1 == metaDataBase2). */
+  friend bool
+  operator==(const Self & lhs, const Self & rhs)
+  {
+    return lhs.Equal(rhs);
+  }
+
+  /** Returns (metaDataBase1 != metaDataBase2). */
+  friend bool
+  operator!=(const Self & lhs, const Self & rhs)
+  {
+    return !(lhs == rhs);
+  }
+
+
   /**
    * Defines the default behavior for printing out this element
    * \param os An output stream
@@ -82,6 +97,10 @@ public:
 protected:
   MetaDataObjectBase();
   ~MetaDataObjectBase() override;
+
+private:
+  virtual bool
+  Equal(const MetaDataObjectBase &) const = 0;
 };
 } // namespace itk
 

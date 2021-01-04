@@ -130,11 +130,33 @@ public:
   void
   Print(std::ostream & os) const override;
 
+  /** Returns (metaDataObject1 == metaDataObject2). */
+  friend bool
+  operator==(const Self & lhs, const Self & rhs)
+  {
+    return lhs.m_MetaDataObjectValue == rhs.m_MetaDataObjectValue;
+  }
+
+  /** Returns (metaDataObject1 != metaDataObject2). */
+  friend bool
+  operator!=(const Self & lhs, const Self & rhs)
+  {
+    return !(lhs == rhs);
+  }
+
 protected:
   MetaDataObject() = default;
   ~MetaDataObject() override = default;
 
 private:
+  /** Internal helper function used to implement operator== for MetaDataObjectBase. */
+  bool
+  Equal(const MetaDataObjectBase & metaDataObjectBase) const override
+  {
+    const auto metaDataObject = dynamic_cast<const Self *>(&metaDataObjectBase);
+    return (metaDataObject != nullptr) && (*this == *metaDataObject);
+  }
+
   /**
    * A variable to store this derived type.
    * \author Hans J. Johnson
