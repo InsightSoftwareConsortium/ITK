@@ -45,5 +45,5 @@ itk_fetch_module(SCIFIO
   "SCIFIO (Bioformats) ImageIO plugin for ITK"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/scifio/scifio-imageio.git
-  GIT_TAG 7f4355bc5301c9eeaef03fd07b0d1fab10fa9354
+  GIT_TAG 2c35556b0f2a78a9221ca6621adc836361c5c7c2
   )
