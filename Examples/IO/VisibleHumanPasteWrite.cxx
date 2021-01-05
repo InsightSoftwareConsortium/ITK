@@ -69,7 +69,7 @@ main(int argc, char * argv[])
     GradientMagnitudeImageFilter::New();
   grad->SetInput(reader->GetOutput());
 
-  grad->SetUseImageSpacingOn();
+  grad->UseImageSpacingOn();
 
   using GradientMagnitudeOutputImageType =
     GradientMagnitudeImageFilter::OutputImageType;
