@@ -69,7 +69,10 @@ main(int argc, char * argv[])
     GradientMagnitudeImageFilter::New();
   grad->SetInput(reader->GetOutput());
 
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   grad->SetUseImageSpacingOn();
+#endif
+  grad->UseImageSpacingOn();
 
   using GradientMagnitudeOutputImageType =
     GradientMagnitudeImageFilter::OutputImageType;
