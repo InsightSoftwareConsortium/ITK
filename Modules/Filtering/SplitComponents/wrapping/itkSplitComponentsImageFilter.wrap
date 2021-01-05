@@ -1,39 +1,63 @@
 itk_wrap_class("itk::SplitComponentsImageFilter" POINTER)
-# We can only wrap types that have been wrapped for
-# ImageToImageFilter (parent class).
-unique(types "${WRAP_ITK_REAL};UC")
+
+# Vector -> scalar
+set(types ${WRAP_ITK_INT})
+if(ITK_WRAP_vector_float)
+  list(APPEND types "F")
+endif()
+if(ITK_WRAP_vector_double)
+  list(APPEND types "D")
+endif()
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
     if(DEFINED ITKT_IV${t}${d}${d})
       itk_wrap_template(
-        "${ITKM_IV${t}${d}${d}}${ITKM_I${t}${d}}"
-        "${ITKT_IV${t}${d}${d}}, ${ITKT_I${t}${d}}"
+          "${ITKM_IV${t}${d}${d}}${ITKM_I${t}${d}}"
+          "${ITKT_IV${t}${d}${d}}, ${ITKT_I${t}${d}}"
       )
     endif()
   endforeach()
 endforeach()
-foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  unique(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;SC;SS;SI;SL;F")
-  # Define filter for all image types that are wrapped.
-  foreach(t ${types})
-    if(NOT DEFINED ITKT_I${t}${d})
-      list(REMOVE_ITEM types ${t})
-    endif()
-  endforeach()
 
+# CovariantVector -> scalar
+set(types ${WRAP_ITK_INT})
+if(ITK_WRAP_covariant_vector_float)
+  list(APPEND types "F")
+endif()
+if(ITK_WRAP_covariant_vector_double)
+  list(APPEND types "D")
+endif()
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
-    # Wraps RGB and RGBA types that have been selected to be wrapped.
-    # We have to recompute them all to extract the pixel component type.
-    if(WRAP_ITK_RGB AND DEFINED ITKT_IRGB${t}${d})
-      itk_wrap_template("${ITKM_IRGB${t}${d}}${ITKM_I${t}${d}}"
-                          "${ITKT_IRGB${t}${d}}, ${ITKT_I${t}${d}}, 3"
-      )
-    endif()
-    if(WRAP_ITK_RGBA AND DEFINED ITKT_IRGBA${t}${d})
-      itk_wrap_template("${ITKM_IRGBA${t}${d}}${ITKM_I${t}${d}}"
-                          "${ITKT_IRGBA${t}${d}}, ${ITKT_I${t}${d}}, 4"
+    if(DEFINED ITKT_IV${t}${d}${d})
+      itk_wrap_template(
+          "${ITKM_ICV${t}${d}${d}}${ITKM_I${t}${d}}"
+          "itk::Image<itk::CovariantVector<${ITKT_${t}}, ${d}>, ${d}>, ${ITKT_I${t}${d}}"
       )
     endif()
   endforeach()
 endforeach()
+
+# VectorImage -> scalar
+unique(types "${WRAP_ITK_SCALAR}")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(t ${types})
+    itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}" "${ITKT_VI${t}${d}},${ITKT_I${t}${d}}")
+  endforeach()
+endforeach()
+
+# RGB(A) -> scalar
+if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
+  itk_wrap_image_filter_types(RGBUC UC)
+endif()
+if(ITK_WRAP_rgb_unsigned_short AND ITK_WRAP_unsigned_short)
+  itk_wrap_image_filter_types(RGBUS US)
+endif()
+if(ITK_WRAP_rgba_unsigned_char AND ITK_WRAP_unsigned_char)
+  itk_wrap_image_filter_types(RGBAUC UC)
+endif()
+if(ITK_WRAP_rgba_unsigned_short AND ITK_WRAP_unsigned_short)
+  itk_wrap_image_filter_types(RGBAUS US)
+endif()
+
 itk_end_wrap_class()
