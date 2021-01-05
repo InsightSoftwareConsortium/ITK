@@ -102,6 +102,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
   char buffer[BUFFERSIZE];
   struct stat sb;
 
+  assert( pFile );
   int fd = fileno( pFile );
   if (fstat(fd, &sb) == 0)
     {
@@ -366,6 +367,7 @@ public:
       }
     else
       {
+      assert( pFile );
       const off64_t curpos = FTello(pFile);
       assert( curpos == thepos );
       if( ReservedDataLength >= (off64_t)len )

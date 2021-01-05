@@ -210,7 +210,7 @@ void sockinetbuf::bind_until_success (int portno)
     try {
       bind (portno++);
     }
-    catch (sockerr e) {
+    catch (sockerr &e) {
 //      if (e.errno () != EADDRINUSE) throw;
       if (e.serrno () != EADDRINUSE) throw; // LN
       continue;

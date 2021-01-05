@@ -65,11 +65,11 @@ inline std::ostream& operator<<(std::ostream& os, Event &e)
      typedef classname Self; \
      typedef super Superclass; \
      classname() {} \
-     virtual ~classname() {} \
-     virtual const char * GetEventName() const { return #classname; } \
-     virtual bool CheckEvent(const ::gdcm::Event* e) const \
+     virtual ~classname() override = default; \
+     virtual const char * GetEventName() const override { return #classname; } \
+     virtual bool CheckEvent(const ::gdcm::Event* e) const override \
        { return dynamic_cast<const Self*>(e) ? true : false; } \
-     virtual ::gdcm::Event* MakeObject() const \
+     virtual ::gdcm::Event* MakeObject() const override \
        { return new Self; } \
      classname(const Self&s) : super(s){}; \
    private: \

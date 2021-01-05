@@ -154,6 +154,7 @@ namespace gdcm
 			{
 				gdcmWarningMacro( "Requested optional Attributes are not supported." );
 			}
+			break;
 		case 0xB305: 
 			{
 				gdcmWarningMacro( "The UPS is already in the requested state of COMPLETED" );
@@ -269,6 +270,7 @@ namespace gdcm
 			{
 				gdcmWarningMacro( "Offending Element: The UPS is already in the requested state of CANCELED" );
 			}
+			break;
 		case 0xB306: // The UPS is already in the requested state of COMPLETED
 			{
 				gdcmWarningMacro( "The UPS is already in the requested state of COMPLETED" );

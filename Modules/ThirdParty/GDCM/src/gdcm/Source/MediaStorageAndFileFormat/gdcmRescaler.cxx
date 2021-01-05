@@ -196,6 +196,11 @@ static inline PixelFormat::ScalarType ComputeBestFit(const PixelFormat &pf, doub
 PixelFormat::ScalarType Rescaler::ComputeInterceptSlopePixelType()
 {
   assert( PF != PixelFormat::UNKNOWN );
+  if( PF.GetSamplesPerPixel() != 1 )
+    {
+    gdcmErrorMacro( "Sample Per Pixel is required to be 1" );
+    return PF;
+    }
   PixelFormat::ScalarType output = PixelFormat::UNKNOWN;
   if( PF == PixelFormat::SINGLEBIT ) return PixelFormat::SINGLEBIT;
   if( Slope != (int)Slope || Intercept != (int)Intercept)
