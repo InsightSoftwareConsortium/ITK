@@ -127,10 +127,7 @@ endif()
 # Copy python files for out-of-source builds, and set up install of same.
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-
-  # Create a list of Python files.
-  # WrapITK/Python/*.py
-  set(ITK_PYTHON_FILES
+  set(ITK_PYTHON_SUPPORT_MODULES
     support/itkBase
     support/itkTemplate
     support/itkTypes
@@ -139,21 +136,15 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     support/itkHelpers
     support/itkInitHelpers
     support/itkBuildOptions
-    __init__
     )
+  set(ITK_INIT_MODULE "${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py")
   # Done listing files.
   # Now copy these files if necessary.
 
-  if("${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
-    # In source build -- no need to copy Python file. Do need to set up the install.
-    set(ITK_WRAP_PYTHON_FILES )
-    foreach(_file ${ITK_PYTHON_FILES})
-      set(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/itk/${_file}.py")
-      list(APPEND ITK_WRAP_PYTHON_FILES ${ITK_WRAP_PYTHON_FILES} "${install_tgt}")
-    endforeach()
-  else()
+  # If not an in-source build
+  if(NOT "${WrapITK_BINARY_DIR}" MATCHES "^${WrapITK_SOURCE_DIR}$")
     set(ITK_WRAP_PYTHON_FILES)
-    foreach(_file ${ITK_PYTHON_FILES})
+    foreach(_file ${ITK_PYTHON_SUPPORT_MODULES})
       set(src "${CMAKE_CURRENT_SOURCE_DIR}/itk/${_file}.py")
       set(copy_tgt    "${ITK_PYTHON_PACKAGE_DIR}/${_file}.py")
       list(APPEND ITK_WRAP_PYTHON_FILES "${copy_tgt}")
@@ -165,13 +156,25 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${src} ${copy_tgt}
         DEPENDS ${src}
         COMMENT "Copying ${_file}.py to ${copy_tgt}.")
-
     endforeach()
+    set(src "${ITK_INIT_MODULE}")
+    set(copy_tgt "${ITK_PYTHON_PACKAGE_DIR}/__init__.py")
+    list(APPEND ITK_WRAP_PYTHON_FILES "${copy_tgt}")
+    add_custom_command(OUTPUT ${copy_tgt}
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different ${src} ${copy_tgt}
+      DEPENDS ${src}
+      COMMENT "Copying __init__.py to ${copy_tgt}.")
     add_custom_target(copy_python_files ALL DEPENDS ${ITK_WRAP_PYTHON_FILES})
   endif()
 
   # Install the package python files.
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${ITK_WRAP_PYTHON_FILES})
+  set(ITK_WRAP_PYTHON_FILES )
+  foreach(_file ${ITK_PYTHON_SUPPORT_MODULES})
+    set(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/itk/${_file}.py")
+    list(APPEND ITK_WRAP_PYTHON_FILES ${ITK_WRAP_PYTHON_FILES} "${install_tgt}")
+  endforeach()
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/support "ITKCommon" ${ITK_WRAP_PYTHON_FILES})
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${ITK_INIT_MODULE})
 endif()
 
 
