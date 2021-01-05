@@ -116,6 +116,7 @@ static const char *PrintReasonAsString( uint8_t source, uint8_t reason )
     case 0xa:
       return "8-10 - reserved";
       }
+    break;
   case 0x2:
     switch( reason )
       {
@@ -124,6 +125,7 @@ static const char *PrintReasonAsString( uint8_t source, uint8_t reason )
     case 0x2:
       return "protocol-version-not-supported";
       }
+    break;
   case 0x3:
     switch( reason )
       {

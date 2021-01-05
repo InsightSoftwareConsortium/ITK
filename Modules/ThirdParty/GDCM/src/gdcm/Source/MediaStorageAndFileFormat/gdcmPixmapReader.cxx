@@ -170,7 +170,7 @@ bool PixmapReader::Read()
 }
 
 // PICKER-16-MONO2-Nested_icon.dcm
-void DoIconImage(const DataSet& rootds, Pixmap& image)
+static void DoIconImage(const DataSet& rootds, Pixmap& image)
 {
   const Tag ticonimage(0x0088,0x0200);
   IconImage &pixeldata = image.GetIconImage();
@@ -354,7 +354,7 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
 }
 
 // GE_DLX-8-MONO2-Multiframe.dcm
-void DoCurves(const DataSet& ds, Pixmap& pixeldata)
+static void DoCurves(const DataSet& ds, Pixmap& pixeldata)
 {
   unsigned int numcurves;
   if( (numcurves = Curve::GetNumberOfCurves( ds )) )
@@ -406,7 +406,7 @@ void DoCurves(const DataSet& ds, Pixmap& pixeldata)
     }
 }
 
-unsigned int GetNumberOfOverlaysInternal(DataSet const & ds, std::vector<uint16_t> & overlaylist)
+static unsigned int GetNumberOfOverlaysInternal(DataSet const & ds, std::vector<uint16_t> & overlaylist)
 {
   Tag overlay(0x6000,0x0000); // First possible overlay
   bool finished = false;
@@ -491,7 +491,7 @@ unsigned int GetNumberOfOverlaysInternal(DataSet const & ds, std::vector<uint16_
   return numoverlays;
 }
 
-bool DoOverlays(const DataSet& ds, Pixmap& pixeldata)
+static bool DoOverlays(const DataSet& ds, Pixmap& pixeldata)
 {
   unsigned int numoverlays;
   std::vector<uint16_t> overlaylist;
@@ -530,11 +530,11 @@ bool DoOverlays(const DataSet& ds, Pixmap& pixeldata)
         //assert( unpack.str().size() / 8 == ((ov.GetRows() * ov.GetColumns()) + 7 ) / 8 );
         assert( ov.IsInPixelData( ) == false );
         }
-      else
+      else if( pixeldata.GetPixelFormat().GetSamplesPerPixel() == 1 )
         {
+        assert( ov.IsEmpty() );
         gdcmDebugMacro( "This image does not contains Overlay in the 0x60xx tags. "
-          << "Instead the overlay is stored in the unused bit of the Pixel Data. "
-          << "This is not supported right now"
+          << "Instead the overlay is stored in the unused bit of the Pixel Data."
           << std::endl );
         ov.IsInPixelData( true );
         // make sure Overlay is valid
@@ -550,6 +550,14 @@ bool DoOverlays(const DataSet& ds, Pixmap& pixeldata)
           //throw Exception("TODO: Could not extract Overlay Data");
           }
         updateoverlayinfo[idxoverlays] = true;
+        }
+      else
+        {
+        // http://dicom.nema.org/medical/dicom/current/output/chtml/part03/sect_C.9.2.html
+	// Overlay data stored in unused bit planes of Pixel Data (7FE0,0010)
+	// with Samples Per Pixel (0028,0002) of 1 was previously described in
+	// DICOM. 
+	gdcmWarningMacro( "Overlay was found, while PI is: " << pixeldata.GetPhotometricInterpretation() << " skipping.");
         }
       }
     //std::cout << "Num of Overlays: " << numoverlays << std::endl;
@@ -567,6 +575,13 @@ bool DoOverlays(const DataSet& ds, Pixmap& pixeldata)
       {
       unsigned short obp = o.GetBitPosition();
       if( obp < pf.GetBitsStored() )
+        {
+        pixeldata.RemoveOverlay( ov );
+        updateoverlayinfo.erase( updateoverlayinfo.begin() + ov );
+        gdcmWarningMacro( "Invalid BitPosition: " << obp << " for overlay #" <<
+          ov << " removing it." );
+        }
+      else if( obp > pf.GetBitsAllocated() )
         {
         pixeldata.RemoveOverlay( ov );
         updateoverlayinfo.erase( updateoverlayinfo.begin() + ov );
@@ -1125,10 +1140,21 @@ bool PixmapReader::ReadACRNEMAImage()
   if( ds.FindDataElement( timagedimensions ) )
     {
     const DataElement& de0 = ds.GetDataElement( timagedimensions );
+    unsigned short imagedimensions = 0;
+    if( de0.GetVR() == VR::SS )
+    {
+    // Data/SIEMENS_MAGNETOM-12-MONO2-Uncompressed.dcm 0028,0005 is SS
+    Element<VR::SS,VM::VM1> el0 = { 0 };
+    el0.SetFromDataElement( de0 );
+    imagedimensions = el0.GetValue();
+    }
+    else
+    {
     Attribute<0x0028,0x0005> at0 = { 0 };
     at0.SetFromDataElement( de0 );
     assert( at0.GetNumberOfValues() == 1 );
-    unsigned short imagedimensions = at0.GetValue();
+    imagedimensions = at0.GetValue();
+    }
     //assert( imagedimensions == ReadSSFromTag( timagedimensions, ss, conversion ) );
     if ( imagedimensions == 3 )
       {
@@ -1252,6 +1278,7 @@ bool PixmapReader::ReadACRNEMAImage()
 
   // 4. Do the Curves/Overlays if any
   DoCurves(ds, *PixelData);
+  // Pay attention that pf.GetSamplesPerPixel() may equal 1 (eg. LIBIDO-24-ACR_NEMA-Rectangle.dcm)
   DoOverlays(ds, *PixelData);
 
   // 5. Do the PixelData

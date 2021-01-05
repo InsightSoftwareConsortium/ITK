@@ -202,7 +202,7 @@ void Overlay::Update(const DataElement & de)
     // if OverlayBitsAllocated is 16 it imply Overlay in unused pixel bits
     if( at.GetValue() != 1 )
       {
-      gdcmWarningMacro( "Unsuported OverlayBitsAllocated: " << at.GetValue() );
+      gdcmDebugMacro( "Unsuported OverlayBitsAllocated: " << at.GetValue() );
       }
     SetBitsAllocated( at.GetValue() );
     }
@@ -257,7 +257,53 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
 {
   const unsigned int ovlength = Internal->Rows * Internal->Columns / 8;
   Internal->Data.resize( ovlength ); // set to 0
-  if( Internal->BitsAllocated == 16 )
+  if( Internal->BitsAllocated == 8 )
+    {
+    if( !ds.FindDataElement( Tag(0x7fe0,0x0010) ) )
+      {
+      gdcmWarningMacro("Could not find Pixel Data. Cannot extract Overlay." );
+      return false;
+      }
+    const DataElement &pixeldata = ds.GetDataElement( Tag(0x7fe0,0x0010) );
+    const ByteValue *bv = pixeldata.GetByteValue();
+    if( !bv )
+      {
+      gdcmWarningMacro("Could not extract overlay from encapsulated stream." );
+      return false;
+      }
+    const char *array = bv->GetPointer();
+    const unsigned int length = ovlength * 8 * 1; //bv->GetLength();
+    const uint8_t *p = (const uint8_t*)(const void*)array;
+    const uint8_t *end = (const uint8_t*)(const void*)(array + length);
+    assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
+    if( Internal->Data.empty() )
+      {
+      gdcmWarningMacro("Internal Data is empty." );
+      return false;
+      }
+    unsigned char * overlay = (unsigned char*)&Internal->Data[0];
+    int c = 0;
+    uint8_t pmask = (uint8_t)(1 << Internal->BitPosition);
+    assert( length / 1 == ovlength * 8 );
+    while( p != end )
+      {
+      const uint8_t val = *p & pmask;
+      assert( val == 0x0 || val == pmask );
+      // 128 -> 0x80
+      if( val )
+        {
+        overlay[ c / 8 ] |= (unsigned char)(0x1 << c%8);
+        }
+      else
+        {
+        // else overlay[ c / 8 ] is already 0
+        }
+      ++p;
+      ++c;
+      }
+    assert( (unsigned)c / 8 == ovlength );
+    }
+  else if( Internal->BitsAllocated == 16 )
     {
     //assert( Internal->BitPosition >= 12 );
     if( !ds.FindDataElement( Tag(0x7fe0,0x0010) ) )

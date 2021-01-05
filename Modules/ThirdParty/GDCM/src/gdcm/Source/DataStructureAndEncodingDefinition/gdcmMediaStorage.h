@@ -142,6 +142,7 @@ public:
     EnhancedMRColorImageStorage,
     FujiPrivateMammoCRImageStorage,
     OphthalmicPhotography16BitImageStorage,
+    VideoMicroscopicImageStorage,
     MS_END
   } MSType; // Media Storage Type
 
@@ -201,12 +202,10 @@ protected:
 
 private:
   bool SetFromDataSetOrHeader(DataSet const &ds, const Tag & tag);
-  /// NOT THREAD SAFE
-  const char* GetFromDataSetOrHeader(DataSet const &ds, const Tag & tag);
-  /// NOT THREAD SAFE
-  const char* GetFromHeader(FileMetaInformation const &fmi);
-  /// NOT THREAD SAFE
-  const char* GetFromDataSet(DataSet const &ds);
+
+  std::string GetFromDataSetOrHeader(DataSet const &ds, const Tag & tag);
+  std::string GetFromHeader(FileMetaInformation const &fmi);
+  std::string GetFromDataSet(DataSet const &ds);
 
 private:
   MSType MSField;

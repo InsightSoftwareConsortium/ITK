@@ -638,7 +638,10 @@ std::pair<char *, size_t> JPEG2000Codec::DecodeByStreamsCommon(char *dummy_buffe
     file_length--;
     }
   // what if 0xd9 is never found ?
-  assert( file_length > 0 && src[file_length-1] == 0xd9 );
+  if( !( file_length > 0 && src[file_length-1] == 0xd9 ) )
+  {
+    return std::make_pair( nullptr, 0 );
+  }
 
   /* set decoding parameters to default values */
   opj_set_default_decoder_parameters(&parameters);
@@ -1269,7 +1272,7 @@ bool JPEG2000Codec::CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & 
 
   myfile mysrc;
   myfile *fsrc = &mysrc;
-  char *buffer_j2k = new char[inputlength]; // overallocated
+  char *buffer_j2k = new char[inputlength * 2]; // overallocated for weird case
   fsrc->mem = fsrc->cur = buffer_j2k;
   fsrc->len = 0; //inputlength;
 
@@ -1687,6 +1690,8 @@ bool JPEG2000Codec::DecodeExtent(
       {
       size_t fraglen = frag.GetVL();
       size_t oldlen = vdummybuffer.size();
+      if( fraglen == 0 && oldlen == 0 )
+        break;
       // update
       buf_size = fraglen + oldlen;
       vdummybuffer.resize( buf_size );
@@ -1771,7 +1776,14 @@ bool JPEG2000Codec::DecodeExtent(
       if( !raw_len.first || !raw_len.second ) return false;
       // check pixel format *after* DecodeByStreamsCommon !
       const PixelFormat & pf2 = this->GetPixelFormat();
-      if( pf != pf2 ) return false;
+      if( pf.GetSamplesPerPixel() != pf2.GetSamplesPerPixel()
+       || pf.GetBitsAllocated() != pf2.GetBitsAllocated()
+      )
+        {
+        gdcmErrorMacro( "Invalid PixelFormat found (mismatch DICOM vs J2K)" );
+        return false;
+        }
+
 
       char *raw = raw_len.first;
       const unsigned int rowsize = xmax - xmin + 1;
