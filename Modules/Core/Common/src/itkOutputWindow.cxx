@@ -27,10 +27,15 @@
  *=========================================================================*/
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"
+#include "itkSingleton.h"
 
 namespace itk
 {
-OutputWindow::Pointer OutputWindow::m_Instance = nullptr;
+
+struct OutputWindowGlobals
+{
+  OutputWindow::Pointer m_Instance{ nullptr };
+};
 
 /**
  * Prompting off by default
@@ -75,9 +80,10 @@ OutputWindowDisplayDebugText(const char * message)
 void
 OutputWindow::PrintSelf(std::ostream & os, Indent indent) const
 {
+  itkInitGlobalsMacro(PimplGlobals);
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "OutputWindow (single instance): " << (void *)OutputWindow::m_Instance << std::endl;
+  os << indent << "OutputWindow (single instance): " << (void *)m_PimplGlobals->m_Instance << std::endl;
 
   os << indent << "Prompt User: " << (m_PromptUser ? "On\n" : "Off\n");
 }
@@ -107,32 +113,38 @@ OutputWindow::DisplayText(const char * txt)
 OutputWindow::Pointer
 OutputWindow::GetInstance()
 {
-  if (!OutputWindow::m_Instance)
+  itkInitGlobalsMacro(PimplGlobals);
+  if (!m_PimplGlobals->m_Instance)
   {
     // Try the factory first
-    OutputWindow::m_Instance = ObjectFactory<Self>::Create();
+    m_PimplGlobals->m_Instance = ObjectFactory<Self>::Create();
     // if the factory did not provide one, then create it here
-    if (!OutputWindow::m_Instance)
+    if (!m_PimplGlobals->m_Instance)
     {
-      OutputWindow::m_Instance = new OutputWindow;
+      m_PimplGlobals->m_Instance = new OutputWindow;
       // Remove extra reference from construction.
-      OutputWindow::m_Instance->UnRegister();
+      m_PimplGlobals->m_Instance->UnRegister();
     }
   }
   /**
    * return the instance
    */
-  return OutputWindow::m_Instance;
+  return m_PimplGlobals->m_Instance;
 }
+
+itkGetGlobalSimpleMacro(OutputWindow, OutputWindowGlobals, PimplGlobals);
+
+OutputWindowGlobals * OutputWindow::m_PimplGlobals;
 
 void
 OutputWindow::SetInstance(OutputWindow * instance)
 {
-  if (OutputWindow::m_Instance == instance)
+  itkInitGlobalsMacro(PimplGlobals);
+  if (m_PimplGlobals->m_Instance == instance)
   {
     return;
   }
-  OutputWindow::m_Instance = instance;
+  m_PimplGlobals->m_Instance = instance;
 }
 
 /**
