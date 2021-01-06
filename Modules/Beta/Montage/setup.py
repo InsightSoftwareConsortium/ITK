@@ -48,9 +48,9 @@ setup(
     keywords='ITK InsightToolkit Montage Image-stitching Image-montage',
     url=r'https://github.com/InsightSoftwareConsortium/ITKMontage',
     install_requires=[
-        r'itk-core>=v5.1.1',
-        r'itk-filtering>=v5.1.1',
-        r'itk-io>=v5.1.1',
+        r'itk-core>=v5.2rc01',
+        r'itk-filtering>=v5.2rc01',
+        r'itk-io>=v5.2rc01',
         r'numpy'
     ]
     )
