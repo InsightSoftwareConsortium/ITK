@@ -480,8 +480,8 @@ cd ..
 Build the wheels for macOS:
 
 ```sh
-ssh misty
-cd ~/Dashboards/ITK/ITKPythonPackage
+ssh computron
+cd ~/D/P/ITKPythonPackage
 git reset --hard HEAD
 git checkout release
 git pull
