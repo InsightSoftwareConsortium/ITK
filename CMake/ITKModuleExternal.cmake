@@ -39,7 +39,10 @@ endif()
 # Setup build locations for shared libraries ----START
 #     ITK/CMakeLists.txt -- use ITK_BINARY_DIR as root
 #     ITK/CMake/ITKModuleExternal.cmake -- use ITK_DIR as root
-#
+if(NOT ITK_BINARY_DIR)
+  set(ITK_BINARY_DIR ${ITK_DIR})
+endif()
+
 # The default path when not wrapping.  Restore standard build location
 # if python wrapping is turned on, and then turned off.
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
