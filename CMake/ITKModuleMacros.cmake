@@ -325,6 +325,8 @@ macro(itk_module_test)
   foreach(dep IN LISTS ITK_MODULE_${itk-module-test}_DEPENDS)
     list(APPEND ${itk-module-test}_LIBRARIES "${${dep}_LIBRARIES}")
   endforeach()
+  set(ITK_TEST_OUTPUT_DIR "${ITK_TEST_OUTPUT_DIR}/${itk-module}")
+  file(MAKE_DIRECTORY "${ITK_TEST_OUTPUT_DIR}")
 endmacro()
 
 macro(itk_module_examples)
