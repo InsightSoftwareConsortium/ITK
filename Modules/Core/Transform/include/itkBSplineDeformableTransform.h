@@ -106,7 +106,7 @@ outputPoint = transform->TransformPoint( inputPoint );
  * \sa BSplineTransform
  *
  * \sphinx
- * \sphinxexample{Registration/ImageRegistrationMethodBSpline,Global Registration Of Two Images (BSpline)}
+ * \sphinxexample{Core/Transform/GlobalRegistrationTwoImagesBSpline,Global Registration Of Two Images (BSpline)}
  * \endsphinx
  */
 template <typename TParametersValueType = double, unsigned int NDimensions = 3, unsigned int VSplineOrder = 3>

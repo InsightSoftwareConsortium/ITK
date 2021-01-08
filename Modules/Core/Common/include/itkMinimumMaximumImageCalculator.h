@@ -37,7 +37,7 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Core/Common/FindMaxAndMinInImage,Find Max And Min In Image}
- * \sphinxexample{Developer/OilPaintingImageFilter,Multi-threaded oil painting image filter}
+ * \sphinxexample{Core/Common/MultiThreadOilPainting,Multi-thread Oil Painting}
  * \endsphinx
  */
 template <typename TInputImage>

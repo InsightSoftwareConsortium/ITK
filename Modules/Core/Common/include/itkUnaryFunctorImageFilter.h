@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKCommon
  *
  * \sphinx
- * \sphinxexample{ImageProcessing/UnaryFunctorImageFilter,Apply Custom Operation To Each Pixel In Image}
+ * \sphinxexample{Core/Common/CustomOperationToEachPixelInImage,Apply Custom Operation To Each Pixel In Image}
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage, typename TFunction>

@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKCommon
  *
  * \sphinx
- * \sphinxexample{Core/CommonTransparency,Make Part Of An Image Transparent}
+ * \sphinxexample{Core/Common/Transparency,Make Part Of An Image Transparent}
  * \endsphinx
  */
 

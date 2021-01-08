@@ -205,7 +205,7 @@ std::cout << *iterator[c]              << std::endl;
  *
  * \sphinx
  * \sphinxexample{Core/Common/IterateRegionWithNeighborhood,Iterate Region In Image With Neighborhood}
- * \sphinxexample{VectorImages/NeighborhoodIterator,Neighborhood Iterator On Vector Image}
+ * \sphinxexample{Core/Common/NeighborhoodIteratorOnVectorImage,Neighborhood Iterator On Vector Image}
  * \endsphinx
  */
 template <typename TImage, typename TBoundaryCondition = ZeroFluxNeumannBoundaryCondition<TImage>>

@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKLabelMap
  *
  * \sphinx
- * \sphinxexample{Filtering/LabelMap/RemoveLabelsFromLabelMa,Remove Labels From Label Map}
+ * \sphinxexample{Filtering/LabelMap/RemoveLabelsFromLabelMap,Remove Labels From Label Map}
  * \endsphinx
  */
 template <typename TLabelObject>

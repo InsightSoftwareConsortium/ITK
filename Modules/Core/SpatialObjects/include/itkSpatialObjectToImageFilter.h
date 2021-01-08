@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  *
  * \sphinx
- * \sphinxexample{Core/SpatialObjects/ConvertSpacialObjectToImage,Convert Spacial Object To Image}
+ * \sphinxexample{Core/SpatialObjects/ConvertSpatialObjectToImage,Convert Spatial Object To Image}
  * \endsphinx
  */
 template <typename TInputSpatialObject, typename TOutputImage>
