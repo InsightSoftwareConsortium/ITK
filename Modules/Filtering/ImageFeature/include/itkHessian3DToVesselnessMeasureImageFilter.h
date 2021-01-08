@@ -61,7 +61,7 @@ namespace itk
  * Yoshinobu Sato, Shin Nakajima, Hideki Atsumi, Thomas Koller,
  * Guido Gerig, Shigeyuki Yoshida, Ron Kikinis.
  *
- * http://www.spl.harvard.edu/archive/spl-pre2007/pages/papers/yoshi/
+ * http://www.image.med.osaka-u.ac.jp/member/yoshi/paper/linefilter.pdf
  *
  *
  * \sa HessianRecursiveGaussianImageFilter
@@ -108,12 +108,12 @@ public:
   itkNewMacro(Self);
 
   /** Set/Get macros for alpha_1. Please refer to
-   * http://www.spl.harvard.edu/archive/spl-pre2007/pages/papers/yoshi/ */
+   * http://www.image.med.osaka-u.ac.jp/member/yoshi/paper/linefilter.pdf */
   itkSetMacro(Alpha1, double);
   itkGetConstMacro(Alpha1, double);
 
   /** Set/Get macros for alpha_2. Please refer to
-   * http://www.spl.harvard.edu/archive/spl-pre2007/pages/papers/yoshi/ */
+   * http://www.image.med.osaka-u.ac.jp/member/yoshi/paper/linefilter.pdf */
   itkSetMacro(Alpha2, double);
   itkGetConstMacro(Alpha2, double);
 

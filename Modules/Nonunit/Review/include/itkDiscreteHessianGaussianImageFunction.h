@@ -33,7 +33,7 @@ namespace itk
  * The Initialize() method must be called after setting the parameters and before
  * evaluating the function.
  *
- * \author Ivan Macia, VICOMTech, Spain, http://www.vicomtech.es
+ * \author Ivan Macia, Vicomtech, Spain, https://www.vicomtech.org/en
  *
  * This implementation was taken from the Insight Journal paper:
  * https://hdl.handle.net/1926/1290
