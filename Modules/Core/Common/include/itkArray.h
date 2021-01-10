@@ -65,8 +65,13 @@ public:
   /** Construct from a VnlVectorType */
   explicit Array(const VnlVectorType &);
 
-  /** Constructor with size. Size can only be changed by assignment */
+  /** Constructor with size. Size can only be changed by assignment.
+   * \note This constructor may not initialize its elements.
+   */
   explicit Array(SizeValueType dimension);
+
+  /** Constructor with size and initial value for each element. */
+  explicit Array(SizeValueType dimension, const ValueType & value);
 
   /** Constructor that initializes array with contents from a user supplied
    * buffer. The pointer to the buffer and the length is specified. By default,
