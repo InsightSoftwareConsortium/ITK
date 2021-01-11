@@ -13,17 +13,17 @@ jobs:
           - os: ubuntu-18.04
             c-compiler: "gcc"
             cxx-compiler: "g++"
-            itk-git-tag: "v5.1.0"
+            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
             cmake-build-type: "MinSizeRel"
           - os: windows-2019
             c-compiler: "cl.exe"
             cxx-compiler: "cl.exe"
-            itk-git-tag: "v5.1.0"
+            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
             cmake-build-type: "Release"
           - os: macos-10.15
             c-compiler: "clang"
             cxx-compiler: "clang++"
-            itk-git-tag: "v5.1.0"
+            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
             cmake-build-type: "MinSizeRel"
 
     steps:
@@ -38,6 +38,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install ninja
+
+    - name: Get specific version of CMake, Ninja
+      uses: lukka/get-cmake@v3.18.3
 
     - name: Download ITK
       run: |
@@ -100,6 +103,9 @@ jobs:
         set(dashboard_no_clean 1)
         set(ENV{CC} ${{ matrix.c-compiler }})
         set(ENV{CXX} ${{ matrix.cxx-compiler }})
+        if(WIN32)
+          set(ENV{PATH} "\${CTEST_DASHBOARD_ROOT}/ITK-build/bin;\$ENV{PATH}")
+        endif()
         set(dashboard_cache "
         ITK_DIR:PATH=\${CTEST_DASHBOARD_ROOT}/ITK-build
         BUILD_TESTING:BOOL=ON
@@ -128,9 +134,9 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        python-version: [35, 36, 37, 38]
+        python-version: [36, 37, 38, 39]
         include:
-          - itk-python-git-tag: "v5.1.0.post2"
+          - itk-python-git-tag: "v5.2rc01"
 
     steps:
     - uses: actions/checkout@v2
@@ -166,10 +172,17 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - itk-python-git-tag: "v5.1.0.post2"
+          - itk-python-git-tag: "v5.2rc01"
 
     steps:
     - uses: actions/checkout@v2
+
+    - name: 'Specific XCode version'
+      run: |
+        sudo xcode-select -s "/Applications/Xcode_11.7.app"
+
+    - name: Get specific version of CMake, Ninja
+      uses: lukka/get-cmake@v3.18.3
 
     - name: 'Fetch build script'
       run: |
@@ -193,11 +206,14 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        python-version-minor: [5, 6, 7, 8]
+        python-version-minor: [6, 7, 8, 9]
         include:
-          - itk-python-git-tag: "v5.1.0.post2"
+          - itk-python-git-tag: "v5.2rc01"
 
     steps:
+    - name: Get specific version of CMake, Ninja
+      uses: lukka/get-cmake@v3.18.3
+
     - uses: actions/checkout@v2
       with:
         path: "im"
@@ -212,7 +228,7 @@ jobs:
       shell: bash
       run: |
         mv im ../../
-        cd ../../
+        cd ../../im
         curl -L "https://github.com/InsightSoftwareConsortium/ITKPythonBuilds/releases/download/${{ matrix.itk-python-git-tag }}/ITKPythonBuilds-windows.zip" -o "ITKPythonBuilds-windows.zip"
         7z x ITKPythonBuilds-windows.zip -o/c/P -aoa -r
         curl -L "https://data.kitware.com/api/v1/file/5c0ad59d8d777f2179dd3e9c/download" -o "doxygen-1.8.11.windows.bin.zip"
@@ -233,7 +249,7 @@ jobs:
     - name: Publish Python package as GitHub Artifact
       uses: actions/upload-artifact@v1
       with:
-        name: WindowWheel3.${{ matrix.python-version-minor }}
+        name: WindowsWheel3.${{ matrix.python-version-minor }}
         path: ../../im/dist
 
   publish-python-packages-to-pypi:
