@@ -52,6 +52,6 @@ setup(
     keywords='ITK InsightToolkit Math-morphology Label-images',
     url=r'https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate',
     install_requires=[
-        r'itk>=5.1.2'
+        r'itk>=5.2rc1'
     ]
     )
