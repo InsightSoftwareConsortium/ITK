@@ -617,6 +617,7 @@ set(ITKCommonGTests
       itkIndexRangeGTest.cxx
       itkMersenneTwisterRandomVariateGeneratorGTest.cxx
       itkNeighborhoodAllocatorGTest.cxx
+      itkNumberToStringGTest.cxx
       itkOptimizerParametersGTest.cxx
       itkPointGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx

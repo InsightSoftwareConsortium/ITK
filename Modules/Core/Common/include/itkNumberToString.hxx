@@ -28,7 +28,7 @@ namespace itk
 
 template <typename TValue>
 std::string
-NumberToString<TValue>::operator()(TValue val)
+NumberToString<TValue>::operator()(TValue val) const
 {
   std::ostringstream output;
   output << static_cast<typename NumericTraits<TValue>::PrintType>(val);
