@@ -26,7 +26,7 @@ namespace itk
 
 template <>
 std::string
-NumberToString<double>::operator()(double val)
+NumberToString<double>::operator()(double val) const
 {
   char                                               buf[256];
   const double_conversion::DoubleToStringConverter & converter =
@@ -42,7 +42,7 @@ NumberToString<double>::operator()(double val)
 
 template <>
 std::string
-NumberToString<float>::operator()(float val)
+NumberToString<float>::operator()(float val) const
 {
   char                                               buf[256];
   const double_conversion::DoubleToStringConverter & converter =

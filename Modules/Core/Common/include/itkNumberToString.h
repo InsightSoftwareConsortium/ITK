@@ -43,16 +43,16 @@ class ITK_TEMPLATE_EXPORT NumberToString
 {
 public:
   std::string
-  operator()(TValue val);
+  operator()(TValue val) const;
 };
 
 // declaration of specialization
 template <>
 ITKCommon_EXPORT std::string
-NumberToString<double>::operator()(double val);
+NumberToString<double>::operator()(double val) const;
 template <>
 ITKCommon_EXPORT std::string
-NumberToString<float>::operator()(float val);
+NumberToString<float>::operator()(float val) const;
 
 } // namespace itk
 
