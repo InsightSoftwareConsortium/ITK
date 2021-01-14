@@ -81,7 +81,7 @@ extern ITKCommon_EXPORT std::ostream &
  * Primal Sketch. Dissertation. Royal Institute of Technology, Stockholm,
  * Sweden. May 1991.).
  *
- * \author Ivan Macia, VICOMTech, Spain, http://www.vicomtech.es
+ * \author Ivan Macia, Vicomtech, Spain, https://www.vicomtech.org/en
  *
  * This implementation is derived from the Insight Journal paper:
  * https://www.insight-journal.org/browse/publication/179

@@ -99,7 +99,7 @@ namespace itk
  * \sphinxexample{Core/Common/MultipleInputsOfSameType,Multiple Inputs Of Same Type}
  * \sphinxexample{Core/Common/MultipleInputsOfDifferentType,Multiple Inputs Of Different Type}
  * \sphinxexample{Core/Common/MultipleOutputsOfSameType,Multiple Outputs Of Same Type}
- * \sphinxexample{Core/Common/MultThreadOilPainting,Mult-thread Oil Painting}
+ * \sphinxexample{Core/Common/MultiThreadOilPainting,Multi-thread Oil Painting}
  * \sphinxexample{Core/Common/MultipleOutputsOfDifferentType,Multiple Outputs Of Different Type}
  * \sphinxexample{Core/Common/FilterImageUsingMultipleThreads,Filter Image Using Multiple Threads}
  * \endsphinx

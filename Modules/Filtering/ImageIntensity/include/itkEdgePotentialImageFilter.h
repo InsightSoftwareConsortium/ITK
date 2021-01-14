@@ -34,7 +34,7 @@ namespace itk
  *
  * \ingroup ITKImageIntensity
  * \sphinx
- * \sphinxexample{,}
+ * \sphinxexample{Filtering/ImageIntensity/ComputeEdgePotential,Compute Edge Potential}
  * \endsphinx
  */
 namespace Functor
