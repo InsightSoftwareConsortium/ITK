@@ -1,6 +1,5 @@
 # This file provides a work-around to provide consistent
 # python3 cmake variables for cmake versions pre/post 3.12.0
-# NOTE: Only python 3 versions 3.6 and above are searched for.
 
 # If the cmake variable "PYTHON_DEVELOPMENT_REQUIRED" is set to ON
 # then the development environments are found.
@@ -29,8 +28,8 @@ if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "3.15.0")
       message(FATAL_ERROR "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
     endif()
   endif()
-  if(PYTHON_VERSION_STRING VERSION_LESS 3.5)
-    # if python version is less than 3.5, unset so that it appears that no python version is found.
+  if(PYTHON_VERSION_STRING VERSION_LESS 3.6)
+    # if python version is less than 3.6, unset so that it appears that no python version is found.
     # to emulate the same behavior as find(Python3 ..) from cmake 3.12.0+
     unset(PYTHON_EXECUTABLE)
     unset(PYTHONINTERP_FOUND)
@@ -52,6 +51,7 @@ else()
     if(DEFINED Python3_EXECUTABLE) # if already specified
       set(_specified_Python3_EXECUTABLE ${Python3_EXECUTABLE})
     endif()
+    # set(Python3_FIND_REGISTRY LAST) # default is FIRST. Do we need/want this?
     find_package(Python3 COMPONENTS Interpreter Development)
     if(DEFINED _specified_Python3_EXECUTABLE)
       set(Python3_EXECUTABLE ${_specified_Python3_EXECUTABLE} CACHE INTERNAL
