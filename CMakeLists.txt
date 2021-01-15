@@ -600,13 +600,17 @@ if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
   set(PYTHON_DEVELOPMENT_REQUIRED ${ITK_WRAP_PYTHON})
   include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKSetPython3Vars.cmake)
 
-  if(ITK_WRAP_PYTHON AND Python3_VERSION VERSION_LESS 3.5)
-    message(FATAL_ERROR "Python versions less than 3.5 are not supported for wrapping. Python version: \"${Python3_VERSION}\".")
-  endif()
   if(ITK_WRAP_PYTHON AND NOT Python3_INCLUDE_DIRS)
     message(FATAL_ERROR "Python version ${Python3_VERSION} development environment not found for wrapping.")
   endif()
+  if(NOT Python3_ROOT_DIR)
+    get_filename_component(Python3_ROOT_DIR ${Python3_EXECUTABLE} DIRECTORY)
+  endif()
 endif()
+
+# Add user-visible cache entry
+set(Python3_ROOT_DIR ${Python3_ROOT_DIR} CACHE PATH
+  "Which installation or virtual environment of Python to use" FORCE)
 
 if(BUILD_TESTING)
   # If building the testing, write the test costs (i.e. time to run)
