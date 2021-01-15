@@ -34,7 +34,7 @@ namespace itk
  * It performs an inverse FFT on input frequency image, and then a forward inverse.
  * The problem with other frequency shrinker is that it applies a low-pass rectangle filter (chop-off frequencies).
  * In the spatial domain this is equivalent to sinc interpolation (without any window), and it generates ringes
- * A way to improve this would be a frequency interpolator, avoiding ringing, not much frequency leakeage, and a sharp
+ * A way to improve this would be a frequency interpolator, avoiding ringing, not much frequency leakage, and a sharp
  * cutoff to avoid losing much high frequency information.
  *
  * \ingroup IsotropicWavelets

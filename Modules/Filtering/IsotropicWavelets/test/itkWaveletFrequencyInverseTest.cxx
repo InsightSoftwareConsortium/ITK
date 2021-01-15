@@ -134,7 +134,7 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   inverseFFT->SetInput(inverseWavelet->GetOutput());
   inverseFFT->Update();
 
-  // Restore InputImage Metadata for comparisson
+  // Restore InputImage Metadata for comparision
   using ChangeInformationFilterType = itk::ChangeInformationImageFilter<ImageType>;
   auto changeInfo = ChangeInformationFilterType::New();
   changeInfo->SetReferenceImage(reader->GetOutput());

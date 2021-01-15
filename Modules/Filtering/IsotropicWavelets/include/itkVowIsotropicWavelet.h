@@ -38,7 +38,7 @@ namespace itk
  *
  * Where q(t) is a m grade polynomial (m can be chosen) which elements are
  * calculated so the wavelet has desirable properties.
- * ie, tight frame, Vow Paritition of Unity, etc. (see paper for more info)
+ * ie, tight frame, Vow Partition of Unity, etc. (see paper for more info)
  *
  * \ingroup SpatialFunctions
  * \ingroup IsotropicWavelets

@@ -146,7 +146,7 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
     typename ImageType::SizeType  zoneSize = inputSize;
     typename ImageType::IndexType inputIndex = inputOriginIndex;
     typename ImageType::IndexType outputIndex = indexRequested;
-    // We have to avoid break simmetry and the hermitian property.
+    // We have to avoid break symmetry and the hermitian property.
     // So the output of a ComplexInverseFFT will generate complex images with non-zero imaginary part.
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {

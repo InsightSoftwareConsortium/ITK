@@ -61,7 +61,7 @@ AppendToFilenameRiesz(const std::string & filename, const std::string & appendix
 // 4. Wavelet reconstruction (inverse) using as coefficients the output of the PhaseAnalysis.
 // Without applying reconstruction factors: ApplyReconstructionFactorOff()
 // 5. The result of the reconstruction will be an image that uses phase information at each level/band for improving
-// local structure information, and can also work as an equalizator of brightness.
+// local structure information, and can also work as an equalization of brightness.
 template <unsigned int VDimension, typename TWaveletFunction>
 int
 runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
@@ -185,7 +185,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   inverseWavelet->SetHighPassSubBands(highSubBands);
   inverseWavelet->SetLevels(levels);
   inverseWavelet->SetInputs(modifiedWavelets);
-  // The coefficients are now phases, do not apply reconstrucction factors.
+  // The coefficients are now phases, do not apply reconstruction factors.
   inverseWavelet->ApplyReconstructionFactorsOff();
   inverseWavelet->Update();
 
@@ -248,7 +248,7 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Unkown string: " + applySoftThresholdInput + " . Use Apply or NoApply." << std::endl;
+    std::cerr << "Unknown string: " + applySoftThresholdInput + " . Use Apply or NoApply." << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -33,7 +33,7 @@ namespace itk
  *
  * @tparam N Dimension of the matrix
  * @param linear_index linear index, for example in 3D linear_index = i + nx(j + ny*k)
- * @param ns FixedArray containing sizes per dimenstion (nx,ny,...)
+ * @param ns FixedArray containing sizes per dimension (nx,ny,...)
  *
  * @return FixedArray with subindexes: [i,j,k, ...
  */

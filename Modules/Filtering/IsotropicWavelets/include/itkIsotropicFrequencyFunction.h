@@ -69,7 +69,7 @@ public:
     return sqrt(accum);
   };
 
-  /** Evaluate the function at a given frequency point. Because the function is istropic, this calls the
+  /** Evaluate the function at a given frequency point. Because the function is isotropic, this calls the
    * EvaluateMagnitude with the magnitude of the point. */
   FunctionValueType
   Evaluate(const TInput & frequency_point) const override

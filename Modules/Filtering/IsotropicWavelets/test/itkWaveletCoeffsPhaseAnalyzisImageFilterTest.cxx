@@ -115,7 +115,7 @@ itkWaveletCoeffsPhaseAnalyzisImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Unkown string: " + applySoftThresholdInput + " . Use Apply or NoApply." << std::endl;
+    std::cerr << "Unknown string: " + applySoftThresholdInput + " . Use Apply or NoApply." << std::endl;
     return EXIT_FAILURE;
   }
   double thresholdNumOfSigmas = 2.0;

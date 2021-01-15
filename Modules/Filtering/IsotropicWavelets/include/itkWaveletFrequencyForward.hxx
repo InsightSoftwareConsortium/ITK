@@ -214,7 +214,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
       {
         inputSizePerLevel[idim] = 1;
       }
-      // Index dividided by scale
+      // Index divided by scale
       inputStartIndexPerLevel[idim] = static_cast<IndexValueType>(
         std::ceil(static_cast<double>(inputStartIndexPerLevel[idim]) / this->m_ScaleFactor));
       // Spacing

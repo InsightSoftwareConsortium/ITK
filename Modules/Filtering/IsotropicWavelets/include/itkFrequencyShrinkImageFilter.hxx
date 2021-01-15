@@ -48,7 +48,7 @@ FrequencyShrinkImageFilter<TImageType>::FrequencyShrinkImageFilter()
   this->m_FrequencyBandFilter->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
   // The band is not radial, but square like.
   this->m_FrequencyBandFilter->SetRadialBand(false);
-  // Pass high positive freqs but stop negative high ones, to avoid overlaping.
+  // Pass high positive freqs but stop negative high ones, to avoid overlapping.
   this->m_FrequencyBandFilter->SetPassNegativeHighFrequencyThreshold(false);
 }
 
@@ -323,8 +323,8 @@ FrequencyShrinkImageFilter<TImageType>::GenerateInputRequestedRegion()
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != nullptr);
 
-  // The filter chops high frequencys [0 1...H,H-1 H-2...1].
-  // We need the whole input image, indepently of the RequestedRegion.
+  // The filter chops high frequencies [0 1...H,H-1 H-2...1].
+  // We need the whole input image, independently of the RequestedRegion.
   inputPtr->SetRequestedRegion(inputPtr->GetLargestPossibleRegion());
 }
 

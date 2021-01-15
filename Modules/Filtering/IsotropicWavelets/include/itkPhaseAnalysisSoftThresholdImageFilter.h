@@ -30,7 +30,7 @@ namespace itk
  * Dev note: The best way to get the spatial Riesz, is doing an inverse FFT of the output of
  * \sa MonogenicSignalFrequencyImageFilter
  * All filters in the module IsotropicWavelets avoid doing any FFT,
- * even though they work on the frequency domain. This is a dev decission to decouple algorithms from
+ * even though they work on the frequency domain. This is a dev decision to decouple algorithms from
  * the specific frequency layout of the FFT of choice.
  * User just have to modify the GetFrequency in a new FrequencyIterator if other FFT library is chosen.
  *

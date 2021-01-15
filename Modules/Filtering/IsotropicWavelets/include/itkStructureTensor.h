@@ -60,7 +60,7 @@ I_m[\mathbf{x}]I_n[\mathbf{x}]
  * The solution of the EigenSystem defined by \f$\mathbf{J}\f$ are the N EigenValues and EigenVectors.
  * The output of StructureTensor is a 2D Matrix of size (N,N+1), where the submatrix (N,N) are the EigenVectors, and the
 last column (N+1) are the EigenValues.
- * The orientation that maximixes the response: \f$u\f$ is the EigenVector with largest EigenValue, which is is the Nth
+ * The orientation that maximises the response: \f$u\f$ is the EigenVector with largest EigenValue, which is is the Nth
 column of the output matrix.
  * We can use the calculated direction \f$u\f$ to get a new image with max response from the inputs at each pixel.
  * \see ComputeProjectionImageWithLargestResponse(),
