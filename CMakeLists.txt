@@ -297,8 +297,8 @@ if(ITK_WRAPPING)
     # When wrapping, the multi-config generators can only be used in degraded state
     # of allowing only a single element int the CMAKE_CONFIGURATION_TYPES and enforcing
     # that CMAKE_BUILD_TYPE match that type (see Wrapping/CMakeLists.txt enforcement)
-    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>" CACHE PATH "Shared library directory with generator override")
-    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>" CACHE PATH "Shared library directory with generator override")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>" CACHE PATH "Shared library directory with generator override" FORCE)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "$<1:${ITK_PYTHON_PACKAGE_DIR}>" CACHE PATH "Shared library directory with generator override" FORCE)
   endif()
 else()
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY}   CACHE PATH "Shared library directory")
