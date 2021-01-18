@@ -71,6 +71,8 @@ nm lib/libitkpng-4.12.a 2> /dev/null | grep " T \| D \| R " |
 #define png_destroy_write_struct itk_png_destroy_write_struct
 #define png_do_bgr itk_png_do_bgr
 #define png_do_check_palette_indexes itk_png_do_check_palette_indexes
+#define png_do_expand_palette_rgb8_neon itk_png_do_expand_palette_rgb8_neon
+#define png_do_expand_palette_rgba8_neon itk_png_do_expand_palette_rgba8_neon
 #define png_do_invert itk_png_do_invert
 #define png_do_packswap itk_png_do_packswap
 #define png_do_read_interlace itk_png_do_read_interlace
@@ -208,6 +210,7 @@ nm lib/libitkpng-4.12.a 2> /dev/null | grep " T \| D \| R " |
 #define png_image_write_to_memory itk_png_image_write_to_memory
 #define png_image_write_to_stdio itk_png_image_write_to_stdio
 #define png_info_init_3 itk_png_info_init_3
+#define png_init_filter_functions_neon itk_png_init_filter_functions_neon
 #define png_init_io itk_png_init_io
 #define png_init_read_transformations itk_png_init_read_transformations
 #define png_longjmp itk_png_longjmp
@@ -259,6 +262,7 @@ nm lib/libitkpng-4.12.a 2> /dev/null | grep " T \| D \| R " |
 #define png_reciprocal2 itk_png_reciprocal2
 #define png_reset_crc itk_png_reset_crc
 #define png_reset_zstream itk_png_reset_zstream
+#define png_riffle_palette_neon itk_png_riffle_palette_neon
 #define png_sRGB_base itk_png_sRGB_base
 #define png_sRGB_delta itk_png_sRGB_delta
 #define png_sRGB_table itk_png_sRGB_table

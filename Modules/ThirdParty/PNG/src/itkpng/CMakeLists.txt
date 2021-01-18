@@ -11,6 +11,13 @@ pngerror.c  pngpread.c  pngrutil.c  pngwutil.c
 pngread.c   pngset.c   pngwio.c
 )
 
+if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm")
+  list(APPEND PNG_SRCS
+    arm/arm_init.c
+    arm/filter_neon_intrinsics.c
+    arm/palette_neon_intrinsics.c)
+endif()
+
 if(WIN32)
   if(BUILD_SHARED_LIBS)
     add_definitions(-DPNG_BUILD_DLL)
