@@ -34,11 +34,26 @@ endif()
 ")
   endif()
 
-  set(ITKHDF5_LIBRARIES )
   if(BUILD_SHARED_LIBS)
-    list(APPEND ITKHDF5_LIBRARIES ${HDF5_C_SHARED_LIBRARY} ${HDF5_CXX_SHARED_LIBRARY})
+    if (TARGET hdf5-shared)
+      set(ITKHDF5_LIBRARIES hdf5_cpp-shared hdf5-shared)
+    elseif(TARGET hdf5::hdf5-shared)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp-shared hdf5::hdf5-shared)
+    elseif(TARGET hdf5::hdf5)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp hdf5::hdf5)
+    else()
+      set(ITKHDF5_LIBRARIES ${HDF5_C_SHARED_LIBRARY} ${HDF5_CXX_SHARED_LIBRARY} ${HDF5_CXX_LIBRARY_NAMES} ${HDF5_LIBRARIES})
+    endif()
   else()
-    list(APPEND ITKHDF5_LIBRARIES ${HDF5_C_STATIC_LIBRARY} ${HDF5_CXX_STATIC_LIBRARY})
+    if (TARGET hdf5-static)
+      set(ITKHDF5_LIBRARIES hdf5_cpp-static hdf5-static)
+    elseif(TARGET hdf5::hdf5-static)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp-static hdf5::hdf5-static)
+    elseif(TARGET hdf5::hdf5)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp hdf5::hdf5)
+    else()
+      set(ITKHDF5_LIBRARIES ${HDF5_C_STATIC_LIBRARY} ${HDF5_CXX_STATIC_LIBRARY} ${HDF5_CXX_LIBRARY_NAMES} ${HDF5_LIBRARIES})
+    endif()
   endif()
 
   set(ITKHDF5_INCLUDE_DIRS
@@ -50,9 +65,7 @@ endif()
     ${HDF5_INCLUDE_DIRS}
     ${HDF5_INCLUDE_DIR_CPP}
     )
-  list(APPEND ITKHDF5_LIBRARIES
-    ${HDF5_CXX_LIBRARY_NAMES}
-    )
+
   set(ITKHDF5_NO_SRC 1)
 else()
   set(ITKHDF5_INCLUDE_DIRS
