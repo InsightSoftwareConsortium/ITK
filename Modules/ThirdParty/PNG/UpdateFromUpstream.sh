@@ -13,6 +13,7 @@ snapshot_relative_path='src/itkpng'
 snapshot_paths='
   png*.c
   png*.h
+  arm/*
   LICENSE
   scripts/pnglibconf.h.prebuilt
   '
