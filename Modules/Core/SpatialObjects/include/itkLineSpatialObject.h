@@ -34,6 +34,9 @@ namespace itk
  * \sa LineSpatialObjectPoint
  * \ingroup ITKSpatialObjects
  *
+ * \sphinx
+ * \sphinxexample{Core/SpatialObjects/LineSpatialObject,Line Spatial Object}
+ * \endsphinx
  */
 
 template <unsigned int TDimension = 3>
