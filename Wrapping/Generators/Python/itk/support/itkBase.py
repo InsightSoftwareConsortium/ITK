@@ -68,8 +68,8 @@ def itk_load_swig_module(name: str, namespace=None):
     if hasattr(this_module, "__templates_loaded"):
         if namespace is not None:
             swig = namespace.setdefault("swig", {})
-            assert hasattr(this_module, "swig")
-            swig.update(this_module.swig)
+            if hasattr(this_module, "swig"):
+                swig.update(this_module.swig)
 
             # don't worry about overwriting the symbols in namespace -- any
             # common symbols should be of type itkTemplate, which is a
@@ -125,10 +125,7 @@ def itk_load_swig_module(name: str, namespace=None):
             if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v
     else:
-        swig = None
-        if namespace is not None:
-            swig = namespace.setdefault("swig", {})
-        assert swig is not None
+        swig = namespace.setdefault("swig", {})
         for k, v in l_module.__dict__.items():
             if not (k.startswith("__") or k.startswith("itk")):
                 this_module.swig[k] = v

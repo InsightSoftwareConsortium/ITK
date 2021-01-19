@@ -6,6 +6,7 @@ import os
 import re
 from argparse import ArgumentParser
 from io import StringIO
+from pathlib import Path
 
 
 def getType(v):
@@ -20,8 +21,8 @@ class IdxGenerator(object):
     """Generates a the .idx file for an ITK wrapping submodule (which usually
     corresponds to a class)."""
 
-    def __init__(self, moduleName):
-        self.moduleName = moduleName
+    def __init__(self, submoduleName):
+        self.submoduleName = submoduleName
         # the output file
         self.outputFile = StringIO()
 
@@ -33,7 +34,7 @@ class IdxGenerator(object):
             # drop the :: prefix - it make swig produce invalid code
             if s.startswith("::"):
                 s = s[2:]
-            self.outputFile.write("{%s} {%s} {%s}\n" % (s, n, self.moduleName))
+            self.outputFile.write("{%s} {%s} {%s}\n" % (s, n, self.submoduleName))
 
         content = self.outputFile.getvalue()
 
@@ -200,8 +201,10 @@ class SwigInputGenerator(object):
 
 '''
 
-    def __init__(self, moduleName, options):
-        self.moduleName = moduleName
+    def __init__(self, submoduleName, options):
+        self.submoduleName = submoduleName
+        # The first mdx file is the master index file for this module.
+        self.moduleName = Path(options.mdx[0]).stem
         self.options = options
 
         self.outputFile = StringIO()
@@ -242,12 +245,12 @@ class SwigInputGenerator(object):
             else:
                 if self.options.warningError:
                     print(
-                        f"{self.moduleName}: error({str(identifier)}): {msg}",
+                        f"{self.submoduleName}: error({str(identifier)}): {msg}",
                         file=sys.stderr,
                     )
                 else:
                     print(
-                        f"{self.moduleName}: warning({str(identifier)}): {msg}",
+                        f"{self.submoduleName}: warning({str(identifier)}): {msg}",
                         file=sys.stderr,
                     )
 
@@ -452,7 +455,7 @@ class SwigInputGenerator(object):
                 pass
             elif line_stripped.endswith(".mdx"):
                 self.load_mdx(os.path.dirname(file_name) + os.sep + line_stripped)
-            elif line_stripped[:-4] == self.moduleName:
+            elif line_stripped[:-4] == self.submoduleName:
                 continue
             else:
                 self.load_idx(os.path.dirname(file_name) + os.sep + line_stripped)
@@ -625,15 +628,17 @@ def {snakeCase}_init_docstring():
     from itk.support import itkTemplate
     from itk.support import itkHelpers
 
-    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):
-        filter_object = itk.{processObject}.values()[0]
+    filter_class = itk.{self.moduleName}.{processObject}
+    is_template = isinstance(filter_class, itkTemplate.itkTemplate)
+    if is_template:
+        filter_object = filter_class.values()[0]
     else:
-        filter_object = itk.{processObject}
+        filter_object = filter_class
 
     {snakeCase}.__doc__ = filter_object.__doc__
-    {snakeCase}.__doc__ += "\\n Args are Input(s) to the filter.\\n"
-    {snakeCase}.__doc__ += "\\n Available Keyword Arguments:\\n"
-    if isinstance(itk.{processObject}, itkTemplate.itkTemplate):
+    {snakeCase}.__doc__ += "\\n args are input(s) to the filter.\\n\\n"
+    {snakeCase}.__doc__ += "\\n Available keyword arguments:\\n"
+    if is_template:
         {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[0]
         {snakeCase}.__doc__ += "\\n"
         {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[1]
@@ -830,12 +835,12 @@ if _version_info < (3, 6, 0):
                         )
                 # Also, release the GIL
                 headerFile.write(
-                    f'%module(package="itk",threads="1") {self.moduleName}{lang.title()}\n'
+                    f'%module(package="itk",threads="1") {self.submoduleName}{lang.title()}\n'
                 )
                 headerFile.write('%feature("nothreadallow");\n')
                 headerFile.write('%feature("autodoc","2");\n')
             else:
-                headerFile.write(f"%module {self.moduleName}{lang.title()}\n")
+                headerFile.write(f"%module {self.submoduleName}{lang.title()}\n")
             headerFile.write("#endif\n")
         headerFile.write("\n")
 
@@ -844,7 +849,7 @@ if _version_info < (3, 6, 0):
         s = set()
         headerFile.write("%{\n")
         # the include files passed in option
-        include = self.moduleName + "SwigInterface.h"
+        include = self.submoduleName + "SwigInterface.h"
         i = f'#include "{include}"'
         if i not in s:
             headerFile.write(i + "\n")
@@ -895,7 +900,7 @@ if _version_info < (3, 6, 0):
         includeFile.write("%include itk.i\n")
         for f in options.swig_includes:
             includeFile.write("%%include %s\n" % f)
-        includeFile.write("%%include %s\n" % (self.moduleName + "_ext.i"))
+        includeFile.write("%%include %s\n" % (self.submoduleName + "_ext.i"))
         includeFile.write("\n\n")
         return includeFile
 
@@ -918,10 +923,10 @@ if _version_info < (3, 6, 0):
     def create_typedefheader(self, usedSources):
         # create the typedef header
         typedefFile = StringIO()
-        typedefFile.write(f"#ifndef __{self.moduleName}SwigInterface_h\n")
-        typedefFile.write(f"#define __{self.moduleName}SwigInterface_h\n")
+        typedefFile.write(f"#ifndef __{self.submoduleName}SwigInterface_h\n")
+        typedefFile.write(f"#define __{self.submoduleName}SwigInterface_h\n")
         typedefInput = os.path.join(
-            options.library_output_dir, self.moduleName + "SwigInterface.h.in"
+            options.library_output_dir, self.submoduleName + "SwigInterface.h.in"
         )
         with open(typedefInput, "r") as f:
             typedefFile.write(f.read() + "\n")
@@ -929,7 +934,7 @@ if _version_info < (3, 6, 0):
             typedefFile.write(f'#include "{src}SwigInterface.h"\n')
         typedefFile.write("#endif\n")
         typedefOutput = os.path.join(
-            options.interface_output_dir, self.moduleName + "SwigInterface.h"
+            options.interface_output_dir, self.submoduleName + "SwigInterface.h"
         )
         with open(typedefOutput, "w") as f:
             f.write(typedefFile.getvalue())
@@ -1166,7 +1171,7 @@ if __name__ == "__main__":
         xml_generator_path=options.castxml_path, xml_generator="castxml"
     )
 
-    moduleNames = []
+    submoduleNames = []
     # The first mdx file is the master index file for this module.
     with open(options.mdx[0], "r") as ff:
         for line in ff.readlines():
@@ -1178,14 +1183,14 @@ if __name__ == "__main__":
             elif stripped.endswith(".mdx"):
                 pass
             else:
-                moduleName = stripped.rsplit(".")[0]
-                if moduleName.startswith("(const char*)"):
-                    moduleName = moduleName[len("(const char*)") :]
-                moduleName = moduleName.strip('"')
-                moduleNames.append(moduleName)
+                submoduleName = stripped.rsplit(".")[0]
+                if submoduleName.startswith("(const char*)"):
+                    submoduleName = submoduleName[len("(const char*)") :]
+                submoduleName = submoduleName.strip('"')
+                submoduleNames.append(submoduleName)
 
-    def generate_wrapping_namespace(moduleName):
-        xmlFilePath = os.path.join(options.library_output_dir, moduleName + ".xml")
+    def generate_wrapping_namespace(submoduleName):
+        xmlFilePath = os.path.join(options.library_output_dir, submoduleName + ".xml")
         pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(pygccxml_config)
         abstractSyntaxTree = pygccxml_reader.read_xml_file(xmlFilePath)
         globalNamespace = pygccxml.declarations.get_global_namespace(abstractSyntaxTree)
@@ -1195,36 +1200,36 @@ if __name__ == "__main__":
     wrappingNamespaces = dict()
     # Limit the number of cached, parsed abstract syntax trees to avoid very
     # high memory usage
-    wrappingCacheLength = min(len(moduleNames), 20)
+    wrappingCacheLength = min(len(submoduleNames), 20)
     for ii in range(wrappingCacheLength):
-        moduleName = moduleNames[ii]
-        wrappingNamespace = generate_wrapping_namespace(moduleName)
-        wrappingNamespaces[moduleName] = wrappingNamespace
+        submoduleName = submoduleNames[ii]
+        wrappingNamespace = generate_wrapping_namespace(submoduleName)
+        wrappingNamespaces[submoduleName] = wrappingNamespace
 
-    for moduleName in moduleNames:
-        if moduleName in wrappingNamespaces:
-            wrappersNamespace = wrappingNamespaces[moduleName]
+    for submoduleName in submoduleNames:
+        if submoduleName in wrappingNamespaces:
+            wrappersNamespace = wrappingNamespaces[submoduleName]
         else:
-            wrappersNamespace = generate_wrapping_namespace(moduleName)
+            wrappersNamespace = generate_wrapping_namespace(submoduleName)
 
-        idxFilePath = os.path.join(options.interface_output_dir, moduleName + ".idx")
-        idx_generator = IdxGenerator(moduleName)
+        idxFilePath = os.path.join(options.interface_output_dir, submoduleName + ".idx")
+        idx_generator = IdxGenerator(submoduleName)
         idx_generator.create_idxfile(idxFilePath, wrappersNamespace)
 
     snake_case_process_object_functions = set()
 
-    def generate_swig_input(moduleName):
-        if moduleName in wrappingNamespaces:
-            wrappersNamespace = wrappingNamespaces[moduleName]
+    def generate_swig_input(submoduleName):
+        if submoduleName in wrappingNamespaces:
+            wrappersNamespace = wrappingNamespaces[submoduleName]
         else:
-            wrappersNamespace = generate_wrapping_namespace(moduleName)
+            wrappersNamespace = generate_wrapping_namespace(submoduleName)
 
-        idxFilePath = os.path.join(options.interface_output_dir, moduleName + ".idx")
+        idxFilePath = os.path.join(options.interface_output_dir, submoduleName + ".idx")
         swigInputFilePath = os.path.join(
-            options.interface_output_dir, moduleName + ".i"
+            options.interface_output_dir, submoduleName + ".i"
         )
 
-        swig_input_generator = SwigInputGenerator(moduleName, options)
+        swig_input_generator = SwigInputGenerator(submoduleName, options)
         swig_input_generator.create_interfacefile(
             swigInputFilePath, idxFilePath, wrappersNamespace
         )
@@ -1233,11 +1238,11 @@ if __name__ == "__main__":
         )
 
     if options.submodule_order:
-        for moduleName in options.submodule_order.split(";"):
-            generate_swig_input(moduleName)
-            moduleNames.remove(moduleName)
-    for moduleName in moduleNames:
-        generate_swig_input(moduleName)
+        for submoduleName in options.submodule_order.split(";"):
+            generate_swig_input(submoduleName)
+            submoduleNames.remove(submoduleName)
+    for submoduleName in submoduleNames:
+        generate_swig_input(submoduleName)
 
     snake_case_file = options.snake_case_file
     if len(snake_case_file) > 1:
