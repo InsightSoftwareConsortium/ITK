@@ -76,20 +76,16 @@ namespace itk
    \code
    using ImageType = Image<float, 3>;
    ShapedNeighborhoodIterator<ImageType> it(radius, image, region);
-   .
-   .
-   .
+   ...
    it.ActivateOffset(offset1);
    it.ActivateOffset(offset2);
    it.ActivateOffset(offset3);
-   etc..
-   .
-   .
-   .
+   // etc..
+   ...
    ShapedNeighborhoodIterator<ImageType>::Iterator i;
    for (i = it.Begin(); ! i.IsAtEnd(); i++)
    { i.Set(i.Get() + 1.0); }
-   \\ you may also use i != i.End(), but IsAtEnd() may be slightly faster.
+   // you may also use i != i.End(), but IsAtEnd() may be slightly faster.
    \endcode
  *
  * You can also iterate backward through the neighborhood active list.
