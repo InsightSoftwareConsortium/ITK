@@ -70,7 +70,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(VanHerkGilWermanErodeDilateImageFilter, ImageToImageFilter);
+  itkTypeMacro(VanHerkGilWermanErodeDilateImageFilter, KernelImageFilter);
 
   /** Set/Get the boundary value. */
   itkSetMacro(Boundary, InputImagePixelType);
