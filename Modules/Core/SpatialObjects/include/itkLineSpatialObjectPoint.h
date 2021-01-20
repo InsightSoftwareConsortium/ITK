@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  *
  * \sphinx
- * \sphinxexample{Core/SpatialObjects/LineSpacialObject,Line Spatial Object}
+ * \sphinxexample{Core/SpatialObjects/LineSpatialObject,Line Spatial Object}
  * \endsphinx
  */
 
