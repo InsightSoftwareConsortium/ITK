@@ -1010,16 +1010,27 @@ ScancoImageIO::ReadImageInformation()
   infile.close();
 
   // This code causes rescaling to Hounsfield units
-  /*
   if (this->m_MuScaling > 0 && this->m_MuWater > 0)
-    {
-    // HU = 1000*(u - u_water)/u_water
-    this->m_RescaleSlope = 1000.0/(this->m_MuWater * this->m_MuScaling);
+  {
+    // mu(voxel) = intensity(voxel) / m_MuScaling
+    // HU(voxel) = mu(voxel) * 1000/m_MuWater - 1000
+    // Or, HU(voxel) = intensity(voxel) * (1000 / m_MuWater * m_MuScaling) - 1000
+    this->m_RescaleSlope = 1000.0 / (this->m_MuWater * this->m_MuScaling);
     this->m_RescaleIntercept = -1000.0;
-    }
-  */
+  }
 }
 
+template <typename TBufferType>
+void
+RescaleToHU(TBufferType * buffer, size_t size, double slope, double intercept)
+{
+  for (size_t i = 0; i < size; i++)
+  {
+    float bufferValue = static_cast<float>(buffer[i]);
+    bufferValue = bufferValue * slope + intercept;
+    buffer[i] = static_cast<TBufferType>(bufferValue);
+  }
+}
 
 void
 ScancoImageIO::Read(void * buffer)
@@ -1054,6 +1065,49 @@ ScancoImageIO::Read(void * buffer)
   if (this->m_Compression == 0)
   {
     infile.read(reinterpret_cast<char *>(buffer), outSize);
+
+    // Convert the image to HU by default
+    // Only SHORT images have been tested
+    IOComponentEnum dataType = this->m_ComponentType;
+
+    // The size of the buffer will change depending on the data type
+    size_t bufferSize = outSize;
+
+    switch (dataType)
+    {
+      case IOComponentEnum::CHAR:
+        RescaleToHU(reinterpret_cast<char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        break;
+      case IOComponentEnum::UCHAR:
+        RescaleToHU(
+          reinterpret_cast<unsigned char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        break;
+      case IOComponentEnum::SHORT:
+        bufferSize /= 2;
+        RescaleToHU(reinterpret_cast<short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        break;
+      case IOComponentEnum::USHORT:
+        bufferSize /= 2;
+        RescaleToHU(
+          reinterpret_cast<unsigned short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        break;
+      case IOComponentEnum::INT:
+        bufferSize /= 4;
+        RescaleToHU(reinterpret_cast<int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        break;
+      case IOComponentEnum::UINT:
+        bufferSize /= 4;
+        RescaleToHU(
+          reinterpret_cast<unsigned int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        break;
+      case IOComponentEnum::FLOAT:
+        bufferSize /= 4;
+        RescaleToHU(reinterpret_cast<float *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+        break;
+      default:
+        itkExceptionMacro("Unrecognized data type in file: " << dataType);
+    }
+
     return;
   }
   else if (this->m_Compression == 0x00b1)
