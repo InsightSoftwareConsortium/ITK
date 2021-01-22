@@ -128,8 +128,8 @@ FrequencyShrinkViaInverseFFTImageFilter<TImageType>::GenerateInputRequestedRegio
 
   itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != nullptr);
 
-  // The filter chops high frequencys [0 1...H,H-1 H-2...1].
-  // We need the whole input image, indepently of the RequestedRegion.
+  // The filter chops high frequencies [0 1...H,H-1 H-2...1].
+  // We need the whole input image, independently of the RequestedRegion.
   inputPtr->SetRequestedRegion(inputPtr->GetLargestPossibleRegion());
 }
 

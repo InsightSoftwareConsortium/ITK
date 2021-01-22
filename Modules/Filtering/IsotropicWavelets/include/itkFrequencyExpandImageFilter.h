@@ -33,7 +33,7 @@ namespace itk
  * frequency pixels are set to Zero, no interpolation is made.
  *
  * Note that the input image shouldn't be shifted by ShiftFFTImageFilter.
- * It must conserve the following standard strucuture in frequency (in all dims):
+ * It must conserve the following standard structure in frequency (in all dims):
  *
  * N = even , f_Nyq is unique, but shared between pos and neg freqs.
  * [ <---------f_pos ---------------f_Nyq-->                         ]
@@ -144,7 +144,7 @@ public:
    * FrequencyExpandImageFilter needs to provide an implementation for
    * UpdateOutputInformation() in order to inform the pipeline execution model.
    * The original documentation of this method is below.
-   * \sa ProcessObject::GenerateOutputInformaton() */
+   * \sa ProcessObject::GenerateOutputInformation() */
   void
   GenerateOutputInformation() override;
 

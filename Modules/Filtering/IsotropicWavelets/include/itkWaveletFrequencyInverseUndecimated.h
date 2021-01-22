@@ -39,7 +39,7 @@ class WaveletFrequencyInverseUndecimated : public ImageToImageFilter<TInputImage
 public:
   ITK_DISALLOW_COPY_AND_MOVE(WaveletFrequencyInverseUndecimated);
 
-  /** Standard classs type alias. */
+  /** Standard class type alias. */
   using Self = WaveletFrequencyInverseUndecimated;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
@@ -87,7 +87,7 @@ public:
   itkGetConstReferenceMacro(ScaleFactor, unsigned int);
 
   /**
-   * If On, applies to each input the appropiate Level-Band multiplicative factor. Needed for perfect reconstruction.
+   * If On, applies to each input the appropriate Level-Band multiplicative factor. Needed for perfect reconstruction.
    * It has to be turned off for some applications (phase analysis for example) */
   itkGetConstReferenceMacro(ApplyReconstructionFactors, bool);
   itkSetMacro(ApplyReconstructionFactors, bool);
@@ -141,7 +141,7 @@ protected:
    * implementation for GenerateOutputInformation() in order to inform the
    * pipeline execution model.  The original documentation of this method is
    * below.
-   * \sa ProcessObject::GenerateOutputInformaton()
+   * \sa ProcessObject::GenerateOutputInformation()
    */
   void
   GenerateOutputInformation() override;

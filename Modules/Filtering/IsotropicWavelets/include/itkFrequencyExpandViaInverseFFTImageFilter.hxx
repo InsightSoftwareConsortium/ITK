@@ -119,7 +119,7 @@ FrequencyExpandViaInverseFFTImageFilter<TImageType>::GenerateData()
 }
 
 /**
- * GenerateInputRequesteRegion
+ * GenerateInputRequestedRegion
  */
 template <typename TImageType>
 void

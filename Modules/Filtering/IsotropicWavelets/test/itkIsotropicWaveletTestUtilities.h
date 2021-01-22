@@ -27,7 +27,7 @@ namespace Testing
 {
 /** Check if Image is Hermitian f(x) = std:conj(f(-x)).
  * @param cImg ComplexImage
- * @param maxUlp Set ulps, error tolerance for the comparisson of floats/doubles. We are only interested to detect clear
+ * @param maxUlp Set ulps, error tolerance for the comparison of floats/doubles. We are only interested to detect clear
  * errors
  */
 template <typename TValueType, unsigned int N>

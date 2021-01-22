@@ -123,7 +123,7 @@ ComputeAllPermutations(const std::set<TIndicesArrayType, std::greater<TIndicesAr
 
 /**
  * Compute all possible indices given an order.
- * The order imposes the constain:
+ * The order imposes the constraint:
  * \f[ \sum_{i}^{ImageDimension} \text{index}[i] = \text{order} \f]
  * where \f$ \text{index}[i]>=0 \f$
  */

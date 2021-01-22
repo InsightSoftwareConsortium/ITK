@@ -313,7 +313,7 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
             // k1! = k11!*k12!*...*k1d!
             kFactorialMultiplication *= itk::utils::Factorial(k);
             // r11^k11*...*r1d^k1d
-            // switch to avoid unnecesary calls to std::pow.
+            // switch to avoid unnecessary calls to std::pow.
             if (k == 0)
             {
               continue;

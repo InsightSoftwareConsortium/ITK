@@ -256,7 +256,7 @@ itkStructureTensorWithGeneralizedRieszTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Unkown string: " + applyReconstructionFactorsInput + " . Use Apply or NoApply." << std::endl;
+    std::cerr << "Unknown string: " + applyReconstructionFactorsInput + " . Use Apply or NoApply." << std::endl;
     return EXIT_FAILURE;
   }
 

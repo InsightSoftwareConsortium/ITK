@@ -84,7 +84,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
 {
   if (inputs.size() != this->m_TotalInputs)
   {
-    itkExceptionMacro(<< "Error seting inputs in inverse wavelet. Wrong vector size: " << inputs.size()
+    itkExceptionMacro(<< "Error setting inputs in inverse wavelet. Wrong vector size: " << inputs.size()
                       << " .According to number of levels and bands it should be: " << m_TotalInputs);
   }
   for (unsigned int nin = 0; nin < this->m_TotalInputs; ++nin)
@@ -111,7 +111,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
 {
   if (inputs.size() != this->m_TotalInputs - 1)
   {
-    itkExceptionMacro(<< "Error seting inputs in inverse wavelet. Wrong vector size: " << inputs.size()
+    itkExceptionMacro(<< "Error setting inputs in inverse wavelet. Wrong vector size: " << inputs.size()
                       << " .According to number of levels and bands it should be: " << m_TotalInputs - 1);
   }
   for (unsigned int nin = 0; nin < this->m_TotalInputs - 1; ++nin)
