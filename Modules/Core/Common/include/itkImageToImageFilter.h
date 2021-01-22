@@ -387,4 +387,8 @@ private:
 #  include "itkImageToImageFilter.hxx"
 #endif
 
+#ifdef ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION
+#  include "itkImageToImageFilterExternTemplate.h"
+#endif
+
 #endif

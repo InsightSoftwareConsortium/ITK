@@ -407,4 +407,8 @@ protected:
 #  include "itkImageSource.hxx"
 #endif
 
+#ifdef ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION
+#  include "itkImageSourceExternTemplate.h"
+#endif
+
 #endif

@@ -391,4 +391,8 @@ private:
 #  include "itkImage.hxx"
 #endif
 
+#ifdef ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION
+#  include "itkImageExternTemplate.h"
+#endif
+
 #endif

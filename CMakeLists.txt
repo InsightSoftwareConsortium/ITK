@@ -620,7 +620,14 @@ if(BUILD_TESTING)
   add_subdirectory(Utilities/InstallTest)
 endif()
 
-
+# Enable extern template and explicit instantiation for classes used in tests
+# The extra header and source file needed for this feature are named with the suffix ExternTemplate.h|cxx
+# and placed in a subfolder named ExternTemplate inside the test folder of their module.
+# For example:
+#  itkImageExternTemplate.h and itkImageExternTemplate.cxx
+#  are placed in in Modules/Core/Common/test/ExternTemplate/
+option(ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION "Enable extern template and explicit instantiation for classes used in tests to speed up compilation." ON) # TODO turn it OFF by default, ON for CIpurposes.
+mark_as_advanced(ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION_FOR_TEST)
 
 #-----------------------------------------------------------------------------
 # The subdirectories added below this line should use only the public

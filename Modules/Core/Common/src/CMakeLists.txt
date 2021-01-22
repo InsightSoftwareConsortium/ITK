@@ -182,9 +182,26 @@ elseif( MSVC )
   set_source_files_properties( itkCompensatedSummation.cxx PROPERTIES COMPILE_FLAGS -fp:precise )
 endif()
 
+if(BUILD_TESTING AND ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION)
+  set(ExternTemplate_SRCS
+    itkImageExternTemplate.cxx
+    itkImageSourceExternTemplate.cxx
+    itkImageToImageFilterExternTemplate.cxx
+    )
+  list(TRANSFORM ExternTemplate_SRCS PREPEND "../test/ExternTemplate/")
+  list(APPEND ITKCommon_SRCS ${ExternTemplate_SRCS})
+endif()
 
 ### generating libraries
 itk_module_add_library( ITKCommon ${ITKCommon_SRCS})
+
+if(BUILD_TESTING AND ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION)
+  # Do not use these files in the install tree
+  target_include_directories(ITKCommon PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../test/ExternTemplate>)
+  target_compile_definitions(ITKCommon PUBLIC
+    $<BUILD_INTERFACE:ITK_EXTERN_TEMPLATE_AND_EXPLICIT_INSTANTIATION>)
+endif()
 
 target_link_libraries(ITKCommon LINK_PUBLIC itksys ITKVNLInstantiation)
 
