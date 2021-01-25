@@ -24,6 +24,7 @@
 #include "itkDistanceToCentroidMembershipFunction.h"
 
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -223,12 +224,15 @@ template <typename TInputImage, typename TOutputImage>
 void
 ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Final Means " << m_FinalMeans << std::endl;
-  os << indent << "Use Contiguous Labels " << m_UseNonContiguousLabels << std::endl;
-  os << indent << "Image Region Defined: " << m_ImageRegionDefined << std::endl;
-  os << indent << "Image Region: " << m_ImageRegion << std::endl;
+  os << indent << "InitialMeans: " << m_InitialMeans << std::endl;
+  os << indent << "FinalMeans: " << m_FinalMeans << std::endl;
+  os << indent << "UseContiguousLabels: " << m_UseNonContiguousLabels << std::endl;
+  os << indent << "ImageRegion: " << m_ImageRegion << std::endl;
+  os << indent << "ImageRegionDefined: " << m_ImageRegionDefined << std::endl;
 }
 } // end namespace itk
 

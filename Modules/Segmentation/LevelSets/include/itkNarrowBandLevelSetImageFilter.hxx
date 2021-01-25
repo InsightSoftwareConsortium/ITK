@@ -31,8 +31,13 @@ NarrowBandLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPixelType, TOut
   Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_ReverseExpansionDirection = " << m_ReverseExpansionDirection << std::endl;
-  os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
+
+  os << indent << "ReverseExpansionDirection: " << m_ReverseExpansionDirection << std::endl;
+
+  itkPrintSelfObjectMacro(IsoFilter);
+  itkPrintSelfObjectMacro(ChamferFilter);
+
+  os << indent << "SegmentationFunction: " << m_SegmentationFunction << std::endl;
 }
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputPixelType, typename TOutputImage>

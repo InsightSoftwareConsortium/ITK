@@ -24,6 +24,7 @@
 #include "itkProgressReporter.h"
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -213,11 +214,24 @@ template <typename TInputImage1, typename TInputImage2>
 void
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "DirectedHausdorffDistance: " << m_DirectedHausdorffDistance << std::endl;
-  os << indent << "AverageHausdorffDistance: " << m_AverageHausdorffDistance << std::endl;
-  os << indent << "Use Image Spacing : " << m_UseImageSpacing << std::endl;
+  os << indent << "DistanceMap: " << m_DistanceMap << std::endl;
+  os << indent << "MaxDistance: " << m_MaxDistance << std::endl;
+  os << indent << "PixelCount:" << m_PixelCount << std::endl;
+  os << indent << "Sum: ";
+  for (auto const & elem : m_Sum)
+  {
+    std::cout << elem.GetSum() << " ";
+  }
+  os << std::endl;
+  os << indent << "DirectedHausdorffDistance: "
+     << static_cast<typename NumericTraits<RealType>::PrintType>(m_DirectedHausdorffDistance) << std::endl;
+  os << indent << "AverageHausdorffDistance: "
+     << static_cast<typename NumericTraits<RealType>::PrintType>(m_AverageHausdorffDistance) << std::endl;
+  os << indent << "UseImageSpacing : " << m_UseImageSpacing << std::endl;
 }
 } // end namespace itk
 #endif

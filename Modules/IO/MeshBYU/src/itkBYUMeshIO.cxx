@@ -528,6 +528,9 @@ void
 BYUMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "FilePosition: " << static_cast<typename NumericTraits<StreamOffsetType>::PrintType>(m_FilePosition)
+     << std::endl;
   os << indent << "PartId: " << m_PartId << std::endl;
   os << indent << "First Cell Id: " << m_FirstCellId << std::endl;
   os << indent << "Last Cell Id: " << m_LastCellId << std::endl;
