@@ -45,5 +45,5 @@ itk_fetch_module(FixedPointInverseDisplacementField
   "Computes the inverse of a displacement field."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKFixedPointInverseDisplacementField.git
-  GIT_TAG f11d9945a5cc1e8b40641204835a48f72d05281a
+  GIT_TAG 965f9d7917f8b00bcdc61d223aa81a3aa6b58e43
   )
