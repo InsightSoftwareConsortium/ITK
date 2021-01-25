@@ -51,6 +51,8 @@ void
 MRCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  itkPrintSelfObjectMacro(MRCHeader);
 }
 
 bool

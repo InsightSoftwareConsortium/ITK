@@ -217,6 +217,11 @@ void
 AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "Boundary1: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Boundary1)
+     << std::endl;
+  os << indent << "Boundary2: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Boundary2)
+     << std::endl;
 }
 
 } // end namespace itk

@@ -27,6 +27,7 @@
 #include "itkCastImageFilter.h"
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -233,25 +234,19 @@ void
 DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>::PrintSelf(std::ostream & os,
                                                                                             Indent         indent) const
 {
-  unsigned int i;
+  using namespace print_helper;
 
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_UseImageSpacing = " << m_UseImageSpacing << std::endl;
-  os << indent << "m_RequestedNumberOfThreads = " << m_RequestedNumberOfThreads << std::endl;
-  os << indent << "m_DerivativeWeights = ";
-  for (i = 0; i < ImageDimension; i++)
-  {
-    os << m_DerivativeWeights[i] << " ";
-  }
-  os << std::endl;
-  os << indent << "m_HalfDerivativeWeights = ";
-  for (i = 0; i < ImageDimension; i++)
-  {
-    os << m_HalfDerivativeWeights[i] << " ";
-  }
-  os << std::endl;
-  os << indent << "m_NeighborhoodRadius = " << m_NeighborhoodRadius << std::endl;
-  os << indent << "m_RealValuedInputImage = " << m_RealValuedInputImage.GetPointer() << std::endl;
+
+  os << indent << "DerivativeWeights: " << m_DerivativeWeights << std::endl;
+  os << indent << "HalfDerivativeWeights: " << m_HalfDerivativeWeights << std::endl;
+  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+  os << indent << "RequestedNumberOfThreads: "
+     << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfThreads) << std::endl;
+  os << indent << "RealValuedInputImage: " << m_RealValuedInputImage.GetPointer() << std::endl;
+  os << indent
+     << "NeighborhoodRadius: " << static_cast<typename NumericTraits<RadiusType>::PrintType>(m_NeighborhoodRadius)
+     << std::endl;
 }
 } // end namespace itk
 
