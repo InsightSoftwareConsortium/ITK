@@ -39,19 +39,15 @@ void
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::PrintSelf(std::ostream & os,
                                                                                          Indent         indent) const
 {
-  os << indent << "                   " << std::endl;
-  os << indent << "Gaussian Models generated from the training data." << std::endl;
-  os << indent << "TrainingImage: ";
-  os << m_TrainingImage.GetPointer() << std::endl;
-  os << indent << "Results printed in the superclass " << std::endl;
-  os << indent << "                   " << std::endl;
-
   Superclass::PrintSelf(os, indent);
-} // end PrintSelf
 
-/**
- * Generate data (start the model building process)
- */
+  os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
+  os << indent << "Means: " << m_Means << std::endl;
+  os << indent << "Covariance: " << m_Covariance << std::endl;
+
+  itkPrintSelfObjectMacro(TrainingImage);
+}
+
 template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
 void
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::GenerateData()

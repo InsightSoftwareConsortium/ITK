@@ -22,6 +22,7 @@
 #include "vnl/vnl_vector.h"
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
+#include "itkPrintHelper.h"
 
 #include <itk_minc2.h>
 
@@ -263,9 +264,12 @@ MINCImageIO::~MINCImageIO()
 void
 MINCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NDims: " << this->m_MINCPImpl->m_NDims << std::endl;
+  os << indent << "MINCPImpl: " << m_MINCPImpl << std::endl;
+  os << indent << "DirectionCosines: " << m_DirectionCosines << std::endl;
 }
 
 void

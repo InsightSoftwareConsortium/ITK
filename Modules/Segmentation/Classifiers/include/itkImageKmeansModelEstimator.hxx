@@ -45,20 +45,32 @@ template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "                   " << std::endl;
-  os << indent << "Kmeans Models " << std::endl;
-  os << indent << "Results printed in the superclass " << std::endl;
-  os << indent << "                   " << std::endl;
-
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Unsupervised Classifier / Clusterer" << std::endl;
-  os << indent << "Offset value for addition:" << m_OffsetAdd << std::endl;
-  os << indent << "Offset value for multiplication:" << m_OffsetMultiply << std::endl;
-  os << indent << "Maximum number of attempts to split a cluster: " << m_MaxSplitAttempts << std::endl;
-  os << indent << "Codebook : " << m_Codebook << std::endl;
-  os << indent << "Threshold value :" << m_Threshold << std::endl;
-} // end PrintSelf
+  os << indent << "Centroid: " << m_Centroid << std::endl;
+
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "OffsetAdd: " << m_OffsetAdd << std::endl;
+  os << indent << "OffsetMultiply: " << m_OffsetMultiply << std::endl;
+  os << indent << "MaxSplitAttempts: " << m_MaxSplitAttempts << std::endl;
+
+  os << indent << "ValidInCodebook: " << m_ValidInCodebook << std::endl;
+  os << indent << "DoubleMaximum: " << m_DoubleMaximum << std::endl;
+  os << indent << "OutputDistortion: " << m_OutputDistortion << std::endl;
+  os << indent << "OutputNumberOfEmptyCells: " << m_OutputNumberOfEmptyCells << std::endl;
+
+  os << indent
+     << "VectorDimension: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_VectorDimension)
+     << std::endl;
+  os << indent
+     << "NumberOfCodewords: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfCodewords)
+     << std::endl;
+  os << indent << "CurrentNumberOfCodewords: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentNumberOfCodewords) << std::endl;
+
+  os << indent << "CodewordHistogram: " << m_CodewordHistogram << std::endl;
+  os << indent << "CodewordDistortion: " << m_CodewordDistortion << std::endl;
+}
 
 template <typename TInputImage, typename TMembershipFunction>
 void

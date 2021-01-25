@@ -203,16 +203,25 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Print
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
-     << std::endl;
+  itkPrintSelfObjectMacro(ThresholdFilter);
+  itkPrintSelfObjectMacro(ConnectedComponent);
+  itkPrintSelfObjectMacro(LabeledComponent);
+  itkPrintSelfObjectMacro(MinMaxCalculator);
+
+  os << indent << "MinimumObjectSizeInPixels: " << m_MinimumObjectSizeInPixels << std::endl;
   os << indent << "OutsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue)
      << std::endl;
-  os << indent << "Lower: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LowerBoundary) << std::endl;
-  os << indent << "Upper: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_UpperBoundary) << std::endl;
+  os << indent << "InsideValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue)
+     << std::endl;
+  os << indent << "LowerBoundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_LowerBoundary)
+     << std::endl;
+  os << indent << "UpperBoundary: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_UpperBoundary)
+     << std::endl;
   os << indent << "Threshold Value: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ThresholdValue)
      << std::endl;
-  os << indent << "Number of Objects: " << m_NumberOfObjects << std::endl;
-  os << indent << "Minimum Object Size in Pixels: " << m_MinimumObjectSizeInPixels << std::endl;
+  os << indent
+     << "NumberOfObjects: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfObjects)
+     << std::endl;
 }
 } // end namespace itk
 

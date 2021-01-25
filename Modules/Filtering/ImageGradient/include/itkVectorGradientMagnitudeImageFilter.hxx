@@ -27,6 +27,7 @@
 #include "itkCastImageFilter.h"
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -56,25 +57,19 @@ void
 VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::PrintSelf(std::ostream & os,
                                                                                     Indent         indent) const
 {
-  unsigned i;
+  using namespace print_helper;
 
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_UseImageSpacing = " << m_UseImageSpacing << std::endl;
-  os << indent << "m_UsePrincipleComponents = " << m_UsePrincipleComponents << std::endl;
-  os << indent << "m_RequestedNumberOfThreads = " << m_RequestedNumberOfThreads << std::endl;
-  os << indent << "m_DerivativeWeights = ";
-  for (i = 0; i < ImageDimension; i++)
-  {
-    os << m_DerivativeWeights[i] << " ";
-  }
-  os << std::endl;
-  os << indent << "m_ComponentWeights = ";
-  for (i = 0; i < VectorDimension; i++)
-  {
-    os << m_ComponentWeights[i] << " ";
-  }
-  os << std::endl;
-  os << indent << "m_RealValuedInputImage = " << m_RealValuedInputImage.GetPointer() << std::endl;
+
+  os << indent << "DerivativeWeights: " << m_DerivativeWeights << std::endl;
+  os << indent << "ComponentWeights: " << m_ComponentWeights << std::endl;
+  os << indent << "SqrtComponentWeights: " << m_SqrtComponentWeights << std::endl;
+  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+  os << indent << "UsePrincipleComponents: " << m_UsePrincipleComponents << std::endl;
+  os << indent << "RequestedNumberOfThreads: "
+     << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfThreads) << std::endl;
+
+  itkPrintSelfObjectMacro(RealValuedInputImage);
 }
 
 template <typename TInputImage, typename TRealType, typename TOutputImage>

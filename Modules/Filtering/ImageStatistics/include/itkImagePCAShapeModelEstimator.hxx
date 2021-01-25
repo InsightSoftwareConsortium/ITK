@@ -19,6 +19,7 @@
 #define itkImagePCAShapeModelEstimator_hxx
 
 #include "itkImagePCAShapeModelEstimator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -38,41 +39,22 @@ template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "                   " << std::endl;
-  os << indent << "Shape Models " << std::endl;
-  os << indent << "Results printed in the superclass " << std::endl;
-  os << indent << "                   " << std::endl;
+  using namespace print_helper;
 
   Superclass::PrintSelf(os, indent);
 
-  itkDebugMacro(<< "                                    ");
-  itkDebugMacro(<< "Results of the shape model algorithms");
-  itkDebugMacro(<< "====================================");
-
-  itkDebugMacro(<< "The eigen values new method are: ");
-
-  itkDebugMacro(<< m_EigenValues);
-  itkDebugMacro(<< m_EigenVectorNormalizedEnergy);
-
-  itkDebugMacro(<< " ");
-  itkDebugMacro(<< "==================   ");
-
-  itkDebugMacro(<< "The eigen vectors new method are: ");
-
-  for (unsigned int i = 0; i < m_EigenValues.size(); i++)
-  {
-    itkDebugMacro(<< m_EigenVectors.get_row(i));
-  }
-
-  itkDebugMacro(<< " ");
-  itkDebugMacro(<< "+++++++++++++++++++++++++");
-
-  // Print out ivars
-  os << indent << "NumberOfPrincipalComponentsRequired: ";
-  os << m_NumberOfPrincipalComponentsRequired << std::endl;
-  os << indent << "NumberOfTrainingImages: ";
-  os << m_NumberOfTrainingImages << std::endl;
-} // end PrintSelf
+  os << indent << "InputImageIteratorArray size: " << m_InputImageIteratorArray.size() << std::endl;
+  os << indent << "Means: " << m_Means << std::endl;
+  os << indent << "InnerProduct: " << m_InnerProduct << std::endl;
+  os << indent << "EigenVectors: " << m_EigenVectors << std::endl;
+  os << indent << "EigenValues: " << m_EigenValues << std::endl;
+  os << indent << "EigenVectorNormalizedEnergy: " << m_EigenVectorNormalizedEnergy << std::endl;
+  os << indent << "InputImageSize: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_InputImageSize)
+     << std::endl;
+  os << indent << "NumberOfPixels: " << m_NumberOfPixels << std::endl;
+  os << indent << "NumberOfTrainingImages: " << m_NumberOfTrainingImages << std::endl;
+  os << indent << "NumberOfPrincipalComponentsRequired: " << m_NumberOfPrincipalComponentsRequired << std::endl;
+}
 
 /**
  * Enlarge the output requested region to the largest possible region.

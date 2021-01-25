@@ -19,6 +19,8 @@
 #define itkMultiphaseSparseFiniteDifferenceImageFilter_hxx
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
+#include "itkPrintHelper.h"
+
 
 namespace itk
 {
@@ -1390,10 +1392,35 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   std::ostream & os,
   Indent         indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_IsoSurfaceValue: " << this->m_IsoSurfaceValue << std::endl;
-  os << indent << "m_BoundsCheckingActive: " << m_BoundsCheckingActive;
+  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << std::endl;
+  os << indent << "ValueOne: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueOne) << std::endl;
+  os << indent << "ValueZero: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueZero) << std::endl;
+  os << indent << "StatusChanging: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusChanging)
+     << std::endl;
+  os << indent << "StatusActiveChangingUp: "
+     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingUp) << std::endl;
+  os << indent << "StatusActiveChangingDown: "
+     << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusActiveChangingDown) << std::endl;
+  os << indent
+     << "StatusBoundaryPixel: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusBoundaryPixel)
+     << std::endl;
+  os << indent << "StatusNull: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusNull)
+     << std::endl;
+  os << indent << "SparseData: " << m_SparseData << std::endl;
+  os << indent << "NumberOfLayers: " << m_NumberOfLayers << std::endl;
+  os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
+     << std::endl;
+  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_BackgroundValue)
+     << std::endl;
+  os << indent << "InterpolateSurfaceLocation: " << m_InterpolateSurfaceLocation << std::endl;
+  os << indent << "CurrentFunctionIndex: " << m_CurrentFunctionIndex << std::endl;
+  os << indent << "RMSSum: " << m_RMSSum << std::endl;
+  os << indent << "RMSCounter: " << m_RMSCounter << std::endl;
+  os << indent << "BoundsCheckingActive: " << m_BoundsCheckingActive << std::endl;
 
   for (IdCellType i = 0; i < this->m_FunctionCount; i++)
   {
@@ -1409,11 +1436,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     os << indent << "m_UpdateBuffer: size=" << static_cast<InputSizeValueType>(sparsePtr->m_UpdateBuffer.size())
        << " capacity = " << static_cast<InputSizeValueType>(sparsePtr->m_UpdateBuffer.capacity()) << std::endl;
   }
-
-  os << indent << "Interpolate Surface Location " << m_InterpolateSurfaceLocation << std::endl;
-  os << indent << "Number of Layers " << m_NumberOfLayers << std::endl;
-  os << indent << "Value Zero " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueZero) << std::endl;
-  os << indent << "Value One  " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_ValueOne) << std::endl;
 }
 } // end namespace itk
 
