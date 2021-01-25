@@ -103,15 +103,12 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUp() const
   {
     return;
   }
-#ifndef __GNUC__
-#  pragma omp parallel for
-#endif
-  for (CounterType z = 0; z < m_Buffer.size(); z++)
+
+  itk::ImageRegionConstIterator<BufferType> it(m_Buffer, m_Buffer->GetBufferedRegion());
+  while (!it.IsAtEnd())
   {
-    for (CounterType y = 0; y < m_Buffer[0].size(); y++)
-    {
-      CleanUpLine(m_Buffer[z][y]);
-    }
+    CleanUpLine(it.Get());
+    ++it;
   }
 }
 

@@ -50,6 +50,9 @@ main(int argc, char * argv[])
     inConv->Update();
     myRLEImage::Pointer test = inConv->GetOutput();
     std::cout << test;
+    std::cout << "Invoking CleanUp() method\n";
+    test->CleanUp();
+    std::cout << test;
   }
   catch (itk::ExceptionObject & error)
   {
