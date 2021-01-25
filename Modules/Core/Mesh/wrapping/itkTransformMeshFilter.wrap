@@ -1,6 +1,7 @@
 itk_wrap_include("itkMesh.h")
 itk_wrap_include("itkPointSet.h")
 itk_wrap_include("itkTransform.h")
+itk_wrap_include("itkBSplineTransform.h")
 
 itk_wrap_class("itk::TransformMeshFilter" POINTER)
   # Transform parameter types
@@ -10,6 +11,8 @@ itk_wrap_class("itk::TransformMeshFilter" POINTER)
       foreach(tt ${transform_type})
         itk_wrap_template("M${ITKM_${t}}${d}M${ITKM_${t}}${d}T${ITKM_${tt}}${d}${d}"
             "itk::Mesh< ${ITKT_${t}},${d} >, itk::Mesh< ${ITKT_${t}},${d} >, itk::Transform< ${ITKT_${tt}}, ${d}, ${d} >")
+        itk_wrap_template("M${ITKM_${t}}${d}M${ITKM_${t}}${d}BST${ITKM_${tt}}${d}3"
+              "itk::Mesh< ${ITKT_${t}},${d} >, itk::Mesh< ${ITKT_${t}},${d} >, itk::BSplineTransform<${ITKT_${tt}},${d},3>")
       endforeach()
     endforeach()
   endforeach()

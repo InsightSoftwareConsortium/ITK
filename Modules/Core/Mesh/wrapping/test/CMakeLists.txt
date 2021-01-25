@@ -24,3 +24,6 @@ itk_python_expression_add_test(NAME itkRegularSphereMeshSourcePythonTest
  EXPRESSION "instance = itk.RegularSphereMeshSource.New()")
 itk_python_expression_add_test(NAME itkSphereMeshSourcePythonTest
  EXPRESSION "instance = itk.SphereMeshSource.New()")
+
+ itk_python_expression_add_test(NAME itkTransformMeshFilterBSplinePythonTest
+ EXPRESSION "instance = itk.TransformMeshFilter[itk.Mesh[itk.F,3],itk.Mesh[itk.F,3],itk.BSplineTransform[itk.D,3,3]].New()")
