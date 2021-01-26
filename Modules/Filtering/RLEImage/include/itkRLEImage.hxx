@@ -18,7 +18,7 @@
 #ifndef itkRLEImage_hxx
 #define itkRLEImage_hxx
 
-#include "itkImageRegionConstIterator.h" // for underlying buffer
+#include "itkImageRegionIterator.h" // for underlying buffer
 #include "itkRLEImage.h"
 
 // include all specializations of iterators and filters
@@ -103,15 +103,12 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUp() const
   {
     return;
   }
-#ifndef __GNUC__
-#  pragma omp parallel for
-#endif
-  for (CounterType z = 0; z < m_Buffer.size(); z++)
+
+  itk::ImageRegionIterator<BufferType> it(m_Buffer, m_Buffer->GetBufferedRegion());
+  while (!it.IsAtEnd())
   {
-    for (CounterType y = 0; y < m_Buffer[0].size(); y++)
-    {
-      CleanUpLine(m_Buffer[z][y]);
-    }
+    CleanUpLine(it.Value());
+    ++it;
   }
 }
 
