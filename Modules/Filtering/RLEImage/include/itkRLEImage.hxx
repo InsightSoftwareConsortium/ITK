@@ -18,7 +18,7 @@
 #ifndef itkRLEImage_hxx
 #define itkRLEImage_hxx
 
-#include "itkImageRegionConstIterator.h" // for underlying buffer
+#include "itkImageRegionIterator.h" // for underlying buffer
 #include "itkRLEImage.h"
 
 // include all specializations of iterators and filters
@@ -104,10 +104,10 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUp() const
     return;
   }
 
-  itk::ImageRegionConstIterator<BufferType> it(m_Buffer, m_Buffer->GetBufferedRegion());
+  itk::ImageRegionIterator<BufferType> it(m_Buffer, m_Buffer->GetBufferedRegion());
   while (!it.IsAtEnd())
   {
-    CleanUpLine(it.Get());
+    CleanUpLine(it.Value());
     ++it;
   }
 }
