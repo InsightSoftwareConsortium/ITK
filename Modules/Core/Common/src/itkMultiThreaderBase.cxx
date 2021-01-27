@@ -27,8 +27,8 @@
  *=========================================================================*/
 #include "itkMultiThreaderBase.h"
 #include "itkPlatformMultiThreader.h"
-#if defined(ITK_USE_PTHREADS) || defined(ITK_USE_WIN32_THREADS)
-#  define POOL_MULTI_THREADER_AVAILABLE 1
+
+#if defined(ITK_USE_POOL_MULTI_THREADER)
 #  include "itkPoolMultiThreader.h"
 #endif
 #include "itkNumericTraits.h"
@@ -66,17 +66,10 @@ struct MultiThreaderBaseGlobals
   bool       GlobalDefaultThreaderTypeIsInitialized{ false };
   std::mutex globalDefaultInitializerLock;
 
-  // Global value to control weather the threadpool implementation should
-  // be used. This defaults to the environmental variable
-  // ITK_GLOBAL_DEFAULT_THREADER. If that is not present, then
-  // ITK_USE_THREADPOOL is examined.
-#if defined(ITK_USE_TBB)
-  MultiThreaderBase::ThreaderEnum m_GlobalDefaultThreader{ MultiThreaderBase::ThreaderEnum::TBB };
-#elif defined(POOL_MULTI_THREADER_AVAILABLE)
-  MultiThreaderBase::ThreaderEnum m_GlobalDefaultThreader{ MultiThreaderBase::ThreaderEnum::Pool };
-#else
-  MultiThreaderBase::ThreaderEnum m_GlobalDefaultThreader{ MultiThreaderBase::ThreaderEnum::Platform };
-#endif
+  // Global value to control which threader to be used by default. First it is initialized with the default preprocessor
+  // definition from CMake configuration value, for compile time control of default. This initial value can be
+  // overridden by the environmental variable ITK_GLOBAL_DEFAULT_THREADER.
+  MultiThreaderBase::ThreaderEnum m_GlobalDefaultThreader{ MultiThreaderBase::ThreaderEnum::ITK_DEFAULT_THREADER };
 
   // Global variable defining the maximum number of threads that can be used.
   //  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
@@ -403,7 +396,7 @@ MultiThreaderBase::New()
       case ThreaderEnum::Platform:
         return PlatformMultiThreader::New();
       case ThreaderEnum::Pool:
-#if defined(POOL_MULTI_THREADER_AVAILABLE)
+#if defined(ITK_USE_POOL_MULTI_THREADER)
         return PoolMultiThreader::New();
 #else
         itkGenericExceptionMacro("ITK has been built without PoolMultiThreader support!");

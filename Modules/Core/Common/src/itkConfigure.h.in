@@ -166,4 +166,16 @@
 #define ITK_VERSION_PATCH @ITK_VERSION_PATCH@
 #define ITK_VERSION_STRING "@ITK_VERSION_STRING@"
 
+#if defined(ITK_USE_PTHREADS) || defined(ITK_USE_WIN32_THREADS)
+#define ITK_USE_POOL_MULTI_THREADER 1
+#endif
+
+#if defined(ITK_USE_TBB)
+#define ITK_DEFAULT_THREADER TBB
+#elif defined(ITK_USE_POOL_MULTI_THREADER)
+#define ITK_DEFAULT_THREADER Pool
+#else
+#define ITK_DEFAULT_THREADER Platform
+#endif
+
 #endif //itkConfigure_h
