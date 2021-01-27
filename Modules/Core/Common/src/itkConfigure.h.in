@@ -170,12 +170,22 @@
 #define ITK_USE_POOL_MULTI_THREADER 1
 #endif
 
-#if defined(ITK_USE_TBB)
-#define ITK_DEFAULT_THREADER TBB
-#elif defined(ITK_USE_POOL_MULTI_THREADER)
-#define ITK_DEFAULT_THREADER Pool
-#else
-#define ITK_DEFAULT_THREADER Platform
+
+#define ITK_DEFAULT_THREADER @ITK_DEFAULT_THREADER@
+// A single define concatenated with the CMake value at configuration time.
+#define ITK_DEFAULT_THREADER_@ITK_DEFAULT_THREADER@
+
+#ifdef ITK_DEFAULT_THREADER_Auto
+#  undef ITK_DEFAULT_THREADER
+#  if defined(ITK_USE_TBB)
+#    define ITK_DEFAULT_THREADER TBB
+#  elif defined(ITK_USE_POOL_MULTI_THREADER)
+#    define ITK_DEFAULT_THREADER Pool
+#  else
+#    define ITK_DEFAULT_THREADER Platform
+#  endif
 #endif
+
+#define ITK_DEFAULT_THREADER_@ITK_DEFAULT_THREADER@
 
 #endif //itkConfigure_h
