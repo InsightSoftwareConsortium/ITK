@@ -24,6 +24,10 @@ mark_as_advanced(CMAKE_THREAD_LIBS)
 set(ITK_DEFAULT_MAX_THREADS 128 CACHE STRING "The maximum number of threads allowed. Default: 128")
 mark_as_advanced(ITK_DEFAULT_MAX_THREADS)
 
+set(ITK_DEFAULT_THREADER "Auto" CACHE STRING "Default multithreader.")
+mark_as_advanced(ITK_DEFAULT_THREADER)
+set_property(CACHE ITK_DEFAULT_THREADER PROPERTY STRINGS Auto TBB Pool Platform)
+
 # See if compiler preprocessor has the __FUNCTION__ directive used by itkExceptionMacro
 include(CheckCPPDirective)
 check_cpp_directive_exists(__FUNCTION__ ITK_CPP_FUNCTION)
