@@ -271,7 +271,7 @@ MetaImage::MetaImage(int               _x,
 //
 MetaImage::~MetaImage()
 {
-MetaObject::M_Destroy();
+  MetaImage::M_ResetValues();
 }
 
 //
