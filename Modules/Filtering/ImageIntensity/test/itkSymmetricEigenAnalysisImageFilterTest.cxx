@@ -111,7 +111,8 @@ public:
     // Create the filter
     typename SymmetricEigenAnalysisImageFilterType::Pointer filter = SymmetricEigenAnalysisImageFilterType::New();
 
-    filter->SetDimension(InputImageType::ImageDimension);
+    // Dimension should be initialized to the input image dimension
+    ITK_TEST_EXPECT_EQUAL(filter->GetDimension(), InputImageType::ImageDimension);
     ITK_TEST_SET_GET_VALUE(InputImageType::ImageDimension, filter->GetDimension());
 
     // Set the input image
