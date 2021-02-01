@@ -162,7 +162,9 @@ public:
   using InputImagePointer = typename InputImageType::Pointer;
   using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** The dimensionality of the input and output images. */
+  /** The dimensionality of the input and output images. Dimensionality
+   * of the two images is assumed to be the same. */
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Length of the vector pixel type of the input image. */
@@ -274,6 +276,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputPixelType::ValueType>));
   itkConceptMacro(RealTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<RealType>));
   // End concept checking
