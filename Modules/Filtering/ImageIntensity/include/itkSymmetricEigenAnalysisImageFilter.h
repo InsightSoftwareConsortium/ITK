@@ -111,6 +111,19 @@ public:
   {
     this->OrderEigenValuesBy(order);
   }
+  EigenValueOrderEnum
+  GetOrderEigenValuesBy() const
+  {
+    if (m_Calculator.GetOrderEigenMagnitudes())
+    {
+      return EigenValueOrderEnum::OrderByMagnitude;
+    }
+    if (m_Calculator.GetOrderEigenValues())
+    {
+      return EigenValueOrderEnum::OrderByValue;
+    }
+    return EigenValueOrderEnum::DoNotOrder;
+  }
 
 
 private:
@@ -245,6 +258,16 @@ public:
   OrderEigenValuesBy(EigenValueOrderEnum order)
   {
     this->GetFunctor().OrderEigenValuesBy(order);
+  }
+  void
+  SetOrderEigenValuesBy(EigenValueOrderEnum order)
+  {
+    this->OrderEigenValuesBy(order);
+  }
+  EigenValueOrderEnum
+  GetOrderEigenValuesBy() const
+  {
+    return this->GetFunctor().GetOrderEigenValuesBy();
   }
 
   /** Run-time type information (and related methods).   */
