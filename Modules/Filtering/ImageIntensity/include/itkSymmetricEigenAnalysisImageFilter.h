@@ -106,6 +106,12 @@ public:
       m_Calculator.SetOrderEigenValues(false);
     }
   }
+  void
+  SetOrderEigenValuesBy(EigenValueOrderEnum order)
+  {
+    this->OrderEigenValuesBy(order);
+  }
+
 
 private:
   CalculatorType m_Calculator;
