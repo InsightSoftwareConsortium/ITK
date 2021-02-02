@@ -72,8 +72,8 @@ itk_wrap_class("itk::CastImageFilter" POINTER_WITH_SUPERCLASS)
   # itk_wrap_image_filter_combinations("${WRAP_ITK_VECTOR}" "${WRAP_ITK_RGB}")
   # itk_wrap_image_filter_combinations("${WRAP_ITK_RGB}" "${WRAP_ITK_VECTOR}")
 
-  # Enable casting 64 bit unsigned int to smaller integer types
-  if(ITK_WRAP_unsigned_long OR NOT ${ITKM_IT} STREQUAL "ULL")
+  # Enable casting 64 bit unsigned int to smaller integer types if we haven't done so already
+  if(NOT ITK_WRAP_unsigned_long_long AND NOT ${ITKM_IT} STREQUAL "ULL")
     itk_wrap_image_filter_combinations("ULL" "${WRAP_ITK_INT}")
   endif()
 itk_end_wrap_class()
