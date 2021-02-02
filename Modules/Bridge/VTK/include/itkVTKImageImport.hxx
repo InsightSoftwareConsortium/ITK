@@ -47,6 +47,14 @@ VTKImageImport<TOutputImage>::VTKImageImport()
   {
     m_ScalarTypeName = "float";
   }
+  else if (typeid(ScalarType) == typeid(long long))
+  {
+    m_ScalarTypeName = "long long";
+  }
+  else if (typeid(ScalarType) == typeid(unsigned long long))
+  {
+    m_ScalarTypeName = "unsigned long long";
+  }
   else if (typeid(ScalarType) == typeid(long))
   {
     m_ScalarTypeName = "long";
