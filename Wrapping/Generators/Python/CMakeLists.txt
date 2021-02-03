@@ -138,6 +138,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     support/itkBuildOptions
     )
   set(ITK_INIT_MODULE "${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py")
+  set(ITK_CONFIGURATION_INIT_MODULE "${ITK_PYTHON_PACKAGE_DIR}/Configuration/__init__.py")
   # Done listing files.
   # Now copy these files if necessary.
 
@@ -165,6 +166,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
       DEPENDS ${src}
       COMMENT "Copying __init__.py to ${copy_tgt}.")
     add_custom_target(copy_python_files ALL DEPENDS ${ITK_WRAP_PYTHON_FILES})
+    file(WRITE "${ITK_CONFIGURATION_INIT_MODULE}" "")
   endif()
 
   # Install the package python files.
@@ -174,6 +176,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     list(APPEND ITK_WRAP_PYTHON_FILES ${ITK_WRAP_PYTHON_FILES} "${install_tgt}")
   endforeach()
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/support "ITKCommon" ${ITK_WRAP_PYTHON_FILES})
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/Configuration "ITKCommon" "${ITK_CONFIGURATION_INIT_MODULE}")
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${ITK_INIT_MODULE})
 endif()
 
