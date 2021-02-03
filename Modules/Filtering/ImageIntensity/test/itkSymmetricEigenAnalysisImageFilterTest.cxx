@@ -122,7 +122,7 @@ public:
 
     filter->OrderEigenValuesBy(order);
     filter->SetOrderEigenValuesBy(order);
-    // ITK_TEST_SET_GET_VALUE(order, filter->GetDimension());
+    ITK_TEST_SET_GET_VALUE(order, filter->GetOrderEigenValuesBy());
 
     // Execute the filter
     ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
