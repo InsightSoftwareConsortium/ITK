@@ -6,3 +6,5 @@ itk_wrap_class("itk::GradientDescentOptimizerv4Template" POINTER)
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach()
 itk_end_wrap_class()
+
+itk_wrap_simple_class("itk::GradientDescentOptimizerv4" POINTER)
