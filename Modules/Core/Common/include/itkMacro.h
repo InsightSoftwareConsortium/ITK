@@ -617,6 +617,14 @@ OutputWindowDisplayDebugText(const char *);
 #  endif
 #endif
 
+#if __cplusplus >= 201402L
+#  define ITK_DEPRECATED [[deprecated]]
+#  define ITK_DEPRECATED_MSG(msg) [[deprecated(msg)]]
+#else
+#  define ITK_DEPRECATED
+#  define ITK_DEPRECATED_MSG(msg)
+#endif
+
 // Macros to create runtime deprecation warning messages in function
 // bodies.  Example usage:
 //
