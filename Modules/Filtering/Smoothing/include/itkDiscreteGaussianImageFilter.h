@@ -251,9 +251,20 @@ public:
     this->SetMaximumError(dv);
   }
 
+  /** Set/Get whether or not the filter will use the spacing of the input
+   * image in its calculations. Use On to take the image spacing information
+   * into account and to specify the Gaussian variance in real world units;
+   * use Off to gnore the image spacing and to specify the Gaussian variance
+   * in voxel units. Default is On. */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
    *  want to specify Gaussian variance in real world units.  Default is
-   *   ImageSpacingOn. */
+   *  ImageSpacingOn.
+   *  \deprecated Use DiscreteGaussianImageFilter::UseImageSpacingOn instead. */
   void
   SetUseImageSpacingOn()
   {
@@ -261,17 +272,14 @@ public:
   }
 
   /** Ignore the image spacing. Use this option if you want to specify Gaussian
-      variance in pixels.  Default is ImageSpacingOn. */
+      variance in pixels.  Default is ImageSpacingOn.
+      \deprecated Use DiscreteGaussianImageFilter::UseImageSpacingOff instead. */
   void
   SetUseImageSpacingOff()
   {
     this->SetUseImageSpacing(false);
   }
-
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
-  itkSetMacro(UseImageSpacing, bool);
-  itkGetConstMacro(UseImageSpacing, bool);
+#endif
 
   /** \brief Set/Get number of pieces to divide the input for the
    * internal composite pipeline. The upstream pipeline will not be

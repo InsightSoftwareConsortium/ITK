@@ -82,10 +82,10 @@ namespace itk
  * SetUsePrincipleComponentsOn/Off determine controls the calculation mode that
  * is used.
  *
- * The method SetUseImageSpacingOn will cause derivatives in the image to be
+ * The method UseImageSpacingOn will cause derivatives in the image to be
  * scaled (inversely) with the pixel size of the input image, effectively
  * taking derivatives in world coordinates (versus isotropic image
- * space). SetUseImageSpacingOff turns this functionality off.  Default is
+ * space). UseImageSpacingOff turns this functionality off.  Default is
  * UseImageSpacingOn.  The parameter UseImageSpacing can be set
  * directly with the method SetUseImageSpacing(bool).
  *

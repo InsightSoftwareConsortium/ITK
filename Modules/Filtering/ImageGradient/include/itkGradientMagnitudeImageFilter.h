@@ -86,8 +86,18 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
+  /** Set/Get whether or not the filter will use the spacing of the input
+   * image in the computation of the derivatives. Use On to compute the
+   * gradient in physical space; use Off to ignore image spacing and to
+   * compute the gradient in isotropic voxel space. Default is On. */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
-   *  want derivatives in physical space. Default is UseImageSpacingOn. */
+   *  want derivatives in physical space. Default is UseImageSpacingOn.
+      \deprecated Use GradientMagnitudeImageFilter::UseImageSpacingOn instead. */
   void
   SetUseImageSpacingOn()
   {
@@ -95,17 +105,14 @@ public:
   }
 
   /** Ignore the image spacing. Use this option if you want derivatives in
-      isotropic pixel space.  Default is UseImageSpacingOn. */
+      isotropic pixel space.  Default is UseImageSpacingOn.
+      \deprecated Use GradientMagnitudeImageFilter::UseImageSpacingOff instead. */
   void
   SetUseImageSpacingOff()
   {
     this->SetUseImageSpacing(false);
   }
-
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
-  itkSetMacro(UseImageSpacing, bool);
-  itkGetConstMacro(UseImageSpacing, bool);
+#endif
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

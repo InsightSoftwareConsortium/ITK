@@ -67,10 +67,10 @@ namespace itk
  * itk::Image<TRealType, N>.
  *
  * \par Filter Parameters
- * The method SetUseImageSpacingOn will cause derivatives in the image to be
+ * The method UseImageSpacingOn will cause derivatives in the image to be
  * scaled (inversely) with the pixel size of the input image, effectively
  * taking derivatives in world coordinates (versus isotropic image
- * space). SetUseImageSpacingOff turns this functionality off.  Default is
+ * space). UseImageSpacingOff turns this functionality off.  Default is
  * UseImageSpacingOn.  The parameter UseImageSpacing can
  * be set directly with the method SetUseImageSpacing(bool).
  *
@@ -170,10 +170,23 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
+  /** Set/Get whether or not the filter will use the spacing of the input
+   * image (1/spacing) in the calculation of the Jacobian determinant. Use On
+   * to compute the Jacobian determinant in the space in which the data was
+   * acquired; use Off to reset the derivative weights, ignore the image
+   * spacing, and to compute the Jacobian determinant in the image space.
+   * Default is On. */
+  void
+  SetUseImageSpacing(bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the Jacobian
       determinant in the space in which the data was acquired. Default
-      is ImageSpacingOn. */
+      is ImageSpacingOn.
+      \deprecated Use DisplacementFieldJacobianDeterminantFilter::UseImageSpacingOn instead. */
   void
   SetUseImageSpacingOn()
   {
@@ -182,19 +195,14 @@ public:
 
   /** Reset the derivative weights to ignore image spacing.  Use this option if
       you want to calculate the Jacobian determinant in the image space.
-      Default is ImageSpacingOn. */
+      Default is ImageSpacingOn.
+      \deprecated Use DisplacementFieldJacobianDeterminantFilter::UseImageSpacingOff instead. */
   void
   SetUseImageSpacingOff()
   {
     this->SetUseImageSpacing(false);
   }
-
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
-  void
-  SetUseImageSpacing(bool);
-
-  itkGetConstMacro(UseImageSpacing, bool);
+#endif
 
   using WeightsType = FixedArray<TRealType, ImageDimension>;
 

@@ -124,9 +124,10 @@ public:
   const InputImage2Type *
   GetInput2();
 
-  /** Set if image spacing should be used in computing distances. */
+  /** Set/Get if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
 
   /** Return the computed directed Hausdorff distance. */
   itkGetConstMacro(DirectedHausdorffDistance, RealType);

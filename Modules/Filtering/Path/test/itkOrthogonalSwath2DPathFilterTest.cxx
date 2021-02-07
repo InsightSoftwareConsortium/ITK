@@ -152,7 +152,7 @@ itkOrthogonalSwath2DPathFilterTest(int, char *[])
   // kernel, and so setting the maximum error to 1.0 (no limit) will make it
   // stop growing the kernel at the desired 3x3 size.
   double maxError = 0.9;
-  smoothFilter->SetUseImageSpacingOff();
+  smoothFilter->UseImageSpacingOff();
   smoothFilter->SetVariance(gaussianVariance);
   smoothFilter->SetMaximumError(maxError);
 

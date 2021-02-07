@@ -19,6 +19,8 @@
 #include <iostream>
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkTestingMacros.h"
+
 
 inline std::ostream &
 operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
@@ -37,6 +39,19 @@ itkGradientMagnitudeImageFilterTest(int, char *[])
     // Set up filter
     itk::GradientMagnitudeImageFilter<ImageType, ImageType>::Pointer filter =
       itk::GradientMagnitudeImageFilter<ImageType, ImageType>::New();
+
+    bool useImageSpacing = true;
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+    if (useImageSpacing)
+    {
+      filter->SetUseImageSpacingOn();
+    }
+    else
+    {
+      filter->SetUseImageSpacingOff();
+    }
+#endif
+    ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
     // Run Test
     itk::Size<2> sz;
