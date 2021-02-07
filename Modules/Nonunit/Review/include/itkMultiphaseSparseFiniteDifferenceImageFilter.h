@@ -292,18 +292,7 @@ public:
    *  applications may not use this value and can safely turn the flag off. */
   itkSetMacro(InterpolateSurfaceLocation, bool);
   itkGetConstMacro(InterpolateSurfaceLocation, bool);
-
-  /** See Get/SetInterpolateSurfaceLocation */
-  void
-  InterpolateSurfaceLocationOn()
-  {
-    this->SetInterpolateSurfaceLocation(true);
-  }
-  void
-  InterpolateSurfaceLocationOff()
-  {
-    this->SetInterpolateSurfaceLocation(false);
-  }
+  itkBooleanMacro(InterpolateSurfaceLocation);
 
   void
   SetFunctionCount(const IdCellType & n)

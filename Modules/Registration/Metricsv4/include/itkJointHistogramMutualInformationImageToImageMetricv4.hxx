@@ -264,7 +264,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
     typename DgType::Pointer dg = DgType::New();
     dg->SetInput(this->m_JointPDF);
     dg->SetVariance(this->m_VarianceForJointPDFSmoothing);
-    dg->SetUseImageSpacingOff();
+    dg->UseImageSpacingOff();
     dg->SetMaximumError(.01f);
     dg->Update();
     this->m_JointPDF = (dg->GetOutput());

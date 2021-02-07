@@ -61,6 +61,16 @@ itkVectorGradientMagnitudeImageFilterTest1(int argc, char * argv[])
   filter->SetInput(adaptor);
 
   auto useImageSpacing = static_cast<bool>(std::stoi(argv[3]));
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  if (useImageSpacing)
+  {
+    filter->SetUseImageSpacingOn();
+  }
+  else
+  {
+    filter->SetUseImageSpacingOff();
+  }
+#endif
   ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
   auto derivativeWeightsValue = static_cast<FilterType::DerivativeWeightsType::ValueType>(std::stod(argv[4]));

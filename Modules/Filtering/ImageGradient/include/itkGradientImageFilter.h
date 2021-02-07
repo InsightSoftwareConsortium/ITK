@@ -107,8 +107,19 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
+  /** Set/Get whether or not the filter will use the spacing of the input
+   * image in its calculations. Use On to take the image spacing information
+   * into account and to compute the derivatives in physical space; use Off to
+   * ignore the image spacing and to compute the derivatives in isotropic
+   * voxel space. Default is On. */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
-   *  want derivatives in physical space. Default is UseImageSpacingOn. */
+      want derivatives in physical space. Default is UseImageSpacingOn.
+     \deprecated Use GradientImageFilter::UseImageSpacingOn instead. */
   void
   SetUseImageSpacingOn()
   {
@@ -116,18 +127,15 @@ public:
   }
 
   /** Ignore the image spacing. Use this option if you want derivatives in
-      isotropic pixel space.  Default is UseImageSpacingOn. */
+      isotropic pixel space.  Default is UseImageSpacingOn.
+      \deprecated Use GradientImageFilter::UseImageSpacingOff instead. */
   void
   SetUseImageSpacingOff()
   {
     this->SetUseImageSpacing(false);
   }
+#endif
 
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
-  itkSetMacro(UseImageSpacing, bool);
-  itkGetConstMacro(UseImageSpacing, bool);
-  itkBooleanMacro(UseImageSpacing);
   /** Allows to change the default boundary condition */
   void
   OverrideBoundaryCondition(ImageBoundaryCondition<TInputImage> * boundaryCondition);

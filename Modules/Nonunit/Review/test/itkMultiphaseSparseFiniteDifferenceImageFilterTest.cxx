@@ -18,6 +18,7 @@
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -105,6 +106,10 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
 
   std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
   filter->Print(std::cout);
+
+
+  bool interpolateSurfaceLocation = true;
+  ITK_TEST_SET_GET_BOOLEAN(filter, InterpolateSurfaceLocation, interpolateSurfaceLocation);
 
 
   return EXIT_SUCCESS;

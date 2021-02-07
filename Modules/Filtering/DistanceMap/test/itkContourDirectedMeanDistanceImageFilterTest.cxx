@@ -18,6 +18,7 @@
 
 #include "itkContourDirectedMeanDistanceImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
@@ -78,12 +79,16 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     ++it2;
   }
 
+  auto useImageSpacing = true;
 
   // compute the directed Mean distance h(image1,image2)
   {
     using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image1Type, Image2Type>;
     FilterType::Pointer      filter = FilterType::New();
     itk::SimpleFilterWatcher watcher(filter, "filter");
+
+
+    ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
     filter->SetInput1(image1);
     filter->SetInput2(image2);
@@ -110,6 +115,9 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
   {
     using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image2Type, Image1Type>;
     FilterType::Pointer filter = FilterType::New();
+
+
+    ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
     filter->SetInput1(image2);
     filter->SetInput2(image1);

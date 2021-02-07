@@ -53,6 +53,16 @@ itkGradientImageFilterTest(int argc, char * argv[])
 
 
   auto useImageSpacing = static_cast<bool>(std::stoi(argv[1]));
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  if (useImageSpacing)
+  {
+    filter1->SetUseImageSpacingOn();
+  }
+  else
+  {
+    filter1->SetUseImageSpacingOff();
+  }
+#endif
   ITK_TEST_SET_GET_BOOLEAN(filter1, UseImageSpacing, useImageSpacing);
 
   auto useImageDirection = static_cast<bool>(std::stoi(argv[2]));
