@@ -72,7 +72,19 @@ itkDiscreteGaussianImageFilterTest(int, char *[])
     filter->SetMaximumError(.01);
     filter->SetMaximumKernelWidth(32);
     filter->SetFilterDimensionality(Dimension);
-    filter->SetUseImageSpacing(true);
+
+    bool useImageSpacing = true;
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+    if (useImageSpacing)
+    {
+      filter->SetUseImageSpacingOn();
+    }
+    else
+    {
+      filter->SetUseImageSpacingOff();
+    }
+#endif
+    ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
     // Test some functions
     ArrayType varReturned = filter->GetVariance();

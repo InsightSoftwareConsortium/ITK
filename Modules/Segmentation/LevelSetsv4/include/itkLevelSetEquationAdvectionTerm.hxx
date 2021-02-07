@@ -91,7 +91,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
     derivative->SetInput(this->m_Input);
-    derivative->SetUseImageSpacingOn();
+    derivative->UseImageSpacingOn();
     derivative->Update();
 
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;

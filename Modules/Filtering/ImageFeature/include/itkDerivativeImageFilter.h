@@ -92,6 +92,15 @@ public:
   itkSetMacro(Direction, unsigned int);
   itkGetConstMacro(Direction, unsigned int);
 
+  /** Set/Get whether or not the filter will use the spacing of the input
+   * image in its calculations. Use On to compute the derivatives in physical
+   * space; use Off to ignore the image spacing and to compute the derivatives
+   * in isotropic voxel space. Default is On. */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
   void
@@ -107,11 +116,7 @@ public:
   {
     this->SetUseImageSpacing(false);
   }
-
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
-  itkSetMacro(UseImageSpacing, bool);
-  itkGetConstMacro(UseImageSpacing, bool);
+#endif
 
   /** DerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the

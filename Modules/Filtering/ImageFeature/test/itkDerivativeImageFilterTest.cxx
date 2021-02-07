@@ -62,6 +62,20 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
   filter->SetOrder(std::stoi(argv[3]));
   filter->SetDirection(std::stoi(argv[4]));
 
+  auto useImageSpacing = true;
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  if (useImageSpacing)
+  {
+    filter->SetUseImageSpacingOn();
+  }
+  else
+  {
+    filter->SetUseImageSpacingOff();
+  }
+#endif
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
+
+
   itk::SimpleFilterWatcher watcher(filter, "Derivative");
 
   // wire the pipeline

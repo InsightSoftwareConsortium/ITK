@@ -20,6 +20,8 @@
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
+
 
 static bool
 TestDisplacementJacobianDeterminantValue()
@@ -75,6 +77,20 @@ TestDisplacementJacobianDeterminantValue()
   const float KNOWN_ANSWER = (((.25 + 1.0) * (.375 + 1.0)) - (.125 * .125));
   itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType, float>::Pointer filter =
     itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType, float>::New();
+
+
+  bool useImageSpacing = true;
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  if (useImageSpacing)
+  {
+    filter->SetUseImageSpacingOn();
+  }
+  else
+  {
+    filter->SetUseImageSpacingOff();
+  }
+#endif
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
   filter->SetInput(dispacementfield);
   filter->Update();

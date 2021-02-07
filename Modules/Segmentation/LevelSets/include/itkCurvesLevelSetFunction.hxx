@@ -75,7 +75,7 @@ CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
 
     typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
     derivative->SetInput(this->GetFeatureImage());
-    derivative->SetUseImageSpacingOn();
+    derivative->UseImageSpacingOn();
     derivative->Update();
 
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
