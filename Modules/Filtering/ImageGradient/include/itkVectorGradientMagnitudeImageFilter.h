@@ -162,7 +162,9 @@ public:
   using InputImagePointer = typename InputImageType::Pointer;
   using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** The dimensionality of the input and output images. */
+  /** The dimensionality of the input and output images. Dimensionality
+   * of the two images is assumed to be the same. */
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Length of the vector pixel type of the input image. */
@@ -225,17 +227,22 @@ public:
   }
 #endif
 
-  using WeightsType = FixedArray<TRealType, VectorDimension>;
+  using ComponentWeightsType = FixedArray<TRealType, VectorDimension>;
+  using DerivativeWeightsType = FixedArray<TRealType, ImageDimension>;
+#if !defined(ITK_LEGACY_REMOVE)
+  using WeightsType ITK_DEPRECATED_MSG("Use DerivativeWeightsType or ComponentWeightsType instead.") =
+    ComponentWeightsType;
+#endif
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
-  itkSetMacro(DerivativeWeights, WeightsType);
-  itkGetConstReferenceMacro(DerivativeWeights, WeightsType);
+  itkSetMacro(DerivativeWeights, DerivativeWeightsType);
+  itkGetConstReferenceMacro(DerivativeWeights, DerivativeWeightsType);
 
   /** Set/Get the array of weightings for the different components of the
       vector.  Default values are 1.0. */
-  itkSetMacro(ComponentWeights, WeightsType);
-  itkGetConstReferenceMacro(ComponentWeights, WeightsType);
+  itkSetMacro(ComponentWeights, ComponentWeightsType);
+  itkGetConstReferenceMacro(ComponentWeights, ComponentWeightsType);
 
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
       the gradient calculation will involve a principle component analysis of
@@ -269,6 +276,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputPixelType::ValueType>));
   itkConceptMacro(RealTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<RealType>));
   // End concept checking
@@ -478,13 +486,13 @@ protected:
   }
 
   /** The weights used to scale derivatives during processing */
-  WeightsType m_DerivativeWeights;
+  DerivativeWeightsType m_DerivativeWeights;
 
   /** These weights are used to scale
       vector component values when they are combined to produce  a scalar.  The
       square root */
-  WeightsType m_ComponentWeights;
-  WeightsType m_SqrtComponentWeights;
+  ComponentWeightsType m_ComponentWeights;
+  ComponentWeightsType m_SqrtComponentWeights;
 
 private:
   bool m_UseImageSpacing;
