@@ -19,17 +19,20 @@
 #include "itkQuadEdgeMesh.h"
 
 #include "itkMeshFileTestHelper.h"
+#include "itkBYUMeshIO.h"
+#include "itkTestingMacros.h"
 
 int
 itkMeshFileReadWriteTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Invalid commands, You need input and output mesh file name " << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 
-  bool IsBinary = (argc > 3);
+  bool isBinary = (argc > 3);
 
   constexpr unsigned int dimension = 3;
   using PixelType = float;
@@ -39,16 +42,63 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
 
   int result = EXIT_SUCCESS;
 
-  if (test<MeshType>(argv[1], argv[2], IsBinary))
+  if (test<MeshType>(argv[1], argv[2], isBinary))
   {
     std::cerr << "Failure for itk::Mesh" << std::endl;
     result = EXIT_FAILURE;
   }
-  if (test<QEMeshType>(argv[1], argv[2], IsBinary))
+  if (test<QEMeshType>(argv[1], argv[2], isBinary))
   {
     std::cerr << "Failure for itk::QuadEdgeMesh" << std::endl;
     result = EXIT_FAILURE;
   }
 
+
+  // Exercise other methods to improve coverage
+  itk::BYUMeshIO::Pointer byuMeshIO = itk::BYUMeshIO::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(byuMeshIO, BYUMeshIO, MeshIOBase);
+
+
+  std::string fileName("NotABYUMeshFile.nbyu");
+  ITK_TEST_EXPECT_TRUE(!byuMeshIO->CanWriteFile(fileName.c_str()));
+
+  fileName = "ABYUMeshFileName.byu";
+  ITK_TEST_EXPECT_TRUE(byuMeshIO->CanWriteFile(fileName.c_str()));
+
+
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->ReadMeshInformation());
+
+  void * buffer = nullptr;
+
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->ReadPoints(buffer));
+
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->ReadCells(buffer));
+
+  fileName = "";
+  byuMeshIO->SetFileName(fileName);
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->WriteMeshInformation());
+
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->WritePoints(buffer));
+
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->WriteCells(buffer));
+
+  fileName = "/NonExistingDirectory/BYUMeshFile.byu";
+  byuMeshIO->SetFileName(fileName);
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->WriteMeshInformation());
+
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->WritePoints(buffer));
+
+  ITK_TRY_EXPECT_EXCEPTION(byuMeshIO->WriteCells(buffer));
+
+  // Empty functions
+  byuMeshIO->ReadPointData(buffer);
+  byuMeshIO->ReadCellData(buffer);
+
+  byuMeshIO->WritePointData(buffer);
+  byuMeshIO->WriteCellData(buffer);
+
+
+  std::cout << "Test finished." << std::endl;
   return result;
 }

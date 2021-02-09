@@ -46,8 +46,10 @@ itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest2b
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/VectorGradientMagnitudeImageFilterTest2b.png}
               ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png
     itkVectorGradientMagnitudeImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest2b.png 1 5)
-itk_add_test(NAME itkGradientMagnitudeImageFilterTest
-      COMMAND ITKImageGradientTestDriver itkGradientMagnitudeImageFilterTest)
+itk_add_test(NAME itkGradientMagnitudeImageFilterTest1
+      COMMAND ITKImageGradientTestDriver itkGradientMagnitudeImageFilterTest 1)
+itk_add_test(NAME itkGradientMagnitudeImageFilterTest2
+      COMMAND ITKImageGradientTestDriver itkGradientMagnitudeImageFilterTest 0)
 itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest3
       COMMAND ITKImageGradientTestDriver itkVectorGradientMagnitudeImageFilterTest3
               DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha 1)

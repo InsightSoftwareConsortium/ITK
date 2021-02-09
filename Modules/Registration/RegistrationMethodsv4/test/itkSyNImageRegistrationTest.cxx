@@ -158,16 +158,10 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   optimizer->SetNumberOfIterations(1);
 #endif
 
-  try
-  {
-    std::cout << "Affine transform" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "Affine transform" << std::endl;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -443,8 +437,24 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
     std::cout << itkNameOfTestExecutableMacro(argv)
               << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate"
               << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
+
+  // Exercise the objet's basic methods outside the templated test helper to
+  // avoid the Superclass name not being found.
+  constexpr unsigned int ImageDimension = 2;
+
+  using PixelType = double;
+  using FixedImageType = itk::Image<PixelType, ImageDimension>;
+  using MovingImageType = itk::Image<PixelType, ImageDimension>;
+
+  using DisplacementFieldRegistrationType = itk::SyNImageRegistrationMethod<FixedImageType, MovingImageType>;
+  typename DisplacementFieldRegistrationType::Pointer displacementFieldRegistration =
+    DisplacementFieldRegistrationType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    displacementFieldRegistration, SyNImageRegistrationMethod, ImageRegistrationMethodv4);
+
 
   switch (std::stoi(argv[1]))
   {
@@ -456,7 +466,10 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

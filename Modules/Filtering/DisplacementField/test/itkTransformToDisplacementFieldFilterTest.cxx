@@ -25,12 +25,13 @@
 int
 itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
 {
-  /** Check command line arguments. */
+
   if (argc < 3)
   {
+    std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: ";
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << "<transformName> <displacementFieldFileName> [bSplineParametersFile]" << std::endl;
+              << " transformName displacementFieldFileName [bSplineParametersFile]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -42,7 +43,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
     bSplineParametersFile = argv[3];
   }
 
-  /** Typedefs. */
+  // Typedefs.
   constexpr unsigned int Dimension = 2;
   using ScalarPixelType = float;
   using CoordRepresentationType = double;
@@ -69,7 +70,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   using IndexType = DisplacementFieldGeneratorType::IndexType;
   using WriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
 
-  /** Create output information. */
+  // Create output information.
   SizeType size;
   size.Fill(20);
   IndexType index;
@@ -79,18 +80,18 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   OriginType origin;
   origin.Fill(-10.0);
 
-  /** Create transforms. */
+  // Create transforms.
   AffineTransformType::Pointer  affineTransform = AffineTransformType::New();
   BSplineTransformType::Pointer bSplineTransform = BSplineTransformType::New();
   if (transformName == "Affine")
   {
-    /** Set the options. */
+    // Set the options.
     OriginType centerOfRotation;
     centerOfRotation[0] = -3.0;
     centerOfRotation[1] = -3.0;
     affineTransform->SetCenter(centerOfRotation);
 
-    /** Create and set parameters. */
+    // Create and set parameters.
     ParametersType parameters(affineTransform->GetNumberOfParameters());
     parameters[0] = 1.1;
     parameters[1] = 0.1;
@@ -102,7 +103,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   }
   else if (transformName == "BSpline")
   {
-    /** Set the options. */
+    // Set the options.
 
     BSplineTransformType::PhysicalDimensionsType dimensions;
     for (unsigned int d = 0; d < Dimension; ++d)
@@ -121,7 +122,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
     bSplineTransform->SetTransformDomainMeshSize(meshSize);
     bSplineTransform->SetTransformDomainDirection(direction);
 
-    /** Create and set parameters. */
+    // Create and set parameters.
     ParametersType parameters(bSplineTransform->GetNumberOfParameters());
     std::ifstream  input(bSplineParametersFile.c_str());
     if (input.is_open())
@@ -145,20 +146,28 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  /** Create an setup displacement field generator. */
+  // Create an setup displacement field generator.
   DisplacementFieldGeneratorType::Pointer defGenerator = DisplacementFieldGeneratorType::New();
-  std::cout << "Name of Class: " << defGenerator->GetNameOfClass() << std::endl;
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(defGenerator, TransformToDisplacementFieldFilter, ImageSource);
+
+
   defGenerator->SetSize(size);
+  ITK_TEST_SET_GET_VALUE(size, defGenerator->GetSize());
+
   defGenerator->SetOutputSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, defGenerator->GetOutputSpacing());
+
   defGenerator->SetOutputOrigin(origin);
+  ITK_TEST_SET_GET_VALUE(origin, defGenerator->GetOutputOrigin());
+
   defGenerator->SetOutputStartIndex(index);
-  //
-  // for coverage, exercise access methods
-  spacing = defGenerator->GetOutputSpacing();
-  origin = defGenerator->GetOutputOrigin();
-  DisplacementFieldGeneratorType::DirectionType direction = defGenerator->GetOutputDirection();
-  std::cout << "Spacing " << spacing << " Origin " << origin << std::endl << "Direction " << direction << std::endl;
-  // defGenerator->SetOutputDirection( direction );
+  ITK_TEST_SET_GET_VALUE(index, defGenerator->GetOutputStartIndex());
+
+  DisplacementFieldGeneratorType::DirectionType direction;
+  direction.SetIdentity();
+  ITK_TEST_SET_GET_VALUE(direction, defGenerator->GetOutputDirection());
+
   if (transformName == "Affine")
   {
     defGenerator->SetTransform(affineTransform);
@@ -169,21 +178,14 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
   }
   std::cout << "Transform: " << defGenerator->GetTransform() << std::endl;
 
-  /** Write displacement field to disk. */
+  // Write displacement field to disk.
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(defGenerator->GetOutput());
   writer->SetFileName(fileName.c_str());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "Exception detected while generating displacement field" << fileName << std::endl;
-    std::cerr << " : " << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

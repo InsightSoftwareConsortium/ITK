@@ -405,7 +405,7 @@ itk_add_test(NAME itkUniformRandomSpatialNeighborSubsamplerTest
       COMMAND ITKStatisticsTestDriver
     --compare DATA{Baseline/itkUniformRandomSubsamplingTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha
-    itkUniformRandomSpatialNeighborSubsamplerTest
+    itkUniformRandomSpatialNeighborSubsamplerTest 0
      ${ITK_TEST_OUTPUT_DIR}/itkUniformRandomSubsamplingTest.mha)
 itk_add_test(NAME itkVectorContainerToListSampleAdaptorTest
       COMMAND ITKStatisticsTestDriver itkVectorContainerToListSampleAdaptorTest)

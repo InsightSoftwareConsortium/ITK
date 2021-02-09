@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkNiftiImageIOTest.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -127,13 +128,25 @@ itkNiftiImageIOTest(int ac, char * av[])
     using ImageType = itk::Image<unsigned char, 3>;
     ImageType::Pointer         input;
     itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
-    // enable old behavior of NIFTI reader
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(imageIO, NiftiImageIO, ImageIOBase);
+
+
+    // Enable old behavior of NIFTI reader
     imageIO->SetLegacyAnalyze75Mode(itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4);
+
     for (int imagenameindex = 1; imagenameindex < ac; imagenameindex++)
     {
+      auto fileName = std::string(av[imagenameindex]);
+
+      // The way the test is structured, we cannot know the expected file
+      // type, so just print it
+      typename itk::NiftiImageIO::FileType fileType = imageIO->DetermineFileType(fileName.c_str());
+      std::cout << "File type: " << fileType << std::endl;
+
       try
       {
-        input = itk::IOTestHelper::ReadImage<ImageType>(std::string(av[imagenameindex]), false, imageIO);
+        input = itk::IOTestHelper::ReadImage<ImageType>(fileName, false, imageIO);
       }
       catch (const itk::ExceptionObject & e)
       {

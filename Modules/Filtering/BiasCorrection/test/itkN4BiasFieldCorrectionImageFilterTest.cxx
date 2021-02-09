@@ -128,8 +128,9 @@ N4(int argc, char * argv[])
   ImagePointer inputImage = reader->GetOutput();
   inputImage->DisconnectPipeline();
 
-  // handle the mask image
-  using MaskImageType = itk::Image<unsigned char, ImageDimension>;
+  // Handle the mask image
+  using MaskPixelType = unsigned char;
+  using MaskImageType = itk::Image<MaskPixelType, ImageDimension>;
   typename MaskImageType::Pointer maskImage = nullptr;
 
   if (argc > 6)
@@ -164,15 +165,41 @@ N4(int argc, char * argv[])
     maskImage->DisconnectPipeline();
   }
 
-  // instantiate N4 and assign variables not exposed to the user in this test.
+  // Instantiate N4 and assign variables not exposed to the user in this test.
   using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType, ImageType>;
   typename CorrecterType::Pointer correcter = CorrecterType::New();
-  correcter->SetSplineOrder(3);
-  correcter->SetWienerFilterNoise(0.01);
-  correcter->SetBiasFieldFullWidthAtHalfMaximum(0.15);
-  correcter->SetConvergenceThreshold(0.0000001);
 
-  // handle the number of iterations
+  unsigned int splineOrder = 3;
+  correcter->SetSplineOrder(splineOrder);
+  ITK_TEST_SET_GET_VALUE(splineOrder, correcter->GetSplineOrder());
+
+  correcter->SetWienerFilterNoise(0.01);
+
+  typename CorrecterType::RealType biasFieldFullWidthAtHalfMaximum = 0.15;
+  correcter->SetBiasFieldFullWidthAtHalfMaximum(biasFieldFullWidthAtHalfMaximum);
+  ITK_TEST_SET_GET_VALUE(biasFieldFullWidthAtHalfMaximum, correcter->GetBiasFieldFullWidthAtHalfMaximum());
+
+  typename CorrecterType::RealType convergenceThreshold = 0.0000001;
+  correcter->SetConvergenceThreshold(convergenceThreshold);
+  ITK_TEST_SET_GET_VALUE(convergenceThreshold, correcter->GetConvergenceThreshold());
+
+  unsigned int numberOfHistogramBins = 200;
+  correcter->SetNumberOfHistogramBins(numberOfHistogramBins);
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, correcter->GetNumberOfHistogramBins());
+
+  typename CorrecterType::RealType wienerFilterNoise = 0.01;
+  correcter->SetWienerFilterNoise(wienerFilterNoise);
+  ITK_TEST_SET_GET_VALUE(wienerFilterNoise, correcter->GetWienerFilterNoise());
+
+  typename CorrecterType::MaskPixelType maskLabel =
+    itk::NumericTraits<typename CorrecterType::MaskPixelType>::OneValue();
+  correcter->SetMaskLabel(maskLabel);
+  ITK_TEST_SET_GET_VALUE(maskLabel, correcter->GetMaskLabel());
+
+  bool useMaskLabel = false;
+  ITK_TEST_SET_GET_BOOLEAN(correcter, UseMaskLabel, useMaskLabel);
+
+  // Handle the number of iterations
   std::vector<unsigned int> numIters = ConvertVector<unsigned int>(std::string("100x50x50"));
   if (argc > 5)
   {
@@ -185,17 +212,18 @@ N4(int argc, char * argv[])
     maximumNumberOfIterations[d] = numIters[d];
   }
   correcter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
+  ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, correcter->GetMaximumNumberOfIterations());
 
   typename CorrecterType::ArrayType numberOfFittingLevels;
   numberOfFittingLevels.Fill(
     static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>(numIters.size()));
   correcter->SetNumberOfFittingLevels(numberOfFittingLevels);
+  ITK_TEST_SET_GET_VALUE(numberOfFittingLevels, correcter->GetNumberOfFittingLevels());
 
-  /* B-spline options -- we place this here to take care of the case where
-   * the user wants to specify things in terms of the spline distance.
-   *  1. need to pad the images to get as close to possible to the
-   *     requested domain size.
-   */
+  // B-spline options -- we place this here to take care of the case where
+  // the user wants to specify things in terms of the spline distance.
+  //  1. need to pad the images to get as close to possible to the
+  //     requested domain size.
   typename ImageType::PointType newOrigin = inputImage->GetOrigin();
 
   typename CorrecterType::ArrayType numberOfControlPoints;
@@ -245,8 +273,9 @@ N4(int argc, char * argv[])
   maskImage->DisconnectPipeline();
 
   correcter->SetNumberOfControlPoints(numberOfControlPoints);
+  ITK_TEST_SET_GET_VALUE(numberOfControlPoints, correcter->GetNumberOfControlPoints());
 
-  // handle the shrink factor
+  // Handle the shrink factor
   using ShrinkerType = itk::ShrinkImageFilter<ImageType, ImageType>;
   typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
   shrinker->SetInput(inputImage);
@@ -270,7 +299,7 @@ N4(int argc, char * argv[])
   maskImage = maskshrinker->GetOutput();
   maskImage->DisconnectPipeline();
 
-  // set the input image and mask image
+  // Set the input image and mask image
   correcter->SetInput(inputImage);
   correcter->SetMaskImage(maskImage);
 
@@ -278,18 +307,8 @@ N4(int argc, char * argv[])
   typename CommandType::Pointer observer = CommandType::New();
   correcter->AddObserver(itk::IterationEvent(), observer);
 
-  try
-  {
-    correcter->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(correcter->Update());
 
-  correcter->Print(std::cout, 3);
 
   // Test the reconstruction of the log bias field
   ImagePointer originalInputImage = reader->GetOutput();
@@ -300,7 +319,7 @@ N4(int argc, char * argv[])
     correcter->ReconstructBiasField(correcter->GetLogBiasFieldControlPointLattice());
   WriteImage(biasField.GetPointer(), (std::string(argv[3]) + "-LogBiasField.nrrd").c_str());
 
-  // output the log bias field control point lattice
+  // Output the log bias field control point lattice
   WriteImage(correcter->GetLogBiasFieldControlPointLattice(), argv[3]);
 
   return EXIT_SUCCESS;
@@ -315,8 +334,24 @@ itkN4BiasFieldCorrectionImageFilterTest(int argc, char * argv[])
               << "outputLogControlPointLattice [shrinkFactor,default=1] "
               << "[numberOfIterations,default=100x50x50] "
               << " [maskImageWithLabelEqualTo1] [splineDistance,default=200]" << std::endl;
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
+
+  // Exercise the objet's basic methods outside the templated test helper to
+  // avoid the Superclass name not being found.
+  constexpr unsigned int ImageDimension = 2;
+
+  using RealType = float;
+  using MaskPixelType = unsigned char;
+
+  using ImageType = itk::Image<RealType, ImageDimension>;
+  using MaskImageType = itk::Image<MaskPixelType, ImageDimension>;
+
+  using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType, ImageType>;
+  typename CorrecterType::Pointer correcter = CorrecterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(correcter, N4BiasFieldCorrectionImageFilter, ImageToImageFilter);
+
 
   switch (std::stoi(argv[1]))
   {
@@ -328,6 +363,6 @@ itkN4BiasFieldCorrectionImageFilterTest(int argc, char * argv[])
 
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
 }

@@ -32,8 +32,8 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
-    std::cerr << " outputImageFile seedX seedY " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile seedX seedY fullyConnected"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -71,7 +71,10 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
-  // Setup the connectedopening method
+  // Set up the ConnectedClosing filter
+  auto fullyConnected = static_cast<bool>(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_BOOLEAN(connectedClosing, FullyConnected, fullyConnected);
+
   connectedClosing->SetInput(reader->GetOutput());
 
   InputImageType::IndexType seed;

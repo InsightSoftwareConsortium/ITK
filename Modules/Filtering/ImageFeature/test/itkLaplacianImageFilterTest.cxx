@@ -17,9 +17,14 @@
  *=========================================================================*/
 
 #include <iostream>
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkLaplacianImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
+
 
 inline std::ostream &
 operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
@@ -29,52 +34,75 @@ operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
 }
 
 int
-itkLaplacianImageFilterTest(int, char *[])
+itkLaplacianImageFilterTest(int argc, char * argv[])
 {
-  try
+  if (argc != 4)
   {
-    using ImageType = itk::Image<float, 2>;
-
-    // Set up filter
-    itk::LaplacianImageFilter<ImageType, ImageType>::Pointer filter =
-      itk::LaplacianImageFilter<ImageType, ImageType>::New();
-
-    itk::SimpleFilterWatcher watch(filter);
-
-    // Run Test
-    itk::Size<2> sz;
-    sz[0] = 100;
-    sz[1] = 100;
-    itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
-    test1.SetImageSize(sz);
-    test1.SetFilter(filter);
-    test1.Execute();
-
-    // verify the fix for Bug: 788
-    // The following code should throw an exception and not crash.
-    filter->SetInput(nullptr);
-    bool exceptionSeen = false;
-    try
-    {
-      filter->Update();
-    }
-    catch (const itk::ExceptionObject & err)
-    {
-      exceptionSeen = true;
-      std::cout << "Expected exception: " << std::endl;
-      std::cout << err << std::endl;
-      std::cout << " was received OK" << std::endl;
-    }
-    if (!exceptionSeen)
-    {
-      std::cerr << "Expected exception was not thrown" << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    (&err)->Print(std::cerr);
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName useImageSpacing"
+              << std::endl;
     return EXIT_FAILURE;
   }
+
+
+  constexpr unsigned int Dimension = 2;
+
+  using InputPixelType = float;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputPixelType = unsigned char;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+
+  using ReaderType = itk::ImageFileReader<InputImageType>;
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  // Set up filter
+  itk::LaplacianImageFilter<InputImageType, InputImageType>::Pointer filter =
+    itk::LaplacianImageFilter<InputImageType, InputImageType>::New();
+
+  auto useImageSpacing = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
+
+  itk::SimpleFilterWatcher watch(filter);
+
+  // Run test
+  itk::Size<Dimension> sz;
+  sz[0] = 100;
+  sz[1] = 100;
+  itk::NullImageToImageFilterDriver<InputImageType, InputImageType> test1;
+  test1.SetImageSize(sz);
+  test1.SetFilter(filter);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
+
+  // The following code should throw an exception and not crash.
+  filter->SetInput(nullptr);
+
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+
+  filter->SetInput(reader->GetOutput());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
+  using RescaleType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
+  RescaleType::Pointer rescaler = RescaleType::New();
+  rescaler->SetInput(filter->GetOutput());
+  rescaler->SetOutputMinimum(itk::NumericTraits<OutputPixelType>::min());
+  rescaler->SetOutputMaximum(itk::NumericTraits<OutputPixelType>::max());
+
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName(argv[2]);
+  writer->SetInput(rescaler->GetOutput());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

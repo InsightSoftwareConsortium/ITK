@@ -29,20 +29,21 @@ int
 itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
 {
 
-  if (argc != 6)
+  if (argc < 6)
   {
-    std::cerr << "usage: " << argv[0] << " input feature output";
-    std::cerr << "background reverseOrdering attribute" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input feature output"
+              << "background reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim = 2;
+  constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
 
-  using ImageType = itk::Image<PixelType, dim>;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using StatisticsLabelObjectType = itk::StatisticsLabelObject<PixelType, dim>;
+  using StatisticsLabelObjectType = itk::StatisticsLabelObject<PixelType, Dimension>;
   using LabelMapType = itk::LabelMap<StatisticsLabelObjectType>;
 
   // Reading Image File
@@ -62,19 +63,13 @@ itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
   using RelabelType = itk::StatisticsRelabelLabelMapFilter<LabelMapType>;
   RelabelType::Pointer relabel = RelabelType::New();
 
-  // testing get and set macros for ReverseOrdering
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(relabel, StatisticsRelabelLabelMapFilter, ShapeRelabelLabelMapFilter);
+
+
   bool reverseOrdering = std::stoi(argv[4]);
   relabel->SetReverseOrdering(reverseOrdering);
-  ITK_TEST_SET_GET_VALUE(reverseOrdering, relabel->GetReverseOrdering());
+  ITK_TEST_SET_GET_BOOLEAN(relabel, ReverseOrdering, reverseOrdering);
 
-  // testing boolean macro for ReverseOrdering
-  relabel->ReverseOrderingOff();
-  ITK_TEST_SET_GET_VALUE(false, relabel->GetReverseOrdering());
-
-  relabel->ReverseOrderingOn();
-  ITK_TEST_SET_GET_VALUE(true, relabel->GetReverseOrdering());
-
-  // testing get and set macros for Attribute
   unsigned int attribute = std::stoi(argv[5]);
   relabel->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, relabel->GetAttribute());
@@ -99,5 +94,7 @@ itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

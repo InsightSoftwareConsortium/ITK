@@ -80,7 +80,7 @@ itk_add_test(NAME itkTransformToDisplacementFieldFilterTest03
         --compare ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii
                   ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii
         --compareNumberOfPixelsTolerance 20
-        itkTransformToDisplacementFieldFilterTest1 ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii)
+        itkTransformToDisplacementFieldFilterTest1 ${ITK_TEST_OUTPUT_DIR}/transformedImage.nii ${ITK_TEST_OUTPUT_DIR}/warpedImage.nii 1)
 itk_add_test(NAME itkDisplacementFieldTransformCloneTest
   COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldTransformCloneTest)
 itk_add_test(NAME itkExponentialDisplacementFieldImageFilterTest

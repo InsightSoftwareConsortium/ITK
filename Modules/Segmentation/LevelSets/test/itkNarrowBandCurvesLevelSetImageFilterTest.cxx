@@ -24,9 +24,6 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
-
-/* Uncomment to write out image files */
-
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
@@ -38,7 +35,8 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -56,10 +54,8 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   ImageType::RegionType imageRegion;
   imageRegion.SetSize(imageSize);
 
-  /**
-   * Create an input image.
-   * A light square on a dark background.
-   */
+  // Create an input image.
+  // A light square on a dark background.
   PixelType background = 0;
   PixelType foreground = 190;
 
@@ -85,12 +81,10 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
     ++it;
   }
 
-  /**
-   * Create an edge potential map.
-   * First compute the image gradient magnitude using a derivative of
-   * gaussian filter. Then apply a sigmoid function to the gradient
-   * magnitude.
-   */
+  // Create an edge potential map.
+  // First compute the image gradient magnitude using a derivative of
+  // Gaussian filter. Then apply a sigmoid function to the gradient
+  // magnitude.
   using CastFilterType = itk::CastImageFilter<ImageType, InternalImageType>;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput(inputImage);
@@ -109,10 +103,8 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   sigmoid->SetBeta(2.5);
   sigmoid->SetInput(gradMagnitude->GetOutput());
 
-  /**
-   * Create an initial level.
-   * Use fast marching to create an signed distance from a seed point.
-   */
+  // Create an initial level.
+  // Use fast marching to create an signed distance from a seed point.
   using FastMarchingFilterType = itk::FastMarchingImageFilter<InternalImageType>;
   FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
 
@@ -137,32 +129,34 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   fastMarching->SetSpeedConstant(1.0);
   fastMarching->SetOutputSize(imageSize);
 
-  /**
-   * Set up and run the shape detection filter
-   */
+  // Set up and run the shape detection filter
   using CurvesFilterType = itk::NarrowBandCurvesLevelSetImageFilter<InternalImageType, InternalImageType>;
 
   CurvesFilterType::Pointer curvesFilter = CurvesFilterType::New();
 
-  // set the initial level set
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(curvesFilter, NarrowBandCurvesLevelSetImageFilter, NarrowBandLevelSetImageFilter);
+
+
+  bool reverseExpansionDirection = false;
+  ITK_TEST_SET_GET_BOOLEAN(curvesFilter, ReverseExpansionDirection, reverseExpansionDirection);
+
+  // Set the initial level set
   curvesFilter->SetInput(fastMarching->GetOutput());
 
-  // set the edge potential image
+  // Set the edge potential image
   curvesFilter->SetFeatureImage(sigmoid->GetOutput());
 
-  // set the weights between the propagation, curvature and advection terms
+  // Set the weights between the propagation, curvature and advection terms
   curvesFilter->SetPropagationScaling(0.3);
   curvesFilter->SetCurvatureScaling(0.5);
   curvesFilter->SetAdvectionScaling(0.5);
 
-  // set the convergence criteria
+  // Set the convergence criteria
   curvesFilter->SetNumberOfIterations(50);
 
   curvesFilter->SetNumberOfWorkUnits(2);
 
-  /**
-   * Threshold the output level set to display the final contour.
-   */
+  // Threshold the output level set to display the final contour.
   using ThresholdFilterType = itk::BinaryThresholdImageFilter<InternalImageType, ImageType>;
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
 
@@ -172,9 +166,7 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   thresholder->SetOutsideValue(0);
   thresholder->SetInsideValue(255);
 
-  /**
-   * Compute overlap between the true shape and the segmented shape
-   */
+  // Compute overlap between the true shape and the segmented shape
   using OverlapCalculatorType = itk::SimilarityIndexImageFilter<ImageType, ImageType>;
   OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
 
@@ -182,14 +174,11 @@ itkNarrowBandCurvesLevelSetImageFilterTest(int argc, char * argv[])
   overlap->SetInput2(thresholder->GetOutput());
   overlap->Update();
 
-  /** Printout useful information from the shape detection filter. */
+  // Printout useful information from the shape detection filter.
   std::cout << "Max. no. iterations: " << curvesFilter->GetNumberOfIterations() << std::endl;
   std::cout << "No. elpased iterations: " << curvesFilter->GetElapsedIterations() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
-  /**
-   * Uncomment to write out image files.
-   */
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
 
