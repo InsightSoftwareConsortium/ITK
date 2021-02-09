@@ -21,6 +21,7 @@
 import itk
 import sys
 import os
+import numpy as np
 
 
 def custom_callback(name, progress):
@@ -238,7 +239,6 @@ assert image_series.GetImageDimension() == 3
 # BridgeNumPy
 
 # Images
-import numpy as np
 
 image = itk.imread(filename)
 arr = itk.array_from_image(image)
@@ -373,13 +373,13 @@ image = itk.image_from_array(numpyImage, is_vector=True)
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=(type(image),)))
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=[type(image)]))
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=type(image)))
-vectorimage = itk.cast_image_filter(
-    Input=image, ttype=(type(image), itk.VectorImage[itk.F, 2])
+imagevectors = itk.cast_image_filter(
+    Input=image, ttype=(type(image), itk.Image[itk.Vector[itk.F, 3], 2])
 )
-cast = vectorimage.astype(np.float32)
-assert cast == vectorimage
+cast = image.astype(np.float32)
+assert cast == image
 (vector_image_template, (vector_pixel_type, vector_image_dimension)) = itk.template(
-    vectorimage
+    image
 )
 for t in [
     [itk.D, np.float64, "VIF2VID2"],
@@ -464,11 +464,36 @@ try:
     except ValueError:
         pass
 
+    # Check empty array
     empty_array = np.array([], dtype=np.uint8)
     empty_array.shape = (0, 0, 0)
     empty_image = itk.image_from_array(empty_array)
     empty_da = itk.xarray_from_image(empty_image)
     empty_image_round = itk.image_from_xarray(empty_da)
+
+    # Check order
+    arr = np.random.randint(0, 255, size=(4,5,6), dtype=np.uint8)
+    data_array = xr.DataArray(arr, dims=['z','y','x'])
+    image = itk.image_from_xarray(data_array)
+    assert np.allclose(arr, itk.array_view_from_image(image))
+    assert np.allclose(arr.shape, itk.array_view_from_image(image).shape)
+
+    data_array = xr.DataArray(arr, dims=['x','y','z'])
+    image = itk.image_from_xarray(data_array)
+    assert np.allclose(arr.transpose(), itk.array_view_from_image(image))
+    assert np.allclose(arr.shape[::-1], itk.array_view_from_image(image).shape)
+
+    data_array = xr.DataArray(arr, dims=['y','x','c'])
+    image = itk.image_from_xarray(data_array)
+    assert np.allclose(arr, itk.array_view_from_image(image))
+    assert np.allclose(arr.shape, itk.array_view_from_image(image).shape)
+
+    data_array = xr.DataArray(arr, dims=['c','x','y'])
+    image = itk.image_from_xarray(data_array)
+    assert np.allclose(arr.transpose(), itk.array_view_from_image(image))
+    assert np.allclose(arr.shape[::-1], itk.array_view_from_image(image).shape)
+
+
 except ImportError:
     print("xarray not imported. Skipping xarray conversion tests")
     pass
@@ -478,9 +503,6 @@ try:
     import vtk
 
     print("Testing vtk conversion")
-
-    print("Testing vtk conversion")
-
     image = itk.image_from_array(np.random.rand(2, 3, 4))
     vtk_image = itk.vtk_image_from_image(image)
     image_round = itk.image_from_vtk_image(vtk_image)

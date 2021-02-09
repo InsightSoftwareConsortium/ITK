@@ -24,6 +24,7 @@ import numpy
 import warnings
 from sys import stderr as system_error_stream
 import os
+import builtins
 
 fileiotype = Union[str, bytes, os.PathLike]
 
@@ -272,8 +273,10 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
                     ImageType = itk.Image[itk.RGBPixel[itk.UC], Dimension]
                 elif VectorDimension == 4:
                     ImageType = itk.Image[itk.RGBAPixel[itk.UC], Dimension]
+                else:
+                    ImageType = itk.VectorImage[PixelType, Dimension]
             else:
-                ImageType = itk.Image[itk.Vector[PixelType, VectorDimension], Dimension]
+                ImageType = itk.VectorImage[PixelType, Dimension]
     keys = [k for k in itk.PyBuffer.keys() if k[0] == ImageType]
     if len(keys) == 0:
         raise RuntimeError(
@@ -464,13 +467,18 @@ def image_from_xarray(data_array):
     spatial_dims.sort(reverse=True)
     spatial_dimension = len(spatial_dims)
     ordered_dims = ("z", "y", "x")[-spatial_dimension:]
-    if ordered_dims != tuple(spatial_dims):
-        raise ValueError(
-            "Spatial dimensions do not have the required order: " + str(ordered_dims)
-        )
-
     is_vector = "c" in data_array.dims
-    itk_image = itk.image_view_from_array(data_array.values, is_vector=is_vector)
+    if is_vector:
+        ordered_dims = ordered_dims + ("c",)
+
+    values = data_array.values
+    if ordered_dims != data_array.dims:
+        dest = list(builtins.range(len(ordered_dims)))
+        source = dest.copy()
+        for ii in builtins.range(len(ordered_dims)):
+            source[ii] = data_array.dims.index(ordered_dims[ii])
+        values = np.moveaxis(values, source, dest).copy()
+    itk_image = itk.image_view_from_array(values, is_vector=is_vector)
 
     l_origin = [0.0] * spatial_dimension
     l_spacing = [1.0] * spatial_dimension
