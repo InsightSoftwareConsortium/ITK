@@ -17,58 +17,65 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkSimpleFilterWatcher.h"
-
-#include "itkBinaryFillholeImageFilter.h"
+#include "itkBinaryNotImageFilter.h"
 #include "itkTestingMacros.h"
 
-
 int
-itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
+itkBinaryNotImageFilterTest(int argc, char * argv[])
 {
-
-  if (argc < 5)
+  if (argc < 6)
   {
     std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputFileName outputFileName fullyConnected foregroundValue" << std::endl;
+              << " inputFileName1 inputFileName2 outputFileName backgroundValue foregroundValue" << std::endl;
     return EXIT_FAILURE;
   }
 
   constexpr unsigned int Dimension = 2;
 
   using PixelType = unsigned char;
-
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  typename ReaderType::Pointer reader1 = ReaderType::New();
+  reader1->SetFileName(argv[1]);
 
-
-  using FilterType = itk::BinaryFillholeImageFilter<ImageType>;
-  FilterType::Pointer filter = FilterType::New();
-
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryFillholeImageFilter, ImageToImageFilter);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader1->Update());
 
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  typename ReaderType::Pointer reader2 = ReaderType::New();
+  reader2->SetFileName(argv[2]);
 
-  auto fullyConnected = static_cast<bool>(std::stoi(argv[3]));
-  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
 
-  typename FilterType::InputImagePixelType foregroundValue = std::stoi(argv[4]);
+
+  using FilterType = itk::BinaryNotImageFilter<ImageType>;
+  typename FilterType::Pointer filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryNotImageFilter, UnaryFunctorImageFilter);
+
+
+  auto foregroundValue = static_cast<PixelType>(std::stoi(argv[4]));
   filter->SetForegroundValue(foregroundValue);
   ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
-  filter->SetInput(reader->GetOutput());
+
+  auto backgroundValue = static_cast<PixelType>(std::stoi(argv[5]));
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
+
+
+  filter->SetInput(reader1->GetOutput());
+  filter->SetInput(reader2->GetOutput());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(argv[2]);
+  writer->SetFileName(argv[3]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 

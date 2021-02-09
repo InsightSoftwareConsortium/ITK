@@ -53,8 +53,7 @@ testMetaArray(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(precision, arrayWriter->GetPrecision());
 
   bool binary = false;
-  arrayWriter->SetBinary(binary);
-  ITK_TEST_SET_GET_VALUE(binary, arrayWriter->GetBinary());
+  ITK_TEST_SET_GET_BOOLEAN(arrayWriter, Binary, binary);
 
   arrayWriter->SetInput(MET_SHORT, &arr);
   arrayWriter->Update();
@@ -91,8 +90,7 @@ testMetaArray(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(precision, arrayWriter->GetPrecision());
 
   binary = true;
-  arrayWriter->SetBinary(binary);
-  ITK_TEST_SET_GET_VALUE(binary, arrayWriter->GetBinary());
+  ITK_TEST_SET_GET_BOOLEAN(arrayWriter, Binary, binary);
 
   arrayWriter->SetInput(MET_FLOAT, &vec);
   arrayWriter->Update();
@@ -163,5 +161,7 @@ testMetaArray(int argc, char * argv[])
   arrayReader->GetOutput(MET_FLOAT, &rcovec);
   std::cout << "  covariant vector float = " << rcovec << std::endl;
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

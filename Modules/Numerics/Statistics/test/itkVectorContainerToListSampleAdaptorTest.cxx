@@ -17,11 +17,11 @@
  *=========================================================================*/
 
 #include "itkVectorContainerToListSampleAdaptor.h"
+#include "itkTestingMacros.h"
 
 int
 itkVectorContainerToListSampleAdaptorTest(int, char *[])
 {
-  std::cout << "VectorContainerToListSampleAdaptor Test \n \n";
 
   using VectorType = itk::Vector<double, 5>;
 
@@ -31,9 +31,45 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
 
   AdaptorType::Pointer adaptor = AdaptorType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(adaptor, VectorContainerToListSampleAdaptor, ListSample);
+
+  // Test the exceptions
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->Size());
+
+  typename AdaptorType::InstanceIdentifier instance = 0;
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetMeasurementVector(instance));
+
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetFrequency(instance));
+
+  ITK_TRY_EXPECT_EXCEPTION(adaptor->GetTotalFrequency());
+
+  // Set the vector container
+  unsigned int           containerSize = 3;
   ContainerType::Pointer container = ContainerType::New();
+  container->Reserve(containerSize);
+  for (unsigned int i = 0; i < container->Size(); ++i)
+  {
+    VectorType vector;
+    vector.Fill(std::pow(i, 2));
+    container->InsertElement(i, vector);
+  }
 
   adaptor->SetVectorContainer(container);
+  ITK_TEST_SET_GET_VALUE(container, adaptor->GetVectorContainer());
 
+  typename AdaptorType::InstanceIdentifier expectedSize = 3;
+  typename AdaptorType::InstanceIdentifier size = adaptor->Size();
+  ITK_TEST_EXPECT_EQUAL(expectedSize, size);
+
+  typename AdaptorType::AbsoluteFrequencyType expectedFreq = 1;
+  typename AdaptorType::AbsoluteFrequencyType freq = adaptor->GetFrequency(instance);
+  ITK_TEST_EXPECT_EQUAL(expectedFreq, freq);
+
+  typename AdaptorType::TotalAbsoluteFrequencyType expectedTotalFreq = 3;
+  typename AdaptorType::TotalAbsoluteFrequencyType totalFreq = adaptor->GetTotalFrequency();
+  ITK_TEST_EXPECT_EQUAL(expectedTotalFreq, totalFreq);
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

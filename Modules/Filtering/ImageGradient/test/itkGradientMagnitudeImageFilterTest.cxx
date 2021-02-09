@@ -34,11 +34,18 @@ itkGradientMagnitudeImageFilterTest(int, char *[])
 {
   try
   {
-    using ImageType = itk::Image<float, 2>;
+    constexpr unsigned int Dimension = 2;
+
+    using PixelType = float;
+
+    using ImageType = itk::Image<PixelType, Dimension>;
 
     // Set up filter
     itk::GradientMagnitudeImageFilter<ImageType, ImageType>::Pointer filter =
       itk::GradientMagnitudeImageFilter<ImageType, ImageType>::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientMagnitudeImageFilter, ImageToImageFilter);
+
 
     bool useImageSpacing = true;
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
@@ -53,8 +60,8 @@ itkGradientMagnitudeImageFilterTest(int, char *[])
 #endif
     ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
-    // Run Test
-    itk::Size<2> sz;
+    // Run test
+    itk::Size<Dimension> sz;
     sz[0] = 100;
     sz[1] = 100;
     itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
@@ -67,5 +74,8 @@ itkGradientMagnitudeImageFilterTest(int, char *[])
     (&err)->Print(std::cerr);
     return EXIT_FAILURE;
   }
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

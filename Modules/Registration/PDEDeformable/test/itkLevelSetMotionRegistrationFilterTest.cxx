@@ -23,6 +23,7 @@
 #include "itkCastImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 
 namespace
@@ -131,7 +132,6 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
 
-  //--------------------------------------------------------
   std::cout << "Generate input images and initial deformation field";
   std::cout << std::endl;
 
@@ -189,11 +189,13 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   caster->SetInput(initField);
   caster->InPlaceOff();
 
-  //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
 
   using RegistrationType = itk::LevelSetMotionRegistrationFilter<ImageType, ImageType, FieldType>;
   RegistrationType::Pointer registrator = RegistrationType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(registrator, LevelSetMotionRegistrationFilter, PDEDeformableRegistrationFilter);
+
 
   registrator->SetInitialDisplacementField(caster->GetOutput());
   registrator->SetMovingImage(moving);
@@ -203,12 +205,23 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   registrator->SetStandardDeviations(1.0);
   registrator->SetMaximumError(0.08);
   registrator->SetMaximumKernelWidth(10);
-  registrator->SetIntensityDifferenceThreshold(0.001);
 
-  // turn on inplace execution
+  double intensityDifferenceThreshold = 0.001;
+  registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
+  ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
+
+  double gradientMagnitudeThreshold = 1e-9;
+  registrator->SetGradientMagnitudeThreshold(gradientMagnitudeThreshold);
+  ITK_TEST_SET_GET_VALUE(gradientMagnitudeThreshold, registrator->GetGradientMagnitudeThreshold());
+
+  double alpha = 0.1;
+  registrator->SetAlpha(alpha);
+  ITK_TEST_SET_GET_VALUE(alpha, registrator->GetAlpha());
+
+  // Turn on inplace execution
   registrator->InPlaceOn();
 
-  // turn on/off use image spacing
+  // Turn on/off use image spacing
   registrator->UseImageSpacingOn();
 
   using FunctionType = RegistrationType::LevelSetMotionFunctionType;
@@ -219,7 +232,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
     fptr->Print(std::cout);
   }
 
-  // exercise other member variables
+  // Exercise other member variables
   std::cout << "No. Iterations: " << registrator->GetNumberOfIterations() << std::endl;
   std::cout << "Max. kernel error: " << registrator->GetMaximumError() << std::endl;
   std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
@@ -241,14 +254,13 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
 
   registrator->AddObserver(itk::ProgressEvent(), command);
 
-  // warp moving image
+  // Warp moving image
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   WarperType::Pointer warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
-
 
   warper->SetInput(moving);
   warper->SetDisplacementField(registrator->GetOutput());
@@ -287,10 +299,9 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   }
 
 
-  // ---------------------------------------------------------
   std::cout << "Compare warped moving and fixed." << std::endl;
 
-  // compare the warp and fixed images
+  // Compare the warp and fixed images
   itk::ImageRegionIterator<ImageType> fixedIter(fixed, fixed->GetBufferedRegion());
   itk::ImageRegionIterator<ImageType> warpedIter(warper->GetOutput(), fixed->GetBufferedRegion());
 
@@ -318,7 +329,6 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
 
   registrator->Print(std::cout);
 
-  // -----------------------------------------------------------
   std::cout << "Test running registrator without initial deformation field.";
   std::cout << std::endl;
 

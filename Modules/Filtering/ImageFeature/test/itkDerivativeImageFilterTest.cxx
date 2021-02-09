@@ -27,11 +27,12 @@
 int
 itkDerivativeImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc < 6)
   {
+    std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile normalizedOutputImageFile ";
-    std::cerr << " derivativeOrder direction" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile normalizedOutputImageFile "
+              << " derivativeOrder direction useImageSpacing" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -46,11 +47,8 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-
   using ReaderType = itk::ImageFileReader<InputImageType>;
-
   ReaderType::Pointer reader = ReaderType::New();
-
   reader->SetFileName(argv[1]);
 
   // Define the filter
@@ -58,11 +56,18 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  // setup the filter
-  filter->SetOrder(std::stoi(argv[3]));
-  filter->SetDirection(std::stoi(argv[4]));
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DerivativeImageFilter, ImageToImageFilter);
 
-  auto useImageSpacing = true;
+  // Set up the filter
+  unsigned int order = std::stoi(argv[3]);
+  filter->SetOrder(order);
+  ITK_TEST_SET_GET_VALUE(order, filter->GetOrder());
+
+  unsigned int direction = std::stoi(argv[4]);
+  filter->SetDirection(direction);
+  ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
+
+  auto useImageSpacing = static_cast<bool>(std::stoi(argv[5]));
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   if (useImageSpacing)
   {
@@ -98,7 +103,10 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
   normalizer->SetOutputMaximum(255);
 
   normalizedWriter->SetFileName(argv[2]);
-  normalizedWriter->Update();
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(normalizedWriter->Update());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -29,11 +29,11 @@
 int
 itkGrayscaleConnectedOpeningImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc < 6)
   {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
-              << " outputImageFile seedX seedY " << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " inputImageFile outputImageFile seedX seedY fullyConnected" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -72,7 +72,10 @@ itkGrayscaleConnectedOpeningImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
-  // Setup the connected opening method
+  // Set up the ConnectedOpening filter
+  auto fullyConnected = static_cast<bool>(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_BOOLEAN(connectedOpening, FullyConnected, fullyConnected);
+
   connectedOpening->SetInput(reader->GetOutput());
 
   InputImageType::IndexType seed;

@@ -158,16 +158,10 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   optimizer->SetNumberOfIterations(1);
 #endif
 
-  try
-  {
-    std::cout << "Affine transform" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "Affine transform" << std::endl;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -220,6 +214,9 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   using DisplacementFieldRegistrationType = itk::SyNImageRegistrationMethod<FixedImageType, MovingImageType>;
   typename DisplacementFieldRegistrationType::Pointer displacementFieldRegistration =
     DisplacementFieldRegistrationType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    displacementFieldRegistration, SyNImageRegistrationMethod, ImageRegistrationMethodv4);
 
   using OutputTransformType = typename DisplacementFieldRegistrationType::OutputTransformType;
   typename OutputTransformType::Pointer outputTransform = OutputTransformType::New();
@@ -458,5 +455,8 @@ itkSyNImageRegistrationTest(int argc, char * argv[])
       std::cerr << "Unsupported dimension" << std::endl;
       exit(EXIT_FAILURE);
   }
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

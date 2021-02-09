@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkPolygonGroupSpatialObjectXMLFile.h"
 #include "itksys/SystemTools.hxx"
+#include "itkTestingMacros.h"
 
 static float strandPoints[11][2] = { { 1, 1 },       { 1, 2 },      { 1.25, 2 },  { 1.25, 1.25 },
                                      { 1.75, 1.25 }, { 1.75, 1.5 }, { 1.5, 1.5 }, { 1.5, 2 },
@@ -144,7 +145,8 @@ itkPolygonGroupSpatialObjectXMLFileTest(int ac, char * av[])
 {
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " XMLfile\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " XMLfile" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -163,6 +165,11 @@ itkPolygonGroupSpatialObjectXMLFileTest(int ac, char * av[])
   {
     itk::PolygonGroupSpatialObjectXMLFileWriter::Pointer pw = itk::PolygonGroupSpatialObjectXMLFileWriter::New();
 
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(pw, PolygonGroupSpatialObjectXMLFileWriter, XMLWriterBase);
+
+
+    ITK_TEST_EXPECT_TRUE(pw->CanWriteFile(""));
+
     pw->SetFilename(xmlfilename.c_str());
     pw->SetObject(&(*PolygonGroup));
     pw->WriteFile();
@@ -176,7 +183,15 @@ itkPolygonGroupSpatialObjectXMLFileTest(int ac, char * av[])
   try
   {
     itk::PolygonGroupSpatialObjectXMLFileReader::Pointer p = itk::PolygonGroupSpatialObjectXMLFileReader::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(p, PolygonGroupSpatialObjectXMLFileReader, XMLReader);
+
+    ITK_TEST_EXPECT_TRUE(!p->CanReadFile(""));
+
+    ITK_TEST_EXPECT_TRUE(p->CanReadFile(xmlfilename.c_str()));
+
     p->SetFilename(xmlfilename.c_str());
+
     p->GenerateOutputInformation();
     PGroupFromFile = p->GetOutputObject();
     if (PGroupFromFile.IsNull())

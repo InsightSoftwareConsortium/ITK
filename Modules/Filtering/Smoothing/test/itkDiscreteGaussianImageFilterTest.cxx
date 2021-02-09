@@ -29,13 +29,20 @@ itkDiscreteGaussianImageFilterTest(int, char *[])
   try
   {
     constexpr unsigned int Dimension = 3;
-    using ImageType = itk::Image<float, Dimension>;
+
+    using PixelType = float;
+
+    using ImageType = itk::Image<PixelType, Dimension>;
 
     // Set up filter
     using FilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
     using ArrayType = FilterType::ArrayType;
 
-    FilterType::Pointer      filter = FilterType::New();
+    FilterType::Pointer filter = FilterType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DiscreteGaussianImageFilter, ImageToImageFilter);
+
+
     itk::SimpleFilterWatcher watcher(filter);
 
     // Test other set/get functions
@@ -67,11 +74,25 @@ itkDiscreteGaussianImageFilterTest(int, char *[])
     filter->SetRealBoundaryCondition(&constantBoundaryCondition);
     ITK_TEST_SET_GET_VALUE(&constantBoundaryCondition, filter->GetRealBoundaryCondition());
 
-    // set some parameters
-    filter->SetVariance(1.0);
-    filter->SetMaximumError(.01);
-    filter->SetMaximumKernelWidth(32);
+    // Set other filter properties
+    FilterType::ArrayType::ValueType varianceValue = 1.0;
+    FilterType::ArrayType            variance;
+    variance.Fill(varianceValue);
+    filter->SetVariance(variance);
+    ITK_TEST_SET_GET_VALUE(variance, filter->GetVariance());
+
+    FilterType::ArrayType::ValueType maximumErrorValue = 0.01;
+    FilterType::ArrayType            maximumError;
+    maximumError.Fill(maximumErrorValue);
+    filter->SetMaximumError(maximumError);
+    ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
+
+    int maximumKernelWidth = 32;
+    filter->SetMaximumKernelWidth(maximumKernelWidth);
+    ITK_TEST_SET_GET_VALUE(maximumKernelWidth, filter->GetMaximumKernelWidth());
+
     filter->SetFilterDimensionality(Dimension);
+    ITK_TEST_SET_GET_VALUE(Dimension, filter->GetFilterDimensionality());
 
     bool useImageSpacing = true;
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
@@ -143,5 +164,7 @@ itkDiscreteGaussianImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

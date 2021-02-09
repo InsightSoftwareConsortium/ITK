@@ -29,12 +29,11 @@ int
 itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
 {
 
-  if (argc != 7)
+  if (argc < 7)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputBinaryImage outputLabelImage";
-    std::cerr << " fullyConnected(0/1)  foregroundValue backgroundValue expectfailure";
-    std::cerr << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputBinaryImage outputLabelImage"
+              << " fullyConnected(0/1) foregroundValue backgroundValue expectfailure" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -54,13 +53,25 @@ itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
 
   using ImageToLabelType = itk::BinaryImageToLabelMapFilter<ImageType, LabelMapType>;
   ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
-  // test the behavior without input
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(imageToLabel, BinaryImageToLabelMapFilter, ImageToImageFilter);
+
+
+  // Test the behavior without input
   ITK_TRY_EXPECT_EXCEPTION(imageToLabel->Update());
+
   imageToLabel->ResetPipeline();
 
-  imageToLabel->SetFullyConnected(std::stoi(argv[3]));
-  imageToLabel->SetInputForegroundValue(std::stoi(argv[4]));
-  imageToLabel->SetOutputBackgroundValue(std::stoi(argv[5]));
+  auto fullyConnected = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(imageToLabel, FullyConnected, fullyConnected);
+
+  typename ImageToLabelType::InputPixelType inputForegroundValue = std::stoi(argv[4]);
+  imageToLabel->SetInputForegroundValue(inputForegroundValue);
+  ITK_TEST_SET_GET_VALUE(inputForegroundValue, imageToLabel->GetInputForegroundValue());
+
+  typename ImageToLabelType::OutputPixelType outputBackgroundValue = std::stoi(argv[5]);
+  imageToLabel->SetOutputBackgroundValue(outputBackgroundValue);
+  ITK_TEST_SET_GET_VALUE(outputBackgroundValue, imageToLabel->GetOutputBackgroundValue());
 
   itk::SimpleFilterWatcher watcher(imageToLabel);
 
@@ -91,9 +102,7 @@ itkBinaryImageToLabelMapFilterTest(int argc, char * argv[])
 
   imageToLabel->GetOutput()->PrintLabelObjects();
 
-  std::cout << imageToLabel->GetNameOfClass() << std::endl;
 
-  imageToLabel->Print(std::cout);
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

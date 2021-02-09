@@ -28,42 +28,61 @@ int
 itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
 {
 
-  if (argc != 6)
+  if (argc < 6)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output conn fg kernelSize" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " inputFileName outputFileName fullyConnected foregroundValue kernelSize" << std::endl;
+    return EXIT_FAILURE;
   }
 
-  constexpr int dim = 2;
+  constexpr unsigned int Dimension = 2;
 
-  using IType = itk::Image<unsigned char, dim>;
+  using PixelType = unsigned char;
 
-  using ReaderType = itk::ImageFileReader<IType>;
+  using ImageType = itk::Image<PixelType, Dimension>;
+
+  using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  reader->Update();
 
-  using KernelType = itk::BinaryBallStructuringElement<bool, dim>;
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  using KernelType = itk::BinaryBallStructuringElement<bool, Dimension>;
   KernelType           ball;
   KernelType::SizeType ballSize;
   ballSize.Fill(std::stoi(argv[5]));
   ball.SetRadius(ballSize);
   ball.CreateStructuringElement();
 
-  using I2LType = itk::BinaryClosingByReconstructionImageFilter<IType, KernelType>;
-  I2LType::Pointer reconstruction = I2LType::New();
-  reconstruction->SetInput(reader->GetOutput());
-  reconstruction->SetKernel(ball);
-  reconstruction->SetFullyConnected(std::stoi(argv[3]));
-  reconstruction->SetForegroundValue(std::stoi(argv[4]));
-  //   reconstruction->SetBackgroundValue( std::stoi(argv[6]) );
-  itk::SimpleFilterWatcher watcher(reconstruction, "filter");
+  using FilterType = itk::BinaryClosingByReconstructionImageFilter<ImageType, KernelType>;
+  FilterType::Pointer reconstructionFilter = FilterType::New();
 
-  using WriterType = itk::ImageFileWriter<IType>;
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(reconstructionFilter, BinaryClosingByReconstructionImageFilter, KernelImageFilter);
+
+
+  itk::SimpleFilterWatcher watcher(reconstructionFilter, "filter");
+
+  auto fullyConnected = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(reconstructionFilter, FullyConnected, fullyConnected);
+
+  typename FilterType::InputImagePixelType foregroundValue = std::stoi(argv[4]);
+  reconstructionFilter->SetForegroundValue(foregroundValue);
+  ITK_TEST_SET_GET_VALUE(foregroundValue, reconstructionFilter->GetForegroundValue());
+
+  reconstructionFilter->SetKernel(ball);
+
+  reconstructionFilter->SetInput(reader->GetOutput());
+
+  using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(reconstruction->GetOutput());
+  writer->SetInput(reconstructionFilter->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
-  return 0;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished." << std::endl;
+  return EXIT_SUCCESS;
 }
