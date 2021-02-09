@@ -21,14 +21,17 @@
 #include "itkRescaleIntensityImageFilter.h"
 
 #include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkTestingMacros.h"
+
 
 int
 itkDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
-    return -1;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr unsigned int ImageDimension = 2;
@@ -43,7 +46,9 @@ itkDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  reader->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   using ConnectedType = itk::ConnectedComponentImageFilter<InputImageType, InputImageType>;
   ConnectedType::Pointer connectedComponents = ConnectedType::New();
@@ -52,7 +57,10 @@ itkDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
   using FilterType = itk::DanielssonDistanceMapImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(connectedComponents->GetOutput());
-  filter->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
   filter->Print(std::cout);
 
   // Extract the Voronoi map from the distance map filter, rescale it,
@@ -67,7 +75,10 @@ itkDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
   writer->SetInput(rescaler->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
-  writer->Update();
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

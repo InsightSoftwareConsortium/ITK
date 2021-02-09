@@ -40,9 +40,9 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
-    std::cerr << " 1: InputImage Name 2:OutputImage Name" << std::endl;
-    std::cerr << " 3: minimumPixelArea" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName minimumPixelArea"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -61,24 +61,11 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
   ReaderType::Pointer reader = ReaderType::New();
-
   reader->SetFileName(argv[1]);
 
-  // Read the Input Image
-  std::cout << "About to load input image " << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "Exception Caught!" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
 
-  // ************************************************************************
   // Automatic Threshold Filter
   // This filter essentially chooses the optimum place to threshold the object.
   // It also indirectly will count the number of objects for you.
@@ -92,26 +79,29 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   using ThresholdType = itk::ThresholdMaximumConnectedComponentsImageFilter<InputImageType>;
   ThresholdType::Pointer automaticThreshold = ThresholdType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    automaticThreshold, ThresholdMaximumConnectedComponentsImageFilter, ImageToImageFilter);
+
   automaticThreshold->SetInput(reader->GetOutput());
   automaticThreshold->SetMinimumObjectSizeInPixels(minimumPixelArea);
+  ITK_TEST_SET_GET_VALUE(minimumPixelArea, automaticThreshold->GetMinimumObjectSizeInPixels());
 
   // For counting Myofibers, the inside value should be the minLabel
   // If you wanted to count a solid object (ie dapi nuclei) set the
   // inside value to minLabel.
   //
   automaticThreshold->SetInsideValue(minLabel);
-  automaticThreshold->SetOutsideValue(maxLabel);
+  ITK_TEST_SET_GET_VALUE(minLabel, automaticThreshold->GetInsideValue());
 
-  try
-  {
-    automaticThreshold->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "Exception Caught!" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  automaticThreshold->SetOutsideValue(maxLabel);
+  ITK_TEST_SET_GET_VALUE(maxLabel, automaticThreshold->GetOutsideValue());
+
+  typename ThresholdType::PixelType upperBoundary = itk::NumericTraits<ThresholdType::PixelType>::max();
+  automaticThreshold->SetUpperBoundary(upperBoundary);
+  ITK_TEST_SET_GET_VALUE(upperBoundary, automaticThreshold->GetUpperBoundary());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(automaticThreshold->Update());
+
 
   numberOfObjects = automaticThreshold->GetNumberOfObjects();
   thresholdValue = automaticThreshold->GetThresholdValue();
@@ -119,25 +109,16 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   std::cout << "Number of Objects = " << numberOfObjects << std::endl;
   std::cout << "Threshold Value   = " << thresholdValue << std::endl;
 
-  // *****************************************************************
-  // Image File Writer
+
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(automaticThreshold->GetOutput());
-
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "Exception Caught!" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -53,7 +53,7 @@ itk_add_test(NAME itkMetaImageIOTest2
       ${ITK_TEST_OUTPUT_DIR}/itkMetaImageIOTest2.mha)
 itk_add_test(NAME itkMetaImageIOShouldFailTest
       COMMAND ITKIOMetaTestDriver itkMetaImageIOTest
-              DATA{${ITK_DATA_ROOT}/Input/MetaImageError.mhd} 1)
+              DATA{${ITK_DATA_ROOT}/Input/MetaImageError.mhd} "OutputNotUsed" 1)
 itk_add_test(NAME testMetaGroup
       COMMAND ITKIOMetaTestDriver testMetaGroup
               ${ITK_TEST_OUTPUT_DIR})

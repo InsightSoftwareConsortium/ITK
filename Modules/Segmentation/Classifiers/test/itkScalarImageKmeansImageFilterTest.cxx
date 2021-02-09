@@ -27,9 +27,12 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputScalarImage outputLabeledImage numberOfClasses mean1 mean2... meanN " << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputScalarImage"
+              << " outputLabeledImage"
+              << " useNonContiguousLabels"
+              << " numberOfClasses"
+              << " mean1 mean2... meanN" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -41,28 +44,21 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-
   reader->SetFileName(argv[1]);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   using KMeansFilterType = itk::ScalarImageKmeansImageFilter<ImageType>;
 
   KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(kmeansFilter, ScalarImageKmeansImageFilter, ImageToImageFilter);
+
   kmeansFilter->SetInput(reader->GetOutput());
 
-  kmeansFilter->SetUseNonContiguousLabels(argv[3]);
+  auto useNonContiguousLabels = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(kmeansFilter, UseNonContiguousLabels, useNonContiguousLabels);
 
   const unsigned int numberOfInitialClasses = std::stoi(argv[4]);
 
@@ -76,7 +72,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // before we add any mean check that an expection is thrown
+  // Before we add any mean check that an expection is thrown
   ITK_TRY_EXPECT_EXCEPTION(kmeansFilter->Update());
 
 
@@ -85,17 +81,8 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
     kmeansFilter->AddClassWithInitialMean(std::stod(argv[k + numberOfArgumentsBeforeMeans]));
   }
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(kmeansFilter->Update());
 
-  try
-  {
-    kmeansFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encoutered while classifying the image " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
 
   KMeansFilterType::ParametersType estimatedMeans = kmeansFilter->GetFinalMeans();
 
@@ -121,16 +108,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   writer->SetInput(relabeler->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encoutered while writing image file : " << argv[2] << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   using SizesType = RelabelFilterType::ObjectSizeInPixelsContainerType;
@@ -149,5 +127,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
     ++sizeItr;
   }
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

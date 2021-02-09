@@ -21,6 +21,10 @@
 #include "itkTextOutput.h"
 
 #include "itkImagePCAShapeModelEstimator.h"
+#include "itkPrintHelper.h"
+#include "itkTestingMacros.h"
+
+using namespace itk::print_helper;
 
 // class to support progress feedback
 
@@ -50,9 +54,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-  //------------------------------------------------------
   // Create 3 simple test images with
-  //------------------------------------------------------
   using InputImageType = itk::Image<double, NDIMENSION>;
   using OutputImageType = itk::Image<double, NDIMENSION>;
 
@@ -74,42 +76,35 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   region.SetSize(inputImageSize);
   region.SetIndex(index);
 
-  //------------------------------------------------------------------------
   // Set up Image 1 first
-  //------------------------------------------------------------------------
 
   image1->SetLargestPossibleRegion(region);
   image1->SetBufferedRegion(region);
   image1->Allocate();
 
-  // setup the iterators
+  // Set up the iterators
   InputImageIterator image1It(image1, image1->GetBufferedRegion());
 
-  //------------------------------------------------------------------------
   // Set up Image 2 first
-  //------------------------------------------------------------------------
 
   image2->SetLargestPossibleRegion(region);
   image2->SetBufferedRegion(region);
   image2->Allocate();
 
-  // setup the iterators
+  // Set up the iterators
   InputImageIterator image2It(image2, image2->GetBufferedRegion());
 
-  //------------------------------------------------------------------------
   // Set up Image 3 first
-  //------------------------------------------------------------------------
 
   image3->SetLargestPossibleRegion(region);
   image3->SetBufferedRegion(region);
   image3->Allocate();
 
-  // setup the iterators
+  // Set up the iterators
   InputImageIterator image3It(image3, image3->GetBufferedRegion());
 
-  //------------------------------------------------------------------------
   // Manually create and store each vector
-  //------------------------------------------------------------------------
+
   // Image no. 1
   for (int i = 0; i < 4; i++)
   {
@@ -136,20 +131,16 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   image3It.Set(0);
   ++image3It;
 
-  //----------------------------------------------------------------------
   // Test code for the Shape model estimator
-  //----------------------------------------------------------------------
 
-  //----------------------------------------------------------------------
   // Set the image model estimator
-  //----------------------------------------------------------------------
   using ImagePCAShapeModelEstimatorType = itk::ImagePCAShapeModelEstimator<InputImageType, OutputImageType>;
 
   ImagePCAShapeModelEstimatorType::Pointer applyPCAShapeEstimator = ImagePCAShapeModelEstimatorType::New();
 
-  //----------------------------------------------------------------------
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(applyPCAShapeEstimator, ImagePCAShapeModelEstimator, ImageShapeModelEstimatorBase);
+
   // Set the parameters of the clusterer
-  //----------------------------------------------------------------------
   applyPCAShapeEstimator->SetNumberOfTrainingImages(NUMTRAINIMAGES);
   applyPCAShapeEstimator->SetNumberOfPrincipalComponentsRequired(NUMLARGESTPC + 1);
   applyPCAShapeEstimator->SetNumberOfPrincipalComponentsRequired(NUMLARGESTPC);
@@ -158,13 +149,6 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   applyPCAShapeEstimator->SetInput(2, image3);
 
   applyPCAShapeEstimator->Update();
-
-  // Test the printself function to increase coverage
-  applyPCAShapeEstimator->Print(std::cout);
-
-  // Exercise TypeMacro in superclass
-  using GenericEstimatorType = ImagePCAShapeModelEstimatorType::Superclass;
-  std::cout << applyPCAShapeEstimator->GenericEstimatorType::GetNameOfClass() << std::endl;
 
   // Print out the number of training images and the number of principal
   // components
@@ -233,5 +217,6 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   }
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

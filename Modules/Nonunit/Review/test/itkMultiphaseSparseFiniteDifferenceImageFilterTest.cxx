@@ -18,6 +18,7 @@
 
 #include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
+#include "itkPrintHelper.h"
 #include "itkTestingMacros.h"
 
 namespace itk
@@ -104,13 +105,32 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
-  filter->Print(std::cout);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, MultiphaseSparseFiniteDifferenceImageFilterTestHelper, MultiphaseFiniteDifferenceImageFilter);
 
+
+  // Exercise the class Set/Get methods to increase coverage
+  unsigned int numberOfLayers = Dimension;
+  filter->SetNumberOfLayers(numberOfLayers);
+  ITK_TEST_SET_GET_VALUE(numberOfLayers, filter->GetNumberOfLayers());
+
+  using ValueType = typename FilterType::ValueType;
+
+  ValueType isoSurfaceValue = itk::NumericTraits<ValueType>::ZeroValue();
+  filter->SetIsoSurfaceValue(isoSurfaceValue);
+  ITK_TEST_SET_GET_VALUE(isoSurfaceValue, filter->GetIsoSurfaceValue());
 
   bool interpolateSurfaceLocation = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, InterpolateSurfaceLocation, interpolateSurfaceLocation);
 
+  ValueType valueZero = itk::NumericTraits<ValueType>::ZeroValue();
+  ITK_TEST_SET_GET_VALUE(valueZero, filter->GetValueZero());
 
+  ValueType valueOne = itk::NumericTraits<ValueType>::OneValue();
+
+  ITK_TEST_SET_GET_VALUE(valueOne, filter->GetValueOne());
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -20,6 +20,7 @@
 #include "itkTextOutput.h"
 #include "itkRawImageIO.h"
 #include "itkImageFileReader.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -31,7 +32,8 @@ itkRawImageIOTest2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    itkGenericOutputMacro(<< "Need a file to process");
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -59,7 +61,10 @@ itkRawImageIOTest2(int argc, char * argv[])
     io->SetOrigin(i, origin[i]);
   }
   io->SetHeaderSize(0);
-  io->SetImageMask(0x7fff);
+  unsigned short imageMask = 0x7fff;
+  io->SetImageMask(imageMask);
+  ITK_TEST_SET_GET_VALUE(imageMask, io->GetImageMask());
+
   io->SetByteOrderToLittleEndian();
   io->SetPixelType(itk::IOPixelEnum::RGB);
   io->SetComponentType(itk::IOComponentEnum::UCHAR);
@@ -72,9 +77,12 @@ itkRawImageIOTest2(int argc, char * argv[])
   reader = itk::ImageFileReader<RGBImage3DType>::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
-  reader->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   reader->GetOutput()->Print(std::cout);
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

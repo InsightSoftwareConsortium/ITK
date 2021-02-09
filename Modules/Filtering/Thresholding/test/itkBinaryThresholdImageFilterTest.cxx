@@ -127,6 +127,15 @@ itkBinaryThresholdImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
+  // Exercise the const variants
+  FilterType::ConstPointer constFilter = (const FilterType *)(filter.GetPointer());
+
+  const typename FilterType::InputPixelObjectType * lowerThresholdInput = constFilter->GetLowerThresholdInput();
+  ITK_TEST_SET_GET_VALUE(lowerThresholdInput->Get(), lowerThreshold2->Get());
+
+  const typename FilterType::InputPixelObjectType * upperThresholdInput = constFilter->GetUpperThresholdInput();
+  ITK_TEST_SET_GET_VALUE(upperThresholdInput->Get(), upperThreshold2->Get());
+
 
   // Deliberately cause an exception by setting lower threshold to be
   // greater than the upper threshold

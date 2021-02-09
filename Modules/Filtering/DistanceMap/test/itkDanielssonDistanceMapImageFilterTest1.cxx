@@ -19,14 +19,17 @@
 #include "itkImageFileWriter.h"
 
 #include "itkDanielssonDistanceMapImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 6)
   {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
-    return -1;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " InputImage OutputImage squaredDistance inputIsBinary useImageSpacing" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr unsigned int ImageDimension = 2;
@@ -41,19 +44,37 @@ itkDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  reader->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   using FilterType = itk::DanielssonDistanceMapImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
+
+  auto squaredDistance = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, SquaredDistance, squaredDistance);
+
+  auto inputIsBinary = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, InputIsBinary, inputIsBinary);
+
+  auto useImageSpacing = static_cast<bool>(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
+
+
   filter->SetInput(reader->GetOutput());
-  filter->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
   filter->Print(std::cout);
 
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
-  writer->Update();
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

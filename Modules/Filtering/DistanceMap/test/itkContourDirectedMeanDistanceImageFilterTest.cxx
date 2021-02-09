@@ -81,10 +81,13 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
 
   auto useImageSpacing = true;
 
-  // compute the directed Mean distance h(image1,image2)
+  // Compute the directed Mean distance h(image1,image2)
   {
     using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image1Type, Image2Type>;
-    FilterType::Pointer      filter = FilterType::New();
+    FilterType::Pointer filter = FilterType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
+
     itk::SimpleFilterWatcher watcher(filter, "filter");
 
 
@@ -93,10 +96,8 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     filter->SetInput1(image1);
     filter->SetInput2(image2);
     filter->Update();
-    filter->Print(std::cout);
 
-
-    // check results
+    // Check results
 
     FilterType::RealType trueDistance = 8.37831;
     FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
@@ -111,10 +112,12 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     }
   }
 
-  // compute the directed Mean distance h(image2,image1)
+  // Compute the directed Mean distance h(image2,image1)
   {
     using FilterType = itk::ContourDirectedMeanDistanceImageFilter<Image2Type, Image1Type>;
     FilterType::Pointer filter = FilterType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ContourDirectedMeanDistanceImageFilter, ImageToImageFilter);
 
 
     ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
@@ -124,7 +127,7 @@ itkContourDirectedMeanDistanceImageFilterTest(int, char *[])
     filter->Update();
 
 
-    // check results
+    // Check results
     FilterType::RealType trueDistance = 4.2053;
     FilterType::RealType distance = filter->GetContourDirectedMeanDistance();
 

@@ -23,6 +23,7 @@
 #include "itkMINCImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int
 itkMINCImageIOTest2(int argc, char * argv[])
@@ -30,15 +31,18 @@ itkMINCImageIOTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Arguments " << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputfile outputfile " << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputfile outputfile " << std::endl;
     return EXIT_FAILURE;
   }
 
   using ImageType = itk::Image<unsigned short, 3>;
 
   itk::MINCImageIO::Pointer mincIO1 = itk::MINCImageIO::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(mincIO1, MINCImageIO, ImageIOBase);
+
+
   itk::MINCImageIO::Pointer mincIO2 = itk::MINCImageIO::New();
 
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -55,19 +59,14 @@ itkMINCImageIOTest2(int argc, char * argv[])
 
   writer->SetInput(reader->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   ImageType::ConstPointer image = reader->GetOutput();
 
   image->Print(std::cout);
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -55,8 +55,10 @@ itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest
       COMMAND ITKSmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest)
 itk_add_test(NAME itkMeanImageFilterTest
       COMMAND ITKSmoothingTestDriver itkMeanImageFilterTest)
-itk_add_test(NAME itkDiscreteGaussianImageFilterTest
-      COMMAND ITKSmoothingTestDriver itkDiscreteGaussianImageFilterTest)
+itk_add_test(NAME itkDiscreteGaussianImageFilterTest1a
+      COMMAND ITKSmoothingTestDriver itkDiscreteGaussianImageFilterTest 1)
+itk_add_test(NAME itkDiscreteGaussianImageFilterTest1b
+      COMMAND ITKSmoothingTestDriver itkDiscreteGaussianImageFilterTest 0)
 itk_add_test(NAME itkMedianImageFilterTest
       COMMAND ITKSmoothingTestDriver itkMedianImageFilterTest)
 itk_add_test(NAME itkRecursiveGaussianImageFiltersOnTensorsTest
