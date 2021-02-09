@@ -373,9 +373,11 @@ image = itk.image_from_array(numpyImage, is_vector=True)
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=(type(image),)))
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=[type(image)]))
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=type(image)))
+ImageVectorsType = itk.Image[itk.Vector[itk.F, 3], 2]
 imagevectors = itk.cast_image_filter(
-    Input=image, ttype=(type(image), itk.Image[itk.Vector[itk.F, 3], 2])
+    Input=image, ttype=(type(image), ImageVectorsType)
 )
+assert type(imagevectors) == ImageVectorsType
 cast = image.astype(np.float32)
 assert cast == image
 (vector_image_template, (vector_pixel_type, vector_image_dimension)) = itk.template(
@@ -408,6 +410,16 @@ if type(input_image) == itk.Image[itk.RGBPixel[itk.UC], 2] and hasattr(
     output_pixel_type = itk.Vector[itk.F, components]
     output_image = input_image.astype(output_pixel_type)
     assert type(output_image) == itk.Image[output_pixel_type, 2]
+
+if '(<itkCType unsigned char>, 4)' in itk.Image.GetTypesAsList():
+    arr = np.random.randint(0, 255, size=(3,4,5,6), dtype=np.uint8)
+    image = itk.image_view_from_array(arr)
+    arr_back = itk.array_view_from_image(image)
+    assert np.allclose(arr, arr_back)
+    image = itk.image_from_array(arr)
+    arr_back = itk.array_from_image(image)
+    assert np.allclose(arr, arr_back)
+
 
 # xarray conversion
 try:
@@ -492,6 +504,20 @@ try:
     image = itk.image_from_xarray(data_array)
     assert np.allclose(arr.transpose(), itk.array_view_from_image(image))
     assert np.allclose(arr.shape[::-1], itk.array_view_from_image(image).shape)
+
+    data_array = xr.DataArray(arr, dims=['q','x','y'])
+    try:
+        image = itk.image_from_xarray(data_array)
+        assert False
+    except ValueError:
+        pass
+
+    if '(<itkCType unsigned char>, 4)' in itk.Image.GetTypesAsList():
+        arr = np.random.randint(0, 255, size=(4,5,6,3), dtype=np.uint8)
+        data_array = xr.DataArray(arr, dims=['t','z','y','x'])
+        image = itk.image_from_xarray(data_array)
+        assert np.allclose(arr, itk.array_view_from_image(image))
+        assert np.allclose(arr.shape, itk.array_view_from_image(image).shape)
 
 
 except ImportError:

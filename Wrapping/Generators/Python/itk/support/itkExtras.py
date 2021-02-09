@@ -257,7 +257,8 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
             ImageType = ttype
         if type(itk.template(ImageType)) != tuple or len(itk.template(ImageType)) < 2:
             raise RuntimeError("Cannot determine pixel type from supplied ttype.")
-        is_vector = type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType
+        is_vector = type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType or \
+                itk.template(ImageType)[0] == itk.VectorImage
     else:
         PixelType = _get_itk_pixelid(arr)
         Dimension = arr.ndim
@@ -416,7 +417,7 @@ def xarray_from_image(l_image):
 
     Origin and spacing metadata is preserved in the xarray's coords. The
     Direction is set in the `direction` attribute.
-    Dims are labeled as `x`, `y`, `z`, and `c`.
+    Dims are labeled as `x`, `y`, `z`, `t`, and `c`.
 
     This interface is and behavior is experimental and is subject to possible
     future changes."""
@@ -429,11 +430,11 @@ def xarray_from_image(l_image):
     l_origin = itk.origin(l_image)
     l_size = itk.size(l_image)
     direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
-    spatial_dimension = l_image.GetImageDimension()
+    image_dimension = l_image.GetImageDimension()
 
-    spatial_dims: Tuple[str, str, str] = ("x", "y", "z")
+    image_dims: Tuple[str, str, str] = ("x", "y", "z", "t")
     coords = {}
-    for l_index, dim in enumerate(spatial_dims[:spatial_dimension]):
+    for l_index, dim in enumerate(image_dims[:image_dimension]):
         coords[dim] = np.linspace(
             l_origin[l_index],
             l_origin[l_index] + (l_size[l_index] - 1) * l_spacing[l_index],
@@ -441,7 +442,7 @@ def xarray_from_image(l_image):
             dtype=np.float64,
         )
 
-    dims = list(reversed(spatial_dims[:spatial_dimension]))
+    dims = list(reversed(image_dims[:image_dimension]))
     components = l_image.GetNumberOfComponentsPerPixel()
     if components > 1:
         dims.append("c")
@@ -463,10 +464,13 @@ def image_from_xarray(data_array):
     import numpy as np
     import itk
 
-    spatial_dims = list({"z", "y", "x"}.intersection(set(data_array.dims)))
-    spatial_dims.sort(reverse=True)
-    spatial_dimension = len(spatial_dims)
-    ordered_dims = ("z", "y", "x")[-spatial_dimension:]
+    if not {"t", "z", "y", "x", "c"}.issuperset(data_array.dims):
+        raise ValueError('Unsupported dims, supported dims: "t", "z", "y", "x", "c".')
+
+    image_dims = list({"t", "z", "y", "x"}.intersection(set(data_array.dims)))
+    image_dims.sort(reverse=True)
+    image_dimension = len(image_dims)
+    ordered_dims = ("t", "z", "y", "x")[-image_dimension:]
     is_vector = "c" in data_array.dims
     if is_vector:
         ordered_dims = ordered_dims + ("c",)
@@ -480,9 +484,9 @@ def image_from_xarray(data_array):
         values = np.moveaxis(values, source, dest).copy()
     itk_image = itk.image_view_from_array(values, is_vector=is_vector)
 
-    l_origin = [0.0] * spatial_dimension
-    l_spacing = [1.0] * spatial_dimension
-    for l_index, dim in enumerate(spatial_dims):
+    l_origin = [0.0] * image_dimension
+    l_spacing = [1.0] * image_dimension
+    for l_index, dim in enumerate(image_dims):
         coords = data_array.coords[dim]
         if coords.shape[0] > 1:
             l_origin[l_index] = float(coords[0])
