@@ -74,18 +74,18 @@
         *np.reshape*.
         """
 
-        assert ndarr.ndim in ( 1, 2, 3, 4 ), \
-            "Only arrays of 1, 2, 3 or 4 dimensions are supported."
+        assert ndarr.ndim in (1, 2, 3, 4, 5), \
+            "Only arrays of 1, 2, 3, 4 or 5 dimensions are supported."
         if not ndarr.flags['C_CONTIGUOUS'] and not ndarr.flags['F_CONTIGUOUS']:
             ndarr = np.ascontiguousarray(ndarr)
 
-        if ( ndarr.ndim == 3 and is_vector ) or (ndarr.ndim == 4):
-            if( ndarr.flags['C_CONTIGUOUS'] ):
-                imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-2::-1], ndarr.shape[-1] )
+        if is_vector:
+            if ndarr.flags['C_CONTIGUOUS']:
+                imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray(ndarr, ndarr.shape[-2::-1], ndarr.shape[-1])
             else:
-                imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[-1:0:-1], ndarr.shape[0] )
-        elif ndarr.ndim in ( 1, 2, 3 ):
-            imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray( ndarr, ndarr.shape[::-1], 1)
+                imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray(ndarr, ndarr.shape[-1:0:-1], ndarr.shape[0])
+        else:
+            imgview = itkPyBuffer@PyBufferTypes@._GetImageViewFromArray(ndarr, ndarr.shape[::-1], 1)
 
         # Keep a reference
         imgview._SetBase(ndarr)

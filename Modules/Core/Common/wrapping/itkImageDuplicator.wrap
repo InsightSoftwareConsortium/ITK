@@ -47,6 +47,12 @@ itk_wrap_class("itk::ImageDuplicator" POINTER)
        endforeach()
     endforeach(d)
   endforeach(t)
+  UNIQUE(types "${WRAP_ITK_COMPLEX_REAL};${WRAP_ITK_SCALAR};UC")
+  foreach(t ${types})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+        itk_wrap_template("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
+    endforeach()
+  endforeach()
 
 
     file(COPY ${CMAKE_CURRENT_LIST_DIR}/pyCommon.i
