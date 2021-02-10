@@ -97,7 +97,8 @@ SetAndVerify(int number)
     }                                                                                                                  \
                                                                                                                        \
     ITK_EXERCISE_BASIC_OBJECT_METHODS(threader, ClassName, MultiThreaderBase);                                         \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 int
 itkMultiThreaderBaseTest(int argc, char * argv[])

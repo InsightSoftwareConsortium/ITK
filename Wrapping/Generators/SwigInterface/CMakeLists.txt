@@ -14,13 +14,13 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 
 # Minimal swig version
 if(WIN32)
-  set(swig_version_min 4.0.1)
-  set(ITK_SWIG_VERSION 4.0.1)
-  set(swigwin_hash  "2da147231164466c0dee91beca6a4f7b10e6f727062338ea6d70f44f4e4163ad6616b72c2de767539a69977ba96d3ee920ed3c182124c45569ca946750fd4495")
+  set(swig_version_min 4.0.2)
+  set(ITK_SWIG_VERSION 4.0.2)
+  set(swigwin_hash  "b8f105f9b9db6acc1f6e3741990915b533cd1bc206eb9645fd6836457fd30789b7229d2e3219d8e35f2390605ade0fbca493ae162ec3b4bc4e428b57155db03d")
 else()
-  set(ITK_SWIG_VERSION 4.0.1)
-  set(swig_version_min 4.0.1)
-  set(swig_hash     "595ef01cb83adfa960ceed9c325a9429192549e8d1e9aa3ab35a4301512a61d82e2e89a8c7939c2a5a0811254ea1832a443bd387e11459eb2b0bafc563ad1308")
+  set(ITK_SWIG_VERSION 4.0.2)
+  set(swig_version_min 4.0.2)
+  set(swig_hash     "05e7da70ce6d9a733b96c0bcfa3c1b82765bd859f48c74759bbf4bb1467acb1809caa310cba5e2b3280cd704fca249eaa0624821dffae1d2a75097c7f55d14ed")
 endif()
 
 if(WIN32)
@@ -138,7 +138,7 @@ else()
               install
         )
       endif()
-      set(pcre_hash f919957ce6e1f52b5579faa7fccfe192944884dc56ad831ebb3e3787f752fe2f14567fe302d884fa86900018e92b758e4589406f7e8d7af1baa2a1d6add40865)
+      set(pcre_hash "abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb")
       ExternalProject_Add(PCRE
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${pcre_hash}/download"
         URL_HASH SHA512=${pcre_hash}
@@ -349,11 +349,18 @@ macro(itk_end_wrap_module_swig_interface)
 
   list(LENGTH i_files number_interface_files)
   if(number_interface_files GREATER 0)
-    # NOTE:  snake_case_config_file is both an input and an output to this command.
-    #        the ${IGENERATOR} script appends to this file.
-    # NOTE: The Configuration files should be placed in the itk package directory.
-    set(snake_case_config_file
-        "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+      if(${module_prefix}_WRAP_PYTHON)
+        # NOTE:  snake_case_config_file is both an input and an output to this command.
+        #        the ${IGENERATOR} script appends to this file.
+        # NOTE: The Configuration files should be placed in the itk package directory.
+        set(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR
+          "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration"
+        )
+        set(snake_case_config_file
+            "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+      else()
+        unset(snake_case_config_file)
+      endif()
     add_custom_command(
       OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file}
       COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
@@ -368,6 +375,7 @@ macro(itk_end_wrap_module_swig_interface)
         --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
         --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
         DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
+        WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
       VERBATIM
     )
   endif()

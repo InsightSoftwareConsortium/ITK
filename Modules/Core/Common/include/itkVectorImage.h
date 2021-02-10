@@ -74,7 +74,7 @@ namespace itk
  * \sphinx
  * \sphinxexample{Core/Common/CastVectorImageToAnotherType,Cast Vector Image To Another Type}
  * \sphinxexample{Core/Common/CreateVectorImage,Create Vector Image}
- * \sphinxexample{VectorImages/NeighborhoodIterator,Neighborhood Iterator On Vector Image}
+ * \sphinxexample{Core/Common/NeighborhoodIteratorOnVectorImage,Neighborhood Iterator On Vector Image}
  * \endsphinx
  */
 template <typename TPixel, unsigned int VImageDimension = 3>

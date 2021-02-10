@@ -66,8 +66,7 @@ extern ITKImageFeature_EXPORT std::ostream &
  * This code was contributed in the Insight Journal paper:
  * "Generalizing vesselness with respect to dimensionality and shape"
  * by Antiga L.
- * https://hdl.handle.net/1926/576
- * http://www.insight-journal.org/browse/publication/175
+ * https://www.insight-journal.org/browse/publication/175
  *
  *
  * \author Luca Antiga Ph.D.  Medical Imaging Unit,

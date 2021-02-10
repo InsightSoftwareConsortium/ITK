@@ -22,6 +22,7 @@
 #include "itkProcessObject.h"
 #include "itkImageIOBase.h"
 #include "itkMacro.h"
+#include "itkMetaProgrammingLibrary.h"
 
 namespace itk
 {
@@ -235,6 +236,29 @@ private:
   int  m_CompressionLevel{ -1 };
   bool m_UseInputMetaDataDictionary{ true };
 };
+
+
+/** Convenience function for writing an image.
+ *
+ * The image parameter may be a either SmartPointer or a raw pointer and const or non-const.
+ * */
+template <typename TImagePointer>
+ITK_TEMPLATE_EXPORT void
+WriteImage(TImagePointer && image, const std::string & filename, bool compress = false)
+{
+  using NonReferenceImagePointer = typename std::remove_reference<TImagePointer>::type;
+  static_assert(std::is_pointer<NonReferenceImagePointer>::value ||
+                  mpl::IsSmartPointer<NonReferenceImagePointer>::Value,
+                "WriteImage requires a raw pointer or SmartPointer.");
+
+  using ImageType = typename std::remove_const<typename std::remove_reference<decltype(*image)>::type>::type;
+  auto writer = ImageFileWriter<ImageType>::New();
+  writer->SetInput(image);
+  writer->SetFileName(filename);
+  writer->SetUseCompression(compress);
+  writer->Update();
+}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -286,21 +286,34 @@ testDeleteEventThrow()
 int
 testLambdaCommand()
 {
-  // check the case where an exception in thrown in the DeleteEvent
-  itk::Object::Pointer o = itk::Object::New();
-
+  // NOTE: cnt needs to be defined BEFORE "o" because it MUST exist when the "DeleteEvent()" is causes the
+  //      FIRST OBSERVER LAMBDA to be called.  If 'cnt' is defined after 'o' then when the scope
+  //      ends, 'cnt' is deleted first, followed by deleting 'o' which tries to increment 'cnt' when
+  //      the 'DeleteEvent' tries to be processed.
   int cnt = 0;
-  o->AddObserver(itk::AnyEvent(), [&cnt](const itk::EventObject &) { ++cnt; });
+  int name_of_class_cnt = 0;
 
-  auto & objRef = *o.GetPointer();
-  o->AddObserver(itk::AnyEvent(), [&objRef](const itk::EventObject & event) {
-    std::cout << "Object: " << objRef.GetNameOfClass() << " Event: " << event << std::endl;
-  });
+  {
+    // check the case where an exception in thrown in the DeleteEvent
+    itk::Object::Pointer o = itk::Object::New();
+    /*----- FIRST OBSERVER LAMBDA */
+    o->AddObserver(itk::AnyEvent(), [&cnt](const itk::EventObject &) { ++cnt; });
 
-  o->InvokeEvent(itk::AnyEvent());
+    auto & objRef = *o.GetPointer();
+    /*----- SECOND OBSERVER LAMBDA */
+    o->AddObserver(itk::AnyEvent(), [&objRef, &name_of_class_cnt](const itk::EventObject & event) {
+      ++name_of_class_cnt;
+      std::cout << "Ivocation # " << name_of_class_cnt << "\nObject: " << objRef.GetNameOfClass() << " Event: " << event
+                << std::endl;
+    });
 
-  ITK_TEST_EXPECT_EQUAL(1, cnt);
+    o->InvokeEvent(itk::AnyEvent());
+    ITK_TEST_EXPECT_EQUAL(1, cnt);
+    ITK_TEST_EXPECT_EQUAL(1, name_of_class_cnt);
 
+  }                              // A DeleteEvent is called here! as object "o" is deleted
+  ITK_TEST_EXPECT_EQUAL(2, cnt); // Verify that cnt really was incremented during DeleteEvent!
+  ITK_TEST_EXPECT_EQUAL(2, name_of_class_cnt);
   return EXIT_SUCCESS;
 }
 

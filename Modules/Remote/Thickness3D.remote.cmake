@@ -46,5 +46,5 @@ itk_fetch_module(Thickness3D
   "Tools for 3D thickness measurement"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKThickness3D.git
-  GIT_TAG c39a6c777584ac3919de7d0381e398d9ee673ee0
+  GIT_TAG 47b77795a857a8674d18bcf4bb4b3c07fec4a1a0
 )

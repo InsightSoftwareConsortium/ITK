@@ -12,9 +12,6 @@
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// Class LinkAccPropList represents the HDF5 file access property list and
-// inherits from DataType.
-
 #ifndef __H5LinkAccPropList_H
 #define __H5LinkAccPropList_H
 
@@ -22,15 +19,15 @@ namespace H5 {
 
 /*! \class LinkAccPropList
     \brief Class LinkAccPropList inherits from PropList and provides
-    wrappers for the HDF5 file access property list.
+    wrappers for the HDF5 link access property list.
 */
 // Inheritance: PropList -> IdComponent
 class H5_DLLCPP LinkAccPropList : public PropList {
    public:
-        ///\brief Default file access property list.
+        ///\brief Default link access property list.
         static const LinkAccPropList& DEFAULT;
 
-        // Creates a file access property list.
+        // Creates a link access property list.
         LinkAccPropList();
 
         ///\brief Returns this class name.
@@ -39,7 +36,7 @@ class H5_DLLCPP LinkAccPropList : public PropList {
         // Copy constructor: same as the original LinkAccPropList.
         LinkAccPropList(const LinkAccPropList& original);
 
-        // Creates a copy of an existing file access property list
+        // Creates a copy of an existing link access property list
         // using the property list id.
         LinkAccPropList (const hid_t plist_id);
 

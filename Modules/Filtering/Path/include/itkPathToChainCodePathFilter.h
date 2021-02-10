@@ -64,9 +64,12 @@ public:
   using OffsetType = typename InputPathType::OffsetType;
 
   /** Set/Get the direction in which to reflect the data. Default is "Off". */
-  itkSetMacro(MaximallyConnected, bool) itkGetConstMacro(MaximallyConnected, bool) itkBooleanMacro(MaximallyConnected)
+  itkSetMacro(MaximallyConnected, bool);
+  itkGetConstMacro(MaximallyConnected, bool);
+  itkBooleanMacro(MaximallyConnected);
 
-    protected : PathToChainCodePathFilter();
+protected:
+  PathToChainCodePathFilter();
   ~PathToChainCodePathFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

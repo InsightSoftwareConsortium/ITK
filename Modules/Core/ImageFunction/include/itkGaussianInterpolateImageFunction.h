@@ -42,7 +42,7 @@ namespace itk
  *
  * This work was originally described in the Insight Journal article:
  * P. Yushkevich, N. Tustison, J. Gee, Gaussian interpolation.
- * \sa{https://hdl.handle.net/10380/3139}
+ * \sa{https://www.insight-journal.org/browse/publication/705}
  *
  * \author Paul Yushkevich
  * \author Nick Tustison

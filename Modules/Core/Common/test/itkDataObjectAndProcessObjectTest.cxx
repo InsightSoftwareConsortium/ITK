@@ -355,7 +355,7 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   process->SetNumberOfRequiredInputs(1);
   process->AddOptionalInputName("OptImage", 1);
   ITK_TEST_EXPECT_EQUAL(1, process->GetRequiredInputNames().size());
-  ITK_TEST_EXPECT_EQUAL(2, process->GetInputNames().size())
+  ITK_TEST_EXPECT_EQUAL(2, process->GetInputNames().size());
   ITK_TEST_EXPECT_TRUE(!process->IsRequiredInputName("OptImage"));
   process->SetInput("OptImage", input0);
   ITK_TEST_EXPECT_EQUAL(input0, process->GetInput("OptImage"));

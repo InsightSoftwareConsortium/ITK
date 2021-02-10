@@ -107,7 +107,7 @@ extern ITKQuadEdgeMeshFiltering_EXPORT std::ostream &
  * \tparam TOutputMesh Output Mesh Type
  * \tparam TSolverTraits Linear Sparse Solver Traits see VNLIterativeSparseSolverTraits and VNLSparseLUSolverTraits
  *
- *  For details, see https://hdl.handle.net/10380/3410
+ *  For details, see https://www.insight-journal.org/browse/publication/890
  *
  *  \ingroup ITKQuadEdgeMeshFiltering
  */
@@ -124,10 +124,10 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter)
+  itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
 
-    /** Input types. */
-    using InputMeshType = TInputMesh;
+  /** Input types. */
+  using InputMeshType = TInputMesh;
   using InputPointType = typename Superclass::InputPointType;
 
   static constexpr unsigned int InputPointDimension = InputMeshType::PointDimension;

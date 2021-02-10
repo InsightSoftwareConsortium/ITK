@@ -766,11 +766,11 @@ bool System::ParseDateTime(time_t &timep, long &milliseconds, const char date[22
     {
     switch (n)
       {
-    case 1: mon = 1;
-    case 2: day = 1;
-    case 3: hour = 0;
-    case 4: min = 0;
-    case 5: sec = 0;
+    case 1: mon = 1;  /* Falls through. */
+    case 2: day = 1;  /* Falls through. */
+    case 3: hour = 0; /* Falls through. */
+    case 4: min = 0;  /* Falls through. */
+    case 5: sec = 0;  /* Falls through. */
       break; // http://security.coverity.com/blog/2013/Sep/gimme-a-break.html
       }
     ptm.tm_year = year - 1900;

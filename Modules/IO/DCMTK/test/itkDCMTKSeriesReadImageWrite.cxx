@@ -56,7 +56,19 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(it, DCMTKSeriesFileNames, ProcessObject);
 
 
-  it->SetInputDirectory(argv[1]);
+  // Test exceptions
+  const char * pInputDirectory = nullptr;
+  ITK_TRY_EXPECT_EXCEPTION(it->SetInputDirectory(pInputDirectory));
+
+  // Exercise warnings
+  std::string inputDirectory = "";
+  it->SetInputDirectory(inputDirectory);
+
+  inputDirectory = "NotADirectory";
+  it->SetInputDirectory(inputDirectory);
+
+  inputDirectory = argv[1];
+  it->SetInputDirectory(inputDirectory);
 
   auto recursive = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(it, Recursive, recursive);

@@ -61,7 +61,7 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 
 #if defined(__APPLE__)
 #  include "TargetConditionals.h"
-#  if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#  if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR || TARGET_CPU_ARM64
 #    define ITK_FEENABLEEXCEPT_NOOP
 #  endif
 #endif

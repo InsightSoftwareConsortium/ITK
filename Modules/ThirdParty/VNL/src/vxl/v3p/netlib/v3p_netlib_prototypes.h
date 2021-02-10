@@ -275,6 +275,5 @@
 // #include "linalg/lsqr.h"  Removed due to ACM Copyright
 #include "toms/rpoly.h"
 #include "datapac/camsun.h"
-#include "mathews/adaquad.h"
 #include "mathews/simpson.h"
 #include "mathews/trapezod.h"

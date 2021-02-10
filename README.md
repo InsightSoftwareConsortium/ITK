@@ -50,7 +50,7 @@ a [tax-deductible donation](https://numfocus.org/donate-to-itk) to help the proj
 pay for developer time, professional services, travel, workshops, and a variety of other needs.
 
 <div align="center">
-  <a href="<https://numfocus.org/project/isc>">
+  <a href="https://numfocus.org/project/itk">
     <img height="60px"
          src="https://raw.githubusercontent.com/numfocus/templates/master/images/numfocus-logo.png"
          align="center">

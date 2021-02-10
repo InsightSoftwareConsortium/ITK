@@ -22,6 +22,7 @@
 #include "itkDCMTKSeriesFileNames.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 /// \brief is comparison with a percentage tolerance
 ///
@@ -48,9 +49,12 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " DicomDirectory  outputFile ";
-    std::cerr << " spacingX spacingY spacingZ [ force-no-streaming 1|0]" << std::endl;
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " DicomDirectory"
+              << " outputFile"
+              << " spacingX spacingY spacingZ"
+              << " [ force-no-streaming 1|0]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -177,16 +181,9 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
   writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown while writing the image" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

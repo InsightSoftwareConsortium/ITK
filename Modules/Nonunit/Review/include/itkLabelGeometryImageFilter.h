@@ -65,7 +65,6 @@ namespace itk
  *  "A Label Geometry Image Filter for Multiple Object Measurement"
  *  by Padfield D., Miller J
  *  http://www.insight-journal.org/browse/publication/301
- *  https://hdl.handle.net/1926/1493
  *
  * \ingroup ITKReview
  *

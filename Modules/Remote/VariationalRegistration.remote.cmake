@@ -41,13 +41,13 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
-# Insight Journal Handle: https://hdl.handle.net/10380/3460
+# Insight Journal article: https://www.insight-journal.org/browse/publication/917
 # Contact: Alexander Schmidt-Richberg <a.schmidt-richberg@imperial.ac.uk>
 #          Jan Ehrhardt <ehrhardt@imi.uni-luebeck.de>
 #          Rene Werner <r.werner@uke.de>
 itk_fetch_module(VariationalRegistration
-  "A module to perform variational image registration. https://hdl.handle.net/10380/3460"
+  "A module to perform variational image registration. https://www.insight-journal.org/browse/publication/917"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKVariationalRegistration.git
-  GIT_TAG 707e773a97a1ca268c367a774cbee1df9a1d14c9
+  GIT_TAG f9db4b9a0149e3b0164dd524af124f0827c04b78
   )

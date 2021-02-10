@@ -48,7 +48,7 @@
 #endif
 
 #ifdef SWIGPYTHON
-%module(package=\"itk\",threads=\"1\") VtkGluePython
+%module(package="itk",threads="1") VtkGluePython
 
 %{
 #include "vtkPythonUtil.h"

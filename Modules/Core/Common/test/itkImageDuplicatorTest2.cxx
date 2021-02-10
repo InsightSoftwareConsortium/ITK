@@ -35,21 +35,14 @@ itkImageDuplicatorTest2(int argc, char * argv[])
   constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
   using DuplicatorType = itk::ImageDuplicator<ImageType>;
   DuplicatorType::Pointer dup = DuplicatorType::New();
   using AbsType = itk::AbsImageFilter<ImageType, ImageType>;
   AbsType::Pointer absF = AbsType::New();
 
-  reader->SetFileName(argv[1]);
-
   try
   {
-    reader->Update();
-    ImageType::Pointer inImage = reader->GetOutput();
+    const auto inImage = itk::ReadImage<ImageType>(argv[1]);
 
     ImageType::RegionType lpr = inImage->GetLargestPossibleRegion();
     ImageType::RegionType region = lpr;
@@ -69,9 +62,7 @@ itkImageDuplicatorTest2(int argc, char * argv[])
     dup->Update();
     ImageType::ConstPointer dupImage = dup->GetOutput();
 
-    writer->SetInput(dupImage);
-    writer->SetFileName(argv[2]);
-    writer->Update();
+    itk::WriteImage(dupImage, argv[2]);
     std::cout << "Test SUCCESS" << std::endl;
   }
   catch (const itk::ExceptionObject & e)

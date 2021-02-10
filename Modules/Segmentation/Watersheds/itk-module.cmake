@@ -13,8 +13,7 @@ segmentation. For more information, see the Insight Journal article:
 
 Beare, R. and Lehmann, G. \"The watershed transform in ITK - discussion
 and new developments.\"  The Insight Journal - 2006 January - June.
-http://hdl.handle.net/1926/202
-http://www.insight-journal.org/browse/publication/92
+https://www.insight-journal.org/browse/publication/92
 ")
 
 itk_module(ITKWatersheds

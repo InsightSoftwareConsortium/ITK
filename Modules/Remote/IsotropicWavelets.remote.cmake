@@ -47,11 +47,11 @@ itk_fetch_module(IsotropicWavelets
 A more detailed description can be found in the Insight Journal article::
 
 Cerdan, P.H. \"Steerable Isotropic Wavelets for Multiscale and Phase Analysis\".
-  http://hdl.handle.net/10380/3558
+  https://www.insight-journal.org/browse/publication/986
   November, 2016.
 "
   # Upstream repository was transfered from phcerdan to InsightSoftwareConsortium
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIsotropicWavelets.git
-  GIT_TAG 8f28a1665cad0f12e33ed2b29f83e2c9d7c3c1cf
+  GIT_TAG fc383d811f1bac4401657ca1ff870ac5677f7925
 )

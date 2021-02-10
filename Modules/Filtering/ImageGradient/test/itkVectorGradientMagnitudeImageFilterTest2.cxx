@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRGBToVectorImageAdaptor.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -52,9 +53,9 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput(adaptor);
 
-  const int mode = ::std::stoi(av[3]);
-
-  if (mode == 1)
+  auto mode = static_cast<bool>(std::stoi(av[3]));
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  if (mode)
   {
     filter->SetUsePrincipleComponentsOn();
   }
@@ -62,6 +63,8 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
   {
     filter->SetUsePrincipleComponentsOff();
   }
+#endif
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsePrincipleComponents, mode);
 
   RescaleFilterType::Pointer rescale = RescaleFilterType::New();
   rescale->SetOutputMinimum(0);

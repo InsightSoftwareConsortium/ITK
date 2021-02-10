@@ -50,10 +50,9 @@ For more information, see the Insight Journal article:
   Bican J.
   Polar Transforms for ITK
   The Insight Journal. July-December. 2006.
-  http://hdl.handle.net/1926/342
   http://insight-journal.org/browse/publication/130
   "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPolarTransform.git
-  GIT_TAG cd22a5d36c1e14a1efb2c556c6464fa38331c808
+  GIT_TAG 82ac26b9c0546c345665c1938aa553aa4581f646
   )

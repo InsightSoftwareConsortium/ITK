@@ -43,7 +43,7 @@ namespace itk
  *
  * \sphinx
  * \sphinxexample{Filtering/ImageFeature/DerivativeImage,Apply A Filter Only To A Specified Region Of An Image}
- * \sphinxexample{Filtering/ImageFeature/RequesterRegion, Apply A Filter Only To A Specified Region Of An Image}
+ * \sphinxexample{Filtering/ImageFeature/RequestedRegion,Apply A Filter Only To A Specified Region Of An Image}
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>

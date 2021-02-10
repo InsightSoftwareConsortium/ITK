@@ -59,7 +59,7 @@ itkModulusImageFilterTest(int argc, char * argv[])
 
   FilterType::InputPixelType dividend = 8;
   filter->SetDividend(dividend);
-  ITK_TEST_SET_GET_VALUE(dividend, filter->GetDividend())
+  ITK_TEST_SET_GET_VALUE(dividend, filter->GetDividend());
 
   filter->InPlaceOn();
 

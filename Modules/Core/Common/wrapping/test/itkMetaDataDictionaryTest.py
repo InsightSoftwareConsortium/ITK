@@ -28,3 +28,6 @@ print(md.Get("double"))
 # weak type system)
 md["double"] = 10.0
 print(md["double"])
+
+# Required for "NRRD_measurement frame"
+itk.MetaDataObject[itk.vector[itk.vector[itk.D]]].New()

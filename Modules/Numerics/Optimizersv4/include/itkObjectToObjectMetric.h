@@ -213,28 +213,29 @@ public:
 
   /** Get the number of valid points after a call to evaluate the
    * metric. */
-  itkGetConstMacro(NumberOfValidPoints, SizeValueType)
+  itkGetConstMacro(NumberOfValidPoints, SizeValueType);
 
-    /** Define the virtual reference space. This space defines the resolution
-     * at which the registration is performed as well as the physical coordinate
-     * system.  Useful for unbiased registration.
-     * This method will allocate \c m_VirtualImage with the passed
-     * information, with the pixel buffer left unallocated.
-     * Metric evaluation will be performed within the constraints of the virtual
-     * domain depending on implementation in derived classes.
-     * A default domain is created during initialization in derived
-     * classes according to their need.
-     * \param spacing   spacing
-     * \param origin    origin
-     * \param direction direction
-     * \param region    region is used to set all image regions.
-     *
-     * \sa SetVirtualDomainFromImage
-     */
-    void SetVirtualDomain(const VirtualSpacingType &   spacing,
-                          const VirtualOriginType &    origin,
-                          const VirtualDirectionType & direction,
-                          const VirtualRegionType &    region);
+  /** Define the virtual reference space. This space defines the resolution
+   * at which the registration is performed as well as the physical coordinate
+   * system.  Useful for unbiased registration.
+   * This method will allocate \c m_VirtualImage with the passed
+   * information, with the pixel buffer left unallocated.
+   * Metric evaluation will be performed within the constraints of the virtual
+   * domain depending on implementation in derived classes.
+   * A default domain is created during initialization in derived
+   * classes according to their need.
+   * \param spacing   spacing
+   * \param origin    origin
+   * \param direction direction
+   * \param region    region is used to set all image regions.
+   *
+   * \sa SetVirtualDomainFromImage
+   */
+  void
+  SetVirtualDomain(const VirtualSpacingType &   spacing,
+                   const VirtualOriginType &    origin,
+                   const VirtualDirectionType & direction,
+                   const VirtualRegionType &    region);
 
   /** Use a virtual domain image to define the virtual reference space.
    * \sa SetVirtualDomain */

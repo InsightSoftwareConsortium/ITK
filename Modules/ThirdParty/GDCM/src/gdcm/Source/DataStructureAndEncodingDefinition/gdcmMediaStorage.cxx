@@ -149,6 +149,7 @@ static const char *MSStrings[] = {
   "1.2.840.10008.5.1.4.1.1.4.3", // EnhancedMRColorImageStorage
   "1.2.392.200036.9125.1.1.4", // FujiPrivateMammoCRImageStorage (aka FUJI MAMMO CR Storage)
   "1.2.840.10008.5.1.4.1.1.77.1.5.2", // Ophthalmic Photography 16 Bit Image Storage
+  "1.2.840.10008.5.1.4.1.1.77.1.2.1", // VideoMicroscopicImageStorage
 
   nullptr
 };
@@ -341,6 +342,7 @@ static const MSModalityType MSModalityTypes[] = {
   {"MR", 3, false},// EnhancedMRColorImageStorage
   {"MG", 2, false},// FujiPrivateMammoCRImageStorage
   {"OP", 3, false},// OphthalmicPhotography16BitImageStorage
+  {"GM", 3, false},// VideoMicroscopicImageStorage
   {nullptr, 0, false} //MS_END
 };
 
@@ -401,15 +403,14 @@ void MediaStorage::GuessFromModality(const char *modality, unsigned int dim )
     }
 }
 
-const char* MediaStorage::GetFromDataSetOrHeader(DataSet const &ds, const Tag & tag)
+std::string MediaStorage::GetFromDataSetOrHeader(DataSet const &ds, const Tag & tag)
 {
-  static std::string ret;
   if( ds.FindDataElement( tag ) )
     {
     const ByteValue *sopclassuid = ds.GetDataElement( tag ).GetByteValue();
     // Empty SOP Class UID:
     // lifetechmed/A0038329.DCM
-    if( !sopclassuid || !sopclassuid->GetPointer() ) return nullptr;
+    if( !sopclassuid || !sopclassuid->GetPointer() ) return std::string();
     std::string sopclassuid_str(
       sopclassuid->GetPointer(),
       sopclassuid->GetLength() );
@@ -419,18 +420,17 @@ const char* MediaStorage::GetFromDataSetOrHeader(DataSet const &ds, const Tag & 
       std::string::size_type pos = sopclassuid_str.find_last_of(' ');
       sopclassuid_str = sopclassuid_str.substr(0,pos);
       }
-    ret = sopclassuid_str.c_str();
-    return ret.c_str();
+    return sopclassuid_str;
     }
-  return nullptr;
+  return std::string();
 }
 
 bool MediaStorage::SetFromDataSetOrHeader(DataSet const &ds, const Tag & tag)
 {
-  const char * ms_str = GetFromDataSetOrHeader(ds,tag);
-  if( ms_str )
+  std::string ms_str = GetFromDataSetOrHeader(ds,tag);
+  if( !ms_str.empty() )
     {
-    MediaStorage ms = MediaStorage::GetMSType(ms_str);
+    MediaStorage ms = MediaStorage::GetMSType(ms_str.c_str());
     MSField = ms;
     if( ms == MS_END )
       {
@@ -442,7 +442,7 @@ bool MediaStorage::SetFromDataSetOrHeader(DataSet const &ds, const Tag & tag)
   return false;
 }
 
-const char* MediaStorage::GetFromHeader(FileMetaInformation const &fmi)
+std::string MediaStorage::GetFromHeader(FileMetaInformation const &fmi)
 {
   const Tag tmediastoragesopclassuid(0x0002, 0x0002);
   return GetFromDataSetOrHeader(fmi, tmediastoragesopclassuid);
@@ -454,7 +454,7 @@ bool MediaStorage::SetFromHeader(FileMetaInformation const &fmi)
   return SetFromDataSetOrHeader(fmi, tmediastoragesopclassuid);
 }
 
-const char* MediaStorage::GetFromDataSet(DataSet const &ds)
+std::string MediaStorage::GetFromDataSet(DataSet const &ds)
 {
   const Tag tsopclassuid(0x0008, 0x0016);
   return GetFromDataSetOrHeader(ds, tsopclassuid);
@@ -555,38 +555,24 @@ bool MediaStorage::SetFromFile(File const &file)
    * are a pain to handle ...
    */
   const FileMetaInformation &header = file.GetHeader();
-  const char* header_ms_ptr = GetFromHeader(header);
-  std::string copy1;
-  const char *header_ms_str = nullptr;
-  if( header_ms_ptr )
-    {
-    copy1 = header_ms_ptr;
-    header_ms_str = copy1.c_str();
-    }
+  std::string header_ms_str = GetFromHeader(header);
   const DataSet &ds = file.GetDataSet();
-  const char* ds_ms_ptr = GetFromDataSet(ds);
-  std::string copy2;
-  const char *ds_ms_str = nullptr;
-  if( ds_ms_ptr )
-    {
-    copy2 = ds_ms_ptr;
-    ds_ms_str = copy2.c_str();
-    }
+  std::string ds_ms_str = GetFromDataSet(ds);
 
   // Easy case:
-  if( header_ms_str && ds_ms_str && strcmp(header_ms_str, ds_ms_str) == 0 )
+  if( !header_ms_str.empty() && !ds_ms_str.empty() && (header_ms_str == ds_ms_str) )
     {
     return SetFromHeader( header );
     }
 
-  if( ds_ms_str )
+  if( !ds_ms_str.empty() )
     {
     // means either no header ms or different, take from dataset just in case
     return SetFromDataSet( ds );
     }
 
   // Looks suspicious or DICOMDIR...
-  if( header_ms_str )
+  if( !header_ms_str.empty() )
     {
     return SetFromHeader( header );
     }

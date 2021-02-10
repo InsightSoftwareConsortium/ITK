@@ -40,7 +40,7 @@ namespace itk
  *
  * "FFT Based Convolution"
  * by Gaetan Lehmann
- * https://hdl.handle.net/10380/3154
+ * https://www.insight-journal.org/browse/publication/717
  *
  * \author Gaetan Lehmann
  *

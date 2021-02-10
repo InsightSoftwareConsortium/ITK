@@ -131,10 +131,11 @@
  * property only used by h5repart */
 #define H5F_ACS_FAMILY_NEWSIZE_SIZE             sizeof(hsize_t)
 #define H5F_ACS_FAMILY_NEWSIZE_DEF              0
-/* Definition for whether to convert family to sec2 driver. It's private
- * property only used by h5repart */
-#define H5F_ACS_FAMILY_TO_SEC2_SIZE             sizeof(hbool_t)
-#define H5F_ACS_FAMILY_TO_SEC2_DEF              FALSE
+/* Definition for whether to convert family to a single-file driver.
+ * It's a private property only used by h5repart.
+ */
+#define H5F_ACS_FAMILY_TO_SINGLE_SIZE           sizeof(hbool_t)
+#define H5F_ACS_FAMILY_TO_SINGLE_DEF            FALSE
 /* Definition for data type in multi file driver */
 #define H5F_ACS_MULTI_TYPE_SIZE                 sizeof(H5FD_mem_t)
 #define H5F_ACS_MULTI_TYPE_DEF                  H5FD_MEM_DEFAULT
@@ -297,18 +298,18 @@ static int H5P__facc_file_image_info_cmp(const void *value1, const void *value2,
 static herr_t H5P__facc_file_image_info_close(const char *name, size_t size, void *value);
 
 /* encode & decode callbacks */
-static herr_t H5P__facc_cache_config_enc(const void *value, void **_pp, size_t *size, void *udata);
+static herr_t H5P__facc_cache_config_enc(const void *value, void **_pp, size_t *size);
 static herr_t H5P__facc_cache_config_dec(const void **_pp, void *value);
 static int H5P__facc_cache_config_cmp(const void *value1, const void *value2, size_t size);
-static herr_t H5P__facc_fclose_degree_enc(const void *value, void **_pp, size_t *size, void *udata);
+static herr_t H5P__facc_fclose_degree_enc(const void *value, void **_pp, size_t *size);
 static herr_t H5P__facc_fclose_degree_dec(const void **pp, void *value);
-static herr_t H5P__facc_multi_type_enc(const void *value, void **_pp, size_t *size, void *udata);
+static herr_t H5P__facc_multi_type_enc(const void *value, void **_pp, size_t *size);
 static herr_t H5P__facc_multi_type_dec(const void **_pp, void *value);
 static herr_t H5P__facc_libver_type_enc(const void *value, void **_pp, size_t *size);
 static herr_t H5P__facc_libver_type_dec(const void **_pp, void *value);
 
 /* Metadata cache log location property callbacks */
-static herr_t H5P_facc_mdc_log_location_enc(const void *value, void **_pp, size_t *size, void *udata);
+static herr_t H5P_facc_mdc_log_location_enc(const void *value, void **_pp, size_t *size);
 static herr_t H5P_facc_mdc_log_location_dec(const void **_pp, void *value);
 static herr_t H5P_facc_mdc_log_location_del(hid_t prop_id, const char *name, size_t size, void *value);
 static herr_t H5P_facc_mdc_log_location_copy(const char *name, size_t size, void *value);
@@ -317,7 +318,7 @@ static herr_t H5P_facc_mdc_log_location_close(const char *name, size_t size, voi
 
 /* Metadata cache image property callbacks */
 static int H5P__facc_cache_image_config_cmp(const void *_config1, const void *_config2, size_t H5_ATTR_UNUSED size);
-static herr_t H5P__facc_cache_image_config_enc(const void *value, void **_pp, size_t *size, void *udata);
+static herr_t H5P__facc_cache_image_config_enc(const void *value, void **_pp, size_t *size);
 static herr_t H5P__facc_cache_image_config_dec(const void **_pp, void *_value);
 
 
@@ -368,7 +369,7 @@ static const unsigned H5F_def_gc_ref_g = H5F_ACS_GARBG_COLCT_REF_DEF;           
 static const H5F_close_degree_t H5F_def_close_degree_g = H5F_CLOSE_DEGREE_DEF;     /* Default file close degree */
 static const hsize_t H5F_def_family_offset_g = H5F_ACS_FAMILY_OFFSET_DEF;          /* Default offset for family VFD */
 static const hsize_t H5F_def_family_newsize_g = H5F_ACS_FAMILY_NEWSIZE_DEF;        /* Default size of new files for family VFD */
-static const hbool_t H5F_def_family_to_sec2_g = H5F_ACS_FAMILY_TO_SEC2_DEF;        /* Default ?? for family VFD */
+static const hbool_t H5F_def_family_to_single_g = H5F_ACS_FAMILY_TO_SINGLE_DEF;    /* Default ?? for family VFD */
 static const H5FD_mem_t H5F_def_mem_type_g = H5F_ACS_MULTI_TYPE_DEF;               /* Default file space type for multi VFD */
 
 static const H5F_libver_t H5F_def_libver_low_bound_g = H5F_ACS_LIBVER_LOW_BOUND_DEF;    /* Default setting for "low" bound of format version */
@@ -503,9 +504,9 @@ H5P__facc_reg_prop(H5P_genclass_t *pclass)
             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
-    /* Register the private property of whether convert family to sec2 driver. It's used by h5repart only. */
+    /* Register the private property of whether convert family to a single-file driver. It's used by h5repart only. */
     /* (Note: this property should not have an encode/decode callback -QAK) */
-    if(H5P_register_real(pclass, H5F_ACS_FAMILY_TO_SEC2_NAME, H5F_ACS_FAMILY_TO_SEC2_SIZE, &H5F_def_family_to_sec2_g,
+    if(H5P_register_real(pclass, H5F_ACS_FAMILY_TO_SINGLE_NAME, H5F_ACS_FAMILY_TO_SINGLE_SIZE, &H5F_def_family_to_single_g,
             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
@@ -3019,7 +3020,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P__facc_cache_image_config_enc(const void *value, void **_pp, size_t *size, void H5_ATTR_UNUSED *udata)
+H5P__facc_cache_image_config_enc(const void *value, void **_pp, size_t *size)
 {
     const H5AC_cache_image_config_t *config = (const H5AC_cache_image_config_t *)value; /* Create local aliases for value */
     uint8_t **pp = (uint8_t **)_pp;
@@ -3445,7 +3446,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P__facc_cache_config_enc(const void *value, void **_pp, size_t *size, void H5_ATTR_UNUSED *udata)
+H5P__facc_cache_config_enc(const void *value, void **_pp, size_t *size)
 {
     const H5AC_cache_config_t *config = (const H5AC_cache_config_t *)value; /* Create local aliases for values */
     uint8_t **pp = (uint8_t **)_pp;
@@ -3725,7 +3726,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P__facc_fclose_degree_enc(const void *value, void **_pp, size_t *size, void H5_ATTR_UNUSED *udata)
+H5P__facc_fclose_degree_enc(const void *value, void **_pp, size_t *size)
 {
     const H5F_close_degree_t *fclose_degree = (const H5F_close_degree_t *)value; /* Create local alias for values */
     uint8_t **pp = (uint8_t **)_pp;
@@ -3798,7 +3799,7 @@ H5P__facc_fclose_degree_dec(const void **_pp, void *_value)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P__facc_multi_type_enc(const void *value, void **_pp, size_t *size, void H5_ATTR_UNUSED *udata)
+H5P__facc_multi_type_enc(const void *value, void **_pp, size_t *size)
 {
     const H5FD_mem_t *type = (const H5FD_mem_t *)value; /* Create local alias for values */
     uint8_t **pp = (uint8_t **)_pp;
@@ -4298,7 +4299,7 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P_facc_mdc_log_location_enc(const void *value, void **_pp, size_t *size, void H5_ATTR_UNUSED *udata)
+H5P_facc_mdc_log_location_enc(const void *value, void **_pp, size_t *size)
 {
     const char *log_location = *(const char * const *)value;
     uint8_t **pp = (uint8_t **)_pp;
@@ -4598,7 +4599,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5P__encode_coll_md_read_flag_t(const void *value, void **_pp, size_t *size, void H5_ATTR_UNUSED *udata)
+H5P__encode_coll_md_read_flag_t(const void *value, void **_pp, size_t *size)
 {
     const H5P_coll_md_read_flag_t *coll_md_read_flag = (const H5P_coll_md_read_flag_t *)value;
     uint8_t **pp = (uint8_t **)_pp;

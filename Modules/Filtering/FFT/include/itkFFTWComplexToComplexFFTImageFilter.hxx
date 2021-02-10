@@ -30,8 +30,7 @@
  * This code was contributed in the Insight Journal paper:
  * "FFT Complex to Complex filters and helper classes"
  * by Warfield S.
- * https://hdl.handle.net/1926/326
- * http://www.insight-journal.org/browse/publication/128
+ * https://www.insight-journal.org/browse/publication/128
  *
  */
 

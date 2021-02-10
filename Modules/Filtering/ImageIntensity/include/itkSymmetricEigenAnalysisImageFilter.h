@@ -106,6 +106,25 @@ public:
       m_Calculator.SetOrderEigenValues(false);
     }
   }
+  void
+  SetOrderEigenValuesBy(EigenValueOrderEnum order)
+  {
+    this->OrderEigenValuesBy(order);
+  }
+  EigenValueOrderEnum
+  GetOrderEigenValuesBy() const
+  {
+    if (m_Calculator.GetOrderEigenMagnitudes())
+    {
+      return EigenValueOrderEnum::OrderByMagnitude;
+    }
+    if (m_Calculator.GetOrderEigenValues())
+    {
+      return EigenValueOrderEnum::OrderByValue;
+    }
+    return EigenValueOrderEnum::DoNotOrder;
+  }
+
 
 private:
   CalculatorType m_Calculator;
@@ -198,9 +217,6 @@ extern ITKImageIntensity_EXPORT std::ostream &
  * OrderByMagnitude:  |lambda_1| < |lambda_2| < .....
  * DoNotOrder:        Default order of eigen values obtained after QL method
  *
- * The user of this class is explicitly supposed to set the dimension of the
- * 2D matrix using the SetDimension() method.
- *
  * \ingroup IntensityImageFilters  MultiThreaded  TensorObjects
  *
  * \ingroup ITKImageIntensity
@@ -243,6 +259,16 @@ public:
   {
     this->GetFunctor().OrderEigenValuesBy(order);
   }
+  void
+  SetOrderEigenValuesBy(EigenValueOrderEnum order)
+  {
+    this->OrderEigenValuesBy(order);
+  }
+  EigenValueOrderEnum
+  GetOrderEigenValuesBy() const
+  {
+    return this->GetFunctor().GetOrderEigenValuesBy();
+  }
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(SymmetricEigenAnalysisImageFilter, UnaryFunctorImageFilter);
@@ -277,7 +303,7 @@ public:
 #endif
 
 protected:
-  SymmetricEigenAnalysisImageFilter() = default;
+  SymmetricEigenAnalysisImageFilter() { this->SetDimension(TInputImage::ImageDimension); }
   ~SymmetricEigenAnalysisImageFilter() override = default;
 };
 

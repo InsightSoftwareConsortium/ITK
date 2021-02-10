@@ -172,7 +172,8 @@ test_RegionGrowKLMExceptionHandling()
   {                                                                                                                    \
     std::cout << "Test FAILED" << std::endl;                                                                           \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   // maximum number of regions must be greater than 1
 

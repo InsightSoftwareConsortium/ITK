@@ -6,7 +6,7 @@ import itk
 itk.force_load()
 
 from itk.support import itkTypes
-from itk.support.itkTemplate import itkTemplate
+from itk.support.itkTemplate import itkTemplate, itkTemplateBase
 
 from typing import List, Union
 from itkConfig import ITK_GLOBAL_WRAPPING_BUILD_OPTIONS as _itkwrapbo
@@ -23,27 +23,37 @@ REALS: List[itkTypes.itkCType] = [
 ]
 
 VECTOR_REALS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__template_instantiations_name_to_object__[
+        itkTemplate.normalizeName(s)
+    ]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_VECTOR_REAL"]
     if s
 ]
 COV_VECTOR_REALS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__template_instantiations_name_to_object__[
+        itkTemplate.normalizeName(s)
+    ]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_COV_VECTOR_REAL"]
     if s
 ]
 RGBS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__template_instantiations_name_to_object__[
+        itkTemplate.normalizeName(s)
+    ]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_RGB"]
     if s
 ]
 RGBAS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__template_instantiations_name_to_object__[
+        itkTemplate.normalizeName(s)
+    ]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_RGBA"]
     if s
 ]
 COMPLEX_REALS: List[itkTemplate] = [
-    itkTemplate.__templates__[itkTemplate.normalizeName(s)]
+    itkTemplateBase.__template_instantiations_name_to_object__[
+        itkTemplate.normalizeName(s)
+    ]
     for s in _itkwrapbo["ITK_WRAP_PYTHON_COMPLEX_REAL"]
     if s
 ]
@@ -52,9 +62,9 @@ INTS: List[itkTypes.itkCType] = SIGN_INTS + USIGN_INTS
 SCALARS: List[itkTypes.itkCType] = INTS + REALS
 VECTORS: List[itkTemplate] = VECTOR_REALS + COV_VECTOR_REALS
 COLORS: List[itkTemplate] = RGBS + RGBAS
-ALL_TYPES: List[
-    Union[itkTypes.itkCType, itkTemplate]
-] = COLORS + VECTORS + SCALARS + COMPLEX_REALS
+ALL_TYPES: List[Union[itkTypes.itkCType, itkTemplate]] = (
+    COLORS + VECTORS + SCALARS + COMPLEX_REALS
+)
 
 del itkTemplate
 del itkTypes

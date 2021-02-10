@@ -46,8 +46,8 @@ if(Module_AnalyzeObjectMapIO)
   set(Module_AnalyzeObjectLabelMap ${Module_AnalyzeObjectMapIO})
 endif()
 itk_fetch_module(AnalyzeObjectLabelMap
-  "AnalyzeObjectLabelMap plugin for ITK. From Insight Journal article with handle: https://hdl.handle.net/1926/593"
+  "AnalyzeObjectLabelMap plugin for ITK. From Insight Journal article with handle: https://www.insight-journal.org/browse/publication/178"
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/itkAnalyzeObjectMap.git
-  GIT_TAG c581299e71f01de7cba9aec5530accd3e6c8aee0
+  GIT_TAG 5dea4e9b748c5253e7a04287de4bde70ce754902
   )

@@ -119,9 +119,11 @@ public:
   virtual VectorType
   EvaluateDerivative(const InputType & input) const;
 
-  itkSetMacro(DefaultInputStepSize, InputType) itkGetConstReferenceMacro(DefaultInputStepSize, InputType)
+  itkSetMacro(DefaultInputStepSize, InputType);
+  itkGetConstReferenceMacro(DefaultInputStepSize, InputType);
 
-    protected : ParametricPath();
+protected:
+  ParametricPath();
   ~ParametricPath() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

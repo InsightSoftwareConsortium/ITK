@@ -25,29 +25,6 @@
 
 namespace itk
 {
-class InvalidImageMomentsError : public ExceptionObject
-{
-public:
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
-  InvalidImageMomentsError(const char * file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {
-    this->SetDescription("No valid image moments are available.");
-  }
-
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
-  InvalidImageMomentsError(const std::string & file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {
-    this->SetDescription("No valid image moments are available.");
-  }
-
-  itkTypeMacro(InvalidImageMomentsError, ExceptionObject);
-};
 
 //----------------------------------------------------------------------
 // Construct without computing moments

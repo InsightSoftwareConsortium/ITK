@@ -35,7 +35,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
     itk_python_add_test(NAME PythonTemplatedPipelineTest
       TEST_DRIVER_ARGS
         --compare ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
-      COMMAND templated_pipeline.py
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/templated_pipeline.py
         DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
         ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png
         10
@@ -64,7 +64,7 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     itk_python_add_test(NAME PythonSimplePipeline${t}${d}
       TEST_DRIVER_ARGS
         --compare ${ITK_TEST_OUTPUT_DIR}/simple_pipeline${t}${d}.nrrd DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      COMMAND simple_pipeline.py
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/simple_pipeline.py
         ${t}
         ${d}
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
@@ -72,3 +72,10 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
     )
   endforeach()
 endforeach()
+
+
+# Test the lazyloading in a multiprocessing environment
+itk_python_add_test(NAME PythonMultiprocessLazyLoad
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/multiprocess_lazy_loading.py
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png} DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
+    )

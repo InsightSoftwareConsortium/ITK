@@ -67,7 +67,9 @@ public:
     // something different.
   }
 
-  /** Constructor with size. Size can only be changed by assignment */
+  /** Constructor with size. Size can only be changed by assignment.
+   * \note This constructor may not initialize its elements.
+   */
   explicit OptimizerParameters(SizeValueType dimension)
     : Array<TParametersValueType>(dimension)
   {}
@@ -75,6 +77,11 @@ public:
   /** Constructor with Array assignment */
   OptimizerParameters(const ArrayType & array)
     : Array<TParametersValueType>(array)
+  {}
+
+  /** Constructor with size and initial value for each element. */
+  explicit OptimizerParameters(const SizeValueType dimension, const ValueType & value)
+    : Array<TParametersValueType>(dimension, value)
   {}
 
   /** Initialize. Initialization called by constructors. */
@@ -168,7 +175,8 @@ public:
   ~OptimizerParameters() override = default;
 
 private:
-  std::unique_ptr<OptimizerParametersHelperType> m_Helper{ new OptimizerParametersHelperType };
+  std::unique_ptr<OptimizerParametersHelperType> m_Helper =
+    std::unique_ptr<OptimizerParametersHelperType>{ new OptimizerParametersHelperType };
 };
 
 } // namespace itk

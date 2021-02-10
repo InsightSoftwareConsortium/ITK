@@ -50,10 +50,9 @@ For more information, see the Insight Journal article:
 Hatt C.
 Multi-scale Steerable Phase-Symmetry Filters for ITK
 The Insight Journal. July-December. 2011.
-http://hdl.handle.net/10380/3330
-http://www.insight-journal.org/browse/publication/846
+https://www.insight-journal.org/browse/publication/846
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKPhaseSymmetry.git
-  GIT_TAG 8aa485ddf4a2ff2315c98a34100cb76dad4e21e1
+  GIT_TAG 324417f1b3e8420c51e03f031a1ff625a5d8bc46
   )

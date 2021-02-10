@@ -86,7 +86,7 @@ namespace itk
  * \author Gaetan Lehmann
  *
  * This code was contributed in the Insight Journal paper "Noise
- * Simulation". https://hdl.handle.net/10380/3158
+ * Simulation". https://www.insight-journal.org/browse/publication/721
  *
  * \ingroup ITKImageNoise
  */

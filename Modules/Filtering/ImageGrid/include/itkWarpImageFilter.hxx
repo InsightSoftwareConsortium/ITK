@@ -128,7 +128,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::BeforeThreadedGe
 
   if (numberOfComponents != this->GetInput()->GetNumberOfComponentsPerPixel())
   {
-    PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(zeroComponent);
+    PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(PixelComponentType{});
     numberOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
     NumericTraits<PixelType>::SetLength(m_EdgePaddingValue, numberOfComponents);
 
@@ -289,6 +289,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
   PointType                                     point;
   DisplacementType                              displacement;
   NumericTraits<DisplacementType>::SetLength(displacement, ImageDimension);
+  static_assert(PointType::Dimension == ImageDimension, "ERROR: Point type and ImageDimension must be the same!");
   if (this->m_DefFieldSameInformation)
   {
     // iterator for the deformation field

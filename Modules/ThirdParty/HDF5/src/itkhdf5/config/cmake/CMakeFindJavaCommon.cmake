@@ -16,7 +16,7 @@ else()
     set(_JAVA_HOME_EXPLICIT 1)
   else()
     set(_CMD_JAVA_HOME "")
-    if(APPLE AND EXISTS /usr/libexec/java_home)
+    if(APPLE AND EXISTS "/usr/libexec/java_home")
       execute_process(COMMAND /usr/libexec/java_home
         OUTPUT_VARIABLE _CMD_JAVA_HOME OUTPUT_STRIP_TRAILING_WHITESPACE)
     endif()

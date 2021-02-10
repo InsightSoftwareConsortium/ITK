@@ -29,7 +29,7 @@ jobs:
         sudo pip3 install ninja numpy
         sudo python3 -m pip install --upgrade setuptools
         sudo python3 -m pip install scikit-ci-addons
-        sudo python3 -m pip install lxml
+        sudo python3 -m pip install lxml dask distributed
       displayName: 'Install dependencies'
 
     - bash: |
@@ -66,6 +66,10 @@ jobs:
 
     - bash: |
         set -x
+
+        curl -O https://raw.githubusercontent.com/Homebrew/homebrew-core/de946dd0c0a91ecf6c78c843a4580bd7116c6bf0/Formula/cmake.rb
+        brew unlink cmake
+        brew install ./cmake.rb
 
         c++ --version
         cmake --version

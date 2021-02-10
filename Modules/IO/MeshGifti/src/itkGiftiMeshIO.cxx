@@ -41,7 +41,7 @@ public:
 };
 
 
-GiftiMeshIO ::GiftiMeshIO()
+GiftiMeshIO::GiftiMeshIO()
   : m_GiftiImageHolder(new GiftiImageProxy(nullptr))
   , m_GiftiImage(*m_GiftiImageHolder.get())
 {
@@ -53,10 +53,10 @@ GiftiMeshIO ::GiftiMeshIO()
   this->m_UseCompression = true;
 }
 
-GiftiMeshIO ::~GiftiMeshIO() = default;
+GiftiMeshIO::~GiftiMeshIO() = default;
 
 bool
-GiftiMeshIO ::CanReadFile(const char * fileName)
+GiftiMeshIO::CanReadFile(const char * fileName)
 {
   if (!itksys::SystemTools::FileExists(fileName, true))
   {
@@ -72,7 +72,7 @@ GiftiMeshIO ::CanReadFile(const char * fileName)
 }
 
 bool
-GiftiMeshIO ::CanWriteFile(const char * fileName)
+GiftiMeshIO::CanWriteFile(const char * fileName)
 {
   if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".gii")
   {
@@ -83,7 +83,7 @@ GiftiMeshIO ::CanWriteFile(const char * fileName)
 }
 
 void
-GiftiMeshIO ::SetDirection(const DirectionType & direction)
+GiftiMeshIO::SetDirection(const DirectionType & direction)
 {
   for (unsigned int rr = 0; rr < 4; rr++)
   {
@@ -97,7 +97,7 @@ GiftiMeshIO ::SetDirection(const DirectionType & direction)
 }
 
 GiftiMeshIO::LabelColorContainerPointer
-GiftiMeshIO ::GetLabelColorTable()
+GiftiMeshIO::GetLabelColorTable()
 {
   LabelColorContainerPointer colorMap;
   if (ExposeMetaData<LabelColorContainerPointer>(this->GetMetaDataDictionary(), "colorContainer", colorMap))
@@ -111,7 +111,7 @@ GiftiMeshIO ::GetLabelColorTable()
 }
 
 GiftiMeshIO::LabelNameContainerPointer
-GiftiMeshIO ::GetLabelNameTable()
+GiftiMeshIO::GetLabelNameTable()
 {
   LabelNameContainerPointer labelMap;
   if (ExposeMetaData<LabelNameContainerPointer>(this->GetMetaDataDictionary(), "labelContainer", labelMap))
@@ -125,7 +125,7 @@ GiftiMeshIO ::GetLabelNameTable()
 }
 
 void
-GiftiMeshIO ::SetLabelColorTable(const LabelColorContainer * colorMap)
+GiftiMeshIO::SetLabelColorTable(const LabelColorContainer * colorMap)
 {
   EncapsulateMetaData<LabelColorContainerPointer>(
     this->GetMetaDataDictionary(), "colorContainer", const_cast<LabelColorContainer *>(colorMap));
@@ -133,15 +133,19 @@ GiftiMeshIO ::SetLabelColorTable(const LabelColorContainer * colorMap)
 }
 
 void
-GiftiMeshIO ::SetLabelNameTable(const LabelNameContainer * labelMap)
+GiftiMeshIO::SetLabelNameTable(const LabelNameContainer * labelMap)
 {
   EncapsulateMetaData<LabelNameContainerPointer>(
     this->GetMetaDataDictionary(), "labelContainer", const_cast<LabelNameContainer *>(labelMap));
   this->Modified();
 }
 
+// TODO:  Need to be able to read/write RGB images into ITK.
+//    case DT_RGB:
+// DEBUG -- Assuming this is a triple, not quad
+// image.setDataType( uiig::DATA_RGBQUAD );
 void
-GiftiMeshIO ::ReadMeshInformation()
+GiftiMeshIO::ReadMeshInformation()
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), false);
@@ -155,6 +159,13 @@ GiftiMeshIO ::ReadMeshInformation()
   // Number of data array
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
   {
+    // check datatype so we can rely on a valid datatype
+    if (!nifti_is_valid_datatype(m_GiftiImage->darray[ii]->datatype))
+    {
+      gifti_free_image(m_GiftiImage);
+      itkExceptionMacro(<< "Invalid datatype in data array " << ii << " detected.");
+    }
+
     if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_POINTSET)
     {
       if (m_GiftiImage->darray[ii]->num_dim > 0)
@@ -168,45 +179,11 @@ GiftiMeshIO ::ReadMeshInformation()
       }
       this->m_UpdatePoints = true;
 
-      switch (m_GiftiImage->darray[ii]->datatype)
+      this->m_PointComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+      if (GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype) > 1)
       {
-        case NIFTI_TYPE_INT8:
-          this->m_PointComponentType = IOComponentEnum::CHAR;
-          break;
-        case NIFTI_TYPE_UINT8:
-          this->m_PointComponentType = IOComponentEnum::UCHAR;
-          break;
-        case NIFTI_TYPE_INT16:
-          this->m_PointComponentType = IOComponentEnum::SHORT;
-          break;
-        case NIFTI_TYPE_UINT16:
-          this->m_PointComponentType = IOComponentEnum::USHORT;
-          break;
-        case NIFTI_TYPE_INT32:
-          this->m_PointComponentType = IOComponentEnum::INT;
-          break;
-        case NIFTI_TYPE_UINT32:
-          this->m_PointComponentType = IOComponentEnum::UINT;
-          break;
-        case NIFTI_TYPE_INT64:
-          this->m_PointComponentType = IOComponentEnum::LONGLONG;
-          break;
-        case NIFTI_TYPE_UINT64:
-          this->m_PointComponentType = IOComponentEnum::ULONGLONG;
-          break;
-        case NIFTI_TYPE_FLOAT32:
-          this->m_PointComponentType = IOComponentEnum::FLOAT;
-          break;
-        case NIFTI_TYPE_FLOAT64:
-          this->m_PointComponentType = IOComponentEnum::DOUBLE;
-          break;
-        case NIFTI_TYPE_FLOAT128:
-          this->m_PointComponentType = IOComponentEnum::LDOUBLE;
-          break;
-        default:
-          itkExceptionMacro(<< "Unknown point component type");
+        itkExceptionMacro(<< "Data array " << ii << " with intent NIFTI_INTENT_POINTSET requires scalar datatype.");
       }
-
       // get coord system
       if (m_GiftiImage->darray[ii]->numCS)
       {
@@ -236,48 +213,14 @@ GiftiMeshIO ::ReadMeshInformation()
       }
       this->m_CellBufferSize = static_cast<SizeValueType>(m_GiftiImage->darray[ii]->nvals + 2 * this->m_NumberOfCells);
       this->m_UpdateCells = true;
-
-      switch (m_GiftiImage->darray[ii]->datatype)
+      this->m_CellComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+      if (GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype) > 1)
       {
-        case NIFTI_TYPE_INT8:
-          this->m_CellComponentType = IOComponentEnum::CHAR;
-          break;
-        case NIFTI_TYPE_UINT8:
-          this->m_CellComponentType = IOComponentEnum::UCHAR;
-          break;
-        case NIFTI_TYPE_INT16:
-          this->m_CellComponentType = IOComponentEnum::SHORT;
-          break;
-        case NIFTI_TYPE_UINT16:
-          this->m_CellComponentType = IOComponentEnum::USHORT;
-          break;
-        case NIFTI_TYPE_INT32:
-          this->m_CellComponentType = IOComponentEnum::INT;
-          break;
-        case NIFTI_TYPE_UINT32:
-          this->m_CellComponentType = IOComponentEnum::UINT;
-          break;
-        case NIFTI_TYPE_INT64:
-          this->m_CellComponentType = IOComponentEnum::LONGLONG;
-          break;
-        case NIFTI_TYPE_UINT64:
-          this->m_CellComponentType = IOComponentEnum::ULONGLONG;
-          break;
-        case NIFTI_TYPE_FLOAT32:
-          this->m_CellComponentType = IOComponentEnum::FLOAT;
-          break;
-        case NIFTI_TYPE_FLOAT64:
-          this->m_CellComponentType = IOComponentEnum::DOUBLE;
-          break;
-        case NIFTI_TYPE_FLOAT128:
-          this->m_CellComponentType = IOComponentEnum::LDOUBLE;
-          break;
-        default:
-          gifti_free_image(m_GiftiImage);
-          itkExceptionMacro(<< "Unknown cell component type");
+        itkExceptionMacro(<< "Data array " << ii << " with intent NIFTI_INTENT_TRIANGLE requires scalar datatype.");
       }
     }
-    else if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE)
+    else if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
+             m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_NONE)
     {
       if (m_GiftiImage->darray[ii]->num_dim > 0)
       {
@@ -313,143 +256,17 @@ GiftiMeshIO ::ReadMeshInformation()
         if (static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]) == this->m_NumberOfPointPixels)
         {
           this->m_UpdatePointData = true;
-          this->m_NumberOfPointPixelComponents = 1;
-          switch (m_GiftiImage->darray[ii]->datatype)
-          {
-            case NIFTI_TYPE_INT8:
-              this->m_PointPixelComponentType = IOComponentEnum::CHAR;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT8:
-              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT16:
-              this->m_PointPixelComponentType = IOComponentEnum::SHORT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT16:
-              this->m_PointPixelComponentType = IOComponentEnum::USHORT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT32:
-              this->m_PointPixelComponentType = IOComponentEnum::INT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT32:
-              this->m_PointPixelComponentType = IOComponentEnum::UINT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT64:
-              this->m_PointPixelComponentType = IOComponentEnum::LONGLONG;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT64:
-              this->m_PointPixelComponentType = IOComponentEnum::ULONGLONG;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT32:
-              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT64:
-              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_COMPLEX64:
-              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_PointPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfPointPixelComponents(2);
-              break;
-            case NIFTI_TYPE_COMPLEX128:
-              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_PointPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfPointPixelComponents(2);
-              break;
-            case NIFTI_TYPE_RGB24:
-              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_PointPixelType = IOPixelEnum::RGB;
-              this->SetNumberOfPointPixelComponents(3);
-              // TODO:  Need to be able to read/write RGB images into ITK.
-              //    case DT_RGB:
-              // DEBUG -- Assuming this is a triple, not quad
-              // image.setDataType( uiig::DATA_RGBQUAD );
-              break;
-            case NIFTI_TYPE_RGBA32:
-              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_PointPixelType = IOPixelEnum::RGBA;
-              this->SetNumberOfPointPixelComponents(4);
-              break;
-            default:
-              gifti_free_image(m_GiftiImage);
-              itkExceptionMacro(<< "Unknown data attribute component type");
-          }
+          this->m_PointPixelComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_PointPixelType = GetPixelTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_NumberOfPointPixelComponents =
+            GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype);
         }
         else if (this->m_NumberOfCellPixels == static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]))
         {
           this->m_UpdateCellData = true;
-          this->m_NumberOfCellPixelComponents = 1;
-          switch (m_GiftiImage->darray[ii]->datatype)
-          {
-            case NIFTI_TYPE_INT8:
-              this->m_CellPixelComponentType = IOComponentEnum::CHAR;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT8:
-              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT16:
-              this->m_CellPixelComponentType = IOComponentEnum::SHORT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT16:
-              this->m_CellPixelComponentType = IOComponentEnum::USHORT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT32:
-              this->m_CellPixelComponentType = IOComponentEnum::INT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT32:
-              this->m_CellPixelComponentType = IOComponentEnum::UINT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT32:
-              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT64:
-              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_COMPLEX64:
-              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_CellPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfCellPixelComponents(2);
-              break;
-            case NIFTI_TYPE_COMPLEX128:
-              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_CellPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfCellPixelComponents(2);
-              break;
-            case NIFTI_TYPE_RGB24:
-              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_CellPixelType = IOPixelEnum::RGB;
-              this->SetNumberOfCellPixelComponents(3);
-              // TODO:  Need to be able to read/write RGB images into ITK.
-              //    case DT_RGB:
-              // DEBUG -- Assuming this is a triple, not quad
-              // image.setDataType( uiig::DATA_RGBQUAD );
-              break;
-            case NIFTI_TYPE_RGBA32:
-              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_CellPixelType = IOPixelEnum::RGBA;
-              this->SetNumberOfCellPixelComponents(4);
-              break;
-            default:
-              break;
-          }
+          this->m_CellPixelComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_CellPixelType = GetPixelTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_NumberOfCellPixelComponents = GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype);
         }
       }
     }
@@ -491,76 +308,20 @@ GiftiMeshIO ::ReadMeshInformation()
           if (m_GiftiImage->darray[ii]->num_dim > 1)
           {
             this->m_NumberOfPointPixelComponents = m_GiftiImage->darray[ii]->dims[1];
-
+            this->m_PointPixelComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+            this->m_PointPixelType = IOPixelEnum::VECTOR;
             switch (m_GiftiImage->darray[ii]->datatype)
             {
-              case NIFTI_TYPE_INT8:
-                this->m_PointPixelComponentType = IOComponentEnum::CHAR;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_UINT8:
-                this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_INT16:
-                this->m_PointPixelComponentType = IOComponentEnum::SHORT;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_UINT16:
-                this->m_PointPixelComponentType = IOComponentEnum::USHORT;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_INT32:
-                this->m_PointPixelComponentType = IOComponentEnum::INT;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_UINT32:
-                this->m_PointPixelComponentType = IOComponentEnum::UINT;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_INT64:
-                this->m_PointPixelComponentType = IOComponentEnum::LONGLONG;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_UINT64:
-                this->m_PointPixelComponentType = IOComponentEnum::ULONGLONG;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_FLOAT32:
-                this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_FLOAT64:
-                this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
-                this->m_PointPixelType = IOPixelEnum::VECTOR;
-                break;
               case NIFTI_TYPE_COMPLEX64:
-                this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-                this->m_PointPixelType = IOPixelEnum::COMPLEX;
-                this->SetNumberOfPointPixelComponents(2);
-                break;
               case NIFTI_TYPE_COMPLEX128:
-                this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
-                this->m_PointPixelType = IOPixelEnum::COMPLEX;
-                this->SetNumberOfPointPixelComponents(2);
-                break;
               case NIFTI_TYPE_RGB24:
-                this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-                this->m_PointPixelType = IOPixelEnum::RGB;
-                this->SetNumberOfPointPixelComponents(3);
-                // TODO:  Need to be able to read/write RGB images into ITK.
-                //    case DT_RGB:
-                // DEBUG -- Assuming this is a triple, not quad
-                // image.setDataType( uiig::DATA_RGBQUAD );
-                break;
               case NIFTI_TYPE_RGBA32:
-                this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-                this->m_PointPixelType = IOPixelEnum::RGBA;
-                this->SetNumberOfPointPixelComponents(4);
+                this->m_PointPixelType = GetPixelTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+                this->m_NumberOfPointPixelComponents =
+                  GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype);
                 break;
               default:
-                gifti_free_image(m_GiftiImage);
-                itkExceptionMacro(<< "Unknown data attribute component type");
+                break;
             }
           }
         }
@@ -570,64 +331,17 @@ GiftiMeshIO ::ReadMeshInformation()
           if (m_GiftiImage->darray[ii]->num_dim > 1)
           {
             this->m_NumberOfCellPixelComponents = m_GiftiImage->darray[ii]->dims[1];
-
+            this->m_CellPixelType = IOPixelEnum::VECTOR;
+            this->m_CellPixelComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
             switch (m_GiftiImage->darray[ii]->datatype)
             {
-              case NIFTI_TYPE_INT8:
-                this->m_CellPixelComponentType = IOComponentEnum::CHAR;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_UINT8:
-                this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_INT16:
-                this->m_CellPixelComponentType = IOComponentEnum::SHORT;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_UINT16:
-                this->m_CellPixelComponentType = IOComponentEnum::USHORT;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_INT32:
-                this->m_CellPixelComponentType = IOComponentEnum::INT;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_UINT32:
-                this->m_CellPixelComponentType = IOComponentEnum::UINT;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_FLOAT32:
-                this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
-              case NIFTI_TYPE_FLOAT64:
-                this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
-                this->m_CellPixelType = IOPixelEnum::VECTOR;
-                break;
               case NIFTI_TYPE_COMPLEX64:
-                this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-                this->m_CellPixelType = IOPixelEnum::COMPLEX;
-                this->SetNumberOfCellPixelComponents(2);
-                break;
               case NIFTI_TYPE_COMPLEX128:
-                this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
-                this->m_CellPixelType = IOPixelEnum::COMPLEX;
-                this->SetNumberOfCellPixelComponents(2);
-                break;
               case NIFTI_TYPE_RGB24:
-                this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-                this->m_CellPixelType = IOPixelEnum::RGB;
-                this->SetNumberOfCellPixelComponents(3);
-                // TODO:  Need to be able to read/write RGB images into ITK.
-                //    case DT_RGB:
-                // DEBUG -- Assuming this is a triple, not quad
-                // image.setDataType( uiig::DATA_RGBQUAD );
-                break;
               case NIFTI_TYPE_RGBA32:
-                this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-                this->m_CellPixelType = IOPixelEnum::RGBA;
-                this->SetNumberOfCellPixelComponents(4);
+                this->m_CellPixelType = GetPixelTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+                this->m_NumberOfCellPixelComponents =
+                  GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype);
                 break;
               default:
                 break;
@@ -706,143 +420,17 @@ GiftiMeshIO ::ReadMeshInformation()
         if (static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]) == this->m_NumberOfPointPixels)
         {
           this->m_UpdatePointData = true;
-          this->m_NumberOfPointPixelComponents = 1;
-          switch (m_GiftiImage->darray[ii]->datatype)
-          {
-            case NIFTI_TYPE_INT8:
-              this->m_PointPixelComponentType = IOComponentEnum::CHAR;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT8:
-              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT16:
-              this->m_PointPixelComponentType = IOComponentEnum::SHORT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT16:
-              this->m_PointPixelComponentType = IOComponentEnum::USHORT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT32:
-              this->m_PointPixelComponentType = IOComponentEnum::INT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT32:
-              this->m_PointPixelComponentType = IOComponentEnum::UINT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT64:
-              this->m_PointPixelComponentType = IOComponentEnum::LONGLONG;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT64:
-              this->m_PointPixelComponentType = IOComponentEnum::ULONGLONG;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT32:
-              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT64:
-              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_PointPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_COMPLEX64:
-              this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_PointPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfPointPixelComponents(2);
-              break;
-            case NIFTI_TYPE_COMPLEX128:
-              this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_PointPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfPointPixelComponents(2);
-              break;
-            case NIFTI_TYPE_RGB24:
-              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_PointPixelType = IOPixelEnum::RGB;
-              this->SetNumberOfPointPixelComponents(3);
-              // TODO:  Need to be able to read/write RGB images into ITK.
-              //    case DT_RGB:
-              // DEBUG -- Assuming this is a triple, not quad
-              // image.setDataType( uiig::DATA_RGBQUAD );
-              break;
-            case NIFTI_TYPE_RGBA32:
-              this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_PointPixelType = IOPixelEnum::RGBA;
-              this->SetNumberOfPointPixelComponents(4);
-              break;
-            default:
-              gifti_free_image(m_GiftiImage);
-              itkExceptionMacro(<< "Unknown data attribute component type");
-          }
+          this->m_PointPixelComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_PointPixelType = GetPixelTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_NumberOfPointPixelComponents =
+            GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype);
         }
         else if (this->m_NumberOfCellPixels == static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]))
         {
           this->m_UpdateCellData = true;
-          this->m_NumberOfCellPixelComponents = 1;
-          switch (m_GiftiImage->darray[ii]->datatype)
-          {
-            case NIFTI_TYPE_INT8:
-              this->m_CellPixelComponentType = IOComponentEnum::CHAR;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT8:
-              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT16:
-              this->m_CellPixelComponentType = IOComponentEnum::SHORT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT16:
-              this->m_CellPixelComponentType = IOComponentEnum::USHORT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_INT32:
-              this->m_CellPixelComponentType = IOComponentEnum::INT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_UINT32:
-              this->m_CellPixelComponentType = IOComponentEnum::UINT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT32:
-              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_FLOAT64:
-              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_CellPixelType = IOPixelEnum::SCALAR;
-              break;
-            case NIFTI_TYPE_COMPLEX64:
-              this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-              this->m_CellPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfCellPixelComponents(2);
-              break;
-            case NIFTI_TYPE_COMPLEX128:
-              this->m_CellPixelComponentType = IOComponentEnum::DOUBLE;
-              this->m_CellPixelType = IOPixelEnum::COMPLEX;
-              this->SetNumberOfCellPixelComponents(2);
-              break;
-            case NIFTI_TYPE_RGB24:
-              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_CellPixelType = IOPixelEnum::RGB;
-              this->SetNumberOfCellPixelComponents(3);
-              // TODO:  Need to be able to read/write RGB images into ITK.
-              //    case DT_RGB:
-              // DEBUG -- Assuming this is a triple, not quad
-              // image.setDataType( uiig::DATA_RGBQUAD );
-              break;
-            case NIFTI_TYPE_RGBA32:
-              this->m_CellPixelComponentType = IOComponentEnum::UCHAR;
-              this->m_CellPixelType = IOPixelEnum::RGBA;
-              this->SetNumberOfCellPixelComponents(4);
-              break;
-            default:
-              break;
-          }
+          this->m_CellPixelComponentType = GetComponentTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_CellPixelType = GetPixelTypeFromGifti(m_GiftiImage->darray[ii]->datatype);
+          this->m_NumberOfCellPixelComponents = GetNumberOfPixelComponentsFromGifti(m_GiftiImage->darray[ii]->datatype);
         }
       }
     }
@@ -851,12 +439,12 @@ GiftiMeshIO ::ReadMeshInformation()
 }
 
 void
-GiftiMeshIO ::ReadPoints(void * buffer)
+GiftiMeshIO::ReadPoints(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
@@ -877,7 +465,7 @@ GiftiMeshIO ::ReadPoints(void * buffer)
 }
 
 void
-GiftiMeshIO ::ReadCells(void * buffer)
+GiftiMeshIO::ReadCells(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
@@ -1025,23 +613,22 @@ GiftiMeshIO ::ReadCells(void * buffer)
 }
 
 void
-GiftiMeshIO ::ReadPointData(void * buffer)
+GiftiMeshIO::ReadPointData(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
   }
-
-  // Read point or cell Data
+  // Read point data
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
   {
     if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
         m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR ||
-        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL)
+        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_NONE)
     {
       if (static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]) == this->m_NumberOfPointPixels)
       {
@@ -1055,7 +642,7 @@ GiftiMeshIO ::ReadPointData(void * buffer)
 }
 
 void
-GiftiMeshIO ::ReadCellData(void * buffer)
+GiftiMeshIO::ReadCellData(void * buffer)
 {
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
@@ -1066,12 +653,12 @@ GiftiMeshIO ::ReadCellData(void * buffer)
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
   }
 
-  // Read point or cell Data
+  // Read cell data
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
   {
     if (m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE ||
         m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_VECTOR ||
-        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL)
+        m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_LABEL || m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_NONE)
     {
       if (static_cast<SizeValueType>(m_GiftiImage->darray[ii]->dims[0]) == this->m_NumberOfCellPixels)
       {
@@ -1085,7 +672,7 @@ GiftiMeshIO ::ReadCellData(void * buffer)
 }
 
 void
-GiftiMeshIO ::WriteMeshInformation()
+GiftiMeshIO::WriteMeshInformation()
 {
   // Define number of data arrays
   int nda = 0;
@@ -1462,7 +1049,7 @@ GiftiMeshIO ::WriteMeshInformation()
 }
 
 void
-GiftiMeshIO ::WritePoints(void * buffer)
+GiftiMeshIO::WritePoints(void * buffer)
 {
   const SizeValueType pointsBufferSize = this->m_NumberOfPoints * this->m_PointDimension;
 
@@ -1566,7 +1153,7 @@ GiftiMeshIO ::WritePoints(void * buffer)
 }
 
 void
-GiftiMeshIO ::WriteCells(void * buffer)
+GiftiMeshIO::WriteCells(void * buffer)
 {
   // Get data array contain intent of NIFTI_INTENT_TRIANGLE
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
@@ -1658,7 +1245,7 @@ GiftiMeshIO ::WriteCells(void * buffer)
 }
 
 void
-GiftiMeshIO ::WritePointData(void * buffer)
+GiftiMeshIO::WritePointData(void * buffer)
 {
   // Get data array contain intent of NIFTI_INTENT_SHAPE
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
@@ -1869,7 +1456,7 @@ GiftiMeshIO ::WritePointData(void * buffer)
 }
 
 void
-GiftiMeshIO ::WriteCellData(void * buffer)
+GiftiMeshIO::WriteCellData(void * buffer)
 {
   // Get data array contain intent of NIFTI_INTENT_SHAPE
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
@@ -2079,19 +1666,131 @@ GiftiMeshIO ::WriteCellData(void * buffer)
 }
 
 void
-GiftiMeshIO ::Write()
+GiftiMeshIO::Write()
 {
   gifti_write_image(m_GiftiImage, this->m_FileName.c_str(), 1);
   gifti_free_image(m_GiftiImage);
 }
 
 void
-GiftiMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
+GiftiMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "gii version : " << std::endl;
   os << indent << gifticlib_version() << std::endl;
   os << indent << "Direction : " << std::endl;
   os << indent << m_Direction << std::endl;
+}
+
+IOComponentEnum
+GiftiMeshIO::GetComponentTypeFromGifti(int datatype)
+{
+  IOComponentEnum compType;
+
+  switch (datatype)
+  {
+    case NIFTI_TYPE_INT8:
+      compType = IOComponentEnum::CHAR;
+      break;
+    case NIFTI_TYPE_UINT8:
+      compType = IOComponentEnum::UCHAR;
+      break;
+    case NIFTI_TYPE_INT16:
+      compType = IOComponentEnum::SHORT;
+      break;
+    case NIFTI_TYPE_UINT16:
+      compType = IOComponentEnum::USHORT;
+      break;
+    case NIFTI_TYPE_INT32:
+      compType = IOComponentEnum::INT;
+      break;
+    case NIFTI_TYPE_UINT32:
+      compType = IOComponentEnum::UINT;
+      break;
+    case NIFTI_TYPE_INT64:
+      compType = IOComponentEnum::LONGLONG;
+      break;
+    case NIFTI_TYPE_UINT64:
+      compType = IOComponentEnum::ULONGLONG;
+      break;
+    case NIFTI_TYPE_FLOAT32:
+      compType = IOComponentEnum::FLOAT;
+      break;
+    case NIFTI_TYPE_FLOAT64:
+      compType = IOComponentEnum::DOUBLE;
+      break;
+    case NIFTI_TYPE_FLOAT128:
+      compType = IOComponentEnum::LDOUBLE;
+      break;
+    case NIFTI_TYPE_COMPLEX64:
+      compType = IOComponentEnum::FLOAT;
+      break;
+    case NIFTI_TYPE_COMPLEX128:
+      compType = IOComponentEnum::DOUBLE;
+      break;
+    case NIFTI_TYPE_RGB24:
+      compType = IOComponentEnum::UCHAR;
+      break;
+    case NIFTI_TYPE_RGBA32:
+      compType = IOComponentEnum::UCHAR;
+      break;
+    default:
+      compType = IOComponentEnum::UNKNOWNCOMPONENTTYPE;
+      itkExceptionMacro(<< "Unknown component type");
+  }
+  return compType;
+}
+
+IOPixelEnum
+GiftiMeshIO::GetPixelTypeFromGifti(int datatype)
+{
+  IOPixelEnum pixelType;
+
+  switch (datatype)
+  {
+    case NIFTI_TYPE_INT8:
+    case NIFTI_TYPE_UINT8:
+    case NIFTI_TYPE_INT16:
+    case NIFTI_TYPE_UINT16:
+    case NIFTI_TYPE_INT32:
+    case NIFTI_TYPE_UINT32:
+    case NIFTI_TYPE_INT64:
+    case NIFTI_TYPE_UINT64:
+    case NIFTI_TYPE_FLOAT32:
+    case NIFTI_TYPE_FLOAT64:
+      pixelType = IOPixelEnum::SCALAR;
+      break;
+    case NIFTI_TYPE_COMPLEX64:
+    case NIFTI_TYPE_COMPLEX128:
+      pixelType = IOPixelEnum::COMPLEX;
+      break;
+    case NIFTI_TYPE_RGB24:
+      pixelType = IOPixelEnum::RGB;
+      break;
+    case NIFTI_TYPE_RGBA32:
+      pixelType = IOPixelEnum::RGBA;
+      break;
+    default:
+      pixelType = IOPixelEnum::UNKNOWNPIXELTYPE;
+      itkExceptionMacro(<< "Unknown pixel type");
+  }
+  return pixelType;
+}
+
+int
+GiftiMeshIO::GetNumberOfPixelComponentsFromGifti(int datatype)
+{
+  int numComponents = 0;
+
+  int BytePerVoxel;
+  int SwapSize;
+  nifti_datatype_sizes(datatype, &BytePerVoxel, &SwapSize);
+
+  if (SwapSize == 0 && BytePerVoxel > 0)
+    numComponents = BytePerVoxel;
+  else if (SwapSize > 0 && BytePerVoxel > 0)
+    numComponents = BytePerVoxel / SwapSize;
+
+  return numComponents;
 }
 } // namespace itk

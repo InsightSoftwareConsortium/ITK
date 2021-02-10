@@ -88,10 +88,10 @@ public:
   SetOriginalPath(const OriginalPathType * originalPath);
 
   /** Set table of evenly-spaced orthogonal offsets for the original path. */
-  itkSetObjectMacro(OrthogonalCorrectionTable, OrthogonalCorrectionTableType)
+  itkSetObjectMacro(OrthogonalCorrectionTable, OrthogonalCorrectionTableType);
 
-    /** New() method for dynamic construction */
-    itkNewMacro(Self);
+  /** New() method for dynamic construction */
+  itkNewMacro(Self);
 
   /** Needed for Pipelining */
   void

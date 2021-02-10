@@ -46,7 +46,7 @@ LevelSetEvolutionBase<TEquationContainer, TLevelSet>::SetTimeStep(const LevelSet
   }
   else
   {
-    itkGenericExceptionMacro(<< "iDt should be > epsilon")
+    itkGenericExceptionMacro(<< "iDt should be > epsilon");
   }
 }
 

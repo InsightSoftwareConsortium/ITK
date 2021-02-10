@@ -56,15 +56,14 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * https://hdl.handle.net/1926/584  or
- * http://www.insight-journal.org/browse/publication/176
+ * https://www.insight-journal.org/browse/publication/176
  *
  * \ingroup ImageObjects
  * \ingroup LabeledImageObject
  * \ingroup ITKLabelMap
  *
  * \sphinx
- * \sphinxexample{Filtering/LabelMap/RemoveLabelsFromLabelMa,Remove Labels From Label Map}
+ * \sphinxexample{Filtering/LabelMap/RemoveLabelsFromLabelMap,Remove Labels From Label Map}
  * \endsphinx
  */
 template <typename TLabelObject>

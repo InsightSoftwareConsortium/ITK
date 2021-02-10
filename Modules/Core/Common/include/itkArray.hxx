@@ -60,6 +60,13 @@ Array<TValue>::Array(SizeValueType dimension)
   m_LetArrayManageMemory(true)
 {}
 
+/** Constructor with size and initial value for each element. */
+template <typename TValue>
+Array<TValue>::Array(const SizeValueType dimension, const TValue & value)
+  : vnl_vector<TValue>(dimension, value)
+  , m_LetArrayManageMemory{ true }
+{}
+
 /** Constructor with user specified data */
 template <typename TValue>
 Array<TValue>::Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMemory)

@@ -57,12 +57,16 @@ resultant mesh.
 A more detailed description can be found in the Insight Journal article:
 
   Mueller, D. \"Cuberille Implicit Surface Polygonization for ITK\"
-  https://hdl.handle.net/10380/3186
-  http://www.insight-journal.org/browse/publication/740
-  July 20, 2010.
-http://www.insight-journal.org/browse/publication/213
+  https://www.insight-journal.org/browse/publication/740
+  July-December, 2010.
+
+And the related:
+
+  Mueller, D. \"Fast Marching Minimal Path Extraction in ITK\"
+  https://www.insight-journal.org/browse/publication/213
+  January-June, 2008.
 "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKCuberille.git
-  GIT_TAG ba030a7e2de493a932e33cc7b3ec0fdf6b072968
+  GIT_TAG aaa9fb1332f1b5025e5bcf365967e04f8a636e5b
   )

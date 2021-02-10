@@ -44,8 +44,7 @@ namespace fftw
  * \brief Wrapper for FFTW API
  *
  * This implementation was taken from the Insight Journal paper:
- * https://hdl.handle.net/10380/3154
- * or http://insight-journal.com/browse/publication/717
+ * https://www.insight-journal.org/browse/publication/717
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

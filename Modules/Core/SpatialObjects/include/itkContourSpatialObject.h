@@ -155,23 +155,23 @@ public:
     return static_cast<SizeValueType>(m_ControlPoints.size());
   }
 
-  /** Set the interpolation type */
-  itkSetEnumMacro(InterpolationMethod, InterpolationMethodEnum)
+  /** Set the interpolation type. */
+  itkSetEnumMacro(InterpolationMethod, InterpolationMethodEnum);
 
-    /** Get the interpolation type */
-    itkGetConstMacro(InterpolationMethod, InterpolationMethodEnum)
+  /** Get the interpolation type. */
+  itkGetConstMacro(InterpolationMethod, InterpolationMethodEnum);
 
-    /** Set the interpolation factor, e.g., factor of 2 means 2 interpolated
-     *    points created for every control point. */
-    itkSetMacro(InterpolationFactor, unsigned int)
+  /** Set the interpolation factor, e.g., factor of 2 means 2 interpolated
+   * points created for every control point. */
+  itkSetMacro(InterpolationFactor, unsigned int);
 
-    /** Get the interpolation factor */
-    itkGetConstMacro(InterpolationFactor, unsigned int)
+  /** Get the interpolation factor. */
+  itkGetConstMacro(InterpolationFactor, unsigned int);
 
-    /** Set if the contour is closed */
-    itkSetMacro(IsClosed, bool);
+  /** Set if the contour is closed. */
+  itkSetMacro(IsClosed, bool);
 
-  /** Get if the contour is closed */
+  /** Get if the contour is closed. */
   itkGetConstMacro(IsClosed, bool);
 
   itkBooleanMacro(IsClosed);

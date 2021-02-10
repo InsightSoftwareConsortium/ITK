@@ -30,7 +30,7 @@ jobs:
     - script: |
         python -m pip install ninja numpy
         python -m pip install --upgrade setuptools
-        python -m pip install scikit-ci-addons
+        python -m pip install scikit-ci-addons dask distributed
       displayName: 'Install dependencies'
 
     - script: |

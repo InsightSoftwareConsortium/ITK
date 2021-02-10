@@ -43,8 +43,8 @@ namespace itk
  * \warning This function work only for Vector images. For
  * scalar images use LinearInterpolateImageFunction.
  *
- *  This paper was contributed in the Insight Journal paper:
- *  https://hdl.handle.net/1926/510
+ * This paper was contributed in the Insight Journal paper:
+ * https://www.insight-journal.org/browse/publication/154
  *
  * \ingroup ImageFunctions ImageInterpolators
  * \ingroup ITKImageFunction

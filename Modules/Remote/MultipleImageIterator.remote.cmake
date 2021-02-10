@@ -51,11 +51,10 @@ The MultipleImageIterator is a simple wrapper class that tries to make this more
 
 A more detailed description can be found in the Insight Journal article::
 Schaerer J. \"A MultipleImageIterator for iterating over multiple images simultaneously\".
-  http://hdl.handle.net/10380/3455
-  http://www.insight-journal.org/browse/publication/915
+  https://www.insight-journal.org/browse/publication/915
   December, 2014.
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/MultipleImageIterator.git
-  GIT_TAG 8a2595b490be876007f7bc2491bd8b4914b8be8e
+  GIT_TAG 05b4b9ed851a14fb1c68264e23b5f130dd9f9528
   )

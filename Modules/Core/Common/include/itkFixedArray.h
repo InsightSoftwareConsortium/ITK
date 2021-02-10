@@ -426,8 +426,11 @@ public:
   SizeType
   Size() const;
 
-  SizeType
-  size() const;
+  constexpr SizeType
+  size() const
+  {
+    return VLength;
+  }
 
   /** Set all the elements of the container to the input value. */
   void

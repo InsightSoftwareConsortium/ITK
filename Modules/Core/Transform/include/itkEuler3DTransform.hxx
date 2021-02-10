@@ -135,6 +135,12 @@ template <typename TParametersValueType>
 void
 Euler3DTransform<TParametersValueType>::SetFixedParameters(const FixedParametersType & parameters)
 {
+  if (parameters.size() < InputSpaceDimension)
+  {
+    itkExceptionMacro(<< "Error setting fixed parameters: parameters array size (" << parameters.size()
+                      << ") is less than expected  (InputSpaceDimension = " << InputSpaceDimension << ")");
+  }
+
   InputPointType c;
   for (unsigned int i = 0; i < InputSpaceDimension; i++)
   {

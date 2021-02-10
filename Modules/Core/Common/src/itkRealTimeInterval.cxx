@@ -31,7 +31,8 @@
   {                                                                                                                    \
     seconds += 1;                                                                                                      \
     micro_seconds = 1000000L + micro_seconds;                                                                          \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {

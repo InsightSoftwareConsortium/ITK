@@ -608,6 +608,7 @@ set(ITKCommonGTests
       itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
       itkFixedArrayGTest.cxx
       itkImageNeighborhoodOffsetsGTest.cxx
+      itkImageGTest.cxx
       itkImageBaseGTest.cxx
       itkImageBufferRangeGTest.cxx
       itkImageRegionRangeGTest.cxx
@@ -616,6 +617,8 @@ set(ITKCommonGTests
       itkIndexRangeGTest.cxx
       itkMersenneTwisterRandomVariateGeneratorGTest.cxx
       itkNeighborhoodAllocatorGTest.cxx
+      itkNumberToStringGTest.cxx
+      itkOptimizerParametersGTest.cxx
       itkPointGTest.cxx
       itkShapedImageNeighborhoodRangeGTest.cxx
       itkSizeGTest.cxx

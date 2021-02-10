@@ -202,7 +202,8 @@ protected:
     ExceptionObject exception(__FILE__, __LINE__);                                                                     \
     exception.SetDescription("File cannot be read");                                                                   \
     throw exception;                                                                                                   \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #define IOCHECK()                                                                                                      \
   if (f.fail())                                                                                                        \
@@ -212,6 +213,7 @@ protected:
       f.close();                                                                                                       \
     }                                                                                                                  \
     RAISE_EXCEPTION();                                                                                                 \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 #endif // itkIPLCommonImageIO_h

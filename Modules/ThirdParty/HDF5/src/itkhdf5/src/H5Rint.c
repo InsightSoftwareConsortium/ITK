@@ -230,7 +230,7 @@ H5R__create(void *_ref, H5G_loc_t *loc, const char *name, H5R_type_t ref_type,
     hbool_t     obj_found = FALSE;      /* Object location found */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     HDassert(_ref);
     HDassert(loc);
@@ -241,6 +241,9 @@ H5R__create(void *_ref, H5G_loc_t *loc, const char *name, H5R_type_t ref_type,
     obj_loc.oloc = &oloc;
     obj_loc.path = &path;
     H5G_loc_reset(&obj_loc);
+
+    /* Set the FAPL for the API context */
+    H5CX_set_libver_bounds(loc->oloc->file);
 
     /* Find the object */
     if(H5G_loc_find(loc, name, &obj_loc) < 0)
@@ -290,7 +293,7 @@ H5R__create(void *_ref, H5G_loc_t *loc, const char *name, H5R_type_t ref_type,
             HDmemset(ref, 0, H5R_DSET_REG_REF_BUF_SIZE);
 
             /* Get the amount of space required to serialize the selection */
-            if ((buf_size = H5S_SELECT_SERIAL_SIZE(space, loc->oloc->file)) < 0)
+            if ((buf_size = H5S_SELECT_SERIAL_SIZE(space)) < 0)
                 HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, FAIL, "Invalid amount of space for serializing selection")
 
             /* Increase buffer size to allow for the dataset OID */
@@ -306,7 +309,7 @@ H5R__create(void *_ref, H5G_loc_t *loc, const char *name, H5R_type_t ref_type,
             H5F_addr_encode(loc->oloc->file, &p, obj_loc.oloc->addr);
 
             /* Serialize the selection into heap buffer */
-            if (H5S_SELECT_SERIALIZE(space, &p, loc->oloc->file) < 0)
+            if (H5S_SELECT_SERIALIZE(space, &p) < 0)
                 HGOTO_ERROR(H5E_REFERENCE, H5E_CANTCOPY, FAIL, "Unable to serialize selection")
 
             /* Save the serialized buffer for later */
@@ -335,7 +338,7 @@ done:
     if (obj_found)
         H5G_loc_free(&obj_loc);
 
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 }   /* end H5R__create() */
 
 
@@ -381,7 +384,7 @@ H5R__dereference(H5F_t *file, hid_t oapl_id, H5R_type_t ref_type,
     H5O_type_t obj_type;        /* Type of object */
     hid_t ret_value = H5I_INVALID_HID;  /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     HDassert(_ref);
     HDassert(ref_type > H5R_BADTYPE && ref_type < H5R_MAXTYPE);
@@ -504,7 +507,7 @@ H5R__dereference(H5F_t *file, hid_t oapl_id, H5R_type_t ref_type,
      } /* end switch */
 
 done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 }   /* end H5R__dereference() */
 
 
@@ -538,7 +541,7 @@ H5R__get_region(H5F_t *file, const void *_ref)
     uint8_t *buf = NULL;        /* Buffer to store serialized selection in */
     H5S_t *ret_value;		/* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     HDassert(_ref);
     HDassert(file);
@@ -573,7 +576,7 @@ done:
     if(buf)
         H5MM_xfree(buf);
 
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 }  /* end H5R__get_region() */
 
 
@@ -607,7 +610,7 @@ H5R__get_obj_type(H5F_t *file, H5R_type_t ref_type, const void *_ref,
     unsigned rc;		/* Reference count of object    */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     HDassert(file);
     HDassert(_ref);
@@ -662,7 +665,7 @@ H5R__get_obj_type(H5F_t *file, H5R_type_t ref_type, const void *_ref,
         HGOTO_ERROR(H5E_REFERENCE, H5E_LINKCOUNT, FAIL, "dereferencing deleted object")
 
 done:
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 }   /* end H5R__get_obj_type() */
 
 
@@ -701,7 +704,7 @@ H5R__get_name(H5F_t *f, hid_t id, H5R_type_t ref_type, const void *_ref,
     H5O_loc_t oloc;             /* Object location describing object for reference */
     ssize_t ret_value = -1;     /* Return value */
 
-    FUNC_ENTER_PACKAGE_VOL
+    FUNC_ENTER_PACKAGE
 
     /* Check args */
     HDassert(f);
@@ -763,6 +766,6 @@ done:
     if (file_id > 0 && H5I_dec_ref(file_id) < 0)
         HDONE_ERROR(H5E_REFERENCE, H5E_CANTDEC, (-1), "can't decrement ref count of temp ID")
 
-    FUNC_LEAVE_NOAPI_VOL(ret_value)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5R__get_name() */
 

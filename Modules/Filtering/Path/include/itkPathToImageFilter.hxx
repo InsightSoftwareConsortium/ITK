@@ -236,7 +236,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   }
   else
   {
-    itkExceptionMacro(<< "Currently, the user MUST specify an image size")
+    itkExceptionMacro(<< "Currently, the user MUST specify an image size");
     // region.SetSize( size );
   }
   region.SetIndex(index);
@@ -266,7 +266,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   }
   else
   {
-    itkExceptionMacro(<< "Currently, the user MUST specify an image spacing")
+    itkExceptionMacro(<< "Currently, the user MUST specify an image spacing");
     // OutputImage->SetSpacing(InputObject->GetIndexToObjectTransform()->GetScaleComponent());
     //   // set spacing
   }

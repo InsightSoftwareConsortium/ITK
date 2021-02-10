@@ -57,25 +57,6 @@ include(${ITK_USE_FILE})
 #------------------------------------------------------------------------------
 # System dependant wrapping stuff
 
-# Make a variable that expands to nothing if there are no configuration types,
-# otherwise it expands to the active type plus a /, so that in either case,
-# the variable can be used in the middle of a path.
-if(CMAKE_CONFIGURATION_TYPES)
-  set(WRAP_ITK_BUILD_INTDIR "${CMAKE_CFG_INTDIR}/")
-  set(WRAP_ITK_INSTALL_INTDIR "\${BUILD_TYPE}/")
-
-  # horrible hack to avoid having ${BUILD_TYPE} expanded to an empty string
-  # while passing through the macros.
-  # Instead of expanding to an empty string, it expands to ${BUILD_TYPE}
-  # and so can be reexpanded again and again (and again)
-  set(BUILD_TYPE "\${BUILD_TYPE}")
-
-else()
-  set(WRAP_ITK_BUILD_INTDIR "")
-  set(WRAP_ITK_INSTALL_INTDIR "")
-endif()
-
-
 set(ITK_WRAP_NEEDS_DEPEND 1)
 if(${CMAKE_MAKE_PROGRAM} MATCHES make)
   set(ITK_WRAP_NEEDS_DEPEND 0)

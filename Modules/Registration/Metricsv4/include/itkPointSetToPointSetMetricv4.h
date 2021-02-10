@@ -190,7 +190,7 @@ public:
     }
     else
     {
-      itkExceptionMacro("Incorrect object type.  Should be a point set.")
+      itkExceptionMacro("Incorrect object type.  Should be a point set.");
     }
   }
 
@@ -205,7 +205,7 @@ public:
     }
     else
     {
-      itkExceptionMacro("Incorrect object type.  Should be a point set.")
+      itkExceptionMacro("Incorrect object type.  Should be a point set.");
     }
   }
 

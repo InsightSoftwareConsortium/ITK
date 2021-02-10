@@ -205,11 +205,19 @@ macro(itk_end_wrap_submodule_castxml module)
     set(_ccache_cmd ${CCACHE_EXECUTABLE})
   endif()
   set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
+  # Avoid missing omp.h include
   if(CMAKE_CXX_EXTENSIONS)
     set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX11_EXTENSION_COMPILE_OPTION}")
   else()
     set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX11_STANDARD_COMPILE_OPTION}")
   endif()
+
+  # Agressive optimization flags cause cast_xml to give invalid error conditions
+  set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
+  foreach( rmmatch ${INVALID_OPTIMIZATION_FLAGS})
+    string(REGEX REPLACE ${rmmatch} "" _castxml_cc_flags "${_castxml_cc_flags}")
+  endforeach()
+
   separate_arguments(_castxml_cc_flags)
   if(MSVC)
     set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ) -fexceptions)

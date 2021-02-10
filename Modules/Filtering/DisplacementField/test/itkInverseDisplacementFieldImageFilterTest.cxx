@@ -44,6 +44,9 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   FilterType::Pointer filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, InverseDisplacementFieldImageFilter, ImageToImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(filter);
 
   // Creating an input displacement field
@@ -92,49 +95,38 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   // size of the inverse field should be twice the size of the input
   // field. All other geomtry parameters are the same.
   filter->SetOutputSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, filter->GetOutputSpacing());
 
-  // keep the origin
+  // Keep the origin
   filter->SetOutputOrigin(origin);
+  ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
 
-  // set the size
+  // Set the size
   DisplacementFieldType::SizeType invFieldSize;
   invFieldSize[0] = size[0] * 2;
   invFieldSize[1] = size[1] * 2;
 
   filter->SetSize(invFieldSize);
+  ITK_TEST_SET_GET_VALUE(invFieldSize, filter->GetSize());
 
   filter->SetInput(field);
 
-  filter->SetSubsamplingFactor(16);
+  unsigned int subsamplingFactor = 16;
+  filter->SetSubsamplingFactor(subsamplingFactor);
+  ITK_TEST_SET_GET_VALUE(subsamplingFactor, filter->GetSubsamplingFactor());
 
-  try
-  {
-    filter->UpdateLargestPossibleRegion();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
+
 
   // Write an image for regression testing
   using WriterType = itk::ImageFileWriter<DisplacementFieldType>;
-
   WriterType::Pointer writer = WriterType::New();
 
-  writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[1]);
+  writer->SetInput(filter->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown by writer" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   // Now, test for loop invariant (acts as filter validation)
   // f^-1(f(p1) + p1 ) - f(p1)  = 0
@@ -166,5 +158,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
     ++it;
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

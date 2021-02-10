@@ -461,7 +461,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         }
         else
         {
-          itkExceptionMacro("Invalid metric type.")
+          itkExceptionMacro("Invalid metric type.");
         }
       }
     }
@@ -692,7 +692,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
       else
       {
-        itkExceptionMacro("Invalid metric type.")
+        itkExceptionMacro("Invalid metric type.");
       }
     }
     else if (this->m_Metric->GetMetricCategory() ==
@@ -720,12 +720,12 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       }
       else
       {
-        itkExceptionMacro("Invalid metric type.")
+        itkExceptionMacro("Invalid metric type.");
       }
     }
     else
     {
-      itkExceptionMacro("Invalid metric type.")
+      itkExceptionMacro("Invalid metric type.");
     }
   }
 

@@ -197,7 +197,8 @@ public:
 
   /* Use input field to define the B-spline doain. */
   itkSetMacro(UseInputFieldToDefineTheBSplineDomain, bool);
-  itkGetConstMacro(UseInputFieldToDefineTheBSplineDomain, bool) itkBooleanMacro(UseInputFieldToDefineTheBSplineDomain);
+  itkGetConstMacro(UseInputFieldToDefineTheBSplineDomain, bool);
+  itkBooleanMacro(UseInputFieldToDefineTheBSplineDomain);
 
   /**
    * Set the spline order defining the bias field estimate.  Default = 3.

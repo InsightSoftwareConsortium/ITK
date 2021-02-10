@@ -45,7 +45,7 @@ ParticleSwarmOptimizerBase::SetNumberOfParticles(unsigned int n)
 {
   if (!this->m_Particles.empty() && n != this->m_Particles.size())
   {
-    itkExceptionMacro(<< "swarm already set with different size, clear swarm and then set")
+    itkExceptionMacro(<< "swarm already set with different size, clear swarm and then set");
   }
   if (this->m_NumberOfParticles != n)
   {
@@ -70,7 +70,7 @@ ParticleSwarmOptimizerBase::SetInitialSwarm(const SwarmType & initialSwarm)
       if ((*it).m_CurrentParameters.GetSize() != n || (*it).m_CurrentVelocity.GetSize() != n ||
           (*it).m_BestParameters.GetSize() != n)
       {
-        itkExceptionMacro(<< "inconsistent dimensions in swarm data")
+        itkExceptionMacro(<< "inconsistent dimensions in swarm data");
       }
     }
     this->m_Particles.insert(m_Particles.begin(), initialSwarm.begin(), initialSwarm_END);
@@ -295,7 +295,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   // we have to have a cost function
   if (GetCostFunction() == nullptr)
   {
-    itkExceptionMacro(<< "nullptr cost function")
+    itkExceptionMacro(<< "nullptr cost function");
   }
   // if we got here it is safe to get the number of parameters the cost
   // function expects
@@ -305,34 +305,34 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   ParametersType initialPosition = GetInitialPosition();
   if (initialPosition.Size() != n)
   {
-    itkExceptionMacro(<< "cost function and initial position dimensions mismatch")
+    itkExceptionMacro(<< "cost function and initial position dimensions mismatch");
   }
   // at least one particle
   if (this->m_NumberOfParticles == 0)
   {
-    itkExceptionMacro(<< "number of particles is zero")
+    itkExceptionMacro(<< "number of particles is zero");
   }
   // at least one iteration (the initialization phase)
   if (this->m_MaximalNumberOfIterations == 0)
   {
-    itkExceptionMacro(<< "number of iterations is zero")
+    itkExceptionMacro(<< "number of iterations is zero");
   }
   // we need at least one generation difference to
   // compare to the previous one
   if (this->m_NumberOfGenerationsWithMinimalImprovement == 0)
   {
-    itkExceptionMacro(<< "number of generations with minimal improvement is zero")
+    itkExceptionMacro(<< "number of generations with minimal improvement is zero");
   }
 
   if (this->m_ParameterBounds.size() != n)
   {
-    itkExceptionMacro(<< "cost function and parameter bounds dimensions mismatch")
+    itkExceptionMacro(<< "cost function and parameter bounds dimensions mismatch");
   }
   for (i = 0; i < n; i++)
   {
     if (initialPosition[i] < this->m_ParameterBounds[i].first || initialPosition[i] > this->m_ParameterBounds[i].second)
     {
-      itkExceptionMacro(<< "initial position is outside specified parameter bounds")
+      itkExceptionMacro(<< "initial position is outside specified parameter bounds");
     }
   }
   // if the user set an initial swarm, check that the number of parameters
@@ -341,7 +341,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   {
     if (this->m_Particles[0].m_CurrentParameters.GetSize() != n)
     {
-      itkExceptionMacro(<< "cost function and particle data dimensions mismatch")
+      itkExceptionMacro(<< "cost function and particle data dimensions mismatch");
     }
     std::vector<ParticleData>::iterator it, end = this->m_Particles.end();
     for (it = this->m_Particles.begin(); it != end; ++it)
@@ -353,7 +353,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
             p.m_CurrentParameters[i] > m_ParameterBounds[i].second ||
             p.m_BestParameters[i] < m_ParameterBounds[i].first || p.m_BestParameters[i] > m_ParameterBounds[i].second)
         {
-          itkExceptionMacro(<< "initial position is outside specified parameter bounds")
+          itkExceptionMacro(<< "initial position is outside specified parameter bounds");
         }
       }
     }
@@ -363,13 +363,13 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   {
     if (this->m_ParametersConvergenceTolerance[i] < 0)
     {
-      itkExceptionMacro(<< "negative parameters convergence tolerance")
+      itkExceptionMacro(<< "negative parameters convergence tolerance");
     }
   }
   // function convergence tolerance has to be positive
   if (this->m_FunctionConvergenceTolerance < 0)
   {
-    itkExceptionMacro(<< "negative function convergence tolerance")
+    itkExceptionMacro(<< "negative function convergence tolerance");
   }
 }
 

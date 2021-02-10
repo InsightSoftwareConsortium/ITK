@@ -155,7 +155,8 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   {                                                                                                                    \
     std::cout << "Test failed." << std::endl;                                                                          \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   TEST_INITIALIZATION_ERROR(Metric, nullptr, metric);
   TEST_INITIALIZATION_ERROR(Optimizer, nullptr, optimizer);

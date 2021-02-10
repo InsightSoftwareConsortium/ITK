@@ -101,7 +101,7 @@ extern ITKIOGDCM_EXPORT std::ostream &
  * \ingroup ITKIOGDCM
  *
  * \sphinx
- * \sphinxexample{IO/GDCM/ResamleDICOMSeries,Resample DICOM Series}
+ * \sphinxexample{IO/GDCM/ResampleDICOMSeries,Resample DICOM Series}
  * \sphinxexample{IO/GDCM/ReadDICOMSeriesAndWrite3DImage,Read DICOM Series and Write 3D Image}
  * \endsphinx
  */

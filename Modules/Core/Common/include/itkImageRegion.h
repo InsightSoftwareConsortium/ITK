@@ -62,7 +62,7 @@ class ITK_TEMPLATE_EXPORT ImageBase;
  * \sphinxexample{Core/Common/CreateAnImageRegion,An object which holds the index (start) and size of a region of an
  * image} \sphinxexample{Core/Common/ImageRegionIntersection,Determine image region intersection}
  * \sphinxexample{Core/Common/IsPixelInsideRegion,Determine if a pixel is inside of a region}
- * \sphinxexample{Core/Common/RegionOverlap,Determine the overlap of two regions}
+ * \sphinxexample{Core/Common/ImageRegionOverlap,Determine the overlap of two regions}
  * \endsphinx
  */
 template <unsigned int VImageDimension>

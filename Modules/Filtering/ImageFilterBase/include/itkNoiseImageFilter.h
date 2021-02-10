@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKImageFilterBase
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageFilterBase/ComputerLocalNoise,Compute Local Noise In Image}
+ * \sphinxexample{Filtering/ImageFilterBase/ComputeLocalNoise,Compute Local Noise In Image}
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>

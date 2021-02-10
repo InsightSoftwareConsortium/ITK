@@ -109,17 +109,18 @@ public:
 
   /** Set the size of the swath image.
    * The number of rows (size[1]) MUST be odd */
-  itkSetMacro(Size, SizeType)
+  itkSetMacro(Size, SizeType);
 
-    /** Set the default pixel value of the swath image, to be used if the swath
-     * extends past the edge of the input image data. */
-    itkSetMacro(DefaultPixelValue, ImagePixelType)
+  /** Set the default pixel value of the swath image, to be used if the swath
+   * extends past the edge of the input image data. */
+  itkSetMacro(DefaultPixelValue, ImagePixelType);
 
-    //--------------------------------------------------------------------------
-    //
+  //--------------------------------------------------------------------------
+  //
 
-    /** Request the largest possible region on all outputs. */
-    void EnlargeOutputRequestedRegion(DataObject * output) override
+  /** Request the largest possible region on all outputs. */
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override
   {
     output->SetRequestedRegionToLargestPossibleRegion();
   }

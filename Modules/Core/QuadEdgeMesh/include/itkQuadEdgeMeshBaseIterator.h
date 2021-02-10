@@ -28,7 +28,8 @@
                                                                                                                        \
   virtual Iterator End##Op() { return Iterator(this, Self::Iterator::Operator##Op, false); }                           \
                                                                                                                        \
-  virtual ConstIterator End##Op() const { return ConstIterator(this, Self::ConstIterator::Operator##Op, false); }
+  virtual ConstIterator End##Op() const { return ConstIterator(this, Self::ConstIterator::Operator##Op, false); }      \
+  ITK_MACROEND_NOOP_STATEMENT
 
 // -------------------------------------------------------------------------
 #define itkQEDefineIteratorGeomMethodsMacro(Op)                                                                        \
@@ -44,7 +45,8 @@
   virtual ConstIteratorGeom EndGeom##Op() const                                                                        \
   {                                                                                                                    \
     return ConstIteratorGeom(this, Self::ConstIteratorGeom::Operator##Op, false);                                      \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
 {

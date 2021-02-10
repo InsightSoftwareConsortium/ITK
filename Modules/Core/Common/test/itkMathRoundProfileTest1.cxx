@@ -39,8 +39,8 @@ itkMathRoundTestHelperFunction(double x)
       y = static_cast<int>(x + 0.5);                                                                                   \
     }                                                                                                                  \
     else { y = static_cast<int>(x - 0.5); }                                                                            \
-  }
-
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 int
 itkMathRoundProfileTest1(int, char *[])

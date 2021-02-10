@@ -41,10 +41,10 @@ namespace itk
  * When the Gaussian kernel is small, this filter tends to run faster than
  * itk::RecursiveGaussianImageFilter.
  *
- * \author Ivan Macia, VICOMTech, Spain, http://www.vicomtech.es
+ * \author Ivan Macia, Vicomtech, Spain, https://www.vicomtech.org/en
  *
  * This implementation was taken from the Insight Journal paper:
- * https://hdl.handle.net/1926/1290
+ * https://www.insight-journal.org/browse/publication/179
  *
  * \sa GaussianDerivativeOperator
  * \sa Image

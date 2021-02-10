@@ -1,9 +1,9 @@
 #include <iostream>
-#include <cstdlib>
 
 #include <metaArray.h>
 
-int main(int, char * [])
+int
+main(int, char *[])
 {
   MetaArray tObj;
 
@@ -17,10 +17,10 @@ int main(int, char * [])
   tObj.BinaryData(false);
 
   int i;
-  for(i=0; i<10; i++)
-    {
-    tObj.ElementData(i, i*3.1415926);
-    }
+  for (i = 0; i < 10; i++)
+  {
+    tObj.ElementData(i, i * 3.1415926);
+  }
   tObj.PrintInfo();
   tObj.Write();
 
@@ -29,7 +29,8 @@ int main(int, char * [])
   tObj.PrintInfo();
   tObj.Write();
 
-  MetaArray tObj_ascii, tObj_binary;
+  MetaArray tObj_ascii;
+  MetaArray tObj_binary;
   tObj_ascii.FileName("testArray.mvh");
   tObj_binary.FileName("testArray.mva");
 

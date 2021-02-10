@@ -44,8 +44,8 @@
 # Contact: Luis Ibanez <luis.ibanez@kitware.com>
 itk_fetch_module(IOMeshSTL
   "This module contains classes for reading and writing QuadEdgeMeshes using
-  the STL (STereoLithography)file format. https://hdl.handle.net/10380/3452"
+  the STL (STereoLithography) file format. https://www.insight-journal.org/browse/publication/913"
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOMeshSTL.git
-  GIT_TAG 9f2aebbc91ce65f898bcbe54b13b3479f33334f4
+  GIT_TAG 10d4768ef232a909f435d6645c7d31ed58032f8c
   )

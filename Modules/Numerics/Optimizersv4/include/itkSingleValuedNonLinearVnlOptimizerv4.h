@@ -47,13 +47,13 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SingleValuedNonLinearVnlOptimizerv4, ObjectToObjectOptimizerBase)
+  itkTypeMacro(SingleValuedNonLinearVnlOptimizerv4, ObjectToObjectOptimizerBase);
 
-    /** Command observer that will interact with the ITKVNL cost-function
-     * adaptor in order to generate iteration events. This will allow to overcome
-     * the limitation of VNL optimizers not offering callbacks for every
-     * iteration */
-    using CommandType = ReceptorMemberCommand<Self>;
+  /** Command observer that will interact with the ITKVNL cost-function
+   * adaptor in order to generate iteration events. This will allow to overcome
+   * the limitation of VNL optimizers not offering callbacks for every
+   * iteration */
+  using CommandType = ReceptorMemberCommand<Self>;
 
   using MetricType = Superclass::MetricType;
   using DerivativeType = Superclass::DerivativeType;

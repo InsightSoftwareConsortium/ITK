@@ -14,8 +14,8 @@ CreateTestDriver(ITKIOTIFF  "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
 itk_add_test(NAME itkTIFFImageIOTest
       COMMAND ITKIOTIFFTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
-    itkTIFFImageIOTest DATA{${ITK_DATA_ROOT}/Input/cthead1.tif} ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
+              ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest_cthead1.tif
+    itkTIFFImageIOTest DATA{${ITK_DATA_ROOT}/Input/cthead1.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTest_cthead1.tif)
 itk_add_test(NAME itkTIFFImageIOTest1
       COMMAND ITKIOTIFFTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/RGBTestImage.tif}

@@ -43,9 +43,9 @@
 
 #Contact: I. Vidal-Migallon <irina.vidal-migallon@inria.fr>
 itk_fetch_module(SmoothingRecursiveYvvGaussianFilter
-  "GPU and CPU Young & Van Vliet Recursive Gaussian Smoothing Filter: https://hdl.handle.net/10380/3425"
+  "GPU and CPU Young & Van Vliet Recursive Gaussian Smoothing Filter: https://www.insight-journal.org/browse/publication/896"
   MODULE_COMPLIANCE_LEVEL 2
   #UPSTREAM_REPO GIT_REPOSITORY ${git_protocol}://github.com/Inria-Asclepios/SmoothingRecursiveYvvGaussianFilter
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKSmoothingRecursiveYvvGaussianFilter.git
-  GIT_TAG 93fcef7831eae91bde1ce9f3173c19f369993cc8
+  GIT_TAG 7938b2b216a86170ead9988f7003149a719be998
   )

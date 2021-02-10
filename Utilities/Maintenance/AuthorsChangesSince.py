@@ -287,12 +287,12 @@ changed_remotes = (
 with open(changelog_file, "a") as fp:
     fp.write(f"Remote Module Changes Since {revision}\n")
     fp.write("---------------------------------------------\n\n")
-print("Remote module:")
+print("Updated remote module:")
 for remote in changed_remotes.split():
     module_name = remote.split("/")[-1].split(".")[0]
     if module_name in ["SphinxExamples", "CMakeLists", "README"]:
         continue
-    print(module_name)
+    sys.stdout.write(f"*{module_name}*, ")
     os.chdir(itk_dir)
 
     # The remote file could have been added or its name changed. Use the oldest
@@ -328,12 +328,16 @@ for remote in changed_remotes.split():
     update_recent_authors(f"{remote_old_tag}..{remote_new_tag}")
     update_authors_with_email(f"{remote_old_tag}..{remote_new_tag}")
 
-    log = subprocess.check_output(
-        "git shortlog --format=%s:%h --topo-order --no-merges {0}..{1}".format(
-            remote_old_tag, remote_new_tag
-        ),
-        shell=True,
-    ).decode("utf-8")
+    try:
+        log = subprocess.check_output(
+            "git shortlog --format=%s:%h --topo-order --no-merges {0}..{1}".format(
+                remote_old_tag, remote_new_tag
+            ),
+            shell=True,
+        ).decode("utf-8")
+    except:
+        subprocess.CalledProcessError
+        continue
     commit_link_prefix = remote_repo.replace(".git", "") + "/commit/"
     formatted_log = format_shortlog(log, commit_link_prefix)
     with open(changelog_file, "a") as fp:

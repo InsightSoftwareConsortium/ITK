@@ -51,10 +51,9 @@ For more information, see:
   McCormick M.
   N-Dimensional Computation of Strain Tensor Images in the Insight Toolkit
   The Insight Journal. January-December. 2017.
-  http://hdl.handle.net/10380/3573
-  http://insight-journal.org/browse/publication/984
+  https://www.insight-journal.org/browse/publication/984
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKStrain.git
-  GIT_TAG 0a87f43d8bdd88275f964ebbe7c40c937ae5c2c2
+  GIT_TAG fba02d89ceeb6f526045c91a7b95ca33a253376a
   )

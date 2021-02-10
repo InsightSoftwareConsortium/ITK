@@ -33,7 +33,8 @@ using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
     rval->SetSpacing(spacing);                                                                                         \
     rval->SetRegions(region);                                                                                          \
     rval->Allocate();                                                                                                  \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 namespace
 {

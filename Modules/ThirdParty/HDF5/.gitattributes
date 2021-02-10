@@ -1,0 +1,4 @@
+src/itkhdf5/src/H5C.c        hooks-max-size=500000
+src/itkhdf5/src/H5Dchunk.c   hooks-max-size=500000
+src/itkhdf5/src/H5Shyper.c   hooks-max-size=500000
+src/itkhdf5/src/H5Tconv.c    hooks-max-size=500000

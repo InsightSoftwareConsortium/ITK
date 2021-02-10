@@ -484,12 +484,12 @@ itk_add_test(NAME itkObjectByObjectLabelMapFilterTest0
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/itkObjectByObjectLabelMapFilterTest0.png}
               ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest0.png
-    itkObjectByObjectLabelMapFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest0.png 0)
+    itkObjectByObjectLabelMapFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest0.png 0 0 1)
 itk_add_test(NAME itkObjectByObjectLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/itkObjectByObjectLabelMapFilterTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest1.png
-    itkObjectByObjectLabelMapFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest1.png 1)
+    itkObjectByObjectLabelMapFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} ${ITK_TEST_OUTPUT_DIR}/itkObjectByObjectLabelMapFilterTest1.png 1 0 1)
 itk_add_test(NAME itkPadLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/cthead1-label-pad.mha}

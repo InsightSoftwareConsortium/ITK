@@ -31,9 +31,7 @@ namespace itk
  *  A convenient class that converts a label image to a label map and valuates the shape attribute at once.
  *
  * This implementation was taken from the Insight Journal paper:
- *
- * https://hdl.handle.net/1926/584  or
- * http://www.insight-journal.org/browse/publication/176
+ * https://www.insight-journal.org/browse/publication/176
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

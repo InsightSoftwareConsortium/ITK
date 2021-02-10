@@ -206,7 +206,7 @@ Expect_ImageRegionRange_iterates_backward_over_same_pixels_as_ImageRegionIterato
     --imageRegionIterator;
     --rangeIterator;
     EXPECT_EQ(*rangeIterator, imageRegionIterator.Get());
-  };
+  }
 
   EXPECT_EQ(rangeIterator, range.begin());
 }

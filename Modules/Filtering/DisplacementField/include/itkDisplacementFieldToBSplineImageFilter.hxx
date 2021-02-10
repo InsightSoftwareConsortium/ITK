@@ -133,7 +133,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
   if (this->m_BSplineDomainIsDefined == false)
   {
-    itkExceptionMacro("Output (B-spline) domain is undefined.")
+    itkExceptionMacro("Output (B-spline) domain is undefined.");
   }
 
   using ContinuousIndexType = ContinuousIndex<typename InputFieldPointType::CoordRepType, ImageDimension>;

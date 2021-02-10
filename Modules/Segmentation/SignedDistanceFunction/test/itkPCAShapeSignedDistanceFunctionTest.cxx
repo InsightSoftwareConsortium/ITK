@@ -228,7 +228,8 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   {                                                                                                                    \
     std::cout << "Test failed." << std::endl;                                                                          \
     return EXIT_FAILURE;                                                                                               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   // nullptr MeanImage
   TEST_INITIALIZATION_ERROR(MeanImage, nullptr, meanImage);

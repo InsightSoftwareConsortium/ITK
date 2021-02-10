@@ -162,7 +162,9 @@ public:
   using InputImagePointer = typename InputImageType::Pointer;
   using OutputImagePointer = typename OutputImageType::Pointer;
 
-  /** The dimensionality of the input and output images. */
+  /** The dimensionality of the input and output images. Dimensionality
+   * of the two images is assumed to be the same. */
+  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int ImageDimension = TOutputImage::ImageDimension;
 
   /** Length of the vector pixel type of the input image. */
@@ -192,10 +194,22 @@ public:
   void
   GenerateInputRequestedRegion() override;
 
+  /** Set/Get whether or not the filter will use the spacing of the input
+      image (1/spacing) in the calculation of the derivative weights. Use On
+      if you want to calculate the gradient in the space in which the data was
+      acquired; use Off to ignore image spacing and to calculate the gradient
+      in the image space. Default is On. */
+  void
+  SetUseImageSpacing(bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the gradient in the
       space in which the data was acquired. Default is
-      ImageSpacingOn. */
+      ImageSpacingOn.
+      \deprecated Use VectorGradientMagnitudeImageFilter::UseImageSpacingOn instead. */
   void
   SetUseImageSpacingOn()
   {
@@ -204,31 +218,31 @@ public:
 
   /** Reset the derivative weights to ignore image spacing.  Use this option if
       you want to calculate the gradient in the image space.  Default is
-      ImageSpacingOn. */
+      ImageSpacingOn.
+     \deprecated Use VectorGradientMagnitudeImageFilter::UseImageSpacingOff instead. */
   void
   SetUseImageSpacingOff()
   {
     this->SetUseImageSpacing(false);
   }
+#endif
 
-  /** Set/Get whether or not the filter will use the spacing of the input
-      image in its calculations */
-  void
-  SetUseImageSpacing(bool);
-
-  itkGetConstMacro(UseImageSpacing, bool);
-
-  using WeightsType = FixedArray<TRealType, VectorDimension>;
+  using ComponentWeightsType = FixedArray<TRealType, VectorDimension>;
+  using DerivativeWeightsType = FixedArray<TRealType, ImageDimension>;
+#if !defined(ITK_LEGACY_REMOVE)
+  using WeightsType ITK_DEPRECATED_MSG("Use DerivativeWeightsType or ComponentWeightsType instead.") =
+    ComponentWeightsType;
+#endif
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
       Note that calling UseImageSpacingOn will clobber these values. */
-  itkSetMacro(DerivativeWeights, WeightsType);
-  itkGetConstReferenceMacro(DerivativeWeights, WeightsType);
+  itkSetMacro(DerivativeWeights, DerivativeWeightsType);
+  itkGetConstReferenceMacro(DerivativeWeights, DerivativeWeightsType);
 
   /** Set/Get the array of weightings for the different components of the
       vector.  Default values are 1.0. */
-  itkSetMacro(ComponentWeights, WeightsType);
-  itkGetConstReferenceMacro(ComponentWeights, WeightsType);
+  itkSetMacro(ComponentWeights, ComponentWeightsType);
+  itkGetConstReferenceMacro(ComponentWeights, ComponentWeightsType);
 
   /** Set/Get principle components calculation mode.  When this is set to TRUE/ON,
       the gradient calculation will involve a principle component analysis of
@@ -237,17 +251,23 @@ public:
       derivatives squared.  Default is UsePrincipleComponents = true. */
   itkSetMacro(UsePrincipleComponents, bool);
   itkGetConstMacro(UsePrincipleComponents, bool);
+  itkBooleanMacro(UsePrincipleComponents);
+
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+  /** \deprecated Use VectorGradientMagnitudeImageFilter::UsePrincipleComponentsOn instead. */
   void
   SetUsePrincipleComponentsOn()
   {
     this->SetUsePrincipleComponents(true);
   }
 
+  /** \deprecated Use VectorGradientMagnitudeImageFilter::UsePrincipleComponentsOff instead. */
   void
   SetUsePrincipleComponentsOff()
   {
     this->SetUsePrincipleComponents(false);
   }
+#endif
 
   /** A specialized solver for finding the roots of a cubic polynomial.
    *  Necessary to multi-thread the 3D case */
@@ -256,6 +276,7 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<InputImageDimension, ImageDimension>));
   itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<typename InputPixelType::ValueType>));
   itkConceptMacro(RealTypeHasNumericTraitsCheck, (Concept::HasNumericTraits<RealType>));
   // End concept checking
@@ -465,13 +486,13 @@ protected:
   }
 
   /** The weights used to scale derivatives during processing */
-  WeightsType m_DerivativeWeights;
+  DerivativeWeightsType m_DerivativeWeights;
 
   /** These weights are used to scale
       vector component values when they are combined to produce  a scalar.  The
       square root */
-  WeightsType m_ComponentWeights;
-  WeightsType m_SqrtComponentWeights;
+  ComponentWeightsType m_ComponentWeights;
+  ComponentWeightsType m_SqrtComponentWeights;
 
 private:
   bool m_UseImageSpacing;

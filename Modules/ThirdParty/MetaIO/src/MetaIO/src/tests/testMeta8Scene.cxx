@@ -1,24 +1,24 @@
 #include <iostream>
-#include <cstdlib>
 
 #include <metaScene.h>
 #include <metaGroup.h>
 #include <metaEllipse.h>
 
-int main(int, char * [])
+int
+main(int, char *[])
 {
   std::cout << "Creating test scene ..." << std::endl;
-  MetaScene * s = new MetaScene(3);
+  auto * s = new MetaScene(3);
 
-  MetaEllipse * e1 = new MetaEllipse(3);
+  auto * e1 = new MetaEllipse(3);
   e1->ID(0);
   e1->Radius(3);
 
-  MetaEllipse * e2 = new MetaEllipse(3);
+  auto * e2 = new MetaEllipse(3);
   e2->ID(1);
   e2->Radius(4);
 
-  MetaGroup * g1 = new MetaGroup(3);
+  auto * g1 = new MetaGroup(3);
   g1->FileName("MyFilename");
   g1->ID(2);
 
@@ -45,12 +45,11 @@ int main(int, char * [])
 
   s->Read("scene.scn");
 
-  if(s->NObjects() != 3)
-    {
-    std::cout << "Number of obejcts: " << s->NObjects()
-              << " != 3...[FAILED]" << std::endl;
+  if (s->NObjects() != 3)
+  {
+    std::cout << "Number of obejcts: " << s->NObjects() << " != 3...[FAILED]" << std::endl;
     return EXIT_FAILURE;
-    }
+  }
 
   std::cout << "...[ok]" << std::endl;
 
@@ -72,13 +71,12 @@ int main(int, char * [])
 
   s->Read("ellipse.elp");
 
-  if(s->NObjects() != 1)
-    {
-    std::cout << "Number of obejcts: " << s->NObjects()
-              << " != 1...[FAILED]" << std::endl;
+  if (s->NObjects() != 1)
+  {
+    std::cout << "Number of obejcts: " << s->NObjects() << " != 1...[FAILED]" << std::endl;
     delete s;
     return EXIT_FAILURE;
-    }
+  }
 
   delete s;
   std::cout << "[OK]" << std::endl;

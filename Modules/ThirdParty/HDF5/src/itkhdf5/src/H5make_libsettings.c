@@ -35,12 +35,15 @@ static const char *FileHeader = "\n\
 #include <stdio.h>
 #include <time.h>
 #include "H5private.h"
+/* Do NOT use HDfprintf in this file as it is not linked with the library,
+ * which contains the H5system.c file in which the function is defined.
+ */
 
 #define LIBSETTINGSFNAME "libhdf5.settings"
 
 FILE       *rawoutstream = NULL;
 
-
+
 /*-------------------------------------------------------------------------
  * Function:  insert_libhdf5_settings
  *
@@ -55,7 +58,9 @@ FILE       *rawoutstream = NULL;
 static void
 insert_libhdf5_settings(FILE *flibinfo)
 {
+/* ITK --start */
 #if defined(H5_HAVE_EMBEDDED_LIBINFO) && !defined(__EMSCRIPTEN__)
+/* ITK --stop */
     FILE *fsettings;    /* for files libhdf5.settings */
     int inchar;
     int    bol = 0;    /* indicates the beginning of a new line */
@@ -67,7 +72,9 @@ insert_libhdf5_settings(FILE *flibinfo)
 
     /* print variable definition and the string */
     /* Do not use const else AIX strings does not show it. */
+/* ITK --start */
     fprintf(flibinfo, "char itk_H5libhdf5_settings[]=\n");
+/* ITK --stop */
     bol++;
     while(EOF != (inchar = HDgetc(fsettings))) {
         if(bol) {
@@ -101,11 +108,13 @@ insert_libhdf5_settings(FILE *flibinfo)
 #else
     /* print variable definition and an empty string */
     /* Do not use const else AIX strings does not show it. */
+/* ITK --start */
     fprintf(flibinfo, "char itk_H5libhdf5_settings[]=\"\";\n");
+/* ITK --stop */
 #endif
 } /* insert_libhdf5_settings() */
 
-
+
 /*-------------------------------------------------------------------------
  * Function:  make_libinfo
  *
@@ -123,7 +132,7 @@ make_libinfo(void)
     insert_libhdf5_settings(rawoutstream);
 }
 
-
+
 /*-------------------------------------------------------------------------
  * Function:  print_header
  *
@@ -229,7 +238,7 @@ information about the library build configuration\n";
     fprintf(rawoutstream, "\n */\n\n");
 }
 
-
+
 /*-------------------------------------------------------------------------
  * Function:  print_footer
  *
@@ -244,7 +253,7 @@ print_footer(void)
     /* nothing */
 }
 
-
+
 /*-------------------------------------------------------------------------
  * Function:  main
  *

@@ -27,7 +27,8 @@
     std::cerr << __FILE__ << ":" << __LINE__ << ":"                                                                    \
               << "Assertion failed: " << #cond << ": " << text << std::endl;                                           \
     result = EXIT_FAILURE;                                                                                             \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
 int
 itkVariableLengthVectorTest(int, char *[])
@@ -101,18 +102,18 @@ itkVariableLengthVectorTest(int, char *[])
     // Tests for SetSize(size, allocation policy, values keeping policy)
     {
       DoubleVariableLengthVectorType ref(d, 3, false);
-      ASSERT(ref.IsAProxy(), "Unexpected Reference VLV value")
-      ASSERT((ref[0] == 0.1) && (d[0] == 0.1), "Unexpected Reference VLV value")
+      ASSERT(ref.IsAProxy(), "Unexpected Reference VLV value");
+      ASSERT((ref[0] == 0.1) && (d[0] == 0.1), "Unexpected Reference VLV value");
 
       DoubleVariableLengthVectorType x(d, 3, false);
-      ASSERT(x.IsAProxy(), "Unexpected VLV value")
-      ASSERT((x[0] == 0.1) && (x[0] == 0.1), "Unexpected VLV value")
+      ASSERT(x.IsAProxy(), "Unexpected VLV value");
+      ASSERT((x[0] == 0.1) && (x[0] == 0.1), "Unexpected VLV value");
 
       // ===[ Keep old values
       // ---[ Shrink To Fit
       x.SetSize(5, DoubleVariableLengthVectorType::ShrinkToFit(), DoubleVariableLengthVectorType::KeepOldValues());
-      ASSERT(!x.IsAProxy(), "After resizing a proxy, it shall not be a proxy anymore")
-      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept")
+      ASSERT(!x.IsAProxy(), "After resizing a proxy, it shall not be a proxy anymore");
+      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept");
       x[3] = 3.0;
       x[4] = 4.0;
       double * start = &x[0];
@@ -128,7 +129,7 @@ itkVariableLengthVectorTest(int, char *[])
       // ---[ Don't Shrink To Fit
       x.SetSize(5, DoubleVariableLengthVectorType::DontShrinkToFit(), DoubleVariableLengthVectorType::KeepOldValues());
       ASSERT(!x.IsAProxy(), "After resizing, it shall never be a proxy");
-      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept")
+      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept");
       ASSERT(&x[0] != start, "DontShrinkToFit shall induce a resizing when the size grows");
       x[3] = 3.0;
       x[4] = 4.0;
@@ -136,31 +137,31 @@ itkVariableLengthVectorTest(int, char *[])
 
       x.SetSize(3, DoubleVariableLengthVectorType::DontShrinkToFit(), DoubleVariableLengthVectorType::KeepOldValues());
       ASSERT(!x.IsAProxy(), "After resizing, it shall never be a proxy");
-      ASSERT(ref == x, "Old Values shall have been kept")
+      ASSERT(ref == x, "Old Values shall have been kept");
       ASSERT(&x[0] == start, "DontShrinkToFit shall not induce a resizing when the size diminishes");
       start = &x[0];
 
       x.SetSize(3, DoubleVariableLengthVectorType::DontShrinkToFit(), DoubleVariableLengthVectorType::KeepOldValues());
       ASSERT(!x.IsAProxy(), "After resizing, it shall never be a proxy");
-      ASSERT(ref == x, "Old Values shall have been kept")
+      ASSERT(ref == x, "Old Values shall have been kept");
       ASSERT(&x[0] == start, "DontShrinkToFit shall not induce a resizing when the size stays the same");
 
       // ---[ Always Reallocate
       x.SetSize(5, DoubleVariableLengthVectorType::AlwaysReallocate(), DoubleVariableLengthVectorType::KeepOldValues());
       ASSERT(!x.IsAProxy(), "After resizing, it shall never be a proxy");
-      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept")
+      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept");
       ASSERT(&x[0] != start, "AlwaysReallocate shall induce a reallocation when resizing");
       start = &x[0];
 
       x.SetSize(3, DoubleVariableLengthVectorType::AlwaysReallocate(), DoubleVariableLengthVectorType::KeepOldValues());
       ASSERT(!x.IsAProxy(), "After resizing, it shall never be a proxy");
-      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept")
+      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept");
       ASSERT(&x[0] != start, "AlwaysReallocate shall induce a reallocation when resizing");
       start = &x[0];
 
       x.SetSize(3, DoubleVariableLengthVectorType::AlwaysReallocate(), DoubleVariableLengthVectorType::KeepOldValues());
       ASSERT(!x.IsAProxy(), "After resizing, it shall never be a proxy");
-      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept")
+      ASSERT(ref[0] == x[0] && ref[1] == x[1] && ref[2] == x[2], "Old Values shall have been kept");
       ASSERT(&x[0] != start, "AlwaysReallocate shall induce a reallocation when resizing, even with the same size");
       start = &x[0];
 

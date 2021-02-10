@@ -1,28 +1,28 @@
 #include <iostream>
-#include <cstdlib>
 
 #include <metaLine.h>
 
-int main(int, char * [])
+int
+main(int, char *[])
 {
   std::cout << "Creating test file ...";
-  MetaLine* Line = new MetaLine(3);
+  auto * Line = new MetaLine(3);
   Line->ID(0);
-  LinePnt* pnt;
+  LinePnt * pnt;
 
   unsigned int i;
-  for(i=0;i<10;i++)
+  for (i = 0; i < 10; i++)
   {
     pnt = new LinePnt(3);
-    pnt->m_X[0]=(float)0.2;
-    pnt->m_X[1]=i;
-    pnt->m_X[2]=i;
-    pnt->m_V[0][0]=(float)0.3;
-    pnt->m_V[0][1]=i;
-    pnt->m_V[0][2]=i;
-    pnt->m_V[1][0]=(float)0.4;
-    pnt->m_V[1][1]=i+1;
-    pnt->m_V[1][2]=i+1;
+    pnt->m_X[0] = static_cast<float>(0.2);
+    pnt->m_X[1] = i;
+    pnt->m_X[2] = i;
+    pnt->m_V[0][0] = static_cast<float>(0.3);
+    pnt->m_V[0][1] = i;
+    pnt->m_V[0][2] = i;
+    pnt->m_V[1][0] = static_cast<float>(0.4);
+    pnt->m_V[1][1] = i + 1;
+    pnt->m_V[1][2] = i + 1;
     Line->GetPoints().push_back(pnt);
   }
 
@@ -47,28 +47,28 @@ int main(int, char * [])
 
   Line->PrintInfo();
 
-  MetaLine::PointListType list =  Line->GetPoints();
+  MetaLine::PointListType                 list = Line->GetPoints();
   MetaLine::PointListType::const_iterator it = list.begin();
 
-  i=0;
-  while(it != list.end())
+  i = 0;
+  while (it != list.end())
   {
     std::cout << "Point #" << i++ << ":" << std::endl;
     std::cout << "position = ";
-    unsigned int d=0;
-    for(d = 0; d < 3; d++)
+
+    for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_X[d] << " ";
     }
     std::cout << std::endl;
     std::cout << "First normal = ";
-    for(d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[0][d] << " ";
     }
     std::cout << std::endl;
     std::cout << "Second normal = ";
-    for(d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; d++)
     {
       std::cout << (*it)->m_V[1][d] << " ";
     }

@@ -12,10 +12,11 @@
 #
 # This file provides functions for C++ support.
 #
-#-----------------------------------------------------------------------------
+# ITK --start
 if(POLICY CMP0075)
   cmake_policy(SET CMP0075 NEW) # CMake 3.12.1: Include file check macros honor CMAKE_REQUIRED_LIBRARIES.
 endif()
+# ITK --stop
 
 #-------------------------------------------------------------------------------
 ENABLE_LANGUAGE (CXX)
@@ -53,8 +54,8 @@ macro (HDF_CXX_FUNCTION_TEST OTHER_TEST)
   if (NOT DEFINED ${OTHER_TEST})
     set (MACRO_CHECK_FUNCTION_DEFINITIONS "-D${OTHER_TEST} ${CMAKE_REQUIRED_FLAGS}")
     set (OTHER_TEST_ADD_LIBRARIES)
-    if (CMAKE_REQUIRED_LIBRARIES)
-      set (OTHER_TEST_ADD_LIBRARIES "-DLINK_LIBRARIES:STRING=${CMAKE_REQUIRED_LIBRARIES}")
+    if (HDF5_REQUIRED_LIBRARIES)
+      set (OTHER_TEST_ADD_LIBRARIES "-DLINK_LIBRARIES:STRING=${HDF5_REQUIRED_LIBRARIES}")
     endif ()
 
     foreach (def
@@ -101,7 +102,7 @@ endmacro ()
 # Check a bunch of cxx functions
 #-----------------------------------------------------------------------------
 if (CMAKE_CXX_COMPILER_LOADED)
-  foreach (test
+  foreach (cxx_test
       OLD_HEADER_FILENAME
       HDF_NO_NAMESPACE
       HDF_NO_STD
@@ -109,6 +110,6 @@ if (CMAKE_CXX_COMPILER_LOADED)
       NO_STATIC_CAST
       CXX_HAVE_OFFSETOF
   )
-    HDF_CXX_FUNCTION_TEST (${test})
+    HDF_CXX_FUNCTION_TEST (${cxx_test})
   endforeach ()
 endif ()
