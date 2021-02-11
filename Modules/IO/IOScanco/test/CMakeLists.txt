@@ -3,12 +3,13 @@ set(
   IOScancoTests
   itkScancoImageIOTest.cxx
   itkScancoImageIOTest2.cxx
+  itkScancoImageIOTest3.cxx
 )
 
 createtestdriver(IOScanco  "${IOScanco-Test_LIBRARIES}" "${IOScancoTests}")
 
 itk_add_test(
-  NAME itkScancoImageIOTest
+  NAME itkScancoImageIOISQConvertTest
   COMMAND
     IOScancoTestDriver
     --compare
@@ -20,7 +21,19 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkScancoImageIOTest2
+  NAME itkScancoImageIOAIMConvertTest
+  COMMAND
+    IOScancoTestDriver
+    --compare
+    DATA{Baseline/AIMIOTestImage.mha}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage.mha
+    itkScancoImageIOTest
+    DATA{Input/AIMIOTestImage.AIM}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage.mha
+)
+
+itk_add_test(
+  NAME itkScancoImageIOISQHeaderCheckTest
   COMMAND
     IOScancoTestDriver
     itkScancoImageIOTest2
@@ -30,21 +43,51 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkScancoImageIOTest3
+  NAME itkScancoImageIOAIMHeaderCheckTest
+  COMMAND
+    IOScancoTestDriver
+    itkScancoImageIOTest3
+    DATA{Input/AIMIOTestImage.AIM}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImage2.isq
+    1
+)
+
+itk_add_test(
+  NAME itkScancoImageIOISQHeaderCheckTest2
   COMMAND
     IOScancoTestDriver
     --compare
     DATA{Baseline/C0004255.mha}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255Test3.mha
+    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
     itkScancoImageIOTest2
     DATA{Input/C0004255.ISQ}
-    ${ITK_TEST_OUTPUT_DIR}/C0004255Test3.mha
+    ${ITK_TEST_OUTPUT_DIR}/C0004255Test2.mha
 )
 set_property(
   TEST
-    itkScancoImageIOTest3
+    itkScancoImageIOISQHeaderCheckTest2
   APPEND
   PROPERTY
     DEPENDS
-      itkScancoImageIOTest2
+      itkScancoImageIOISQHeaderCheckTest
+)
+
+itk_add_test(
+  NAME itkScancoImageIOAIMHeaderCheckTest2
+  COMMAND
+    IOScancoTestDriver
+    --compare
+    DATA{Baseline/AIMIOTestImage.mha}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImageTest3.mha
+    itkScancoImageIOTest3
+    DATA{Input/AIMIOTestImage.AIM}
+    ${ITK_TEST_OUTPUT_DIR}/AIMIOTestImageTest3.mha
+)
+set_property(
+  TEST
+    itkScancoImageIOAIMHeaderCheckTest2
+  APPEND
+  PROPERTY
+    DEPENDS
+      itkScancoImageIOAIMHeaderCheckTest
 )
