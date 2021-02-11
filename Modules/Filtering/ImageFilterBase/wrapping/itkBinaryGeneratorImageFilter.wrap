@@ -24,4 +24,6 @@ itk_wrap_class("itk::BinaryGeneratorImageFilter" POINTER)
   if(ITK_WRAP_rgb_unsigned_char AND ITK_WRAP_unsigned_char)
     itk_wrap_image_filter_combinations(UC "${label_types}" RGBUC)
   endif()
+
+  itk_wrap_image_filter("${WRAP_ITK_COLOR}" 3)
 itk_end_wrap_class()
