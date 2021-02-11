@@ -126,6 +126,12 @@ class H5_DLLCPP FileAccPropList : public PropList {
         // Returns garbage collecting references setting.
         unsigned getGcReferences() const;
 
+        // Sets file locking parameters.
+        void setFileLocking(hbool_t use_file_locking, hbool_t ignore_when_disabled) const;
+
+        // Gets file locking parameters.
+        void getFileLocking(hbool_t& use_file_locking, hbool_t& ignore_when_disabled) const;
+
         // Sets bounds on versions of library format to be used when creating
         // or writing objects.
         void setLibverBounds(H5F_libver_t libver_low, H5F_libver_t libver_high) const;

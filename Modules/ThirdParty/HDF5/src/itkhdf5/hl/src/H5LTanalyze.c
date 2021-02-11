@@ -1,4 +1,4 @@
-#if __GNUC__ >= 4 && __GNUC_MINOR__ >=2                           
+#if defined __GNUC__ && 402 <= __GNUC__ * 100 + __GNUC_MINOR__    
 #pragma GCC diagnostic ignored "-Wconversion"                     
 #pragma GCC diagnostic ignored "-Wimplicit-function-declaration"  
 #pragma GCC diagnostic ignored "-Wlarger-than="                   
@@ -30,11 +30,17 @@
 
 #define yy_create_buffer H5LTyy_create_buffer
 #define yy_delete_buffer H5LTyy_delete_buffer
-#define yy_flex_debug H5LTyy_flex_debug
+#define yy_scan_buffer H5LTyy_scan_buffer
+#define yy_scan_string H5LTyy_scan_string
+#define yy_scan_bytes H5LTyy_scan_bytes
 #define yy_init_buffer H5LTyy_init_buffer
 #define yy_flush_buffer H5LTyy_flush_buffer
 #define yy_load_buffer_state H5LTyy_load_buffer_state
 #define yy_switch_to_buffer H5LTyy_switch_to_buffer
+#define yypush_buffer_state H5LTyypush_buffer_state
+#define yypop_buffer_state H5LTyypop_buffer_state
+#define yyensure_buffer_stack H5LTyyensure_buffer_stack
+#define yy_flex_debug H5LTyy_flex_debug
 #define yyin H5LTyyin
 #define yyleng H5LTyyleng
 #define yylex H5LTyylex
@@ -49,10 +55,244 @@
 
 #define FLEX_SCANNER
 #define YY_FLEX_MAJOR_VERSION 2
-#define YY_FLEX_MINOR_VERSION 5
-#define YY_FLEX_SUBMINOR_VERSION 39
+#define YY_FLEX_MINOR_VERSION 6
+#define YY_FLEX_SUBMINOR_VERSION 4
 #if YY_FLEX_SUBMINOR_VERSION > 0
 #define FLEX_BETA
+#endif
+
+#ifdef yy_create_buffer
+#define H5LTyy_create_buffer_ALREADY_DEFINED
+#else
+#define yy_create_buffer H5LTyy_create_buffer
+#endif
+
+#ifdef yy_delete_buffer
+#define H5LTyy_delete_buffer_ALREADY_DEFINED
+#else
+#define yy_delete_buffer H5LTyy_delete_buffer
+#endif
+
+#ifdef yy_scan_buffer
+#define H5LTyy_scan_buffer_ALREADY_DEFINED
+#else
+#define yy_scan_buffer H5LTyy_scan_buffer
+#endif
+
+#ifdef yy_scan_string
+#define H5LTyy_scan_string_ALREADY_DEFINED
+#else
+#define yy_scan_string H5LTyy_scan_string
+#endif
+
+#ifdef yy_scan_bytes
+#define H5LTyy_scan_bytes_ALREADY_DEFINED
+#else
+#define yy_scan_bytes H5LTyy_scan_bytes
+#endif
+
+#ifdef yy_init_buffer
+#define H5LTyy_init_buffer_ALREADY_DEFINED
+#else
+#define yy_init_buffer H5LTyy_init_buffer
+#endif
+
+#ifdef yy_flush_buffer
+#define H5LTyy_flush_buffer_ALREADY_DEFINED
+#else
+#define yy_flush_buffer H5LTyy_flush_buffer
+#endif
+
+#ifdef yy_load_buffer_state
+#define H5LTyy_load_buffer_state_ALREADY_DEFINED
+#else
+#define yy_load_buffer_state H5LTyy_load_buffer_state
+#endif
+
+#ifdef yy_switch_to_buffer
+#define H5LTyy_switch_to_buffer_ALREADY_DEFINED
+#else
+#define yy_switch_to_buffer H5LTyy_switch_to_buffer
+#endif
+
+#ifdef yypush_buffer_state
+#define H5LTyypush_buffer_state_ALREADY_DEFINED
+#else
+#define yypush_buffer_state H5LTyypush_buffer_state
+#endif
+
+#ifdef yypop_buffer_state
+#define H5LTyypop_buffer_state_ALREADY_DEFINED
+#else
+#define yypop_buffer_state H5LTyypop_buffer_state
+#endif
+
+#ifdef yyensure_buffer_stack
+#define H5LTyyensure_buffer_stack_ALREADY_DEFINED
+#else
+#define yyensure_buffer_stack H5LTyyensure_buffer_stack
+#endif
+
+#ifdef yylex
+#define H5LTyylex_ALREADY_DEFINED
+#else
+#define yylex H5LTyylex
+#endif
+
+#ifdef yyrestart
+#define H5LTyyrestart_ALREADY_DEFINED
+#else
+#define yyrestart H5LTyyrestart
+#endif
+
+#ifdef yylex_init
+#define H5LTyylex_init_ALREADY_DEFINED
+#else
+#define yylex_init H5LTyylex_init
+#endif
+
+#ifdef yylex_init_extra
+#define H5LTyylex_init_extra_ALREADY_DEFINED
+#else
+#define yylex_init_extra H5LTyylex_init_extra
+#endif
+
+#ifdef yylex_destroy
+#define H5LTyylex_destroy_ALREADY_DEFINED
+#else
+#define yylex_destroy H5LTyylex_destroy
+#endif
+
+#ifdef yyget_debug
+#define H5LTyyget_debug_ALREADY_DEFINED
+#else
+#define yyget_debug H5LTyyget_debug
+#endif
+
+#ifdef yyset_debug
+#define H5LTyyset_debug_ALREADY_DEFINED
+#else
+#define yyset_debug H5LTyyset_debug
+#endif
+
+#ifdef yyget_extra
+#define H5LTyyget_extra_ALREADY_DEFINED
+#else
+#define yyget_extra H5LTyyget_extra
+#endif
+
+#ifdef yyset_extra
+#define H5LTyyset_extra_ALREADY_DEFINED
+#else
+#define yyset_extra H5LTyyset_extra
+#endif
+
+#ifdef yyget_in
+#define H5LTyyget_in_ALREADY_DEFINED
+#else
+#define yyget_in H5LTyyget_in
+#endif
+
+#ifdef yyset_in
+#define H5LTyyset_in_ALREADY_DEFINED
+#else
+#define yyset_in H5LTyyset_in
+#endif
+
+#ifdef yyget_out
+#define H5LTyyget_out_ALREADY_DEFINED
+#else
+#define yyget_out H5LTyyget_out
+#endif
+
+#ifdef yyset_out
+#define H5LTyyset_out_ALREADY_DEFINED
+#else
+#define yyset_out H5LTyyset_out
+#endif
+
+#ifdef yyget_leng
+#define H5LTyyget_leng_ALREADY_DEFINED
+#else
+#define yyget_leng H5LTyyget_leng
+#endif
+
+#ifdef yyget_text
+#define H5LTyyget_text_ALREADY_DEFINED
+#else
+#define yyget_text H5LTyyget_text
+#endif
+
+#ifdef yyget_lineno
+#define H5LTyyget_lineno_ALREADY_DEFINED
+#else
+#define yyget_lineno H5LTyyget_lineno
+#endif
+
+#ifdef yyset_lineno
+#define H5LTyyset_lineno_ALREADY_DEFINED
+#else
+#define yyset_lineno H5LTyyset_lineno
+#endif
+
+#ifdef yywrap
+#define H5LTyywrap_ALREADY_DEFINED
+#else
+#define yywrap H5LTyywrap
+#endif
+
+#ifdef yyalloc
+#define H5LTyyalloc_ALREADY_DEFINED
+#else
+#define yyalloc H5LTyyalloc
+#endif
+
+#ifdef yyrealloc
+#define H5LTyyrealloc_ALREADY_DEFINED
+#else
+#define yyrealloc H5LTyyrealloc
+#endif
+
+#ifdef yyfree
+#define H5LTyyfree_ALREADY_DEFINED
+#else
+#define yyfree H5LTyyfree
+#endif
+
+#ifdef yytext
+#define H5LTyytext_ALREADY_DEFINED
+#else
+#define yytext H5LTyytext
+#endif
+
+#ifdef yyleng
+#define H5LTyyleng_ALREADY_DEFINED
+#else
+#define yyleng H5LTyyleng
+#endif
+
+#ifdef yyin
+#define H5LTyyin_ALREADY_DEFINED
+#else
+#define yyin H5LTyyin
+#endif
+
+#ifdef yyout
+#define H5LTyyout_ALREADY_DEFINED
+#else
+#define yyout H5LTyyout
+#endif
+
+#ifdef yy_flex_debug
+#define H5LTyy_flex_debug_ALREADY_DEFINED
+#else
+#define yy_flex_debug H5LTyy_flex_debug
+#endif
+
+#ifdef yylineno
+#define H5LTyylineno_ALREADY_DEFINED
+#else
+#define yylineno H5LTyylineno
 #endif
 
 /* First, we deal with  platform-specific or compiler-specific issues. */
@@ -125,60 +365,48 @@ typedef unsigned int flex_uint32_t;
 #define UINT32_MAX             (4294967295U)
 #endif
 
+#ifndef SIZE_MAX
+#define SIZE_MAX               (~(size_t)0)
+#endif
+
 #endif /* ! C99 */
 
 #endif /* ! FLEXINT_H */
 
-#ifdef __cplusplus
+/* begin standard C++ headers. */
 
-/* The "const" storage-class-modifier is valid. */
-#define YY_USE_CONST
-
-#else	/* ! __cplusplus */
-
-/* C99 requires __STDC__ to be defined as 1. */
-#if defined (__STDC__)
-
-#define YY_USE_CONST
-
-#endif	/* defined (__STDC__) */
-#endif	/* ! __cplusplus */
-
-#ifdef YY_USE_CONST
+/* TODO: this is always defined, so inline it */
 #define yyconst const
+
+#if defined(__GNUC__) && __GNUC__ >= 3
+#define yynoreturn __attribute__((__noreturn__))
 #else
-#define yyconst
+#define yynoreturn
 #endif
 
 /* Returned upon end-of-file. */
 #define YY_NULL 0
 
-/* Promotes a possibly negative, possibly signed char to an unsigned
- * integer for use as an array index.  If the signed char is negative,
- * we want to instead treat it as an 8-bit unsigned char, hence the
- * double cast.
+/* Promotes a possibly negative, possibly signed char to an
+ *   integer in range [0..255] for use as an array index.
  */
-#define YY_SC_TO_UI(c) ((unsigned int) (unsigned char) c)
+#define YY_SC_TO_UI(c) ((YY_CHAR) (c))
 
 /* Enter a start condition.  This macro really ought to take a parameter,
  * but we do it the disgusting crufty way forced on us by the ()-less
  * definition of BEGIN.
  */
 #define BEGIN (yy_start) = 1 + 2 *
-
 /* Translate the current start state into a value that can be later handed
  * to BEGIN to return to the state.  The YYSTATE alias is for lex
  * compatibility.
  */
 #define YY_START (((yy_start) - 1) / 2)
 #define YYSTATE YY_START
-
 /* Action number for EOF rule of a given start state. */
 #define YY_STATE_EOF(state) (YY_END_OF_BUFFER + state + 1)
-
 /* Special action meaning "start processing a new file". */
-#define YY_NEW_FILE H5LTyyrestart(H5LTyyin  )
-
+#define YY_NEW_FILE yyrestart( yyin  )
 #define YY_END_OF_BUFFER_CHAR 0
 
 /* Size of default input buffer. */
@@ -208,14 +436,14 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 typedef size_t yy_size_t;
 #endif
 
-extern yy_size_t H5LTyyleng;
+extern int yyleng;
 
-extern FILE *H5LTyyin, *H5LTyyout;
+extern FILE *yyin, *yyout;
 
 #define EOB_ACT_CONTINUE_SCAN 0
 #define EOB_ACT_END_OF_FILE 1
 #define EOB_ACT_LAST_MATCH 2
-
+    
     #define YY_LESS_LINENO(n)
     #define YY_LINENO_REWIND_TO(ptr)
     
@@ -223,16 +451,15 @@ extern FILE *H5LTyyin, *H5LTyyout;
 #define yyless(n) \
 	do \
 		{ \
-		/* Undo effects of setting up H5LTyytext. */ \
+		/* Undo effects of setting up yytext. */ \
         int yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
 		*yy_cp = (yy_hold_char); \
 		YY_RESTORE_YY_MORE_OFFSET \
 		(yy_c_buf_p) = yy_cp = yy_bp + yyless_macro_arg - YY_MORE_ADJ; \
-		YY_DO_BEFORE_ACTION; /* set up H5LTyytext again */ \
+		YY_DO_BEFORE_ACTION; /* set up yytext again */ \
 		} \
 	while ( 0 )
-
 #define unput(c) yyunput( c, (yytext_ptr)  )
 
 #ifndef YY_STRUCT_YY_BUFFER_STATE
@@ -247,12 +474,12 @@ struct yy_buffer_state
 	/* Size of input buffer in bytes, not including room for EOB
 	 * characters.
 	 */
-	yy_size_t yy_buf_size;
+	int yy_buf_size;
 
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	yy_size_t yy_n_chars;
+	int yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -275,7 +502,7 @@ struct yy_buffer_state
 
     int yy_bs_lineno; /**< The line count. */
     int yy_bs_column; /**< The column count. */
-    
+
 	/* Whether to try to fill the input buffer when we reach the
 	 * end of it.
 	 */
@@ -292,8 +519,8 @@ struct yy_buffer_state
 	 * possible backing-up.
 	 *
 	 * When we actually see the EOF, we change the status to "new"
-	 * (via H5LTyyrestart()), so that the user can continue scanning by
-	 * just pointing H5LTyyin at a new input file.
+	 * (via yyrestart()), so that the user can continue scanning by
+	 * just pointing yyin at a new input file.
 	 */
 #define YY_BUFFER_EOF_PENDING 2
 
@@ -303,7 +530,7 @@ struct yy_buffer_state
 /* Stack of input buffers. */
 static size_t yy_buffer_stack_top = 0; /**< index of top of stack. */
 static size_t yy_buffer_stack_max = 0; /**< capacity of stack. */
-static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
+static YY_BUFFER_STATE * yy_buffer_stack = NULL; /**< Stack as an array. */
 
 /* We provide macros for accessing buffer states in case in the
  * future we want to put the buffer states in a more general
@@ -314,103 +541,98 @@ static YY_BUFFER_STATE * yy_buffer_stack = 0; /**< Stack as an array. */
 #define YY_CURRENT_BUFFER ( (yy_buffer_stack) \
                           ? (yy_buffer_stack)[(yy_buffer_stack_top)] \
                           : NULL)
-
 /* Same as previous macro, but useful when we know that the buffer stack is not
  * NULL or when we need an lvalue. For internal use only.
  */
 #define YY_CURRENT_BUFFER_LVALUE (yy_buffer_stack)[(yy_buffer_stack_top)]
 
-/* yy_hold_char holds the character lost when H5LTyytext is formed. */
+/* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
-static yy_size_t yy_n_chars;		/* number of characters read into yy_ch_buf */
-yy_size_t H5LTyyleng;
+static int yy_n_chars;		/* number of characters read into yy_ch_buf */
+int yyleng;
 
 /* Points to current character in buffer. */
-static char *yy_c_buf_p = (char *) 0;
+static char *yy_c_buf_p = NULL;
 static int yy_init = 0;		/* whether we need to initialize */
 static int yy_start = 0;	/* start state number */
 
-/* Flag which is used to allow H5LTyywrap()'s to do buffer switches
- * instead of setting up a fresh H5LTyyin.  A bit of a hack ...
+/* Flag which is used to allow yywrap()'s to do buffer switches
+ * instead of setting up a fresh yyin.  A bit of a hack ...
  */
 static int yy_did_buffer_switch_on_eof;
 
-void H5LTyyrestart (FILE *input_file  );
-void H5LTyy_switch_to_buffer (YY_BUFFER_STATE new_buffer  );
-YY_BUFFER_STATE H5LTyy_create_buffer (FILE *file,int size  );
-void H5LTyy_delete_buffer (YY_BUFFER_STATE b  );
-void H5LTyy_flush_buffer (YY_BUFFER_STATE b  );
-void H5LTyypush_buffer_state (YY_BUFFER_STATE new_buffer  );
-void H5LTyypop_buffer_state (void );
+void yyrestart ( FILE *input_file  );
+void yy_switch_to_buffer ( YY_BUFFER_STATE new_buffer  );
+YY_BUFFER_STATE yy_create_buffer ( FILE *file, int size  );
+void yy_delete_buffer ( YY_BUFFER_STATE b  );
+void yy_flush_buffer ( YY_BUFFER_STATE b  );
+void yypush_buffer_state ( YY_BUFFER_STATE new_buffer  );
+void yypop_buffer_state ( void );
 
-static void H5LTyyensure_buffer_stack (void );
-static void H5LTyy_load_buffer_state (void );
-static void H5LTyy_init_buffer (YY_BUFFER_STATE b,FILE *file  );
+static void yyensure_buffer_stack ( void );
+static void yy_load_buffer_state ( void );
+static void yy_init_buffer ( YY_BUFFER_STATE b, FILE *file  );
+#define YY_FLUSH_BUFFER yy_flush_buffer( YY_CURRENT_BUFFER )
 
-#define YY_FLUSH_BUFFER H5LTyy_flush_buffer(YY_CURRENT_BUFFER )
+YY_BUFFER_STATE yy_scan_buffer ( char *base, yy_size_t size  );
+YY_BUFFER_STATE yy_scan_string ( const char *yy_str  );
+YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, int len  );
 
-YY_BUFFER_STATE H5LTyy_scan_buffer (char *base,yy_size_t size  );
-YY_BUFFER_STATE H5LTyy_scan_string (yyconst char *yy_str  );
-YY_BUFFER_STATE H5LTyy_scan_bytes (yyconst char *bytes,yy_size_t len  );
+void *yyalloc ( yy_size_t  );
+void *yyrealloc ( void *, yy_size_t  );
+void yyfree ( void *  );
 
-void *H5LTyyalloc (yy_size_t  );
-void *H5LTyyrealloc (void *,yy_size_t  );
-void H5LTyyfree (void *  );
-
-#define yy_new_buffer H5LTyy_create_buffer
-
+#define yy_new_buffer yy_create_buffer
 #define yy_set_interactive(is_interactive) \
 	{ \
 	if ( ! YY_CURRENT_BUFFER ){ \
-        H5LTyyensure_buffer_stack (); \
+        yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            H5LTyy_create_buffer(H5LTyyin,YY_BUF_SIZE ); \
+            yy_create_buffer( yyin, YY_BUF_SIZE ); \
 	} \
 	YY_CURRENT_BUFFER_LVALUE->yy_is_interactive = is_interactive; \
 	}
-
 #define yy_set_bol(at_bol) \
 	{ \
 	if ( ! YY_CURRENT_BUFFER ){\
-        H5LTyyensure_buffer_stack (); \
+        yyensure_buffer_stack (); \
 		YY_CURRENT_BUFFER_LVALUE =    \
-            H5LTyy_create_buffer(H5LTyyin,YY_BUF_SIZE ); \
+            yy_create_buffer( yyin, YY_BUF_SIZE ); \
 	} \
 	YY_CURRENT_BUFFER_LVALUE->yy_at_bol = at_bol; \
 	}
-
 #define YY_AT_BOL() (YY_CURRENT_BUFFER_LVALUE->yy_at_bol)
 
 /* Begin user sect3 */
+typedef flex_uint8_t YY_CHAR;
 
-typedef unsigned char YY_CHAR;
-
-FILE *H5LTyyin = (FILE *) 0, *H5LTyyout = (FILE *) 0;
+FILE *yyin = NULL, *yyout = NULL;
 
 typedef int yy_state_type;
 
-extern int H5LTyylineno;
+extern int yylineno;
+int yylineno = 1;
 
-int H5LTyylineno = 1;
+extern char *yytext;
+#ifdef yytext_ptr
+#undef yytext_ptr
+#endif
+#define yytext_ptr yytext
 
-extern char *H5LTyytext;
-#define yytext_ptr H5LTyytext
-
-static yy_state_type yy_get_previous_state (void );
-static yy_state_type yy_try_NUL_trans (yy_state_type current_state  );
-static int yy_get_next_buffer (void );
-static void yy_fatal_error (yyconst char msg[]  );
+static yy_state_type yy_get_previous_state ( void );
+static yy_state_type yy_try_NUL_trans ( yy_state_type current_state  );
+static int yy_get_next_buffer ( void );
+static void yynoreturn yy_fatal_error ( const char* msg  );
 
 /* Done after the current pattern has been matched and before the
- * corresponding action - sets up H5LTyytext.
+ * corresponding action - sets up yytext.
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	H5LTyyleng = (size_t) (yy_cp - yy_bp); \
+	yyleng = (int) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-
 #define YY_NUM_RULES 66
 #define YY_END_OF_BUFFER 67
 /* This struct is not used in this scanner,
@@ -420,7 +642,7 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static yyconst flex_int16_t yy_acclist[437] =
+static const flex_int16_t yy_acclist[437] =
     {   0,
        64,   64,   64,   64,   67,   66,   64,   66,   64,   65,
        66,   56,   66,   55,   66,   62,   66,   63,   66,   66,
@@ -472,7 +694,7 @@ static yyconst flex_int16_t yy_acclist[437] =
        57,   21,   57,   34,   34,   57
     } ;
 
-static yyconst flex_int16_t yy_accept[546] =
+static const flex_int16_t yy_accept[546] =
     {   0,
         1,    2,    3,    4,    5,    6,    7,    9,   12,   14,
        16,   18,   20,   21,   22,   23,   24,   26,   28,   30,
@@ -536,7 +758,7 @@ static yyconst flex_int16_t yy_accept[546] =
       432,  434,  435,  437,  437
     } ;
 
-static yyconst flex_int32_t yy_ec[256] =
+static const YY_CHAR yy_ec[256] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    2,    3,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -568,7 +790,7 @@ static yyconst flex_int32_t yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static yyconst flex_int32_t yy_meta[42] =
+static const YY_CHAR yy_meta[42] =
     {   0,
         1,    1,    1,    2,    3,    3,    3,    3,    3,    3,
         3,    3,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -577,7 +799,7 @@ static yyconst flex_int32_t yy_meta[42] =
         1
     } ;
 
-static yyconst flex_int16_t yy_base[547] =
+static const flex_int16_t yy_base[547] =
     {   0,
         0,    0,   41,    0,  610,  611,   81,   83,  611,    0,
       611,  611,   56,  599,  580,  575,  611,  611,  611,  611,
@@ -641,7 +863,7 @@ static yyconst flex_int16_t yy_base[547] =
         0,  611,    0,  611,  106,  275
     } ;
 
-static yyconst flex_int16_t yy_def[547] =
+static const flex_int16_t yy_def[547] =
     {   0,
       544,    1,  544,    3,  544,  544,  544,  544,  544,  545,
       544,  544,  544,  544,  544,  544,  544,  544,  544,  544,
@@ -705,7 +927,7 @@ static yyconst flex_int16_t yy_def[547] =
       546,  544,  546,    0,  544,  544
     } ;
 
-static yyconst flex_int16_t yy_nxt[653] =
+static const flex_int16_t yy_nxt[653] =
     {   0,
         6,    7,    8,    9,   10,   10,   10,   10,   10,   10,
        10,   10,   11,   12,    6,    6,   13,    6,    6,    6,
@@ -781,7 +1003,7 @@ static yyconst flex_int16_t yy_nxt[653] =
       544,  544
     } ;
 
-static yyconst flex_int16_t yy_chk[653] =
+static const flex_int16_t yy_chk[653] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -857,15 +1079,15 @@ static yyconst flex_int16_t yy_chk[653] =
       544,  544
     } ;
 
-extern int H5LTyy_flex_debug;
-int H5LTyy_flex_debug = 0;
+extern int yy_flex_debug;
+int yy_flex_debug = 0;
 
 static yy_state_type *yy_state_buf=0, *yy_state_ptr=0;
 static char *yy_full_match;
 static int yy_lp;
 #define REJECT \
 { \
-*yy_cp = (yy_hold_char); /* undo effects of setting up H5LTyytext */ \
+*yy_cp = (yy_hold_char); /* undo effects of setting up yytext */ \
 yy_cp = (yy_full_match); /* restore poss. backed-over text */ \
 ++(yy_lp); \
 goto find_rule; \
@@ -874,7 +1096,7 @@ goto find_rule; \
 #define yymore() yymore_used_but_not_detected
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
-char *H5LTyytext;
+char *yytext;
 #line 1 "hl/src/H5LTanalyze.l"
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Copyright by The HDF Group.                                               *
@@ -893,16 +1115,23 @@ char *H5LTyytext;
  * If you make any changes to H5LTanalyze.l, please run bin/genparser to
  * recreate the output files.
  */
-#line 23 "hl/src/H5LTanalyze.l"
+#line 21 "hl/src/H5LTanalyze.l"
 #include <stdlib.h>
 #include <string.h>
 #include <hdf5.h>
 #include "H5LTparse.h"
 
-/* Turn off suggest const attribute warning in gcc */
-#if __GNUC__ >= 4 && __GNUC_MINOR__ >=2 
+/* Turn off suggest const & malloc attribute warnings in gcc */
+#if defined __GNUC__ && 402 <= __GNUC__ * 100 + __GNUC_MINOR__
 #pragma GCC diagnostic ignored "-Wsuggest-attribute=const"
 #endif 
+
+/* Turn off null dereference warnings in gcc.
+ * We have no control over this generated code.
+ */
+#if defined __GNUC__ && 600 <= __GNUC__ * 100
+#pragma GCC diagnostic ignored "-Wnull-dereference"
+#endif
 
 int my_yyinput(char *, int);
 #undef YY_INPUT
@@ -951,8 +1180,9 @@ extern hbool_t is_opq_tag;
 
 hbool_t        first_quote = 1;
 
+#line 1162 "hl/src/H5LTanalyze.c"
 
-#line 936 "hl/src/H5LTanalyze.c"
+#line 1164 "hl/src/H5LTanalyze.c"
 
 #define INITIAL 0
 #define TAG_STRING 1
@@ -961,36 +1191,36 @@ hbool_t        first_quote = 1;
 #define YY_EXTRA_TYPE void *
 #endif
 
-static int yy_init_globals (void );
+static int yy_init_globals ( void );
 
 /* Accessor methods to globals.
    These are made visible to non-reentrant scanners for convenience. */
 
-int H5LTyylex_destroy (void );
+int yylex_destroy ( void );
 
-int H5LTyyget_debug (void );
+int yyget_debug ( void );
 
-void H5LTyyset_debug (int debug_flag  );
+void yyset_debug ( int debug_flag  );
 
-YY_EXTRA_TYPE H5LTyyget_extra (void );
+YY_EXTRA_TYPE yyget_extra ( void );
 
-void H5LTyyset_extra (YY_EXTRA_TYPE user_defined  );
+void yyset_extra ( YY_EXTRA_TYPE user_defined  );
 
-FILE *H5LTyyget_in (void );
+FILE *yyget_in ( void );
 
-void H5LTyyset_in  (FILE * in_str  );
+void yyset_in  ( FILE * _in_str  );
 
-FILE *H5LTyyget_out (void );
+FILE *yyget_out ( void );
 
-void H5LTyyset_out  (FILE * out_str  );
+void yyset_out  ( FILE * _out_str  );
 
-yy_size_t H5LTyyget_leng (void );
+			int yyget_leng ( void );
 
-char *H5LTyyget_text (void );
+char *yyget_text ( void );
 
-int H5LTyyget_lineno (void );
+int yyget_lineno ( void );
 
-void H5LTyyset_lineno (int line_number  );
+void yyset_lineno ( int _line_number  );
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -998,28 +1228,31 @@ void H5LTyyset_lineno (int line_number  );
 
 #ifndef YY_SKIP_YYWRAP
 #ifdef __cplusplus
-extern "C" int H5LTyywrap (void );
+extern "C" int yywrap ( void );
 #else
-extern int H5LTyywrap (void );
+extern int yywrap ( void );
 #endif
 #endif
 
-    static void yyunput (int c,char *buf_ptr  );
+#ifndef YY_NO_UNPUT
     
+    static void yyunput ( int c, char *buf_ptr  );
+    
+#endif
+
 #ifndef yytext_ptr
-static void yy_flex_strncpy (char *,yyconst char *,int );
+static void yy_flex_strncpy ( char *, const char *, int );
 #endif
 
 #ifdef YY_NEED_STRLEN
-static int yy_flex_strlen (yyconst char * );
+static int yy_flex_strlen ( const char * );
 #endif
 
 #ifndef YY_NO_INPUT
-
 #ifdef __cplusplus
-static int yyinput (void );
+static int yyinput ( void );
 #else
-static int input (void );
+static int input ( void );
 #endif
 
 #endif
@@ -1039,7 +1272,7 @@ static int input (void );
 /* This used to be an fputs(), but since the string might contain NUL's,
  * we now use fwrite().
  */
-#define ECHO do { if (fwrite( H5LTyytext, H5LTyyleng, 1, H5LTyyout )) {} } while (0)
+#define ECHO do { if (fwrite( yytext, (size_t) yyleng, 1, yyout )) {} } while (0)
 #endif
 
 /* Gets input and stuffs it into "buf".  number of characters read, or YY_NULL,
@@ -1050,20 +1283,20 @@ static int input (void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		size_t n; \
+		int n; \
 		for ( n = 0; n < max_size && \
-			     (c = getc( H5LTyyin )) != EOF && c != '\n'; ++n ) \
+			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
 		if ( c == '\n' ) \
 			buf[n++] = (char) c; \
-		if ( c == EOF && ferror( H5LTyyin ) ) \
+		if ( c == EOF && ferror( yyin ) ) \
 			YY_FATAL_ERROR( "input in flex scanner failed" ); \
 		result = n; \
 		} \
 	else \
 		{ \
 		errno=0; \
-		while ( (result = fread(buf, 1, max_size, H5LTyyin))==0 && ferror(H5LTyyin)) \
+		while ( (result = (int) fread(buf, 1, (yy_size_t) max_size, yyin)) == 0 && ferror(yyin)) \
 			{ \
 			if( errno != EINTR) \
 				{ \
@@ -1071,7 +1304,7 @@ static int input (void );
 				break; \
 				} \
 			errno=0; \
-			clearerr(H5LTyyin); \
+			clearerr(yyin); \
 			} \
 		}\
 \
@@ -1104,12 +1337,12 @@ static int input (void );
 #ifndef YY_DECL
 #define YY_DECL_IS_OURS 1
 
-extern int H5LTyylex (void);
+extern int yylex (void);
 
-#define YY_DECL int H5LTyylex (void)
+#define YY_DECL int yylex (void)
 #endif /* !YY_DECL */
 
-/* Code executed at the beginning of each rule, after H5LTyytext and H5LTyyleng
+/* Code executed at the beginning of each rule, after yytext and yyleng
  * have been set up.
  */
 #ifndef YY_USER_ACTION
@@ -1118,7 +1351,7 @@ extern int H5LTyylex (void);
 
 /* Code executed at the end of each rule. */
 #ifndef YY_BREAK
-#define YY_BREAK break;
+#define YY_BREAK /*LINTED*/break;
 #endif
 
 #define YY_RULE_SETUP \
@@ -1128,9 +1361,9 @@ extern int H5LTyylex (void);
  */
 YY_DECL
 {
-	register yy_state_type yy_current_state;
-	register char *yy_cp, *yy_bp;
-	register int yy_act;
+	yy_state_type yy_current_state;
+	char *yy_cp, *yy_bp;
+	int yy_act;
     
 	if ( !(yy_init) )
 		{
@@ -1142,39 +1375,39 @@ YY_DECL
 
         /* Create the reject buffer large enough to save one state per allowed character. */
         if ( ! (yy_state_buf) )
-            (yy_state_buf) = (yy_state_type *)H5LTyyalloc(YY_STATE_BUF_SIZE  );
+            (yy_state_buf) = (yy_state_type *)yyalloc(YY_STATE_BUF_SIZE  );
             if ( ! (yy_state_buf) )
-                YY_FATAL_ERROR( "out of dynamic memory in H5LTyylex()" );
+                YY_FATAL_ERROR( "out of dynamic memory in yylex()" );
 
 		if ( ! (yy_start) )
 			(yy_start) = 1;	/* first start state */
 
-		if ( ! H5LTyyin )
-			H5LTyyin = stdin;
+		if ( ! yyin )
+			yyin = stdin;
 
-		if ( ! H5LTyyout )
-			H5LTyyout = stdout;
+		if ( ! yyout )
+			yyout = stdout;
 
 		if ( ! YY_CURRENT_BUFFER ) {
-			H5LTyyensure_buffer_stack ();
+			yyensure_buffer_stack ();
 			YY_CURRENT_BUFFER_LVALUE =
-				H5LTyy_create_buffer(H5LTyyin,YY_BUF_SIZE );
+				yy_create_buffer( yyin, YY_BUF_SIZE );
 		}
 
-		H5LTyy_load_buffer_state( );
+		yy_load_buffer_state(  );
 		}
 
 	{
-#line 84 "hl/src/H5LTanalyze.l"
+#line 89 "hl/src/H5LTanalyze.l"
 
 
-#line 1152 "hl/src/H5LTanalyze.c"
+#line 1383 "hl/src/H5LTanalyze.c"
 
-	while ( 1 )		/* loops until end-of-file is reached */
+	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
 		yy_cp = (yy_c_buf_p);
 
-		/* Support of H5LTyytext. */
+		/* Support of yytext. */
 		*yy_cp = (yy_hold_char);
 
 		/* yy_bp points to the position in yy_ch_buf of the start of
@@ -1190,14 +1423,14 @@ YY_DECL
 yy_match:
 		do
 			{
-			register YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
+			YY_CHAR yy_c = yy_ec[YY_SC_TO_UI(*yy_cp)] ;
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
 				if ( yy_current_state >= 545 )
-					yy_c = yy_meta[(unsigned int) yy_c];
+					yy_c = yy_meta[yy_c];
 				}
-			yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			*(yy_state_ptr)++ = yy_current_state;
 			++yy_cp;
 			}
@@ -1206,7 +1439,9 @@ yy_match:
 yy_find_action:
 		yy_current_state = *--(yy_state_ptr);
 		(yy_lp) = yy_accept[yy_current_state];
+
 find_rule: /* we branch to this label when backing up */
+
 		for ( ; ; ) /* until we find what rule we matched */
 			{
 			if ( (yy_lp) && (yy_lp) < yy_accept[yy_current_state + 1] )
@@ -1230,282 +1465,282 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 86 "hl/src/H5LTanalyze.l"
+#line 91 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I8BE_TOKEN);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 87 "hl/src/H5LTanalyze.l"
+#line 92 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I8LE_TOKEN);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 88 "hl/src/H5LTanalyze.l"
+#line 93 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I16BE_TOKEN);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 89 "hl/src/H5LTanalyze.l"
+#line 94 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I16LE_TOKEN);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 90 "hl/src/H5LTanalyze.l"
+#line 95 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I32BE_TOKEN);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 91 "hl/src/H5LTanalyze.l"
+#line 96 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I32LE_TOKEN);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 92 "hl/src/H5LTanalyze.l"
+#line 97 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I64BE_TOKEN);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 93 "hl/src/H5LTanalyze.l"
+#line 98 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_I64LE_TOKEN);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 95 "hl/src/H5LTanalyze.l"
+#line 100 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U8BE_TOKEN);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 96 "hl/src/H5LTanalyze.l"
+#line 101 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U8LE_TOKEN);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 97 "hl/src/H5LTanalyze.l"
+#line 102 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U16BE_TOKEN);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 98 "hl/src/H5LTanalyze.l"
+#line 103 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U16LE_TOKEN);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 99 "hl/src/H5LTanalyze.l"
+#line 104 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U32BE_TOKEN);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 100 "hl/src/H5LTanalyze.l"
+#line 105 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U32LE_TOKEN);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 101 "hl/src/H5LTanalyze.l"
+#line 106 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U64BE_TOKEN);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 102 "hl/src/H5LTanalyze.l"
+#line 107 "hl/src/H5LTanalyze.l"
 {return hid(H5T_STD_U64LE_TOKEN);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 104 "hl/src/H5LTanalyze.l"
+#line 109 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_CHAR_TOKEN);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 105 "hl/src/H5LTanalyze.l"
+#line 110 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_SCHAR_TOKEN);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 106 "hl/src/H5LTanalyze.l"
+#line 111 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_UCHAR_TOKEN);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 107 "hl/src/H5LTanalyze.l"
+#line 112 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_SHORT_TOKEN);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 108 "hl/src/H5LTanalyze.l"
+#line 113 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_USHORT_TOKEN);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 109 "hl/src/H5LTanalyze.l"
+#line 114 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_INT_TOKEN);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 110 "hl/src/H5LTanalyze.l"
+#line 115 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_UINT_TOKEN);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 111 "hl/src/H5LTanalyze.l"
+#line 116 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_LONG_TOKEN);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 112 "hl/src/H5LTanalyze.l"
+#line 117 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_ULONG_TOKEN);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 113 "hl/src/H5LTanalyze.l"
+#line 118 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_LLONG_TOKEN);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 114 "hl/src/H5LTanalyze.l"
+#line 119 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_ULLONG_TOKEN);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 116 "hl/src/H5LTanalyze.l"
+#line 121 "hl/src/H5LTanalyze.l"
 {return hid(H5T_IEEE_F32BE_TOKEN);}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 117 "hl/src/H5LTanalyze.l"
+#line 122 "hl/src/H5LTanalyze.l"
 {return hid(H5T_IEEE_F32LE_TOKEN);}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 118 "hl/src/H5LTanalyze.l"
+#line 123 "hl/src/H5LTanalyze.l"
 {return hid(H5T_IEEE_F64BE_TOKEN);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 119 "hl/src/H5LTanalyze.l"
+#line 124 "hl/src/H5LTanalyze.l"
 {return hid(H5T_IEEE_F64LE_TOKEN);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 120 "hl/src/H5LTanalyze.l"
+#line 125 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_FLOAT_TOKEN);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 121 "hl/src/H5LTanalyze.l"
+#line 126 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_DOUBLE_TOKEN);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 122 "hl/src/H5LTanalyze.l"
+#line 127 "hl/src/H5LTanalyze.l"
 {return hid(H5T_NATIVE_LDOUBLE_TOKEN);}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 124 "hl/src/H5LTanalyze.l"
+#line 129 "hl/src/H5LTanalyze.l"
 {return token(H5T_STRING_TOKEN);}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 125 "hl/src/H5LTanalyze.l"
+#line 130 "hl/src/H5LTanalyze.l"
 {return token(STRSIZE_TOKEN);}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 126 "hl/src/H5LTanalyze.l"
+#line 131 "hl/src/H5LTanalyze.l"
 {return token(STRPAD_TOKEN);}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 127 "hl/src/H5LTanalyze.l"
+#line 132 "hl/src/H5LTanalyze.l"
 {return token(CSET_TOKEN);}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 128 "hl/src/H5LTanalyze.l"
+#line 133 "hl/src/H5LTanalyze.l"
 {return token(CTYPE_TOKEN);}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 129 "hl/src/H5LTanalyze.l"
+#line 134 "hl/src/H5LTanalyze.l"
 {return token(H5T_STR_NULLTERM_TOKEN);} 
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 130 "hl/src/H5LTanalyze.l"
+#line 135 "hl/src/H5LTanalyze.l"
 {return token(H5T_STR_NULLPAD_TOKEN);} 
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 131 "hl/src/H5LTanalyze.l"
+#line 136 "hl/src/H5LTanalyze.l"
 {return token(H5T_STR_SPACEPAD_TOKEN);} 
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 132 "hl/src/H5LTanalyze.l"
+#line 137 "hl/src/H5LTanalyze.l"
 {return token(H5T_CSET_ASCII_TOKEN);}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 133 "hl/src/H5LTanalyze.l"
+#line 138 "hl/src/H5LTanalyze.l"
 {return token(H5T_CSET_UTF8_TOKEN);}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 134 "hl/src/H5LTanalyze.l"
+#line 139 "hl/src/H5LTanalyze.l"
 {return token(H5T_C_S1_TOKEN);}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 135 "hl/src/H5LTanalyze.l"
+#line 140 "hl/src/H5LTanalyze.l"
 {return token(H5T_FORTRAN_S1_TOKEN);}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 136 "hl/src/H5LTanalyze.l"
+#line 141 "hl/src/H5LTanalyze.l"
 {return token(H5T_VARIABLE_TOKEN);}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 138 "hl/src/H5LTanalyze.l"
+#line 143 "hl/src/H5LTanalyze.l"
 {return token(H5T_COMPOUND_TOKEN);}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 139 "hl/src/H5LTanalyze.l"
+#line 144 "hl/src/H5LTanalyze.l"
 {return token(H5T_ENUM_TOKEN);}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 140 "hl/src/H5LTanalyze.l"
+#line 145 "hl/src/H5LTanalyze.l"
 {return token(H5T_ARRAY_TOKEN);}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 141 "hl/src/H5LTanalyze.l"
+#line 146 "hl/src/H5LTanalyze.l"
 {return token(H5T_VLEN_TOKEN);}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 143 "hl/src/H5LTanalyze.l"
+#line 148 "hl/src/H5LTanalyze.l"
 {return token(H5T_OPAQUE_TOKEN);}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 144 "hl/src/H5LTanalyze.l"
+#line 149 "hl/src/H5LTanalyze.l"
 {return token(OPQ_SIZE_TOKEN);}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 145 "hl/src/H5LTanalyze.l"
+#line 150 "hl/src/H5LTanalyze.l"
 {return token(OPQ_TAG_TOKEN);}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 147 "hl/src/H5LTanalyze.l"
+#line 152 "hl/src/H5LTanalyze.l"
 {    
                         if( is_str_size || (is_enum && is_enum_memb) || 
                             is_opq_size || (asindex>-1 && arr_stack[asindex].is_dim) ||
                             (csindex>-1 && cmpd_stack[csindex].is_field) ) {
-                            H5LTyylval.ival = atoi(H5LTyytext);
+                            H5LTyylval.ival = atoi(yytext);
                             return NUMBER; 
                         } else
                             REJECT;
@@ -1513,7 +1748,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 157 "hl/src/H5LTanalyze.l"
+#line 162 "hl/src/H5LTanalyze.l"
 {
                     /*if it's first quote, and is a compound field name or an enum symbol*/
                     if((is_opq_tag || is_enum || (csindex>-1 && cmpd_stack[csindex].is_field)) 
@@ -1528,12 +1763,12 @@ YY_RULE_SETUP
 case 57:
 /* rule 57 can match eol */
 YY_RULE_SETUP
-#line 167 "hl/src/H5LTanalyze.l"
+#line 172 "hl/src/H5LTanalyze.l"
 {
 #ifdef H5_HAVE_WIN32_API
-                    H5LTyylval.sval = _strdup(H5LTyytext);
+                    H5LTyylval.sval = _strdup(yytext);
 #else /* H5_HAVE_WIN32_API */
-                    H5LTyylval.sval = strdup(H5LTyytext);
+                    H5LTyylval.sval = strdup(yytext);
 #endif  /* H5_HAVE_WIN32_API */
                     BEGIN INITIAL;
                     return STRING;
@@ -1541,52 +1776,52 @@ YY_RULE_SETUP
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 177 "hl/src/H5LTanalyze.l"
+#line 182 "hl/src/H5LTanalyze.l"
 {return token('{');}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 178 "hl/src/H5LTanalyze.l"
+#line 183 "hl/src/H5LTanalyze.l"
 {return token('}');}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 179 "hl/src/H5LTanalyze.l"
+#line 184 "hl/src/H5LTanalyze.l"
 {return token('[');}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 180 "hl/src/H5LTanalyze.l"
+#line 185 "hl/src/H5LTanalyze.l"
 {return token(']');}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 181 "hl/src/H5LTanalyze.l"
+#line 186 "hl/src/H5LTanalyze.l"
 {return token(':');}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 182 "hl/src/H5LTanalyze.l"
+#line 187 "hl/src/H5LTanalyze.l"
 {return token(';');}
 	YY_BREAK
 case 64:
 /* rule 64 can match eol */
 YY_RULE_SETUP
-#line 183 "hl/src/H5LTanalyze.l"
+#line 188 "hl/src/H5LTanalyze.l"
 ;
 	YY_BREAK
 case 65:
 /* rule 65 can match eol */
 YY_RULE_SETUP
-#line 184 "hl/src/H5LTanalyze.l"
+#line 189 "hl/src/H5LTanalyze.l"
 { return 0; }
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 186 "hl/src/H5LTanalyze.l"
+#line 191 "hl/src/H5LTanalyze.l"
 ECHO;
 	YY_BREAK
-#line 1570 "hl/src/H5LTanalyze.c"
+#line 1803 "hl/src/H5LTanalyze.c"
 			case YY_STATE_EOF(INITIAL):
 			case YY_STATE_EOF(TAG_STRING):
 				yyterminate();
@@ -1604,15 +1839,15 @@ ECHO;
 			{
 			/* We're scanning a new file or input source.  It's
 			 * possible that this happened because the user
-			 * just pointed H5LTyyin at a new source and called
-			 * H5LTyylex().  If so, then we have to assure
+			 * just pointed yyin at a new source and called
+			 * yylex().  If so, then we have to assure
 			 * consistency between YY_CURRENT_BUFFER and our
 			 * globals.  Here is the right place to do so, because
 			 * this is the first action (other than possibly a
 			 * back-up) that will match for the new input source.
 			 */
 			(yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
-			YY_CURRENT_BUFFER_LVALUE->yy_input_file = H5LTyyin;
+			YY_CURRENT_BUFFER_LVALUE->yy_input_file = yyin;
 			YY_CURRENT_BUFFER_LVALUE->yy_buffer_status = YY_BUFFER_NORMAL;
 			}
 
@@ -1665,11 +1900,11 @@ ECHO;
 				{
 				(yy_did_buffer_switch_on_eof) = 0;
 
-				if ( H5LTyywrap( ) )
+				if ( yywrap(  ) )
 					{
 					/* Note: because we've taken care in
 					 * yy_get_next_buffer() to have set up
-					 * H5LTyytext, we can now set up
+					 * yytext, we can now set up
 					 * yy_c_buf_p so that if some total
 					 * hoser (like flex itself) wants to
 					 * call the scanner after we return the
@@ -1719,7 +1954,7 @@ ECHO;
 	} /* end of action switch */
 		} /* end of scanning one token */
 	} /* end of user's declarations */
-} /* end of H5LTyylex */
+} /* end of yylex */
 
 /* yy_get_next_buffer - try to read in a new buffer
  *
@@ -1730,9 +1965,9 @@ ECHO;
  */
 static int yy_get_next_buffer (void)
 {
-    	register char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
-	register char *source = (yytext_ptr);
-	register int number_to_move, i;
+    	char *dest = YY_CURRENT_BUFFER_LVALUE->yy_ch_buf;
+	char *source = (yytext_ptr);
+	int number_to_move, i;
 	int ret_val;
 
 	if ( (yy_c_buf_p) > &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[(yy_n_chars) + 1] )
@@ -1761,7 +1996,7 @@ static int yy_get_next_buffer (void)
 	/* Try to read more data. */
 
 	/* First move last chars to start of buffer. */
-	number_to_move = (int) ((yy_c_buf_p) - (yytext_ptr)) - 1;
+	number_to_move = (int) ((yy_c_buf_p) - (yytext_ptr) - 1);
 
 	for ( i = 0; i < number_to_move; ++i )
 		*(dest++) = *(source++);
@@ -1774,7 +2009,7 @@ static int yy_get_next_buffer (void)
 
 	else
 		{
-			yy_size_t num_to_read =
+			int num_to_read =
 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
@@ -1800,7 +2035,7 @@ static int yy_get_next_buffer (void)
 		if ( number_to_move == YY_MORE_ADJ )
 			{
 			ret_val = EOB_ACT_END_OF_FILE;
-			H5LTyyrestart(H5LTyyin  );
+			yyrestart( yyin  );
 			}
 
 		else
@@ -1814,12 +2049,15 @@ static int yy_get_next_buffer (void)
 	else
 		ret_val = EOB_ACT_CONTINUE_SCAN;
 
-	if ((yy_size_t) ((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
+	if (((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
-		yy_size_t new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
-		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) H5LTyyrealloc((void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf,new_size  );
+		int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc(
+			(void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, (yy_size_t) new_size  );
 		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
 			YY_FATAL_ERROR( "out of dynamic memory in yy_get_next_buffer()" );
+		/* "- 2" to take care of EOB's */
+		YY_CURRENT_BUFFER_LVALUE->yy_buf_size = (int) (new_size - 2);
 	}
 
 	(yy_n_chars) += number_to_move;
@@ -1835,8 +2073,8 @@ static int yy_get_next_buffer (void)
 
     static yy_state_type yy_get_previous_state (void)
 {
-	register yy_state_type yy_current_state;
-	register char *yy_cp;
+	yy_state_type yy_current_state;
+	char *yy_cp;
     
 	yy_current_state = (yy_start);
 
@@ -1845,14 +2083,14 @@ static int yy_get_next_buffer (void)
 
 	for ( yy_cp = (yytext_ptr) + YY_MORE_ADJ; yy_cp < (yy_c_buf_p); ++yy_cp )
 		{
-		register YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
+		YY_CHAR yy_c = (*yy_cp ? yy_ec[YY_SC_TO_UI(*yy_cp)] : 1);
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
 			if ( yy_current_state >= 545 )
-				yy_c = yy_meta[(unsigned int) yy_c];
+				yy_c = yy_meta[yy_c];
 			}
-		yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 		*(yy_state_ptr)++ = yy_current_state;
 		}
 
@@ -1866,16 +2104,16 @@ static int yy_get_next_buffer (void)
  */
     static yy_state_type yy_try_NUL_trans  (yy_state_type yy_current_state )
 {
-	register int yy_is_jam;
+	int yy_is_jam;
     
-	register YY_CHAR yy_c = 1;
+	YY_CHAR yy_c = 1;
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
 		if ( yy_current_state >= 545 )
-			yy_c = yy_meta[(unsigned int) yy_c];
+			yy_c = yy_meta[yy_c];
 		}
-	yy_current_state = yy_nxt[yy_base[yy_current_state] + (unsigned int) yy_c];
+	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 	yy_is_jam = (yy_current_state == 544);
 	if ( ! yy_is_jam )
 		*(yy_state_ptr)++ = yy_current_state;
@@ -1883,22 +2121,24 @@ static int yy_get_next_buffer (void)
 		return yy_is_jam ? 0 : yy_current_state;
 }
 
-    static void yyunput (int c, register char * yy_bp )
+#ifndef YY_NO_UNPUT
+
+    static void yyunput (int c, char * yy_bp )
 {
-	register char *yy_cp;
+	char *yy_cp;
     
     yy_cp = (yy_c_buf_p);
 
-	/* undo effects of setting up H5LTyytext */
+	/* undo effects of setting up yytext */
 	*yy_cp = (yy_hold_char);
 
 	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
 		{ /* need to shift things up to make room */
 		/* +2 for EOB chars. */
-		register yy_size_t number_to_move = (yy_n_chars) + 2;
-		register char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
+		int number_to_move = (yy_n_chars) + 2;
+		char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
 					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
-		register char *source =
+		char *source =
 				&YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[number_to_move];
 
 		while ( source > YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
@@ -1907,7 +2147,7 @@ static int yy_get_next_buffer (void)
 		yy_cp += (int) (dest - source);
 		yy_bp += (int) (dest - source);
 		YY_CURRENT_BUFFER_LVALUE->yy_n_chars =
-			(yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
+			(yy_n_chars) = (int) YY_CURRENT_BUFFER_LVALUE->yy_buf_size;
 
 		if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
 			YY_FATAL_ERROR( "flex scanner push-back overflow" );
@@ -1919,6 +2159,8 @@ static int yy_get_next_buffer (void)
 	(yy_hold_char) = *yy_cp;
 	(yy_c_buf_p) = yy_cp;
 }
+
+#endif
 
 #ifndef YY_NO_INPUT
 #ifdef __cplusplus
@@ -1944,7 +2186,7 @@ static int yy_get_next_buffer (void)
 
 		else
 			{ /* need more input */
-			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
+			int offset = (int) ((yy_c_buf_p) - (yytext_ptr));
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -1961,14 +2203,14 @@ static int yy_get_next_buffer (void)
 					 */
 
 					/* Reset buffer status. */
-					H5LTyyrestart(H5LTyyin );
+					yyrestart( yyin );
 
 					/*FALLTHROUGH*/
 
 				case EOB_ACT_END_OF_FILE:
 					{
-					if ( H5LTyywrap( ) )
-						return EOF;
+					if ( yywrap(  ) )
+						return 0;
 
 					if ( ! (yy_did_buffer_switch_on_eof) )
 						YY_NEW_FILE;
@@ -1987,7 +2229,7 @@ static int yy_get_next_buffer (void)
 		}
 
 	c = *(unsigned char *) (yy_c_buf_p);	/* cast for 8-bit char's */
-	*(yy_c_buf_p) = '\0';	/* preserve H5LTyytext */
+	*(yy_c_buf_p) = '\0';	/* preserve yytext */
 	(yy_hold_char) = *++(yy_c_buf_p);
 
 	return c;
@@ -1999,32 +2241,32 @@ static int yy_get_next_buffer (void)
  * 
  * @note This function does not reset the start condition to @c INITIAL .
  */
-    void H5LTyyrestart  (FILE * input_file )
+    void yyrestart  (FILE * input_file )
 {
     
 	if ( ! YY_CURRENT_BUFFER ){
-        H5LTyyensure_buffer_stack ();
+        yyensure_buffer_stack ();
 		YY_CURRENT_BUFFER_LVALUE =
-            H5LTyy_create_buffer(H5LTyyin,YY_BUF_SIZE );
+            yy_create_buffer( yyin, YY_BUF_SIZE );
 	}
 
-	H5LTyy_init_buffer(YY_CURRENT_BUFFER,input_file );
-	H5LTyy_load_buffer_state( );
+	yy_init_buffer( YY_CURRENT_BUFFER, input_file );
+	yy_load_buffer_state(  );
 }
 
 /** Switch to a different input buffer.
  * @param new_buffer The new input buffer.
  * 
  */
-    void H5LTyy_switch_to_buffer  (YY_BUFFER_STATE  new_buffer )
+    void yy_switch_to_buffer  (YY_BUFFER_STATE  new_buffer )
 {
     
 	/* TODO. We should be able to replace this entire function body
 	 * with
-	 *		H5LTyypop_buffer_state();
-	 *		H5LTyypush_buffer_state(new_buffer);
+	 *		yypop_buffer_state();
+	 *		yypush_buffer_state(new_buffer);
      */
-	H5LTyyensure_buffer_stack ();
+	yyensure_buffer_stack ();
 	if ( YY_CURRENT_BUFFER == new_buffer )
 		return;
 
@@ -2037,21 +2279,21 @@ static int yy_get_next_buffer (void)
 		}
 
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
-	H5LTyy_load_buffer_state( );
+	yy_load_buffer_state(  );
 
 	/* We don't actually know whether we did this switch during
-	 * EOF (H5LTyywrap()) processing, but the only time this flag
-	 * is looked at is after H5LTyywrap() is called, so it's safe
+	 * EOF (yywrap()) processing, but the only time this flag
+	 * is looked at is after yywrap() is called, so it's safe
 	 * to go ahead and always set it.
 	 */
 	(yy_did_buffer_switch_on_eof) = 1;
 }
 
-static void H5LTyy_load_buffer_state  (void)
+static void yy_load_buffer_state  (void)
 {
     	(yy_n_chars) = YY_CURRENT_BUFFER_LVALUE->yy_n_chars;
 	(yytext_ptr) = (yy_c_buf_p) = YY_CURRENT_BUFFER_LVALUE->yy_buf_pos;
-	H5LTyyin = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
+	yyin = YY_CURRENT_BUFFER_LVALUE->yy_input_file;
 	(yy_hold_char) = *(yy_c_buf_p);
 }
 
@@ -2061,35 +2303,35 @@ static void H5LTyy_load_buffer_state  (void)
  * 
  * @return the allocated buffer state.
  */
-    YY_BUFFER_STATE H5LTyy_create_buffer  (FILE * file, int  size )
+    YY_BUFFER_STATE yy_create_buffer  (FILE * file, int  size )
 {
 	YY_BUFFER_STATE b;
     
-	b = (YY_BUFFER_STATE) H5LTyyalloc(sizeof( struct yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) yyalloc( sizeof( struct yy_buffer_state )  );
 	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in H5LTyy_create_buffer()" );
+		YY_FATAL_ERROR( "out of dynamic memory in yy_create_buffer()" );
 
 	b->yy_buf_size = size;
 
 	/* yy_ch_buf has to be 2 characters longer than the size given because
 	 * we need to put in 2 end-of-buffer characters.
 	 */
-	b->yy_ch_buf = (char *) H5LTyyalloc(b->yy_buf_size + 2  );
+	b->yy_ch_buf = (char *) yyalloc( (yy_size_t) (b->yy_buf_size + 2)  );
 	if ( ! b->yy_ch_buf )
-		YY_FATAL_ERROR( "out of dynamic memory in H5LTyy_create_buffer()" );
+		YY_FATAL_ERROR( "out of dynamic memory in yy_create_buffer()" );
 
 	b->yy_is_our_buffer = 1;
 
-	H5LTyy_init_buffer(b,file );
+	yy_init_buffer( b, file );
 
 	return b;
 }
 
 /** Destroy the buffer.
- * @param b a buffer created with H5LTyy_create_buffer()
+ * @param b a buffer created with yy_create_buffer()
  * 
  */
-    void H5LTyy_delete_buffer (YY_BUFFER_STATE  b )
+    void yy_delete_buffer (YY_BUFFER_STATE  b )
 {
     
 	if ( ! b )
@@ -2099,27 +2341,27 @@ static void H5LTyy_load_buffer_state  (void)
 		YY_CURRENT_BUFFER_LVALUE = (YY_BUFFER_STATE) 0;
 
 	if ( b->yy_is_our_buffer )
-		H5LTyyfree((void *) b->yy_ch_buf  );
+		yyfree( (void *) b->yy_ch_buf  );
 
-	H5LTyyfree((void *) b  );
+	yyfree( (void *) b  );
 }
 
 /* Initializes or reinitializes a buffer.
  * This function is sometimes called more than once on the same buffer,
- * such as during a H5LTyyrestart() or at EOF.
+ * such as during a yyrestart() or at EOF.
  */
-    static void H5LTyy_init_buffer  (YY_BUFFER_STATE  b, FILE * file )
+    static void yy_init_buffer  (YY_BUFFER_STATE  b, FILE * file )
 
 {
 	int oerrno = errno;
     
-	H5LTyy_flush_buffer(b );
+	yy_flush_buffer( b );
 
 	b->yy_input_file = file;
 	b->yy_fill_buffer = 1;
 
-    /* If b is the current buffer, then H5LTyy_init_buffer was _probably_
-     * called from H5LTyyrestart() or through yy_get_next_buffer.
+    /* If b is the current buffer, then yy_init_buffer was _probably_
+     * called from yyrestart() or through yy_get_next_buffer.
      * In that case, we don't want to reset the lineno or column.
      */
     if (b != YY_CURRENT_BUFFER){
@@ -2136,7 +2378,7 @@ static void H5LTyy_load_buffer_state  (void)
  * @param b the buffer state to be flushed, usually @c YY_CURRENT_BUFFER.
  * 
  */
-    void H5LTyy_flush_buffer (YY_BUFFER_STATE  b )
+    void yy_flush_buffer (YY_BUFFER_STATE  b )
 {
     	if ( ! b )
 		return;
@@ -2156,7 +2398,7 @@ static void H5LTyy_load_buffer_state  (void)
 	b->yy_buffer_status = YY_BUFFER_NEW;
 
 	if ( b == YY_CURRENT_BUFFER )
-		H5LTyy_load_buffer_state( );
+		yy_load_buffer_state(  );
 }
 
 /** Pushes the new state onto the stack. The new state becomes
@@ -2165,14 +2407,14 @@ static void H5LTyy_load_buffer_state  (void)
  *  @param new_buffer The new state.
  *  
  */
-void H5LTyypush_buffer_state (YY_BUFFER_STATE new_buffer )
+void yypush_buffer_state (YY_BUFFER_STATE new_buffer )
 {
     	if (new_buffer == NULL)
 		return;
 
-	H5LTyyensure_buffer_stack();
+	yyensure_buffer_stack();
 
-	/* This block is copied from H5LTyy_switch_to_buffer. */
+	/* This block is copied from yy_switch_to_buffer. */
 	if ( YY_CURRENT_BUFFER )
 		{
 		/* Flush out information for old buffer. */
@@ -2186,8 +2428,8 @@ void H5LTyypush_buffer_state (YY_BUFFER_STATE new_buffer )
 		(yy_buffer_stack_top)++;
 	YY_CURRENT_BUFFER_LVALUE = new_buffer;
 
-	/* copied from H5LTyy_switch_to_buffer. */
-	H5LTyy_load_buffer_state( );
+	/* copied from yy_switch_to_buffer. */
+	yy_load_buffer_state(  );
 	(yy_did_buffer_switch_on_eof) = 1;
 }
 
@@ -2195,18 +2437,18 @@ void H5LTyypush_buffer_state (YY_BUFFER_STATE new_buffer )
  *  The next element becomes the new top.
  *  
  */
-void H5LTyypop_buffer_state (void)
+void yypop_buffer_state (void)
 {
     	if (!YY_CURRENT_BUFFER)
 		return;
 
-	H5LTyy_delete_buffer(YY_CURRENT_BUFFER );
+	yy_delete_buffer(YY_CURRENT_BUFFER );
 	YY_CURRENT_BUFFER_LVALUE = NULL;
 	if ((yy_buffer_stack_top) > 0)
 		--(yy_buffer_stack_top);
 
 	if (YY_CURRENT_BUFFER) {
-		H5LTyy_load_buffer_state( );
+		yy_load_buffer_state(  );
 		(yy_did_buffer_switch_on_eof) = 1;
 	}
 }
@@ -2214,7 +2456,7 @@ void H5LTyypop_buffer_state (void)
 /* Allocates the stack if it does not exist.
  *  Guarantees space for at least one push.
  */
-static void H5LTyyensure_buffer_stack (void)
+static void yyensure_buffer_stack (void)
 {
 	yy_size_t num_to_alloc;
     
@@ -2224,15 +2466,15 @@ static void H5LTyyensure_buffer_stack (void)
 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
 		 * immediate realloc on the next call.
          */
-		num_to_alloc = 1;
-		(yy_buffer_stack) = (struct yy_buffer_state**)H5LTyyalloc
+      num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
+		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
 								(num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
 		if ( ! (yy_buffer_stack) )
-			YY_FATAL_ERROR( "out of dynamic memory in H5LTyyensure_buffer_stack()" );
-								  
+			YY_FATAL_ERROR( "out of dynamic memory in yyensure_buffer_stack()" );
+
 		memset((yy_buffer_stack), 0, num_to_alloc * sizeof(struct yy_buffer_state*));
-				
+
 		(yy_buffer_stack_max) = num_to_alloc;
 		(yy_buffer_stack_top) = 0;
 		return;
@@ -2241,15 +2483,15 @@ static void H5LTyyensure_buffer_stack (void)
 	if ((yy_buffer_stack_top) >= ((yy_buffer_stack_max)) - 1){
 
 		/* Increase the buffer to prepare for a possible push. */
-		int grow_size = 8 /* arbitrary grow size */;
+		yy_size_t grow_size = 8 /* arbitrary grow size */;
 
 		num_to_alloc = (yy_buffer_stack_max) + grow_size;
-		(yy_buffer_stack) = (struct yy_buffer_state**)H5LTyyrealloc
+		(yy_buffer_stack) = (struct yy_buffer_state**)yyrealloc
 								((yy_buffer_stack),
 								num_to_alloc * sizeof(struct yy_buffer_state*)
 								);
 		if ( ! (yy_buffer_stack) )
-			YY_FATAL_ERROR( "out of dynamic memory in H5LTyyensure_buffer_stack()" );
+			YY_FATAL_ERROR( "out of dynamic memory in yyensure_buffer_stack()" );
 
 		/* zero only the new slots.*/
 		memset((yy_buffer_stack) + (yy_buffer_stack_max), 0, grow_size * sizeof(struct yy_buffer_state*));
@@ -2261,9 +2503,9 @@ static void H5LTyyensure_buffer_stack (void)
  * @param base the character buffer
  * @param size the size in bytes of the character buffer
  * 
- * @return the newly allocated buffer state object. 
+ * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE H5LTyy_scan_buffer  (char * base, yy_size_t  size )
+YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )
 {
 	YY_BUFFER_STATE b;
     
@@ -2271,69 +2513,69 @@ YY_BUFFER_STATE H5LTyy_scan_buffer  (char * base, yy_size_t  size )
 	     base[size-2] != YY_END_OF_BUFFER_CHAR ||
 	     base[size-1] != YY_END_OF_BUFFER_CHAR )
 		/* They forgot to leave room for the EOB's. */
-		return 0;
+		return NULL;
 
-	b = (YY_BUFFER_STATE) H5LTyyalloc(sizeof( struct yy_buffer_state )  );
+	b = (YY_BUFFER_STATE) yyalloc( sizeof( struct yy_buffer_state )  );
 	if ( ! b )
-		YY_FATAL_ERROR( "out of dynamic memory in H5LTyy_scan_buffer()" );
+		YY_FATAL_ERROR( "out of dynamic memory in yy_scan_buffer()" );
 
-	b->yy_buf_size = size - 2;	/* "- 2" to take care of EOB's */
+	b->yy_buf_size = (int) (size - 2);	/* "- 2" to take care of EOB's */
 	b->yy_buf_pos = b->yy_ch_buf = base;
 	b->yy_is_our_buffer = 0;
-	b->yy_input_file = 0;
+	b->yy_input_file = NULL;
 	b->yy_n_chars = b->yy_buf_size;
 	b->yy_is_interactive = 0;
 	b->yy_at_bol = 1;
 	b->yy_fill_buffer = 0;
 	b->yy_buffer_status = YY_BUFFER_NEW;
 
-	H5LTyy_switch_to_buffer(b  );
+	yy_switch_to_buffer( b  );
 
 	return b;
 }
 
-/** Setup the input buffer state to scan a string. The next call to H5LTyylex() will
+/** Setup the input buffer state to scan a string. The next call to yylex() will
  * scan from a @e copy of @a str.
  * @param yystr a NUL-terminated string to scan
  * 
  * @return the newly allocated buffer state object.
  * @note If you want to scan bytes that may contain NUL values, then use
- *       H5LTyy_scan_bytes() instead.
+ *       yy_scan_bytes() instead.
  */
-YY_BUFFER_STATE H5LTyy_scan_string (yyconst char * yystr )
+YY_BUFFER_STATE yy_scan_string (const char * yystr )
 {
     
-	return H5LTyy_scan_bytes(yystr,strlen(yystr) );
+	return yy_scan_bytes( yystr, (int) strlen(yystr) );
 }
 
-/** Setup the input buffer state to scan the given bytes. The next call to H5LTyylex() will
+/** Setup the input buffer state to scan the given bytes. The next call to yylex() will
  * scan from a @e copy of @a bytes.
  * @param yybytes the byte buffer to scan
  * @param _yybytes_len the number of bytes in the buffer pointed to by @a bytes.
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE H5LTyy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_len )
+YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
 {
 	YY_BUFFER_STATE b;
 	char *buf;
 	yy_size_t n;
-	yy_size_t i;
+	int i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
-	n = _yybytes_len + 2;
-	buf = (char *) H5LTyyalloc(n  );
+	n = (yy_size_t) (_yybytes_len + 2);
+	buf = (char *) yyalloc( n  );
 	if ( ! buf )
-		YY_FATAL_ERROR( "out of dynamic memory in H5LTyy_scan_bytes()" );
+		YY_FATAL_ERROR( "out of dynamic memory in yy_scan_bytes()" );
 
 	for ( i = 0; i < _yybytes_len; ++i )
 		buf[i] = yybytes[i];
 
 	buf[_yybytes_len] = buf[_yybytes_len+1] = YY_END_OF_BUFFER_CHAR;
 
-	b = H5LTyy_scan_buffer(buf,n );
+	b = yy_scan_buffer( buf, n );
 	if ( ! b )
-		YY_FATAL_ERROR( "bad buffer in H5LTyy_scan_bytes()" );
+		YY_FATAL_ERROR( "bad buffer in yy_scan_bytes()" );
 
 	/* It's okay to grow etc. this buffer, and we should throw it
 	 * away when we're done.
@@ -2347,9 +2589,9 @@ YY_BUFFER_STATE H5LTyy_scan_bytes  (yyconst char * yybytes, yy_size_t  _yybytes_
 #define YY_EXIT_FAILURE 2
 #endif
 
-static void yy_fatal_error (yyconst char* msg )
+static void yynoreturn yy_fatal_error (const char* msg )
 {
-    	(void) fprintf( stderr, "%s\n", msg );
+			fprintf( stderr, "%s\n", msg );
 	exit( YY_EXIT_FAILURE );
 }
 
@@ -2359,14 +2601,14 @@ static void yy_fatal_error (yyconst char* msg )
 #define yyless(n) \
 	do \
 		{ \
-		/* Undo effects of setting up H5LTyytext. */ \
+		/* Undo effects of setting up yytext. */ \
         int yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
-		H5LTyytext[H5LTyyleng] = (yy_hold_char); \
-		(yy_c_buf_p) = H5LTyytext + yyless_macro_arg; \
+		yytext[yyleng] = (yy_hold_char); \
+		(yy_c_buf_p) = yytext + yyless_macro_arg; \
 		(yy_hold_char) = *(yy_c_buf_p); \
 		*(yy_c_buf_p) = '\0'; \
-		H5LTyyleng = yyless_macro_arg; \
+		yyleng = yyless_macro_arg; \
 		} \
 	while ( 0 )
 
@@ -2375,91 +2617,91 @@ static void yy_fatal_error (yyconst char* msg )
 /** Get the current line number.
  * 
  */
-int H5LTyyget_lineno  (void)
+int yyget_lineno  (void)
 {
-        
-    return H5LTyylineno;
+    
+    return yylineno;
 }
 
 /** Get the input stream.
  * 
  */
-FILE *H5LTyyget_in  (void)
+FILE *yyget_in  (void)
 {
-        return H5LTyyin;
+        return yyin;
 }
 
 /** Get the output stream.
  * 
  */
-FILE *H5LTyyget_out  (void)
+FILE *yyget_out  (void)
 {
-        return H5LTyyout;
+        return yyout;
 }
 
 /** Get the length of the current token.
  * 
  */
-yy_size_t H5LTyyget_leng  (void)
+int yyget_leng  (void)
 {
-        return H5LTyyleng;
+        return yyleng;
 }
 
 /** Get the current token.
  * 
  */
 
-char *H5LTyyget_text  (void)
+char *yyget_text  (void)
 {
-        return H5LTyytext;
+        return yytext;
 }
 
 /** Set the current line number.
- * @param line_number
+ * @param _line_number line number
  * 
  */
-void H5LTyyset_lineno (int  line_number )
+void yyset_lineno (int  _line_number )
 {
     
-    H5LTyylineno = line_number;
+    yylineno = _line_number;
 }
 
 /** Set the input stream. This does not discard the current
  * input buffer.
- * @param in_str A readable stream.
+ * @param _in_str A readable stream.
  * 
- * @see H5LTyy_switch_to_buffer
+ * @see yy_switch_to_buffer
  */
-void H5LTyyset_in (FILE *  in_str )
+void yyset_in (FILE *  _in_str )
 {
-        H5LTyyin = in_str ;
+        yyin = _in_str ;
 }
 
-void H5LTyyset_out (FILE *  out_str )
+void yyset_out (FILE *  _out_str )
 {
-        H5LTyyout = out_str ;
+        yyout = _out_str ;
 }
 
-int H5LTyyget_debug  (void)
+int yyget_debug  (void)
 {
-        return H5LTyy_flex_debug;
+        return yy_flex_debug;
 }
 
-void H5LTyyset_debug (int  bdebug )
+void yyset_debug (int  _bdebug )
 {
-        H5LTyy_flex_debug = bdebug ;
+        yy_flex_debug = _bdebug ;
 }
 
 static int yy_init_globals (void)
 {
         /* Initialization is the same as for the non-reentrant scanner.
-     * This function is called from H5LTyylex_destroy(), so don't allocate here.
+     * This function is called from yylex_destroy(), so don't allocate here.
      */
 
-    (yy_buffer_stack) = 0;
+    (yy_buffer_stack) = NULL;
     (yy_buffer_stack_top) = 0;
     (yy_buffer_stack_max) = 0;
-    (yy_c_buf_p) = (char *) 0;
+    (yy_c_buf_p) = NULL;
     (yy_init) = 0;
     (yy_start) = 0;
 
@@ -2470,39 +2712,39 @@ static int yy_init_globals (void)
 
 /* Defined in main.c */
 #ifdef YY_STDINIT
-    H5LTyyin = stdin;
-    H5LTyyout = stdout;
+    yyin = stdin;
+    yyout = stdout;
 #else
-    H5LTyyin = (FILE *) 0;
-    H5LTyyout = (FILE *) 0;
+    yyin = NULL;
+    yyout = NULL;
 #endif
 
     /* For future reference: Set errno on error, since we are called by
-     * H5LTyylex_init()
+     * yylex_init()
      */
     return 0;
 }
 
-/* H5LTyylex_destroy is for both reentrant and non-reentrant scanners. */
-int H5LTyylex_destroy  (void)
+/* yylex_destroy is for both reentrant and non-reentrant scanners. */
+int yylex_destroy  (void)
 {
     
     /* Pop the buffer stack, destroying each element. */
 	while(YY_CURRENT_BUFFER){
-		H5LTyy_delete_buffer(YY_CURRENT_BUFFER  );
+		yy_delete_buffer( YY_CURRENT_BUFFER  );
 		YY_CURRENT_BUFFER_LVALUE = NULL;
-		H5LTyypop_buffer_state();
+		yypop_buffer_state();
 	}
 
 	/* Destroy the stack itself. */
-	H5LTyyfree((yy_buffer_stack) );
+	yyfree((yy_buffer_stack) );
 	(yy_buffer_stack) = NULL;
 
-    H5LTyyfree ( (yy_state_buf) );
+    yyfree ( (yy_state_buf) );
     (yy_state_buf)  = NULL;
 
     /* Reset the globals. This is important in a non-reentrant scanner so the next time
-     * H5LTyylex() is called, initialization will occur. */
+     * yylex() is called, initialization will occur. */
     yy_init_globals( );
 
     return 0;
@@ -2513,18 +2755,19 @@ int H5LTyylex_destroy  (void)
  */
 
 #ifndef yytext_ptr
-static void yy_flex_strncpy (char* s1, yyconst char * s2, int n )
+static void yy_flex_strncpy (char* s1, const char * s2, int n )
 {
-	register int i;
+		
+	int i;
 	for ( i = 0; i < n; ++i )
 		s1[i] = s2[i];
 }
 #endif
 
 #ifdef YY_NEED_STRLEN
-static int yy_flex_strlen (yyconst char * s )
+static int yy_flex_strlen (const char * s )
 {
-	register int n;
+	int n;
 	for ( n = 0; s[n]; ++n )
 		;
 
@@ -2532,13 +2775,14 @@ static int yy_flex_strlen (yyconst char * s )
 }
 #endif
 
-void *H5LTyyalloc (yy_size_t  size )
+void *yyalloc (yy_size_t  size )
 {
-	return (void *) malloc( size );
+			return malloc(size);
 }
 
-void *H5LTyyrealloc  (void * ptr, yy_size_t  size )
+void *yyrealloc  (void * ptr, yy_size_t  size )
 {
+		
 	/* The cast to (char *) in the following accommodates both
 	 * implementations that use char* generic pointers, and those
 	 * that use void* generic pointers.  It works with the latter
@@ -2546,18 +2790,17 @@ void *H5LTyyrealloc  (void * ptr, yy_size_t  size )
 	 * any pointer type to void*, and deal with argument conversions
 	 * as though doing an assignment.
 	 */
-	return (void *) realloc( (char *) ptr, size );
+	return realloc(ptr, size);
 }
 
-void H5LTyyfree (void * ptr )
+void yyfree (void * ptr )
 {
-	free( (char *) ptr );	/* see H5LTyyrealloc() for (char *) cast */
+			free( (char *) ptr );	/* see yyrealloc() for (char *) cast */
 }
 
 #define YYTABLES_NAME "yytables"
 
-#line 185 "hl/src/H5LTanalyze.l"
-
+#line 191 "hl/src/H5LTanalyze.l"
 
 int my_yyinput(char *buf, int max_size)
 {
@@ -2570,11 +2813,11 @@ int my_yyinput(char *buf, int max_size)
 
 int H5LTyyerror(const char *msg)
 {
-   printf("ERROR: %s before \"%s\".\n", msg, H5LTyytext);
+   printf("ERROR: %s before \"%s\".\n", msg, yytext);
    return 0;
 }
 
-int H5LTyywrap()
+int yywrap()
 {
     return(1);
 }

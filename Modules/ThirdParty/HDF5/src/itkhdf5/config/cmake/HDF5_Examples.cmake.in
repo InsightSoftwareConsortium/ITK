@@ -9,7 +9,7 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.12)
 ###############################################################################################################
 # This script will build and run the examples from a folder
 # Execute from a command line:
@@ -77,7 +77,7 @@ set(ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DSITE:STRING=${CTEST_SITE} -DBUILDN
 
 #TAR_SOURCE - name of tarfile
 #if(NOT DEFINED TAR_SOURCE)
-#  set(CTEST_USE_TAR_SOURCE "HDF5Examples-1.10.13-Source")
+#  set(CTEST_USE_TAR_SOURCE "HDF5Examples-1.10.15-Source")
 #endif()
 
 ###############################################################################################################

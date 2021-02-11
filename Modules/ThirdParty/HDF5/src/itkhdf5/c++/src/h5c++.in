@@ -311,7 +311,7 @@ fi
 
 if test "x$do_link" = "xyes"; then
   shared_link=""
-  # conditionally link with the hl library  
+  # conditionally link with the hl library
   if test "X$HL" = "Xhl"; then
    libraries=" $libraries -lhdf5_hl_cpp -lhdf5_cpp -lhdf5_hl -lhdf5 "
   else

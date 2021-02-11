@@ -72,7 +72,7 @@ class H5_DLLCPP H5Location : public IdComponent {
 
         // Creates a reference to a named object or to a dataset region
         // in this object.
-        void reference(void* ref, const char* name, 
+        void reference(void* ref, const char* name,
                         H5R_type_t ref_type = H5R_OBJECT) const;
         void reference(void* ref, const H5std_string& name,
                         H5R_type_t ref_type = H5R_OBJECT) const;

@@ -8,7 +8,7 @@ readonly name="HDF5"
 readonly ownership="HDF5 Maintainers <hdf5-maintainers@hdfgroup.org>"
 readonly subtree="Modules/ThirdParty/HDF5/src/itkhdf5"
 readonly repo="https://github.com/HDFGroup/hdf5.git"
-readonly tag="hdf5-1_10_6"
+readonly tag="hdf5-1_10_7"
 readonly shortlog=false
 readonly paths="
    ACKNOWLEDGMENTS
@@ -16,6 +16,9 @@ readonly paths="
    README.txt
    config/cmake
    config/cmake_ext_mod
+   config/clang-warnings
+   config/gnu-warnings
+   config/intel-warnings
    CMakeLists.txt
    CMakeInstallation.cmake
    CMakeFilters.cmake

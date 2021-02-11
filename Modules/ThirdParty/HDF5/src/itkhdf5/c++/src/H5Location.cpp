@@ -568,7 +568,7 @@ void H5Location::dereference(const H5Location& loc, const void* ref, H5R_type_t 
 {
    p_setId(p_dereference(attr.getId(), ref, ref_type, plist, "dereference"));
 }
- */ 
+ */
 
 #ifndef H5_NO_DEPRECATED_SYMBOLS
 //--------------------------------------------------------------------------
