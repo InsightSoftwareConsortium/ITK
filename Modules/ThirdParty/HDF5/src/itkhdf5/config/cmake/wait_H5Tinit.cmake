@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.12)
 
 message(STATUS "Check for existence of ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
 execute_process(COMMAND ls ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c RESULT_VARIABLE H5TI_result OUTPUT_QUIET ERROR_QUIET)

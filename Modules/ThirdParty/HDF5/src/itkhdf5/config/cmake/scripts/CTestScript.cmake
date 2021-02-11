@@ -9,7 +9,7 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.12)
 ########################################################
 # This dashboard is maintained by The HDF Group
 # For any comments please contact cdashhelp@hdfgroup.org
@@ -253,6 +253,14 @@ endforeach ()
 message (STATUS "Dashboard script configuration:\n${vars}\n")
 
 #-----------------------------------------------------------------------------
+
+###################################################################
+#########       Following is for submission to CDash   ############
+###################################################################
+if (NOT DEFINED MODEL)
+  set (MODEL "Experimental")
+endif ()
+
 #-----------------------------------------------------------------------------
   ## NORMAL process
   ## -- LOCAL_UPDATE updates the source folder from svn

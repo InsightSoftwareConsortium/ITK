@@ -23,7 +23,7 @@ if (CMAKE_JAVA_CLASS_OUTPUT_PATH)
 
                 file(GLOB_RECURSE _JAVA_GLOBBED_TMP_FILES "${CMAKE_JAVA_CLASS_OUTPUT_PATH}/${JAR_CLASS_PREFIX}/*.class")
                 if (_JAVA_GLOBBED_TMP_FILES)
-                    list(APPEND _JAVA_GLOBBED_FILES ${_JAVA_GLOBBED_TMP_FILES})
+                    list (APPEND _JAVA_GLOBBED_FILES ${_JAVA_GLOBBED_TMP_FILES})
                 endif ()
             endforeach()
         else()
