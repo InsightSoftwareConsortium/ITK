@@ -15,7 +15,8 @@
 #   limitations under the License.
 #
 # ==========================================================================*/
-
+import itkConfig
+itkConfig.LazyLoading = False
 import itk
 import numpy as np
 
@@ -55,4 +56,61 @@ try:
     masked = itk.mask_image_filter(data_array1, mask_image=data_array2)
 except ImportError:
     # Could not import xarray
+    pass
+
+try:
+    import torch
+
+    # construct normal, interleaved (RGBRGB) ITK image
+    arrayMultiChannelInterleaved = np.arange(0, 4 * 2 * 3, dtype=np.uint8).reshape((4, 2, 3))
+    print("arrayMultiChannelInterleaved:\n", arrayMultiChannelInterleaved)
+    image0 = itk.image_from_array(np.zeros(arrayMultiChannelInterleaved.shape, dtype=np.uint8), is_vector=True)
+    imageMCI = itk.image_from_array(arrayMultiChannelInterleaved, ttype=type(image0))
+
+    # construct contiguous (RRBBGG) torch tensor
+    arrayMultiChannelContiguous = np.copy(arrayMultiChannelInterleaved)
+    dest = list(range(arrayMultiChannelInterleaved.ndim))
+    source = dest.copy()
+    end = source.pop()
+    source.insert(0, end)
+    arrayMultiChannelContiguous = np.moveaxis(arrayMultiChannelContiguous, source, dest).copy()
+    print("arrayMultiChannelContiguous:\n", arrayMultiChannelContiguous)
+    tensorMCC = torch.from_numpy(arrayMultiChannelContiguous)
+    tensor0 = torch.from_numpy(np.zeros(arrayMultiChannelContiguous.shape, dtype=np.uint8))
+
+    # sanity check: ITK image works with unary filter
+    luminanceITK = itk.rgb_to_luminance_image_filter(imageMCI)
+    assert isinstance(luminanceITK, itk.Image)
+    array = itk.array_view_from_image(luminanceITK)
+
+    # check that torch tensor works with unary filter
+    luminanceTensor = itk.rgb_to_luminance_image_filter(tensorMCC)
+    assert isinstance(luminanceTensor, torch.Tensor)
+    print("luminanceTensor:\n", luminanceTensor)
+    assert(np.array_equal(luminanceTensor, array))
+
+    # sanity check: ITK images work with binary filter
+    image1 = itk.add_image_filter(image0, imageMCI)
+    assert isinstance(image1, itk.Image)
+    array = itk.array_view_from_image(image1)
+    assert(np.array_equal(array, arrayMultiChannelInterleaved))
+
+    # check that ITK image and torch tensor work with binary filter
+    itkTensor = itk.add_image_filter(image0, tensorMCC)
+    assert isinstance(itkTensor, torch.Tensor)
+    print("itkTensor:\n", itkTensor)
+    assert(np.array_equal(itkTensor, arrayMultiChannelContiguous))
+
+    # check that two torch tensors work with binary filter
+    tensor1 = itk.add_image_filter(Input1=tensorMCC, Input2=tensor0)
+    assert isinstance(tensor1, torch.Tensor)
+    assert(np.array_equal(tensor1, itkTensor))
+
+    # check that torch tensor and ITK image work with binary filter
+    tensorITK = itk.add_image_filter(tensorMCC, image0)
+    assert isinstance(tensorITK, torch.Tensor)
+    assert(np.array_equal(tensorITK, tensor1))
+
+except ImportError:
+    # Could not import torch
     pass
