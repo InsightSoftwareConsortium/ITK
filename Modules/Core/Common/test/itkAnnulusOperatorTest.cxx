@@ -18,6 +18,7 @@
 
 #include "itkAnnulusOperator.h"
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 int
 itkAnnulusOperatorTest(int, char *[])
@@ -31,12 +32,18 @@ itkAnnulusOperatorTest(int, char *[])
   using PixelType = float;
   using OperatorType = itk::AnnulusOperator<PixelType, Dimension>;
 
-
   OperatorType normalizedAnnulus;
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS((&normalizedAnnulus), AnnulusOperator, NeighborhoodOperator);
+
+
   normalizedAnnulus.NormalizeOn();
   normalizedAnnulus.SetInnerRadius(3);
   normalizedAnnulus.SetThickness(2);
-  normalizedAnnulus.BrightCenterOff();
+
+  const bool brightCenter = false;
+  ITK_TEST_SET_GET_BOOLEAN((&normalizedAnnulus), BrightCenter, brightCenter);
+
   try
   {
     normalizedAnnulus.CreateOperator();
@@ -56,10 +63,6 @@ itkAnnulusOperatorTest(int, char *[])
     std::cout << "Unknown exception" << std::endl;
     return EXIT_FAILURE;
   }
-
-  std::cout << "Normalized annulus" << std::endl;
-  normalizedAnnulus.Print(std::cout);
-  std::cout << std::endl << std::endl;
 
   OperatorType::SizeType normalizedAnnulusSize;
   normalizedAnnulusSize = normalizedAnnulus.GetSize();
@@ -104,12 +107,30 @@ itkAnnulusOperatorTest(int, char *[])
   std::cout << std::endl << std::endl;
   std::cout << "Creating an annulus by specifying values";
   OperatorType annulus;
-  annulus.NormalizeOff();
-  annulus.SetInnerRadius(2);
-  annulus.SetThickness(1);
-  annulus.SetExteriorValue(1);
-  annulus.SetAnnulusValue(8);
-  annulus.SetInteriorValue(4);
+
+  const bool normalize = false;
+  ITK_TEST_SET_GET_BOOLEAN((&annulus), Normalize, normalize);
+
+  const double innerRadius = 2;
+  annulus.SetInnerRadius(innerRadius);
+  ITK_TEST_SET_GET_VALUE(innerRadius, annulus.GetInnerRadius());
+
+  const double thickness = 1;
+  annulus.SetThickness(thickness);
+  ITK_TEST_SET_GET_VALUE(thickness, annulus.GetThickness());
+
+  const typename OperatorType::PixelType exteriorValue = 1;
+  annulus.SetExteriorValue(exteriorValue);
+  ITK_TEST_SET_GET_VALUE(exteriorValue, annulus.GetExteriorValue());
+
+  const typename OperatorType::PixelType annulusValue = 8;
+  annulus.SetAnnulusValue(annulusValue);
+  ITK_TEST_SET_GET_VALUE(annulusValue, annulus.GetAnnulusValue());
+
+  const typename OperatorType::PixelType interiorValue = 4;
+  annulus.SetInteriorValue(interiorValue);
+  ITK_TEST_SET_GET_VALUE(interiorValue, annulus.GetInteriorValue());
+
   annulus.CreateOperator();
 
   OperatorType::SizeType annulusSize;
@@ -182,9 +203,13 @@ itkAnnulusOperatorTest(int, char *[])
   OperatorType::SpacingType spacing;
   spacing[0] = 0.5;
   spacing[1] = 0.25;
+
+  annulus.SetSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, annulus.GetSpacing());
+
   annulus.SetInnerRadius(2);
   annulus.SetThickness(1);
-  annulus.SetSpacing(spacing);
+
   annulus.CreateOperator();
 
   annulusSize = annulus.GetSize();
@@ -203,5 +228,7 @@ itkAnnulusOperatorTest(int, char *[])
     std::cout << std::endl;
   }
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

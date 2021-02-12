@@ -24,38 +24,59 @@ namespace
 {
 
 bool
-TestGaussianOperator(double variance, double error, unsigned int width, unsigned int order)
+TestGaussianOperator(double variance, double error, unsigned int width, unsigned int order, double spacing)
 {
 
   using GaussianOp = itk::GaussianDerivativeOperator<double, 1>;
 
   std::cout << "Testing variance: " << variance << " error: " << error << " width: " << width << " order: " << order
-            << std::endl;
+            << " spacing: " << spacing << std::endl;
 
   GaussianOp op;
 
+  const bool normalizeAcrossScale = false;
+  ITK_TEST_SET_GET_BOOLEAN((&op), NormalizeAcrossScale, normalizeAcrossScale);
+
   op.SetVariance(variance);
+  ITK_TEST_SET_GET_VALUE(variance, op.GetVariance());
+
   op.SetMaximumError(error);
+  ITK_TEST_SET_GET_VALUE(error, op.GetMaximumError());
+
   op.SetMaximumKernelWidth(width);
+  ITK_TEST_SET_GET_VALUE(width, op.GetMaximumKernelWidth());
 
   op.SetOrder(order);
-  op.SetNormalizeAcrossScale(false);
+  ITK_TEST_SET_GET_VALUE(order, op.GetOrder());
+
+  op.SetSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, op.GetSpacing());
 
   op.CreateDirectional();
 
-  std::cout.precision(16);
-
   double total = std::accumulate(op.Begin(), op.End(), 0.0);
-
   std::cout << "total: " << total << std::endl;
 
-  if (order == 0 && std::abs(total - 1.0) > itk::NumericTraits<double>::epsilon() * 32)
+  std::cout.precision(16);
+
+  const double epsilon = itk::NumericTraits<double>::epsilon() * 32;
+  if (order == 0 && std::abs(total - 1.0) > epsilon)
   {
-    std::cerr << "FAILURE: expected coefficients to sum to 1.0! Actual: " << total << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in coefficients." << std::endl;
+    std::cerr << "Expected coefficients to sum to 1.0: " << std::endl;
+    std::cerr << "Actual value: " << total << std::endl;
+    std::cerr << " differs from 1.0 ";
+    std::cerr << " by more than " << epsilon << std::endl;
   }
-  else if (order != 0 && std::abs(total) > itk::NumericTraits<double>::epsilon() * 32)
+  else if (order != 0 && std::abs(total) > epsilon)
   {
-    std::cerr << "FAILURE: expected coefficients to sum to 0.0! Actual: " << total << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in coefficients." << std::endl;
+    std::cerr << "Expected coefficients to sum to 0.0." << std::endl;
+    std::cerr << "Actual value: " << total << std::endl;
+    std::cerr << " differs from 0.0 ";
+    std::cerr << " by more than " << epsilon << std::endl;
   }
   else
   {
@@ -81,27 +102,31 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
 {
 
   // Save the format stream variables for std::cout
-  // They will be restored when coutState goes out of scope
-  // scope.
+  // They will be restored when coutState goes out of scope.
   itk::StdStreamStateSave coutState(std::cout);
 
-  if (argc == 5)
+  if (argc == 6)
   {
     double       variance = std::stod(argv[1]);
     double       error = std::stod(argv[2]);
     unsigned int width = std::stoi(argv[3]);
     unsigned int order = std::stoi(argv[4]);
+    double       spacing = std::stod(argv[5]);
 
-    TestGaussianOperator(variance, error, width, order);
-    return EXIT_FAILURE;
+    TestGaussianOperator(variance, error, width, order, spacing);
+
+    std::cout << "Test finished." << std::endl;
+    return EXIT_SUCCESS;
   }
   else if (argc > 1)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [ variance error width order ]" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [variance error width order spacing]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
-  // At this point, obviously, argc <= 1. In some scenario's, argc == 0, typically when
+  // At this point, obviously, argc <= 1. In some scenarios, argc == 0, typically when
   // the test function is called from the interactive TestDriver commandline interface,
   // by having the user entering its test number. On the other hand, argc == 1 when the
   // the TestDriver has the name of the test function as its only commandline argument.
@@ -112,42 +137,35 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
   using GaussianOp = itk::GaussianDerivativeOperator<double, 3>;
 
   GaussianOp op1;
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS((&op1), GaussianDerivativeOperator, NeighborhoodOperator);
+
   GaussianOp op2;
 
-  // print self method
-  std::cout << op1;
-
-  // assignment
+  // Check assignment
   op2 = op1;
 
 
-  bool pass = true;
+  bool testStatus = true;
 
-  std::cout << "====== DerivativeOperator ======" << std::endl;
+  testStatus &= TestGaussianOperator(.2, .001, 30, 0, 1.0);
+  testStatus &= TestGaussianOperator(.2, .001, 30, 1, 1.0);
+  testStatus &= TestGaussianOperator(.2, .001, 30, 2, 1.0);
+  testStatus &= TestGaussianOperator(.2, .001, 30, 3, 1.0);
+  testStatus &= TestGaussianOperator(.2, .001, 30, 4, 1.0);
 
-  pass &= TestGaussianOperator(.2, .001, 30, 0);
-  pass &= TestGaussianOperator(.2, .001, 30, 1);
-  pass &= TestGaussianOperator(.2, .001, 30, 2);
-  pass &= TestGaussianOperator(.2, .001, 30, 3);
-  pass &= TestGaussianOperator(.2, .001, 30, 4);
+  testStatus &= TestGaussianOperator(1, .001, 30, 0, 1.0);
+  testStatus &= TestGaussianOperator(1, .001, 30, 1, 1.0);
+  testStatus &= TestGaussianOperator(1, .001, 30, 2, 1.0);
+  testStatus &= TestGaussianOperator(1, .001, 30, 3, 1.0);
+  testStatus &= TestGaussianOperator(1, .001, 30, 4, 1.0);
 
-  pass &= TestGaussianOperator(1, .001, 30, 0);
-  pass &= TestGaussianOperator(1, .001, 30, 1);
-  pass &= TestGaussianOperator(1, .001, 30, 2);
-  pass &= TestGaussianOperator(1, .001, 30, 3);
-  pass &= TestGaussianOperator(1, .001, 30, 4);
+  testStatus &= TestGaussianOperator(10, .001, 30, 0, 1.0);
+  testStatus &= TestGaussianOperator(10, .001, 30, 1, 1.0);
 
-  pass &= TestGaussianOperator(10, .001, 30, 0);
-  pass &= TestGaussianOperator(10, .001, 30, 1);
+  testStatus &= TestGaussianOperator(10, .0001, 100, 1, 1.0);
 
-  pass &= TestGaussianOperator(10, .0001, 100, 1);
-
-  pass &= TestGaussianOperator(50, .001, 300, 0);
-
-  if (pass)
-  {
-    return EXIT_SUCCESS;
-  }
+  testStatus &= TestGaussianOperator(50, .001, 300, 0, 1.0);
 
   // Test streaming enumeration for GaussianDerivativeOperatorEnums::InterpolationMode elements
   const std::set<itk::GaussianDerivativeOperatorEnums::InterpolationMode> allInterpolationMode{
@@ -159,5 +177,13 @@ itkGaussianDerivativeOperatorTest(int argc, char * argv[])
     std::cout << "STREAMED ENUM VALUE GaussianDerivativeOperatorEnums::InterpolationMode: " << ee << std::endl;
   }
 
-  return EXIT_FAILURE;
+  std::cout << "Test finished." << std::endl;
+  if (testStatus)
+  {
+    return EXIT_SUCCESS;
+  }
+  else
+  {
+    return EXIT_FAILURE;
+  }
 }
