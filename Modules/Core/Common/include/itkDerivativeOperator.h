@@ -79,19 +79,13 @@ public:
   using PixelType = TPixel;
   using PixelRealType = typename Superclass::PixelRealType;
 
-  /** Sets the order of the derivative. */
+  /** Set/Get the order of the derivative. */
   void
   SetOrder(const unsigned int & order)
   {
     this->m_Order = order;
   }
-
-  /** Returns the order of the derivative. */
-  unsigned int
-  GetOrder() const
-  {
-    return m_Order;
-  }
+  itkGetConstMacro(Order, unsigned int);
 
   /** Prints some debugging information */
   void
@@ -118,7 +112,6 @@ protected:
   }
 
 private:
-  /** Order of the derivative. */
   unsigned int m_Order{ 1 };
 };
 } // namespace itk

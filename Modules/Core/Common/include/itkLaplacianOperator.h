@@ -97,8 +97,8 @@ public:
     Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
-  /** Sets the weights that are applied to the derivative in each axial
-   *  direction when the kernel is computed.  These weights are all 1.0 by
+  /** Set/Get the weights that are applied to the derivative in each axial
+   *  direction when the kernel is computed. These weights are all 1.0 by
    *  default. This method must be called BEFORE CreateOperator */
   void
   SetDerivativeScalings(const double * s);
@@ -119,7 +119,6 @@ protected:
   Fill(const CoefficientVector &) override;
 
 private:
-  /** Weights applied to derivatives in each axial direction */
   double m_DerivativeScalings[VDimension];
 };
 } // namespace itk

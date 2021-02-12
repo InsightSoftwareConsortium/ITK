@@ -96,11 +96,7 @@ public:
   {
     m_InnerRadius = r;
   }
-  double
-  GetInnerRadius() const
-  {
-    return m_InnerRadius;
-  }
+  itkGetConstMacro(InnerRadius, double);
 
   /** Set/Get the thickness of the annulus.  The outer radius of the
    * annulus is defined as r = InnerRadius + Thickness. Thickness is
@@ -110,13 +106,9 @@ public:
   {
     m_Thickness = t;
   }
-  double
-  GetThickness() const
-  {
-    return m_Thickness;
-  }
+  itkGetConstMacro(Thickness, double);
 
-  /** Set/Get the pixel spacings.  Setting these ensures the annulus
+  /** Set/Get the pixel spacings. Setting these ensures the annulus
    * is round in physical space. Defaults to 1. */
   void
   SetSpacing(SpacingType & s)
@@ -130,50 +122,16 @@ public:
   }
 
   /** Set/Get whether kernel values are computed automatically or
-   * specified manually */
-  void
-  SetNormalize(bool b)
-  {
-    m_Normalize = b;
-  }
-  bool
-  GetNormalize() const
-  {
-    return m_Normalize;
-  }
-  void
-  NormalizeOn()
-  {
-    this->SetNormalize(true);
-  }
-  void
-  NormalizeOff()
-  {
-    this->SetNormalize(false);
-  }
+   * specified manually. */
+  itkSetMacro(Normalize, bool);
+  itkGetConstMacro(Normalize, bool);
+  itkBooleanMacro(Normalize);
 
   /** If Normalize is on, you define the annulus to have a bright
    * center or a dark center. */
-  void
-  SetBrightCenter(bool b)
-  {
-    m_BrightCenter = b;
-  }
-  bool
-  GetBrightCenter() const
-  {
-    return m_BrightCenter;
-  }
-  void
-  BrightCenterOn()
-  {
-    this->SetBrightCenter(true);
-  }
-  void
-  BrightCenterOff()
-  {
-    this->SetBrightCenter(false);
-  }
+  itkSetMacro(BrightCenter, bool);
+  itkGetConstMacro(BrightCenter, bool);
+  itkBooleanMacro(BrightCenter);
 
   /** If Normalize is off, the interior to annulus, the
    * annulus (region between the two circles), and the region exterior to the
@@ -184,31 +142,19 @@ public:
   {
     m_InteriorValue = v;
   }
-  TPixel
-  GetInteriorValue() const
-  {
-    return m_InteriorValue;
-  }
+  itkGetConstMacro(InteriorValue, TPixel);
   void
   SetAnnulusValue(TPixel v)
   {
     m_AnnulusValue = v;
   }
-  TPixel
-  GetAnnulusValue() const
-  {
-    return m_AnnulusValue;
-  }
+  itkGetConstMacro(AnnulusValue, TPixel);
   void
   SetExteriorValue(TPixel v)
   {
     m_ExteriorValue = v;
   }
-  TPixel
-  GetExteriorValue() const
-  {
-    return m_ExteriorValue;
-  }
+  itkGetConstMacro(ExteriorValue, TPixel);
 
   /** Prints some debugging information */
   void
