@@ -57,6 +57,7 @@ public:
   using SizeType = typename Superclass::SizeType;
   using CoefficientVector = typename Superclass::CoefficientVector;
 
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ImageKernelOperator, NeighborhoodOperator);
 
   /** Set the image kernel. Only images with odd size in all

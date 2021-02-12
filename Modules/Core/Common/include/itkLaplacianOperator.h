@@ -67,16 +67,13 @@ template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = Ne
 class ITK_TEMPLATE_EXPORT LaplacianOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
-  /** Standard "Self" type alias support   */
+  /** Standard class type aliases. */
   using Self = LaplacianOperator;
-
-  /** Standard "Superclass" type alias.   */
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   using PixelType = typename Superclass::PixelType;
   using SizeType = typename Superclass::SizeType;
 
-  /**  Default constructor  */
   LaplacianOperator()
   {
     for (unsigned i = 0; i < VDimension; ++i)
@@ -85,7 +82,7 @@ public:
     }
   }
 
-  /** This function is called to create the operator  */
+  /** Create the operator. */
   void
   CreateOperator();
 
@@ -104,16 +101,16 @@ public:
   SetDerivativeScalings(const double * s);
 
 protected:
-  /** Typedef support for coefficient vector type.  Necessary to
-   * work around compiler bug on VC++.   */
+  /** Alias support for coefficient vector type. Necessary to
+   * work around compiler bug on VC++. */
   using CoefficientVector = typename Superclass::CoefficientVector;
 
-  /** Calculates operator coefficients.   */
+  /** Calculates operator coefficients. */
   CoefficientVector
   GenerateCoefficients() override;
 
   /** Arranges coefficients spatially in the memory buffer, default
-   * function was NOT used.   */
+   * function was NOT used. */
   void
   Fill(const CoefficientVector &) override;
 
