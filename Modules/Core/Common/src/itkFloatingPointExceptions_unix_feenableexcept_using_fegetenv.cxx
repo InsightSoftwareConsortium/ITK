@@ -87,11 +87,16 @@ itk_fedisableexcept(const fexcept_t excepts)
 
 // Implementation for Intel
 
-#  if (defined ITK_HAS_STRUCT_FENV_T_CONTROL)
+// Note: on Apple, ignore the result of the try_compiles that generate these
+// ITK_HAS_STRUCT_FENV_T_CONTROL* defines because try_compile doesn't work
+// with Universal Binaries where different architectures have different results.
+// On Intel macOS, the fenv_t field in question is named __control
+
+#  if defined(__APPLE__) || defined(ITK_HAS_STRUCT_FENV_T_CONTROL)
 #    define _itk_control_word __control
-#  elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_WORD)
+#  elif defined(ITK_HAS_STRUCT_FENV_T_CONTROL_WORD)
 #    define _itk_control_word __control_word
-#  elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_CW)
+#  elif defined(ITK_HAS_STRUCT_FENV_T_CONTROL_CW)
 #    define _itk_control_word __cw
 #  else
 #    error "Unknown name for 'fenv_t' struct control member"
