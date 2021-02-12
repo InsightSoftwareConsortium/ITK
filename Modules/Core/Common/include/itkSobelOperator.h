@@ -120,15 +120,10 @@ public:
    * \sa CreateDirectional \sa Fill */
   // virtual void CreateToRadius(const unsigned long);
 
-
-  /**
-   * Prints some debugging information
-   */
   void
-  PrintSelf(std::ostream & os, Indent i) const override
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    os << i << "SobelOperator { this=" << this << "}" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf(os, indent);
   }
 
 protected:

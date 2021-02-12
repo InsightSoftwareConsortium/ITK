@@ -210,15 +210,22 @@ public:
     return m_ExteriorValue;
   }
 
-  /** Prints some debugging information */
   void
-  PrintSelf(std::ostream & os, Indent i) const override
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    os << i << "AnnulusOperator { this=" << this << ", m_InnerRadius = " << m_InnerRadius
-       << ", m_Thickness = " << m_Thickness << ", m_Spacing = " << m_Spacing << ", m_Normalize = " << m_Normalize
-       << ", m_BrightCenter = " << m_BrightCenter << ", m_InteriorValue = " << m_InteriorValue
-       << ", m_ExteriorValue = " << m_ExteriorValue << "}" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf(os, indent);
+
+    os << indent << "InnerRadius: " << m_InnerRadius << std::endl;
+    os << indent << "Thickness: " << m_Thickness << std::endl;
+    os << indent << "Normalize: " << m_Normalize << std::endl;
+    os << indent << "BrightCenter: " << m_BrightCenter << std::endl;
+    os << indent << "InteriorValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InteriorValue)
+       << std::endl;
+    os << indent << "AnnulusValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_AnnulusValue)
+       << std::endl;
+    os << indent << "ExteriorValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ExteriorValue)
+       << std::endl;
+    os << indent << "Spacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_Spacing) << std::endl;
   }
 
 protected:

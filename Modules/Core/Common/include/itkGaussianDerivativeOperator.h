@@ -205,9 +205,8 @@ public:
     return m_Order;
   }
 
-  /** Prints member variables */
   void
-  PrintSelf(std::ostream & os, Indent i) const override;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
 protected:
   /** Type alias support for coefficient vector type.*/
