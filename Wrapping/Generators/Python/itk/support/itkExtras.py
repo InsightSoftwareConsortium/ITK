@@ -446,7 +446,7 @@ def xarray_from_image(l_image):
     components = l_image.GetNumberOfComponentsPerPixel()
     if components > 1:
         dims.append("c")
-        coords["c"] = np.arange(components, dtype=np.uint64)
+        coords["c"] = np.arange(components, dtype=np.uint32)
 
     data_array = xr.DataArray(
         array_view, dims=dims, coords=coords, attrs={"direction": direction}
