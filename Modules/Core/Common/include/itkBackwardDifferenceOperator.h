@@ -52,7 +52,9 @@ public:
   using Self = BackwardDifferenceOperator;
   using Superclass = NeighborhoodOperator<TPixel, TDimension, TAllocator>;
 
-  /** From Superclass */
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(BackwardDifferenceOperator, NeighborhoodOperator);
+
   using PixelType = typename Superclass::PixelType;
 
 protected:
