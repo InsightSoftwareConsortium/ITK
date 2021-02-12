@@ -129,12 +129,12 @@ public:
   virtual void
   FlipAxes();
 
-  /** Prints some debugging information. */
   void
-  PrintSelf(std::ostream & os, Indent i) const override
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    os << i << "NeighborhoodOperator { this=" << this << " Direction = " << m_Direction << " }" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf(os, indent);
+
+    os << indent << "Direction: " << m_Direction << std::endl;
   }
 
   /** Multiplies all of the coefficients of the kernel by a single scalar value.

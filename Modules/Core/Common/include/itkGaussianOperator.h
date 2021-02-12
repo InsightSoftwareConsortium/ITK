@@ -132,13 +132,14 @@ public:
     return m_MaximumKernelWidth;
   }
 
-  /** Prints some debugging information. */
   void
-  PrintSelf(std::ostream & os, Indent i) const override
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    os << i << "GaussianOperator { this=" << this << ", m_Variance = " << m_Variance
-       << ", m_MaximumError = " << m_MaximumError << "} " << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf(os, indent);
+
+    os << indent << "Variance: " << m_Variance << std::endl;
+    os << indent << "MaximumError: " << m_MaximumError << std::endl;
+    os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   }
 
 public:

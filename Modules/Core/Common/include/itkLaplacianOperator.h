@@ -88,12 +88,12 @@ public:
   void
   CreateOperator();
 
-  /** Prints some debugging information   */
   void
-  PrintSelf(std::ostream & os, Indent i) const override
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    os << i << "LaplacianOperator { this=" << this << "}" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf(os, indent);
+
+    os << indent << "DerivativeScalings: " << m_DerivativeScalings << std::endl;
   }
 
   /** Sets the weights that are applied to the derivative in each axial

@@ -68,12 +68,10 @@ public:
   const ImageType *
   GetImageKernel() const;
 
-  /** Prints information about the object. */
   void
-  PrintSelf(std::ostream & os, Indent i) const override
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    os << i << "ImageKernelOperator { this=" << this << "} " << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf(os, indent);
   }
 
 protected:

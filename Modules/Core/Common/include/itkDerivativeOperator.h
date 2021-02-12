@@ -93,12 +93,12 @@ public:
     return m_Order;
   }
 
-  /** Prints some debugging information */
   void
-  PrintSelf(std::ostream & os, Indent i) const override
+  PrintSelf(std::ostream & os, Indent indent) const override
   {
-    os << i << "DerivativeOperator { this=" << this << ", m_Order = " << m_Order << "}" << std::endl;
-    Superclass::PrintSelf(os, i.GetNextIndent());
+    Superclass::PrintSelf(os, indent);
+
+    os << indent << "Order: " << m_Order << std::endl;
   }
 
 protected:
