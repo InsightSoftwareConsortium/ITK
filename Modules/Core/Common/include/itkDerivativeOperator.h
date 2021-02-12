@@ -73,6 +73,9 @@ public:
   using Self = DerivativeOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(DerivativeOperator, NeighborhoodOperator);
+
   using PixelType = TPixel;
   using PixelRealType = typename Superclass::PixelRealType;
 
