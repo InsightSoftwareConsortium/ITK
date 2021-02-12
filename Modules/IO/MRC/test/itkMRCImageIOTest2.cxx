@@ -109,7 +109,9 @@ itkMRCImageIOTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Usage: " << argv[0] << " inputFileName outputFilename md5hash" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFilename md5hash"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

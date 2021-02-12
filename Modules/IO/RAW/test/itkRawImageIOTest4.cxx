@@ -20,6 +20,7 @@
 #include "itkRawImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -63,16 +64,8 @@ public:
     reader->SetFileName(filename);
     reader->SetImageIO(io);
 
-    try
-    {
-      reader->Update();
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << "Exception while reading file " << filename << std::endl;
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
     std::cout << "Reading file " << filename << " succeeded " << std::endl;
 
@@ -111,6 +104,13 @@ int
 itkRawImageIOTest4(int argc, char * argv[])
 {
 
+  if (argc < 3)
+  {
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output1 Output2" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   using PixelType = unsigned short;
   constexpr unsigned int ImageDimension = 2;
 
@@ -123,12 +123,6 @@ itkRawImageIOTest4(int argc, char * argv[])
 
   PixelType    value = itk::NumericTraits<PixelType>::ZeroValue();
   unsigned int numberOfPixels = dims[0] * dims[1];
-
-  if (argc < 3)
-  {
-    std::cerr << "Usage: " << argv[0] << " Output1 Output2\n";
-    return EXIT_FAILURE;
-  }
 
 
   // Create the BigEndian binary file

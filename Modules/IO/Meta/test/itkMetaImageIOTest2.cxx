@@ -32,7 +32,7 @@ namespace
 int
 TestUnknowMetaDataBug(const std::string & fname)
 {
-  std::cout << "Testing for unknow meta data entry bug." << std::endl;
+  std::cout << "Testing for unknown meta data entry bug." << std::endl;
 
   try
   {
@@ -98,7 +98,8 @@ itkMetaImageIOTest2(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " Output\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 

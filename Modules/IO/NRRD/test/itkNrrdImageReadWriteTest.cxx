@@ -20,6 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNrrdImageIO.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -28,12 +29,16 @@ itkNrrdImageReadWriteTest(int ac, char * av[])
 {
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " Input Output\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input Output" << std::endl;
     return EXIT_FAILURE;
   }
 
+
+  constexpr unsigned int Dimension = 3;
+
   using PixelType = float;
-  using myImage = itk::Image<PixelType, 3>;
+  using myImage = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<myImage>;
 
@@ -43,18 +48,11 @@ itkNrrdImageReadWriteTest(int ac, char * av[])
 
   reader->SetFileName(av[1]);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   myImage::Pointer image = reader->GetOutput();
+
   image->Print(std::cout);
 
   // Generate test image
@@ -63,16 +61,10 @@ itkNrrdImageReadWriteTest(int ac, char * av[])
   writer->SetImageIO(itk::NrrdImageIO::New());
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(av[2]);
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
