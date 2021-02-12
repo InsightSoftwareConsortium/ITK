@@ -256,7 +256,9 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // the origin is not specified, but the fov is, then the image is assumed
       // to be centered:
 
+      std::locale currentLocale = std::locale::global(std::locale::classic());//save and reset old locale
       sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
+      std::locale::global(currentLocale);//reset locale
       for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
       {
         m_Origin[i] = origin[i];
@@ -277,7 +279,9 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // not
       // specified it is calculated according to: fov = interval * dim
 
+      std::locale currentLocale = std::locale::global(std::locale::classic());//save and reset old locale
       sscanf(line, "%*s %f %f %f %f", fov, fov + 1, fov + 2, fov + 3);
+      std::locale::global(currentLocale);//reset locale
       fov_specified = true;
     }
     else if (text.find("interval") < text.length())
@@ -288,7 +292,9 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // one value for each dimension. If the interval is not specified it is
       // calculated according to: interval = fov / dim
 
+      std::locale currentLocale = std::locale::global(std::locale::classic());//save and reset old locale
       sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
+      std::locale::global(currentLocale);//reset locale
       for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
       {
         m_Spacing[i] = spacing[i];
@@ -337,7 +343,9 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       // the
       // low_value and high_value.
 
+      std::locale currentLocale = std::locale::global(std::locale::classic());//save and reset old locale
       sscanf(line, "%*s %f %f", range, range + 1);
+      std::locale::global(currentLocale);//reset locale
       m_DisplayRange[0] = range[0];
       m_DisplayRange[1] = range[1];
     }

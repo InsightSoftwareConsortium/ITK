@@ -237,7 +237,9 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
     if (text.find("spacing") < text.length() || text.find("aspect_ratio") < text.length())
     {
       double spacing[3];
+      std::locale currentLocale = std::locale::global(std::locale::classic());//save and reset old locale
       sscanf(text.c_str(), "%*s %lf %lf %lf", spacing, spacing + 1, spacing + 2);
+      std::locale::global(currentLocale);//reset
       for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
       {
         this->SetSpacing(i, spacing[i]);
@@ -247,6 +249,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
     else if (text.find("origin") < text.length())
     {
       double origin[3];
+      std::locale currentLocale = std::locale::global(std::locale::classic());//save and reset old locale
       sscanf(text.c_str(), "%*s %lf %lf %lf", origin, origin + 1, origin + 2);
       for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
       {
