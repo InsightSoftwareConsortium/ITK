@@ -39,20 +39,22 @@ itkVectorGradientMagnitudeImageFilterTest1(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  constexpr unsigned int Dimension = 2;
+
   using RGBPixelType = itk::RGBPixel<unsigned short>;
-  using CharImageType = itk::Image<unsigned char, 2>;
-  using RGBImageType = itk::Image<RGBPixelType, 2>;
-  using AdaptorType = itk::RGBToVectorImageAdaptor<RGBImageType>;
-  using FilterType = itk::VectorGradientMagnitudeImageFilter<AdaptorType>;
-  using ReaderType = itk::ImageFileReader<RGBImageType>;
-  using RescaleFilterType = itk::RescaleIntensityImageFilter<FilterType::OutputImageType, CharImageType>;
-  using WriterType = itk::ImageFileWriter<CharImageType>;
+  using CharImageType = itk::Image<unsigned char, Dimension>;
+  using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
   // Create a reader and filter
+  using ReaderType = itk::ImageFileReader<RGBImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
+
+  using AdaptorType = itk::RGBToVectorImageAdaptor<RGBImageType>;
   AdaptorType::Pointer adaptor = AdaptorType::New();
   adaptor->SetImage(reader->GetOutput());
+
+  using FilterType = itk::VectorGradientMagnitudeImageFilter<AdaptorType>;
   FilterType::Pointer filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VectorGradientMagnitudeImageFilter, ImageToImageFilter);
@@ -98,11 +100,13 @@ itkVectorGradientMagnitudeImageFilterTest1(int argc, char * argv[])
 #endif
   ITK_TEST_SET_GET_BOOLEAN(filter, UsePrincipleComponents, mode);
 
+  using RescaleFilterType = itk::RescaleIntensityImageFilter<FilterType::OutputImageType, CharImageType>;
   RescaleFilterType::Pointer rescale = RescaleFilterType::New();
   rescale->SetOutputMinimum(0);
   rescale->SetOutputMaximum(255);
   rescale->SetInput(filter->GetOutput());
 
+  using WriterType = itk::ImageFileWriter<CharImageType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(rescale->GetOutput());
   writer->SetFileName(argv[2]);

@@ -20,6 +20,7 @@
 #include "itkRawImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -167,8 +168,9 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   if (argc < 2)
   {
+    std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " TemporaryDirectoryName" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " TemporaryDirectoryName" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -189,29 +191,10 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   tester1.SetFileName(filename);
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(tester1.Write());
 
-  try
-  {
-    tester1.Write();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught while writing char type." << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(tester1.Read());
 
-
-  try
-  {
-    tester1.Read();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught while reading char type." << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
 
   if (tester1.GetError())
   {
@@ -230,29 +213,9 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   tester2.SetFileName(filename);
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(tester2.Write());
 
-  try
-  {
-    tester2.Write();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught while writing signed char type." << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
-
-
-  try
-  {
-    tester2.Read();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught while reading signed char type." << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(tester2.Read());
 
   if (tester2.GetError())
   {
@@ -272,29 +235,9 @@ itkRawImageIOTest5(int argc, char * argv[])
 
   tester3.SetFileName(filename);
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(tester3.Write());
 
-  try
-  {
-    tester3.Write();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught while writing unsigned char type." << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
-
-
-  try
-  {
-    tester3.Read();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught while reading unsigned char type." << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(tester3.Read());
 
   if (tester3.GetError())
   {
