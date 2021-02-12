@@ -72,7 +72,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator = Neighb
 class ITK_TEMPLATE_EXPORT NeighborhoodOperator : public Neighborhood<TPixel, VDimension, TAllocator>
 {
 public:
-  /**  Standard class type aliases. */
+  /** Standard class type aliases. */
   using Self = NeighborhoodOperator;
   using Superclass = Neighborhood<TPixel, VDimension, TAllocator>;
 

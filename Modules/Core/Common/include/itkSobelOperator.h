@@ -98,14 +98,13 @@ template <typename TPixel, unsigned int VDimension = 2, typename TAllocator = Ne
 class ITK_TEMPLATE_EXPORT SobelOperator : public NeighborhoodOperator<TPixel, VDimension, TAllocator>
 {
 public:
-  /** Standard type alias */
+  /** Standard class type aliases. */
   using Self = SobelOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   itkTypeMacro(SobelOperator, NeighborhoodOperator);
 
-  /** Creates the operator with length only in the specified direction.  For
-   * the Sobel operator, this
+  /** Creates the operator with length only in the specified direction.
    * The radius of the operator will be 0 except along the axis on which
    * the operator will work.
    * \sa CreateToRadius \sa FillCenteredDirectional \sa SetDirection() \sa GetDirection() */
@@ -133,22 +132,16 @@ public:
   }
 
 protected:
-  /**
-   * Typedef support for coefficient vector type.  Necessary to
-   * work around compiler bug on VC++.
-   */
+  /** Alias support for coefficient vector type. Necessary to
+   * work around compiler bug on VC++. */
   using CoefficientVector = typename Superclass::CoefficientVector;
   using PixelType = typename Superclass::PixelType;
 
-  /**
-   * Calculates operator coefficients.
-   */
+  /** Calculates operator coefficients. */
   CoefficientVector
   GenerateCoefficients() override;
 
-  /**
-   * Arranges coefficients spatially in the memory buffer.
-   */
+  /** Arranges coefficients spatially in the memory buffer. */
   void
   Fill(const CoefficientVector & coeff) override;
 };
