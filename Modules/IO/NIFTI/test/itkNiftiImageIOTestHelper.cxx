@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include <set>
 #include "itkNiftiImageIOTest.h"
 
 // The WriteNiftiTestFiles function writes binary data to disk to ensure that both big and little endian files are
@@ -123,4 +124,33 @@ RemoveNiftiByteSwapTestFiles(const std::string & prefix)
   itk::IOTestHelper::Remove((prefix + "NiftiLittleEndian.img").c_str());
   itk::IOTestHelper::Remove((prefix + "NiftiBigEndian.hdr").c_str());
   itk::IOTestHelper::Remove((prefix + "NiftiBigEndian.img").c_str());
+}
+
+void
+TestEnumStreaming()
+{
+  // Test streaming enumeration for Analyze75Flavor elements
+  const std::set<itk::NiftiImageIOEnums::Analyze75Flavor> allAnalyze75Flavor{
+    itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject,
+    itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4,
+    itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning,
+    itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeSPM,
+    itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeFSL
+  };
+  for (const auto & ee : allAnalyze75Flavor)
+  {
+    std::cout << "STREAMED ENUM VALUE itk::NiftiImageIOEnums::Analyze75Flavor: " << ee << std::endl;
+  }
+
+  // Test streaming enumeration for NiftiFileEnum elements
+  const std::set<itk::NiftiImageIOEnums::NiftiFileEnum> allNiftiFileEnum{
+    itk::NiftiImageIOEnums::NiftiFileEnum::TwoFileNifti,
+    itk::NiftiImageIOEnums::NiftiFileEnum::OneFileNifti,
+    itk::NiftiImageIOEnums::NiftiFileEnum::Analyze75,
+    itk::NiftiImageIOEnums::NiftiFileEnum::OtherOrError
+  };
+  for (const auto & ee : allNiftiFileEnum)
+  {
+    std::cout << "STREAMED ENUM VALUE itk::NiftiImageIOEnums::NiftiFileEnum: " << ee << std::endl;
+  }
 }

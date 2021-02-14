@@ -128,7 +128,7 @@ itkNiftiImageIOTest(int ac, char * av[])
     ImageType::Pointer         input;
     itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
     // enable old behavior of NIFTI reader
-    imageIO->SetLegacyAnalyze75Mode(itk::Analyze75Flavor::AnalyzeITK4);
+    imageIO->SetLegacyAnalyze75Mode(itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4);
     for (int imagenameindex = 1; imagenameindex < ac; imagenameindex++)
     {
       try
@@ -230,5 +230,8 @@ itkNiftiImageIOTest(int ac, char * av[])
     }
     // This was made a protected function.  MyFactoryTest->PrintSelf(std::cout,0);
   }
+
+  TestEnumStreaming();
+
   return rval;
 }

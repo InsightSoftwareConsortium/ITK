@@ -787,7 +787,7 @@ NiftiImageIO::Read(void * buffer)
   }
 }
 
-NiftiImageIO::FileType
+NiftiImageIOEnums::NiftiFileEnum
 NiftiImageIO::DetermineFileType(const char * FileNameToRead)
 {
   // is_nifti_file returns
@@ -797,7 +797,7 @@ NiftiImageIO::DetermineFileType(const char * FileNameToRead)
   //      == -1 for an error,
   const int imageFTYPE = is_nifti_file(FileNameToRead);
 
-  return static_cast<NiftiImageIO::FileType>(imageFTYPE);
+  return static_cast<NiftiImageIOEnums::NiftiFileEnum>(imageFTYPE);
 }
 
 // This method will only test if the header looks like an
@@ -816,7 +816,7 @@ NiftiImageIO ::CanReadFile(const char * FileNameToRead)
   {
     return true;
   }
-  else if (imageFTYPE == 0 && (this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeReject))
+  else if (imageFTYPE == 0 && (this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject))
   {
     return true;
   }
@@ -997,7 +997,7 @@ NiftiImageIO ::ReadImageInformation()
   const int image_FTYPE = is_nifti_file(this->GetFileName());
   if (image_FTYPE == 0)
   {
-    if (this->GetLegacyAnalyze75Mode() == Analyze75Flavor::AnalyzeReject)
+    if (this->GetLegacyAnalyze75Mode() == NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject)
     {
       itkExceptionMacro(<< this->GetFileName()
                         << " is Analyze file and reader is instructed to reject it, specify preferred Analyze flavor "
@@ -1005,7 +1005,7 @@ NiftiImageIO ::ReadImageInformation()
     }
     else
     {
-      if (this->GetLegacyAnalyze75Mode() == Analyze75Flavor::AnalyzeITK4Warning)
+      if (this->GetLegacyAnalyze75Mode() == NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning)
         itkWarningMacro(<< this->GetFileName() << " is Analyze file and it's deprecated ");
       // to disable this message, specify preferred Analyze flavor using SetLegacyAnalyze75Mode
     }
@@ -1283,8 +1283,8 @@ NiftiImageIO ::ReadImageInformation()
       break;
   }
   // see http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
-  bool ignore_negative_pixdim =
-    this->m_NiftiImage->nifti_type == 0 && this->GetLegacyAnalyze75Mode() == Analyze75Flavor::AnalyzeFSL;
+  bool ignore_negative_pixdim = this->m_NiftiImage->nifti_type == 0 &&
+                                this->GetLegacyAnalyze75Mode() == NiftiImageIOEnums::Analyze75Flavor::AnalyzeFSL;
 
   const int dims = this->GetNumberOfDimensions();
   switch (dims)
@@ -1797,8 +1797,9 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
       m_Origin[2] = 0.0;
     }
 
-    if (this->m_NiftiImage->nifti_type == 0 && this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeITK4 &&
-        this->GetLegacyAnalyze75Mode() != Analyze75Flavor::AnalyzeITK4Warning)
+    if (this->m_NiftiImage->nifti_type == 0 &&
+        this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4 &&
+        this->GetLegacyAnalyze75Mode() != NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning)
     { // only do this for Analyze file format
       SpatialOrientationAdapter::OrientationType orient;
       switch (this->m_NiftiImage->analyze75_orient)
@@ -2267,25 +2268,44 @@ NiftiImageIO ::Write(const void * buffer)
   }
 }
 
-/** Define how to print enumerations */
 std::ostream &
-operator<<(std::ostream & out, const Analyze75Flavor value)
+operator<<(std::ostream & out, const NiftiImageIOEnums::Analyze75Flavor value)
 {
   return out << [value] {
     switch (value)
     {
-      case Analyze75Flavor::AnalyzeReject:
-        return "Analyze75Flavor::AnalyzeReject";
-      case Analyze75Flavor::AnalyzeITK4:
-        return "Analyze75Flavor::AnalyzeITK4";
-      case Analyze75Flavor::AnalyzeITK4Warning:
-        return "Analyze75Flavor::AnalyzeITK4Warning";
-      case Analyze75Flavor::AnalyzeSPM:
-        return "Analyze75Flavor::AnalyzeSPM";
-      case Analyze75Flavor::AnalyzeFSL:
-        return "Analyze75Flavor::AnalyzeFSL";
+      case NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject:
+        return "itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject";
+      case NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4:
+        return "itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4";
+      case NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning:
+        return "itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning";
+      case NiftiImageIOEnums::Analyze75Flavor::AnalyzeSPM:
+        return "itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeSPM";
+      case NiftiImageIOEnums::Analyze75Flavor::AnalyzeFSL:
+        return "itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeFSL";
       default:
-        return "INVALID VALUE FOR Analyze75Flavor";
+        return "INVALID VALUE FOR itk::NiftiImageIOEnums::Analyze75Flavor";
+    }
+  }();
+}
+
+std::ostream &
+operator<<(std::ostream & out, const NiftiImageIOEnums::NiftiFileEnum value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case NiftiImageIOEnums::NiftiFileEnum::TwoFileNifti:
+        return "itk::NiftiImageIOEnums::TwoFileNifti";
+      case NiftiImageIOEnums::NiftiFileEnum::OneFileNifti:
+        return "itk::NiftiImageIOEnums::NiftiFileEnum::OneFileNifti";
+      case NiftiImageIOEnums::NiftiFileEnum::Analyze75:
+        return "itk::NiftiImageIOEnums::NiftiFileEnum::Analyze75";
+      case NiftiImageIOEnums::NiftiFileEnum::OtherOrError:
+        return "itk::NiftiImageIOEnums::NiftiFileEnum::OtherOrError";
+      default:
+        return "INVALID VALUE FOR itk::NiftiImageIOEnums::NiftiFileEnum";
     }
   }();
 }

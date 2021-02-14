@@ -22,6 +22,6 @@
 // IO/NIFTI module and should not be installed.
 
 // Analyze default flavour
-#define ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT Analyze75Flavor::Analyze@ITK_NIFTI_IO_ANALYZE_FLAVOR@
+#define ITK_NIFTI_IO_ANALYZE_FLAVOR_DEFAULT NiftiImageIOEnums::Analyze75Flavor::Analyze@ITK_NIFTI_IO_ANALYZE_FLAVOR@
 
 #endif //itkNiftiImageIOConfigurePrivate_h
