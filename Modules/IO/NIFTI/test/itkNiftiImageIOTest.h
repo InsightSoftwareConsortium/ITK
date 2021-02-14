@@ -572,5 +572,6 @@ int
 TestNiftiByteSwap(const std::string & prefix);
 void
 RemoveNiftiByteSwapTestFiles(const std::string & prefix);
-
+void
+TestEnumStreaming();
 #endif

@@ -28,28 +28,58 @@
 namespace itk
 {
 
-
-/** \class Analyze75Flavor
+/**\class NiftiImageIOEnums
+ * \brief
  * \ingroup ITKIONIFTI
- * Enum used to define way to treat legacy Analyze75 files
  */
-enum class Analyze75Flavor : uint8_t
+class NiftiImageIOEnums
 {
-  /** Behavior introduced in ITK4.0 by NIFTI reader interpreting Analyze files */
-  AnalyzeITK4 = 4,
-  /** Will ignore orientation code and negative pixel dimensions */
-  AnalyzeFSL = 3,
-  /** Will ignore orientation code and respect negative pixel dimensions */
-  AnalyzeSPM = 2,
-  /** Same as AnalyzeITK4 but will show warning about deprecated file format (Default)*/
-  AnalyzeITK4Warning = 1,
-  /** Reject Analyze files as potentially wrong  */
-  AnalyzeReject = 0
+public:
+  /** \class Analyze75Flavor
+   * \ingroup ITKIONIFTI
+   * Enum used to define the way to treat legacy Analyze75 files.
+   */
+  enum class Analyze75Flavor : uint8_t
+  {
+    /** Behavior introduced in ITK4.0 by NIFTI reader interpreting Analyze files */
+    AnalyzeITK4 = 4,
+    /** Will ignore orientation code and negative pixel dimensions */
+    AnalyzeFSL = 3,
+    /** Will ignore orientation code and respect negative pixel dimensions */
+    AnalyzeSPM = 2,
+    /** Same as AnalyzeITK4 but will show warning about deprecated file format (Default)*/
+    AnalyzeITK4Warning = 1,
+    /** Reject Analyze files as potentially wrong  */
+    AnalyzeReject = 0
+  };
+
+  /** \class NiftiFileEnum
+   * \ingroup ITKIONIFTI
+   * Enum used to define the possible file formats readable by this ImageIO implementation.
+   */
+  enum class NiftiFileEnum : int8_t
+  {
+    /** 2-file Nifti (consisting of .hdr and .img file). */
+    TwoFileNifti = 2,
+    /** 1-file Nifti (consisting of .nii file). */
+    OneFileNifti = 1,
+    /** Legacy Analyze 7.5 format (consisting of .hdr and .img file). */
+    Analyze75 = 0,
+    /** Some other file format, or file system error. */
+    OtherOrError = -1,
+  };
 };
+
+/** Backwards compatibility for enum values */
+#if !defined(ITK_LEGACY_REMOVE)
+using Analyze75Flavor = NiftiImageIOEnums::Analyze75Flavor;
+#endif
 
 /** Define how to print enumerations */
 extern ITKIONIFTI_EXPORT std::ostream &
-                         operator<<(std::ostream & out, const Analyze75Flavor value);
+                         operator<<(std::ostream & out, const NiftiImageIOEnums::Analyze75Flavor value);
+extern ITKIONIFTI_EXPORT std::ostream &
+                         operator<<(std::ostream & out, const NiftiImageIOEnums::NiftiFileEnum value);
 
 /**
  *\class NiftiImageIO
@@ -82,20 +112,16 @@ public:
 
   //-------- This part of the interfaces deals with reading data. -----
 
-  /** Possible file formats readable by this ImageIO implementation.
-   * Used by DetermineFileType(). */
-  enum FileType
-  {
-    /** 2-file Nifti (consisting of .hdr and .img file). */
-    TwoFileNifti = 2,
-    /** 1-file Nifti (consisting of .nii file). */
-    OneFileNifti = 1,
-    /** Legacy Analyze 7.5 format (consisting of .hdr and .img file). */
-    Analyze75 = 0,
-    /** Some other file format, or file system error. */
-    OtherOrError = -1,
-  };
-
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Backwards compatibility for enum values */
+  using FileType = NiftiImageIOEnums::NiftiFileEnum;
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr FileType TwoFileNifti = NiftiImageIOEnums::NiftiFileEnum::TwoFileNifti;
+  static constexpr FileType OneFileNifti = NiftiImageIOEnums::NiftiFileEnum::OneFileNifti;
+  static constexpr FileType Analyze75 = NiftiImageIOEnums::NiftiFileEnum::Analyze75;
+  static constexpr FileType OtherOrError = NiftiImageIOEnums::NiftiFileEnum::OtherOrError;
+#endif
 
   /** Reads the file to determine if it can be read with this ImageIO implementation,
    * and to determine what kind of file it is (Analyze vs NIfTI). Note that the value
@@ -103,7 +129,7 @@ public:
    * \param FileNameToRead The name of the file to test for reading.
    * \return Returns one of the IOFileEnum enumerations.
    */
-  FileType
+  NiftiImageIOEnums::NiftiFileEnum
   DetermineFileType(const char * FileNameToRead);
 
   /** Reads the file to determine if it can be read with this ImageIO implementation.
@@ -159,8 +185,8 @@ public:
    * the nifti library maintainers.  This format does not properly respect the file orientation fields.
    * By default this is set by configuration option ITK_NIFTI_IO_ANALYZE_FLAVOR
    */
-  itkSetMacro(LegacyAnalyze75Mode, Analyze75Flavor);
-  itkGetConstMacro(LegacyAnalyze75Mode, Analyze75Flavor);
+  itkSetMacro(LegacyAnalyze75Mode, NiftiImageIOEnums::Analyze75Flavor);
+  itkGetConstMacro(LegacyAnalyze75Mode, NiftiImageIOEnums::Analyze75Flavor);
 
 protected:
   NiftiImageIO();
@@ -214,7 +240,7 @@ private:
 
   IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UNKNOWNCOMPONENTTYPE };
 
-  Analyze75Flavor m_LegacyAnalyze75Mode;
+  NiftiImageIOEnums::Analyze75Flavor m_LegacyAnalyze75Mode;
 };
 
 
