@@ -77,8 +77,8 @@ public:
   std::list<typename OutputSpatialObjectT::Pointer> *
   GetOutput() const
   {
-    typedef OutputSpatialObjectT                       OutObjectType;
-    typedef std::list<typename OutObjectType::Pointer> OutListType;
+    using OutObjectType = OutputSpatialObjectT;
+    using OutListType = std::list<typename OutObjectType::Pointer>;
 
     auto * outputList = new OutListType;
 
