@@ -47,7 +47,6 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::PrintSelf(std::ostream & o
   }
 }
 
-/** returns the number of measurement vectors in this container*/
 template <typename TVectorContainer>
 typename VectorContainerToListSampleAdaptor<TVectorContainer>::InstanceIdentifier
 VectorContainerToListSampleAdaptor<TVectorContainer>::Size() const

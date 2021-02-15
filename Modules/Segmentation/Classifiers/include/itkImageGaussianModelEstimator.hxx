@@ -31,9 +31,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::~
   delete[] m_Covariance;
 }
 
-/**
- * PrintSelf
- */
+
 template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
 void
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::PrintSelf(std::ostream & os,
@@ -53,11 +51,7 @@ void
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::GenerateData()
 {
   this->EstimateModels();
-} // end Generate data
-
-// Takes a set of training images and returns the means
-// and variance of the various classes defined in the
-// training set.
+}
 
 template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
 void
@@ -120,7 +114,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
 
     this->AddMembershipFunction(membershipFunction);
   }
-} // end train classifier
+}
 
 template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
 void
@@ -261,7 +255,6 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
     }     // end if loop
   }       // end class index loop
 }
-
 } // end namespace itk
 
 #endif

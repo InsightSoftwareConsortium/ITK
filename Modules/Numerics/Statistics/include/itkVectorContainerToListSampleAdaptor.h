@@ -60,10 +60,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** the number of components in a measurement vector */
+  /** The number of components in a measurement vector. */
   static constexpr unsigned int MeasurementVectorSize = TVectorContainer::Element::Dimension;
 
-  /** VectorContainer type alias */
+  /** VectorContainer type alias. */
   using VectorContainerType = TVectorContainer;
   using VectorContainerPointer = typename TVectorContainer::Pointer;
   using VectorContainerConstPointer = typename TVectorContainer::ConstPointer;
@@ -81,22 +81,23 @@ public:
 
   using ValueType = MeasurementVectorType;
 
-  /** Get/Set Method for the point set */
+  /** Get/Set method for the point set container which will be actually used
+   * for storing measurement vectors. */
   itkSetObjectMacro(VectorContainer, VectorContainerType);
   itkGetConstObjectMacro(VectorContainer, VectorContainerType);
 
-  /** returns the number of measurement vectors in this container */
+  /** Returns the number of measurement vectors in this container. */
   InstanceIdentifier
   Size() const override;
 
-  /** returns the measurement vector that is specified by the instance
+  /** Returns the measurement vector that is specified by the instance
    * identifier argument. */
   const MeasurementVectorType & GetMeasurementVector(InstanceIdentifier) const override;
 
-  /** returns 1 as other subclasses of ListSampleBase does */
+  /** Returns 1 as other subclasses of ListSampleBase does. */
   AbsoluteFrequencyType GetFrequency(InstanceIdentifier) const override;
 
-  /** returns the size of this container */
+  /** Returns the size of this container. */
   TotalAbsoluteFrequencyType
   GetTotalFrequency() const override;
 
@@ -213,7 +214,7 @@ public:
     {}
   };
 
-  /** returns an iterator that points to the beginning of the container */
+  /** Returns an iterator that points to the beginning of the container. */
   Iterator
   Begin()
   {
@@ -224,7 +225,7 @@ public:
     return iter;
   }
 
-  /** returns an iterator that points to the end of the container */
+  /** Returns an iterator that points to the end of the container. */
   Iterator
   End()
   {
@@ -236,7 +237,7 @@ public:
     return iter;
   }
 
-  /** returns an iterator that points to the beginning of the container */
+  /** Returns an iterator that points to the beginning of the container. */
   ConstIterator
   Begin() const
   {
@@ -245,7 +246,7 @@ public:
     return iter;
   }
 
-  /** returns an iterator that points to the end of the container */
+  /** Returns an iterator that points to the end of the container. */
   ConstIterator
   End() const
   {
@@ -261,8 +262,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** the points container which will be actually used for storing
-   * measurement vectors */
   VectorContainerConstPointer m_VectorContainer;
 }; // end of class VectorContainerToListSampleAdaptor
 } // end of namespace Statistics

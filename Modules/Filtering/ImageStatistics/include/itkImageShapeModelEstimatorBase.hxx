@@ -31,9 +31,6 @@ ImageShapeModelEstimatorBase<TInputImage, TOutputImage>::GenerateData()
   this->EstimateShapeModels();
 }
 
-/**
- * PrintSelf
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImageShapeModelEstimatorBase<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const

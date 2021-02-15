@@ -32,9 +32,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::ImagePCAShapeModelEstima
   m_NumberOfPrincipalComponentsRequired = 0;
   this->SetNumberOfPrincipalComponentsRequired(1);
 }
-/**
- * PrintSelf
- */
+
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -56,9 +54,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::PrintSelf(std::ostream &
   os << indent << "NumberOfPrincipalComponentsRequired: " << m_NumberOfPrincipalComponentsRequired << std::endl;
 }
 
-/**
- * Enlarge the output requested region to the largest possible region.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output))
@@ -73,16 +68,14 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EnlargeOutputRequestedRe
   }
 }
 
-/**
- * Requires all of the inputs to be in the buffer up to the
- * LargestPossibleRegion of the first input.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
 
+  // Require all of the inputs to be in the buffer up to the
+  // LargestPossibleRegion of the first input.
   if (this->GetInput(0))
   {
     // Set the requested region of the first input to largest possible region
@@ -113,9 +106,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateInputRequestedRe
   }
 }
 
-/**
- * Generate data (start the model building process)
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
@@ -196,11 +186,8 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateData()
   {
     m_EigenVectors.set_size(0, 0);
   }
-} // end Generate data
+}
 
-/**
- * Set the number of required principal components
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::SetNumberOfPrincipalComponentsRequired(unsigned int n)
@@ -237,9 +224,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::SetNumberOfPrincipalComp
   }
 }
 
-/**
- * Set the number of training images.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::SetNumberOfTrainingImages(unsigned int n)
@@ -255,11 +239,6 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::SetNumberOfTrainingImage
   }
 }
 
-/**-----------------------------------------------------------------
- * Takes a set of training images and returns the means
- * and variance of the various classes defined in the
- * training set.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimateShapeModels()
@@ -267,12 +246,8 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimateShapeModels()
   this->CalculateInnerProduct();
 
   this->EstimatePCAShapeModelParameters();
-} // end EstimateShapeModels
+}
 
-/**
- * Calculate the inner product between the input training vector
- * where each image is treated as a vector of n-elements
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::CalculateInnerProduct()
@@ -372,12 +347,8 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::CalculateInnerProduct()
   {
     m_InnerProduct.fill(0);
   }
-} // end CalculateInnerProduct
+}
 
-/*-----------------------------------------------------------------
- *Estimage shape models using PCA.
- *-----------------------------------------------------------------
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelParameters()
@@ -432,7 +403,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
   // Normalize the eigen values
   m_EigenVectorNormalizedEnergy = m_EigenValues;
   m_EigenVectorNormalizedEnergy.normalize();
-} // end EstimatePCAShapeModelParameters
+}
 
 } // namespace itk
 

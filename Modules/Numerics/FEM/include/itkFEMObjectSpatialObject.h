@@ -57,11 +57,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FEMObjectSpatialObject, SpatialObject);
 
-  /** Set the femobject. */
+  /** Set the FEM object in the spatial object. */
   void
   SetFEMObject(FEMObjectType * femobject);
 
-  /** Get a pointer to the femobject currently attached to the object. */
+  /** Get a pointer to the FEM object currently attached to the object. */
   FEMObjectType *
   GetFEMObject()
   {
