@@ -200,7 +200,8 @@ private:
       "GPU Binary Threshold Image Filter Override",                                                                    \
       true,                                                                                                            \
       itk::CreateObjectFunction<GPUBinaryThresholdImageFilter<InputImageType, OutputImageType>>::New());               \
-  }
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
 
   GPUBinaryThresholdImageFilterFactory()
   {
