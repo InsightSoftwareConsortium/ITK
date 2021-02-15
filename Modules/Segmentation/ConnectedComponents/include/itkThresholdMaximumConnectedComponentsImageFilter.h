@@ -155,6 +155,15 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  /** Update the filter. It essentially uses a bisection method to search for
+   * the threshold setPt that maximizes the number of connected components in
+   * the image. The ComputeConnectedComponents does the threshold and then a
+   * connected components object count. It is removed from GenerateData
+   * to make this all easier to read.
+   *
+   * Remove the comments on the output statements to see how the search
+   * strategy works.
+   */
   void
   GenerateData() override;
 

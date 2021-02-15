@@ -126,35 +126,23 @@ public:
   /** Pointer Type for the vector distance image. */
   using VectorImagePointer = typename VectorImageType::Pointer;
 
-  /** Set if the distance should be squared. */
+  /** Set/Get if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);
-
-  /** Get the distance squared. */
   itkGetConstReferenceMacro(SquaredDistance, bool);
-
-  /** Set On/Off if the distance is squared. */
   itkBooleanMacro(SquaredDistance);
 
-  /** Set if the input is binary. If this variable is set, each
+  /** Set/Get if the input is binary. If this variable is set, each
    * nonzero pixel in the input image will be given a unique numeric
    * code to be used by the Voronoi partition.  If the image is binary
    * but you are not interested in the Voronoi regions of the
    * different nonzero pixels, then you need not set this.  */
   itkSetMacro(InputIsBinary, bool);
-
-  /** Get if the input is binary.  See SetInputIsBinary(). */
   itkGetConstReferenceMacro(InputIsBinary, bool);
-
-  /** Set On/Off if the input is binary.  See SetInputIsBinary(). */
   itkBooleanMacro(InputIsBinary);
 
-  /** Set if image spacing should be used in computing distances. */
+  /** Set/Get if image spacing should be used in computing distances. */
   itkSetMacro(UseImageSpacing, bool);
-
-  /** Get whether spacing is used. */
   itkGetConstReferenceMacro(UseImageSpacing, bool);
-
-  /** Set On/Off whether spacing is used. */
   itkBooleanMacro(UseImageSpacing);
 
   /** Get Voronoi Map

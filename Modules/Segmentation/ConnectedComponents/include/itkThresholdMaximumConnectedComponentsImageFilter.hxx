@@ -26,9 +26,7 @@
 
 namespace itk
 {
-/** Constructor
- *
- */
+
 template <typename TInputImage, typename TOutputImage>
 ThresholdMaximumConnectedComponentsImageFilter<TInputImage,
                                                TOutputImage>::ThresholdMaximumConnectedComponentsImageFilter()
@@ -72,9 +70,6 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage,
   m_NumberOfObjects = 0;
 } // end of the constructor
 
-/**
- *
- */
 template <typename TInputImage, typename TOutputImage>
 SizeValueType
 ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::ComputeConnectedComponents()
@@ -87,17 +82,6 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Compu
   return m_LabeledComponent->GetNumberOfObjects();
 } //  end of ComputeConnectedComponents()
 
-/**
- * This is the meat of the filter. It essentially uses a bisection
- * method to search for the threshold setPt that maximizes the number
- * of connected components in the image. The
- * "ComputeConnectedComponents" does the threshold and then a
- * connected components object count. It is removed from "GenerateData"
- * to make this all easier to read.
- *
- * Remove the comments on the output statements to see how the search
- * strategy works.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::GenerateData()
@@ -193,9 +177,6 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Gener
   this->GraftOutput(m_ThresholdFilter->GetOutput());
 } // end of GenerateData Process
 
-/** Standard Run of the mill PrintSelf
- *
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,

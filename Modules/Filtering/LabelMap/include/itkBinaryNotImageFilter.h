@@ -112,12 +112,9 @@ public:
   itkSetMacro(ForegroundValue, PixelType);
   itkGetConstMacro(ForegroundValue, PixelType);
 
-  /** Set the value used as "background". Defaults to
+  /** Set/Get the value used as "background". Defaults to
    * NumericTraits<PixelType>::NonpositiveMin(). */
   itkSetMacro(BackgroundValue, PixelType);
-
-  /** Get the value used as "background". Defaults to
-   * NumericTraits<PixelType>::NonpositiveMin(). */
   itkGetConstMacro(BackgroundValue, PixelType);
 
 protected:

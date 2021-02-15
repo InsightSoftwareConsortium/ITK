@@ -132,16 +132,16 @@ protected:
   void
   WriteSlice(std::string & fileName, const void * buffer);
 
-  // will assign m_NDims and allocate all internal buffers to hold the
-  // information
+  /** Assign m_NDims and allocate all internal buffers to hold the
+   * information. */
   void
   AllocateDimensions(int nDims);
 
-  // cleanup internal buffers
+  /** Cleanup internal buffers. */
   void
   CleanupDimensions();
 
-  // close existing volume, cleanup internal structures
+  /** Close existing volume, cleanup internal structures. */
   void
   CloseVolume();
 

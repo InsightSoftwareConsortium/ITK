@@ -197,7 +197,6 @@ MINCImageIO::AllocateDimensions(int nDims)
   }
 }
 
-// close existing volume, cleanup internal structures
 void
 MINCImageIO::CloseVolume()
 {

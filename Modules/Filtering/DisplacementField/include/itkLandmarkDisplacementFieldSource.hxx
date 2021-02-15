@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Initialize new instance
- */
+
 template <typename TOutputImage>
 LandmarkDisplacementFieldSource<TOutputImage>::LandmarkDisplacementFieldSource()
 {
@@ -39,11 +37,6 @@ LandmarkDisplacementFieldSource<TOutputImage>::LandmarkDisplacementFieldSource()
   m_KernelTransform = DefaultTransformType::New();
 }
 
-/**
- * Print out a description of self
- *
- * \todo Add details about this class
- */
 template <typename TOutputImage>
 void
 LandmarkDisplacementFieldSource<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -59,9 +52,6 @@ LandmarkDisplacementFieldSource<TOutputImage>::PrintSelf(std::ostream & os, Inde
   os << indent << "Target Landmarks: " << m_TargetLandmarks.GetPointer() << std::endl;
 }
 
-/**
- * Set the output image spacing.
- */
 template <typename TOutputImage>
 void
 LandmarkDisplacementFieldSource<TOutputImage>::SetOutputSpacing(const double * spacing)
@@ -75,9 +65,6 @@ LandmarkDisplacementFieldSource<TOutputImage>::SetOutputSpacing(const double * s
   this->SetOutputSpacing(s);
 }
 
-/**
- * Set the output image origin.
- */
 template <typename TOutputImage>
 void
 LandmarkDisplacementFieldSource<TOutputImage>::SetOutputOrigin(const double * origin)

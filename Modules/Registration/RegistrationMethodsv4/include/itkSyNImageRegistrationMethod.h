@@ -203,7 +203,9 @@ protected:
   void
   GenerateData() override;
 
-  /** Handle optimization internally */
+  /** Handle optimization internally.
+   * Starts the optimization at each level. Performas a basic gradient descent operation.
+   */
   virtual void
   StartOptimization();
 

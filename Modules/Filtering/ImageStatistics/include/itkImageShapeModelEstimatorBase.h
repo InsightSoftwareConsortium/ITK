@@ -77,7 +77,7 @@ private:
   virtual void
   EstimateShapeModels() = 0;
 
-  /**Container for holding the training image. */
+  /** Container for holding the training image. */
   InputImagePointer m_InputImage;
 
 }; // class ImageShapeModelEstimator

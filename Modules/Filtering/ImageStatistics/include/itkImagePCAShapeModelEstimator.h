@@ -130,7 +130,7 @@ public:
 
   itkGetConstMacro(NumberOfPrincipalComponentsRequired, unsigned int);
 
-  /** Set/Get the number of training images in the input. */
+  /** Set/Get the number of training images in the input for the PCA. */
   virtual void
   SetNumberOfTrainingImages(unsigned int n);
 
@@ -147,7 +147,7 @@ protected:
 
   /** This filter must produce all of the outputs at once, as such it
    * must override the EnlargeOutputRequestedRegion method to enlarge the
-   * output request region. */
+   * output request region to the largest possible region. */
   void
   EnlargeOutputRequestedRegion(DataObject *) override;
 
@@ -172,24 +172,26 @@ private:
   /** Set up the vector to store the image  data. */
   using InputPixelType = typename TInputImage::PixelType;
 
-  /** Local functions */
-
-  /** A function that generates the cluster centers (model) corresponding to the
-   * estimates of the cluster centers (in the initial codebook).
+  /** Generates the cluster centers (model) corresponding to the estimates of
+   * the cluster centers (in the initial codebook).
    * If no codebook is provided, then use the number of classes to
    * determine the cluster centers or the Shape model. This is the
-   * the base function to call the K-means classifier. */
-
+   * the base function to call the K-means classifier.
+   * Takes the set of training images and internally computes the means and
+   * variance of the various classes defined in the training set.
+   */
   void
   EstimateShapeModels() override;
 
+  /** Estimate shape model parameters using PCA. */
   void
   EstimatePCAShapeModelParameters();
 
+  /** Calculate the inner product between the input training vector
+   * where each image is treated as a vector of n-elements. */
   void
   CalculateInnerProduct();
 
-  /** Local storage variables */
   InputImageIteratorArray m_InputImageIteratorArray;
 
   VectorOfDoubleType m_Means;
@@ -206,10 +208,8 @@ private:
 
   unsigned int m_NumberOfPixels{ 0 };
 
-  // The number of input images for PCA
   unsigned int m_NumberOfTrainingImages{ 0 };
 
-  // The number of output Principal Components
   unsigned int m_NumberOfPrincipalComponentsRequired;
 };
 

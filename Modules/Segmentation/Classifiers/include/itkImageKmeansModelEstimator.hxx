@@ -38,9 +38,6 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::ImageKmeansModelEst
   m_CurrentNumberOfCodewords = 1;
 }
 
-/**
- * PrintSelf
- */
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintSelf(std::ostream & os, Indent indent) const
@@ -97,24 +94,21 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::PrintKmeansAlgorith
   itkDebugMacro(<< "+++++++++++++++++++++++++++++++++++ ");
 
   itkDebugMacro(<< m_CodewordHistogram);
-} // End PrintKmeansAlgorithmResults
+}
 
-/**
- * Generate data (start the model building process)
- */
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::GenerateData()
 {
   this->EstimateModels();
-} // end Generate data
+}
 
-// Set the input codebook and allocate memory
-// for the output codebook and other scratch memory
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SetCodebook(CodebookMatrixOfDoubleType inCodebook)
 {
+  // Set the input codebook and allocate memory for the output codebook and
+  // other scratch memory
   m_Codebook = inCodebook;
 
   // Check if the input codebook is a valid
@@ -123,9 +117,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SetCodebook(Codeboo
     m_ValidInCodebook = true;
     this->Allocate();
   }
-} // End SetInCodebook
-
-// Allocate scratch memory
+}
 
 template <typename TInputImage, typename TMembershipFunction>
 void
@@ -177,11 +169,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Allocate()
 
   m_CodewordDistortion.set_size(m_NumberOfCodewords, 1);
   m_CodewordDistortion.fill(0);
-} // end Allocate function
-
-//-----------------------------------------------------------------
-// Reallocate various memories and then make a copy of the old data
-//-----------------------------------------------------------------
+}
 
 template <typename TInputImage, typename TMembershipFunction>
 void
@@ -226,11 +214,6 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Reallocate(int oldS
   }
 }
 
-//-----------------------------------------------------------------
-// Takes a set of training images and returns the means
-// and variance of the various classes defined in the
-// training set.
-//-----------------------------------------------------------------
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateModels()
@@ -261,11 +244,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateModels()
     membershipFunction->SetCentroid(centroid);
     this->AddMembershipFunction(membershipFunction);
   }
-} // end EstimateModels
+}
 
-//-----------------------------------------------------------------
-// Estimate K-means models (private function) for the core function
-//-----------------------------------------------------------------
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateKmeansModelParameters()
@@ -410,9 +390,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
     }
   } while (pass <= m_MaxSplitAttempts);
   itkExceptionMacro(<< "Lack of convergence");
-} // end WithCodebookUseGLA
+}
 
-//-----------------------------------------------------------------
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSearchBasic(double * distortion)
@@ -539,9 +518,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   {
     itkExceptionMacro(<< "Computational overflow");
   }
-} // End nearest_neighbor_search_basic
+}
 
-//-----------------------------------------------------------------
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SplitCodewords(int currentSize, int numDesired, int scale)
@@ -566,9 +544,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SplitCodewords(int 
 
   delete[] inCodebookData;
   delete[] newCodebookData;
-} // End splitcodewords
+}
 
-//-----------------------------------------------------------------
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * oldCodeword,
@@ -614,7 +591,6 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * ol
   }
 }
 
-//-----------------------------------------------------------------
 template <typename TInputImage, typename TMembershipFunction>
 int
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseLBG()
@@ -685,7 +661,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseL
   // itkDebugMacro(<<"Done with local function LBG ()");
 
   return LBG_COMPLETED;
-} // End WithoutCodebookUseLBG()
+}
+
 } // namespace itk
 
 #endif
