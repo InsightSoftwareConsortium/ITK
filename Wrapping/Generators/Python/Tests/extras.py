@@ -390,7 +390,7 @@ for t in [
     [np.float64, np.float64, "VIF2VID2"],
 ]:
     if hasattr(itk.CastImageFilter, t[2]):
-        cast = vectorimage.astype(t[0])
+        cast = image.astype(t[0])
         (cast_image_template, (cast_pixel_type, cast_image_dimension)) = itk.template(
             cast
         )
