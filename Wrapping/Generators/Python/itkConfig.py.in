@@ -130,10 +130,7 @@ def _initialize():
     _config_py_root: str = os.path.dirname(_config_py)
 
     # put the itkConfig.py path in the path list
-    _path = [_config_py_root]
-    # also populate path with the WRAPITK_PYTHON_PATH var
-    if "WRAPITK_PYTHON_PATH" in os.environ:
-        _path.extend(os.environ["WRAPITK_PYTHON_PATH"].split(":"))
+    _path = _config_py_root
 
     # NOT IMPLEMENTED:
     # _doxygen_root = _normalized_path("../Doc", "doxygen_root: location of the doxygen xml files.")

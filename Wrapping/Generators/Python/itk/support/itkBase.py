@@ -246,7 +246,7 @@ class LibraryLoader(object):
             # silently pass to avoid the case where the dir is not there
             pass
         self.old_path = sys.path
-        sys.path = [itkConfig.swig_lib, itkConfig.swig_py] + itkConfig.path + sys.path
+        sys.path = [itkConfig.swig_lib, itkConfig.swig_py] + sys.path
 
     def load(self, name: str):
         self.setup()
@@ -319,31 +319,32 @@ class ITKModuleInfo:
     factories from the itkTemplate base class.
     """
 
-    def __init__(self, path: str, snake_path: str) -> None:
-        # Store paths for debugging ease, not used in the code outside this function
-        self._module_config_path: str = path
-        self._module_snake_path: str = snake_path
-
-        module_content_info: Dict[str, Any] = {}
-        with open(path, "rb") as module_file:
-            exec(module_file.read(), module_content_info)
-        _templates = module_content_info.get(
-            "templates", tuple()
-        )  # Template Definitions
-        self._depends = sorted(
-            module_content_info.get("depends", tuple())
-        )  # The sorted dependencies of this module on other modules
+    def __init__(self, conf: str, snake_conf) -> None:
+        import importlib
+        module_name = os.path.splitext(conf)[0]
+        content_info = importlib.import_module(f'itk.Configuration.{module_name}')
+        if hasattr(content_info, 'templates'):
+            _templates = content_info.templates
+        else:
+            _templates = tuple()
+        if hasattr(content_info, 'depends'):
+            self._depends = content_info.depends
+        else:
+            self._depends = tuple()
         self._template_feature_tuples: List[ITKTemplateFeatures] = [
             ITKTemplateFeatures(tfeat) for tfeat in _templates
         ]
 
-        snake_data: Dict[str, Any] = {}
-        if os.path.exists(snake_path):
-            with open(snake_path, "rb") as snake_module_file:
-                exec(snake_module_file.read(), snake_data)
-        self._snake_case_functions: Sequence[str] = snake_data.get(
-            "snake_case_functions", []
-        )
+        snake_module_name = os.path.splitext(snake_conf)[0]
+        try:
+            snake_content_info = importlib.import_module(f'itk.Configuration.{snake_module_name}')
+        except ImportError:
+            self._snake_case_functions: Sequence[str] = []
+            return
+        if hasattr(snake_content_info, 'snake_case_functions'):
+            self._snake_case_functions: Sequence[str] = snake_content_info.snake_case_functions
+        else:
+            self._snake_case_functions: Sequence[str] = []
 
     def get_module_dependencies(self) -> Sequence[str]:
         return self._depends
@@ -359,32 +360,20 @@ def _initialize(l_module_data):
     # Make a list of all know modules (described in *Config.py files in the
     # config_py directory) and load the information described in those Config.py
     # files.
-    dirs = [p for p in itkConfig.path if os.path.isdir(p)]
+    candidate_config_path: str = os.path.join(itkConfig.path, "Configuration")
+    if not os.path.isdir(candidate_config_path):
+        error_message: str = f"WARNING: Invalid configuration directory requested: {candidate_config_path}"
+        raise RuntimeError(error_message)
 
-    for d in dirs:
-        # NOT USED OR NEEDED candidate_lib_path: str = os.path.join(os.path.dirname(d), "lib")
-        # NOT USED OR NEEDED if not os.path.isdir(candidate_lib_path):
-        # NOT USED OR NEEDED     print(f"WARNING: Invalid directory for python lib files specified: {candidate_lib_path}")
-        # NOT USED OR NEEDED     raise RuntimeError(f"WARNING: Invalid directory for python lib files specified: {candidate_lib_path}")
-        # NOT USED OR NEEDED sys.path.append(candidate_lib_path)
+    files = os.listdir(candidate_config_path)
+    known_modules: List[str] = sorted(
+        [f[:-9] for f in files if f.endswith("Config.py")]
+    )
+    for module in known_modules:
+        conf: str = f"{module}Config.py"
+        snake_conf = f"{module}_snake_case.py"
 
-        candidate_config_path: str = os.path.join(d, "Configuration")
-        if not os.path.isdir(candidate_config_path):
-            error_message: str = f"WARNING: Invalid configuration directory requested: {candidate_config_path}"
-            raise RuntimeError(error_message)
-
-        sys.path.append(d)
-        files = os.listdir(os.path.join(d, "Configuration"))
-        known_modules: List[str] = sorted(
-            [f[:-9] for f in files if f.endswith("Config.py")]
-        )
-        for module in known_modules:
-            conf: str = f"{module}Config.py"
-            path: str = os.path.join(d, "Configuration", conf)
-            snake_conf = f"{module}_snake_case.py"
-            snake_path = os.path.join(d, "Configuration", snake_conf)
-
-            l_module_data[module] = ITKModuleInfo(path, snake_path)
+        l_module_data[module] = ITKModuleInfo(conf, snake_conf)
 
 
 itk_base_global_lazy_attributes: Dict[str, Any] = {}
