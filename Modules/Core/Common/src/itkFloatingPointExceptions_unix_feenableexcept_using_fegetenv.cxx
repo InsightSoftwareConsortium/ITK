@@ -87,12 +87,17 @@ itk_fedisableexcept(const fexcept_t excepts)
 
 // Implementation for Intel
 
-#  if (defined ITK_HAS_STRUCT_FENV_T_CONTROL)
-#    define __itk_control_word __control
-#  elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_WORD)
-#    define __itk_control_word __control_word
-#  elif (defined ITK_HAS_STRUCT_FENV_T_CONTROL_CW)
-#    define __itk_control_word __cw
+// Note: on Apple, ignore the result of the try_compiles that generate these
+// ITK_HAS_STRUCT_FENV_T_CONTROL* defines because try_compile doesn't work
+// with Universal Binaries where different architectures have different results.
+// On Intel macOS, the fenv_t field in question is named __control
+
+#  if defined(__APPLE__) || defined(ITK_HAS_STRUCT_FENV_T_CONTROL)
+#    define _itk_control_word __control
+#  elif defined(ITK_HAS_STRUCT_FENV_T_CONTROL_WORD)
+#    define _itk_control_word __control_word
+#  elif defined(ITK_HAS_STRUCT_FENV_T_CONTROL_CW)
+#    define _itk_control_word __cw
 #  else
 #    error "Unknown name for 'fenv_t' struct control member"
 #  endif
@@ -107,10 +112,10 @@ itk_feenableexcept(const fexcept_t excepts)
     return static_cast<fexcept_t>(-1);
 
   // previous masks
-  const fexcept_t old_excepts = fenv.__itk_control_word & FE_ALL_EXCEPT;
+  const fexcept_t old_excepts = fenv._itk_control_word & FE_ALL_EXCEPT;
 
   // unmask
-  fenv.__itk_control_word &= static_cast<fexcept_t>(~new_excepts);
+  fenv._itk_control_word &= static_cast<fexcept_t>(~new_excepts);
   fenv.__mxcsr &= ~(new_excepts << 7);
 
   return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
@@ -126,10 +131,10 @@ itk_fedisableexcept(const fexcept_t excepts)
     return static_cast<fexcept_t>(-1);
 
   // all previous masks
-  fexcept_t old_excepts = fenv.__itk_control_word & FE_ALL_EXCEPT;
+  fexcept_t old_excepts = fenv._itk_control_word & FE_ALL_EXCEPT;
 
   // mask
-  fenv.__itk_control_word |= new_excepts;
+  fenv._itk_control_word |= new_excepts;
   fenv.__mxcsr |= new_excepts << 7;
 
   return (fesetenv(&fenv) ? static_cast<fexcept_t>(-1) : old_excepts);
