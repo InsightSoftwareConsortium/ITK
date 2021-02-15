@@ -1022,7 +1022,11 @@ GDCMImageIO::Write(const void * buffer)
   if (hasIPP)
   {
     double origin3D[3];
+    // save and reset old locale
+    std::locale currentLocale = std::locale::global(std::locale::classic());
     sscanf(tempString.c_str(), "%lf\\%lf\\%lf", &(origin3D[0]), &(origin3D[1]), &(origin3D[2]));
+    // reset locale
+    std::locale::global(currentLocale);
     image.SetOrigin(0, origin3D[0]);
     image.SetOrigin(1, origin3D[1]);
     image.SetOrigin(2, origin3D[2]);
@@ -1053,6 +1057,8 @@ GDCMImageIO::Write(const void * buffer)
   if (hasIOP)
   {
     double directions[6];
+    // save and reset old locale
+    std::locale currentLocale = std::locale::global(std::locale::classic());
     sscanf(tempString.c_str(),
            "%lf\\%lf\\%lf\\%lf\\%lf\\%lf",
            &(directions[0]),
@@ -1061,6 +1067,8 @@ GDCMImageIO::Write(const void * buffer)
            &(directions[3]),
            &(directions[4]),
            &(directions[5]));
+    // reset locale
+    std::locale::global(currentLocale);
     image.SetDirectionCosines(0, directions[0]);
     image.SetDirectionCosines(1, directions[1]);
     image.SetDirectionCosines(2, directions[2]);
