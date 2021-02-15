@@ -805,7 +805,7 @@ inline void vnl_matrix<T>
 template<class T>
 inline vnl_matrix<T> operator*(T const& value, vnl_matrix<T> const& m)
 {
-  return m*value;;
+  return m*value;
 }
 
 //:
