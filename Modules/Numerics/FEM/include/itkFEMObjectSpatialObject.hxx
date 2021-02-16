@@ -51,8 +51,8 @@ void
 FEMObjectSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "FEMObject: " << std::endl;
-  os << indent << m_FEMObject << std::endl;
+
+  itkPrintSelfObjectMacro(FEMObject);
 }
 
 template <unsigned int TDimension>

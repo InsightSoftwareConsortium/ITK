@@ -37,16 +37,9 @@ ClassifierBase<TDataContainer>::PrintSelf(std::ostream & os, Indent indent) cons
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of classes: " << m_NumberOfClasses << std::endl;
-  os << indent << "DecisionRule: ";
-  if (m_DecisionRule.IsNotNull())
-  {
-    os << m_DecisionRule << std::endl;
-  }
-  else
-  {
-    os << "not set." << std::endl;
-  }
+  os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
+
+  itkPrintSelfObjectMacro(DecisionRule);
 
   os << indent << "MembershipFunctions: " << std::endl;
   for (unsigned int i = 0; i < m_MembershipFunctions.size(); ++i)

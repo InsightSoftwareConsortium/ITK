@@ -153,28 +153,17 @@ template <typename TPixel, unsigned int VDimension, typename TContainer>
 void
 Neighborhood<TPixel, VDimension, TContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "m_Size: [ ";
-  for (DimensionValueType i = 0; i < VDimension; ++i)
-  {
-    os << m_Size[i] << " ";
-  }
-  os << "]" << std::endl;
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
+  os << indent << "Radius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Radius) << std::endl;
 
-  os << indent << "m_Radius: [ ";
-  for (DimensionValueType i = 0; i < VDimension; ++i)
-  {
-    os << m_Radius[i] << " ";
-  }
-  os << "]" << std::endl;
-
-  os << indent << "m_StrideTable: [ ";
+  os << indent << "StrideTable: [ ";
   for (DimensionValueType i = 0; i < VDimension; ++i)
   {
     os << m_StrideTable[i] << " ";
   }
   os << "]" << std::endl;
 
-  os << indent << "m_OffsetTable: [ ";
+  os << indent << "OffsetTable: [ ";
   for (DimensionValueType i = 0; i < m_OffsetTable.size(); ++i)
   {
     os << m_OffsetTable[i] << " ";
