@@ -24,10 +24,6 @@
 
 namespace itk
 {
-template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
-ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::ImageGaussianModelEstimator()
-
-  = default;
 
 template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
 ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::~ImageGaussianModelEstimator()
