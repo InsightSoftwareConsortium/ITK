@@ -123,7 +123,7 @@ public:
   itkGetModifiableObjectMacro(TrainingImage, TrainingImageType);
 
 protected:
-  ImageGaussianModelEstimator();
+  ImageGaussianModelEstimator() = default;
   ~ImageGaussianModelEstimator() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
