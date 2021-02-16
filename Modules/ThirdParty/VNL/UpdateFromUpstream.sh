@@ -1,31 +1,36 @@
 #!/usr/bin/env bash
 
-thirdparty_module_name='VNL'
+set -e
+set -x
+shopt -s dotglob
 
-upstream_git_url='https://github.com/vxl/vxl.git'
-upstream_git_branch='master'
+readonly name='VXL'
+readonly ownership='VXL Maintainers <vxl-maintainers@lists.sourceforge.net>'
+readonly subtree="Modules/ThirdParty/VNL/src/vxl"
+readonly repo="https://github.com/vxl/vxl.git"
+readonly tag="master"
+readonly shortlog=false
+readonly paths="
+  CMakeLists.txt
+  config/cmake
+  core/CMakeLists.txt
+  core/testlib
+  core/vnl
+  core/vxl_config.h.in
+  core/vxl_copyright.h
+  core/vxl_version.h
+  v3p/CMakeLists.txt
+  v3p/netlib
+  vcl
+"
 
-snapshot_author_name='VXL Maintainers'
-snapshot_author_email='vxl-maintainers@lists.sourceforge.net'
+extract_source () {
+    git_archive
+    pushd "${extractdir}/${name}-reduced"
+    rm v3p/netlib/triangle*
+    rm v3p/netlib/examples/showme.c
+    echo "* -whitespace" > .gitattributes
+    popd
+}
 
-snapshot_redact_cmd='
-  rm v3p/netlib/triangle*
-  rm v3p/netlib/examples/showme.c
-'
-snapshot_relative_path='src/vxl'
-snapshot_paths='
-      CMakeLists.txt
-      config/cmake
-      core/CMakeLists.txt
-      core/testlib
-      core/vnl
-      core/vxl_config.h.in
-      core/vxl_copyright.h
-      core/vxl_version.h
-      v3p/CMakeLists.txt
-      v3p/netlib
-      vcl
-'
-
-source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
-update_from_upstream
+. "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
