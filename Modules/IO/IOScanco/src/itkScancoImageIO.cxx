@@ -1074,39 +1074,42 @@ ScancoImageIO::Read(void * buffer)
     // The size of the buffer will change depending on the data type
     size_t bufferSize = outSize;
 
-    switch (dataType)
+    if (this->m_RescaleSlope != 1.0 || this->m_RescaleIntercept != 0.0)
     {
-      case IOComponentEnum::CHAR:
-        RescaleToHU(reinterpret_cast<char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
-        break;
-      case IOComponentEnum::UCHAR:
-        RescaleToHU(
-          reinterpret_cast<unsigned char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
-        break;
-      case IOComponentEnum::SHORT:
-        bufferSize /= 2;
-        RescaleToHU(reinterpret_cast<short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
-        break;
-      case IOComponentEnum::USHORT:
-        bufferSize /= 2;
-        RescaleToHU(
-          reinterpret_cast<unsigned short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
-        break;
-      case IOComponentEnum::INT:
-        bufferSize /= 4;
-        RescaleToHU(reinterpret_cast<int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
-        break;
-      case IOComponentEnum::UINT:
-        bufferSize /= 4;
-        RescaleToHU(
-          reinterpret_cast<unsigned int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
-        break;
-      case IOComponentEnum::FLOAT:
-        bufferSize /= 4;
-        RescaleToHU(reinterpret_cast<float *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
-        break;
-      default:
-        itkExceptionMacro("Unrecognized data type in file: " << dataType);
+      switch (dataType)
+      {
+        case IOComponentEnum::CHAR:
+          RescaleToHU(reinterpret_cast<char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+          break;
+        case IOComponentEnum::UCHAR:
+          RescaleToHU(
+            reinterpret_cast<unsigned char *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+          break;
+        case IOComponentEnum::SHORT:
+          bufferSize /= 2;
+          RescaleToHU(reinterpret_cast<short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+          break;
+        case IOComponentEnum::USHORT:
+          bufferSize /= 2;
+          RescaleToHU(
+            reinterpret_cast<unsigned short *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+          break;
+        case IOComponentEnum::INT:
+          bufferSize /= 4;
+          RescaleToHU(reinterpret_cast<int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+          break;
+        case IOComponentEnum::UINT:
+          bufferSize /= 4;
+          RescaleToHU(
+            reinterpret_cast<unsigned int *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+          break;
+        case IOComponentEnum::FLOAT:
+          bufferSize /= 4;
+          RescaleToHU(reinterpret_cast<float *>(buffer), bufferSize, this->m_RescaleSlope, this->m_RescaleIntercept);
+          break;
+        default:
+          itkExceptionMacro("Unrecognized data type in file: " << dataType);
+      }
     }
 
     return;
