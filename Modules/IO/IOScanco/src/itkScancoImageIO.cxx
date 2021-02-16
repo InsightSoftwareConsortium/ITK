@@ -291,6 +291,7 @@ ScancoImageIO::InitializeHeader()
   this->m_MuWater = 0;
 
   this->m_Compression = 0;
+  this->m_HeaderInitialized = true;
 }
 
 
@@ -1267,6 +1268,11 @@ ScancoImageIO::CanWriteFile(const char * name)
 void
 ScancoImageIO::WriteISQHeader(std::ofstream * file)
 {
+  if (!this->m_HeaderInitialized)
+  {
+    this->InitializeHeader();
+    this->SetVersion("CTDATA-HEADER_V1");
+  }
   delete[] this->m_RawHeader;
   this->m_RawHeader = new char[512];
   char * header = this->m_RawHeader;

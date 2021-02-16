@@ -362,6 +362,8 @@ private:
   // The compression mode, if any.
   int m_Compression;
 
+  bool m_HeaderInitialized = false;
+
   SizeValueType m_HeaderSize{ 0 };
 };
 } // end namespace itk
