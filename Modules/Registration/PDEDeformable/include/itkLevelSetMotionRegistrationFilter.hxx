@@ -42,9 +42,10 @@ LevelSetMotionRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>:
                                                                                            Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << std::endl;
-  os << indent << "Gradient magnitude threshold: " << this->GetGradientMagnitudeThreshold() << std::endl;
-  os << indent << "Gradient smoothing standard deviations: " << this->GetGradientSmoothingStandardDeviations()
+
+  os << indent << "IntensityDifferenceThreshold: " << this->GetIntensityDifferenceThreshold() << std::endl;
+  os << indent << "GradientMagnitudeThreshold: " << this->GetGradientMagnitudeThreshold() << std::endl;
+  os << indent << "GradientSmoothingStandardDeviations: " << this->GetGradientSmoothingStandardDeviations()
      << std::endl;
 }
 

@@ -112,23 +112,18 @@ ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::PrintSelf(s
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Normalize: " << m_Normalize << std::endl;
-  os << indent << "BoundaryCondition: " << m_BoundaryCondition->GetNameOfClass() << std::endl;
-  os << indent << "OutputRegionMode: ";
-  switch (m_OutputRegionMode)
+  os << indent << "DefaultBoundaryCondition: ";
+  m_DefaultBoundaryCondition.Print(os, indent);
+  os << indent << "BoundaryCondition: ";
+  if (m_BoundaryCondition)
   {
-    case OutputRegionModeEnum::SAME:
-      os << "SAME";
-      break;
-
-    case OutputRegionModeEnum::VALID:
-      os << "VALID";
-      break;
-
-    default:
-      os << "unknown";
-      break;
+    m_BoundaryCondition->Print(os, indent);
   }
-  os << std::endl;
+  else
+  {
+    os << indent << "nullptr" << std::endl;
+  }
+  os << indent << "OutputRegionMode: " << m_OutputRegionMode << std::endl;
 }
 } // namespace itk
 #endif

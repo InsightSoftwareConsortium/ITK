@@ -42,7 +42,8 @@ NarrowBandCurvesLevelSetImageFilter<TInputImage, TFeatureImage, TOutputType>::Pr
                                                                                         Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "CurvesFunction: " << m_CurvesFunction.GetPointer();
+
+  itkPrintSelfObjectMacro(CurvesFunction);
 }
 
 template <typename TInputImage, typename TFeatureImage, typename TOutputType>

@@ -37,11 +37,8 @@ ImageShapeModelEstimatorBase<TInputImage, TOutputImage>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "                   " << std::endl;
-
-  os << indent << "InputImage: ";
-  os << m_InputImage.GetPointer() << std::endl;
-} // end PrintSelf
+  itkPrintSelfObjectMacro(InputImage);
+}
 } // namespace itk
 
 #endif

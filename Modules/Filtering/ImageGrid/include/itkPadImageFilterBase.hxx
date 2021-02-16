@@ -42,13 +42,15 @@ void
 PadImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "BoundaryCondition: ";
   if (m_BoundaryCondition)
   {
     m_BoundaryCondition->Print(os, indent);
   }
   else
   {
-    os << "nullptr" << std::endl;
+    os << indent << "nullptr" << std::endl;
   }
 }
 

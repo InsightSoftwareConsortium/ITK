@@ -36,15 +36,7 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::PrintSelf(std::ostream & o
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "VectorContainer: ";
-  if (this->m_VectorContainer.IsNotNull())
-  {
-    os << this->m_VectorContainer << std::endl;
-  }
-  else
-  {
-    os << "not set." << std::endl;
-  }
+  itkPrintSelfObjectMacro(VectorContainer);
 }
 
 template <typename TVectorContainer>
