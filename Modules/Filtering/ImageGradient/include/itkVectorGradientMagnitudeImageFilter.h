@@ -486,13 +486,13 @@ protected:
   }
 
   /** The weights used to scale derivatives during processing */
-  DerivativeWeightsType m_DerivativeWeights;
+  DerivativeWeightsType m_DerivativeWeights = DerivativeWeightsType::Filled(1);
 
   /** These weights are used to scale
       vector component values when they are combined to produce  a scalar.  The
       square root */
-  ComponentWeightsType m_ComponentWeights;
-  ComponentWeightsType m_SqrtComponentWeights;
+  ComponentWeightsType m_ComponentWeights = ComponentWeightsType::Filled(1);
+  ComponentWeightsType m_SqrtComponentWeights = ComponentWeightsType::Filled(1);
 
 private:
   bool m_UseImageSpacing;

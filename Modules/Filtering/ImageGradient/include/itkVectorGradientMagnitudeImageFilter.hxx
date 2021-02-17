@@ -33,20 +33,9 @@ namespace itk
 template <typename TInputImage, typename TRealType, typename TOutputImage>
 VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::VectorGradientMagnitudeImageFilter()
 {
-  unsigned int i;
-
   m_UseImageSpacing = true;
   m_UsePrincipleComponents = true;
   m_RequestedNumberOfThreads = this->GetNumberOfWorkUnits();
-  for (i = 0; i < ImageDimension; i++)
-  {
-    m_DerivativeWeights[i] = static_cast<TRealType>(1.0);
-  }
-  for (i = 0; i < VectorDimension; i++)
-  {
-    m_ComponentWeights[i] = static_cast<TRealType>(1.0);
-    m_SqrtComponentWeights[i] = static_cast<TRealType>(1.0);
-  }
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }
