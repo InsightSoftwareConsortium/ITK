@@ -992,7 +992,7 @@ if (NOT EXISTS "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
         OUTPUT ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c
                ${HDF5_GENERATED_SOURCE_DIR}/gen_SRCS.stamp1
         COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5detect>
-        ARGS ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c
+        ARGS > ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c
         COMMAND    ${CMAKE_COMMAND}
         ARGS       -E touch ${HDF5_GENERATED_SOURCE_DIR}/gen_SRCS.stamp1
         DEPENDS H5detect
@@ -1048,7 +1048,7 @@ add_custom_command (
     OUTPUT ${HDF5_BINARY_DIR}/H5lib_settings.c
            ${HDF5_BINARY_DIR}/gen_SRCS.stamp2
     COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5make_libsettings>
-    ARGS ${HDF5_BINARY_DIR}/H5lib_settings.c
+    ARGS > ${HDF5_BINARY_DIR}/H5lib_settings.c
     COMMAND    ${CMAKE_COMMAND}
     ARGS       -E touch ${HDF5_GENERATED_SOURCE_DIR}/gen_SRCS.stamp2
     DEPENDS H5make_libsettings
