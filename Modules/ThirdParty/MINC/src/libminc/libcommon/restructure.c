@@ -5,6 +5,9 @@
  ************************************************************************/
 #include <stdlib.h>
 #include <memory.h>
+#ifdef _DEBUG
+#include <stdio.h>
+#endif
 
 #include "restructure.h"
 
@@ -180,7 +183,7 @@ void restructure_array(size_t ndims,    /* Dimension count */
          **/
 
         offset_next = index_to_offset(ndims, lengths, index);
-#ifdef DEBUG
+#ifdef _DEBUG
         if (offset_next >= total) {
           printf("Fatal - offset %ld out of bounds!\n", offset_next);
           printf("lengths %lld,%lld,%lld\n",
