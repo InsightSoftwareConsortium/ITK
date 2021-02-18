@@ -22,10 +22,25 @@
 #
 # The third party name used should be same as the directory name in
 # ITK/Modules/ThirdParty/
-third_party_contrib_urls=( "KWSys:https://www.itk.org/Wiki/KWSys/Git/Develop"
-  "MetaIO:https://github.com/Kitware/MetaIO/blob/master/CONTRIBUTING.rst"
+third_party_contrib_urls=( "DCMTK:https://github.com/InsightSoftwareConsortium/DCMTK.git"
+  "DoubleConversion:https://github.com/google/double-conversion"
+  "Eigen3:https://gitlab.kitware.com/phcerdan/eigen.git"
+  "Expat:https://github.com/libexpat/libexpat"
   "GDCM:http://gdcm.sourceforge.net/wiki/index.php/Git"
-  "VNL:https://github.com/vxl/vxl" )
+  "GoogleTest:https://github.com/google/googletest/blob/master/CONTRIBUTING.md"
+  "HDF5:https://github.com/HDFGroup/hdf5"
+  "KWIML:https://gitlab.kitware.com/utils/kwiml.git"
+  "KWSys:https://gitlab.kitware.com/utils/kwsys/-/blob/master/CONTRIBUTING.rst"
+  "libLBFGS:https://github.com/chokkan/liblbfgs"
+  "MetaIO:https://github.com/Kitware/MetaIO/blob/master/CONTRIBUTING.rst"
+  "MINC:https://github.com/BIC-MNI/libminc"
+  "NIFTI:https://github.com/NIFTI-Imaging/nifti_clib"
+  "OpenJPEG:https://github.com/uclouvain/openjpeg"
+  "PNG:https://github.com/glennrp/libpng"
+  "pygccxml:https://github.com/CastXML/pygccxml"
+  "TBB:https://github.com/oneapi-src/oneTBB"
+  "VNL:https://github.com/vxl/vxl"
+  "ZLIB:https://gitlab.kitware.com/third-party/zlib" )
 
 upstream_subtree_regex='Modules/ThirdParty/[^/]+/src/[^/]+/'
 changed_upstream_dirs=$(git diff --name-only HEAD~1.. |
