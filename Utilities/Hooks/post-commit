@@ -25,7 +25,8 @@
 third_party_contrib_urls=( "KWSys:https://www.itk.org/Wiki/KWSys/Git/Develop"
   "MetaIO:https://github.com/Kitware/MetaIO/blob/master/CONTRIBUTING.rst"
   "GDCM:http://gdcm.sourceforge.net/wiki/index.php/Git"
-  "VNL:https://github.com/vxl/vxl" )
+  "VNL:https://github.com/vxl/vxl"
+  "HDF5:https://github.com/HDFGroup/hdf5" )
 
 upstream_subtree_regex='Modules/ThirdParty/[^/]+/src/[^/]+/'
 changed_upstream_dirs=$(git diff --name-only HEAD~1.. |
