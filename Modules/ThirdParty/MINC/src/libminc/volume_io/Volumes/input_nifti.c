@@ -10,6 +10,9 @@
 
 #include "nifti1.h"
 #include "nifti1_io.h"
+#ifdef DEBUG
+#include <stdio.h>
+#endif
 
 #define NUM_BYTE_VALUES (UCHAR_MAX + 1)
 

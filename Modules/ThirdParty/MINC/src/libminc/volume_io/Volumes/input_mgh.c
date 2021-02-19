@@ -16,6 +16,9 @@
 #endif
 #include "znzlib.h"
 #include "errno.h"
+#ifdef DEBUG
+#include <stdio.h>
+#endif
 
 #define NUM_BYTE_VALUES      (UCHAR_MAX + 1)
 

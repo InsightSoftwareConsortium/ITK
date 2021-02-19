@@ -12,6 +12,9 @@
 #include <math.h>
 #include <stdlib.h>
 #include <limits.h>
+#ifdef _DEBUG
+#include <stdio.h>
+#endif
 
 #include "minc2.h"
 #include "minc2_private.h"

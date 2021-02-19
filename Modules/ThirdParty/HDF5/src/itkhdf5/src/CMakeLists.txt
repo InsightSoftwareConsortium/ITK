@@ -952,7 +952,6 @@ if (NOT EXISTS "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
   TARGET_C_PROPERTIES (H5detect STATIC)
   target_link_libraries (H5detect
       PRIVATE "$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_LIBRARIES}>" $<$<OR:$<PLATFORM_ID:Windows>,$<PLATFORM_ID:MinGW>>:ws2_32.lib>
-      PRIVATE $<$<PLATFORM_ID:Emscripten>:"-O0">
   )
 
   if (HDF5_BATCH_H5DETECT)
@@ -993,7 +992,7 @@ if (NOT EXISTS "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
         OUTPUT ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c
                ${HDF5_GENERATED_SOURCE_DIR}/gen_SRCS.stamp1
         COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5detect>
-        ARGS ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c
+        ARGS > ${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c
         COMMAND    ${CMAKE_COMMAND}
         ARGS       -E touch ${HDF5_GENERATED_SOURCE_DIR}/gen_SRCS.stamp1
         DEPENDS H5detect
@@ -1043,14 +1042,13 @@ target_compile_definitions(H5make_libsettings PUBLIC ${HDF_EXTRA_C_FLAGS} ${HDF_
 TARGET_C_PROPERTIES (H5make_libsettings STATIC)
 target_link_libraries (H5make_libsettings
     PRIVATE "$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_LIBRARIES}>" $<$<OR:$<PLATFORM_ID:Windows>,$<PLATFORM_ID:MinGW>>:ws2_32.lib>
-    PRIVATE $<$<PLATFORM_ID:Emscripten>:"-O0">
 )
 
 add_custom_command (
     OUTPUT ${HDF5_BINARY_DIR}/H5lib_settings.c
            ${HDF5_BINARY_DIR}/gen_SRCS.stamp2
     COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5make_libsettings>
-    ARGS ${HDF5_BINARY_DIR}/H5lib_settings.c
+    ARGS > ${HDF5_BINARY_DIR}/H5lib_settings.c
     COMMAND    ${CMAKE_COMMAND}
     ARGS       -E touch ${HDF5_GENERATED_SOURCE_DIR}/gen_SRCS.stamp2
     DEPENDS H5make_libsettings
