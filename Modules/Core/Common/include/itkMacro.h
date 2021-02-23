@@ -1218,14 +1218,11 @@ compilers.
   kernel                                                                                                               \
   {                                                                                                                    \
   public:                                                                                                              \
+    ITK_DISALLOW_COPY_AND_MOVE(kernel);                                                                                \
+    kernel() = delete;                                                                                                 \
+    ~kernel() = delete;                                                                                                \
     static const char * GetOpenCLSource();                                                                             \
-                                                                                                                       \
-  private:                                                                                                             \
-    kernel();                                                                                                          \
-    virtual ~kernel();                                                                                                 \
-    kernel(const kernel &);                                                                                            \
-    void operator=(const kernel &);                                                                                    \
-  };
+  }
 
 #define itkGetOpenCLSourceFromKernelMacro(kernel)                                                                      \
   static const char * GetOpenCLSource() { return kernel::GetOpenCLSource(); }
