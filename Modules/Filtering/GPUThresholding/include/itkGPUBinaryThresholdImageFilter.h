@@ -85,7 +85,7 @@ private:
 } // end of namespace Functor
 
 /** Create a helper GPU Kernel class for GPUBinaryThresholdImageFilter */
-class itkGPUKernelClassMacro(GPUBinaryThresholdImageFilterKernel);
+itkGPUKernelClassMacro(GPUBinaryThresholdImageFilterKernel);
 
 /**
  * \class GPUBinaryThresholdImageFilter

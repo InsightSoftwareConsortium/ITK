@@ -26,7 +26,7 @@
 namespace itk
 {
 /** Create a helper GPU Kernel class for GPUReduction */
-class itkGPUKernelClassMacro(GPUReductionKernel);
+itkGPUKernelClassMacro(GPUReductionKernel);
 
 /**
  * \class GPUReduction

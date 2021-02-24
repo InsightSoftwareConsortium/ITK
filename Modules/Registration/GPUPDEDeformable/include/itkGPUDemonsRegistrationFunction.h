@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKGPUPDEDeformableRegistration
  */
 /** Create a helper GPU Kernel class for GPUDemonsRegistrationFunction */
-class itkGPUKernelClassMacro(GPUDemonsRegistrationFunctionKernel);
+itkGPUKernelClassMacro(GPUDemonsRegistrationFunctionKernel);
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFunction
