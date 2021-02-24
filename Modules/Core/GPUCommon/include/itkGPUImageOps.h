@@ -23,7 +23,7 @@
 namespace itk
 {
 /** Create a helper GPU Kernel class for GPUImageOps */
-class itkGPUKernelClassMacro(GPUImageOpsKernel);
+itkGPUKernelClassMacro(GPUImageOpsKernel);
 
 /** \class GPUImageOps
  *
