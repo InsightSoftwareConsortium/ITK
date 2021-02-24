@@ -17,6 +17,9 @@
  *=========================================================================*/
 
 #include "itkMetaImageIO.h"
+#include "itkTestingMacros.h"
+#include "itkImage.h"
+#include "itkVectorImage.h"
 
 #include "itkImageIOFactory.h" // required to instantiate an instance of ImageIOBase
 
@@ -259,6 +262,83 @@ itkImageIOBaseTest(int, char *[])
         }
       }
     } // end Test the non-static version of the string <-> type conversions
+  }
+
+  { // Test SetPixelTypeInfo
+    using IOPixelEnum = itk::CommonEnums::IOPixel;
+    using IOComponentEnum = itk::CommonEnums::IOComponent;
+
+    itk::MetaImageIO::Pointer imageIO = itk::MetaImageIO::New();
+
+    imageIO->SetPixelTypeInfo(static_cast<const unsigned char *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 1);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::SCALAR);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
+
+    imageIO->SetPixelTypeInfo(static_cast<const float *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 1);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::SCALAR);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::RGBPixel<unsigned char> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 3);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::RGB);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::RGBAPixel<unsigned char> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 4);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::RGBA);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::Vector<float, 3> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 3);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::VECTOR);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::VariableLengthVector<unsigned char> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 1);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::VARIABLELENGTHVECTOR);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::UCHAR);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::CovariantVector<float, 2> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 2);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::COVARIANTVECTOR);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::SymmetricSecondRankTensor<float, 2> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 3);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::DiffusionTensor3D<double> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 6);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::DIFFUSIONTENSOR3D);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::DOUBLE);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::Matrix<float, 2, 2> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 4);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::MATRIX);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
+
+    imageIO->SetPixelTypeInfo(static_cast<const std::complex<double> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 2);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::COMPLEX);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::DOUBLE);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::Offset<3> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 3);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::OFFSET);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::LONG);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::Array<float> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 1);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::ARRAY);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::FLOAT);
+
+    imageIO->SetPixelTypeInfo(static_cast<const itk::VariableSizeMatrix<double> *>(nullptr));
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetNumberOfComponents(), 1);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetPixelType(), IOPixelEnum::VARIABLESIZEMATRIX);
+    ITK_TEST_EXPECT_EQUAL(imageIO->GetComponentType(), IOComponentEnum::DOUBLE);
   }
   return EXIT_SUCCESS;
 }

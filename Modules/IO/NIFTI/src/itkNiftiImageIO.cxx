@@ -1643,6 +1643,7 @@ NiftiImageIO ::WriteImageInformation()
   {
     case IOPixelEnum::VECTOR: // NOTE: VECTOR is un-rolled by nifti to look like a
                               // multi-dimensional scalar image
+    case IOPixelEnum::VARIABLELENGTHVECTOR:
     case IOPixelEnum::SCALAR:
       break;
     case IOPixelEnum::RGB:
