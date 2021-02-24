@@ -49,7 +49,6 @@
 
 #include <limits>
 #include <memory>
-#include <sstream>
 
 #include "gtest/internal/gtest-port.h"
 
