@@ -3,7 +3,7 @@
 thirdparty_module_name='GoogleTest'
 
 upstream_git_url='https://github.com/google/googletest.git'
-upstream_git_branch='master'
+upstream_git_branch='release-1.10.0'
 
 github_compare=true
 
