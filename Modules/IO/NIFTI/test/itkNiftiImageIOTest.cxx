@@ -141,7 +141,7 @@ itkNiftiImageIOTest(int ac, char * av[])
 
       // The way the test is structured, we cannot know the expected file
       // type, so just print it
-      typename itk::NiftiImageIO::FileType fileType = imageIO->DetermineFileType(fileName.c_str());
+      typename itk::NiftiImageIOEnums::NiftiFileEnum fileType = imageIO->DetermineFileType(fileName.c_str());
       std::cout << "File type: " << fileType << std::endl;
 
       try
