@@ -36,6 +36,7 @@ target_link_libraries(MontageImageCompareCommand ${ITK_LIBRARIES})
 
 
 # add some regression tests
+enable_testing()
 set(TESTING_OUTPUT_PATH "${CMAKE_BINARY_DIR}/Testing/Temporary")
 
 add_test(NAME ResampleMontageBlendingExplanationFromPaper
@@ -131,3 +132,29 @@ set_tests_properties(CompleteMontage3DComparePositions PROPERTIES DEPENDS Comple
 #     --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_DzZ_T1/DzZ_T1_orig.nhdr
 #     --test-image ${TESTING_OUTPUT_PATH}/SampleData_DzZ_T1/CompleteMontage3D.nrrd)
 # set_tests_properties(CompleteMontage3DCompareImage PROPERTIES DEPENDS CompleteMontage3D)
+
+if(ITK_WRAP_PYTHON)
+  find_package(Python3 COMPONENTS Interpreter)
+  file(MAKE_DIRECTORY ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2Python/)
+
+  add_test(NAME CompleteMontage2DPython
+    COMMAND ${Python3_EXECUTABLE}
+      ${CMAKE_CURRENT_LIST_DIR}/SimpleMontage.py
+      ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/
+      ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2Python
+      CompleteMontage2D.nrrd
+      )
+
+  add_test(NAME CompleteMontage2DComparePositionsPython
+    COMMAND CompareTileConfigurations
+      ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/TileConfiguration.registered.txt
+      ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2Python/TileConfiguration.registered.txt)
+  set_tests_properties(CompleteMontage2DComparePositions PROPERTIES DEPENDS CompleteMontage2D)
+  add_test(NAME CompleteMontage2DCompareImagePython
+    COMMAND MontageImageCompareCommand
+      # a lot of tolerances are required because the reconstruction is not perfect
+      --tolerance-radius 1 --tolerance-intensity 16 --tolerance-number-of-pixels 1000
+      --baseline-image ${CMAKE_CURRENT_LIST_DIR}/SampleData_CMUrun2/groundTruth.png
+      --test-image ${TESTING_OUTPUT_PATH}/SampleData_CMUrun2Python/CompleteMontage2D.nrrd)
+  set_tests_properties(CompleteMontage2DCompareImage PROPERTIES DEPENDS CompleteMontage2D)
+endif()
