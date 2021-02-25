@@ -29,6 +29,8 @@
 #include "itkCovariantVector.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkDiffusionTensor3D.h"
+#include "itkArray.h"
+#include "itkVariableSizeMatrix.h"
 #include "itkImageRegionSplitterBase.h"
 #include "itkCommonEnums.h"
 
@@ -577,6 +579,14 @@ public:
     this->SetPixelType(IOPixelEnum::RGBA);
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
+  template <unsigned VLength>
+  void
+  SetPixelTypeInfo(const Offset<VLength> *)
+  {
+    this->SetNumberOfComponents(VLength);
+    this->SetPixelType(IOPixelEnum::OFFSET);
+    this->SetComponentType(IOComponentEnum::LONG);
+  }
   template <typename TPixel, unsigned VLength>
   void
   SetPixelTypeInfo(const Vector<TPixel, VLength> *)
@@ -585,13 +595,13 @@ public:
     this->SetPixelType(IOPixelEnum::VECTOR);
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
-  template <typename TPixel>
+  template <typename TCoordRep, unsigned NPointDimension>
   void
-  SetPixelTypeInfo(const VariableLengthVector<TPixel> *)
+  SetPixelTypeInfo(const Point<TCoordRep, NPointDimension> *)
   {
-    this->SetNumberOfComponents(1);
-    this->SetPixelType(IOPixelEnum::VECTOR);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
+    this->SetNumberOfComponents(NPointDimension);
+    this->SetPixelType(IOPixelEnum::POINT);
+    this->SetComponentType(MapPixelType<TCoordRep>::CType);
   }
   template <typename TPixel, unsigned VLength>
   void
@@ -603,40 +613,20 @@ public:
   }
   template <typename TPixel, unsigned VLength>
   void
-  SetPixelTypeInfo(const FixedArray<TPixel, VLength> *)
-  {
-    this->SetNumberOfComponents(VLength);
-    this->SetPixelType(IOPixelEnum::COVARIANTVECTOR);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
-  }
-
-  template <typename TPixel, unsigned VLength>
-  void
   SetPixelTypeInfo(const SymmetricSecondRankTensor<TPixel, VLength> *)
   {
     this->SetNumberOfComponents(VLength * (VLength + 1) / 2);
     this->SetPixelType(IOPixelEnum::SYMMETRICSECONDRANKTENSOR);
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
-
   template <typename TPixel>
-  inline void
+  void
   SetPixelTypeInfo(const DiffusionTensor3D<TPixel> *)
   {
     this->SetNumberOfComponents(6);
     this->SetPixelType(IOPixelEnum::DIFFUSIONTENSOR3D);
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
-
-  template <typename TPixel, unsigned VLength>
-  void
-  SetPixelTypeInfo(const Matrix<TPixel, VLength, VLength> *)
-  {
-    this->SetNumberOfComponents(VLength * VLength);
-    this->SetPixelType(IOPixelEnum::MATRIX);
-    this->SetComponentType(MapPixelType<TPixel>::CType);
-  }
-
   template <typename TPixel>
   void
   SetPixelTypeInfo(const std::complex<TPixel> *)
@@ -645,15 +635,47 @@ public:
     this->SetPixelType(IOPixelEnum::COMPLEX);
     this->SetComponentType(MapPixelType<TPixel>::CType);
   }
-
-  template <unsigned VLength>
+  template <typename TPixel, unsigned VLength>
   void
-  SetPixelTypeInfo(const Offset<VLength> *)
+  SetPixelTypeInfo(const FixedArray<TPixel, VLength> *)
   {
     this->SetNumberOfComponents(VLength);
-    this->SetPixelType(IOPixelEnum::OFFSET);
-    this->SetComponentType(IOComponentEnum::LONG);
+    this->SetPixelType(IOPixelEnum::FIXEDARRAY);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
   }
+  template <typename TPixel>
+  void
+  SetPixelTypeInfo(const VariableLengthVector<TPixel> *)
+  {
+    this->SetNumberOfComponents(1);
+    this->SetPixelType(IOPixelEnum::VARIABLELENGTHVECTOR);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TValue>
+  void
+  SetPixelTypeInfo(const Array<TValue> *)
+  {
+    this->SetNumberOfComponents(1);
+    this->SetPixelType(IOPixelEnum::ARRAY);
+    this->SetComponentType(MapPixelType<TValue>::CType);
+  }
+  template <typename TPixel, unsigned VLength>
+  void
+  SetPixelTypeInfo(const Matrix<TPixel, VLength, VLength> *)
+  {
+    this->SetNumberOfComponents(VLength * VLength);
+    this->SetPixelType(IOPixelEnum::MATRIX);
+    this->SetComponentType(MapPixelType<TPixel>::CType);
+  }
+  template <typename TValue>
+  void
+  SetPixelTypeInfo(const VariableSizeMatrix<TValue> *)
+  {
+    this->SetNumberOfComponents(1);
+    this->SetPixelType(IOPixelEnum::VARIABLESIZEMATRIX);
+    this->SetComponentType(MapPixelType<TValue>::CType);
+  }
+
 
 protected:
   ImageIOBase();

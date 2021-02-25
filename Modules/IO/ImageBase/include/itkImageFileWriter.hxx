@@ -205,19 +205,12 @@ ImageFileWriter<TInputImage>::Write()
     m_ImageIO->SetMetaDataDictionary(input->GetMetaDataDictionary());
   }
 
-  // Make sure that the image is the right type
-  // confiugure pixel type
+  // Set the pixel and component type; the number of components.
+  m_ImageIO->SetPixelTypeInfo(static_cast<const InputImagePixelType *>(nullptr));
   if (strcmp(input->GetNameOfClass(), "VectorImage") == 0)
   {
-    using VectorImageScalarType = typename InputImageType::InternalPixelType;
-    m_ImageIO->SetPixelTypeInfo(static_cast<const VectorImageScalarType *>(nullptr));
     using AccessorFunctorType = typename InputImageType::AccessorFunctorType;
     m_ImageIO->SetNumberOfComponents(AccessorFunctorType::GetVectorLength(input));
-  }
-  else
-  {
-    // Set the pixel and component type; the number of components.
-    m_ImageIO->SetPixelTypeInfo(static_cast<const InputImagePixelType *>(nullptr));
   }
 
   // Setup the image IO for writing.
