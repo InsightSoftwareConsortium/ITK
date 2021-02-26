@@ -116,7 +116,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(MultiphaseDenseFiniteDifferenceImageFilter, ImageToImageFilter);
+  itkTypeMacro(MultiphaseDenseFiniteDifferenceImageFilter, MultiphaseFiniteDifferenceImageFilter);
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
