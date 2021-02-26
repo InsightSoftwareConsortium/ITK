@@ -105,8 +105,12 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(
-    filter, MultiphaseSparseFiniteDifferenceImageFilterTestHelper, MultiphaseFiniteDifferenceImageFilter);
+  // Instantiate the filter of interest to exercise its basic object methods
+  typename FilterType::Superclass::Pointer multiphaseSparseFiniteDiffFilter = FilterType::Superclass::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(multiphaseSparseFiniteDiffFilter,
+                                    MultiphaseSparseFiniteDifferenceImageFilter,
+                                    MultiphaseFiniteDifferenceImageFilter);
 
 
   // Exercise the class Set/Get methods to increase coverage
@@ -122,13 +126,6 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
 
   bool interpolateSurfaceLocation = true;
   ITK_TEST_SET_GET_BOOLEAN(filter, InterpolateSurfaceLocation, interpolateSurfaceLocation);
-
-  ValueType valueZero = itk::NumericTraits<ValueType>::ZeroValue();
-  ITK_TEST_SET_GET_VALUE(valueZero, filter->GetValueZero());
-
-  ValueType valueOne = itk::NumericTraits<ValueType>::OneValue();
-
-  ITK_TEST_SET_GET_VALUE(valueOne, filter->GetValueOne());
 
 
   std::cout << "Test finished." << std::endl;
