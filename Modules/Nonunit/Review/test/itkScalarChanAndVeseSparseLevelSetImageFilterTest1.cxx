@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkScalarChanAndVeseSparseLevelSetImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkScalarChanAndVeseSparseLevelSetImageFilterTest1(int, char *[])
@@ -50,8 +51,10 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest1(int, char *[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
-  filter->Print(std::cout);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, ScalarChanAndVeseSparseLevelSetImageFilter, MultiphaseSparseFiniteDifferenceImageFilter);
 
+
+  std::cout << "Test finished. " << std::endl;
   return EXIT_SUCCESS;
 }

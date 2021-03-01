@@ -18,17 +18,16 @@
 
 #include "itkHausdorffDistanceImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkHausdorffDistanceImageFilterTest(int, char *[])
 {
 
+  constexpr unsigned int ImageDimension = 3;
+
   using Pixel1Type = unsigned int;
   using Pixel2Type = float;
-  enum
-  {
-    ImageDimension = 3
-  };
 
   using Image1Type = itk::Image<Pixel1Type, ImageDimension>;
   using Image2Type = itk::Image<Pixel2Type, ImageDimension>;
@@ -80,8 +79,10 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     ++it2;
   }
 
-  int exit_status = EXIT_SUCCESS; // If no failures detected, then EXIT_SUCCESS
-  // compute the directed Hausdorff distance h(image1,image2)
+  // If no failures detected, then EXIT_SUCCESS
+  int exit_status = EXIT_SUCCESS;
+
+  // Compute the directed Hausdorff distance h(image1,image2)
   {
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image1Type, Image2Type>;
     FilterType::Pointer      filter = FilterType::New();
@@ -90,9 +91,8 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     filter->SetInput1(image1);
     filter->SetInput2(image2);
     filter->Update();
-    filter->Print(std::cout);
 
-    // check results
+    // Check results
     const FilterType::RealType trueDistance = 10 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
@@ -111,7 +111,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     }
   }
 
-  // compute the directed Hausdorff distance h(image2,image1)
+  // Compute the directed Hausdorff distance h(image2,image1)
   {
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image2Type, Image1Type>;
     FilterType::Pointer filter = FilterType::New();
@@ -120,7 +120,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     filter->SetInput2(image1);
     filter->Update();
 
-    // check results
+    // Check results
     const FilterType::RealType trueDistance = 5 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetDirectedHausdorffDistance();
 
@@ -140,16 +140,19 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     }
   }
 
-  // compute the Hausdorff distance H(image1,image2)
+  // Compute the Hausdorff distance H(image1,image2)
   {
     using FilterType = itk::HausdorffDistanceImageFilter<Image1Type, Image2Type>;
     FilterType::Pointer filter = FilterType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, HausdorffDistanceImageFilter, ImageToImageFilter);
+
 
     filter->SetInput1(image1);
     filter->SetInput2(image2);
     filter->Update();
 
-    // check results
+    // Check results
     const FilterType::RealType trueDistance = 10 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetHausdorffDistance();
 
@@ -169,7 +172,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     }
   }
 
-  // compute the Hausdorff distance H(image2,image1)
+  // Compute the Hausdorff distance H(image2,image1)
   {
     using FilterType = itk::HausdorffDistanceImageFilter<Image2Type, Image1Type>;
     FilterType::Pointer filter = FilterType::New();
@@ -178,7 +181,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     filter->SetInput2(image1);
     filter->Update();
 
-    // check results
+    // Check results
     const FilterType::RealType trueDistance = 10 * std::sqrt(static_cast<double>(ImageDimension));
     const FilterType::RealType distance = filter->GetHausdorffDistance();
 
@@ -198,7 +201,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     }
   }
 
-  // compute the Hausdorff distance H(image2,image1)
+  // Compute the Hausdorff distance H(image2,image1)
   {
     Image1Type::SpacingType spacing1 = image1->GetSpacing();
     spacing1[0] = spacing1[0] / 2;
@@ -210,6 +213,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     spacing2[1] = spacing2[1] / 2;
     spacing2[2] = spacing2[2] / 2;
     image2->SetSpacing(spacing2);
+
     using FilterType = itk::HausdorffDistanceImageFilter<Image2Type, Image1Type>;
     FilterType::Pointer filter = FilterType::New();
 
@@ -218,7 +222,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     filter->SetUseImageSpacing(true);
     filter->Update();
 
-    // check results
+    // Check results
     const FilterType::RealType trueDistance =
       10 * std::sqrt(spacing1[0] * spacing1[0] + spacing1[1] * spacing1[1] + spacing1[2] * spacing1[2]);
     const FilterType::RealType trueAverageDistance = 4.5 * spacing1[0];
