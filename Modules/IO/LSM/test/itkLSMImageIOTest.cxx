@@ -49,7 +49,6 @@ itkLSMImageIOTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(lsmImageIO, LSMImageIO, TIFFImageIO);
 
-
   reader->SetImageIO(lsmImageIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -59,10 +58,10 @@ itkLSMImageIOTest(int argc, char * argv[])
 
   lsmImageIO->Read(buffer);
 
-
   const char * outputFileName = argv[2];
   lsmImageIO->SetFileName(outputFileName);
-  lsmImageIO->Write(buffer);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(lsmImageIO->Write(buffer));
 
   using WriterType = itk::ImageFileWriter<InputImageType>;
   WriterType::Pointer writer = WriterType::New();
@@ -71,6 +70,7 @@ itkLSMImageIOTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+  delete[] buffer;
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
