@@ -114,16 +114,10 @@ template <typename TInputImage1, typename TInputImage2>
 void
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-
-  // Resize the thread temporaries
-  m_MaxDistance.SetSize(numberOfThreads);
-  m_PixelCount.SetSize(numberOfThreads);
-  m_Sum.resize(numberOfThreads);
-
-  // Initialize the temporaries
-  m_MaxDistance.Fill(NumericTraits<RealType>::ZeroValue());
-  m_PixelCount.Fill(0);
+  // initialize accumulators
+  m_MaxDistance = NumericTraits<RealType>::ZeroValue();
+  m_PixelCount = 0;
+  m_Sum = 0;
 
   // Compute distance from non-zero pixels in the second image
   using FilterType = itk::SignedMaurerDistanceMapImageFilter<InputImage2Type, DistanceMapType>;
@@ -141,33 +135,17 @@ template <typename TInputImage1, typename TInputImage2>
 void
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
-  m_DirectedHausdorffDistance = NumericTraits<RealType>::ZeroValue();
-
-  RealType       sum = NumericTraits<RealType>::ZeroValue();
-  IdentifierType pixelcount = 0;
-
-  // find max over all threads
-  for (ThreadIdType i = 0; i < numberOfThreads; i++)
+  if (m_PixelCount != 0)
   {
-    if (m_MaxDistance[i] > m_DirectedHausdorffDistance)
-    {
-      m_DirectedHausdorffDistance = m_MaxDistance[i];
-    }
-    pixelcount += m_PixelCount[i];
-    sum += m_Sum[i].GetSum();
-  }
-
-  if (pixelcount != 0)
-  {
-    m_AverageHausdorffDistance = sum / static_cast<RealType>(pixelcount);
+    m_AverageHausdorffDistance = m_Sum.GetSum() / static_cast<RealType>(m_PixelCount);
   }
   else
   {
     itkGenericExceptionMacro(<< "pixelcount is equal to 0");
   }
 
+  m_DirectedHausdorffDistance = m_MaxDistance;
   // clean up
   m_DistanceMap = nullptr;
 }
@@ -181,6 +159,10 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGenera
   ImageRegionConstIterator<TInputImage1>    it1(this->GetInput1(), regionForThread);
   ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, regionForThread);
 
+  RealType                 maxDistance = NumericTraits<RealType>::ZeroValue();
+  CompensatedSummationType sum = 0.0;
+  IdentifierType           pixelCount = 0;
+
   // support progress methods/callbacks
   ProgressReporter progress(this, threadId, regionForThread.GetNumberOfPixels());
 
@@ -191,15 +173,10 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGenera
     {
       // The signed distance map is calculated, but we want the calculation based on the
       // unsigned distance map.  Therefore, we set all distance map values less than 0 to 0.
-      const RealType val2 = (static_cast<RealType>(it2.Get()) < NumericTraits<RealType>::ZeroValue())
-                              ? NumericTraits<RealType>::ZeroValue()
-                              : static_cast<RealType>(it2.Get());
-      if (val2 > m_MaxDistance[threadId])
-      {
-        m_MaxDistance[threadId] = val2;
-      }
-      m_PixelCount[threadId]++;
-      m_Sum[threadId].AddElement(val2);
+      const RealType val2 = std::max(static_cast<RealType>(it2.Get()), NumericTraits<RealType>::ZeroValue());
+      maxDistance = std::max(maxDistance, val2);
+      sum += val2;
+      ++pixelCount;
     }
 
     ++it1;
@@ -207,6 +184,10 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGenera
 
     progress.CompletedPixel();
   }
+  std::lock_guard<std::mutex> mutexHolder(m_Mutex);
+  m_MaxDistance = std::max(m_MaxDistance, maxDistance);
+  m_Sum += sum;
+  m_PixelCount += pixelCount;
 }
 
 template <typename TInputImage1, typename TInputImage2>
@@ -220,11 +201,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std:
   os << indent << "DistanceMap: " << m_DistanceMap << std::endl;
   os << indent << "MaxDistance: " << m_MaxDistance << std::endl;
   os << indent << "PixelCount:" << m_PixelCount << std::endl;
-  os << indent << "Sum: ";
-  for (auto const & elem : m_Sum)
-  {
-    std::cout << elem.GetSum() << " ";
-  }
+  os << indent << "Sum: " << m_Sum.GetSum();
+
   os << std::endl;
   os << indent << "DirectedHausdorffDistance: "
      << static_cast<typename NumericTraits<RealType>::PrintType>(m_DirectedHausdorffDistance) << std::endl;
