@@ -20,6 +20,7 @@
 
 #include <algorithm>
 
+#include "itkConstantBoundaryCondition.h"
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkTotalProgressReporter.h"
 #include "itkContourExtractor2DImageFilter.h"
@@ -103,13 +104,23 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
   // with the center pixel at the top-left. So we only activate the
   // coresponding offsets, and only query pixels 4, 5, 7, and 8 with the
   // iterator's GetPixel method.
-  using SquareIterator = ConstShapedNeighborhoodIterator<InputImageType>;
+
+  using BoundaryConditionType = ConstantBoundaryCondition<InputImageType, InputImageType>;
+  BoundaryConditionType boundaryCondition;
+  boundaryCondition.SetConstant(lowerIsovalue); // a value distinct from the current label
+
+  using SquareIterator = ConstShapedNeighborhoodIterator<InputImageType, BoundaryConditionType>;
   const typename SquareIterator::RadiusType radius{ { 1, 1 } };
   SquareIterator                            it(radius, image, shrunkRegion);
-  const InputOffsetType                     none{ { 0, 0 } };
-  const InputOffsetType                     right{ { 1, 0 } };
-  const InputOffsetType                     down{ { 0, 1 } };
-  const InputOffsetType                     diag{ { 1, 1 } };
+
+  // it.SetBoundaryCondition(boundaryCondition); // doesn't compile
+  auto nit = static_cast<NeighborhoodIterator<InputImageType, BoundaryConditionType> *>((void *)&it);
+  nit->SetBoundaryCondition(boundaryCondition);
+
+  const InputOffsetType none{ { 0, 0 } };
+  const InputOffsetType right{ { 1, 0 } };
+  const InputOffsetType down{ { 0, 1 } };
+  const InputOffsetType diag{ { 1, 1 } };
   it.ActivateOffset(none);
   it.ActivateOffset(right);
   it.ActivateOffset(down);
@@ -355,47 +366,6 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     const InputPixelType label{ allLabels[i] };
     const InputRealType  previousLabel = i > 0 ? allLabels[i - 1] : label - 1;
     const InputRealType  followingLabel = i < allLabels.size() - 1 ? allLabels[i + 1] : label + 1;
-
-    // Use the bounding box for this label
-    const BoundingBox &  bbox{ bboxes[label] };
-    const IndexType      min = bbox.first;
-    const IndexType      max = bbox.second;
-    const InputPixelType differentLabel = previousLabel;
-
-    // Set boundary values in largerRegion to be distinct from label if they will be looked at.
-    if (min[0] == left_top[0])
-    {
-      const IndexType        stripeIndex{ min[0] - 1, min[1] - 1 };
-      const SizeType         stripeSize{ 1, static_cast<SizeValueType>(max[1] - min[1] + 3) };
-      const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
-      const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
-    }
-    if (min[1] == left_top[1])
-    {
-      const IndexType        stripeIndex{ min[0] - 1, min[1] - 1 };
-      const SizeType         stripeSize{ static_cast<SizeValueType>(max[0] - min[0] + 3), 1 };
-      const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
-      const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
-    }
-    if (max[0] == right_bot[0])
-    {
-      const IndexType        stripeIndex{ max[0] + 1, min[1] - 1 };
-      const SizeType         stripeSize{ 1, static_cast<SizeValueType>(max[1] - min[1] + 3) };
-      const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
-      const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
-    }
-    if (max[1] == right_bot[1])
-    {
-      const IndexType        stripeIndex{ min[0] - 1, max[1] + 1 };
-      const SizeType         stripeSize{ static_cast<SizeValueType>(max[0] - min[0] + 3), 1 };
-      const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
-      const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
-    }
-
     // this does not work if labels are floats such as 0.1, 0.23, 0.31, 0.7, etc.
     // this->CreateSingleContour(largerImage, labelsRegions[label], label - 0.5, label + 0.5, totalPixelCount);
 
