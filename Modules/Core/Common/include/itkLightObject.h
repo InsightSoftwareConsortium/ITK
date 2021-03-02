@@ -78,7 +78,12 @@ public:
   virtual Pointer
   CreateAnother() const;
 
-  itkCloneMacro(Self);
+  /** Creates and returns a clone of this object. */
+  Pointer
+  Clone() const
+  {
+    return this->InternalClone();
+  }
 
   /** Delete an itk object.  This method should always be used to delete an
    * object when the new operator was used to create it. Using the C
