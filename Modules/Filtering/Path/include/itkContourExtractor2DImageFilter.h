@@ -196,7 +196,7 @@ protected:
   /** Subroutine to create contours for a single label. */
   void
   CreateSingleContour(const InputImageType * image,
-                      InputRegionType        region,
+                      InputRegionType        shrunkRegion,
                       InputRealType          lowerIsovalue,
                       InputRealType          upperIsovalue,
                       SizeValueType          totalNumberOfPixels);
@@ -324,6 +324,8 @@ private:
 
   // The number of labels we have yet to write outputs for
   unsigned int m_NumberLabelsRemaining;
+
+  bool m_Interpolate = false; // whether contour positions will be interpolated (yes for single, no for LabelContours)
 };
 } // end namespace itk
 
