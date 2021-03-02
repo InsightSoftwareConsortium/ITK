@@ -24,6 +24,7 @@
 #include <unordered_map>
 #include <deque>
 #include <list>
+#include <atomic>
 
 namespace itk
 {
@@ -192,10 +193,13 @@ protected:
   void
   GenerateData() override;
 
-  /** Subroutine to handle the case that the supplied values are
-   * intensities to be compared to a contour value. */
+  /** Subroutine to create contours for a single label. */
   void
-  GenerateDataForIntensities();
+  CreateSingleContour(const InputImageType * image,
+                      InputRegionType        region,
+                      InputRealType          lowerIsovalue,
+                      InputRealType          upperIsovalue,
+                      SizeValueType          totalNumberOfPixels);
 
   /** Subroutine to handle the case that the supplied values are
    * labels, which are *not* compared to a contour value. */
@@ -215,19 +219,14 @@ private:
                              InputIndexType  fromIndex,
                              InputOffsetType toOffset);
 
-  void
-  AddSegment(const VertexType from, const VertexType to);
 
-  void
-  FillOutputs();
-
-  InputRealType   m_ContourValue;
-  bool            m_ReverseContourOrientation;
-  bool            m_VertexConnectHighPixels;
-  bool            m_LabelContours;
-  bool            m_UseCustomRegion;
-  InputRegionType m_RequestedRegion;
-  unsigned int    m_NumberOfContoursCreated;
+  InputRealType    m_ContourValue;
+  bool             m_ReverseContourOrientation;
+  bool             m_VertexConnectHighPixels;
+  bool             m_LabelContours;
+  bool             m_UseCustomRegion;
+  InputRegionType  m_RequestedRegion;
+  std::atomic_uint m_NumberOfContoursCreated;
 
   // Represent each contour as deque of vertices to facilitate addition of
   // nodes at beginning or end. At the end of the processing, we will copy
@@ -307,12 +306,15 @@ private:
   using VertexMapIterator = typename VertexToContourMap::iterator;
   using VertexContourRefPair = typename VertexToContourMap::value_type;
 
-  // The contours we find in the image are stored here
-  ContourContainer m_Contours;
+  void
+  AddSegment(const VertexType     from,
+             const VertexType     to,
+             ContourContainer &   contours,
+             VertexToContourMap & contourStarts,
+             VertexToContourMap & contourEnds);
 
-  // And indexed by their beginning and ending points here
-  VertexToContourMap m_ContourStarts;
-  VertexToContourMap m_ContourEnds;
+  void
+  FillOutputs(ContourContainer & contours, VertexToContourMap & contourStarts, VertexToContourMap & contourEnds);
 
   // The number of outputs we have allocated capacity for
   unsigned int m_NumberOutputsAllocated;
