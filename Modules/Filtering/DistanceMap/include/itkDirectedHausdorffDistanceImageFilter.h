@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkArray.h"
 #include "itkCompensatedSummation.h"
+#include <mutex>
 
 namespace itk
 {
@@ -184,15 +185,17 @@ private:
 
   DistanceMapPointer m_DistanceMap;
 
-  Array<RealType>       m_MaxDistance;
-  Array<IdentifierType> m_PixelCount;
+  RealType       m_MaxDistance;
+  IdentifierType m_PixelCount;
 
   using CompensatedSummationType = itk::CompensatedSummation<RealType>;
-  std::vector<CompensatedSummationType> m_Sum;
+  CompensatedSummationType m_Sum;
 
   RealType m_DirectedHausdorffDistance;
   RealType m_AverageHausdorffDistance;
   bool     m_UseImageSpacing;
+
+  std::mutex m_Mutex;
 }; // end of class
 } // end namespace itk
 
