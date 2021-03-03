@@ -44,8 +44,7 @@ template <typename TInputImage>
 void
 ContourExtractor2DImageFilter<TInputImage>::GenerateData()
 {
-  m_NumberOutputsAllocated = 0;
-  m_NumberOutputsWritten = 0;
+  m_Paths.clear();
 
   if (m_LabelContours) // each label has one or more contours
   {
@@ -53,7 +52,6 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateData()
   }
   else // simple case of a single iso-value
   {
-    m_NumberLabelsRemaining = 1;
     m_Interpolate = true;
     const InputRegionType region{ this->GetInput()->GetRequestedRegion() };
 
@@ -69,9 +67,21 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateData()
                               shrunkRegion.GetNumberOfPixels());
   }
 
-  if (m_NumberOutputsWritten != m_NumberOutputsAllocated)
+
+  SizeValueType outputCount = 0;
+  for (auto const & pathIt : m_Paths)
   {
-    this->SetNumberOfIndexedOutputs(m_NumberOutputsWritten);
+    outputCount += pathIt.second.size();
+  }
+  this->SetNumberOfIndexedOutputs(outputCount);
+
+  outputCount = 0;
+  for (auto const & pathIt : m_Paths) // hashmap
+  {
+    for (auto const & path : pathIt.second) // vector
+    {
+      this->SetNthOutput(outputCount++, path);
+    }
   }
 }
 
@@ -85,6 +95,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
                                                                 SizeValueType          totalNumberOfPixels)
 {
   ContourData contourData;
+  contourData.m_Isovalue = lowerIsovalue * 0.5 + upperIsovalue * 0.5;
 
   TotalProgressReporter progress(this, totalNumberOfPixels);
 
@@ -301,7 +312,6 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     const typename std::vector<InputPixelType>::const_iterator last{ std::unique(allLabels.begin(), allLabels.end()) };
     allLabels.erase(last, allLabels.end());
   }
-  m_NumberLabelsRemaining = allLabels.size(); // We haven't processed any yet
 
   // Compute bounding box for each label.  These will be [inclusive, inclusive] ranges in each coordinate, not
   // [inclusive, exclusive).
@@ -361,20 +371,25 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 
   m_Interpolate = false;
 
-  for (SizeValueType i = 0; i < allLabels.size(); i++)
-  {
-    const InputPixelType label{ allLabels[i] };
-    const InputRealType  previousLabel = i > 0 ? allLabels[i - 1] : label - 1;
-    const InputRealType  followingLabel = i < allLabels.size() - 1 ? allLabels[i + 1] : label + 1;
-    // this does not work if labels are floats such as 0.1, 0.23, 0.31, 0.7, etc.
-    // this->CreateSingleContour(largerImage, labelsRegions[label], label - 0.5, label + 0.5, totalPixelCount);
+  itk::MultiThreaderBase::Pointer mt = this->GetMultiThreader();
+  mt->ParallelizeArray(
+    0,
+    allLabels.size(),
+    [this, &allLabels, largerImage, &labelsRegions, totalPixelCount](SizeValueType i) {
+      const InputPixelType label{ allLabels[i] };
+      const InputRealType  previousLabel = i > 0 ? allLabels[i - 1] : label - 1;
+      const InputRealType  followingLabel = i < allLabels.size() - 1 ? allLabels[i + 1] : label + 1;
 
-    this->CreateSingleContour(largerImage,
-                              labelsRegions[label],
-                              0.5 * previousLabel + 0.5 * label,
-                              0.5 * label + 0.5 * followingLabel,
-                              totalPixelCount);
-  }
+      // this does not work if labels are floats such as 0.1, 0.23, 0.31, 0.7, etc.
+      // this->CreateSingleContour(largerImage, labelsRegions[label], label - 0.5, label + 0.5, totalPixelCount);
+
+      this->CreateSingleContour(largerImage,
+                                labelsRegions[label],
+                                0.5 * previousLabel + 0.5 * label,
+                                0.5 * label + 0.5 * followingLabel,
+                                totalPixelCount);
+    },
+    nullptr);
 }
 
 
@@ -555,25 +570,10 @@ template <typename TInputImage>
 void
 ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourData & contourData)
 {
-  --m_NumberLabelsRemaining;
-  if (m_NumberOutputsWritten + contourData.m_Contours.size() > m_NumberOutputsAllocated)
+  for (auto it = contourData.m_Contours.begin(); it != contourData.m_Contours.end(); ++it)
   {
-    // We do not have enough capacity; increase capacity to what we need,
-    // plus a guess of one contour for each unprocessed label.
-    m_NumberOutputsAllocated = m_NumberOutputsWritten + contourData.m_Contours.size() + m_NumberLabelsRemaining;
-    this->SetNumberOfIndexedOutputs(m_NumberOutputsAllocated);
-  }
+    OutputPathPointer output = dynamic_cast<OutputPathType *>(this->MakeOutput(0).GetPointer());
 
-  for (auto it = contourData.m_Contours.begin(); it != contourData.m_Contours.end(); ++it, ++m_NumberOutputsWritten)
-  {
-    OutputPathPointer output{ this->GetOutput(m_NumberOutputsWritten) };
-    if (output.IsNull())
-    {
-      // Dynamic cast is OK because we know PathSource will make its templated
-      // class type
-      output = dynamic_cast<OutputPathType *>(this->MakeOutput(m_NumberOutputsWritten).GetPointer());
-      this->SetNthOutput(m_NumberOutputsWritten, output.GetPointer());
-    }
     typename VertexListType::Pointer path{ const_cast<VertexListType *>(output->GetVertexList()) };
     path->Initialize();
     // use std::vector version of 'reserve()' instead of
@@ -602,7 +602,9 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourData & contourDat
         ++itC;
       }
     }
-    output->Modified();
+
+    std::lock_guard<std::mutex> pathProtector(m_PathsMutex);
+    m_Paths[contourData.m_Isovalue].push_back(output);
   }
 }
 

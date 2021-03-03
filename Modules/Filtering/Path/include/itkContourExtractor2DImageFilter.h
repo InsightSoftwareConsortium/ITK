@@ -24,6 +24,7 @@
 #include <unordered_map>
 #include <deque>
 #include <list>
+#include <mutex>
 
 namespace itk
 {
@@ -310,6 +311,7 @@ private:
     VertexToContourMap m_ContourStarts;
     VertexToContourMap m_ContourEnds;
     SizeValueType      m_NumberOfContoursCreated = 0;
+    InputRealType      m_Isovalue = 0;
   };
 
   void
@@ -318,16 +320,12 @@ private:
   void
   FillOutputs(ContourData & contourData);
 
-  // The number of outputs we have allocated capacity for
-  unsigned int m_NumberOutputsAllocated;
-
-  // The number of outputs we have written out so far
-  unsigned int m_NumberOutputsWritten;
-
-  // The number of labels we have yet to write outputs for
-  unsigned int m_NumberLabelsRemaining;
-
   bool m_Interpolate = false; // whether contour positions will be interpolated (yes for single, no for LabelContours)
+
+  // to allow outputting paths in sorted order after parallel computation
+  std::map<InputRealType, std::vector<OutputPathPointer>> m_Paths;
+
+  std::mutex m_PathsMutex; // to prevent simultanous write access to path map
 };
 } // end namespace itk
 
