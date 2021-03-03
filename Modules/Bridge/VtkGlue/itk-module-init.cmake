@@ -51,7 +51,8 @@ set(_required_vtk_libraries
   ${_target_prefix}ImagingSources
   )
 if(ITK_WRAP_PYTHON)
-  list(APPEND _required_vtk_libraries ${_target_prefix}WrappingPythonCore)
+  list(APPEND _required_vtk_libraries ${_target_prefix}WrappingPythonCore
+    ${_target_prefix}CommonCore ${_target_prefix}CommonDataModel ${_target_prefix}kwiml ${_target_prefix}CommonExecutionModel)
 endif()
 if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   list(APPEND _required_vtk_libraries
