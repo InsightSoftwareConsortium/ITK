@@ -322,6 +322,9 @@ private:
   ReadAIMHeader(std::ifstream * file, unsigned long bytesRead);
 
   void
+  PopulateMetaDataDictionary();
+
+  void
   WriteISQHeader(std::ofstream * file);
 
   // Header information
