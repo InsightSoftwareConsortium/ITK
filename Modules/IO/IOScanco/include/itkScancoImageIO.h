@@ -152,7 +152,7 @@ public:
   void
   SetVersion(const char * version)
   {
-    strcpy(this->m_Version, version);
+    strncpy(this->m_Version, version, 18);
     this->Modified();
   }
 
@@ -222,9 +222,9 @@ public:
     return this->m_PatientName;
   }
   void
-  SetPatientName(const char * version)
+  SetPatientName(const char * patientName)
   {
-    strcpy(this->m_PatientName, version);
+    strncpy(this->m_PatientName, patientName, 42);
     this->Modified();
   }
 
@@ -234,9 +234,9 @@ public:
     return this->m_CreationDate;
   }
   void
-  SetCreationDate(const char * version)
+  SetCreationDate(const char * creationDate)
   {
-    strcpy(this->m_CreationDate, version);
+    strncpy(this->m_CreationDate, creationDate, 32);
     this->Modified();
   }
 
@@ -246,9 +246,9 @@ public:
     return this->m_ModificationDate;
   }
   void
-  SetModificationDate(const char * version)
+  SetModificationDate(const char * modificationDate)
   {
-    strcpy(this->m_ModificationDate, version);
+    strncpy(this->m_ModificationDate, modificationDate, 32);
     this->Modified();
   }
 
@@ -361,6 +361,8 @@ private:
 
   // The compression mode, if any.
   int m_Compression;
+
+  bool m_HeaderInitialized = false;
 
   SizeValueType m_HeaderSize{ 0 };
 };
