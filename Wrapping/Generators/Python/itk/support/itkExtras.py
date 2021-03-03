@@ -257,8 +257,10 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
             ImageType = ttype
         if type(itk.template(ImageType)) != tuple or len(itk.template(ImageType)) < 2:
             raise RuntimeError("Cannot determine pixel type from supplied ttype.")
-        is_vector = type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType or \
-                itk.template(ImageType)[0] == itk.VectorImage
+        is_vector = (
+            type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType
+            or itk.template(ImageType)[0] == itk.VectorImage
+        )
     else:
         PixelType = _get_itk_pixelid(arr)
         Dimension = arr.ndim
@@ -601,7 +603,12 @@ def range(image_or_filter):
     return image_intensity_min_max(image_or_filter)
 
 
-def imwrite(image_or_filter, filename: fileiotype, compression: bool = False, imageio: Optional[Any] = None) -> None:
+def imwrite(
+    image_or_filter,
+    filename: fileiotype,
+    compression: bool = False,
+    imageio: Optional[Any] = None,
+) -> None:
     """Write a image or the output image of a filter to a file.
 
     Parameters
@@ -639,8 +646,11 @@ def imwrite(image_or_filter, filename: fileiotype, compression: bool = False, im
 
 
 def imread(
-    filename: fileiotype, pixel_type: Optional[Any] = None, fallback_only: bool
-    = False, imageio: Optional[Any] = None):
+    filename: fileiotype,
+    pixel_type: Optional[Any] = None,
+    fallback_only: bool = False,
+    imageio: Optional[Any] = None,
+):
     """Read an image from a file or series of files and return an itk.Image.
 
     Parameters
