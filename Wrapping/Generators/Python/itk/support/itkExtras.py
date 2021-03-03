@@ -448,8 +448,15 @@ def xarray_from_image(l_image):
         dims.append("c")
         coords["c"] = np.arange(components, dtype=np.uint32)
 
+    direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
+    attrs = {"direction": direction}
+    metadata = dict(l_image)
+    ignore_keys = set(['direction', 'origin', 'spacing'])
+    for key in metadata:
+        if not key in ignore_keys:
+            attrs[key] = metadata[key]
     data_array = xr.DataArray(
-        array_view, dims=dims, coords=coords, attrs={"direction": direction}
+        array_view, dims=dims, coords=coords, attrs=attrs
     )
     return data_array
 
@@ -498,6 +505,10 @@ def image_from_xarray(data_array):
     if "direction" in data_array.attrs:
         direction = data_array.attrs["direction"]
         itk_image.SetDirection(np.flip(direction))
+    ignore_keys = set(['direction', 'origin', 'spacing'])
+    for key in data_array.attrs:
+        if not key in ignore_keys:
+            itk_image[key] = data_array.attrs[key]
 
     return itk_image
 

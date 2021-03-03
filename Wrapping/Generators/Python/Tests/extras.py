@@ -435,6 +435,7 @@ try:
     sine = np.sin(theta)
     rotation = np.array(((cosine, -sine), (sine, cosine)))
     image.SetDirection(rotation)
+    image["MyMeta"] = 4.0
 
     data_array = itk.xarray_from_image(image)
     assert data_array.dims[0] == "y"
@@ -454,6 +455,7 @@ try:
     assert data_array.attrs["direction"][0, 1] == sine
     assert data_array.attrs["direction"][1, 0] == -sine
     assert data_array.attrs["direction"][1, 1] == cosine
+    assert data_array.attrs["MyMeta"] == 4.0
 
     round_trip = itk.image_from_xarray(data_array)
     assert np.array_equal(itk.array_from_image(round_trip), itk.array_from_image(image))
@@ -468,6 +470,7 @@ try:
     assert np.isclose(direction(0, 1), -sine)
     assert np.isclose(direction(1, 0), sine)
     assert np.isclose(direction(1, 1), cosine)
+    assert round_trip["MyMeta"] == 4.0
 
     wrong_order = data_array.swap_dims({"y": "z"})
     try:
