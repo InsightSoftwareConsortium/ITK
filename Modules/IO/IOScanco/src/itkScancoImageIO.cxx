@@ -36,6 +36,7 @@
 #include "itkMath.h"
 #include "itkIntTypes.h"
 #include "itkByteSwapper.h"
+#include "itkMetaDataObject.h"
 
 #include <algorithm>
 #include <ctime>
@@ -1019,6 +1020,44 @@ ScancoImageIO::ReadImageInformation()
     this->m_RescaleSlope = 1000.0 / (this->m_MuWater * this->m_MuScaling);
     this->m_RescaleIntercept = -1000.0;
   }
+
+  this->PopulateMetaDataDictionary();
+}
+
+void
+ScancoImageIO::PopulateMetaDataDictionary()
+{
+  MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+  EncapsulateMetaData<std::string>(thisDic, "Version", std::string(this->m_Version));
+  EncapsulateMetaData<std::string>(thisDic, "PatientName", std::string(this->m_PatientName));
+  EncapsulateMetaData<int>(thisDic, "PatientIndex", this->m_PatientIndex);
+  EncapsulateMetaData<int>(thisDic, "ScannerID", this->m_ScannerID);
+  EncapsulateMetaData<std::string>(thisDic, "CreationDate", std::string(this->m_CreationDate));
+  EncapsulateMetaData<std::string>(thisDic, "ModificationDate", std::string(this->m_ModificationDate));
+  EncapsulateMetaData<double>(thisDic, "SliceThickness", this->m_SliceThickness);
+  EncapsulateMetaData<double>(thisDic, "SliceIncrement", this->m_SliceIncrement);
+  std::vector<double> dataRange(2);
+  dataRange[0] = this->m_DataRange[0];
+  dataRange[1] = this->m_DataRange[1];
+  EncapsulateMetaData<std::vector<double>>(thisDic, "DataRange", dataRange);
+  EncapsulateMetaData<double>(thisDic, "MuScaling", this->m_MuScaling);
+  EncapsulateMetaData<int>(thisDic, "NumberOfSamples", this->m_NumberOfSamples);
+  EncapsulateMetaData<int>(thisDic, "NumberOfProjections", this->m_NumberOfProjections);
+  EncapsulateMetaData<double>(thisDic, "ScanDistance", this->m_ScanDistance);
+  EncapsulateMetaData<double>(thisDic, "SampleTime", this->m_SampleTime);
+  EncapsulateMetaData<int>(thisDic, "ScannerType", this->m_ScannerType);
+  EncapsulateMetaData<int>(thisDic, "MeasurementIndex", this->m_MeasurementIndex);
+  EncapsulateMetaData<int>(thisDic, "Site", this->m_Site);
+  EncapsulateMetaData<int>(thisDic, "ReconstructionAlg", this->m_ReconstructionAlg);
+  EncapsulateMetaData<double>(thisDic, "ReferenceLine", this->m_ReferenceLine);
+  EncapsulateMetaData<double>(thisDic, "Energy", this->m_Energy);
+  EncapsulateMetaData<double>(thisDic, "Intensity", this->m_Intensity);
+  EncapsulateMetaData<int>(thisDic, "RescaleType", this->m_RescaleType);
+  EncapsulateMetaData<std::string>(thisDic, "RescaleUnits", std::string(this->m_RescaleUnits));
+  EncapsulateMetaData<std::string>(thisDic, "CalibrationData", std::string(this->m_CalibrationData));
+  EncapsulateMetaData<double>(thisDic, "RescaleSlope", this->m_RescaleSlope);
+  EncapsulateMetaData<double>(thisDic, "RescaleIntercept", this->m_RescaleIntercept);
+  EncapsulateMetaData<double>(thisDic, "MuWater", this->m_MuWater);
 }
 
 template <typename TBufferType>
