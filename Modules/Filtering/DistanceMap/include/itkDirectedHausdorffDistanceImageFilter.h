@@ -162,13 +162,8 @@ protected:
 
   /** Multi-thread version GenerateData. */
   void
-  ThreadedGenerateData(const RegionType & regionForThread, ThreadIdType threadId) override;
+  DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
-  void
-  DynamicThreadedGenerateData(const RegionType &) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
 
   // Override since the filter needs all the data for the algorithm
   void
