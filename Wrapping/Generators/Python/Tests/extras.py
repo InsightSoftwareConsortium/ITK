@@ -136,6 +136,7 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 
 # test write
 itk.imwrite(reader, sys.argv[3])
+itk.imwrite(reader, sys.argv[3], imageio=itk.PNGImageIO.New())
 itk.imwrite(reader, sys.argv[3], True)
 
 # test read
@@ -155,6 +156,8 @@ except Exception as e:
         pass
     else:
         raise e
+image = itk.imread(filename, imageio=itk.PNGImageIO.New())
+assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 
 # test mesh read / write
 mesh = itk.meshread(mesh_filename)

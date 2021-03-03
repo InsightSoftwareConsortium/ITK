@@ -601,8 +601,23 @@ def range(image_or_filter):
     return image_intensity_min_max(image_or_filter)
 
 
-def imwrite(image_or_filter, filename: fileiotype, compression: bool = False) -> None:
+def imwrite(image_or_filter, filename: fileiotype, compression: bool = False, imageio: Optional[Any] = None) -> None:
     """Write a image or the output image of a filter to a file.
+
+    Parameters
+    ----------
+
+    image_or_filter :
+        Image or filter that produces an image to write to the file.
+
+    filename :
+        Target output file path.
+
+    compression :
+        Use compression when writing if the format supports it.
+
+    imageio :
+        Use the provided itk.ImageIOBase derived instance to write the file.
 
     The writer is instantiated with the image type of the image in
     parameter (or, again, with the output image of the filter in parameter).
@@ -618,17 +633,42 @@ def imwrite(image_or_filter, filename: fileiotype, compression: bool = False) ->
         Input=img, FileName=filename, UseCompression=compression
     )
     auto_pipeline.current = tmp_auto_pipeline
+    if imageio:
+        writer.SetImageIO(imageio)
     writer.Update()
 
 
 def imread(
-    filename: fileiotype, pixel_type: Optional[Any] = None, fallback_only: bool = False
-):
+    filename: fileiotype, pixel_type: Optional[Any] = None, fallback_only: bool
+    = False, imageio: Optional[Any] = None):
     """Read an image from a file or series of files and return an itk.Image.
+
+    Parameters
+    ----------
+
+    filename :
+        File path for a single file, a list of files for an image series, or a
+        directory for a DICOM image series.
+
+    pixel_type :
+        Image pixel type to cast to when loading.
+
+    fallback_only :
+        If true, first try to automatically deduce the image pixel type, and
+        only use the given `pixel_type` if automatic deduction fails.
+
+    imageio :
+        Use the provided itk.ImageIOBase derived instance to read the file.
+
+    Returns
+    -------
+
+    image :
+        The resulting itk.Image.
 
     The reader is instantiated with the image type of the image file if
     `pixel_type` is not provided (default). The dimension of the image is
-    automatically found
+    automatically deduced from the dimension stored on disk.
 
     If the filename provided is a directory then the directory is assumed to
     be for a DICOM series volume.  If there is exactly one DICOM series
@@ -684,6 +724,8 @@ def imread(
         io_filename = filename
         increase_dimension = False
         kwargs = {"FileName": filename}
+    if imageio:
+        kwargs["ImageIO"] = imageio
     if pixel_type:
         image_IO = itk.ImageIOFactory.CreateImageIO(
             io_filename, itk.CommonEnums.IOFileMode_ReadMode
