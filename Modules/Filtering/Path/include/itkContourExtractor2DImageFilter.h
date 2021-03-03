@@ -24,7 +24,6 @@
 #include <unordered_map>
 #include <deque>
 #include <list>
-#include <atomic>
 
 namespace itk
 {
@@ -220,13 +219,12 @@ private:
                              InputOffsetType toOffset);
 
 
-  InputRealType    m_ContourValue;
-  bool             m_ReverseContourOrientation;
-  bool             m_VertexConnectHighPixels;
-  bool             m_LabelContours;
-  bool             m_UseCustomRegion;
-  InputRegionType  m_RequestedRegion;
-  std::atomic_uint m_NumberOfContoursCreated;
+  InputRealType   m_ContourValue;
+  bool            m_ReverseContourOrientation;
+  bool            m_VertexConnectHighPixels;
+  bool            m_LabelContours;
+  bool            m_UseCustomRegion;
+  InputRegionType m_RequestedRegion;
 
   // Represent each contour as deque of vertices to facilitate addition of
   // nodes at beginning or end. At the end of the processing, we will copy
@@ -306,15 +304,19 @@ private:
   using VertexMapIterator = typename VertexToContourMap::iterator;
   using VertexContourRefPair = typename VertexToContourMap::value_type;
 
-  void
-  AddSegment(const VertexType     from,
-             const VertexType     to,
-             ContourContainer &   contours,
-             VertexToContourMap & contourStarts,
-             VertexToContourMap & contourEnds);
+  struct ContourData
+  {
+    ContourContainer   m_Contours;
+    VertexToContourMap m_ContourStarts;
+    VertexToContourMap m_ContourEnds;
+    SizeValueType      m_NumberOfContoursCreated = 0;
+  };
 
   void
-  FillOutputs(ContourContainer & contours, VertexToContourMap & contourStarts, VertexToContourMap & contourEnds);
+  AddSegment(const VertexType from, const VertexType to, ContourData & contourData);
+
+  void
+  FillOutputs(ContourData & contourData);
 
   // The number of outputs we have allocated capacity for
   unsigned int m_NumberOutputsAllocated;

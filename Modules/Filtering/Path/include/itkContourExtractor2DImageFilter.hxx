@@ -19,7 +19,6 @@
 #define itkContourExtractor2DImageFilter_hxx
 
 #include <algorithm>
-#include <map>
 
 #include "itkConstShapedNeighborhoodIterator.h"
 #include "itkTotalProgressReporter.h"
@@ -38,18 +37,16 @@ ContourExtractor2DImageFilter<TInputImage>::ContourExtractor2DImageFilter()
   this->m_VertexConnectHighPixels = false;
   this->m_LabelContours = false;
   this->m_UseCustomRegion = false;
-  this->m_NumberOfContoursCreated = 0;
 }
 
 template <typename TInputImage>
 void
 ContourExtractor2DImageFilter<TInputImage>::GenerateData()
 {
-  m_NumberOfContoursCreated = 0;
   m_NumberOutputsAllocated = 0;
   m_NumberOutputsWritten = 0;
 
-  if (m_LabelContours) // each label has a contour
+  if (m_LabelContours) // each label has one or more contours
   {
     this->GenerateDataForLabels();
   }
@@ -86,12 +83,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
                                                                 InputRealType          upperIsovalue,
                                                                 SizeValueType          totalNumberOfPixels)
 {
-  // The contours we find in the image are stored here
-  ContourContainer contours;
-
-  // And indexed by their beginning and ending points here
-  VertexToContourMap contourStarts;
-  VertexToContourMap contourEnds;
+  ContourData contourData;
 
   TotalProgressReporter progress(this, totalNumberOfPixels);
 
@@ -199,72 +191,72 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
       case 0: // no line
         break;
       case 1: // top to left
-        this->AddSegment(TOP_, LEFT_, contours, contourStarts, contourEnds);
+        this->AddSegment(TOP_, LEFT_, contourData);
         break;
       case 2: // right to top
-        this->AddSegment(RIGHT_, TOP_, contours, contourStarts, contourEnds);
+        this->AddSegment(RIGHT_, TOP_, contourData);
         break;
       case 3: // right to left
-        this->AddSegment(RIGHT_, LEFT_, contours, contourStarts, contourEnds);
+        this->AddSegment(RIGHT_, LEFT_, contourData);
         break;
       case 4: // left to bottom
-        this->AddSegment(LEFT_, BOTTOM_, contours, contourStarts, contourEnds);
+        this->AddSegment(LEFT_, BOTTOM_, contourData);
         break;
       case 5: // top to bottom
-        this->AddSegment(TOP_, BOTTOM_, contours, contourStarts, contourEnds);
+        this->AddSegment(TOP_, BOTTOM_, contourData);
         break;
       case 6:
         if (m_VertexConnectHighPixels)
         {
           // left to top
-          this->AddSegment(LEFT_, TOP_, contours, contourStarts, contourEnds);
+          this->AddSegment(LEFT_, TOP_, contourData);
           // right to bottom
-          this->AddSegment(RIGHT_, BOTTOM_, contours, contourStarts, contourEnds);
+          this->AddSegment(RIGHT_, BOTTOM_, contourData);
         }
         else
         {
           // right to top
-          this->AddSegment(RIGHT_, TOP_, contours, contourStarts, contourEnds);
+          this->AddSegment(RIGHT_, TOP_, contourData);
           // left to bottom
-          this->AddSegment(LEFT_, BOTTOM_, contours, contourStarts, contourEnds);
+          this->AddSegment(LEFT_, BOTTOM_, contourData);
         }
         break;
       case 7: // right to bottom
-        this->AddSegment(RIGHT_, BOTTOM_, contours, contourStarts, contourEnds);
+        this->AddSegment(RIGHT_, BOTTOM_, contourData);
         break;
       case 8: // bottom to right
-        this->AddSegment(BOTTOM_, RIGHT_, contours, contourStarts, contourEnds);
+        this->AddSegment(BOTTOM_, RIGHT_, contourData);
         break;
       case 9:
         if (m_VertexConnectHighPixels)
         {
           // top to right
-          this->AddSegment(TOP_, RIGHT_, contours, contourStarts, contourEnds);
+          this->AddSegment(TOP_, RIGHT_, contourData);
           // bottom to left
-          this->AddSegment(BOTTOM_, LEFT_, contours, contourStarts, contourEnds);
+          this->AddSegment(BOTTOM_, LEFT_, contourData);
         }
         else
         {
           // top to left
-          this->AddSegment(TOP_, LEFT_, contours, contourStarts, contourEnds);
+          this->AddSegment(TOP_, LEFT_, contourData);
           // bottom to right
-          this->AddSegment(BOTTOM_, RIGHT_, contours, contourStarts, contourEnds);
+          this->AddSegment(BOTTOM_, RIGHT_, contourData);
         }
         break;
       case 10: // bottom to top
-        this->AddSegment(BOTTOM_, TOP_, contours, contourStarts, contourEnds);
+        this->AddSegment(BOTTOM_, TOP_, contourData);
         break;
       case 11: // bottom to left
-        this->AddSegment(BOTTOM_, LEFT_, contours, contourStarts, contourEnds);
+        this->AddSegment(BOTTOM_, LEFT_, contourData);
         break;
       case 12: // left to right
-        this->AddSegment(LEFT_, RIGHT_, contours, contourStarts, contourEnds);
+        this->AddSegment(LEFT_, RIGHT_, contourData);
         break;
       case 13: // top to right
-        this->AddSegment(TOP_, RIGHT_, contours, contourStarts, contourEnds);
+        this->AddSegment(TOP_, RIGHT_, contourData);
         break;
       case 14: // left to top
-        this->AddSegment(LEFT_, TOP_, contours, contourStarts, contourEnds);
+        this->AddSegment(LEFT_, TOP_, contourData);
         break;
       case 15: // no line
         break;
@@ -273,7 +265,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
   } // pixel square iteration
 
   // Now create the outputs paths from the deques we've been using.
-  this->FillOutputs(contours, contourStarts, contourEnds);
+  this->FillOutputs(contourData);
 }
 
 
@@ -282,12 +274,10 @@ void
 ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 {
   using IndexType = typename InputRegionType::IndexType;
-  using RadiusType = typename ConstShapedNeighborhoodIterator<InputImageType>::RadiusType;
   using RegionConstIterator = ImageRegionConstIterator<InputImageType>;
   using ConstImageRegionRange = ImageRegionRange<const InputImageType>;
   using ImageRegionRange = ImageRegionRange<InputImageType>;
   using SizeType = typename InputRegionType::SizeType;
-  using SquareIterator = ConstShapedNeighborhoodIterator<InputImageType>;
 
   // Requested region
   const InputRegionType       inputRegion{ this->GetInput()->GetRequestedRegion() };
@@ -342,7 +332,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 
   SizeValueType totalPixelCount = 0;
 
-  std::map<InputPixelType, InputRegionType> labelsRegions;
+  std::unordered_map<InputPixelType, InputRegionType> labelsRegions;
 
   for (const InputPixelType label : allLabels) // count total pixels for progress
   {
@@ -359,12 +349,20 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     labelsRegions[label] = shrunkRegion;
   }
 
-  for (InputPixelType label : allLabels)
+  m_Interpolate = false;
+
+  for (SizeValueType i = 0; i < allLabels.size(); i++)
   {
+    const InputPixelType label = allLabels[i];
+    const InputRealType  previousLabel = i > 0 ? allLabels[i - 1] : label - 1;
+    const InputRealType  followingLabel = i < allLabels.size() - 1 ? allLabels[i + 1] : label + 1;
+
     // Use the bounding box for this label
-    const BoundingBox & bbox{ bboxes[label] };
-    const IndexType     min{ bbox.first };
-    const IndexType     max{ bbox.second };
+    const BoundingBox &  bbox{ bboxes[label] };
+    const IndexType      min{ bbox.first };
+    const IndexType      max{ bbox.second };
+    const InputPixelType differentLabel = previousLabel;
+
     // Set boundary values in largerRegion to be distinct from label if they will be looked at.
     if (min[0] == left_top[0])
     {
@@ -372,7 +370,6 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
       const SizeType         stripeSize{ 1, static_cast<SizeValueType>(max[1] - min[1] + 3) };
       const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
       const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      const InputPixelType   differentLabel = label + 1;
       std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
     }
     if (min[1] == left_top[1])
@@ -381,7 +378,6 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
       const SizeType         stripeSize{ static_cast<SizeValueType>(max[0] - min[0] + 3), 1 };
       const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
       const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      const InputPixelType   differentLabel = label + 1;
       std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
     }
     if (max[0] == right_bot[0])
@@ -390,7 +386,6 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
       const SizeType         stripeSize{ 1, static_cast<SizeValueType>(max[1] - min[1] + 3) };
       const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
       const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      const InputPixelType   differentLabel = label + 1;
       std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
     }
     if (max[1] == right_bot[1])
@@ -399,12 +394,17 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
       const SizeType         stripeSize{ static_cast<SizeValueType>(max[0] - min[0] + 3), 1 };
       const InputRegionType  stripeRegion{ stripeIndex, stripeSize };
       const ImageRegionRange stripeRange{ *largerImage, stripeRegion };
-      const InputPixelType   differentLabel = label + 1;
       std::fill(stripeRange.begin(), stripeRange.end(), differentLabel);
     }
 
-    m_Interpolate = false;
-    this->CreateSingleContour(largerImage, labelsRegions[label], label - 0.5, label + 0.5, totalPixelCount);
+    // this does not work if labels are floats such as 0.1, 0.23, 0.31, 0.7, etc.
+    // this->CreateSingleContour(largerImage, labelsRegions[label], label - 0.5, label + 0.5, totalPixelCount);
+
+    this->CreateSingleContour(largerImage,
+                              labelsRegions[label],
+                              0.5 * previousLabel + 0.5 * label,
+                              0.5 * label + 0.5 * followingLabel,
+                              totalPixelCount);
   }
 }
 
@@ -450,11 +450,7 @@ ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixe
 
 template <typename TInputImage>
 void
-ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType           from,
-                                                       VertexType           to,
-                                                       ContourContainer &   contours,
-                                                       VertexToContourMap & contourStarts,
-                                                       VertexToContourMap & contourEnds)
+ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexType to, ContourData & contourData)
 {
   if (from == to)
   {
@@ -466,11 +462,11 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType           from
   }
 
   // Try to find an existing contour that starts where the new segment ends.
-  const auto newTail = contourStarts.find(to);
+  const auto newTail = contourData.m_ContourStarts.find(to);
   // Try to find an existing contour that ends where the new segment starts.
-  const auto newHead = contourEnds.find(from);
+  const auto newHead = contourData.m_ContourEnds.find(from);
 
-  if (newTail != contourStarts.end() && newHead != contourEnds.end())
+  if (newTail != contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
     // We need to connect these two contours with the current arc. The act of
     // connecting the two contours will add the needed arc.
@@ -482,10 +478,10 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType           from
     {
       // We've closed a contour. Add the end point, and remove from the maps
       head->push_back(to);
-      contourStarts.erase(newTail);
+      contourData.m_ContourStarts.erase(newTail);
       // erase the front of tail. Because head and tail are the same contour,
       // don't worry about erasing the front of head!
-      contourEnds.erase(newHead); // erase the end of head/tail.
+      contourData.m_ContourEnds.erase(newHead); // erase the end of head/tail.
     }
     else
     {
@@ -502,20 +498,20 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType           from
 
         // Now remove 'tail' from the list and the maps because it has been
         // subsumed.
-        contourStarts.erase(newTail);
-        int erased = contourEnds.erase(tail->back());
+        contourData.m_ContourStarts.erase(newTail);
+        int erased = contourData.m_ContourEnds.erase(tail->back());
         // There should be exactly one entry in the hash for that endpoint
         if (erased != 1)
         {
           itkWarningMacro(<< "There should be exactly one entry in the hash for that endpoint, but there are "
                           << erased);
         }
-        contours.erase(tail); // remove from the master list
+        contourData.m_Contours.erase(tail); // remove from the master list
 
         // Now remove the old end of 'head' from the ends map and add
         // the new end.
-        contourEnds.erase(newHead);
-        contourEnds.insert(VertexContourRefPair(head->back(), head));
+        contourData.m_ContourEnds.erase(newHead);
+        contourData.m_ContourEnds.insert(VertexContourRefPair(head->back(), head));
       }
       else
       {
@@ -525,23 +521,23 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType           from
 
         // Now remove 'head' from the list and the maps because
         // it has been subsumed.
-        contourEnds.erase(newHead);
-        int erased = contourStarts.erase(head->front());
+        contourData.m_ContourEnds.erase(newHead);
+        int erased = contourData.m_ContourStarts.erase(head->front());
         if (erased != 1)
         {
           itkWarningMacro(<< "There should be exactly one entry in the hash for that endpoint, but there are "
                           << erased);
         }
-        contours.erase(head); // remove from the master list
+        contourData.m_Contours.erase(head); // remove from the master list
 
         // Now remove the old start of 'tail' from the starts map and
         // add the new start.
-        contourStarts.erase(newTail);
-        contourStarts.insert(VertexContourRefPair(tail->front(), tail));
+        contourData.m_ContourStarts.erase(newTail);
+        contourData.m_ContourStarts.insert(VertexContourRefPair(tail->front(), tail));
       }
     }
   }
-  else if (newTail == contourStarts.end() && newHead == contourEnds.end())
+  else if (newTail == contourData.m_ContourStarts.end() && newHead == contourData.m_ContourEnds.end())
   {
     // No contours found: add a new one.
     // Make it on the heap. It will be copied into contours.
@@ -550,58 +546,56 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType           from
     // Add the endpoints
     contour.push_front(from);
     contour.push_back(to);
-    contour.m_ContourNumber = m_NumberOfContoursCreated++;
+    contour.m_ContourNumber = contourData.m_NumberOfContoursCreated++;
     // Add the contour to the end of the list and get a reference to it.
-    contours.push_back(contour);
+    contourData.m_Contours.push_back(contour);
 
     // recall that end() is an iterator to one past the back!
-    const auto newContour = --contours.end();
+    const auto newContour = --contourData.m_Contours.end();
     // add the endpoints and an iterator pointing to the contour
     // in the list to the maps.
-    contourStarts.insert(VertexContourRefPair(from, newContour));
-    contourEnds.insert(VertexContourRefPair(to, newContour));
+    contourData.m_ContourStarts.insert(VertexContourRefPair(from, newContour));
+    contourData.m_ContourEnds.insert(VertexContourRefPair(to, newContour));
   }
-  else if (newTail != contourStarts.end() && newHead == contourEnds.end())
+  else if (newTail != contourData.m_ContourStarts.end() && newHead == contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be prepended.
     const auto tail = newTail->second;
     itkAssertOrThrowMacro((tail->front() == to), "End doesn't match Beginning");
     tail->push_front(from);
     // erase the old start of this contour
-    contourStarts.erase(newTail);
+    contourData.m_ContourStarts.erase(newTail);
     // Now add the new start of this contour.
-    contourStarts.insert(VertexContourRefPair(from, tail));
+    contourData.m_ContourStarts.insert(VertexContourRefPair(from, tail));
   }
-  else if (newTail == contourStarts.end() && newHead != contourEnds.end())
+  else if (newTail == contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be appended.
     const auto head = newHead->second;
     itkAssertOrThrowMacro((head->back() == from), "Beginning doesn't match End");
     head->push_back(to);
     // erase the old end of this contour
-    contourEnds.erase(newHead);
+    contourData.m_ContourEnds.erase(newHead);
     // Now add the new start of this contour.
-    contourEnds.insert(VertexContourRefPair(to, head));
+    contourData.m_ContourEnds.insert(VertexContourRefPair(to, head));
   }
 }
 
 
 template <typename TInputImage>
 void
-ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourContainer &   contours,
-                                                        VertexToContourMap & contourStarts,
-                                                        VertexToContourMap & contourEnds)
+ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourData & contourData)
 {
   --m_NumberLabelsRemaining;
-  if (m_NumberOutputsWritten + contours.size() > m_NumberOutputsAllocated)
+  if (m_NumberOutputsWritten + contourData.m_Contours.size() > m_NumberOutputsAllocated)
   {
     // We do not have enough capacity; increase capacity to what we need,
     // plus a guess of one contour for each unprocessed label.
-    m_NumberOutputsAllocated = m_NumberOutputsWritten + contours.size() + m_NumberLabelsRemaining;
+    m_NumberOutputsAllocated = m_NumberOutputsWritten + contourData.m_Contours.size() + m_NumberLabelsRemaining;
     this->SetNumberOfIndexedOutputs(m_NumberOutputsAllocated);
   }
 
-  for (auto it = contours.begin(); it != contours.end(); ++it, ++m_NumberOutputsWritten)
+  for (auto it = contourData.m_Contours.begin(); it != contourData.m_Contours.end(); ++it, ++m_NumberOutputsWritten)
   {
     OutputPathPointer output = this->GetOutput(m_NumberOutputsWritten);
     if (output.IsNull())
@@ -722,7 +716,6 @@ ContourExtractor2DImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent 
   os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << std::endl;
   os << indent << "LabelContours: " << m_LabelContours << std::endl;
   os << indent << "UseCustomRegion: " << m_UseCustomRegion << std::endl;
-  os << indent << "NumberOfContoursCreated: " << m_NumberOfContoursCreated << std::endl;
   if (m_UseCustomRegion)
   {
     os << indent << "Custom region: " << m_RequestedRegion << std::endl;
