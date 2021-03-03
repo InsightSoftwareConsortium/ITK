@@ -38,7 +38,10 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DirectedHausdo
   m_DirectedHausdorffDistance = NumericTraits<RealType>::ZeroValue();
   m_AverageHausdorffDistance = NumericTraits<RealType>::ZeroValue();
   m_UseImageSpacing = true;
-  this->DynamicMultiThreadingOff();
+
+
+  this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage1, typename TInputImage2>
@@ -155,11 +158,11 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreadedG
 
 template <typename TInputImage1, typename TInputImage2>
 void
-DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGenerateData(
-  const RegionType & regionForThread,
-  ThreadIdType       threadId)
+DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DynamicThreadedGenerateData(
+  const RegionType & regionForThread)
 {
-  ImageRegionConstIterator<TInputImage1>    it1(this->GetInput1(), regionForThread);
+  const auto *                              inputPtr1 = this->GetInput1();
+  ImageRegionConstIterator<TInputImage1>    it1(inputPtr1, regionForThread);
   ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, regionForThread);
 
   RealType                 maxDistance = NumericTraits<RealType>::ZeroValue();
@@ -167,7 +170,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGenera
   IdentifierType           pixelCount = 0;
 
   // support progress methods/callbacks
-  ProgressReporter progress(this, threadId, regionForThread.GetNumberOfPixels());
+  TotalProgressReporter progress(this, inputPtr1->GetRequestedRegion().GetNumberOfPixels());
 
   // do the work
   while (!it1.IsAtEnd())
