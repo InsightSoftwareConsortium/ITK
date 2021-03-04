@@ -33,9 +33,15 @@
 
 #include <cfenv>
 
-#if defined(ITK_HAVE_EMMINTRIN_H) && !defined(ITK_WRAPPING_PARSER)
-#  include <emmintrin.h> // sse 2 intrinsics
-#endif                   /* ITK_HAVE_EMMINTRIN_H && ! ITK_WRAPPING_PARSER */
+// Most compilers define __SSEn__ macros, but not MSVC.
+// For 32 bit Intel with MSVC, check _M_IX86_FP.
+// For 64 bit Intel with MSVC, SSE2 is always supported.
+#if !defined(ITK_WRAPPING_PARSER)
+#  if (defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP >= 2)) ||                                              \
+       (defined(__x86_64__) || defined(_M_X64) || defined(__amd64)))
+#    include <emmintrin.h> // SSE2 intrinsics
+#  endif
+#endif
 
 // assume no SSE2:
 #define USE_SSE2_64IMPL 0
