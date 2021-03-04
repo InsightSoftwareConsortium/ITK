@@ -109,7 +109,7 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(ContourExtractor2DImageFilter);
 
   /** Extract dimension from input and output image. */
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
+  static constexpr unsigned int InputImageDimension{ TInputImage::ImageDimension };
 
   /** Convenient type alias for simplifying declarations. */
   using InputImageType = TInputImage;
@@ -264,9 +264,9 @@ private:
       // first by some number, so that identical (x,y) vertex indices
       // don't all hash to the same bucket. This is a decent if not
       // optimal hash.
-      const SizeValueType hashVertex1 = this->float_hash(k[0] * 0xbeef);
-      const SizeValueType hashVertex2 = this->float_hash(k[1]);
-      const SizeValueType hashValue = hashVertex1 ^ hashVertex2;
+      const SizeValueType hashVertex1{ this->float_hash(k[0] * 0xbeef) };
+      const SizeValueType hashVertex2{ this->float_hash(k[1]) };
+      const SizeValueType hashValue{ hashVertex1 ^ hashVertex2 };
 
       return hashValue;
     }
@@ -280,9 +280,9 @@ private:
       {
         return 0;
       }
-      int            exponent;
-      CoordinateType mantissa = std::frexp(k, &exponent);
-      auto           value = static_cast<SizeValueType>(std::fabs(mantissa));
+      int                  exponent;
+      const CoordinateType mantissa{ std::frexp(k, &exponent) };
+      auto                 value{ static_cast<SizeValueType>(std::fabs(mantissa)) };
       value = (2 * value - 1) * ~0U;
       return value;
     }

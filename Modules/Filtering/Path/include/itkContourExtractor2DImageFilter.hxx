@@ -54,9 +54,9 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateData()
   {
     m_NumberLabelsRemaining = 1;
     m_Interpolate = true;
-    InputRegionType region = this->GetInput()->GetRequestedRegion();
+    const InputRegionType region{ this->GetInput()->GetRequestedRegion() };
 
-    typename InputRegionType::SizeType shrunkSize = region.GetSize();
+    typename InputRegionType::SizeType shrunkSize{ region.GetSize() };
     shrunkSize[0] -= 1;
     shrunkSize[1] -= 1;
     InputRegionType shrunkRegion(region.GetIndex(), shrunkSize);
@@ -104,12 +104,12 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
   // coresponding offsets, and only query pixels 4, 5, 7, and 8 with the
   // iterator's GetPixel method.
   using SquareIterator = ConstShapedNeighborhoodIterator<InputImageType>;
-  typename SquareIterator::RadiusType radius = { { 1, 1 } };
-  SquareIterator                      it(radius, image, shrunkRegion);
-  InputOffsetType                     none = { { 0, 0 } };
-  InputOffsetType                     right = { { 1, 0 } };
-  InputOffsetType                     down = { { 0, 1 } };
-  InputOffsetType                     diag = { { 1, 1 } };
+  const typename SquareIterator::RadiusType radius{ { 1, 1 } };
+  SquareIterator                            it(radius, image, shrunkRegion);
+  const InputOffsetType                     none{ { 0, 0 } };
+  const InputOffsetType                     right{ { 1, 0 } };
+  const InputOffsetType                     down{ { 0, 1 } };
+  const InputOffsetType                     diag{ { 1, 1 } };
   it.ActivateOffset(none);
   it.ActivateOffset(right);
   it.ActivateOffset(down);
@@ -147,13 +147,12 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
     // 01    is numbered as    45
     // 23                      78
 
-    InputPixelType v0, v1, v2, v3;
-    v0 = it.GetPixel(4);
-    v1 = it.GetPixel(5);
-    v2 = it.GetPixel(7);
-    v3 = it.GetPixel(8);
-    InputIndexType index = it.GetIndex();
-    unsigned char  squareCase = 0;
+    const InputPixelType v0{ it.GetPixel(4) };
+    const InputPixelType v1{ it.GetPixel(5) };
+    const InputPixelType v2{ it.GetPixel(7) };
+    const InputPixelType v3{ it.GetPixel(8) };
+    const InputIndexType index{ it.GetIndex() };
+    unsigned char        squareCase{ 0 };
     if (v0 > lowerIsovalue && v0 <= upperIsovalue)
     {
       squareCase += 1;
@@ -309,7 +308,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     RegionConstIterator inputIt{ this->GetInput(), inputRegion };
     for (inputIt.GoToBegin(); !inputIt.IsAtEnd(); ++inputIt)
     {
-      BoundingBox & bbox = bboxes[inputIt.Get()];
+      BoundingBox & bbox{ bboxes[inputIt.Get()] };
       bbox.first[0] = std::min(bbox.first[0], inputIt.GetIndex()[0]);
       bbox.first[1] = std::min(bbox.first[1], inputIt.GetIndex()[1]);
       bbox.second[0] = std::max(bbox.second[0], inputIt.GetIndex()[0]);
@@ -330,7 +329,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     std::copy(inputRange.cbegin(), inputRange.cend(), largerRange.begin());
   }
 
-  SizeValueType totalPixelCount = 0;
+  SizeValueType totalPixelCount{ 0 };
 
   std::unordered_map<InputPixelType, InputRegionType> labelsRegions;
 
@@ -353,7 +352,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 
   for (SizeValueType i = 0; i < allLabels.size(); i++)
   {
-    const InputPixelType label = allLabels[i];
+    const InputPixelType label{ allLabels[i] };
     const InputRealType  previousLabel = i > 0 ? allLabels[i - 1] : label - 1;
     const InputRealType  followingLabel = i < allLabels.size() - 1 ? allLabels[i + 1] : label + 1;
 
@@ -432,8 +431,8 @@ ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixe
 
   if (m_Interpolate) // interpolate position
   {
-    double x =
-      (m_ContourValue - static_cast<InputRealType>(fromValue)) / (toValue - static_cast<InputRealType>(fromValue));
+    const double x{ (m_ContourValue - static_cast<InputRealType>(fromValue)) /
+                    (toValue - static_cast<InputRealType>(fromValue)) };
 
     output[0] = fromIndex[0] + x * toOffset[0];
     output[1] = fromIndex[1] + x * toOffset[1];
@@ -462,17 +461,17 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   }
 
   // Try to find an existing contour that starts where the new segment ends.
-  const auto newTail = contourData.m_ContourStarts.find(to);
+  const auto newTail{ contourData.m_ContourStarts.find(to) };
   // Try to find an existing contour that ends where the new segment starts.
-  const auto newHead = contourData.m_ContourEnds.find(from);
+  const auto newHead{ contourData.m_ContourEnds.find(from) };
 
   if (newTail != contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
     // We need to connect these two contours with the current arc. The act of
     // connecting the two contours will add the needed arc.
-    const auto tail = newTail->second;
+    const auto tail{ newTail->second };
     itkAssertOrThrowMacro((tail->front() == to), "End doesn't match Beginning");
-    const auto head = newHead->second;
+    const auto head{ newHead->second };
     itkAssertOrThrowMacro((head->back() == from), "Beginning doesn't match End");
     if (head == tail)
     {
@@ -499,7 +498,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove 'tail' from the list and the maps because it has been
         // subsumed.
         contourData.m_ContourStarts.erase(newTail);
-        int erased = contourData.m_ContourEnds.erase(tail->back());
+        const typename VertexToContourMap::size_type erased{ contourData.m_ContourEnds.erase(tail->back()) };
         // There should be exactly one entry in the hash for that endpoint
         if (erased != 1)
         {
@@ -522,7 +521,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove 'head' from the list and the maps because
         // it has been subsumed.
         contourData.m_ContourEnds.erase(newHead);
-        int erased = contourData.m_ContourStarts.erase(head->front());
+        const typename VertexToContourMap::size_type erased{ contourData.m_ContourStarts.erase(head->front()) };
         if (erased != 1)
         {
           itkWarningMacro(<< "There should be exactly one entry in the hash for that endpoint, but there are "
@@ -551,7 +550,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
     contourData.m_Contours.push_back(contour);
 
     // recall that end() is an iterator to one past the back!
-    const auto newContour = --contourData.m_Contours.end();
+    const auto newContour{ --contourData.m_Contours.end() };
     // add the endpoints and an iterator pointing to the contour
     // in the list to the maps.
     contourData.m_ContourStarts.insert(VertexContourRefPair(from, newContour));
@@ -560,7 +559,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   else if (newTail != contourData.m_ContourStarts.end() && newHead == contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be prepended.
-    const auto tail = newTail->second;
+    const auto tail{ newTail->second };
     itkAssertOrThrowMacro((tail->front() == to), "End doesn't match Beginning");
     tail->push_front(from);
     // erase the old start of this contour
@@ -571,7 +570,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   else if (newTail == contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be appended.
-    const auto head = newHead->second;
+    const auto head{ newHead->second };
     itkAssertOrThrowMacro((head->back() == from), "Beginning doesn't match End");
     head->push_back(to);
     // erase the old end of this contour
@@ -597,15 +596,15 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourData & contourDat
 
   for (auto it = contourData.m_Contours.begin(); it != contourData.m_Contours.end(); ++it, ++m_NumberOutputsWritten)
   {
-    OutputPathPointer output = this->GetOutput(m_NumberOutputsWritten);
+    OutputPathPointer output{ this->GetOutput(m_NumberOutputsWritten) };
     if (output.IsNull())
     {
-      // Static cast is OK because we know PathSource will make its templated
+      // Dynamic cast is OK because we know PathSource will make its templated
       // class type
-      output = static_cast<OutputPathType *>(this->MakeOutput(m_NumberOutputsWritten).GetPointer());
+      output = dynamic_cast<OutputPathType *>(this->MakeOutput(m_NumberOutputsWritten).GetPointer());
       this->SetNthOutput(m_NumberOutputsWritten, output.GetPointer());
     }
-    typename VertexListType::Pointer path{ output->GetVertexList() };
+    typename VertexListType::Pointer path{ const_cast<VertexListType *>(output->GetVertexList()) };
     path->Initialize();
     // use std::vector version of 'reserve()' instead of
     // VectorContainer::Reserve() to work around the fact that the latter is
@@ -617,7 +616,7 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourData & contourDat
     using ConstIteratorType = typename ContourType::const_iterator;
     if (m_ReverseContourOrientation)
     {
-      ConstIteratorType itC = (*it).end();
+      ConstIteratorType itC{ (*it).end() };
       do
       {
         itC--;
@@ -626,7 +625,7 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourData & contourDat
     }
     else
     {
-      ConstIteratorType itC = (*it).begin();
+      ConstIteratorType itC{ (*it).begin() };
       while (itC != (*it).end())
       {
         path->push_back(*itC);
@@ -678,7 +677,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateInputRequestedRegion()
 
   if (m_UseCustomRegion)
   {
-    InputRegionType requestedRegion = m_RequestedRegion;
+    InputRegionType requestedRegion{ m_RequestedRegion };
     if (requestedRegion.Crop(input->GetLargestPossibleRegion()))
     {
       input->SetRequestedRegion(requestedRegion);
