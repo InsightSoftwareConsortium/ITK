@@ -74,8 +74,6 @@ class SwigInputGenerator(object):
         # used internally in ImageToImageMetric
         "itk::Image< itk::CovariantVector< double, \d+u >, \d+u >",
         "itk::FixedArray< itk::SmartPointer.+ >",
-        # used internally in itkTransformBase
-        "itk::SmartPointer< itk::Transform.+ >",
         # used internally in itkMattesMutualInformationImageToImageMetric
         "itk::SmartPointer< itk::Image.+ >",
         "itk::ObjectFactoryBasePrivate",

@@ -45,6 +45,7 @@ itk.force_load()
 
 filename = sys.argv[1]
 mesh_filename = sys.argv[2]
+transform_filename = sys.argv[3]
 
 PixelType = itk.UC
 dim = 2
@@ -135,9 +136,9 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 
 
 # test write
-itk.imwrite(reader, sys.argv[3])
-itk.imwrite(reader, sys.argv[3], imageio=itk.PNGImageIO.New())
-itk.imwrite(reader, sys.argv[3], True)
+itk.imwrite(reader, sys.argv[4])
+itk.imwrite(reader, sys.argv[4], imageio=itk.PNGImageIO.New())
+itk.imwrite(reader, sys.argv[4], True)
 
 # test read
 image = itk.imread(filename)
@@ -167,8 +168,8 @@ assert type(mesh) == itk.Mesh[itk.UC, 3]
 mesh = itk.meshread(mesh_filename, itk.UC, fallback_only=True)
 assert type(mesh) == itk.Mesh[itk.F, 3]
 
-itk.meshwrite(mesh, sys.argv[4])
-itk.meshwrite(mesh, sys.argv[4], compression=True)
+itk.meshwrite(mesh, sys.argv[5])
+itk.meshwrite(mesh, sys.argv[5], compression=True)
 
 # test search
 res = itk.search("Index")
@@ -207,7 +208,7 @@ image_series = itk.Image[itk.UC, 3].New()
 image_series.SetRegions([10, 7, 1])
 image_series.Allocate()
 image_series.FillBuffer(0)
-image_series3d_filename = os.path.join(sys.argv[5], "image_series_extras_py.mha")
+image_series3d_filename = os.path.join(sys.argv[6], "image_series_extras_py.mha")
 itk.imwrite(image_series, image_series3d_filename)
 series_reader = itk.ImageSeriesReader.New(
     FileNames=[image_series3d_filename, image_series3d_filename]
@@ -236,6 +237,33 @@ assert image_series.GetLargestPossibleRegion().GetSize()[2] == number_of_files
 # not increased if last dimension is 1.
 image_series = itk.imread([image_series3d_filename, image_series3d_filename])
 assert image_series.GetImageDimension() == 3
+
+baseline_parameters = np.array([0.6563149 ,   0.58065837,  -0.48175367, -0.74079868, 0.37486398,  -0.55739959,  -0.14306664,   0.72271215, 0.67617978, -66., 69.,  32.])
+baseline_fixed_parameters = np.array([0., 0., 0.])
+
+# test transform read / write
+transforms = itk.transformread(transform_filename)
+fixed_parameters = np.asarray(transforms[0].GetFixedParameters())
+parameters = np.asarray(transforms[0].GetParameters())
+assert np.allclose(fixed_parameters, baseline_fixed_parameters)
+assert np.allclose(parameters, baseline_parameters)
+
+additional_transform = itk.TranslationTransform[itk.D, 3].New()
+baseline_additional_transform_params = [3.0, 2.0, 8.0]
+parameters = additional_transform.GetParameters()
+parameters[0] = baseline_additional_transform_params[0]
+parameters[1] = baseline_additional_transform_params[1]
+parameters[2] = baseline_additional_transform_params[2]
+additional_transform.SetParameters(parameters)
+transforms.insert(0, additional_transform)
+itk.transformwrite(transforms, sys.argv[7], compression=True)
+transforms = itk.transformread(sys.argv[7])
+fixed_parameters = np.asarray(transforms[1].GetFixedParameters())
+parameters = np.asarray(transforms[1].GetParameters())
+assert np.allclose(fixed_parameters, baseline_fixed_parameters)
+assert np.allclose(parameters, baseline_parameters)
+parameters = np.asarray(transforms[0].GetParameters())
+assert np.allclose(parameters, np.array(baseline_additional_transform_params))
 
 # pipeline, auto_pipeline and templated class are tested in other files
 
