@@ -1128,7 +1128,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::FindEdge(const PointIdentifier & pid0
     {
       if (it.Value()->GetDestination() == pid1)
       {
-        return (dynamic_cast<QEPrimal *>(it.Value()));
+        return it.Value();
       }
       ++it;
     }

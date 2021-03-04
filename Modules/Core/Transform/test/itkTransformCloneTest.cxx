@@ -100,8 +100,7 @@ itkTransformCloneTest(int, char *[])
   compositeXfrm->AddTransform(clonePtr);
   compositeXfrm->SetOnlyMostRecentTransformToOptimizeOn();
 
-  CompositeTransformType::Pointer cloneCompositeXfrm =
-    dynamic_cast<CompositeTransformType *>(compositeXfrm->Clone().GetPointer());
+  CompositeTransformType::Pointer cloneCompositeXfrm = compositeXfrm->Clone().GetPointer();
 
   if ((compositeXfrm->GetNumberOfTransforms() != cloneCompositeXfrm->GetNumberOfTransforms()))
   {
