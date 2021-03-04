@@ -217,8 +217,8 @@ void
 VideoFileWriter<TInputVideoStream>::TemporalStreamingGenerateData()
 {
   // Get a non-const pointer to the input and output
-  const auto * input = dynamic_cast<const VideoStreamType *>(this->GetInput());
-  auto *       output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
+  const VideoStreamType * const input = this->GetInput();
+  auto *                        output = dynamic_cast<TemporalDataObject *>(this->GetOutput(0));
   if (!output)
   {
     itkExceptionMacro("Could not cast output to TemporalDataObject");

@@ -54,7 +54,7 @@ UnaryGeneratorImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(
   // this filter allows the input the output to be of different dimensions
 
   // get pointers to the input and output
-  auto *                 outputPtr = dynamic_cast<OutputImageType *>(this->GetOutput());
+  OutputImageType *      outputPtr = this->GetOutput();
   const InputImageType * inputPtr = this->GetInput();
 
   if (!outputPtr || !inputPtr)
