@@ -483,8 +483,14 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     scanMem.sFixedFixed = sFixedFixed;
     scanMem.sMovingMoving = sMovingMoving;
 
-    scanMem.fixedImageGradient = fixedImageGradient;
-    scanMem.movingImageGradient = movingImageGradient;
+    if (this->m_ANTSAssociate->GetComputeDerivative() && this->m_ANTSAssociate->GetGradientSourceIncludesFixed())
+    {
+      scanMem.fixedImageGradient = fixedImageGradient;
+    }
+    if (this->m_ANTSAssociate->GetComputeDerivative() && this->m_ANTSAssociate->GetGradientSourceIncludesMoving())
+    {
+      scanMem.movingImageGradient = movingImageGradient;
+    }
 
     scanMem.mappedFixedPoint = mappedFixedPoint;
     scanMem.mappedMovingPoint = mappedMovingPoint;
