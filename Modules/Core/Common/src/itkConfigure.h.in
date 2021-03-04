@@ -60,10 +60,6 @@
   #endif
 #endif
 
-/* Atomic operations */
-#cmakedefine ITK_HAVE_SYNC_BUILTINS
-#cmakedefine ITK_HAS_INTERLOCKEDADD
-
 /* what threading system are we using */
 #cmakedefine ITK_USE_PTHREADS
 #cmakedefine ITK_HP_PTHREADS
