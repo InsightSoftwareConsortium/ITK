@@ -33,61 +33,28 @@
 
 #include <cfenv>
 
-// Most compilers define __SSEn__ macros, but not MSVC.
-// For 32 bit Intel with MSVC, check _M_IX86_FP.
-// For 64 bit Intel with MSVC, SSE2 is always supported.
-#if !defined(ITK_WRAPPING_PARSER)
-#  if (defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP >= 2)) ||                                              \
-       (defined(__x86_64__) || defined(_M_X64) || defined(__amd64)))
-#    include <emmintrin.h> // SSE2 intrinsics
-#  endif
+#if (defined(ITK_COMPILER_SUPPORTS_SSE2_32) || defined(ITK_COMPILER_SUPPORTS_SSE2_64)) && !defined(ITK_WRAPPING_PARSER)
+#  include <emmintrin.h> // SSE2 intrinsics
 #endif
 
-// assume no SSE2:
+// Initially assume no SSE2:
 #define USE_SSE2_64IMPL 0
 #define USE_SSE2_32IMPL 0
 
-// For apple assume sse2 is on for all intel builds, check for 64 and 32
-// bit versions
-#if defined(__APPLE__) && defined(__SSE2__) && !defined(ITK_WRAPPING_PARSER)
-
-#  if defined(__i386__)
-#    undef USE_SSE2_32IMPL
-#    define USE_SSE2_32IMPL 1
-#  endif
-
-#  if defined(__x86_64)
-//   Turn on the 64 bits implementation
-#    undef USE_SSE2_64IMPL
-#    define USE_SSE2_64IMPL 1
-//   Turn on also the 32 bits implementation
-//   since it is available in 64 bits versions.
-#    undef USE_SSE2_32IMPL
-#    define USE_SSE2_32IMPL 1
-#  endif
-
-#else
-
-// For non-apple (no universal binary possible) just use the
-// try-compile set ITK_COMPILER_SUPPORTS_SSE2_32 and
-// ITK_COMPILER_SUPPORTS_SSE2_64 to set values:
-
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined(ITK_WRAPPING_PARSER)
-#    undef USE_SSE2_32IMPL
-#    define USE_SSE2_32IMPL 1
-#  endif
-#  if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined(ITK_WRAPPING_PARSER)
-#    undef USE_SSE2_64IMPL
-#    define USE_SSE2_64IMPL 1
-#  endif
-
+// Turn on 32-bit and/or 64-bit SSE2 impl when using any compiler on x86 platform.
+#if defined(ITK_COMPILER_SUPPORTS_SSE2_32) && !defined(ITK_WRAPPING_PARSER)
+#  undef USE_SSE2_32IMPL
+#  define USE_SSE2_32IMPL 1
+#endif
+#if defined(ITK_COMPILER_SUPPORTS_SSE2_64) && !defined(ITK_WRAPPING_PARSER)
+#  undef USE_SSE2_64IMPL
+#  define USE_SSE2_64IMPL 1
 #endif
 
-
-// Turn on 32-bit and 64-bit asm impl when using GCC on x86 platform with the
+// Turn on 32-bit and 64-bit asm impl when using GCC/clang on x86 platform with the
 // following exception:
 //   GCCXML
-#if defined(__GNUC__) && (!defined(ITK_WRAPPING_PARSER)) &&                                                            \
+#if defined(__GNUC__) && !defined(ITK_WRAPPING_PARSER) &&                                                              \
   (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64))
 #  define GCC_USE_ASM_32IMPL 1
 #  define GCC_USE_ASM_64IMPL 1
@@ -95,8 +62,9 @@
 #  define GCC_USE_ASM_32IMPL 0
 #  define GCC_USE_ASM_64IMPL 0
 #endif
-// Turn on 32-bit and 64-bit asm impl when using msvc on 32 bits windows
-#if defined(VCL_VC) && (!defined(ITK_WRAPPING_PARSER)) && !defined(_WIN64)
+
+// Turn on 32-bit and 64-bit asm impl when using MSVC on 32-bit x86 Windows
+#if defined(_MSC_VER) && !defined(ITK_WRAPPING_PARSER) && !defined(_WIN64)
 #  define VC_USE_ASM_32IMPL 1
 #  define VC_USE_ASM_64IMPL 1
 #else
@@ -172,7 +140,7 @@ CLANG_PRAGMA_POP
 ////////////////////////////////////////
 // 32 bits versions
 
-#if USE_SSE2_32IMPL // sse2 implementation
+#if USE_SSE2_32IMPL // SSE2 implementation
 
 inline int32_t
 RoundHalfIntegerToEven_32(double x)
@@ -192,7 +160,7 @@ RoundHalfIntegerToEven_32(float x)
   return _mm_cvtss_si32(_mm_set_ss(x));
 }
 
-#elif GCC_USE_ASM_32IMPL // gcc asm implementation
+#elif GCC_USE_ASM_32IMPL // GCC/clang x86 asm implementation
 
 inline int32_t
 RoundHalfIntegerToEven_32(double x)
@@ -338,7 +306,7 @@ Ceil_32(float x)
 ////////////////////////////////////////
 // 64 bits versions
 
-#if USE_SSE2_64IMPL // sse2 implementation
+#if USE_SSE2_64IMPL // SSE2 implementation
 
 inline int64_t
 RoundHalfIntegerToEven_64(double x)
@@ -358,7 +326,7 @@ RoundHalfIntegerToEven_64(float x)
   return _mm_cvtss_si64(_mm_set_ss(x));
 }
 
-#elif GCC_USE_ASM_64IMPL // gcc asm implementation
+#elif GCC_USE_ASM_64IMPL // GCC/clang x86 asm implementation
 
 inline int64_t
 RoundHalfIntegerToEven_64(double x)

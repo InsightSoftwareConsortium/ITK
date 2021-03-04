@@ -83,8 +83,6 @@
 #cmakedefine ITK_USE_FFTWD
 #cmakedefine ITK_USE_CUFFTW
 #cmakedefine ITK_USE_64BITS_IDS
-#cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
-#cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64
 #cmakedefine ITK_USE_GPU
 #cmakedefine ITK_TEMPLATE_VISIBILITY_DEFAULT
 #cmakedefine USE_COMPILER_HIDDEN_VISIBILITY
@@ -148,9 +146,6 @@
 #if ITK_CMAKEDEFINE_VAR_@HAVE_UNISTD_H@
 # define ITK_HAVE_UNISTD_H
 #endif /* HAVE_UNISTD_H */
-#if ITK_CMAKEDEFINE_VAR_@HAVE_EMMINTRIN_H@
-# define ITK_HAVE_EMMINTRIN_H
-#endif /* HAVE_EMMINTRIN_H */
 
 
 #undef ITK_CMAKEDEFINE_VAR_1
@@ -183,5 +178,19 @@
 #endif
 
 #define ITK_DEFAULT_THREADER_@ITK_DEFAULT_THREADER@
+
+// Most compilers define __SSEn__ macros, but not MSVC.
+// For 32 bit Intel with MSVC, check _M_IX86_FP.
+// 64 bit Intel x86 always supports both 32 and 64 bit SSE2.
+
+#if defined(__SSE2__) || defined(__x86_64__) || defined(_M_X64) || defined(__amd64)
+#  define ITK_COMPILER_SUPPORTS_SSE2_64
+#endif
+
+#if defined(ITK_COMPILER_SUPPORTS_SSE2_64) || \
+    defined(__i386__) || \
+    (defined(_M_IX86_FP) && (_M_IX86_FP >= 2))
+#  define ITK_COMPILER_SUPPORTS_SSE2_32
+#endif
 
 #endif //itkConfigure_h
