@@ -271,8 +271,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   //  typename TTransform::InverseTransformBasePointer
   //      movingTransform = transform->GetInverseTransform();
 
-  typename TTransform::Pointer movingTransform =
-    dynamic_cast<TTransform *>(transform->GetInverseTransform().GetPointer());
+  typename TTransform::Pointer movingTransform = transform->GetInverseTransform().GetPointer();
 
   // Write out the images if requested, for debugging only
   if (false)

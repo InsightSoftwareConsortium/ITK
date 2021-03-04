@@ -310,7 +310,7 @@ AddToTransformList(typename TInputTransformType::ConstPointer &             tran
     for (; it != inputTransformList.end(); ++it)
     {
       // get the input sub transform
-      const auto * inSub = dynamic_cast<const InputTransformType *>((*it).GetPointer());
+      const InputTransformType * const inSub = it->GetPointer();
       // convert each sub transform and push them to the output transform list
       std::string            inSubName = inSub->GetTransformTypeAsString();
       OutputTransformPointer convertedSub = IOhelper::CreateNewTypeTransform(inSubName);

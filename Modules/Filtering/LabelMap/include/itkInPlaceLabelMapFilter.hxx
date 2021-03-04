@@ -70,7 +70,7 @@ InPlaceLabelMapFilter<TInputImage>::AllocateOutputs()
     // Graft this first input to the output.  Later, we'll need to
     // remove the input's hold on the bulk data.
     //
-    OutputImagePointer inputAsOutput = dynamic_cast<TOutputImage *>(const_cast<TInputImage *>(this->GetInput()));
+    OutputImagePointer inputAsOutput = const_cast<TInputImage *>(this->GetInput());
 
     if (inputAsOutput)
     {
