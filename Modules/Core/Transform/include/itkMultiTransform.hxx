@@ -333,7 +333,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetInverse(Se
   inverse->ClearTransformQueue();
   for (it = this->m_TransformQueue.begin(); it != this->m_TransformQueue.end(); ++it)
   {
-    TransformTypePointer inverseTransform = dynamic_cast<TransformType *>(((*it)->GetInverseTransform()).GetPointer());
+    TransformTypePointer inverseTransform = ((*it)->GetInverseTransform()).GetPointer();
     if (!inverseTransform)
     {
       inverse->ClearTransformQueue();

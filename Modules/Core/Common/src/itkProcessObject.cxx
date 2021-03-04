@@ -91,7 +91,7 @@ ProcessObject::MakeOutput(const DataObjectIdentifierType & name)
     return this->MakeOutput(this->MakeIndexFromOutputName(name));
   }
 
-  return itkDynamicCastInDebugMode<DataObject *>(DataObject::New().GetPointer());
+  return DataObject::New().GetPointer();
 }
 
 
