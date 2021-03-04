@@ -39,7 +39,7 @@ LBFGS2Optimizerv4 ::LBFGS2Optimizerv4()
 }
 
 
-LBFGS2Optimizerv4 ::~LBFGS2Optimizerv4() = default;
+LBFGS2Optimizerv4::~LBFGS2Optimizerv4() = default;
 
 void
 LBFGS2Optimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const

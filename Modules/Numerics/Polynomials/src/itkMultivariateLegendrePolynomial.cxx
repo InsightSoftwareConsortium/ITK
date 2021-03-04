@@ -56,7 +56,7 @@ MultivariateLegendrePolynomial::MultivariateLegendrePolynomial(unsigned int     
   }
 }
 
-MultivariateLegendrePolynomial ::~MultivariateLegendrePolynomial() = default;
+MultivariateLegendrePolynomial::~MultivariateLegendrePolynomial() = default;
 
 void
 MultivariateLegendrePolynomial::Print(std::ostream & os) const

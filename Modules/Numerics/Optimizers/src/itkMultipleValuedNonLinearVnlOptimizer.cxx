@@ -37,7 +37,7 @@ MultipleValuedNonLinearVnlOptimizer::MultipleValuedNonLinearVnlOptimizer()
 /**
  * Destructor
  */
-MultipleValuedNonLinearVnlOptimizer ::~MultipleValuedNonLinearVnlOptimizer()
+MultipleValuedNonLinearVnlOptimizer::~MultipleValuedNonLinearVnlOptimizer()
 {
   delete m_CostFunctionAdaptor;
   m_CostFunctionAdaptor = nullptr;

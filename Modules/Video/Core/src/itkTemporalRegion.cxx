@@ -32,7 +32,7 @@ TemporalRegion::TemporalRegion()
 //
 // Destructor
 //
-TemporalRegion ::~TemporalRegion() = default;
+TemporalRegion::~TemporalRegion() = default;
 
 // ---------------------------------------------------------------------------
 void
@@ -112,14 +112,14 @@ TemporalRegion::IsEqualInRealTime(const Self & region) const
 
 // ---------------------------------------------------------------------------
 bool
-TemporalRegion ::operator==(const Self & region) const
+TemporalRegion::operator==(const Self & region) const
 {
   return IsEqualInFrames(region) && IsEqualInRealTime(region);
 }
 
 // ---------------------------------------------------------------------------
 bool
-TemporalRegion ::operator!=(const Self & region) const
+TemporalRegion::operator!=(const Self & region) const
 {
   return !(operator==(region));
 }

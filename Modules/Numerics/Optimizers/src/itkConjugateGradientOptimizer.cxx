@@ -32,7 +32,7 @@ ConjugateGradientOptimizer::ConjugateGradientOptimizer()
 /**
  * Destructor
  */
-ConjugateGradientOptimizer ::~ConjugateGradientOptimizer()
+ConjugateGradientOptimizer::~ConjugateGradientOptimizer()
 {
   delete m_VnlOptimizer;
 }

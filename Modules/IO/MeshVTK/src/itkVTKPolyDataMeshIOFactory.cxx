@@ -35,7 +35,7 @@ VTKPolyDataMeshIOFactory ::VTKPolyDataMeshIOFactory()
     "itkMeshIOBase", "itkVTKPolyDataMeshIO", "VTK Polydata IO", true, CreateObjectFunction<VTKPolyDataMeshIO>::New());
 }
 
-VTKPolyDataMeshIOFactory ::~VTKPolyDataMeshIOFactory() = default;
+VTKPolyDataMeshIOFactory::~VTKPolyDataMeshIOFactory() = default;
 
 
 const char *

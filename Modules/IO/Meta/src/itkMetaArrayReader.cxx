@@ -25,7 +25,7 @@ MetaArrayReader::MetaArrayReader()
 
 {}
 
-MetaArrayReader ::~MetaArrayReader() = default;
+MetaArrayReader::~MetaArrayReader() = default;
 
 void
 MetaArrayReader::SetBuffer(void * _buffer)

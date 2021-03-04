@@ -54,7 +54,7 @@ SimplexMeshGeometry::SimplexMeshGeometry()
   closestAttractorIndex = 0;
 }
 
-SimplexMeshGeometry ::~SimplexMeshGeometry()
+SimplexMeshGeometry::~SimplexMeshGeometry()
 {
   delete this->neighborSet;
   this->neighborSet = nullptr;

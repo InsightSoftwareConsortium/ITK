@@ -31,5 +31,5 @@ const int TetrahedronCellTopology ::m_Edges[6][2] = { { 0, 1 }, { 1, 2 }, { 2, 0
 
 TetrahedronCellTopology::TetrahedronCellTopology() = default;
 
-TetrahedronCellTopology ::~TetrahedronCellTopology() = default;
+TetrahedronCellTopology::~TetrahedronCellTopology() = default;
 } // end namespace itk

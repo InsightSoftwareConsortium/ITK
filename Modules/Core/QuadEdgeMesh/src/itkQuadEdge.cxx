@@ -27,7 +27,7 @@ QuadEdge::QuadEdge()
 }
 
 // ---------------------------------------------------------------------
-QuadEdge ::~QuadEdge()
+QuadEdge::~QuadEdge()
 {
   this->m_Onext = nullptr;
   this->m_Rot = nullptr;

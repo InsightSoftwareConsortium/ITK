@@ -53,7 +53,7 @@ struct FFTWGlobalConfigurationGlobals
 
 WisdomFilenameGeneratorBase::WisdomFilenameGeneratorBase() = default;
 
-WisdomFilenameGeneratorBase ::~WisdomFilenameGeneratorBase() = default;
+WisdomFilenameGeneratorBase::~WisdomFilenameGeneratorBase() = default;
 
 ManualWisdomFilenameGenerator::ManualWisdomFilenameGenerator(std::string wfn)
   : m_WisdomFilename(std::move(wfn))
@@ -489,7 +489,7 @@ FFTWGlobalConfiguration ::FFTWGlobalConfiguration()
   }
 }
 
-FFTWGlobalConfiguration ::~FFTWGlobalConfiguration()
+FFTWGlobalConfiguration::~FFTWGlobalConfiguration()
 {
   if (this->m_WriteWisdomCache && this->m_NewWisdomAvailable)
   {

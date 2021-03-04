@@ -32,7 +32,7 @@ OFFMeshIOFactory ::OFFMeshIOFactory()
   this->RegisterOverride("itkMeshIOBase", "itkOFFMeshIO", "OFF Mesh IO", true, CreateObjectFunction<OFFMeshIO>::New());
 }
 
-OFFMeshIOFactory ::~OFFMeshIOFactory() = default;
+OFFMeshIOFactory::~OFFMeshIOFactory() = default;
 
 const char *
 OFFMeshIOFactory::GetITKSourceVersion() const

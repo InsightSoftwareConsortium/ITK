@@ -58,7 +58,7 @@ SimpleFilterWatcher::SimpleFilterWatcher(const SimpleFilterWatcher & watch)
 }
 
 SimpleFilterWatcher &
-SimpleFilterWatcher ::operator=(const SimpleFilterWatcher & watch)
+SimpleFilterWatcher::operator=(const SimpleFilterWatcher & watch)
 {
   this->DeepCopy(watch);
   return *this;
@@ -147,7 +147,7 @@ SimpleFilterWatcher::RemoveObservers()
   }
 }
 
-SimpleFilterWatcher ::~SimpleFilterWatcher()
+SimpleFilterWatcher::~SimpleFilterWatcher()
 {
   if (m_Process)
   {

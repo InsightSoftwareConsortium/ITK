@@ -36,7 +36,7 @@ FreeSurferAsciiMeshIOFactory::FreeSurferAsciiMeshIOFactory()
                          CreateObjectFunction<FreeSurferAsciiMeshIO>::New());
 }
 
-FreeSurferAsciiMeshIOFactory ::~FreeSurferAsciiMeshIOFactory() = default;
+FreeSurferAsciiMeshIOFactory::~FreeSurferAsciiMeshIOFactory() = default;
 
 const char *
 FreeSurferAsciiMeshIOFactory::GetITKSourceVersion() const

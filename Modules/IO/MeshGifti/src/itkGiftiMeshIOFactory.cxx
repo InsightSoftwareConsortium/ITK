@@ -33,7 +33,7 @@ GiftiMeshIOFactory::GiftiMeshIOFactory()
     "itkMeshIOBase", "itkGiftiMeshIO", "Gifti Mesh IO", true, CreateObjectFunction<GiftiMeshIO>::New());
 }
 
-GiftiMeshIOFactory ::~GiftiMeshIOFactory() = default;
+GiftiMeshIOFactory::~GiftiMeshIOFactory() = default;
 
 const char *
 GiftiMeshIOFactory::GetITKSourceVersion() const

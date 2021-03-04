@@ -23,7 +23,7 @@ namespace itk
 MetaDataObjectBase::MetaDataObjectBase() = default;
 
 
-MetaDataObjectBase ::~MetaDataObjectBase() = default;
+MetaDataObjectBase::~MetaDataObjectBase() = default;
 
 
 const char *

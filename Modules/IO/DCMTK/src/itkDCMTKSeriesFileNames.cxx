@@ -36,7 +36,7 @@ DCMTKSeriesFileNames ::DCMTKSeriesFileNames()
   m_LoadPrivateTags = false;
 }
 
-DCMTKSeriesFileNames ::~DCMTKSeriesFileNames() = default;
+DCMTKSeriesFileNames::~DCMTKSeriesFileNames() = default;
 
 void
 DCMTKSeriesFileNames::SetInputDirectory(const char * name)

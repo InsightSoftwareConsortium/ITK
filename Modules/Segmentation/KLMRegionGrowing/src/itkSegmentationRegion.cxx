@@ -21,7 +21,7 @@ namespace itk
 {
 SegmentationRegion::SegmentationRegion() = default;
 
-SegmentationRegion ::~SegmentationRegion() = default;
+SegmentationRegion::~SegmentationRegion() = default;
 
 /**
  * PrintSelf

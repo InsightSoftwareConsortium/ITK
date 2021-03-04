@@ -23,7 +23,7 @@ namespace itk
 
 ThreadedIndexedContainerPartitioner::ThreadedIndexedContainerPartitioner() = default;
 
-ThreadedIndexedContainerPartitioner ::~ThreadedIndexedContainerPartitioner() = default;
+ThreadedIndexedContainerPartitioner::~ThreadedIndexedContainerPartitioner() = default;
 
 ThreadIdType
 ThreadedIndexedContainerPartitioner::PartitionDomain(const ThreadIdType threadId,

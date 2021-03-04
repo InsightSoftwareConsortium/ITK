@@ -174,7 +174,7 @@ SpatialObjectProperty::SetTagStringDictionary(const std::map<std::string, std::s
 }
 
 SpatialObjectProperty::Self &
-SpatialObjectProperty ::operator=(const SpatialObjectProperty & rhs)
+SpatialObjectProperty::operator=(const SpatialObjectProperty & rhs)
 {
   if (this != &rhs)
   {

@@ -32,7 +32,7 @@ ProgressAccumulator::ProgressAccumulator()
   m_CallbackCommand->SetCallbackFunction(this, &Self::ReportProgress);
 }
 
-ProgressAccumulator ::~ProgressAccumulator()
+ProgressAccumulator::~ProgressAccumulator()
 {
   UnregisterAllFilters();
 }

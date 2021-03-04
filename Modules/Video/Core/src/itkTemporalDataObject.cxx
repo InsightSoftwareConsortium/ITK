@@ -42,7 +42,7 @@ TemporalDataObject::TemporalDataObject()
 }
 
 //----------------------------------------------------------------------------
-TemporalDataObject ::~TemporalDataObject() = default;
+TemporalDataObject::~TemporalDataObject() = default;
 
 //----------------------------------------------------------------------------
 TemporalDataObject::TemporalUnitType

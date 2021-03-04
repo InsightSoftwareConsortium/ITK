@@ -29,7 +29,7 @@ CumulativeGaussianCostFunction::CumulativeGaussianCostFunction()
   m_MeasurePointer = new MeasureType();
 }
 
-CumulativeGaussianCostFunction ::~CumulativeGaussianCostFunction()
+CumulativeGaussianCostFunction::~CumulativeGaussianCostFunction()
 {
   delete m_OriginalDataArray;
   delete m_MeasurePointer;

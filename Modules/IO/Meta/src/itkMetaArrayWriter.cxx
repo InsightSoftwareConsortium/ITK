@@ -25,7 +25,7 @@ MetaArrayWriter::MetaArrayWriter()
 
 {}
 
-MetaArrayWriter ::~MetaArrayWriter() = default;
+MetaArrayWriter::~MetaArrayWriter() = default;
 
 void
 MetaArrayWriter::ConvertTo(MET_ValueEnumType _metaElementType)

@@ -30,7 +30,7 @@ OFFMeshIO ::OFFMeshIO()
   m_TriangleCellType = true;
 }
 
-OFFMeshIO ::~OFFMeshIO() = default;
+OFFMeshIO::~OFFMeshIO() = default;
 
 bool
 OFFMeshIO ::CanReadFile(const char * fileName)

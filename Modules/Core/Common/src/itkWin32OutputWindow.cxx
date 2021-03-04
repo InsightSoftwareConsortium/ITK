@@ -32,7 +32,7 @@ namespace itk
 /** */
 HWND Win32OutputWindow::m_OutputWindow = nullptr;
 
-Win32OutputWindow ::~Win32OutputWindow()
+Win32OutputWindow::~Win32OutputWindow()
 {
   if (Win32OutputWindow::m_OutputWindow)
   {

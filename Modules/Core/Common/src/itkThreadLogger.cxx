@@ -29,7 +29,7 @@ ThreadLogger::ThreadLogger()
   m_Thread = std::thread(&ThreadLogger::ThreadFunction, this);
 }
 
-ThreadLogger ::~ThreadLogger()
+ThreadLogger::~ThreadLogger()
 {
   if (m_Thread.joinable())
   {
