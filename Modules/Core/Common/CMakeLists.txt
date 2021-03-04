@@ -39,11 +39,6 @@ check_include_files(fenv.h HAVE_FENV_H)
 # check if the platform has some widely used header files
 check_include_files("unistd.h" HAVE_UNISTD_H)
 
-
-# Check if this platform support the sse2 rounding functions for 32 and 64 bits
-include(CheckSupportForSSERounding)
-
-
 if(CMAKE_CXX_STANDARD)
    set(TRY_COMP_CXX_STANDARD
        -DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD})
