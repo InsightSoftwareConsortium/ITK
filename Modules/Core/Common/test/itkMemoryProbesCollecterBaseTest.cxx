@@ -23,9 +23,9 @@
 #  else
 #    include <unistd.h>
 inline void
-Sleep(unsigned int milleseconds)
+Sleep(unsigned int milliseconds)
 {
-  sleep(milleseconds / 1000);
+  sleep(milliseconds / 1000);
 }
 #  endif
 #else
@@ -36,7 +36,7 @@ Sleep(unsigned int milleseconds)
 int
 itkMemoryProbesCollecterBaseTest(int, char *[])
 {
-  const size_t mebibyte = 1024L * 1024L;
+  const size_t bufsize = 256L * 1024L * 1024L; // 256 MiB
 
   itk::MemoryProbesCollectorBase mcollecter;
   itk::MemoryProbe               probe;
@@ -47,8 +47,8 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   mcollecter.Clear();
   mcollecter.Start("Update");
   probe.Start();
-  auto * buf = new char[mebibyte];
-  for (unsigned int i = 0; i < mebibyte; i++)
+  auto * buf = new char[bufsize];
+  for (unsigned int i = 0; i < bufsize; i++)
   {
     buf[i] = static_cast<char>(i & 0xff);
   }
