@@ -44,12 +44,6 @@ check_include_files("unistd.h" HAVE_UNISTD_H)
 include(CheckSupportForSSERounding)
 
 
-# Check for atomic functions
-include(CheckSymbolExists)
-if(WIN32 AND NOT MINGW)
-  check_symbol_exists(InterlockedAdd "windows.h" ITK_HAS_INTERLOCKEDADD)
-endif()
-
 if(CMAKE_CXX_STANDARD)
    set(TRY_COMP_CXX_STANDARD
        -DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD})
