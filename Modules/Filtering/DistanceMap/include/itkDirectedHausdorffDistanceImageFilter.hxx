@@ -30,7 +30,6 @@ namespace itk
 {
 template <typename TInputImage1, typename TInputImage2>
 DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DirectedHausdorffDistanceImageFilter()
-  : m_MaxDistance(1)
 {
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);

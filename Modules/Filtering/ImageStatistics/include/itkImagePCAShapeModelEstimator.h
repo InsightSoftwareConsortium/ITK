@@ -202,7 +202,7 @@ private:
 
   VectorOfDoubleType m_EigenVectorNormalizedEnergy;
 
-  ImageSizeType m_InputImageSize;
+  ImageSizeType m_InputImageSize{ {} };
 
   unsigned int m_NumberOfPixels{ 0 };
 
