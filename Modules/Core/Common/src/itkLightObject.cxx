@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkLightObject.h"
-#include "itkObjectFactory.h"
+#include "itkObjectFactoryBase.h"
 #include <mutex>
 
 // Better name demanging for gcc
@@ -47,7 +47,7 @@ LightObject::Pointer
 LightObject::New()
 {
   Pointer       smartPtr;
-  LightObject * rawPtr = ::itk::ObjectFactory<LightObject>::Create();
+  LightObject * rawPtr = ObjectFactoryBase::CreateInstance(typeid(LightObject).name());
 
   if (rawPtr == nullptr)
   {
