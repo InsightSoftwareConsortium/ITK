@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <iomanip>
 #include "itkImageFileReader.h"
 #include "itkContourExtractor2DImageFilter.h"
 #include "itkTestingMacros.h"
@@ -391,7 +392,103 @@ itkContourExtractor2DImageFilterTestNamespace::MyVertexListList expected_disconn
                                                                                                                 _edcro +
                                                                                                                   11);
 
+itkContourExtractor2DImageFilterTestNamespace::MyVertexType _labels0[] = {
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2, 7.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1, 7.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(0, 7.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(-0.5, 7),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(-0.5, 6),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(-0.5, 5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(-0.5, 4),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(0, 3.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1, 3.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2, 3.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2.5, 4),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2, 4.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1, 4.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(0.5, 5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(0.5, 6),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1, 6.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1.5, 6),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2, 5.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2.5, 6),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2.5, 7),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2, 7.5),
+};
+itkContourExtractor2DImageFilterTestNamespace::MyVertexListType labels0(_labels0, _labels0 + 21);
+
+itkContourExtractor2DImageFilterTestNamespace::MyVertexType _labels1[] = {
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1, 6.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(0.5, 6),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(0.5, 5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1, 4.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2, 4.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2.5, 5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(2, 5.5),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1.5, 6),
+  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(1, 6.5),
+};
+itkContourExtractor2DImageFilterTestNamespace::MyVertexListType labels1(_labels1, _labels1 + 9);
+
+itkContourExtractor2DImageFilterTestNamespace::MyVertexListType labels[]{
+  labels0,
+  labels1,
+};
+itkContourExtractor2DImageFilterTestNamespace::MyVertexListList expected_values_as_labels_outputs(labels, labels + 2);
 /*--------------------------------------------------------------------------*/
+
+void
+ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer extractor,
+                         std::string                                                           name)
+{
+  for (unsigned long i = 0; i < extractor->GetNumberOfIndexedOutputs(); ++i)
+  {
+    itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
+      extractor->GetOutput(i)->GetVertexList();
+    std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexType _" << name << i << "[] = {" << std::endl;
+    for (unsigned j = 0; j < vertices->Size(); ++j)
+    {
+      std::cout << "  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(" << vertices->ElementAt(j)[0] << ", "
+                << vertices->ElementAt(j)[1] << ")," << std::endl;
+    }
+    std::cout << "};" << std::endl;
+    std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListType " << name << i << "(_" << name << i
+              << ", _" << name << i << " + " << vertices->Size() << ");" << std::endl
+              << std::endl;
+  }
+  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListType " << name << "[] {" << std::endl;
+  for (unsigned long i = 0; i < extractor->GetNumberOfIndexedOutputs(); ++i)
+  {
+    std::cout << name << i << ", ";
+  }
+  std::cout << std::endl << "};" << std::endl;
+  std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexListList "
+               "expected_values_as_"
+            << name << "_outputs(" << name << ", " << name << " + " << extractor->GetNumberOfIndexedOutputs() << ");"
+            << std::endl;
+}
+
+void
+showImage(const itkContourExtractor2DImageFilterTestNamespace::ImageType::ConstPointer toshowImage)
+{
+  using RegionType = itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType;
+  using SizeType = itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType::SizeType;
+  using SizeValueType = itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType::SizeType::SizeValueType;
+  using RegionConstIterator = itk::ImageRegionConstIterator<itkContourExtractor2DImageFilterTestNamespace::ImageType>;
+
+  const RegionType    toshowRegion{ toshowImage->GetRequestedRegion() };
+  const SizeType      toshowSize{ toshowRegion.GetSize() };
+  RegionConstIterator it{ toshowImage, toshowRegion };
+  for (SizeValueType row = 0; row < toshowSize[1]; ++row)
+  {
+    for (SizeValueType col = 0; col < toshowSize[0]; ++col)
+    {
+      std::cout << std::setw(4) << static_cast<int>(it.Get());
+      ++it;
+    }
+    std::cout << std::endl;
+  }
+}
 
 bool
 HasCorrectOutput(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::Pointer extractor,
@@ -460,28 +557,35 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
 
   extractor->SetContourValue(127.5);
 
+  // verify that the default VertexConnectHighPixels is false
+  ITK_TEST_EXPECT_TRUE(!extractor->GetVertexConnectHighPixels());
+
   // exercise Set/Get methods of VertexConnectHighPixels
   extractor->VertexConnectHighPixelsOn();
-  if (extractor->GetVertexConnectHighPixels() != true)
-  {
-    std::cerr << "VertexConnectHighPixels Set/Get Problem" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_TRUE(extractor->GetVertexConnectHighPixels());
+
+  // verify that the default ReverseContourOrientation is false
+  ITK_TEST_EXPECT_TRUE(!extractor->GetReverseContourOrientation());
 
   // exercise Set/Get methods of ReverseContourOrientation
   extractor->ReverseContourOrientationOn();
-  if (extractor->GetReverseContourOrientation() != true)
-  {
-    std::cerr << "ReverseContourOrientation Set/Get Problem" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_TRUE(extractor->GetReverseContourOrientation());
+
+  // verify that the default LabelContours is false
+  ITK_TEST_EXPECT_TRUE(!extractor->GetLabelContours());
+
+  // exercise Set/Get methods of LabelContours
+  extractor->LabelContoursOn();
+  ITK_TEST_EXPECT_TRUE(extractor->GetLabelContours());
 
   bool testsPassed = true;
   try
   {
     extractor->VertexConnectHighPixelsOff();
     extractor->ReverseContourOrientationOff();
+    extractor->LabelContoursOff();
     extractor->Update();
+
     std::cout << "Test 1... ";
     if (!HasCorrectOutput(extractor, expected_disconnected_clockwise_outputs))
     {
@@ -489,10 +593,13 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
       std::cout << "failed." << std::endl;
     }
     else
+    {
       std::cout << "passed." << std::endl;
+    }
 
     extractor->VertexConnectHighPixelsOff();
     extractor->ReverseContourOrientationOn();
+    extractor->LabelContoursOff();
     extractor->Update();
     std::cout << "Test 2... ";
     if (!HasCorrectOutput(extractor, expected_disconnected_counterclockwise_outputs))
@@ -507,6 +614,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
 
     extractor->VertexConnectHighPixelsOn();
     extractor->ReverseContourOrientationOff();
+    extractor->LabelContoursOff();
     extractor->Update();
     std::cout << "Test 3... ";
     if (!HasCorrectOutput(extractor, expected_connected_clockwise_outputs))
@@ -521,6 +629,7 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
 
     extractor->VertexConnectHighPixelsOff();
     extractor->ReverseContourOrientationOff();
+    extractor->LabelContoursOff();
     // Move the region to evaluate in by one on the top and bottom
     itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType region =
       reader->GetOutput()->GetLargestPossibleRegion();
@@ -548,6 +657,30 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     {
       testsPassed = false;
       std::cerr << "failed." << std::endl;
+    }
+    else
+    {
+      std::cout << "passed." << std::endl;
+    }
+
+    extractor->SetRequestedRegion({ { 0, 4 }, { 3, 4 } });
+    extractor->VertexConnectHighPixelsOff();
+    extractor->ReverseContourOrientationOff();
+    extractor->LabelContoursOn();
+    extractor->Update();
+
+    // showImage(extractor->GetInput()); // Produces:
+    //   0   0   0
+    //   0 255 255
+    //   0 255   0
+    //   0   0   0
+
+    // ShowExtractorAsVariables(extractor, "labels"); // Produces _label0 through expected_values_as_labels_outputs
+    std::cout << "Test 5... ";
+    if (!HasCorrectOutput(extractor, expected_values_as_labels_outputs))
+    {
+      testsPassed = false;
+      std::cout << "failed." << std::endl;
     }
     else
     {

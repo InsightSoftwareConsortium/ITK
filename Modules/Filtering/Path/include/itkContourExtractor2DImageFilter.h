@@ -46,17 +46,18 @@ namespace itk
  * Proceedings) 21(4) July 1987, p. 163-170). A simple explanation is available
  * here: http://users.polytech.unice.fr/~lingrand/MarchingCubes/algo.html
  *
- * There is a single ambiguous case in the marching squares algorithm: if a
- * given 2x2-pixel square has two high-valued and two low-valued pixels, each
- * pair diagonally adjacent. (Where high- and low-valued is with respect to the
- * contour value sought.) In this case, either the high-valued pixels can be
- * connected into the same "object" (where groups of pixels encircled by a given
- * contour are considered an object), or the low-valued pixels can be connected.
- * This is the "face connected" versus "face + vertex connected" (or 4- versus
- * 4-connected) distinction: high-valued pixels most be treated as one, and
- * low-valued as the other. By default, high-valued pixels are treated as
- * "face-connected" and low-valued pixels are treated as "face + vertex"
- * connected. To reverse this, call VertexConnectHighPixelsOn();
+ * There is an ambiguous case in the marching squares algorithm: if a given
+ * 2x2-pixel square has two high-valued and two low-valued pixels, each pair
+ * diagonally adjacent. (Note that high-valued and low-valued are with respect
+ * to the contour value sought when LabelContours is false. When
+ * LabelContours is true, high-valued means the label being traced and
+ * low-valued means any other label.) In this case, the default behavior is that
+ * the low-valued pixels are connected into the same contour via an isthmus that
+ * separates the high-valued pixels into separate contours. To reverse this,
+ * call VertexConnectHighPixelsOn(). Note that when LabelContours is true, the
+ * default behavior will leave all four pixels in separate contours. In this
+ * case, VertexConnectHighPixels equal to true can instead create contours that
+ * are crossing barbells.
  *
  * Outputs are not guaranteed to be closed paths: contours which intersect the
  * image edge will be left open. All other paths will be closed. (The
@@ -74,6 +75,12 @@ namespace itk
  * below-contour-value intensity. This convention can be reversed by calling
  * ReverseContourOrientationOn().
  *
+ * By default values are interpreted as intensities relative to a contour value.
+ * First calling LabelContoursOn() changes this behavior to instead interpret each
+ * value as a label.  Boundaries are computed for each label separately and all are
+ * returned.  The value of LabelContours affects the interpretation of
+ * VertexConnectHighPixels; see above.
+
  * By default the input image's largest possible region will be processed; call
  * SetRequestedRegion() to process a different region, or ClearRequestedRegion()
  * to revert to the default value. Note that the requested regions are usually
@@ -148,6 +155,11 @@ public:
   itkGetConstReferenceMacro(VertexConnectHighPixels, bool);
   itkBooleanMacro(VertexConnectHighPixels);
 
+  /** Return contours for all distinct labels */
+  itkSetMacro(LabelContours, bool);
+  itkGetConstReferenceMacro(LabelContours, bool);
+  itkBooleanMacro(LabelContours);
+
   /** Control whether the largest possible input region is used, or if a
    * custom requested region is to be used. */
   void
@@ -180,6 +192,19 @@ protected:
   void
   GenerateData() override;
 
+  /** Subroutine to create contours for a single label. */
+  void
+  CreateSingleContour(const InputImageType * image,
+                      InputRegionType        shrunkRegion,
+                      InputRealType          lowerIsovalue,
+                      InputRealType          upperIsovalue,
+                      SizeValueType          totalNumberOfPixels);
+
+  /** Subroutine to handle the case that the supplied values are
+   * labels, which are *not* compared to a contour value. */
+  void
+  GenerateDataForLabels();
+
   /** ContourExtractor2DImageFilter manually controls the input requested
    * region via SetRequestedRegion and ClearRequestedRegion, so it must
    * override the superclass method. */
@@ -193,18 +218,13 @@ private:
                              InputIndexType  fromIndex,
                              InputOffsetType toOffset);
 
-  void
-  AddSegment(const VertexType from, const VertexType to);
-
-  void
-  FillOutputs();
 
   InputRealType   m_ContourValue;
   bool            m_ReverseContourOrientation;
   bool            m_VertexConnectHighPixels;
+  bool            m_LabelContours;
   bool            m_UseCustomRegion;
   InputRegionType m_RequestedRegion;
-  unsigned int    m_NumberOfContoursCreated;
 
   // Represent each contour as deque of vertices to facilitate addition of
   // nodes at beginning or end. At the end of the processing, we will copy
@@ -284,12 +304,30 @@ private:
   using VertexMapIterator = typename VertexToContourMap::iterator;
   using VertexContourRefPair = typename VertexToContourMap::value_type;
 
-  // The contours we find in the image are stored here
-  ContourContainer m_Contours;
+  struct ContourData
+  {
+    ContourContainer   m_Contours;
+    VertexToContourMap m_ContourStarts;
+    VertexToContourMap m_ContourEnds;
+    SizeValueType      m_NumberOfContoursCreated = 0;
+  };
 
-  // And indexed by their beginning and ending points here
-  VertexToContourMap m_ContourStarts;
-  VertexToContourMap m_ContourEnds;
+  void
+  AddSegment(const VertexType from, const VertexType to, ContourData & contourData);
+
+  void
+  FillOutputs(ContourData & contourData);
+
+  // The number of outputs we have allocated capacity for
+  unsigned int m_NumberOutputsAllocated;
+
+  // The number of outputs we have written out so far
+  unsigned int m_NumberOutputsWritten;
+
+  // The number of labels we have yet to write outputs for
+  unsigned int m_NumberLabelsRemaining;
+
+  bool m_Interpolate = false; // whether contour positions will be interpolated (yes for single, no for LabelContours)
 };
 } // end namespace itk
 
