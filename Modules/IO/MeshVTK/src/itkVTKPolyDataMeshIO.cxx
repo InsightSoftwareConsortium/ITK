@@ -40,7 +40,7 @@ VTKPolyDataMeshIO ::VTKPolyDataMeshIO()
   EncapsulateMetaData<StringType>(metaDic, "cellTensorDataName", "CellTensorData");
 }
 
-VTKPolyDataMeshIO ::~VTKPolyDataMeshIO() = default;
+VTKPolyDataMeshIO::~VTKPolyDataMeshIO() = default;
 
 
 int

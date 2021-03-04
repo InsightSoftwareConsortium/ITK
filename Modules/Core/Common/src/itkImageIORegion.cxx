@@ -22,7 +22,7 @@
 namespace itk
 {
 
-ImageIORegion ::~ImageIORegion() = default;
+ImageIORegion::~ImageIORegion() = default;
 
 ImageIORegion::ImageIORegion(unsigned int dimension)
   : m_ImageDimension{ dimension }
@@ -32,7 +32,7 @@ ImageIORegion::ImageIORegion(unsigned int dimension)
 
 
 ImageIORegion &
-ImageIORegion ::operator=(const Self & region)
+ImageIORegion::operator=(const Self & region)
 {
   if ((region.m_Index.size() == m_Index.size()) && (region.m_Size.size() == m_Size.size()))
   {
@@ -229,14 +229,14 @@ ImageIORegion::GetNumberOfPixels() const
 }
 
 bool
-ImageIORegion ::operator==(const Self & region) const
+ImageIORegion::operator==(const Self & region) const
 {
   return (m_Index == region.m_Index) && (m_Size == region.m_Size) && (m_ImageDimension == region.m_ImageDimension);
 }
 
 /** Compare two regions. */
 bool
-ImageIORegion ::operator!=(const Self & region) const
+ImageIORegion::operator!=(const Self & region) const
 {
   return !(*this == region);
 }

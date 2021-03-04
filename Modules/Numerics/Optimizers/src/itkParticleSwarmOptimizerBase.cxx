@@ -37,7 +37,7 @@ ParticleSwarmOptimizerBase::ParticleSwarmOptimizerBase()
   this->m_UseSeed = false;
 }
 
-ParticleSwarmOptimizerBase ::~ParticleSwarmOptimizerBase() = default;
+ParticleSwarmOptimizerBase::~ParticleSwarmOptimizerBase() = default;
 
 
 void

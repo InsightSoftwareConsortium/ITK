@@ -33,7 +33,7 @@ SingleValuedNonLinearVnlOptimizer::SingleValuedNonLinearVnlOptimizer()
 }
 
 /** Destructor */
-SingleValuedNonLinearVnlOptimizer ::~SingleValuedNonLinearVnlOptimizer()
+SingleValuedNonLinearVnlOptimizer::~SingleValuedNonLinearVnlOptimizer()
 {
   delete m_CostFunctionAdaptor;
   m_CostFunctionAdaptor = nullptr;

@@ -32,7 +32,7 @@ ParticleSwarmOptimizer::ParticleSwarmOptimizer()
 }
 
 
-ParticleSwarmOptimizer ::~ParticleSwarmOptimizer() = default;
+ParticleSwarmOptimizer::~ParticleSwarmOptimizer() = default;
 
 void
 ParticleSwarmOptimizer::PrintSelf(std::ostream & os, Indent indent) const

@@ -589,7 +589,7 @@ Object::Object()
   this->Modified();
 }
 
-Object ::~Object()
+Object::~Object()
 {
   itkDebugMacro(<< "Destructing!");
   delete m_SubjectImplementation;

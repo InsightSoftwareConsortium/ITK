@@ -30,7 +30,7 @@ BYUMeshIO ::BYUMeshIO()
   this->AddSupportedWriteExtension(".byu");
 }
 
-BYUMeshIO ::~BYUMeshIO() = default;
+BYUMeshIO::~BYUMeshIO() = default;
 
 bool
 BYUMeshIO ::CanReadFile(const char * fileName)

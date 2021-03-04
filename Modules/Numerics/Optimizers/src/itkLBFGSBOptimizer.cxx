@@ -63,7 +63,7 @@ LBFGSBOptimizer ::LBFGSBOptimizer()
 /**
  * Destructor
  */
-LBFGSBOptimizer ::~LBFGSBOptimizer()
+LBFGSBOptimizer::~LBFGSBOptimizer()
 {
   delete m_VnlOptimizer;
 }

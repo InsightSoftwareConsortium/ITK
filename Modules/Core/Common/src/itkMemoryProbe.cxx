@@ -23,7 +23,7 @@ MemoryProbe::MemoryProbe()
   : ResourceProbe<MemoryProbe::MemoryLoadType, double>("Memory", "kB")
 {}
 
-MemoryProbe ::~MemoryProbe() = default;
+MemoryProbe::~MemoryProbe() = default;
 
 MemoryProbe::MemoryLoadType
 MemoryProbe::GetInstantValue() const

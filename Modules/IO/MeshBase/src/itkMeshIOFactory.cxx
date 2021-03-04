@@ -23,7 +23,7 @@ namespace itk
 
 MeshIOFactory::MeshIOFactory() = default;
 
-MeshIOFactory ::~MeshIOFactory() = default;
+MeshIOFactory::~MeshIOFactory() = default;
 
 
 MeshIOBase::Pointer

@@ -36,7 +36,7 @@ LevenbergMarquardtOptimizer::LevenbergMarquardtOptimizer()
 /**
  * Destructor
  */
-LevenbergMarquardtOptimizer ::~LevenbergMarquardtOptimizer()
+LevenbergMarquardtOptimizer::~LevenbergMarquardtOptimizer()
 {
   delete m_VnlOptimizer;
 }

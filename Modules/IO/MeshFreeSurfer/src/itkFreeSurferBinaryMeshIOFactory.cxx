@@ -36,7 +36,7 @@ FreeSurferBinaryMeshIOFactory::FreeSurferBinaryMeshIOFactory()
                          CreateObjectFunction<FreeSurferBinaryMeshIO>::New());
 }
 
-FreeSurferBinaryMeshIOFactory ::~FreeSurferBinaryMeshIOFactory() = default;
+FreeSurferBinaryMeshIOFactory::~FreeSurferBinaryMeshIOFactory() = default;
 
 const char *
 FreeSurferBinaryMeshIOFactory::GetITKSourceVersion() const

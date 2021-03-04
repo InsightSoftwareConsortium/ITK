@@ -21,7 +21,7 @@ namespace itk
 {
 SegmentationBorder::SegmentationBorder() = default;
 
-SegmentationBorder ::~SegmentationBorder() = default;
+SegmentationBorder::~SegmentationBorder() = default;
 
 /**
  * PrintSelf

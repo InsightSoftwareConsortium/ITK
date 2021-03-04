@@ -27,7 +27,7 @@ namespace itk
 
 FileFreeImageIO ::FileFreeImageIO() {}
 
-FileFreeImageIO ::~FileFreeImageIO() {}
+FileFreeImageIO::~FileFreeImageIO() {}
 
 bool
 FileFreeImageIO ::CanReadFile(const char * filename)

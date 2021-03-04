@@ -26,5 +26,5 @@ const int TriangleCellTopology ::m_Edges[3][2] = { { 0, 1 }, { 1, 2 }, { 2, 0 } 
 
 TriangleCellTopology::TriangleCellTopology() = default;
 
-TriangleCellTopology ::~TriangleCellTopology() = default;
+TriangleCellTopology::~TriangleCellTopology() = default;
 } // end namespace itk

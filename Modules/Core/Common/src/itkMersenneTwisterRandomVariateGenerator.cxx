@@ -86,7 +86,7 @@ MersenneTwisterRandomVariateGenerator::MersenneTwisterRandomVariateGenerator()
   SetSeed(121212);
 }
 
-MersenneTwisterRandomVariateGenerator ::~MersenneTwisterRandomVariateGenerator() = default;
+MersenneTwisterRandomVariateGenerator::~MersenneTwisterRandomVariateGenerator() = default;
 
 MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator ::hash(time_t t, clock_t c)

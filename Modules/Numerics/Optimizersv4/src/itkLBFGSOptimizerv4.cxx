@@ -23,7 +23,7 @@ namespace itk
 {
 LBFGSOptimizerv4 ::LBFGSOptimizerv4() = default;
 
-LBFGSOptimizerv4 ::~LBFGSOptimizerv4() = default;
+LBFGSOptimizerv4::~LBFGSOptimizerv4() = default;
 
 void
 LBFGSOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const

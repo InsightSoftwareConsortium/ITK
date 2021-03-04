@@ -27,7 +27,7 @@ FreeSurferAsciiMeshIO ::FreeSurferAsciiMeshIO()
   this->AddSupportedWriteExtension(".fsa");
 }
 
-FreeSurferAsciiMeshIO ::~FreeSurferAsciiMeshIO() = default;
+FreeSurferAsciiMeshIO::~FreeSurferAsciiMeshIO() = default;
 
 bool
 FreeSurferAsciiMeshIO ::CanReadFile(const char * fileName)

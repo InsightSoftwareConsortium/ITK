@@ -63,7 +63,7 @@ LBFGSBOptimizerv4 ::LBFGSBOptimizerv4()
   , m_BoundSelection(0)
 {}
 
-LBFGSBOptimizerv4 ::~LBFGSBOptimizerv4() = default;
+LBFGSBOptimizerv4::~LBFGSBOptimizerv4() = default;
 
 void
 LBFGSBOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const

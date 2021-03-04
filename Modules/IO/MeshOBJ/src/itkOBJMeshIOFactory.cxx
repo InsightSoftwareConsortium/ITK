@@ -32,7 +32,7 @@ OBJMeshIOFactory ::OBJMeshIOFactory()
   this->RegisterOverride("itkMeshIOBase", "itkOBJMeshIO", "OBJ Mesh IO", true, CreateObjectFunction<OBJMeshIO>::New());
 }
 
-OBJMeshIOFactory ::~OBJMeshIOFactory() = default;
+OBJMeshIOFactory::~OBJMeshIOFactory() = default;
 
 const char *
 OBJMeshIOFactory::GetITKSourceVersion() const

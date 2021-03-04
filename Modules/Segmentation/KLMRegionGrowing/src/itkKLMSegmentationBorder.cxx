@@ -26,7 +26,7 @@ KLMSegmentationBorder ::KLMSegmentationBorder()
   m_Region2 = nullptr;
 }
 
-KLMSegmentationBorder ::~KLMSegmentationBorder() = default;
+KLMSegmentationBorder::~KLMSegmentationBorder() = default;
 
 /**
  * PrintSelf

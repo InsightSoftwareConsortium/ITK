@@ -29,7 +29,7 @@ SingleValuedNonLinearVnlOptimizerv4 ::SingleValuedNonLinearVnlOptimizerv4()
   this->m_CachedDerivative.Fill(NumericTraits<DerivativeType::ValueType>::ZeroValue());
 }
 
-SingleValuedNonLinearVnlOptimizerv4 ::~SingleValuedNonLinearVnlOptimizerv4()
+SingleValuedNonLinearVnlOptimizerv4::~SingleValuedNonLinearVnlOptimizerv4()
 {
   if (this->m_CostFunctionAdaptor)
   {

@@ -28,7 +28,7 @@ FRPROptimizer ::FRPROptimizer()
   m_OptimizationType = OptimizationEnum::PolakRibiere;
 }
 
-FRPROptimizer ::~FRPROptimizer() = default;
+FRPROptimizer::~FRPROptimizer() = default;
 
 void
 FRPROptimizer::GetValueAndDerivative(ParametersType & p, double * val, ParametersType * xi)

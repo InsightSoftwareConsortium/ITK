@@ -23,14 +23,14 @@ MetaDataDictionary::MetaDataDictionary()
   : m_Dictionary(std::make_shared<MetaDataDictionaryMapType>())
 {}
 
-MetaDataDictionary ::~MetaDataDictionary() = default;
+MetaDataDictionary::~MetaDataDictionary() = default;
 
 // NOTE: Desired behavior is to perform shallow copy, so m_Dictionary is shared
 //       as is thee default behavior for copy constructors.
 MetaDataDictionary::MetaDataDictionary(const MetaDataDictionary &) = default;
 
 MetaDataDictionary &
-MetaDataDictionary ::operator=(const MetaDataDictionary & old)
+MetaDataDictionary::operator=(const MetaDataDictionary & old)
 {
   if (this != &old)
   {
@@ -51,13 +51,13 @@ MetaDataDictionary::Print(std::ostream & os) const
   }
 }
 
-MetaDataObjectBase::Pointer & MetaDataDictionary ::operator[](const std::string & key)
+MetaDataObjectBase::Pointer & MetaDataDictionary::operator[](const std::string & key)
 {
   MakeUnique();
   return (*m_Dictionary)[key];
 }
 
-const MetaDataObjectBase * MetaDataDictionary ::operator[](const std::string & key) const
+const MetaDataObjectBase * MetaDataDictionary::operator[](const std::string & key) const
 {
   auto iter = m_Dictionary->find(key);
   if (iter == m_Dictionary->end())

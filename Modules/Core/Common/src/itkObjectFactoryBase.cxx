@@ -519,7 +519,7 @@ ObjectFactoryBase::ObjectFactoryBase()
 /**
  * Unload the library and free the path string
  */
-ObjectFactoryBase ::~ObjectFactoryBase()
+ObjectFactoryBase::~ObjectFactoryBase()
 {
   m_OverrideMap->erase(m_OverrideMap->begin(), m_OverrideMap->end());
   delete m_OverrideMap;

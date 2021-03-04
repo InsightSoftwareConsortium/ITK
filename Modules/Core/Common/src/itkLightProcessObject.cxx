@@ -32,7 +32,7 @@ LightProcessObject::LightProcessObject()
  * Destructor for the LightProcessObject class. We've got to
  * UnRegister() the use of any input classes.
  */
-LightProcessObject ::~LightProcessObject() = default;
+LightProcessObject::~LightProcessObject() = default;
 
 /**
  * Update the progress of the process object. If a ProgressMethod exists,

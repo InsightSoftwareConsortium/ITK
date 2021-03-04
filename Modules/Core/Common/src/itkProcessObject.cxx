@@ -101,7 +101,7 @@ DataObject::Pointer ProcessObject::MakeOutput(DataObjectPointerArraySizeType)
 }
 
 
-ProcessObject ::~ProcessObject()
+ProcessObject::~ProcessObject()
 {
   /*
    * Destructor for the ProcessObject class. We've got to

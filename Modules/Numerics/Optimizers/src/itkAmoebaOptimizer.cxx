@@ -35,7 +35,7 @@ AmoebaOptimizer::AmoebaOptimizer()
 }
 
 
-AmoebaOptimizer ::~AmoebaOptimizer()
+AmoebaOptimizer::~AmoebaOptimizer()
 {
   delete m_VnlOptimizer;
 }

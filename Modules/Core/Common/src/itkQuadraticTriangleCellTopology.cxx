@@ -26,5 +26,5 @@ const int QuadraticTriangleCellTopology ::m_Edges[3][3] = { { 0, 4, 1 }, { 1, 5,
 
 QuadraticTriangleCellTopology::QuadraticTriangleCellTopology() = default;
 
-QuadraticTriangleCellTopology ::~QuadraticTriangleCellTopology() = default;
+QuadraticTriangleCellTopology::~QuadraticTriangleCellTopology() = default;
 } // end namespace itk
