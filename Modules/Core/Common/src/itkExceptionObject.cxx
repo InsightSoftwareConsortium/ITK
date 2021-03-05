@@ -47,7 +47,6 @@ protected:
     m_What = m_File;
     m_What += loc.str();
     m_What += m_Description;
-    m_WhatPointer = m_What.c_str();
   }
 
 private:
@@ -61,7 +60,6 @@ private:
   const std::string  m_File;
   const unsigned int m_Line;
   std::string        m_What;
-  const char *       m_WhatPointer;
 };
 
 /** \class ExceptionObject::ReferenceCountedExceptionData
@@ -262,21 +260,18 @@ ExceptionObject::SetDescription(const char * s)
 const char *
 ExceptionObject::GetLocation() const
 {
-  // Note: std::string::c_str() might throw an exception.
   return m_ExceptionData.IsNull() ? "" : this->GetExceptionData()->m_Location.c_str();
 }
 
 const char *
 ExceptionObject::GetDescription() const
 {
-  // Note: std::string::c_str() might throw an exception.
   return m_ExceptionData.IsNull() ? "" : this->GetExceptionData()->m_Description.c_str();
 }
 
 const char *
 ExceptionObject::GetFile() const
 {
-  // Note: std::string::c_str() might throw an exception.
   return m_ExceptionData.IsNull() ? "" : this->GetExceptionData()->m_File.c_str();
 }
 
@@ -291,9 +286,7 @@ ExceptionObject::what() const noexcept
 {
   const ExceptionData * const thisData = this->GetExceptionData();
 
-  // Note: m_What.c_str() wouldn't be safe, because c_str() might throw an
-  // exception.
-  return thisData ? thisData->m_WhatPointer : "ExceptionObject";
+  return thisData ? thisData->m_What.c_str() : "ExceptionObject";
 }
 
 void
