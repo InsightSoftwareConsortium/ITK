@@ -19,6 +19,8 @@
 #include "itkIntTypes.h"
 #include "itkNumericTraits.h"
 
+#include <iostream> // For cout.
+
 namespace
 {
 

@@ -21,6 +21,7 @@
 #include "itkMacro.h"
 #include "itkIntTypes.h"
 
+#include <iostream> // For cout.
 #include <string>
 #include <vector>
 

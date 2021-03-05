@@ -19,10 +19,9 @@
 #  error "Do not include itkExceptionObject.h directly,  include itkMacro.h instead."
 #else // itkExceptionObject_h
 
+#  include <memory> // For shared_ptr.
 #  include <string>
 #  include <stdexcept>
-
-#  include "itkSmartPointer.h"
 
 namespace itk
 {
@@ -50,10 +49,15 @@ class ITKCommon_EXPORT ExceptionObject : public std::exception
 public:
   static constexpr const char * const default_exception_message = "Generic ExceptionObject";
   using Superclass = std::exception;
-  /** Various types of constructors.  Note that these functions will be
-   * called when children are instantiated.  The default constructor and
-   * the copy constructor of ExceptionObject never throw an exception. */
-  ExceptionObject() noexcept;
+
+  /** Explicitly-defaulted default-constructor. Creates an empty exception object.
+   * \note The other five "special member functions" (copy-constructor,
+   * copy-assignment operator, move-constructor, move-assignment operator,
+   * and destructor) are defaulted implicitly, following the C++ "Rule of Zero".
+   * All of these special member functions are `noexcept`.
+   */
+  ExceptionObject() noexcept = default;
+
   explicit ExceptionObject(const char * file,
                            unsigned int lineNumber = 0,
                            const char * desc = "None",
@@ -62,14 +66,6 @@ public:
                            unsigned int lineNumber = 0,
                            std::string  desc = "None",
                            std::string  loc = "Unknown");
-  ExceptionObject(const ExceptionObject & orig) noexcept;
-
-  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~ExceptionObject() noexcept override;
-
-  /** Assignment operator. */
-  ExceptionObject &
-  operator=(const ExceptionObject & orig) noexcept;
 
   /** Equivalence operator. */
   virtual bool
@@ -122,48 +118,9 @@ public:
   what() const noexcept override;
 
 private:
-  /** \class ReferenceCounterInterface
-   *
-   *  Exception data.  Location of the error and description of the error.
-   *
-   *  Class hierarchy
-   *
-   *
-   *           ReferenceCounterInterface (Register/UnRegister)
-   *                     ^
-   *                     |
-   *               ExceptionData       LightObject (Register/UnRegister)
-   *                     ^                  ^
-   *                     |                  |
-   *                   ReferenceCountedExceptionData (Register/UnRegister)
-   *
-   *
-   *
-   *  The ReferenceCounterInterface is an abstract class providing
-   *  the API interface expected by the SmartPointer. Its second derived
-   *  class, the ReferenceCountedExceptionData, double inherits from LightObject
-   *  and ExceptionData, and overloads the Register()/UnRegister() methods to
-   *  delegate them to its second parent, the LightObject.
-   *
-   * \ingroup ITKCommon
-   */
-  class ReferenceCounterInterface
-  {
-  public:
-    virtual void
-    Register() const = 0;
-
-    virtual void
-    UnRegister() const = 0;
-
-    ReferenceCounterInterface();
-    virtual ~ReferenceCounterInterface();
-  };
   class ExceptionData;
-  class ReferenceCountedExceptionData;
-  SmartPointer<const ReferenceCounterInterface> m_ExceptionData;
-  const ExceptionData *
-  GetExceptionData() const;
+
+  std::shared_ptr<const ExceptionData> m_ExceptionData;
 };
 
 /** Generic inserter operator for ExceptionObject and its subclasses. */
