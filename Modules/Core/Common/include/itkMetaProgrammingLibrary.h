@@ -19,6 +19,7 @@
 #define itkMetaProgrammingLibrary_h
 
 #include "itkMacro.h"
+#include "itkSmartPointer.h"
 
 namespace itk
 {
