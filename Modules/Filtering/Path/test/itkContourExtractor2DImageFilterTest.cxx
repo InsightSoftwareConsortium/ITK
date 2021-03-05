@@ -477,7 +477,7 @@ showImage(const itkContourExtractor2DImageFilterTestNamespace::ImageType::ConstP
   using RegionConstIterator = itk::ImageRegionConstIterator<itkContourExtractor2DImageFilterTestNamespace::ImageType>;
 
   const RegionType    toshowRegion{ toshowImage->GetRequestedRegion() };
-  const SizeType      toshowSize{ toshowRegion.GetSize() };
+  const SizeType      toshowSize = toshowRegion.GetSize();
   RegionConstIterator it{ toshowImage, toshowRegion };
   for (SizeValueType row = 0; row < toshowSize[1]; ++row)
   {

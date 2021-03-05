@@ -56,7 +56,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateData()
     m_Interpolate = true;
     const InputRegionType region{ this->GetInput()->GetRequestedRegion() };
 
-    typename InputRegionType::SizeType shrunkSize{ region.GetSize() };
+    typename InputRegionType::SizeType shrunkSize = region.GetSize();
     shrunkSize[0] -= 1;
     shrunkSize[1] -= 1;
     InputRegionType shrunkRegion(region.GetIndex(), shrunkSize);
@@ -151,7 +151,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
     const InputPixelType v1{ it.GetPixel(5) };
     const InputPixelType v2{ it.GetPixel(7) };
     const InputPixelType v3{ it.GetPixel(8) };
-    const InputIndexType index{ it.GetIndex() };
+    const InputIndexType index = it.GetIndex();
     unsigned char        squareCase{ 0 };
     if (v0 > lowerIsovalue && v0 <= upperIsovalue)
     {
@@ -287,14 +287,14 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
   {
     allLabels.assign(inputRange.cbegin(), inputRange.cend());
     std::sort(allLabels.begin(), allLabels.end());
-    const typename std::vector<InputPixelType>::const_iterator last{ std::unique(allLabels.begin(), allLabels.end()) };
+    typename std::vector<InputPixelType>::iterator last{ std::unique(allLabels.begin(), allLabels.end()) };
     allLabels.erase(last, allLabels.end());
   }
   m_NumberLabelsRemaining = allLabels.size(); // We haven't processed any yet
 
   // Compute bounding box for each label.  These will be [inclusive, inclusive] ranges in each coordinate, not
   // [inclusive, exclusive).
-  const IndexType left_top{ inputRegion.GetIndex() };
+  const IndexType left_top = inputRegion.GetIndex();
   const IndexType right_bot{ inputRegion.GetIndex()[0] + static_cast<IndexValueType>(inputRegion.GetSize()[0]) - 1,
                              inputRegion.GetIndex()[1] + static_cast<IndexValueType>(inputRegion.GetSize()[1]) - 1 };
   using BoundingBox = std::pair<IndexType, IndexType>;
@@ -308,7 +308,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     RegionConstIterator inputIt{ this->GetInput(), inputRegion };
     for (inputIt.GoToBegin(); !inputIt.IsAtEnd(); ++inputIt)
     {
-      BoundingBox & bbox{ bboxes[inputIt.Get()] };
+      BoundingBox & bbox = bboxes[inputIt.Get()];
       bbox.first[0] = std::min(bbox.first[0], inputIt.GetIndex()[0]);
       bbox.first[1] = std::min(bbox.first[1], inputIt.GetIndex()[1]);
       bbox.second[0] = std::max(bbox.second[0], inputIt.GetIndex()[0]);
@@ -336,8 +336,8 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
   for (const InputPixelType label : allLabels) // count total pixels for progress
   {
     const BoundingBox & bbox{ bboxes[label] };
-    const IndexType     min{ bbox.first };
-    const IndexType     max{ bbox.second };
+    const IndexType     min = bbox.first;
+    const IndexType     max = bbox.second;
 
     const IndexType       shrunkIndex{ min[0] - 1, min[1] - 1 };
     const SizeType        shrunkSize{ static_cast<SizeValueType>(max[0] - min[0]) + 2,
@@ -358,8 +358,8 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 
     // Use the bounding box for this label
     const BoundingBox &  bbox{ bboxes[label] };
-    const IndexType      min{ bbox.first };
-    const IndexType      max{ bbox.second };
+    const IndexType      min = bbox.first;
+    const IndexType      max = bbox.second;
     const InputPixelType differentLabel = previousLabel;
 
     // Set boundary values in largerRegion to be distinct from label if they will be looked at.
@@ -461,17 +461,17 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   }
 
   // Try to find an existing contour that starts where the new segment ends.
-  const auto newTail{ contourData.m_ContourStarts.find(to) };
+  const auto newTail(contourData.m_ContourStarts.find(to));
   // Try to find an existing contour that ends where the new segment starts.
-  const auto newHead{ contourData.m_ContourEnds.find(from) };
+  const auto newHead(contourData.m_ContourEnds.find(from));
 
   if (newTail != contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
     // We need to connect these two contours with the current arc. The act of
     // connecting the two contours will add the needed arc.
-    const auto tail{ newTail->second };
+    const auto tail(newTail->second);
     itkAssertOrThrowMacro((tail->front() == to), "End doesn't match Beginning");
-    const auto head{ newHead->second };
+    const auto head(newHead->second);
     itkAssertOrThrowMacro((head->back() == from), "Beginning doesn't match End");
     if (head == tail)
     {
@@ -550,7 +550,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
     contourData.m_Contours.push_back(contour);
 
     // recall that end() is an iterator to one past the back!
-    const auto newContour{ --contourData.m_Contours.end() };
+    const auto newContour(--contourData.m_Contours.end());
     // add the endpoints and an iterator pointing to the contour
     // in the list to the maps.
     contourData.m_ContourStarts.insert(VertexContourRefPair(from, newContour));
@@ -559,7 +559,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   else if (newTail != contourData.m_ContourStarts.end() && newHead == contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be prepended.
-    const auto tail{ newTail->second };
+    const auto tail(newTail->second);
     itkAssertOrThrowMacro((tail->front() == to), "End doesn't match Beginning");
     tail->push_front(from);
     // erase the old start of this contour
@@ -570,7 +570,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   else if (newTail == contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be appended.
-    const auto head{ newHead->second };
+    const auto head(newHead->second);
     itkAssertOrThrowMacro((head->back() == from), "Beginning doesn't match End");
     head->push_back(to);
     // erase the old end of this contour
