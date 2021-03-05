@@ -36,6 +36,8 @@ LBFGS2Optimizerv4 ::LBFGS2Optimizerv4()
   // Initialize to default parameters
   lbfgs_parameter_init(&m_Pimpl->m_Parameters);
   m_StatusCode = 100;
+
+  this->m_EstimateScalesAtEachIteration = true;
 }
 
 
@@ -64,18 +66,20 @@ LBFGS2Optimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 
+void
+LBFGS2Optimizerv4::StartOptimization(bool doOnlyInitialization)
+{
+  Superclass::StartOptimization(doOnlyInitialization);
+  if (!doOnlyInitialization)
+  {
+    this->ResumeOptimization();
+  }
+}
+
 // Register callbacks and call the lbfgs routine
 void
-LBFGS2Optimizerv4 ::StartOptimization(bool doOnlyInitialization)
+LBFGS2Optimizerv4::ResumeOptimization()
 {
-
-  // Check if everything is setup correctly
-  Superclass::StartOptimization(doOnlyInitialization);
-  if (this->GetMetric()->HasLocalSupport())
-  {
-    itkExceptionMacro("The assigned transform has local-support. This is not supported for this optimizer. See the "
-                      "optimizer documentation.");
-  }
 
   this->InvokeEvent(StartEvent());
 
@@ -89,9 +93,8 @@ LBFGS2Optimizerv4 ::StartOptimization(bool doOnlyInitialization)
   }
 
   // TODO: only needed if SSE is enabled
-  LBFGS2Optimizerv4::PrecisionType * x = lbfgs_malloc(N);
-
-  std::memcpy(x, parameters.data_block(), sizeof(LBFGS2Optimizerv4::PrecisionType) * N);
+  PrecisionType * x = lbfgs_malloc(N);
+  std::memcpy(x, parameters.data_block(), sizeof(PrecisionType) * N);
 
   // Run lbfgs
   m_StatusCode = lbfgs(N,
@@ -109,16 +112,12 @@ LBFGS2Optimizerv4 ::StartOptimization(bool doOnlyInitialization)
     ++this->m_CurrentIteration;
   }
 
-
   // Copy results
   ParametersType optimizedParameters(N);
-  std::memcpy(optimizedParameters.data_block(), x, sizeof(LBFGS2Optimizerv4::PrecisionType) * N);
-
-  lbfgs_free(x);
-
+  std::memcpy(optimizedParameters.data_block(), x, sizeof(PrecisionType) * N);
   this->m_Metric->SetParameters(optimizedParameters);
+  lbfgs_free(x);
 }
-
 
 // LBFGS method callbacks
 LBFGS2Optimizerv4::PrecisionType
@@ -139,17 +138,30 @@ LBFGS2Optimizerv4::EvaluateCost(const LBFGS2Optimizerv4::PrecisionType * x,
                                 const LBFGS2Optimizerv4::PrecisionType)
 {
   ParametersType xItk(n);
-  std::memcpy(xItk.data_block(), x, n * sizeof(LBFGS2Optimizerv4::PrecisionType));
-
-  DerivativeType gItk(n);
-  gItk.SetData(g, n, false);
-
-  MeasureType value;
-
+  // TODO: potentially not thread safe since x is modified by lbfgs
+  // std::memcpy(xItk.data_block(), x, sizeof(PrecisionType) * n);
+  xItk.SetData(const_cast<PrecisionType *>(x), n, false);
   this->m_Metric->SetParameters(xItk);
-  this->m_Metric->GetValueAndDerivative(value, gItk);
 
-  gItk *= -1;
+  this->m_Gradient.SetSize(n);
+  this->m_Gradient.SetData(g, n, false);
+  PrecisionType value;
+  this->m_Metric->GetValueAndDerivative(value, this->m_Gradient);
+
+  this->ModifyGradientByScales();
+  this->EstimateLearningRate();
+  this->m_LearningRate *= -1;
+  this->ModifyGradientByLearningRate();
+  this->m_LearningRate *= -1;
+
+  /* Re-estimate the parameter scales if requested. */
+  if (this->m_EstimateScalesAtEachIteration && this->m_DoEstimateScales && this->m_ScalesEstimator.IsNotNull())
+  {
+    ScalesType scales;
+    this->m_ScalesEstimator->EstimateScales(scales);
+    this->SetScales(scales);
+    itkDebugMacro("Estimated scales = " << this->m_Scales);
+  }
 
   return value;
 }
@@ -171,12 +183,12 @@ LBFGS2Optimizerv4::UpdateProgressCallback(void *                                
 }
 
 int
-LBFGS2Optimizerv4::UpdateProgress(const LBFGS2Optimizerv4::PrecisionType * x,
-                                  const LBFGS2Optimizerv4::PrecisionType * g,
-                                  const LBFGS2Optimizerv4::PrecisionType   fx,
-                                  const LBFGS2Optimizerv4::PrecisionType   xnorm,
-                                  const LBFGS2Optimizerv4::PrecisionType   gnorm,
-                                  const LBFGS2Optimizerv4::PrecisionType   step,
+LBFGS2Optimizerv4::UpdateProgress(const LBFGS2Optimizerv4::PrecisionType *,
+                                  const LBFGS2Optimizerv4::PrecisionType *,
+                                  const LBFGS2Optimizerv4::PrecisionType fx,
+                                  const LBFGS2Optimizerv4::PrecisionType xnorm,
+                                  const LBFGS2Optimizerv4::PrecisionType gnorm,
+                                  const LBFGS2Optimizerv4::PrecisionType step,
                                   int,
                                   int k,
                                   int ls)
@@ -185,16 +197,18 @@ LBFGS2Optimizerv4::UpdateProgress(const LBFGS2Optimizerv4::PrecisionType * x,
   this->m_CurrentIteration = k - 1;
   this->m_CurrentMetricValue = fx;
 
-  m_CurrentGradient = g;
-  m_CurrentParameter = x;
   m_CurrentParameterNorm = xnorm;
   m_CurrentGradientNorm = gnorm;
   m_CurrentStepSize = step;
   m_CurrentNumberOfEvaluations = ls;
 
+
+  this->Modified();
   this->InvokeEvent(IterationEvent());
-  return 0;
+
+  return this->m_Stop;
 }
+
 
 const LBFGS2Optimizerv4::StopConditionReturnStringType
 LBFGS2Optimizerv4::GetStopConditionDescription() const
@@ -271,25 +285,6 @@ LBFGS2Optimizerv4::GetStopConditionDescription() const
       return "Current search direction increases objective function";
   }
   return "Unknown status";
-}
-
-// Disallow setting scale and weight
-void
-LBFGS2Optimizerv4 ::SetScales(const ScalesType &)
-{
-  itkWarningMacro(<< "LBFGS optimizer does not support scaling. All scales are set to one.");
-  m_Scales.SetSize(this->m_Metric->GetNumberOfLocalParameters());
-  m_Scales.Fill(NumericTraits<ScalesType::ValueType>::OneValue());
-  this->m_ScalesAreIdentity = true;
-}
-
-void
-LBFGS2Optimizerv4 ::SetWeights(const ScalesType)
-{
-  itkWarningMacro(<< "LBFGS optimizer does not support weights. All weights are set to one.");
-  m_Weights.SetSize(this->m_Metric->GetNumberOfLocalParameters());
-  m_Weights.Fill(NumericTraits<ScalesType::ValueType>::OneValue());
-  this->m_WeightsAreIdentity = true;
 }
 
 // A bunch of Set/Get methods for setting lbfgs parameters
@@ -554,6 +549,7 @@ LBFGS2Optimizerv4::GetOrthantwiseEnd() const
 {
   return m_Pimpl->m_Parameters.orthantwise_end;
 }
+
 
 /** Print enum values */
 std::ostream &
