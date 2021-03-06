@@ -529,8 +529,7 @@ OutputWindowDisplayDebugText(const char *);
  * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 #define itkExceptionMacro(x)                                                                                           \
   {                                                                                                                    \
-    itkSpecializedMessageExceptionMacro(ExceptionObject,                                                               \
-                                        "itk::ERROR: " << this->GetNameOfClass() << "(" << this << "): " x);           \
+    itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << "(" << this << "): " x);         \
   }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 
