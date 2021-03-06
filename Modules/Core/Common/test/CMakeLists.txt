@@ -63,8 +63,8 @@ itkAnnulusOperatorTest.cxx
 itkLineIteratorTest.cxx
 itkGaussianSpatialFunctionTest.cxx
 itkRealTimeClockTest.cxx
-itkRealTimeIntervalTest
-itkRealTimeStampTest
+itkRealTimeIntervalTest.cxx
+itkRealTimeStampTest.cxx
 itkTimeStampTest.cxx
 itkIntTypesTest.cxx
 itkBSplineKernelFunctionTest.cxx
@@ -115,7 +115,7 @@ itkThreadLoggerTest.cxx
 itkLoggerThreadWrapperTest.cxx
 itkThreadDefsTest.cxx
 itkMultiThreaderBaseTest.cxx
-itkMultiThreaderTypeFromEnvironmentTest
+itkMultiThreaderTypeFromEnvironmentTest.cxx
 itkMultiThreadingEnvironmentTest.cxx
 itkMultiThreaderParallelizeArrayTest.cxx
 itkMultithreadingTest.cxx
