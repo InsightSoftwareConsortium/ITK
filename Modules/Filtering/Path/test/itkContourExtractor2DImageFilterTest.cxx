@@ -469,7 +469,7 @@ ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::Extracto
 }
 
 void
-showImage(const itkContourExtractor2DImageFilterTestNamespace::ImageType::ConstPointer toshowImage)
+showRegion(const itkContourExtractor2DImageFilterTestNamespace::ImageType::ConstPointer toshowImage)
 {
   using RegionType = itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType;
   using SizeType = itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType::SizeType;
@@ -479,8 +479,16 @@ showImage(const itkContourExtractor2DImageFilterTestNamespace::ImageType::ConstP
   const RegionType    toshowRegion{ toshowImage->GetRequestedRegion() };
   const SizeType      toshowSize = toshowRegion.GetSize();
   RegionConstIterator it{ toshowImage, toshowRegion };
+
+  std::cout << "    --> ";
+  for (SizeValueType col = 0; col < toshowSize[0]; ++col)
+  {
+    std::cout << std::setw(4) << static_cast<int>(it.GetIndex()[0] + col);
+  }
+  std::cout << std::endl;
   for (SizeValueType row = 0; row < toshowSize[1]; ++row)
   {
+    std::cout << std::setw(6) << static_cast<int>(it.GetIndex()[1]) << ": ";
     for (SizeValueType col = 0; col < toshowSize[0]; ++col)
     {
       std::cout << std::setw(4) << static_cast<int>(it.Get());
@@ -669,13 +677,14 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     extractor->LabelContoursOn();
     extractor->Update();
 
-    // showImage(extractor->GetInput()); // Produces:
-    //   0   0   0
-    //   0 255 255
-    //   0 255   0
-    //   0   0   0
+    // showRegion(extractor->GetInput()); // Produces:
+    // -->    0   1   2
+    //  4:    0   0   0
+    //  5:    0 255 255
+    //  6:    0 255   0
+    //  7:    0   0   0
 
-    // ShowExtractorAsVariables(extractor, "labels"); // Produces _label0 through expected_values_as_labels_outputs
+    // ShowExtractorAsVariables(extractor, "labels"); // Produces _labels0 through expected_values_as_labels_outputs
     std::cout << "Test 5... ";
     if (!HasCorrectOutput(extractor, expected_values_as_labels_outputs))
     {

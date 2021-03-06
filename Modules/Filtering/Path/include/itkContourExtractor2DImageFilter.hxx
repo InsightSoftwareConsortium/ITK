@@ -20,12 +20,14 @@
 
 #include <algorithm>
 
-#include "itkConstantBoundaryCondition.h"
 #include "itkConstShapedNeighborhoodIterator.h"
-#include "itkTotalProgressReporter.h"
+#include "itkConstantBoundaryCondition.h"
 #include "itkContourExtractor2DImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionRange.h"
+#include "itkMultiThreaderBase.h"
+#include "itkShapedNeighborhoodIterator.h"
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {
@@ -38,55 +40,52 @@ ContourExtractor2DImageFilter<TInputImage>::ContourExtractor2DImageFilter()
   this->m_VertexConnectHighPixels = false;
   this->m_LabelContours = false;
   this->m_UseCustomRegion = false;
+  // We do not need to initialize this->m_RequestedRegion because m_UseCustomRegion == false.
+  this->m_UnusedLabel = NumericTraits<InputPixelType>::min();
 }
 
 template <typename TInputImage>
 void
 ContourExtractor2DImageFilter<TInputImage>::GenerateData()
 {
-  m_NumberOutputsAllocated = 0;
-  m_NumberOutputsWritten = 0;
-
   if (m_LabelContours) // each label has one or more contours
   {
     this->GenerateDataForLabels();
   }
   else // simple case of a single iso-value
   {
-    m_NumberLabelsRemaining = 1;
-    m_Interpolate = true;
     const InputRegionType region{ this->GetInput()->GetRequestedRegion() };
 
-    typename InputRegionType::SizeType shrunkSize = region.GetSize();
-    shrunkSize[0] -= 1;
-    shrunkSize[1] -= 1;
-    InputRegionType shrunkRegion(region.GetIndex(), shrunkSize);
-
-    this->CreateSingleContour(this->GetInput(),
-                              shrunkRegion,
-                              m_ContourValue,
-                              NumericTraits<InputPixelType>::max(),
-                              shrunkRegion.GetNumberOfPixels());
-  }
-
-  if (m_NumberOutputsWritten != m_NumberOutputsAllocated)
-  {
-    this->SetNumberOfIndexedOutputs(m_NumberOutputsWritten);
+    // Compute a shrunkRegion: we don't want the 3-by-3 SquareIterator
+    // to be centered in the bottom row or right column because then
+    // its lower-right 2-by-2 sub-square won't be wholly within the
+    // region.
+    const typename InputRegionType::SizeType shrunkSize{ region.GetSize()[0] - 1, region.GetSize()[1] - 1 };
+    const InputRegionType                    shrunkRegion(region.GetIndex(), shrunkSize);
+    // Since we are comparing to m_ContourValue, we don't care what label is supplied
+    // as the first argument of CreateSingleContour.
+    const InputPixelType        label{ NumericTraits<InputPixelType>::Zero };
+    std::vector<InputPixelType> allLabels;
+    allLabels.push_back(label);
+    std::unordered_map<InputPixelType, ContourContainerType> labelsContoursOutput;
+    labelsContoursOutput[label] = ContourContainerType{};
+    this->CreateSingleContour(label, shrunkRegion, shrunkRegion.GetNumberOfPixels(), labelsContoursOutput[label]);
+    FillOutputs(allLabels, labelsContoursOutput);
   }
 }
 
 
 template <typename TInputImage>
 void
-ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImageType * image,
-                                                                InputRegionType        shrunkRegion,
-                                                                InputRealType          lowerIsovalue,
-                                                                InputRealType          upperIsovalue,
-                                                                SizeValueType          totalNumberOfPixels)
+ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType         label,
+                                                                const InputRegionType  shrunkRegion,
+                                                                SizeValueType          totalNumberOfPixels,
+                                                                ContourContainerType & ContoursOutput)
 {
+  TotalProgressReporter  progress(this, totalNumberOfPixels);
+  const InputImageType * image = this->GetInput();
+  // ContourData is the working space of CreateSingleContour
   ContourData contourData;
-
-  TotalProgressReporter progress(this, totalNumberOfPixels);
 
   // Set up an iterator to "march the squares" across the image.
   // We associate each 2px-by-2px square with the pixel in the top left of
@@ -105,17 +104,14 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
   // coresponding offsets, and only query pixels 4, 5, 7, and 8 with the
   // iterator's GetPixel method.
 
-  using BoundaryConditionType = ConstantBoundaryCondition<InputImageType, InputImageType>;
-  BoundaryConditionType boundaryCondition;
-  boundaryCondition.SetConstant(lowerIsovalue); // a value distinct from the current label
-
+  using BoundaryConditionType = ConstantBoundaryCondition<InputImageType>;
   using SquareIterator = ConstShapedNeighborhoodIterator<InputImageType, BoundaryConditionType>;
   const typename SquareIterator::RadiusType radius{ { 1, 1 } };
   SquareIterator                            it(radius, image, shrunkRegion);
 
-  // it.SetBoundaryCondition(boundaryCondition); // doesn't compile
-  auto nit = static_cast<NeighborhoodIterator<InputImageType, BoundaryConditionType> *>((void *)&it);
-  nit->SetBoundaryCondition(boundaryCondition);
+  BoundaryConditionType boundaryCondition;
+  boundaryCondition.SetConstant(m_UnusedLabel); // Used only if m_LabelContours
+  it.SetBoundaryCondition(boundaryCondition);
 
   const InputOffsetType none{ { 0, 0 } };
   const InputOffsetType right{ { 1, 0 } };
@@ -158,33 +154,31 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
     // 01    is numbered as    45
     // 23                      78
 
-    const InputPixelType v0{ it.GetPixel(4) };
-    const InputPixelType v1{ it.GetPixel(5) };
-    const InputPixelType v2{ it.GetPixel(7) };
-    const InputPixelType v3{ it.GetPixel(8) };
-    const InputIndexType index = it.GetIndex();
+    const InputIndexType index{ it.GetIndex() };
+    InputPixelType       v0, v1, v2, v3;
     unsigned char        squareCase{ 0 };
-    if (v0 > lowerIsovalue && v0 <= upperIsovalue)
+    if (m_LabelContours)
     {
-      squareCase += 1;
+      v0 = (it.GetPixel(4) == label);
+      v1 = (it.GetPixel(5) == label);
+      v2 = (it.GetPixel(7) == label);
+      v3 = (it.GetPixel(8) == label);
+      squareCase = v0 + 2 * v1 + 4 * v2 + 8 * v3;
     }
-    if (v1 > lowerIsovalue && v1 <= upperIsovalue)
+    else
     {
-      squareCase += 2;
-    }
-    if (v2 > lowerIsovalue && v2 <= upperIsovalue)
-    {
-      squareCase += 4;
-    }
-    if (v3 > lowerIsovalue && v3 <= upperIsovalue)
-    {
-      squareCase += 8;
+      v0 = it.GetPixel(4);
+      v1 = it.GetPixel(5);
+      v2 = it.GetPixel(7);
+      v3 = it.GetPixel(8);
+      squareCase =
+        (v0 > m_ContourValue) + 2 * (v1 > m_ContourValue) + 4 * (v2 > m_ContourValue) + 8 * (v3 > m_ContourValue);
     }
 
 // Set up macros to find the ContinuousIndex where the contour intersects
 // one of the sides of the square.  Normally macros should, of course, be
 // eschewed, but since this is an inner loop not calling the function four
-// times when two would do is probably worth while. Plus, copy-pasting
+// times when two would do is probably worthwhile. Plus, copy-pasting
 // these into the switch below is even worse.  InterpolateContourPosition
 // takes the values at two vertices, the index of the first vertex, and the
 // offset between the two vertices.
@@ -274,8 +268,11 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(const InputImage
     progress.CompletedPixel();
   } // pixel square iteration
 
-  // Now create the outputs paths from the deques we've been using.
-  this->FillOutputs(contourData);
+  // We have been working with our local contourData.m_Contours to minimize the
+  // chance of false sharing among threads.  Now we risk the write to memory
+  // locations that are likely near the corresponding memory locations for other
+  // threads, because we have to collect this output somehow.
+  ContoursOutput = contourData.m_Contours;
 }
 
 
@@ -284,14 +281,15 @@ void
 ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
 {
   using IndexType = typename InputRegionType::IndexType;
-  using RegionConstIterator = ImageRegionConstIterator<InputImageType>;
-  using ConstImageRegionRange = ImageRegionRange<const InputImageType>;
-  using ImageRegionRange = ImageRegionRange<InputImageType>;
   using SizeType = typename InputRegionType::SizeType;
+  // using RegionRange = ImageRegionRange<InputImageType>;
+  using RegionConstRange = ImageRegionRange<const InputImageType>;
+  // using RegionIterator = ImageRegionIterator<InputImageType>;
+  using RegionConstIterator = ImageRegionConstIterator<InputImageType>;
 
   // Requested region
-  const InputRegionType       inputRegion{ this->GetInput()->GetRequestedRegion() };
-  const ConstImageRegionRange inputRange{ *this->GetInput(), inputRegion };
+  const InputRegionType  inputRegion{ this->GetInput()->GetRequestedRegion() };
+  const RegionConstRange inputRange{ *this->GetInput(), inputRegion };
 
   // Find all the distinct labels in the input region.
   std::vector<InputPixelType> allLabels;
@@ -301,80 +299,92 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     typename std::vector<InputPixelType>::iterator last{ std::unique(allLabels.begin(), allLabels.end()) };
     allLabels.erase(last, allLabels.end());
   }
-  m_NumberLabelsRemaining = allLabels.size(); // We haven't processed any yet
 
-  // Compute bounding box for each label.  These will be [inclusive, inclusive] ranges in each coordinate, not
-  // [inclusive, exclusive).
-  const IndexType left_top = inputRegion.GetIndex();
-  const IndexType right_bot{ inputRegion.GetIndex()[0] + static_cast<IndexValueType>(inputRegion.GetSize()[0]) - 1,
-                             inputRegion.GetIndex()[1] + static_cast<IndexValueType>(inputRegion.GetSize()[1]) - 1 };
-  using BoundingBox = std::pair<IndexType, IndexType>;
-  std::unordered_map<InputPixelType, BoundingBox> bboxes;
+  // Find an unused label
+  m_UnusedLabel = NumericTraits<InputPixelType>::min();
+  for (auto checkedLabel = allLabels.begin(); checkedLabel != allLabels.end() && m_UnusedLabel == *checkedLabel;
+       ++checkedLabel)
   {
+    if /* constexpr */ (std::is_integral<InputPixelType>::value)
+    {
+      ++m_UnusedLabel;
+    }
+    else if /* constexpr */ (std::is_floating_point<InputPixelType>::value)
+    {
+      m_UnusedLabel = std::nextafter(m_UnusedLabel, NumericTraits<InputPixelType>::max());
+    }
+    else
+    {
+      itkAssertOrThrowMacro(false,
+                            "Unsupported InputPixelType in ContourExtractor2DImageFilter(with LabelContours=true)");
+    }
+  }
+  // The only failure case is that we wrapped around back to allLabels.front().
+  itkAssertOrThrowMacro(m_UnusedLabel != allLabels.front(), "Need at least one unused value in the space of labels");
+
+  // Compute bounding box for each label.  These will be [inclusive, inclusive]
+  // ranges in each coordinate, not [inclusive, exclusive).  Then we will convert
+  // them to regions with the usual conventions.  We will also create space for the
+  // threads to return their contours.
+  std::unordered_map<InputPixelType, InputRegionType>      labelsRegions;
+  std::unordered_map<InputPixelType, ContourContainerType> labelsContoursOutput;
+  SizeValueType                                            totalPixelCount{ 0 };
+  {
+    struct BoundingBoxType
+    {
+      IndexType min;
+      IndexType max;
+    };
+    const IndexType left_top{ inputRegion.GetIndex() };
+    const IndexType right_bot{ inputRegion.GetIndex()[0] + static_cast<IndexValueType>(inputRegion.GetSize()[0]) - 1,
+                               inputRegion.GetIndex()[1] + static_cast<IndexValueType>(inputRegion.GetSize()[1]) - 1 };
+    std::unordered_map<InputPixelType, BoundingBoxType> labelBoundingBoxes;
     for (InputPixelType label : allLabels)
     {
-      bboxes[label] = BoundingBox{ right_bot, left_top };
+      labelBoundingBoxes[label] = BoundingBoxType{ right_bot, left_top };
     }
-    // We use RegionConstIterator here instead of ImageRegionRange because we want access to the GetIndex() method.
+    // We use RegionConstIterator here instead of RegionRange because we want access to the GetIndex() method.
     RegionConstIterator inputIt{ this->GetInput(), inputRegion };
     for (inputIt.GoToBegin(); !inputIt.IsAtEnd(); ++inputIt)
     {
-      BoundingBox & bbox = bboxes[inputIt.Get()];
-      bbox.first[0] = std::min(bbox.first[0], inputIt.GetIndex()[0]);
-      bbox.first[1] = std::min(bbox.first[1], inputIt.GetIndex()[1]);
-      bbox.second[0] = std::max(bbox.second[0], inputIt.GetIndex()[0]);
-      bbox.second[1] = std::max(bbox.second[1], inputIt.GetIndex()[1]);
+      BoundingBoxType & bbox{ labelBoundingBoxes[inputIt.Get()] };
+      bbox.min[0] = std::min(bbox.min[0], inputIt.GetIndex()[0]);
+      bbox.min[1] = std::min(bbox.min[1], inputIt.GetIndex()[1]);
+      bbox.max[0] = std::max(bbox.max[0], inputIt.GetIndex()[0]);
+      bbox.max[1] = std::max(bbox.max[1], inputIt.GetIndex()[1]);
+    }
+    // Build the shrunk regions from the bounding boxes
+    for (InputPixelType label : allLabels)
+    {
+      const BoundingBoxType & bbox{ labelBoundingBoxes[label] };
+      // Compute a shrunkRegion that includes one-pixel border on all
+      // sides. However, we don't want the 3-by-3 SquareIterator to be centered
+      // in the bottom row or right column of this one-pixel-extended region
+      // because then its lower-right 2-by-2 sub-square won't be wholly within
+      // the region; for example, a label that exists at only one pixel location
+      // will need its 3-by-3 SquareIterator to traverse 4 pixels rather than
+      // all 9 pixels of the extended region.
+      const IndexType       shrunkIndex{ bbox.min[0] - 1, bbox.min[1] - 1 };
+      const SizeType        shrunkSize{ static_cast<SizeValueType>(bbox.max[0] - bbox.min[0]) + 2,
+                                 static_cast<SizeValueType>(bbox.max[1] - bbox.min[1]) + 2 };
+      const InputRegionType shrunkRegion{ shrunkIndex, shrunkSize };
+      totalPixelCount += shrunkRegion.GetNumberOfPixels();
+      labelsRegions[label] = shrunkRegion;
+      labelsContoursOutput[label] = ContourContainerType{};
     }
   }
 
-  // Make room so that largerImage and its largerRegion can have a one-pixel wide border on all sides of the input
-  // region.
-  const InputImagePointer largerImage{ InputImageType::New() };
-  const IndexType         largerIndex{ inputRegion.GetIndex()[0] - 1, inputRegion.GetIndex()[1] - 1 };
-  const SizeType          largerSize{ inputRegion.GetSize()[0] + 2, inputRegion.GetSize()[1] + 2 };
-  const InputRegionType   largerRegion{ largerIndex, largerSize };
-  largerImage->SetRegions(largerRegion);
-  largerImage->Allocate();
-  {
-    const ImageRegionRange largerRange{ *largerImage, inputRegion };
-    std::copy(inputRange.cbegin(), inputRange.cend(), largerRange.begin());
-  }
+  itk::MultiThreaderBase::Pointer mt = this->GetMultiThreader();
+  mt->ParallelizeArray(
+    0,
+    allLabels.size(),
+    [this, &allLabels, &labelsRegions, totalPixelCount, &labelsContoursOutput](SizeValueType i) {
+      const InputPixelType label{ allLabels[i] };
+      this->CreateSingleContour(label, labelsRegions[label], totalPixelCount, labelsContoursOutput[label]);
+    },
+    nullptr);
 
-  SizeValueType totalPixelCount{ 0 };
-
-  std::unordered_map<InputPixelType, InputRegionType> labelsRegions;
-
-  for (const InputPixelType label : allLabels) // count total pixels for progress
-  {
-    const BoundingBox & bbox{ bboxes[label] };
-    const IndexType     min = bbox.first;
-    const IndexType     max = bbox.second;
-
-    const IndexType       shrunkIndex{ min[0] - 1, min[1] - 1 };
-    const SizeType        shrunkSize{ static_cast<SizeValueType>(max[0] - min[0]) + 2,
-                               static_cast<SizeValueType>(max[1] - min[1]) + 2 };
-    const InputRegionType shrunkRegion{ shrunkIndex, shrunkSize };
-
-    totalPixelCount += shrunkRegion.GetNumberOfPixels();
-    labelsRegions[label] = shrunkRegion;
-  }
-
-  m_Interpolate = false;
-
-  for (SizeValueType i = 0; i < allLabels.size(); i++)
-  {
-    const InputPixelType label{ allLabels[i] };
-    const InputRealType  previousLabel = i > 0 ? allLabels[i - 1] : label - 1;
-    const InputRealType  followingLabel = i < allLabels.size() - 1 ? allLabels[i + 1] : label + 1;
-    // this does not work if labels are floats such as 0.1, 0.23, 0.31, 0.7, etc.
-    // this->CreateSingleContour(largerImage, labelsRegions[label], label - 0.5, label + 0.5, totalPixelCount);
-
-    this->CreateSingleContour(largerImage,
-                              labelsRegions[label],
-                              0.5 * previousLabel + 0.5 * label,
-                              0.5 * label + 0.5 * followingLabel,
-                              totalPixelCount);
-  }
+  FillOutputs(allLabels, labelsContoursOutput);
 }
 
 
@@ -385,8 +395,6 @@ ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixe
                                                                        InputIndexType  fromIndex,
                                                                        InputOffsetType toOffset)
 {
-  VertexType output;
-
   // Now calculate the fraction of the way from 'from' to 'to' that the contour
   // crosses. Interpolate linearly: y = v0 + (v1 - v0) * x, and solve for the
   // x that gives y = m_ContourValue: x = (m_ContourValue - v0) / (v1 - v0).
@@ -398,21 +406,12 @@ ContourExtractor2DImageFilter<TInputImage>::InterpolateContourPosition(InputPixe
 
   itkAssertOrThrowMacro(((toOffset[0] == 0 && toOffset[1] == 1) || (toOffset[0] == 1 && toOffset[1] == 0)),
                         "toOffset has unexpected values");
-
-  if (m_Interpolate) // interpolate position
-  {
-    const double x{ (m_ContourValue - static_cast<InputRealType>(fromValue)) /
-                    (toValue - static_cast<InputRealType>(fromValue)) };
-
-    output[0] = fromIndex[0] + x * toOffset[0];
-    output[1] = fromIndex[1] + x * toOffset[1];
-  }
-  else // always half a pixel offset
-  {
-    output[0] = fromIndex[0] + 0.5 * toOffset[0];
-    output[1] = fromIndex[1] + 0.5 * toOffset[1];
-  }
-
+  const double x{ m_LabelContours ? 0.5
+                                  : (m_ContourValue - static_cast<InputRealType>(fromValue)) /
+                                      (toValue - static_cast<InputRealType>(fromValue)) };
+  VertexType   output;
+  output[0] = fromIndex[0] + x * toOffset[0];
+  output[1] = fromIndex[1] + x * toOffset[1];
   return output;
 }
 
@@ -468,7 +467,8 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove 'tail' from the list and the maps because it has been
         // subsumed.
         contourData.m_ContourStarts.erase(newTail);
-        const typename VertexToContourMap::size_type erased{ contourData.m_ContourEnds.erase(tail->back()) };
+        const typename VertexToContourContainerIteratorMap::size_type erased{ contourData.m_ContourEnds.erase(
+          tail->back()) };
         // There should be exactly one entry in the hash for that endpoint
         if (erased != 1)
         {
@@ -480,7 +480,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove the old end of 'head' from the ends map and add
         // the new end.
         contourData.m_ContourEnds.erase(newHead);
-        contourData.m_ContourEnds.insert(VertexContourRefPair(head->back(), head));
+        contourData.m_ContourEnds.insert(VertexToContourContainerIteratorMapKeyValuePair(head->back(), head));
       }
       else
       {
@@ -491,7 +491,8 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove 'head' from the list and the maps because
         // it has been subsumed.
         contourData.m_ContourEnds.erase(newHead);
-        const typename VertexToContourMap::size_type erased{ contourData.m_ContourStarts.erase(head->front()) };
+        const typename VertexToContourContainerIteratorMap::size_type erased{ contourData.m_ContourStarts.erase(
+          head->front()) };
         if (erased != 1)
         {
           itkWarningMacro(<< "There should be exactly one entry in the hash for that endpoint, but there are "
@@ -502,7 +503,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove the old start of 'tail' from the starts map and
         // add the new start.
         contourData.m_ContourStarts.erase(newTail);
-        contourData.m_ContourStarts.insert(VertexContourRefPair(tail->front(), tail));
+        contourData.m_ContourStarts.insert(VertexToContourContainerIteratorMapKeyValuePair(tail->front(), tail));
       }
     }
   }
@@ -523,8 +524,8 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
     const auto newContour(--contourData.m_Contours.end());
     // add the endpoints and an iterator pointing to the contour
     // in the list to the maps.
-    contourData.m_ContourStarts.insert(VertexContourRefPair(from, newContour));
-    contourData.m_ContourEnds.insert(VertexContourRefPair(to, newContour));
+    contourData.m_ContourStarts.insert(VertexToContourContainerIteratorMapKeyValuePair(from, newContour));
+    contourData.m_ContourEnds.insert(VertexToContourContainerIteratorMapKeyValuePair(to, newContour));
   }
   else if (newTail != contourData.m_ContourStarts.end() && newHead == contourData.m_ContourEnds.end())
   {
@@ -535,7 +536,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
     // erase the old start of this contour
     contourData.m_ContourStarts.erase(newTail);
     // Now add the new start of this contour.
-    contourData.m_ContourStarts.insert(VertexContourRefPair(from, tail));
+    contourData.m_ContourStarts.insert(VertexToContourContainerIteratorMapKeyValuePair(from, tail));
   }
   else if (newTail == contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
@@ -546,33 +547,32 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
     // erase the old end of this contour
     contourData.m_ContourEnds.erase(newHead);
     // Now add the new start of this contour.
-    contourData.m_ContourEnds.insert(VertexContourRefPair(to, head));
+    contourData.m_ContourEnds.insert(VertexToContourContainerIteratorMapKeyValuePair(to, head));
   }
 }
 
 
 template <typename TInputImage>
 void
-ContourExtractor2DImageFilter<TInputImage>::FillOutputs(ContourData & contourData)
+ContourExtractor2DImageFilter<TInputImage>::FillOutputs(
+  const std::vector<InputPixelType> &                        allLabels,
+  std::unordered_map<InputPixelType, ContourContainerType> & labelsContoursOutput)
 {
-  --m_NumberLabelsRemaining;
-  if (m_NumberOutputsWritten + contourData.m_Contours.size() > m_NumberOutputsAllocated)
+  ContourContainerType allContours;
+  for (InputPixelType label : allLabels)
   {
-    // We do not have enough capacity; increase capacity to what we need,
-    // plus a guess of one contour for each unprocessed label.
-    m_NumberOutputsAllocated = m_NumberOutputsWritten + contourData.m_Contours.size() + m_NumberLabelsRemaining;
-    this->SetNumberOfIndexedOutputs(m_NumberOutputsAllocated);
+    allContours.splice(allContours.end(), labelsContoursOutput[label]);
   }
+  this->SetNumberOfIndexedOutputs(allContours.size());
+  std::size_t NumberOutputsWritten{ 0 };
 
-  for (auto it = contourData.m_Contours.begin(); it != contourData.m_Contours.end(); ++it, ++m_NumberOutputsWritten)
+  for (auto it = allContours.cbegin(); it != allContours.cend(); ++it, ++NumberOutputsWritten)
   {
-    OutputPathPointer output{ this->GetOutput(m_NumberOutputsWritten) };
+    OutputPathPointer output{ this->GetOutput(NumberOutputsWritten) };
     if (output.IsNull())
     {
-      // Dynamic cast is OK because we know PathSource will make its templated
-      // class type
-      output = dynamic_cast<OutputPathType *>(this->MakeOutput(m_NumberOutputsWritten).GetPointer());
-      this->SetNthOutput(m_NumberOutputsWritten, output.GetPointer());
+      output = dynamic_cast<OutputPathType *>(this->MakeOutput(NumberOutputsWritten).GetPointer());
+      this->SetNthOutput(NumberOutputsWritten, output.GetPointer());
     }
     typename VertexListType::Pointer path{ const_cast<VertexListType *>(output->GetVertexList()) };
     path->Initialize();
@@ -612,9 +612,9 @@ void
 ContourExtractor2DImageFilter<TInputImage>::SetRequestedRegion(const InputRegionType region)
 {
   itkDebugMacro("setting RequestedRegion to " << region);
-  m_UseCustomRegion = true;
-  if (this->m_RequestedRegion != region)
+  if ((!m_UseCustomRegion) | (this->m_RequestedRegion != region))
   {
+    m_UseCustomRegion = true;
     this->m_RequestedRegion = region;
     this->Modified();
   }
@@ -681,18 +681,18 @@ void
 ContourExtractor2DImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  using InputRealPrintType = typename NumericTraits<InputRealType>::PrintType;
+  os << indent << "ContourValue: " << static_cast<InputRealPrintType>(m_ContourValue) << std::endl;
   os << indent << "ReverseContourOrientation: " << m_ReverseContourOrientation << std::endl;
   os << indent << "VertexConnectHighPixels: " << m_VertexConnectHighPixels << std::endl;
   os << indent << "LabelContours: " << m_LabelContours << std::endl;
   os << indent << "UseCustomRegion: " << m_UseCustomRegion << std::endl;
   if (m_UseCustomRegion)
   {
-    os << indent << "Custom region: " << m_RequestedRegion << std::endl;
+    os << indent << "RequestedRegion: " << m_RequestedRegion << std::endl;
   }
-
-  using InputRealPrintType = typename NumericTraits<InputRealType>::PrintType;
-
-  os << indent << "Contour value: " << static_cast<InputRealPrintType>(m_ContourValue) << std::endl;
+  using InputPixelPrintType = typename NumericTraits<InputPixelType>::PrintType;
+  os << indent << "UnusedLabel: " << static_cast<InputPixelPrintType>(m_UnusedLabel) << std::endl;
 }
 } // end namespace itk
 
