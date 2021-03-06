@@ -84,6 +84,13 @@ public:
     : Array<TParametersValueType>(dimension, value)
   {}
 
+
+  /** Constructor with input data and size (number of elements). */
+  explicit OptimizerParameters(const ValueType * const inputData, const SizeValueType dimension)
+    : Array<TParametersValueType>(inputData, dimension)
+  {}
+
+
   /** Initialize. Initialization called by constructors. */
   void
   Initialize()

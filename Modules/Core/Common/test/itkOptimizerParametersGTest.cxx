@@ -19,7 +19,10 @@
 // First include the header file to be tested:
 #include "itkOptimizerParameters.h"
 #include <gtest/gtest.h>
-#include <algorithm> // For std::count.
+
+#include <algorithm> // For count and equal.
+#include <array>
+#include <vector>
 
 
 // Tests constructing OptimizerParameters of the specified size and initial value.
@@ -39,4 +42,28 @@ TEST(OptimizerParameters, ConstructWithSpecifiedSizeAndInitialValue)
       EXPECT_EQ(std::count(optimizerParameters.begin(), optimizerParameters.end(), initialValue), size);
     }
   }
+}
+
+
+// Tests constructing OptimizerParameters with the specified data and size.
+TEST(OptimizerParameters, ConstructWithSpecifiedDataAndSize)
+{
+  using OptimizerParametersType = itk::OptimizerParameters<double>;
+
+  // First test for size = zero.
+  EXPECT_EQ(OptimizerParametersType(std::vector<double>{}.data(), 0), OptimizerParametersType{});
+  EXPECT_EQ(OptimizerParametersType(std::array<double, 0>{}.data(), 0), OptimizerParametersType{});
+
+  // Test for an arbitrary size:
+  const auto testConstructOptimizerParameters = [](const double * const inputData, const itk::SizeValueType dimension) {
+    const OptimizerParametersType optimizerParameters(inputData, dimension);
+    ASSERT_EQ(optimizerParameters.size(), dimension);
+    EXPECT_TRUE(std::equal(optimizerParameters.begin(), optimizerParameters.end(), inputData));
+  };
+
+  testConstructOptimizerParameters(std::array<double, 1>{}.data(), 1);
+  testConstructOptimizerParameters(std::vector<double>{ 1.0 }.data(), 1);
+
+  const std::vector<double> stdVector{ 1.0, 2.0, 4.0 };
+  testConstructOptimizerParameters(stdVector.data(), stdVector.size());
 }
