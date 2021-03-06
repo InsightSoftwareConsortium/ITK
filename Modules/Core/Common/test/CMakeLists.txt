@@ -606,6 +606,7 @@ set(ITKCommonGTests
       itkBuildInformationGTest.cxx
       itkConnectedImageNeighborhoodShapeGTest.cxx
       itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
+      itkExceptionObjectGTest.cxx
       itkFixedArrayGTest.cxx
       itkImageNeighborhoodOffsetsGTest.cxx
       itkImageGTest.cxx
