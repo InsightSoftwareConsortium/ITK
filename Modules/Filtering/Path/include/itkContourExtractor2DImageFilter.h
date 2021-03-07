@@ -282,7 +282,7 @@ private:
       }
       int                  exponent;
       const CoordinateType mantissa{ std::frexp(k, &exponent) };
-      auto                 value{ static_cast<SizeValueType>(std::fabs(mantissa)) };
+      auto                 value = static_cast<SizeValueType>(std::fabs(mantissa));
       value = (2 * value - 1) * ~0U;
       return value;
     }
