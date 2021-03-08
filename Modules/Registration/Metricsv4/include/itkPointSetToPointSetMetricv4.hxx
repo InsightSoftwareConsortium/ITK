@@ -610,6 +610,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     }
     this->m_FixedTransformedPointsLocator->SetPoints(this->m_FixedTransformedPointSet->GetPoints());
     this->m_FixedTransformedPointsLocator->Initialize();
+    this->m_FixedTransformPointLocatorsNeedInitialization = false;
   }
 
   if (this->RequiresMovingPointsLocator() && this->m_MovingTransformPointLocatorsNeedInitialization)
@@ -624,6 +625,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
     }
     this->m_MovingTransformedPointsLocator->SetPoints(this->m_MovingTransformedPointSet->GetPoints());
     this->m_MovingTransformedPointsLocator->Initialize();
+    this->m_MovingTransformPointLocatorsNeedInitialization = false;
   }
 }
 
