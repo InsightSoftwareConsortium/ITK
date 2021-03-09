@@ -41,8 +41,9 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
   // Check if we are doing in-place filtering
   if (this->GetInPlace() && this->CanRunInPlace())
   {
-    typename TInputImage::Pointer tempPtr = output.GetPointer();
-    if (tempPtr && tempPtr->GetPixelContainer() == input->GetPixelContainer())
+    const void * const inputPixelContainer = input->GetPixelContainer();
+    const auto * const tempPtr = output.GetPointer();
+    if (tempPtr != nullptr && tempPtr->GetPixelContainer() == inputPixelContainer)
     {
       // the input and output container are the same - no need to copy
       return;
