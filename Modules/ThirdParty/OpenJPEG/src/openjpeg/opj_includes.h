@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005, Hervé Drolon, FreeImage Team
+ * Copyright (c) 2005, HervÃ© Drolon, FreeImage Team
  * Copyright (c) 2008, Jerome Fimes, Communications & Systemes <jerome.fimes@c-s.fr>
  * All rights reserved.
  *
@@ -92,7 +92,7 @@ Most compilers implement their own version of this keyword ...
 
 /* MSVC 64bits doesn't support _asm */
 #if !defined(_WIN64)
-static INLINE long lrintf(float f){
+static INLINE long opj_lrintf(float f){
   int i;
 
   _asm{
@@ -103,7 +103,7 @@ static INLINE long lrintf(float f){
   return i;
 }
 #else
-static INLINE long lrintf(float x){
+static INLINE long opj_lrintf(float x){
   long r;
   if (x>=0.f)
   {
