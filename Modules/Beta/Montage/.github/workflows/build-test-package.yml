@@ -13,17 +13,17 @@ jobs:
           - os: ubuntu-18.04
             c-compiler: "gcc"
             cxx-compiler: "g++"
-            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
+            itk-git-tag: "v5.2rc03"
             cmake-build-type: "MinSizeRel"
           - os: windows-2019
             c-compiler: "cl.exe"
             cxx-compiler: "cl.exe"
-            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
+            itk-git-tag: "v5.2rc03"
             cmake-build-type: "Release"
           - os: macos-10.15
             c-compiler: "clang"
             cxx-compiler: "clang++"
-            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
+            itk-git-tag: "v5.2rc03"
             cmake-build-type: "MinSizeRel"
 
     steps:
@@ -137,7 +137,7 @@ jobs:
       matrix:
         python-version: [36, 37, 38, 39]
         include:
-          - itk-python-git-tag: "v5.2rc01"
+          - itk-python-git-tag: "v5.2rc03"
 
     steps:
     - uses: actions/checkout@v2
@@ -173,7 +173,7 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - itk-python-git-tag: "v5.2rc01"
+          - itk-python-git-tag: "v5.2rc03"
 
     steps:
     - uses: actions/checkout@v2
@@ -209,7 +209,7 @@ jobs:
       matrix:
         python-version-minor: [6, 7, 8, 9]
         include:
-          - itk-python-git-tag: "v5.2rc01"
+          - itk-python-git-tag: "v5.2rc03"
 
     steps:
     - name: Get specific version of CMake, Ninja
