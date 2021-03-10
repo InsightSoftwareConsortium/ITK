@@ -16,7 +16,8 @@ images.
 
 For more information, [please see](https://rdcu.be/cgqSm) and cite the article:
 
-    Zukić, D., Jackson, M., Dimiduk, D., Donegan, S., Groeber, M., McCormick, M.
+    Zukić, Dž., Jackson, M., Dimiduk, D., Donegan, S., Groeber, M., McCormick, M.
+
     ITKMontage: A Software Module for Image Stitching. Integr Mater Manuf Innov (2021).
     https://doi.org/10.1007/s40192-021-00202-x
 
