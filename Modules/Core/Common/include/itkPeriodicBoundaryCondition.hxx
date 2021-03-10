@@ -31,7 +31,11 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::operator()(const OffsetTyp
 {
   // This is guaranteed to be called with an object that is using
   // PeriodicBoundaryCondition
-  const auto * iterator = reinterpret_cast<const ConstNeighborhoodIterator<TInputImage, Self> *>(data);
+  using NeighborhoodIterator = ConstNeighborhoodIterator<TInputImage, Self>;
+  const NeighborhoodIterator * iterator = dynamic_cast<const NeighborhoodIterator *>(data);
+  itkAssertOrThrowMacro(iterator != nullptr,
+                        "Failed to downcast.  The second NeighborhoodIterator template parameter should be "
+                        "itk::PeriodicBoundaryCondition<...>.");
   typename TInputImage::PixelType * ptr;
   int                               linear_index = 0;
   unsigned int                      i;
