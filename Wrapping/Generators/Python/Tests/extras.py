@@ -160,6 +160,14 @@ except Exception as e:
 image = itk.imread(filename, imageio=itk.PNGImageIO.New())
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 
+# Make sure we can read unsigned short, unsigned int, and cast
+image = itk.imread(filename, itk.UI)
+assert type(image) == itk.Image[itk.UI, 2]
+image = itk.imread(filename, itk.SI)
+assert type(image) == itk.Image[itk.SI, 2]
+as_float = image.astype(np.float32)
+assert type(as_float) == itk.Image[itk.F, 2]
+
 # test mesh read / write
 mesh = itk.meshread(mesh_filename)
 assert type(mesh) == itk.Mesh[itk.F, 3]
