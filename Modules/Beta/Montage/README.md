@@ -14,6 +14,15 @@ through extreme programming methodologies, ITK employs leading-edge
 algorithms for registering and segmenting multidimensional scientific
 images.
 
+For more information, [please see](https://rdcu.be/cgqSm) and cite the article:
+
+    Zukić, Dž., Jackson, M., Dimiduk, D., Donegan, S., Groeber, M., McCormick, M.
+
+    ITKMontage: A Software Module for Image Stitching. Integr Mater Manuf Innov (2021).
+    https://doi.org/10.1007/s40192-021-00202-x
+
+Also, please cite a specific software version with the [Zenodo Citation](https://zenodo.org/badge/latestdoi/114385071).
+
 This work is based on, in part:
 
     Bican, J.
