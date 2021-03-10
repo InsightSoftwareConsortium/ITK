@@ -24,16 +24,16 @@ namespace H5 {
 class H5_DLLCPP Group : public H5Object, public CommonFG {
    public:
         // Close this group.
-        virtual void close();
+        virtual void close() H5_OVERRIDE;
 
         ///\brief Returns this class name.
-        virtual H5std_string fromClass () const { return("Group"); }
+        virtual H5std_string fromClass () const H5_OVERRIDE { return("Group"); }
 
         // Throw group exception.
-        virtual void throwException(const H5std_string& func_name, const H5std_string& msg) const;
+        virtual void throwException(const H5std_string& func_name, const H5std_string& msg) const H5_OVERRIDE;
 
         // for CommonFG to get the file id.
-        virtual hid_t getLocId() const;
+        virtual hid_t getLocId() const H5_OVERRIDE;
 
         // Creates a group by way of dereference.
         Group(const H5Location& loc, const void* ref, H5R_type_t ref_type = H5R_OBJECT, const PropList& plist = PropList::DEFAULT);
@@ -57,10 +57,10 @@ class H5_DLLCPP Group : public H5Object, public CommonFG {
         Group(const Group& original);
 
         // Gets the group id.
-        virtual hid_t getId() const;
+        virtual hid_t getId() const H5_OVERRIDE;
 
         // Destructor
-        virtual ~Group();
+        virtual ~Group() H5_OVERRIDE;
 
         // Creates a copy of an existing group using its id.
         Group(const hid_t group_id);
@@ -68,7 +68,7 @@ class H5_DLLCPP Group : public H5Object, public CommonFG {
    protected:
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
         // Sets the group id.
-        virtual void p_setId(const hid_t new_id);
+        virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
    private:
