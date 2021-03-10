@@ -2,7 +2,7 @@ itk_wrap_class("itk::CastImageFilter" POINTER_WITH_SUPERCLASS)
   # Create cast filters between all scalar types. Also force that cast-to-uchar
   # filters are created for all scalar types, and unsigned long for
   # segmentation output casting.
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC;UL")
+  UNIQUE(types "${WRAP_ITK_SCALAR};UC;UI;SI;UL")
   itk_wrap_image_filter_combinations("${types}" "${types}")
 
   # vector <-> vector

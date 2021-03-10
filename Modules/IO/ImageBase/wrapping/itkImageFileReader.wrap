@@ -1,6 +1,6 @@
 itk_wrap_class("itk::ImageFileReader" POINTER)
   # Force uchar image IO
-  UNIQUE(image_types "ULL;UC;${WRAP_ITK_ALL_TYPES}")
+  UNIQUE(image_types "ULL;SI;UI;UC;${WRAP_ITK_ALL_TYPES}")
   itk_wrap_image_filter("${image_types}" 1)
 
   UNIQUE(to_types "${WRAP_ITK_SCALAR};UC")

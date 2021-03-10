@@ -203,10 +203,11 @@ WRAP_TYPE("itk::Image" "I" "itkImage.h")
   # Make a list of all of the selected image pixel types and also double (for
   # BSplineDeformableTransform), uchar (for 8-bit image output), ulong
   # (for the watershed and relabel filters), bool for (FlatStructuringElement)
+  # unsigned int and signed int for IO.
 
   # Wrap from ulong to other integral types, even if ulong isn't wrapped. This
   # is needed for the relabel components image filter.
-  UNIQUE(WRAP_ITK_SCALAR_IMAGE_PIXEL_TYPES "${WRAP_ITK_SCALAR};D;UC;UL;ULL;B;${ITKM_IT}")
+  UNIQUE(WRAP_ITK_SCALAR_IMAGE_PIXEL_TYPES "${WRAP_ITK_SCALAR};D;UC;SI;UI;UL;ULL;B;${ITKM_IT}")
   UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};RGBUC;RGBAUC;VD;${WRAP_ITK_SCALAR_IMAGE_PIXEL_TYPES}")
 
   set(defined_vector_list )
