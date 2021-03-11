@@ -18,12 +18,15 @@
 #ifndef itkContourExtractor2DImageFilter_h
 #define itkContourExtractor2DImageFilter_h
 
-#include "itkImageToPathFilter.h"
-#include "itkPolyLineParametricPath.h"
-#include "itkConceptChecking.h"
-#include <unordered_map>
 #include <deque>
 #include <list>
+#include <unordered_map>
+#include "itkConceptChecking.h"
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionRange.h"
+#include "itkImageToPathFilter.h"
+#include "itkIndexRange.h"
+#include "itkPolyLineParametricPath.h"
 
 namespace itk
 {
@@ -129,18 +132,26 @@ public:
 
   /** Image and path type alias support */
   using InputImagePointer = typename InputImageType::Pointer;
-  using InputPixelType = typename InputImageType::PixelType;
   using InputIndexType = typename InputImageType::IndexType;
+  using InputSizeType = typename InputImageType::SizeType;
   using InputOffsetType = typename InputImageType::OffsetType;
+  using InputPixelType = typename InputImageType::PixelType;
   using InputRegionType = typename InputImageType::RegionType;
   using OutputPathPointer = typename OutputPathType::Pointer;
-  using VertexType = typename OutputPathType::VertexType;
   using VertexListType = typename OutputPathType::VertexListType;
+  using VertexListConstPointer = typename VertexListType::ConstPointer;
+  using VertexType = typename OutputPathType::VertexType;
+  using VertexValueType = typename VertexType::ValueType;
 
   /** Real type associated to the input pixel type. */
   using InputRealType = typename NumericTraits<InputPixelType>::RealType;
 
-  using VertexListConstPointer = typename VertexListType::ConstPointer;
+  /** Ranges and iterators for regions */
+  using RegionIndexRange = ImageRegionIndexRange<InputImageType::ImageDimension>;
+  using RegionRange = ImageRegionRange<InputImageType>;
+  using RegionConstRange = ImageRegionRange<const InputImageType>;
+  using RegionIterator = ImageRegionIterator<InputImageType>;
+  using RegionConstIterator = ImageRegionConstIterator<InputImageType>;
 
   /** Control the orientation of the contours with reference to the image
    * gradient. (See class documentation.) */
@@ -192,19 +203,6 @@ protected:
   void
   GenerateData() override;
 
-  /** Subroutine to create contours for a single label. */
-  void
-  CreateSingleContour(const InputImageType * image,
-                      InputRegionType        shrunkRegion,
-                      InputRealType          lowerIsovalue,
-                      InputRealType          upperIsovalue,
-                      SizeValueType          totalNumberOfPixels);
-
-  /** Subroutine to handle the case that the supplied values are
-   * labels, which are *not* compared to a contour value. */
-  void
-  GenerateDataForLabels();
-
   /** ContourExtractor2DImageFilter manually controls the input requested
    * region via SetRequestedRegion and ClearRequestedRegion, so it must
    * override the superclass method. */
@@ -212,12 +210,9 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
-  VertexType
-  InterpolateContourPosition(InputPixelType  fromValue,
-                             InputPixelType  toValue,
-                             InputIndexType  fromIndex,
-                             InputOffsetType toOffset);
-
+  using LabelsContainer = std::vector<InputPixelType>;
+  using LabelsConstIterator = typename LabelsContainer::const_iterator;
+  using LabelsIterator = typename LabelsContainer::iterator;
 
   InputRealType   m_ContourValue;
   bool            m_ReverseContourOrientation;
@@ -250,84 +245,72 @@ private:
   // Store all the growing contours in a list. We may need to delete contours
   // from anywhere in the sequence (when we merge them together), so we need to
   // use a list instead of a vector or similar.
-  using ContourContainer = std::list<ContourType>;
-  using ContourRef = typename ContourContainer::iterator;
-
-  // declare the hash function we are using for the hash_map.
-  struct VertexHash
-  {
-    using CoordinateType = typename VertexType::CoordRepType;
-    inline SizeValueType
-    operator()(const VertexType & k) const
-    {
-      // Xor the hashes of the vertices together, after multiplying the
-      // first by some number, so that identical (x,y) vertex indices
-      // don't all hash to the same bucket. This is a decent if not
-      // optimal hash.
-      const SizeValueType hashVertex1{ this->float_hash(k[0] * 0xbeef) };
-      const SizeValueType hashVertex2{ this->float_hash(k[1]) };
-      const SizeValueType hashValue{ hashVertex1 ^ hashVertex2 };
-
-      return hashValue;
-    }
-
-    // Define hash function for floats. Based on method from
-    // http://www.brpreiss.com/books/opus4/html/page217.html
-    inline SizeValueType
-    float_hash(const CoordinateType & k) const
-    {
-      if (k == 0)
-      {
-        return 0;
-      }
-      int                  exponent;
-      const CoordinateType mantissa{ std::frexp(k, &exponent) };
-      auto                 value = static_cast<SizeValueType>(std::fabs(mantissa));
-      value = (2 * value - 1) * ~0U;
-      return value;
-    }
-  };
+  using ContourConstIterator = typename ContourType::const_iterator;
+  using ContourContainerType = std::list<ContourType>;
+  using ContourContainerIterator = typename ContourContainerType::iterator;
+  using ContourContainerConstIterator = typename ContourContainerType::const_iterator;
 
   // We use a hash to associate the endpoints of each contour with the
   // contour itself. This makes it easy to look up which contour we should add
   // a new arc to.
+
   // We can't store the contours themselves in the hashtable because we
   // need to have two tables (one to hash from beginpoint -> contour and one
   // for endpoint -> contour), and sometimes will remove a contour from the
-  // tables (if it has been closed or merged with another contour). So in the
-  // hash table we store a reference to the contour. Because sometimes we will
-  // need to merge contours, we need to be able to quickly remove contours
-  // from our list when they have been merged into another. Thus, we store
-  // an iterator pointing to the contour in the list.
+  // tables (if it has been closed or merged with another contour). Because
+  // sometimes we will need to merge contours, we need to be able to quickly
+  // remove contours from our list when they have been merged into
+  // another. Thus, we store an iterator pointing to the contour in the list.
 
-  using VertexToContourMap = std::unordered_map<VertexType, ContourRef, VertexHash>;
-  using VertexMapIterator = typename VertexToContourMap::iterator;
-  using VertexContourRefPair = typename VertexToContourMap::value_type;
+  struct VertexHash
+  {
+    using CoordinateType = typename VertexType::CoordRepType;
+    inline std::size_t
+    operator()(const VertexType & v) const noexcept
+    {
+      return std::hash<CoordinateType>{}(v[0]) ^ (std::hash<CoordinateType>{}(v[1]) << 1);
+    }
+  };
+  using VertexToContourContainerIteratorMap = std::unordered_map<VertexType, ContourContainerIterator, VertexHash>;
+  using VertexToContourContainerIteratorMapIterator = typename VertexToContourContainerIteratorMap::iterator;
+  using VertexToContourContainerIteratorMapConstIterator = typename VertexToContourContainerIteratorMap::const_iterator;
+  using VertexToContourContainerIteratorMapKeyValuePair = typename VertexToContourContainerIteratorMap::value_type;
+
+  // Subroutine to create contours for a single label.
+  void
+  CreateSingleContour(InputPixelType         label,
+                      const InputImageType * input,
+                      const InputRegionType  extendedRegion,
+                      SizeValueType          totalNumberOfPixels,
+                      ContourContainerType & contoursOutput);
+
+  // Subroutine to handle the case that the supplied values are
+  // labels, which are *not* compared to a contour value.
+  void
+  GenerateDataForLabels();
+
+  VertexType
+  InterpolateContourPosition(InputPixelType  fromValue,
+                             InputPixelType  toValue,
+                             InputIndexType  fromIndex,
+                             InputOffsetType toOffset);
 
   struct ContourData
   {
-    ContourContainer   m_Contours;
-    VertexToContourMap m_ContourStarts;
-    VertexToContourMap m_ContourEnds;
-    SizeValueType      m_NumberOfContoursCreated = 0;
+    ContourContainerType                m_Contours;
+    VertexToContourContainerIteratorMap m_ContourStarts;
+    VertexToContourContainerIteratorMap m_ContourEnds;
+    SizeValueType                       m_NumberOfContoursCreated = 0;
   };
 
   void
   AddSegment(const VertexType from, const VertexType to, ContourData & contourData);
 
   void
-  FillOutputs(ContourData & contourData);
+  FillOutputs(const std::vector<InputPixelType> &                        allLabels,
+              std::unordered_map<InputPixelType, ContourContainerType> & labelsContoursOutput);
 
-  // The number of outputs we have allocated capacity for
-  unsigned int m_NumberOutputsAllocated;
-
-  // The number of outputs we have written out so far
-  unsigned int m_NumberOutputsWritten;
-
-  // The number of labels we have yet to write outputs for
-  unsigned int m_NumberLabelsRemaining;
-
-  bool m_Interpolate = false; // whether contour positions will be interpolated (yes for single, no for LabelContours)
+  InputPixelType m_UnusedLabel;
 };
 } // end namespace itk
 

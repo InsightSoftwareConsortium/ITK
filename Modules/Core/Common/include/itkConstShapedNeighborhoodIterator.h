@@ -297,6 +297,7 @@ public:
   using Superclass::OverrideBoundaryCondition;
   using Superclass::ResetBoundaryCondition;
   using Superclass::GetBoundaryCondition;
+  using Superclass::SetBoundaryCondition;
   using Superclass::GetNeedToUseBoundaryCondition;
   using Superclass::SetNeedToUseBoundaryCondition;
   using Superclass::NeedToUseBoundaryConditionOn;
