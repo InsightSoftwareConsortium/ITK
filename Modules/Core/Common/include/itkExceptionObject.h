@@ -143,29 +143,8 @@ operator<<(std::ostream & os, const ExceptionObject & e)
 class ITKCommon_EXPORT MemoryAllocationError : public ExceptionObject
 {
 public:
-  /** Default constructor.  Needed to ensure the exception object can be
-   * copied. */
-  MemoryAllocationError() noexcept
-    : ExceptionObject()
-  {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  MemoryAllocationError(const char * file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  MemoryAllocationError(const std::string & file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  MemoryAllocationError(const std::string & file,
-                        unsigned int        lineNumber,
-                        const std::string & desc,
-                        const std::string & loc)
-    : ExceptionObject(file, lineNumber, desc, loc)
-  {}
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~MemoryAllocationError() noexcept override;
@@ -185,21 +164,8 @@ public:
 class ITKCommon_EXPORT RangeError : public ExceptionObject
 {
 public:
-  /** Default constructor.  Needed to ensure the exception object can be
-   * copied. */
-  RangeError() noexcept
-    : ExceptionObject()
-  {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  RangeError(const char * file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  RangeError(const std::string & file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~RangeError() noexcept override;
@@ -220,27 +186,8 @@ public:
 class ITKCommon_EXPORT InvalidArgumentError : public ExceptionObject
 {
 public:
-  /**
-   * Default constructor.  Needed to ensure the exception object can be
-   * copied.
-   */
-  InvalidArgumentError() noexcept
-    : ExceptionObject()
-  {}
-
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
-  InvalidArgumentError(const char * file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
-
-  /**
-   * Constructor. Needed to ensure the exception object can be copied.
-   */
-  InvalidArgumentError(const std::string & file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~InvalidArgumentError() noexcept override;
@@ -260,21 +207,8 @@ public:
 class ITKCommon_EXPORT IncompatibleOperandsError : public ExceptionObject
 {
 public:
-  /** Default constructor.  Needed to ensure the exception object can be
-   * copied. */
-  IncompatibleOperandsError() noexcept
-    : ExceptionObject()
-  {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  IncompatibleOperandsError(const char * file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
-
-  /** Constructor. Needed to ensure the exception object can be copied. */
-  IncompatibleOperandsError(const std::string & file, unsigned int lineNumber)
-    : ExceptionObject(file, lineNumber)
-  {}
+  // Inherit the constructors from its base class.
+  using ExceptionObject::ExceptionObject;
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   ~IncompatibleOperandsError() noexcept override;
