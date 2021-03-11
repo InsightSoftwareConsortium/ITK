@@ -45,5 +45,5 @@ itk_fetch_module(BSplineGradient
   "Approximate an image's gradient from a b-spline fit to its intensity."
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBSplineGradient.git
-  GIT_TAG 591ac478731ccc73afd538dc7225363581d2a6f7
+  GIT_TAG 76996c42b35cb04c3d9f8cbadcce1ec1c63ed3dc
 )
