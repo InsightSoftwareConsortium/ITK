@@ -23,6 +23,11 @@
 #include <string>
 
 
+itkDeclareExceptionMacro(GTest_SpecializedException,
+                         ExceptionObject,
+                         "GTest specific specialized exception (for unit test purposes only)");
+
+
 // Tests the description of an exception object thrown by `itkExceptionMacro(x)`.
 TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
 {
@@ -54,6 +59,22 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
     expectedDescription << "itk::ERROR: " << testObject.GetNameOfClass() << "(" << &testObject << "): " << testMessage;
 
     EXPECT_EQ(actualDescription, expectedDescription.str());
+  }
+}
+
+
+// Tests the description of an exception object thrown by `itkSpecializedExceptionMacro(x)`.
+TEST(ExceptionObject, TestDescriptionFromSpecializedExceptionMacro)
+{
+  try
+  {
+    itkSpecializedExceptionMacro(GTest_SpecializedException);
+  }
+  catch (const itk::ExceptionObject & exceptionObject)
+  {
+    const char * const description = exceptionObject.GetDescription();
+    ASSERT_NE(description, nullptr);
+    EXPECT_EQ(description, std::string("itk::ERROR: ") + itk::GTest_SpecializedException::default_exception_message);
   }
 }
 
