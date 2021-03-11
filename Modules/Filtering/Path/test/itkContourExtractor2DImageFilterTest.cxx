@@ -16,8 +16,11 @@
  *
  *=========================================================================*/
 #include <iomanip>
-#include "itkImageFileReader.h"
+#include "itkConstShapedNeighborhoodIterator.h"
+#include "itkConstantBoundaryCondition.h"
 #include "itkContourExtractor2DImageFilter.h"
+#include "itkImage.h"
+#include "itkImageFileReader.h"
 #include "itkTestingMacros.h"
 
 namespace itkContourExtractor2DImageFilterTestNamespace
@@ -535,6 +538,7 @@ HasCorrectOutput(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::P
   return true;
 }
 
+
 int
 itkContourExtractor2DImageFilterTest(int argc, char * argv[])
 {
@@ -642,9 +646,11 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
     itkContourExtractor2DImageFilterTestNamespace::ImageType::RegionType region =
       reader->GetOutput()->GetLargestPossibleRegion();
 
-    itkContourExtractor2DImageFilterTestNamespace::ImageType::IndexType index = region.GetIndex();
+    using IndexType = itkContourExtractor2DImageFilterTestNamespace::ImageType::IndexType;
+    IndexType index = region.GetIndex();
 
-    itkContourExtractor2DImageFilterTestNamespace::ImageType::SizeType size = region.GetSize();
+    using SizeType = itkContourExtractor2DImageFilterTestNamespace::ImageType::SizeType;
+    SizeType size = region.GetSize();
 
     index[1] += 1;
     size[1] -= 2;
@@ -671,30 +677,69 @@ itkContourExtractor2DImageFilterTest(int argc, char * argv[])
       std::cout << "passed." << std::endl;
     }
 
-    extractor->SetRequestedRegion({ { 0, 4 }, { 3, 4 } });
+    extractor->SetRequestedRegion({ IndexType{ { 0, 4 } }, SizeType{ { 3, 4 } } });
     extractor->VertexConnectHighPixelsOff();
     extractor->ReverseContourOrientationOff();
     extractor->LabelContoursOn();
     extractor->Update();
 
-    // showRegion(extractor->GetInput()); // Produces:
-    // -->    0   1   2
-    //  4:    0   0   0
-    //  5:    0 255 255
-    //  6:    0 255   0
-    //  7:    0   0   0
-
-    // ShowExtractorAsVariables(extractor, "labels"); // Produces _labels0 through expected_values_as_labels_outputs
     std::cout << "Test 5... ";
     if (!HasCorrectOutput(extractor, expected_values_as_labels_outputs))
     {
       testsPassed = false;
       std::cout << "failed." << std::endl;
+      ShowExtractorAsVariables(extractor, "labels"); // Produces _labels0 through expected_values_as_labels_outputs
+      // showRegion(extractor->GetInput());             // Produces:
+      // -->    0   1   2
+      //  4:    0   0   0
+      //  5:    0 255 255
+      //  6:    0 255   0
+      //  7:    0   0   0
     }
     else
     {
       std::cout << "passed." << std::endl;
     }
+
+#if 0
+    // This test should be reinstated once the underlying bug is fixed!!!
+    std::cout << "Test 6 ...";
+    {
+      using PixelType = unsigned char;
+      constexpr unsigned int Dimension = 2;
+      using ImageType = itk::Image<PixelType, Dimension>;
+      using ImagePointer = typename ImageType::Pointer;
+      using RegionType = typename ImageType::RegionType;
+      using IndexType = typename RegionType::IndexType;
+      using SizeType = typename RegionType::SizeType;
+      using OffsetType = typename RegionType::OffsetType;
+      ImagePointer imageTest = ImageType::New();
+      imageTest->SetRegions(RegionType{ IndexType{ { 0, 0 } }, SizeType{ { 10, 10 } } });
+      imageTest->Allocate();
+      using BoundaryConditionType = itk::ConstantBoundaryCondition<ImageType>;
+      using SquareIterator = itk::ConstShapedNeighborhoodIterator<ImageType, BoundaryConditionType>;
+      using RadiusType = typename SquareIterator::RadiusType;
+      SquareIterator sqIt(RadiusType{ { 1, 1 } }, imageTest, RegionType{ IndexType{ { -1, -1 } }, SizeType{ { 12, 12 } } });
+      sqIt.ActivateOffset(OffsetType{ { 0, 0 } });
+      sqIt.ActivateOffset(OffsetType{ { 0, 1 } });
+      sqIt.ActivateOffset(OffsetType{ { 1, 0 } });
+      sqIt.ActivateOffset(OffsetType{ { 1, 1 } });
+      int numberOfIterations{ 0 };
+      for (sqIt.GoToBegin(); !sqIt.IsAtEnd(); ++sqIt)
+      {
+        ++numberOfIterations;
+      }
+      if (numberOfIterations != 144)
+      {
+        testsPassed = false;
+        std::cout << "failed, giving " << numberOfIterations << " iterations instead of 144." << std::endl;
+      }
+      else
+      {
+        std::cout << "passed." << std::endl;
+      }
+    }
+#endif
   }
   catch (const itk::ExceptionObject & err)
   {

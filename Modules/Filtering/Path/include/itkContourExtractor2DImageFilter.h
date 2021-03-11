@@ -18,12 +18,15 @@
 #ifndef itkContourExtractor2DImageFilter_h
 #define itkContourExtractor2DImageFilter_h
 
-#include "itkImageToPathFilter.h"
-#include "itkPolyLineParametricPath.h"
-#include "itkConceptChecking.h"
-#include <unordered_map>
 #include <deque>
 #include <list>
+#include <unordered_map>
+#include "itkConceptChecking.h"
+#include "itkImageRegionIterator.h"
+#include "itkImageRegionRange.h"
+#include "itkImageToPathFilter.h"
+#include "itkIndexRange.h"
+#include "itkPolyLineParametricPath.h"
 
 namespace itk
 {
@@ -130,18 +133,25 @@ public:
   /** Image and path type alias support */
   using InputImagePointer = typename InputImageType::Pointer;
   using InputIndexType = typename InputImageType::IndexType;
+  using InputSizeType = typename InputImageType::SizeType;
   using InputOffsetType = typename InputImageType::OffsetType;
   using InputPixelType = typename InputImageType::PixelType;
   using InputRegionType = typename InputImageType::RegionType;
   using OutputPathPointer = typename OutputPathType::Pointer;
   using VertexListType = typename OutputPathType::VertexListType;
+  using VertexListConstPointer = typename VertexListType::ConstPointer;
   using VertexType = typename OutputPathType::VertexType;
   using VertexValueType = typename VertexType::ValueType;
 
   /** Real type associated to the input pixel type. */
   using InputRealType = typename NumericTraits<InputPixelType>::RealType;
 
-  using VertexListConstPointer = typename VertexListType::ConstPointer;
+  /** Ranges and iterators for regions */
+  using RegionIndexRange = ImageRegionIndexRange<InputImageType::ImageDimension>;
+  using RegionRange = ImageRegionRange<InputImageType>;
+  using RegionConstRange = ImageRegionRange<const InputImageType>;
+  using RegionIterator = ImageRegionIterator<InputImageType>;
+  using RegionConstIterator = ImageRegionConstIterator<InputImageType>;
 
   /** Control the orientation of the contours with reference to the image
    * gradient. (See class documentation.) */
@@ -200,6 +210,10 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
+  using LabelsContainer = std::vector<InputPixelType>;
+  using LabelsConstIterator = typename LabelsContainer::const_iterator;
+  using LabelsIterator = typename LabelsContainer::iterator;
+
   InputRealType   m_ContourValue;
   bool            m_ReverseContourOrientation;
   bool            m_VertexConnectHighPixels;
@@ -231,8 +245,10 @@ private:
   // Store all the growing contours in a list. We may need to delete contours
   // from anywhere in the sequence (when we merge them together), so we need to
   // use a list instead of a vector or similar.
+  using ContourConstIterator = typename ContourType::const_iterator;
   using ContourContainerType = std::list<ContourType>;
   using ContourContainerIterator = typename ContourContainerType::iterator;
+  using ContourContainerConstIterator = typename ContourContainerType::const_iterator;
 
   // We use a hash to associate the endpoints of each contour with the
   // contour itself. This makes it easy to look up which contour we should add
@@ -263,9 +279,10 @@ private:
   // Subroutine to create contours for a single label.
   void
   CreateSingleContour(InputPixelType         label,
-                      const InputRegionType  shrunkRegion,
+                      const InputImageType * input,
+                      const InputRegionType  extendedRegion,
                       SizeValueType          totalNumberOfPixels,
-                      ContourContainerType & ContoursOutput);
+                      ContourContainerType & contoursOutput);
 
   // Subroutine to handle the case that the supplied values are
   // labels, which are *not* compared to a contour value.
