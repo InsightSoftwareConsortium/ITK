@@ -26,7 +26,7 @@
 #include "itkObjectToObjectMultiMetricv4.h"
 #include "itkObjectToObjectOptimizerBase.h"
 #include "itkImageToImageMetricv4.h"
-#include "itkPointSetToPointSetMetricv4.h"
+#include "itkPointSetToPointSetMetricWithIndexv4.h"
 #include "itkShrinkImageFilter.h"
 #include "itkIdentityTransform.h"
 #include "itkTransformParametersAdaptorBase.h"
@@ -173,7 +173,7 @@ public:
 
   using MultiMetricType = ObjectToObjectMultiMetricv4<ImageDimension, ImageDimension, VirtualImageType, RealType>;
   using ImageMetricType = ImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>;
-  using PointSetMetricType = PointSetToPointSetMetricv4<PointSetType, PointSetType, RealType>;
+  using PointSetMetricType = PointSetToPointSetMetricWithIndexv4<PointSetType, PointSetType, RealType>;
 
   using FixedImageMaskType = typename ImageMetricType::FixedImageMaskType;
   using FixedImageMaskConstPointer = typename FixedImageMaskType::ConstPointer;

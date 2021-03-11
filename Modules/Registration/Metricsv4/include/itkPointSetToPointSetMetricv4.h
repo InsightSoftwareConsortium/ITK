@@ -18,11 +18,7 @@
 #ifndef itkPointSetToPointSetMetricv4_h
 #define itkPointSetToPointSetMetricv4_h
 
-#include "itkObjectToObjectMetric.h"
-
-#include "itkFixedArray.h"
-#include "itkPointsLocator.h"
-#include "itkPointSet.h"
+#include "itkPointSetToPointSetMetricWithIndexv4.h"
 
 namespace itk
 {
@@ -66,27 +62,24 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 
-template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType = double>
+template <typename TFixedPointSet,
+          typename TMovingPointSet = TFixedPointSet,
+          class TInternalComputationValueType = double>
 class ITK_TEMPLATE_EXPORT PointSetToPointSetMetricv4
-  : public ObjectToObjectMetric<TFixedPointSet::PointDimension,
-                                TMovingPointSet::PointDimension,
-                                Image<TInternalComputationValueType, TFixedPointSet::PointDimension>,
-                                TInternalComputationValueType>
+  : public PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(PointSetToPointSetMetricv4);
 
   /** Standard class type aliases. */
   using Self = PointSetToPointSetMetricv4;
-  using Superclass = ObjectToObjectMetric<TFixedPointSet::PointDimension,
-                                          TMovingPointSet::PointDimension,
-                                          Image<TInternalComputationValueType, TFixedPointSet::PointDimension>,
-                                          TInternalComputationValueType>;
+  using Superclass =
+    PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PointSetToPointSetMetricv4, ObjectToObjectMetric);
+  itkTypeMacro(PointSetToPointSetMetricv4, PointSetToPointSetMetricWithIndexv4);
 
   /**  Type of the measure. */
   using MeasureType = typename Superclass::MeasureType;
@@ -118,8 +111,6 @@ public:
 
   using DisplacementFieldTransformType = typename Superclass::MovingDisplacementFieldTransformType;
 
-  using ObjectType = typename Superclass::ObjectType;
-
   /** Dimension type */
   using DimensionType = typename Superclass::DimensionType;
 
@@ -129,7 +120,7 @@ public:
   using FixedPixelType = typename TFixedPointSet::PixelType;
   using FixedPointsContainer = typename TFixedPointSet::PointsContainer;
 
-  static constexpr DimensionType FixedPointDimension = Superclass::FixedDimension;
+  static constexpr DimensionType FixedPointDimension = Superclass::FixedPointDimension;
 
   /**  Type of the moving point set. */
   using MovingPointSetType = TMovingPointSet;
@@ -137,7 +128,7 @@ public:
   using MovingPixelType = typename TMovingPointSet::PixelType;
   using MovingPointsContainer = typename TMovingPointSet::PointsContainer;
 
-  static constexpr DimensionType MovingPointDimension = Superclass::MovingDimension;
+  static constexpr DimensionType MovingPointDimension = Superclass::MovingPointDimension;
 
   /**
    * typedefs for the data types used in the point set metric calculations.
@@ -145,24 +136,24 @@ public:
    * point dimension, are the same for the "common space" in which the metric
    * calculation occurs.
    */
-  static constexpr DimensionType PointDimension = Superclass::FixedDimension;
+  static constexpr DimensionType PointDimension = Superclass::PointDimension;
 
-  using PointType = FixedPointType;
-  using PixelType = FixedPixelType;
+  using PointType = typename Superclass::PointType;
+  using PixelType = typename Superclass::PixelType;
   using CoordRepType = typename PointType::CoordRepType;
   using PointsContainer = FixedPointsContainer;
   using PointsConstIterator = typename PointsContainer::ConstIterator;
-  using PointIdentifier = typename PointsContainer::ElementIdentifier;
+  using PointIdentifier = typename Superclass::PointIdentifier;
 
   /** Typedef for points locator class to speed up finding neighboring points */
-  using PointsLocatorType = PointsLocator<PointsContainer>;
+  using PointsLocatorType = typename Superclass::PointsLocatorType;
   using NeighborsIdentifierType = typename PointsLocatorType::NeighborsIdentifierType;
 
-  using FixedTransformedPointSetType = PointSet<FixedPixelType, Self::PointDimension>;
-  using MovingTransformedPointSetType = PointSet<MovingPixelType, Self::PointDimension>;
+  using FixedTransformedPointSetType = typename Superclass::FixedTransformedPointSetType;
+  using MovingTransformedPointSetType = typename Superclass::MovingTransformedPointSetType;
 
-  using DerivativeValueType = typename DerivativeType::ValueType;
-  using LocalDerivativeType = FixedArray<DerivativeValueType, Self::PointDimension>;
+  using DerivativeValueType = typename Superclass::DerivativeValueType;
+  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
 
   /** Types for the virtual domain */
   using VirtualImageType = typename Superclass::VirtualImageType;
@@ -179,95 +170,6 @@ public:
   using VirtualPointSetType = typename Superclass::VirtualPointSetType;
   using VirtualPointSetPointer = typename Superclass::VirtualPointSetPointer;
 
-  /** Set fixed point set*/
-  void
-  SetFixedObject(const ObjectType * object) override
-  {
-    auto * pointSet = dynamic_cast<FixedPointSetType *>(const_cast<ObjectType *>(object));
-    if (pointSet != nullptr)
-    {
-      this->SetFixedPointSet(pointSet);
-    }
-    else
-    {
-      itkExceptionMacro("Incorrect object type.  Should be a point set.");
-    }
-  }
-
-  /** Set moving point set*/
-  void
-  SetMovingObject(const ObjectType * object) override
-  {
-    auto * pointSet = dynamic_cast<MovingPointSetType *>(const_cast<ObjectType *>(object));
-    if (pointSet != nullptr)
-    {
-      this->SetMovingPointSet(pointSet);
-    }
-    else
-    {
-      itkExceptionMacro("Incorrect object type.  Should be a point set.");
-    }
-  }
-
-  /** Get/Set the fixed pointset.  */
-  itkSetConstObjectMacro(FixedPointSet, FixedPointSetType);
-  itkGetConstObjectMacro(FixedPointSet, FixedPointSetType);
-
-  /** Get the fixed transformed point set.  */
-  itkGetModifiableObjectMacro(FixedTransformedPointSet, FixedTransformedPointSetType);
-
-  /** Get/Set the moving point set.  */
-  itkSetConstObjectMacro(MovingPointSet, MovingPointSetType);
-  itkGetConstObjectMacro(MovingPointSet, MovingPointSetType);
-
-  /** Get the moving transformed point set.  */
-  itkGetModifiableObjectMacro(MovingTransformedPointSet, MovingTransformedPointSetType);
-
-  /**
-   * For now return the number of points used in the value/derivative calculations.
-   */
-  SizeValueType
-  GetNumberOfComponents() const;
-
-  /**
-   * This method returns the value of the metric based on the current
-   * transformation(s).  This function can be redefined in derived classes
-   * but many point set metrics follow the same structure---one iterates
-   * through the points and, for each point a metric value is calculated.
-   * The summation of these individual point metric values gives the total
-   * value of the metric.  Note that this might not be applicable to all
-   * point set metrics.  For those cases, the developer will have to redefine
-   * the GetValue() function.
-   */
-  MeasureType
-  GetValue() const override;
-
-  /**
-   * This method returns the derivative based on the current
-   * transformation(s).  This function can be redefined in derived classes
-   * but many point set metrics follow the same structure---one iterates
-   * through the points and, for each point a derivative is calculated.
-   * The set of all these local derivatives constitutes the total derivative.
-   * Note that this might not be applicable to all point set metrics.  For
-   * those cases, the developer will have to redefine the GetDerivative()
-   * function.
-   */
-  void
-  GetDerivative(DerivativeType &) const override;
-
-  /**
-   * This method returns the derivative and value based on the current
-   * transformation(s).  This function can be redefined in derived classes
-   * but many point set metrics follow the same structure---one iterates
-   * through the points and, for each point a derivative and value is calculated.
-   * The set of all these local derivatives/values constitutes the total
-   * derivative and value.  Note that this might not be applicable to all
-   * point set metrics.  For those cases, the developer will have to redefine
-   * the GetValue() and GetDerivative() functions.
-   */
-  void
-  GetValueAndDerivative(MeasureType &, DerivativeType &) const override;
-
   /**
    * Function to be defined in the appropriate derived classes.  Calculates
    * the local metric value for a single point.  The \c PixelType may or
@@ -277,8 +179,11 @@ public:
   GetLocalNeighborhoodValue(const PointType &, const PixelType & pixel) const = 0;
 
   /**
-   * Calculates the local derivative for a single point. The \c PixelType may or
-   * may not be used.  See class description for further explanation.
+   * Calculates the local derivative for a single point.
+   * The default implementation calls  GetLocalNeighborhoodValueAndDerivative.
+   * The \c PixelType may or may not be used.  See class
+   * description for further explanation.
+   * Default implementation calls GetLocalNeighborhoodValueAndDerivative.
    */
   virtual LocalDerivativeType
   GetLocalNeighborhoodDerivative(const PointType &, const PixelType & pixel) const;
@@ -293,182 +198,37 @@ public:
                                          LocalDerivativeType &,
                                          const PixelType & pixel) const = 0;
 
-  /**
-   * Get the virtual point set, derived from the fixed point set.
-   * If the virtual point set has not yet been derived, it will be
-   * in this call. */
-  const VirtualPointSetType *
-  GetVirtualTransformedPointSet() const;
-
-  /**
-   * Initialize the metric by making sure that all the components
-   *  are present and plugged together correctly.
-   */
-  void
-  Initialize() override;
-
-  bool
-  SupportsArbitraryVirtualDomainSamples() const override
-  {
-    /* An arbitrary point in the virtual domain will not always
-     * correspond to a point within either point set. */
-    return false;
-  }
-
-  /**
-   * By default, the point set metric derivative for a displacement field transform
-   * is stored by saving the gradient for every voxel in the displacement field (see
-   * the function StorePointDerivative()).  Since the "fixed points" will typically
-   * constitute a sparse set, this means that the field will have zero gradient values
-   * at every voxel that doesn't have a corresponding point.  This might cause additional
-   * computation time for certain transforms (e.g. B-spline SyN). To avoid this, this
-   * option permits storing the point derivative only at the fixed point locations.
-   * If this variable is set to false, then the derivative array will be of length
-   * = PointDimension * m_FixedPointSet->GetNumberOfPoints().
-   */
-  itkSetMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool);
-  itkGetConstMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms, bool);
-  itkBooleanMacro(StoreDerivativeAsSparseFieldForLocalSupportTransforms);
-
-  /**
-   *
-   */
-  itkSetMacro(CalculateValueAndDerivativeInTangentSpace, bool);
-  itkGetConstMacro(CalculateValueAndDerivativeInTangentSpace, bool);
-  itkBooleanMacro(CalculateValueAndDerivativeInTangentSpace);
 
 protected:
-  PointSetToPointSetMetricv4();
+  PointSetToPointSetMetricv4() = default;
   ~PointSetToPointSetMetricv4() override = default;
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
-
-  typename FixedPointSetType::ConstPointer               m_FixedPointSet;
-  mutable typename FixedTransformedPointSetType::Pointer m_FixedTransformedPointSet;
-
-  mutable typename PointsLocatorType::Pointer m_FixedTransformedPointsLocator;
-
-  typename MovingPointSetType::ConstPointer               m_MovingPointSet;
-  mutable typename MovingTransformedPointSetType::Pointer m_MovingTransformedPointSet;
-
-  mutable typename PointsLocatorType::Pointer m_MovingTransformedPointsLocator;
-
-  /** Holds the fixed points after transformation into virtual domain. */
-  mutable VirtualPointSetPointer m_VirtualTransformedPointSet;
-
-  /**
-   * Bool set by derived classes on whether the point set data (i.e. \c PixelType)
-   * should be used.  Default = false.
-   */
-  bool m_UsePointSetData;
-
-  /**
-   * Flag to calculate value and/or derivative at tangent space.  This is needed
-   * for the diffeomorphic registration methods.  The fixed and moving points are
-   * warped to the virtual domain where the metric is calculated.  Derived point
-   * set metrics might have associated gradient information which will need to be
-   * warped if this flag is true.  Default = false.
-   */
-  bool m_CalculateValueAndDerivativeInTangentSpace;
-
-  /**
-   * Prepare point sets for use. */
-  virtual void
-  InitializePointSets() const;
-
-  /**
-   * Initialize to prepare for a particular iteration, generally
-   * an iteration of optimization. Distinct from Initialize()
-   * which is a one-time initialization. */
-  virtual void
-  InitializeForIteration() const;
-
-  /**
-   * Determine the number of valid fixed points. A fixed point
-   * is valid if, when transformed into the virtual domain using
-   * the inverse of the FixedTransform, it is within the defined
-   * virtual domain bounds. */
-  virtual SizeValueType
-  CalculateNumberOfValidFixedPoints() const;
-
-  /** Helper method allows for code reuse while skipping the metric value
-   * calculation when appropriate */
-  void
-  CalculateValueAndDerivative(MeasureType & calculatedValue, DerivativeType & derivative, bool calculateValue) const;
-
-  /**
-   * Warp the fixed point set into the moving domain based on the fixed transform,
-   * passing through the virtual domain and storing a virtual domain set.
-   * Note that the warped moving point set is of type FixedPointSetType since the transform
-   * takes the points from the fixed to the moving domain.
-   */
-  void
-  TransformFixedAndCreateVirtualPointSet() const;
-
-  /**
-   * Warp the moving point set based on the moving transform.  Note that the
-   * warped moving point set is of type FixedPointSetType since the transform
-   * takes the points from the moving to the fixed domain.
-   * FIXME: needs update.
-   */
-  void
-  TransformMovingPointSet() const;
-
-  /**
-   * Build point locators for the fixed and moving point sets to speed up
-   * derivative and value calculations.
-   */
-  void
-  InitializePointsLocators() const;
-
-  /**
-   * Store a derivative from a single point in a field.
-   * Only relevant when active transform has local support.
-   */
-  void
-  StorePointDerivative(const VirtualPointType &, const DerivativeType &, DerivativeType &) const;
-
-  using MetricCategoryType = typename Superclass::MetricCategoryType;
-
-  /** Get metric category */
-  MetricCategoryType
-  GetMetricCategory() const override
-  {
-    return MetricCategoryType::POINT_SET_METRIC;
-  }
-
-  virtual bool
-  RequiresMovingPointsLocator() const
-  {
-    return true;
-  };
-
-  virtual bool
-  RequiresFixedPointsLocator() const
-  {
-    return true;
-  };
 
 private:
-  mutable bool m_MovingTransformPointLocatorsNeedInitialization;
-  mutable bool m_FixedTransformPointLocatorsNeedInitialization;
+  MeasureType
+  GetLocalNeighborhoodValueWithIndex(const PointIdentifier &,
+                                     const PointType & point,
+                                     const PixelType & pixel) const override
+  {
+    return this->GetLocalNeighborhoodValue(point, pixel);
+  };
 
-  // Flag to keep track of whether a warning has already been issued
-  // regarding the number of valid points.
-  mutable bool m_HaveWarnedAboutNumberOfValidPoints;
+  LocalDerivativeType
+  GetLocalNeighborhoodDerivativeWithIndex(const PointIdentifier &,
+                                          const PointType & point,
+                                          const PixelType & pixel) const override
+  {
+    return this->GetLocalNeighborhoodDerivative(point, pixel);
+  };
 
-  // Flag to store derivatives at fixed point locations with the rest being zero gradient
-  // (default = true).
-  bool m_StoreDerivativeAsSparseFieldForLocalSupportTransforms;
-
-  mutable ModifiedTimeType m_MovingTransformedPointSetTime;
-  mutable ModifiedTimeType m_FixedTransformedPointSetTime;
-
-  // Create ranges over the point set for multithreaded computation of value and derivatives
-  using PointIdentifierPair = std::pair<PointIdentifier, PointIdentifier>;
-  using PointIdentifierRanges = std::vector<PointIdentifierPair>;
-  const PointIdentifierRanges
-  CreateRanges() const;
+  void
+  GetLocalNeighborhoodValueAndDerivativeWithIndex(const PointIdentifier &,
+                                                  const PointType &     point,
+                                                  MeasureType &         measure,
+                                                  LocalDerivativeType & derivative,
+                                                  const PixelType &     pixel) const override
+  {
+    this->GetLocalNeighborhoodValueAndDerivative(point, measure, derivative, pixel);
+  };
 };
 } // end namespace itk
 
