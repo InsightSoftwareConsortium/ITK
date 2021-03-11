@@ -19,10 +19,12 @@
 #define itkDenseFiniteDifferenceImageFilter_hxx
 #include "itkDenseFiniteDifferenceImageFilter.h"
 
-#include <list>
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodAlgorithm.h"
+
+#include <functional> // For equal_to.
+
 
 namespace itk
 {
@@ -39,15 +41,11 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CopyInputToOutput()
   }
 
   // Check if we are doing in-place filtering
-  if (this->GetInPlace() && this->CanRunInPlace())
+  if (this->GetInPlace() && this->CanRunInPlace() &&
+      std::equal_to<const void *>{}(input->GetPixelContainer(), output->GetPixelContainer()))
   {
-    const void * const inputPixelContainer = input->GetPixelContainer();
-    const auto * const tempPtr = output.GetPointer();
-    if (tempPtr != nullptr && tempPtr->GetPixelContainer() == inputPixelContainer)
-    {
-      // the input and output container are the same - no need to copy
-      return;
-    }
+    // the input and output container are the same - no need to copy
+    return;
   }
 
   ImageRegionConstIterator<TInputImage> in(input, output->GetRequestedRegion());
