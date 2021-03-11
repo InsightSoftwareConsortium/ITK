@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-template <typename TInternalComputationValueType>
+template <typename TInternalComputationValueType = double>
 class ITK_TEMPLATE_EXPORT RegularStepGradientDescentOptimizerv4
   : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
