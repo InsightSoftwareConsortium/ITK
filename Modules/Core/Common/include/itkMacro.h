@@ -519,8 +519,7 @@ OutputWindowDisplayDebugText(const char *);
 
 #define itkSpecializedExceptionMacro(ExceptionType)                                                                    \
   {                                                                                                                    \
-    itkSpecializedMessageExceptionMacro(ExceptionType,                                                                 \
-                                        "itk::ERROR: " << ::itk::ExceptionType::default_exception_message);            \
+    itkSpecializedMessageExceptionMacro(ExceptionType, << ::itk::ExceptionType::default_exception_message);            \
   }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 
