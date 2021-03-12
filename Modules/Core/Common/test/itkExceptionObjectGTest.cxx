@@ -34,6 +34,10 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
   class TestClass
   {
   public:
+    ITK_DISALLOW_COPY_AND_MOVE(TestClass);
+    TestClass() = default;
+    virtual ~TestClass() = default;
+
     itkTypeMacroNoParent(TestClass);
 
     void
