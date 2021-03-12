@@ -207,14 +207,4 @@ ExceptionObject::Print(std::ostream & os) const
   os << indent << std::endl;
 }
 
-MemoryAllocationError::~MemoryAllocationError() noexcept = default;
-
-RangeError::~RangeError() noexcept = default;
-
-InvalidArgumentError::~InvalidArgumentError() noexcept = default;
-
-IncompatibleOperandsError::~IncompatibleOperandsError() noexcept = default;
-
-ProcessAborted::~ProcessAborted() noexcept = default;
-
 } // end namespace itk

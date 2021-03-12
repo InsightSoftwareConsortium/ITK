@@ -146,9 +146,6 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~MemoryAllocationError() noexcept override;
-
   const char *
   GetNameOfClass() const override
   {
@@ -166,9 +163,6 @@ class ITKCommon_EXPORT RangeError : public ExceptionObject
 public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
-
-  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~RangeError() noexcept override;
 
   const char *
   GetNameOfClass() const override
@@ -189,9 +183,6 @@ public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
 
-  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~InvalidArgumentError() noexcept override;
-
   const char *
   GetNameOfClass() const override
   {
@@ -209,9 +200,6 @@ class ITKCommon_EXPORT IncompatibleOperandsError : public ExceptionObject
 public:
   // Inherit the constructors from its base class.
   using ExceptionObject::ExceptionObject;
-
-  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~IncompatibleOperandsError() noexcept override;
 
   const char *
   GetNameOfClass() const override
@@ -249,9 +237,6 @@ public:
   {
     this->SetDescription("Filter execution was aborted by an external request");
   }
-
-  /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  ~ProcessAborted() noexcept override;
 
   const char *
   GetNameOfClass() const override
