@@ -39,3 +39,9 @@ const bool  true  = 1;
  */
 #define H5O_VERSION_2    2
 
+// Define H5_OVERRIDE to override for C++11.
+#if defined(__cplusplus) && (201103L <= __cplusplus)
+#define H5_OVERRIDE override
+#else
+#define H5_OVERRIDE
+#endif
