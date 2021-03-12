@@ -8,8 +8,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-      with:
-        fetch-depth: 1
     - uses: InsightSoftwareConsortium/ITKClangFormatLinterAction@master
       with:
         error-message: 'Code is inconsistent with ITK Coding Style. Add the *action:ApplyClangFormat* PR label to correct.'
