@@ -110,7 +110,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
   const InputOffsetType down{ { 0, 1 } };
   const InputOffsetType diag{ { 1, 1 } };
 
-  const std::array<InputOffsetType, 4> offsets{ none, right, down, diag };
+  const std::array<InputOffsetType, 4> offsets{ { none, right, down, diag } };
   using Policy = itk::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<InputImageType>;
   using NeighborhoodRange = itk::ShapedImageNeighborhoodRange<const InputImageType, Policy>;
   NeighborhoodRange neighborhoodRange{ *input, InputIndexType{}, offsets, m_UnusedLabel };
@@ -299,7 +299,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
   {
     allLabels.assign(inputRange.cbegin(), inputRange.cend());
     std::sort(allLabels.begin(), allLabels.end());
-    const LabelsConstIterator last{ std::unique(allLabels.begin(), allLabels.end()) };
+    const LabelsIterator last{ std::unique(allLabels.begin(), allLabels.end()) };
     allLabels.erase(last, allLabels.end());
   }
 
@@ -362,7 +362,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     // Build the extended regions from the bounding boxes
     for (InputPixelType label : allLabels)
     {
-      const BoundingBoxType & bbox{ labelBoundingBoxes[label] };
+      const BoundingBoxType & bbox = labelBoundingBoxes[label];
       // Compute a extendedRegion that includes one-pixel border on all
       // sides. However, we don't want the 3-by-3 SquareIterator to be centered
       // in the bottom row or right column of this one-pixel-extended region
@@ -384,7 +384,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
   mt->ParallelizeArray(
     0,
     allLabels.size(),
-    [this, &allLabels, &input, &labelsRegions, totalPixelCount, &labelsContoursOutput](SizeValueType i) {
+    [this, &allLabels, &input, &labelsRegions, totalPixelCount, &labelsContoursOutput](SizeValueType i) -> void {
       const InputPixelType label{ allLabels[i] };
       this->CreateSingleContour(label, input, labelsRegions[label], totalPixelCount, labelsContoursOutput[label]);
     },
