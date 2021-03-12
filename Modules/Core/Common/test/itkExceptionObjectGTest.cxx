@@ -56,7 +56,7 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
     ASSERT_NE(actualDescription, nullptr);
 
     std::ostringstream expectedDescription;
-    expectedDescription << "itk::ERROR: " << testObject.GetNameOfClass() << "(" << &testObject << "): " << testMessage;
+    expectedDescription << "ITK ERROR: " << testObject.GetNameOfClass() << "(" << &testObject << "): " << testMessage;
 
     EXPECT_EQ(actualDescription, expectedDescription.str());
   }
@@ -74,7 +74,7 @@ TEST(ExceptionObject, TestDescriptionFromSpecializedExceptionMacro)
   {
     const char * const description = exceptionObject.GetDescription();
     ASSERT_NE(description, nullptr);
-    EXPECT_EQ(description, std::string("itk::ERROR: ") + itk::GTest_SpecializedException::default_exception_message);
+    EXPECT_EQ(description, std::string("ITK ERROR: ") + itk::GTest_SpecializedException::default_exception_message);
   }
 }
 

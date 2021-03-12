@@ -511,7 +511,7 @@ OutputWindowDisplayDebugText(const char *);
 #define itkSpecializedMessageExceptionMacro(ExceptionType, x)                                                          \
   {                                                                                                                    \
     std::ostringstream message;                                                                                        \
-    message << "itk::ERROR: " x;                                                                                       \
+    message << "ITK ERROR: " x;                                                                                        \
     throw ::itk::ExceptionType(                                                                                        \
       std::string{ __FILE__ }, __LINE__, std::string{ message.str() }, std::string{ ITK_LOCATION });                   \
   }                                                                                                                    \
