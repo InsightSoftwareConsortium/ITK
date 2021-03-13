@@ -41,18 +41,18 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
     itkTypeMacroNoParent(TestClass);
 
     void
-    CallExceptionMacro(const std::string & testMessage) const
+    CallExceptionMacro(const std::string & message) const
     {
-      itkExceptionMacro(<< testMessage);
+      itkExceptionMacro(<< message);
     }
   };
 
-  const std::string testMessage = "test message";
+  const std::string message = "test message";
   const TestClass   testObject{};
 
   try
   {
-    testObject.CallExceptionMacro(testMessage);
+    testObject.CallExceptionMacro(message);
   }
   catch (const itk::ExceptionObject & exceptionObject)
   {
@@ -60,7 +60,7 @@ TEST(ExceptionObject, TestDescriptionFromExceptionMacro)
     ASSERT_NE(actualDescription, nullptr);
 
     std::ostringstream expectedDescription;
-    expectedDescription << "ITK ERROR: " << testObject.GetNameOfClass() << "(" << &testObject << "): " << testMessage;
+    expectedDescription << "ITK ERROR: " << testObject.GetNameOfClass() << "(" << &testObject << "): " << message;
 
     EXPECT_EQ(actualDescription, expectedDescription.str());
   }

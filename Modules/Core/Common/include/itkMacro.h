@@ -510,10 +510,10 @@ OutputWindowDisplayDebugText(const char *);
 
 #define itkSpecializedMessageExceptionMacro(ExceptionType, x)                                                          \
   {                                                                                                                    \
-    std::ostringstream message;                                                                                        \
-    message << "ITK ERROR: " x;                                                                                        \
+    std::ostringstream exceptionDescriptionOutputStringStream;                                                         \
+    exceptionDescriptionOutputStringStream << "ITK ERROR: " x;                                                         \
     throw ::itk::ExceptionType(                                                                                        \
-      std::string{ __FILE__ }, __LINE__, std::string{ message.str() }, std::string{ ITK_LOCATION });                   \
+      std::string{ __FILE__ }, __LINE__, exceptionDescriptionOutputStringStream.str(), std::string{ ITK_LOCATION });   \
   }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 
