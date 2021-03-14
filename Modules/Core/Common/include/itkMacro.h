@@ -490,18 +490,8 @@ OutputWindowDisplayDebugText(const char *);
   public:                                                                                                              \
     /* default message provides backward compatibility for a given exception type */                                   \
     static constexpr const char * const default_exception_message = whatmessage;                                       \
-    explicit newexcp(const char * file,                                                                                \
-                     unsigned int lineNumber = 0,                                                                      \
-                     const char * desc = "None",                                                                       \
-                     const char * loc = "Unknown")                                                                     \
-      : parentexcp(std::string{ file }, lineNumber, std::string{ desc }, std::string{ loc })                           \
-    {}                                                                                                                 \
-    explicit newexcp(std::string  file,                                                                                \
-                     unsigned int lineNumber = 0,                                                                      \
-                     std::string  desc = std::string{ "None" },                                                        \
-                     std::string  loc = std::string{ "Unknown" })                                                      \
-      : parentexcp(std::move(file), lineNumber, std::move(desc), std::move(loc))                                       \
-    {}                                                                                                                 \
+    /* Inherit the constructors from its base class. */                                                                \
+    using parentexcp::parentexcp;                                                                                      \
     itkTypeMacro(newexcp, parentexcp);                                                                                 \
   };                                                                                                                   \
   }                                                                                                                    \
