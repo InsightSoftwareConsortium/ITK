@@ -508,25 +508,15 @@ OutputWindowDisplayDebugText(const char *);
   ITK_MACROEND_NOOP_STATEMENT
 
 #define itkSpecializedExceptionMacro(ExceptionType)                                                                    \
-  {                                                                                                                    \
-    itkSpecializedMessageExceptionMacro(ExceptionType, << ::itk::ExceptionType::default_exception_message);            \
-  }                                                                                                                    \
-  ITK_MACROEND_NOOP_STATEMENT
+  itkSpecializedMessageExceptionMacro(ExceptionType, << ::itk::ExceptionType::default_exception_message)
 
 /** The itkExceptionMacro macro is used to print error information (i.e., usually
  * a condition that results in program failure). Example usage looks like:
  * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 #define itkExceptionMacro(x)                                                                                           \
-  {                                                                                                                    \
-    itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << "(" << this << "): " x);         \
-  }                                                                                                                    \
-  ITK_MACROEND_NOOP_STATEMENT
+  itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << "(" << this << "): " x)
 
-#define itkGenericExceptionMacro(x)                                                                                    \
-  {                                                                                                                    \
-    itkSpecializedMessageExceptionMacro(ExceptionObject, x);                                                           \
-  }                                                                                                                    \
-  ITK_MACROEND_NOOP_STATEMENT
+#define itkGenericExceptionMacro(x) itkSpecializedMessageExceptionMacro(ExceptionObject, x)
 
 #define itkGenericOutputMacro(x)                                                                                       \
   {                                                                                                                    \
