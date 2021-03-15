@@ -74,8 +74,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::SetMontag
 
     for (SizeValueType i = 0; i < this->m_LinearMontageSize; i++)
     {
-      auto imagePtr = static_cast<const ImageType *>(montage->GetInput(i));
-      if (imagePtr != montage->m_Dummy.GetPointer())
+      if (!std::equal_to<const void *>{}(montage->GetInput(i), montage->m_Dummy.GetPointer()))
       {
         this->SetNthInput(i, const_cast<DataObject *>(montage->GetInput(i)));
         this->m_Filenames[i] = montage->m_Filenames[i]; // might still be set
