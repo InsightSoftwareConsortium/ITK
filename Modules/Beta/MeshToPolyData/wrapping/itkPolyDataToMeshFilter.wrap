@@ -1,0 +1,9 @@
+itk_wrap_include("itkPolyData.h")
+itk_wrap_include("itkDefaultStaticMeshTraits.h")
+
+itk_wrap_class("itk::PolyDataToMeshFilter" POINTER)
+  UNIQUE(types "${WRAP_ITK_SCALAR};D")
+    foreach(t ${types})
+      itk_wrap_template("PD${ITKM_${t}}" "itk::PolyData< ${ITKT_${t}} >")
+  endforeach()
+itk_end_wrap_class()
