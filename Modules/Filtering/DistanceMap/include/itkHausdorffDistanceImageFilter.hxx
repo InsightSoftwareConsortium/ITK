@@ -153,7 +153,7 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std::ostream
 
   os << indent << "HausdorffDistance: " << m_HausdorffDistance << std::endl;
   os << indent << "AverageHausdorffDistance: " << m_AverageHausdorffDistance << std::endl;
-  os << indent << "Use Image Spacing : " << m_UseImageSpacing << std::endl;
+  os << indent << "Use Image Spacing: " << m_UseImageSpacing << std::endl;
 }
 } // end namespace itk
 #endif
