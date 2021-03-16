@@ -180,8 +180,8 @@ private:
 
   DistanceMapPointer m_DistanceMap;
 
-  RealType       m_MaxDistance;
-  IdentifierType m_PixelCount;
+  RealType       m_MaxDistance{ NumericTraits<RealType>::ZeroValue() };
+  IdentifierType m_PixelCount{};
 
   using CompensatedSummationType = itk::CompensatedSummation<RealType>;
   CompensatedSummationType m_Sum;
