@@ -35,6 +35,8 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DirectedHausdo
   this->SetNumberOfRequiredInputs(2);
 
   m_DistanceMap = nullptr;
+  m_MaxDistance = NumericTraits<RealType>::ZeroValue();
+  m_PixelCount = 0;
   m_DirectedHausdorffDistance = NumericTraits<RealType>::ZeroValue();
   m_AverageHausdorffDistance = NumericTraits<RealType>::ZeroValue();
   m_UseImageSpacing = true;
@@ -206,7 +208,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std:
 
   os << indent << "DistanceMap: " << m_DistanceMap << std::endl;
   os << indent << "MaxDistance: " << m_MaxDistance << std::endl;
-  os << indent << "PixelCount:" << m_PixelCount << std::endl;
+  os << indent << "PixelCount: " << m_PixelCount << std::endl;
   os << indent << "Sum: " << m_Sum.GetSum();
 
   os << std::endl;
