@@ -27,14 +27,13 @@ T vnl_c_vector<T>::sum(T const* v, unsigned n)
 template <class T>
 void vnl_c_vector<T>::normalize(T* v, unsigned n)
 {
-  typedef typename vnl_numeric_traits<T>::abs_t abs_t;
-  typedef typename vnl_numeric_traits<abs_t>::real_t real_t;
+  typedef typename vnl_numeric_traits<abs_t>::real_t real_abs_t;
   abs_t tmp(0);
   for (unsigned i = 0; i < n; ++i)
     tmp += vnl_math::squared_magnitude(v[i]);
   if (tmp!=0)
   {
-    tmp = abs_t(real_t(1) / std::sqrt(real_t(tmp)));
+    tmp = abs_t(real_abs_t(1) / std::sqrt(real_abs_t(tmp)));
     for (unsigned i = 0; i < n; ++i)
       v[i] = T(tmp*v[i]);
   }
@@ -287,7 +286,6 @@ T vnl_c_vector<T>::sum_sq_diff_means(T const* v, unsigned n)
     sum += *v;
     sum_sq += *v * *v;
   }
-  typedef typename vnl_numeric_traits<T>::abs_t abs_t;
   return sum_sq - sum*sum / abs_t(n);
 }
 
