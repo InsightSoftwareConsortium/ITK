@@ -1272,12 +1272,18 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
   {
     if (p->second == 0)
     {
-      Extrapolate(axis, out, label, i, j, iconn, p->first);
+      if (m_UseExtrapolation)
+      {
+        Extrapolate(axis, out, label, i, j, iconn, p->first);
+      }
       pairs.erase(p++);
     }
     else if (p->first == 0)
     {
-      Extrapolate(axis, out, label, j, i, jconn, p->second);
+      if (m_UseExtrapolation)
+      {
+        Extrapolate(axis, out, label, j, i, jconn, p->second);
+      }
       pairs.erase(p++);
     }
     else

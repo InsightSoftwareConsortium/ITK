@@ -139,6 +139,13 @@ public:
    *   SetLabeledSliceIndices has to be called prior to Update(). */
   itkGetConstMacro(UseCustomSlicePositions, bool);
 
+  /** Perform extrapolation for branch extremities.
+   * Branch extremities are defined as regions having no overlap with any region in the next slice.
+   * Extrapolation helps generate smooth surface closings.
+   *    Default is ON
+   * */
+  itkSetMacro(UseExtrapolation, bool);
+
   /** Use ball instead of default cross structuring element for repeated dilations. */
   void
   SetUseBallStructuringElement(bool useBall)
@@ -225,6 +232,7 @@ protected:
   bool                       m_UseDistanceTransform{ true };
   bool                       m_UseBallStructuringElement{ false };
   bool                       m_UseCustomSlicePositions{ false };
+  bool                       m_UseExtrapolation{ true };
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
   IdentifierType             m_ThreadCount;   // for thread local instances
