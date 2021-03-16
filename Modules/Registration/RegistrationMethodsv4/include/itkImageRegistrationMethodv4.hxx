@@ -20,6 +20,7 @@
 
 #include "itkImageRegistrationMethodv4.h"
 
+#include "itkConversion.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
@@ -782,7 +783,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         }
       }
 
-      const auto * initialAsOutputTransform = dynamic_cast<const OutputTransformType *>(initialTransform);
+      const auto * initialAsOutputTransform =
+        Experimental::Conversion::Convert<const OutputTransformType *>(initialTransform);
 
       if (initialAsOutputTransform)
       {
