@@ -1,5 +1,16 @@
 itk_wrap_class("itk::FastSymmetricForcesDemonsRegistrationFilter" POINTER)
-  foreach(s ${WRAP_ITK_SCALAR})
-    itk_wrap_image_filter_combinations("${s}" "${s}" "${WRAP_ITK_VECTOR_REAL}" 2+)
+  foreach(curr_dim ${ITK_WRAP_IMAGE_DIMS})
+    if(${curr_dim} LESS 1)
+        continue()
+    endif()
+    # Vector components dimension must match image dimension. Temporarily change the global vector dims list.
+    set(SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_PDE_DEFORMABLE_REGISTRATION_FILTER "${ITK_WRAP_VECTOR_COMPONENTS}")
+    set(ITK_WRAP_VECTOR_COMPONENTS ${curr_dim})
+    foreach(s ${WRAP_ITK_SCALAR})
+      itk_wrap_image_filter_combinations("${s}" "${s}" "${WRAP_ITK_VECTOR_REAL}" ${curr_dim})
+    endforeach()
+    # Restore the global vector dims list.
+    set(ITK_WRAP_VECTOR_COMPONENTS "${SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_PDE_DEFORMABLE_REGISTRATION_FILTER}")
+    unset(SAVE_ITK_WRAP_VECTOR_COMPONENTS_FOR_ITK_PDE_DEFORMABLE_REGISTRATION_FILTER)
   endforeach()
 itk_end_wrap_class()
