@@ -178,7 +178,7 @@ private:
   using DistanceMapPointer = typename DistanceMapType::Pointer;
 
 
-  DistanceMapPointer m_DistanceMap;
+  DistanceMapPointer m_DistanceMap{ nullptr };
 
   RealType       m_MaxDistance{ NumericTraits<RealType>::ZeroValue() };
   IdentifierType m_PixelCount{};
@@ -186,9 +186,9 @@ private:
   using CompensatedSummationType = itk::CompensatedSummation<RealType>;
   CompensatedSummationType m_Sum;
 
-  RealType m_DirectedHausdorffDistance;
-  RealType m_AverageHausdorffDistance;
-  bool     m_UseImageSpacing;
+  RealType m_DirectedHausdorffDistance{ NumericTraits<RealType>::ZeroValue() };
+  RealType m_AverageHausdorffDistance{ NumericTraits<RealType>::ZeroValue() };
+  bool     m_UseImageSpacing{ true };
 
   std::mutex m_Mutex;
 }; // end of class

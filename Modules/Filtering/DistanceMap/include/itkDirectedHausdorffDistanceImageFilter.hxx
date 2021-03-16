@@ -34,12 +34,6 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DirectedHausdo
   // this filter requires two input images
   this->SetNumberOfRequiredInputs(2);
 
-  m_DistanceMap = nullptr;
-  m_DirectedHausdorffDistance = NumericTraits<RealType>::ZeroValue();
-  m_AverageHausdorffDistance = NumericTraits<RealType>::ZeroValue();
-  m_UseImageSpacing = true;
-
-
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }
@@ -214,7 +208,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::PrintSelf(std:
      << static_cast<typename NumericTraits<RealType>::PrintType>(m_DirectedHausdorffDistance) << std::endl;
   os << indent << "AverageHausdorffDistance: "
      << static_cast<typename NumericTraits<RealType>::PrintType>(m_AverageHausdorffDistance) << std::endl;
-  os << indent << "UseImageSpacing : " << m_UseImageSpacing << std::endl;
+  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
 }
 } // end namespace itk
 #endif
