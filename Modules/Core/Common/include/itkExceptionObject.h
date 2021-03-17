@@ -50,12 +50,7 @@ public:
   static constexpr const char * const default_exception_message = "Generic ExceptionObject";
   using Superclass = std::exception;
 
-  /** Explicitly-defaulted default-constructor. Creates an empty exception object.
-   * \note The other five "special member functions" (copy-constructor,
-   * copy-assignment operator, move-constructor, move-assignment operator,
-   * and destructor) are defaulted implicitly, following the C++ "Rule of Zero".
-   * All of these special member functions are `noexcept`.
-   */
+  /** Explicitly-defaulted default-constructor. Creates an empty exception object. */
   ExceptionObject() noexcept = default;
 
   explicit ExceptionObject(const char * file,
@@ -66,6 +61,24 @@ public:
                            unsigned int lineNumber = 0,
                            std::string  desc = "None",
                            std::string  loc = "Unknown");
+
+  /** Copy-constructor. */
+  ExceptionObject(const ExceptionObject &) noexcept = default;
+
+  /** Move-constructor. */
+  ExceptionObject(ExceptionObject &&) noexcept = default;
+
+  /** Copy-assignment operator. */
+  ExceptionObject &
+  operator=(const ExceptionObject &) noexcept = default;
+
+  /** Move-assignment operator. */
+  ExceptionObject &
+  operator=(ExceptionObject &&) noexcept = default;
+
+  /** Destructor.
+   * \note It appears necessary to define the destructor "out-of-line" for external linkage. */
+  ~ExceptionObject() override;
 
   /** Equivalence operator. */
   virtual bool

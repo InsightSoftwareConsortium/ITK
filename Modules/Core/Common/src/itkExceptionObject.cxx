@@ -75,6 +75,10 @@ ExceptionObject::ExceptionObject(std::string file, unsigned int lineNumber, std:
 {}
 
 
+// Note: It appears necessary to define the destructor "out-of-line" for external linkage.
+ExceptionObject::~ExceptionObject() = default;
+
+
 bool
 ExceptionObject::operator==(const ExceptionObject & orig) const
 {
