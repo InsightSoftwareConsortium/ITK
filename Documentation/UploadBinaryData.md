@@ -171,7 +171,7 @@ actual file is desired in the build tree. Stage the new file to your commit:
 [hashsum_download]: https://girder.readthedocs.io/en/latest/plugins.html#hashsum-download
 [ITK collection]: https://data.kitware.com/#collection/57b5c9e58d777f126827f5a1
 [ITK community]: https://discourse.itk.org/
-[ITK Examples]: https://itk.org/ITKExamples/index.html
+[ITK Sphinx Examples]: https://itk.org/ITKExamples/index.html
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
 [UploadBinaryData.sh]: ../Utilities/UploadBinaryData.sh

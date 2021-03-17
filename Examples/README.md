@@ -1,12 +1,12 @@
-ITK Examples Directory
-----------------------
+ITK Software Guide Examples
+---------------------------
 
 This directory contains simple, companion examples to the ITK Software Guide.
 These examples are designed to demonstrate features of the system; they are not
 meant to be significant applications of the software.
 
 For a more comprehensive set of self-contained, illustrative examples, see the
-[ITKExamples](https://itk.org/ITKExamples).
+[ITKSphinxExamples](https://itk.org/ITKExamples).
 
 Specifically, the purpose of these examples is as follows:
 
