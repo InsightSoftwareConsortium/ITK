@@ -28,7 +28,7 @@ This work is based on, in part:
     Bican, J.
     Phase Correlation Method for ITK
     The Insight Journal - 2006 July - December
-    http://hdl.handle.net/1926/396
+    https://www.insight-journal.org/browse/publication/138
 
 Installation
 ------------
