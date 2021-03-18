@@ -529,16 +529,16 @@ Next, [upload the wheels to the Python Package Index
 ### Verify the binaries
 
 Run `pip install itk` in a fresh virtualenv and run all the
-[ITKExamples](https://github.com/InsightSoftwareConsortium/ITKExamples) Python
+[ITKSphinxExamples](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples) Python
 tests against this Python. For example,
 
 ```sh
 virtualenv itk-venv
 ./itk-venv/bin/python -m pip install itk
-git clone https://github.com/InsightSoftwareConsortium/ITKExamples
-mkdir ITKExamples-build
-cd ITKExamples-build
-cmake -DITK_DIR=/path/to/ITK-build -DPython3_ROOT_DIR=../itk-venv -DPython3_FIND_VIRTUALENV=ONLY -DPYTHON_EXECUTABLE=../itk-venv/bin/python3 ../ITKExamples
+git clone https://github.com/InsightSoftwareConsortium/ITKSphinxExamples
+mkdir ITKSphinxExamples-build
+cd ITKSphinxExamples-build
+cmake -DITK_DIR=/path/to/ITK-build -DPython3_ROOT_DIR=../itk-venv -DPython3_FIND_VIRTUALENV=ONLY -DPYTHON_EXECUTABLE=../itk-venv/bin/python3 ../ITKSphinxExamples
 ctest -R Python
 ```
 

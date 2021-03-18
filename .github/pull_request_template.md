@@ -34,7 +34,7 @@ of the person or team responsible for reviewing proposed changes. -->
 - [ ] Updated API documentation (or API not changed)
 - [ ] Added [license](https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/KWStyle/ITKHeader.h) to new files (if any)
 - [ ] Added Python wrapping to new files (if any) as described in [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf) Section 9.5
-- [ ] Added [ITK examples](https://github.com/InsightSoftwareConsortium/ITKExamples) for all new major features (if any)
+- [ ] Added [ITK examples](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples) for all new major features (if any)
 
 Refer to the [ITK Software Guide](https://itk.org/ItkSoftwareGuide.pdf) for
 further development details if necessary.
