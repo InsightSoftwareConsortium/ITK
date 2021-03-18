@@ -36,6 +36,7 @@ else()
   execute_process(
     COMMAND
     ${CMAKE_COMMAND} ${_eigen3_source_dir}
+    "-DCMAKE_APPLE_SILICON_PROCESSOR=${CMAKE_APPLE_SILICON_PROCESSOR}"
     "-DCMAKE_INSTALL_PREFIX=${_eigen3_cmake_install_prefix}"
     "-DCMAKE_INSTALL_INCLUDEDIR=${_eigen3_cmake_install_includedir}"
     "-DCMAKE_INSTALL_DATADIR=${_eigen3_cmake_install_datadir}"
