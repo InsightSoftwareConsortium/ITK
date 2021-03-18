@@ -113,7 +113,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
   const std::array<InputOffsetType, 4> offsets{ { none, right, down, diag } };
   using Policy = itk::ConstantBoundaryImageNeighborhoodPixelAccessPolicy<InputImageType>;
   using NeighborhoodRange = itk::ShapedImageNeighborhoodRange<const InputImageType, Policy>;
-  NeighborhoodRange neighborhoodRange{ *input, InputIndexType{}, offsets, m_UnusedLabel };
+  NeighborhoodRange neighborhoodRange{ *input, InputIndexType(), offsets, m_UnusedLabel };
 
   for (const InputIndexType index : RegionIndexRange{ usableRegion })
   {
