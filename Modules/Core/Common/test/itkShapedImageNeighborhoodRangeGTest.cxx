@@ -544,7 +544,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorRetrievesSamePixelValuesAsConstNeighb
 
     itk::SizeValueType i = 0;
 
-    for (const auto pixel : range)
+    for (const PixelType pixel : range)
     {
       EXPECT_EQ(pixel, constNeighborhoodIterator.GetPixel(i));
       ++i;
