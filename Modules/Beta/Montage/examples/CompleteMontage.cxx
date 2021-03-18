@@ -585,7 +585,7 @@ main(int argc, char * argv[])
   {
     std::cout << "Usage: " << std::endl;
     std::cout << argv[0]
-              << " <directoryWtihInputData> <outputDirectory> <outputFilename> [biasCorrection] [tileDenoising]"
+              << " <directoryWithInputData> <outputDirectory> <outputFilename> [biasCorrection] [tileDenoising]"
               << std::endl;
     return EXIT_FAILURE;
   }
