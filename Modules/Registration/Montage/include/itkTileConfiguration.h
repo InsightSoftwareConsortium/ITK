@@ -42,6 +42,30 @@ struct ITK_TEMPLATE_EXPORT Tile
   PointType Position; // x, y... coordinates
 
   std::string FileName;
+
+  /* Primarily for access via SWIG wrapping */
+  PointType
+  GetPosition() const
+  {
+    return Position;
+  }
+  void
+  SetPosition(PointType position)
+  {
+    Position = position;
+  }
+
+  /* Primarily for access via SWIG wrapping */
+  std::string
+  GetFileName() const
+  {
+    return FileName;
+  }
+  void
+  SetFileName(std::string fileName)
+  {
+    FileName = fileName;
+  }
 };
 
 
@@ -55,6 +79,30 @@ struct ITK_TEMPLATE_EXPORT TileConfiguration
   TileIndexType AxisSizes;
 
   std::vector<TileND> Tiles;
+
+  /* Primarily for access via SWIG wrapping */
+  TileIndexType
+  GetAxisSizes() const
+  {
+    return AxisSizes;
+  }
+  void
+  SetAxisSizes(TileIndexType axisSizes)
+  {
+    AxisSizes = axisSizes;
+  }
+
+  /* Primarily for access via SWIG wrapping */
+  TileND
+  GetTile(size_t linearIndex) const
+  {
+    return Tiles[linearIndex];
+  }
+  void
+  SetTile(size_t linearIndex, TileND tile)
+  {
+    Tiles[linearIndex] = tile;
+  }
 
   size_t
   LinearSize() const

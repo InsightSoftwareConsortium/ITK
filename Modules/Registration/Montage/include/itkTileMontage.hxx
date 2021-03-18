@@ -38,6 +38,7 @@ namespace itk
 template <typename TImageType, typename TCoordinate>
 TileMontage<TImageType, TCoordinate>::TileMontage()
 {
+  this->ThreaderUpdateProgressOff(); // we will update the progress from the filter
   m_OriginAdjustment.Fill(0);
   m_ForcedSpacing.Fill(0);
 
@@ -665,6 +666,8 @@ TileMontage<TImageType, TCoordinate>::GenerateData()
       TileIndexType currentIndex = this->LinearIndexTonDIndex(waited);
       futures[waited].get(); // waits for the computation to finish
       this->ReleaseMemory(currentIndex);
+      // all registrations finished = 95% of total progress
+      this->UpdateProgress(m_FinishedPairs * 0.95 / m_NumberOfPairs);
       ++waited;
     }
 
@@ -680,8 +683,6 @@ TileMontage<TImageType, TCoordinate>::GenerateData()
           referenceIndex[regDim] = currentTile[regDim] - 1;
           this->RegisterPair(referenceIndex, currentTile);
           ++m_FinishedPairs;
-          // all registrations finished = 95% of total progress
-          this->UpdateProgress(m_FinishedPairs * 0.95 / m_NumberOfPairs);
         }
       }
     });
@@ -694,6 +695,8 @@ TileMontage<TImageType, TCoordinate>::GenerateData()
     TileIndexType currentIndex = this->LinearIndexTonDIndex(i);
     futures[i].get(); // waits for the computation to finish
     this->ReleaseMemory(currentIndex);
+    // all registrations finished = 95% of total progress
+    this->UpdateProgress(m_FinishedPairs * 0.95 / m_NumberOfPairs);
   }
 
   this->OptimizeTiles();
