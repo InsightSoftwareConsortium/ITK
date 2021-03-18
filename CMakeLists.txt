@@ -304,6 +304,12 @@ else()
   set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY}   CACHE PATH "Shared library directory")
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY}   CACHE PATH "Runtime library directory")
 endif()
+mark_as_advanced(FORCE
+  CMAKE_RUNTIME_OUTPUT_DIRECTORY
+  CMAKE_LIBRARY_OUTPUT_DIRECTORY
+  NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY
+  NO_WRAP_CMAKE_RUNTIME_OUTPUT_DIRECTORY
+  Python3_ROOT_DIR)
 # Setup build locations for shared libraries ----STOP
 
 if(CMAKE_CONFIGURATION_TYPES AND ITK_WRAPPING)
@@ -643,3 +649,51 @@ add_subdirectory(Utilities/Doxygen)
 # all tests have been added that reference the group, so we put it last.
 include(ExternalData)
 ExternalData_Add_Target(ITKData)
+
+mark_as_advanced(FORCE
+  Module_AdaptiveDenoising
+  Module_AnalyzeObjectLabelMap
+  Module_AnisotropicDiffusionLBR
+  Module_BioCell
+  Module_BoneEnhancement
+  Module_BoneMorphometry
+  Module_BSplineGradient
+  Module_Cuberille
+  Module_FixedPointInverseDisplacementField
+  Module_GenericLabelInterpolator
+  Module_HigherOrderAccurateGradient
+  Module_IOFDF
+  Module_IOMeshSTL
+  Module_IOOpenSlide
+  Module_IOScanco
+  Module_IOTransformDCMTK
+  Module_IsotropicWavelets
+  Module_LabelErodeDilate
+  Module_LesionSizingToolkit
+  Module_MeshNoise
+  Module_MGHIO
+  Module_MinimalPathExtraction
+  Module_Montage
+  Module_MorphologicalContourInterpolation
+  Module_MultipleImageIterator
+  Module_ParabolicMorphology
+  Module_PerformanceBenchmarking
+  Module_PhaseSymmetry
+  Module_PolarTransform
+  Module_PrincipalComponentsAnalysis
+  Module_RLEImage
+  Module_RTK
+  Module_SCIFIO
+  Module_SimpleITKFilters
+  Module_SkullStrip
+  Module_SmoothingRecursiveYvvGaussianFilter
+  Module_SphinxExamples
+  Module_SplitComponents
+  Module_Strain
+  Module_SubdivisionQuadEdgeMeshFilter
+  Module_TextureFeatures
+  Module_Thickness3D
+  Module_TotalVariation
+  Module_TubeTK
+  Module_TwoProjectionRegistration
+  Module_VariationalRegistration)
