@@ -52,7 +52,7 @@ TEST(OptimizerParameters, ConstructWithSpecifiedDataAndSize)
 
   // First test for size = zero.
   EXPECT_EQ(OptimizerParametersType(std::vector<double>{}.data(), 0), OptimizerParametersType{});
-  EXPECT_EQ(OptimizerParametersType(std::array<double, 0>{}.data(), 0), OptimizerParametersType{});
+  EXPECT_EQ(OptimizerParametersType(std::array<double, 0>().data(), 0), OptimizerParametersType{});
 
   // Test for an arbitrary size:
   const auto testConstructOptimizerParameters = [](const double * const inputData, const itk::SizeValueType dimension) {
@@ -61,7 +61,7 @@ TEST(OptimizerParameters, ConstructWithSpecifiedDataAndSize)
     EXPECT_TRUE(std::equal(optimizerParameters.begin(), optimizerParameters.end(), inputData));
   };
 
-  testConstructOptimizerParameters(std::array<double, 1>{}.data(), 1);
+  testConstructOptimizerParameters(std::array<double, 1>().data(), 1);
   testConstructOptimizerParameters(std::vector<double>{ 1.0 }.data(), 1);
 
   const std::vector<double> stdVector{ 1.0, 2.0, 4.0 };
