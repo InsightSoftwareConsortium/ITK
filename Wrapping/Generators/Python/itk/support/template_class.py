@@ -27,9 +27,9 @@ from typing import Dict, Any, List, Callable, Union
 
 import itkConfig
 
-from ..support import itkBase
-from ..support.itkExtras import output
-from ..support.itkTypes import itkCType
+from ..support import base
+from ..support.extras import output
+from ..support.types import itkCType
 import math
 from collections.abc import Mapping
 
@@ -536,16 +536,16 @@ class itkTemplate(Mapping):
         load the module in which the object belongs. The other modules will be loaded only when necessary.
         """
         name = self.__name__.split("::")[-1]  # Remove 'itk::' or 'itk::Function::'
-        modules = itkBase.itk_base_global_lazy_attributes[name]
+        modules = base.itk_base_global_lazy_attributes[name]
         for module in modules:
             # find the module's name in sys.modules, or create a new module so named
             swig_module_name = "itk." + module + "Python"
             this_module = sys.modules.setdefault(
-                swig_module_name, itkBase.create_itk_module(module)
+                swig_module_name, base.create_itk_module(module)
             )
             namespace = {}
             if not hasattr(this_module, "__templates_loaded"):
-                itkBase.itk_load_swig_module(module, namespace)
+                base.itk_load_swig_module(module, namespace)
 
     def __dir__(self):
         """Returns the list of the attributes available in the current template.
@@ -605,10 +605,10 @@ class itkTemplate(Mapping):
 
           outputImage = itk.MedianImageFilter(inputImage, Radius=(1,2))
         """
-        from . import itkHelpers
+        from . import helpers
 
         short_name: str = re.sub(r".*::", "", self.__name__)
-        snake = itkHelpers.camel_to_snake_case(short_name)
+        snake = helpers.camel_to_snake_case(short_name)
 
         warnings.warn(
             "WrapITK warning: itk.%s() is deprecated for procedural"

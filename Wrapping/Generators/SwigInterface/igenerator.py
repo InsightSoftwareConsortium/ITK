@@ -162,8 +162,8 @@ class SwigInputGenerator(object):
           obj.SetThreshold(10)
         """
         obj = {class_name}.__New_orig__()
-        from itk.support import itkTemplate
-        itkTemplate.New(obj, *args, **kargs)
+        from itk.support import template_class
+        template_class.New(obj, *args, **kargs)
         return obj
     New = staticmethod(New)
   %}}
@@ -611,8 +611,8 @@ class SwigInputGenerator(object):
                 snakeCase = self.camelCaseToSnakeCase(processObject)
                 self.snakeCaseProcessObjectFunctions.add(snakeCase)
                 self.outputFile.write(
-                    f"""from itk.support import itkHelpers
-@itkHelpers.accept_numpy_array_like_xarray
+                    f"""from itk.support import helpers
+@helpers.accept_numpy_array_like_xarray
 def {snakeCase}(*args, **kwargs):
     \"\"\"Procedural interface for {processObject}\"\"\"
     import itk
@@ -623,11 +623,11 @@ def {snakeCase}(*args, **kwargs):
 
 def {snakeCase}_init_docstring():
     import itk
-    from itk.support import itkTemplate
-    from itk.support import itkHelpers
+    from itk.support import template_class
+    from itk.support import helpers
 
     filter_class = itk.{self.moduleName}.{processObject}
-    is_template = isinstance(filter_class, itkTemplate.itkTemplate)
+    is_template = isinstance(filter_class, template_class.itkTemplate)
     if is_template:
         filter_object = filter_class.values()[0]
     else:
@@ -637,13 +637,13 @@ def {snakeCase}_init_docstring():
     {snakeCase}.__doc__ += "\\n args are input(s) to the filter.\\n\\n"
     {snakeCase}.__doc__ += "\\n Available keyword arguments:\\n"
     if is_template:
-        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[0]
+        {snakeCase}.__doc__ += helpers.filter_args(filter_object)[0]
         {snakeCase}.__doc__ += "\\n"
-        {snakeCase}.__doc__ += itkHelpers.filter_args(filter_object)[1]
+        {snakeCase}.__doc__ += helpers.filter_args(filter_object)[1]
     else:
         {snakeCase}.__doc__ += "".join(
             [
-                "  " + itkHelpers.camel_to_snake_case(item[3:]) + "\\n"
+                "  " + helpers.camel_to_snake_case(item[3:]) + "\\n"
                 for item in dir(filter_object)
                 if item.startswith("Set")
             ]

@@ -19,7 +19,7 @@
 import itk
 import re
 import sys
-from itk.support.itkTemplate import itkTemplate
+from itk.support.template_class import itkTemplate
 from optparse import OptionParser
 
 

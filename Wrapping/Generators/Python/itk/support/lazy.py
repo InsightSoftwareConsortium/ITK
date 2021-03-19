@@ -16,7 +16,7 @@
 #
 # ==========================================================================*/
 import types
-from itk.support import itkBase
+from itk.support import base
 
 # Needed to avoid problem with aliasing of itk.set (itkTemplate)
 # inside the itk namespace.  We need to explictly specify the
@@ -54,7 +54,7 @@ class LazyITKModule(types.ModuleType):
     def __init__(self, name, lazy_attributes):
         types.ModuleType.__init__(self, name)
         for k, v in lazy_attributes.items():
-            itkBase.itk_base_global_lazy_attributes.setdefault(
+            base.itk_base_global_lazy_attributes.setdefault(
                 k, _builtin_set()
             ).update(v)
         self.__belong_lazy_attributes = dict(
@@ -75,7 +75,7 @@ class LazyITKModule(types.ModuleType):
                     # Only the first thread needs to run this code, all other blocked threads skip
                     module = self.__belong_lazy_attributes[attr]
                     namespace = {}
-                    itkBase.itk_load_swig_module(module, namespace)
+                    base.itk_load_swig_module(module, namespace)
                     self.loaded_lazy_modules.add(module)
                     for k, v in namespace.items():
                         setattr(self, k, v)
@@ -115,6 +115,6 @@ class LazyITKModule(types.ModuleType):
             )
         for module in state["loaded_lazy_modules"]:
             namespace = {}
-            itkBase.itk_load_swig_module(module, namespace)
+            base.itk_load_swig_module(module, namespace)
             for k, v in namespace.items():
                 setattr(self, k, v)

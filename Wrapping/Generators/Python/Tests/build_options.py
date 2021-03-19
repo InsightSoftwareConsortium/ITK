@@ -16,7 +16,7 @@
 #
 # ==========================================================================*/
 
-from itk.support.itkBuildOptions import ALL_TYPES, DIMS
+from itk.support.build_options import ALL_TYPES, DIMS
 
 # Simple exercise of types identified during build
 print("-------- PRINTING THE BUILD DIMENSIONS -----------")
