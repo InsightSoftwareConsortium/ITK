@@ -61,6 +61,9 @@ __all__ = [
     "image_from_array",
     "GetImageViewFromArray",
     "image_view_from_array",
+    "array_from_vector_container",
+    "array_view_from_vector_container",
+    "vector_container_from_array",
     "GetArrayFromVnlVector",
     "array_from_vnl_vector",
     "GetArrayViewFromVnlVector",
@@ -383,6 +386,69 @@ def GetImageViewFromArray(arr, is_vector: bool = False, ttype=None):
 
 
 image_view_from_array = GetImageViewFromArray
+
+
+def array_from_vector_container(container, ttype=None):
+    """Get an Array with the content of the vector container"""
+    import itk
+
+    # Find container type
+    if ttype is not None:
+        if isinstance(ttype, (tuple, list)):
+            if len(ttype) != 1:
+                raise RuntimeError("Expected 1 component in ttype tuple.")
+            DataType = ttype[0]
+        else:
+            DataType = ttype
+    else:
+        DataType = itk.template(container)[1][1]
+    keys = [k for k in itk.PyVectorContainer.keys() if k[0] == DataType]
+    if len(keys) == 0:
+        raise RuntimeError("No suitable template parameter can be found.")
+    # Create numpy array of the type of the input container
+    return itk.PyVectorContainer[keys[0]].array_from_vector_container(container)
+
+
+def array_view_from_vector_container(container, ttype=None):
+    """Get an Array view with the content of the vector container"""
+    import itk
+
+    # Find container type
+    if ttype is not None:
+        if isinstance(ttype, (tuple, list)):
+            if len(ttype) != 1:
+                raise RuntimeError("Expected 1 component in ttype tuple.")
+            DataType = ttype[0]
+        else:
+            DataType = ttype
+    else:
+        DataType = itk.template(container)[1][1]
+    keys = [k for k in itk.PyVectorContainer.keys() if k[0] == DataType]
+    if len(keys) == 0:
+        raise RuntimeError("No suitable template parameter can be found.")
+    # Create numpy array of the type of the input container
+    return itk.PyVectorContainer[keys[0]].array_view_from_vector_container(container)
+
+
+def vector_container_from_array(arr, ttype=None):
+    """Get a vector container from a Python array"""
+    import itk
+
+    # Find container type
+    if ttype is not None:
+        if isinstance(ttype, (tuple, list)):
+            if len(ttype) != 1:
+                raise RuntimeError("Expected 1 component in ttype tuple.")
+            DataType = ttype[0]
+        else:
+            DataType = ttype
+    else:
+        DataType = _get_itk_pixelid(arr)
+    keys = [k for k in itk.PyVectorContainer.keys() if k[0] == DataType]
+    if len(keys) == 0:
+        raise RuntimeError("No suitable template parameter can be found.")
+    # Create numpy array of the type of the input container
+    return itk.PyVectorContainer[keys[0]].vector_container_from_array(arr)
 
 
 def _GetArrayFromVnlObject(vnl_object, function_name: str, ttype):
