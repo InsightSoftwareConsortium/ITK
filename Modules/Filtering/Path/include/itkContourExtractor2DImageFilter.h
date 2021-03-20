@@ -262,16 +262,20 @@ private:
   // remove contours from our list when they have been merged into
   // another. Thus, we store an iterator pointing to the contour in the list.
 
-  struct VertexHash
+  struct VertexLess
   {
-    using CoordinateType = typename VertexType::CoordRepType;
-    inline std::size_t
-    operator()(const VertexType & v) const noexcept
+    inline bool
+    operator()(const VertexType & l, const VertexType & r) const noexcept
     {
-      return std::hash<CoordinateType>{}(v[0]) ^ (std::hash<CoordinateType>{}(v[1]) << 1);
+      return (l[0] < r[0]) || ((l[0] == r[0]) && (l[1] < r[1]));
     }
   };
-  using VertexToContourContainerIteratorMap = std::unordered_map<VertexType, ContourContainerIterator, VertexHash>;
+
+  // Note that we cannot use std::unordered_map for
+  // VertexToContourContainerIteratorMap (even though that is asymptotically
+  // faster) because our code relies on the continuing validity of iterators
+  // even after insert or erase commands.
+  using VertexToContourContainerIteratorMap = std::map<VertexType, ContourContainerIterator, VertexLess>;
   using VertexToContourContainerIteratorMapIterator = typename VertexToContourContainerIteratorMap::iterator;
   using VertexToContourContainerIteratorMapConstIterator = typename VertexToContourContainerIteratorMap::const_iterator;
   using VertexToContourContainerIteratorMapKeyValuePair = typename VertexToContourContainerIteratorMap::value_type;
