@@ -117,6 +117,8 @@ itkTopHatImageFilterTest(int argc, char * argv[])
   itk::MathematicalMorphologyEnums::Algorithm algorithm;
   auto                                        forceAlgorithm = static_cast<bool>(std::stoi(argv[7]));
 
+  int testStatus = EXIT_SUCCESS;
+
   switch (std::stoi(argv[3]))
   {
     case 0:
@@ -129,7 +131,7 @@ itkTopHatImageFilterTest(int argc, char * argv[])
 
 
       algorithm = static_cast<BlackFilterType::AlgorithmEnum>(std::stoi(argv[6]));
-      return itkTopHatImageFilterTestHelper<BlackFilterType>(
+      testStatus = itkTopHatImageFilterTestHelper<BlackFilterType>(
         filter, ball, safeBorder, algorithm, forceAlgorithm, inputFileName, outputFileName);
 
       break;
@@ -144,7 +146,7 @@ itkTopHatImageFilterTest(int argc, char * argv[])
 
 
       algorithm = static_cast<WhiteFilterType::AlgorithmEnum>(std::stoi(argv[6]));
-      return itkTopHatImageFilterTestHelper<WhiteFilterType>(
+      testStatus = itkTopHatImageFilterTestHelper<WhiteFilterType>(
         filter, ball, safeBorder, algorithm, forceAlgorithm, inputFileName, outputFileName);
 
       break;
@@ -152,6 +154,8 @@ itkTopHatImageFilterTest(int argc, char * argv[])
     default:
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Invalid filter selector: " << std::stoi(argv[3]) << std::endl;
-      return EXIT_FAILURE;
+      testStatus = EXIT_FAILURE;
   }
+
+  return testStatus;
 }
