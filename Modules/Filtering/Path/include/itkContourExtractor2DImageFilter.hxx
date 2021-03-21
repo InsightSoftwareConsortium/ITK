@@ -444,9 +444,9 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
   {
     // We need to connect these two contours with the current arc. The act of
     // connecting the two contours will add the needed arc.
-    const ContourContainerIterator & tail(newTail->second);
+    const ContourContainerIterator tail(newTail->second);
     itkAssertOrThrowMacro((tail->front() == to), "End doesn't match Beginning");
-    const ContourContainerIterator & head(newHead->second);
+    const ContourContainerIterator head(newHead->second);
     itkAssertOrThrowMacro((head->back() == from), "Beginning doesn't match End");
     if (head == tail)
     {
@@ -486,7 +486,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove the old end of 'head' from the ends map and add
         // the new end.
         contourData.m_ContourEnds.erase(newHead);
-        contourData.m_ContourEnds.insert(VertexToContourContainerIteratorMapKeyValuePair(head->back(), head));
+        contourData.m_ContourEnds.emplace(head->back(), head);
       }
       else
       {
@@ -509,7 +509,7 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
         // Now remove the old start of 'tail' from the starts map and
         // add the new start.
         contourData.m_ContourStarts.erase(newTail);
-        contourData.m_ContourStarts.insert(VertexToContourContainerIteratorMapKeyValuePair(tail->front(), tail));
+        contourData.m_ContourStarts.emplace(tail->front(), tail);
       }
     }
   }
@@ -530,30 +530,30 @@ ContourExtractor2DImageFilter<TInputImage>::AddSegment(VertexType from, VertexTy
     const ContourContainerIterator newContour(--contourData.m_Contours.end());
     // add the endpoints and an iterator pointing to the contour
     // in the list to the maps.
-    contourData.m_ContourStarts.insert(VertexToContourContainerIteratorMapKeyValuePair(from, newContour));
-    contourData.m_ContourEnds.insert(VertexToContourContainerIteratorMapKeyValuePair(to, newContour));
+    contourData.m_ContourStarts.emplace(from, newContour);
+    contourData.m_ContourEnds.emplace(to, newContour);
   }
   else if (newTail != contourData.m_ContourStarts.end() && newHead == contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be prepended.
-    const ContourContainerIterator & tail(newTail->second);
+    const ContourContainerIterator tail(newTail->second);
     itkAssertOrThrowMacro((tail->front() == to), "End doesn't match Beginning");
     tail->push_front(from);
     // erase the old start of this contour
     contourData.m_ContourStarts.erase(newTail);
     // Now add the new start of this contour.
-    contourData.m_ContourStarts.insert(VertexToContourContainerIteratorMapKeyValuePair(from, tail));
+    contourData.m_ContourStarts.emplace(from, tail);
   }
   else if (newTail == contourData.m_ContourStarts.end() && newHead != contourData.m_ContourEnds.end())
   {
     // Found a single contour to which the new arc should be appended.
-    const ContourContainerIterator & head(newHead->second);
+    const ContourContainerIterator head(newHead->second);
     itkAssertOrThrowMacro((head->back() == from), "Beginning doesn't match End");
     head->push_back(to);
     // erase the old end of this contour
     contourData.m_ContourEnds.erase(newHead);
     // Now add the new start of this contour.
-    contourData.m_ContourEnds.insert(VertexToContourContainerIteratorMapKeyValuePair(to, head));
+    contourData.m_ContourEnds.emplace(to, head);
   }
 }
 
