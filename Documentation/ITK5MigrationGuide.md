@@ -474,7 +474,7 @@ Python changes
 Mesh-related class wrapping has been simplified, made more consistent, and
 expanded, but previous template parameters may not be available.
 
-Arguments to functions in `itkExtras` were cleaned up and now use snake case.
+Arguments to functions in `extras` were cleaned up and now use snake case.
 
 Strongly Typed Enumerations
 ---------------------------

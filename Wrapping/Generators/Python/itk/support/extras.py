@@ -258,7 +258,7 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
         if type(itk.template(ImageType)) != tuple or len(itk.template(ImageType)) < 2:
             raise RuntimeError("Cannot determine pixel type from supplied ttype.")
         is_vector = (
-            type(itk.template(ImageType)[1][0]) != itk.support.itkTypes.itkCType
+            type(itk.template(ImageType)[1][0]) != itk.support.types.itkCType
             or itk.template(ImageType)[0] == itk.VectorImage
         )
     else:
@@ -706,7 +706,7 @@ def imread(
 
     """
     import itk
-    from itk.support.itkExtras import TemplateTypeError
+    from itk.support.extras import TemplateTypeError
 
     if fallback_only:
         if pixel_type is None:
@@ -801,8 +801,6 @@ def meshread(
     wrapped).
     """
     import itk
-
-    # from itk.support import itkTemplate
 
     if fallback_only:
         if pixel_type is None:
@@ -1352,7 +1350,7 @@ def down_cast(obj):
     specialized type.
     """
     import itk
-    from itk.support.itkTemplate import itkTemplate
+    from itk.support.template_class import itkTemplate
 
     class_name: str = obj.GetNameOfClass()
     t = getattr(itk, class_name)
@@ -1464,7 +1462,7 @@ def ipython_kw_matches(text: str):
     import itk
     import re
     import inspect
-    from itk.support import itkTemplate
+    from itk.support import template_class
 
     regexp = re.compile(
         r"""
@@ -1545,7 +1543,7 @@ def ipython_kw_matches(text: str):
                 pass
         try:
             l_object = eval(callable_match, ip.Completer.namespace)
-            if isinstance(l_object, itkTemplate.itkTemplate):
+            if isinstance(l_object, template_class.itkTemplate):
                 # this is a template - lets grab the first entry to search for
                 # the methods
                 l_object = l_object.values()[0]
@@ -1572,7 +1570,7 @@ def template(cl):
         - the first one is the itkTemplate object
         - the second is a tuple containing the template parameters
     """
-    from itk.support.itkTemplate import itkTemplateBase
+    from itk.support.template_class import itkTemplateBase
 
     return itkTemplateBase.__template_instantiations_object_to_name__[class_(cl)]
 
@@ -1583,7 +1581,7 @@ def ctype(s: str):
     The string can contain some extra spaces.
     see also itkCType
     """
-    from ..support.itkTypes import itkCType
+    from ..support.types import itkCType
 
     ret = itkCType.GetCType(" ".join(s.split()))
     if ret is None:
@@ -1613,8 +1611,8 @@ def python_type(object_ref) -> str:
     This includes both the Python name and the parameters of the object. A user
     can copy and paste the printed value to instantiate a new object of the
     same type."""
-    from itk.support.itkTemplate import itkTemplate
-    from itk.support.itkTypes import itkCType
+    from itk.support.template_class import itkTemplate
+    from itk.support.types import itkCType
 
     def in_itk(name):
         import itk

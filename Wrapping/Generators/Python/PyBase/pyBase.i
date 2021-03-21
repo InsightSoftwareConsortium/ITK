@@ -311,11 +311,11 @@ str = str
                 return the first up-to-date output of a filter with multiple
                 outputs.
                 """
-                from itk.support import itkHelpers
+                from itk.support import helpers
                 import warnings
 
                 name = self.GetNameOfClass()
-                snake = itkHelpers.camel_to_snake_case(name)
+                snake = helpers.camel_to_snake_case(name)
 
                 warnings.warn("WrapITK warning: itk.%s() is deprecated for procedural"
                 " interface. Use snake case function itk.%s() instead."
@@ -433,11 +433,11 @@ str = str
                 """Cast the image to the provided itk pixel type or equivalent NumPy dtype."""
                 import itk
                 import numpy as np
-                from itk.support import itkTypes
+                from itk.support import types
 
                 # if both a numpy dtype and a ctype exist, use the latter.
                 if type(pixel_type) is type:
-                    c_pixel_type = itkTypes.itkCType.GetCTypeForDType(pixel_type)
+                    c_pixel_type = types.itkCType.GetCTypeForDType(pixel_type)
                     if c_pixel_type is not None:
                         pixel_type = c_pixel_type
 
@@ -451,8 +451,8 @@ str = str
                 return cast
 
             def SetDirection(self, direction):
-                from itk.support import itkHelpers
-                if itkHelpers.is_arraylike(direction):
+                from itk.support import helpers
+                if helpers.is_arraylike(direction):
                     import itk
                     import numpy as np
 

@@ -25,16 +25,16 @@
 # LazyLoading and other values may be different in the two contexts.
 from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
 
-from .support.itkExtras import *
-from .support.itkInitHelpers import *
-from .support.itkTypes import *
+from .support.extras import *
+from .support.init_helpers import *
+from .support.types import *
 
 
 def _initialize_module():
     """
     A function to explicitly avoid polluting the global namespace
     """
-    from .support.itkBase import ITKModuleInfo, ITKTemplateFeatures
+    from .support.base import ITKModuleInfo, ITKTemplateFeatures
 
     # Needed to avoid problem with aliasing of itk.set (itkTemplate)
     # inside the itk namespace.  We need to explictly specify the
@@ -69,8 +69,8 @@ def _initialize_module():
         for k, v in local_lazy_attributes.items():
             local_lazy_attributes[k] = _dedup(v)
 
-    from .support import itkBase as _itkBase
-    from .support import itkLazy as _itkLazy
+    from .support import base as _base
+    from .support import lazy as _lazy
     from itkConfig import LazyLoading as _LazyLoading
     import sys
 
@@ -82,10 +82,10 @@ def _initialize_module():
         # module becomes that new instance instead of what is executed from this
         # file.
         lazy_attributes = {}
-        for module, data in _itkBase.itk_base_global_module_data.items():
+        for module, data in _base.itk_base_global_module_data.items():
             _get_lazy_attributes(lazy_attributes, module, data)
 
-        if isinstance(sys.modules[__name__], _itkLazy.LazyITKModule):
+        if isinstance(sys.modules[__name__], _lazy.LazyITKModule):
             # Handle reload case where we've already done this once.
             # If we made a new module every time, multiple reload()s would fail
             # because the identity of sys.modules['itk'] would always be changing.
@@ -93,7 +93,7 @@ def _initialize_module():
             del lazy_attributes
         else:
             # Create a new LazyITKModule
-            lzy_module = _itkLazy.LazyITKModule(__name__, lazy_attributes)
+            lzy_module = _lazy.LazyITKModule(__name__, lazy_attributes)
 
             # Pre-existing attributes need to be propagated too!
             # except for the lazy overridden elements
@@ -107,14 +107,14 @@ def _initialize_module():
     else:
         # We're not lazy-loading. Just load the modules in the order specified in
         # the known_modules list for consistency.
-        for module in _itkBase.itk_base_global_module_data.keys():
-            _itkBase.itk_load_swig_module(module, sys.modules[__name__].__dict__)
+        for module in _base.itk_base_global_module_data.keys():
+            _base.itk_load_swig_module(module, sys.modules[__name__].__dict__)
 
     # Populate itk.ITKModuleName
-    for module, data in _itkBase.itk_base_global_module_data.items():
+    for module, data in _base.itk_base_global_module_data.items():
         attributes = {}
         _get_lazy_attributes(attributes, module, data)
-        itk_module = _itkLazy.LazyITKModule(module, attributes)
+        itk_module = _lazy.LazyITKModule(module, attributes)
         setattr(sys.modules[__name__], module, itk_module)
 
 

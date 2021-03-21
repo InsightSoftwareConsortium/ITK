@@ -20,7 +20,7 @@
 
 import itk
 import sys
-from itk.support.itkTemplate import itkTemplate
+from itk.support.template_class import itkTemplate
 
 itk.auto_progress(2)
 

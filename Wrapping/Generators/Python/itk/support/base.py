@@ -26,7 +26,7 @@ from typing import Dict, Any, List, Optional, Sequence, Union
 import pkg_resources
 
 import itkConfig
-from itk.support.itkTemplate import itkTemplate
+from itk.support.template_class import itkTemplate
 
 
 def create_itk_module(name: str):

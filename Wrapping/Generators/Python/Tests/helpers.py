@@ -15,10 +15,10 @@
 #   limitations under the License.
 #
 # ==========================================================================*/
-from itk.support import itkHelpers
+from itk.support import helpers
 
 name = "MedianImageFilter"
 
-snake = itkHelpers.camel_to_snake_case(name)
+snake = helpers.camel_to_snake_case(name)
 
 assert snake == "median_image_filter"

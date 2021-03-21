@@ -128,14 +128,14 @@ endif()
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   set(ITK_PYTHON_SUPPORT_MODULES
-    support/itkBase
-    support/itkTemplate
-    support/itkTypes
-    support/itkExtras
-    support/itkLazy
-    support/itkHelpers
-    support/itkInitHelpers
-    support/itkBuildOptions
+    support/base
+    support/template_class
+    support/types
+    support/extras
+    support/lazy
+    support/helpers
+    support/init_helpers
+    support/build_options
     )
   set(ITK_INIT_MODULE "${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py")
   set(ITK_CONFIGURATION_INIT_MODULE "${ITK_PYTHON_PACKAGE_DIR}/Configuration/__init__.py")
