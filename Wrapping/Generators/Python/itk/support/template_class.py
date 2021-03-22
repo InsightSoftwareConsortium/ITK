@@ -27,9 +27,9 @@ from typing import Dict, Any, List, Callable, Union
 
 import itkConfig
 
-from ..support import base
-from ..support.extras import output
-from ..support.types import itkCType
+from itk.support import base
+from itk.support.extras import output
+from itk.support.types import itkCType
 import math
 from collections.abc import Mapping
 

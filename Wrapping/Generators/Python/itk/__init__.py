@@ -25,9 +25,9 @@
 # LazyLoading and other values may be different in the two contexts.
 from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
 
-from .support.extras import *
-from .support.init_helpers import *
-from .support.types import *
+from itk.support.extras import *
+from itk.support.init_helpers import *
+from itk.support.types import itkCType, F, D, UC, US, UI, UL, SL, LD, ULL, SC, SS, SI, SLL, B
 
 
 def _initialize_module():

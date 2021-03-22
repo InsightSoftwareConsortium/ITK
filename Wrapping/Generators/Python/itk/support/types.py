@@ -16,6 +16,8 @@
 #
 # ==========================================================================*/
 
+from typing import Union, TYPE_CHECKING
+
 # noinspection PyPep8Naming
 class itkCType:
     # import locally to facilitate dynamic loading in itk/__init__.py
@@ -149,3 +151,55 @@ B: itkCType
     SLL,
     B,
 ) = itkCType.initialize_c_types_once()
+
+
+# Type aliases to avoid expensive import, circular references. Use with forward references.
+if TYPE_CHECKING:
+    import itk
+
+# These should eventually explicitly be marked as TypeAlias's per PEP 613, available in CPython 3.10
+ImageBase = "itk.ImageBase"
+Image = "itk.Image"
+VectorImage = "itk.VectorImage"
+
+RGBPixel = "itk.RGBPixel"
+Vector = "itk.Vector"
+CovariantVector = "itk.CovariantVector"
+SymmetricSecondRankTensor = "itk.SymmetricSecondRankTensor"
+Offset = "itk.Offset"
+FixedArray = "itk.FixedArray"
+VariableLengthVector = "itk.VariableLengthVector"
+complex_ = "itk.complex"
+
+PixelTypes = Union[
+    itkCType,
+    RGBPixel,
+    Vector,
+    CovariantVector,
+    SymmetricSecondRankTensor,
+    Offset,
+    FixedArray,
+    complex_,
+]
+
+ImageSource = "itk.ImageSource"
+
+ImageOrImageSource = Union[ImageBase, ImageSource]
+
+ImageIOBase = "itk.ImageIOBase"
+
+LightObject = "itk.LightObject"
+Object = "itk.Object"
+DataObject = "itk.DataObject"
+
+PointSet = "itk.PointSet"
+Mesh = "itk.Mesh"
+
+Path = "itk.Path"
+ParametricPath = "itk.ParametricPath"
+PolyLineParametricPath = "itk.PolyLineParametricPath"
+SpatialObject = "itk.SpatialObject"
+
+TransformBase = "itk.TransformBaseTemplate"
+
+ImageRegion = "itk.ImageRegion"

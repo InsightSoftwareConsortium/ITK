@@ -18,10 +18,12 @@
 
 # also test the import callback feature
 
-import itk
 import sys
 import os
 import numpy as np
+
+import itk
+import itk.support.types as itk_types
 
 
 def custom_callback(name, progress):
@@ -35,13 +37,13 @@ import itkConfig
 
 itkConfig.ImportCallback = custom_callback
 
-
 # test setting the number of threads
 itk.set_nthreads(4)
 assert itk.get_nthreads() == 4
 
 # test the force load function
 itk.force_load()
+
 
 filename = sys.argv[1]
 mesh_filename = sys.argv[2]
