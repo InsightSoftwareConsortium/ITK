@@ -33,20 +33,20 @@ itkHessianGaussianImageFilterTest(int argc, char * argv[])
   HessianGaussianImageFilterType::Pointer hess_filter = HessianGaussianImageFilterType::New();
 
   /* Basic tests. */
-  EXERCISE_BASIC_OBJECT_METHODS(hess_filter, HessianGaussianImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(hess_filter, HessianGaussianImageFilter, ImageToImageFilter);
 
   /* Exercise basic set/get methods */
-  TEST_SET_GET_VALUE(1.0, hess_filter->GetSigma());
+  ITK_TEST_SET_GET_VALUE(1.0, hess_filter->GetSigma());
   hess_filter->SetSigma(0.5);
-  TEST_SET_GET_VALUE(0.5, hess_filter->GetSigma());
+  ITK_TEST_SET_GET_VALUE(0.5, hess_filter->GetSigma());
 
-  TEST_SET_GET_VALUE(false, hess_filter->GetNormalizeAcrossScale());
+  ITK_TEST_SET_GET_VALUE(false, hess_filter->GetNormalizeAcrossScale());
   hess_filter->SetNormalizeAcrossScale(true);
-  TEST_SET_GET_VALUE(true, hess_filter->GetNormalizeAcrossScale());
+  ITK_TEST_SET_GET_VALUE(true, hess_filter->GetNormalizeAcrossScale());
   hess_filter->NormalizeAcrossScaleOff();
-  TEST_SET_GET_VALUE(false, hess_filter->GetNormalizeAcrossScale());
+  ITK_TEST_SET_GET_VALUE(false, hess_filter->GetNormalizeAcrossScale());
   hess_filter->NormalizeAcrossScaleOn();
-  TEST_SET_GET_VALUE(true, hess_filter->GetNormalizeAcrossScale());
+  ITK_TEST_SET_GET_VALUE(true, hess_filter->GetNormalizeAcrossScale());
 
   return EXIT_SUCCESS;
 }
