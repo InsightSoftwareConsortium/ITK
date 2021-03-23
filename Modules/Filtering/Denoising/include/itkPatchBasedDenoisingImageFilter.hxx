@@ -231,7 +231,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
     // throw an exception when this isn't the case
     itkExceptionMacro(<< "Patch is larger than the entire image (in at least one dimension)."
                       << "\nImage region: " << largestRegion << "\nPatch length (2*radius + 1): "
-                      << this->GetPatchDiameterInVoxels() << "\nUse a smaller patch for this image.\n";);
+                      << this->GetPatchDiameterInVoxels() << "\nUse a smaller patch for this image.\n");
   }
 
   // Get the number of pixels in the input image.
@@ -390,7 +390,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
     if (m_ImageMax[ic] <= m_ImageMin[ic])
     {
       itkExceptionMacro(<< "Each image component must be nonconstant.  "
-                        << "Component " << ic << " has the constant value " << m_ImageMax[ic] << ".\n";);
+                        << "Component " << ic << " has the constant value " << m_ImageMax[ic] << ".\n");
     }
   }
 
@@ -405,7 +405,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::EnforceConstraints()
         itkExceptionMacro(<< "When using POISSON or RICIAN noise models, "
                           << "all components of all pixels in the image must "
                           << "be >= 0.  The smallest value for component " << ic << " in the image is "
-                          << m_ImageMin[ic] << ".\n";);
+                          << m_ImageMin[ic] << ".\n");
       }
     }
   }
