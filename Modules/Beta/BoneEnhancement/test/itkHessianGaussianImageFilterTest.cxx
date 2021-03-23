@@ -17,26 +17,35 @@
  *=========================================================================*/
 
 #include "itkHessianGaussianImageFilter.h"
-#include "gtest/gtest.h"
+#include "itkUnaryFunctorImageFilter.h"
+#include "itkTestingMacros.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 
-TEST(itkHessianGaussianImageFilterTest, ExerciseBasicMethods)
+int itkHessianGaussianImageFilterTest( int argc, char * argv[] )
 {
   const unsigned int Dimension = 2;
   using PixelType = int;
   using ImageType = itk::Image<PixelType, Dimension>;
   using HessianGaussianImageFilterType = itk::HessianGaussianImageFilter<ImageType>;
+
   HessianGaussianImageFilterType::Pointer hess_filter = HessianGaussianImageFilterType::New();
 
+  /* Basic tests. */
+  EXERCISE_BASIC_OBJECT_METHODS( hess_filter, HessianGaussianImageFilter, ImageToImageFilter );
+  
   /* Exercise basic set/get methods */
-  EXPECT_EQ(1.0, hess_filter->GetSigma()) << "Initial value of Sigma should be 1";
+  TEST_SET_GET_VALUE(1.0, hess_filter->GetSigma());
   hess_filter->SetSigma(0.5);
-  EXPECT_EQ(0.5, hess_filter->GetSigma());
+  TEST_SET_GET_VALUE(0.5, hess_filter->GetSigma());
 
-  EXPECT_EQ(false, hess_filter->GetNormalizeAcrossScale()) << "Initial value of NormalizeAcrossScale should be false";
+  TEST_SET_GET_VALUE(false, hess_filter->GetNormalizeAcrossScale());
   hess_filter->SetNormalizeAcrossScale(true);
-  EXPECT_EQ(true, hess_filter->GetNormalizeAcrossScale());
+  TEST_SET_GET_VALUE(true, hess_filter->GetNormalizeAcrossScale());
   hess_filter->NormalizeAcrossScaleOff();
-  EXPECT_EQ(false, hess_filter->GetNormalizeAcrossScale());
+  TEST_SET_GET_VALUE(false, hess_filter->GetNormalizeAcrossScale());
   hess_filter->NormalizeAcrossScaleOn();
-  EXPECT_EQ(true, hess_filter->GetNormalizeAcrossScale());
+  TEST_SET_GET_VALUE(true, hess_filter->GetNormalizeAcrossScale());
+
+  return EXIT_SUCCESS;
 }
