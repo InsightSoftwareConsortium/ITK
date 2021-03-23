@@ -79,6 +79,27 @@ DataSet::DataSet(const DataSet& original) : H5Object(), AbstractDs(), id(origina
 }
 
 //--------------------------------------------------------------------------
+// Function:    DataSet assignment operator
+///\brief       Assignment operator: same HDF5 object as \a original
+///\param       original - IN: DataSet instance to copy
+// Programmer   Lee Newberg - 2021
+//--------------------------------------------------------------------------
+DataSet &
+DataSet::operator=(const DataSet &original)
+{
+    // Wrap the changes to `*this` by an incremented reference count for
+    // `original` to prevent trouble in the case that `*this` and
+    // `original` share reference counts or memory in any relevant
+    // sense.
+    original.incRefCount();
+    decRefCount(); // for old value of id
+    id = original.id;
+    incRefCount(); // for new value of id
+    original.decRefCount();
+    return *this;
+}
+
+//--------------------------------------------------------------------------
 // Function:    DataSet overload constructor - dereference
 ///\brief       Given a reference, ref, to an hdf5 location, creates a
 ///             DataSet object
