@@ -289,7 +289,7 @@ ScancoImageIO::InitializeHeader()
   memset(this->m_CalibrationData, 0, 66);
   this->m_RescaleSlope = 1.0;
   this->m_RescaleIntercept = 0.0;
-  this->m_MuWater = 0;
+  this->m_MuWater = 0.70329999923706055;
 
   this->m_Compression = 0;
   this->m_HeaderInitialized = true;
