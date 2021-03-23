@@ -16,109 +16,84 @@
 #
 # ==========================================================================*/
 
-import itk
-from sys import argv
+import sys
 
+import itk
 
 #
 #  Check input parameters
 #  INPUTS(fixedImage):  {BrainProtonDensitySliceBorder20.png}
 #  INPUTS(movingImage): {BrainProtonDensitySliceShifted13x17y.png}
 #
-if len(argv) < 4:
+if len(sys.argv) < 4:
     print("Missing Parameters")
     print(
-        "Usage: ImageRegistration3.py fixedImageFile  movingImageFile outputImagefile"
+        "Usage: ImageRegistration3.py fixed_image_file moving_image_file output_image_file"
     )
-    exit()
-
+    sys.exit(1)
+fixed_image_file = sys.argv[1]
+moving_image_file = sys.argv[2]
+output_image_file = sys.argv[3]
 
 #
 #  Define data types
 #
-FixedImageType = itk.Image[itk.F, 2]
-MovingImageType = itk.Image[itk.F, 2]
-TransformType = itk.TranslationTransform[itk.D, 2]
-OptimizerType = itk.RegularStepGradientDescentOptimizerv4[itk.D]
-RegistrationType = itk.ImageRegistrationMethodv4[FixedImageType, MovingImageType]
-MetricType = itk.MeanSquaresImageToImageMetricv4[FixedImageType, MovingImageType]
-
+PixelType = itk.ctype('float')
 
 #
 #  Read the fixed and moving images using filenames
 #  from the command line arguments
 #
-fixedImageReader = itk.ImageFileReader[FixedImageType].New()
-movingImageReader = itk.ImageFileReader[MovingImageType].New()
-
-fixedImageReader.SetFileName(argv[1])
-movingImageReader.SetFileName(argv[2])
-
-fixedImageReader.Update()
-movingImageReader.Update()
-
-fixedImage = fixedImageReader.GetOutput()
-movingImage = movingImageReader.GetOutput()
-
+fixed_image = itk.imread(fixed_image_file, PixelType)
+moving_image = itk.imread(moving_image_file, PixelType)
+Dimension = fixed_image.GetImageDimension()
 
 #
-#  Instantiate the classes for the registration framework
+# Create the spatial transform we will optimize.
 #
-registration = RegistrationType.New()
-imageMetric = MetricType.New()
-transform = TransformType.New()
-optimizer = OptimizerType.New()
-
-registration.SetOptimizer(optimizer)
-registration.SetMetric(imageMetric)
-
-registration.SetFixedImage(fixedImage)
-registration.SetMovingImage(movingImage)
-
-registration.SetInitialTransform(transform)
-
+initial_transform = itk.TranslationTransform[itk.D, Dimension].New()
 
 #
-#  Define optimizer parameters
+# Create the matching metric we will use to compare the images during
+# optimization.
+matching_metric = itk.MeanSquaresImageToImageMetricv4[type(fixed_image),
+        type(moving_image)].New()
+
 #
+# Create the optimizer we will use for optimization.
+#
+optimizer = itk.RegularStepGradientDescentOptimizerv4[itk.D].New()
 optimizer.SetLearningRate(4)
 optimizer.SetMinimumStepLength(0.001)
 optimizer.SetRelaxationFactor(0.5)
 optimizer.SetNumberOfIterations(100)
+#
+# Iteration Observer
+#
+def iteration_update():
+    metric_value = optimizer.GetValue()
+    current_parameters = optimizer.GetCurrentPosition()
+    parameter_list = [current_parameters[i] for i in range(len(current_parameters))]
+    print(f"Metric: {metric_value:.8g}  \tParameters: {parameter_list}")
 
+iteration_command = itk.PyCommand.New()
+iteration_command.SetCommandCallable(iteration_update)
+optimizer.AddObserver(itk.IterationEvent(), iteration_command)
 
 #
 # One level registration process without shrinking and smoothing.
 #
+registration = itk.ImageRegistrationMethodv4.New(fixed_image=fixed_image,
+        moving_image=moving_image,
+        optimizer=optimizer,
+        metric=matching_metric,
+        initial_transform=initial_transform,)
 registration.SetNumberOfLevels(1)
 registration.SetSmoothingSigmasPerLevel([0])
 registration.SetShrinkFactorsPerLevel([1])
 
-
 #
-# Iteration Observer
-#
-def iterationUpdate():
-    currentParameter = registration.GetOutput().Get().GetParameters()
-    print(
-        "M: %f   P: %f %f "
-        % (
-            optimizer.GetValue(),
-            currentParameter.GetElement(0),
-            currentParameter.GetElement(1),
-        )
-    )
-
-
-iterationCommand = itk.PyCommand.New()
-iterationCommand.SetCommandCallable(iterationUpdate)
-optimizer.AddObserver(itk.IterationEvent(), iterationCommand)
-
-print("Starting registration")
-
-
-#
-#  Start the registration process
+# Execute the registration
 #
 registration.Update()
 
@@ -126,38 +101,30 @@ registration.Update()
 #
 # Get the final parameters of the transformation
 #
-finalParameters = registration.GetOutput().Get().GetParameters()
+final_parameters = registration.GetOutput().Get().GetParameters()
 
-print("Final Registration Parameters ")
-print(f"Translation X =  {finalParameters.GetElement(0):f}")
-print(f"Translation Y =  {finalParameters.GetElement(1):f}")
+print("\nFinal Registration Parameters: ")
+print(f"Translation X =  {final_parameters[0]:f}")
+print(f"Translation Y =  {final_parameters[1]:f}")
 
 
 #
 # Now, we use the final transform for resampling the
 # moving image.
 #
-resampler = itk.ResampleImageFilter[MovingImageType, FixedImageType].New()
-resampler.SetTransform(registration.GetTransform())
-resampler.SetInput(movingImageReader.GetOutput())
+resampled_moving = itk.resample_image_filter(moving_image,
+        transform=registration.GetTransform(),
+        use_reference_image=True,
+        reference_image=fixed_image,
+        default_pixel_value=100)
 
-region = fixedImage.GetLargestPossibleRegion()
-
-resampler.SetSize(region.GetSize())
-resampler.SetOutputOrigin(fixedImage.GetOrigin())
-resampler.SetOutputSpacing(fixedImage.GetSpacing())
-resampler.SetOutputDirection(fixedImage.GetDirection())
-resampler.SetDefaultPixelValue(100)
-
-OutputImageType = itk.Image[itk.UC, 2]
-outputCast = itk.CastImageFilter[FixedImageType, OutputImageType].New()
-outputCast.SetInput(resampler.GetOutput())
-
+#
+# Cast to 8-bit unsigned integer pixels, supported by the PNG file format
+#
+OutputPixelType = itk.ctype('unsigned char')
+resampled_cast = resampled_moving.astype(OutputPixelType)
 
 #
 #  Write the resampled image
 #
-writer = itk.ImageFileWriter[OutputImageType].New()
-writer.SetFileName(argv[3])
-writer.SetInput(outputCast.GetOutput())
-writer.Update()
+itk.imwrite(resampled_cast, output_image_file)
