@@ -54,9 +54,7 @@ class LazyITKModule(types.ModuleType):
     def __init__(self, name, lazy_attributes):
         types.ModuleType.__init__(self, name)
         for k, v in lazy_attributes.items():
-            base.itk_base_global_lazy_attributes.setdefault(
-                k, _builtin_set()
-            ).update(v)
+            base.itk_base_global_lazy_attributes.setdefault(k, _builtin_set()).update(v)
         self.__belong_lazy_attributes = dict(
             (k, v[0]) for k, v in lazy_attributes.items() if len(v) > 0
         )

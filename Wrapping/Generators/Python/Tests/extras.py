@@ -24,6 +24,7 @@ import numpy as np
 
 import itk
 
+
 def custom_callback(name, progress):
     if progress == 0:
         print(f"Loading {name}...", file=sys.stderr)
@@ -246,8 +247,23 @@ assert image_series.GetLargestPossibleRegion().GetSize()[2] == number_of_files
 image_series = itk.imread([image_series3d_filename, image_series3d_filename])
 assert image_series.GetImageDimension() == 3
 
-baseline_parameters = np.array([0.6563149 ,   0.58065837,  -0.48175367, -0.74079868, 0.37486398,  -0.55739959,  -0.14306664,   0.72271215, 0.67617978, -66., 69.,  32.])
-baseline_fixed_parameters = np.array([0., 0., 0.])
+baseline_parameters = np.array(
+    [
+        0.6563149,
+        0.58065837,
+        -0.48175367,
+        -0.74079868,
+        0.37486398,
+        -0.55739959,
+        -0.14306664,
+        0.72271215,
+        0.67617978,
+        -66.0,
+        69.0,
+        32.0,
+    ]
+)
+baseline_fixed_parameters = np.array([0.0, 0.0, 0.0])
 
 # test transform read / write
 transforms = itk.transformread(transform_filename)
@@ -413,9 +429,7 @@ assert type(image) == type(itk.image_from_array(numpyImage, ttype=(type(image),)
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=[type(image)]))
 assert type(image) == type(itk.image_from_array(numpyImage, ttype=type(image)))
 ImageVectorsType = itk.Image[itk.Vector[itk.F, 3], 2]
-imagevectors = itk.cast_image_filter(
-    Input=image, ttype=(type(image), ImageVectorsType)
-)
+imagevectors = itk.cast_image_filter(Input=image, ttype=(type(image), ImageVectorsType))
 assert type(imagevectors) == ImageVectorsType
 cast = image.astype(np.float32)
 assert cast == image
@@ -450,8 +464,8 @@ if type(input_image) == itk.Image[itk.RGBPixel[itk.UC], 2] and hasattr(
     output_image = input_image.astype(output_pixel_type)
     assert type(output_image) == itk.Image[output_pixel_type, 2]
 
-if '(<itkCType unsigned char>, 4)' in itk.Image.GetTypesAsList():
-    arr = np.random.randint(0, 255, size=(3,4,5,6), dtype=np.uint8)
+if "(<itkCType unsigned char>, 4)" in itk.Image.GetTypesAsList():
+    arr = np.random.randint(0, 255, size=(3, 4, 5, 6), dtype=np.uint8)
     image = itk.image_view_from_array(arr)
     arr_back = itk.array_view_from_image(image)
     assert np.allclose(arr, arr_back)
@@ -526,37 +540,37 @@ try:
     empty_image_round = itk.image_from_xarray(empty_da)
 
     # Check order
-    arr = np.random.randint(0, 255, size=(4,5,6), dtype=np.uint8)
-    data_array = xr.DataArray(arr, dims=['z','y','x'])
+    arr = np.random.randint(0, 255, size=(4, 5, 6), dtype=np.uint8)
+    data_array = xr.DataArray(arr, dims=["z", "y", "x"])
     image = itk.image_from_xarray(data_array)
     assert np.allclose(arr, itk.array_view_from_image(image))
     assert np.allclose(arr.shape, itk.array_view_from_image(image).shape)
 
-    data_array = xr.DataArray(arr, dims=['x','y','z'])
+    data_array = xr.DataArray(arr, dims=["x", "y", "z"])
     image = itk.image_from_xarray(data_array)
     assert np.allclose(arr.transpose(), itk.array_view_from_image(image))
     assert np.allclose(arr.shape[::-1], itk.array_view_from_image(image).shape)
 
-    data_array = xr.DataArray(arr, dims=['y','x','c'])
+    data_array = xr.DataArray(arr, dims=["y", "x", "c"])
     image = itk.image_from_xarray(data_array)
     assert np.allclose(arr, itk.array_view_from_image(image))
     assert np.allclose(arr.shape, itk.array_view_from_image(image).shape)
 
-    data_array = xr.DataArray(arr, dims=['c','x','y'])
+    data_array = xr.DataArray(arr, dims=["c", "x", "y"])
     image = itk.image_from_xarray(data_array)
     assert np.allclose(arr.transpose(), itk.array_view_from_image(image))
     assert np.allclose(arr.shape[::-1], itk.array_view_from_image(image).shape)
 
-    data_array = xr.DataArray(arr, dims=['q','x','y'])
+    data_array = xr.DataArray(arr, dims=["q", "x", "y"])
     try:
         image = itk.image_from_xarray(data_array)
         assert False
     except ValueError:
         pass
 
-    if '(<itkCType unsigned char>, 4)' in itk.Image.GetTypesAsList():
-        arr = np.random.randint(0, 255, size=(4,5,6,3), dtype=np.uint8)
-        data_array = xr.DataArray(arr, dims=['t','z','y','x'])
+    if "(<itkCType unsigned char>, 4)" in itk.Image.GetTypesAsList():
+        arr = np.random.randint(0, 255, size=(4, 5, 6, 3), dtype=np.uint8)
+        data_array = xr.DataArray(arr, dims=["t", "z", "y", "x"])
         image = itk.image_from_xarray(data_array)
         assert np.allclose(arr, itk.array_view_from_image(image))
         assert np.allclose(arr.shape, itk.array_view_from_image(image).shape)

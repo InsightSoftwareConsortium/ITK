@@ -24,13 +24,16 @@ jobs:
         fi
       displayName: 'Checkout pull request HEAD'
 
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.9'
+        architecture: 'x64'
+
     - bash: |
         set -x
-        sudo python3 -m pip install ninja numpy>=1.20 typing-extensions
-        sudo apt-get update
-        sudo apt-get install -y python3-venv
-        sudo python3 -m pip install --upgrade setuptools
-        sudo python3 -m pip install scikit-ci-addons dask distributed
+        python3 -m pip install ninja numpy>=1.20 typing-extensions
+        python3 -m pip install --upgrade setuptools
+        python3 -m pip install lxml scikit-ci-addons dask distributed
       displayName: 'Install dependencies'
 
     - bash: |

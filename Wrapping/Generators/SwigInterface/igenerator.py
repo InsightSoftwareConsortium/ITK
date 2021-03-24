@@ -8,6 +8,7 @@ from argparse import ArgumentParser
 from io import StringIO
 from pathlib import Path
 
+
 def getType(v):
     if hasattr(v, "decl_type"):
         return getType(v.decl_type)
@@ -39,6 +40,7 @@ class IdxGenerator(object):
 
         with open(idxFilePath, "w") as f:
             f.write(content)
+
 
 class SwigInputGenerator(object):
     """Generates a swig input .i file for an ITK module."""
@@ -198,21 +200,21 @@ class SwigInputGenerator(object):
 '''
 
     cpp_to_python_dict = {
-            'bool': 'bool',
-            'float': 'float',
-            'double': 'float',
-            'long double': 'float',
-            'char': 'int',
-            'unsigned char': 'int',
-            'short': 'int',
-            'unsigned short': 'int',
-            'int': 'int',
-            'unsigned int': 'int',
-            'long': 'int',
-            'unsigned long': 'int',
-            'long long': 'int',
-            'unsigned long long': 'int',
-            }
+        "bool": "bool",
+        "float": "float",
+        "double": "float",
+        "long double": "float",
+        "char": "int",
+        "unsigned char": "int",
+        "short": "int",
+        "unsigned short": "int",
+        "int": "int",
+        "unsigned int": "int",
+        "long": "int",
+        "unsigned long": "int",
+        "long long": "int",
+        "unsigned long long": "int",
+    }
 
     def __init__(self, submoduleName, options):
         self.submoduleName = submoduleName
@@ -351,23 +353,24 @@ class SwigInputGenerator(object):
         want to list it explicitly in the ProcessObject functional interface
         kwargs.
         """
-        if not member_name.startswith('Set'):
+        if not member_name.startswith("Set"):
             return False
 
         rest = member_name[3:]
-        if rest in ['Input',
-                'Input1',
-                'Input2',
-                'Input3',
-                'InputImage',
-                'InPlace',
-                'CoordinateTolerance',
-                'DirectionTolerance',
-                'GlobalDefaultCoordinateTolerance',
-                'GlobalDefaultDirectionTolerance',
-                'NumberOfWorkUnits',
-                'Lambda',
-                ]:
+        if rest in [
+            "Input",
+            "Input1",
+            "Input2",
+            "Input3",
+            "InputImage",
+            "InPlace",
+            "CoordinateTolerance",
+            "DirectionTolerance",
+            "GlobalDefaultCoordinateTolerance",
+            "GlobalDefaultDirectionTolerance",
+            "NumberOfWorkUnits",
+            "Lambda",
+        ]:
             return False
 
         return True
@@ -667,19 +670,21 @@ class SwigInputGenerator(object):
                 bases = [base.related_class.name for base in recursive_bases]
 
                 args_typehint = ""
-                if any([b.startswith('ImageTo') for b in bases]):
+                if any([b.startswith("ImageTo") for b in bases]):
                     args_typehint = ": itkt.ImageLike"
-                elif any([b.startswith('MeshTo') for b in bases]):
+                elif any([b.startswith("MeshTo") for b in bases]):
                     args_typehint = ": itkt.Mesh"
-                elif any([b.startswith('PathTo') for b in bases]):
+                elif any([b.startswith("PathTo") for b in bases]):
                     args_typehint = ": itkt.Path"
-                elif any([b.startswith('SpatialObjectTo') for b in bases]):
+                elif any([b.startswith("SpatialObjectTo") for b in bases]):
                     args_typehint = ": itkt.SpatialObject"
 
                 kwargs_typehints = ""
                 kwargs_of_interest = dict()
                 for member in classType.get_members(access=decls.ACCESS_TYPES.PUBLIC):
-                    if isinstance(member, decls.member_function_t) and self.kwarg_of_interest(member.name):
+                    if isinstance(
+                        member, decls.member_function_t
+                    ) and self.kwarg_of_interest(member.name):
                         if len(member.argument_types) > 0:
                             arg_type = member.argument_types[0]
                             if member.name in kwargs_of_interest:
@@ -687,10 +692,14 @@ class SwigInputGenerator(object):
                             else:
                                 kwargs_of_interest[member.name] = set([arg_type])
                 base_index = 0
-                while recursive_bases[base_index].related_class.name != 'ProcessObject':
+                while recursive_bases[base_index].related_class.name != "ProcessObject":
                     base_class = recursive_bases[base_index].related_class
-                    for member in base_class.get_members(access=decls.ACCESS_TYPES.PUBLIC):
-                        if isinstance(member, decls.member_function_t) and self.kwarg_of_interest(member.name):
+                    for member in base_class.get_members(
+                        access=decls.ACCESS_TYPES.PUBLIC
+                    ):
+                        if isinstance(
+                            member, decls.member_function_t
+                        ) and self.kwarg_of_interest(member.name):
                             if len(member.argument_types) > 0:
                                 arg_type = member.argument_types[0]
                                 if member.name in kwargs_of_interest:
@@ -713,71 +722,83 @@ class SwigInputGenerator(object):
                         arg_type = decls.remove_cv(arg_type)
                         arg_type_str = str(arg_type)
                         if decls.is_bool(arg_type):
-                            kwarg_types.append('bool')
+                            kwarg_types.append("bool")
                         elif decls.is_integral(arg_type):
-                            kwarg_types.append('int')
+                            kwarg_types.append("int")
                         elif decls.is_floating_point(arg_type):
-                            kwarg_types.append('float')
+                            kwarg_types.append("float")
                         elif decls.is_std_string(arg_type):
-                            kwarg_types.append('str')
+                            kwarg_types.append("str")
                         elif decls.is_array(arg_type):
                             item_type = decls.array_item_type(arg_type)
-                            python_type = SwigInputGenerator.cpp_to_python(str(item_type))
+                            python_type = SwigInputGenerator.cpp_to_python(
+                                str(item_type)
+                            )
                             if python_type is not None:
                                 kwarg_types.append(f"Sequence[{python_type}]")
-                        elif arg_type_str.startswith('itk::FixedArray') or arg_type_str.startswith('itk::Vector<') or arg_type_str.startswith('itk::CovariantVector<') or arg_type_str.startswith('itk::Point<') or arg_type_str.startswith('itk::Array<'):
+                        elif (
+                            arg_type_str.startswith("itk::FixedArray")
+                            or arg_type_str.startswith("itk::Vector<")
+                            or arg_type_str.startswith("itk::CovariantVector<")
+                            or arg_type_str.startswith("itk::Point<")
+                            or arg_type_str.startswith("itk::Array<")
+                        ):
                             item_type = decls.templates.split(arg_type_str)[1][0]
                             python_type = SwigInputGenerator.cpp_to_python(item_type)
                             if python_type is not None:
                                 kwarg_types.append(f"Sequence[{python_type}]")
-                        elif arg_type_str.startswith('itk::VectorContainer<'):
+                        elif arg_type_str.startswith("itk::VectorContainer<"):
                             item_type = decls.templates.split(arg_type_str)[1][1]
                             python_type = SwigInputGenerator.cpp_to_python(item_type)
                             if python_type is not None:
                                 kwarg_types.append(f"Sequence[{python_type}]")
-                            elif item_type.startswith('itk::Offset<'):
+                            elif item_type.startswith("itk::Offset<"):
                                 kwarg_types.append(f"Sequence[Sequence[int]]")
-                        elif arg_type_str.startswith('std::vector<'):
+                        elif arg_type_str.startswith("std::vector<"):
                             item_type = decls.templates.split(arg_type_str)[1][0]
                             python_type = SwigInputGenerator.cpp_to_python(item_type)
                             if python_type is not None:
                                 kwarg_types.append(f"Sequence[{python_type}]")
-                        elif arg_type_str.startswith('itk::Size<') or arg_type_str.startswith('itk::Offset<') or arg_type_str.startswith('itk::Index<'):
+                        elif (
+                            arg_type_str.startswith("itk::Size<")
+                            or arg_type_str.startswith("itk::Offset<")
+                            or arg_type_str.startswith("itk::Index<")
+                        ):
                             kwarg_types.append("Sequence[int]")
-                        elif arg_type_str.startswith('itk::ImageRegion<'):
+                        elif arg_type_str.startswith("itk::ImageRegion<"):
                             kwarg_types.append("itkt.ImageRegion")
-                        elif arg_type_str.startswith('itk::InterpolateImageFunction<'):
+                        elif arg_type_str.startswith("itk::InterpolateImageFunction<"):
                             kwarg_types.append("itkt.InterpolateImageFunction")
-                        elif arg_type_str.startswith('itk::ExtrapolateImageFunction<'):
+                        elif arg_type_str.startswith("itk::ExtrapolateImageFunction<"):
                             kwarg_types.append("itkt.ExtrapolateImageFunction")
-                        elif arg_type_str.startswith('itk::Image<'):
+                        elif arg_type_str.startswith("itk::Image<"):
                             kwarg_types.append("itkt.Image")
-                        elif arg_type_str.startswith('itk::VectorImage<'):
+                        elif arg_type_str.startswith("itk::VectorImage<"):
                             kwarg_types.append("itkt.VectorImage")
-                        elif arg_type_str.startswith('itk::ImageBase<'):
+                        elif arg_type_str.startswith("itk::ImageBase<"):
                             kwarg_types.append("itkt.ImageBase")
-                        elif arg_type_str.startswith('itk::PointSet<'):
+                        elif arg_type_str.startswith("itk::PointSet<"):
                             kwarg_types.append("itkt.PointSet")
-                        elif arg_type_str.startswith('itk::Mesh<'):
+                        elif arg_type_str.startswith("itk::Mesh<"):
                             kwarg_types.append("itkt.Mesh")
-                        elif arg_type_str.startswith('itk::QuadEdgeMesh<'):
+                        elif arg_type_str.startswith("itk::QuadEdgeMesh<"):
                             kwarg_types.append("itkt.QuadEdgeMesh")
-                        elif arg_type_str.startswith('itk::Transform<'):
+                        elif arg_type_str.startswith("itk::Transform<"):
                             kwarg_types.append("itkt.Transform")
-                        elif arg_type_str.startswith('itk::ImageBoundaryCondition<'):
+                        elif arg_type_str.startswith("itk::ImageBoundaryCondition<"):
                             kwarg_types.append("itkt.ImageBoundaryCondition")
-                        elif arg_type_str.startswith('itk::FlatStructuringElement<'):
+                        elif arg_type_str.startswith("itk::FlatStructuringElement<"):
                             kwarg_types.append("itkt.FlatStructuringElement")
-                        elif arg_type_str.startswith('itk::RGBPixel<'):
+                        elif arg_type_str.startswith("itk::RGBPixel<"):
                             kwarg_types.append("Tuple[int, int, int]")
-                        elif arg_type_str.startswith('itk::RGBAPixel<'):
+                        elif arg_type_str.startswith("itk::RGBAPixel<"):
                             kwarg_types.append("Tuple[int, int, int, int]")
                     if len(kwarg_types) == 0:
                         pass
                     elif len(kwarg_types) == 1:
                         kwargs_typehints += f": {kwarg_types[0]}"
                     else:
-                        kwargs_typehints += ': Union['
+                        kwargs_typehints += ": Union["
                         for kt in kwarg_types[:-1]:
                             kwargs_typehints += f"{kt}, "
                         kwargs_typehints += f"{kwarg_types[-1]}]"
@@ -785,11 +806,11 @@ class SwigInputGenerator(object):
                 kwarg_dict = ",".join([f"'{k}':{k}" for k in kwarg_snakes])
 
                 return_typehint = ""
-                if any([b.startswith('ImageSource') for b in bases]):
+                if any([b.startswith("ImageSource") for b in bases]):
                     return_typehint = "-> itkt.ImageSourceReturn"
-                elif any([b.startswith('MeshSource') for b in bases]):
+                elif any([b.startswith("MeshSource") for b in bases]):
                     return_typehint = "-> itkt.MeshSourceReturn"
-                elif any([b.startswith('PathSource') for b in bases]):
+                elif any([b.startswith("PathSource") for b in bases]):
                     return_typehint = "-> itkt.PathSourceReturn"
 
                 # print(args_typehint, kwargs_typehints, return_typehint)
@@ -994,7 +1015,7 @@ def {snakeCase}_init_docstring():
             headerFile.write(f"#ifdef SWIG{lang}\n")
             if lang == "PYTHON":
                 headerFile.write(
-"""
+                    """
 %include <pyabc.i>
 %pythonbegin %{
 import collections
@@ -1004,7 +1025,7 @@ if _version_info < (3, 6, 0):
     raise RuntimeError("Python 3.6 or later required")
 %}
 """
-                        )
+                )
                 # Also, release the GIL
                 headerFile.write(
                     f'%module(package="itk",threads="1") {self.submoduleName}{lang.title()}\n'

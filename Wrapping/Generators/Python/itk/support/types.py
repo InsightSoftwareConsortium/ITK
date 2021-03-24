@@ -18,15 +18,18 @@
 
 from typing import Union, Optional, Tuple, TYPE_CHECKING
 import numpy.typing as npt
+
 _HAVE_XARRAY = False
 try:
     import xarray as xr
+
     _HAVE_XARRAY = True
 except ImportError:
     pass
 _HAVE_TORCH = False
 try:
     import torch
+
     _HAVE_TORCH = True
 except ImportError:
     pass
