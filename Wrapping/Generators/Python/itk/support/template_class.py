@@ -412,6 +412,14 @@ class itkTemplate(Mapping):
                 return True
         return False
 
+    def __hash__(self):
+        """Overloads `hash()` when called on an `itkTemplate` object.
+
+        Identify with the __name__, e.g. `itk.Image.__name__` is `itk::Image`.
+        Used by frozenset construction in typing._GenericAlias
+        """
+        return hash(self.__name__)
+
     def __find_param__(self, paramSetString) -> List[Any]:
         """Find the parameters of the template.
 

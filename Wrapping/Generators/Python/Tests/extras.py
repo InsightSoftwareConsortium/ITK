@@ -23,8 +23,6 @@ import os
 import numpy as np
 
 import itk
-import itk.support.types as itk_types
-
 
 def custom_callback(name, progress):
     if progress == 0:

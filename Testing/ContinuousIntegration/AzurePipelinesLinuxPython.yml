@@ -26,9 +26,9 @@ jobs:
 
     - bash: |
         set -x
-        sudo python3 -m pip install ninja
+        sudo python3 -m pip install ninja numpy>=1.20 typing-extensions
         sudo apt-get update
-        sudo apt-get install -y python3-venv python3-numpy python-numpy
+        sudo apt-get install -y python3-venv
         sudo python3 -m pip install --upgrade setuptools
         sudo python3 -m pip install scikit-ci-addons dask distributed
       displayName: 'Install dependencies'

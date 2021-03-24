@@ -40,57 +40,6 @@ def camel_to_snake_case(name):
     snake = re.sub("([a-z0-9])([A-Z])", r"\1_\2", snake)
     return snake.replace("__", "_").lower()
 
-
-def filter_args(filter_object):
-    """
-    This function accepts an itk filter object,
-    returns a) specific arguments of this filter
-    b) common arguments of its super class (i.e., itk.ProcessObject).
-    Both args exclude some useless args denoted as useless_args.
-    """
-    import itk
-
-    exclude_args = [
-        camel_to_snake_case(item[3:])
-        for item in dir(itk.Object)
-        if item.startswith("Set")
-    ]
-    common_args = [
-        camel_to_snake_case(item[3:])
-        for item in dir(itk.ProcessObject)
-        if item.startswith("Set")
-    ]
-    useless_args = [
-        "abort_generate_data",
-        "release_data_flag",
-        "release_data_before_update_flag",
-    ]
-    specific_args = [
-        camel_to_snake_case(item[3:])
-        for item in dir(filter_object)
-        if item.startswith("Set")
-    ]
-
-    str_ret_args = "".join(
-        [
-            "  " + item + "\n"
-            for item in specific_args
-            if item not in exclude_args
-            and item not in common_args
-            and item not in useless_args
-        ]
-    )
-
-    str_common_args = "".join(
-        [
-            "  " + item + "\n"
-            for item in common_args
-            if item not in useless_args and item not in exclude_args
-        ]
-    )
-    return str_ret_args, str_common_args
-
-
 def is_arraylike(arr):
     return (
         hasattr(arr, "shape")
@@ -118,11 +67,13 @@ def move_last_dimension_to_first(arr):
     arr_interleaved_channels = np.moveaxis(arr, dest, source).copy()
     return arr_interleaved_channels
 
-def accept_numpy_array_like_xarray(image_filter):
+def accept_array_like_xarray_torch(image_filter):
     """Decorator that allows itk.ProcessObject snake_case functions to accept
-    NumPy array-like or xarray DataArray inputs for itk.Image inputs. If a NumPy array-like is
-    passed as an input, output itk.Image's are converted to numpy.ndarray's. If a xarray DataArray is
-    passed as an input, output itk.Image's are converted to xarray.DataArray's."""
+    NumPy array-like, PyTorch Tensor's or xarray DataArray inputs for itk.Image inputs.
+
+    If a NumPy array-like is passed as an input, output itk.Image's are converted to numpy.ndarray's.
+    If a torch.Tensor is passed as an input, output itk.Image's are converted to torch.Tensors.
+    If a xarray DataArray is passed as an input, output itk.Image's are converted to xarray.DataArray's."""
     import numpy as np
     import itk
 
