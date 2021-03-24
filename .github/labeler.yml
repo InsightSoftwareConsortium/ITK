@@ -1,3 +1,4 @@
+# Commit prefix regexes
 type:Compiler:
     title: "^COMP:.*"
 
@@ -15,3 +16,52 @@ type:Performance:
 
 type:Style:
     title: "^STYLE:.*"
+
+# Modified filename regexes
+area:Bridge:
+    file: "Modules/Bridge/*"
+
+area:Core:
+    file: "Modules/Core/*"
+
+area:Documentation:
+    file: "Documentation/*"
+
+area:Examples:
+    file: "Examples/*"
+
+area:Filtering:
+    file: "Modules/Filtering/*"
+
+area:IO:
+    file: "Modules/IO/*"
+
+area:Numerics:
+    file: "Modules/Numerics/*"
+
+area:Python wrapping:
+    file: "*.py*"
+
+area:Registration:
+    file: "Modules/Registration/*"
+
+area:Remotes:
+    file: "Modules/Remote/*"
+
+area:Segmentation:
+    file: "Modules/Segmentation/*"
+
+area:ThirdParty:
+    file: "Modules/ThirdParty/*"
+
+area:Video:
+    file: "Modules/Video/*"
+
+type:Testing:
+    file: "Testing/*"
+
+type:Testing:
+    file: "*Test*.cxx"
+
+type:Testing:
+    file: "*Test*.py"
