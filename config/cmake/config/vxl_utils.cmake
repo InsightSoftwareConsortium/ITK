@@ -69,10 +69,13 @@ endmacro()
 #                      VXL_INSTALL_INCLUDE_DIR if VXL_INSTALL_INCLUDE_DIR is
 #                      not its default value; otherwise, the relative path in
 #                      the vxl source tree is used.
+#  DISABLE_MSVC_MP     Disable automatic addition of the "/MP" flag in MSVC
+#                      builds.  Avoids MSVC warning C5102: ignoring invalid 
+#                      command-line macro definition '/MP'
 #
 function( vxl_add_library )
   cmake_parse_arguments(vxl_add
-     ""  # options
+     "DISABLE_MSVC_MP"  # options
      "LIBRARY_NAME;HEADER_BUILD_DIR;HEADER_INSTALL_DIR"  # oneValueArgs
      "LIBRARY_SOURCES"  # multiValueArgs
      ${ARGN} )
@@ -81,7 +84,9 @@ function( vxl_add_library )
   list(LENGTH vxl_add_LIBRARY_SOURCES num_src_files)
   if( ${num_src_files} GREATER 0 )
     add_library(${vxl_add_LIBRARY_NAME} ${vxl_add_LIBRARY_SOURCES} )
-    if(MSVC) # This enables object-level build parallelism in VNL libraries for MSVC
+
+    # This enables object-level build parallelism in VNL libraries for MSVC
+    if(MSVC AND NOT vxl_add_DISABLE_MSVC_MP) 
       target_compile_definitions(${vxl_add_LIBRARY_NAME} PRIVATE " /MP ")
     endif()
 

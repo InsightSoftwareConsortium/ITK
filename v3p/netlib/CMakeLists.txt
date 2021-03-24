@@ -7,8 +7,11 @@ set(netlib_sources
      triangle.c triangle.h
    )
 
-vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}netlib
-  LIBRARY_SOURCES ${netlib_sources})
+vxl_add_library(
+    LIBRARY_NAME ${VXL_LIB_PREFIX}netlib
+    LIBRARY_SOURCES ${netlib_sources}
+    DISABLE_MSVC_MP
+)
 
 if(UNIX)
   target_link_libraries( ${VXL_LIB_PREFIX}netlib m )
