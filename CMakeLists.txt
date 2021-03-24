@@ -696,4 +696,5 @@ mark_as_advanced(FORCE
   Module_TotalVariation
   Module_TubeTK
   Module_TwoProjectionRegistration
+  Module_Ultrasound
   Module_VariationalRegistration)
