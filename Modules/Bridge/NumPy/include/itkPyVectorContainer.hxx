@@ -24,9 +24,9 @@
 namespace itk
 {
 
-template <class TElement>
+template <typename TElementIdentifier, typename TElement>
 PyObject *
-PyVectorContainer<TElement>::_array_view_from_vector_container(VectorContainerType * vector)
+PyVectorContainer<TElementIdentifier, TElement>::_array_view_from_vector_container(VectorContainerType * vector)
 {
   PyObject * memoryView = NULL;
   Py_buffer  pyBuffer;
@@ -56,9 +56,9 @@ PyVectorContainer<TElement>::_array_view_from_vector_container(VectorContainerTy
   return memoryView;
 }
 
-template <class TElement>
-const typename PyVectorContainer<TElement>::VectorContainerType::Pointer
-PyVectorContainer<TElement>::_vector_container_from_array(PyObject * arr, PyObject * shape)
+template <typename TElementIdentifier, typename TElement>
+const typename PyVectorContainer<TElementIdentifier, TElement>::VectorContainerType::Pointer
+PyVectorContainer<TElementIdentifier, TElement>::_vector_container_from_array(PyObject * arr, PyObject * shape)
 {
   PyObject * obj = NULL;
   PyObject * shapeseq = NULL;
