@@ -254,7 +254,7 @@ LBFGS2Optimizerv4::GetStopConditionDescription() const
     case LBFGSERR_INCORRECT_TMINMAX:
       return "Interval of uncertainty became too small";
     case LBFGSERR_ROUNDING_ERROR:
-      return "A rounding error occurred";
+      return "A rounding error occurred or line-search steps have an insufficient reduction";
     case LBFGSERR_MINIMUMSTEP:
       return "LineSearch became smaller than the minimum linesearch step size";
     case LBFGSERR_MAXIMUMSTEP:
