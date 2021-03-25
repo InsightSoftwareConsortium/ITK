@@ -33,24 +33,25 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         "Try to convert a itk.VectorContainer into a Numpy array and back."
 
         if not (
-            hasattr(itk.VectorContainer, "ULF")
+            hasattr(itk.VectorContainer, "ULLF")
             and hasattr(itk.PyVectorContainer, "F")
             and hasattr(itk.Point, "F3")
-            and hasattr(itk.VectorContainer, "ULPF3")
+            and hasattr(itk.VectorContainer, "ULLPF3")
             and hasattr(itk.Point, "F2")
-            and hasattr(itk.VectorContainer, "ULPF2")
+            and hasattr(itk.VectorContainer, "ULLPF2")
         ):
             # There is insufficient wrapping to perform this test; skip it.
+            print('Insufficient wrapping to perform itkPyVectorContainerTest')
             return
 
-        v1 = itk.VectorContainer[itk.UL, itk.F].New()
+        v1 = itk.VectorContainer[itk.ULL, itk.F].New()
         v1.Reserve(4)
         v1.SetElement(0, 1.2)
         v1.SetElement(1, 2)
         v1.SetElement(2, 4)
         v1.SetElement(3, 5)
-        arr = itk.PyVectorContainer[itk.F].array_view_from_vector_container(v1)
-        v2 = itk.PyVectorContainer[itk.F].vector_container_from_array(arr)
+        arr = itk.array_view_from_vector_container(v1)
+        v2 = itk.vector_container_from_array(arr)
         self.assertEqual(v1.Size(), arr.shape[0])
         self.assertEqual(v1.Size(), v2.Size())
         # Compute difference between the original vector and numpy array view
@@ -67,16 +68,16 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         v1.SetElement(0, 1)
         self.assertEqual(v1.GetElement(0), arr[0])
         # Test deep copy
-        arr_cp = itk.PyVectorContainer[itk.F].array_from_vector_container(v1)
+        arr_cp = itk.array_from_vector_container(v1)
         self.assertEqual(v1.GetElement(0), arr_cp[0])
         v1.SetElement(0, 0)
         self.assertNotEqual(v1.GetElement(0), arr_cp[0])
-        v2_cp = itk.PyVectorContainer[itk.F].vector_container_from_array(arr_cp)
+        v2_cp = itk.vector_container_from_array(arr_cp)
         arr_cp[0] = 2
         self.assertNotEqual(v2_cp.GetElement(0), arr_cp[0])
 
         PointType = itk.Point[itk.F, 3]
-        v_point = itk.VectorContainer[itk.UL, PointType].New()
+        v_point = itk.VectorContainer[itk.ULL, PointType].New()
         v_point.Reserve(2)
         point = PointType()
         point[0] = 1.0
@@ -87,13 +88,13 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         point[1] = 8.0
         point[2] = 9.0
         v_point.SetElement(1, point)
-        arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
+        arr = itk.array_view_from_vector_container(v_point)
         self.assertTrue(
             np.array_equal(arr, np.array([[1.0, 2.0, 4.0], [6.0, 8.0, 9.0]]))
         )
 
         PointType = itk.Point[itk.F, 2]
-        v_point = itk.VectorContainer[itk.UL, PointType].New()
+        v_point = itk.VectorContainer[itk.ULL, PointType].New()
         v_point.Reserve(2)
         point = PointType()
         point[0] = 1.0
@@ -102,7 +103,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         point[0] = 6.0
         point[1] = 8.0
         v_point.SetElement(1, point)
-        arr = itk.PyVectorContainer[PointType].array_view_from_vector_container(v_point)
+        arr = itk.array_view_from_vector_container(v_point)
         self.assertTrue(np.array_equal(arr, np.array([[1.0, 2.0], [6.0, 8.0]])))
 
 
