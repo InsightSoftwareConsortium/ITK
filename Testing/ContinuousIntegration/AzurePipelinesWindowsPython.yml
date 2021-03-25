@@ -24,11 +24,11 @@ jobs:
 
     - task: UsePythonVersion@0
       inputs:
-        versionSpec: '3.7'
+        versionSpec: '3.9'
         architecture: 'x64'
 
     - script: |
-        python -m pip install ninja numpy
+        python -m pip install ninja numpy>=1.20 typing-extensions
         python -m pip install --upgrade setuptools
         python -m pip install scikit-ci-addons dask distributed
       displayName: 'Install dependencies'

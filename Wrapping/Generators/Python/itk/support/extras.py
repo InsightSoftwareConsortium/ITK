@@ -28,11 +28,11 @@ import builtins
 
 fileiotype = Union[str, bytes, os.PathLike]
 
-import itk.support.types as itk_types
+import itk.support.types as itkt
 
 if TYPE_CHECKING:
     try:
-        import xarray
+        import xarray as xr
     except ImportError:
         pass
     try:
@@ -157,7 +157,7 @@ def echo(obj, f=system_error_stream) -> None:
     print(f, obj)
 
 
-def size(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[int]:
+def size(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[int]:
     """Return the size of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -171,7 +171,7 @@ def size(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[int]:
     return img.GetLargestPossibleRegion().GetSize()
 
 
-def physical_size(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[float]:
+def physical_size(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
     """Return the physical size of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -187,7 +187,7 @@ def physical_size(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[f
     return result
 
 
-def spacing(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[float]:
+def spacing(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
     """Return the spacing of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -200,7 +200,7 @@ def spacing(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[float]:
     return img.GetSpacing()
 
 
-def origin(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[float]:
+def origin(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[float]:
     """Return the origin of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -213,7 +213,7 @@ def origin(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[float]:
     return img.GetOrigin()
 
 
-def index(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[int]:
+def index(image_or_filter: "itkt.ImageOrImageSource") -> Sequence[int]:
     """Return the index of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -226,7 +226,7 @@ def index(image_or_filter: "itk_types.ImageOrImageSource") -> Sequence[int]:
     return img.GetLargestPossibleRegion().GetIndex()
 
 
-def region(image_or_filter: "itk_types.ImageOrImageSource") -> "itk_types.ImageRegion":
+def region(image_or_filter: "itkt.ImageOrImageSource") -> "itkt.ImageRegion":
     """Return the region of an image, or of the output image of a filter
 
     This method take care of updating the needed information
@@ -294,7 +294,7 @@ def _GetArrayFromImage(
 
 
 def GetArrayFromImage(
-    image_or_filter: "itk_types.ImageOrImageSource",
+    image_or_filter: "itkt.ImageOrImageSource",
     keep_axes: bool = False,
     update: bool = True,
     ttype=None,
@@ -309,7 +309,7 @@ array_from_image = GetArrayFromImage
 
 
 def GetArrayViewFromImage(
-    image_or_filter: "itk_types.ImageOrImageSource",
+    image_or_filter: "itkt.ImageOrImageSource",
     keep_axes: bool = False,
     update: bool = True,
     ttype=None,
@@ -561,7 +561,7 @@ def GetMatrixFromArray(arr):
 matrix_from_array = GetMatrixFromArray
 
 
-def xarray_from_image(l_image: "itk_types.ImageOrImageSource") -> "xarray.DataArray":
+def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
     """Convert an itk.Image to an xarray.DataArray.
 
     Origin and spacing metadata is preserved in the xarray's coords. The
@@ -608,7 +608,7 @@ def xarray_from_image(l_image: "itk_types.ImageOrImageSource") -> "xarray.DataAr
     return data_array
 
 
-def image_from_xarray(data_array: "xarray.DataArray") -> "itk_types.ImageBase":
+def image_from_xarray(data_array: "xr.DataArray") -> "itkt.ImageBase":
     """Convert an xarray.DataArray to an itk.Image.
 
     Metadata encoded with xarray_from_image is applied to the itk.Image.
@@ -660,7 +660,7 @@ def image_from_xarray(data_array: "xarray.DataArray") -> "itk_types.ImageBase":
     return itk_image
 
 
-def vtk_image_from_image(l_image: "itk_types.ImageOrImageSource") -> "vtk.vtkImageData":
+def vtk_image_from_image(l_image: "itkt.ImageOrImageSource") -> "vtk.vtkImageData":
     """Convert an itk.Image to a vtk.vtkImageData."""
     import itk
     import vtk
@@ -698,7 +698,7 @@ def vtk_image_from_image(l_image: "itk_types.ImageOrImageSource") -> "vtk.vtkIma
     return vtk_image
 
 
-def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itk_types.ImageBase":
+def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
     """Convert a vtk.vtkImageData to an itk.Image."""
     import itk
     from vtk.util.numpy_support import vtk_to_numpy
@@ -732,7 +732,7 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itk_types.ImageBase"
 # return an image
 
 
-def image_intensity_min_max(image_or_filter: "itk_types.ImageOrImageSource"):
+def image_intensity_min_max(image_or_filter: "itkt.ImageOrImageSource"):
     """Return the minimum and maximum of values in a image of in the output image of a filter
 
     The minimum and maximum values are returned in a tuple: (min, max)
@@ -760,10 +760,10 @@ def range(image_or_filter):
 
 
 def imwrite(
-    image_or_filter: "itk_types.ImageOrImageSource",
+    image_or_filter: "itkt.ImageOrImageSource",
     filename: fileiotype,
     compression: bool = False,
-    imageio: Optional["itk_types.ImageIOBase"] = None,
+    imageio: Optional["itkt.ImageIOBase"] = None,
 ) -> None:
     """Write a image or the output image of a filter to a file.
 
@@ -803,10 +803,10 @@ def imwrite(
 
 def imread(
     filename: fileiotype,
-    pixel_type: Optional["itk_types.PixelTypes"] = None,
+    pixel_type: Optional["itkt.PixelTypes"] = None,
     fallback_only: bool = False,
-    imageio: Optional["itk_types.ImageIOBase"] = None,
-) -> "itk_types.ImageBase":
+    imageio: Optional["itkt.ImageIOBase"] = None,
+) -> "itkt.ImageBase":
     """Read an image from a file or series of files and return an itk.Image.
 
     Parameters
@@ -913,7 +913,7 @@ def imread(
 
 
 def meshwrite(
-    mesh: "itk_types.Mesh", filename: fileiotype, compression: bool = False
+    mesh: "itkt.Mesh", filename: fileiotype, compression: bool = False
 ) -> None:
     """Write a mesh to a file.
 
@@ -934,9 +934,9 @@ def meshwrite(
 
 def meshread(
     filename: fileiotype,
-    pixel_type: Optional["itk_types.PixelTypes"] = None,
+    pixel_type: Optional["itkt.PixelTypes"] = None,
     fallback_only: bool = False,
-) -> "itk_types.Mesh":
+) -> "itkt.Mesh":
     """Read a mesh from a file and return an itk.Mesh.
 
     The reader is instantiated with the mesh type of the mesh file if
@@ -984,7 +984,7 @@ def meshread(
     return reader.GetOutput()
 
 
-def transformread(filename: fileiotype) -> List["itk_types.TransformBase"]:
+def transformread(filename: fileiotype) -> List["itkt.TransformBase"]:
     """Read an itk Transform file.
 
     Parameters
@@ -1015,7 +1015,7 @@ def transformread(filename: fileiotype) -> List["itk_types.TransformBase"]:
 
 
 def transformwrite(
-    transforms: List["itk_types.TransformBase"],
+    transforms: List["itkt.TransformBase"],
     filename: fileiotype,
     compression: bool = False,
 ) -> None:
@@ -1500,7 +1500,7 @@ class auto_pipeline(pipeline):
         auto_pipeline.current = None
 
 
-def down_cast(obj: "itk_types.LightObject"):
+def down_cast(obj: "itkt.LightObject"):
     """Down cast an itk.LightObject (or a object of a subclass) to its most
     specialized type.
     """
@@ -1730,7 +1730,7 @@ def template(cl):
     return itkTemplateBase.__template_instantiations_object_to_name__[class_(cl)]
 
 
-def ctype(s: str) -> "itk_types.itkCType":
+def ctype(s: str) -> "itkt.itkCType":
     """Return the c type corresponding to the string passed in parameter
 
     The string can contain some extra spaces.

@@ -16,7 +16,23 @@
 #
 # ==========================================================================*/
 
-from typing import Union, TYPE_CHECKING
+from typing import Union, Optional, Tuple, TYPE_CHECKING
+import numpy.typing as npt
+
+_HAVE_XARRAY = False
+try:
+    import xarray as xr
+
+    _HAVE_XARRAY = True
+except ImportError:
+    pass
+_HAVE_TORCH = False
+try:
+    import torch
+
+    _HAVE_TORCH = True
+except ImportError:
+    pass
 
 # noinspection PyPep8Naming
 class itkCType:
@@ -185,6 +201,15 @@ PixelTypes = Union[
 ImageSource = "itk.ImageSource"
 
 ImageOrImageSource = Union[ImageBase, ImageSource]
+# Can be coerced into an itk.ImageBase
+if _HAVE_XARRAY and _HAVE_TORCH:
+    ImageLike = Union[ImageBase, npt.ArrayLike, xr.DataArray, torch.Tensor]
+elif _HAVE_XARRAY:
+    ImageLike = Union[ImageBase, npt.ArrayLike, xr.DataArray]
+elif _HAVE_TORCH:
+    ImageLike = Union[ImageBase, npt.ArrayLike, torch.Tensor]
+else:
+    ImageLike = Union[ImageBase, npt.ArrayLike]
 
 ImageIOBase = "itk.ImageIOBase"
 
@@ -194,6 +219,7 @@ DataObject = "itk.DataObject"
 
 PointSet = "itk.PointSet"
 Mesh = "itk.Mesh"
+QuadEdgeMesh = "itk.QuadEdgeMesh"
 
 Path = "itk.Path"
 ParametricPath = "itk.ParametricPath"
@@ -201,5 +227,19 @@ PolyLineParametricPath = "itk.PolyLineParametricPath"
 SpatialObject = "itk.SpatialObject"
 
 TransformBase = "itk.TransformBaseTemplate"
+Transform = "itk.Transform"
 
 ImageRegion = "itk.ImageRegion"
+
+# Return types for the functional interfaces to ProcessObject's.
+# When there is a single indexed output, it is returned directly.
+# When there are multiple indexed outputs, a tuple of the indexed outputs is
+# returned.
+ImageSourceReturn = Union[ImageLike, Tuple[ImageLike, ...]]
+MeshSourceReturn = Union[Mesh, Tuple[Mesh, ...]]
+PathSourceReturn = Union[Path, Tuple[Path, ...]]
+
+InterpolateImageFunction = "itk.InterpolateImageFunction"
+ExtrapolateImageFunction = "itk.ExtrapolateImageFunction"
+ImageBoundaryCondition = "itk.ImageBoundaryCondition"
+FlatStructuringElement = "itk.FlatStructuringElement"

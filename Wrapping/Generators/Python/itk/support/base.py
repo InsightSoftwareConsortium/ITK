@@ -321,13 +321,14 @@ class ITKModuleInfo:
 
     def __init__(self, conf: str, snake_conf) -> None:
         import importlib
+
         module_name = os.path.splitext(conf)[0]
-        content_info = importlib.import_module(f'itk.Configuration.{module_name}')
-        if hasattr(content_info, 'templates'):
+        content_info = importlib.import_module(f"itk.Configuration.{module_name}")
+        if hasattr(content_info, "templates"):
             _templates = content_info.templates
         else:
             _templates = tuple()
-        if hasattr(content_info, 'depends'):
+        if hasattr(content_info, "depends"):
             self._depends = content_info.depends
         else:
             self._depends = tuple()
@@ -337,12 +338,16 @@ class ITKModuleInfo:
 
         snake_module_name = os.path.splitext(snake_conf)[0]
         try:
-            snake_content_info = importlib.import_module(f'itk.Configuration.{snake_module_name}')
+            snake_content_info = importlib.import_module(
+                f"itk.Configuration.{snake_module_name}"
+            )
         except ImportError:
             self._snake_case_functions: Sequence[str] = []
             return
-        if hasattr(snake_content_info, 'snake_case_functions'):
-            self._snake_case_functions: Sequence[str] = snake_content_info.snake_case_functions
+        if hasattr(snake_content_info, "snake_case_functions"):
+            self._snake_case_functions: Sequence[
+                str
+            ] = snake_content_info.snake_case_functions
         else:
             self._snake_case_functions: Sequence[str] = []
 

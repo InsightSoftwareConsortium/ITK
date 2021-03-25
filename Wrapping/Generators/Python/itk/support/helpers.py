@@ -41,56 +41,6 @@ def camel_to_snake_case(name):
     return snake.replace("__", "_").lower()
 
 
-def filter_args(filter_object):
-    """
-    This function accepts an itk filter object,
-    returns a) specific arguments of this filter
-    b) common arguments of its super class (i.e., itk.ProcessObject).
-    Both args exclude some useless args denoted as useless_args.
-    """
-    import itk
-
-    exclude_args = [
-        camel_to_snake_case(item[3:])
-        for item in dir(itk.Object)
-        if item.startswith("Set")
-    ]
-    common_args = [
-        camel_to_snake_case(item[3:])
-        for item in dir(itk.ProcessObject)
-        if item.startswith("Set")
-    ]
-    useless_args = [
-        "abort_generate_data",
-        "release_data_flag",
-        "release_data_before_update_flag",
-    ]
-    specific_args = [
-        camel_to_snake_case(item[3:])
-        for item in dir(filter_object)
-        if item.startswith("Set")
-    ]
-
-    str_ret_args = "".join(
-        [
-            "  " + item + "\n"
-            for item in specific_args
-            if item not in exclude_args
-            and item not in common_args
-            and item not in useless_args
-        ]
-    )
-
-    str_common_args = "".join(
-        [
-            "  " + item + "\n"
-            for item in common_args
-            if item not in useless_args and item not in exclude_args
-        ]
-    )
-    return str_ret_args, str_common_args
-
-
 def is_arraylike(arr):
     return (
         hasattr(arr, "shape")
@@ -99,8 +49,10 @@ def is_arraylike(arr):
         and hasattr(arr, "ndim")
     )
 
+
 def move_first_dimension_to_last(arr):
     import numpy as np
+
     dest = list(range(arr.ndim))
     source = dest.copy()
     end = source.pop()
@@ -111,6 +63,7 @@ def move_first_dimension_to_last(arr):
 
 def move_last_dimension_to_first(arr):
     import numpy as np
+
     dest = list(range(arr.ndim))
     source = dest.copy()
     end = source.pop()
@@ -118,11 +71,14 @@ def move_last_dimension_to_first(arr):
     arr_interleaved_channels = np.moveaxis(arr, dest, source).copy()
     return arr_interleaved_channels
 
-def accept_numpy_array_like_xarray(image_filter):
+
+def accept_array_like_xarray_torch(image_filter):
     """Decorator that allows itk.ProcessObject snake_case functions to accept
-    NumPy array-like or xarray DataArray inputs for itk.Image inputs. If a NumPy array-like is
-    passed as an input, output itk.Image's are converted to numpy.ndarray's. If a xarray DataArray is
-    passed as an input, output itk.Image's are converted to xarray.DataArray's."""
+    NumPy array-like, PyTorch Tensor's or xarray DataArray inputs for itk.Image inputs.
+
+    If a NumPy array-like is passed as an input, output itk.Image's are converted to numpy.ndarray's.
+    If a torch.Tensor is passed as an input, output itk.Image's are converted to torch.Tensors.
+    If a xarray DataArray is passed as an input, output itk.Image's are converted to xarray.DataArray's."""
     import numpy as np
     import itk
 
@@ -140,11 +96,11 @@ def accept_numpy_array_like_xarray(image_filter):
                 args_list[index] = image
             elif _HAVE_TORCH and isinstance(arg, torch.Tensor):
                 have_torch_input = True
-                channels = arg.shape[0] # assume first dimension is channels
+                channels = arg.shape[0]  # assume first dimension is channels
                 arr = np.asarray(arg)
-                if channels > 1: # change from contiguous to interleaved channel order
+                if channels > 1:  # change from contiguous to interleaved channel order
                     arr = move_last_dimension_to_first(arr)
-                image = itk.image_view_from_array(arr, is_vector=channels>1)
+                image = itk.image_view_from_array(arr, is_vector=channels > 1)
                 args_list[index] = image
             elif not isinstance(arg, itk.Object) and is_arraylike(arg):
                 have_array_input = True
@@ -161,11 +117,13 @@ def accept_numpy_array_like_xarray(image_filter):
                     kwargs[key] = image
                 elif _HAVE_TORCH and isinstance(value, torch.Tensor):
                     have_torch_input = True
-                    channels = value.shape[0] # assume first dimension is channels
+                    channels = value.shape[0]  # assume first dimension is channels
                     arr = np.asarray(value)
-                    if channels > 1: # change from contiguous to interleaved channel order
+                    if (
+                        channels > 1
+                    ):  # change from contiguous to interleaved channel order
                         arr = move_last_dimension_to_first(arr)
-                    image = itk.image_view_from_array(arr, is_vector=channels>1)
+                    image = itk.image_view_from_array(arr, is_vector=channels > 1)
                     kwargs[key] = image
                 elif not isinstance(value, itk.Object) and is_arraylike(value):
                     have_array_input = True
@@ -186,7 +144,9 @@ def accept_numpy_array_like_xarray(image_filter):
                         elif have_torch_input:
                             channels = value.GetNumberOfComponentsPerPixel()
                             data_array = itk.array_view_from_image(value)
-                            if channels > 1: # change from interleaved to contiguous channel order
+                            if (
+                                channels > 1
+                            ):  # change from interleaved to contiguous channel order
                                 data_array = move_first_dimension_to_last(data_array)
                             torch_tensor = torch.from_numpy(data_array)
                             output_list[index] = torch_tensor
@@ -201,7 +161,9 @@ def accept_numpy_array_like_xarray(image_filter):
                     elif have_torch_input:
                         channels = output.GetNumberOfComponentsPerPixel()
                         output = itk.array_view_from_image(output)
-                        if channels > 1: # change from interleaved to contiguous channel order
+                        if (
+                            channels > 1
+                        ):  # change from interleaved to contiguous channel order
                             output = move_first_dimension_to_last(output)
                         output = torch.from_numpy(output)
                     else:
