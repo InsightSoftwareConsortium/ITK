@@ -616,6 +616,7 @@ set(ITKCommonGTests
       itkImageIORegionGTest.cxx
       itkIndexGTest.cxx
       itkIndexRangeGTest.cxx
+      itkMatrixGTest.cxx
       itkMersenneTwisterRandomVariateGeneratorGTest.cxx
       itkNeighborhoodAllocatorGTest.cxx
       itkNumberToStringGTest.cxx

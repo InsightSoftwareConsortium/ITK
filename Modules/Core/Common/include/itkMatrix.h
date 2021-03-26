@@ -210,7 +210,9 @@ public:
   }
 
   /**For every operator=, there should be an equivalent copy constructor. */
-  inline Matrix(const vnl_matrix<T> & matrix) { this->operator=(matrix); }
+  inline Matrix(const vnl_matrix<T> & matrix)
+    : m_Matrix(matrix)
+  {}
 
   /** Comparison operators. */
   inline bool
@@ -246,15 +248,9 @@ public:
   }
 
   /**For every operator=, there should be an equivalent copy constructor. */
-  inline explicit Matrix(const InternalMatrixType & matrix) { this->operator=(matrix); }
-
-  /** Assignment operator. */
-  inline const Self &
-  operator=(const Self & matrix)
-  {
-    m_Matrix = matrix.m_Matrix;
-    return *this;
-  }
+  inline explicit Matrix(const InternalMatrixType & matrix)
+    : m_Matrix(matrix)
+  {}
 
   /** Return the inverse matrix. */
   inline vnl_matrix_fixed<T, NColumns, NRows>
@@ -275,15 +271,12 @@ public:
     return vnl_matrix_fixed<T, NColumns, NRows>{ m_Matrix.transpose().as_matrix() };
   }
 
-  /** Default constructor. */
-  Matrix()
-    : m_Matrix(NumericTraits<T>::ZeroValue())
-  {}
-
-  /** Copy constructor. */
-  Matrix(const Self & matrix)
-    : m_Matrix(matrix.m_Matrix)
-  {}
+  /** Defaulted default-constructor. Zero-initializes all of its elements.
+   * \note The other five "special member functions" (copy-constructor,
+   * copy-assignment operator, move-constructor, move-assignment operator,
+   * and destructor) are implicitly defaulted, following the C++ "Rule of Zero".
+   */
+  Matrix() = default;
 
   void
   swap(Self & other)
@@ -294,7 +287,7 @@ public:
   }
 
 private:
-  InternalMatrixType m_Matrix;
+  InternalMatrixType m_Matrix{};
 };
 
 template <typename T, unsigned int NRows, unsigned int NColumns>
