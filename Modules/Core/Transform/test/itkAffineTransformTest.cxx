@@ -122,7 +122,6 @@ itkAffineTransformTest(int, char *[])
   int any = 0; // Any errors detected in testing?
 
   Matrix2Type matrix2, matrix2Truth;
-  Matrix2Type inverse2;
   Vector2Type vector2, vector2Truth;
 
   /* Create a 2D identity transformation and show its parameters */

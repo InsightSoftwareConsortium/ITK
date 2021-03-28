@@ -513,12 +513,12 @@ RGBTest(int ac, char * av[])
   char * tmpImage = *++av;
   int    success(EXIT_SUCCESS);
   using RGBImageType = typename itk::Image<RGBPixelType, 3>;
-  typename RGBImageType::RegionType    imageRegion;
-  typename RGBImageType::SizeType      size;
-  typename RGBImageType::IndexType     index;
-  typename RGBImageType::SpacingType   spacing;
-  typename RGBImageType::PointType     origin;
-  typename RGBImageType::DirectionType myDirection;
+  typename RGBImageType::RegionType  imageRegion;
+  typename RGBImageType::SizeType    size;
+  typename RGBImageType::IndexType   index;
+  typename RGBImageType::SpacingType spacing;
+  typename RGBImageType::PointType   origin;
+
   for (unsigned i = 0; i < 3; i++)
   {
     size[i] = 5;

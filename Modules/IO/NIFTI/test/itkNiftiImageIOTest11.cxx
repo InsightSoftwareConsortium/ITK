@@ -43,12 +43,11 @@ itkNiftiImageIOTest11(int ac, char * av[])
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<char, 3>;
-  ImageType::RegionType    imageRegion;
-  ImageType::SizeType      size;
-  ImageType::IndexType     index;
-  ImageType::SpacingType   spacing;
-  ImageType::PointType     origin;
-  ImageType::DirectionType myDirection;
+  ImageType::RegionType  imageRegion;
+  ImageType::SizeType    size;
+  ImageType::IndexType   index;
+  ImageType::SpacingType spacing;
+  ImageType::PointType   origin;
 
   size[0] = static_cast<long int>(itk::NumericTraits<short>::max()) * 2;
   size[1] = 1;
