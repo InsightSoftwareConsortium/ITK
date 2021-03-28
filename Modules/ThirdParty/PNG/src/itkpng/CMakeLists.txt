@@ -11,7 +11,8 @@ pngerror.c  pngpread.c  pngrutil.c  pngwutil.c
 pngread.c   pngset.c   pngwio.c
 )
 
-if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm")
+# Kitware: added `OR APPLE` to allow Universal Binary builds on Intel Macs.
+if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm" OR APPLE)
   list(APPEND PNG_SRCS
     arm/arm_init.c
     arm/filter_neon_intrinsics.c
