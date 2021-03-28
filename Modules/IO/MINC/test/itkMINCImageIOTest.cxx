@@ -303,11 +303,10 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
 
   using ImageType = typename itk::Image<TPixel, VDimension>;
 
-  typename ImageType::SizeType      size;
-  typename ImageType::IndexType     index;
-  typename ImageType::SpacingType   spacing;
-  typename ImageType::PointType     origin;
-  typename ImageType::DirectionType myDirection;
+  typename ImageType::SizeType    size;
+  typename ImageType::IndexType   index;
+  typename ImageType::SpacingType spacing;
+  typename ImageType::PointType   origin;
 
   std::cout << "Testing:" << fileName << std::endl;
   for (unsigned i = 0; i < VDimension; i++)

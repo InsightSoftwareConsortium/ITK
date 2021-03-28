@@ -30,12 +30,12 @@ HDF5ReadWriteTest(const char * fileName)
   std::cout << fileName << std::endl;
   int success(EXIT_SUCCESS);
   using ImageType = typename itk::Image<TPixel, 3>;
-  typename ImageType::RegionType    imageRegion;
-  typename ImageType::SizeType      size;
-  typename ImageType::IndexType     index;
-  typename ImageType::SpacingType   spacing;
-  typename ImageType::PointType     origin;
-  typename ImageType::DirectionType myDirection;
+  typename ImageType::RegionType  imageRegion;
+  typename ImageType::SizeType    size;
+  typename ImageType::IndexType   index;
+  typename ImageType::SpacingType spacing;
+  typename ImageType::PointType   origin;
+
   for (unsigned i = 0; i < 3; i++)
   {
     size[i] = 5;
