@@ -40,7 +40,7 @@ namespace itk
  *
  *  \ingroup ITKBridgeNumPy
  */
-template <typename TElement>
+template <typename TElementIdentifier, typename TElement>
 class PyVectorContainer
 {
 public:
@@ -48,8 +48,9 @@ public:
   using Self = PyVectorContainer;
 
   /** Type of the data from which the buffer will be converted */
+  using ElementIdentiferType = TElementIdentifier;
   using DataType = TElement;
-  using VectorContainerType = VectorContainer<IdentifierType, TElement>;
+  using VectorContainerType = VectorContainer<TElementIdentifier, TElement>;
 
   /**
    * Get an Array with the content of the vnl vector

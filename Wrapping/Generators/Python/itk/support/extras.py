@@ -392,7 +392,9 @@ def array_from_vector_container(container, ttype=None):
     """Get an Array with the content of the vector container"""
     import itk
 
-    # Find container type
+    IndexType = itk.template(container)[1][0]
+
+    # Find container data type
     if ttype is not None:
         if isinstance(ttype, (tuple, list)):
             if len(ttype) != 1:
@@ -402,7 +404,7 @@ def array_from_vector_container(container, ttype=None):
             DataType = ttype
     else:
         DataType = itk.template(container)[1][1]
-    keys = [k for k in itk.PyVectorContainer.keys() if k[0] == DataType]
+    keys = [k for k in itk.PyVectorContainer.keys() if k == (IndexType, DataType)]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create numpy array of the type of the input container
@@ -413,6 +415,8 @@ def array_view_from_vector_container(container, ttype=None):
     """Get an Array view with the content of the vector container"""
     import itk
 
+    IndexType = itk.template(container)[1][0]
+
     # Find container type
     if ttype is not None:
         if isinstance(ttype, (tuple, list)):
@@ -423,7 +427,7 @@ def array_view_from_vector_container(container, ttype=None):
             DataType = ttype
     else:
         DataType = itk.template(container)[1][1]
-    keys = [k for k in itk.PyVectorContainer.keys() if k[0] == DataType]
+    keys = [k for k in itk.PyVectorContainer.keys() if k == (IndexType, DataType)]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create numpy array of the type of the input container
@@ -433,6 +437,9 @@ def array_view_from_vector_container(container, ttype=None):
 def vector_container_from_array(arr, ttype=None):
     """Get a vector container from a Python array"""
     import itk
+
+    # Return VectorContainer with 64-bit index type
+    IndexType = itk.ULL
 
     # Find container type
     if ttype is not None:
@@ -444,7 +451,7 @@ def vector_container_from_array(arr, ttype=None):
             DataType = ttype
     else:
         DataType = _get_itk_pixelid(arr)
-    keys = [k for k in itk.PyVectorContainer.keys() if k[0] == DataType]
+    keys = [k for k in itk.PyVectorContainer.keys() if k == (IndexType, DataType)]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     # Create numpy array of the type of the input container

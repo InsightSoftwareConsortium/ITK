@@ -34,7 +34,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
 
         if not (
             hasattr(itk.VectorContainer, "ULLF")
-            and hasattr(itk.PyVectorContainer, "F")
+            and hasattr(itk.PyVectorContainer, "ULLF")
             and hasattr(itk.Point, "F3")
             and hasattr(itk.VectorContainer, "ULLPF3")
             and hasattr(itk.Point, "F2")
