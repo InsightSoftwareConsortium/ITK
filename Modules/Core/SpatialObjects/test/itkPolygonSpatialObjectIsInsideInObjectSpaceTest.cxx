@@ -107,11 +107,8 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(polygonPtr->Update());
 
   // Read baseline image
-  ImageType::Pointer                       baselineImagePtr = nullptr;
-  itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
-  reader->SetFileName(baselineFileName);
-  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
-  baselineImagePtr = reader->GetOutput();
+  ImageType::Pointer baselineImagePtr = nullptr;
+  ITK_TRY_EXPECT_NO_EXCEPTION(baselineImagePtr = itk::ReadImage<ImageType>(baselineFileName));
 
 
   // create image
@@ -122,11 +119,7 @@ itkPolygonSpatialObjectIsInsideInObjectSpaceTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(toImageFilter->Update());
 
   // write image
-  using FileWriterType = itk::ImageFileWriter<ImageType>;
-  auto fileWriter = FileWriterType::New();
-  fileWriter->SetInput(toImageFilter->GetOutput());
-  fileWriter->SetFileName(outFileName);
-  ITK_TRY_EXPECT_NO_EXCEPTION(fileWriter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(toImageFilter->GetOutput(), outFileName));
 
   return EXIT_SUCCESS;
 }
