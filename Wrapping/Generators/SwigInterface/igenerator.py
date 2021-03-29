@@ -836,6 +836,7 @@ def {snakeCase}_init_docstring():
     from itk.support import template_class
 
     filter_class = itk.{self.moduleName}.{processObject}
+    {snakeCase}.process_object = filter_class
     is_template = isinstance(filter_class, template_class.itkTemplate)
     if is_template:
         filter_object = filter_class.values()[0]
