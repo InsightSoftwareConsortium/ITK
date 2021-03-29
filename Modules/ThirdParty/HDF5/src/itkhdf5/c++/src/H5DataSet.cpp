@@ -87,16 +87,10 @@ DataSet::DataSet(const DataSet& original) : H5Object(), AbstractDs(), id(origina
 DataSet &
 DataSet::operator=(const DataSet &original)
 {
-    // Wrap the changes to `*this` by an incremented reference count for
-    // `original` to prevent trouble in the case that `*this` and
-    // `original` share reference counts or memory in any relevant
-    // sense.
-    original.incRefCount();
-    decRefCount(); // for old value of id
-    id = original.id;
-    incRefCount(); // for new value of id
-    original.decRefCount();
-    return *this;
+    if (this != &original) {
+        setId(original.id);
+    }
+    return (*this);
 }
 
 //--------------------------------------------------------------------------
