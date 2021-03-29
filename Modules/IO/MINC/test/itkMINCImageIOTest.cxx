@@ -558,11 +558,10 @@ MINCReadWriteTestVector(const char * fileName,
   using ImageType = typename itk::VectorImage<TPixel, VDimension>;
   using InternalPixelType = typename itk::VectorImage<TPixel, VDimension>::PixelType;
 
-  typename ImageType::SizeType      size;
-  typename ImageType::IndexType     index;
-  typename ImageType::SpacingType   spacing;
-  typename ImageType::PointType     origin;
-  typename ImageType::DirectionType myDirection;
+  typename ImageType::SizeType    size;
+  typename ImageType::IndexType   index;
+  typename ImageType::SpacingType spacing;
+  typename ImageType::PointType   origin;
 
   std::cout << "Testing:" << fileName << std::endl;
 
