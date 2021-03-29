@@ -51,6 +51,7 @@ class TestNumpyVectorContainerMemoryviewInterface(unittest.TestCase):
         v1.SetElement(2, 4)
         v1.SetElement(3, 5)
         arr = itk.array_view_from_vector_container(v1)
+        assert arr.dtype == np.float32
         v2 = itk.vector_container_from_array(arr)
         self.assertEqual(v1.Size(), arr.shape[0])
         self.assertEqual(v1.Size(), v2.Size())

@@ -392,7 +392,8 @@ def array_from_vector_container(container, ttype=None):
     """Get an Array with the content of the vector container"""
     import itk
 
-    IndexType = itk.template(container)[1][0]
+    container_template = itk.template(container)
+    IndexType = container_template[1][0]
 
     # Find container data type
     if ttype is not None:
@@ -403,7 +404,7 @@ def array_from_vector_container(container, ttype=None):
         else:
             DataType = ttype
     else:
-        DataType = itk.template(container)[1][1]
+        DataType = container_template[1][1]
     keys = [k for k in itk.PyVectorContainer.keys() if k == (IndexType, DataType)]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
@@ -415,7 +416,8 @@ def array_view_from_vector_container(container, ttype=None):
     """Get an Array view with the content of the vector container"""
     import itk
 
-    IndexType = itk.template(container)[1][0]
+    container_template = itk.template(container)
+    IndexType = container_template[1][0]
 
     # Find container type
     if ttype is not None:
@@ -426,7 +428,7 @@ def array_view_from_vector_container(container, ttype=None):
         else:
             DataType = ttype
     else:
-        DataType = itk.template(container)[1][1]
+        DataType = container_template[1][1]
     keys = [k for k in itk.PyVectorContainer.keys() if k == (IndexType, DataType)]
     if len(keys) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
