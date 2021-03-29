@@ -268,7 +268,7 @@ PolygonSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point)
         // closed PolygonGroup may have the first and last points the same
         if (node1 != node2)
         {
-          if ((node1[Y] <= y && node2[Y] > y) || (node2[Y] < y && node1[Y] >= y))
+          if ((node1[Y] < y && node2[Y] >= y) || (node2[Y] < y && node1[Y] >= y))
           {
             if (node1[X] + ((y - node1[Y]) / (node2[Y] - node1[Y])) * (node2[X] - node1[X]) < x)
             {

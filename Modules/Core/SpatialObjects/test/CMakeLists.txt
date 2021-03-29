@@ -22,6 +22,7 @@ itkSpatialObjectDuplicatorTest.cxx
 itkBoxSpatialObjectTest.cxx
 itkGaussianSpatialObjectTest.cxx
 itkPolygonSpatialObjectTest.cxx
+itkPolygonSpatialObjectIsInsideInObjectSpaceTest.cxx
 itkEllipseSpatialObjectTest.cxx
 itkMeshSpatialObjectTest.cxx
 itkArrowSpatialObjectTest.cxx
@@ -80,6 +81,14 @@ itk_add_test(NAME itkGaussianSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkGaussianSpatialObjectTest)
 itk_add_test(NAME itkPolygonSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkPolygonSpatialObjectTest)
+itk_add_test(NAME itkPolygonSpatialObjectIsInsideInObjectSpaceTest
+      COMMAND ITKSpatialObjectsTestDriver --compareIntensityTolerance 0
+    --compare DATA{Baseline/itkPolygonSpatialObjectIsInsideInObjectSpaceTest.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkPolygonSpatialObjectIsInsideInObjectSpaceTest.mha
+    itkPolygonSpatialObjectIsInsideInObjectSpaceTest
+      DATA{Input/PolygonContourPoints.csv}
+      DATA{Baseline/itkPolygonSpatialObjectIsInsideInObjectSpaceTest.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkPolygonSpatialObjectIsInsideInObjectSpaceTest.mha)
 itk_add_test(NAME itkEllipseSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkEllipseSpatialObjectTest)
 itk_add_test(NAME itkMeshSpatialObjectTest
