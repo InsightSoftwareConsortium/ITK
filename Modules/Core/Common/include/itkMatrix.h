@@ -194,6 +194,15 @@ public:
     m_Matrix.set_identity();
   }
 
+  /** Get an identity matrix. */
+  static Self
+  GetIdentity()
+  {
+    InternalMatrixType internalMatrix;
+    internalMatrix.set_identity();
+    return Self{ internalMatrix };
+  }
+
   /** Fill the matrix with a value. */
   inline void
   Fill(const T & value)
