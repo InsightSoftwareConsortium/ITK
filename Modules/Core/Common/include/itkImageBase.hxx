@@ -40,18 +40,6 @@ namespace itk
 {
 
 template <unsigned int VImageDimension>
-ImageBase<VImageDimension>::ImageBase()
-{
-  m_Spacing.Fill(1.0);
-  m_Origin.Fill(0.0);
-  m_Direction.SetIdentity();
-  m_InverseDirection.SetIdentity();
-  m_IndexToPhysicalPoint.SetIdentity();
-  m_PhysicalPointToIndex.SetIdentity();
-}
-
-
-template <unsigned int VImageDimension>
 void
 ImageBase<VImageDimension>::Allocate(bool)
 {}
