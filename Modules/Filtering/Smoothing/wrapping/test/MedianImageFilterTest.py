@@ -67,6 +67,9 @@ assert 'return' in type_hints
 result_hints = type_hints['return']
 assert itk.ImageBase in get_args(args_hints)
 
+# Check for process_object attribute pointing to the associated class
+assert itk.median_image_filter.process_object is itk.MedianImageFilter
+
 
 # Test that `__call__()` inside itkTemplate is deprecated. Replaced
 # by snake_case functions
