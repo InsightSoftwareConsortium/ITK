@@ -14,14 +14,14 @@
         itksize = vector_container.Size()
         container_type = itk.template(vector_container)
         if isinstance(container_type[1][1], type):
-            element_type = itk.template(container_type[1][1])
-            dimension = element_type[1][1]
+            container_element_type = itk.template(container_type[1][1])
+            dimension = container_element_type[1][1]
             shape   = (itksize, dimension)
         else:
             shape   = (itksize,)
 
-        pixelType     = "@PixelType@"
-        numpydatatype = _get_numpy_pixelid(pixelType)
+        element_type     = "@ElementType@"
+        numpydatatype = _get_numpy_pixelid(element_type)
         memview       = itkPyVectorContainer@PyVectorContainerTypes@._array_view_from_vector_container(vector_container)
         ndarrview  = np.asarray(memview).view(dtype = numpydatatype).reshape(shape).view(np.ndarray)
 
