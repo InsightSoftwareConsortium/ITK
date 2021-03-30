@@ -212,41 +212,43 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
   set(${c_optimization_flags_var} "" PARENT_SCOPE)
   set(${cxx_optimization_flags_var} "" PARENT_SCOPE)
 
-  if(MSVC)
-    check_avx_flags(InstructionSetOptimizationFlags)
-    if("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
-       list(APPEND InstructionSetOptimizationFlags
-            /arch:SSE /arch:SSE2)
-    endif()
-  elseif(NOT EMSCRIPTEN)
-    if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
-      set(USING_INTEL_ICC_COMPILER TRUE)
-    endif()
-    if (${CMAKE_CXX_COMPILER} MATCHES "icpc.*$")
-      set(USING_INTEL_ICC_COMPILER TRUE)
-    endif()
-    if(USING_INTEL_ICC_COMPILER)
-      set(InstructionSetOptimizationFlags "")
-    else()
-      set(InstructionSetOptimizationFlags "")
-    endif ()
+  if("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "(x86_64|AMD64)")
+    if(MSVC)
+      check_avx_flags(InstructionSetOptimizationFlags)
+      if("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
+         list(APPEND InstructionSetOptimizationFlags
+              /arch:SSE /arch:SSE2)
+      endif()
+    elseif(NOT EMSCRIPTEN)
+      if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
+        set(USING_INTEL_ICC_COMPILER TRUE)
+      endif()
+      if (${CMAKE_CXX_COMPILER} MATCHES "icpc.*$")
+        set(USING_INTEL_ICC_COMPILER TRUE)
+      endif()
+      if(USING_INTEL_ICC_COMPILER)
+        set(InstructionSetOptimizationFlags "")
+      else()
+        set(InstructionSetOptimizationFlags "")
+      endif ()
 
-    # Check this list on C compiler only
-    set(c_flags "")
+      # Check this list on C compiler only
+      set(c_flags "")
 
-    # Check this list on C++ compiler only
-    set(cxx_flags "")
+      # Check this list on C++ compiler only
+      set(cxx_flags "")
 
-    # Check this list on both C and C++ compilers
-    set(InstructionSetOptimizationFlags
-       # https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
-       # NOTE the corei7 release date was 2008
-       #-mtune=native # Tune the code for the computer used compile ITK, but allow running on generic cpu archetectures
-       -mtune=generic # for reproducible results https://github.com/InsightSoftwareConsortium/ITK/issues/1939
-       -march=corei7 # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
-       )
+      # Check this list on both C and C++ compilers
+      set(InstructionSetOptimizationFlags
+         # https://gcc.gnu.org/onlinedocs/gcc-4.8.0/gcc/i386-and-x86_002d64-Options.html
+         # NOTE the corei7 release date was 2008
+         #-mtune=native # Tune the code for the computer used compile ITK, but allow running on generic cpu archetectures
+         -mtune=generic # for reproducible results https://github.com/InsightSoftwareConsortium/ITK/issues/1939
+         -march=corei7 # Use ABI settings to support corei7 (circa 2008 ABI feature sets, core-avx circa 2013)
+         )
+    endif()
+    set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
   endif()
-  set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
 
   check_c_compiler_flags(    CMAKE_C_WARNING_FLAGS ${c_and_cxx_flags} ${c_flags})
   check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS ${c_and_cxx_flags} ${cxx_flags})
