@@ -786,7 +786,7 @@ public:
   SetNumberOfComponentsPerPixel(unsigned int);
 
 protected:
-  ImageBase();
+  ImageBase() = default;
   ~ImageBase() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -810,15 +810,15 @@ protected:
   /** Origin, spacing, and direction in physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
    * inner loop calculations. */
-  SpacingType   m_Spacing;
-  PointType     m_Origin;
-  DirectionType m_Direction;
-  DirectionType m_InverseDirection;
+  SpacingType   m_Spacing{ 1.0 };
+  PointType     m_Origin{};
+  DirectionType m_Direction{ DirectionType::GetIdentity() };
+  DirectionType m_InverseDirection{ DirectionType::GetIdentity() };
 
   /** Matrices intended to help with the conversion of Index coordinates
    *  to PhysicalPoint coordinates */
-  DirectionType m_IndexToPhysicalPoint;
-  DirectionType m_PhysicalPointToIndex;
+  DirectionType m_IndexToPhysicalPoint{ DirectionType::GetIdentity() };
+  DirectionType m_PhysicalPointToIndex{ DirectionType::GetIdentity() };
 
   /** Restores the buffered region to it's default state
    *  This method does not call Modify because Initialization is

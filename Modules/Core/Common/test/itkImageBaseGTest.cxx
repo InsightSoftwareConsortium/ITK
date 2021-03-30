@@ -98,6 +98,27 @@ Expect_by_default_Transform_result_equals_default_constructed_value(const typena
                                    CovariantVectorType());
 }
 
+
+template <unsigned int VImageDimension>
+void
+Check_New_ImageBase()
+{
+  const auto imageBase = itk::ImageBase<VImageDimension>::New();
+  ASSERT_NE(imageBase, nullptr);
+
+  for (const auto spacingValue : imageBase->GetSpacing())
+  {
+    EXPECT_FLOAT_EQ(spacingValue, 1.0);
+  }
+  for (const auto originValue : imageBase->GetOrigin())
+  {
+    EXPECT_FLOAT_EQ(originValue, 0.0);
+  }
+
+  EXPECT_TRUE(imageBase->GetDirection().GetVnlMatrix().is_identity());
+  EXPECT_TRUE(imageBase->GetInverseDirection().GetVnlMatrix().is_identity());
+}
+
 } // end namespace
 
 
@@ -111,4 +132,10 @@ TEST(ImageBase, ByDefaultTransformResultEqualsDefaultConstructedValue)
   // Test both 2D and 3D, for different pixel types and sizes:
   Expect_by_default_Transform_result_equals_default_constructed_value<itk::Image<double>>({ { 2, 2 } });
   Expect_by_default_Transform_result_equals_default_constructed_value<itk::Image<unsigned char, 3>>({ { 2, 3, 4 } });
+}
+
+TEST(ImageBase, New)
+{
+  Check_New_ImageBase<2>();
+  Check_New_ImageBase<3>();
 }
