@@ -345,7 +345,6 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
     else:
         PixelType = _get_itk_pixelid(arr)
         Dimension = arr.ndim
-        ImageType = itk.Image[PixelType, Dimension]
         if is_vector:
             Dimension = arr.ndim - 1
             if arr.flags["C_CONTIGUOUS"]:
@@ -361,6 +360,8 @@ def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
                     ImageType = itk.VectorImage[PixelType, Dimension]
             else:
                 ImageType = itk.VectorImage[PixelType, Dimension]
+        else:
+            ImageType = itk.Image[PixelType, Dimension]
     keys = [k for k in itk.PyBuffer.keys() if k[0] == ImageType]
     if len(keys) == 0:
         raise RuntimeError(
