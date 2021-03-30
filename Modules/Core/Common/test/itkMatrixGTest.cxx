@@ -38,6 +38,14 @@ Expect_Matrix_default_constructor_zero_initializes_all_elements()
     }
   }
 }
+
+template <typename TMatrix>
+void
+Expect_GetIdentity_returns_identity_matrix()
+{
+  EXPECT_TRUE(TMatrix::GetIdentity().GetVnlMatrix().is_identity());
+}
+
 } // namespace
 
 
@@ -51,4 +59,12 @@ TEST(Matrix, DefaultConstructorZeroInitializesAllElements)
   Expect_Matrix_default_constructor_zero_initializes_all_elements<itk::Matrix<float>>();
   Expect_Matrix_default_constructor_zero_initializes_all_elements<itk::Matrix<double>>();
   Expect_Matrix_default_constructor_zero_initializes_all_elements<itk::Matrix<double, 2, 2>>();
+}
+
+
+TEST(Matrix, GetIdentity)
+{
+  Expect_GetIdentity_returns_identity_matrix<itk::Matrix<float>>();
+  Expect_GetIdentity_returns_identity_matrix<itk::Matrix<double>>();
+  Expect_GetIdentity_returns_identity_matrix<itk::Matrix<double, 2, 2>>();
 }
