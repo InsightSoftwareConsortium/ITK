@@ -11,7 +11,7 @@
 # continue to generate policy warnings "CMake Warning (dev)...Policy CMP0XXX is not set:"
 #
 set(ITK_OLDEST_VALIDATED_POLICIES_VERSION "3.10.2")
-set(ITK_NEWEST_VALIDATED_POLICIES_VERSION "3.14.0")
+set(ITK_NEWEST_VALIDATED_POLICIES_VERSION "3.19.7")
 cmake_minimum_required(VERSION ${ITK_OLDEST_VALIDATED_POLICIES_VERSION} FATAL_ERROR)
 if("${CMAKE_VERSION}" VERSION_LESS_EQUAL "${ITK_NEWEST_VALIDATED_POLICIES_VERSION}")
   #Set and use the newest available cmake policies that are validated to work
@@ -29,7 +29,7 @@ foreach(pnew "") # Currently Empty
     cmake_policy(SET ${pnew} NEW)
   endif()
 endforeach()
-foreach(pold "") # Currently Empty
+foreach(pold "CMP0120") # CMP0120 will require non-trivial effort to address
   if(POLICY ${pold})
     cmake_policy(SET ${pold} OLD)
   endif()
