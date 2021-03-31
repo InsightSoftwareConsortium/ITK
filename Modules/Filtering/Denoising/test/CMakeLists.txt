@@ -16,6 +16,8 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterDefaultTest
       2)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTest0
       COMMAND ITKDenoisingTestDriver
+    --compareRadiusTolerance 2
+    --compareIntensityTolerance 15
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTest0.mha}
               ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTest0.mha
     itkPatchBasedDenoisingImageFilterTest
@@ -24,6 +26,8 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTest0
       2 1 14.093142951003070 2 2 200)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestGaussian
       COMMAND ITKDenoisingTestDriver
+    --compareRadiusTolerance 2
+    --compareIntensityTolerance 15
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTestGaussian.mha}
               ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestGaussian.mha
     itkPatchBasedDenoisingImageFilterTest
@@ -32,6 +36,8 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestGaussian
       2 1 14.418708309529121 2 2 200 0 1 GAUSSIAN 0.1)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestRician
       COMMAND ITKDenoisingTestDriver
+    --compareRadiusTolerance 2
+    --compareIntensityTolerance 15
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTestRician.mha}
               ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestRician.mha
     itkPatchBasedDenoisingImageFilterTest
@@ -40,6 +46,8 @@ itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestRician
       2 1 12.283962106667094 2 2 200 0 1 RICIAN 0.1)
 itk_add_test(NAME itkPatchBasedDenoisingImageFilterTestPoisson
       COMMAND ITKDenoisingTestDriver
+    --compareRadiusTolerance 3
+    --compareIntensityTolerance 8
     --compare DATA{Baseline/PatchBasedDenoisingImageFilterTestPoisson.mha}
               ${ITK_TEST_OUTPUT_DIR}/PatchBasedDenoisingImageFilterTestPoisson.mha
     itkPatchBasedDenoisingImageFilterTest
