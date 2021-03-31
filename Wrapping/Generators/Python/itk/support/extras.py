@@ -20,7 +20,8 @@ import re
 from typing import Optional, Union, Dict, Any, List, Tuple, Sequence, TYPE_CHECKING
 from sys import stderr as system_error_stream
 
-import numpy
+import numpy as np
+import numpy.typing as npt
 import warnings
 from sys import stderr as system_error_stream
 import os
@@ -246,31 +247,31 @@ def _get_itk_pixelid(numpy_array_type):
 
     # This is a Mapping from numpy array types to itk pixel types.
     _np_itk = {
-        numpy.uint8: itk.UC,
-        numpy.uint16: itk.US,
-        numpy.uint32: itk.UI,
-        numpy.uint64: itk.UL,
-        numpy.int8: itk.SC,
-        numpy.int16: itk.SS,
-        numpy.int32: itk.SI,
-        numpy.int64: itk.SL,
-        numpy.float32: itk.F,
-        numpy.float64: itk.D,
-        numpy.complex64: itk.complex[itk.F],
-        numpy.complex128: itk.complex[itk.D],
+        np.uint8: itk.UC,
+        np.uint16: itk.US,
+        np.uint32: itk.UI,
+        np.uint64: itk.UL,
+        np.int8: itk.SC,
+        np.int16: itk.SS,
+        np.int32: itk.SI,
+        np.int64: itk.SL,
+        np.float32: itk.F,
+        np.float64: itk.D,
+        np.complex64: itk.complex[itk.F],
+        np.complex128: itk.complex[itk.D],
     }
     try:
         return _np_itk[numpy_array_type.dtype.type]
     except KeyError as e:
         for key in _np_itk:
-            if numpy.issubdtype(numpy_array_type.dtype.type, key):
+            if np.issubdtype(numpy_array_type.dtype.type, key):
                 return _np_itk[key]
             raise e
 
 
 def _GetArrayFromImage(
     image_or_filter, function_name: str, keep_axes: bool, update: bool, ttype
-):
+)-> np.ndarray:
     """Get an Array with the content of the image buffer"""
     # Finds the image type
     import itk
@@ -298,7 +299,7 @@ def GetArrayFromImage(
     keep_axes: bool = False,
     update: bool = True,
     ttype=None,
-):
+) -> np.ndarray:
     """Get an array with the content of the image buffer"""
     return _GetArrayFromImage(
         image_or_filter, "GetArrayFromImage", keep_axes, update, ttype
@@ -313,7 +314,7 @@ def GetArrayViewFromImage(
     keep_axes: bool = False,
     update: bool = True,
     ttype=None,
-):
+) -> np.ndarray:
     """Get an array view with the content of the image buffer"""
     return _GetArrayFromImage(
         image_or_filter, "GetArrayViewFromImage", keep_axes, update, ttype
@@ -323,9 +324,16 @@ def GetArrayViewFromImage(
 array_view_from_image = GetArrayViewFromImage
 
 
-def _GetImageFromArray(arr, function_name: str, is_vector: bool, ttype):
+def _GetImageFromArray(
+  arr:npt.ArrayLike,
+  function_name: str,
+  is_vector: bool, ttype):
     """Get an ITK image from a Python array."""
     import itk
+
+    # Verify inputs
+    if not isinstance(arr, np.ndarray):
+        arr = np.asarray(arr)
 
     if ttype is not None:
         if is_vector:
@@ -373,7 +381,10 @@ Please specify an output type via the 'ttype' keyword parameter."""
     return templatedFunction(arr, is_vector)
 
 
-def GetImageFromArray(arr, is_vector: bool = False, ttype=None):
+def GetImageFromArray(
+  arr:npt.ArrayLike,
+  is_vector: bool = False,
+  ttype=None) -> "itkt.ImageBase":
     """Get an ITK image from a Python array."""
     return _GetImageFromArray(arr, "GetImageFromArray", is_vector, ttype)
 
@@ -381,7 +392,10 @@ def GetImageFromArray(arr, is_vector: bool = False, ttype=None):
 image_from_array = GetImageFromArray
 
 
-def GetImageViewFromArray(arr, is_vector: bool = False, ttype=None):
+def GetImageViewFromArray(
+  arr:npt.ArrayLike,
+  is_vector: bool = False,
+  ttype=None) -> "itkt.ImageBase":
     """Get an ITK image view from a Python array."""
     return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector, ttype)
 
@@ -389,7 +403,9 @@ def GetImageViewFromArray(arr, is_vector: bool = False, ttype=None):
 image_view_from_array = GetImageViewFromArray
 
 
-def array_from_vector_container(container, ttype=None):
+def array_from_vector_container(
+  container:"itkt.VectorContainer",
+  ttype=None) -> np.ndarray:
     """Get an Array with the content of the vector container"""
     import itk
 
@@ -413,7 +429,9 @@ def array_from_vector_container(container, ttype=None):
     return itk.PyVectorContainer[keys[0]].array_from_vector_container(container)
 
 
-def array_view_from_vector_container(container, ttype=None):
+def array_view_from_vector_container(
+  container:"itkt.VectorContainer",
+  ttype=None) -> np.ndarray:
     """Get an Array view with the content of the vector container"""
     import itk
 
@@ -437,9 +455,15 @@ def array_view_from_vector_container(container, ttype=None):
     return itk.PyVectorContainer[keys[0]].array_view_from_vector_container(container)
 
 
-def vector_container_from_array(arr, ttype=None):
+def vector_container_from_array(
+  arr:npt.ArrayLike,
+  ttype=None) -> "itkt.VectorContainer":
     """Get a vector container from a Python array"""
     import itk
+
+    # Verify inputs
+    if not isinstance(arr, np.ndarray):
+        arr = np.asarray(arr)
 
     # Return VectorContainer with 64-bit index type
     IndexType = itk.ULL
@@ -461,7 +485,7 @@ def vector_container_from_array(arr, ttype=None):
     return itk.PyVectorContainer[keys[0]].vector_container_from_array(arr)
 
 
-def _GetArrayFromVnlObject(vnl_object, function_name: str, ttype):
+def _GetArrayFromVnlObject(vnl_object, function_name: str, ttype) -> np.ndarray:
     """Get an array with the content of vnl_object"""
     # Finds the vnl object type
     import itk
@@ -483,7 +507,7 @@ def _GetArrayFromVnlObject(vnl_object, function_name: str, ttype):
     return templatedFunction(vnl_object)
 
 
-def GetArrayFromVnlVector(vnl_vector, ttype=None):
+def GetArrayFromVnlVector(vnl_vector, ttype=None) -> np.ndarray:
     """Get an array with the content of vnl_vector"""
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayFromVnlVector", ttype)
 
@@ -491,7 +515,7 @@ def GetArrayFromVnlVector(vnl_vector, ttype=None):
 array_from_vnl_vector = GetArrayFromVnlVector
 
 
-def GetArrayViewFromVnlVector(vnl_vector, ttype=None):
+def GetArrayViewFromVnlVector(vnl_vector, ttype=None) -> np.ndarray:
     """Get an array view of vnl_vector"""
     return _GetArrayFromVnlObject(vnl_vector, "GetArrayViewFromVnlVector", ttype)
 
@@ -499,7 +523,7 @@ def GetArrayViewFromVnlVector(vnl_vector, ttype=None):
 array_view_from_vnl_vector = GetArrayFromVnlVector
 
 
-def GetArrayFromVnlMatrix(vnl_matrix, ttype=None):
+def GetArrayFromVnlMatrix(vnl_matrix, ttype=None) -> np.ndarray:
     """Get an array with the content of vnl_matrix"""
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayFromVnlMatrix", ttype)
 
@@ -507,7 +531,7 @@ def GetArrayFromVnlMatrix(vnl_matrix, ttype=None):
 array_from_vnl_matrix = GetArrayFromVnlMatrix
 
 
-def GetArrayViewFromVnlMatrix(vnl_matrix, ttype=None):
+def GetArrayViewFromVnlMatrix(vnl_matrix, ttype=None) -> np.ndarray:
     """Get an array view of vnl_matrix"""
     return _GetArrayFromVnlObject(vnl_matrix, "GetArrayViewFromVnlMatrix", ttype)
 
@@ -515,9 +539,13 @@ def GetArrayViewFromVnlMatrix(vnl_matrix, ttype=None):
 array_view_from_vnl_matrix = GetArrayViewFromVnlMatrix
 
 
-def _GetVnlObjectFromArray(arr, function_name: str, ttype):
+def _GetVnlObjectFromArray(arr : npt.ArrayLike, function_name: str, ttype):
     """Get a vnl object from a Python array."""
     import itk
+
+    # Verify inputs
+    if not isinstance(arr, np.ndarray):
+        arr = np.asarray(arr)
 
     if ttype is not None:
         if isinstance(ttype, (tuple, list)):
@@ -535,7 +563,9 @@ def _GetVnlObjectFromArray(arr, function_name: str, ttype):
     return templatedFunction(arr)
 
 
-def GetVnlVectorFromArray(arr, ttype=None):
+def GetVnlVectorFromArray(
+  arr:npt.ArrayLike,
+  ttype=None):
     """Get a vnl vector from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray", ttype)
 
@@ -543,7 +573,9 @@ def GetVnlVectorFromArray(arr, ttype=None):
 vnl_vector_from_array = GetVnlVectorFromArray
 
 
-def GetVnlMatrixFromArray(arr, ttype=None):
+def GetVnlMatrixFromArray(
+  arr:npt.ArrayLike,
+  ttype=None):
     """Get a vnl matrix from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray", ttype)
 
@@ -551,14 +583,14 @@ def GetVnlMatrixFromArray(arr, ttype=None):
 vnl_matrix_from_array = GetVnlMatrixFromArray
 
 
-def GetArrayFromMatrix(itk_matrix):
+def GetArrayFromMatrix(itk_matrix) -> np.ndarray:
     return GetArrayFromVnlMatrix(itk_matrix.GetVnlMatrix().as_matrix())
 
 
 array_from_matrix = GetArrayFromMatrix
 
 
-def GetMatrixFromArray(arr):
+def GetMatrixFromArray(arr : npt.ArrayLike) -> "itkt.Matrix":
     import itk
 
     vnl_matrix = GetVnlMatrixFromArray(arr)

@@ -231,6 +231,9 @@ Transform = "itk.Transform"
 
 ImageRegion = "itk.ImageRegion"
 
+VectorContainer = "itk.VectorContainer"
+Matrix = "itk.Matrix"
+
 # Return types for the functional interfaces to ProcessObject's.
 # When there is a single indexed output, it is returned directly.
 # When there are multiple indexed outputs, a tuple of the indexed outputs is
