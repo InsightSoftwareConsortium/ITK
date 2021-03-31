@@ -26,7 +26,10 @@ from sys import argv
 import warnings
 from typing import Sequence, TypeVar, get_type_hints, get_args, get_origin, Union
 
-import numpy.typing as npt
+try:
+    from numpy.typing import ArrayLike
+except ImportError:
+    from numpy import ndarray as ArrayLike
 
 input_filename = argv[1]
 output_filename = argv[2]

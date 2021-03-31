@@ -21,7 +21,10 @@ from typing import Optional, Union, Dict, Any, List, Tuple, Sequence, TYPE_CHECK
 from sys import stderr as system_error_stream
 
 import numpy as np
-import numpy.typing as npt
+try:
+    from numpy.typing import ArrayLike
+except ImportError:
+    from numpy import ndarray as ArrayLike
 import warnings
 from sys import stderr as system_error_stream
 import os
@@ -325,7 +328,7 @@ array_view_from_image = GetArrayViewFromImage
 
 
 def _GetImageFromArray(
-  arr:npt.ArrayLike,
+  arr:ArrayLike,
   function_name: str,
   is_vector: bool, ttype):
     """Get an ITK image from a Python array."""
@@ -382,7 +385,7 @@ Please specify an output type via the 'ttype' keyword parameter."""
 
 
 def GetImageFromArray(
-  arr:npt.ArrayLike,
+  arr:ArrayLike,
   is_vector: bool = False,
   ttype=None) -> "itkt.ImageBase":
     """Get an ITK image from a Python array."""
@@ -393,7 +396,7 @@ image_from_array = GetImageFromArray
 
 
 def GetImageViewFromArray(
-  arr:npt.ArrayLike,
+  arr:ArrayLike,
   is_vector: bool = False,
   ttype=None) -> "itkt.ImageBase":
     """Get an ITK image view from a Python array."""
@@ -456,7 +459,7 @@ def array_view_from_vector_container(
 
 
 def vector_container_from_array(
-  arr:npt.ArrayLike,
+  arr:ArrayLike,
   ttype=None) -> "itkt.VectorContainer":
     """Get a vector container from a Python array"""
     import itk
@@ -539,7 +542,7 @@ def GetArrayViewFromVnlMatrix(vnl_matrix, ttype=None) -> np.ndarray:
 array_view_from_vnl_matrix = GetArrayViewFromVnlMatrix
 
 
-def _GetVnlObjectFromArray(arr : npt.ArrayLike, function_name: str, ttype):
+def _GetVnlObjectFromArray(arr : ArrayLike, function_name: str, ttype):
     """Get a vnl object from a Python array."""
     import itk
 
@@ -564,7 +567,7 @@ def _GetVnlObjectFromArray(arr : npt.ArrayLike, function_name: str, ttype):
 
 
 def GetVnlVectorFromArray(
-  arr:npt.ArrayLike,
+  arr:ArrayLike,
   ttype=None):
     """Get a vnl vector from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray", ttype)
@@ -574,7 +577,7 @@ vnl_vector_from_array = GetVnlVectorFromArray
 
 
 def GetVnlMatrixFromArray(
-  arr:npt.ArrayLike,
+  arr:ArrayLike,
   ttype=None):
     """Get a vnl matrix from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray", ttype)
@@ -590,7 +593,7 @@ def GetArrayFromMatrix(itk_matrix) -> np.ndarray:
 array_from_matrix = GetArrayFromMatrix
 
 
-def GetMatrixFromArray(arr : npt.ArrayLike) -> "itkt.Matrix":
+def GetMatrixFromArray(arr : ArrayLike) -> "itkt.Matrix":
     import itk
 
     vnl_matrix = GetVnlMatrixFromArray(arr)

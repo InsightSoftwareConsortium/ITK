@@ -17,7 +17,10 @@
 # ==========================================================================*/
 
 from typing import Union, Optional, Tuple, TYPE_CHECKING
-import numpy.typing as npt
+try:
+    from numpy.typing import ArrayLike
+except ImportError:
+    from numpy import ndarray as ArrayLike
 
 _HAVE_XARRAY = False
 try:
@@ -203,13 +206,13 @@ ImageSource = "itk.ImageSource"
 ImageOrImageSource = Union[ImageBase, ImageSource]
 # Can be coerced into an itk.ImageBase
 if _HAVE_XARRAY and _HAVE_TORCH:
-    ImageLike = Union[ImageBase, npt.ArrayLike, xr.DataArray, torch.Tensor]
+    ImageLike = Union[ImageBase, ArrayLike, xr.DataArray, torch.Tensor]
 elif _HAVE_XARRAY:
-    ImageLike = Union[ImageBase, npt.ArrayLike, xr.DataArray]
+    ImageLike = Union[ImageBase, ArrayLike, xr.DataArray]
 elif _HAVE_TORCH:
-    ImageLike = Union[ImageBase, npt.ArrayLike, torch.Tensor]
+    ImageLike = Union[ImageBase, ArrayLike, torch.Tensor]
 else:
-    ImageLike = Union[ImageBase, npt.ArrayLike]
+    ImageLike = Union[ImageBase, ArrayLike]
 
 ImageIOBase = "itk.ImageIOBase"
 
