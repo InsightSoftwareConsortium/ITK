@@ -41,9 +41,15 @@ Expect_Matrix_default_constructor_zero_initializes_all_elements()
 } // namespace
 
 
+// GCC version 4 does not yet support C++11 `std::is_trivially_copyable`, as
+// GCC 4.8.5 produced an error message on an attempt to build ITK 5 from the
+// master branch (CentOS Coverage, 2021-03-30), saying:
+// > error: 'is_trivially_copyable' is not a member of 'std'
+#if (!defined(__GNUC__)) || (__GNUC__ > 4)
 static_assert(std::is_trivially_copyable<itk::Matrix<float>>() && std::is_trivially_copyable<itk::Matrix<double>>() &&
                 std::is_trivially_copyable<itk::Matrix<double, 2, 2>>(),
               "Matrix classes of built-in element types should be trivially copyable!");
+#endif
 
 
 TEST(Matrix, DefaultConstructorZeroInitializesAllElements)
