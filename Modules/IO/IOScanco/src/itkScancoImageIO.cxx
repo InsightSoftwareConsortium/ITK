@@ -227,25 +227,32 @@ ScancoImageIO::EncodeDate(void * target)
 bool
 ScancoImageIO::CanReadFile(const char * filename)
 {
-  std::ifstream infile;
-  this->OpenFileForReading(infile, filename);
-
-  bool canRead = false;
-  if (infile.good())
+  try
   {
-    // header is a 512 byte block
-    char buffer[512];
-    infile.read(buffer, 512);
-    if (!infile.bad())
+    std::ifstream infile;
+    this->OpenFileForReading(infile, filename);
+
+    bool canRead = false;
+    if (infile.good())
     {
-      int fileType = ScancoImageIO::CheckVersion(buffer);
-      canRead = (fileType > 0);
+      // header is a 512 byte block
+      char buffer[512];
+      infile.read(buffer, 512);
+      if (!infile.bad())
+      {
+        int fileType = ScancoImageIO::CheckVersion(buffer);
+        canRead = (fileType > 0);
+      }
     }
+
+    infile.close();
+
+    return canRead;
   }
-
-  infile.close();
-
-  return canRead;
+  catch (...) // file cannot be opened, access denied etc.
+  {
+    return false;
+  }
 }
 
 
