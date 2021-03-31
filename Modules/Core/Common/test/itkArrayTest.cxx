@@ -21,9 +21,6 @@
 #include "itkArray.h"
 #include "itkNumericTraits.h"
 
-// Explicit instantiation to make sure all methods are compiled.
-template class itk::Array<float>;
-
 int
 itkArrayTest(int, char *[])
 {
