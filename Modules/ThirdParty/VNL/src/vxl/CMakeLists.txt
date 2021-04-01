@@ -67,6 +67,11 @@ foreach(p
   endif()
 endforeach()
 
+# Temporary fix for ITK 5.2 release.
+if(POLICY CMP0120) #: The WriteCompilerDetectionHeader module is removed.
+  cmake_policy(SET CMP0120 OLD)
+endif()
+
 project(VXL #Project name must be all caps to have properly generated VXL_VERSION_* variables
     VERSION 3.1.0.0 # defines #MAJOR,MINOR,PATCH,TWEAK}
     DESCRIPTION "A multi-platform collection of C++ software libraries for Computer Vision and Image Understanding."
