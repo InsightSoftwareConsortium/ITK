@@ -137,6 +137,11 @@ public:
     : BaseArray(r)
   {}
 
+  /** Explicit constructor for std::array. */
+  explicit Vector(const std::array<ValueType, NVectorDimension> & stdArray)
+    : BaseArray(stdArray)
+  {}
+
   /** Pass-through assignment operator for the Array base class. */
   template <typename TVectorValueType>
   Vector &
