@@ -63,21 +63,15 @@
       "name": "Krishnan, Karthik"
     },
     {
+      "affiliation": "Kitware Inc",
       "name": "Hoffman, Bill"
     },
     {
+      "affiliation": "University of Iowa",
       "name": "Williams, Kent"
     },
     {
       "name": "Budin, Francois"
-    },
-    {
-      "affiliation": "Universit\u00e9 de Sherbrooke",
-      "name": "Legarreta, Jon Haitz",
-      "orcid": "0000-0002-9661-1396"
-    },
-    {
-      "name": "Schroeder, Will"
     },
     {
       "affiliation": "Kitware Inc",
@@ -88,6 +82,15 @@
       "affiliation": "Kitware Inc, University of Siegen",
       "name": "Zuki\u0107, D\u017eenan",
       "orcid": "0000-0002-9546-9703"
+    },
+    {
+      "affiliation": "Universit\u00e9 de Sherbrooke",
+      "name": "Legarreta, Jon Haitz",
+      "orcid": "0000-0002-9661-1396"
+    },
+    {
+      "affiliation": "Kitware Inc",
+      "name": "Schroeder, Will"
     },
     {
       "name": "Liu, Xiaoxiao"
@@ -122,12 +125,13 @@
       "name": "Stauffer, Michael"
     },
     {
-      "name": "Enquobahrie, Andinet"
-    },
-    {
       "affiliation": "University of California Irvine, University of Virginia, Washington University in Saint Louis, Brigham Young University",
       "name": "Tustison, Nick",
       "orcid": "0000-0001-9418-5103"
+    },
+    {
+      "affiliation": "Kitware Inc",
+      "name": "Enquobahrie, Andinet"
     },
     {
       "name": "Pathak, Sayan"
@@ -142,9 +146,11 @@
       "name": "Shelton, Damion"
     },
     {
+      "affiliation": "Kitware Inc",
       "name": "Helba, Brian"
     },
     {
+      "affiliation": "Kitware Inc",
       "name": "Quammen, Cory"
     },
     {
@@ -160,17 +166,18 @@
       "name": "Jae Kang, Hyun"
     },
     {
+      "affiliation": "Kitware Inc",
       "name": "Turek, Matt"
     },
     {
       "name": "Tamburo, Robert"
     },
     {
-      "name": "Audette, Michel"
-    },
-    {
       "name": "Hernandez-Cerdan, Pablo",
       "orcid": "0000-0002-1689-3451"
+    },
+    {
+      "name": "Audette, Michel"
     },
     {
       "name": "Foskey, Mark"
@@ -185,6 +192,7 @@
       "name": "Kindlmann, Gordon"
     },
     {
+      "affiliation": "Kitware Inc",
       "name": "Cole, David"
     },
     {
@@ -193,6 +201,7 @@
       "orcid": "0000-0002-9688-8950"
     },
     {
+      "affiliation": "Kitware Inc",
       "name": "Turner, Wes"
     },
     {
@@ -211,6 +220,7 @@
       "name": "Galeotti, John"
     },
     {
+      "affiliation": "Kitware Inc",
       "name": "BARRE, Sebastien"
     },
     {
@@ -235,6 +245,12 @@
       "name": "Zhuge, Ying"
     },
     {
+      "affiliation": "Tufts University School of Medicine",
+      "name": "Vigneault, Davis",
+      "orcid": "0000-0003-3798-9812"
+    },
+    {
+      "affiliation": "Kitware Inc",
       "name": "Martin, Ken"
     },
     {
@@ -253,10 +269,20 @@
       "name": "Wyman, Brad"
     },
     {
+      "affiliation": "Kitware Inc",
+      "name": "Newberg, Lee",
+      "orcid": "0000-0003-4644-8874"
+    },
+    {
       "name": "Chang, Wilson"
     },
     {
       "name": "Guyon, Jean-Philippe"
+    },
+    {
+      "affiliation": "University of Lyon, CREATIS",
+      "name": "Rit, Simon",
+      "orcid": "0000-0003-2530-1013"
     },
     {
       "name": "Botha, Charl"
@@ -268,20 +294,10 @@
       "name": "maekclena"
     },
     {
-      "affiliation": "Tufts University School of Medicine",
-      "name": "Vigneault, Davis",
-      "orcid": "0000-0003-3798-9812"
-    },
-    {
       "name": "P. Awate, Suyash"
     },
     {
       "name": "Reynolds, Patrick"
-    },
-    {
-      "affiliation": "University of Lyon, CREATIS",
-      "name": "Rit, Simon",
-      "orcid": "0000-0003-2530-1013"
     },
     {
       "name": "Pincus, Zachary"
@@ -351,7 +367,8 @@
       "name": "C. Bigler, Don"
     },
     {
-      "name": "Straing, Marius"
+      "affiliation": "Kitware Inc",
+      "name": "Gerber, Samuel"
     },
     {
       "name": "Styner, Martin"
@@ -369,10 +386,10 @@
       "name": "Neundorf, Alexander"
     },
     {
-      "name": "Lamb, Peter"
+      "name": "Isakov, Mihail"
     },
     {
-      "name": "Gerber, Samuel"
+      "name": "Lamb, Peter"
     },
     {
       "name": "Williamson, Zach"
