@@ -250,7 +250,7 @@ TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestOnesImag
   EXPECT_NEAR(0.75, this->m_Parameters[2], 1e-6); // 0.25 * 3
 }
 
-TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestWithSpatialObjectImplementation)
+TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, DISABLED_TestWithSpatialObjectImplementation)
 {
   this->m_Filter->SetInput(this->m_MaskingEigenImage);
   this->m_Filter->SetMask(this->m_SpatialObject);
@@ -263,7 +263,7 @@ TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestWithSpat
   EXPECT_NEAR(212.132034356, this->m_Parameters[2], 1e-6); // sqrt(2) * 0.5 *  300
 }
 
-TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, TestWithSpatialObjectJournalArticle)
+TYPED_TEST(itkKrcahEigenToMeasureParameterEstimationFilterUnitTest, DISABLED_TestWithSpatialObjectJournalArticle)
 {
   this->m_Filter->SetInput(this->m_MaskingEigenImage);
   this->m_Filter->SetMask(this->m_SpatialObject);
