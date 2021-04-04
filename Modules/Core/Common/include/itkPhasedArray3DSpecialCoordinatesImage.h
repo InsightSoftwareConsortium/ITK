@@ -181,14 +181,10 @@ public:
   using PixelContainerPointer = typename PixelContainer::Pointer;
   using PixelContainerConstPointer = typename PixelContainer::ConstPointer;
 
-  /** \brief Get the continuous index from a physical point
-   *
-   * Returns true if the resulting index is within the image, false otherwise.
-   * \sa Transform */
-  template <typename TCoordRep, typename TIndexRep>
-  bool
-  TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, 3> &     point,
-                                          ContinuousIndex<TIndexRep, 3> & index) const
+  /** Returns the continuous index from a physical point */
+  template <typename TIndexRep, typename TCoordRep>
+  ContinuousIndex<TIndexRep, 3>
+  TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, 3> & point) const
   {
     const RegionType region = this->GetLargestPossibleRegion();
     const double     maxAzimuth = region.GetSize(0) - 1;
@@ -205,14 +201,57 @@ public:
     const TCoordRep radius = std::sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
 
     // Convert the "proper" angular coordinates into index format
+    ContinuousIndex<TIndexRep, 3> index;
     index[0] = static_cast<TCoordRep>((azimuth / m_AzimuthAngularSeparation) + (maxAzimuth / 2.0));
     index[1] = static_cast<TCoordRep>((elevation / m_ElevationAngularSeparation) + (maxElevation / 2.0));
     index[2] = static_cast<TCoordRep>(((radius - m_FirstSampleDistance) / m_RadiusSampleSize));
+    return index;
+  }
+
+  /** \brief Get the continuous index from a physical point
+   *
+   * Returns true if the resulting index is within the image, false otherwise.
+   * \sa Transform */
+  template <typename TCoordRep, typename TIndexRep>
+  bool
+  TransformPhysicalPointToContinuousIndex(const Point<TCoordRep, 3> &     point,
+                                          ContinuousIndex<TIndexRep, 3> & index) const
+  {
+    index = this->TransformPhysicalPointToContinuousIndex<TIndexRep>(point);
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside = region.IsInside(index);
+    const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
 
     return isInside;
+  }
+
+  /** Returns the index (discrete) from a physical point.
+   * Floating point index results are truncated to integers.
+   */
+  template <typename TCoordRep>
+  IndexType
+  TransformPhysicalPointToIndex(const Point<TCoordRep, 3> & point) const
+  {
+    const RegionType region = this->GetLargestPossibleRegion();
+    const double     maxAzimuth = region.GetSize(0) - 1;
+    const double     maxElevation = region.GetSize(1) - 1;
+
+    // Convert Cartesian coordinates into angular coordinates
+    TCoordRep azimuth = Math::pi_over_2;
+    TCoordRep elevation = Math::pi_over_2;
+    if (point[2] != 0.0)
+    {
+      azimuth = std::atan(point[0] / point[2]);
+      elevation = std::atan(point[1] / point[2]);
+    }
+    const TCoordRep radius = std::sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
+
+    // Convert the "proper" angular coordinates into index format
+    IndexType index;
+    index[0] = static_cast<IndexValueType>((azimuth / m_AzimuthAngularSeparation) + (maxAzimuth / 2.0));
+    index[1] = static_cast<IndexValueType>((elevation / m_ElevationAngularSeparation) + (maxElevation / 2.0));
+    index[2] = static_cast<IndexValueType>(((radius - m_FirstSampleDistance) / m_RadiusSampleSize));
+    return index;
   }
 
   /** Get the index (discrete) from a physical point.
@@ -223,27 +262,10 @@ public:
   bool
   TransformPhysicalPointToIndex(const Point<TCoordRep, 3> & point, IndexType & index) const
   {
-    const RegionType region = this->GetLargestPossibleRegion();
-    const double     maxAzimuth = region.GetSize(0) - 1;
-    const double     maxElevation = region.GetSize(1) - 1;
-
-    // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth = Math::pi_over_2;
-    TCoordRep elevation = Math::pi_over_2;
-    if (point[2] != 0.0)
-    {
-      azimuth = std::atan(point[0] / point[2]);
-      elevation = std::atan(point[1] / point[2]);
-    }
-    const TCoordRep radius = std::sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2]);
-
-    // Convert the "proper" angular coordinates into index format
-    index[0] = static_cast<IndexValueType>((azimuth / m_AzimuthAngularSeparation) + (maxAzimuth / 2.0));
-    index[1] = static_cast<IndexValueType>((elevation / m_ElevationAngularSeparation) + (maxElevation / 2.0));
-    index[2] = static_cast<IndexValueType>(((radius - m_FirstSampleDistance) / m_RadiusSampleSize));
+    index = this->TransformPhysicalPointToIndex(point);
 
     // Now, check to see if the index is within allowed bounds
-    const bool isInside = region.IsInside(index);
+    const bool isInside = this->GetLargestPossibleRegion().IsInside(index);
 
     return isInside;
   }
@@ -276,6 +298,16 @@ public:
     point[0] = static_cast<TCoordRep>(point[2] * tanOfAzimuth);
   }
 
+  /** Returns a physical point from a continuous index. */
+  template <typename TCoordRep, typename TIndexRep>
+  Point<TCoordRep, 3>
+  TransformContinuousIndexToPhysicalPoint(const ContinuousIndex<TIndexRep, 3> & index) const
+  {
+    Point<TCoordRep, 3> point;
+    this->TransformContinuousIndexToPhysicalPoint(index, point);
+    return point;
+  }
+
   /** Get a physical point (in the space which
    * the origin and spacing information comes from)
    * from a discrete index (in the index space)
@@ -302,6 +334,16 @@ public:
       static_cast<TCoordRep>(radius / std::sqrt(1.0 + tanOfAzimuth * tanOfAzimuth + tanOfElevation * tanOfElevation));
     point[1] = static_cast<TCoordRep>(point[2] * tanOfElevation);
     point[0] = static_cast<TCoordRep>(point[2] * tanOfAzimuth);
+  }
+
+  /** Returns a physical point from a discrete index. */
+  template <typename TCoordRep>
+  Point<TCoordRep, 3>
+  TransformIndexToPhysicalPoint(const IndexType & index) const
+  {
+    Point<TCoordRep, 3> point;
+    this->TransformIndexToPhysicalPoint(index, point);
+    return point;
   }
 
   /**  Set the number of radians between each azimuth unit.   */
