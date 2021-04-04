@@ -449,19 +449,13 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
-  // Define a few indices that will be used to translate from an input pixel
-  // to an output pixel
-  OutputPointType outputPoint; // Coordinates of current output pixel
-  InputPointType  inputPoint;  // Coordinates of current input pixel
-
   const OutputImageRegionType & largestPossibleRegion = outputPtr->GetLargestPossibleRegion();
 
-  using OutputType = typename InterpolatorType::OutputType;
+  const auto firstIndexValueOfLargestPossibleRegion = largestPossibleRegion.GetIndex(0);
+  const auto firstSizeValueOfLargestPossibleRegion = static_cast<double>(largestPossibleRegion.GetSize(0));
 
   // Cache information from the superclass
   PixelType defaultValue = this->GetDefaultPixelValue();
-
-  using OutputType = typename InterpolatorType::OutputType;
 
   // As we walk across a scan line in the output image, we trace
   // an oriented/scaled/translated line in the input image. Each scan
@@ -476,24 +470,22 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   // streaming, etc ).
   //
 
+  const auto transformIndex = [outputPtr, transformPtr, inputPtr](const IndexType & index) {
+    return inputPtr->template TransformPhysicalPointToContinuousIndex<TInterpolatorPrecisionType>(
+      transformPtr->TransformPoint(outputPtr->template TransformIndexToPhysicalPoint<double>(index)));
+  };
+
   while (!outIt.IsAtEnd())
   {
     // Determine the continuous index of the first and end pixel of output
     // scan line when mapped to the input coordinate frame.
 
     IndexType index = outIt.GetIndex();
-    index[0] = largestPossibleRegion.GetIndex(0);
+    index[0] = firstIndexValueOfLargestPossibleRegion;
 
-    ContinuousInputIndexType startIndex;
-    outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
-    inputPoint = transformPtr->TransformPoint(outputPoint);
-    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, startIndex);
-
-    ContinuousInputIndexType endIndex;
-    index[0] += largestPossibleRegion.GetSize(0);
-    outputPtr->TransformIndexToPhysicalPoint(index, outputPoint);
-    inputPoint = transformPtr->TransformPoint(outputPoint);
-    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, endIndex);
+    const ContinuousInputIndexType startIndex = transformIndex(index);
+    index[0] += firstSizeValueOfLargestPossibleRegion;
+    const auto vectorFromStartIndex = transformIndex(index) - startIndex;
 
     IndexValueType scanlineIndex = outIt.GetIndex()[0];
 
@@ -501,22 +493,20 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     while (!outIt.IsAtEndOfLine())
     {
 
-      // Perform linear interpolation between startIndex and endIndex
+      // Perform linear interpolation from startIndex, along vectorFromStartIndex
       const double alpha =
-        (scanlineIndex - largestPossibleRegion.GetIndex(0)) / (double)(largestPossibleRegion.GetSize(0));
+        (scanlineIndex - firstIndexValueOfLargestPossibleRegion) / firstSizeValueOfLargestPossibleRegion;
 
       ContinuousInputIndexType inputIndex(startIndex);
       for (unsigned int i = 0; i < InputImageDimension; ++i)
       {
-        inputIndex[i] += alpha * (endIndex[i] - startIndex[i]);
+        inputIndex[i] += alpha * vectorFromStartIndex[i];
       }
 
-      OutputType value;
       // Evaluate input at right position and copy to the output
       if (m_Interpolator->IsInsideBuffer(inputIndex))
       {
-        value = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
-        outIt.Set(Self::CastPixelWithBoundsChecking(value));
+        outIt.Set(Self::CastPixelWithBoundsChecking(m_Interpolator->EvaluateAtContinuousIndex(inputIndex)));
       }
       else
       {
@@ -526,8 +516,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
         }
         else
         {
-          value = m_Extrapolator->EvaluateAtContinuousIndex(inputIndex);
-          outIt.Set(Self::CastPixelWithBoundsChecking(value));
+          outIt.Set(Self::CastPixelWithBoundsChecking(m_Extrapolator->EvaluateAtContinuousIndex(inputIndex)));
         }
       }
 
