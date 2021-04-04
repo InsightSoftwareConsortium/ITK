@@ -70,6 +70,8 @@ __all__ = [
     "vector_container_from_array",
     "GetArrayFromVnlVector",
     "array_from_vnl_vector",
+    "GetVnlVectorFromArray",
+    "vnl_vector_from_array",
     "GetArrayViewFromVnlVector",
     "array_view_from_vnl_vector",
     "GetVnlMatrixFromArray",
