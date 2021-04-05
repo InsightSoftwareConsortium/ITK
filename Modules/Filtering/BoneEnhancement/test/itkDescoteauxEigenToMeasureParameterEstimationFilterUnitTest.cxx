@@ -228,7 +228,7 @@ TYPED_TEST(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, TestOne
   EXPECT_NEAR(0.17320508075, this->m_Parameters[2], 1e-6); // sqrt(3) * 0.1
 }
 
-TYPED_TEST(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, TestWithSpatialObject)
+TYPED_TEST(itkDescoteauxEigenToMeasureParameterEstimationFilterUnitTest, DISABLED_TestWithSpatialObject)
 {
   this->m_Filter->SetInput(this->m_MaskingEigenImage);
   this->m_Filter->SetMask(this->m_SpatialObject);
