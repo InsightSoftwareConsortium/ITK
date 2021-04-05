@@ -17,11 +17,12 @@
  *=========================================================================*/
 
 #include "itkMaximumAbsoluteValueImageFilter.h"
-#include "gtest/gtest.h"
+#include "itkTestingMacros.h"
 #include "itkImageRegionIterator.h"
 #include "itkTestingMacros.h"
 
-TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages)
+int
+itkMaximumAbsoluteValueImageFilterTest(int, char *[])
 {
   const unsigned int Dimension = 2;
   using PixelType = int;
@@ -29,16 +30,12 @@ TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages)
   using MaximumAbsoluteValueImageFilterType = itk::MaximumAbsoluteValueImageFilter<ImageType>;
   MaximumAbsoluteValueImageFilterType::Pointer maxAbsFilter = MaximumAbsoluteValueImageFilterType::New();
 
-  // if not wrapped in a lambda, produces error C2562: 'void' function returning a value
-  int basicMethods = [=]() -> int {
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
-    return EXIT_SUCCESS;
-  }();
-  ASSERT_EQ(basicMethods, EXIT_SUCCESS);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(maxAbsFilter, MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
 
   /** Create an image and run a basic test */
   ImageType::RegionType region;
   ImageType::IndexType  start;
+
   start[0] = 0;
   start[1] = 0;
 
@@ -57,7 +54,6 @@ TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages)
   image2->SetRegions(region);
   image2->Allocate();
 
-  /* Iterate over images and set */
   using IteratorType = itk::ImageRegionIterator<ImageType>;
 
   IteratorType it1(image1, region);
@@ -81,10 +77,9 @@ TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages)
     ++it2;
   }
 
-  /* Apply filter */
   maxAbsFilter->SetInput1(image1);
   maxAbsFilter->SetInput2(image2);
-  EXPECT_NO_THROW(maxAbsFilter->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(maxAbsFilter->Update());
   ImageType::Pointer outputImage = maxAbsFilter->GetOutput();
 
   IteratorType ot(outputImage, region);
@@ -94,12 +89,13 @@ TEST(itkMaximumAbsoluteValueImageFilterUnitTest, TakesAbsMaxOfSimpleImages)
   {
     if ((i % 2) == 0)
     {
-      ASSERT_EQ(ot.Get(), -2);
+      ITK_TEST_EXPECT_EQUAL(ot.Get(), -2);
     }
     else
     {
-      ASSERT_EQ(ot.Get(), 2);
+      ITK_TEST_EXPECT_EQUAL(ot.Get(), 2);
     }
     ++ot;
   }
+  return EXIT_SUCCESS;
 }
