@@ -4,6 +4,7 @@ set(MeshToPolyDataTests
   itkImageToPointSetFilterTest.cxx
   itkMeshToPolyDataFilterTest.cxx
   itkPolyDataTest.cxx
+  itkPolyDataToMeshFilterTest.cxx
   )
 
 CreateTestDriver(MeshToPolyData "${MeshToPolyData-Test_LIBRARIES}" "${MeshToPolyDataTests}")
@@ -26,3 +27,7 @@ itk_add_test(NAME itkImageToPointSetFilterTest
     DATA{Input/foot.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkImageToPointSetFilterTestOutput.vtk
   )
+
+itk_add_test(NAME itkPolyDataToMeshFilterTest
+    COMMAND MeshToPolyDataTestDriver
+    itkPolyDataToMeshFilterTest)
