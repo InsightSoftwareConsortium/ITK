@@ -1,6 +1,6 @@
-/* =========================================================================
+/*=========================================================================
  *
- *  Copyright Insight Software Consortium
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,10 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/* =========================================================================
- *  Created by Wei Lu on 10/14/10.
- *  Copyright 2010 The University of Iowa
- *=========================================================================*/
 
 #include "itkResampleInPlaceImageFilter.h"
 
@@ -27,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -38,69 +35,68 @@ Validate(double input, double desired, double tolerance)
 }
 
 int
-main(int argc, char * argv[])
+itkResampleInPlaceImageFilterTest(int argc, char * argv[])
 {
-  // Simple parameter check
   if (argc < 3)
   {
     std::cerr << "Wrong arguments!" << std::endl;
-    std::cerr << "Usage: ./" << argv[0] << " inputImage baselineImage outputImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage baselineImage outputImage"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
-  bool   result = false; // test result default = no failure
-  double tol = 1.e-3;    // tolerance
+  double tol = 1.e-3; // tolerance
 
-  // Image, filter, transform typedef
-  constexpr unsigned int LocalImageDimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = short;
 
-  using ImageType = itk::Image<PixelType, LocalImageDimension>;
+  using ImageType = itk::Image<PixelType, Dimension>;
   using ImagePointer = ImageType::Pointer;
   using ImagePointType = ImageType::PointType;
   using ImageDirectionType = ImageType::DirectionType;
   using ImageSpacingType = ImageType::SpacingType;
-
   using ImageConstIterator = itk::ImageRegionConstIterator<ImageType>;
-  using ReaderType = itk::ImageFileReader<ImageType>;
   using TransformType = itk::VersorRigid3DTransform<double>;
 
   using FilterType = itk::ResampleInPlaceImageFilter<ImageType, ImageType>;
 
   // Read in input test image
   ImagePointer inputImage;
-  {
-    ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(argv[1]);
-    try
-    {
-      reader->Update();
-    }
-    catch (itk::ExceptionObject & err)
-    {
-      std::cerr << " Error while reading image file(s) with ITK:\n " << err << std::endl;
-    }
-    inputImage = reader->GetOutput();
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(inputImage = itk::ReadImage<ImageType>(argv[1]));
 
   // Set up transforms
-  itk::Vector<double, 3> rotationAxis;
-  rotationAxis.Fill(0.);
-  rotationAxis[0] = 1.;
-  double                 rotationAngle = .5; // in rad
-  itk::Vector<double, 3> translation;
+  ImageType::PointType center;
+  center.Fill(0.0);
+  center[0] = 2.0; // In mm along X (RL-axis)
+  center[1] = 5.0; // In mm along Y (AP-axis)
+  center[2] = 7.0; // In mm along Z (IS-axis)
+
+  itk::Vector<double, Dimension> translation;
   translation.Fill(0.);
-  translation[1] = 300.; // in mm along P-axis
-  TransformType::Pointer transform = TransformType::New();
-  transform->SetIdentity();
+  translation[0] = 10.0; // In mm along X (RL-axis)
+  translation[1] = 15.0; // In mm along Y (AP-axis)
+  translation[2] = 20.0; // In mm along Z (IS-axis)
+
+  itk::Vector<double, Dimension> rotationAxis;
+  rotationAxis[0] = 0.1;
+  rotationAxis[1] = 0.2;
+  rotationAxis[2] = 0.7;
+
+  double rotationAngle = .5; // Radians
+
+  TransformType::Pointer transform = TransformType::New(); // Identity by default
+  transform->SetCenter(center);
+  transform->Translate(translation);
   transform->SetRotation(rotationAxis, rotationAngle);
-  transform->Translate(translation, true);
 
   // Set up the resample filter
   FilterType::Pointer filter = FilterType::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ResampleInPlaceImageFilter, ImageToImageFilter);
   filter->SetInputImage(inputImage);
+  ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInputImage());
   filter->SetRigidTransform(transform);
-  filter->Update();
+  ITK_TEST_SET_GET_VALUE(transform, filter->GetRigidTransform());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
   ImagePointer outputImage = filter->GetOutput();
 
   // Get image info
@@ -110,28 +106,18 @@ main(int argc, char * argv[])
 
   // Read in baseline image
   ImagePointer baselineImage = nullptr;
-  {
-    ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(argv[2]);
-    try
-    {
-      reader->Update();
-    }
-    catch (itk::ExceptionObject & err)
-    {
-      std::cerr << " Error while reading image file(s) with ITK:\n " << err << std::endl;
-    }
-    baselineImage = reader->GetOutput();
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(baselineImage = itk::ReadImage<ImageType>(argv[2]));
+
   ImagePointType     origin_d = baselineImage->GetOrigin();
   ImageDirectionType direction_d = baselineImage->GetDirection();
   ImageSpacingType   spacing_d = baselineImage->GetSpacing();
   // Image info validation
-  for (unsigned int i = 0; i < LocalImageDimension; ++i)
+  bool result = false; // test result default = no failure
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     result = (result || Validate(origin[i], origin_d[i], tol));
     result = (result || Validate(spacing[i], spacing_d[i], tol));
-    for (unsigned int j = 0; j < LocalImageDimension; ++j)
+    for (unsigned int j = 0; j < Dimension; ++j)
     {
       result = (result || Validate(direction(i, j), direction_d(i, j), tol));
     }
@@ -149,11 +135,7 @@ main(int argc, char * argv[])
     ++it2;
   }
 
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(argv[3]);
-  writer->SetInput(outputImage);
-  writer->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(outputImage, argv[3]));
 
   return result;
 }
