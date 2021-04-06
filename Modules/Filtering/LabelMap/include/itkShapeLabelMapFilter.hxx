@@ -326,7 +326,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   {
     principalMoments[i] = pm(i);
   }
-  MatrixType principalAxes = eigen.V.transpose();
+  MatrixType principalAxes(eigen.V.transpose());
 
   // Add a final reflection if needed for a proper rotation,
   // by multiplying the last row by the determinant

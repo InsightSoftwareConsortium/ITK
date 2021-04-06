@@ -218,8 +218,9 @@ public:
     return *this;
   }
 
-  /**For every operator=, there should be an equivalent copy constructor. */
-  inline Matrix(const vnl_matrix<T> & matrix)
+  /** Explicit constructor. Copies the elements from the specified
+   *  `vnl_matrix` (assuming it has the same dimensions). */
+  inline explicit Matrix(const vnl_matrix<T> & matrix)
     : m_Matrix(matrix)
   {}
 
@@ -256,8 +257,8 @@ public:
     return *this;
   }
 
-  /**For every operator=, there should be an equivalent copy constructor. */
-  inline explicit Matrix(const InternalMatrixType & matrix)
+  /** Converting constructor (implicit). */
+  inline Matrix(const InternalMatrixType & matrix)
     : m_Matrix(matrix)
   {}
 
