@@ -19,7 +19,7 @@
 // First include the header file to be tested:
 #include "itkMatrix.h"
 #include <gtest/gtest.h>
-#include <type_traits> // For is_trivially_copyable.
+#include <type_traits> // For is_convertible and is_trivially_copyable.
 
 
 namespace
@@ -54,7 +54,33 @@ Expect_GetIdentity_returns_identity_matrix()
   EXPECT_TRUE(TMatrix::GetIdentity().GetVnlMatrix().is_identity());
 }
 
+
+template <typename TMatrix>
+constexpr bool
+vnl_matrix_is_convertible_to_itk_Matrix()
+{
+  return std::is_convertible<vnl_matrix<typename TMatrix::ValueType>, TMatrix>();
+}
+
+template <typename TMatrix>
+constexpr bool
+vnl_matrix_fixed_is_convertible_to_itk_Matrix()
+{
+  return std::is_convertible<
+    vnl_matrix_fixed<typename TMatrix::ValueType, TMatrix::RowDimensions, TMatrix::ColumnDimensions>,
+    TMatrix>();
+}
+
 } // namespace
+
+
+static_assert((!vnl_matrix_is_convertible_to_itk_Matrix<itk::Matrix<float>>()) &&
+                (!vnl_matrix_is_convertible_to_itk_Matrix<itk::Matrix<double, 4, 5>>()),
+              "itk::Matrix should prevent implicit conversion from vnl_matrix");
+
+static_assert(vnl_matrix_fixed_is_convertible_to_itk_Matrix<itk::Matrix<float>>() &&
+                vnl_matrix_fixed_is_convertible_to_itk_Matrix<itk::Matrix<double, 4, 5>>(),
+              "itk::Matrix should allow implicit conversion from vnl_matrix_fixed");
 
 
 // GCC version 4 does not yet support C++11 `std::is_trivially_copyable`, as
