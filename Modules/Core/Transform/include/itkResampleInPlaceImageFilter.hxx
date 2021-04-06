@@ -1,7 +1,6 @@
 /*=========================================================================
  *
- *  Copyright SINAPSE: Scalable Informatics for Neuroscience, Processing and Software Engineering
- *            The University of Iowa
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,36 +15,15 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/*
- *  itkResampleInPlaceImageFilter.hxx
- *
- *
- *  Created by Wei Lu on 10/14/10.
- *
- */
 
-#ifndef __itkResampleInPlaceImageFilter_hxx
-#define __itkResampleInPlaceImageFilter_hxx
+#ifndef itkResampleInPlaceImageFilter_hxx
+#define itkResampleInPlaceImageFilter_hxx
 
 #include "itkResampleInPlaceImageFilter.h"
 #include "itkCastImageFilter.h"
 
 namespace itk
 {
-/**
- * Constructor
- */
-template <typename TInputImage, typename TOutputImage>
-ResampleInPlaceImageFilter<TInputImage, TOutputImage>::ResampleInPlaceImageFilter()
-  : m_OutputImage(nullptr)
-  , m_RigidTransform(nullptr)
-{
-  this->SetNumberOfRequiredInputs(1);
-}
-
-/**
- * Set/Get input image, required
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ResampleInPlaceImageFilter<TInputImage, TOutputImage>::SetInputImage(const InputImageType * image)
@@ -60,9 +38,7 @@ ResampleInPlaceImageFilter<TInputImage, TOutputImage>::GetInputImage() const
   return this->GetInput(0);
 }
 
-/**
- * GenerateData Performs the in-place resampling
- */
+
 template <typename TInputImage, typename TOutputImage>
 void
 ResampleInPlaceImageFilter<TInputImage, TOutputImage>::GenerateData()

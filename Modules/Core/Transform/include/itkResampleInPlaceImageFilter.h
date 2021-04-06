@@ -1,7 +1,6 @@
 /*=========================================================================
  *
- *  Copyright SINAPSE: Scalable Informatics for Neuroscience, Processing and Software Engineering
- *            The University of Iowa
+ *  Copyright NumFOCUS
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -16,16 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-/*
- *  itkResampleInPlaceImageFilter.h
- *
- *
- *  Created by Wei Lu on 10/14/10.
- *
- */
 
-#ifndef __itkResampleInPlaceImageFilter_h
-#define __itkResampleInPlaceImageFilter_h
+#ifndef itkResampleInPlaceImageFilter_h
+#define itkResampleInPlaceImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVersorRigid3DTransform.h"
@@ -36,22 +28,19 @@ namespace itk
  * \brief Resample an image in place.
  *
  * The current ITK resample image filter will generate a physical memory-
- * modified version of the input image if the input transform is not identity. The
- * abuse use of the filter can be cumbersome in a situation that the image is very
- * large, and there are lots of transform to be superimposed for the input image, and
- * we even don't care about those intermediate transformed images.
+ * modified version of the input image if the input transform is not identity.
+ * The abuse use of the resample filter can be a source of problems.
+ * It can exhaust memory if the image is very large.
+ * It WILL reduce image quality when there are lots of transforms to be
+ * superimposed for the input image. We usually don't even care
+ * about those intermediate transformed images!
  *
- * If all the transforms are rigid, a far superior way to achieve a similar result
- * while minimizing the accumulative resampling errors as well as eliminating the expense
- * on accessing the physical memory of the image is to compose all the
- * transforms before hand if it is possible, and then we only need to resample the
- * input image with the final composed transform once.
+ * If all the transforms are rigid, there is a far superior way to achieve a similar result.
+ * Updating image metadata in-place removes the accumulated resampling errors
+ * as well as eliminating the expense of accessing the physical memory of the image.
+ * We need to compose all the transforms beforehand to make use of this filter.
  *
- * Here we present a more compact alternative, all information is stored in the header
- * of the image and there is no need to maintain the final transform any longer. ITK
- * image class has innate support for doing this.
- *
- * \param RigidTransform -- Currently must be a VersorRigid3D
+ * \param RigidTransform -- Currently must be a \class VersorRigid3D
  * \param InputImage -- The image to be duplicated and modified to incorporate the
  * rigid transform
  * \return -- An image with the same voxels values as the input, but with differnt
@@ -60,36 +49,49 @@ namespace itk
  * The purpose of this code is to generate the new origin and direction
  * that will remove the need for using the transform.
  *
- * Given a set of PhysFixedImagePoints (i.e. from the fixedImage space)
- * those points are converted to PhysMovingImagePoints = TfmF2M( PhysFixedImagePoints )
- * and then MovingContinuousIndexPoints = movingImage->TransformPhysicalPointToContinuousIndex( PhysMovingImagePoints )
- * to get image values.
+ * Given a set of PhysicalFixedImagePoints (i.e. from the fixedImage space)
+ * those points are converted to PhysicalMovingImagePoints = TfmF2M( PhysicalFixedImagePoints )
+ * and then MovingContinuousIndexPoints = movingImage->TransformPhysicalPointToContinuousIndex(
+ * PhysicalMovingImagePoints ) to get image values.
  *
- * We desire to change the moving image DirectionCosign [DC] and Origin O such that
+ * We desire to change the moving image DirectionCosine [DC] and Origin [O] such that
  * we can compute the:
- * MovingContinuousIndexPoints = newMovingImage->TransformPhysicalPointToContinuousIndex( PhysFixedImagePoints )
+ * MovingContinuousIndexPoints = newMovingImage->TransformPhysicalPointToContinuousIndex( PhysicalFixedImagePoints )
  *
- *Image Notations:
- *  DC-DirectionCosign
- *  O-Origin
+ * Image Notations:
+ *   \f$\mathbf{D}\f$: Direction cosine matrix
+ *   \f$\mathbf{o}\f$: Origin vector
+ *   \f$\mathbf{S}\f$: Spacing
+ *   \f$\mathbf{ci}\f$: Continouos index
+ *   \f$\mathbf{D}^{'}\f$: New direction cosine matrix
+ *   \f$\mathbf{o}^{'}\f$: New origin vector
  *
- *Rigid Transform Notations:
- *  R-Rotation
- *  C-Center Of Rotation
- *  T-Translation
+ * Rigid Transform Notations:
+ *   \f$\mathbf{R}\f$: Rotation matrix
+ *   \f$\mathbf{c}\f$: Center of rotation vector
+ *   \f$\mathbf{t}\f$: Translation vector
+ *
+ *   \f$\mathbf{f}_{p}\f$: fixed image points in physical space
+ *   \f$\mathbf{m}_{p}\f$: moving image points in physical space
  *
  * TransformPhysicalPointToContinuousIndex:
- * CI = [SP^-1][DC^-1]( PhysMovingImagePoints - O )
- * PhysMovingImagePoints = [R](PhysFixedImagePoints - C) + C + T
+ * \f[
+ *   \mathbf{ci} = \mathbf{S}^{-1}\mathbf{D}^{-1}( \mathbf{m}_{p} - \mathbf{o} ) \\
+ *   \mathbf{m}_{p} = \mathbf{R}(\mathbf{f}_{p} - \mathbf{c}) + \mathbf{c} + \mathbf{T}
+ * \f]
  *
  * After substitutions:
- * MovingContinuousIndexPoints = [R^-1][DC][SP] * CI + [R^-1] * O - [R^-1] * C - [R^-1]*T + C
- *                               ----------            --------------------------------------
- *                                 NewDC                    NewOrigin
- * NewDC = [R^-1][DC]
- * NewOrigin = [R^-1] * ( O - C - T ) + C
  *
- * \ingroup GeometricTransforms
+ * \f[
+ * \mathbf{m}_{c} = \underbrace{\mathbf{R}^{-1}\mathbf{D}}_\text{new cosine}\mathbf{S} * \mathbf{i} +
+ * \underbrace{\mathbf{R}^{-1} * \mathbf{o} - \mathbf{R}^{-1} * \mathbf{c} - \mathbf{R}^{-1}*T}_\text{new origin} +
+ * \mathbf{c} \\
+ * \\
+ * \mathbf{D}^{'} = \mathbf{R}^{-1}\mathbf{D} \\
+ * \mathbf{o}^{'} = \mathbf{R}^{-1} * ( \mathbf{o} - \mathbf{c} - \mathbf{t} ) + \mathbf{c}
+ * \f]
+ *
+ * \ingroup ITKTransform
  */
 template <typename TInputImage, typename TOutputImage>
 class ResampleInPlaceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
@@ -146,9 +148,8 @@ public:
   GetInputImage() const;
 
 protected:
-  ResampleInPlaceImageFilter();
+  ResampleInPlaceImageFilter() = default;
   ~ResampleInPlaceImageFilter() override = default;
-  ;
 
   void
   GenerateData() override;
