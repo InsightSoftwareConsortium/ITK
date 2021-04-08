@@ -15,6 +15,7 @@ itk_module(ITKTransform
     ITKImageFilterBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
     ITKDisplacementField
   DESCRIPTION
     "${DOCUMENTATION}"
