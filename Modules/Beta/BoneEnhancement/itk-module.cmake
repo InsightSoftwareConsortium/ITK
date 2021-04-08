@@ -22,6 +22,7 @@ itk_module(BoneEnhancement
     ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
     ITKMetaIO
   DESCRIPTION
     "${DOCUMENTATION}"
