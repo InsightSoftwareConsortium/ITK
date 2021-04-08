@@ -20,6 +20,7 @@ itk_module(
     ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
+    ITKGoogleTest
     ITKMetaIO
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
