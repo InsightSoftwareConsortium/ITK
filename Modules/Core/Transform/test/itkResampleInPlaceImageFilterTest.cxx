@@ -34,6 +34,49 @@ Validate(double input, double desired, double tolerance)
   return std::abs<double>(input - desired) > tolerance * std::abs<double>(desired);
 }
 
+// Returns true if images are different
+template <typename ImageType>
+bool
+imagesDifferent(ImageType * baselineImage, ImageType * outputImage)
+{
+  double tol = 1.e-3; // tolerance
+
+  typename ImageType::PointType     origin = outputImage->GetOrigin();
+  typename ImageType::DirectionType direction = outputImage->GetDirection();
+  typename ImageType::SpacingType   spacing = outputImage->GetSpacing();
+
+  typename ImageType::PointType     origin_d = baselineImage->GetOrigin();
+  typename ImageType::DirectionType direction_d = baselineImage->GetDirection();
+  typename ImageType::SpacingType   spacing_d = baselineImage->GetSpacing();
+
+  // Image info validation
+  bool result = false; // no difference by default
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+  {
+    result = (result || Validate(origin[i], origin_d[i], tol));
+    result = (result || Validate(spacing[i], spacing_d[i], tol));
+    for (unsigned int j = 0; j < ImageType::ImageDimension; ++j)
+    {
+      result = (result || Validate(direction(i, j), direction_d(i, j), tol));
+    }
+  }
+
+  // Voxel contents validation
+  using ImageConstIterator = itk::ImageRegionConstIterator<ImageType>;
+  ImageConstIterator it1(outputImage, outputImage->GetRequestedRegion());
+  ImageConstIterator it2(baselineImage, baselineImage->GetRequestedRegion());
+  it1.GoToBegin();
+  it2.GoToBegin();
+  while (!it1.IsAtEnd())
+  {
+    result = (result || Validate(it1.Get(), it2.Get(), tol));
+    ++it1;
+    ++it2;
+  }
+
+  return result;
+}
+
 int
 itkResampleInPlaceImageFilterTest(int argc, char * argv[])
 {
@@ -45,19 +88,12 @@ itkResampleInPlaceImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  double tol = 1.e-3; // tolerance
-
   constexpr unsigned int Dimension = 3;
   using PixelType = short;
 
   using ImageType = itk::Image<PixelType, Dimension>;
   using ImagePointer = ImageType::Pointer;
-  using ImagePointType = ImageType::PointType;
-  using ImageDirectionType = ImageType::DirectionType;
-  using ImageSpacingType = ImageType::SpacingType;
-  using ImageConstIterator = itk::ImageRegionConstIterator<ImageType>;
   using TransformType = itk::VersorRigid3DTransform<double>;
-
   using FilterType = itk::ResampleInPlaceImageFilter<ImageType, ImageType>;
 
   // Read in input test image
@@ -92,50 +128,33 @@ itkResampleInPlaceImageFilterTest(int argc, char * argv[])
   // Set up the resample filter
   FilterType::Pointer filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ResampleInPlaceImageFilter, ImageToImageFilter);
+
   filter->SetInputImage(inputImage);
   ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInputImage());
   filter->SetRigidTransform(transform);
   ITK_TEST_SET_GET_VALUE(transform, filter->GetRigidTransform());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
   ImagePointer outputImage = filter->GetOutput();
-
-  // Get image info
-  ImagePointType     origin = outputImage->GetOrigin();
-  ImageDirectionType direction = outputImage->GetDirection();
-  ImageSpacingType   spacing = outputImage->GetSpacing();
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(outputImage, argv[3]));
 
   // Read in baseline image
   ImagePointer baselineImage = nullptr;
   ITK_TRY_EXPECT_NO_EXCEPTION(baselineImage = itk::ReadImage<ImageType>(argv[2]));
 
-  ImagePointType     origin_d = baselineImage->GetOrigin();
-  ImageDirectionType direction_d = baselineImage->GetDirection();
-  ImageSpacingType   spacing_d = baselineImage->GetSpacing();
-  // Image info validation
-  bool result = false; // test result default = no failure
-  for (unsigned int i = 0; i < Dimension; ++i)
-  {
-    result = (result || Validate(origin[i], origin_d[i], tol));
-    result = (result || Validate(spacing[i], spacing_d[i], tol));
-    for (unsigned int j = 0; j < Dimension; ++j)
-    {
-      result = (result || Validate(direction(i, j), direction_d(i, j), tol));
-    }
-  }
+  // Now do comparisons
+  bool result = imagesDifferent<ImageType>(baselineImage, outputImage);
+  transform->ApplyToImageMetadata(inputImage);
+  result = (result || imagesDifferent<ImageType>(baselineImage, inputImage));
 
-  // Voxel contents validation
-  ImageConstIterator it1(outputImage, outputImage->GetRequestedRegion());
-  ImageConstIterator it2(baselineImage, baselineImage->GetRequestedRegion());
-  it1.GoToBegin();
-  it2.GoToBegin();
-  while (!it1.IsAtEnd())
-  {
-    result = (result || Validate(it1.Get(), it2.Get(), tol));
-    ++it1;
-    ++it2;
-  }
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(outputImage, argv[3]));
+  // Make sure we can invoke ApplyToImageMetadata via const/raw pointer
+  TransformType * rawPointerTransform = transform.GetPointer();
+  rawPointerTransform->ApplyToImageMetadata(inputImage);
+  rawPointerTransform->ApplyToImageMetadata(inputImage.GetPointer());
+  const TransformType * constRawPointerTransform = transform.GetPointer();
+  constRawPointerTransform->ApplyToImageMetadata(inputImage);
+  TransformType::ConstPointer constPointerTransform = transform.GetPointer();
+  constPointerTransform->ApplyToImageMetadata(inputImage);
+  constPointerTransform->ApplyToImageMetadata(inputImage.GetPointer());
 
   return result;
 }

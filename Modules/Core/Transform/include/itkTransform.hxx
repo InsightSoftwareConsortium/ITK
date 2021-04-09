@@ -21,6 +21,7 @@
 #include "itkTransform.h"
 #include "itkCrossHelper.h"
 #include "vnl/algo/vnl_svd_fixed.h"
+#include "itkMetaProgrammingLibrary.h"
 
 namespace itk
 {
@@ -468,6 +469,51 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformS
   }
 
   return outputTensor;
+}
+
+template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+template <typename TImage>
+typename std::enable_if<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions,
+                        void>::type
+Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::ApplyToImageMetadata(TImage * image) const
+{
+  using ImageType = TImage;
+
+  if (!this->IsLinear())
+  {
+    itkWarningMacro(<< "ApplyToImageMetadata was invoked with non-linear transform of type: " << this->GetNameOfClass()
+                    << ". This might produce unexpected results.");
+  }
+
+  typename Self::Pointer inverse = this->GetInverseTransform();
+
+  // transform origin
+  typename ImageType::PointType origin = image->GetOrigin();
+  origin = inverse->TransformPoint(origin);
+  image->SetOrigin(origin);
+
+  typename ImageType::SpacingType   spacing = image->GetSpacing();
+  typename ImageType::DirectionType direction = image->GetDirection();
+  // transform direction cosines and compute new spacing
+  for (unsigned i = 0; i < ImageType::ImageDimension; i++)
+  {
+    Vector<typename Self::ParametersValueType, ImageType::ImageDimension> dirVector;
+    for (unsigned k = 0; k < ImageType::ImageDimension; k++)
+    {
+      dirVector[k] = direction[k][i];
+    }
+
+    dirVector *= spacing[i];
+    dirVector = inverse->TransformVector(dirVector);
+    spacing[i] = dirVector.Normalize();
+
+    for (unsigned k = 0; k < ImageType::ImageDimension; k++)
+    {
+      direction[k][i] = dirVector[k];
+    }
+  }
+  image->SetDirection(direction);
+  image->SetSpacing(spacing);
 }
 
 
