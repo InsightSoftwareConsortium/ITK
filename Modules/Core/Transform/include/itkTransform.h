@@ -18,6 +18,7 @@
 #ifndef itkTransform_h
 #define itkTransform_h
 
+#include <type_traits> // For std::enable_if
 #include "itkTransformBase.h"
 #include "itkVector.h"
 #include "itkSymmetricSecondRankTensor.h"
@@ -541,6 +542,27 @@ public:
   ComputeInverseJacobianWithRespectToPosition(const InputPointType & pnt, InverseJacobianPositionType & jacobian) const;
   itkLegacyMacro(virtual void ComputeInverseJacobianWithRespectToPosition(const InputPointType & x,
                                                                           JacobianType &         jacobian) const);
+
+  /** Apply this transform to an image without resampling.
+   *
+   * Updates image metadata (origin, spacing, direction cosines matrix) in place.
+   *
+   * Only available when input and output space are of the same dimension.
+   * Only works properly for linear transforms.
+   *
+   * The image parameter may be either a SmartPointer or a raw pointer.
+   * */
+  template <typename TImage>
+  typename std::enable_if<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions,
+                          void>::type
+  ApplyToImageMetadata(TImage * image) const;
+  template <typename TImage>
+  typename std::enable_if<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions,
+                          void>::type
+  ApplyToImageMetadata(SmartPointer<TImage> image) const
+  {
+    this->ApplyToImageMetadata(image.GetPointer()); // Delegate to the raw pointer signature
+  }
 
 protected:
   /**
