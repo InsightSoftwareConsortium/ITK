@@ -40,7 +40,7 @@ namespace itk
  * as well as eliminating the expense of accessing the physical memory of the image.
  * We need to compose all the transforms beforehand to make use of this filter.
  *
- * \param RigidTransform -- Currently must be a \class VersorRigid3D
+ * \param RigidTransform -- Currently must be a VersorRigid3D
  * \param InputImage -- The image to be duplicated and modified to incorporate the
  * rigid transform
  * \return -- An image with the same voxels values as the input, but with differnt
