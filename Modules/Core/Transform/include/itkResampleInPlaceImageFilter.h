@@ -97,7 +97,7 @@ template <typename TInputImage, typename TOutputImage>
 class ResampleInPlaceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ResampleInPlaceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ResampleInPlaceImageFilter);
 
   /** Standard class type alias */
   using Self = ResampleInPlaceImageFilter;
