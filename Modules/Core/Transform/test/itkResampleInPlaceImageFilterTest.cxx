@@ -129,6 +129,10 @@ itkResampleInPlaceImageFilterTest(int argc, char * argv[])
   FilterType::Pointer filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ResampleInPlaceImageFilter, ImageToImageFilter);
 
+  // Test the exceptions
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+
   filter->SetInputImage(inputImage);
   ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInputImage());
   filter->SetRigidTransform(transform);
