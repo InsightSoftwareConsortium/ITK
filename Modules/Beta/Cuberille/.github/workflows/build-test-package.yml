@@ -13,26 +13,26 @@ jobs:
           - os: ubuntu-18.04
             c-compiler: "gcc"
             cxx-compiler: "g++"
-            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
+            itk-git-tag: "v5.2.0"
             cmake-build-type: "MinSizeRel"
           - os: windows-2019
             c-compiler: "cl.exe"
             cxx-compiler: "cl.exe"
-            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
+            itk-git-tag: "v5.2.0"
             cmake-build-type: "Release"
           - os: macos-10.15
             c-compiler: "clang"
             cxx-compiler: "clang++"
-            itk-git-tag: "abd38d5a0040b9a8fbb0ad3127089dbb72a93342"
+            itk-git-tag: "v5.2.0"
             cmake-build-type: "MinSizeRel"
 
     steps:
     - uses: actions/checkout@v1
 
-    - name: Set up Python 3.7
-      uses: actions/setup-python@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
       with:
-        python-version: 3.7
+        python-version: 3.8
 
     - name: Install build dependencies
       run: |
@@ -130,13 +130,13 @@ jobs:
       shell: cmd
 
   build-linux-python-packages:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       max-parallel: 2
       matrix:
         python-version: [36, 37, 38, 39]
         include:
-          - itk-python-git-tag: "v5.2rc01"
+          - itk-python-git-tag: "v5.2.0"
 
     steps:
     - uses: actions/checkout@v2
@@ -172,7 +172,7 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - itk-python-git-tag: "v5.2rc01"
+          - itk-python-git-tag: "v5.2.0"
 
     steps:
     - uses: actions/checkout@v2
@@ -208,7 +208,7 @@ jobs:
       matrix:
         python-version-minor: [6, 7, 8, 9]
         include:
-          - itk-python-git-tag: "v5.2rc01"
+          - itk-python-git-tag: "v5.2.0"
 
     steps:
     - name: Get specific version of CMake, Ninja
@@ -257,7 +257,7 @@ jobs:
       - build-linux-python-packages
       - build-macos-python-packages
       - build-windows-python-packages
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
     - name: Download Python Packages
