@@ -261,14 +261,7 @@ public:
   }
 
   /** Allow the FixedArray to be indexed normally.  No bounds checking is done.
-   * The separate versions are a work-around for an integer conversion bug in
-   * Visual C++. */
-  reference       operator[](short index) { return m_InternalArray[index]; }
-  const_reference operator[](short index) const { return m_InternalArray[index]; }
-  reference       operator[](unsigned short index) { return m_InternalArray[index]; }
-  const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
-  reference       operator[](int index) { return m_InternalArray[index]; }
-  const_reference operator[](int index) const { return m_InternalArray[index]; }
+   */
 // false positive warnings with GCC
 #if defined(__GNUC__)
 #  if (__GNUC__ == 4) && (__GNUC_MINOR__ == 9) || (__GNUC__ >= 7)
@@ -283,14 +276,6 @@ public:
 #    pragma GCC diagnostic pop
 #  endif
 #endif
-  reference       operator[](long index) { return m_InternalArray[index]; }
-  const_reference operator[](long index) const { return m_InternalArray[index]; }
-  reference       operator[](unsigned long index) { return m_InternalArray[index]; }
-  const_reference operator[](unsigned long index) const { return m_InternalArray[index]; }
-  reference       operator[](long long index) { return m_InternalArray[index]; }
-  const_reference operator[](long long index) const { return m_InternalArray[index]; }
-  reference       operator[](unsigned long long index) { return m_InternalArray[index]; }
-  const_reference operator[](unsigned long long index) const { return m_InternalArray[index]; }
 
   /** Set/Get element methods are more convenient in wrapping languages */
   void
