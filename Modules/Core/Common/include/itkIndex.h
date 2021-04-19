@@ -99,7 +99,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] + static_cast<IndexValueType>(sz[i]);
     }
@@ -110,7 +110,7 @@ public:
   const Self &
   operator+=(const SizeType & sz)
   {
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_InternalArray[i] += static_cast<IndexValueType>(sz[i]);
     }
@@ -124,7 +124,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] - static_cast<IndexValueType>(sz[i]);
     }
@@ -135,7 +135,7 @@ public:
   const Self &
   operator-=(const SizeType & sz)
   {
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_InternalArray[i] -= static_cast<IndexValueType>(sz[i]);
     }
@@ -148,7 +148,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] + offset[i];
     }
@@ -159,7 +159,7 @@ public:
   const Self &
   operator+=(const OffsetType & offset)
   {
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_InternalArray[i] += offset[i];
     }
@@ -170,7 +170,7 @@ public:
   const Self &
   operator-=(const OffsetType & offset)
   {
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_InternalArray[i] -= offset[i];
     }
@@ -183,7 +183,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] - off.m_InternalArray[i];
     }
@@ -196,7 +196,7 @@ public:
   {
     OffsetType result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] - vec.m_InternalArray[i];
     }
@@ -210,7 +210,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] * static_cast<IndexValueType>(vec.m_InternalArray[i]);
     }

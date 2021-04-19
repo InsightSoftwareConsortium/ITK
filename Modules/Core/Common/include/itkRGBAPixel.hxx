@@ -38,7 +38,7 @@ RGBAPixel<T>::operator+(const Self & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     result[i] = (*this)[i] + r[i];
   }
@@ -51,7 +51,7 @@ RGBAPixel<T>::operator-(const Self & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     result[i] = (*this)[i] - r[i];
   }
@@ -62,7 +62,7 @@ template <typename T>
 const RGBAPixel<T> &
 RGBAPixel<T>::operator+=(const Self & r)
 {
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     (*this)[i] += r[i];
   }
@@ -73,7 +73,7 @@ template <typename T>
 const RGBAPixel<T> &
 RGBAPixel<T>::operator-=(const Self & r)
 {
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     (*this)[i] -= r[i];
   }
@@ -84,7 +84,7 @@ template <typename T>
 const RGBAPixel<T> &
 RGBAPixel<T>::operator*=(const ComponentType & r)
 {
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     (*this)[i] *= r;
   }
@@ -96,7 +96,7 @@ template <typename T>
 const RGBAPixel<T> &
 RGBAPixel<T>::operator/=(const ComponentType & r)
 {
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     (*this)[i] /= r;
   }
@@ -108,7 +108,7 @@ RGBAPixel<T> RGBAPixel<T>::operator*(const ComponentType & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     result[i] = (*this)[i] * r;
   }
@@ -121,7 +121,7 @@ RGBAPixel<T>::operator/(const ComponentType & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     result[i] = (*this)[i] / r;
   }
@@ -132,7 +132,7 @@ template <typename T>
 bool
 RGBAPixel<T>::operator==(const Self & r) const
 {
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     if ((*this)[i] != r[i])
     {

@@ -103,7 +103,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToBegin()
   this->Superclass::GoToBegin();
 
   // If inside the exclusion region to begin with, jump past it.
-  for (unsigned int in = 0; in < TImage::ImageDimension; in++)
+  for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
   {
     if (m_ExclusionRegion.IsInside(this->m_PositionIndex))
     {
@@ -138,7 +138,7 @@ ImageRegionExclusionConstIteratorWithIndex<TImage>::GoToReverseBegin()
   this->Superclass::GoToReverseBegin();
 
   // If inside the exclusion region to begin with, jump past it.
-  for (unsigned int in = 0; in < TImage::ImageDimension; in++)
+  for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
   {
     if (m_ExclusionRegion.IsInside(this->m_PositionIndex))
     {

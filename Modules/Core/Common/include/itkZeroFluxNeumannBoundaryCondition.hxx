@@ -96,7 +96,7 @@ ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRe
   SizeType   requestSize;
   RegionType requestRegion;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // Check if the output region is entirely below the low index of
     // the image region.

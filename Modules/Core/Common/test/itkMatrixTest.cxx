@@ -124,9 +124,9 @@ itkMatrixTest(int, char *[])
     itk::Matrix<double, 2, 2> m1;
     itk::Matrix<double, 2, 2> m2;
 
-    for (unsigned int i = 0; i < 2; i++)
+    for (unsigned int i = 0; i < 2; ++i)
     {
-      for (unsigned int j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; ++j)
       {
         m1[i][j] = i + j;
       }
@@ -136,9 +136,9 @@ itkMatrixTest(int, char *[])
     std::cout << m1 << std::endl;
 
 
-    for (unsigned int i = 0; i < 2; i++)
+    for (unsigned int i = 0; i < 2; ++i)
     {
-      for (unsigned int j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; ++j)
       {
         m2[i][j] = i + j;
       }
@@ -157,9 +157,9 @@ itkMatrixTest(int, char *[])
     itk::Matrix<double, 2, 2> m3;
     itk::Matrix<double, 2, 3> m4;
 
-    for (unsigned int i = 0; i < 2; i++)
+    for (unsigned int i = 0; i < 2; ++i)
     {
-      for (unsigned int j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; ++j)
       {
         m3[i][j] = i + j;
       }
@@ -169,9 +169,9 @@ itkMatrixTest(int, char *[])
     std::cout << m3 << std::endl;
 
 
-    for (unsigned int i = 0; i < 2; i++)
+    for (unsigned int i = 0; i < 2; ++i)
     {
-      for (unsigned int j = 0; j < 3; j++)
+      for (unsigned int j = 0; j < 3; ++j)
       {
         m4[i][j] = i + j;
       }
@@ -206,9 +206,9 @@ itkMatrixTest(int, char *[])
 
     // fill the matrices with something
     {
-      for (unsigned int r = 0; r < nr; r++)
+      for (unsigned int r = 0; r < nr; ++r)
       {
-        for (unsigned int c = 0; c < nc; c++)
+        for (unsigned int c = 0; c < nc; ++c)
         {
           const auto fr = (double)r;
           const auto fc = (double)c;
@@ -233,9 +233,9 @@ itkMatrixTest(int, char *[])
     // Check the addition and subtraction values
     {
       const double tolerance = 1e-7;
-      for (unsigned int r = 0; r < nr; r++)
+      for (unsigned int r = 0; r < nr; ++r)
       {
-        for (unsigned int c = 0; c < nc; c++)
+        for (unsigned int c = 0; c < nc; ++c)
         {
           if (std::fabs(m3[r][c] - 2 * r) > tolerance)
           {
@@ -259,9 +259,9 @@ itkMatrixTest(int, char *[])
     // Check the in-place addition and subtraction values
     {
       const double tolerance = 1e-7;
-      for (unsigned int r = 0; r < nr; r++)
+      for (unsigned int r = 0; r < nr; ++r)
       {
-        for (unsigned int c = 0; c < nc; c++)
+        for (unsigned int c = 0; c < nc; ++c)
         {
           if (std::fabs(m3[r][c] - m1[r][c]) > tolerance)
           {
@@ -285,9 +285,9 @@ itkMatrixTest(int, char *[])
     MatrixType matrixA;
 
     int counter = 0;
-    for (unsigned int row = 0; row < 3; row++)
+    for (unsigned int row = 0; row < 3; ++row)
     {
-      for (unsigned int col = 0; col < 3; col++)
+      for (unsigned int col = 0; col < 3; ++col)
       {
         matrixA[row][col] = counter++;
       }
@@ -299,9 +299,9 @@ itkMatrixTest(int, char *[])
 
     { // verify values
       const double tolerance = 1e-7;
-      for (unsigned int row = 0; row < 3; row++)
+      for (unsigned int row = 0; row < 3; ++row)
       {
-        for (unsigned int col = 0; col < 3; col++)
+        for (unsigned int col = 0; col < 3; ++col)
         {
           if (std::abs(matrixB[row][col] - matrixA[row][col]) > tolerance)
           {
@@ -317,9 +317,9 @@ itkMatrixTest(int, char *[])
 
     { // verify values
       const double tolerance = 1e-7;
-      for (unsigned int row = 0; row < 3; row++)
+      for (unsigned int row = 0; row < 3; ++row)
       {
-        for (unsigned int col = 0; col < 3; col++)
+        for (unsigned int col = 0; col < 3; ++col)
         {
           if (std::abs(matrixC[row][col] - matrixA[row][col]) > tolerance)
           {

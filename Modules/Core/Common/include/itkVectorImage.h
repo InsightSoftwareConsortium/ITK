@@ -225,7 +225,7 @@ public:
   {
     OffsetValueType offset = m_VectorLength * this->FastComputeOffset(index);
 
-    for (VectorLengthType i = 0; i < m_VectorLength; i++)
+    for (VectorLengthType i = 0; i < m_VectorLength; ++i)
     {
       (*m_Buffer)[offset + i] = value[i];
     }

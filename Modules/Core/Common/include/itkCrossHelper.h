@@ -59,7 +59,7 @@ public:
 
       if (Dimension > 3)
       {
-        for (unsigned int dim = 3; dim < Dimension; dim++)
+        for (unsigned int dim = 3; dim < Dimension; ++dim)
         {
           oCross[dim] = 0.0;
         }

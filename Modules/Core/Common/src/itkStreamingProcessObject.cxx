@@ -42,7 +42,7 @@ StreamingProcessObject::GenerateData()
   // Loop over the number of pieces, execute the upstream pipeline on each
   // piece, and execute StreamedGenerateData on each region
   //
-  for (unsigned int piece = 0; piece < numberOfInputRequestRegion && !this->GetAbortGenerateData(); piece++)
+  for (unsigned int piece = 0; piece < numberOfInputRequestRegion && !this->GetAbortGenerateData(); ++piece)
   {
     this->m_CurrentRequestNumber = piece;
 

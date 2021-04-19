@@ -30,7 +30,7 @@ itkDataTypeTest(int, char *[])
   v[2] = 3;
   v[3] = 4;
   std::cout << "Vector value = ";
-  for (unsigned int i = 0; i < v.GetVectorDimension(); i++)
+  for (unsigned int i = 0; i < v.GetVectorDimension(); ++i)
   {
     if (v[i] != static_cast<int>(i + 1))
     {

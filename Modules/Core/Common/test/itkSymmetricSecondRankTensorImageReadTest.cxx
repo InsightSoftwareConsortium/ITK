@@ -72,9 +72,9 @@ itkSymmetricSecondRankTensorImageReadTest(int ac, char * av[])
   while (!itr.IsAtEnd())
   {
     itr.Set(matrixPixel);
-    for (unsigned int i = 0; i < 3; i++)
+    for (unsigned int i = 0; i < 3; ++i)
     {
-      for (unsigned int j = 0; j < 3; j++)
+      for (unsigned int j = 0; j < 3; ++j)
       {
         matrixPixel[i][j]++;
       }
@@ -101,9 +101,9 @@ itkSymmetricSecondRankTensorImageReadTest(int ac, char * av[])
       matrixPixel = mItr.Get();
       const TensorPixelType tensorPixel = tItr.Get();
 
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
-        for (unsigned int j = 0; j < 3; j++)
+        for (unsigned int j = 0; j < 3; ++j)
         {
           if (std::abs(matrixPixel[i][j] - tensorPixel(i, j)) > tolerance)
           {

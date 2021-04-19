@@ -287,7 +287,7 @@ void
 ByteSwapper<T>::Swap2Range(void * ptr, BufferSizeType num)
 {
   auto * pos = static_cast<char *>(ptr);
-  for (BufferSizeType i = 0; i < num; i++)
+  for (BufferSizeType i = 0; i < num; ++i)
   {
     const char one_byte = pos[0];
     pos[0] = pos[1];
@@ -312,7 +312,7 @@ ByteSwapper<T>::SwapWrite2Range(void * ptr, BufferSizeType num, OStreamType * fp
     memcpy(cpy, ptr, chunkSize * 2);
 
     char * pos = cpy;
-    for (BufferSizeType i = 0; i < chunkSize; i++)
+    for (BufferSizeType i = 0; i < chunkSize; ++i)
     {
       const char one_byte = pos[0];
       pos[0] = pos[1];
@@ -356,7 +356,7 @@ ByteSwapper<T>::Swap4Range(void * ptr, BufferSizeType num)
 {
   auto * pos = static_cast<char *>(ptr);
 
-  for (BufferSizeType i = 0; i < num; i++)
+  for (BufferSizeType i = 0; i < num; ++i)
   {
     char one_byte = pos[0];
     pos[0] = pos[3];
@@ -387,7 +387,7 @@ ByteSwapper<T>::SwapWrite4Range(void * ptr, BufferSizeType num, OStreamType * fp
     memcpy(cpy, ptr, chunkSize * 4);
 
     char * pos = cpy;
-    for (BufferSizeType i = 0; i < chunkSize; i++)
+    for (BufferSizeType i = 0; i < chunkSize; ++i)
     {
       char one_byte = pos[0];
       pos[0] = pos[3];
@@ -443,7 +443,7 @@ ByteSwapper<T>::Swap8Range(void * ptr, BufferSizeType num)
 {
   auto * pos = static_cast<char *>(ptr);
 
-  for (BufferSizeType i = 0; i < num; i++)
+  for (BufferSizeType i = 0; i < num; ++i)
   {
     char one_byte = pos[0];
     pos[0] = pos[7];

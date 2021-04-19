@@ -47,7 +47,7 @@ runTestByType()
   // Copy constructor
   {
     itk::OptimizerParameters<TValue> paramsCopy(params);
-    for (itk::SizeValueType i = 0; i < params.GetSize(); i++)
+    for (itk::SizeValueType i = 0; i < params.GetSize(); ++i)
     {
       if (itk::Math::NotExactlyEquals(params[i], paramsCopy[i]))
       {
@@ -59,13 +59,13 @@ runTestByType()
 
   // Constructor from array
   itk::Array<TValue> array(dim);
-  for (itk::SizeValueType i = 0; i < dim; i++)
+  for (itk::SizeValueType i = 0; i < dim; ++i)
   {
     array[i] = i * 3.19;
   }
   {
     itk::OptimizerParameters<TValue> paramsCopy(array);
-    for (itk::SizeValueType i = 0; i < params.GetSize(); i++)
+    for (itk::SizeValueType i = 0; i < params.GetSize(); ++i)
     {
       if (itk::Math::NotExactlyEquals(array[i], paramsCopy[i]))
       {
@@ -80,7 +80,7 @@ runTestByType()
   // Assign from Array
   itk::OptimizerParameters<TValue> paramsArray;
   paramsArray = array;
-  for (itk::SizeValueType i = 0; i < array.GetSize(); i++)
+  for (itk::SizeValueType i = 0; i < array.GetSize(); ++i)
   {
     if (itk::Math::NotExactlyEquals(paramsArray[i], array[i]))
     {
@@ -91,14 +91,14 @@ runTestByType()
 
   // Assign from VnlVector
   vnl_vector<TValue> vector(dim);
-  for (itk::SizeValueType i = 0; i < dim; i++)
+  for (itk::SizeValueType i = 0; i < dim; ++i)
   {
     vector[i] = i * 0.123;
   }
   {
     itk::OptimizerParameters<TValue> paramsVnl;
     paramsVnl = vector;
-    for (itk::SizeValueType i = 0; i < paramsVnl.GetSize(); i++)
+    for (itk::SizeValueType i = 0; i < paramsVnl.GetSize(); ++i)
     {
       if (itk::Math::NotExactlyEquals(vector[i], paramsVnl[i]))
       {
@@ -111,7 +111,7 @@ runTestByType()
   /* Test MoveDataPointer to point to different memory block */
   TValue block[10] = { 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
   params.MoveDataPointer(block);
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; ++i)
   {
     if (itk::Math::NotExactlyEquals(params[i], 10 - i))
     {
@@ -135,7 +135,7 @@ runTestByType()
   itk::OptimizerParameters<TValue> params2(4);
   params1.Fill(1.23);
   params2 = params1;
-  for (itk::SizeValueType i = 0; i < params1.GetSize(); i++)
+  for (itk::SizeValueType i = 0; i < params1.GetSize(); ++i)
   {
     if (itk::Math::NotExactlyEquals(params1[i], params2[i]))
     {

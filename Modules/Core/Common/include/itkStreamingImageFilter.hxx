@@ -167,7 +167,7 @@ StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * i
    * piece, and copy the results into the output image.
    */
   unsigned int piece = 0;
-  for (; piece < numDivisions && !this->GetAbortGenerateData(); piece++)
+  for (; piece < numDivisions && !this->GetAbortGenerateData(); ++piece)
   {
     InputImageRegionType streamRegion = outputRegion;
     m_RegionSplitter->GetSplit(piece, numDivisions, streamRegion);

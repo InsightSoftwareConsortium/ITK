@@ -43,9 +43,9 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
 {
   int result = EXIT_SUCCESS;
 
-  for (itk::SizeValueType y = 0; y < dimLength; y++)
+  for (itk::SizeValueType y = 0; y < dimLength; ++y)
   {
-    for (itk::SizeValueType x = 0; x < dimLength; x++)
+    for (itk::SizeValueType x = 0; x < dimLength; ++x)
     {
       IndexType index;
       index[0] = x;
@@ -55,7 +55,7 @@ testMemoryAccess(OptimizerParametersType & params, ImageVectorPointer imageOfVec
       // element against the values returned by parameter object.
       itk::OffsetValueType offset = (x + y * dimLength) * VectorDimension;
       VectorPixelType      vectorpixel = imageOfVectors->GetPixel(index);
-      for (itk::SizeValueType ind = 0; ind < VectorDimension; ind++)
+      for (itk::SizeValueType ind = 0; ind < VectorDimension; ++ind)
       {
         ValueType paramsValue = params[offset + ind];
         if (itk::Math::NotExactlyEquals(vectorpixel[ind], paramsValue))
@@ -114,9 +114,9 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
   //   Intensity = f(x,y) = x + 3 * y
   //
   //
-  for (int y = 0; y < dimLength; y++)
+  for (int y = 0; y < dimLength; ++y)
   {
-    for (int x = 0; x < dimLength; x++)
+    for (int x = 0; x < dimLength; ++x)
     {
       IndexType index;
       index[0] = x;

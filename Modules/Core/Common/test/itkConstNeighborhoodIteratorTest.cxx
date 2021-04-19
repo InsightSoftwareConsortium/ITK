@@ -256,7 +256,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     std::cerr << "IndexInBounds failed for index 0, expected false." << std::endl;
     return EXIT_FAILURE;
   }
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     if (resultOffset[n] != static_cast<itk::OffsetValueType>(radius[n]))
     {
@@ -271,7 +271,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
     std::cerr << "IndexInBounds failed for index size-1, expected true." << std::endl;
     return EXIT_FAILURE;
   }
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     if (resultOffset[n] != 0)
     {
@@ -282,7 +282,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
 
   // Test min boundary by dimension
   int result = EXIT_SUCCESS;
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     IteratorType::IndexType boundaryLoc = centerLoc;
     boundaryLoc[n] = 0;
@@ -296,7 +296,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
   }
 
   // Test max boundary by dimension
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     IteratorType::IndexType boundaryLoc = centerLoc;
     boundaryLoc[n] = dims[n] - 1;

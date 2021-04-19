@@ -65,7 +65,7 @@ SparseFieldLayer<TNodeType>::SplitRegions(int num) const
   ConstIterator position = Begin();
   ConstIterator last = End();
 
-  for (int i = 0; i < num; i++)
+  for (int i = 0; i < num; ++i)
   {
     unsigned int j = 0;
     RegionType   region;

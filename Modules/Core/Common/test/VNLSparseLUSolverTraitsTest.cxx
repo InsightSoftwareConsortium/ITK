@@ -32,7 +32,7 @@ VectorsEquals(const TVector & v1, const TVector & v2, const typename TVector::el
     return false;
   }
 
-  for (unsigned int i = 0; i < v1.size(); i++)
+  for (unsigned int i = 0; i < v1.size(); ++i)
   {
     if (itk::Math::abs(v1(i) - v2(i)) > tolerance)
     {

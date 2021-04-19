@@ -104,7 +104,7 @@ itkCovariantVectorGeometryTest(int, char *[])
   vnl_vector_ref<ValueType> vnlVector = va.GetVnlVector();
   {
     std::cout << "vnl_vector_ref = va ";
-    for (unsigned int i = 0; i < N; i++)
+    for (unsigned int i = 0; i < N; ++i)
     {
       std::cout << vnlVector[i] << ", ";
     }
@@ -121,7 +121,7 @@ itkCovariantVectorGeometryTest(int, char *[])
   vnl_vector<ValueType> vnlVector2 = vf.GetVnlVector();
   {
     std::cout << "vnl_vector = va ";
-    for (unsigned int i = 0; i < N; i++)
+    for (unsigned int i = 0; i < N; ++i)
     {
       std::cout << vnlVector2[i] << ", ";
     }
@@ -156,7 +156,7 @@ itkCovariantVectorGeometryTest(int, char *[])
     fp.CastFrom(dp);
 
     std::cout << std::endl;
-    for (unsigned int i = 0; i < N; i++)
+    for (unsigned int i = 0; i < N; ++i)
     {
       auto val = static_cast<FloatCovariantVectorType::ValueType>(dp[i]);
 
@@ -247,7 +247,7 @@ itkCovariantVectorGeometryTest(int, char *[])
     }
     auto * compp = reinterpret_cast<char *>(&comp);
     auto * xp = reinterpret_cast<char *>(&x);
-    for (unsigned i = 0; i < sizeof(CovariantVectorType::ComponentType); i++)
+    for (unsigned i = 0; i < sizeof(CovariantVectorType::ComponentType); ++i)
     {
       if (compp[i] != xp[i])
       {

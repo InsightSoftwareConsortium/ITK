@@ -759,7 +759,7 @@ public:
   Self &
   operator--()
   {
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       this->m_Data[i] -= static_cast<ValueType>(1.0);
     }
@@ -770,7 +770,7 @@ public:
   Self &
   operator++() // prefix operator ++v;
   {
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       this->m_Data[i] += static_cast<ValueType>(1.0);
     }
@@ -811,7 +811,7 @@ public:
   operator-=(const VariableLengthVector<T> & v)
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == v.GetSize());
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       m_Data[i] -= static_cast<ValueType>(v[i]);
     }
@@ -822,7 +822,7 @@ public:
   Self &
   operator-=(TValue s)
   {
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       m_Data[i] -= s;
     }
@@ -842,7 +842,7 @@ public:
   operator+=(const VariableLengthVector<T> & v)
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == v.GetSize());
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       m_Data[i] += static_cast<ValueType>(v[i]);
     }
@@ -853,7 +853,7 @@ public:
   Self &
   operator+=(TValue s)
   {
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       m_Data[i] += s;
     }
@@ -912,7 +912,7 @@ public:
   operator*=(T s)
   {
     const ValueType & sc = static_cast<ValueType>(s);
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       m_Data[i] *= sc;
     }
@@ -925,7 +925,7 @@ public:
   Self &
   operator*=(TValue s)
   {
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       m_Data[i] *= s;
     }
@@ -943,7 +943,7 @@ public:
   operator/=(T s)
   {
     const RealValueType sc = s;
-    for (ElementIdentifier i = 0; i < m_NumElements; i++)
+    for (ElementIdentifier i = 0; i < m_NumElements; ++i)
     {
       m_Data[i] = static_cast<ValueType>(static_cast<RealValueType>(m_Data[i]) / sc);
     }

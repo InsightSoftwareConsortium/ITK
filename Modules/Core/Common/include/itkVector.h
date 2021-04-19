@@ -159,7 +159,7 @@ public:
   inline const Self &
   operator*=(const Tt & value)
   {
-    for (unsigned int i = 0; i < NVectorDimension; i++)
+    for (unsigned int i = 0; i < NVectorDimension; ++i)
     {
       (*this)[i] = static_cast<ValueType>((*this)[i] * value);
     }
@@ -171,7 +171,7 @@ public:
   inline const Self &
   operator/=(const Tt & value)
   {
-    for (unsigned int i = 0; i < NVectorDimension; i++)
+    for (unsigned int i = 0; i < NVectorDimension; ++i)
     {
       (*this)[i] = static_cast<ValueType>((*this)[i] / value);
     }
@@ -209,7 +209,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < NVectorDimension; i++)
+    for (unsigned int i = 0; i < NVectorDimension; ++i)
     {
       result[i] = static_cast<ValueType>((*this)[i] * value);
     }
@@ -224,7 +224,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < NVectorDimension; i++)
+    for (unsigned int i = 0; i < NVectorDimension; ++i)
     {
       result[i] = static_cast<ValueType>((*this)[i] / value);
     }
@@ -278,7 +278,7 @@ public:
   void
   CastFrom(const Vector<TCoordRepB, NVectorDimension> & pa)
   {
-    for (unsigned int i = 0; i < NVectorDimension; i++)
+    for (unsigned int i = 0; i < NVectorDimension; ++i)
     {
       (*this)[i] = static_cast<T>(pa[i]);
     }
@@ -288,7 +288,7 @@ public:
   operator Vector<TCoordRepB, NVectorDimension>()
   {
     Vector<TCoordRepB, NVectorDimension> r;
-    for (unsigned int i = 0; i < NVectorDimension; i++)
+    for (unsigned int i = 0; i < NVectorDimension; ++i)
     {
       r[i] = static_cast<TCoordRepB>((*this)[i]);
     }

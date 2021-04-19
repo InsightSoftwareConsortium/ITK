@@ -30,13 +30,13 @@ TestTransformIndexToPhysicalPoint(T * image)
   typename T::IndexType index3D;
   typename T::PointType point3D;
 
-  for (int k = 0; k < 10; k++)
+  for (int k = 0; k < 10; ++k)
   {
     index3D[2] = k;
-    for (int j = 0; j < 1000; j++)
+    for (int j = 0; j < 1000; ++j)
     {
       index3D[1] = j;
-      for (int i = 0; i < 1000; i++)
+      for (int i = 0; i < 1000; ++i)
       {
         index3D[0] = i;
         image->TransformIndexToPhysicalPoint(index3D, point3D);
@@ -53,13 +53,13 @@ TestTransformPhysicalPointToIndex(T * image)
   typename T::IndexType index3D;
   typename T::PointType point3D;
 
-  for (int k = 0; k < 10; k++)
+  for (int k = 0; k < 10; ++k)
   {
     point3D[2] = static_cast<typename itk::NumericTraits<typename T::PointType>::ValueType>(k);
-    for (int j = 0; j < 1000; j++)
+    for (int j = 0; j < 1000; ++j)
     {
       point3D[1] = static_cast<typename itk::NumericTraits<typename T::PointType>::ValueType>(j);
-      for (int i = 0; i < 1000; i++)
+      for (int i = 0; i < 1000; ++i)
       {
         point3D[0] = static_cast<typename itk::NumericTraits<typename T::PointType>::ValueType>(i);
         image->TransformPhysicalPointToIndex(point3D, index3D);
@@ -91,10 +91,10 @@ itkTimeProbesTest(int, char *[])
 
     // Do slow stuff here...
     {
-      for (unsigned int i = 0; i < N; i++)
+      for (unsigned int i = 0; i < N; ++i)
       {
         auto * dummy = new unsigned int[M];
-        for (unsigned int j = 0; j < M; j++)
+        for (unsigned int j = 0; j < M; ++j)
         {
           dummy[j] = j;
         }
@@ -107,10 +107,10 @@ itkTimeProbesTest(int, char *[])
 
     // Do other slow stuff here...
     {
-      for (unsigned int i = 0; i < M; i++)
+      for (unsigned int i = 0; i < M; ++i)
       {
         auto * dummy = new unsigned int[N];
-        for (unsigned int j = 0; j < N; j++)
+        for (unsigned int j = 0; j < N; ++j)
         {
           dummy[j] = j;
         }

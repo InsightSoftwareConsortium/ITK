@@ -204,7 +204,7 @@ public:
     // Initialize the temporary image
     m_TemporaryPointer->FillBuffer(NumericTraits<typename TTempImage::PixelType>::ZeroValue());
 
-    for (unsigned int i = 0; i < m_Seeds.size(); i++)
+    for (unsigned int i = 0; i < m_Seeds.size(); ++i)
     {
       if (this->m_Image->GetBufferedRegion().IsInside(m_Seeds[i]) && this->IsPixelIncluded(m_Seeds[i]))
       {

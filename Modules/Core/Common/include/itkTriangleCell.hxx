@@ -279,7 +279,7 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType      x,
 {
   // convert from CoordRepType * to PointType:
   PointType temp(closestPoint);
-  //   for (unsigned int i = 0; i < PointDimension; i++)
+  //   for (unsigned int i = 0; i < PointDimension; ++i)
   //     {
   //     temp[i] = closestPoint[i];
   //     }
@@ -288,7 +288,7 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType      x,
   const double distance2 = this->DistanceToLine(x, p1, p2, t, temp);
 
   // convert from PointType to CoordRepType * :
-  for (unsigned int j = 0; j < PointDimension; j++)
+  for (unsigned int j = 0; j < PointDimension; ++j)
   {
     closestPoint[j] = temp[j];
   }
@@ -311,7 +311,7 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType   x,
   double num(0);
   double denom(0);
 
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     num += static_cast<double>(v21[i] * (x[i] - p1[i]));
     denom += static_cast<double>(v21[i] * v21[i]);
@@ -374,7 +374,7 @@ TriangleCell<TCellInterface>::ComputeBarycenter(CoordRepType * iWeights, PointsC
   CoordRepType sum_weights(0.);
   unsigned int i(0);
 
-  for (; i < 3; i++)
+  for (; i < 3; ++i)
   {
     sum_weights += iWeights[i];
     p[i] = iPoints->GetElement(m_PointIds[i]);
@@ -385,7 +385,7 @@ TriangleCell<TCellInterface>::ComputeBarycenter(CoordRepType * iWeights, PointsC
   if (sum_weights != 0.)
   {
     oP.Fill(0.);
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       oP += p[i].GetVectorFromOrigin() * iWeights[i] / sum_weights;
     }
@@ -414,7 +414,7 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints)
   PointType    p[3];
   unsigned int i;
 
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     p[i] = iPoints->GetElement(m_PointIds[i]);
   }
@@ -434,7 +434,7 @@ TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints)
     PointType oP;
     oP.Fill(0.);
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       oP += p[i].GetVectorFromOrigin() * weights[i] / sum_weights;
     }
@@ -547,7 +547,7 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
     if (closestPoint)
     { // Compute the Distance 2 Between Points
       *minDist2 = 0;
-      for (i = 0; i < PointDimension; i++)
+      for (i = 0; i < PointDimension; ++i)
       {
         const double val = cp[i] - x[i];
         *minDist2 += val * val;
@@ -579,7 +579,7 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
       if (b1 < 0.0 && b2 < 0.0)
       {
         dist2Point = 0;
-        for (i = 0; i < PointDimension; i++)
+        for (i = 0; i < PointDimension; ++i)
         {
           dist2Point += (x[i] - pt3[i]) * (x[i] - pt3[i]);
         }
@@ -600,11 +600,11 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
           *minDist2 = dist2Line2;
           closest = closestPoint2;
         }
-        for (i = 0; i < PointDimension; i++)
+        for (i = 0; i < PointDimension; ++i)
         {
           closestPoint[i] = closest[i];
         }
-        for (; i < 3; i++)
+        for (; i < 3; ++i)
         {
           closestPoint[i] = 0.;
         }
@@ -612,7 +612,7 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
       else if (b2 < 0.0 && b3 < 0.0)
       {
         dist2Point = 0;
-        for (i = 0; i < PointDimension; i++)
+        for (i = 0; i < PointDimension; ++i)
         {
           dist2Point += (x[i] - pt1[i]) * (x[i] - pt1[i]);
         }
@@ -633,11 +633,11 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
           *minDist2 = dist2Line2;
           closest = closestPoint2;
         }
-        for (i = 0; i < PointDimension; i++)
+        for (i = 0; i < PointDimension; ++i)
         {
           closestPoint[i] = closest[i];
         }
-        for (; i < 3; i++)
+        for (; i < 3; ++i)
         {
           closestPoint[i] = 0.;
         }
@@ -645,7 +645,7 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
       else if (b1 < 0.0 && b3 < 0.0)
       {
         dist2Point = 0;
-        for (i = 0; i < PointDimension; i++)
+        for (i = 0; i < PointDimension; ++i)
         {
           dist2Point += (x[i] - pt2[i]) * (x[i] - pt2[i]);
         }
@@ -666,11 +666,11 @@ TriangleCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
           *minDist2 = dist2Line2;
           closest = closestPoint2;
         }
-        for (i = 0; i < PointDimension; i++)
+        for (i = 0; i < PointDimension; ++i)
         {
           closestPoint[i] = closest[i];
         }
-        for (; i < 3; i++)
+        for (; i < 3; ++i)
         {
           closestPoint[i] = 0.;
         }

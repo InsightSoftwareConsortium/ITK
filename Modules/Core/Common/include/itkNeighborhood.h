@@ -100,7 +100,7 @@ public:
   {
     m_Radius.Fill(0);
     m_Size.Fill(0);
-    for (DimensionValueType i = 0; i < VDimension; i++)
+    for (DimensionValueType i = 0; i < VDimension; ++i)
     {
       m_StrideTable[i] = 0;
     }

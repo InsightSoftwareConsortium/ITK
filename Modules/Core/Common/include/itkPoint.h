@@ -262,7 +262,7 @@ public:
   void
   CastFrom(const Point<TCoordRepB, NPointDimension> & pa)
   {
-    for (unsigned int i = 0; i < NPointDimension; i++)
+    for (unsigned int i = 0; i < NPointDimension; ++i)
     {
       (*this)[i] = static_cast<TCoordRep>(pa[i]);
     }
@@ -278,7 +278,7 @@ public:
   {
     RealType sum = NumericTraits<RealType>::ZeroValue();
 
-    for (unsigned int i = 0; i < NPointDimension; i++)
+    for (unsigned int i = 0; i < NPointDimension; ++i)
     {
       const auto     component = static_cast<RealType>(pa[i]);
       const RealType difference = static_cast<RealType>((*this)[i]) - component;

@@ -43,7 +43,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
   coeff.push_back(et * ModifiedBesselI1(m_Variance));
   sum += coeff[1] * 2.0;
 
-  for (i = 2; sum < cap; i++)
+  for (i = 2; sum < cap; ++i)
   {
     coeff.push_back(et * ModifiedBesselI(i, m_Variance));
     sum += coeff[i] * 2.0;

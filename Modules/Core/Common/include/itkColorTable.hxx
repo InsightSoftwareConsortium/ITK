@@ -137,7 +137,7 @@ ColorTable<TPixel>::UseGrayColors(unsigned int n)
   // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
     static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
-  for (i = 0; i < m_NumberOfColors; i++)
+  for (i = 0; i < m_NumberOfColors; ++i)
   {
     typename NumericTraits<TPixel>::RealType realGray(minimum + i * delta);
 
@@ -182,7 +182,7 @@ ColorTable<TPixel>::UseHeatColors(unsigned int n)
   // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
     static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
-  for (i = 0; i < n / 2.0; i++)
+  for (i = 0; i < n / 2.0; ++i)
   {
     //
     // avoid overflow
@@ -200,7 +200,7 @@ ColorTable<TPixel>::UseHeatColors(unsigned int n)
     m_ColorName[i] = name.str();
   }
 
-  for (i = 0; i < n / 2; i++)
+  for (i = 0; i < n / 2; ++i)
   {
     typename NumericTraits<TPixel>::RealType rdouble(1.0 * scale + shift);
     TPixel                                   r(NumericTraits<TPixel>::max());
@@ -240,7 +240,7 @@ ColorTable<TPixel>::UseRandomColors(unsigned int n)
     minimum = NumericTraits<TPixel>::ZeroValue();
     maximum = NumericTraits<TPixel>::OneValue();
   }
-  for (i = 0; i < n; i++)
+  for (i = 0; i < n; ++i)
   {
     r = static_cast<TPixel>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][0] = r;
@@ -346,7 +346,7 @@ ColorTable<TPixel>::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)
   double       bestMatch = 0.0;
   unsigned int bestMatchColor = 0;
 
-  for (unsigned int i = 0; i < m_NumberOfColors; i++)
+  for (unsigned int i = 0; i < m_NumberOfColors; ++i)
   {
     double match;
     match = (r - (double)m_Color[i].GetRed()) * (r - (double)m_Color[i].GetRed());
@@ -368,7 +368,7 @@ ColorTable<TPixel>::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "NumberOfColors = " << m_NumberOfColors << std::endl;
-  for (unsigned int i = 0; i < m_NumberOfColors; i++)
+  for (unsigned int i = 0; i < m_NumberOfColors; ++i)
   {
     os << indent << "ColorName[" << i << "] = " << m_ColorName[i] << ", "
        << "Color[" << i << "] = " << m_Color[i] << std::endl;

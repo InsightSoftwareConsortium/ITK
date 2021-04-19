@@ -181,7 +181,7 @@ VertexCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
 
   if (closestPoint)
   {
-    for (unsigned int i = 0; i < PointDimension; i++)
+    for (unsigned int i = 0; i < PointDimension; ++i)
     {
       closestPoint[i] = X[i];
     }
@@ -189,7 +189,7 @@ VertexCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
 
   double dist2 = 0;
   {
-    for (unsigned int i = 0; i < PointDimension; i++)
+    for (unsigned int i = 0; i < PointDimension; ++i)
     {
       dist2 += (X[i] - x[i]) * (X[i] - x[i]);
     }

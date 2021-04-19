@@ -66,7 +66,7 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
   }
 
   // Check that the size of the kernel is odd in all dimensions.
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     if (m_ImageKernel->GetLargestPossibleRegion().GetSize()[i] % 2 == 0)
     {

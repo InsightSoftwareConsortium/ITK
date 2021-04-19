@@ -32,7 +32,7 @@ TestTransform()
 
   typename ImageType::PointType origin;
 
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     origin[i] = static_cast<double>(i * 100);
   }

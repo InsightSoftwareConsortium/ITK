@@ -67,7 +67,7 @@ public:
   {
     InternalType * truePixel = (&output) + offset * m_OffsetMultiplier;
 
-    for (VectorLengthType i = 0; i < m_VectorLength; i++)
+    for (VectorLengthType i = 0; i < m_VectorLength; ++i)
     {
       truePixel[i] = input[i];
     }

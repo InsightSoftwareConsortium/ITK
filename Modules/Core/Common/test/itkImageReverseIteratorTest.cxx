@@ -108,7 +108,7 @@ itkImageReverseIteratorTest(int, char *[])
   {
     ImageType::IndexType index = it.GetIndex();
     std::cout << "Simple iterator loop: ";
-    for (unsigned int i = 0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
       std::cout << index[i] << " ";
     }
@@ -124,7 +124,7 @@ itkImageReverseIteratorTest(int, char *[])
 
     ImageType::IndexType index = backIt.GetIndex();
     std::cout << "Simple iterator backwards loop: ";
-    for (unsigned int i = 0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
       std::cout << index[i] << " ";
     }
@@ -139,7 +139,7 @@ itkImageReverseIteratorTest(int, char *[])
   {
     ImageType::IndexType index = reverseIt.GetIndex();
     std::cout << "Reverse iterator: ";
-    for (unsigned int i = 0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
       std::cout << index[i] << " ";
     }
@@ -161,7 +161,7 @@ itkImageReverseIteratorTest(int, char *[])
 
     ImageType::IndexType index = backReverseIt.GetIndex();
     std::cout << "Reverse iterator backwards loop: ";
-    for (unsigned int i = 0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
       std::cout << index[i] << " ";
     }
@@ -174,7 +174,7 @@ itkImageReverseIteratorTest(int, char *[])
   {
     ImageType::IndexType index = reverseConstIt.GetIndex();
     std::cout << "Reverse const iterator: ";
-    for (unsigned int i = 0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
       std::cout << index[i] << " ";
     }
@@ -192,7 +192,7 @@ itkImageReverseIteratorTest(int, char *[])
     --castBackReverseIt;
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = it.GetIndex();
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType rindex = castBackReverseIt.GetIndex();
-    for (unsigned int i = 0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
       if (index[i] != rindex[i])
       {

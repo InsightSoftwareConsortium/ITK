@@ -386,7 +386,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
       }
     }
 
-    for (unsigned int i = 0; i < Self::PointDimension3D; i++)
+    for (unsigned int i = 0; i < Self::PointDimension3D; ++i)
     {
       fcol[i] -= x[i];
     }
@@ -680,11 +680,11 @@ HexahedronCell<TCellInterface>::EvaluateLocation(int &                     itkNo
     // NOTE: Avoid compiler warning.  The code below only runs if PointType::Dimension == Self::PointDimension3D
     constexpr unsigned int PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS =
       hexahedron_constexpr_min(PointType::Dimension, Self::PointDimension3D);
-    for (unsigned int i = 0; i < Self::NumberOfPoints; i++)
+    for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
     {
       const PointType pt{ points->GetElement(m_PointIds[i]) };
 
-      for (unsigned int j = 0; j < PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS; j++)
+      for (unsigned int j = 0; j < PREVENT_OVERRUN_OF_INVALID_INSTANTIATIONS; ++j)
       {
         const CoordRepType t = pt[j] * weights[i];
         x[j] += t;

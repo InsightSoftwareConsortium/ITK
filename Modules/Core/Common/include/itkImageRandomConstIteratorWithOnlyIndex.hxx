@@ -89,7 +89,7 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::RandomJump()
   PositionValueType position = randomPosition;
   PositionValueType residual;
 
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
     const SizeValueType sizeInThisDimension = this->m_Region.GetSize()[dim];
     residual = position % sizeInThisDimension;

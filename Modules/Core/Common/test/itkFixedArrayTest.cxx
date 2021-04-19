@@ -83,12 +83,12 @@ itkFixedArrayTest(int, char *[])
   // Test Get/Set element
   constexpr unsigned int           n = 20;
   itk::FixedArray<unsigned int, n> array20;
-  for (unsigned int i = 0; i < n; i++)
+  for (unsigned int i = 0; i < n; ++i)
   {
     array20.SetElement(i, i);
   }
 
-  for (unsigned int k = 0; k < n; k++)
+  for (unsigned int k = 0; k < n; ++k)
   {
     if (array20.GetElement(k) != k)
     {

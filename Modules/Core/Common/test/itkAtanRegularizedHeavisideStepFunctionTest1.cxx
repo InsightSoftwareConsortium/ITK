@@ -48,7 +48,7 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
 
   constexpr InputType incValue = 0.1;
 
-  for (signed int x = minValue; x < maxValue; x++)
+  for (signed int x = minValue; x < maxValue; ++x)
   {
     const InputType ix = x * incValue;
     OutputType      f = functionBase0->Evaluate(ix);

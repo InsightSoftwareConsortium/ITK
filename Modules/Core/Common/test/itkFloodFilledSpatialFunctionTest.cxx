@@ -73,7 +73,7 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
   sourceImage->Allocate();
 
   // Loop over all available iterator strategies
-  for (int strat = 0; strat < 4; strat++)
+  for (int strat = 0; strat < 4; ++strat)
   {
     // Initialize the image to hold all 0's
     itk::ImageRegionIterator<ImageType> it = itk::ImageRegionIterator<ImageType>(sourceImage, largestPossibleRegion);

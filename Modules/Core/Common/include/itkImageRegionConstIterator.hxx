@@ -49,7 +49,7 @@ ImageRegionConstIterator<TImage>::Increment()
   // Note that ++ind[0] moves to the next pixel along the row.
   ++ind[0];
   bool done = (ind[0] == startIndex[0] + static_cast<IndexValueType>(size[0]));
-  for (unsigned int i = 1; done && i < ImageIteratorDimension; i++)
+  for (unsigned int i = 1; done && i < ImageIteratorDimension; ++i)
   {
     done = (ind[i] == startIndex[i] + static_cast<IndexValueType>(size[i]) - 1);
   }
@@ -95,7 +95,7 @@ ImageRegionConstIterator<TImage>::Decrement()
   // Check to see if we are past the first pixel in the region
   // Note that --ind[0] moves to the previous pixel along the row.
   bool done = (--ind[0] == startIndex[0] - 1);
-  for (unsigned int i = 1; done && i < ImageIteratorDimension; i++)
+  for (unsigned int i = 1; done && i < ImageIteratorDimension; ++i)
   {
     done = (ind[i] == startIndex[i]);
   }

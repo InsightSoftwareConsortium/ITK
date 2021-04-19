@@ -39,7 +39,7 @@ itkBresenhamLineTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; ++i)
     {
       if (offsets[i][0] != i || offsets[i][1] != i)
       {
@@ -69,7 +69,7 @@ itkBresenhamLineTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 4; ++i)
     {
       if (indices[i][0] != i || indices[i][1] != i)
       {

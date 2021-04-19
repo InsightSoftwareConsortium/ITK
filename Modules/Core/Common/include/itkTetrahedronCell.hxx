@@ -107,7 +107,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   PointType pt3 = points->GetElement(m_PointIds[2]);
   PointType pt4 = points->GetElement(m_PointIds[3]);
 
-  for (i = 0; i < PointDimension; i++)
+  for (i = 0; i < PointDimension; ++i)
   {
     rhs[i] = x[i] - pt4[i];
     c1[i] = pt1[i] - pt4[i];
@@ -118,7 +118,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   // Create a vnl_matrix so that the determinant can be computed
   // for any PointDimension
   vnl_matrix_fixed<CoordRepType, 3, PointDimension> mat;
-  for (i = 0; i < PointDimension; i++)
+  for (i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, c1[i]);
     mat.put(1, i, c2[i]);
@@ -130,7 +130,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
     return false;
   }
 
-  for (i = 0; i < PointDimension; i++)
+  for (i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, rhs[i]);
     mat.put(1, i, c2[i]);
@@ -139,7 +139,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
 
   pcoords[0] = vnl_determinant(mat) / det;
 
-  for (i = 0; i < PointDimension; i++)
+  for (i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, c1[i]);
     mat.put(1, i, rhs[i]);
@@ -148,7 +148,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
 
   pcoords[1] = vnl_determinant(mat) / det;
 
-  for (i = 0; i < PointDimension; i++)
+  for (i = 0; i < PointDimension; ++i)
   {
     mat.put(0, i, c1[i]);
     mat.put(1, i, c2[i]);
@@ -179,7 +179,7 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   {
     if (closestPoint)
     {
-      for (unsigned int ii = 0; ii < PointDimension; ii++)
+      for (unsigned int ii = 0; ii < PointDimension; ++ii)
       {
         closestPoint[ii] = x[ii];
       }
@@ -199,14 +199,14 @@ TetrahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
     {
       FaceAutoPointer triangle;
       *minDist2 = NumericTraits<double>::max();
-      for (i = 0; i < 4; i++)
+      for (i = 0; i < 4; ++i)
       {
         this->GetFace(i, triangle);
         triangle->EvaluatePosition(x, points, closest, pc, &dist2, nullptr);
 
         if (dist2 < *minDist2)
         {
-          for (unsigned int dim = 0; dim < PointDimension; dim++)
+          for (unsigned int dim = 0; dim < PointDimension; ++dim)
           {
             closestPoint[dim] = closest[dim];
           }

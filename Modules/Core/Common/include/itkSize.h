@@ -94,7 +94,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] + vec.m_InternalArray[i];
     }
@@ -105,7 +105,7 @@ public:
   const Self &
   operator+=(const Self & vec)
   {
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_InternalArray[i] += vec.m_InternalArray[i];
     }
@@ -118,7 +118,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] - vec.m_InternalArray[i];
     }
@@ -129,7 +129,7 @@ public:
   const Self &
   operator-=(const Self & vec)
   {
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_InternalArray[i] -= vec.m_InternalArray[i];
     }
@@ -141,7 +141,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result[i] = m_InternalArray[i] * vec.m_InternalArray[i];
     }
@@ -152,7 +152,7 @@ public:
   const Self &
   operator*=(const Self & vec)
   {
-    for (unsigned int i = 0; i < VDimension; i++)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_InternalArray[i] *= vec.m_InternalArray[i];
     }

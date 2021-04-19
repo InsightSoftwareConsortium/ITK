@@ -272,7 +272,7 @@ public:
       // Check to see if we are past the first pixel in the region
       // Note that --ind[0] moves to the previous pixel along the row.
       done = (--ind[0] == startIndex[0] - 1);
-      for (unsigned int i = 1; done && i < this->ImageIteratorDimension; i++)
+      for (unsigned int i = 1; done && i < this->ImageIteratorDimension; ++i)
       {
         done = (ind[i] == startIndex[i]);
       }
@@ -328,7 +328,7 @@ public:
       // Check to see if we are past the last pixel in the region
       // Note that ++ind[0] moves to the next pixel along the row.
       done = (++ind[0] == startIndex[0] + static_cast<OffsetValueType>(size[0]));
-      for (unsigned int i = 1; done && i < this->ImageIteratorDimension; i++)
+      for (unsigned int i = 1; done && i < this->ImageIteratorDimension; ++i)
       {
         done = (ind[i] == startIndex[i] + static_cast<OffsetValueType>(size[i]) - 1);
       }

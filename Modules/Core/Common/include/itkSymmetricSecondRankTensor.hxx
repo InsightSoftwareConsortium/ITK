@@ -53,7 +53,7 @@ SymmetricSecondRankTensor<T, NDimension>::operator+(const Self & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     result[i] = (*this)[i] + r[i];
   }
@@ -69,7 +69,7 @@ SymmetricSecondRankTensor<T, NDimension>::operator-(const Self & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     result[i] = (*this)[i] - r[i];
   }
@@ -83,7 +83,7 @@ template <typename T, unsigned int NDimension>
 const SymmetricSecondRankTensor<T, NDimension> &
 SymmetricSecondRankTensor<T, NDimension>::operator+=(const Self & r)
 {
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     (*this)[i] += r[i];
   }
@@ -97,7 +97,7 @@ template <typename T, unsigned int NDimension>
 const SymmetricSecondRankTensor<T, NDimension> &
 SymmetricSecondRankTensor<T, NDimension>::operator-=(const Self & r)
 {
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     (*this)[i] -= r[i];
   }
@@ -111,7 +111,7 @@ template <typename T, unsigned int NDimension>
 const SymmetricSecondRankTensor<T, NDimension> &
 SymmetricSecondRankTensor<T, NDimension>::operator*=(const RealValueType & r)
 {
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     (*this)[i] *= r;
   }
@@ -125,7 +125,7 @@ template <typename T, unsigned int NDimension>
 const SymmetricSecondRankTensor<T, NDimension> &
 SymmetricSecondRankTensor<T, NDimension>::operator/=(const RealValueType & r)
 {
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     (*this)[i] /= r;
   }
@@ -141,7 +141,7 @@ SymmetricSecondRankTensor<T, NDimension> SymmetricSecondRankTensor<T, NDimension
 {
   Self result;
 
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     result[i] = (*this)[i] * r;
   }
@@ -157,7 +157,7 @@ SymmetricSecondRankTensor<T, NDimension>::operator/(const RealValueType & r) con
 {
   Self result;
 
-  for (unsigned int i = 0; i < InternalDimension; i++)
+  for (unsigned int i = 0; i < InternalDimension; ++i)
   {
     result[i] = (*this)[i] / r;
   }
@@ -225,7 +225,7 @@ void
 SymmetricSecondRankTensor<T, NDimension>::SetIdentity()
 {
   this->Fill(NumericTraits<T>::ZeroValue());
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     (*this)(i, i) = NumericTraits<T>::OneValue();
   }
@@ -241,7 +241,7 @@ SymmetricSecondRankTensor<T, NDimension>::GetTrace() const
   AccumulateValueType trace = NumericTraits<AccumulateValueType>::ZeroValue();
   unsigned int        k = 0;
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     trace += (*this)[k];
     k += (Dimension - i);
@@ -260,9 +260,9 @@ SymmetricSecondRankTensor<T, NDimension>::ComputeEigenValues(EigenValuesArrayTyp
 
   MatrixType tensorMatrix;
 
-  for (unsigned int row = 0; row < Dimension; row++)
+  for (unsigned int row = 0; row < Dimension; ++row)
   {
-    for (unsigned int col = 0; col < Dimension; col++)
+    for (unsigned int col = 0; col < Dimension; ++col)
     {
       tensorMatrix[row][col] = (*this)(row, col);
     }
@@ -284,9 +284,9 @@ SymmetricSecondRankTensor<T, NDimension>::ComputeEigenAnalysis(EigenValuesArrayT
 
   MatrixType tensorMatrix;
 
-  for (unsigned int row = 0; row < Dimension; row++)
+  for (unsigned int row = 0; row < Dimension; ++row)
   {
-    for (unsigned int col = 0; col < Dimension; col++)
+    for (unsigned int col = 0; col < Dimension; ++col)
     {
       tensorMatrix[row][col] = (*this)(row, col);
     }
@@ -308,12 +308,12 @@ SymmetricSecondRankTensor<T, NDimension>::Rotate(const Matrix<TMatrixValueType, 
   Self result;
   using RotationMatrixType = Matrix<double, NDimension, NDimension>;
   RotationMatrixType SCT; // self * Transpose(m)
-  for (unsigned int r = 0; r < NDimension; r++)
+  for (unsigned int r = 0; r < NDimension; ++r)
   {
-    for (unsigned int c = 0; c < NDimension; c++)
+    for (unsigned int c = 0; c < NDimension; ++c)
     {
       double sum = 0.0;
-      for (unsigned int t = 0; t < NDimension; t++)
+      for (unsigned int t = 0; t < NDimension; ++t)
       {
         sum += (*this)(r, t) * m(c, t);
       }
@@ -321,12 +321,12 @@ SymmetricSecondRankTensor<T, NDimension>::Rotate(const Matrix<TMatrixValueType, 
     }
   }
   // self = m * sct;
-  for (unsigned int r = 0; r < NDimension; r++)
+  for (unsigned int r = 0; r < NDimension; ++r)
   {
-    for (unsigned int c = 0; c < NDimension; c++)
+    for (unsigned int c = 0; c < NDimension; ++c)
     {
       double sum = 0.0;
-      for (unsigned int t = 0; t < NDimension; t++)
+      for (unsigned int t = 0; t < NDimension; ++t)
       {
         sum += m(r, t) * SCT(t, c);
       }
@@ -346,12 +346,12 @@ SymmetricSecondRankTensor<T, NDimension>::PreMultiply(const MatrixType & m) cons
   MatrixType result;
 
   using AccumulateType = typename NumericTraits<T>::AccumulateType;
-  for (unsigned int r = 0; r < NDimension; r++)
+  for (unsigned int r = 0; r < NDimension; ++r)
   {
-    for (unsigned int c = 0; c < NDimension; c++)
+    for (unsigned int c = 0; c < NDimension; ++c)
     {
       AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
-      for (unsigned int t = 0; t < NDimension; t++)
+      for (unsigned int t = 0; t < NDimension; ++t)
       {
         sum += m(r, t) * (*this)(t, c);
       }
@@ -371,12 +371,12 @@ SymmetricSecondRankTensor<T, NDimension>::PostMultiply(const MatrixType & m) con
   MatrixType result;
 
   using AccumulateType = typename NumericTraits<T>::AccumulateType;
-  for (unsigned int r = 0; r < NDimension; r++)
+  for (unsigned int r = 0; r < NDimension; ++r)
   {
-    for (unsigned int c = 0; c < NDimension; c++)
+    for (unsigned int c = 0; c < NDimension; ++c)
     {
       AccumulateType sum = NumericTraits<AccumulateType>::ZeroValue();
-      for (unsigned int t = 0; t < NDimension; t++)
+      for (unsigned int t = 0; t < NDimension; ++t)
       {
         sum += (*this)(r, t) * m(t, c);
       }
@@ -393,7 +393,7 @@ template <typename T, unsigned int NDimension>
 std::ostream &
 operator<<(std::ostream & os, const SymmetricSecondRankTensor<T, NDimension> & c)
 {
-  for (unsigned int i = 0; i < c.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < c.GetNumberOfComponents(); ++i)
   {
     os << static_cast<typename NumericTraits<T>::PrintType>(c[i]) << "  ";
   }
@@ -407,7 +407,7 @@ template <typename T, unsigned int NDimension>
 std::istream &
 operator>>(std::istream & is, SymmetricSecondRankTensor<T, NDimension> & dt)
 {
-  for (unsigned int i = 0; i < dt.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < dt.GetNumberOfComponents(); ++i)
   {
     is >> dt[i];
   }

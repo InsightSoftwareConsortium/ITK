@@ -48,7 +48,7 @@ itkMemoryProbesCollecterBaseTest(int, char *[])
   mcollecter.Start("Update");
   probe.Start();
   auto * buf = new char[bufsize];
-  for (unsigned int i = 0; i < bufsize; i++)
+  for (unsigned int i = 0; i < bufsize; ++i)
   {
     buf[i] = static_cast<char>(i & 0xff);
   }

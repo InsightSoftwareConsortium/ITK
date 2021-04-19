@@ -119,11 +119,11 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetPriorityImage(const Pr
   // image is the right size
   using PositionValueType = SizeValueType;
 
-  for (PositionValueType pixel = 0; pixel < m_NumberOfPixelsInRegion; pixel++)
+  for (PositionValueType pixel = 0; pixel < m_NumberOfPixelsInRegion; ++pixel)
   {
     PositionValueType position = pixel;
     IndexType         positionIndex;
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       const SizeValueType     sizeInThisDimension = this->m_Region.GetSize()[dim];
       const PositionValueType residual = position % sizeInThisDimension;
@@ -146,7 +146,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::UpdatePosition()
   using PositionValueType = IndexValueType;
 
   PositionValueType position = (*(this->m_Permutation))[m_NumberOfSamplesDone % m_NumberOfSamplesRequested];
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
     const SizeValueType     sizeInThisDimension = this->m_Region.GetSize()[dim];
     const PositionValueType residual = position % sizeInThisDimension;

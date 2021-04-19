@@ -243,7 +243,7 @@ public:
   bool
   IsInside(const IndexType & index) const
   {
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       if (index[i] < m_Index[i])
       {
@@ -265,7 +265,7 @@ public:
   bool
   IsInside(const ContinuousIndex<TCoordRepType, VImageDimension> & index) const
   {
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       if (Math::RoundHalfIntegerUp<IndexValueType>(index[i]) < static_cast<IndexValueType>(m_Index[i]))
       {
@@ -303,7 +303,7 @@ public:
     }
     IndexType        endCorner;
     const SizeType & size = region.GetSize();
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       endCorner[i] = beginCorner[i] + static_cast<OffsetValueType>(size[i]) - 1;
     }

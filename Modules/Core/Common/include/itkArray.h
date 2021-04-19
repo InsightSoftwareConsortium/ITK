@@ -104,7 +104,7 @@ public:
   {
     this->m_LetArrayManageMemory = true;
     this->SetSize(r.GetSize());
-    for (SizeValueType i = 0; i < r.GetSize(); i++)
+    for (SizeValueType i = 0; i < r.GetSize(); ++i)
     {
       this->operator[](i) = static_cast<TValue>(r[i]);
     }

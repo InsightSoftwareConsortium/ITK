@@ -187,7 +187,7 @@ public:
   static void
   AssignToArray(const Self & v, TArray & mv)
   {
-    for (unsigned int i = 0; i < GetLength(); i++)
+    for (unsigned int i = 0; i < GetLength(); ++i)
     {
       mv[i] = v[i];
     }

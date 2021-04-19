@@ -67,7 +67,7 @@ itkBSplineKernelFunctionTest(int, char *[])
     FunctionType::Pointer function = FunctionType::New();                                                              \
                                                                                                                        \
     function->Print(std::cout);                                                                                        \
-    for (unsigned j = 0; j < npoints; j++)                                                                             \
+    for (unsigned j = 0; j < npoints; ++j)                                                                             \
     {                                                                                                                  \
       double results = function->Evaluate(x[j]);                                                                       \
       /* compare with external results */                                                                              \

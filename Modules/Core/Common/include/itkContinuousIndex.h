@@ -87,7 +87,7 @@ public:
   /** Construct from discrete index type */
   ContinuousIndex(const IndexType & index)
   {
-    for (unsigned int i = 0; i < VIndexDimension; i++)
+    for (unsigned int i = 0; i < VIndexDimension; ++i)
     {
       (*this)[i] = static_cast<TCoordRep>(index[i]);
     }

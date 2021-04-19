@@ -81,11 +81,11 @@ itkVariableSizeMatrixTest(int, char *[])
   }
 
   // Get each row separately
-  for (unsigned int i = 0; i < h.Rows(); i++)
+  for (unsigned int i = 0; i < h.Rows(); ++i)
   {
     float * row = h[i];
     std::cout << "h[" << i << "] = ";
-    for (unsigned int j = 0; j < h.Cols(); j++)
+    for (unsigned int j = 0; j < h.Cols(); ++j)
     {
       std::cout << *(row + j) << ", ";
     }
@@ -93,11 +93,11 @@ itkVariableSizeMatrixTest(int, char *[])
   }
 
   // Get each row separately, const version
-  for (unsigned int i = 0; i < h.Rows(); i++)
+  for (unsigned int i = 0; i < h.Rows(); ++i)
   {
     const float * row = h[i];
     std::cout << "h[" << i << "] = ";
-    for (unsigned int j = 0; j < h.Cols(); j++)
+    for (unsigned int j = 0; j < h.Cols(); ++j)
     {
       std::cout << *(row + j) << ", ";
     }
