@@ -80,7 +80,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       const double tolerance = 1e-6;
       bool         symmetryForXBroken = false;
 
-      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++)
+      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
         if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
         {
@@ -94,22 +94,22 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
         std::cerr << "Error in weights symmetry for X = " << x << std::endl;
         testFailed = true;
         std::cerr << "indexDifference= " << indexDifference << std::endl;
-        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
+        for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights1[nw] << "\t";
         }
         std::cerr << std::endl;
-        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
+        for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights2[nw] << "\t";
         }
         std::cerr << std::endl;
-        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
+        for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex1[sd] << "\t";
         }
         std::cerr << std::endl;
-        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
+        for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex2[sd] << "\t";
         }
@@ -170,7 +170,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       const double tolerance = 1e-6;
       bool         symmetryForXBroken = false;
 
-      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; nw++)
+      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
       {
         if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
         {
@@ -184,22 +184,22 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
         std::cerr << "Error in weights symmetry for X = " << x << std::endl;
         testFailed = true;
         std::cerr << "indexDifference= " << indexDifference << std::endl;
-        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
+        for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights1[nw] << "\t";
         }
         std::cerr << std::endl;
-        for (unsigned int nw = 0; nw < numberOfWeigts; nw++)
+        for (unsigned int nw = 0; nw < numberOfWeigts; ++nw)
         {
           std::cerr << weights2[nw] << "\t";
         }
         std::cerr << std::endl;
-        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
+        for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex1[sd] << "\t";
         }
         std::cerr << std::endl;
-        for (unsigned int sd = 0; sd < SpaceDimension; sd++)
+        for (unsigned int sd = 0; sd < SpaceDimension; ++sd)
         {
           std::cerr << startIndex2[sd] << "\t";
         }
@@ -273,7 +273,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     {
 
       double value = 1.0;
-      for (unsigned int j = 0; j < SpaceDimension; j++)
+      for (unsigned int j = 0; j < SpaceDimension; ++j)
       {
         value *= kernel->Evaluate(static_cast<double>(iter.GetIndex()[j]) - position[j]);
       }

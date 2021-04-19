@@ -30,7 +30,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::InBounds() const
   }
 
   bool ans = true;
-  for (DimensionValueType i = 0; i < Dimension; i++)
+  for (DimensionValueType i = 0; i < Dimension; ++i)
   {
     if (m_Loop[i] < m_InnerBoundsLow[i] || m_Loop[i] >= m_InnerBoundsHigh[i])
     {
@@ -229,7 +229,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ConstNeighborhoodIterator
 
   m_WrapOffset.Fill(0);
 
-  for (DimensionValueType i = 0; i < Dimension; i++)
+  for (DimensionValueType i = 0; i < Dimension; ++i)
   {
     m_InBounds[i] = false;
   }
@@ -327,7 +327,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetNeighborhood() const
   else
   {
     // Calculate overlap & initialize index
-    for (DimensionValueType i = 0; i < Dimension; i++)
+    for (DimensionValueType i = 0; i < Dimension; ++i)
     {
       OverlapLow[i] = m_InnerBoundsLow[i] - m_Loop[i];
       OverlapHigh[i] = static_cast<OffsetValueType>(this->GetSize(i)) - ((m_Loop[i] + 2) - m_InnerBoundsHigh[i]);
@@ -640,12 +640,12 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & 
   os << "}" << std::endl;
 
   os << indent << ",  m_InnerBoundsLow = { ";
-  for (i = 0; i < Dimension; i++)
+  for (i = 0; i < Dimension; ++i)
   {
     os << m_InnerBoundsLow[i] << " ";
   }
   os << "}, m_InnerBoundsHigh = { ";
-  for (i = 0; i < Dimension; i++)
+  for (i = 0; i < Dimension; ++i)
   {
     os << m_InnerBoundsHigh[i] << " ";
   }

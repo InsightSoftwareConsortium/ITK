@@ -96,7 +96,7 @@ public:
   {
     InternalPixelType * const truePixelPointer = pixelPointer + (pixelPointer - m_Begin) * m_OffsetMultiplier;
 
-    for (VectorLengthType i = 0; i < m_VectorLength; i++)
+    for (VectorLengthType i = 0; i < m_VectorLength; ++i)
     {
       truePixelPointer[i] = p[i];
     }

@@ -62,8 +62,8 @@ itkSparseImageTest(int, char *[])
   NodeType *           node;
   int                  cnt = 0;
 
-  for (index[0] = 0; index[0] < 24; index[0]++)
-    for (index[1] = 0; index[1] < 24; index[1]++)
+  for (index[0] = 0; index[0] < 24; ++index[0])
+    for (index[1] = 0; index[1] < 24; ++index[1])
     {
       if ((index[0] >= 6) && (index[0] <= 12) && (index[1] >= 6) && (index[1] <= 12))
       {

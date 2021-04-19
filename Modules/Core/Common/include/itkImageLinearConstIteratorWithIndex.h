@@ -246,7 +246,7 @@ ImageLinearConstIteratorWithIndex<TImage>::NextLine()
 
   this->m_PositionIndex[m_Direction] = this->m_BeginIndex[m_Direction];
 
-  for (unsigned int n = 0; n < TImage::ImageDimension; n++)
+  for (unsigned int n = 0; n < TImage::ImageDimension; ++n)
   {
     this->m_Remaining = false;
 
@@ -282,7 +282,7 @@ ImageLinearConstIteratorWithIndex<TImage>::PreviousLine()
 
   this->m_PositionIndex[m_Direction] = this->m_EndIndex[m_Direction] - 1;
 
-  for (unsigned int n = 0; n < TImage::ImageDimension; n++)
+  for (unsigned int n = 0; n < TImage::ImageDimension; ++n)
   {
     this->m_Remaining = false;
 

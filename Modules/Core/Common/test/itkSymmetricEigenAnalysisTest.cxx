@@ -103,7 +103,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
       double tolerance = 0.01;
-      for (unsigned int i = 0; i < 6; i++)
+      for (unsigned int i = 0; i < 6; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
@@ -138,9 +138,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
 
     InputMatrixType S;
 
-    for (unsigned int row = 0; row < 6; row++)
+    for (unsigned int row = 0; row < 6; ++row)
     {
-      for (unsigned int col = 0; col < 6; col++)
+      for (unsigned int col = 0; col < 6; ++col)
       {
         S[row][col] = Sdata[row * 6 + col];
       }
@@ -166,7 +166,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
       double tolerance = 0.01;
-      for (unsigned int i = 0; i < 6; i++)
+      for (unsigned int i = 0; i < 6; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
@@ -201,9 +201,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
 
     InputMatrixType S;
 
-    for (unsigned int row = 0; row < 6; row++)
+    for (unsigned int row = 0; row < 6; ++row)
     {
-      for (unsigned int col = 0; col < 6; col++)
+      for (unsigned int col = 0; col < 6; ++col)
       {
         S[row][col] = Sdata[row * 6 + col];
       }
@@ -223,7 +223,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
     double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
     double tolerance = 0.01;
-    for (unsigned int i = 0; i < 6; i++)
+    for (unsigned int i = 0; i < 6; ++i)
     {
       if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
       {
@@ -259,9 +259,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
 
     InputMatrixType S;
 
-    for (unsigned int row = 0; row < 6; row++)
+    for (unsigned int row = 0; row < 6; ++row)
     {
-      for (unsigned int col = 0; col < 6; col++)
+      for (unsigned int col = 0; col < 6; ++col)
       {
         S(row, col) = Sdata[row * 6 + col];
       }
@@ -286,7 +286,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       double eigvals[6] = { 0.170864, 2.16934, 3.79272, 15.435, 24.6083, 78.2994 };
 
       double tolerance = 0.01;
-      for (unsigned int i = 0; i < 6; i++)
+      for (unsigned int i = 0; i < 6; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
@@ -319,9 +319,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
 
     InputMatrixType S;
 
-    for (unsigned int row = 0; row < 3; row++)
+    for (unsigned int row = 0; row < 3; ++row)
     {
-      for (unsigned int col = 0; col < 3; col++)
+      for (unsigned int col = 0; col < 3; ++col)
       {
         S(row, col) = Sdata[row * 3 + col];
       }
@@ -347,7 +347,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       double eigvals[3] = { -1.0, -3.0, 5.0 };
 
       double tolerance = 0.01;
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {
@@ -380,9 +380,9 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
 
     InputMatrixType S;
 
-    for (unsigned int row = 0; row < 3; row++)
+    for (unsigned int row = 0; row < 3; ++row)
     {
-      for (unsigned int col = 0; col < 3; col++)
+      for (unsigned int col = 0; col < 3; ++col)
       {
         S(row, col) = Sdata[row * 3 + col];
       }
@@ -408,7 +408,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
       float eigvals[3] = { -3.26256000e-06f, 1.96703376e+01f, -2.74458376e+01f };
 
       float tolerance = 0.01;
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (itk::Math::abs(eigvals[i] - eigenvalues[i]) > tolerance)
         {

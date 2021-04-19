@@ -272,9 +272,9 @@ VariableSizeMatrix<T>::operator==(const Self & matrix) const
   }
   bool equal = true;
 
-  for (unsigned int r = 0; r < this->Rows(); r++)
+  for (unsigned int r = 0; r < this->Rows(); ++r)
   {
-    for (unsigned int c = 0; c < this->Cols(); c++)
+    for (unsigned int c = 0; c < this->Cols(); ++c)
     {
       if (Math::NotExactlyEquals(m_Matrix(r, c), matrix.m_Matrix(r, c)))
       {

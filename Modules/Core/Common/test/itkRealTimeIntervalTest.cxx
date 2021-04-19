@@ -67,7 +67,7 @@ itkRealTimeIntervalTest(int, char *[])
   itk::RealTimeInterval intervalX = interval0;
 
   itk::RealTimeInterval oneSecond(1, 0);
-  for (unsigned int i = 0; i < 1000000L; i++)
+  for (unsigned int i = 0; i < 1000000L; ++i)
   {
     intervalX += oneSecond;
   }
@@ -85,7 +85,7 @@ itkRealTimeIntervalTest(int, char *[])
 
   itk::RealTimeInterval interval3 = interval0;
 
-  for (unsigned int i = 0; i < 1000000L; i++)
+  for (unsigned int i = 0; i < 1000000L; ++i)
   {
     interval3 += fiveMicroseconds;
   }
@@ -96,7 +96,7 @@ itkRealTimeIntervalTest(int, char *[])
 
   CHECK_FOR_VALUE(timeInSeconds, 5.0);
 
-  for (unsigned int i = 0; i < 1000000L; i++)
+  for (unsigned int i = 0; i < 1000000L; ++i)
   {
     interval3 -= fiveMicroseconds;
   }

@@ -70,7 +70,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       // along each dimension
       ContinuousIndex<double, TImage::ImageDimension> contIndex;
 
-      for (unsigned int i = 0; i < TImage::ImageDimension; i++)
+      for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
       {
         contIndex[i] = (double)index[i] + 0.5;
       }
@@ -118,11 +118,11 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       IndexType tempIndex;
 
       // First we loop over the binary counter
-      for (counter = 0; counter < numReps; counter++)
+      for (counter = 0; counter < numReps; ++counter)
       {
         // Next we use the binary values in the counter to form
         // an index to look at
-        for (unsigned int i = 0; i < dim; i++)
+        for (unsigned int i = 0; i < dim; ++i)
         {
           counterCopy = counter;
           tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);
@@ -162,11 +162,11 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       IndexType    tempIndex;
 
       // First we loop over the binary counter
-      for (counter = 0; counter < numReps; counter++)
+      for (counter = 0; counter < numReps; ++counter)
       {
         // Next we use the binary values in the counter to form
         // an index to look at
-        for (unsigned int i = 0; i < dim; i++)
+        for (unsigned int i = 0; i < dim; ++i)
         {
           counterCopy = counter;
           tempIndex[i] = index[i] + static_cast<int>((counterCopy >> i) & 0x0001);

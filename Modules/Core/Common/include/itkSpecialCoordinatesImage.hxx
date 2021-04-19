@@ -75,7 +75,7 @@ SpecialCoordinatesImage<TPixel, VImageDimension>::FillBuffer(const TPixel & valu
 {
   const SizeValueType numberOfPixels = this->GetBufferedRegion().GetNumberOfPixels();
 
-  for (unsigned int i = 0; i < numberOfPixels; i++)
+  for (unsigned int i = 0; i < numberOfPixels; ++i)
   {
     (*m_Buffer)[i] = value;
   }

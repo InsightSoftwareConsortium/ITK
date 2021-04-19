@@ -128,7 +128,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
   it.ActivateOffset(off);
   it.Print(std::cout);
 
-  for (unsigned int r = 0; r < 1; r++)
+  for (unsigned int r = 0; r < 1; ++r)
   {
     println("...turn on [1,0,0,0]");
     off[0] = 1;

@@ -94,7 +94,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
     return EXIT_FAILURE;
   }
   IndexType truthIndex;
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     truthIndex[i] = loc[i] - radius[i];
   }
@@ -149,7 +149,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   // fwd iterate by a line
   it.GoToBegin();
   index = it.GetIndex();
-  for (unsigned int i = 0; i < sz[0]; i++)
+  for (unsigned int i = 0; i < sz[0]; ++i)
   {
     ++it;
   }
@@ -161,7 +161,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 
   // fwd iterate by a slice
   index = it.GetIndex();
-  for (unsigned int i = 0; i < sz[0] * sz[1]; i++)
+  for (unsigned int i = 0; i < sz[0] * sz[1]; ++i)
   {
     ++it;
   }
@@ -182,7 +182,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   }
 
   index = it.GetIndex();
-  for (unsigned int i = 0; i < sz[0]; i++)
+  for (unsigned int i = 0; i < sz[0]; ++i)
   {
     --it;
   }
@@ -193,7 +193,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   }
 
   index = it.GetIndex();
-  for (unsigned int i = 0; i < sz[0] * sz[1]; i++)
+  for (unsigned int i = 0; i < sz[0] * sz[1]; ++i)
   {
     --it;
   }
@@ -249,7 +249,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   OffsetType a_off;
   a_off.Fill(1);
   ra_it += a_off;
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     IndexType ind = ra_it.GetIndex();
     if (ind[i] != loc[i] + 1)
@@ -273,7 +273,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 
   std::cout << "Subtracting [1, 1, 1, 1]" << std::endl;
   ra_it -= a_off;
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     IndexType ind = ra_it.GetIndex();
     if (ind[i] != loc[i])
@@ -291,7 +291,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   ra_it += a_off;
   IndexType truth = loc;
   truth += a_off;
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     IndexType ind = ra_it.GetIndex();
     if (ind[i] != truth[i])
@@ -314,7 +314,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   a_off[1] = 8;
   ra_it += a_off;
   truth += a_off;
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     IndexType ind = ra_it.GetIndex();
     if (ind[i] != truth[i])
@@ -341,7 +341,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   a_off[3] = -1;
   ra_it += a_off;
   truth += a_off;
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     IndexType ind = ra_it.GetIndex();
     if (ind[i] != truth[i])
@@ -388,7 +388,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
     std::cerr << "IndexInBounds failed for index 0, expected false." << std::endl;
     return EXIT_FAILURE;
   }
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     if (resultOffset[n] != static_cast<itk::OffsetValueType>(radius[n]))
     {
@@ -403,7 +403,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
     std::cerr << "IndexInBounds failed for index size-1, expected true." << std::endl;
     return EXIT_FAILURE;
   }
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     if (resultOffset[n] != 0)
     {
@@ -414,7 +414,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
 
   // Test min boundary by dimension
   int result = EXIT_SUCCESS;
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     typename IteratorType::IndexType boundaryLoc = centerLoc;
     boundaryLoc[n] = 0;
@@ -428,7 +428,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestRun()
   }
 
   // Test max boundary by dimension
-  for (unsigned int n = 0; n < 4; n++)
+  for (unsigned int n = 0; n < 4; ++n)
   {
     typename IteratorType::IndexType boundaryLoc = centerLoc;
     boundaryLoc[n] = dims[n] - 1;

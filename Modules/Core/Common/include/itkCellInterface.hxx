@@ -66,7 +66,7 @@ template <typename TPixelType, typename TCellTraits>
 void
 CellInterface<TPixelType, TCellTraits>::SetPointIdsContainer(const PointIdentifierContainerType & container)
 {
-  for (unsigned int i = 0; i < container.Size(); i++)
+  for (unsigned int i = 0; i < container.Size(); ++i)
   {
     this->SetPointId(i, container[i]);
   }

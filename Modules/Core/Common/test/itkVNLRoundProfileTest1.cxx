@@ -64,7 +64,7 @@ itkVNLRoundProfileTest1(int, char *[])
   std::cout << "Initial Value   = " << initialValue << std::endl;
   std::cout << "Value Increment = " << valueIncrement << std::endl;
 
-  for (unsigned long i = 0; i < numberOfValues; i++)
+  for (unsigned long i = 0; i < numberOfValues; ++i)
   {
     const double inputValue = initialValue + i * valueIncrement;
     input.push_back(inputValue);
@@ -74,7 +74,7 @@ itkVNLRoundProfileTest1(int, char *[])
   //
   // Make sure that entries in the .5 locations are included
   //
-  for (signed int k = -10; k <= 10; k++)
+  for (signed int k = -10; k <= 10; ++k)
   {
     const double value = k + 0.5;
     input.push_back(value);
@@ -86,7 +86,7 @@ itkVNLRoundProfileTest1(int, char *[])
   output3.resize(input.size());
   output4.resize(input.size());
 
-  for (unsigned int tours = 0; tours < 100; tours++)
+  for (unsigned int tours = 0; tours < 100; ++tours)
   {
     //
     // Count the time of simply assigning values in an std::vector

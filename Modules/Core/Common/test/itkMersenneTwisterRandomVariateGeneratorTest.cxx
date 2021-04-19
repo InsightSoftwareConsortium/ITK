@@ -49,7 +49,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   twister->SetSeed(Twister::GetInstance()->GetSeed());
 
   // Check that we get the same series of numbers from the two.  Use integers.
-  for (int i = 0; i < 200; i++)
+  for (int i = 0; i < 200; ++i)
   {
     if (Twister::GetInstance()->GetIntegerVariate() != twister->GetIntegerVariate())
     {
@@ -85,7 +85,7 @@ itkMersenneTwisterRandomVariateGeneratorTest(int, char *[])
   double sum = 0.0;
   double sum2 = 0.0;
   int    count = 500000;
-  for (int i = 0; i < count; i++)
+  for (int i = 0; i < count; ++i)
   {
     double v = twister->GetNormalVariate();
     sum += v;

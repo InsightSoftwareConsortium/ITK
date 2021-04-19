@@ -45,7 +45,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
     STLVectorType vectorSource;
 
-    for (unsigned int i = 0; i < containerSize; i++)
+    for (unsigned int i = 0; i < containerSize; ++i)
     {
       vectorSource.push_back(containerSize - i);
     }
@@ -90,7 +90,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
       // Test of index access
       std::cout << "Testing index access... ";
-      for (unsigned int i = 0; i < containerSize; i++)
+      for (unsigned int i = 0; i < containerSize; ++i)
       {
         if (vectorSource[i] != vectorContainer->GetElement(i))
         {
@@ -138,7 +138,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
       // Test of index access
       std::cout << "Testing index access... ";
-      for (unsigned int i = 0; i < containerSize; i++)
+      for (unsigned int i = 0; i < containerSize; ++i)
       {
         if (destination[i] != vectorContainer->GetElement(i))
         {
@@ -167,7 +167,7 @@ itkSTLContainerAdaptorTest(int, char *[])
     using STLMapType = std::map<int, ElementType>;
     STLMapType mapSource;
 
-    for (unsigned int i = 0; i < containerSize; i++)
+    for (unsigned int i = 0; i < containerSize; ++i)
     {
       mapSource[i] = containerSize - i;
     }
@@ -188,7 +188,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
       std::cout << "Testing assignment... ";
 
-      for (unsigned int i = 0; i < containerSize; i++)
+      for (unsigned int i = 0; i < containerSize; ++i)
       {
         targetRef[i] = mapSource[i];
       }
@@ -215,7 +215,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
       // Test of index access
       std::cout << "Testing index access... ";
-      for (unsigned int j = 0; j < containerSize; j++)
+      for (unsigned int j = 0; j < containerSize; ++j)
       {
         if (mapSource[j] != mapContainer->GetElement(j))
         {
@@ -239,7 +239,7 @@ itkSTLContainerAdaptorTest(int, char *[])
       STLMapType destination;
 
       std::cout << "Testing reading assignment... ";
-      for (unsigned int i = 0; i < containerSize; i++)
+      for (unsigned int i = 0; i < containerSize; ++i)
       {
         destination[i] = constTargetRef.find(i)->second;
       }
@@ -266,7 +266,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
       // Test of index access
       std::cout << "Testing index access... ";
-      for (unsigned int j = 0; j < containerSize; j++)
+      for (unsigned int j = 0; j < containerSize; ++j)
       {
         if (destination[j] != mapContainer->GetElement(j))
         {

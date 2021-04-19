@@ -229,9 +229,9 @@ public:
   {
     bool equal = true;
 
-    for (unsigned int r = 0; r < NRows; r++)
+    for (unsigned int r = 0; r < NRows; ++r)
     {
-      for (unsigned int c = 0; c < NColumns; c++)
+      for (unsigned int c = 0; c < NColumns; ++c)
       {
         if (Math::NotExactlyEquals(m_Matrix(r, c), matrix.m_Matrix(r, c)))
         {

@@ -173,7 +173,7 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
     }
 
     auto lambda = [aFunc](SizeValueType start, SizeValueType end) {
-      for (SizeValueType ii = start; ii < end; ii++)
+      for (SizeValueType ii = start; ii < end; ++ii)
       {
         aFunc(ii);
       }
@@ -198,7 +198,7 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
     });
 
     // now wait for the other computations to finish
-    for (SizeValueType i = 1; i < workUnit; i++)
+    for (SizeValueType i = 1; i < workUnit; ++i)
     {
       exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
         std::future_status status;
@@ -244,7 +244,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
   else
   {
     ImageIORegion region(dimension);
-    for (unsigned d = 0; d < dimension; d++)
+    for (unsigned d = 0; d < dimension; ++d)
     {
       region.SetIndex(d, index[d]);
       region.SetSize(d, size[d]);
@@ -261,7 +261,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
       itkAssertOrThrowMacro(splitCount <= m_NumberOfWorkUnits, "Split count is greater than number of work units!");
       ImageIORegion iRegion;
       ThreadIdType  total;
-      for (ThreadIdType i = 1; i < splitCount; i++)
+      for (ThreadIdType i = 1; i < splitCount; ++i)
       {
         iRegion = region;
         total = splitter->GetSplit(i, splitCount, iRegion);
@@ -290,7 +290,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
       });
 
       // now wait for the other computations to finish
-      for (ThreadIdType i = 1; i < splitCount; i++)
+      for (ThreadIdType i = 1; i < splitCount; ++i)
       {
         exceptionHandler.TryAndCatch([this, i, &reporter, &filter] {
           std::future_status status;

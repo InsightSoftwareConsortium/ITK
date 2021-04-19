@@ -80,7 +80,7 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
     result = EXIT_FAILURE;
   }
 
-  for (unsigned i = 1; i < size; i++)
+  for (unsigned i = 1; i < size; ++i)
   {
     if (vec[i] != i)
     {

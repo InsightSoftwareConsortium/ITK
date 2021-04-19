@@ -113,7 +113,7 @@ public:
   void
   Shuffle() const
   {
-    for (SizeValueType i = 0; i < m_Size; i++)
+    for (SizeValueType i = 0; i < m_Size; ++i)
     {
       m_Permutation[i].m_Value = m_Generator->GetVariateWithClosedRange(1.0);
       m_Permutation[i].m_Index = i;

@@ -42,7 +42,7 @@ public:
       return false;
     }
 
-    for (unsigned int i = 0; i < expected.size(); i++)
+    for (unsigned int i = 0; i < expected.size(); ++i)
     {
       if (itk::Math::NotAlmostEquals(expected[i], coefficients[i]))
       {

@@ -147,7 +147,7 @@ public:
   PolygonCell() = default;
   PolygonCell(PointIdentifier NumberOfPoints)
   {
-    for (PointIdentifier i = 0; i < NumberOfPoints; i++)
+    for (PointIdentifier i = 0; i < NumberOfPoints; ++i)
     {
       m_PointIds.push_back(NumericTraits<PointIdentifier>::max());
     }

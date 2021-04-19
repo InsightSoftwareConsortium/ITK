@@ -60,14 +60,14 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, unsigned int length)
   // we are going to start at 0
   m_CurrentImageIndex.Fill(0);
   StartIndex.Fill(0);
-  for (unsigned i = 0; i < VDimension; i++)
+  for (unsigned i = 0; i < VDimension; ++i)
   {
     LastIndex[i] = (IndexValueType)(length * Direction[i]);
   }
   // Find the dominant direction
   IndexValueType maxDistance = 0;
   unsigned int   maxDistanceDimension = 0;
-  for (unsigned i = 0; i < VDimension; i++)
+  for (unsigned i = 0; i < VDimension; ++i)
   {
     auto distance = static_cast<long>(itk::Math::abs(LastIndex[i]));
     if (distance > maxDistance)
@@ -118,7 +118,7 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1)
 {
   itk::Point<float, VDimension> point0;
   itk::Point<float, VDimension> point1;
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     point0[i] = p0[i];
     point1[i] = p1[i];
@@ -128,7 +128,7 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1)
   OffsetArray offsets = this->BuildLine(point1 - point0, distance);
 
   IndexArray indices(offsets.size());
-  for (unsigned int i = 0; i < offsets.size(); i++)
+  for (unsigned int i = 0; i < offsets.size(); ++i)
   {
     indices[i] = p0 + offsets[i];
   }

@@ -43,7 +43,7 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(
 
   // Project the position onto the major axis, normalize by axis length,
   // and determine whether position is inside ellipsoid.
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     pointVector[i] = position[i] - m_Center[i];
   }

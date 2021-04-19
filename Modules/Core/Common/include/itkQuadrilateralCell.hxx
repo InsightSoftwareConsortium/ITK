@@ -304,7 +304,7 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   // See vtkQuad for this:  ComputeNormal (this, pt1, pt2, pt3, n);  vtkPlane::ProjectPoint(x,pt1,n,cp);
 
   //  enter iteration loop
-  for (iteration = converged = 0; !converged && (iteration < ITK_QUAD_MAX_ITERATION); iteration++)
+  for (iteration = converged = 0; !converged && (iteration < ITK_QUAD_MAX_ITERATION); ++iteration)
   {
     //  calculate element interpolation functions and derivatives
     this->InterpolationFunctions(pcoords, weights);

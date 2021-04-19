@@ -49,7 +49,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::ShapedFloo
   this->m_Image = imagePtr; // can not be done in the initialization list
 
   unsigned int i;
-  for (i = 0; i < startIndex.size(); i++)
+  for (i = 0; i < startIndex.size(); ++i)
   {
     m_Seeds.push_back(startIndex[i]);
   }
@@ -104,7 +104,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::Initialize
   // position later (using FindSeedPixel).  Must make sure that the
   // seed is inside the buffer before touching pixels.
   this->m_IsAtEnd = true;
-  for (unsigned int i = 0; i < m_Seeds.size(); i++)
+  for (unsigned int i = 0; i < m_Seeds.size(); ++i)
   {
     if (m_ImageRegion.IsInside(m_Seeds[i]))
     {

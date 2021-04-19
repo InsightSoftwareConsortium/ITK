@@ -42,7 +42,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Pri
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Bounding Box: ( ";
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     os << m_Bounds[2 * i] << "," << m_Bounds[2 * i + 1] << " ";
   }
@@ -85,15 +85,15 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Com
   PointType center = this->GetCenter();
   PointType radius;
 
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     radius[i] = m_Bounds[2 * i + 1] - center[i];
   }
 
-  for (SizeValueType j = 0; j < NumberOfCorners; j++)
+  for (SizeValueType j = 0; j < NumberOfCorners; ++j)
   {
     PointType pnt;
-    for (unsigned int i = 0; i < PointDimension; i++)
+    for (unsigned int i = 0; i < PointDimension; ++i)
     {
       pnt[i] = center[i] + std::pow(-1.0, ((double)(j / (int(std::pow(2.0, (double)i)))))) * radius[i];
     }
@@ -158,7 +158,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Com
 
     PointsContainerConstIterator      ci = m_PointsContainer->Begin();
     Point<TCoordRep, VPointDimension> point = ci->Value(); // point value
-    for (unsigned int i = 0; i < PointDimension; i++)
+    for (unsigned int i = 0; i < PointDimension; ++i)
     {
       m_Bounds[2 * i] = point[i];
       m_Bounds[2 * i + 1] = point[i];
@@ -170,7 +170,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Com
     while (ci != m_PointsContainer->End())
     {
       point = ci->Value(); // point value
-      for (unsigned int i = 0; i < PointDimension; i++)
+      for (unsigned int i = 0; i < PointDimension; ++i)
       {
         if (point[i] < m_Bounds[2 * i])
         {
@@ -197,7 +197,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
   this->ComputeBoundingBox();
 
   PointType center;
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     center[i] = (m_Bounds[2 * i] + m_Bounds[2 * i + 1]) / 2.0;
   }
@@ -212,7 +212,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
   this->ComputeBoundingBox();
 
   PointType minimum;
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     minimum[i] = m_Bounds[2 * i];
   }
@@ -224,7 +224,7 @@ template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoo
 void
 BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::SetMinimum(const PointType & point)
 {
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     m_Bounds[2 * i] = point[i];
   }
@@ -239,7 +239,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
   this->ComputeBoundingBox();
 
   PointType maximum;
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     maximum[i] = m_Bounds[2 * i + 1];
   }
@@ -251,7 +251,7 @@ template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoo
 void
 BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::SetMaximum(const PointType & point)
 {
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     m_Bounds[2 * i + 1] = point[i];
   }
@@ -265,7 +265,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Con
 {
   bool changed = false;
 
-  for (unsigned int i = 0; i < PointDimension; i++)
+  for (unsigned int i = 0; i < PointDimension; ++i)
   {
     if (point[i] < m_Bounds[2 * i])
     {
@@ -293,7 +293,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
 
   if (this->ComputeBoundingBox())
   {
-    for (unsigned int i = 0; i < PointDimension; i++)
+    for (unsigned int i = 0; i < PointDimension; ++i)
     {
       dist2 += (m_Bounds[2 * i] - m_Bounds[2 * i + 1]) * (m_Bounds[2 * i] - m_Bounds[2 * i + 1]);
     }
@@ -367,7 +367,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Dee
 #endif
 
   // Copy the bounds into the clone
-  for (unsigned int i = 0; i < 2 * PointDimension; i++)
+  for (unsigned int i = 0; i < 2 * PointDimension; ++i)
   {
     clone->m_Bounds[i] = this->m_Bounds[i];
   }

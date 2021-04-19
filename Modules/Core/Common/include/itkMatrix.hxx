@@ -30,10 +30,10 @@ template <typename T, unsigned int NRows, unsigned int NColumns>
 Vector<T, NRows> Matrix<T, NRows, NColumns>::operator*(const Vector<T, NColumns> & vect) const
 {
   Vector<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       sum += m_Matrix(r, c) * vect[c];
     }
@@ -49,10 +49,10 @@ template <typename T, unsigned int NRows, unsigned int NColumns>
 Point<T, NRows> Matrix<T, NRows, NColumns>::operator*(const Point<T, NColumns> & pnt) const
 {
   Point<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       sum += m_Matrix(r, c) * pnt[c];
     }
@@ -68,10 +68,10 @@ template <typename T, unsigned int NRows, unsigned int NColumns>
 vnl_vector_fixed<T, NRows> Matrix<T, NRows, NColumns>::operator*(const vnl_vector_fixed<T, NColumns> & inVNLvect) const
 {
   vnl_vector_fixed<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       sum += m_Matrix(r, c) * inVNLvect[c];
     }
@@ -87,10 +87,10 @@ template <typename T, unsigned int NRows, unsigned int NColumns>
 CovariantVector<T, NRows> Matrix<T, NRows, NColumns>::operator*(const CovariantVector<T, NColumns> & covect) const
 {
   CovariantVector<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       sum += m_Matrix(r, c) * covect[c];
     }
@@ -118,9 +118,9 @@ Matrix<T, NRows, NColumns>::operator+(const Self & matrix) const
 {
   Self result;
 
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       result.m_Matrix(r, c) = m_Matrix(r, c) + matrix.m_Matrix(r, c);
     }
@@ -135,9 +135,9 @@ template <typename T, unsigned int NRows, unsigned int NColumns>
 const Matrix<T, NRows, NColumns> &
 Matrix<T, NRows, NColumns>::operator+=(const Self & matrix)
 {
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       m_Matrix(r, c) += matrix.m_Matrix(r, c);
     }
@@ -154,9 +154,9 @@ Matrix<T, NRows, NColumns>::operator-(const Self & matrix) const
 {
   Self result;
 
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       result.m_Matrix(r, c) = m_Matrix(r, c) - matrix.m_Matrix(r, c);
     }
@@ -171,9 +171,9 @@ template <typename T, unsigned int NRows, unsigned int NColumns>
 const Matrix<T, NRows, NColumns> &
 Matrix<T, NRows, NColumns>::operator-=(const Self & matrix)
 {
-  for (unsigned int r = 0; r < NRows; r++)
+  for (unsigned int r = 0; r < NRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; c++)
+    for (unsigned int c = 0; c < NColumns; ++c)
     {
       m_Matrix(r, c) -= matrix.m_Matrix(r, c);
     }

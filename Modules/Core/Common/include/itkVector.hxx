@@ -42,7 +42,7 @@ template <typename T, unsigned int TVectorDimension>
 const typename Vector<T, TVectorDimension>::Self &
 Vector<T, TVectorDimension>::operator+=(const Self & vec)
 {
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     (*this)[i] += vec[i];
   }
@@ -53,7 +53,7 @@ template <typename T, unsigned int TVectorDimension>
 const typename Vector<T, TVectorDimension>::Self &
 Vector<T, TVectorDimension>::operator-=(const Self & vec)
 {
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     (*this)[i] -= vec[i];
   }
@@ -66,7 +66,7 @@ Vector<T, TVectorDimension>::operator-() const
 {
   Self result;
 
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     result[i] = -(*this)[i];
   }
@@ -79,7 +79,7 @@ Vector<T, TVectorDimension>::operator+(const Self & vec) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     result[i] = (*this)[i] + vec[i];
   }
@@ -92,7 +92,7 @@ Vector<T, TVectorDimension>::operator-(const Self & vec) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     result[i] = (*this)[i] - vec[i];
   }
@@ -104,7 +104,7 @@ typename Vector<T, TVectorDimension>::RealValueType
 Vector<T, TVectorDimension>::GetSquaredNorm() const
 {
   typename NumericTraits<RealValueType>::AccumulateType sum = NumericTraits<T>::ZeroValue();
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     const RealValueType value = (*this)[i];
     sum += value * value;
@@ -130,7 +130,7 @@ Vector<T, TVectorDimension>::Normalize()
   }
 
   const RealValueType inversedNorm = 1.0 / norm;
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     (*this)[i] = static_cast<T>(static_cast<RealValueType>((*this)[i] * inversedNorm));
   }
@@ -159,7 +159,7 @@ template <typename T, unsigned int TVectorDimension>
 void
 Vector<T, TVectorDimension>::SetVnlVector(const vnl_vector<T> & v)
 {
-  for (unsigned int i = 0; i < v.size(); i++)
+  for (unsigned int i = 0; i < v.size(); ++i)
   {
     (*this)[i] = v(i);
   }
@@ -176,7 +176,7 @@ operator<<(std::ostream & os, const Vector<T, TVectorDimension> & vct)
   }
   else
   {
-    for (unsigned int i = 0; i + 1 < TVectorDimension; i++)
+    for (unsigned int i = 0; i + 1 < TVectorDimension; ++i)
     {
       os << vct[i] << ", ";
     }
@@ -190,7 +190,7 @@ template <typename T, unsigned int TVectorDimension>
 std::istream &
 operator>>(std::istream & is, Vector<T, TVectorDimension> & vct)
 {
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     is >> vct[i];
   }
@@ -201,7 +201,7 @@ template <typename T, unsigned int TVectorDimension>
 typename Vector<T, TVectorDimension>::ValueType Vector<T, TVectorDimension>::operator*(const Self & other) const
 {
   typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::ZeroValue();
-  for (unsigned int i = 0; i < TVectorDimension; i++)
+  for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
     value += (*this)[i] * other[i];
   }

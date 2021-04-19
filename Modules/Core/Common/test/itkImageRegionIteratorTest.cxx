@@ -129,7 +129,7 @@ itkImageRegionIteratorTest(int, char *[])
 
     itk::Image<itk::Vector<unsigned short, 5>, 3>::IndexType index = backIt.GetIndex();
     std::cout << "Simple iterator backwards loop: ";
-    for (unsigned int i = 0; i < index.GetIndexDimension(); i++)
+    for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
       std::cout << index[i] << " ";
     }

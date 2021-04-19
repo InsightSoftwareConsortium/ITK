@@ -44,7 +44,7 @@ Neighborhood<TPixel, VDimension, TContainer>::ComputeNeighborhoodOffsetTable()
   m_OffsetTable.reserve(this->Size());
   OffsetType         o;
   DimensionValueType i, j;
-  for (j = 0; j < VDimension; j++)
+  for (j = 0; j < VDimension; ++j)
   {
     o[j] = -(static_cast<OffsetValueType>(this->GetRadius(j)));
   }
@@ -52,7 +52,7 @@ Neighborhood<TPixel, VDimension, TContainer>::ComputeNeighborhoodOffsetTable()
   for (i = 0; i < this->Size(); ++i)
   {
     m_OffsetTable.push_back(o);
-    for (j = 0; j < VDimension; j++)
+    for (j = 0; j < VDimension; ++j)
     {
       o[j] = o[j] + 1;
       if (o[j] > static_cast<OffsetValueType>(this->GetRadius(j)))
@@ -73,7 +73,7 @@ Neighborhood<TPixel, VDimension, TContainer>::SetRadius(const SizeValueType s)
 {
   SizeType k;
 
-  for (DimensionValueType i = 0; i < VDimension; i++)
+  for (DimensionValueType i = 0; i < VDimension; ++i)
   {
     k[i] = s;
   }
@@ -88,7 +88,7 @@ Neighborhood<TPixel, VDimension, TContainer>::SetRadius(const SizeType & r)
   this->SetSize();
 
   SizeValueType cumul = NumericTraits<SizeValueType>::OneValue();
-  for (DimensionValueType i = 0; i < VDimension; i++)
+  for (DimensionValueType i = 0; i < VDimension; ++i)
   {
     cumul *= m_Size[i];
   }

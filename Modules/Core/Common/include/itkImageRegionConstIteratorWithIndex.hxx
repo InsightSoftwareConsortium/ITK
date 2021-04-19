@@ -30,7 +30,7 @@ ImageRegionConstIteratorWithIndex<TImage> &
 ImageRegionConstIteratorWithIndex<TImage>::operator++()
 {
   this->m_Remaining = false;
-  for (unsigned int in = 0; in < TImage::ImageDimension; in++)
+  for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
   {
     const IndexValueType positionIndex = ++this->m_PositionIndex[in];
     if (positionIndex < this->m_EndIndex[in])
@@ -62,7 +62,7 @@ ImageRegionConstIteratorWithIndex<TImage> &
 ImageRegionConstIteratorWithIndex<TImage>::operator--()
 {
   this->m_Remaining = false;
-  for (unsigned int in = 0; in < TImage::ImageDimension; in++)
+  for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
   {
     if (this->m_PositionIndex[in] > this->m_BeginIndex[in])
     {

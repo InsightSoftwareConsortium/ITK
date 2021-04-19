@@ -44,10 +44,10 @@ Array<T> VariableSizeMatrix<T>::operator*(const Array<T> & vect) const
   }
 
   Array<T> result(rows);
-  for (unsigned int r = 0; r < rows; r++)
+  for (unsigned int r = 0; r < rows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < cols; c++)
+    for (unsigned int c = 0; c < cols; ++c)
     {
       sum += m_Matrix(r, c) * vect[c];
     }
@@ -88,9 +88,9 @@ VariableSizeMatrix<T>::operator+(const Self & matrix) const
   }
 
   Self result(this->Rows(), this->Cols());
-  for (unsigned int r = 0; r < this->Rows(); r++)
+  for (unsigned int r = 0; r < this->Rows(); ++r)
   {
-    for (unsigned int c = 0; c < this->Cols(); c++)
+    for (unsigned int c = 0; c < this->Cols(); ++c)
     {
       result.m_Matrix(r, c) = m_Matrix(r, c) + matrix.m_Matrix(r, c);
     }
@@ -112,9 +112,9 @@ VariableSizeMatrix<T>::operator+=(const Self & matrix)
                              << ")");
   }
 
-  for (unsigned int r = 0; r < this->Rows(); r++)
+  for (unsigned int r = 0; r < this->Rows(); ++r)
   {
-    for (unsigned int c = 0; c < this->Cols(); c++)
+    for (unsigned int c = 0; c < this->Cols(); ++c)
     {
       m_Matrix(r, c) += matrix.m_Matrix(r, c);
     }
@@ -137,9 +137,9 @@ VariableSizeMatrix<T>::operator-(const Self & matrix) const
   }
 
   Self result(this->Rows(), this->Cols());
-  for (unsigned int r = 0; r < this->Rows(); r++)
+  for (unsigned int r = 0; r < this->Rows(); ++r)
   {
-    for (unsigned int c = 0; c < this->Cols(); c++)
+    for (unsigned int c = 0; c < this->Cols(); ++c)
     {
       result.m_Matrix(r, c) = m_Matrix(r, c) - matrix.m_Matrix(r, c);
     }
@@ -161,9 +161,9 @@ VariableSizeMatrix<T>::operator-=(const Self & matrix)
                              << ")");
   }
 
-  for (unsigned int r = 0; r < this->Rows(); r++)
+  for (unsigned int r = 0; r < this->Rows(); ++r)
   {
-    for (unsigned int c = 0; c < this->Cols(); c++)
+    for (unsigned int c = 0; c < this->Cols(); ++c)
     {
       m_Matrix(r, c) -= matrix.m_Matrix(r, c);
     }
@@ -175,9 +175,9 @@ template <typename T>
 VariableSizeMatrix<T> &
 VariableSizeMatrix<T>::operator-()
 {
-  for (unsigned int r = 0; r < this->Rows(); r++)
+  for (unsigned int r = 0; r < this->Rows(); ++r)
   {
-    for (unsigned int c = 0; c < this->Cols(); c++)
+    for (unsigned int c = 0; c < this->Cols(); ++c)
     {
       m_Matrix(r, c) = -m_Matrix(r, c);
     }

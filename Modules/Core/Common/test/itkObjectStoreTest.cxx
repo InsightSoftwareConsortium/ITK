@@ -41,21 +41,21 @@ itkObjectStoreTest(int, char *[])
   store->SetGrowthStrategy(store->GetGrowthStrategy());
 
 
-  for (j = 0; j < 2; j++)
+  for (j = 0; j < 2; ++j)
   {
     std::cout << "_______________________" << std::endl;
     store->Print(std::cout);
 
 
     // Borrow some items
-    for (i = 0; i < 30000; i++)
+    for (i = 0; i < 30000; ++i)
     {
       borrowed_list.push_back(store->Borrow());
     }
     store->Print(std::cout);
 
     // Force allocation of a more memory
-    for (i = 0; i < 1000000; i++)
+    for (i = 0; i < 1000000; ++i)
     {
       borrowed_list.push_back(store->Borrow());
     }

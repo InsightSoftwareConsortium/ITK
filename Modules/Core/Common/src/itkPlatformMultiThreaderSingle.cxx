@@ -44,7 +44,7 @@ PlatformMultiThreader::MultipleMethodExecute()
     m_NumberOfWorkUnits = m_GlobalMaximumNumberOfThreads;
   }
 
-  for (thread_loop = 0; thread_loop < m_NumberOfWorkUnits; thread_loop++)
+  for (thread_loop = 0; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
   {
     if (m_MultipleMethod[thread_loop] == (ThreadFunctionType)0)
     {

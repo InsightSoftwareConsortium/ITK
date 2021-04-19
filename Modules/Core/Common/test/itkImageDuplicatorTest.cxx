@@ -251,7 +251,7 @@ itkImageDuplicatorTest(int, char *[])
 
     VectorImageType::Pointer             vectorImage = VectorImageType::New();
     itk::VariableLengthVector<PixelType> f(VectorLength);
-    for (unsigned int i = 0; i < VectorLength; i++)
+    for (unsigned int i = 0; i < VectorLength; ++i)
     {
       f[i] = i;
     }

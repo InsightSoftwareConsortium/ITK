@@ -52,7 +52,7 @@ itkPriorityQueueTest(int, char *[])
 
   std::list<double>::const_iterator it = sequence.begin();
   size_t                            i = 0;
-  for (; it != sequence.end(); ++it, i++)
+  for (; it != sequence.end(); ++it, ++i)
   {
     min_priority_queue->Push(MinPQElementType(i, *it));
     max_priority_queue->Push(MaxPQElementType(i, *it));

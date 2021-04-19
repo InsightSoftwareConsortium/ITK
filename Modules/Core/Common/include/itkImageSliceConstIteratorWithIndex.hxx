@@ -77,7 +77,7 @@ ImageSliceConstIteratorWithIndex<TImage>::NextSlice()
   this->m_Position -= m_LineJump * (this->m_PositionIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B]);
   this->m_PositionIndex[m_Direction_B] = this->m_BeginIndex[m_Direction_B];
 
-  for (unsigned int n = 0; n < TImage::ImageDimension; n++)
+  for (unsigned int n = 0; n < TImage::ImageDimension; ++n)
   {
     this->m_Remaining = false;
 
@@ -112,7 +112,7 @@ ImageSliceConstIteratorWithIndex<TImage>::PreviousSlice()
   this->m_PositionIndex[m_Direction_B] = this->m_EndIndex[m_Direction_B] - 1;
   this->m_Position += m_LineJump * (this->m_EndIndex[m_Direction_B] - this->m_BeginIndex[m_Direction_B]);
 
-  for (unsigned int n = 0; n < TImage::ImageDimension; n++)
+  for (unsigned int n = 0; n < TImage::ImageDimension; ++n)
   {
     this->m_Remaining = false;
 

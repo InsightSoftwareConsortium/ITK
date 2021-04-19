@@ -436,7 +436,7 @@ itkImageLinearIteratorTest(int, char *[])
     std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
     // go to the middle of the first line
     std::cout << "    for(unsigned int i=0; ..." << std::endl;
-    for (unsigned int i = 0; i < size[0] / 2; i++)
+    for (unsigned int i = 0; i < size[0] / 2; ++i)
     {
       std::cout << "      ++cbot;" << std::endl;
       ++cbot;
@@ -489,7 +489,7 @@ itkImageLinearIteratorTest(int, char *[])
     std::cout << "    GetIndex(): " << cbot.GetIndex() << std::endl;
     // go to the middle of the second line
     std::cout << "    for(unsigned int i=0; ..." << std::endl;
-    for (unsigned int i = 0; i < size[0] + size[0] / 2; i++)
+    for (unsigned int i = 0; i < size[0] + size[0] / 2; ++i)
     {
       std::cout << "      ++cbot;" << std::endl;
       ++cbot;
@@ -544,7 +544,7 @@ itkImageLinearIteratorTest(int, char *[])
     cbot.GoToBegin();
 
     // go to the middle of the first line
-    for (unsigned int i = 0; i < size[0] / 2; i++)
+    for (unsigned int i = 0; i < size[0] / 2; ++i)
     {
       ++cbot;
     }
@@ -587,7 +587,7 @@ itkImageLinearIteratorTest(int, char *[])
     cbot.GoToBegin();
 
     // go to the middle of the second line
-    for (unsigned int i = 0; i < size[0] + size[0] / 2; i++)
+    for (unsigned int i = 0; i < size[0] + size[0] / 2; ++i)
     {
       ++cbot;
       if (cbot.IsAtEndOfLine())

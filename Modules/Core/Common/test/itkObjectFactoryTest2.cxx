@@ -103,7 +103,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
   std::string pathSeparator = ":";
 #endif
   std::string path = "";
-  for (int ac = 1; ac < argc - 1; ac++)
+  for (int ac = 1; ac < argc - 1; ++ac)
   {
     path += argv[ac];
 #ifdef CMAKE_INTDIR
@@ -139,7 +139,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
       std::list<std::string>::const_iterator n = names.begin();
       std::list<std::string>::const_iterator d = descriptions.begin();
       std::list<bool>::const_iterator        e = enableflags.begin();
-      for (std::list<std::string>::const_iterator o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, e++)
+      for (std::list<std::string>::const_iterator o = overrides.begin(); o != overrides.end(); ++o, ++n, ++d, ++e)
       {
         std::cout << "    Override " << *o << " with " << *n << std::endl
                   << "      described as \"" << *d << "\"" << std::endl

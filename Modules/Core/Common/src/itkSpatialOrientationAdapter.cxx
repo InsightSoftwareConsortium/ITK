@@ -46,7 +46,7 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
                                                    SpatialOrientation::ITK_COORDINATE_UNKNOWN,
                                                    SpatialOrientation::ITK_COORDINATE_UNKNOWN };
 
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
     if (int(axes[(i * 3)]) == 1)
     {
@@ -98,7 +98,7 @@ SpatialOrientationAdapter::ToDirectionCosines(const OrientationType & Or)
   terms[2] = static_cast<CoordinateTerms>((Or >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & 0xff);
   DirectionType direction;
   direction.Fill(0.0);
-  for (unsigned int i = 0; i < DirectionType::ColumnDimensions; i++)
+  for (unsigned int i = 0; i < DirectionType::ColumnDimensions; ++i)
   {
     switch (terms[i])
     {

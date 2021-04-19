@@ -32,7 +32,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::InBounds() const
   }
 
   bool ans = true;
-  for (DimensionValueType i = 0; i < Dimension; i++)
+  for (DimensionValueType i = 0; i < Dimension; ++i)
   {
     if (m_Loop[i] < m_InnerBoundsLow[i] || m_Loop[i] >= m_InnerBoundsHigh[i])
     {
@@ -145,7 +145,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ConstNeighborhoodIteratorWithOnl
   m_Region.SetIndex(zeroIndex);
   m_Region.SetSize(zeroSize);
 
-  for (DimensionValueType i = 0; i < Dimension; i++)
+  for (DimensionValueType i = 0; i < Dimension; ++i)
   {
     m_InBounds[i] = false;
   }
@@ -184,7 +184,7 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ConstNeighborhoodIteratorWithOnl
                                                                                        const RegionType & region)
 {
   this->Initialize(radius, ptr, region);
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     m_InBounds[i] = false;
   }
@@ -301,7 +301,7 @@ template <typename TImage>
 bool
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::operator<(const Self & it) const
 {
-  for (DimensionValueType i = 1; i <= Dimension; i++)
+  for (DimensionValueType i = 1; i <= Dimension; ++i)
   {
     if (this->GetIndex()[Dimension - i] < it.GetIndex()[Dimension - i])
     {
@@ -330,7 +330,7 @@ template <typename TImage>
 bool
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::operator>(const Self & it) const
 {
-  for (DimensionValueType i = 1; i <= Dimension; i++)
+  for (DimensionValueType i = 1; i <= Dimension; ++i)
   {
     if (this->GetIndex()[Dimension - i] > it.GetIndex()[Dimension - i])
     {
@@ -470,12 +470,12 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::PrintSelf(std::ostream & os, Ind
   os << "}, m_IsInBoundsValid = {" << m_IsInBoundsValid;
 
   os << indent << ",  m_InnerBoundsLow = { ";
-  for (i = 0; i < Dimension; i++)
+  for (i = 0; i < Dimension; ++i)
   {
     os << m_InnerBoundsLow[i] << " ";
   }
   os << "}, m_InnerBoundsHigh = { ";
-  for (i = 0; i < Dimension; i++)
+  for (i = 0; i < Dimension; ++i)
   {
     os << m_InnerBoundsHigh[i] << " ";
   }

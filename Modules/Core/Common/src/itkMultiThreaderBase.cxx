@@ -509,7 +509,7 @@ MultiThreaderBase::ParallelizeArrayHelper(void * arg)
 
   TotalProgressReporter reporter(acParams->filter, range);
 
-  for (SizeValueType i = first; i < afterLast; i++)
+  for (SizeValueType i = first; i < afterLast; ++i)
   {
     acParams->functor(i);
 
@@ -536,7 +536,7 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
   ProgressReporter progress(filter, 0, 1);
 
   SizeValueType pixelCount = 1;
-  for (unsigned d = 0; d < dimension; d++)
+  for (unsigned d = 0; d < dimension; ++d)
   {
     pixelCount *= size[d];
   }
@@ -559,7 +559,7 @@ MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
   ImageIORegion                   region(rnc->dimension);
-  for (unsigned d = 0; d < rnc->dimension; d++)
+  for (unsigned d = 0; d < rnc->dimension; ++d)
   {
     region.SetIndex(d, rnc->index[d]);
     region.SetSize(d, rnc->size[d]);

@@ -43,10 +43,10 @@ execute(void * ptr)
   int    m = *data;
   double sum = 1.0;
 
-  for (int j = 0; j < m; j++)
+  for (int j = 0; j < m; ++j)
   {
     sum = 1.0;
-    for (int i = 1; i <= n; i++)
+    for (int i = 1; i <= n; ++i)
     {
       sum = sum + i + j;
     }
@@ -82,7 +82,7 @@ itkMultithreadingTest(int argc, char * argv[])
   itk::TimeProbe                timeProbe;
   itk::TimeProbe::TimeStampType startTime = timeProbe.GetInstantValue();
   int                           data = 123;
-  for (int i = 0; i < count; i++)
+  for (int i = 0; i < count; ++i)
   {
     threader->SetSingleMethod(&execute, &data);
     threader->SingleMethodExecute();

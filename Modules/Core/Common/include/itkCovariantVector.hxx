@@ -41,7 +41,7 @@ template <typename T, unsigned int NVectorDimension>
 const typename CovariantVector<T, NVectorDimension>::Self &
 CovariantVector<T, NVectorDimension>::operator+=(const Self & vec)
 {
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     (*this)[i] += vec[i];
   }
@@ -52,7 +52,7 @@ template <typename T, unsigned int NVectorDimension>
 const typename CovariantVector<T, NVectorDimension>::Self &
 CovariantVector<T, NVectorDimension>::operator-=(const Self & vec)
 {
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     (*this)[i] -= vec[i];
   }
@@ -65,7 +65,7 @@ CovariantVector<T, NVectorDimension>::operator-() const
 {
   Self result;
 
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     result[i] = -(*this)[i];
   }
@@ -78,7 +78,7 @@ CovariantVector<T, NVectorDimension>::operator+(const Self & vec) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     result[i] = (*this)[i] + vec[i];
   }
@@ -91,7 +91,7 @@ CovariantVector<T, NVectorDimension>::operator-(const Self & vec) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     result[i] = (*this)[i] - vec[i];
   }
@@ -103,7 +103,7 @@ typename CovariantVector<T, NVectorDimension>::ValueType CovariantVector<T, NVec
   const Self & other) const
 {
   typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::ZeroValue();
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     value += (*this)[i] * other[i];
   }
@@ -115,7 +115,7 @@ typename CovariantVector<T, NVectorDimension>::ValueType CovariantVector<T, NVec
   const Vector<T, NVectorDimension> & other) const
 {
   typename NumericTraits<T>::AccumulateType value = NumericTraits<T>::ZeroValue();
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     value += (*this)[i] * other[i];
   }
@@ -128,7 +128,7 @@ CovariantVector<T, NVectorDimension>::GetSquaredNorm() const
 {
   RealValueType sum = NumericTraits<RealValueType>::ZeroValue();
 
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     const RealValueType value = (*this)[i];
     sum += value * value;
@@ -149,7 +149,7 @@ CovariantVector<T, NVectorDimension>::Normalize()
 {
   const RealValueType norm = this->GetNorm();
 
-  for (unsigned int i = 0; i < NVectorDimension; i++)
+  for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
     (*this)[i] /= norm;
   }
@@ -161,7 +161,7 @@ template <typename T, unsigned int NVectorDimension>
 void
 CovariantVector<T, NVectorDimension>::SetVnlVector(const vnl_vector<T> & v)
 {
-  for (unsigned int i = 0; i < v.size(); i++)
+  for (unsigned int i = 0; i < v.size(); ++i)
   {
     (*this)[i] = v(i);
   }

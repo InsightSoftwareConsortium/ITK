@@ -78,7 +78,7 @@ ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
 
 
   // Assign the output split region to the input region in-place
-  for (unsigned int i = 0; i < dim; i++)
+  for (unsigned int i = 0; i < dim; ++i)
   {
     const SizeValueType inputRegionSize = regionSize[i];
     const auto          indexOffset =

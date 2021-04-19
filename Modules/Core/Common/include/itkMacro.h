@@ -1160,7 +1160,7 @@ compilers.
   virtual void Set##name(type data[])                                                                                  \
   {                                                                                                                    \
     unsigned int i;                                                                                                    \
-    for (i = 0; i < count; i++)                                                                                        \
+    for (i = 0; i < count; ++i)                                                                                        \
     {                                                                                                                  \
       CLANG_PRAGMA_PUSH                                                                                                \
       CLANG_SUPPRESS_Wfloat_equal                                                                                      \
@@ -1173,7 +1173,7 @@ compilers.
     if (i < count)                                                                                                     \
     {                                                                                                                  \
       this->Modified();                                                                                                \
-      for (i = 0; i < count; i++)                                                                                      \
+      for (i = 0; i < count; ++i)                                                                                      \
       {                                                                                                                \
         this->m_##name[i] = data[i];                                                                                   \
       }                                                                                                                \

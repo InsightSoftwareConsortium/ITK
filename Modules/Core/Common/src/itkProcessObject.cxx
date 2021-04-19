@@ -177,7 +177,7 @@ ProcessObject::GetNumberOfValidRequiredInputs() const
    * Get the number of specified inputs
    */
   DataObjectPointerArraySizeType count = 0;
-  for (DataObjectPointerArraySizeType i = 0; i < m_NumberOfRequiredInputs; i++)
+  for (DataObjectPointerArraySizeType i = 0; i < m_NumberOfRequiredInputs; ++i)
   {
     if (this->GetInput(i))
     {
@@ -347,7 +347,7 @@ ProcessObject::PopFrontInput()
   DataObjectPointerArraySizeType nb = this->GetNumberOfIndexedInputs();
   if (nb > 0)
   {
-    for (DataObjectPointerArraySizeType i = 1; i < nb; i++)
+    for (DataObjectPointerArraySizeType i = 1; i < nb; ++i)
     {
       this->SetNthInput(i - 1, this->GetInput(i));
     }
@@ -722,7 +722,7 @@ ProcessObject::DataObjectPointerArray
 ProcessObject::GetIndexedOutputs()
 {
   DataObjectPointerArray res(this->GetNumberOfIndexedOutputs());
-  for (DataObjectPointerArraySizeType i = 0; i < this->GetNumberOfIndexedOutputs(); i++)
+  for (DataObjectPointerArraySizeType i = 0; i < this->GetNumberOfIndexedOutputs(); ++i)
   {
     res[i] = this->GetOutput(i);
   }
@@ -1015,7 +1015,7 @@ ProcessObject::DataObjectPointerArray
 ProcessObject::GetIndexedInputs()
 {
   DataObjectPointerArray res(this->GetNumberOfIndexedInputs());
-  for (DataObjectPointerArraySizeType i = 0; i < this->GetNumberOfIndexedInputs(); i++)
+  for (DataObjectPointerArraySizeType i = 0; i < this->GetNumberOfIndexedInputs(); ++i)
   {
     res[i] = this->GetInput(i);
   }

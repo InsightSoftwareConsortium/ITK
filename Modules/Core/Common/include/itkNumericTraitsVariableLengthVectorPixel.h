@@ -140,7 +140,7 @@ public:
   IsPositive(const Self & a)
   {
     bool flag = false;
-    for (unsigned int i = 0; i < GetLength(a); i++)
+    for (unsigned int i = 0; i < GetLength(a); ++i)
     {
       if (a[i] > NumericTraits<ValueType>::ZeroValue())
       {
@@ -154,7 +154,7 @@ public:
   IsNonpositive(const Self & a)
   {
     bool flag = false;
-    for (unsigned int i = 0; i < GetLength(a); i++)
+    for (unsigned int i = 0; i < GetLength(a); ++i)
     {
       if (!(a[i] > 0.0))
       {
@@ -168,7 +168,7 @@ public:
   IsNegative(const Self & a)
   {
     bool flag = false;
-    for (unsigned int i = 0; i < GetLength(a); i++)
+    for (unsigned int i = 0; i < GetLength(a); ++i)
     {
       if (a[i] < NumericTraits<ValueType>::ZeroValue())
       {
@@ -182,7 +182,7 @@ public:
   IsNonnegative(const Self & a)
   {
     bool flag = false;
-    for (unsigned int i = 0; i < GetLength(a); i++)
+    for (unsigned int i = 0; i < GetLength(a); ++i)
     {
       if (!(a[i] < 0.0))
       {
@@ -222,7 +222,7 @@ public:
   static void
   AssignToArray(const Self & v, TArray & mv)
   {
-    for (unsigned int i = 0; i < GetLength(v); i++)
+    for (unsigned int i = 0; i < GetLength(v); ++i)
     {
       mv[i] = v[i];
     }

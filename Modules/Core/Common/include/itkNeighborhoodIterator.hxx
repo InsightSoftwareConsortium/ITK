@@ -124,7 +124,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetPixel(const unsigned n, con
     // Here, we are checking whether the particular pixel in the
     // neighborhood is within the bounds (when the neighborhood is not
     // completely in bounds, it is usually partly in bounds)
-    for (i = 0; i < Superclass::Dimension; i++)
+    for (i = 0; i < Superclass::Dimension; ++i)
     {
       if (!this->m_InBounds[i]) // Part of dimension spills out of bounds
       {
@@ -168,14 +168,14 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const Neighbor
 
   if (this->m_NeedToUseBoundaryCondition == false)
   {
-    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; this_it++, N_it++)
+    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; ++this_it, ++N_it)
     {
       this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
     }
   }
   else if (this->InBounds())
   {
-    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; this_it++, N_it++)
+    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; ++this_it, ++N_it)
     {
       this->m_NeighborhoodAccessorFunctor.Set(*this_it, *N_it);
     }
@@ -183,7 +183,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const Neighbor
   else
   {
     // Calculate overlap & initialize index
-    for (i = 0; i < Superclass::Dimension; i++)
+    for (i = 0; i < Superclass::Dimension; ++i)
     {
       OverlapLow[i] = this->m_InnerBoundsLow[i] - this->m_Loop[i];
       OverlapHigh[i] =
@@ -192,7 +192,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const Neighbor
     }
 
     // Iterate through neighborhood
-    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; N_it++, this_it++)
+    for (N_it = N.Begin(), this_it = this->Begin(); this_it < _end; ++N_it, ++this_it)
     {
       flag = true;
       for (i = 0; i < Superclass::Dimension; ++i)

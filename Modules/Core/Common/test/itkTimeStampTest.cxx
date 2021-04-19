@@ -76,7 +76,7 @@ itkTimeStampTest(int, char *[])
     // Set up the helper class
     helper.counters.resize(numberOfWorkUnits);
     helper.timestamps.resize(numberOfWorkUnits);
-    for (itk::ThreadIdType k = 0; k < numberOfWorkUnits; k++)
+    for (itk::ThreadIdType k = 0; k < numberOfWorkUnits; ++k)
     {
       helper.counters[k] = 0;
     }
@@ -95,13 +95,13 @@ itkTimeStampTest(int, char *[])
 
     constexpr unsigned int num_exp = 500;
 
-    for (unsigned int i = 0; i < num_exp; i++)
+    for (unsigned int i = 0; i < num_exp; ++i)
     {
       multithreader->SingleMethodExecute();
 
       itk::ModifiedTimeType min_mtime = helper.timestamps[0].GetMTime();
       itk::ModifiedTimeType max_mtime = helper.timestamps[0].GetMTime();
-      for (itk::ThreadIdType k = 0; k < numberOfWorkUnits; k++)
+      for (itk::ThreadIdType k = 0; k < numberOfWorkUnits; ++k)
       {
         const itk::ModifiedTimeType & mtime = helper.timestamps[k].GetMTime();
         if (mtime > max_mtime)
@@ -121,7 +121,7 @@ itkTimeStampTest(int, char *[])
 
       if (iter_success)
       {
-        for (itk::ThreadIdType k = 0; k < numberOfWorkUnits; k++)
+        for (itk::ThreadIdType k = 0; k < numberOfWorkUnits; ++k)
         {
           // Test whether the all modified times have
           // been used

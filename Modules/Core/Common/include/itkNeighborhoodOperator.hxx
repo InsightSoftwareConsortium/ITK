@@ -27,7 +27,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>::ScaleCoefficients(PixelRealType s)
 {
-  for (unsigned i = 0; i < this->Size(); i++)
+  for (unsigned i = 0; i < this->Size(); ++i)
   {
     this->operator[](i) = static_cast<TPixel>(this->operator[](i) * s);
   }
@@ -93,7 +93,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::CreateToRadius(const SizeV
 {
   SizeType k;
 
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     k[i] = sz;
   }

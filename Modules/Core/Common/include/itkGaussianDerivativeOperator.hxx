@@ -121,7 +121,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateGaussianCoef
   coeff.push_back(et * ModifiedBesselI1(pixelVariance));
   sum += coeff[1] * 2.0;
 
-  for (int i = 2; sum.GetSum() < cap; i++)
+  for (int i = 2; sum.GetSum() < cap; ++i)
   {
     coeff.push_back(et * ModifiedBesselI(i, pixelVariance));
     sum += coeff[i] * 2.0;

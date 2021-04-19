@@ -384,7 +384,7 @@ template <typename TValue>
 VariableLengthVector<TValue> &
 VariableLengthVector<TValue>::operator-()
 {
-  for (ElementIdentifier i = 0; i < m_NumElements; i++)
+  for (ElementIdentifier i = 0; i < m_NumElements; ++i)
   {
     m_Data[i] = -m_Data[i];
   }

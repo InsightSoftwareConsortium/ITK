@@ -70,7 +70,7 @@ template <unsigned int VImageDimension>
 void
 ImageBase<VImageDimension>::SetSpacing(const SpacingType & spacing)
 {
-  for (unsigned int i = 0; i < VImageDimension; i++)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     if (this->m_Spacing[i] < 0.0)
     {
@@ -132,9 +132,9 @@ ImageBase<VImageDimension>::SetDirection(const DirectionType & direction)
 {
   bool modified = false;
 
-  for (unsigned int r = 0; r < VImageDimension; r++)
+  for (unsigned int r = 0; r < VImageDimension; ++r)
   {
-    for (unsigned int c = 0; c < VImageDimension; c++)
+    for (unsigned int c = 0; c < VImageDimension; ++c)
     {
       if (Math::NotExactlyEquals(m_Direction[r][c], direction[r][c]))
       {
@@ -158,7 +158,7 @@ ImageBase<VImageDimension>::ComputeIndexToPhysicalPointMatrices()
 {
   DirectionType scale;
 
-  for (unsigned int i = 0; i < VImageDimension; i++)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     if (this->m_Spacing[i] == 0.0)
     {
@@ -189,7 +189,7 @@ ImageBase<VImageDimension>::ComputeOffsetTable()
 
   // m_OffsetTable[0] = (OffsetValueType)num;
   m_OffsetTable[0] = num;
-  for (unsigned int i = 0; i < VImageDimension; i++)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     num *= bufferSize[i];
     // m_OffsetTable[i+1] = (OffsetValueType)num;
@@ -347,7 +347,7 @@ ImageBase<VImageDimension>::RequestedRegionIsOutsideOfTheBufferedRegion()
   const SizeType & requestedRegionSize = this->GetRequestedRegion().GetSize();
   const SizeType & bufferedRegionSize = this->GetBufferedRegion().GetSize();
 
-  for (i = 0; i < VImageDimension; i++)
+  for (i = 0; i < VImageDimension; ++i)
   {
     if ((requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >
@@ -377,7 +377,7 @@ ImageBase<VImageDimension>::VerifyRequestedRegion()
   const SizeType & requestedRegionSize = this->GetRequestedRegion().GetSize();
   const SizeType & largestPossibleRegionSize = this->GetLargestPossibleRegion().GetSize();
 
-  for (i = 0; i < VImageDimension; i++)
+  for (i = 0; i < VImageDimension; ++i)
   {
     if ((requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >

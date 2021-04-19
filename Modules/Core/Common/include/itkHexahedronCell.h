@@ -172,7 +172,7 @@ protected:
 public:
   HexahedronCell()
   {
-    for (unsigned int i = 0; i < Self::NumberOfPoints; i++)
+    for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
     {
       m_PointIds[i] = NumericTraits<PointIdentifier>::max();
     }

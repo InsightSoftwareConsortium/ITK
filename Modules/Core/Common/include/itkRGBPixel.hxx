@@ -38,7 +38,7 @@ RGBPixel<T>::operator+(const Self & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     result[i] = (*this)[i] + r[i];
   }
@@ -51,7 +51,7 @@ RGBPixel<T>::operator-(const Self & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     result[i] = (*this)[i] - r[i];
   }
@@ -62,7 +62,7 @@ template <typename T>
 const RGBPixel<T> &
 RGBPixel<T>::operator+=(const Self & r)
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     (*this)[i] += r[i];
   }
@@ -73,7 +73,7 @@ template <typename T>
 const RGBPixel<T> &
 RGBPixel<T>::operator-=(const Self & r)
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     (*this)[i] -= r[i];
   }
@@ -84,7 +84,7 @@ template <typename T>
 const RGBPixel<T> &
 RGBPixel<T>::operator*=(const ComponentType & r)
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     (*this)[i] *= r;
   }
@@ -96,7 +96,7 @@ template <typename T>
 const RGBPixel<T> &
 RGBPixel<T>::operator/=(const ComponentType & r)
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     (*this)[i] /= r;
   }
@@ -108,7 +108,7 @@ RGBPixel<T> RGBPixel<T>::operator*(const ComponentType & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     result[i] = (*this)[i] * r;
   }
@@ -121,7 +121,7 @@ RGBPixel<T>::operator/(const ComponentType & r) const
 {
   Self result;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     result[i] = (*this)[i] / r;
   }
@@ -132,7 +132,7 @@ template <typename T>
 bool
 RGBPixel<T>::operator==(const Self & r) const
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     if (Math::NotExactlyEquals((*this)[i], r[i]))
     {

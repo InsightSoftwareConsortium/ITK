@@ -71,14 +71,14 @@ ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent 
   }
 
   os << indent << "Spacing: [";
-  for (i = 0; i < static_cast<int>(VImageDimension) - 1; i++)
+  for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
   {
     os << m_Spacing[i] << ", ";
   }
   os << m_Spacing[i] << "]" << std::endl;
 
   os << indent << "Origin: [";
-  for (i = 0; i < static_cast<int>(VImageDimension) - 1; i++)
+  for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
   {
     os << m_Origin[i] << ", ";
   }
@@ -186,9 +186,9 @@ ImportImageFilter<TPixel, VImageDimension>::SetDirection(const DirectionType & d
 {
   bool modified = false;
 
-  for (unsigned int r = 0; r < VImageDimension; r++)
+  for (unsigned int r = 0; r < VImageDimension; ++r)
   {
-    for (unsigned int c = 0; c < VImageDimension; c++)
+    for (unsigned int c = 0; c < VImageDimension; ++c)
     {
       if (Math::NotExactlyEquals(m_Direction[r][c], direction[r][c]))
       {

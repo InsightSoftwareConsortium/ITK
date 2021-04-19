@@ -111,7 +111,7 @@ public:
   ConstNeighborhoodIterator(const SizeType & radius, const ImageType * ptr, const RegionType & region)
   {
     this->Initialize(radius, ptr, region);
-    for (DimensionValueType i = 0; i < Dimension; i++)
+    for (DimensionValueType i = 0; i < Dimension; ++i)
     {
       m_InBounds[i] = false;
     }

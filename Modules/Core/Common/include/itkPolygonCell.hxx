@@ -166,7 +166,7 @@ PolygonCell<TCellInterface>::BuildEdges()
   {
     m_Edges.resize(m_PointIds.size());
     const auto numberOfPoints = static_cast<unsigned int>(m_PointIds.size());
-    for (unsigned int i = 1; i < numberOfPoints; i++)
+    for (unsigned int i = 1; i < numberOfPoints; ++i)
     {
       m_Edges[i - 1][0] = i - 1;
       m_Edges[i - 1][1] = i;

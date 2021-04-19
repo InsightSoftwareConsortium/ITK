@@ -131,7 +131,7 @@ public:
     IndexType index;
     it.GoToBegin();
     index = it.GetIndex();
-    for (unsigned int i = 0; i < region.GetSize()[0]; i++)
+    for (unsigned int i = 0; i < region.GetSize()[0]; ++i)
     {
       ++it;
     }
@@ -141,7 +141,7 @@ public:
     }
 
     // iterate back
-    for (unsigned int i = 0; i < region.GetSize()[0]; i++)
+    for (unsigned int i = 0; i < region.GetSize()[0]; ++i)
     {
       --it;
     }
@@ -155,7 +155,7 @@ public:
     {
       it.GoToBegin();
       index = it.GetIndex();
-      for (unsigned int i = 0; i < region.GetSize()[0] * region.GetSize()[1]; i++)
+      for (unsigned int i = 0; i < region.GetSize()[0] * region.GetSize()[1]; ++i)
       {
         ++it;
       }
@@ -166,7 +166,7 @@ public:
       }
 
       // iterate back
-      for (unsigned int i = 0; i < region.GetSize()[0] * region.GetSize()[1]; i++)
+      for (unsigned int i = 0; i < region.GetSize()[0] * region.GetSize()[1]; ++i)
       {
         --it;
       }

@@ -85,9 +85,9 @@ VectorImage<TPixel, VImageDimension>::FillBuffer(const PixelType & value)
 
   SizeValueType ctr = 0;
 
-  for (SizeValueType i = 0; i < numberOfPixels; i++)
+  for (SizeValueType i = 0; i < numberOfPixels; ++i)
   {
-    for (VectorLengthType j = 0; j < m_VectorLength; j++)
+    for (VectorLengthType j = 0; j < m_VectorLength; ++j)
     {
       (*m_Buffer)[ctr++] = value[j];
     }

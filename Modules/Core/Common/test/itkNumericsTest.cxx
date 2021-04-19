@@ -24,9 +24,9 @@ void
 print_vnl_matrix(T & mat)
 {
   std::cout << mat;
-  for (unsigned int r = 0; r < mat.rows(); r++)
+  for (unsigned int r = 0; r < mat.rows(); ++r)
   {
-    for (unsigned int c = 0; c < mat.columns(); c++)
+    for (unsigned int c = 0; c < mat.columns(); ++c)
       std::cout << mat(r, c) << " ";
     std::cout << std::endl;
   }
@@ -69,9 +69,9 @@ itkNumericsTest(int, char *[])
   double             data[] = { 1, 1, 1, 1, 2, 3, 1, 3, 6 };
   vnl_matrix<double> mat(data, 3, 3);
   std::cout << std::endl << "A matrix" << std::endl;
-  for (unsigned int r = 0; r < mat.rows(); r++)
+  for (unsigned int r = 0; r < mat.rows(); ++r)
   {
-    for (unsigned int c = 0; c < mat.rows(); c++)
+    for (unsigned int c = 0; c < mat.rows(); ++c)
     {
       std::cout << mat(r, c) << " ";
     }

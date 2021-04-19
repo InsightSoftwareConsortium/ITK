@@ -36,7 +36,7 @@ itkBoundingBoxTest(int, char *[])
   std::cout << "Testing Bounding Box" << std::endl;
   {
     const BB::BoundsArrayType & bounds = myBox->GetBounds();
-    for (unsigned int i = 0; i < bounds.Size(); i++)
+    for (unsigned int i = 0; i < bounds.Size(); ++i)
     {
       if (itk::Math::NotExactlyEquals(bounds[i], itk::NumericTraits<BB::CoordRepType>::ZeroValue()))
       {
@@ -50,7 +50,7 @@ itkBoundingBoxTest(int, char *[])
 
   {
     BB::PointType center = myBox->GetCenter();
-    for (unsigned int i = 0; i < 1; i++)
+    for (unsigned int i = 0; i < 1; ++i)
     {
       if (itk::Math::NotExactlyEquals(center[i], itk::NumericTraits<BB::CoordRepType>::ZeroValue()))
       {
@@ -75,7 +75,7 @@ itkBoundingBoxTest(int, char *[])
   std::cout << "Null GetPoints test passed" << std::endl;
 
 
-  for (unsigned int i = 0; i < 10; i++)
+  for (unsigned int i = 0; i < 10; ++i)
   {
     P[0] = (double)i;
     Points->InsertElement(i, P);
@@ -104,7 +104,7 @@ itkBoundingBoxTest(int, char *[])
 
   {
     BB::PointType center = myBox->GetCenter();
-    for (unsigned int i = 0; i < 1; i++)
+    for (unsigned int i = 0; i < 1; ++i)
     {
       if (center[i] != 4.5)
       {
@@ -176,7 +176,7 @@ itkBoundingBoxTest(int, char *[])
   unsigned int j = 0;
   while (it != corners.end())
   {
-    for (unsigned int i = 0; i < 3; i++)
+    for (unsigned int i = 0; i < 3; ++i)
     {
       if ((*it)[i] != std::pow(-1.0, (double)(j / (int(std::pow(2.0, (double)i))))))
       {
@@ -195,7 +195,7 @@ itkBoundingBoxTest(int, char *[])
     CC::Pointer                 clone = my3DBox->DeepCopy();
     const CC::BoundsArrayType & originalBounds = my3DBox->GetBounds();
     const CC::BoundsArrayType & clonedbounds = clone->GetBounds();
-    for (unsigned int i = 0; i < originalBounds.Size(); i++)
+    for (unsigned int i = 0; i < originalBounds.Size(); ++i)
     {
       if (std::fabs(originalBounds[i] - clonedbounds[i]) > tolerance)
       {

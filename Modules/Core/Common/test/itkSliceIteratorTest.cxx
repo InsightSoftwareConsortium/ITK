@@ -131,7 +131,7 @@ void
 PrintSlice(TContainer s)
 {
   std::cout << "[";
-  for (s = s.Begin(); s < s.End(); s++)
+  for (s = s.Begin(); s < s.End(); ++s)
   {
     std::cout << *s << " ";
   }

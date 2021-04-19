@@ -38,7 +38,7 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::~EllipsoidInterior
 
   if (m_Orientations)
   {
-    for (i = 0; i < VDimension; i++)
+    for (i = 0; i < VDimension; ++i)
     {
       delete[] m_Orientations[i];
     }
@@ -58,14 +58,14 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const Inp
   // Project the position onto each of the axes, normalize by axis length,
   // and determine whether position is inside ellipsoid. The length of axis0,
   // m_Axis[0] is orientated in the direction of m_Orientations[0].
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     pointVector[i] = position[i] - m_Center[i];
   }
 
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
-    for (unsigned int j = 0; j < VDimension; j++)
+    for (unsigned int j = 0; j < VDimension; ++j)
     {
       orientationVector[j] = m_Orientations[i][j];
     }
@@ -90,22 +90,22 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::SetOrientations(co
   // Initialize orientation vectors.
   if (m_Orientations)
   {
-    for (i = 0; i < VDimension; i++)
+    for (i = 0; i < VDimension; ++i)
     {
       delete[] m_Orientations[i];
     }
     delete[] m_Orientations;
   }
   m_Orientations = new double *[VDimension];
-  for (i = 0; i < VDimension; i++)
+  for (i = 0; i < VDimension; ++i)
   {
     m_Orientations[i] = new double[VDimension];
   }
 
   // Set orientation vectors (must be orthogonal).
-  for (i = 0; i < VDimension; i++)
+  for (i = 0; i < VDimension; ++i)
   {
-    for (j = 0; j < VDimension; j++)
+    for (j = 0; j < VDimension; ++j)
     {
       m_Orientations[i][j] = orientations[i][j];
     }
@@ -125,9 +125,9 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ost
   if (m_Orientations)
   {
     os << indent << "Orientations: " << std::endl;
-    for (i = 0; i < VDimension; i++)
+    for (i = 0; i < VDimension; ++i)
     {
-      for (j = 0; j < VDimension; j++)
+      for (j = 0; j < VDimension; ++j)
       {
         os << indent << indent << m_Orientations[i][j] << " ";
       }

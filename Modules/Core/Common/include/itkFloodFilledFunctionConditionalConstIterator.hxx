@@ -46,7 +46,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::FloodFilledFunct
   this->m_Image = imagePtr;
   m_Function = fnPtr;
   unsigned int i;
-  for (i = 0; i < startIndex.size(); i++)
+  for (i = 0; i < startIndex.size(); ++i)
   {
     m_Seeds.push_back(startIndex[i]);
   }
@@ -94,7 +94,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::InitializeIterat
   // position later (using FindSeedPixel).  Must make sure that the
   // seed is inside the buffer before touching pixels.
   this->m_IsAtEnd = true;
-  for (unsigned int i = 0; i < m_Seeds.size(); i++)
+  for (unsigned int i = 0; i < m_Seeds.size(); ++i)
   {
     if (m_ImageRegion.IsInside(m_Seeds[i]))
     {
@@ -170,7 +170,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodStep()
 
   // Iterate through all possible dimensions
   // NOTE: Replace this with a ShapeNeighborhoodIterator
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     // The j loop establishes either left or right neighbor (+-1)
     for (int j = -1; j <= 1; j += 2)
@@ -178,7 +178,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::DoFloodStep()
       IndexType tempIndex;
 
       // build the index of a neighbor
-      for (unsigned int k = 0; k < NDimensions; k++)
+      for (unsigned int k = 0; k < NDimensions; ++k)
       {
         if (i != k)
         {

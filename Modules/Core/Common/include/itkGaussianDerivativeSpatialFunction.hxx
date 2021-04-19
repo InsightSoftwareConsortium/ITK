@@ -47,7 +47,7 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(co
   {
     prefixDenom = m_Sigma[m_Direction] * m_Sigma[m_Direction];
 
-    for (unsigned int i = 0; i < VImageDimension; i++)
+    for (unsigned int i = 0; i < VImageDimension; ++i)
     {
       prefixDenom *= m_Sigma[i];
     }
@@ -61,7 +61,7 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(co
 
   double suffixExp = 0;
 
-  for (unsigned int i = 0; i < VImageDimension; i++)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     suffixExp += (position[m_Direction] - m_Mean[m_Direction]) * (position[m_Direction] - m_Mean[m_Direction]) /
                  (2 * m_Sigma[m_Direction] * m_Sigma[m_Direction]);
@@ -80,7 +80,7 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::EvaluateVec
 {
   VectorType gradient;
 
-  for (unsigned int i = 0; i < VImageDimension; i++)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     m_Direction = i;
     gradient[i] = this->Evaluate(position);

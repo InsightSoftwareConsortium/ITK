@@ -68,7 +68,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs(const Tru
   bool rMatch = true;
   if (inputPtr != nullptr && (unsigned int)InputImageDimension == (unsigned int)OutputImageDimension)
   {
-    for (unsigned int i = 0; i < (unsigned int)InputImageDimension; i++)
+    for (unsigned int i = 0; i < (unsigned int)InputImageDimension; ++i)
     {
       if (inputPtr->GetBufferedRegion().GetIndex(i) != outputPtr->GetRequestedRegion().GetIndex(i))
       {
@@ -102,7 +102,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs(const Tru
     using ImageBaseType = ImageBase<OutputImageDimension>;
 
     // If there are more than one outputs, allocate the remaining outputs
-    for (unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); i++)
+    for (unsigned int i = 1; i < this->GetNumberOfIndexedOutputs(); ++i)
     {
       // Check whether the output is an image of the appropriate
       // dimension (use ProcessObject's version of the GetInput()
