@@ -2,7 +2,9 @@
 if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
   foreach(_vtk_lib IN LISTS ITKVtkGlue_VTK_LIBRARIES)
     get_target_property(_vtk_lib_include_dirs ${_vtk_lib} INTERFACE_INCLUDE_DIRECTORIES)
-    include_directories(${_vtk_lib_include_dirs})
+    if(_vtk_lib_include_dirs)
+      include_directories(${_vtk_lib_include_dirs})
+    endif()
   endforeach()
 endif()
 
