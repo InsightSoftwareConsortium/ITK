@@ -68,10 +68,6 @@ jobs:
     - bash: |
         set -x
 
-        curl -O https://raw.githubusercontent.com/Homebrew/homebrew-core/de946dd0c0a91ecf6c78c843a4580bd7116c6bf0/Formula/cmake.rb
-        brew unlink cmake
-        brew install ./cmake.rb
-
         c++ --version
         cmake --version
 
