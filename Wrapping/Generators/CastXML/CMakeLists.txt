@@ -91,11 +91,12 @@ else()
         itk_download_attempt_check(LLVM)
         itk_download_attempt_check(Clang)
       endif()
-      set(llvm_version 10.0.0)
-      set(llvm_hash 693cefdc49d618f828144486a18b473f)
+      set(llvm_version 11.1.0)
+      set(llvm_folder ${llvm_version})
+      set(llvm_md5 69bc06661ce8f1872e27b40ff96002b2)
       ExternalProject_Add(llvm
-        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_version}/llvm-${llvm_version}.src.tar.xz"
-        URL_HASH MD5=${llvm_hash}
+        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_folder}/llvm-${llvm_version}.src.tar.xz"
+        URL_MD5 ${llvm_md5}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
         CMAKE_ARGS -Wno-dev
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
@@ -109,10 +110,10 @@ else()
           -DLLVM_INCLUDE_DOCS:BOOL=OFF
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
         )
-      set(clang_hash 717ef92318fed4dbe1ee058368cfb552)
+      set(clang_md5 133c6719e22bfded74fcaf1d3092e979)
       ExternalProject_Add(clang
-        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_version}/clang-${llvm_version}.src.tar.xz"
-        URL_HASH MD5=${clang_hash}
+        URL https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_folder}/clang-${llvm_version}.src.tar.xz
+        URL_MD5 ${clang_md5}
         DEPENDS llvm
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
         CMAKE_ARGS -Wno-dev
@@ -137,7 +138,7 @@ else()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
       # CastXML master, 2020-04-27
-      GIT_TAG v0.3.4
+      GIT_TAG v0.4.3
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
