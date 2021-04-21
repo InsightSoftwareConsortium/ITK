@@ -13,9 +13,6 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKImageGrid
-    ITKIOImageBase # TODO: remove after cleanup
-  COMPILE_DEPENDS
-    ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO

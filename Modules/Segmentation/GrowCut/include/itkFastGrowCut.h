@@ -76,6 +76,7 @@ public:
   using InputRealType = typename NumericTraits<InputImagePixelType>::RealType;
 
   itkSetMacro(InitializationFlag, bool);
+  itkGetMacro(InitializationFlag, bool);
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
