@@ -15,9 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+// Adapted from: https://github.com/ljzhu/FastGrowCut
+
 #ifndef itkFastGrowCut_h
 #define itkFastGrowCut_h
 
+#include "FastGrowCut.h"
+
+#include "itkObject.h"
+#include "itkMacro.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk
@@ -33,49 +40,97 @@ namespace itk
  * \ingroup GrowCut
  *
  */
-template <typename TInputImage, typename TOutputImage>
-class FastGrowCut : public ImageToImageFilter<TInputImage, TOutputImage>
+template <typename TInputImage, typename TLabelImage>
+class ITK_TEMPLATE_EXPORT FastGrowCut : public ImageToImageFilter<TInputImage, TLabelImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FastGrowCut);
+  ITK_DISALLOW_COPY_AND_MOVE(FastGrowCut);
 
-  static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
-  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
-
-  using InputImageType = TInputImage;
-  using OutputImageType = TOutputImage;
-  using InputPixelType = typename InputImageType::PixelType;
-  using OutputPixelType = typename OutputImageType::PixelType;
-
-  /** Standard class typedefs. */
-  using Self = FastGrowCut<InputImageType, OutputImageType>;
-  using Superclass = ImageToImageFilter<InputImageType, OutputImageType>;
+  /** Standard class type aliases. */
+  using Self = FastGrowCut;
+  using Superclass = ImageToImageFilter<TInputImage, TLabelImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  /** Run-time type information. */
-  itkTypeMacro(FastGrowCut, ImageToImageFilter);
-
-  /** Standard New macro. */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
+  /** Run-time type information (and related methods).  */
+  itkTypeMacro(FastGrowCut, ImageToImageFilter);
+
+  using InputImageType = TInputImage;
+  using InputImagePointer = typename InputImageType::Pointer;
+  using InputImageRegionType = typename InputImageType::RegionType;
+  using InputImagePixelType = typename InputImageType::PixelType;
+  using IndexType = typename InputImageType::IndexType;
+  using SizeType = typename InputImageType::SizeType;
+
+  using LabelImageType = TLabelImage;
+  using LabelPixelType = typename LabelImageType::PixelType;
+  using LabelImagePointer = typename LabelImageType::Pointer;
+  using LabelImageRegionType = typename LabelImageType::RegionType;
+  using LabelImagePixelType = typename LabelImageType::PixelType;
+
+  using SeedsContainerType = std::vector<IndexType>;
+
+  using InputRealType = typename NumericTraits<InputImagePixelType>::RealType;
+
+  itkSetMacro(InitializationFlag, bool);
+
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
+
+  void
+  SetSeedImage(const LabelImageType* seedImage)
+  {
+    // Process object is not const-correct so the const casting is required.
+    this->SetNthInput(1, const_cast<LabelImageType*>(seedImage));
+  }
+  const LabelImageType*
+  GetSeedImage()
+  {
+    return static_cast<const LabelImageType*>(this->ProcessObject::GetInput(1));
+  }
+
+  void GenerateData() override;
+
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  static_assert(TInputImage::ImageDimension == 3, "FastGrowCut only works with 3D images");
+  static_assert(TLabelImage::ImageDimension == 3, "FastGrowCut only works with 3D images");
+  itkConceptMacro(InputHasNumericTraitsCheck, (Concept::HasNumericTraits<InputImagePixelType>));
+  itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<LabelImagePixelType>));
+  // End concept checking
+#endif
+
 protected:
-  FastGrowCut();
-  ~FastGrowCut() override = default;
+  FastGrowCut() = default;
+  ~FastGrowCut() override;
 
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  // Override since the filter needs all the data for the algorithm
+  void
+  GenerateInputRequestedRegion() override;
 
-  using OutputRegionType = typename OutputImageType::RegionType;
-
-  void DynamicThreadedGenerateData(const OutputRegionType & outputRegion) override;
+  // Override since the filter produces the entire dataset
+  void
+  EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Add concept checking such as
-  // itkConceptMacro( FloatingPointPixel, ( itk::Concept::IsFloatingPoint< typename InputImageType::PixelType > ) );
-#endif
+  std::vector<LabelPixelType> m_imSeedVec;
+  std::vector<LabelPixelType> m_imLabVec;
+  std::vector<InputImagePixelType> m_imSrcVec;
+  std::vector<long> m_imROI;
+
+  //logic code
+  //Make smart pointer
+  FGC::FastGrowCut<InputImagePixelType, LabelPixelType> * m_fastGC =
+    new FGC::FastGrowCut<InputImagePixelType, typename LabelImageType::PixelType>();
+
+  //state variables
+  bool m_InitializationFlag = false;
 };
-} // namespace itk
+}
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFastGrowCut.hxx"

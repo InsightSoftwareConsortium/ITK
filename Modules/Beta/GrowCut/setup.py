@@ -18,8 +18,8 @@ setup(
     packages=['itk'],
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKGrowCut',
-    description=r'Segments an image based on foreground and background seeds.',
-    long_description='ITKGrowCut is a remote module for ITK. It segments an image from user-provided foreground and background seeds. MIT license.',
+    description=r'Segments a 3D image from foreground and background seeds.',
+    long_description='ITKGrowCut is a remote module for ITK. It segments a 3D image from user-provided foreground and background seeds.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",

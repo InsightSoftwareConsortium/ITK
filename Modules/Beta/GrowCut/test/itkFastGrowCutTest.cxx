@@ -64,11 +64,12 @@ int itkFastGrowCutTest(int argc, char * argv[])
   }
   const char * outputImageFileName = argv[1];
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
+  using LabelType = itk::Image<unsigned char, Dimension>;
 
-  using FilterType = itk::FastGrowCut<ImageType, ImageType>;
+  using FilterType = itk::FastGrowCut<ImageType, LabelType>;
   FilterType::Pointer filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, FastGrowCut, ImageToImageFilter);
@@ -85,7 +86,7 @@ int itkFastGrowCutTest(int argc, char * argv[])
   filter->AddObserver(itk::ProgressEvent(), showProgress);
   filter->SetInput(image);
 
-  using WriterType = itk::ImageFileWriter<ImageType>;
+  using WriterType = itk::ImageFileWriter<LabelType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(outputImageFileName);
   writer->SetInput(filter->GetOutput());

@@ -14,7 +14,8 @@ file(READ "${MY_CURRENT_DIR}/README.rst" DOCUMENTATION)
 itk_module(GrowCut
   DEPENDS
     ITKCommon
-    ITKStatistics
+    ITKImageGrid
+    ITKIOImageBase # TODO: remove after cleanup
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS

@@ -15,6 +15,6 @@ ITKGrowCut
 Overview
 --------
 
-Segments an image based on foreground and background seeds.
+Segments a 3D image from foreground and background seeds.
 
-ITKGrowCut is a remote module for ITK. It segments an image from user-provided foreground and background seeds. MIT license.
+ITKGrowCut is a remote module for ITK. It segments a 3D image from user-provided foreground and background seeds.
