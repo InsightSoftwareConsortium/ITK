@@ -1,0 +1,82 @@
+#
+# This file lists revisions that should be ignored when considering
+# attribution for the actual code written.  Code style changes should
+# not be considered as modifications with regards to attribution.
+#
+# To see clean and meaningful blame information.
+# $ git blame important.py --ignore-revs-file .git-blame-ignore-revs
+#
+# To configure git to automatically ignore revisions listed in a file on every call to git blame.
+# $ git config blame.ignoreRevsFile .git-blame-ignore-revs
+#
+# Ignore changes introduced when doing global file format changes
+# STYLE: Apply consistent pep8 compatible indentation.
+425060c49332919006bddb89a9417e0fbc05745f
+# STYLE: Use consistent formatting for python files
+c7c0736e3d51885c313f16397ffd18b5dfbb2a31
+# STYLE: Use consistent formatting for python files
+2f7c9a1837743f34547e194d86272e734c0eb0eb
+# STYLE: black formatting on Python modules
+08eb3675b8b054dfbc87739e6b77f32205ba04a5
+# STYLE: black formatting on itkExtras.py
+be948cf0b96a02f50eb746e8f4f799c3aaf6dc86
+# STYLE: Re-enforce black formatting contraints
+8e4a64b20a622947627da48c9ef82f670b13c1cd
+# STYLE: Update python Test with `black` formatting
+70be2c1b8f8bd972f4f1767858d8a177784388dd
+# STYLE: Update python Test with `black` formatting
+b3b7566b357726a09d7fc9d3ad1c6664ccc2f115
+# STYLE: Use black formatting for python
+cf1095c835b9b20ae05d58b58e2d326f33f988c1
+
+# STYLE: apply clang-format
+d9e73e9a8b447cb8f3a19301fbfeaa141fa98b91
+# STYLE: clang-format style updates.
+eb662502693322771c5ec04f4ecae4347ec9aedd
+# STYLE: running clang-format
+9b6789add88902be17575d645627c2279108fbb4
+# STYLE: enforce ITK style defined by clang-format
+cc642c8126fa7e735f6ca1db20904acd2b66853d
+# STYLE: End of history preceeding clang-format-8.0 style
+c9058ba8ce03cc2c1466a50e1e3922828d816038
+# STYLE: Enforce ITK style defined by .clang-format
+2074c2f9e5ed3f087d0e2059f8e0e8992fcad7ef
+
+# STYLE: cleaning up excessive white space in example
+da7fecc01698af363b423f9ac09d7103d2ccee7e
+# STYLE: Tell Git not to check whitespace in GDCM
+15c3ec7e454c10e2c0396c696397745fb35a68b8
+# STYLE: Remove trailing whitespaces
+98797261cd57c4064f162b1fa1b17a96b181454d
+# STYLE: Remove trailing whitespace
+f1bf42cd71240007f37ca696c128e3b1f0e3ab6c
+# STYLE: Fix KWStyle issues in Examples: whitespace
+13574f1202ea3e80bb4ad363a3cb8f655dc86adc
+# STYLE: remove tabs and delete trailing whitespace
+e58e4b74409fa14209a8f5ef2b2ae00ea12e8804
+# STYLE: Enable no-lf-at-eof whitespace check
+b8b25f0f74f27d4e1b167be9685da8b4466993b7
+# STYLE: Enable no-lf-at-eof whitespace check
+baaf45df8d2c2d58794a85b11eb825ccc927408d
+# STYLE: Remove trailing whitespace
+b655153a16f7e428ca2d66d37c179d646ecd0ef0
+# STYLE: removing trailing whitespace
+2a9d1492d1028620b2eced2a1e83da5254a9c353
+# STYLE: remove trailing whitespace
+2dd7f06df944be3af5efd67d10bebf94bb2a2ff0
+# r86 brad.king | 2007-11-28T19:09:33.673801Z STYLE: Removing trailing whitespace (testing ITK/VTK cvs tracking).
+6f95cefcaaf059f27cce3beac8f9629c7f3c91b5
+# r85 brad.king | 2007-11-28T19:00:47.606826Z STYLE: Removing trailing whitespace (testing ITK/VTK cvs tracking).
+8305e9c88af8b433868ff990117576e7d7b7e9c5
+# ENH: Add documentation on the problem with system wide path for looking up dynamic libraries. STYLE: Fix trailing white spaces
+ada88c0cb4d02386c97354eecac48e125c991ac4
+# STYLE: Remove trailing whitespaces
+b211b2dee04cf1af4b269bf82fafbd57b0863052
+# STYLE: removed a white space
+de057daa6854f8663b81aa971259674252e2b9ad
+# STYLE: Removed trailing whitespace.
+e94ba003e6d27b0c70c114a7f1177ba7bbe7f538
+# STYLE: Removed trailing whitespace.
+030c92003ba82f103b481c8af1fdf7eab84dda47
+# STYLE: Removed trailing whitespace.
+452a3298169c95fcb59a0410883496d63a48ecaf
