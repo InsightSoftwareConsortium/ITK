@@ -47,7 +47,7 @@ namespace FGC {
         virtual void operator =(double NewKeyVal );
         virtual void Print();
         double GetKeyValue() { return N; }
-        void SetKeyValue(double n) { N = n; }
+        void SetKeyValue(float n) { N = n; }
         long int GetIndexValue() { return IndexV; }
         void SetIndexValue( long int v) { IndexV = v; }
     };

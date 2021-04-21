@@ -25,6 +25,113 @@
 
 #include "itkPrintHelper.h"
 
+namespace
+{
+template <typename ITKImageType>
+void
+FindITKImageROI(ITKImageType * im, std::vector<long> & imROI)
+{
+
+  typename ITKImageType::IndexType roiStart;
+  typename ITKImageType::IndexType roiEnd;
+  typename ITKImageType::IndexType start;
+  typename ITKImageType::SizeType  size;
+
+  size = im->GetLargestPossibleRegion().GetSize();
+  start = im->GetLargestPossibleRegion().GetIndex();
+
+
+  roiStart[0] = 0;
+  roiStart[1] = 0;
+  roiStart[2] = 0;
+  roiEnd[0] = 0;
+  roiEnd[1] = 0;
+  roiEnd[2] = 0;
+
+  unsigned int ndims = im->GetImageDimension();
+
+  bool                                            foundLabel = false;
+  itk::ImageRegionIteratorWithIndex<ITKImageType> label(im, im->GetBufferedRegion());
+  for (label.GoToBegin(); !label.IsAtEnd(); ++label)
+  {
+    if (label.Get() != 0)
+    {
+      typename ITKImageType::IndexType idx = label.GetIndex();
+      for (unsigned i = 0; i < ndims; i++)
+      {
+        if (!foundLabel)
+        {
+          roiStart[i] = idx[i];
+          roiEnd[i] = idx[i];
+        }
+        else
+        {
+          if (idx[i] <= roiStart[i])
+          {
+            roiStart[i] = idx[i];
+          }
+          if (idx[i] >= roiEnd[i])
+          {
+            roiEnd[i] = idx[i];
+          }
+        }
+      }
+      foundLabel = true;
+    }
+  }
+
+  int radius = 17;
+  for (unsigned i = 0; i < ndims; i++)
+  {
+    int diff = static_cast<int>(roiStart[i] - radius);
+    if (diff >= start[i])
+    {
+      roiStart[i] -= radius;
+    }
+    else
+    {
+      roiStart[i] = start[i];
+    }
+    roiEnd[i] = (static_cast<unsigned int>(roiEnd[i] + radius) < size[i]) ? (roiEnd[i] + radius) : size[i] - 1;
+  }
+
+  // copy ROI to vector
+  imROI.resize(6);
+  for (unsigned i = 0; i < 3; i++)
+  {
+    imROI[i] = roiStart[i];
+    imROI[i + 3] = roiEnd[i];
+  }
+}
+
+template <typename PixelType>
+void
+ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
+                   const std::vector<long> &        imROI,
+                   std::vector<PixelType> &         imROIVec)
+{
+
+  // Copy itk image ROI to vector
+  typedef itk::Image<PixelType, 3> ImageType;
+  typename ImageType::IndexType    index;
+  long                             i, j, k, kk, DIMXYZ;
+
+  DIMXYZ = (imROI[3] - imROI[0]) * (imROI[4] - imROI[1]) * (imROI[5] - imROI[2]);
+  imROIVec.clear();
+  imROIVec.resize(DIMXYZ);
+  kk = 0;
+  for (k = imROI[2]; k < imROI[5]; k++)
+    for (j = imROI[1]; j < imROI[4]; j++)
+      for (i = imROI[0]; i < imROI[3]; i++)
+      {
+        index[0] = i;
+        index[1] = j;
+        index[2] = k;
+        imROIVec[kk++] = im->GetPixel(index);
+      }
+}
+}
+
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
@@ -52,14 +159,15 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
   // Find ROI
   if (!m_InitializationFlag)
   {
-    FGC::FindITKImageROI(outputImage, m_imROI);
+    // TODO: replace this by ImageMaskSpatialObject::ComputeMyBoundingBoxInIndexSpace()
+    FindITKImageROI(outputImage, m_imROI);
     std::cerr << "image ROI = [" << m_imROI[0] << "," << m_imROI[1] << "," << m_imROI[2] << ";" << m_imROI[3] << ","
               << m_imROI[4] << "," << m_imROI[5] << "]" << std::endl;
     // SB: Find the ROI from the seed volume in the source volume and store it in m_imSrcVec
-    FGC::ExtractITKImageROI<InputImagePixelType>(inputImage, m_imROI, m_imSrcVec);
+    ExtractITKImageROI<InputImagePixelType>(inputImage, m_imROI, m_imSrcVec);
   }
   // SB: Store the ROI from the seed volume in m_imSeedVec
-  FGC::ExtractITKImageROI<LabelPixelType>(outputImage, m_imROI, m_imSeedVec);
+  ExtractITKImageROI<LabelPixelType>(outputImage, m_imROI, m_imSeedVec);
 
   // Initialize FastGrowCut
   std::vector<long> imSize(3);
@@ -77,7 +185,24 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
   m_fastGC->GetForegroundmage(m_imLabVec);
 
   // Update result. SB: Seed volume is replaced with grow cut result
-  FGC::UpdateITKImageROI<LabelPixelType>(m_imLabVec, m_imROI, outputImage);
+  {
+    IndexType index;
+    long      i, j, k, kk;
+
+    // Set non-ROI as zeros
+    outputImage->FillBuffer(0);
+    kk = 0;
+    // TODO: replace these loops by a region iterator
+    for (k = m_imROI[2]; k < m_imROI[5]; k++)
+      for (j = m_imROI[1]; j < m_imROI[4]; j++)
+        for (i = m_imROI[0]; i < m_imROI[3]; i++)
+        {
+          index[0] = i;
+          index[1] = j;
+          index[2] = k;
+          outputImage->SetPixel(index, m_imLabVec[kk++]);
+        }
+  }
 }
 
 template <typename TInputImage, typename TOutputImage>
