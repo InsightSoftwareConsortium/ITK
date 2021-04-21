@@ -63,7 +63,7 @@ public:
     return N;
   }
   void
-  SetKeyValue(double n)
+  SetKeyValue(float n)
   {
     N = n;
   }
