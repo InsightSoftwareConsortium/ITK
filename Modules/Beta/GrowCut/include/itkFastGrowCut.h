@@ -21,10 +21,10 @@
 #ifndef itkFastGrowCut_h
 #define itkFastGrowCut_h
 
+#include <memory>
+
 #include "FastGrowCut.h"
 
-#include "itkObject.h"
-#include "itkMacro.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk
@@ -81,18 +81,19 @@ public:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  SetSeedImage(const LabelImageType* seedImage)
+  SetSeedImage(const LabelImageType * seedImage)
   {
     // Process object is not const-correct so the const casting is required.
-    this->SetNthInput(1, const_cast<LabelImageType*>(seedImage));
+    this->SetNthInput(1, const_cast<LabelImageType *>(seedImage));
   }
-  const LabelImageType*
+  const LabelImageType *
   GetSeedImage()
   {
-    return static_cast<const LabelImageType*>(this->ProcessObject::GetInput(1));
+    return static_cast<const LabelImageType *>(this->ProcessObject::GetInput(1));
   }
 
-  void GenerateData() override;
+  void
+  GenerateData() override;
 
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -106,7 +107,7 @@ public:
 
 protected:
   FastGrowCut() = default;
-  ~FastGrowCut() override;
+  ~FastGrowCut() = default;
 
   // Override since the filter needs all the data for the algorithm
   void
@@ -116,21 +117,19 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
+  using InternalFGCType = FGC::FastGrowCut<InputImagePixelType, LabelPixelType>;
+
 private:
-  std::vector<LabelPixelType> m_imSeedVec;
-  std::vector<LabelPixelType> m_imLabVec;
+  std::vector<LabelPixelType>      m_imSeedVec;
+  std::vector<LabelPixelType>      m_imLabVec;
   std::vector<InputImagePixelType> m_imSrcVec;
-  std::vector<long> m_imROI;
+  std::vector<long>                m_imROI;
 
-  //logic code
-  //Make smart pointer
-  FGC::FastGrowCut<InputImagePixelType, LabelPixelType> * m_fastGC =
-    new FGC::FastGrowCut<InputImagePixelType, typename LabelImageType::PixelType>();
+  std::shared_ptr<InternalFGCType> m_fastGC = std::make_shared<InternalFGCType>();
 
-  //state variables
   bool m_InitializationFlag = false;
 };
-}
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkFastGrowCut.hxx"
