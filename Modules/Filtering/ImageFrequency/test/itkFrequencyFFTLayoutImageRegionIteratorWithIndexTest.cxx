@@ -69,7 +69,7 @@ public:
     // If Odd, Nyquist Freq  = fs/2 is not represented, but there is still
     // a largest frequency at half index with value = fs/2 * (N-1)/N
     //
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       m_LargestFrequency[dim] = 0.5; // = fs/2 with default spacing = 1.0
       if (m_ImageIsOdd)
@@ -121,7 +121,7 @@ public:
     reverseIt.GoToReverseBegin();
     while (!it.IsAtEnd())
     {
-      for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+      for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
       {
         if (itk::Math::NotAlmostEquals(it.GetFrequency()[dim], itk::Math::abs(reverseIt.GetFrequency()[dim])))
         {
@@ -148,13 +148,13 @@ public:
 
     it.GoToBegin();
     IndexType halfIndexPlusOne;
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       halfIndexPlusOne[dim] = it.GetLargestPositiveFrequencyIndex()[dim] + 1;
     }
     IndexType firstNegativeIndex = m_ImageIsOdd ? halfIndexPlusOne : it.GetLargestPositiveFrequencyIndex();
     IndexType smallestNegativeFreqIndex;
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       smallestNegativeFreqIndex[dim] = m_ImageIsOdd ? -firstNegativeIndex[dim] + 1 : firstNegativeIndex[dim];
     }
@@ -188,7 +188,7 @@ public:
     IteratorType it(m_Image, m_Image->GetLargestPossibleRegion());
 
     typename ImageType::IndexType truthHalfIndex;
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       truthHalfIndex[dim] =
         m_Image->GetLargestPossibleRegion().GetIndex()[dim] + m_Image->GetLargestPossibleRegion().GetSize()[dim] / 2;

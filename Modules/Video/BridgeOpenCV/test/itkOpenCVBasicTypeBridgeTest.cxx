@@ -100,7 +100,7 @@ PointToVectorConversionTest()
 
   ITKPoint3dType itkA = itk::OpenCVBasicTypeBridge<ITKPoint3dType, cvVectorType>::FromOpenCVToITK(cvU);
 
-  for (unsigned int dim = 0; dim < 3; dim++)
+  for (unsigned int dim = 0; dim < 3; ++dim)
   {
     if (itkA[dim] != cvU[dim])
     {
@@ -176,9 +176,9 @@ MatrixConversionTest()
 
   CVMatrixType cvA;
   int          k = 1;
-  for (unsigned int i = 0; i < NRows; i++)
+  for (unsigned int i = 0; i < NRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; j++)
+    for (unsigned int j = 0; j < NColumns; ++j)
     {
       cvA(i, j) = static_cast<double>(k++);
     }
@@ -188,9 +188,9 @@ MatrixConversionTest()
 
   int oResult = EXIT_SUCCESS;
 
-  for (unsigned int i = 0; i < NRows; i++)
+  for (unsigned int i = 0; i < NRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; j++)
+    for (unsigned int j = 0; j < NColumns; ++j)
     {
       if (cvA(i, j) != ITKA[i][j])
       {
@@ -216,7 +216,7 @@ VectorConversionTest()
   using CVVectorType = cv::Vec<double, Dimension>;
 
   CVVectorType cvA;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     cvA[i] = static_cast<double>(i);
   }
@@ -225,7 +225,7 @@ VectorConversionTest()
 
   int oResult = EXIT_SUCCESS;
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     if (cvA[i] != ITKA[i])
     {
@@ -449,9 +449,9 @@ MatrixConversionTest()
 
   ITKMatrixType itkA;
   int           k = 1;
-  for (unsigned int i = 0; i < NRows; i++)
+  for (unsigned int i = 0; i < NRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; j++)
+    for (unsigned int j = 0; j < NColumns; ++j)
     {
       itkA[i][j] = static_cast<double>(k++);
     }
@@ -461,9 +461,9 @@ MatrixConversionTest()
 
   int oResult = EXIT_SUCCESS;
 
-  for (unsigned int i = 0; i < NRows; i++)
+  for (unsigned int i = 0; i < NRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; j++)
+    for (unsigned int j = 0; j < NColumns; ++j)
     {
       if (cvA(i, j) != itkA[i][j])
       {
@@ -489,7 +489,7 @@ VectorConversionTest()
   using CVVectorType = cv::Vec<double, Dimension>;
 
   ITKVectorType itkA;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     itkA[i] = static_cast<double>(i);
   }
@@ -498,7 +498,7 @@ VectorConversionTest()
 
   int oResult = EXIT_SUCCESS;
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     if (cvA[i] != itkA[i])
     {
@@ -528,7 +528,7 @@ PointToVectorConversionTest()
 
   cvVectorType cvU = itk::OpenCVBasicTypeBridge<ITKPoint3dType, cvVectorType>::FromITKToOpenCV(itkA);
 
-  for (unsigned int dim = 0; dim < 3; dim++)
+  for (unsigned int dim = 0; dim < 3; ++dim)
   {
     if (itkA[dim] != cvU[dim])
     {

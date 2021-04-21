@@ -85,7 +85,7 @@ GPUInPlaceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::AllocateOu
       typename ImageBaseType::Pointer outputPtr;
 
       // If there are more than one outputs, allocate the remaining outputs
-      for (unsigned int i = 1; i < this->GetNumberOfOutputs(); i++)
+      for (unsigned int i = 1; i < this->GetNumberOfOutputs(); ++i)
       {
         // Check whether the output is an image of the appropriate
         // dimension (use ProcessObject's version of the GetInput()

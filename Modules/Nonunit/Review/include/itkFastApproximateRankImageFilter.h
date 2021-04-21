@@ -87,7 +87,7 @@ public:
     if (m_Rank != rank)
     {
       m_Rank = rank;
-      for (unsigned i = 0; i < TInputImage::ImageDimension - 1; i++)
+      for (unsigned i = 0; i < TInputImage::ImageDimension - 1; ++i)
       {
         this->m_Filters[i]->SetRank(m_Rank);
       }

@@ -191,7 +191,7 @@ public:
 
     infile.open(argv[1]);
 
-    for (unsigned int n = 0; n < numberOfNodes; n++)
+    for (unsigned int n = 0; n < numberOfNodes; ++n)
     {
       infile >> parameters[n];
       infile >> parameters[n + numberOfNodes];

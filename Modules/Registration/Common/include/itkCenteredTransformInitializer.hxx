@@ -76,7 +76,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
 
     typename MovingImageCalculatorType::VectorType movingCenter = m_MovingCalculator->GetCenterOfGravity();
 
-    for (unsigned int i = 0; i < InputSpaceDimension; i++)
+    for (unsigned int i = 0; i < InputSpaceDimension; ++i)
     {
       rotationCenter[i] = fixedCenter[i];
       translationVector[i] = movingCenter[i] - fixedCenter[i];
@@ -100,7 +100,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
 
     ContinuousIndexType centerFixedIndex;
 
-    for (unsigned int k = 0; k < InputSpaceDimension; k++)
+    for (unsigned int k = 0; k < InputSpaceDimension; ++k)
     {
       centerFixedIndex[k] = static_cast<ContinuousIndexValueType>(fixedIndex[k]) +
                             static_cast<ContinuousIndexValueType>(fixedSize[k] - 1) / 2.0;
@@ -116,7 +116,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
 
     ContinuousIndexType centerMovingIndex;
 
-    for (unsigned int m = 0; m < InputSpaceDimension; m++)
+    for (unsigned int m = 0; m < InputSpaceDimension; ++m)
     {
       centerMovingIndex[m] = static_cast<ContinuousIndexValueType>(movingIndex[m]) +
                              static_cast<ContinuousIndexValueType>(movingSize[m] - 1) / 2.0;
@@ -124,7 +124,7 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
 
     m_MovingImage->TransformContinuousIndexToPhysicalPoint(centerMovingIndex, centerMovingPoint);
 
-    for (unsigned int i = 0; i < InputSpaceDimension; i++)
+    for (unsigned int i = 0; i < InputSpaceDimension; ++i)
     {
       rotationCenter[i] = centerFixedPoint[i];
       translationVector[i] = centerMovingPoint[i] - centerFixedPoint[i];

@@ -37,7 +37,7 @@ HistogramToRunLengthFeaturesFilter<THistogram>::HistogramToRunLengthFeaturesFilt
 
   // allocate the data objects for the outputs which are
   // just decorators real types
-  for (unsigned int i = 0; i < 10; i++)
+  for (unsigned int i = 0; i < 10; ++i)
   {
     this->ProcessObject::SetNthOutput(i, this->MakeOutput(i));
   }

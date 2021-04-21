@@ -179,7 +179,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     PixelComponentType zeroComponent = NumericTraits<PixelComponentType>::ZeroValue(tempZeroComponents);
     nComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
     NumericTraits<PixelType>::SetLength(m_DefaultPixelValue, nComponents);
-    for (unsigned int n = 0; n < nComponents; n++)
+    for (unsigned int n = 0; n < nComponents; ++n)
     {
       PixelConvertType::SetNthComponent(n, m_DefaultPixelValue, zeroComponent);
     }
@@ -259,7 +259,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   NumericTraits<PixelType>::SetLength(outputValue, nComponents);
 
-  for (unsigned int n = 0; n < nComponents; n++)
+  for (unsigned int n = 0; n < nComponents; ++n)
   {
     ComponentType component = InterpolatorConvertType::GetNthComponent(n, value);
 

@@ -151,7 +151,7 @@ itkFEMElement3DTest(int argc, char * argv[])
     itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
     itk::fem::LinearSystemWrapperItpack   lsw_itpack;
     itk::fem::LinearSystemWrapperVNL      lsw_vnl;
-    for (int s = 0; s < numsolvers; s++)
+    for (int s = 0; s < numsolvers; ++s)
     {
       SolverType::Pointer solver = SolverType::New();
       solver->SetInput(femSO->GetFEMObject());
@@ -260,10 +260,10 @@ PrintK1(SolverType * S, int s)
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
   std::cout << std::endl << "k" << s << "=[";
-  for (unsigned int j = 0; j < lsw->GetSystemOrder(); j++)
+  for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     std::cout << " [";
-    for (unsigned int k = 0; k < lsw->GetSystemOrder(); k++)
+    for (unsigned int k = 0; k < lsw->GetSystemOrder(); ++k)
     {
       std::cout << lsw->GetMatrixValue(j, k);
       if ((k + 1) < lsw->GetSystemOrder())
@@ -290,7 +290,7 @@ PrintF1(SolverType * S, int s)
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
   std::cout << std::endl << "f" << s << "=[";
-  for (unsigned int j = 0; j < lsw->GetSystemOrder(); j++)
+  for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
     {
@@ -310,7 +310,7 @@ PrintNodalCoordinates1(SolverType * S, int w)
   std::cout << "xyz" << w << "=[";
 
   int numberOfNodes = S->GetInput()->GetNumberOfNodes();
-  for (int i = 0; i < numberOfNodes; i++)
+  for (int i = 0; i < numberOfNodes; ++i)
   {
     std::cout << " [";
     std::cout << S->GetInput()->GetNode(i)->GetCoordinates();
@@ -329,7 +329,7 @@ CheckDisplacements1(SolverType * S, int s, double * expectedResults, double tole
   // std::cout << "Degrees of Freedom : " << numDOF << std::endl;
 
   bool foundError = false;
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     double result = S->GetSolution(i);
     // std::cout  << result << " " << expectedResults[i] << " " << tolerance << std::endl;

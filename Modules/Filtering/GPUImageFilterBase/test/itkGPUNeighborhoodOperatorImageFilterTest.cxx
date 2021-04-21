@@ -69,7 +69,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
   oper.CreateDirectional();
 
   // test 1~8 work units for CPU
-  for (int nWorkUnits = 1; nWorkUnits <= 8; nWorkUnits++)
+  for (int nWorkUnits = 1; nWorkUnits <= 8; ++nWorkUnits)
   {
     typename NeighborhoodFilterType::Pointer CPUFilter = NeighborhoodFilterType::New();
 

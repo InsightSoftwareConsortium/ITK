@@ -324,7 +324,7 @@ MeshFileWriter<TInputMesh>::CopyPointsToBuffer(Output * data)
 
   while (pter != points->End())
   {
-    for (unsigned int jj = 0; jj < TInputMesh::PointDimension; jj++)
+    for (unsigned int jj = 0; jj < TInputMesh::PointDimension; ++jj)
     {
       data[index++] = static_cast<Output>(pter.Value()[jj]);
     }
@@ -392,7 +392,7 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
     // Others are point identifiers in the cell
     ptIds = cellPtr->GetPointIds();
     unsigned int numberOfPoints = cellPtr->GetNumberOfPoints();
-    for (unsigned int ii = 0; ii < numberOfPoints; ii++)
+    for (unsigned int ii = 0; ii < numberOfPoints; ++ii)
     {
       data[index++] = static_cast<Output>(ptIds[ii]);
     }
@@ -420,7 +420,7 @@ MeshFileWriter<TInputMesh>::CopyPointDataToBuffer(Output * data)
   typename TInputMesh::PointDataContainer::ConstIterator pter = pointData->Begin();
   while (pter != pointData->End())
   {
-    for (unsigned int jj = 0; jj < numberOfComponents; jj++)
+    for (unsigned int jj = 0; jj < numberOfComponents; ++jj)
     {
       data[index++] =
         static_cast<Output>(MeshConvertPixelTraits<typename TInputMesh::PixelType>::GetNthComponent(jj, pter.Value()));
@@ -448,7 +448,7 @@ MeshFileWriter<TInputMesh>::CopyCellDataToBuffer(Output * data)
   typename TInputMesh::CellDataContainer::ConstIterator cter = cellData->Begin();
   while (cter != cellData->End())
   {
-    for (unsigned int jj = 0; jj < numberOfComponents; jj++)
+    for (unsigned int jj = 0; jj < numberOfComponents; ++jj)
     {
       data[index++] = static_cast<Output>(
         MeshConvertPixelTraits<typename TInputMesh::CellPixelType>::GetNthComponent(jj, cter.Value()));

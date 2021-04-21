@@ -90,7 +90,7 @@ LevenbergMarquardtOptimizer::GetValue() const
       if (m_ScalesInitialized)
       {
         const ScalesType & scales = this->GetScales();
-        for (unsigned int i = 0; i < parameters.size(); i++)
+        for (unsigned int i = 0; i < parameters.size(); ++i)
         {
           parameters[i] *= scales[i];
         }
@@ -121,7 +121,7 @@ LevenbergMarquardtOptimizer::StartOptimization()
   {
     const ScalesType & scales = this->GetScales();
     this->GetNonConstCostFunctionAdaptor()->SetScales(scales);
-    for (unsigned int i = 0; i < parameters.size(); i++)
+    for (unsigned int i = 0; i < parameters.size(); ++i)
     {
       parameters[i] *= scales[i];
     }

@@ -34,10 +34,10 @@ PrintK(FEMSolverType * S)
   std::cout << std::endl
             << "k"
             << "=[";
-  for (unsigned int j = 0; j < lsw->GetSystemOrder(); j++)
+  for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     std::cout << " [";
-    for (unsigned int k = 0; k < lsw->GetSystemOrder(); k++)
+    for (unsigned int k = 0; k < lsw->GetSystemOrder(); ++k)
     {
       std::cout << lsw->GetMatrixValue(j, k);
       if ((k + 1) < lsw->GetSystemOrder())
@@ -66,7 +66,7 @@ PrintF(FEMSolverType * S)
   std::cout << std::endl
             << "f"
             << "=[";
-  for (unsigned int j = 0; j < lsw->GetSystemOrder(); j++)
+  for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
     {
@@ -87,7 +87,7 @@ PrintNodalCoordinates(FEMSolverType * S)
             << "=[";
 
   int numberOfNodes = S->GetInput()->GetNumberOfNodes();
-  for (int i = 0; i < numberOfNodes; i++)
+  for (int i = 0; i < numberOfNodes; ++i)
   {
     std::cout << " [";
     std::cout << S->GetInput()->GetNode(i)->GetCoordinates();
@@ -109,11 +109,11 @@ PrintElementCoordinates(FEMSolverType * S)
 
   int numberOfElements = S->GetInput()->GetNumberOfElements();
 
-  for (int i = 0; i < numberOfElements; i++)
+  for (int i = 0; i < numberOfElements; ++i)
   {
     std::cout << "e(" << ct << ",:,:)=[";
 
-    for (unsigned int n = 0; n < S->GetInput()->GetElement(i)->GetNumberOfNodes(); n++)
+    for (unsigned int n = 0; n < S->GetInput()->GetElement(i)->GetNumberOfNodes(); ++n)
     {
       itk::fem::Element::VectorType nc = S->GetInput()->GetElement(i)->GetNodeCoordinates(n);
 
@@ -139,10 +139,10 @@ PrintSolution(FEMSolverType * S)
   const unsigned int invalidID = itk::fem::Element::InvalidDegreeOfFreedomID;
   int                numberOfNodes = S->GetInput()->GetNumberOfNodes();
 
-  for (int i = 0; i < numberOfNodes; i++)
+  for (int i = 0; i < numberOfNodes; ++i)
   {
     std::cout << "Solution Node " << i << ":";
-    for (unsigned int d = 0, dof; (dof = S->GetInput()->GetNode(i)->GetDegreeOfFreedom(d)) != invalidID; d++)
+    for (unsigned int d = 0, dof; (dof = S->GetInput()->GetNode(i)->GetDegreeOfFreedom(d)) != invalidID; ++d)
     {
       std::cout << " " << S->GetSolution(dof);
     }
@@ -170,7 +170,7 @@ itkFEMSolverHyperbolicTest(int ac, char * av[])
   if (ac > 4)
   {
     solution.resize(ac - 4);
-    for (int i = 4; i < ac; i++)
+    for (int i = 4; i < ac; ++i)
     {
       solution[i - 4] = std::stod(av[i]);
     }
@@ -260,9 +260,9 @@ itkFEMSolverHyperbolicTest(int ac, char * av[])
   {
     int                numberOfNodes = SH->GetInput()->GetNumberOfNodes();
     const unsigned int invalidID = itk::fem::Element::InvalidDegreeOfFreedomID;
-    for (int i = 0; i < numberOfNodes; i++)
+    for (int i = 0; i < numberOfNodes; ++i)
     {
-      for (unsigned int d = 0, dof; (dof = SH->GetInput()->GetNode(i)->GetDegreeOfFreedom(d)) != invalidID; d++)
+      for (unsigned int d = 0, dof; (dof = SH->GetInput()->GetNode(i)->GetDegreeOfFreedom(d)) != invalidID; ++d)
       {
         double result = SH->GetSolution(dof);
         if (fabs(result - solution[dof]) > 1.0e-5)

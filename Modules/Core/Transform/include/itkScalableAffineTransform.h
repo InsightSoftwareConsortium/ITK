@@ -155,7 +155,7 @@ protected:
   void
   SetVarScale(const double * scale)
   {
-    for (int i = 0; i < InputSpaceDimension; i++)
+    for (int i = 0; i < InputSpaceDimension; ++i)
     {
       m_Scale[i] = scale[i];
     }

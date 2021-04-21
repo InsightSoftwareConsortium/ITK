@@ -58,7 +58,7 @@ CheckFileNameParsing(const std::string & fileName,
   {
     std::string pathString = itksys::SystemTools::GetFilenamePath(fileName);
 #ifdef _WIN32
-    for (size_t i = 0; i < pathString.size(); i++)
+    for (size_t i = 0; i < pathString.size(); ++i)
     {
       if (pathString[i] == '/')
       {

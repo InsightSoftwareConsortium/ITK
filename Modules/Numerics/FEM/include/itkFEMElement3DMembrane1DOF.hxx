@@ -69,7 +69,7 @@ Element3DMembrane1DOF<TBaseClass>::GetMaterialMatrix(MatrixType & D) const
   // This is the main difference from the linear elasticity problem.
   /* Material properties matrix.  Simpler than linear elasticity. */
   Float disot = m_Mat->GetYoungsModulus();
-  for (unsigned int i = 0; i < d; i++)
+  for (unsigned int i = 0; i < d; ++i)
   {
     D[i][i] = disot;
   }

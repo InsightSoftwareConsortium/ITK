@@ -101,13 +101,13 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField,
   const InputRegionType      requestedRegion = input->GetRequestedRegion();
   const InputSizeType        requestedSize = requestedRegion.GetSize();
 
-  for (unsigned int i = 0; i < OutputImageDimension; i++)
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     size[i] = requestedSize[i];
     spacing[i] = inputSpacing[i];
     origin[i] = inputOrigin[i];
 
-    for (unsigned int j = 0; j < OutputImageDimension; j++)
+    for (unsigned int j = 0; j < OutputImageDimension; ++j)
     {
       direction[i][j] = inputDirection[i][j];
     }
@@ -198,7 +198,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
 
   typename RegionType::IndexType lastIndex = region.GetIndex();
   typename RegionType::SizeType  size = region.GetSize();
-  for (unsigned d = 0; d < InputImageDimension; d++)
+  for (unsigned d = 0; d < InputImageDimension; ++d)
   {
     lastIndex[d] += (size[d] - 1);
   }
@@ -234,12 +234,12 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
 
   /** Windows not registering + operation so use a loop explicitly */
   PointType spatialPoint = startingSpatialPoint;
-  for (unsigned int d = 0; d < OutputImageDimension; d++)
+  for (unsigned int d = 0; d < OutputImageDimension; ++d)
   {
     spatialPoint[d] += displacement[d];
   }
 
-  for (unsigned int n = 0; n < this->m_NumberOfIntegrationSteps; n++)
+  for (unsigned int n = 0; n < this->m_NumberOfIntegrationSteps; ++n)
   {
     typename TimeVaryingVelocityFieldType::PointType x1;
     typename TimeVaryingVelocityFieldType::PointType x2;
@@ -265,7 +265,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
       intervalTimePointMinusDeltaTime = 1.0;
     }
 
-    for (unsigned int d = 0; d < OutputImageDimension; d++)
+    for (unsigned int d = 0; d < OutputImageDimension; ++d)
     {
       x1[d] = spatialPoint[d] + displacement[d];
       x2[d] = spatialPoint[d] + displacement[d];
@@ -285,7 +285,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
     if (this->m_VelocityFieldInterpolator->IsInsideBuffer(x1))
     {
       f1 = this->m_VelocityFieldInterpolator->Evaluate(x1);
-      for (unsigned int jj = 0; jj < OutputImageDimension; jj++)
+      for (unsigned int jj = 0; jj < OutputImageDimension; ++jj)
       {
         x2[jj] += f1[jj] * deltaTime * 0.5;
       }
@@ -295,7 +295,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
     if (this->m_VelocityFieldInterpolator->IsInsideBuffer(x2))
     {
       f2 = this->m_VelocityFieldInterpolator->Evaluate(x2);
-      for (unsigned int jj = 0; jj < OutputImageDimension; jj++)
+      for (unsigned int jj = 0; jj < OutputImageDimension; ++jj)
       {
         x3[jj] += f2[jj] * deltaTime * 0.5;
       }
@@ -305,7 +305,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
     if (this->m_VelocityFieldInterpolator->IsInsideBuffer(x3))
     {
       f3 = this->m_VelocityFieldInterpolator->Evaluate(x3);
-      for (unsigned int jj = 0; jj < OutputImageDimension; jj++)
+      for (unsigned int jj = 0; jj < OutputImageDimension; ++jj)
       {
         x4[jj] += f3[jj] * deltaTime;
       }
@@ -317,7 +317,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
       f4 = this->m_VelocityFieldInterpolator->Evaluate(x4);
     }
 
-    for (unsigned int jj = 0; jj < OutputImageDimension; jj++)
+    for (unsigned int jj = 0; jj < OutputImageDimension; ++jj)
     {
       pointIn3[jj] = pointIn2[jj] + timeSign * deltaTime / 6.0 * (f1[jj] + 2.0 * f2[jj] + 2.0 * f3[jj] + f4[jj]);
       displacement[jj] = pointIn3[jj] - startingSpatialPoint[jj];

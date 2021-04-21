@@ -72,7 +72,7 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   m_Offset = offset;
   m_Center.Fill(0);
   m_Translation.Fill(0);
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     m_Translation[i] = offset[i];
   }
@@ -89,10 +89,10 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   unsigned int i, j;
 
   os << indent << "Matrix: " << std::endl;
-  for (i = 0; i < NInputDimensions; i++)
+  for (i = 0; i < NInputDimensions; ++i)
   {
     os << indent.GetNextIndent();
-    for (j = 0; j < NOutputDimensions; j++)
+    for (j = 0; j < NOutputDimensions; ++j)
     {
       os << m_Matrix[i][j] << " ";
     }
@@ -104,10 +104,10 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   os << indent << "Translation: " << m_Translation << std::endl;
 
   os << indent << "Inverse: " << std::endl;
-  for (i = 0; i < NInputDimensions; i++)
+  for (i = 0; i < NInputDimensions; ++i)
   {
     os << indent.GetNextIndent();
-    for (j = 0; j < NOutputDimensions; j++)
+    for (j = 0; j < NOutputDimensions; ++j)
     {
       os << this->GetInverseMatrix()[i][j] << " ";
     }
@@ -193,10 +193,10 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
   vnl_vector<TParametersValueType> vnl_vect(vectorDim);
   vnl_matrix<TParametersValueType> vnl_mat(vectorDim, vect.Size(), 0.0);
-  for (unsigned int i = 0; i < vectorDim; i++)
+  for (unsigned int i = 0; i < vectorDim; ++i)
   {
     vnl_vect[i] = vect[i];
-    for (unsigned int j = 0; j < vectorDim; j++)
+    for (unsigned int j = 0; j < vectorDim; ++j)
     {
       if ((i < NInputDimensions) && (j < NInputDimensions))
       {
@@ -212,7 +212,7 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   vnl_vector<TParametersValueType> tvect = vnl_mat * vnl_vect;
   OutputVectorPixelType            outVect;
   outVect.SetSize(vectorDim);
-  for (unsigned int i = 0; i < vectorDim; i++)
+  for (unsigned int i = 0; i < vectorDim; ++i)
   {
     outVect[i] = tvect(i);
   }
@@ -228,10 +228,10 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 {
   OutputCovariantVectorType result; // Converted vector
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     result[i] = NumericTraits<ScalarType>::ZeroValue();
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       result[i] += this->GetInverseMatrix()[j][i] * vec[j]; // Inverse
                                                             // transposed
@@ -251,10 +251,10 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
   vnl_vector<TParametersValueType> vnl_vect(vectorDim);
   vnl_matrix<TParametersValueType> vnl_mat(vectorDim, vect.Size(), 0.0);
-  for (unsigned int i = 0; i < vectorDim; i++)
+  for (unsigned int i = 0; i < vectorDim; ++i)
   {
     vnl_vect[i] = vect[i];
-    for (unsigned int j = 0; j < vectorDim; j++)
+    for (unsigned int j = 0; j < vectorDim; ++j)
     {
       if ((i < NInputDimensions) && (j < NInputDimensions))
       {
@@ -270,7 +270,7 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   vnl_vector<TParametersValueType> tvect = vnl_mat * vnl_vect;
   OutputVectorPixelType            outVect;
   outVect.SetSize(vectorDim);
-  for (unsigned int i = 0; i < vectorDim; i++)
+  for (unsigned int i = 0; i < vectorDim; ++i)
   {
     outVect[i] = tvect(i);
   }
@@ -288,9 +288,9 @@ typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutp
 
   JacobianType jacobian;
   jacobian.SetSize(InverseMatrixType::RowDimensions, InverseMatrixType::ColumnDimensions);
-  for (unsigned int i = 0; i < InverseMatrixType::RowDimensions; i++)
+  for (unsigned int i = 0; i < InverseMatrixType::RowDimensions; ++i)
   {
-    for (unsigned int j = 0; j < InverseMatrixType::ColumnDimensions; j++)
+    for (unsigned int j = 0; j < InverseMatrixType::ColumnDimensions; ++j)
     {
       jacobian(i, j) = this->GetInverseMatrix()(i, j);
     }
@@ -314,13 +314,13 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
   InputDiffusionTensor3DType dt(0.0);
   const unsigned int         tDim = tensor.Size();
-  for (unsigned int i = 0; i < tDim; i++)
+  for (unsigned int i = 0; i < tDim; ++i)
   {
     dt[i] = tensor[i];
   }
 
   OutputDiffusionTensor3DType outDT = this->TransformDiffusionTensor3D(dt);
-  for (unsigned int i = 0; i < InputDiffusionTensor3DType::InternalDimension; i++)
+  for (unsigned int i = 0; i < InputDiffusionTensor3DType::InternalDimension; ++i)
   {
     result[i] = outDT[i];
   }
@@ -342,17 +342,17 @@ typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutp
   JacobianType tensor;
   tensor.SetSize(NInputDimensions, NInputDimensions);
 
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       tensor(i, j) = inputTensor(i, j);
     }
   }
 
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NOutputDimensions; j++)
+    for (unsigned int j = 0; j < NOutputDimensions; ++j)
     {
       jacobian(j, i) = this->GetMatrix()(j, i);
       invJacobian(i, j) = this->GetInverseMatrix()(i, j);
@@ -362,9 +362,9 @@ typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutp
   JacobianType                        outTensor = jacobian * tensor * invJacobian;
   OutputSymmetricSecondRankTensorType outputTensor;
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NOutputDimensions; j++)
+    for (unsigned int j = 0; j < NOutputDimensions; ++j)
     {
       outputTensor(i, j) = outTensor(i, j);
     }
@@ -386,17 +386,17 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   JacobianType tensor;
   tensor.SetSize(NInputDimensions, NInputDimensions);
 
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       tensor(i, j) = inputTensor[j + NInputDimensions * i];
     }
   }
 
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NOutputDimensions; j++)
+    for (unsigned int j = 0; j < NOutputDimensions; ++j)
     {
       jacobian(j, i) = this->GetMatrix()(j, i);
       invJacobian(i, j) = this->GetInverseMatrix()(i, j);
@@ -407,9 +407,9 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
   OutputVectorPixelType outputTensor;
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NOutputDimensions; j++)
+    for (unsigned int j = 0; j < NOutputDimensions; ++j)
     {
       outputTensor[j + NOutputDimensions * i] = outTensor(i, j);
     }
@@ -491,7 +491,7 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   }
   this->m_FixedParameters = fp;
   InputPointType c;
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
     c[i] = this->m_FixedParameters[i];
   }
@@ -518,16 +518,16 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 {
   // Transfer the linear part
   unsigned int par = 0;
-  for (unsigned int row = 0; row < NOutputDimensions; row++)
+  for (unsigned int row = 0; row < NOutputDimensions; ++row)
   {
-    for (unsigned int col = 0; col < NInputDimensions; col++)
+    for (unsigned int col = 0; col < NInputDimensions; ++col)
     {
       this->m_Parameters[par] = m_Matrix[row][col];
       ++par;
     }
   }
   // Transfer the constant part
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     this->m_Parameters[par] = m_Translation[i];
     ++par;
@@ -558,16 +558,16 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   {
     this->m_Parameters = parameters;
   }
-  for (unsigned int row = 0; row < NOutputDimensions; row++)
+  for (unsigned int row = 0; row < NOutputDimensions; ++row)
   {
-    for (unsigned int col = 0; col < NInputDimensions; col++)
+    for (unsigned int col = 0; col < NInputDimensions; ++col)
     {
       m_Matrix[row][col] = this->m_Parameters[par];
       ++par;
     }
   }
   // Transfer the constant part
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     m_Translation[i] = this->m_Parameters[par];
     ++par;
@@ -600,16 +600,16 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
   const InputVectorType v = p - this->GetCenter();
 
   unsigned int blockOffset = 0;
-  for (unsigned int block = 0; block < NInputDimensions; block++)
+  for (unsigned int block = 0; block < NInputDimensions; ++block)
   {
-    for (unsigned int dim = 0; dim < NOutputDimensions; dim++)
+    for (unsigned int dim = 0; dim < NOutputDimensions; ++dim)
     {
       jacobian(block, blockOffset + dim) = v[dim];
     }
 
     blockOffset += NInputDimensions;
   }
-  for (unsigned int dim = 0; dim < NOutputDimensions; dim++)
+  for (unsigned int dim = 0; dim < NOutputDimensions; ++dim)
   {
     jacobian(dim, blockOffset + dim) = 1.0;
   }
@@ -642,10 +642,10 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
   OffsetType offset;
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     offset[i] = m_Translation[i] + m_Center[i];
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       offset[i] -= matrix[i][j] * m_Center[j];
     }
@@ -663,10 +663,10 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
   OffsetType translation;
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     translation[i] = m_Offset[i] - m_Center[i];
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       translation[i] += matrix[i][j] * m_Center[j];
     }

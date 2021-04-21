@@ -164,27 +164,27 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::SetFixedParam
   }
 
   SizeType size;
-  for (unsigned int d = 0; d < ConstantVelocityFieldDimension; d++)
+  for (unsigned int d = 0; d < ConstantVelocityFieldDimension; ++d)
   {
     size[d] = static_cast<SizeValueType>(fixedParameters[d]);
   }
 
   PointType origin;
-  for (unsigned int d = 0; d < ConstantVelocityFieldDimension; d++)
+  for (unsigned int d = 0; d < ConstantVelocityFieldDimension; ++d)
   {
     origin[d] = fixedParameters[d + ConstantVelocityFieldDimension];
   }
 
   SpacingType spacing;
-  for (unsigned int d = 0; d < ConstantVelocityFieldDimension; d++)
+  for (unsigned int d = 0; d < ConstantVelocityFieldDimension; ++d)
   {
     spacing[d] = fixedParameters[d + 2 * ConstantVelocityFieldDimension];
   }
 
   DirectionType direction;
-  for (unsigned int di = 0; di < ConstantVelocityFieldDimension; di++)
+  for (unsigned int di = 0; di < ConstantVelocityFieldDimension; ++di)
   {
-    for (unsigned int dj = 0; dj < ConstantVelocityFieldDimension; dj++)
+    for (unsigned int dj = 0; dj < ConstantVelocityFieldDimension; ++dj)
     {
       direction[di][dj] =
         fixedParameters[3 * ConstantVelocityFieldDimension + (di * ConstantVelocityFieldDimension + dj)];
@@ -216,21 +216,21 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::SetFixedParam
 
   // Set the field size parameters
   SizeType fieldSize = fieldRegion.GetSize();
-  for (unsigned int i = 0; i < ConstantVelocityFieldDimension; i++)
+  for (unsigned int i = 0; i < ConstantVelocityFieldDimension; ++i)
   {
     this->m_FixedParameters[i] = static_cast<FixedParametersValueType>(fieldSize[i]);
   }
 
   // Set the origin parameters
   PointType fieldOrigin = this->m_ConstantVelocityField->GetOrigin();
-  for (unsigned int i = 0; i < ConstantVelocityFieldDimension; i++)
+  for (unsigned int i = 0; i < ConstantVelocityFieldDimension; ++i)
   {
     this->m_FixedParameters[ConstantVelocityFieldDimension + i] = fieldOrigin[i];
   }
 
   // Set the spacing parameters
   SpacingType fieldSpacing = this->m_ConstantVelocityField->GetSpacing();
-  for (unsigned int i = 0; i < ConstantVelocityFieldDimension; i++)
+  for (unsigned int i = 0; i < ConstantVelocityFieldDimension; ++i)
   {
     this->m_FixedParameters[2 * ConstantVelocityFieldDimension + i] =
       static_cast<FixedParametersValueType>(fieldSpacing[i]);
@@ -238,9 +238,9 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::SetFixedParam
 
   // Set the direction parameters
   DirectionType fieldDirection = this->m_ConstantVelocityField->GetDirection();
-  for (unsigned int di = 0; di < ConstantVelocityFieldDimension; di++)
+  for (unsigned int di = 0; di < ConstantVelocityFieldDimension; ++di)
   {
-    for (unsigned int dj = 0; dj < ConstantVelocityFieldDimension; dj++)
+    for (unsigned int dj = 0; dj < ConstantVelocityFieldDimension; ++dj)
     {
       this->m_FixedParameters[3 * ConstantVelocityFieldDimension + (di * ConstantVelocityFieldDimension + dj)] =
         static_cast<FixedParametersValueType>(fieldDirection[di][dj]);

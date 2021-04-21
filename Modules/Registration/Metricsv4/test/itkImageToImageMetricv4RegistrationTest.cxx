@@ -87,7 +87,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
   itk::ImageRegionIteratorWithIndex<TImage> it(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
-    for (itk::SizeValueType n = 0; n < Dimension; n++)
+    for (itk::SizeValueType n = 0; n < Dimension; ++n)
     {
       if (it.GetIndex()[n] < boundary || (static_cast<itk::OffsetValueType>(size[n]) - it.GetIndex()[n]) <= boundary)
       {
@@ -195,7 +195,7 @@ ImageToImageMetricv4RegistrationTestRun(typename TMetric::Pointer  metric,
 
   // test that the final position is close to the truth
   auto tolerance = static_cast<double>(0.11);
-  for (itk::SizeValueType n = 0; n < Dimension; n++)
+  for (itk::SizeValueType n = 0; n < Dimension; ++n)
   {
     if (std::fabs(1.0 - (static_cast<double>(imageShift[n]) / translationTransform->GetParameters()[n])) > tolerance)
     {

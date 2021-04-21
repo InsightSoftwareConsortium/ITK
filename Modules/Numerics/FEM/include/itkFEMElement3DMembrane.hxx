@@ -44,7 +44,7 @@ Element3DMembrane<TBaseClass>::GetStrainDisplacementMatrix(MatrixType & B, const
 
   B.set_size(9, 3 * Nn); //  note minor difference from 2D membrane
   // Copy the shape function derivatives to the B matrix.
-  for (unsigned int i = 0; i < Nn; i++)
+  for (unsigned int i = 0; i < Nn; ++i)
   {
     // Compute B index
     p = i * 3;
@@ -116,7 +116,7 @@ Element3DMembrane<TBaseClass>::GetMaterialMatrix(MatrixType & D) const
   // This is the main difference from the linear elasticity problem.
   /* Material properties matrix.  Simpler than linear elasticity. */
   Float disot = m_mat->GetYoungsModulus();
-  for (unsigned int i = 0; i < d; i++)
+  for (unsigned int i = 0; i < d; ++i)
   {
     D[i][i] = disot;
   }

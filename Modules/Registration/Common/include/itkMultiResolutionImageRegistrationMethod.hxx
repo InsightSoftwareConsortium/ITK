@@ -255,11 +255,11 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
   // Compute the FixedImageRegion corresponding to each level of the
   // pyramid. This uses the same algorithm of the ShrinkImageFilter
   // since the regions should be compatible.
-  for (unsigned int level = 0; level < numberOfLevels; level++)
+  for (unsigned int level = 0; level < numberOfLevels; ++level)
   {
     SizeType  size;
     IndexType start;
-    for (unsigned int dim = 0; dim < TFixedImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TFixedImage::ImageDimension; ++dim)
     {
       const auto scaleFactor = static_cast<float>(schedule[level][dim]);
 
@@ -311,7 +311,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std
   os << m_LastTransformParameters << std::endl;
   os << indent << "FixedImageRegion: ";
   os << m_FixedImageRegion << std::endl;
-  for (unsigned int level = 0; level < m_FixedImageRegionPyramid.size(); level++)
+  for (unsigned int level = 0; level < m_FixedImageRegionPyramid.size(); ++level)
   {
     os << indent << "FixedImageRegion at level " << level << ": ";
     os << m_FixedImageRegionPyramid[level] << std::endl;
@@ -333,7 +333,7 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::GenerateData(
 
   this->PreparePyramids();
 
-  for (m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels; m_CurrentLevel++)
+  for (m_CurrentLevel = 0; m_CurrentLevel < m_NumberOfLevels; ++m_CurrentLevel)
   {
     // Invoke an iteration event.
     // This allows a UI to reset any of the components between

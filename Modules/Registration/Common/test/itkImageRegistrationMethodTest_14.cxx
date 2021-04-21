@@ -167,7 +167,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
   using FixedImageIterator = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double, dimension> center;
-  for (j = 0; j < dimension; j++)
+  for (j = 0; j < dimension; ++j)
   {
     center[j] = 0.5 * (double)region.GetSize()[j];
   }
@@ -180,7 +180,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   while (!mIter.IsAtEnd())
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < dimension; ++j)
     {
       p[j] = mIter.GetIndex()[j];
     }
@@ -202,7 +202,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   // set the image origin to be center of the image
   double transCenter[dimension];
-  for (j = 0; j < dimension; j++)
+  for (j = 0; j < dimension; ++j)
   {
     transCenter[j] = -0.5 * double(size[j]);
   }
@@ -221,7 +221,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   parametersScales.Fill(1.0);
 
-  for (j = 4; j < 7; j++)
+  for (j = 4; j < 7; ++j)
   {
     parametersScales[j] = 0.0001;
   }
@@ -274,7 +274,7 @@ itkImageRegistrationMethodTest_14(int, char *[])
   unsigned int           iter[numberOfLoops] = { 300, 300, 350 };
   double                 rates[numberOfLoops] = { 1e-3, 5e-4, 1e-4 };
 
-  for (j = 0; j < numberOfLoops; j++)
+  for (j = 0; j < numberOfLoops; ++j)
   {
 
     try
@@ -313,14 +313,14 @@ itkImageRegistrationMethodTest_14(int, char *[])
 
   std::cout << "True solution is: " << trueParameters << std::endl;
 
-  for (j = 0; j < 4; j++)
+  for (j = 0; j < 4; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 0.025)
     {
       pass = false;
     }
   }
-  for (j = 4; j < 7; j++)
+  for (j = 4; j < 7; ++j)
   {
     if (itk::Math::abs(solution[j] - trueParameters[j]) > 1.0)
     {

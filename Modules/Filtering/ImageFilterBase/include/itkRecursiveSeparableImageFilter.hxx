@@ -114,7 +114,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::FilterDataArray(RealTy
   /**
    * Recursively filter the rest
    */
-  for (unsigned int i = 4; i < ln; i++)
+  for (unsigned int i = 4; i < ln; ++i)
   {
     MathEMAMAMAM(scratch1[i], data[i], m_N0, data[i - 1], m_N1, data[i - 2], m_N2, data[i - 3], m_N3);
     MathSMAMAMAM(
@@ -160,7 +160,7 @@ RecursiveSeparableImageFilter<TInputImage, TOutputImage>::FilterDataArray(RealTy
   /**
    * Roll the antiCausal part into the output
    */
-  for (unsigned int i = 0; i < ln; i++)
+  for (unsigned int i = 0; i < ln; ++i)
   {
     outs[i] += scratch2[i];
   }

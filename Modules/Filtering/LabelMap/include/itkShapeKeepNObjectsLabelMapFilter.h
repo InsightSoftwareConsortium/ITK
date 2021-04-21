@@ -164,7 +164,7 @@ protected:
       progress.CompletedPixel();
 
       // and remove the last objects of the map
-      for (typename VectorType::const_iterator it2 = end; it2 != labelObjects.end(); it2++)
+      for (typename VectorType::const_iterator it2 = end; it2 != labelObjects.end(); ++it2)
       {
         output2->AddLabelObject(*it2);
         output->RemoveLabelObject(*it2);

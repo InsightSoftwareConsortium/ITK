@@ -268,7 +268,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
         // that value to the pixel, else keep it as is (watershed line)
         LabelImagePixelType marker = wsLabel;
         bool                collision = false;
-        for (noIt = outputIt.Begin(); noIt != outputIt.End(); noIt++)
+        for (noIt = outputIt.Begin(); noIt != outputIt.End(); ++noIt)
         {
           LabelImagePixelType o = noIt.Get();
           if (o != wsLabel)
@@ -344,7 +344,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
         outputIt.SetCenterPixel(markerPixel);
         // search if it has background pixel in its neighborhood
         bool haveBgNeighbor = false;
-        for (nmIt = markerIt.Begin(); nmIt != markerIt.End(); nmIt++)
+        for (nmIt = markerIt.Begin(); nmIt != markerIt.End(); ++nmIt)
         {
           if (nmIt.Get() == bgLabel)
           {

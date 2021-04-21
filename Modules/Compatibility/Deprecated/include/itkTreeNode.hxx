@@ -153,7 +153,7 @@ TreeNode<TValue>::ReplaceChild(Self * oldChild, Self * newChild)
 {
   const auto numberOfChildren = static_cast<ChildIdentifier>(m_Children.size());
 
-  for (ChildIdentifier i = 0; i < numberOfChildren; i++)
+  for (ChildIdentifier i = 0; i < numberOfChildren; ++i)
   {
     if (m_Children[i] == oldChild)
     {
@@ -171,7 +171,7 @@ TreeNode<TValue>::ChildPosition(const Self * node) const
 {
   const auto numberOfChildren = static_cast<ChildIdentifier>(m_Children.size());
 
-  for (ChildIdentifier i = 0; i < numberOfChildren; i++)
+  for (ChildIdentifier i = 0; i < numberOfChildren; ++i)
   {
     if (m_Children[i] == node)
     {
@@ -188,7 +188,7 @@ TreeNode<TValue>::ChildPosition(TValue element) const
 {
   const auto numberOfChildren = static_cast<ChildIdentifier>(m_Children.size());
 
-  for (ChildIdentifier i = 0; i < numberOfChildren; i++)
+  for (ChildIdentifier i = 0; i < numberOfChildren; ++i)
   {
     if (m_Children[i]->Get() == element)
     {
@@ -220,7 +220,7 @@ TreeNode<TValue>::AddChild(ChildIdentifier number, Self * node)
   if (childId > numberOfChildren)
   {
     m_Children.resize(childId);
-    for (ChildIdentifier i = numberOfChildren; i <= childId; i++)
+    for (ChildIdentifier i = numberOfChildren; i <= childId; ++i)
     {
       m_Children[i] = nullptr;
     }

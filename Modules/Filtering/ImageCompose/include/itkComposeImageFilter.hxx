@@ -87,7 +87,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   const auto numberOfInputs = static_cast<const unsigned int>(this->GetNumberOfIndexedInputs());
   RegionType region;
 
-  for (unsigned int i = 0; i < numberOfInputs; i++)
+  for (unsigned int i = 0; i < numberOfInputs; ++i)
   {
     auto * input = itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(i));
     if (!input)
@@ -120,7 +120,7 @@ ComposeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(const
 
   InputIteratorContainerType inputItContainer;
 
-  for (unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfIndexedInputs(); ++i)
   {
     const InputImageType * inputImage = this->GetInput(i);
 

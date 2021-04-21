@@ -163,7 +163,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b)
 
     // ...and inform Onext ring of b that their Origin() have changed:
     typename QEPrimal::IteratorGeom it;
-    for (it = b->BeginGeomOnext(); it != b->EndGeomOnext(); it++)
+    for (it = b->BeginGeomOnext(); it != b->EndGeomOnext(); ++it)
     {
       it.Value()->SetOrigin(newOriginId);
     }
@@ -312,7 +312,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b)
     // their Origin() have changed. Let's over do it (read, be lazy) and
     // inform the full Onext() ring:
     typename QEPrimal::IteratorGeom it;
-    for (it = a->BeginGeomOnext(); it != a->EndGeomOnext(); it++)
+    for (it = a->BeginGeomOnext(); it != a->EndGeomOnext(); ++it)
     {
       it.Value()->SetOrigin(orgId);
     }
@@ -1168,7 +1168,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFace(const PointIdList & points)
 #ifndef NDEBUG
 
   // Check that there are no duplicate points
-  for (size_t i = 0; i < N; i++)
+  for (size_t i = 0; i < N; ++i)
   {
     typename PointIdList::const_iterator itr = points.begin();
     typename PointIdList::const_iterator end = points.end();
@@ -1192,7 +1192,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFace(const PointIdList & points)
   PointsContainerPointer pointsContainer = this->GetPoints();
 
   // Check that all points exist
-  for (size_t i = 0; i < N; i++)
+  for (size_t i = 0; i < N; ++i)
   {
     if (!pointsContainer->IndexExists(points[i]))
     {
@@ -1203,7 +1203,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFace(const PointIdList & points)
 #endif
 
   // Check if existing edges have no face on the left.
-  for (size_t i = 0; i < N; i++)
+  for (size_t i = 0; i < N; ++i)
   {
     PointIdentifier pid0 = points[i];
     PointIdentifier pid1 = points[(i + 1) % N];
@@ -1244,7 +1244,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFaceWithSecurePointList(const Poin
   QEList FaceQEList(numberOfPoints, nullptr);
 
   // Now create edge list and create missing edges if needed.
-  for (PointIdentifier i = 0; i < numberOfPoints; i++)
+  for (PointIdentifier i = 0; i < numberOfPoints; ++i)
   {
     PointIdentifier pid0 = points[i];
     PointIdentifier pid1 = points[(i + 1) % numberOfPoints];

@@ -49,7 +49,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
   const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
   }
@@ -65,7 +65,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
   const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
   }
@@ -90,7 +90,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
   // Smooth the update field
   //
   bool smoothUpdateField = true;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     if (this->m_NumberOfControlPointsForTheUpdateField[d] <= this->m_SplineOrder)
     {
@@ -138,7 +138,7 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimens
   // Smooth the total field
   //
   bool smoothTotalField = true;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     if (this->m_NumberOfControlPointsForTheTotalField[d] <= this->m_SplineOrder)
     {

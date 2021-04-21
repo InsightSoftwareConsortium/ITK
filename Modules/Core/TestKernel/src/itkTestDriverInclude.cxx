@@ -577,7 +577,7 @@ RegressionTestHelper(const char *         testImageFilename,
     // is often a black slice with little debugging information.
     OutputType::IndexType index;
     index.Fill(0);
-    for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
+    for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; ++i)
     {
       index[i] = size[i] / 2; // NOTE: Integer Divide used to get approximately
                               // the center slice
@@ -913,7 +913,7 @@ HashTestImage(const char * testImageFilename, const std::vector<std::string> & b
   // is often a black slice with little debugging information.
   ImageType::IndexType index;
   index.Fill(0);
-  for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; i++)
+  for (unsigned int i = 2; i < ITK_TEST_DIMENSION_MAX; ++i)
   {
     index[i] = size[i] / 2; // NOTE: Integer Divide used to get approximately
     // the center slice

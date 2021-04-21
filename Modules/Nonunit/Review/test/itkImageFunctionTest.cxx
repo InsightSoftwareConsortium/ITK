@@ -156,7 +156,7 @@ itkImageFunctionTest(int, char *[])
   const FunctionType::ContinuousIndexType & endIndexC = function->GetEndContinuousIndex();
   const FunctionType::ContinuousIndexType & startIndexC = function->GetStartContinuousIndex();
 
-  for (unsigned int j = 0; j < Dimension; j++)
+  for (unsigned int j = 0; j < Dimension; ++j)
   {
     if (startIndex[j] != start[0] || endIndex[j] != static_cast<IndexType::IndexValueType>(start[0] + size[j] - 1) ||
         startIndexC[j] != start[0] - 0.5 || endIndexC[j] != start[0] + size[j] - 0.5)

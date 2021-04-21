@@ -66,7 +66,7 @@ SingleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparamete
   if (m_ScalesInitialized)
   {
     const ScalesType & invScales = this->GetInverseScales();
-    for (unsigned int i = 0; i < parameters.size(); i++)
+    for (unsigned int i = 0; i < parameters.size(); ++i)
     {
       parameters[i] = inparameters[i] * invScales[i];
     }
@@ -107,7 +107,7 @@ SingleValuedVnlCostFunctionAdaptor ::gradf(const InternalParametersType & inpara
   if (m_ScalesInitialized)
   {
     const ScalesType & invScales = this->GetInverseScales();
-    for (unsigned int i = 0; i < parameters.size(); i++)
+    for (unsigned int i = 0; i < parameters.size(); ++i)
     {
       parameters[i] = inparameters[i] * invScales[i];
     }
@@ -141,7 +141,7 @@ SingleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
   if (m_ScalesInitialized)
   {
     const ScalesType & invScales = this->GetInverseScales();
-    for (unsigned int i = 0; i < parameters.size(); i++)
+    for (unsigned int i = 0; i < parameters.size(); ++i)
     {
       parameters[i] = x[i] * invScales[i];
     }
@@ -185,7 +185,7 @@ SingleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalGradient(const Deri
 
   output = InternalDerivativeType(size);
   const ScalesType & invScales = this->GetInverseScales();
-  for (unsigned int i = 0; i < size; i++)
+  for (unsigned int i = 0; i < size; ++i)
   {
     if (!m_NegateCostFunction)
     {

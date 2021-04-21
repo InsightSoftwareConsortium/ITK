@@ -257,7 +257,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
 
   typename BSplineTransformType::PhysicalDimensionsType physicalDimensions;
   typename BSplineTransformType::MeshSizeType           meshSize;
-  for (unsigned int d = 0; d < VImageDimension; d++)
+  for (unsigned int d = 0; d < VImageDimension; ++d)
   {
     physicalDimensions[d] =
       fixedImage->GetSpacing()[d] * static_cast<RealType>(fixedImage->GetLargestPossibleRegion().GetSize()[d] - 1);
@@ -268,7 +268,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
 
   typename BSplineRegistrationType::TransformParametersAdaptorsContainerType adaptors;
   // Create the transform adaptors specific to B-splines
-  for (unsigned int level = 0; level < numberOfLevels; level++)
+  for (unsigned int level = 0; level < numberOfLevels; ++level)
   {
     using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
@@ -279,7 +279,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
     // A good heuristic is to double the b-spline mesh resolution at each level
 
     typename BSplineTransformType::MeshSizeType requiredMeshSize;
-    for (unsigned int d = 0; d < VImageDimension; d++)
+    for (unsigned int d = 0; d < VImageDimension; ++d)
     {
       requiredMeshSize[d] = meshSize[d] << level;
     }

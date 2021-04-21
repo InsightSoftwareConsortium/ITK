@@ -30,7 +30,7 @@ VolumeSplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(const I
 
   gmatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
   const TParametersValueType r3 = r * r * r;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     gmatrix[i][i] = r3;
   }
@@ -46,13 +46,13 @@ VolumeSplineKernelTransform<TParametersValueType, NDimensions>::ComputeDeformati
 
   PointsIterator sp = this->m_SourceLandmarks->GetPoints()->Begin();
 
-  for (unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++)
+  for (unsigned int lnd = 0; lnd < numberOfLandmarks; ++lnd)
   {
     InputVectorType            position = thisPoint - sp->Value();
     const TParametersValueType r = position.GetNorm();
     const TParametersValueType r3 = r * r * r;
 
-    for (unsigned int odim = 0; odim < NDimensions; odim++)
+    for (unsigned int odim = 0; odim < NDimensions; ++odim)
     {
       result[odim] += r3 * this->m_DMatrix(odim, lnd);
     }

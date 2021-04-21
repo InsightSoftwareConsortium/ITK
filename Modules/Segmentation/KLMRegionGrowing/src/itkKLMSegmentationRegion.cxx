@@ -471,7 +471,7 @@ KLMSegmentationRegion::PrintRegionInfo()
 
   // If there are border pointers print the results
   tempVectorIt = m_RegionBorderVector.begin();
-  for (unsigned int k = 0; k < m_RegionBorderVector.size(); k++)
+  for (unsigned int k = 0; k < m_RegionBorderVector.size(); ++k)
   {
     region1label = (*tempVectorIt)->GetRegion1()->GetRegionLabel();
     region2label = (*tempVectorIt)->GetRegion2()->GetRegionLabel();

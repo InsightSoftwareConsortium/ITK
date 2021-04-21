@@ -97,7 +97,7 @@ DCMTKSeriesFileNames::GetDicomData(const std::string & series, bool saveFileName
 
   std::vector<DCMTKFileReader *> allHeaders;
 
-  for (unsigned int i = 0; i < numFiles; i++)
+  for (unsigned int i = 0; i < numFiles; ++i)
   {
     std::string curFile = directory.GetFile(i);
     if (curFile == "." || curFile == "..")
@@ -195,17 +195,17 @@ DCMTKSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
   os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
 
-  for (unsigned int i = 0; i < m_InputFileNames.size(); i++)
+  for (unsigned int i = 0; i < m_InputFileNames.size(); ++i)
   {
     os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
   }
 
-  for (unsigned int i = 0; i < m_OutputFileNames.size(); i++)
+  for (unsigned int i = 0; i < m_OutputFileNames.size(); ++i)
   {
     os << indent << "OutputFileNames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
   }
 
-  for (unsigned int i = 0; i < m_SeriesUIDs.size(); i++)
+  for (unsigned int i = 0; i < m_SeriesUIDs.size(); ++i)
   {
     os << indent << "SeriesUIDs[" << i << "]: " << m_SeriesUIDs[i] << std::endl;
   }

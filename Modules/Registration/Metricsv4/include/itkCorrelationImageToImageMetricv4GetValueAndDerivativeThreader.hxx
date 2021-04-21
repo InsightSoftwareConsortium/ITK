@@ -323,10 +323,10 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     this->m_CorrelationAssociate->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
       virtualPoint, jacobian, jacobianPositional);
 
-    for (unsigned int par = 0; par < this->m_CorrelationAssociate->GetNumberOfLocalParameters(); par++)
+    for (unsigned int par = 0; par < this->m_CorrelationAssociate->GetNumberOfLocalParameters(); ++par)
     {
       InternalComputationValueType sum = NumericTraits<InternalComputationValueType>::ZeroValue();
-      for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++)
+      for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; ++dim)
       {
         sum += movingImageGradient[dim] * jacobian(dim, par);
       }

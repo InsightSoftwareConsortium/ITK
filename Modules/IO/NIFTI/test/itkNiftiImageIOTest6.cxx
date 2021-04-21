@@ -39,7 +39,7 @@ itkNiftiImageIOTest6(int ac, char * av[])
   VectorImageType::SpacingType      spacing;
   VectorImageType::VectorLengthType vecLength(4);
 
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
     size[i] = 3;
     index[i] = 0;
@@ -55,7 +55,7 @@ itkNiftiImageIOTest6(int ac, char * av[])
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     VectorImageType::PixelType p(vecLength);
-    for (unsigned i = 0; i < vecLength; i++)
+    for (unsigned i = 0; i < vecLength; ++i)
     {
       p[i] = val;
       val++;

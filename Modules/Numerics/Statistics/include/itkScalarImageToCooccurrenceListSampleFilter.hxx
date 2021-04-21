@@ -155,7 +155,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::UseNeighbor(const OffsetType 
   // Don't add the center pixel
   bool isTheCenterPixel = true;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (offset[i] != 0)
     {

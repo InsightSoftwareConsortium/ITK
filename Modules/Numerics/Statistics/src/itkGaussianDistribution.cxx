@@ -238,7 +238,7 @@ GaussianDistribution::InverseCDF(double p)
 
   /**  Step 2:  do 3 Newton steps to improve this */
 
-  for (newt = 0; newt < 3; newt++)
+  for (newt = 0; newt < 3; ++newt)
   {
     dq = 0.5e+0 * vnl_erfc(dx * itk::Math::sqrt1_2) - dp;
     ddq = std::exp(-0.5e+0 * dx * dx) / 2.506628274631000e+0;

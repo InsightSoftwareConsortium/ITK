@@ -31,7 +31,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::BimodalTest(const std::vecto
   int modes = 0;
 
   const size_t len = h.size();
-  for (size_t k = 1; k < len - 1; k++)
+  for (size_t k = 1; k < len - 1; ++k)
   {
     if ((h[k - 1] < h[k]) && (h[k + 1] < h[k]))
     {
@@ -67,7 +67,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Smooth the histogram
   std::vector<double> smoothedHist(size);
-  for (InstanceIdentifier i = 0; i < size; i++)
+  for (InstanceIdentifier i = 0; i < size; ++i)
   {
     smoothedHist[i] = static_cast<double>(histogram->GetFrequency(i, 0));
     progress.CompletedPixel();
@@ -82,7 +82,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
     double current = 0.;
     double next = smoothedHist[0];
 
-    for (size_t i = 0; i < smoothedHist.size() - 1; i++)
+    for (size_t i = 0; i < smoothedHist.size() - 1; ++i)
     {
       previous = current;
       current = next;
@@ -104,7 +104,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
   if (m_UseInterMode)
   {
     // The threshold is the mean between the two peaks.
-    for (size_t i = 1; i < smoothedHist.size() - 1; i++)
+    for (size_t i = 1; i < smoothedHist.size() - 1; ++i)
     {
       if ((smoothedHist[i - 1] < smoothedHist[i]) && (smoothedHist[i + 1] < smoothedHist[i]))
       {
@@ -116,7 +116,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
   else
   {
     size_t firstpeak = 0;
-    for (size_t i = 1; i < smoothedHist.size() - 1; i++)
+    for (size_t i = 1; i < smoothedHist.size() - 1; ++i)
     {
       if ((smoothedHist[i - 1] < smoothedHist[i]) && (smoothedHist[i + 1] < smoothedHist[i]))
       {
@@ -127,7 +127,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::GenerateData()
     double minVal = smoothedHist[firstpeak];
     tt = firstpeak;
 
-    for (size_t i = firstpeak + 1; i < smoothedHist.size() - 1; i++)
+    for (size_t i = firstpeak + 1; i < smoothedHist.size() - 1; ++i)
     {
       if (smoothedHist[i] < minVal)
       {

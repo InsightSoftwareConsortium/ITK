@@ -187,7 +187,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::IsObjectPixelOn
 
   if (m_UseBoundaryCondition)
   {
-    for (i = 0; i < s; i++)
+    for (i = 0; i < s; ++i)
     {
       tf = iNIter.GetPixel(i);
       if (Math::NotExactlyEquals(tf, m_ObjectValue))
@@ -198,7 +198,7 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::IsObjectPixelOn
   }
   else
   {
-    for (i = 0; i < s; i++)
+    for (i = 0; i < s; ++i)
     {
       tf = iNIter.GetPixel(i, isInside);
       if (Math::NotExactlyEquals(tf, m_ObjectValue) && isInside)

@@ -37,11 +37,11 @@ ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(co
   const TParametersValueType factor = -3.0 * r;
   const TParametersValueType radial = m_Alpha * (r * r) * r;
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     const typename InputVectorType::ValueType xi = x[i] * factor;
     // G is symmetric
-    for (unsigned int j = 0; j < i; j++)
+    for (unsigned int j = 0; j < i; ++j)
     {
       const TParametersValueType value = xi * x[j];
       gmatrix[i][j] = value;

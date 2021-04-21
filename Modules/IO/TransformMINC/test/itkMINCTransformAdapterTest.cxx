@@ -38,7 +38,7 @@ template <typename T>
 void
 RandomPix(vnl_random & randgen, itk::Vector<T, 3> & pix, double _max = itk::NumericTraits<T>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.drand64(_max);
   }
@@ -48,7 +48,7 @@ template <typename T>
 void
 RandomPoint(vnl_random & randgen, itk::Point<T, 3> & pix, double _max = itk::NumericTraits<T>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.drand64(_max);
   }
@@ -99,7 +99,7 @@ compare_linear(const char * linear_transform)
 
     AffineTransformType::InputPointType pnt, pnt2;
 
-    for (int i = 0; i < point_counter; i++)
+    for (int i = 0; i < point_counter; ++i)
     {
       AffineTransformType::OutputPointType v1;
       AffineTransformType::OutputPointType v2;

@@ -380,7 +380,7 @@ MetaImageIO::ReadImageInformation()
   this->SetNumberOfDimensions(m_MetaImage.NDims());
 
   unsigned int i;
-  for (i = 0; i < m_NumberOfDimensions; i++)
+  for (i = 0; i < m_NumberOfDimensions; ++i)
   {
     this->SetDimensions(i, m_MetaImage.DimSize(i) / m_SubSamplingFactor);
     this->SetSpacing(i, m_MetaImage.ElementSpacing(i) * m_SubSamplingFactor);
@@ -392,9 +392,9 @@ MetaImageIO::ReadImageInformation()
   //
   const double *     transformMatrix = m_MetaImage.TransformMatrix();
   vnl_vector<double> directionAxis(this->GetNumberOfDimensions());
-  for (unsigned int ii = 0; ii < this->GetNumberOfDimensions(); ii++)
+  for (unsigned int ii = 0; ii < this->GetNumberOfDimensions(); ++ii)
   {
-    for (unsigned int jj = 0; jj < this->GetNumberOfDimensions(); jj++)
+    for (unsigned int jj = 0; jj < this->GetNumberOfDimensions(); ++jj)
     {
       directionAxis[jj] = transformMatrix[ii * this->GetNumberOfDimensions() + jj];
     }
@@ -407,7 +407,7 @@ MetaImageIO::ReadImageInformation()
   // save the metadatadictionary in the MetaImage header.
   // NOTE: The MetaIO library only supports typeless strings as metadata
   int dictFields = m_MetaImage.GetNumberOfAdditionalReadFields();
-  for (int f = 0; f < dictFields; f++)
+  for (int f = 0; f < dictFields; ++f)
   {
     std::string key(m_MetaImage.GetAdditionalReadFieldName(f));
     std::string value(m_MetaImage.GetAdditionalReadFieldValue(f));
@@ -442,7 +442,7 @@ MetaImageIO::Read(void * buffer)
   // path since the comparison will fail
   ImageIORegion largestRegion(nDims);
 
-  for (unsigned int i = 0; i < nDims; i++)
+  for (unsigned int i = 0; i < nDims; ++i)
   {
     largestRegion.SetIndex(i, 0);
     largestRegion.SetSize(i, this->GetDimensions(i));
@@ -452,7 +452,7 @@ MetaImageIO::Read(void * buffer)
   {
     auto * indexMin = new int[nDims];
     auto * indexMax = new int[nDims];
-    for (unsigned int i = 0; i < nDims; i++)
+    for (unsigned int i = 0; i < nDims; ++i)
     {
       if (i < m_IORegion.GetImageDimension())
       {
@@ -823,7 +823,7 @@ MetaImageIO ::Write(const void * buffer)
     dirx = this->GetDirection(0);
     diry = this->GetDirection(1);
     dirz = this->GetDirection(2);
-    for (unsigned ii = 0; ii < 3; ii++)
+    for (unsigned ii = 0; ii < 3; ++ii)
     {
       dir[ii][0] = dirx[ii];
       dir[ii][1] = diry[ii];
@@ -1150,7 +1150,7 @@ MetaImageIO ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegio
 
   if (!m_UseStreamedReading)
   {
-    for (unsigned int i = 0; i < this->m_NumberOfDimensions; i++)
+    for (unsigned int i = 0; i < this->m_NumberOfDimensions; ++i)
     {
       streamableRegion.SetSize(i, this->m_Dimensions[i]);
       streamableRegion.SetIndex(i, 0);

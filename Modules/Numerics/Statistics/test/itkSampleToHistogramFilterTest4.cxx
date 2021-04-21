@@ -78,13 +78,13 @@ itkSampleToHistogramFilterTest4(int, char *[])
   sample->SetMeasurementVectorSize(numberOfComponents);
 
   // Populate the Sample
-  for (unsigned int i = 0; i < histogramSize[0]; i++)
+  for (unsigned int i = 0; i < histogramSize[0]; ++i)
   {
     measure[0] = static_cast<VMeasurementType>(minimum[0] + i);
-    for (unsigned int j = 0; j < histogramSize[1]; j++)
+    for (unsigned int j = 0; j < histogramSize[1]; ++j)
     {
       measure[1] = static_cast<VMeasurementType>(minimum[1] + j);
-      for (unsigned int k = 0; k < histogramSize[2]; k++)
+      for (unsigned int k = 0; k < histogramSize[2]; ++k)
       {
         measure[2] = static_cast<VMeasurementType>(minimum[2] + k);
         sample->PushBack(measure);

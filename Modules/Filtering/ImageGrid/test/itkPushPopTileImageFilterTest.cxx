@@ -72,7 +72,7 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
   tiler4->SetLayout(layout);
 
   int f = 0;
-  for (int i = 1; i < argc - 1; i++)
+  for (int i = 1; i < argc - 1; ++i)
   {
     ImageReaderType::Pointer reader = ImageReaderType::New();
     reader->SetFileName(argv[i]);

@@ -259,14 +259,14 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::InitializeFunctionCoeffi
     using SpacingType = typename TOutputImage::SpacingType;
     const SpacingType & spacing = outputImage->GetSpacing();
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       coeffs[i] = 1.0 / static_cast<double>(spacing[i]);
     }
   }
   else
   {
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       coeffs[i] = 1.0;
     }

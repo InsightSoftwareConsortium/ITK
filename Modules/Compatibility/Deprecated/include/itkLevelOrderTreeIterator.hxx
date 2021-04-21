@@ -204,7 +204,7 @@ LevelOrderTreeIterator<TTreeType>::FindNextNodeHelp() const
 
   int size = currentNode->CountChildren();
 
-  for (int i = 0; i < size; i++)
+  for (int i = 0; i < size; ++i)
   {
     auto * child = dynamic_cast<TreeNodeType *>(currentNode->GetChild(i));
     if (child != nullptr)

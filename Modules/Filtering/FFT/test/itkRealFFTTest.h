@@ -53,7 +53,7 @@ test_fft(unsigned int * SizeOfDimensions)
   // passed as an argument to this function. Based on the template
   // argument VImageDimensions, we create a 1D, 2D, or 3D image by
   // selecting the sizes of image dimensions from this array.
-  for (unsigned int i = 0; i < VImageDimensions; i++)
+  for (unsigned int i = 0; i < VImageDimensions; ++i)
   {
     imageSize.SetElement(i, SizeOfDimensions[i]);
     imageIndex.SetElement(i, -2 * static_cast<int>(i) - 5); // Test for handling non-zero
@@ -132,7 +132,7 @@ test_fft(unsigned int * SizeOfDimensions)
   const typename ComplexImageType::SizeType & complexImageSize = complexImage->GetLargestPossibleRegion().GetSize();
 
   unsigned int sizes[4] = { 1, 1, 1, 1 };
-  for (unsigned int i = 0; i < VImageDimensions; i++)
+  for (unsigned int i = 0; i < VImageDimensions; ++i)
   {
     sizes[i] = complexImageSize[i];
   }
@@ -140,13 +140,13 @@ test_fft(unsigned int * SizeOfDimensions)
   /* Print out the the frequency domain data obtained after performing
    * the forward transform. */
   std::cout << "Frequency domain data after forward transform:" << std::endl;
-  for (unsigned int i = 0; i < sizes[2]; i++)
+  for (unsigned int i = 0; i < sizes[2]; ++i)
   {
     unsigned int zStride = i * sizes[1] * sizes[0];
-    for (unsigned int j = 0; j < sizes[1]; j++)
+    for (unsigned int j = 0; j < sizes[1]; ++j)
     {
       unsigned int yStride = j * sizes[0];
-      for (unsigned int k = 0; k < sizes[0]; k++)
+      for (unsigned int k = 0; k < sizes[0]; ++k)
       {
         std::cout << fftbuf[zStride + yStride + k] << " ";
       }
@@ -241,7 +241,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   // passed as an argument to this function. Based on the template
   // argument VImageDimensions, we create a 1D, 2D, or 3D image by
   // selecting the sizes of image dimensions from this array.
-  for (unsigned int i = 0; i < VImageDimensions; i++)
+  for (unsigned int i = 0; i < VImageDimensions; ++i)
   {
     imageSize.SetElement(i, SizeOfDimensions[i]);
     imageIndex.SetElement(i, 0);
@@ -317,7 +317,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
 
   unsigned int sizesA[4] = { 1, 1, 1, 1 };
   unsigned int sizesB[4] = { 1, 1, 1, 1 };
-  for (unsigned int i = 0; i < VImageDimensions; i++)
+  for (unsigned int i = 0; i < VImageDimensions; ++i)
   {
     // The size may be different if one implementation returns a
     // full matrix but not the other.
@@ -328,13 +328,13 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   // Print out the the frequency domain data obtained after performing
   // the forward transform.
   std::cout << "Frequency domain data after forward transform:" << std::endl;
-  for (unsigned int i = 0; i < sizesA[2]; i++)
+  for (unsigned int i = 0; i < sizesA[2]; ++i)
   {
     unsigned int zStride = i * sizesA[1] * sizesA[0];
-    for (unsigned int j = 0; j < sizesA[1]; j++)
+    for (unsigned int j = 0; j < sizesA[1]; ++j)
     {
       unsigned int yStride = j * sizesA[0];
-      for (unsigned int k = 0; k < sizesA[0]; k++)
+      for (unsigned int k = 0; k < sizesA[0]; ++k)
       {
         std::cout << fftbufA[zStride + yStride + k] << " ";
       }
@@ -343,13 +343,13 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   }
   std::cout << std::endl << std::endl;
 
-  for (unsigned int i = 0; i < sizesB[2]; i++)
+  for (unsigned int i = 0; i < sizesB[2]; ++i)
   {
     unsigned int zStride = i * sizesB[1] * sizesB[0];
-    for (unsigned int j = 0; j < sizesB[1]; j++)
+    for (unsigned int j = 0; j < sizesB[1]; ++j)
     {
       unsigned int yStride = j * sizesB[0];
-      for (unsigned int k = 0; k < sizesB[0]; k++)
+      for (unsigned int k = 0; k < sizesB[0]; ++k)
       {
         std::cout << fftbufB[zStride + yStride + k] << " ";
       }
@@ -362,15 +362,15 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   // Subtract the pixel values from the two images. If one pixel
   // difference is greater than 0.01, the test is considered to have
   // failed.
-  for (unsigned int i = 0; i < std::min(sizesA[2], sizesB[2]); i++)
+  for (unsigned int i = 0; i < std::min(sizesA[2], sizesB[2]); ++i)
   {
     unsigned int zStrideA = i * sizesA[1] * sizesA[0];
     unsigned int zStrideB = i * sizesB[1] * sizesB[0];
-    for (unsigned int j = 0; j < std::min(sizesA[1], sizesB[1]); j++)
+    for (unsigned int j = 0; j < std::min(sizesA[1], sizesB[1]); ++j)
     {
       unsigned int yStrideA = j * sizesA[0];
       unsigned int yStrideB = j * sizesB[0];
-      for (unsigned int k = 0; k < std::min(sizesA[0], sizesB[0]); k++)
+      for (unsigned int k = 0; k < std::min(sizesA[0], sizesB[0]); ++k)
       {
         double val = std::abs(fftbufA[zStrideA + yStrideA + k]);
         double diff = std::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);

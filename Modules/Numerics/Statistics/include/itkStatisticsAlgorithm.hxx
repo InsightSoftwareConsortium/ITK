@@ -193,7 +193,7 @@ Partition(TSubsample *                               sample,
     // Therefore we must now find the largest value of the left section and
     // swap it to the boundary between smaller and larger than the
     // partitionValue.
-    for (int kk = beginIndex; kk < storeIndex; kk++)
+    for (int kk = beginIndex; kk < storeIndex; ++kk)
     {
       SampleMeasurementType nodeValue = sample->GetMeasurementVectorByIndex(kk)[activeDimension];
       SampleMeasurementType boundaryValue = sample->GetMeasurementVectorByIndex(storeIndex)[activeDimension];
@@ -321,7 +321,7 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
 
   while (true)
   {
-    for (dimension = 0; dimension < Dimension; dimension++)
+    for (dimension = 0; dimension < Dimension; ++dimension)
     {
       if (temp[dimension] < min[dimension])
       {
@@ -342,7 +342,7 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
     frequencySum += sample->GetFrequencyByIndex(beginIndex);
   } // end of while
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     mean[i] = (MeasurementType)(sum[i] / frequencySum);
   }
@@ -528,7 +528,7 @@ InsertSort(TSubsample * sample, unsigned int activeDimension, int beginIndex, in
   int backwardSearchBegin;
   int backwardIndex;
 
-  for (backwardSearchBegin = beginIndex + 1; backwardSearchBegin < endIndex; backwardSearchBegin++)
+  for (backwardSearchBegin = beginIndex + 1; backwardSearchBegin < endIndex; ++backwardSearchBegin)
   {
     backwardIndex = backwardSearchBegin;
     while (backwardIndex > beginIndex)

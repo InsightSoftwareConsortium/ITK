@@ -186,7 +186,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
       {
         std::cout << "\tHistogram Frequencies:" << std::endl;
         histogram = statistics->GetHistogram(ii);
-        for (int jj = 0; jj <= NumBins; jj++)
+        for (int jj = 0; jj <= NumBins; ++jj)
         {
           std::cout << histogram->GetFrequency(jj) << ", ";
         }
@@ -210,7 +210,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
       {
         std::cout << "\tEvery tenth Histogram Frequencies:" << std::endl;
         histogram = statistics->GetHistogram(ii);
-        for (int jj = 0; jj <= NumBins; jj++)
+        for (int jj = 0; jj <= NumBins; ++jj)
         {
           std::cout << histogram->GetFrequency(jj) << ", ";
         }

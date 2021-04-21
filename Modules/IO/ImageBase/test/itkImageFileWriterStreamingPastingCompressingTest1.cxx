@@ -61,7 +61,7 @@ SameImage(ImagePointer testImage, ImagePointer baselineImage)
   SpacingType testImageSpacing = testImage->GetSpacing();
   SpacingType baselineImageSpacing = baselineImage->GetSpacing();
   // compare spacing
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     if (itk::Math::NotAlmostEquals(testImageSpacing[i], baselineImageSpacing[i]))
     {

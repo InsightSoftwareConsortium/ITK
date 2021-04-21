@@ -82,7 +82,7 @@ AmoebaOptimizer::GetValue() const
   if (m_ScalesInitialized)
   {
     const ScalesType & scales = this->GetScales();
-    for (unsigned int i = 0; i < numberOfParameters; i++)
+    for (unsigned int i = 0; i < numberOfParameters; ++i)
     {
       parameters[i] *= scales[i];
     }
@@ -176,7 +176,7 @@ AmoebaOptimizer::StartOptimization()
   if (m_ScalesInitialized)
   {
     adaptor->SetScales(scales);
-    for (unsigned int i = 0; i < n; i++)
+    for (unsigned int i = 0; i < n; ++i)
     {
       parameters[i] *= scales[i];
     }
@@ -191,7 +191,7 @@ AmoebaOptimizer::StartOptimization()
     constexpr double       relativeDiameter = 0.05;
     constexpr double       zeroTermDelta = 0.00025;
     InternalParametersType automaticDelta(n);
-    for (unsigned int i = 0; i < n; i++)
+    for (unsigned int i = 0; i < n; ++i)
     {
       if (fabs(parameters[i]) > zeroTermDelta)
       {
@@ -225,7 +225,7 @@ AmoebaOptimizer::StartOptimization()
       currentValue = adaptor->f(parameters);
       // be consistent with the underlying vnl amoeba implementation
       double maxAbs = 0.0;
-      for (unsigned j = 0; j < n; j++)
+      for (unsigned j = 0; j < n; ++j)
       {
         if (maxAbs < fabs(bestPosition[j] - parameters[j]))
         {

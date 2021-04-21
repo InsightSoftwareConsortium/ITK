@@ -97,7 +97,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
 
   vnl_vector<unsigned int> testPixelsPerElement = meshFilter->GetPixelsPerElement();
   vnl_vector<unsigned int> testNumberOfElements = meshFilter->GetNumberOfElements();
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     std::cout << "Pixels per Element Test " << i << ":";
     if (testPixelsPerElement[i] != pixelsPerElement[i])
@@ -196,7 +196,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
 
 
   const auto numberOfNodesToTest = static_cast<unsigned int>(std::stoi(argv[10]));
-  for (unsigned int i = 0; i < numberOfNodesToTest; i++)
+  for (unsigned int i = 0; i < numberOfNodesToTest; ++i)
   {
     auto               nodeNumber = static_cast<unsigned int>(std::stoi(argv[11 + i * 4]));
     vnl_vector<double> loc;
@@ -223,7 +223,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   }
 
   const auto numberOfElementsToTest = static_cast<unsigned int>(std::stoi(argv[11 + numberOfNodesToTest * 4]));
-  for (unsigned int i = 0; i < numberOfElementsToTest; i++)
+  for (unsigned int i = 0; i < numberOfElementsToTest; ++i)
   {
     auto            elementNumber = static_cast<unsigned int>(std::stoi(argv[12 + numberOfNodesToTest * 4 + i * 9]));
     vnl_vector<int> nodes;

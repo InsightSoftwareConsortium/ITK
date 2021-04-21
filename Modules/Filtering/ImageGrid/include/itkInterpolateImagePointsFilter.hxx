@@ -84,7 +84,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
 
   // Setup an iterator for each of the coordinate inputs.
   CoordImageIterator coordIter[ImageDimension];
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     CoordImageIterator temp(this->GetInput(j + 1), coordRegion);
     coordIter[j] = temp;
@@ -96,7 +96,7 @@ InterpolateImagePointsFilter<TInputImage, TOutputImage, TCoordType, Interpolator
   ContinuousIndexType index;
   while (!outIter.IsAtEnd())
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       index[j] = (coordIter[j]).Value();
       ++(coordIter[j]);

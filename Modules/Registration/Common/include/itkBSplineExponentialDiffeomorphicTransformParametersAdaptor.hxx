@@ -43,7 +43,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::SetMeshSi
 {
   ArrayType numberOfControlPoints;
   numberOfControlPoints.Fill(0);
-  for (unsigned int d = 0; d < SpaceDimension; d++)
+  for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
     if (meshSize[d] > 0)
     {
@@ -63,7 +63,7 @@ BSplineExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::SetMeshSi
 {
   ArrayType numberOfControlPoints;
   numberOfControlPoints.Fill(0);
-  for (unsigned int d = 0; d < SpaceDimension; d++)
+  for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
     if (meshSize[d] > 0)
     {

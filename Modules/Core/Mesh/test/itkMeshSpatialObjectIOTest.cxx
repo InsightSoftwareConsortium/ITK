@@ -72,9 +72,9 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   CellLinksContainerType::Pointer   linkContainer = CellLinksContainerType::New();
   MeshType::PointCellLinksContainer pcl;
 
-  for (j = 0; j < 3; j++)
+  for (j = 0; j < 3; ++j)
   {
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 5; ++i)
     {
       pcl.insert(j + i);
     }
@@ -88,7 +88,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   PointDataContainer::Pointer pointData = PointDataContainer::New();
 
   float data = 0.1;
-  for (j = 0; j < 2; j++)
+  for (j = 0; j < 2; ++j)
   {
     pointData->SetElement(j, data);
     data += (float)0.1;
@@ -100,7 +100,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   CellDataContainer::Pointer cellData = CellDataContainer::New();
 
   data = 0.9;
-  for (j = 0; j < 3; j++)
+  for (j = 0; j < 3; ++j)
   {
     cellData->SetElement(j, data);
     data -= (float)0.2;
@@ -181,7 +181,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
       std::cout << "Index = " << (*it_points)->Index() << " v.s. " << j << std::endl;
       return EXIT_FAILURE;
     }
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       if (itk::Math::NotExactlyEquals(((*it_points)->Value())[i], j + i))
       {

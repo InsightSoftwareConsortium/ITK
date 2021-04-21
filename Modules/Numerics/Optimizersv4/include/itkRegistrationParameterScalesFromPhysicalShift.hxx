@@ -62,7 +62,7 @@ RegistrationParameterScalesFromPhysicalShift<TMetric>::ComputeSampleShiftsIntern
   sampleShifts.SetSize(numSamples);
 
   // compute the indices mapped by the old transform
-  for (SizeValueType c = 0; c < numSamples; c++)
+  for (SizeValueType c = 0; c < numSamples; ++c)
   {
     point = this->m_SamplePoints[c];
     this->template TransformPoint<TransformOutputType>(point, oldMappedVoxels[c]);
@@ -72,7 +72,7 @@ RegistrationParameterScalesFromPhysicalShift<TMetric>::ComputeSampleShiftsIntern
   this->UpdateTransformParameters(deltaParameters);
 
   // compute the indices mapped by the new transform
-  for (SizeValueType c = 0; c < numSamples; c++)
+  for (SizeValueType c = 0; c < numSamples; ++c)
   {
     point = this->m_SamplePoints[c];
     this->template TransformPoint<TransformOutputType>(point, newMappedVoxel);

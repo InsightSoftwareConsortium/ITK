@@ -50,7 +50,7 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
   typename TRegion::IndexType FSt = face.GetIndex();
 
   unsigned smallDim = 0;
-  for (unsigned i = 0; i < AllImage.GetImageDimension(); i++)
+  for (unsigned i = 0; i < AllImage.GetImageDimension(); ++i)
   {
     if (FSz[i] == 1)
     {
@@ -98,7 +98,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   float                      domdir = NumericTraits<float>::NonpositiveMin();
   int                        sPos, ePos;
   unsigned                   perpdir = 0;
-  for (unsigned i = 0; i < TImage::RegionType::ImageDimension; i++)
+  for (unsigned i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
     if (std::fabs(line[i]) > domdir)
     {
@@ -152,7 +152,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
       //      std::cout << "Searching " << Tnear << " " << Tfar << std::endl;
       itkAssertInDebugAndIgnoreInReleaseMacro(ePos >= 0);
       itkAssertInDebugAndIgnoreInReleaseMacro(sPos < (int)LineOffsets.size());
-      for (int i = ePos; i <= sPos; i++)
+      for (int i = ePos; i <= sPos; ++i)
       {
         if (AllImage.IsInside(StartIndex + LineOffsets[i]))
         {
@@ -279,7 +279,7 @@ CopyLineToImage(const typename TImage::Pointer            output,
 {
   unsigned size = end - start + 1;
 
-  for (unsigned i = 0; i < size; i++)
+  for (unsigned i = 0; i < size; ++i)
   {
     // itkAssertInDebugAndIgnoreInReleaseMacro(start + i >= 0);
     itkAssertInDebugAndIgnoreInReleaseMacro(start + i < LineOffsets.size());
@@ -303,7 +303,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   using FaceListType = std::list<RegionType>;
   FaceListType faceList;
 
-  for (unsigned i = 0; i < TInputImage::ImageDimension; i++)
+  for (unsigned i = 0; i < TInputImage::ImageDimension; ++i)
   {
     RegionType R1, R2;
     SizeType   S1 = AllImage.GetSize();
@@ -333,7 +333,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   unsigned                         DomDir = 0;
   // std::cout << "------------" << std::endl;
   // figure out the dominant direction of the line
-  for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++)
+  for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
   {
     if (std::fabs(line[i]) > MaxComp)
     {
@@ -349,7 +349,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // Figure out the perpendicular using the region size
     unsigned FaceDir = 0;
     //    std::cout << "Face " << *fit << std::endl;
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++)
+    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (fit->GetSize()[i] == 1)
       {
@@ -375,7 +375,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // find the dimension not within the face
     unsigned NonFaceDim = 0;
 
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++)
+    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (RelevantRegion.GetSize()[i] == 1)
       {
@@ -388,7 +388,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     typename TInputImage::SizeType  NewSize = RelevantRegion.GetSize();
     typename TInputImage::IndexType NewStart = RelevantRegion.GetIndex();
     unsigned                        NonFaceLen = AllImage.GetSize()[NonFaceDim];
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; i++)
+    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (i != NonFaceDim)
       {
@@ -436,7 +436,7 @@ FillLineBuffer(typename TImage::ConstPointer             input,
   }
   unsigned size = end - start + 1;
   // compat
-  for (unsigned i = 0; i < size; i++)
+  for (unsigned i = 0; i < size; ++i)
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(start + i < LineOffsets.size());
     inbuffer[i + 1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
@@ -451,7 +451,7 @@ GetLinePixels(const TLine line)
   float N = line.GetNorm();
   float correction = 0.0;
 
-  for (unsigned int i = 0; i < TLine::Dimension; i++)
+  for (unsigned int i = 0; i < TLine::Dimension; ++i)
   {
     float tt = std::fabs(line[i] / N);
     if (tt > correction)

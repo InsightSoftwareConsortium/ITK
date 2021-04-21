@@ -32,7 +32,7 @@ CurvatureFlowFunction<TImage>::CurvatureFlowFunction()
   RadiusType   r;
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     r[j] = 1;
   }
@@ -74,13 +74,13 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   center = it.Size() / 2;
 
   // cache the stride for each dimension
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     stride[i] = it.GetStride((IdentifierType)i);
   }
 
   PixelRealType magnitudeSqr = 0.0;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     // compute first order derivatives
     firstderiv[i] = 0.5 * (it.GetPixel(center + stride[i]) - it.GetPixel(center - stride[i])) * neighborhoodScales[i];
@@ -90,7 +90,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                   itk::Math::sqr(neighborhoodScales[i]);
 
     // compute cross derivatives
-    for (j = i + 1; j < ImageDimension; j++)
+    for (j = i + 1; j < ImageDimension; ++j)
     {
       crossderiv[i][j] = 0.25 *
                          (it.GetPixel(center - stride[i] - stride[j]) - it.GetPixel(center - stride[i] + stride[j]) -
@@ -112,10 +112,10 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   PixelRealType temp;
 
   // accumulate dx^2 * (dyy + dzz) terms
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     temp = 0.0;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       if (j == i)
       {
@@ -128,9 +128,9 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
   }
 
   // accumlate -2 * dx * dy * dxy terms
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
-    for (j = i + 1; j < ImageDimension; j++)
+    for (j = i + 1; j < ImageDimension; ++j)
     {
       update -= 2 * firstderiv[i] * firstderiv[j] * crossderiv[i][j];
     }

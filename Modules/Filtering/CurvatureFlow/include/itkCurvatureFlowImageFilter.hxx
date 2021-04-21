@@ -124,7 +124,7 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegio
   // radius is supplied by the difference function we are using.
   typename FiniteDifferenceFunctionType::RadiusType radius = this->GetDifferenceFunction()->GetRadius();
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     radius[j] *= this->GetNumberOfIterations();
   }

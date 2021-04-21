@@ -170,7 +170,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
     distance = 0.0;
-    for (int j = 0; j < 2; j++)
+    for (int j = 0; j < 2; ++j)
     {
       distance += tempIndex[j] * tempIndex[j];
     }
@@ -190,7 +190,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
     // and must be oriented radially from the seed point
 
     double dot = 0.0;
-    for (int j = 0; j < 2; j++)
+    for (int j = 0; j < 2; ++j)
     {
       dot += tempIndex[j] / distance * outputPixel[j];
     }
@@ -224,7 +224,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   index.Fill(0);
   node.SetValue(0.0);
   NodeContainer::Pointer targetPoints = NodeContainer::New();
-  for (unsigned int i = 0, _end = targetOffsets.size(); i < _end; i++)
+  for (unsigned int i = 0, _end = targetOffsets.size(); i < _end; ++i)
   {
     node.SetIndex(index + targetOffsets[i]);
     targetPoints->InsertElement(i, node);

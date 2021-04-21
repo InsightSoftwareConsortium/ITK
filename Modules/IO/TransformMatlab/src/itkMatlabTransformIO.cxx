@@ -56,7 +56,7 @@ ReadMat(vnl_matlab_readhdr &                                                    
   {
     vnl_vector<float> fv(mathdr.rows());
     mathdr.read_data(fv.begin());
-    for (int i = 0; i < mathdr.rows(); i++)
+    for (int i = 0; i < mathdr.rows(); ++i)
     {
       array[i] = (ParametersValueType)(fv[i]);
     }
@@ -65,7 +65,7 @@ ReadMat(vnl_matlab_readhdr &                                                    
   {
     vnl_vector<double> dv(mathdr.rows());
     mathdr.read_data(dv.begin());
-    for (int i = 0; i < mathdr.rows(); i++)
+    for (int i = 0; i < mathdr.rows(); ++i)
     {
       array[i] = (ParametersValueType)(dv[i]);
     }

@@ -140,7 +140,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   this->GetStringAt(f, HDR_MODEL_NAME, hdr->scanner, HDR_MODEL_NAME_LEN);
   hdr->scanner[HDR_MODEL_NAME_LEN] = '\0';
   DB(hdr->scanner);
-  for (unsigned int i = 0; i < strlen(hdr->scanner); i++)
+  for (unsigned int i = 0; i < strlen(hdr->scanner); ++i)
   {
     if (hdr->scanner[i] == ' ')
     {

@@ -50,7 +50,7 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
   input->Allocate();
   input->FillBuffer(l);
 
-  for (unsigned int i = 0; i < 10; i++)
+  for (unsigned int i = 0; i < 10; ++i)
   {
     ListPixelType ll;
     ll.push_back(i);

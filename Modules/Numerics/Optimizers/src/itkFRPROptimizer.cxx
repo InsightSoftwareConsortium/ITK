@@ -37,7 +37,7 @@ FRPROptimizer::GetValueAndDerivative(ParametersType & p, double * val, Parameter
   if (this->GetMaximize())
   {
     (*val) = -(*val);
-    for (unsigned int i = 0; i < this->GetSpaceDimension(); i++)
+    for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
     {
       (*xi)[i] = -(*xi)[i];
     }
@@ -45,12 +45,12 @@ FRPROptimizer::GetValueAndDerivative(ParametersType & p, double * val, Parameter
   if (this->GetUseUnitLengthGradient())
   {
     double len = (*xi)[0] * (*xi)[0];
-    for (unsigned int i = 1; i < this->GetSpaceDimension(); i++)
+    for (unsigned int i = 1; i < this->GetSpaceDimension(); ++i)
     {
       len += (*xi)[i] * (*xi)[i];
     }
     len = std::sqrt(len / this->GetSpaceDimension());
-    for (unsigned int i = 0; i < this->GetSpaceDimension(); i++)
+    for (unsigned int i = 0; i < this->GetSpaceDimension(); ++i)
     {
       (*xi)[i] /= len;
     }
@@ -119,7 +119,7 @@ FRPROptimizer::StartOptimization()
   double fp;
   this->GetValueAndDerivative(p, &fp, &xi);
 
-  for (i = 0; i < this->GetSpaceDimension(); i++)
+  for (i = 0; i < this->GetSpaceDimension(); ++i)
   {
     g[i] = -xi[i];
     xi[i] = g[i];
@@ -128,7 +128,7 @@ FRPROptimizer::StartOptimization()
 
   unsigned int limitCount = 0;
 
-  for (unsigned int currentIteration = 0; currentIteration <= this->GetMaximumIteration(); currentIteration++)
+  for (unsigned int currentIteration = 0; currentIteration <= this->GetMaximumIteration(); ++currentIteration)
   {
     this->SetCurrentIteration(currentIteration);
 
@@ -162,7 +162,7 @@ FRPROptimizer::StartOptimization()
 
     if (m_OptimizationType == OptimizationEnum::PolakRibiere)
     {
-      for (i = 0; i < this->GetSpaceDimension(); i++)
+      for (i = 0; i < this->GetSpaceDimension(); ++i)
       {
         gg += g[i] * g[i];
         dgg += (xi[i] + g[i]) * xi[i];
@@ -170,7 +170,7 @@ FRPROptimizer::StartOptimization()
     }
     if (m_OptimizationType == OptimizationEnum::FletchReeves)
     {
-      for (i = 0; i < this->GetSpaceDimension(); i++)
+      for (i = 0; i < this->GetSpaceDimension(); ++i)
       {
         gg += g[i] * g[i];
         dgg += xi[i] * xi[i];
@@ -185,7 +185,7 @@ FRPROptimizer::StartOptimization()
     }
 
     gam = dgg / gg;
-    for (i = 0; i < this->GetSpaceDimension(); i++)
+    for (i = 0; i < this->GetSpaceDimension(); ++i)
     {
       g[i] = -xi[i];
       xi[i] = g[i] + gam * h[i];

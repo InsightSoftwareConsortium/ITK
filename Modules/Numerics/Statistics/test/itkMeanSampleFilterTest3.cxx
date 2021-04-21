@@ -67,9 +67,9 @@ itkMeanSampleFilterTest3(int, char *[])
   covariance[2][2] = 6000.0;
 
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    for (unsigned int j = i; j < MeasurementVectorSize; j++)
+    for (unsigned int j = i; j < MeasurementVectorSize; ++j)
     {
       covariance[j][i] = covariance[i][j];
     }
@@ -122,7 +122,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   double epsilon = 1;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
     if (std::fabs(meanOutput[i] - mean[i]) > epsilon)
     {

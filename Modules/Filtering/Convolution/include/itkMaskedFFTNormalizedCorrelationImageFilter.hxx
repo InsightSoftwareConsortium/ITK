@@ -158,7 +158,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // The FFTImageSize is the closest valid dimension each dimension.
   // The dimension must be divisible by a combination of 2, 3, and 5.
   InputSizeType FFTImageSize;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     combinedImageSize[i] = fixedImage->GetLargestPossibleRegion().GetSize()[i] +
                            rotatedMovingImage->GetLargestPossibleRegion().GetSize()[i] - 1;
@@ -541,7 +541,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // This loop is just a convenient way of ensuring that ifac assumes
   // values of 2, 3, and 5 and then quits.  These are the only factors
   // that are valid for the FFT calculation.
-  for (int offset = 1; offset <= 3; offset++)
+  for (int offset = 1; offset <= 3; ++offset)
   {
     // Using the given factor, factor the image continuously until it
     // can no longer be factored with this value.
@@ -713,7 +713,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // location.
   itk::ContinuousIndex<typename RealPointType::ValueType, ImageDimension> movingImageOffset;
   RealPointType                                                           outputOrigin;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     movingImageOffset[i] = -(float)(movingImage->GetLargestPossibleRegion().GetSize()[i] - 1) / 2.0;
   }

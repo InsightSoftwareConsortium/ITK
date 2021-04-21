@@ -60,7 +60,7 @@ itkChangeLabelImageFilterTest(int, char *[])
   // Eliminate most labels
   InputPixelType background = 0;
   InputPixelType maxRemainingLabel = 2;
-  for (InputPixelType i = maxRemainingLabel; i <= upper; i++)
+  for (InputPixelType i = maxRemainingLabel; i <= upper; ++i)
   {
     filter->SetChange(i, background);
   }

@@ -121,7 +121,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
               LengthType        length = lit.GetLine().GetLength();
 
               // Update the mins and maxs
-              for (unsigned int i = 0; i < ImageDimension; i++)
+              for (unsigned int i = 0; i < ImageDimension; ++i)
               {
                 if (idx[i] < mins[i])
                 {
@@ -144,7 +144,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
         // Final computation
         SizeType regionSize;
-        for (unsigned int i = 0; i < ImageDimension; i++)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           regionSize[i] = maxs[i] - mins[i] + 1;
         }
@@ -181,7 +181,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
           LengthType        length = lit.GetLine().GetLength();
 
           // Update the mins and maxs
-          for (unsigned int i = 0; i < ImageDimension; i++)
+          for (unsigned int i = 0; i < ImageDimension; ++i)
           {
             if (idx[i] < mins[i])
             {
@@ -201,7 +201,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
         }
         // Final computation
         SizeType regionSize;
-        for (unsigned int i = 0; i < ImageDimension; i++)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           regionSize[i] = maxs[i] - mins[i] + 1;
         }

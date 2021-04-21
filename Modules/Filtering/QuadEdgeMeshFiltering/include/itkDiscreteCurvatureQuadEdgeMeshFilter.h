@@ -89,7 +89,7 @@ protected:
 
     OutputPointType p[3];
 
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; ++i)
     {
       p[i] = this->m_OutputMesh->GetPoint(id[i]);
     }

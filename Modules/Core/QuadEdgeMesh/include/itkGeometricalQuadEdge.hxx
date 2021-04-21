@@ -92,7 +92,7 @@ template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualDa
 bool
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsInOnextRing(Self * b)
 {
-  for (IteratorGeom it = this->BeginGeomOnext(); it != this->EndGeomOnext(); it++)
+  for (IteratorGeom it = this->BeginGeomOnext(); it != this->EndGeomOnext(); ++it)
   {
     if (b == it.Value())
     {
@@ -113,7 +113,7 @@ template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualDa
 bool
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsInLnextRing(Self * b)
 {
-  for (IteratorGeom it = this->BeginGeomLnext(); it != this->EndGeomLnext(); it++)
+  for (IteratorGeom it = this->BeginGeomLnext(); it != this->EndGeomLnext(); ++it)
   {
     if (b == it.Value())
     {
@@ -606,7 +606,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Disconnec
   {
     // Consolidate face
     DualOriginRefType face = this->GetRight();
-    for (IteratorGeom it = this->BeginGeomLnext(); it != this->EndGeomLnext(); it++)
+    for (IteratorGeom it = this->BeginGeomLnext(); it != this->EndGeomLnext(); ++it)
     {
       it.Value()->SetLeft(face);
     }

@@ -59,19 +59,19 @@ itkKalmanLinearEstimatorTest(int, char *[])
   constexpr unsigned int N = 10;
 
   predictor(5) = 1.0;
-  for (unsigned int ax = 0; ax < N; ax++)
+  for (unsigned int ax = 0; ax < N; ++ax)
   {
     predictor(0) = ax;
-    for (unsigned int bx = 0; bx < N; bx++)
+    for (unsigned int bx = 0; bx < N; ++bx)
     {
       predictor(1) = bx;
-      for (unsigned int cx = 0; cx < N; cx++)
+      for (unsigned int cx = 0; cx < N; ++cx)
       {
         predictor(2) = cx;
-        for (unsigned int dx = 0; dx < N; dx++)
+        for (unsigned int dx = 0; dx < N; ++dx)
         {
           predictor(3) = dx;
-          for (unsigned int ex = 0; ex < N; ex++)
+          for (unsigned int ex = 0; ex < N; ++ex)
           {
             predictor(4) = ex;
 

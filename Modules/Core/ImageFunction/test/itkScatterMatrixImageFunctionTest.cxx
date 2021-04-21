@@ -102,9 +102,9 @@ itkScatterMatrixImageFunctionTest(int, char *[])
 
   // since the input image is constant
   // the should be equal to the initial value
-  for (unsigned int ix = 0; ix < VectorDimension; ix++)
+  for (unsigned int ix = 0; ix < VectorDimension; ++ix)
   {
-    for (unsigned int iy = 0; iy < VectorDimension; iy++)
+    for (unsigned int iy = 0; iy < VectorDimension; ++iy)
     {
       if (itk::Math::abs(initialValue[ix] * initialValue[iy] - scatterMatrix[ix][iy]) > 10e-7)
       {

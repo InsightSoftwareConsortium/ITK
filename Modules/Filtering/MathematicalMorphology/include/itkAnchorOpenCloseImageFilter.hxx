@@ -77,7 +77,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   InputImageRegionType OReg = outputRegionForThread;
   // maximum buffer length is sum of dimensions
   unsigned int bufflength = 0;
-  for (unsigned i = 0; i < TImage::ImageDimension; i++)
+  for (unsigned i = 0; i < TImage::ImageDimension; ++i)
   {
     bufflength += IReg.GetSize()[i];
   }
@@ -93,7 +93,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   BresType                        BresLine;
 
   // first stage -- all of the erosions if we are doing an opening
-  for (unsigned i = 0; i < decomposition.size() - 1; i++)
+  for (unsigned i = 0; i < decomposition.size() - 1; ++i)
   {
     KernelLType     ThisLine = decomposition[i];
     BresOffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
@@ -195,7 +195,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DoFaceOpen(
   NormLine.Normalize();
   // set a generous tolerance
   float tol = 1.0 / LineOffsets.size();
-  for (unsigned int it = 0; it < face.GetNumberOfPixels(); it++)
+  for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
     unsigned                   start, end, len;

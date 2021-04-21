@@ -126,7 +126,7 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::
   CopyInputToOutput()
 {
-  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+  for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     InputImagePointer input = this->m_LevelSet[i];
 
@@ -685,7 +685,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
   double temp;
 
-  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+  for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[i];
 
@@ -776,7 +776,7 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::
   PropagateAllLayerValues()
 {
-  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+  for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     // Calls the UpdatePixel(...) function inside
     PropagateFunctionLayerValues(i);
@@ -880,7 +880,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
         ValueType      dist = 0; // compute the distance between neighbors
         this->m_LevelSet[sparsePtr->m_Index]->TransformIndexToPhysicalPoint(statusIt.GetIndex(indexNeighbor), p1);
         this->m_LevelSet[sparsePtr->m_Index]->TransformIndexToPhysicalPoint(indexCurrent, p2);
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           dist += (p1[j] - p2[j]) * (p1[j] - p2[j]);
         }
@@ -1004,7 +1004,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   {
     offset = m_NeighborList.GetNeighborhoodOffset(i);
     m_PixelDistance[i] = 0;
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       m_PixelDistance[i] += offset[j] * spacing[j] * offset[j] * spacing[j];
     }
@@ -1124,7 +1124,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   float            maxSpacing = NumericTraits<float>::min();
   InputSpacingType spacing = this->m_LevelSet[0]->GetSpacing();
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     maxSpacing = std::max(maxSpacing, static_cast<float>(spacing[i]));
   }
@@ -1143,7 +1143,7 @@ void
 MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFunction, TIdCell>::
   InitializeBackgroundPixels()
 {
-  for (IdCellType fId = 0; fId < this->m_FunctionCount; fId++)
+  for (IdCellType fId = 0; fId < this->m_FunctionCount; ++fId)
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[fId];
 
@@ -1180,7 +1180,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   ConstructActiveLayer()
 {
   // We construct active layers for all level-set functions
-  for (IdCellType fId = 0; fId < this->m_FunctionCount; fId++)
+  for (IdCellType fId = 0; fId < this->m_FunctionCount; ++fId)
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[fId];
 
@@ -1227,7 +1227,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
         // Check to see if any of the sparse field touches a boundary.  If so,
         // then activate bounds checking.
-        for (unsigned int i = 0; i < ImageDimension; i++)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           if ((center_index[i] + static_cast<InputOffsetValueType>(this->m_NumberOfLayers) >=
                (static_cast<InputIndexValueType>(upperBounds[i]) - 1)) ||
@@ -1345,7 +1345,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   // filter.
   this->InitializeBackgroundPixels();
 
-  for (IdCellType fId = 0; fId < this->m_FunctionCount; fId++)
+  for (IdCellType fId = 0; fId < this->m_FunctionCount; ++fId)
   {
     InputImagePointer input = this->m_LevelSet[fId];
     InputPointType    origin = input->GetOrigin();
@@ -1422,12 +1422,12 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   os << indent << "RMSCounter: " << m_RMSCounter << std::endl;
   os << indent << "BoundsCheckingActive: " << m_BoundsCheckingActive << std::endl;
 
-  for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+  for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
   {
     SparseDataStruct * sparsePtr = this->m_SparseData[i];
     os << indent << "m_LayerNodeStore: " << std::endl;
     sparsePtr->m_LayerNodeStore->Print(os, indent.GetNextIndent());
-    for (i = 0; i < sparsePtr->m_Layers.size(); i++)
+    for (i = 0; i < sparsePtr->m_Layers.size(); ++i)
     {
       os << indent << "m_Layers[" << i << "]: size=" << sparsePtr->m_Layers[i]->Size() << std::endl;
       os << indent << sparsePtr->m_Layers[i];

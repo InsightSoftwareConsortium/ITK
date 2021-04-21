@@ -69,7 +69,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   unsigned int idx;
   unsigned int maxRadius = 0;
 
-  for (unsigned int direction = 0; direction < Self::ImageDimension2; direction++)
+  for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)
   {
     for (unsigned int order = 0; order <= 1; ++order)
     {
@@ -246,7 +246,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
     IndexType baseIndex;
     double    distance[ImageDimension2];
 
-    for (dim = 0; dim < ImageDimension2; dim++)
+    for (dim = 0; dim < ImageDimension2; ++dim)
     {
       baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
       distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
@@ -258,14 +258,14 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
     TOutput value = NumericTraits<TOutput>::ZeroValue();
     TOutput totalOverlap = NumericTraits<TOutput>::ZeroValue();
 
-    for (NumberOfNeighborsType counter = 0; counter < neighbors; counter++)
+    for (NumberOfNeighborsType counter = 0; counter < neighbors; ++counter)
     {
       double                overlap = 1.0;   // fraction overlap
       NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
       IndexType             neighIndex;
 
       // get neighbor index and overlap fraction
-      for (dim = 0; dim < ImageDimension2; dim++)
+      for (dim = 0; dim < ImageDimension2; ++dim)
       {
         if (upper & 1)
         {

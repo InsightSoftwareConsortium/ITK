@@ -107,7 +107,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
 
   EulerTransformType::OutputPointType r;
   r = eulerTransform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -140,7 +140,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   q = p + ioffset;
 
   r = eulerTransform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -164,11 +164,11 @@ itkCenteredEuler3DTransformTest(int, char *[])
   std::cout << "Testing Set/Get Parameters: ";
   EulerTransformType::ParametersType parameters(9);
   parameters.Fill(0);
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     parameters[i] = i;
   }
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     parameters[i + 6] = i + 3;
   }
@@ -213,7 +213,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   eulerTransform->SetCenter(center);
 
   eulerTransform->Print(std::cout);
-  for (unsigned int pp = 0; pp < 2; pp++)
+  for (unsigned int pp = 0; pp < 2; ++pp)
   {
     std::cout << "Testing Jacobian when ComputeZYX is ";
     if (pp == 0)
@@ -248,7 +248,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
     std::cout << jacobian << std::endl;
 
     EulerTransformType::JacobianType approxJacobian = jacobian;
-    for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); ++k)
     {
       constexpr double                   delta = 0.001;
       EulerTransformType::ParametersType plusParameters;
@@ -269,7 +269,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
 
       if (k < 3 || k > 5) // Jacobian is approx as identity for center of rotation
       {
-        for (unsigned int j = 0; j < 3; j++)
+        for (unsigned int j = 0; j < 3; ++j)
         {
           double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
           double computedDerivative = jacobian[j][k];

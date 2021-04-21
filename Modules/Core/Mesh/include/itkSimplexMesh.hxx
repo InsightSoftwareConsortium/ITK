@@ -341,7 +341,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddNeighbor(PointIdentifier po
 {
   SimplexMeshGeometry * data = m_GeometryData->GetElement(pointIdx);
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     if (data->neighborIndices[i] == ((PointIdentifier)NumericTraits<PointIdentifier>::max()))
     {
@@ -359,7 +359,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::ReplaceNeighbor(PointIdentifie
 {
   SimplexMeshGeometry * data = m_GeometryData->GetElement(pointIdx);
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     if (data->neighborIndices[i] == oldIdx)
     {
@@ -379,7 +379,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SwapNeighbors(PointIdentifier 
   int                   firstFound = -1;
   int                   secondFound = -1;
 
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     if (data->neighborIndices[i] == firstIdx)
     {

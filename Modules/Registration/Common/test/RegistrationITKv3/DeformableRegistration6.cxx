@@ -157,7 +157,7 @@ main(int argc, char * argv[])
   TransformType::MeshSizeType           meshSize;
   TransformType::OriginType             fixedOrigin;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] =
@@ -220,7 +220,7 @@ main(int argc, char * argv[])
 
   numberOfGridNodes = 12;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] =
@@ -246,7 +246,7 @@ main(int argc, char * argv[])
 
   unsigned int counter = 0;
 
-  for (unsigned int k = 0; k < SpaceDimension; k++)
+  for (unsigned int k = 0; k < SpaceDimension; ++k)
   {
     using ParametersImageType = TransformType::ImageType;
     using ResamplerType = itk::ResampleImageFilter<ParametersImageType, ParametersImageType>;

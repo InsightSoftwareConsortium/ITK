@@ -192,20 +192,20 @@ Element3DC0LinearHexahedron::GetLocalFromGlobalCoordinates(const VectorType & gl
   //  set initial position for Newton's method
   localPt[0] = localPt[1] = localPt[2] = params[0] = params[1] = params[2] = 0.5;
   //  enter iteration loop
-  for (iteration = converged = 0; !converged && (iteration < MAX_ITERATIONS); iteration++)
+  for (iteration = converged = 0; !converged && (iteration < MAX_ITERATIONS); ++iteration)
   {
     //  calculate element interpolation functions and derivatives
     this->InterpolationFunctions(localPt, weights);
     this->InterpolationDerivs(localPt, derivs);
     //  calculate newton functions
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       fcol[i] = rcol[i] = scol[i] = tcol[i] = 0.0;
     }
-    for (i = 0; i < 8; i++)
+    for (i = 0; i < 8; ++i)
     {
       pt = this->m_node[i]->GetCoordinates();
-      for (j = 0; j < 3; j++)
+      for (j = 0; j < 3; ++j)
       {
         fcol[j] += pt[j] * weights[i];
         rcol[j] += pt[j] * derivs[i];
@@ -213,7 +213,7 @@ Element3DC0LinearHexahedron::GetLocalFromGlobalCoordinates(const VectorType & gl
         tcol[j] += pt[j] * derivs[i + 16];
       }
     }
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       fcol[i] -= globalPt[i];
     }
@@ -271,7 +271,7 @@ Element3DC0LinearHexahedron::GetLocalFromGlobalCoordinates(const VectorType & gl
   else
   {
     VectorType pc(3);
-    for (i = 0; i < 3; i++) // only approximate, not really true for warped hexa
+    for (i = 0; i < 3; ++i) // only approximate, not really true for warped hexa
     {
       if (localPt[i] < 0.0)
       {

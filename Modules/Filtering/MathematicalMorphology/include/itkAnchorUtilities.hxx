@@ -64,7 +64,7 @@ DoAnchorFace(const TImage *                            input,
   NormLine.Normalize();
   // set a generous tolerance
   float tol = 1.0 / LineOffsets.size();
-  for (unsigned int it = 0; it < face.GetNumberOfPixels(); it++)
+  for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
     unsigned                   start, end;

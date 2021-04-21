@@ -140,7 +140,7 @@ public:
         ListIndexType ind = lIt.GetIndex();
 
         float queryPoint[ImageDimension];
-        for (unsigned int i = 0; i < ImageDimension; i++)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           queryPoint[i] = ind[i] * spacing[i];
         }
@@ -149,7 +149,7 @@ public:
         this->m_KdTree->Search(queryPoint, this->m_NumberOfNeighbors, neighbors);
 
         ListPixelType L;
-        for (unsigned int i = 0; i < this->m_NumberOfNeighbors; i++)
+        for (unsigned int i = 0; i < this->m_NumberOfNeighbors; ++i)
         {
           if (this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(ind))
           {
@@ -165,7 +165,7 @@ public:
       {
         ListIndexType ind = lIt.GetIndex();
         ListPixelType L;
-        for (unsigned int i = 0; i < this->m_FunctionCount; i++)
+        for (unsigned int i = 0; i < this->m_FunctionCount; ++i)
         {
           if (this->m_LevelSetDataPointerVector[i]->VerifyInsideRegion(ind))
           {

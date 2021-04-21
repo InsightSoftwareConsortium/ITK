@@ -36,9 +36,9 @@ testMatrix(const TMatrix & m1, const TMatrix & m2)
   unsigned int i, j;
   bool         pass = true;
 
-  for (i = 0; i < TMatrix::RowDimensions; i++)
+  for (i = 0; i < TMatrix::RowDimensions; ++i)
   {
-    for (j = 0; j < TMatrix::ColumnDimensions; j++)
+    for (j = 0; j < TMatrix::ColumnDimensions; ++j)
     {
       if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
       {
@@ -55,7 +55,7 @@ testVectorArray(const TVector & v1, const TVector & v2)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < v1.Size(); i++)
+  for (unsigned int i = 0; i < v1.Size(); ++i)
   {
     if (std::fabs(v1[i] - v2[i]) > epsilon)
     {
@@ -447,11 +447,11 @@ itkMultiTransformTest(int, char *[])
   parametersTest = multiTransform->GetParameters();
   parametersTruth.SetSize(displacementParamsN + affineParamsN);
   /* Fill using different method than is used in the class. */
-  for (unsigned int n = 0; n < affineParamsN; n++)
+  for (unsigned int n = 0; n < affineParamsN; ++n)
   {
     parametersTruth.SetElement(n, affine->GetParameters().GetElement(n));
   }
-  for (unsigned int n = 0; n < displacementParamsN; n++)
+  for (unsigned int n = 0; n < displacementParamsN; ++n)
   {
     parametersTruth.SetElement(n + affineParamsN, displacementTransform->GetParameters().GetElement(n));
   }
@@ -494,11 +494,11 @@ itkMultiTransformTest(int, char *[])
   displacementParamsN = displacementTransform->GetFixedParameters().Size();
   parametersTruth.SetSize(displacementParamsN + affineParamsN);
   parametersTruth.Fill(0); // Try this to quiet valgrind
-  for (unsigned int n = 0; n < affineParamsN; n++)
+  for (unsigned int n = 0; n < affineParamsN; ++n)
   {
     parametersTruth.SetElement(n, affine->GetFixedParameters().GetElement(n));
   }
-  for (unsigned int n = 0; n < displacementParamsN; n++)
+  for (unsigned int n = 0; n < displacementParamsN; ++n)
   {
     parametersTruth.SetElement(n + affineParamsN, displacementTransform->GetFixedParameters().GetElement(n));
   }

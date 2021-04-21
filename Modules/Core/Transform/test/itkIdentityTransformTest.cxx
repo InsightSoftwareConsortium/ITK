@@ -40,7 +40,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputPointType r;
 
   r = transform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(p[i] - r[i]) > epsilon)
     {
@@ -66,7 +66,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputVectorType vout;
 
   vout = transform->TransformVector(vin);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(vout[i] - vin[i]) > epsilon)
     {
@@ -92,7 +92,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputVnlVectorType vnlout;
 
   vnlout = transform->TransformVector(vnlin);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(vnlout[i] - vnlin[i]) > epsilon)
     {
@@ -118,7 +118,7 @@ itkIdentityTransformTest(int, char *[])
   IdentityTransformType::OutputCovariantVectorType vcout;
 
   vcout = transform->TransformCovariantVector(vcin);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(vcout[i] - vcin[i]) > epsilon)
     {

@@ -189,7 +189,7 @@ BMPImageIO::Read(void * buffer)
 
     SizeValueType posLine = 0;
     SizeValueType line = m_Dimensions[1] - 1;
-    for (unsigned int i = 0; i < m_BMPDataSize; i++)
+    for (unsigned int i = 0; i < m_BMPDataSize; ++i)
     {
       unsigned char byte1 = value[i];
       i++;
@@ -224,7 +224,7 @@ BMPImageIO::Read(void * buffer)
           // Unencoded run
           if (!this->GetIsReadAsScalarPlusPalette())
           {
-            for (unsigned long j = 0; j < byte2; j++)
+            for (unsigned long j = 0; j < byte2; ++j)
             {
               i++;
               RGBPixelType rgb = this->GetColorPaletteEntry(value[i]);
@@ -237,7 +237,7 @@ BMPImageIO::Read(void * buffer)
           }
           else
           {
-            for (unsigned long j = 0; j < byte2; j++)
+            for (unsigned long j = 0; j < byte2; ++j)
             {
               i++;
               l = (line * m_Dimensions[0] + posLine);
@@ -258,7 +258,7 @@ BMPImageIO::Read(void * buffer)
         if (!this->GetIsReadAsScalarPlusPalette())
         {
           RGBPixelType rgb = this->GetColorPaletteEntry(byte2);
-          for (unsigned long j = 0; j < byte1; j++)
+          for (unsigned long j = 0; j < byte1; ++j)
           {
             l = 3 * (line * m_Dimensions[0] + posLine);
             p[l] = rgb.GetBlue();
@@ -269,7 +269,7 @@ BMPImageIO::Read(void * buffer)
         }
         else
         {
-          for (unsigned long j = 0; j < byte1; j++)
+          for (unsigned long j = 0; j < byte1; ++j)
           {
             l = (line * m_Dimensions[0] + posLine);
             p[l] = byte2;
@@ -292,12 +292,12 @@ BMPImageIO::Read(void * buffer)
     }
     value = new char[paddedStreamRead + 1];
 
-    for (unsigned int id = 0; id < m_Dimensions[1]; id++)
+    for (unsigned int id = 0; id < m_Dimensions[1]; ++id)
     {
       const unsigned int line_id = m_FileLowerLeft ? (m_Dimensions[1] - id - 1) : id;
       m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead * line_id, std::ios::beg);
       m_Ifstream.read((char *)value, paddedStreamRead);
-      for (long i = 0; i < streamRead; i++)
+      for (long i = 0; i < streamRead; ++i)
       {
         if (this->GetNumberOfComponents() == 1)
         {
@@ -548,7 +548,7 @@ BMPImageIO::ReadImageInformation()
   }
   unsigned char uctmp;
   m_ColorPalette.resize(m_ColorPaletteSize);
-  for (unsigned long i = 0; i < m_ColorPaletteSize; i++)
+  for (unsigned long i = 0; i < m_ColorPaletteSize; ++i)
   {
     RGBPixelType p;
     m_Ifstream.read((char *)&uctmp, 1);
@@ -868,7 +868,7 @@ BMPImageIO ::Write(const void * buffer)
   //
   if (bpp == 1)
   {
-    for (unsigned int n = 0; n < 256; n++)
+    for (unsigned int n = 0; n < 256; ++n)
     {
       char tmp2 = static_cast<unsigned char>(n);
       m_Ofstream.write(&tmp2, sizeof(char));
@@ -882,26 +882,26 @@ BMPImageIO ::Write(const void * buffer)
   // Write down the raw binary pixel data
   //
   unsigned int i;
-  for (unsigned int h = 0; h < m_Dimensions[1]; h++)
+  for (unsigned int h = 0; h < m_Dimensions[1]; ++h)
   {
     constexpr char paddingValue = 0;
     const auto *   ptr = static_cast<const char *>(buffer);
     ptr += (m_Dimensions[1] - (h + 1)) * m_Dimensions[0] * bpp;
     if (bpp == 1)
     {
-      for (i = 0; i < m_Dimensions[0]; i++)
+      for (i = 0; i < m_Dimensions[0]; ++i)
       {
         m_Ofstream.write(ptr, sizeof(char));
         ptr++;
       }
-      for (i = 0; i < paddedBytes; i++)
+      for (i = 0; i < paddedBytes; ++i)
       {
         m_Ofstream.write(&paddingValue, sizeof(char));
       }
     }
     if (bpp == 3)
     {
-      for (i = 0; i < m_Dimensions[0]; i++)
+      for (i = 0; i < m_Dimensions[0]; ++i)
       {
         ptr += 2;
         m_Ofstream.write(ptr, sizeof(char));
@@ -911,14 +911,14 @@ BMPImageIO ::Write(const void * buffer)
         m_Ofstream.write(ptr, sizeof(char));
         ptr += 3;
       }
-      for (i = 0; i < paddedBytes; i++)
+      for (i = 0; i < paddedBytes; ++i)
       {
         m_Ofstream.write(&paddingValue, sizeof(char));
       }
     }
     if (bpp == 4)
     {
-      for (i = 0; i < m_Dimensions[0]; i++)
+      for (i = 0; i < m_Dimensions[0]; ++i)
       {
         ptr += 3;
         m_Ofstream.write(ptr, sizeof(char));
@@ -930,7 +930,7 @@ BMPImageIO ::Write(const void * buffer)
         m_Ofstream.write(ptr, sizeof(char));
         ptr += 4;
       }
-      for (i = 0; i < paddedBytes; i++)
+      for (i = 0; i < paddedBytes; ++i)
       {
         m_Ofstream.write(&paddingValue, sizeof(char));
       }

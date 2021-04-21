@@ -30,7 +30,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::VoronoiSegmentatio
 {
   unsigned int i;
 
-  for (i = 0; i < 6; i++)
+  for (i = 0; i < 6; ++i)
   {
     m_Mean[i] = 0;
     m_STD[i] = 0;
@@ -53,7 +53,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetMeanPercentError(const double x[6])
 {
-  for (unsigned int i = 0; i < 6; i++)
+  for (unsigned int i = 0; i < 6; ++i)
   {
     m_MeanPercentError[i] = x[i];
     m_MeanTolerance[i] = std::fabs(x[i] * m_Mean[i]);
@@ -64,7 +64,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetSTDPercentError(const double x[6])
 {
-  for (unsigned int i = 0; i < 6; i++)
+  for (unsigned int i = 0; i < 6; ++i)
   {
     m_STDPercentError[i] = x[i];
     m_STDTolerance[i] = x[i] * m_STD[i];
@@ -158,10 +158,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
   double      addp[6] = { 0, 0, 0, 0, 0, 0 };
   double      addpp[6] = { 0, 0, 0, 0, 0, 0 };
 
-  for (i = 0; i < num; i++)
+  for (i = 0; i < num; ++i)
   {
     getp = m_WorkingImage->GetPixel(Plist[i]);
-    for (j = 0; j < 6; j++)
+    for (j = 0; j < 6; ++j)
     {
       addp[j] = addp[j] + getp[j];
       addpp[j] = addpp[j] + getp[j] * getp[j];
@@ -171,7 +171,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
   double savemean[6], saveSTD[6];
   if (num > 1)
   {
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < 6; ++i)
     {
       savemean[i] = addp[i] / num;
       saveSTD[i] = std::sqrt((addpp[i] - (addp[i] * addp[i]) / (num)) / (num - 1));
@@ -179,7 +179,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
   }
   else
   {
-    for (i = 0; i < 6; i++)
+    for (i = 0; i < 6; ++i)
     {
       savemean[i] = 0;
       saveSTD[i] = -1;
@@ -225,9 +225,9 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
 
   unsigned int minx = 0, miny = 0, maxx = 0, maxy = 0;
   bool         status = false;
-  for (unsigned int i = 0; i < this->GetSize()[1]; i++)
+  for (unsigned int i = 0; i < this->GetSize()[1]; ++i)
   {
-    for (unsigned int j = 0; j < this->GetSize()[0]; j++)
+    for (unsigned int j = 0; j < this->GetSize()[0]; ++j)
     {
       if ((status == 0) && (ait.Get()))
       {
@@ -265,28 +265,28 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   ait.GoToBegin();
   iit.GoToBegin();
   unsigned int k;
-  for (unsigned int i = 0; i < miny; i++)
+  for (unsigned int i = 0; i < miny; ++i)
   {
-    for (unsigned int j = 0; j < this->GetSize()[0]; j++)
+    for (unsigned int j = 0; j < this->GetSize()[0]; ++j)
     {
       ++ait;
       ++iit;
     }
   }
-  for (unsigned int i = miny; i <= maxy; i++)
+  for (unsigned int i = miny; i <= maxy; ++i)
   {
-    for (unsigned int j = 0; j < minx; j++)
+    for (unsigned int j = 0; j < minx; ++j)
     {
       ++ait;
       ++iit;
     }
-    for (unsigned int j = minx; j <= maxx; j++)
+    for (unsigned int j = minx; j <= maxx; ++j)
     {
       currp = iit.Get();
       if (ait.Get())
       {
         objnum++;
-        for (k = 0; k < 6; k++)
+        for (k = 0; k < 6; ++k)
         {
           objaddp[k] += currp[k];
           objaddpp[k] += currp[k] * currp[k];
@@ -295,7 +295,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
       else
       {
         bkgnum++;
-        for (k = 0; k < 6; k++)
+        for (k = 0; k < 6; ++k)
         {
           bkgaddp[k] += currp[k];
           bkgaddpp[k] += currp[k] * currp[k];
@@ -304,7 +304,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
       ++ait;
       ++iit;
     }
-    for (unsigned int j = maxx + 1; j < this->GetSize()[0]; j++)
+    for (unsigned int j = maxx + 1; j < this->GetSize()[0]; ++j)
     {
       ++ait;
       ++iit;
@@ -315,7 +315,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   double b_STD[6];
   float  diffMean[6];
   float  diffSTD[6];
-  for (unsigned int i = 0; i < 6; i++)
+  for (unsigned int i = 0; i < 6; ++i)
   {
     m_Mean[i] = objaddp[i] / objnum;
     m_STD[i] = std::sqrt((objaddpp[i] - (objaddp[i] * objaddp[i]) / objnum) / (objnum - 1));
@@ -373,7 +373,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
   if (objnum < 10)
   {
     /* a-prior doen's make too much sense */
-    for (unsigned int i = 0; i < 6; i++)
+    for (unsigned int i = 0; i < 6; ++i)
     {
       m_MeanTolerance[i] = 0;
       m_STDTolerance[i] = 0;
@@ -382,10 +382,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
 
   /*  Sorting. */
   unsigned char tmp[6] = { 0, 1, 2, 3, 4, 5 };
-  for (unsigned j = 0; j < 3; j++)
+  for (unsigned j = 0; j < 3; ++j)
   {
     k = 0;
-    for (unsigned int i = 1; i < 6 - j; i++)
+    for (unsigned int i = 1; i < 6 - j; ++i)
     {
       if (diffMean[tmp[i]] > diffMean[tmp[k]])
       {
@@ -396,10 +396,10 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
     tmp[k] = tmp[5 - j];
   }
   unsigned char tmp1[6] = { 0, 1, 2, 3, 4, 5 };
-  for (unsigned int j = 0; j < 3; j++)
+  for (unsigned int j = 0; j < 3; ++j)
   {
     k = 0;
-    for (unsigned int i = 1; i < 6 - j; i++)
+    for (unsigned int i = 1; i < 6 - j; ++i)
     {
       if (diffSTD[tmp1[i]] > diffSTD[tmp1[k]])
       {

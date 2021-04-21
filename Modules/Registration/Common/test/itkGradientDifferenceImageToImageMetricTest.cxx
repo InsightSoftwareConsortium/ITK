@@ -101,7 +101,7 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   const unsigned int numberOfParameters = transform->GetNumberOfParameters();
 
   ParametersType parameters(numberOfParameters);
-  for (unsigned int k = 0; k < numberOfParameters; k++)
+  for (unsigned int k = 0; k < numberOfParameters; ++k)
   {
     parameters[k] = 0.0;
   }

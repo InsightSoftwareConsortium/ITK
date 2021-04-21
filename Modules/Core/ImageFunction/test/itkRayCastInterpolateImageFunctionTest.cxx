@@ -68,13 +68,13 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
 
   /* Initialize the image contents */
   IndexType index;
-  for (unsigned int slice = 0; slice < size[2]; slice++)
+  for (unsigned int slice = 0; slice < size[2]; ++slice)
   {
     index[2] = slice;
-    for (unsigned int row = 0; row < size[1]; row++)
+    for (unsigned int row = 0; row < size[1]; ++row)
     {
       index[1] = row;
-      for (unsigned int col = 0; col < size[0]; col++)
+      for (unsigned int col = 0; col < size[0]; ++col)
       {
         index[0] = col;
         auto value = (PixelType)(slice + row + col);

@@ -51,12 +51,12 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GenerateBSplineSha
   this->m_BSplineShapeFunctions.set_size(numberOfPieces, order);
 
   VectorType knots(order + 1);
-  for (unsigned int i = 0; i < knots.size(); i++)
+  for (unsigned int i = 0; i < knots.size(); ++i)
   {
     knots[i] = static_cast<TRealValueType>(-0.5) * static_cast<TRealValueType>(order) + static_cast<TRealValueType>(i);
   }
 
-  for (unsigned int i = 0; i < numberOfPieces; i++)
+  for (unsigned int i = 0; i < numberOfPieces; ++i)
   {
     const PolynomialType poly =
       this->CoxDeBoor(order, knots, 0, static_cast<unsigned int>(static_cast<TRealValueType>(0.5) * (order)) + i);
@@ -126,12 +126,12 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GetShapeFunctionsI
 
   VectorType knots(2 * order);
 
-  for (unsigned int i = 0; i < knots.size(); i++)
+  for (unsigned int i = 0; i < knots.size(); ++i)
   {
     knots[i] = -static_cast<TRealValueType>(this->m_SplineOrder) + static_cast<TRealValueType>(i);
   }
 
-  for (unsigned int i = 0; i < numberOfPieces; i++)
+  for (unsigned int i = 0; i < numberOfPieces; ++i)
   {
     const PolynomialType poly = this->CoxDeBoor(order, knots, i, order - 1);
     shapeFunctions.set_row(i, poly.coefficients());
@@ -200,7 +200,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateNthDerivat
   if (which < this->m_BSplineShapeFunctions.rows())
   {
     PolynomialType polynomial(this->m_BSplineShapeFunctions.get_row(which));
-    for (unsigned int i = 0; i < n; i++)
+    for (unsigned int i = 0; i < n; ++i)
     {
       polynomial = polynomial.derivative();
     }
@@ -231,7 +231,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ost
   TRealValueType a = NumericTraits<TRealValueType>::ZeroValue();
   TRealValueType b = NumericTraits<TRealValueType>::ZeroValue();
 
-  for (unsigned int i = 0; i < this->m_BSplineShapeFunctions.rows(); i++)
+  for (unsigned int i = 0; i < this->m_BSplineShapeFunctions.rows(); ++i)
   {
     os << indent << indent;
 

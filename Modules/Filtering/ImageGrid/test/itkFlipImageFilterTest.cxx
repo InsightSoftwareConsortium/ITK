@@ -114,7 +114,7 @@ itkFlipImageFilterTest(int argc, char * argv[])
     IndexType inputIndex = inputIter.GetIndex();
     IndexType outputIndex;
 
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if (flipAxes[j])
       {

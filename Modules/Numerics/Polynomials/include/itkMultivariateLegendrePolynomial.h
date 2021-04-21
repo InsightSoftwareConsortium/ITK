@@ -235,7 +235,7 @@ public:
     Begin()
     {
       m_IsAtEnd = false;
-      for (unsigned int dim = 0; dim < m_Dimension; dim++)
+      for (unsigned int dim = 0; dim < m_Dimension; ++dim)
       {
         m_Index[dim] = 0;
       }
@@ -250,7 +250,7 @@ public:
     SimpleForwardIterator &
     operator++()
     {
-      for (unsigned int dim = 0; dim < m_Dimension; dim++)
+      for (unsigned int dim = 0; dim < m_Dimension; ++dim)
       {
         if (m_Index[dim] < static_cast<int>(m_DomainSize[dim] - 1))
         {

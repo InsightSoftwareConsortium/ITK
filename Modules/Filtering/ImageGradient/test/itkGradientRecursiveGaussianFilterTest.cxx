@@ -163,7 +163,7 @@ itkGradientRecursiveGaussianFilterTest(int, char *[])
   {
     std::cout << itf.Get();
     myImageType::IndexType index;
-    for (unsigned int d = 0; d < myDimension; d++)
+    for (unsigned int d = 0; d < myDimension; ++d)
     {
       index[d] = region.GetSize()[d] - 1 - itf.GetIndex()[d];
     }

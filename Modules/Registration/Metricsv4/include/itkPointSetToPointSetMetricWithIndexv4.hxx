@@ -193,7 +193,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
       NumericTraits<PixelType>::SetLength(pixel, 1);
 
 
-      for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; index++)
+      for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; ++index)
       {
         if (this->IsInsideVirtualDomain(virtualTransformedPointSet[index]))
         {
@@ -216,7 +216,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
     (SizeValueType)0, (SizeValueType)ranges.size(), sumNeighborhoodValues, nullptr);
   // Join sums
   CompensatedSummation<MeasureType> value = 0;
-  for (unsigned int i = 0; i < threadValues.size(); i++)
+  for (unsigned int i = 0; i < threadValues.size(); ++i)
   {
     value += threadValues[i];
   }
@@ -304,7 +304,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
       CompensatedSummation<MeasureType> threadValue;
       PixelType                         pixel;
       NumericTraits<PixelType>::SetLength(pixel, 1);
-      for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; index++)
+      for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; ++index)
       {
         MeasureType         pointValue = NumericTraits<MeasureType>::ZeroValue();
         LocalDerivativeType pointDerivative;
@@ -353,7 +353,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
           this->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
             virtualTransformedPointSet[index], jacobian, jacobianCache);
 
-          for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+          for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
           {
             for (DimensionType d = 0; d < PointDimension; ++d)
             {
@@ -370,13 +370,13 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
           }
           else
           {
-            for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+            for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
             {
               derivative[this->GetNumberOfLocalParameters() * index + par] = threadLocalTransformDerivative[par];
             }
           }
         }
-        for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+        for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
         {
           threadDerivativeSum[par] += threadLocalTransformDerivative[par];
         }
@@ -391,7 +391,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
 
   // Sum thread results
   CompensatedSummation<MeasureType> value = 0;
-  for (unsigned int i = 0; i < threadValues.size(); i++)
+  for (unsigned int i = 0; i < threadValues.size(); ++i)
   {
     value += threadValues[i];
   }
@@ -403,15 +403,15 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
     if (!this->HasLocalSupport() && !this->m_CalculateValueAndDerivativeInTangentSpace)
     {
       CompensatedDerivative localTransformDerivative(numberOfLocalParameters);
-      for (unsigned int i = 0; i < threadDerivatives.size(); i++)
+      for (unsigned int i = 0; i < threadDerivatives.size(); ++i)
       {
-        for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+        for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
         {
           localTransformDerivative[par] += threadDerivatives[i][par];
         }
       }
       derivative.SetSize(numberOfLocalParameters);
-      for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+      for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
       {
         derivative[par] =
           localTransformDerivative[par].GetSum() / static_cast<DerivativeValueType>(this->m_NumberOfValidPoints);
@@ -458,7 +458,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   {
     OffsetValueType offset =
       this->ComputeParameterOffsetFromVirtualPoint(virtualPoint, this->GetNumberOfLocalParameters());
-    for (NumberOfParametersType i = 0; i < this->GetNumberOfLocalParameters(); i++)
+    for (NumberOfParametersType i = 0; i < this->GetNumberOfLocalParameters(); ++i)
     {
       /* Be sure to *add* here and not assign. Required for proper behavior
        * with multi-variate metric. */

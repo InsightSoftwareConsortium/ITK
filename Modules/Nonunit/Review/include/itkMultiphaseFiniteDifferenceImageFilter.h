@@ -355,7 +355,7 @@ public:
     RadiusType radius;
     radius.Fill(1);
 
-    for (unsigned int i = 0; i < this->m_FunctionCount; i++)
+    for (unsigned int i = 0; i < this->m_FunctionCount; ++i)
     {
       this->m_DifferenceFunctions[i] = FiniteDifferenceFunctionType::New();
       this->m_DifferenceFunctions[i]->Initialize(radius);
@@ -500,7 +500,7 @@ protected:
   virtual void
   InitializeIteration()
   {
-    for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+    for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
     {
       this->m_DifferenceFunctions[i]->InitializeIteration();
     }

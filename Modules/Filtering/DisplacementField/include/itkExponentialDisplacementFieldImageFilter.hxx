@@ -182,7 +182,7 @@ ExponentialDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData
   m_Warper->SetOutputSpacing(inputPtr->GetSpacing());
   m_Warper->SetOutputDirection(inputPtr->GetDirection());
 
-  for (unsigned int i = 0; i < numiter; i++)
+  for (unsigned int i = 0; i < numiter; ++i)
   {
     m_Warper->SetInput(this->GetOutput());
     m_Warper->SetDisplacementField(this->GetOutput());

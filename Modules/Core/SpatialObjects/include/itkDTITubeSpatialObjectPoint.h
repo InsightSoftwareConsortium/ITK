@@ -105,7 +105,7 @@ public:
   void
   SetTensorMatrix(const float * matrix)
   {
-    for (unsigned int i = 0; i < 6; i++)
+    for (unsigned int i = 0; i < 6; ++i)
     {
       m_TensorMatrix[i] = matrix[i];
     }

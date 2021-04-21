@@ -46,15 +46,15 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   /* Set max non zeros in any matrix */
   it.SetMaximumNonZeroValuesInMatrix(9);
   /* Initialize memory */
-  for (i = 0; i < nMatrices; i++)
+  for (i = 0; i < nMatrices; ++i)
   {
     it.InitializeMatrix(i);
   }
-  for (i = 0; i < nVectors; i++)
+  for (i = 0; i < nVectors; ++i)
   {
     it.InitializeVector(i);
   }
-  for (i = 0; i < nSolutions; i++)
+  for (i = 0; i < nSolutions; ++i)
   {
     it.InitializeSolution(i);
   }
@@ -70,9 +70,9 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
 
   /* print matrix 0 */
   std::cout << "Matrix 0" << std::endl;
-  for (i = 0; i < N; i++)
+  for (i = 0; i < N; ++i)
   {
-    for (j = 0; j < N; j++)
+    for (j = 0; j < N; ++j)
     {
       std::cout << it.GetMatrixValue(i, j, 0) << " ";
     }
@@ -87,7 +87,7 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
 
   /* print Vector 0 */
   std::cout << "Vector 0" << std::endl;
-  for (i = 0; i < N; i++)
+  for (i = 0; i < N; ++i)
   {
     std::cout << it.GetVectorValue(i, 0) << " ";
   }
@@ -127,7 +127,7 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   std::cout << "Solve for x in: Matrix 0 * x = Vector 0" << std::endl;
   it.Solve();
   std::cout << "Solution 0" << std::endl;
-  for (i = 0; i < N; i++)
+  for (i = 0; i < N; ++i)
   {
     std::cout << it.GetSolutionValue(i, 0) << " ";
   }

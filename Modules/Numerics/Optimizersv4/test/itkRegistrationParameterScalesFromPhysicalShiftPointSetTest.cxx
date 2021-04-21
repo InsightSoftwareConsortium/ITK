@@ -155,21 +155,21 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   RegistrationParameterScalesFromPhysicalShiftType::ScalesType theoreticalMovingScales(
     movingTransform->GetNumberOfParameters());
   itk::SizeValueType param = 0;
-  for (itk::SizeValueType row = 0; row < Dimension; row++)
+  for (itk::SizeValueType row = 0; row < Dimension; ++row)
   {
-    for (itk::SizeValueType col = 0; col < Dimension; col++)
+    for (itk::SizeValueType col = 0; col < Dimension; ++col)
     {
       theoreticalMovingScales[param++] = upperRightPoint[col] * upperRightPoint[col];
     }
   }
-  for (itk::SizeValueType row = 0; row < Dimension; row++)
+  for (itk::SizeValueType row = 0; row < Dimension; ++row)
   {
     theoreticalMovingScales[param++] = 1;
   }
 
   // compare test to truth
   bool affinePass = true;
-  for (itk::SizeValueType p = 0; p < theoreticalMovingScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < theoreticalMovingScales.GetSize(); ++p)
   {
     if (std::abs((movingScales[p] - theoreticalMovingScales[p]) / theoreticalMovingScales[p]) > 0.01)
     {
@@ -188,7 +188,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   }
 
   bool nonUniformForAffine = false;
-  for (itk::SizeValueType p = 1; p < movingScales.GetSize(); p++)
+  for (itk::SizeValueType p = 1; p < movingScales.GetSize(); ++p)
   {
     if (itk::Math::NotExactlyEquals(movingScales[p], movingScales[0]))
     {
@@ -213,7 +213,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
 
   // compute truth
   FloatType theoreticalStepScale = 0.0;
-  for (itk::SizeValueType row = 0; row < Dimension; row++)
+  for (itk::SizeValueType row = 0; row < Dimension; ++row)
   {
     theoreticalStepScale += upperRightPoint[row] * upperRightPoint[row];
   }
@@ -248,7 +248,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   theoreticalFixedScales.Fill(1.0);
 
   bool translationPass = true;
-  for (itk::SizeValueType p = 0; p < theoreticalFixedScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < theoreticalFixedScales.GetSize(); ++p)
   {
     if (std::abs((fixedScales[p] - theoreticalFixedScales[p]) / theoreticalFixedScales[p]) > 0.01)
     {
@@ -266,7 +266,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   }
 
   bool uniformForTranslation = true;
-  for (itk::SizeValueType p = 1; p < fixedScales.GetSize(); p++)
+  for (itk::SizeValueType p = 1; p < fixedScales.GetSize(); ++p)
   {
     if (std::abs(fixedScales[p] - fixedScales[0]) > 1e-6)
     {
@@ -324,7 +324,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   theoreticalLocalScales.Fill(1.0);
 
   bool displacementPass = true;
-  for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); ++p)
   {
     if (std::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
     {

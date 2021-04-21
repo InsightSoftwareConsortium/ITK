@@ -133,12 +133,12 @@ ChangeInformationImageFilter<TInputImage>::GenerateOutputInformation()
     typename TInputImage::PointType                     centerPoint;
     ContinuousIndex<SpacePrecisionType, ImageDimension> centerIndex;
 
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       centerIndex[i] = static_cast<double>((outputSize[i] - 1) / 2.0);
     }
     output->TransformContinuousIndexToPhysicalPoint(centerIndex, centerPoint);
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       origin[i] = output->GetOrigin()[i] - centerPoint[i];
     }
@@ -224,7 +224,7 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << m_OutputSpacing[0];
   }
-  for (unsigned int j = 1; j < ImageDimension; j++)
+  for (unsigned int j = 1; j < ImageDimension; ++j)
   {
     os << ", " << m_OutputSpacing[j];
   }
@@ -235,7 +235,7 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << m_OutputOrigin[0];
   }
-  for (unsigned int j = 1; j < ImageDimension; j++)
+  for (unsigned int j = 1; j < ImageDimension; ++j)
   {
     os << ", " << m_OutputOrigin[j];
   }

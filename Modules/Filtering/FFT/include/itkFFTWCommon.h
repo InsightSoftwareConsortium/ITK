@@ -160,7 +160,7 @@ public:
       {
         // lets create a plan with a fake input to generate the wisdom
         int total = 1;
-        for (int i = 0; i < rank; i++)
+        for (int i = 0; i < rank; ++i)
         {
           total *= n[i];
         }
@@ -262,7 +262,7 @@ public:
       {
         // lets create a plan with a fake input to generate the wisdom
         int total = 1;
-        for (int i = 0; i < rank; i++)
+        for (int i = 0; i < rank; ++i)
         {
           total *= n[i];
         }
@@ -366,7 +366,7 @@ public:
       {
         // lets create a plan with a fake input to generate the wisdom
         int total = 1;
-        for (int i = 0; i < rank; i++)
+        for (int i = 0; i < rank; ++i)
         {
           total *= n[i];
         }
@@ -502,7 +502,7 @@ public:
       {
         // lets create a plan with a fake input to generate the wisdom
         int total = 1;
-        for (int i = 0; i < rank; i++)
+        for (int i = 0; i < rank; ++i)
         {
           total *= n[i];
         }
@@ -603,7 +603,7 @@ public:
       {
         // lets create a plan with a fake input to generate the wisdom
         int total = 1;
-        for (int i = 0; i < rank; i++)
+        for (int i = 0; i < rank; ++i)
         {
           total *= n[i];
         }
@@ -707,7 +707,7 @@ public:
       {
         // lets create a plan with a fake input to generate the wisdom
         int total = 1;
-        for (int i = 0; i < rank; i++)
+        for (int i = 0; i < rank; ++i)
         {
           total *= n[i];
         }

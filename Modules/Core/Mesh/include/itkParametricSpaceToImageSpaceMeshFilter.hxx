@@ -114,7 +114,7 @@ ParametricSpaceToImageSpaceMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
 
   while (inputPointIt != inputPointEnd)
   {
-    for (unsigned int i = 0; i < OutputDimension; i++)
+    for (unsigned int i = 0; i < OutputDimension; ++i)
     {
       // Conver Index coordinates to MeshSpace
       point[i] = inputDataIt.Value()[i];

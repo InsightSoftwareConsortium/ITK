@@ -163,7 +163,7 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   pts[24][1] = 4.0;
   pts[24][2] = 0.0;
 
-  for (int i = 0; i < expectedNumPts; i++)
+  for (int i = 0; i < expectedNumPts; ++i)
   {
     mesh->SetPoint(i, pts[i]);
   }
@@ -174,7 +174,7 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   CellType::CellAutoPointer cellpointer;
   QEPolygonCellType *       poly;
 
-  for (int i = 0; i < expectedNumCells; i++)
+  for (int i = 0; i < expectedNumCells; ++i)
   {
     poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);
@@ -190,7 +190,7 @@ itkQuadEdgeMeshFrontIteratorTest(int, char *[])
   // Use a FrontIterator (Primal) to visit the points.
   PointIdSet visitedSet;
 
-  for (FrontIterator it = mesh->BeginFront(); it != mesh->EndFront(); it++)
+  for (FrontIterator it = mesh->BeginFront(); it != mesh->EndFront(); ++it)
   {
     QEType * edge = it.Value();
 

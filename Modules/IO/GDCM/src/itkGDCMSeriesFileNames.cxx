@@ -279,13 +279,13 @@ GDCMSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Recursive: False" << std::endl;
   }
 
-  for (i = 0; i < m_InputFileNames.size(); i++)
+  for (i = 0; i < m_InputFileNames.size(); ++i)
   {
     os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
   }
 
   os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
-  for (i = 0; i < m_OutputFileNames.size(); i++)
+  for (i = 0; i < m_OutputFileNames.size(); ++i)
   {
     os << indent << "OutputFileNames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
   }

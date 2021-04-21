@@ -301,7 +301,7 @@ public:
 
     m_SparseData.resize(this->m_FunctionCount, nullptr);
 
-    for (IdCellType i = 0; i < this->m_FunctionCount; i++)
+    for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
     {
       m_SparseData[i] = new SparseDataStruct(i);
     }

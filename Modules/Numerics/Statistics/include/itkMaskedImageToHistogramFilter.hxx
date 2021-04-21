@@ -58,7 +58,7 @@ MaskedImageToHistogramFilter<TImage, TMaskImage>::ThreadedComputeMinimumAndMaxim
     {
       const PixelType & p = inputIt.Get();
       NumericTraits<PixelType>::AssignToArray(p, m);
-      for (unsigned int i = 0; i < nbOfComponents; i++)
+      for (unsigned int i = 0; i < nbOfComponents; ++i)
       {
         min[i] = std::min(m[i], min[i]);
         max[i] = std::max(m[i], max[i]);
@@ -68,7 +68,7 @@ MaskedImageToHistogramFilter<TImage, TMaskImage>::ThreadedComputeMinimumAndMaxim
     ++maskIt;
   }
   std::lock_guard<std::mutex> mutexHolder(this->m_Mutex);
-  for (unsigned int i = 0; i < nbOfComponents; i++)
+  for (unsigned int i = 0; i < nbOfComponents; ++i)
   {
     this->m_Minimum[i] = std::min(this->m_Minimum[i], min[i]);
     this->m_Maximum[i] = std::max(this->m_Maximum[i], max[i]);

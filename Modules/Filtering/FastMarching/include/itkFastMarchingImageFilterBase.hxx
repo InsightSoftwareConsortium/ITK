@@ -157,7 +157,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::UpdateNeighbors(OutputImageType * 
 
   int s;
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     v = iNode[j];
     start = m_StartIndex[j];
@@ -221,7 +221,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::GetInternalNodesUsed(OutputImageTy
 
   int s;
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     temp_node.m_Value = this->m_LargeValue;
 
@@ -376,7 +376,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::CheckTopology(OutputImageType * oI
 
           bool doesChangeCreateHandle = false;
 
-          for (unsigned int d = 0; d < ImageDimension; d++)
+          for (unsigned int d = 0; d < ImageDimension; ++d)
           {
             if (ItL.GetNext(d) == Traits::Alive && ItL.GetPrevious(d) == Traits::Alive)
             {
@@ -624,7 +624,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::DoesVoxelChangeViolateStrictTopolo
   unsigned int numberOfCriticalC3Configurations = 0;
   unsigned int numberOfFaces = 0;
 
-  for (unsigned int d = 0; d < ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     if (It.GetNext(d) == Traits::Alive)
     {
@@ -662,9 +662,9 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsChangeWellComposed2D(const NodeT
 
   // Check for critical configurations: 4 90-degree rotations
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
-    for (unsigned int j = 0; j < 9; j++)
+    for (unsigned int j = 0; j < 9; ++j)
     {
       neighborhoodPixels[j] = (It.GetPixel(this->m_RotationIndices[i][j]) != Traits::Alive);
       if (this->m_RotationIndices[i][j] == 4)
@@ -685,9 +685,9 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsChangeWellComposed2D(const NodeT
   // Note that the reflections for the C1 and C2 cases are covered by the
   // rotation cases above (except in the case of FullInvariance == false).
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (unsigned int j = 0; j < 9; j++)
+    for (unsigned int j = 0; j < 9; ++j)
     {
       neighborhoodPixels[j] = (It.GetPixel(this->m_ReflectionIndices[i][j]) != Traits::Alive);
       if (this->m_ReflectionIndices[i][j] == 4)
@@ -823,7 +823,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsChangeWellComposed3D(const NodeT
   // Check for C1 critical configurations
   for (auto & c1Index : m_C1Indices)
   {
-    for (unsigned int j = 0; j < 4; j++)
+    for (unsigned int j = 0; j < 4; ++j)
     {
       neighborhoodPixels[j] = (It.GetPixel(c1Index[j]) == Traits::Alive);
       if (c1Index[j] == 13)
@@ -840,7 +840,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::IsChangeWellComposed3D(const NodeT
   // Check for C2 critical configurations
   for (auto & c2Index : m_C2Indices)
   {
-    for (unsigned int j = 0; j < 8; j++)
+    for (unsigned int j = 0; j < 8; ++j)
     {
       neighborhoodPixels[j] = (It.GetPixel(c2Index[j]) == Traits::Alive);
       if (c2Index[j] == 13)
@@ -870,13 +870,13 @@ unsigned int
 FastMarchingImageFilterBase<TInput, TOutput>::IsCriticalC2Configuration3D(const std::bitset<8> & neighborhood) const
 {
   // Check if Type 1 or Type 2
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     bool isC2 = false;
     if (neighborhood[2 * i] == neighborhood[2 * i + 1])
     {
       isC2 = true;
-      for (unsigned int j = 0; j < 8; j++)
+      for (unsigned int j = 0; j < 8; ++j)
       {
         if (neighborhood[j] == neighborhood[2 * i] && j != 2 * i && j != 2 * i + 1)
         {
@@ -904,11 +904,11 @@ template <typename TInput, typename TOutput>
 void
 FastMarchingImageFilterBase<TInput, TOutput>::InitializeIndices3D()
 {
-  for (unsigned int i = 0; i < 12; i++)
+  for (unsigned int i = 0; i < 12; ++i)
   {
     this->m_C1Indices[i].SetSize(4);
   }
-  for (unsigned int i = 0; i < 8; i++)
+  for (unsigned int i = 0; i < 8; ++i)
   {
     this->m_C2Indices[i].SetSize(8);
   }
@@ -991,7 +991,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeIndices3D()
   this->m_C2Indices[4][6] = 13;
   this->m_C2Indices[4][7] = 18;
 
-  for (unsigned int i = 1; i < 4; i++)
+  for (unsigned int i = 1; i < 4; ++i)
   {
     int addend;
     if (i == 2)
@@ -1002,7 +1002,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeIndices3D()
     {
       addend = 1;
     }
-    for (unsigned int j = 0; j < 8; j++)
+    for (unsigned int j = 0; j < 8; ++j)
     {
       this->m_C2Indices[i][j] = this->m_C2Indices[i - 1][j] + addend;
       this->m_C2Indices[i + 4][j] = this->m_C2Indices[i + 3][j] + addend;

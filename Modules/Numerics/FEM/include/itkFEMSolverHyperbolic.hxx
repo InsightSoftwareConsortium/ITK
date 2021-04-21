@@ -63,10 +63,10 @@ SolverHyperbolic<VDimension>::AssembleElementMatrix(Element::Pointer e)
   int Ne = e->GetNumberOfDegreesOfFreedom();
 
   // Step over all rows in element matrix
-  for (int j = 0; j < Ne; j++)
+  for (int j = 0; j < Ne; ++j)
   {
     // Step over all columns in element matrix
-    for (int k = 0; k < Ne; k++)
+    for (int k = 0; k < Ne; ++k)
     {
       // error checking. all GFN should be =>0 and <NGFN
       if (e->GetDegreeOfFreedom(j) >= this->GetInput()->GetNumberOfDegreesOfFreedom() ||
@@ -102,7 +102,7 @@ SolverHyperbolic<VDimension>::InitializeMatrixForAssembly(unsigned int N)
   this->m_LinearSystem->InitializeMatrix(matrix_K);
   this->m_LinearSystem->InitializeMatrix(matrix_M);
   this->m_LinearSystem->InitializeMatrix(matrix_C);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     this->m_LinearSystem->SetMatrixValue(i, i, 1.0, matrix_C);
   }
@@ -161,7 +161,7 @@ SolverHyperbolic<VDimension>::Solve()
   // solutions obtained at the previous time step.
 
   // Calculate the predictors
-  for (unsigned int i = 0; i < this->m_LinearSystem->GetSystemOrder(); i++)
+  for (unsigned int i = 0; i < this->m_LinearSystem->GetSystemOrder(); ++i)
   {
     Float d0 = this->m_LinearSystem->GetSolutionValue(i, solution_d);
     Float v0 = this->m_LinearSystem->GetSolutionValue(i, solution_v);
@@ -187,7 +187,7 @@ SolverHyperbolic<VDimension>::Solve()
   this->m_LinearSystem->CopyVector2Solution(vector_tmp, solution_a);
 
   // Calculate displacements and velocities
-  for (unsigned int i = 0; i < this->m_LinearSystem->GetSystemOrder(); i++)
+  for (unsigned int i = 0; i < this->m_LinearSystem->GetSystemOrder(); ++i)
   {
     Float dhat = -this->m_LinearSystem->GetVectorValue(i, vector_dhat);
     Float vhat = -this->m_LinearSystem->GetVectorValue(i, vector_vhat);
@@ -221,7 +221,7 @@ SolverHyperbolic<VDimension>::RunSolver()
   this->AssembleK();  // Assemble the global stiffness matrix K
   this->DecomposeK(); // Invert K
 
-  for (unsigned int nit = 0; nit < m_NumberOfIterations; nit++)
+  for (unsigned int nit = 0; nit < m_NumberOfIterations; ++nit)
   {
     this->AssembleF();
     this->Solve();

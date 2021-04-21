@@ -116,9 +116,9 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   output->GetPoints()->Reserve(m_MeshIO->GetNumberOfPoints());
   OutputPointType point;
 
-  for (OutputPointIdentifier id = 0; id < output->GetNumberOfPoints(); id++)
+  for (OutputPointIdentifier id = 0; id < output->GetNumberOfPoints(); ++id)
   {
-    for (OutputPointIdentifier ii = 0; ii < OutputPointDimension; ii++)
+    for (OutputPointIdentifier ii = 0; ii < OutputPointDimension; ++ii)
     {
       point[ii] = static_cast<typename OutputPointType::ValueType>(buffer[id * OutputPointDimension + ii]);
     }
@@ -150,7 +150,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
         OutputCellAutoPointer cell;
         auto *                vertexCell = new OutputVertexCellType;
-        for (unsigned int jj = 0; jj < OutputVertexCellType::NumberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < OutputVertexCellType::NumberOfPoints; ++jj)
         {
           vertexCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
         }
@@ -190,7 +190,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 
         OutputCellAutoPointer cell;
         auto *                triangleCell = new OutputTriangleCellType;
-        for (unsigned int jj = 0; jj < OutputTriangleCellType::NumberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < OutputTriangleCellType::NumberOfPoints; ++jj)
         {
           triangleCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
         }
@@ -209,7 +209,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 
         OutputCellAutoPointer cell;
         auto *                quadrilateralCell = new OutputQuadrilateralCellType;
-        for (unsigned int jj = 0; jj < OutputQuadrilateralCellType::NumberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < OutputQuadrilateralCellType::NumberOfPoints; ++jj)
         {
           quadrilateralCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
         }
@@ -227,7 +227,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         if (numberOfPoints == OutputTriangleCellType::NumberOfPoints)
         {
           auto * triangleCell = new OutputTriangleCellType;
-          for (unsigned int jj = 0; jj < OutputTriangleCellType::NumberOfPoints; jj++)
+          for (unsigned int jj = 0; jj < OutputTriangleCellType::NumberOfPoints; ++jj)
           {
             triangleCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
           }
@@ -236,7 +236,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         else
         {
           auto * polygonCell = new OutputPolygonCellType;
-          for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+          for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
           {
             polygonCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
           }
@@ -256,7 +256,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 
         OutputCellAutoPointer cell;
         auto *                tetrahedronCell = new OutputTetrahedronCellType;
-        for (unsigned int jj = 0; jj < OutputTetrahedronCellType::NumberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < OutputTetrahedronCellType::NumberOfPoints; ++jj)
         {
           tetrahedronCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
         }
@@ -275,7 +275,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 
         OutputCellAutoPointer cell;
         auto *                hexahedronCell = new OutputHexahedronCellType;
-        for (unsigned int jj = 0; jj < OutputHexahedronCellType::NumberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < OutputHexahedronCellType::NumberOfPoints; ++jj)
         {
           hexahedronCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
         }
@@ -294,7 +294,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 
         OutputCellAutoPointer cell;
         auto *                quadraticEdgeCell = new OutputQuadraticEdgeCellType;
-        for (unsigned int jj = 0; jj < OutputQuadraticEdgeCellType::NumberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < OutputQuadraticEdgeCellType::NumberOfPoints; ++jj)
         {
           quadraticEdgeCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
         }
@@ -313,7 +313,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 
         OutputCellAutoPointer cell;
         auto *                quadraticTriangleCell = new OutputQuadraticTriangleCellType;
-        for (unsigned int jj = 0; jj < OutputQuadraticTriangleCellType::NumberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < OutputQuadraticTriangleCellType::NumberOfPoints; ++jj)
         {
           quadraticTriangleCell->SetPointId(jj, static_cast<OutputPointIdentifier>(buffer[index++]));
         }
@@ -388,7 +388,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   delete[] inputPointDataBuffer;
   inputPointDataBuffer = nullptr;
 
-  for (OutputPointIdentifier id = 0; id < m_MeshIO->GetNumberOfPointPixels(); id++)
+  for (OutputPointIdentifier id = 0; id < m_MeshIO->GetNumberOfPointPixels(); ++id)
   {
     output->SetPointData(id, outputPointDataBuffer[id]);
   }
@@ -454,7 +454,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
   delete[] inputCellDataBuffer;
   inputCellDataBuffer = nullptr;
 
-  for (OutputCellIdentifier id = 0; id < m_MeshIO->GetNumberOfCellPixels(); id++)
+  for (OutputCellIdentifier id = 0; id < m_MeshIO->GetNumberOfCellPixels(); ++id)
   {
     output->SetCellData(id, outputCellDataBuffer[id]);
   }

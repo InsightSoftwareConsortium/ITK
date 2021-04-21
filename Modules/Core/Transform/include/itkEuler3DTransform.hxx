@@ -142,7 +142,7 @@ Euler3DTransform<TParametersValueType>::SetFixedParameters(const FixedParameters
   }
 
   InputPointType c;
-  for (unsigned int i = 0; i < InputSpaceDimension; i++)
+  for (unsigned int i = 0; i < InputSpaceDimension; ++i)
   {
     c[i] = this->m_FixedParameters[i] = parameters[i];
   }
@@ -342,7 +342,7 @@ Euler3DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(c
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 3;
-  for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+  for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;
   }

@@ -30,7 +30,7 @@ namespace
 void
 PrintVector(const VectorType & v)
 {
-  for (unsigned int i = 0; i < VectorType::Dimension; i++)
+  for (unsigned int i = 0; i < VectorType::Dimension; ++i)
   {
     std::cout << v[i] << ", ";
   }
@@ -74,9 +74,9 @@ itkCenteredAffineTransformTest(int, char *[])
   Affine2DType::Pointer inverse2 = Affine2DType::New();
   aff2->SetMatrix(matrix2);
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; j++)
+    for (j = 0; j < 2; ++j)
     {
       matrix2[i][j] = 0.0;
     }
@@ -97,9 +97,9 @@ itkCenteredAffineTransformTest(int, char *[])
   vector2[1] = 1;
   aff2->SetMatrix(matrix2);
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; j++)
+    for (j = 0; j < 2; ++j)
     {
       matrix2[i][j] = 0.0;
     }

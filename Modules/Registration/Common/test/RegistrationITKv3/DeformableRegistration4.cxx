@@ -164,7 +164,7 @@ main(int argc, char * argv[])
 
   unsigned int numberOfGridNodesInOneDimension = 8;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] =

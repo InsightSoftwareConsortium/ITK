@@ -35,7 +35,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   // note: this is not constant to suppress a warning
   unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
-  for (unsigned int i = 0; i < numberOfSmoothingFilters; i++)
+  for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
   {
     GaussianFilterPointer filter = GaussianFilterType::New();
     filter->SetOrder(GaussianOrderEnum::ZeroOrder);
@@ -70,7 +70,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
     m_SmoothingFilters[0]->SetInput(m_DerivativeFilterB->GetOutput());
   }
   // connect up smoothing filter chain if necessary
-  for (unsigned int i = 1; i < numberOfSmoothingFilters; i++)
+  for (unsigned int i = 1; i < numberOfSmoothingFilters; ++i)
   {
     m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput());
   }
@@ -89,7 +89,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealTyp
 {
   unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
-  for (unsigned int i = 0; i < numberOfSmoothingFilters; i++)
+  for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
   {
     m_SmoothingFilters[i]->SetSigma(sigma);
   }
@@ -190,7 +190,7 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // note: this is not constant to suppress a warning
   unsigned int numberOfSmoothingFilters = NumberOfSmoothingFilters;
 
-  for (unsigned int i = 0; i < numberOfSmoothingFilters; i++)
+  for (unsigned int i = 0; i < numberOfSmoothingFilters; ++i)
   {
     progress->RegisterInternalFilter(m_SmoothingFilters[i], weight);
   }
@@ -214,9 +214,9 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   unsigned int element = 0;
 
-  for (unsigned int dima = 0; dima < ImageDimension; dima++)
+  for (unsigned int dima = 0; dima < ImageDimension; ++dima)
   {
-    for (unsigned int dimb = dima; dimb < ImageDimension; dimb++)
+    for (unsigned int dimb = dima; dimb < ImageDimension; ++dimb)
     {
       // Manage the diagonal in a different way in order to avoid
       // applying a double smoothing to this direction, and missing

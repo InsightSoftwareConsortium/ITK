@@ -93,7 +93,7 @@ LaplacianSharpeningImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Create the Laplacian operator
   LaplacianOperator<RealType, ImageDimension> oper;
   double                                      s[ImageDimension];
-  for (unsigned i = 0; i < ImageDimension; i++)
+  for (unsigned i = 0; i < ImageDimension; ++i)
   {
     if (this->GetInput()->GetSpacing()[i] == 0.0)
     {

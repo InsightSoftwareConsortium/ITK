@@ -81,7 +81,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   weights->InsertElement(0, weight1);
 
   VectorType vector1;
-  for (unsigned int d = 0; d < DataDimension; d++)
+  for (unsigned int d = 0; d < DataDimension; ++d)
   {
     vector1[d] = landmarkInSecondImage1[d] - landmarkInFirstImage1[d];
   }
@@ -104,7 +104,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   weights->InsertElement(1, weight2);
 
   VectorType vector2;
-  for (unsigned int d = 0; d < DataDimension; d++)
+  for (unsigned int d = 0; d < DataDimension; ++d)
   {
     vector2[d] = landmarkInSecondImage2[d] - landmarkInFirstImage2[d];
   }
@@ -127,7 +127,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   weights->InsertElement(2, weight3);
 
   VectorType vector3;
-  for (unsigned int d = 0; d < DataDimension; d++)
+  for (unsigned int d = 0; d < DataDimension; ++d)
   {
     vector3[d] = landmarkInSecondImage3[d] - landmarkInFirstImage3[d];
   }
@@ -180,7 +180,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   using CoefficientImageType = TransformType::ImageType;
 
   TransformType::CoefficientImageArray coefficientImages;
-  for (unsigned int j = 0; j < DataDimension; j++)
+  for (unsigned int j = 0; j < DataDimension; ++j)
   {
     using SelectorType = itk::VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType>;
     SelectorType::Pointer selector = SelectorType::New();
@@ -217,7 +217,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest4(int, char *[])
   RealType   approximateDistance = inputPoint.EuclideanDistanceTo(outputPoint);
 
   VectorImageType::PointType approximateOutputPoint;
-  for (unsigned int d = 0; d < DataDimension; d++)
+  for (unsigned int d = 0; d < DataDimension; ++d)
   {
     approximateOutputPoint[d] = testPoint[d] + vector[d];
   }

@@ -347,7 +347,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   applyClassifier->SetDecisionRule((DecisionRuleBasePointer)myDecisionRule);
 
   // Add the membership functions
-  for (unsigned int i = 0; i < NUM_CLASSES; i++)
+  for (unsigned int i = 0; i < NUM_CLASSES; ++i)
   {
     applyClassifier->AddMembershipFunction(membershipFunctions[i]);
   }

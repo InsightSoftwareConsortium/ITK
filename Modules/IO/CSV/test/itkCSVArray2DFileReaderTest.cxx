@@ -48,9 +48,9 @@ testMatrix(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < m1.rows(); i++)
+  for (unsigned int i = 0; i < m1.rows(); ++i)
   {
-    for (unsigned int j = 0; j < m1.cols(); j++)
+    for (unsigned int j = 0; j < m1.cols(); ++j)
     {
       if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
       {
@@ -68,7 +68,7 @@ testVector(const std::vector<T> & v1, const std::vector<T> & v2)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < v1.size(); i++)
+  for (unsigned int i = 0; i < v1.size(); ++i)
   {
     if (std::fabs(v1[i] - v2[i]) > epsilon)
     {
@@ -84,7 +84,7 @@ testStringVector(const std::vector<std::string> & v1, const std::vector<std::str
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < v1.size(); i++)
+  for (unsigned int i = 0; i < v1.size(); ++i)
   {
     if (v1[i].compare(v2[i]) != 0)
     {

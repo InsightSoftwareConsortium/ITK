@@ -626,17 +626,17 @@ JPEG2000ImageIO::Read(void * buffer)
 
       // TODO: Read the void buffer within the tile ROI. How do we specify the
       // tile ROI iteration
-      for (unsigned int k = 0; k < numberOfComponents; k++)
+      for (unsigned int k = 0; k < numberOfComponents; ++k)
       {
         auto * charBuffer = (unsigned char *)buffer;
         charBuffer += k * sizePerComponentInBytes;
 
         charBuffer += initialStrideInBytes;
 
-        for (SizeValueType m = 0; m < tsizey; m++)
+        for (SizeValueType m = 0; m < tsizey; ++m)
         {
           charBuffer += priorStrideInBytes;
-          for (SizeValueType j = 0; j < sizePerStrideXInBytes; j++)
+          for (SizeValueType j = 0; j < sizePerStrideXInBytes; ++j)
           {
             *charBuffer = (unsigned char)(*l_data_ptr++);
             charBuffer += numberOfComponents;
@@ -774,7 +774,7 @@ JPEG2000ImageIO ::Write(const void * buffer)
                       << parameters.cp_ty0 << ") <= IMG_Y0( " << parameters.image_offset_y0 << ") ");
   }
 
-  for (int i = 0; i < parameters.numpocs; i++)
+  for (int i = 0; i < parameters.numpocs; ++i)
   {
     if (parameters.POC[i].prg == -1)
     {
@@ -912,9 +912,9 @@ JPEG2000ImageIO ::Write(const void * buffer)
   if (this->GetComponentType() == IOComponentEnum::UCHAR)
   {
     const auto * charBuffer = (const unsigned char *)buffer;
-    for (SizeValueType j = 0; j < numberOfPixels; j++)
+    for (SizeValueType j = 0; j < numberOfPixels; ++j)
     {
-      for (unsigned int k = 0; k < this->GetNumberOfComponents(); k++)
+      for (unsigned int k = 0; k < this->GetNumberOfComponents(); ++k)
       {
         l_image->comps[k].data[index] = *charBuffer++;
       }
@@ -925,9 +925,9 @@ JPEG2000ImageIO ::Write(const void * buffer)
   if (this->GetComponentType() == IOComponentEnum::USHORT)
   {
     const auto * shortBuffer = (const unsigned short *)buffer;
-    for (SizeValueType j = 0; j < numberOfPixels; j++)
+    for (SizeValueType j = 0; j < numberOfPixels; ++j)
     {
-      for (unsigned int k = 0; k < this->GetNumberOfComponents(); k++)
+      for (unsigned int k = 0; k < this->GetNumberOfComponents(); ++k)
       {
         l_image->comps[k].data[index] = *shortBuffer++;
       }

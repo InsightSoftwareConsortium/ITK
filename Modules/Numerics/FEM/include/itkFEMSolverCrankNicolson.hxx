@@ -101,7 +101,7 @@ SolverCrankNicolson<VDimension>::AssembleKandM()
   mfcLoads.clear();
 
   int numLoads = this->m_FEMObject->GetLoadContainer()->Size();
-  for (int l = 0; l < numLoads; l++)
+  for (int l = 0; l < numLoads; ++l)
   {
     if (LoadBCMFC::Pointer l1 = dynamic_cast<LoadBCMFC *>(this->m_FEMObject->GetLoad(l).GetPointer()))
     {
@@ -122,7 +122,7 @@ SolverCrankNicolson<VDimension>::AssembleKandM()
   // Step over all elements
   //
   int numElements = this->m_FEMObject->GetElementContainer()->Size();
-  for (int e = 0; e < numElements; e++)
+  for (int e = 0; e < numElements; ++e)
   {
     vnl_matrix<Float> Ke;
     // Copy the element stiffness matrix for faster access.
@@ -135,10 +135,10 @@ SolverCrankNicolson<VDimension>::AssembleKandM()
 
     Me = Me * m_Rho;
     // Step over all rows in in element matrix
-    for (int j = 0; j < Ne; j++)
+    for (int j = 0; j < Ne; ++j)
     {
       // Step over all columns in in element matrix
-      for (int k = 0; k < Ne; k++)
+      for (int k = 0; k < Ne; ++k)
       {
         // Error checking. all GFN should be =>0 and <NGFN
         if (this->m_FEMObject->GetElement(e)->GetDegreeOfFreedom(j) >= this->m_NGFN ||
@@ -175,7 +175,7 @@ SolverCrankNicolson<VDimension>::AssembleKandM()
   // appropriate place in the stiffness matrix
   //
   // int numLoads = m_FEMObject->GetLoadContainer()->Size();
-  for (int l2 = 0; l2 < numLoads; l2++)
+  for (int l2 = 0; l2 < numLoads; ++l2)
   {
     if (LoadLandmark::Pointer l3 = dynamic_cast<LoadLandmark *>(this->m_FEMObject->GetLoad(l2).GetPointer()))
     {
@@ -184,10 +184,10 @@ SolverCrankNicolson<VDimension>::AssembleKandM()
       ep->GetLandmarkContributionMatrix(l3->GetEta(), Le);
       int Ne = ep->GetNumberOfDegreesOfFreedom();
       // Step over all rows in element matrix
-      for (int j = 0; j < Ne; j++)
+      for (int j = 0; j < Ne; ++j)
       {
         // Step over all columns in element matrix
-        for (int k = 0; k < Ne; k++)
+        for (int k = 0; k < Ne; ++k)
         {
           // error checking, all GFN should be >=0 and < NGFN
           if (ep->GetDegreeOfFreedom(j) >= this->m_NGFN || ep->GetDegreeOfFreedom(k) >= this->m_NGFN)
@@ -233,7 +233,7 @@ SolverCrankNicolson<VDimension>::AssembleFforTimeStep(int dim)
   BCTermType bcterm;
 
   int numLoads = this->m_FEMObject->GetLoadContainer()->Size();
-  for (int l2 = 0; l2 < numLoads; l2++)
+  for (int l2 = 0; l2 < numLoads; ++l2)
   {
     if (LoadBC::Pointer l1 = dynamic_cast<LoadBC *>(this->m_FEMObject->GetLoad(l2).GetPointer()))
     {
@@ -250,7 +250,7 @@ SolverCrankNicolson<VDimension>::AssembleFforTimeStep(int dim)
 
   this->m_LinearSystem->MultiplyMatrixVector(
     m_DiffMatrixBySolutionTMinus1Index, m_DifferenceMatrixIndex, m_SolutionVectorTMinus1Index);
-  for (unsigned int index = 0; index < this->m_NGFN; index++)
+  for (unsigned int index = 0; index < this->m_NGFN; ++index)
   {
     RecomputeForceVector(index);
   }
@@ -455,7 +455,7 @@ SolverCrankNicolson<VDimension>::BrentsMethod(Float tol, unsigned int MaxIters)
 
   x = w = v = bx;
   fw = fv = fx = std::fabs(EvaluateResidual(x));
-  for (iter = 1; iter <= MaxIters; iter++)
+  for (iter = 1; iter <= MaxIters; ++iter)
   {
     xm = 0.5 * (a + b);
     tol2 = 2.0 * (tol1 = tol * std::fabs(x) + ZEPS);
@@ -622,7 +622,7 @@ template <unsigned int VDimension>
 void
 SolverCrankNicolson<VDimension>::SetEnergyToMin(Float xmin)
 {
-  for (unsigned int j = 0; j < this->m_NGFN; j++)
+  for (unsigned int j = 0; j < this->m_NGFN; ++j)
   {
     Float SolVal;
     Float FVal;
@@ -648,7 +648,7 @@ SolverCrankNicolson<VDimension>::GetDeformationEnergy(Float t)
 {
   Float DeformationEnergy = 0.0;
   Float iSolVal, jSolVal;
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
 // forming  U^T F
 #ifdef LOCE
@@ -660,7 +660,7 @@ SolverCrankNicolson<VDimension>::GetDeformationEnergy(Float t)
 #endif
     // forming U^T K U
     Float TempRowVal = 0.0;
-    for (unsigned int j = 0; j < this->m_NGFN; j++)
+    for (unsigned int j = 0; j < this->m_NGFN; ++j)
     {
 #ifdef LOCE
       jSolVal = t * (this->m_LinearSystem->GetSolutionValue(j, m_SolutionTIndex)) +
@@ -684,7 +684,7 @@ SolverCrankNicolson<VDimension>::EvaluateResidual(Float t)
   Float ForceEnergy = 0.0, FVal = 0.0;
   Float DeformationEnergy = 0.0;
   Float iSolVal, jSolVal;
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
 // forming  U^T F
 #ifdef LOCE
@@ -707,7 +707,7 @@ SolverCrankNicolson<VDimension>::EvaluateResidual(Float t)
 #endif
     // forming U^T K U
     Float TempRowVal = 0.0;
-    for (unsigned int j = 0; j < this->m_NGFN; j++)
+    for (unsigned int j = 0; j < this->m_NGFN; ++j)
     {
 #ifdef LOCE
       jSolVal = t * (this->m_LinearSystem->GetSolutionValue(j, m_SolutionTIndex)) +
@@ -736,7 +736,7 @@ SolverCrankNicolson<VDimension>::AddToDisplacements(Float optimum)
   Float maxs = 0.0, CurrentTotSolution, CurrentSolution, CurrentForce;
   Float mins2 = 0.0, maxs2 = 0.0;
   Float absmax = 0.0;
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
 #ifdef TOTE
     CurrentSolution = this->m_LinearSystem->GetSolutionValue(i, m_SolutionTIndex);
@@ -802,7 +802,7 @@ SolverCrankNicolson<VDimension>::PrintMinMaxOfSolution()
   //
   Float mins = 0.0, maxs = 0.0;
   Float mins2 = 0.0, maxs2 = 0.0;
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
     Float CurrentSolution = this->m_LinearSystem->GetSolutionValue(i, m_SolutionTIndex);
     if (CurrentSolution < mins2)
@@ -830,7 +830,7 @@ void
 SolverCrankNicolson<VDimension>::AverageLastTwoDisplacements(Float t)
 {
   Float maxs = 0.0;
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
     Float temp = this->m_LinearSystem->GetSolutionValue(i, m_SolutionTIndex);
     Float temp2 = this->m_LinearSystem->GetSolutionValue(i, m_SolutionTMinus1Index);
@@ -849,7 +849,7 @@ template <unsigned int VDimension>
 void
 SolverCrankNicolson<VDimension>::ZeroVector(int which)
 {
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
     this->m_LinearSystem->SetVectorValue(i, 0.0, which);
   }
@@ -860,7 +860,7 @@ void
 SolverCrankNicolson<VDimension>::PrintDisplacements()
 {
   std::cout << " printing current displacements " << std::endl;
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
     std::cout << this->m_LinearSystem->GetSolutionValue(i, m_TotalSolutionIndex) << std::endl;
   }
@@ -871,7 +871,7 @@ void
 SolverCrankNicolson<VDimension>::PrintForce()
 {
   std::cout << " printing current forces " << std::endl;
-  for (unsigned int i = 0; i < this->m_NGFN; i++)
+  for (unsigned int i = 0; i < this->m_NGFN; ++i)
   {
     std::cout << this->m_LinearSystem->GetVectorValue(i, m_ForceTIndex) << std::endl;
   }

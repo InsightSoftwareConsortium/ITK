@@ -128,7 +128,7 @@ InternalTest(int argc, char * argv[])
     // Convert the pixel position into a Point
     ImagePointType p = helper<ImagePointType>::GetPosition(image.GetPointer(), imageIterator);
 
-    for (unsigned int dim = 0; dim < ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       point[dim] = p[dim];
     }
@@ -188,7 +188,7 @@ InternalTest(int argc, char * argv[])
     typename OutputMeshType::PointType position = parametricFilter->GetOutput()->GetPoints()->ElementAt(pointId);
     PositionType                       refPoint = helper<PositionType>::GetPosition(image.GetPointer(), imageIterator);
 
-    for (unsigned int dim = 0; dim < ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       if (static_cast<double>(position[dim]) != static_cast<double>(refPoint[dim]))
       {

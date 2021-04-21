@@ -264,12 +264,12 @@ private:
     typename RealImageType::IndexType k;
     k[0] = 1;
 
-    for (unsigned int i = 1; i < ImageDimension; i++)
+    for (unsigned int i = 1; i < ImageDimension; ++i)
     {
       k[i] = size[ImageDimension - i - 1] * k[i - 1];
     }
     typename RealImageType::IndexType index;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       index[ImageDimension - i - 1] = static_cast<unsigned int>(number / k[ImageDimension - i - 1]);
       number %= k[ImageDimension - i - 1];

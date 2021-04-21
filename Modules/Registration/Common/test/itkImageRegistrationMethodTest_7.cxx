@@ -130,7 +130,7 @@ itkImageRegistrationMethodTest_7(int argc, char * argv[])
     learningRate = std::stod(argv[3]);
     std::cout << "learningRate = " << learningRate << std::endl;
   }
-  for (unsigned int i = 0; i < dimension; i++)
+  for (unsigned int i = 0; i < dimension; ++i)
   {
     scales[i] = translationScale;
   }
@@ -165,7 +165,7 @@ itkImageRegistrationMethodTest_7(int argc, char * argv[])
 
   constexpr double tolerance = 1.0; // equivalent to 1 pixel.
 
-  for (unsigned int i = 0; i < numbeOfParameters; i++)
+  for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....

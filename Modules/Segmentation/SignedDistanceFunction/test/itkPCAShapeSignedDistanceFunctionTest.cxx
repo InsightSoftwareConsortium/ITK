@@ -97,7 +97,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   using ImageIteratorVector = std::vector<ImageIterator>;
   ImageIteratorVector pcImageIts(NumberOfPCs);
 
-  for (i = 0; i < NumberOfPCs; i++)
+  for (i = 0; i < NumberOfPCs; ++i)
   {
     pcImages[i] = ImageType::New();
     pcImages[i]->SetRegions(region);
@@ -118,7 +118,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   // set up the standard deviation for each principal component images
   ShapeFunction::ParametersType pcStandardDeviations(NumberOfPCs);
 
-  for (i = 0; i < NumberOfPCs; i++)
+  for (i = 0; i < NumberOfPCs; ++i)
   {
     pcStandardDeviations[i] = vnl_sample_normal(0, 1);
   }
@@ -132,7 +132,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
   unsigned int                  numberOfParameters = numberOfShapeParameters + numberOfPoseParameters;
   ShapeFunction::ParametersType parameters(numberOfParameters);
 
-  for (i = 0; i < numberOfParameters; i++)
+  for (i = 0; i < numberOfParameters; ++i)
   {
     parameters[i] = vnl_sample_normal(0, 1);
   }
@@ -175,7 +175,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
     // calculate expected function value
     expected = meanImage->GetPixel(index);
-    for (i = 0; i < NumberOfPCs; i++)
+    for (i = 0; i < NumberOfPCs; ++i)
     {
       expected += pcImages[i]->GetPixel(index) * pcStandardDeviations[i] * parameters[i];
     }

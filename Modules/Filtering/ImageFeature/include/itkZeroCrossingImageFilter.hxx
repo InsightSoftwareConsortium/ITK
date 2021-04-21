@@ -123,7 +123,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   bit = ConstNeighborhoodIterator<InputImageType>(radius, input, *faceList.begin());
   // Set the offset of the neighbors to the center pixel.
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     offset[i] = -1 * static_cast<OffsetValueType>(bit.GetStride(i));
     offset[i + ImageDimension] = bit.GetStride(i);
@@ -143,7 +143,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     {
       this_one = bit.GetPixel(center);
       it.Set(m_BackgroundValue);
-      for (i = 0; i < ImageDimension * 2; i++)
+      for (i = 0; i < ImageDimension * 2; ++i)
       {
         that = bit.GetPixel(center + offset[i]);
         if (((this_one < zero) && (that > zero)) || ((this_one > zero) && (that < zero)) ||

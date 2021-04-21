@@ -61,15 +61,15 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SetTransform(MetaObject
   typename SpatialObjectType::TransformType::OffsetType     offset = transform->GetOffset();
 
   unsigned int p = 0;
-  for (unsigned int row = 0; row < NDimensions; row++)
+  for (unsigned int row = 0; row < NDimensions; ++row)
   {
-    for (unsigned int col = 0; col < NDimensions; col++)
+    for (unsigned int col = 0; col < NDimensions; ++col)
     {
       m_Orientation[p++] = matrix[row][col];
     }
   }
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     m_Position[i] = offset[i];
     m_CenterOfRotation[i] = center[i];
@@ -90,15 +90,15 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SetTransform(SpatialObj
   typename SpatialObjectType::TransformType::OffsetType     offset;
 
   unsigned int p = 0;
-  for (unsigned int row = 0; row < NDimensions; row++)
+  for (unsigned int row = 0; row < NDimensions; ++row)
   {
-    for (unsigned int col = 0; col < NDimensions; col++)
+    for (unsigned int col = 0; col < NDimensions; ++col)
     {
       matrix[row][col] = (meta->Orientation())[p++];
     }
   }
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     offset[i] = (meta->Position())[i];
     center[i] = (meta->CenterOfRotation())[i];
@@ -259,7 +259,7 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(Spatial
   metaScene->BinaryData(m_BinaryPoints);
 
   auto * spacing = new float[NDimensions];
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     spacing[i] = 1;
   }

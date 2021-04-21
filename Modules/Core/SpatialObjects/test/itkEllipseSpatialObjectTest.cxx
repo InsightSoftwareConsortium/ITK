@@ -32,7 +32,7 @@ itkEllipseSpatialObjectTest(int, char *[])
 
   EllipseType::ArrayType radii;
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     radii[i] = i;
   }
@@ -113,7 +113,7 @@ itkEllipseSpatialObjectTest(int, char *[])
   std::cout << "Bounds = " << boundingBox->GetBounds() << std::endl;
 
   std::cout << "Update(): ";
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     const EllipseType::BoundingBoxType::BoundsArrayType bounds = boundingBox->GetBounds();
     if (itk::Math::NotAlmostEquals(bounds[2 * i], 7) ||

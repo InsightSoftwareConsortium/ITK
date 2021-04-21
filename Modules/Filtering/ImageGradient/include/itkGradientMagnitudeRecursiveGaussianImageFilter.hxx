@@ -40,7 +40,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
   m_DerivativeFilter->InPlaceOff();
   m_DerivativeFilter->ReleaseDataFlagOn();
 
-  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
   {
     m_SmoothingFilters[i] = GaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
@@ -49,7 +49,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage,
   }
 
   m_SmoothingFilters[0]->SetInput(m_DerivativeFilter->GetOutput());
-  for (unsigned int i = 1; i < ImageDimension - 1; i++)
+  for (unsigned int i = 1; i < ImageDimension - 1; ++i)
   {
     m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput());
   }
@@ -86,7 +86,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSig
 {
   if (Math::NotExactlyEquals(sigma, this->GetSigma()))
   {
-    for (unsigned int i = 0; i < ImageDimension - 1; i++)
+    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
     {
       m_SmoothingFilters[i]->SetSigma(sigma);
     }
@@ -109,7 +109,7 @@ void
 GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNumberOfWorkUnits(ThreadIdType nb)
 {
   Superclass::SetNumberOfWorkUnits(nb);
-  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
   {
     m_SmoothingFilters[i]->SetNumberOfWorkUnits(nb);
   }
@@ -129,7 +129,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNor
   {
     m_NormalizeAcrossScale = normalize;
 
-    for (unsigned int i = 0; i < ImageDimension - 1; i++)
+    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
     {
       m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
     }
@@ -212,12 +212,12 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
   const unsigned int numberOfFilterRuns = ImageDimension * ImageDimension;
   progress->RegisterInternalFilter(m_DerivativeFilter, 1.0f / numberOfFilterRuns);
 
-  for (unsigned int k = 0; k < ImageDimension - 1; k++)
+  for (unsigned int k = 0; k < ImageDimension - 1; ++k)
   {
     progress->RegisterInternalFilter(m_SmoothingFilters[k], 1.0f / numberOfFilterRuns);
   }
 
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     unsigned int i = 0;
     unsigned int j = 0;

@@ -169,12 +169,12 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   float value33[3] = { 4.10f, 2.08f, 0.604f };
 
   MeasurementVectorRealType meanExpected33(MeasurementVectorSize2);
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     meanExpected33[i] = value33[i];
   }
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     if (std::abs(meanExpected33[i] - mean[i]) > epsilon)
     {
@@ -197,9 +197,9 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   matrixExpected33[2][1] = 0.00135;
   matrixExpected33[2][2] = 0.00043;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
-    for (unsigned int j = 0; j < MeasurementVectorSize2; j++)
+    for (unsigned int j = 0; j < MeasurementVectorSize2; ++j)
       if (std::abs(matrixExpected33[i][j] - matrix[i][j]) > epsilon)
       {
         std::cerr << "Computed covariance matrix value is incorrrect" << std::endl;
@@ -235,12 +235,12 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   float value3[3] = { 4.10f, 2.08f, 0.604f };
 
   MeasurementVectorRealType meanExpected3(MeasurementVectorSize2);
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     meanExpected3[i] = value3[i];
   }
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     if (std::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
@@ -263,9 +263,9 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   matrixExpected[2][1] = 0.00135;
   matrixExpected[2][2] = 0.00043;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
-    for (unsigned int j = 0; j < MeasurementVectorSize2; j++)
+    for (unsigned int j = 0; j < MeasurementVectorSize2; ++j)
     {
       if (std::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
@@ -293,7 +293,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   std::cout << "Mean: " << mean << std::endl;
   std::cout << "Covariance Matrix: " << matrix << std::endl;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     if (std::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
@@ -302,9 +302,9 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     }
   }
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
-    for (unsigned int j = 0; j < MeasurementVectorSize2; j++)
+    for (unsigned int j = 0; j < MeasurementVectorSize2; ++j)
     {
       if (std::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {
@@ -368,7 +368,7 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
   std::cout << "Mean: " << mean << std::endl;
   std::cout << "Covariance Matrix: " << matrix << std::endl;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
     if (std::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
@@ -377,9 +377,9 @@ itkWeightedCovarianceSampleFilterTest2(int, char *[])
     }
   }
 
-  for (unsigned int i = 0; i < MeasurementVectorSize2; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize2; ++i)
   {
-    for (unsigned int j = 0; j < MeasurementVectorSize2; j++)
+    for (unsigned int j = 0; j < MeasurementVectorSize2; ++j)
     {
       if (std::abs(matrixExpected[i][j] - matrix[i][j]) > epsilon)
       {

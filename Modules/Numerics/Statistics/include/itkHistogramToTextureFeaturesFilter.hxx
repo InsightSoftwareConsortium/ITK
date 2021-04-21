@@ -184,7 +184,7 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
   // Initialize everything
   typename HistogramType::SizeValueType binsPerAxis = inputHistogram->GetSize(0);
   auto *                                marginalSums = new double[binsPerAxis];
-  for (double * ms_It = marginalSums; ms_It < marginalSums + binsPerAxis; ms_It++)
+  for (double * ms_It = marginalSums; ms_It < marginalSums + binsPerAxis; ++ms_It)
   {
     *ms_It = 0;
   }
@@ -217,7 +217,7 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
   */
   marginalMean = marginalSums[0];
   marginalDevSquared = 0;
-  for (unsigned int arrayIndex = 1; arrayIndex < binsPerAxis; arrayIndex++)
+  for (unsigned int arrayIndex = 1; arrayIndex < binsPerAxis; ++arrayIndex)
   {
     int    k = arrayIndex + 1;
     double M_k_minus_1 = marginalMean;

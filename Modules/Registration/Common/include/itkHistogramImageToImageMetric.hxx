@@ -201,7 +201,7 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Tran
   pHistogram->SetMeasurementVectorSize(2);
   this->ComputeHistogram(parameters, *pHistogram);
 
-  for (unsigned int i = 0; i < ParametersDimension; i++)
+  for (unsigned int i = 0; i < ParametersDimension; ++i)
   {
     typename HistogramType::Pointer pHistogram2 = HistogramType::New();
     pHistogram2->SetMeasurementVectorSize(2);
@@ -328,12 +328,12 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::CopyHistogram(HistogramT
 
   typename HistogramType::SizeType size = source.GetSize();
 
-  for (unsigned int i = 0; i < min.Size(); i++)
+  for (unsigned int i = 0; i < min.Size(); ++i)
   {
     min[i] = source.GetBinMin(i, 0);
   }
 
-  for (unsigned int i = 0; i < max.Size(); i++)
+  for (unsigned int i = 0; i < max.Size(); ++i)
   {
     max[i] = source.GetBinMax(i, size[i] - 1);
   }

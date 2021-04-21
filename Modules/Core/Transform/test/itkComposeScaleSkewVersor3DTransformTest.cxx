@@ -119,7 +119,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     TransformType::OffsetType offset = rotation->GetOffset();
     std::cout << "pure Rotation test:  ";
     std::cout << offset << std::endl;
-    for (unsigned int i = 0; i < 3; i++)
+    for (unsigned int i = 0; i < 3; ++i)
     {
       if (std::fabs(offset[i] - 0.0) > epsilon)
       {
@@ -146,7 +146,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
       TransformType::OutputPointType r;
       r = rotation->TransformPoint(p);
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
@@ -176,7 +176,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
       TransformType::OutputVectorType r;
       r = rotation->TransformVector(p);
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
@@ -206,7 +206,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
       TransformType::OutputCovariantVectorType r;
       r = rotation->TransformCovariantVector(p);
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
@@ -239,7 +239,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
       TransformType::OutputVnlVectorType r;
       r = rotation->TransformVector(p);
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (std::fabs(q[i] - r[i]) > epsilon)
         {
@@ -282,7 +282,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
 
     TransformType::OutputPointType transformedPoint;
     transformedPoint = transform->TransformPoint(center);
-    for (unsigned int i = 0; i < 3; i++)
+    for (unsigned int i = 0; i < 3; ++i)
     {
       if (std::fabs(center[i] - transformedPoint[i]) > epsilon)
       {
@@ -328,7 +328,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     ParametersType parameters2 = transform->GetParameters();
 
     const double tolerance = 1e-8;
-    for (unsigned int p = 0; p < np; p++)
+    for (unsigned int p = 0; p < np; ++p)
     {
       if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
       {
@@ -380,7 +380,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     ParametersType parameters2 = transform->GetParameters();
 
     const double tolerance = 1e-8;
-    for (unsigned int p = 0; p < np; p++)
+    for (unsigned int p = 0; p < np; ++p)
     {
       std::cout << parameters[p] << " = " << parameters2[p] << std::endl;
       if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
@@ -425,7 +425,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     TransformType::ScaleVectorType rscale = transform->GetScale();
 
     const double tolerance = 1e-8;
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       if (std::fabs(rscale[j] - scale[j]) > tolerance)
       {
@@ -458,7 +458,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     parameters[11] = skew[2];
 
     ParametersType parameters2 = transform->GetParameters();
-    for (unsigned int p = 0; p < np; p++)
+    for (unsigned int p = 0; p < np; ++p)
     {
       std::cout << parameters[p] << " = " << parameters2[p] << std::endl;
       if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
@@ -480,7 +480,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     transform3->SetParameters(transform2->GetParameters());
 
     ParametersType parameters3 = transform3->GetParameters();
-    for (unsigned int p = 0; p < np; p++)
+    for (unsigned int p = 0; p < np; ++p)
     {
       std::cout << parameters[p] << " = " << parameters3[p] << std::endl;
       if (std::fabs(parameters[p] - parameters3[p]) > tolerance)
@@ -492,7 +492,7 @@ itkComposeScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << "SetMatrix parameters do match!" << std::endl;
 
     int diff = 0;
-    for (unsigned int p = 0; p < 100; p++)
+    for (unsigned int p = 0; p < 100; ++p)
     {
       TransformType::InputPointType pnt;
       for (unsigned int i = 0; i < 3; ++i)

@@ -40,7 +40,7 @@ template <unsigned int NDimension>
 vnl_matrix<double> inline CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
 {
   vnl_matrix<double> rotationMatrix(NDimension, NDimension, 0);
-  for (unsigned int i = 0; i < NDimension; i++)
+  for (unsigned int i = 0; i < NDimension; ++i)
   {
     rotationMatrix.set_column(i, eig.get_eigenvector(i));
   }
@@ -106,7 +106,7 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
   typename TransformType::MatrixType rotationMatrix(vnl_RotationMatrix);
   typename TransformType::CenterType center;
   typename TInputImage::PointType    origin;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     center[i] = labelGeometry.m_Centroid[i] * inputImage->GetSpacing()[i];
     origin[i] = labelGeometry.m_OrientedBoundingBoxOrigin[i] * inputImage->GetSpacing()[i];
@@ -126,7 +126,7 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
   // We also need to ensure that that bounding box is not outside of
   // the image bounds.
   typename ResampleFilterType::SizeType boundingBoxSize;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     boundingBoxSize[i] =
       (typename ResampleFilterType::SizeType::SizeValueType)std::ceil(labelGeometry.m_OrientedBoundingBoxSize[i]);
@@ -234,7 +234,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     // VOLUME
     (*mapIt).second.m_ZeroOrderMoment++;
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // FIRST ORDER RAW MOMENTS
       (*mapIt).second.m_FirstOrderRawMoments[i] += index[i];
@@ -244,11 +244,11 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     // Even for ND, the second order moments can be found from just
     // two nested loops since second order moments consider only
     // interactions between pairs of indices.
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // It is only necessary to fill in half of the matrix since it is
       // symmetric.
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         (*mapIt).second.m_SecondOrderRawMoments(i, j) += index[i] * index[j];
       }
@@ -291,7 +291,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
       // INTEGRATED PIXEL VALUE
       (*mapIt).second.m_Sum += value;
 
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         // FIRST ORDER WEIGHTED RAW MOMENTS
         (*mapIt).second.m_FirstOrderWeightedRawMoments[i] += index[i] * (typename LabelIndexType::IndexValueType)value;
@@ -324,18 +324,18 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
   // Now that the m_LabelGeometryMapper has been updated for all
   // pixels in the image, we can calculate other geometrical values.
   // Loop through all labels of the image.
-  for (mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); mapIt++)
+  for (mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); ++mapIt)
   {
     // Update the bounding box measurements.
     (*mapIt).second.m_BoundingBoxVolume = 1;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       (*mapIt).second.m_BoundingBoxSize[i] =
         (*mapIt).second.m_BoundingBox[2 * i + 1] - (*mapIt).second.m_BoundingBox[2 * i] + 1;
       (*mapIt).second.m_BoundingBoxVolume = (*mapIt).second.m_BoundingBoxVolume * (*mapIt).second.m_BoundingBoxSize[i];
     }
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       // Normalize the centroid sum by the count to get the centroid.
       (*mapIt).second.m_Centroid[i] =
@@ -358,9 +358,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
 
     // Using the raw moments, we can calculate the central moments.
     MatrixType normalizedSecondOrderCentralMoments(ImageDimension, ImageDimension, 0);
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         normalizedSecondOrderCentralMoments(i, j) =
           ((*mapIt).second.m_SecondOrderRawMoments(i, j)) / ((*mapIt).second.m_ZeroOrderMoment) -
@@ -382,7 +382,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     // Calculate the eigenvalues/eigenvectors
     VectorType eigenvalues(ImageDimension, 0);
     MatrixType eigenvectors(ImageDimension, ImageDimension, 0);
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       eigenvectors.set_column(i, eig.get_eigenvector(i));
       eigenvalues[i] = eig.get_eigenvalue(i);
@@ -391,7 +391,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GenerateData()
     (*mapIt).second.m_Eigenvectors = eigenvectors;
 
     itk::FixedArray<float, ImageDimension> axesLength;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       axesLength[i] = 4 * std::sqrt(eigenvalues[i]);
     }
@@ -455,9 +455,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
   // Subtract the centroid of the region so that the rotation will
   // be about the center of the region.
   MatrixType pixelLocations(ImageDimension, labelGeometry.m_PixelIndices.size(), 0);
-  for (unsigned int i = 0; i < labelGeometry.m_PixelIndices.size(); i++)
+  for (unsigned int i = 0; i < labelGeometry.m_PixelIndices.size(); ++i)
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       pixelLocations(j, i) = labelGeometry.m_PixelIndices[i][j] - labelGeometry.m_Centroid[j];
     }
@@ -478,7 +478,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
     transformedBoundingBox[i + 1] = NumericTraits<float>::NonpositiveMin();
   }
 
-  for (unsigned int column = 0; column < transformedPixelLocations.columns(); column++)
+  for (unsigned int column = 0; column < transformedPixelLocations.columns(); ++column)
   {
     for (unsigned int i = 0; i < (2 * ImageDimension); i += 2)
     {
@@ -533,10 +533,10 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
   int            val;
   LabelIndexType binaryIndex;
   int            arrayIndex;
-  for (unsigned int i = 0; i < numberOfVertices; i++)
+  for (unsigned int i = 0; i < numberOfVertices; ++i)
   {
     val = i;
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       // This is the binary index as described above.
       binaryIndex[j] = val % 2;
@@ -554,9 +554,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
 
   // Add the centroid back to each of the vertices since it was
   // subtracted when the points were rotated.
-  for (unsigned int i = 0; i < orientedBoundingBoxVertices.columns(); i++)
+  for (unsigned int i = 0; i < orientedBoundingBoxVertices.columns(); ++i)
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       orientedBoundingBoxVertices(j, i) += labelGeometry.m_Centroid[j];
       // Copy the oriented bounding box vertices back to a vector of
@@ -566,7 +566,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
   }
 
   // Find the origin of the oriented bounding box.
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     labelGeometry.m_OrientedBoundingBoxOrigin[i] = transformedBoundingBox[2 * i] + labelGeometry.m_Centroid[i];
   }
@@ -981,7 +981,7 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRegion(LabelPixelType
 
     unsigned int dimension = bbox.Size() / 2;
 
-    for (unsigned int i = 0; i < dimension; i++)
+    for (unsigned int i = 0; i < dimension; ++i)
     {
       index[i] = bbox[2 * i];
       size[i] = bbox[2 * i + 1] - bbox[2 * i] + 1;
@@ -1039,7 +1039,7 @@ LabelGeometryImageFilter<TImage, TLabelImage>::PrintSelf(std::ostream & os, Inde
   os << indent << "Number of labels: " << m_LabelGeometryMapper.size() << std::endl;
 
   MapConstIterator mapIt;
-  for (mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); mapIt++)
+  for (mapIt = m_LabelGeometryMapper.begin(); mapIt != m_LabelGeometryMapper.end(); ++mapIt)
   {
     using LabelPrintType = typename NumericTraits<LabelPixelType>::PrintType;
     os << indent << "Label[" << (LabelPrintType)((*mapIt).second.m_Label) << "]: ";

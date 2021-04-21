@@ -100,16 +100,16 @@ Rigid3DTransform<TParametersValueType>::SetParameters(const ParametersType & par
   MatrixType       matrix;
   OutputVectorType translation;
 
-  for (unsigned int row = 0; row < 3; row++)
+  for (unsigned int row = 0; row < 3; ++row)
   {
-    for (unsigned int col = 0; col < 3; col++)
+    for (unsigned int col = 0; col < 3; ++col)
     {
       matrix[row][col] = this->m_Parameters[par];
       ++par;
     }
   }
 
-  for (unsigned int dim = 0; dim < 3; dim++)
+  for (unsigned int dim = 0; dim < 3; ++dim)
   {
     translation[dim] = this->m_Parameters[par];
     ++par;

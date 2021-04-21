@@ -51,7 +51,7 @@ itkImageToListSampleFilterTest2(int, char *[])
   while (!it.IsAtEnd())
   {
     PixelType value;
-    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       value[i] = i + it.GetIndex()[0];
     }

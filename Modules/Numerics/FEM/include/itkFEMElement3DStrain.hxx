@@ -50,7 +50,7 @@ Element3DStrain<TBaseClass>::GetStrainDisplacementMatrix(MatrixType & B, const M
 
   // Copy the shape function derivatives wrt global coordinates
   // in right position in B matrix.
-  for (unsigned int i = 0; i < Nn; i++)
+  for (unsigned int i = 0; i < Nn; ++i)
   {
     p = i / 3;
 
@@ -106,19 +106,19 @@ Element3DStrain<TBaseClass>::GetMaterialMatrix(MatrixType & D) const
   Float fac = (m_mat->GetThickness() * m_mat->GetYoungsModulus()) /
               ((1 + m_mat->GetPoissonsRatio()) * (1 - 2 * m_mat->GetPoissonsRatio()));
   /** Set the elements in the top left quadrant */
-  for (int j = 0; j < 3; j++)
+  for (int j = 0; j < 3; ++j)
   {
-    for (int k = 0; k < 3; k++)
+    for (int k = 0; k < 3; ++k)
     {
       D[j][k] = m_mat->GetPoissonsRatio();
     }
   }
   /** Set the diagonal elements */
-  for (int k = 0; k < 3; k++)
+  for (int k = 0; k < 3; ++k)
   {
     D[k][k] = 1 - m_mat->GetPoissonsRatio();
   }
-  for (int k = 3; k < 6; k++)
+  for (int k = 3; k < 6; ++k)
   {
     D[k][k] = (1 - (2 * m_mat->GetPoissonsRatio())) * 0.5;
   }

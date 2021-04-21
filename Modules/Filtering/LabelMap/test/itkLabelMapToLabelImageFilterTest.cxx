@@ -57,12 +57,12 @@ itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
 
   IndexType idxVertical;
   idxVertical[0] = 5;
-  for (int ctr = 0; ctr < 5; ctr++)
+  for (int ctr = 0; ctr < 5; ++ctr)
   {
     idxVertical[1] = ctr;
     map->SetPixel(idxVertical, 1);
   }
-  for (int ctr = 6; ctr < 11; ctr++)
+  for (int ctr = 6; ctr < 11; ++ctr)
   {
     idxVertical[1] = ctr;
     map->SetPixel(idxVertical, 1);
@@ -75,9 +75,9 @@ itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
   ImageType::Pointer image;
   image = conversion->GetOutput();
 
-  for (int ctrI = 0; ctrI < 11; ctrI++)
+  for (int ctrI = 0; ctrI < 11; ++ctrI)
   {
-    for (int ctrJ = 0; ctrJ < 11; ctrJ++)
+    for (int ctrJ = 0; ctrJ < 11; ++ctrJ)
     {
       IndexType index;
       index[0] = ctrI;

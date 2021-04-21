@@ -163,10 +163,10 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
-      for (unsigned int par = 0; par < ParametersDimension; par++)
+      for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
         RealType sum = NumericTraits<RealType>::ZeroValue();
-        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; dim++)
+        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; ++dim)
         {
           // Will it be computationally more efficient to instead calculate the
           // derivative using finite differences ?
@@ -186,7 +186,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   }
   else
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] *= 2.0 * lambdaSquared / this->m_NumberOfPixelsCounted;
     }
@@ -265,10 +265,10 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
-      for (unsigned int par = 0; par < ParametersDimension; par++)
+      for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
         RealType sum = NumericTraits<RealType>::ZeroValue();
-        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; dim++)
+        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; ++dim)
         {
           sum -= jacobian(dim, par) * gradient[dim] * std::pow(lambdaSquared + diffSquared, 2);
         }
@@ -286,7 +286,7 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   }
   else
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] *= 2.0 * lambdaSquared / this->m_NumberOfPixelsCounted;
     }

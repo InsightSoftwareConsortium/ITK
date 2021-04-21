@@ -158,7 +158,7 @@ ShapePriorSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutputPix
     df->GetRadius(), this->GetOutput(), this->GetOutput()->GetRequestedRegion());
 
   unsigned int counter = 0;
-  for (unsigned int k = 0; k < this->GetNumberOfLayers(); k++)
+  for (unsigned int k = 0; k < this->GetNumberOfLayers(); ++k)
   {
     for (layerIt = this->m_Layers[k]->Begin(); layerIt != this->m_Layers[k]->End(); ++layerIt)
     {

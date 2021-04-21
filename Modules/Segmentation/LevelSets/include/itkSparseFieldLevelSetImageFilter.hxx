@@ -507,7 +507,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   if (this->GetUseImageSpacing())
   {
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
     }
@@ -681,7 +681,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActiveLayer(
 
       // Check to see if any of the sparse field touches a boundary.  If so,
       // then activate bounds checking.
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         if (center_index[i] + static_cast<OffsetValueType>(m_NumberOfLayers) >= (upperBounds[i] - 1) ||
             center_index[i] - static_cast<OffsetValueType>(m_NumberOfLayers) <= lowerBounds[i])
@@ -780,7 +780,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeActiveLayer
   if (this->GetUseImageSpacing())
   {
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
     }
@@ -856,7 +856,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CalculateChange()
   if (this->GetUseImageSpacing())
   {
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
     }
@@ -1139,7 +1139,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   os << indent << "m_IsoSurfaceValue: " << m_IsoSurfaceValue << std::endl;
   itkPrintSelfObjectMacro(LayerNodeStore);
   os << indent << "m_BoundsCheckingActive: " << m_BoundsCheckingActive;
-  for (i = 0; i < m_Layers.size(); i++)
+  for (i = 0; i < m_Layers.size(); ++i)
   {
     os << indent << "m_Layers[" << i << "]: size=" << m_Layers[i]->Size() << std::endl;
     os << indent << m_Layers[i];

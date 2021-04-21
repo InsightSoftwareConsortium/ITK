@@ -146,7 +146,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
 
   PointType point;
 
-  for (PointIdentifier i = 0; i < itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints); i++)
+  for (PointIdentifier i = 0; i < itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints); ++i)
   {
     inputFile >> point;
     if (inputFile.eof())
@@ -220,7 +220,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
   long int numberOfCellPoints;
   long int ids[3]; // need a signed type on input.
 
-  for (CellIdentifier i = 0; i < itk::Math::CastWithRangeCheck<CellIdentifier>(numberOfPolygons); i++)
+  for (CellIdentifier i = 0; i < itk::Math::CastWithRangeCheck<CellIdentifier>(numberOfPolygons); ++i)
   {
     std::getline(inputFile, line, '\n');
     if (inputFile.eof())
@@ -320,7 +320,7 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
 
     double pointData;
 
-    for (PointIdentifier pid = 0; pid < itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints); pid++)
+    for (PointIdentifier pid = 0; pid < itk::Math::CastWithRangeCheck<PointIdentifier>(numberOfPoints); ++pid)
     {
       if (inputFile.eof())
       {

@@ -55,7 +55,7 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
   auto it2 = lineMO->GetPoints().begin();
 
-  for (unsigned int identifier = 0; identifier < lineMO->GetPoints().size(); identifier++)
+  for (unsigned int identifier = 0; identifier < lineMO->GetPoints().size(); ++identifier)
   {
     LinePointType pnt;
 
@@ -63,17 +63,17 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
     PointType point;
     using NormalType = typename LinePointType::CovariantVectorType;
 
-    for (unsigned int ii = 0; ii < NDimensions; ii++)
+    for (unsigned int ii = 0; ii < NDimensions; ++ii)
     {
       point[ii] = (*it2)->m_X[ii] * lineMO->ElementSpacing(ii);
     }
 
     pnt.SetPositionInObjectSpace(point);
 
-    for (unsigned int ii = 0; ii < NDimensions - 1; ii++)
+    for (unsigned int ii = 0; ii < NDimensions - 1; ++ii)
     {
       NormalType normal;
-      for (unsigned int jj = 0; jj < NDimensions; jj++)
+      for (unsigned int jj = 0; jj < NDimensions; ++jj)
       {
         normal[jj] = (*it2)->m_V[ii][jj];
       }
@@ -114,14 +114,14 @@ MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
   {
     auto * pnt = new LinePnt(NDimensions);
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
 
-    for (unsigned int n = 0; n < NDimensions - 1; n++)
+    for (unsigned int n = 0; n < NDimensions - 1; ++n)
     {
-      for (unsigned int d = 0; d < NDimensions; d++)
+      for (unsigned int d = 0; d < NDimensions; ++d)
       {
         pnt->m_V[n][d] = ((*it).GetNormalInObjectSpace(n))[d];
       }
@@ -145,7 +145,7 @@ MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
   }
 
   float color[4];
-  for (unsigned int ii = 0; ii < 4; ii++)
+  for (unsigned int ii = 0; ii < 4; ++ii)
   {
     color[ii] = lineSO->GetProperty().GetColor()[ii];
   }

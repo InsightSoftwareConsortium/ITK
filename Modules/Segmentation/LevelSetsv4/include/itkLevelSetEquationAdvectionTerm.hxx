@@ -30,7 +30,7 @@ namespace itk
 template <typename TInput, typename TLevelSetContainer>
 LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::LevelSetEquationAdvectionTerm()
 {
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_NeighborhoodScales[i] = 1.0;
   }
@@ -111,7 +111,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
   for (dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait)
   {
     VectorType v = dit.Get();
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       v[j] *= -NumericTraits<LevelSetOutputRealType>::OneValue();
     }
@@ -154,7 +154,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
   LevelSetGradientType backwardGradient = this->m_CurrentLevelSetPointer->EvaluateBackwardGradient(iP);
   LevelSetGradientType forwardGradient = this->m_CurrentLevelSetPointer->EvaluateForwardGradient(iP);
 
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     LevelSetOutputRealType component = advectionField[dim];
 
@@ -179,7 +179,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetI
   VectorType             advectionField = this->AdvectionSpeed(iP);
   LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::ZeroValue();
 
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     LevelSetOutputRealType component = advectionField[dim];
 

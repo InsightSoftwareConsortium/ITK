@@ -47,7 +47,7 @@ PolyLineParametricPath<VDimension>::Evaluate(const InputType & input) const
   // For some stupid reason, there is no easy way to cast from a point to a
   // continuous index.
   OutputType output;
-  for (unsigned int i = 0; i < VDimension; i++)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     output[i] = outputPoint[i];
   }

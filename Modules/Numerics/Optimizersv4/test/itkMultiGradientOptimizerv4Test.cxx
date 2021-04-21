@@ -303,7 +303,7 @@ MultiGradientOptimizerv4RunTest(itk::MultiGradientOptimizerv4::Pointer & itkOpti
   ParametersType trueParameters(2);
   trueParameters[0] = 1.5;
   trueParameters[1] = -1.5;
-  for (itk::SizeValueType j = 0; j < 2; j++)
+  for (itk::SizeValueType j = 0; j < 2; ++j)
   {
     if (fabs(finalPosition[j] - trueParameters[j]) > 0.01)
     {

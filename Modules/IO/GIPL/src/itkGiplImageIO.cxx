@@ -204,7 +204,7 @@ GiplImageIO::Read(void * buffer)
   const uint32_t dimensions = this->GetNumberOfDimensions();
   uint32_t       numberOfPixels = 1;
 
-  for (unsigned int dim = 0; dim < dimensions; dim++)
+  for (unsigned int dim = 0; dim < dimensions; ++dim)
   {
     numberOfPixels *= static_cast<uint32_t>(m_Dimensions[dim]);
   }
@@ -282,12 +282,12 @@ GiplImageIO::ReadImageInformation()
   unsigned short dims[4];
 
   unsigned int numberofdimension = 0;
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     dims[i] = 0;
   }
 
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     if (m_IsCompressed)
     {
@@ -321,7 +321,7 @@ GiplImageIO::ReadImageInformation()
 
   this->SetNumberOfDimensions(numberofdimension);
 
-  for (i = 0; i < numberofdimension; i++)
+  for (i = 0; i < numberofdimension; ++i)
   {
     m_Dimensions[i] = dims[i];
   }
@@ -375,7 +375,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   float pixdim[4]; /*   10   16  X,Y,Z,T pixel dimensions mm */
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     if (m_IsCompressed)
     {
@@ -401,7 +401,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   char line1[80]; /*   26   80  Patient / Text field        */
-  for (i = 0; i < 80; i++)
+  for (i = 0; i < 80; ++i)
   {
     if (m_IsCompressed)
     {
@@ -414,7 +414,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   float matrix[20]; /*  106   80                              */
-  for (i = 0; i < 20; i++)
+  for (i = 0; i < 20; ++i)
   {
     if (m_IsCompressed)
     {
@@ -494,7 +494,7 @@ GiplImageIO::ReadImageInformation()
   }
 
   double origin[4]; /*  204   32  X,Y,Z,T offset              */
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     if (m_IsCompressed)
     {
@@ -729,7 +729,7 @@ GiplImageIO ::Write(const void * buffer)
     this->OpenFileForWriting(m_Ofstream, m_FileName);
   }
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     unsigned short value;
     if (i < nDims)
@@ -825,7 +825,7 @@ GiplImageIO ::Write(const void * buffer)
   }
 
   /*   10   16  X,Y,Z,T pixel dimensions mm */
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     if (i < nDims)
     {
@@ -944,7 +944,7 @@ GiplImageIO ::Write(const void * buffer)
   }
 
   double origin[4]; /*  204   32  X,Y,Z,T offset              */
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     if (i < nDims)
     {

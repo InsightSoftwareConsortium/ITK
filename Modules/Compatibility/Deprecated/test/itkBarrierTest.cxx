@@ -35,7 +35,7 @@ public:
   {
     m_TestFailure = false;
     m_NumberOfWorkUnits = number_of_threads;
-    for (unsigned int i = 0; i < number_of_threads - 1; i++)
+    for (unsigned int i = 0; i < number_of_threads - 1; ++i)
     {
       m_Counter[i] = 0;
     }
@@ -54,7 +54,7 @@ BarrierTestIncrement(void * ptr)
   itk::ThreadIdType threadId = ((itk::MultiThreaderBase::WorkUnitInfo *)(ptr))->WorkUnitID;
   auto * data = static_cast<BarrierTestUserData *>(((itk::MultiThreaderBase::WorkUnitInfo *)(ptr))->UserData);
 
-  for (unsigned int i = 0; i < data->m_NumberOfIterations; i++)
+  for (unsigned int i = 0; i < data->m_NumberOfIterations; ++i)
   {
     // set the value for this iteration
     data->m_Counter[threadId] = i;
@@ -72,13 +72,13 @@ BarrierCheckIncrement(void * ptr)
 {
   auto * data = static_cast<BarrierTestUserData *>(((itk::MultiThreaderBase::WorkUnitInfo *)(ptr))->UserData);
 
-  for (unsigned int i = 0; i < data->m_NumberOfIterations; i++)
+  for (unsigned int i = 0; i < data->m_NumberOfIterations; ++i)
   {
     // Wait for other threads to populate the m_Counter array
     data->m_FirstBarrier->Wait();
 
     // Check the values in the m_Counter array
-    for (unsigned int j = 0; j < data->m_NumberOfWorkUnits - 1; j++)
+    for (unsigned int j = 0; j < data->m_NumberOfWorkUnits - 1; ++j)
     {
       if (data->m_Counter[j] != i)
       {
@@ -114,7 +114,7 @@ BarrierSpecialTest(void * ptr)
 {
   auto * data = static_cast<BarrierTestUserData *>(((itk::MultiThreaderBase::WorkUnitInfo *)(ptr))->UserData);
 
-  for (unsigned int j = 0; j < 1000; j++)
+  for (unsigned int j = 0; j < 1000; ++j)
   {
     data->m_FirstBarrier->Wait();
   }
@@ -150,7 +150,7 @@ itkBarrierTest(int argc, char * argv[])
     multithreader->SetNumberOfWorkUnits(number_of_threads);
     multithreader->SetSingleMethod(BarrierTestCallback, &data);
 
-    for (unsigned int i = 0; i < 5; i++) // repeat test 5 times
+    for (unsigned int i = 0; i < 5; ++i) // repeat test 5 times
     {
       multithreader->SingleMethodExecute();
     }

@@ -50,7 +50,7 @@ itkDiffusionTensor3DTest(int, char *[])
   std::cout << "pixel.GetNumberOfComponents = " << pixel.GetNumberOfComponents() << std::endl;
   std::cout << "pixel.GetNthComponent()" << std::endl;
   bool passed = true;
-  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
     if (itk::Math::NotExactlyEquals(pixel.GetNthComponent(i), val[i]))
     {
@@ -76,7 +76,7 @@ itkDiffusionTensor3DTest(int, char *[])
   pixel(2, 2) = 14.0;
 
   std::cout << "testing the pixel(i,j) API" << std::endl;
-  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
   }
@@ -91,7 +91,7 @@ itkDiffusionTensor3DTest(int, char *[])
   pixel[4] = 555;
   pixel[5] = 666;
 
-  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < pixel.GetNumberOfComponents(); ++i)
   {
     std::cout << "\tpixel[" << i << "] = " << pixel.GetNthComponent(i) << std::endl;
   }
@@ -99,12 +99,12 @@ itkDiffusionTensor3DTest(int, char *[])
   std::cout << "std::cout << pixel << std::endl;" << std::endl;
   std::cout << "\t" << pixel << std::endl;
 
-  for (unsigned int j = 0; j < 2; j++)
+  for (unsigned int j = 0; j < 2; ++j)
   {
     std::cout << "pixelArray[" << j << "].GetNumberOfComponents = " << pixelArray[j].GetNumberOfComponents()
               << std::endl;
     std::cout << "pixelArray[" << j << "].GetNthComponent()" << std::endl;
-    for (unsigned int i = 0; i < pixelArray[j].GetNumberOfComponents(); i++)
+    for (unsigned int i = 0; i < pixelArray[j].GetNumberOfComponents(); ++i)
     {
       std::cout << "\tpixelArray[" << j << "].GetNthComponent(" << i
                 << ") = " << static_cast<int>(pixelArray[j].GetNthComponent(i)) << std::endl;
@@ -248,7 +248,7 @@ itkDiffusionTensor3DTest(int, char *[])
       expectedValues[1] = v[1];
       expectedValues[2] = v[2];
 
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (std::fabs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
@@ -288,7 +288,7 @@ itkDiffusionTensor3DTest(int, char *[])
       expectedValues[1] = 4.0;
       expectedValues[2] = 10.0;
 
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (std::fabs(expectedValues[i] - eigenValues[i]) > tolerance)
         {
@@ -328,7 +328,7 @@ itkDiffusionTensor3DTest(int, char *[])
       expectedValues[1] = 0.00000;
       expectedValues[2] = 13.61580;
 
-      for (unsigned int i = 0; i < 3; i++)
+      for (unsigned int i = 0; i < 3; ++i)
       {
         if (std::fabs(expectedValues[i] - eigenValues[i]) > tolerance)
         {

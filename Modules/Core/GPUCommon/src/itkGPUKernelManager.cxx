@@ -424,7 +424,7 @@ GPUKernelManager::CheckArgumentReady(int kernelIdx)
 {
   int nArg = m_KernelArgumentReady[kernelIdx].size();
 
-  for (int i = 0; i < nArg; i++)
+  for (int i = 0; i < nArg; ++i)
   {
     if (!(m_KernelArgumentReady[kernelIdx][i].m_IsReady))
       return false;
@@ -443,7 +443,7 @@ GPUKernelManager::ResetArguments(int kernelIdx)
 {
   int nArg = m_KernelArgumentReady[kernelIdx].size();
 
-  for (int i = 0; i < nArg; i++)
+  for (int i = 0; i < nArg; ++i)
   {
     m_KernelArgumentReady[kernelIdx][i].m_IsReady = false;
     m_KernelArgumentReady[kernelIdx][i].m_GPUDataManager = (GPUDataManager::Pointer) nullptr;

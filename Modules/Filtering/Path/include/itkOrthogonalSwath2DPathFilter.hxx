@@ -85,9 +85,9 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // CalcFirstStep (x=0)
   // Enter the initial merit values
   index[0] = 0;
-  for (F = 0; F < m_SwathSize[1]; F++)
+  for (F = 0; F < m_SwathSize[1]; ++F)
   {
-    for (L = 0; L < m_SwathSize[1]; L++)
+    for (L = 0; L < m_SwathSize[1]; ++L)
     {
       if (F == L)
       {
@@ -105,9 +105,9 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // end of double for-loop covering F & L
 
   // PrepForRemainingSteps
-  for (F = 0; F < m_SwathSize[1]; F++)
+  for (F = 0; F < m_SwathSize[1]; ++F)
   {
-    for (L = 0; L < m_SwathSize[1]; L++)
+    for (L = 0; L < m_SwathSize[1]; ++L)
     {
       // find merit for x=1
       if (itk::Math::abs(F - L) <= 1)
@@ -132,11 +132,11 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // end of double for-loop covering F & L
 
   // CalcRestPath
-  for (x = 1; x < m_SwathSize[0] - 1; x++)
+  for (x = 1; x < m_SwathSize[0] - 1; ++x)
   {
-    for (F = 0; F < m_SwathSize[1]; F++)
+    for (F = 0; F < m_SwathSize[1]; ++F)
     {
-      for (L = 0; L < m_SwathSize[1]; L++)
+      for (L = 0; L < m_SwathSize[1]; ++L)
       {
         int bestL = FindAndStoreBestErrorStep(x, F, L);
         index[0] = x + 1;
@@ -150,9 +150,9 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // Find the best starting and ending points (F & L) for the path
   int    bestF = 0, bestL = 0;
   double meritTemp, meritMax = NumericTraits<double>::NonpositiveMin();
-  for (F = 0; F < m_SwathSize[1]; F++)
+  for (F = 0; F < m_SwathSize[1]; ++F)
   {
-    for (L = 0; L < m_SwathSize[1]; L++)
+    for (L = 0; L < m_SwathSize[1]; ++L)
     {
       if (itk::Math::abs(F - L) <= 1) // only accept closed paths
       {
@@ -180,7 +180,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   }
 
   // Convert from absolute indices to +/- orthogonal offset values
-  for (x = 0; x < m_SwathSize[0]; x++)
+  for (x = 0; x < m_SwathSize[0]; ++x)
   {
     m_FinalOffsetValues->InsertElement(x, double(m_OptimumStepsValues[x] - int(m_SwathSize[1] / 2)));
   }

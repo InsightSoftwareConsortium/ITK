@@ -77,7 +77,7 @@ Element::GetStiffnessMatrix(MatrixType & Ke) const
   Ke = detJ * w * B.transpose() * D * B; // FIXME: write a more efficient way of
                                          // computing this.
   // Add contributions of other int. points to the Ke
-  for (unsigned int i = 1; i < Nip; i++)
+  for (unsigned int i = 1; i < Nip; ++i)
   {
     this->GetIntegrationPointAndWeight(i, ip, w);
     this->ShapeFunctionDerivatives(ip, shapeD);
@@ -145,16 +145,16 @@ Element::GetLandmarkContributionMatrix(float eta, MatrixType & Le) const
 
   Float      w;
   VectorType ip, shape;
-  for (unsigned int i = 0; i < Nip; i++)
+  for (unsigned int i = 0; i < Nip; ++i)
   {
     this->GetIntegrationPointAndWeight(i, ip, w, 0);
     shape = this->ShapeFunctions(ip);
-    for (unsigned int ni = 0; ni < Nnodes; ni++)
+    for (unsigned int ni = 0; ni < Nnodes; ++ni)
     {
-      for (unsigned int nj = 0; nj < Nnodes; nj++)
+      for (unsigned int nj = 0; nj < Nnodes; ++nj)
       {
         Float m = w * shape[ni] * shape[nj];
-        for (unsigned int d = 0; d < NnDOF; d++)
+        for (unsigned int d = 0; d < NnDOF; ++d)
         {
           Le[ni * NnDOF + d][nj * NnDOF + d] += m;
         }
@@ -201,19 +201,19 @@ Element::GetMassMatrix(MatrixType & Me) const
   Float      w;
   VectorType ip, shape;
   MatrixType J, shapeD;
-  for (unsigned int i = 0; i < Nip; i++)
+  for (unsigned int i = 0; i < Nip; ++i)
   {
     this->GetIntegrationPointAndWeight(i, ip, w, 0);
     shape = this->ShapeFunctions(ip);
     this->ShapeFunctionDerivatives(ip, shapeD);
     this->Jacobian(ip, J, &shapeD);
     Float detJ = this->JacobianDeterminant(ip, &J);
-    for (unsigned int ni = 0; ni < Nnodes; ni++)
+    for (unsigned int ni = 0; ni < Nnodes; ++ni)
     {
-      for (unsigned int nj = 0; nj < Nnodes; nj++)
+      for (unsigned int nj = 0; nj < Nnodes; ++nj)
       {
         Float m = detJ * w * shape[ni] * shape[nj];
-        for (unsigned int d = 0; d < NnDOF; d++)
+        for (unsigned int d = 0; d < NnDOF; ++d)
         {
           Me[ni * NnDOF + d][nj * NnDOF + d] += m;
         }
@@ -231,10 +231,10 @@ Element::InterpolateSolution(const VectorType & pt, const Solution & sol, unsign
 
   const unsigned int Nnodes = this->GetNumberOfNodes();
   const unsigned int Ndofs_per_node = this->GetNumberOfDegreesOfFreedomPerNode();
-  for (unsigned int f = 0; f < Ndofs_per_node; f++)
+  for (unsigned int f = 0; f < Ndofs_per_node; ++f)
   {
     value = 0.0;
-    for (unsigned int n = 0; n < Nnodes; n++)
+    for (unsigned int n = 0; n < Nnodes; ++n)
     {
       value += shapef[n] * sol.GetSolutionValue(this->GetNode(n)->GetDegreeOfFreedom(f), solutionIndex);
     }
@@ -255,7 +255,7 @@ Element::InterpolateSolutionN(const VectorType & pt,
 
   VectorType   shapef = this->ShapeFunctions(pt);
   unsigned int Nnodes = this->GetNumberOfNodes();
-  for (unsigned int n = 0; n < Nnodes; n++)
+  for (unsigned int n = 0; n < Nnodes; ++n)
   {
     value += shapef[n] * sol.GetSolutionValue(this->GetNode(n)->GetDegreeOfFreedom(f), solutionIndex);
   }
@@ -285,7 +285,7 @@ Element::Jacobian(const VectorType & pt, MatrixType & J, const MatrixType * psha
   const unsigned int Ndims = this->GetNumberOfSpatialDimensions();
 
   MatrixType coords(Nn, Ndims);
-  for (unsigned int n = 0; n < Nn; n++)
+  for (unsigned int n = 0; n < Nn; ++n)
   {
     VectorType p = this->GetNodeCoordinates(n);
     coords.set_row(n, p);
@@ -381,7 +381,7 @@ Element::GetGlobalFromLocalCoordinates(const VectorType & pt) const
 {
   unsigned int Nnodes = this->GetNumberOfNodes();
   MatrixType   nc(this->GetNumberOfSpatialDimensions(), Nnodes);
-  for (unsigned int n = 0; n < Nnodes; n++)
+  for (unsigned int n = 0; n < Nnodes; ++n)
   {
     nc.set_column(n, this->GetNodeCoordinates(n));
   }
@@ -490,7 +490,7 @@ Element::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "#IDs: " << this->m_EdgeIds.size() << std::endl;
-  for (unsigned int i = 0; i < this->m_EdgeIds.size(); i++)
+  for (unsigned int i = 0; i < this->m_EdgeIds.size(); ++i)
   {
     os << indent << "Edge Ids (" << i << "): " << this->m_EdgeIds[i][0];
     os << " " << this->m_EdgeIds[i][1] << std::endl;

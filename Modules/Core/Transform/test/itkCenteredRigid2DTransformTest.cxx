@@ -29,7 +29,7 @@ CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 {
   const double epsilon = 1e-5;
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     if (std::fabs(p1[i] - p2[i]) > epsilon)
     {
@@ -73,7 +73,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   q[1] = p[0] * sinth + p[1] * costh;
 
   CenteredRigidTransformType::OutputPointType r = transform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -105,7 +105,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   q = p + ioffset;
 
   r = transform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -158,7 +158,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
 
     // Check that point p3 is the same as point p1
     Ok = true;
-    for (unsigned int i = 0; i < N; i++)
+    for (unsigned int i = 0; i < N; ++i)
     {
       if (std::fabs(p1[i] - p3[i]) > epsilon)
       {
@@ -192,7 +192,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
 
     // Check that point p3 is the same as point p1
     Ok = true;
-    for (unsigned int i = 0; i < N; i++)
+    for (unsigned int i = 0; i < N; ++i)
     {
       if (std::fabs(p1[i] - p3[i]) > epsilon)
       {
@@ -327,7 +327,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
     t4->ComputeJacobianWithRespectToParameters(p1, jacobian);
 
     TransformType::JacobianType approxJacobian = jacobian;
-    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
       constexpr double              delta = 0.001;
       TransformType::ParametersType plusParameters;
@@ -345,7 +345,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
       plusPoint = t4->TransformPoint(p1);
       t4->SetParameters(minusParameters);
       minusPoint = t4->TransformPoint(p1);
-      for (unsigned int j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; ++j)
       {
         const double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         const double computedDerivative = jacobian[j][k];

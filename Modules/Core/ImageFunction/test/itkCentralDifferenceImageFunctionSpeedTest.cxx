@@ -79,7 +79,7 @@ itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
   std::cout << "UseImageDirection: " << function->GetUseImageDirection() << std::endl;
 
   /// loop
-  for (int l = 0; l < reps; l++)
+  for (int l = 0; l < reps; ++l)
   {
     iter.GoToBegin();
     while (!iter.IsAtEnd())

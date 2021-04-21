@@ -44,7 +44,7 @@ itkVectorImageToImageAdaptorTest(int, char *[])
   VectorImageType::IndexType           start;
   itk::VariableLengthVector<PixelType> f(VectorLength);
   VectorImageType::SizeType            size;
-  for (unsigned int i = 0; i < VectorLength; i++)
+  for (unsigned int i = 0; i < VectorLength; ++i)
   {
     f[i] = PixelType(i);
   }

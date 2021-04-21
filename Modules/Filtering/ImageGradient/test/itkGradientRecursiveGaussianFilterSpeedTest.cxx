@@ -118,7 +118,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 
 
   // loop
-  for (int i = 0; i < reps; i++)
+  for (int i = 0; i < reps; ++i)
   {
     // Select the value of Sigma
     filter->SetSigma(2.5 + reps / 100.0);

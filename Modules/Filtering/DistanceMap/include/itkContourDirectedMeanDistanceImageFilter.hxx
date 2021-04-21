@@ -151,7 +151,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreade
   IdentifierType count = 0;
   RealType       sum = NumericTraits<RealType>::ZeroValue();
 
-  for (ThreadIdType i = 0; i < numberOfThreads; i++)
+  for (ThreadIdType i = 0; i < numberOfThreads; ++i)
   {
     sum += m_MeanDistance[i];
     count += m_Count[i];

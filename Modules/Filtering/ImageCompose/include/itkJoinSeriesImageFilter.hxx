@@ -146,9 +146,9 @@ JoinSeriesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     unsigned int        inputdim = InputImageType::GetImageDimension();
     unsigned int        outputdim = OutputImageType::GetImageDimension();
     OutputDirectionType outputDir = outputPtr->GetDirection();
-    for (unsigned int i = 0; i < outputdim; i++)
+    for (unsigned int i = 0; i < outputdim; ++i)
     {
-      for (unsigned int j = 0; j < outputdim; j++)
+      for (unsigned int j = 0; j < outputdim; ++j)
       {
         if (j < inputdim && i < inputdim)
         {

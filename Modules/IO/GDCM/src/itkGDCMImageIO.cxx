@@ -956,7 +956,7 @@ GDCMImageIO::Write(const void * buffer)
         m_Origin.resize(m_GlobalNumberOfDimensions);
         m_Spacing.resize(m_GlobalNumberOfDimensions);
         m_Direction.resize(m_GlobalNumberOfDimensions);
-        for (unsigned int i = 0; i < m_GlobalNumberOfDimensions; i++)
+        for (unsigned int i = 0; i < m_GlobalNumberOfDimensions; ++i)
         {
           m_Direction[i].resize(m_GlobalNumberOfDimensions);
         }
@@ -986,9 +986,9 @@ GDCMImageIO::Write(const void * buffer)
         using DoubleMatrixType = Matrix<double>;
         DoubleMatrixType directionMatrix;
         ExposeMetaData<DoubleMatrixType>(dict, key, directionMatrix);
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; ++i)
         {
-          for (int j = 0; j < 3; j++)
+          for (int j = 0; j < 3; ++j)
           {
             m_Direction[i][j] = directionMatrix[i][j];
           }

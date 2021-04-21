@@ -209,7 +209,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetHistogramMaxFromIndex(Dimension, nthBin)";
   }
 
-  for (id = 0; id < static_cast<InstanceIdentifier>(totalSize); id++)
+  for (id = 0; id < static_cast<InstanceIdentifier>(totalSize); ++id)
   {
     histogram->SetFrequency(id, 1);
     histogram->IncreaseFrequency(id, 1);
@@ -314,7 +314,7 @@ itkHistogramTest(int, char *[])
   }
 
 
-  for (id = 0; id < static_cast<SparseHistogramType::InstanceIdentifier>(totalSize); id++)
+  for (id = 0; id < static_cast<SparseHistogramType::InstanceIdentifier>(totalSize); ++id)
   {
     bool result = sparseHistogram->SetFrequency(id, 1);
     if (!result)
@@ -384,7 +384,7 @@ itkHistogramTest(int, char *[])
 
   index.Fill(0);
   MeasurementVectorType measurement = histogram->GetMeasurementVector(index);
-  for (unsigned kid0 = 0; kid0 < numberOfComponents; kid0++)
+  for (unsigned kid0 = 0; kid0 < numberOfComponents; ++kid0)
   {
     if (itk::Math::NotAlmostEquals(measurement[kid0], 8))
     {
@@ -399,7 +399,7 @@ itkHistogramTest(int, char *[])
   histogram->SetClipBinsAtEnds(true);
 
   measurement = histogram->GetMeasurementVector(index);
-  for (unsigned kid1 = 0; kid1 < numberOfComponents; kid1++)
+  for (unsigned kid1 = 0; kid1 < numberOfComponents; ++kid1)
   {
     if (itk::Math::NotAlmostEquals(measurement[kid1], 8))
     {
@@ -413,7 +413,7 @@ itkHistogramTest(int, char *[])
 
   constexpr InstanceIdentifier instanceId = 0;
   measurement = histogram->GetMeasurementVector(instanceId);
-  for (unsigned kid2 = 0; kid2 < numberOfComponents; kid2++)
+  for (unsigned kid2 = 0; kid2 < numberOfComponents; ++kid2)
   {
     if (itk::Math::NotAlmostEquals(measurement[kid2], 8))
     {
@@ -429,7 +429,7 @@ itkHistogramTest(int, char *[])
   MeasurementVectorType outOfLowerRange(numberOfComponents);
   MeasurementVectorType outOfUpperRange(numberOfComponents);
 
-  for (unsigned int k = 0; k < numberOfComponents; k++)
+  for (unsigned int k = 0; k < numberOfComponents; ++k)
   {
     outOfLowerRange[k] = lowerBound[k] - 13;
     outOfUpperRange[k] = upperBound[k] + 23;
@@ -449,7 +449,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for outOfLowerRange";
   }
 
-  for (unsigned k1 = 0; k1 < numberOfComponents; k1++)
+  for (unsigned k1 = 0; k1 < numberOfComponents; ++k1)
   {
     if (index1[k1] != 0)
     {
@@ -486,7 +486,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for outOfUpperRange";
   }
 
-  for (unsigned k2 = 0; k2 < numberOfComponents; k2++)
+  for (unsigned k2 = 0; k2 < numberOfComponents; ++k2)
   {
     if (index2[k2] != (long)size[k2] - 1)
     {
@@ -515,7 +515,7 @@ itkHistogramTest(int, char *[])
   pindex.Fill(32);
   MeasurementVectorType measurementVector = histogram->GetMeasurementVector(pindex);
 
-  for (unsigned int gik1 = 0; gik1 < numberOfComponents; gik1++)
+  for (unsigned int gik1 = 0; gik1 < numberOfComponents; ++gik1)
   {
     measurementVector[gik1] += 0.3;
   }
@@ -523,7 +523,7 @@ itkHistogramTest(int, char *[])
   IndexType gindex;
   histogram->GetIndex(measurementVector, gindex);
 
-  for (unsigned int gik2 = 0; gik2 < numberOfComponents; gik2++)
+  for (unsigned int gik2 = 0; gik2 < numberOfComponents; ++gik2)
   {
     if (gindex[gik2] != 32)
     {
@@ -535,14 +535,14 @@ itkHistogramTest(int, char *[])
   }
 
   // Testing GetIndex() for values that are below the median value of the Bin.
-  for (unsigned int gik3 = 0; gik3 < numberOfComponents; gik3++)
+  for (unsigned int gik3 = 0; gik3 < numberOfComponents; ++gik3)
   {
     measurementVector[gik3] -= 0.6;
   }
 
   histogram->GetIndex(measurementVector, gindex);
 
-  for (unsigned int gik4 = 0; gik4 < numberOfComponents; gik4++)
+  for (unsigned int gik4 = 0; gik4 < numberOfComponents; ++gik4)
   {
     if (gindex[gik4] != 32)
     {
@@ -562,7 +562,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for upper bound";
   }
 
-  for (unsigned k1 = 0; k1 < numberOfComponents; k1++)
+  for (unsigned k1 = 0; k1 < numberOfComponents; ++k1)
   {
     if (upperIndex[k1] != 63)
     {
@@ -579,7 +579,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for lower bound";
   }
 
-  for (unsigned k1 = 0; k1 < numberOfComponents; k1++)
+  for (unsigned k1 = 0; k1 < numberOfComponents; ++k1)
   {
     if (lowerIndex[k1] != 0)
     {
@@ -591,7 +591,7 @@ itkHistogramTest(int, char *[])
   // Testing GetIndex above the upper bound of a bin
   histogram->SetClipBinsAtEnds(false);
   MeasurementVectorType measurementVectorAbove(numberOfComponents);
-  for (unsigned int gupk1 = 0; gupk1 < numberOfComponents; gupk1++)
+  for (unsigned int gupk1 = 0; gupk1 < numberOfComponents; ++gupk1)
   {
     measurementVectorAbove[gupk1] = 129.9;
   }
@@ -653,10 +653,10 @@ itkHistogramTest(int, char *[])
 
     HistogramType::BinMinContainerType binMinimums = histogram->GetMins();
 
-    for (unsigned int dim = 0; dim < numberOfComponents; dim++)
+    for (unsigned int dim = 0; dim < numberOfComponents; ++dim)
     {
       HistogramType::BinMinVectorType binDimensionMinimums = histogram->GetDimensionMins(dim);
-      for (unsigned int k = 0; k < size2[dim]; k++)
+      for (unsigned int k = 0; k < size2[dim]; ++k)
       {
         HistogramType::MeasurementType minA = binMinimums[dim][k];
         HistogramType::MeasurementType minB = binDimensionMinimums[k];
@@ -675,10 +675,10 @@ itkHistogramTest(int, char *[])
 
     HistogramType::BinMaxContainerType binMaximums = histogram->GetMaxs();
 
-    for (unsigned int dim = 0; dim < numberOfComponents; dim++)
+    for (unsigned int dim = 0; dim < numberOfComponents; ++dim)
     {
       HistogramType::BinMaxVectorType binDimensionMaximums = histogram->GetDimensionMaxs(dim);
-      for (unsigned int k = 0; k < size2[dim]; k++)
+      for (unsigned int k = 0; k < size2[dim]; ++k)
       {
         HistogramType::MeasurementType maxA = binMaximums[dim][k];
         HistogramType::MeasurementType maxB = binDimensionMaximums[k];

@@ -65,9 +65,9 @@ ReadWriteTest(const char * const fileName)
 
   PointsIteratorType sourceend = sourceLandmarks->GetPoints()->End();
 
-  for (int i = 0; i < 2; i++)
+  for (int i = 0; i < 2; ++i)
   {
-    for (int j = 0; j < 2; j++)
+    for (int j = 0; j < 2; ++j)
     {
       sourcePoint[0] = j;
       sourcePoint[1] = i;

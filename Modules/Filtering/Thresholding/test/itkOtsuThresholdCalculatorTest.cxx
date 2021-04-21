@@ -68,14 +68,14 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   // Fill one half of with values of value1 +- 2
   unsigned long i;
 
-  for (i = 0; i < numPixels / 2; i++)
+  for (i = 0; i < numPixels / 2; ++i)
   {
     iter.Set((i % r2) + value1 - range);
     ++iter;
   }
 
   // Fill the other half with values of value2 +- 2
-  for (i = numPixels / 2; i < numPixels; i++)
+  for (i = numPixels / 2; i < numPixels; ++i)
   {
     iter.Set((i % r2) + value2 - range);
     ++iter;

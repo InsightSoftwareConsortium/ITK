@@ -45,7 +45,7 @@ ConditionVariableTestIncCount(void * ptr)
 
   double v = 400.0;
 
-  for (unsigned i = 0; i < 10; i++)
+  for (unsigned i = 0; i < 10; ++i)
   {
     data->m_Mutex.Lock();
     data->m_Counter++;
@@ -61,7 +61,7 @@ ConditionVariableTestIncCount(void * ptr)
     data->m_Mutex.Unlock();
 
     // Do some work here.
-    for (unsigned j = 0; j < 1000; j++)
+    for (unsigned j = 0; j < 1000; ++j)
     {
       v = v / 2.4;
       v = v * 2.4;
@@ -114,7 +114,7 @@ itkConditionVariableTest(int, char *[])
     multithreader->SetNumberOfWorkUnits(3);
     multithreader->SetSingleMethod(ConditionVariableTestCallback, &cond);
 
-    for (unsigned int i = 0; i < 1000; i++)
+    for (unsigned int i = 0; i < 1000; ++i)
     {
       cond.m_Counter = 0;
       multithreader->SingleMethodExecute();

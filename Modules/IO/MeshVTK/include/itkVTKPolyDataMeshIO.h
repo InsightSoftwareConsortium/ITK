@@ -145,7 +145,7 @@ protected:
 
     SizeValueType index = 0;
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
       auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
       auto nn = static_cast<unsigned int>(buffer[index++]);
@@ -202,7 +202,7 @@ protected:
       {
         /**  Load the point coordinates into the itk::Mesh */
         SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        for (SizeValueType ii = 0; ii < numberOfComponents; ii++)
+        for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
         {
           inputFile >> buffer[ii];
         }
@@ -278,7 +278,7 @@ protected:
 
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
         SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        for (SizeValueType ii = 0; ii < numberOfComponents; ii++)
+        for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
         {
           inputFile >> buffer[ii];
         }
@@ -373,7 +373,7 @@ protected:
 
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
         SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        for (SizeValueType ii = 0; ii < numberOfComponents; ii++)
+        for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
         {
           inputFile >> buffer[ii];
         }
@@ -437,9 +437,9 @@ protected:
     outputFile << "POINTS " << this->m_NumberOfPoints;
 
     outputFile << pointComponentType << '\n';
-    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
-      for (unsigned int jj = 0; jj < this->m_PointDimension - 1; jj++)
+      for (unsigned int jj = 0; jj < this->m_PointDimension - 1; ++jj)
       {
         outputFile << convert(buffer[ii * this->m_PointDimension + jj]) << " ";
       }
@@ -484,14 +484,14 @@ protected:
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
       outputFile << "VERTICES " << numberOfVertices << " " << numberOfVertexIndices << '\n';
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
         if (cellType == CellGeometryEnum::VERTEX_CELL)
         {
           outputFile << nn;
-          for (unsigned int jj = 0; jj < nn; jj++)
+          for (unsigned int jj = 0; jj < nn; ++jj)
           {
             outputFile << " " << buffer[index++];
           }
@@ -513,7 +513,7 @@ protected:
       SizeValueType             numberOfPolylines = 0;
       PolylinesContainerPointer polylines = PolylinesContainerType::New();
       PointIdVector             pointIds;
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
@@ -536,7 +536,7 @@ protected:
               numberOfLineIndices += pointIds.size();
               pointIds.clear();
 
-              for (unsigned int jj = 0; jj < nn; jj++)
+              for (unsigned int jj = 0; jj < nn; ++jj)
               {
                 pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
               }
@@ -544,7 +544,7 @@ protected:
           }
           else
           {
-            for (unsigned int jj = 0; jj < nn; jj++)
+            for (unsigned int jj = 0; jj < nn; ++jj)
             {
               pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
             }
@@ -581,7 +581,7 @@ protected:
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
       outputFile << "POLYGONS " << numberOfPolygons << " " << numberOfPolygonIndices << '\n';
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
@@ -589,7 +589,7 @@ protected:
             cellType == CellGeometryEnum::QUADRILATERAL_CELL)
         {
           outputFile << nn;
-          for (unsigned int jj = 0; jj < nn; jj++)
+          for (unsigned int jj = 0; jj < nn; ++jj)
           {
             outputFile << " " << buffer[index++];
           }
@@ -639,7 +639,7 @@ protected:
       SizeValueType             numberOfPolylines = 0;
       PolylinesContainerPointer polylines = PolylinesContainerType::New();
       PointIdVector             pointIds;
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
@@ -662,7 +662,7 @@ protected:
               numberOfLineIndices += pointIds.size();
               pointIds.clear();
 
-              for (unsigned int jj = 0; jj < nn; jj++)
+              for (unsigned int jj = 0; jj < nn; ++jj)
               {
                 pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
               }
@@ -670,7 +670,7 @@ protected:
           }
           else
           {
-            for (unsigned int jj = 0; jj < nn; jj++)
+            for (unsigned int jj = 0; jj < nn; ++jj)
             {
               pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
             }
@@ -843,9 +843,9 @@ protected:
     else // not tensor
     {
       unsigned int jj;
-      for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
       {
-        for (jj = 0; jj < this->m_NumberOfPointPixelComponents - 1; jj++)
+        for (jj = 0; jj < this->m_NumberOfPointPixelComponents - 1; ++jj)
         {
           outputFile << convert(buffer[ii * this->m_NumberOfPointPixelComponents + jj]) << indent;
         }
@@ -1040,9 +1040,9 @@ protected:
     else // not tensor
     {
       unsigned int jj;
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCellPixels; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCellPixels; ++ii)
       {
-        for (jj = 0; jj < this->m_NumberOfCellPixelComponents - 1; jj++)
+        for (jj = 0; jj < this->m_NumberOfCellPixelComponents - 1; ++jj)
         {
           outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << indent;
         }
@@ -1173,12 +1173,12 @@ protected:
 
     if (input && output)
     {
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         inputIndex++;
         auto nn = static_cast<unsigned int>(input[inputIndex++]);
         output[outputIndex++] = nn;
-        for (unsigned int jj = 0; jj < nn; jj++)
+        for (unsigned int jj = 0; jj < nn; ++jj)
         {
           output[outputIndex++] = static_cast<TOutput>(input[inputIndex++]);
         }

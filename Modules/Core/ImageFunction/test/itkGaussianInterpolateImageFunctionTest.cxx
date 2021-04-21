@@ -74,7 +74,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
 
   typename ImageType::SizeType radius;
   radius.Fill(1);
-  for (unsigned int d = 0; d < ImageType::ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageType::ImageDimension; ++d)
   {
     ITK_TEST_SET_GET_VALUE(radius[d], interpolator->GetRadius()[d]);
   }

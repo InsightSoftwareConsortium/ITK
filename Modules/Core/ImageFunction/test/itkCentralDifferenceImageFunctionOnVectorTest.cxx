@@ -25,9 +25,9 @@ template <typename T>
 bool
 IsEqual(T & m1, T & m2)
 {
-  for (unsigned int r = 0; r < T::RowDimensions; r++)
+  for (unsigned int r = 0; r < T::RowDimensions; ++r)
   {
-    for (unsigned int c = 0; c < T::ColumnDimensions; c++)
+    for (unsigned int c = 0; c < T::ColumnDimensions; ++c)
     {
       if (std::fabs(m1(r, c) - m2(r, c)) > 1e-4)
       {
@@ -70,7 +70,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   {
     PixelType pix;
     pix[0] = counter * counter;
-    for (unsigned int i = 1; i < VectorLength; i++)
+    for (unsigned int i = 1; i < VectorLength; ++i)
     {
       pix[i] = pix[i - 1] / 10.0;
     }
@@ -101,7 +101,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
 
   // verify the output
   OutputType truthOutput;
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     PixelType                     deriv;
     typename ImageType::IndexType indexTest = index;
@@ -110,7 +110,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
     indexTest[dim] = indexTest[dim] - 2;
     deriv -= image->GetPixel(indexTest);
     deriv /= 2.0;
-    for (unsigned int nc = 0; nc < VectorLength; nc++)
+    for (unsigned int nc = 0; nc < VectorLength; ++nc)
     {
       truthOutput[nc][dim] = deriv[nc];
     }
@@ -171,7 +171,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
   }
-  for (itk::SizeValueType n = 0; n < VectorLength; n++)
+  for (itk::SizeValueType n = 0; n < VectorLength; ++n)
   {
     if (itk::Math::NotAlmostEquals(indexOutput(n, 0), itk::NumericTraits<OutputValueType>::ZeroValue()))
     {
@@ -218,7 +218,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   {
     std::cout << "Index: " << index << " is inside the BufferedRegion." << std::endl;
   }
-  for (itk::SizeValueType n = 0; n < VectorLength; n++)
+  for (itk::SizeValueType n = 0; n < VectorLength; ++n)
   {
     if (itk::Math::NotAlmostEquals(indexOutput(n, 1), itk::NumericTraits<OutputValueType>::ZeroValue()))
     {

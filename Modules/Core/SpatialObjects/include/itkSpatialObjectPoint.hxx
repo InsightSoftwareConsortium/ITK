@@ -168,7 +168,7 @@ SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent)
   os << m_Color.GetBlue() << " ";
   os << m_Color.GetAlpha() << std::endl;
   os << indent << "Position: ";
-  for (unsigned int i = 1; i < TPointDimension; i++)
+  for (unsigned int i = 1; i < TPointDimension; ++i)
   {
     os << m_PositionInObjectSpace[i - 1] << ",";
   }

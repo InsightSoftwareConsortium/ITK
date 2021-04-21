@@ -136,7 +136,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
      * Also check if scales are identity. */
     using SizeType = typename ScalesType::size_type;
     this->m_ScalesAreIdentity = true;
-    for (SizeType i = 0; i < this->m_Scales.Size(); i++)
+    for (SizeType i = 0; i < this->m_Scales.Size(); ++i)
     {
       if (this->m_Scales[i] <= NumericTraits<SValueType>::epsilon())
       {
@@ -174,7 +174,7 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
     /* Check if they are identity within tolerance. */
     using SizeType = typename ScalesType::size_type;
     this->m_WeightsAreIdentity = true;
-    for (SizeType i = 0; i < this->m_Weights.Size(); i++)
+    for (SizeType i = 0; i < this->m_Weights.Size(); ++i)
     {
       SValueType difference = std::fabs(NumericTraits<SValueType>::OneValue() - this->m_Weights[i]);
       auto       tolerance = static_cast<SValueType>(1e-4);

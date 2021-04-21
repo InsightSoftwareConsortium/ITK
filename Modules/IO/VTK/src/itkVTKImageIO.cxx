@@ -220,7 +220,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
     {
       this->SetNumberOfDimensions(3);
     }
-    for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
+    for (unsigned int i = 0; i < this->GetNumberOfDimensions(); ++i)
     {
       this->SetDimensions(i, dims[i]);
     }
@@ -242,7 +242,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       sscanf(text.c_str(), "%*s %lf %lf %lf", spacing, spacing + 1, spacing + 2);
       // reset locale
       std::locale::global(currentLocale);
-      for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+      for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         this->SetSpacing(i, spacing[i]);
       }
@@ -256,7 +256,7 @@ VTKImageIO::InternalReadImageInformation(std::ifstream & file)
       sscanf(text.c_str(), "%*s %lf %lf %lf", origin, origin + 1, origin + 2);
       // reset locale
       std::locale::global(currentLocale);
-      for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+      for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         this->SetOrigin(i, origin[i]);
       }

@@ -223,7 +223,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   {
     const double                delta = 1.0 / (static_cast<double>(m_NumberOfMatchPoints) + 1.0);
     const HistogramType * const referenceHistogram = this->GetReferenceHistogram();
-    for (SizeValueType j = 1; j < m_NumberOfMatchPoints + 1; j++)
+    for (SizeValueType j = 1; j < m_NumberOfMatchPoints + 1; ++j)
     {
       m_QuantileTable[0][j] = m_SourceHistogram->Quantile(0, static_cast<double>(j) * delta);
       m_QuantileTable[1][j] = referenceHistogram->Quantile(0, static_cast<double>(j) * delta);
@@ -232,7 +232,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   // Fill in the gradient array.
   m_Gradients.set_size(m_NumberOfMatchPoints + 1);
-  for (SizeValueType j = 0; j < m_NumberOfMatchPoints + 1; j++)
+  for (SizeValueType j = 0; j < m_NumberOfMatchPoints + 1; ++j)
   {
     const double denominator = m_QuantileTable[0][j + 1] - m_QuantileTable[0][j];
     if (Math::NotAlmostEquals(denominator, 0.0))
@@ -305,7 +305,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
 
   const double delta = 1.0 / (static_cast<double>(m_NumberOfMatchPoints) + 1.0);
 
-  for (SizeValueType j = 1; j < m_NumberOfMatchPoints + 1; j++)
+  for (SizeValueType j = 1; j < m_NumberOfMatchPoints + 1; ++j)
   {
     m_QuantileTable[2][j] = m_OutputHistogram->Quantile(0, static_cast<double>(j) * delta);
   }
@@ -331,7 +331,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
   {
     const auto    srcValue = static_cast<double>(inIter.Get());
     SizeValueType j = 0;
-    for (; j < m_NumberOfMatchPoints + 2; j++)
+    for (; j < m_NumberOfMatchPoints + 2; ++j)
     {
       if (srcValue < m_QuantileTable[0][j])
       {

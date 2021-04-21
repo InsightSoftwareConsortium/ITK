@@ -60,7 +60,7 @@ MakeChainCodeTracePath(TChainCodePath & chainPath, const TPathInput & inPath, bo
     }
     else
     {
-      for (int d = 0; d < dimension; d++)
+      for (int d = 0; d < dimension; ++d)
       {
         tempOffset.Fill(0);
         tempOffset[d] = offset[d];
@@ -111,19 +111,19 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
     numHarmonics = numSteps / 2;
   }
 
-  for (unsigned n = 0; n < numHarmonics; n++)
+  for (unsigned n = 0; n < numHarmonics; ++n)
   {
     index = chainPath.GetStart();
     cosCoefficient.Fill(0.0);
     sinCoefficient.Fill(0.0);
 
-    for (ChainInputType step = 0; step < numSteps; step++)
+    for (ChainInputType step = 0; step < numSteps; ++step)
     {
       index += chainPath.Evaluate(step);
       theta = 2 * n * PI * (double(step + 1)) / numSteps;
 
       // turn the current index into a vector
-      for (int d = 0; d < dimension; d++)
+      for (int d = 0; d < dimension; ++d)
       {
         indexVector[d] = index[d];
       }

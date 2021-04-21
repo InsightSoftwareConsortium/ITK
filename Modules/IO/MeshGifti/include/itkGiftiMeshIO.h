@@ -150,7 +150,7 @@ protected:
   {
     if (input && output)
     {
-      for (SizeValueType ii = 0; ii < numberOfElements; ii++)
+      for (SizeValueType ii = 0; ii < numberOfElements; ++ii)
       {
         output[ii] = static_cast<TOutput>(input[ii]);
       }

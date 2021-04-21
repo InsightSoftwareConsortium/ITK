@@ -387,7 +387,7 @@ StreamingImageIOBase::RequestedToStream() const
   ImageIORegion ioregion(maxNumberOfDimension);
   ImageIORegion largestRegion(maxNumberOfDimension);
 
-  for (unsigned int i = 0; i < maxNumberOfDimension; i++)
+  for (unsigned int i = 0; i < maxNumberOfDimension; ++i)
   {
     largestRegion.SetIndex(i, 0);
     if (i < this->GetNumberOfDimensions())

@@ -123,7 +123,7 @@ private:
   void
   ComputeOutputPixel(TPixel & pix, InputIteratorContainerType & inputItContainer)
   {
-    for (unsigned int i = 0; i < this->GetNumberOfInputs(); i++)
+    for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
     {
       pix[i] = static_cast<typename NumericTraits<OutputPixelType>::ValueType>(inputItContainer[i].Get());
       ++(inputItContainer[i]);

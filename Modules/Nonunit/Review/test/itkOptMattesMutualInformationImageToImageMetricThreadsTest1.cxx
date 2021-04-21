@@ -119,7 +119,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
   // By now restrict the number of threads to test to the range 1 to 4.
   const unsigned int maximumNumberOfThreadsToTest = defaultNumberOfThreads;
 
-  for (unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreadsToTest; numberOfThreads++)
+  for (unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreadsToTest; ++numberOfThreads)
   {
     try
     {
@@ -156,9 +156,9 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
   const double tolerance = 1e-7;
 
-  for (unsigned int i = 0; i < values.size(); i++)
+  for (unsigned int i = 0; i < values.size(); ++i)
   {
-    for (unsigned int j = i; j < values.size(); j++)
+    for (unsigned int j = i; j < values.size(); ++j)
     {
       const double difference = values[i] - values[j];
 

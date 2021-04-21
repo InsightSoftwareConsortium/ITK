@@ -44,7 +44,7 @@ MetaEllipseConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
   EllipseSpatialObjectPointer ellipseSO = EllipseSpatialObjectType::New();
 
   typename EllipseSpatialObjectType::ArrayType radii;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     radii[i] = ellipseMO->Radius()[i];
   }
@@ -76,7 +76,7 @@ MetaEllipseConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
 
   auto * radii = new float[NDimensions];
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     radii[i] = ellipseSO->GetRadiusInObjectSpace()[i];
   }

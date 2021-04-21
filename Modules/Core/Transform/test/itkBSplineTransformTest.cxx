@@ -94,22 +94,22 @@ itkBSplineTransformTest1()
   fixedParameters.SetSize(SpaceDimension * (SpaceDimension + 3));
 
   unsigned int fixedParametersCount = 0;
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedParameters[fixedParametersCount++] = meshSize[i] + SplineOrder;
   }
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     double delta = dimensions[i] / static_cast<double>(meshSize[i]);
     fixedParameters[fixedParametersCount++] = origin[i] - delta;
   }
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedParameters[fixedParametersCount++] = dimensions[i] / static_cast<double>(meshSize[i]);
   }
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
-    for (j = 0; j < SpaceDimension; j++)
+    for (j = 0; j < SpaceDimension; ++j)
     {
       fixedParameters[fixedParametersCount++] = direction[i][j];
     }
@@ -146,13 +146,13 @@ itkBSplineTransformTest1()
   CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   CoefficientImageType::SizeType size;
   unsigned int                   numberOfControlPoints = 0;
-  for (j = 0; j < SpaceDimension; j++)
+  for (j = 0; j < SpaceDimension; ++j)
   {
     size[j] = (meshSize[j] + SplineOrder);
     numberOfControlPoints += size[j];
   }
   CoefficientType * dataPointer = parameters.data_block();
-  for (j = 0; j < SpaceDimension; j++)
+  for (j = 0; j < SpaceDimension; ++j)
   {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions(size);
@@ -267,10 +267,10 @@ itkBSplineTransformTest1()
             << "Value"
             << "\t"
             << "Weight" << std::endl;
-  for (j = 0; j < SpaceDimension; j++)
+  for (j = 0; j < SpaceDimension; ++j)
   {
     baseIndex = j * numberOfParametersPerDimension;
-    for (unsigned int k = 0; k < numberOfCoefficientInSupportRegion; k++)
+    for (unsigned int k = 0; k < numberOfCoefficientInSupportRegion; ++k)
     {
       linearIndex = indices[k] + baseIndex;
       std::cout << linearIndex << "\t";
@@ -460,7 +460,7 @@ itkBSplineTransformTest1()
     TransformType::ParametersType parameters2 = transform2->GetParameters();
     const unsigned int            numberOfParameters2 = transform2->GetNumberOfParameters();
     std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
-    for (unsigned int i = 0; i < numberOfParameters2; i++)
+    for (unsigned int i = 0; i < numberOfParameters2; ++i)
     {
       if (std::fabs(parameters2[i]) > 1e-10)
       {
@@ -509,7 +509,7 @@ itkBSplineTransformTest2()
   double                origin[Dimension];
   ImageType::SizeType   size;
   ImageType::RegionType region;
-  for (j = 0; j < Dimension; j++)
+  for (j = 0; j < Dimension; ++j)
   {
     spacing[j] = 10.0;
     origin[j] = -10.0;
@@ -521,7 +521,7 @@ itkBSplineTransformTest2()
   region.SetSize(size);
 
   TransformType::CoefficientImageArray field;
-  for (j = 0; j < Dimension; j++)
+  for (j = 0; j < Dimension; ++j)
   {
     field[j] = ImageType::New();
     field[j]->SetSpacing(spacing);
@@ -534,7 +534,7 @@ itkBSplineTransformTest2()
   itk::Vector<double, Dimension> v;
   v[0] = 5;
   v[1] = 7;
-  for (j = 0; j < Dimension; j++)
+  for (j = 0; j < Dimension; ++j)
   {
     field[j]->FillBuffer(v[j]);
   }
@@ -664,13 +664,13 @@ itkBSplineTransformTest3()
   CoefficientImageType::Pointer  coeffImage[SpaceDimension];
   CoefficientImageType::SizeType size;
   unsigned int                   numberOfControlPoints = 0;
-  for (j = 0; j < SpaceDimension; j++)
+  for (j = 0; j < SpaceDimension; ++j)
   {
     size[j] = (meshSize[j] + SplineOrder);
     numberOfControlPoints += size[j];
   }
   CoefficientType * dataPointer = parameters.data_block();
-  for (j = 0; j < SpaceDimension; j++)
+  for (j = 0; j < SpaceDimension; ++j)
   {
     coeffImage[j] = CoefficientImageType::New();
     coeffImage[j]->SetRegions(size);

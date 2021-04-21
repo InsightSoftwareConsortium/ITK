@@ -152,7 +152,7 @@ VersorRigid3DTransform<TParametersValueType>::UpdateTransformParameters(const De
 
   VectorType rightPart;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     rightPart[i] = this->m_Parameters[i];
   }
@@ -201,7 +201,7 @@ VersorRigid3DTransform<TParametersValueType>::UpdateTransformParameters(const De
 
   // Optimize the non-versor parameters as the
   // RegularStepGradientDescentOptimizer
-  for (unsigned int k = 3; k < numberOfParameters; k++)
+  for (unsigned int k = 3; k < numberOfParameters; ++k)
   {
     newParameters[k] = this->m_Parameters[k] + update[k] * factor;
   }

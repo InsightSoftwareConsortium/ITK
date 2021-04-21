@@ -76,7 +76,7 @@ itkVTKPolyDataWriterTest02(int argc, char * argv[])
 
   std::cout << "Testing itk::RegularSphereMeshSource " << std::endl;
 
-  for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); i++)
+  for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
   {
     myMesh->GetPoint(i, &pt);
     std::cout << "Point[" << i << "]: " << pt << std::endl;

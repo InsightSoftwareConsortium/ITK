@@ -154,7 +154,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   int                                              rowIndex = 0;
   typename LabelGeometryType::LabelsType           allLabels = labelGeometryFilter->GetLabels();
   typename LabelGeometryType::LabelsType::iterator allLabelsIt;
-  for (allLabelsIt = allLabels.begin(); allLabelsIt != allLabels.end(); allLabelsIt++)
+  for (allLabelsIt = allLabels.begin(); allLabelsIt != allLabels.end(); ++allLabelsIt)
   {
     int columnIndex = 0;
     labelValue = *allLabelsIt;
@@ -302,9 +302,9 @@ compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilon)
     return pass;
   }
 
-  for (unsigned int i = 0; i < m1.rows(); i++)
+  for (unsigned int i = 0; i < m1.rows(); ++i)
   {
-    for (unsigned int j = 0; j < m1.cols(); j++)
+    for (unsigned int j = 0; j < m1.cols(); ++j)
     {
       // We need to test whether m1 is a NaN and/or m2 is a NaN.
       // If they are both NaN, then they are the same.

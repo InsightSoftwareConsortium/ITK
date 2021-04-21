@@ -166,7 +166,7 @@ public:
     m_Center = it.Size() / 2;
 
     // Get the stride length for each axis.
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       m_xStride[i] = it.GetStride(i);
     }
@@ -215,7 +215,7 @@ public:
     m_FeatureImage = f;
 
     FeatureSpacingType spacing = m_FeatureImage->GetSpacing();
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       this->m_InvSpacing[i] = 1 / spacing[i];
     }

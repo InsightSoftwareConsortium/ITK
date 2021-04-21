@@ -437,7 +437,7 @@ DCMTKImageIO::ReadImageInformation()
   reader.GetOrigin(origin);
   this->m_Origin.resize(numDim);
 
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
     this->m_Origin[i] = origin[i];
   }

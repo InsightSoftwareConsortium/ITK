@@ -80,7 +80,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   std::vector<InputImageType::Pointer> inputs;
 
   PixelType counter1 = 0;
-  for (int i = 0; i < numInputs; i++)
+  for (int i = 0; i < numInputs; ++i)
   {
     inputs.push_back(InputImageType::New());
     inputs[i]->SetLargestPossibleRegion(region);
@@ -125,7 +125,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   joinSeriesImage->SetOrigin(originValue);
   ITK_TEST_SET_GET_VALUE(originValue, joinSeriesImage->GetOrigin());
 
-  for (int i = 0; i < numInputs; i++)
+  for (int i = 0; i < numInputs; ++i)
   {
     joinSeriesImage->SetInput(i, inputs[i]);
   }

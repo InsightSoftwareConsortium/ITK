@@ -55,7 +55,7 @@ public:
 
     unsigned int maxIndex = 0;
     unsigned int i;
-    for (i = 1; i < scoreVector.size(); i++)
+    for (i = 1; i < scoreVector.size(); ++i)
     {
       if (scoreVector[i] > max)
       {

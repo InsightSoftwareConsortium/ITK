@@ -36,7 +36,7 @@ itkNormalVariateGeneratorTest1(int, char *[])
   double sum = 0.0;
   double sum2 = 0.0;
 
-  for (unsigned int i = 0; i < numberOfSamples; i++)
+  for (unsigned int i = 0; i < numberOfSamples; ++i)
   {
     const double value = normalGenerator->GetVariate();
     sum += value;

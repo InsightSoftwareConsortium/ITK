@@ -155,7 +155,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
     this->m_CurrentMetricValue = NumericTraits<MeasureType>::ZeroValue();
 
     // Time index zero brings the moving image closest to the fixed image
-    for (IndexValueType timePoint = 0; timePoint < numberOfTimePoints; timePoint++)
+    for (IndexValueType timePoint = 0; timePoint < numberOfTimePoints; ++timePoint)
     {
       RealType t = NumericTraits<RealType>::ZeroValue();
       if (numberOfTimePoints > 1)
@@ -213,7 +213,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         identityDisplacementFieldTransform->SetDisplacementField(fieldDuplicatorIdentity->GetOutput());
       }
 
-      for (unsigned int n = 0; n < this->m_MovingSmoothImages.size(); n++)
+      for (unsigned int n = 0; n < this->m_MovingSmoothImages.size(); ++n)
       {
         using MovingResamplerType = ResampleImageFilter<MovingImageType, VirtualImageType, RealType>;
         typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
@@ -281,7 +281,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         typename MetricDerivativeType::iterator it;
         for (it = metricDerivative.begin(); it != metricDerivative.end(); it += ImageDimension)
         {
-          for (unsigned int d = 0; d < ImageDimension; d++)
+          for (unsigned int d = 0; d < ImageDimension; ++d)
           {
             *(it + d) *= this->m_OptimizerWeights[d];
           }
@@ -386,7 +386,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         {
           RealType localSpatialNorm = NumericTraits<RealType>::ZeroValue();
           RealType localSpatioTemporalNorm = NumericTraits<RealType>::ZeroValue();
-          for (unsigned int d = 0; d < ImageDimension + 1; d++)
+          for (unsigned int d = 0; d < ImageDimension + 1; ++d)
           {
             DisplacementVectorType vector = (ItV.GetNext(d) - ItV.GetPrevious(d)) * 0.5 * velocityFieldSpacing[d];
             RealType               vectorNorm = vector.GetNorm();

@@ -82,9 +82,9 @@ LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);
   // Calculate the equivalent nodal loads
-  for (unsigned int n = 0; n < Nnodes; n++)
+  for (unsigned int n = 0; n < Nnodes; ++n)
   {
-    for (unsigned int d = 0; d < NnDOF; d++)
+    for (unsigned int d = 0; d < NnDOF; ++d)
     {
       Fe[n * NnDOF + d] += shapeF[n] * force[d];
     }

@@ -87,7 +87,7 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
   double       dx_dim;
 
   // Calculate the partial derivatives for each dimension
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     // "Half" derivatives
     dx_forward[i] = it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center);
@@ -101,12 +101,12 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
   }
 
   speed = 0.0;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     // Gradient magnitude approximations
     grad_mag_sq = dx_forward[i] * dx_forward[i];
     grad_mag_sq_d = dx_backward[i] * dx_backward[i];
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       if (j != i)
       {
@@ -143,7 +143,7 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
   propagation_gradient = 0.0;
   if (speed > 0)
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       propagation_gradient +=
         itk::Math::sqr(std::min(dx_backward[i], 0.0)) + itk::Math::sqr(std::max(dx_forward[i], 0.0));
@@ -151,7 +151,7 @@ CurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhoo
   }
   else
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       propagation_gradient +=
         itk::Math::sqr(std::max(dx_backward[i], 0.0)) + itk::Math::sqr(std::min(dx_forward[i], 0.0));

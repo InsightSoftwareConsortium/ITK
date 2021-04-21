@@ -77,7 +77,7 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   pts[6][1] = 0.0;
   pts[6][2] = 0.0;
 
-  for (int i = 0; i < numPts; i++)
+  for (int i = 0; i < numPts; ++i)
   {
     mesh->SetPoint(i, pts[i]);
   }
@@ -88,7 +88,7 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   CellType::CellAutoPointer cellpointer;
   QEPolygonCellType *       poly;
 
-  for (int i = 0; i < numCells; i++)
+  for (int i = 0; i < numCells; ++i)
   {
     poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);

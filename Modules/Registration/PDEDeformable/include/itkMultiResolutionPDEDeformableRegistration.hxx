@@ -62,7 +62,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   m_MovingImagePyramid->SetNumberOfLevels(m_NumberOfLevels);
 
   unsigned int ilevel;
-  for (ilevel = 0; ilevel < m_NumberOfLevels; ilevel++)
+  for (ilevel = 0; ilevel < m_NumberOfLevels; ++ilevel)
   {
     m_NumberOfIterations[ilevel] = 10;
   }
@@ -266,7 +266,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
   os << indent << "NumberOfIterations: [";
   unsigned int ilevel;
-  for (ilevel = 0; ilevel < m_NumberOfLevels - 1; ilevel++)
+  for (ilevel = 0; ilevel < m_NumberOfLevels - 1; ++ilevel)
   {
     os << m_NumberOfIterations[ilevel] << ", ";
   }
@@ -453,7 +453,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
     // cache shrink factors for computing the next expand factors.
     lastShrinkFactorsAllOnes = true;
-    for (unsigned int idim = 0; idim < ImageDimension; idim++)
+    for (unsigned int idim = 0; idim < ImageDimension; ++idim)
     {
       if (m_FixedImagePyramid->GetSchedule()[fixedLevel][idim] > 1)
       {

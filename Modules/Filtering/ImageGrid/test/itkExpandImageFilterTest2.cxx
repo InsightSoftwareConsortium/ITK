@@ -45,20 +45,20 @@ GetPattern(const typename TVectorImage::IndexType & index,
   int                              d = TVectorImage::SizeType::Dimension;
 
   int volume = 1;
-  for (int j = 0; j < d; j++)
+  for (int j = 0; j < d; ++j)
   {
     volume *= size[j];
   }
 
   int    x = index[0] + 1;
   double coeff = size[0];
-  for (int j = 1; j < d; j++)
+  for (int j = 1; j < d; ++j)
   {
     x += index[j] * coeff;
     coeff *= size[j];
   }
 
-  for (unsigned int k = 0; k < nImages; k++)
+  for (unsigned int k = 0; k < nImages; ++k)
   {
     ans[k] = volume * k + x;
   }
@@ -82,11 +82,11 @@ PrintTestImage1D(const TVectorImage * img)
   unsigned int                    nImages = img->GetVectorLength();
   typename TVectorImage::SizeType size = img->GetLargestPossibleRegion().GetSize();
 
-  for (unsigned int i = 0; i < nImages; i++)
+  for (unsigned int i = 0; i < nImages; ++i)
   {
     typename TVectorImage::IndexType index = TVectorImage::IndexType::Filled(0);
     ans.append("\n");
-    for (unsigned int j = 0; j < size[0]; j++)
+    for (unsigned int j = 0; j < size[0]; ++j)
     {
       index.SetElement(0, j);
       ans.append(std::to_string(img->GetPixel(index)[i]) + " ");
@@ -110,17 +110,17 @@ PrintTestImage3D(const TVectorImage * img)
   unsigned int                    nImages = img->GetVectorLength();
   typename TVectorImage::SizeType size = img->GetLargestPossibleRegion().GetSize();
 
-  for (unsigned int i = 0; i < nImages; i++)
+  for (unsigned int i = 0; i < nImages; ++i)
   {
     typename TVectorImage::IndexType index = TVectorImage::IndexType::Filled(0);
     ans.append("\n\n\n");
-    for (unsigned int j = 0; j < size[2]; j++)
+    for (unsigned int j = 0; j < size[2]; ++j)
     {
       ans.append("\n\n");
-      for (unsigned int k = 0; k < size[1]; k++)
+      for (unsigned int k = 0; k < size[1]; ++k)
       {
         ans.append("\n");
-        for (unsigned int m = 0; m < size[0]; m++)
+        for (unsigned int m = 0; m < size[0]; ++m)
         {
           index.SetElement(0, m);
           index.SetElement(1, k);
@@ -177,7 +177,7 @@ std::string
 DoubleToStringArray(double * a, unsigned int size)
 {
   std::string ans = "";
-  for (unsigned int i = 0; i < size; i++)
+  for (unsigned int i = 0; i < size; ++i)
   {
     ans.append(std::to_string(a[i]) + " ");
   }
@@ -226,7 +226,7 @@ itkExpandImageFilterTest2(int, char *[])
   double                   sliceOut1[10] = {};
   bool                     b1 = true;
   VectorImage1D::IndexType idx1 = VectorImage1D::IndexType::Filled(0);
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; ++i)
   {
     idx1[0] = i;
     sliceOut1[i] = output1D->GetPixel(idx1)[1];
@@ -268,7 +268,7 @@ itkExpandImageFilterTest2(int, char *[])
   double                  d3[3] = { 3, 6, 3 };
   double                  d4[3] = {};
   bool                    b2 = true;
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     d4[i] = s2[i];
     b2 = b2 && itk::Math::FloatAlmostEqual(d3[i], d4[i]);
@@ -286,7 +286,7 @@ itkExpandImageFilterTest2(int, char *[])
   idx2[0] = 1;
   idx2[2] = 1;
   bool b3 = true;
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 6; ++i)
   {
     idx2[1] = i;
     slice3Out[i] = output3D->GetPixel(idx2)[1];

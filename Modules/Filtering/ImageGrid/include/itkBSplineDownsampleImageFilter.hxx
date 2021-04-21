@@ -84,7 +84,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   typename TInputImage::SizeType  inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
 
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputRequestedRegionSize[i] = outputRequestedRegionSize[i] * 2;
     inputRequestedRegionStartIndex[i] = outputRequestedRegionStartIndex[i] * (int)2;
@@ -128,7 +128,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   typename TOutputImage::SizeType    outputSize;
   typename TOutputImage::IndexType   outputStartIndex;
 
-  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     // TODO:  Verify this is being rounded correctly.
     outputSpacing[i] = inputSpacing[i] * (double)2;

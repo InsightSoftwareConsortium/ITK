@@ -172,7 +172,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     {
       beginx = leftP[0];
     }
-    for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+    for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
     {
       idx[0] = i;
       (*PixelPool).push_back(idx);
@@ -186,7 +186,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     beginx += offset * leftDx;
     while (idx[1] <= intendy)
     {
-      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
       {
         idx[0] = i;
         (*PixelPool).push_back(idx);
@@ -273,7 +273,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       beginx += offset * leftDx;
       while (idx[1] <= intendy)
       {
-        for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+        for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
         {
           idx[0] = i;
           (*PixelPool).push_back(idx);
@@ -331,7 +331,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     endx += offset * rightDx;
     while (idx[1] <= intendy)
     {
-      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
       {
         idx[0] = i;
         (*PixelPool).push_back(idx);
@@ -353,7 +353,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   PointTypeDeque  VertList;
   IndexList       PixelPool;
 
-  for (int i = 0; i < m_NumberOfSeeds; i++)
+  for (int i = 0; i < m_NumberOfSeeds; ++i)
   {
     CellAutoPointer currCell;
     m_WorkingVD->GetCellId(i, currCell);
@@ -372,7 +372,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   }
 
   m_NumberOfBoundary = 0;
-  for (int i = 0; i < m_NumberOfSeeds; i++)
+  for (int i = 0; i < m_NumberOfSeeds; ++i)
   {
     // if not homogeneous
     if (m_Label[i] == 0)
@@ -557,7 +557,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 
   NeighborIdIterator nit;
   NeighborIdIterator nitend;
-  for (int i = 0; i < m_NumberOfSeeds; i++)
+  for (int i = 0; i < m_NumberOfSeeds; ++i)
   {
     if (m_Label[i] == 2)
     {
@@ -589,7 +589,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   PointIdIterator currPitEnd;
   PointType       currP;
   PointTypeDeque  VertList;
-  for (int i = 0; i < m_NumberOfSeeds; i++)
+  for (int i = 0; i < m_NumberOfSeeds; ++i)
   {
     if (m_Label[i] == 1)
     {
@@ -722,7 +722,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     {
       beginx = leftP[0];
     }
-    for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+    for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
     {
       idx[0] = i;
       output->SetPixel(idx, color);
@@ -736,7 +736,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     beginx += offset * leftDx;
     while (idx[1] <= intendy)
     {
-      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
       {
         idx[0] = i;
         output->SetPixel(idx, color);
@@ -823,7 +823,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       beginx += offset * leftDx;
       while (idx[1] <= intendy)
       {
-        for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+        for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
         {
           idx[0] = i;
           output->SetPixel(idx, color);
@@ -881,7 +881,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     endx += offset * rightDx;
     while (idx[1] <= intendy)
     {
-      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); i++)
+      for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
       {
         idx[0] = i;
         output->SetPixel(idx, color);
@@ -943,7 +943,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       dx = 1;
     }
     float offset = (float)dy / dx;
-    for (int i = x1; i <= x2; i++)
+    for (int i = x1; i <= x2; ++i)
     {
       idx[0] = i;
       idx[1] = y1;
@@ -967,7 +967,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       dy = 1;
     }
     float offset = (float)dx / dy;
-    for (int i = y1; i <= y2; i++)
+    for (int i = y1; i <= y2; ++i)
     {
       idx[0] = x1;
       idx[1] = i;
@@ -1067,7 +1067,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       dx = 1;
     }
     float offset = (float)dy / dx;
-    for (int i = x1; i <= x2; i++)
+    for (int i = x1; i <= x2; ++i)
     {
       idx[0] = i;
       idx[1] = y1;
@@ -1093,7 +1093,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       dy = 1;
     }
     float offset = (float)dx / dy;
-    for (int i = y1; i <= y2; i++)
+    for (int i = y1; i <= y2; ++i)
     {
       idx[0] = x1;
       idx[1] = i;

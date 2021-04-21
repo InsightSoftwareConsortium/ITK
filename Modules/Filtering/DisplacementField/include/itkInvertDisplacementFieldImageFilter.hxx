@@ -94,7 +94,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
     inverseDisplacementField->FillBuffer(zeroVector);
   }
 
-  for (unsigned int d = 0; d < ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     this->m_DisplacementFieldSpacing[d] = displacementField->GetSpacing()[d];
   }
@@ -195,7 +195,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
       typename DisplacementFieldType::IndexType index = ItI.GetIndex();
       if (this->m_EnforceBoundaryCondition)
       {
-        for (unsigned int d = 0; d < ImageDimension; d++)
+        for (unsigned int d = 0; d < ImageDimension; ++d)
         {
           if (index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>(size[d]) - startIndex[d] - 1)
           {

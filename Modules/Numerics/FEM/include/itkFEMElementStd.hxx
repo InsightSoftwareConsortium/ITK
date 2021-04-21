@@ -29,7 +29,7 @@ template <unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, 
 ElementStd<VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass>::ElementStd()
 {
   // Set all node ids to 0 (undefined)
-  for (int i = 0; i < NumberOfNodes; i++)
+  for (int i = 0; i < NumberOfNodes; ++i)
   {
     this->m_node[i] = nullptr;
   }
@@ -41,7 +41,7 @@ ElementStd<VNumberOfNodes, VNumberOfSpatialDimensions, TBaseClass>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "#Nodes: " << NumberOfNodes << std::endl;
-  for (unsigned int i = 0; i < NumberOfNodes; i++)
+  for (unsigned int i = 0; i < NumberOfNodes; ++i)
   {
     os << indent << "Node (" << i << "): " << this->m_node[i] << std::endl;
   }

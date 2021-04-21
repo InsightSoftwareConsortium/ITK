@@ -223,13 +223,13 @@ test3DInterpolateImagePointsFilter()
   }
 
   CoordIndexType3D index;
-  for (unsigned int i0 = 0; i0 < size[0]; i0++)
+  for (unsigned int i0 = 0; i0 < size[0]; ++i0)
   {
     index[0] = i0;
-    for (unsigned int i1 = 0; i1 < size[1]; i1++)
+    for (unsigned int i1 = 0; i1 < size[1]; ++i1)
     {
       index[1] = i1;
-      for (unsigned int i2 = 0; i2 < size[2]; i2++)
+      for (unsigned int i2 = 0; i2 < size[2]; ++i2)
       {
         index[2] = i2;
         (coord[0])->SetPixel(index, i0);
@@ -238,7 +238,7 @@ test3DInterpolateImagePointsFilter()
       }
     }
   }
-  for (unsigned int i = 0; i < ImageDimension3D; i++)
+  for (unsigned int i = 0; i < ImageDimension3D; ++i)
   {
     resamp->SetInterpolationCoordinate(coord[i], i);
   }

@@ -46,7 +46,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   typename Superclass::RegionType region = this->ComputeInterpolationRegion(cindex);
 
   // Compute the ERF difference arrays
-  for (unsigned int d = 0; d < ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     this->ComputeErrorFunctionArray(region, d, cindex[d], erfArray[d], gerfArray[d], false);
   }
@@ -66,7 +66,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
   {
     unsigned int j = It.GetIndex()[0] - region.GetIndex()[0];
     RealType     w = erfArray[0][j];
-    for (unsigned int d = 1; d < ImageDimension; d++)
+    for (unsigned int d = 1; d < ImageDimension; ++d)
     {
       j = It.GetIndex()[d] - region.GetIndex()[d];
       w *= erfArray[d][j];

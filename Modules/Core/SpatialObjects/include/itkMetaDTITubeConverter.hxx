@@ -62,14 +62,14 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
   itk::Vector<double, NDimensions> t;
   t.Fill(0.0);
 
-  for (unsigned int identifier = 0; identifier < tube->GetPoints().size(); identifier++)
+  for (unsigned int identifier = 0; identifier < tube->GetPoints().size(); ++identifier)
   {
     TubePointType pnt;
 
     using PointType = typename DTITubeSpatialObjectType::PointType;
     PointType point;
 
-    for (unsigned int ii = 0; ii < NDimensions; ii++)
+    for (unsigned int ii = 0; ii < NDimensions; ++ii)
     {
       point[ii] = (*it2)->m_X[ii] * tube->ElementSpacing(ii);
     }
@@ -95,7 +95,7 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
     auto * tensor = new float[6];
 
-    for (unsigned int ii = 0; ii < 6; ii++)
+    for (unsigned int ii = 0; ii < 6; ++ii)
     {
       tensor[ii] = (*it2)->m_TensorMatrix[ii];
     }
@@ -215,7 +215,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     }
 
     unsigned int d;
-    for (d = 0; d < NDimensions; d++)
+    for (d = 0; d < NDimensions; ++d)
     {
       if (Math::NotExactlyEquals((*it).GetNormal1InObjectSpace()[d], 0))
       {
@@ -248,7 +248,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
   {
     auto * pnt = new DTITubePnt(NDimensions);
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
@@ -261,7 +261,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
       extraIt++;
     }
 
-    for (unsigned int d = 0; d < 6; d++)
+    for (unsigned int d = 0; d < 6; ++d)
     {
       pnt->m_TensorMatrix[d] = (*it).GetTensorMatrix()[d];
     }
@@ -326,7 +326,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
   tube->PointDim("x y z tensor1 tensor2 tensor3 tensor4 tensor5 tensor6");
 
   float color[4];
-  for (unsigned int ii = 0; ii < 4; ii++)
+  for (unsigned int ii = 0; ii < 4; ++ii)
   {
     color[ii] = DTITubeSO->GetProperty().GetColor()[ii];
   }

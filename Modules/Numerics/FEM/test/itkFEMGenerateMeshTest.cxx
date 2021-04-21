@@ -50,7 +50,7 @@ itkFEMGenerateMeshTest(int, char *[])
   MeshOriginV.set_size(2);
   MeshSizeV.set_size(2);
   ElementsPerDim.set_size(2);
-  for (unsigned int j = 0; j < 2; j++)
+  for (unsigned int j = 0; j < 2; ++j)
   {
     MeshOriginV[j] = 0.0;
     MeshSizeV[j] = 10;
@@ -89,7 +89,7 @@ itkFEMGenerateMeshTest(int, char *[])
   MeshOriginV.set_size(3);
   MeshSizeV.set_size(3);
   ElementsPerDim.set_size(3);
-  for (unsigned int j = 0; j < 3; j++)
+  for (unsigned int j = 0; j < 3; ++j)
   {
     MeshOriginV[j] = 0.;
     MeshSizeV[j] = 10;

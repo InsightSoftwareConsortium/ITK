@@ -76,7 +76,7 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  for (unsigned int i = 0; i < numberOfPoints; i++)
+  for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
     mesh->GetPoint(i, &point);
   }

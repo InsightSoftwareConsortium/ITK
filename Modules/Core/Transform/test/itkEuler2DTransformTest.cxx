@@ -30,7 +30,7 @@ CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
 {
   const double epsilon = 1e-5;
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     if (std::fabs(p1[i] - p2[i]) > epsilon)
     {
@@ -88,7 +88,7 @@ itkEuler2DTransformTest(int, char *[])
 
   EulerTransformType::OutputPointType r;
   r = eulerTransform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -120,7 +120,7 @@ itkEuler2DTransformTest(int, char *[])
   q = p + ioffset;
 
   r = eulerTransform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -301,7 +301,7 @@ itkEuler2DTransformTest(int, char *[])
     t4->ComputeJacobianWithRespectToParameters(p1, jacobian2);
 
     TransformType::JacobianType approxJacobian = jacobian2;
-    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
       constexpr double              delta = 0.001;
       TransformType::ParametersType plusParameters;
@@ -319,7 +319,7 @@ itkEuler2DTransformTest(int, char *[])
       plusPoint = t4->TransformPoint(p1);
       t4->SetParameters(minusParameters);
       minusPoint = t4->TransformPoint(p1);
-      for (unsigned int j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; ++j)
       {
         double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         double computedDerivative = jacobian2[j][k];
@@ -350,7 +350,7 @@ itkEuler2DTransformTest(int, char *[])
     center[1] = 10.0;
 
     TransformType::ParametersType parameters3(t1->GetNumberOfParameters());
-    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); j++)
+    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); ++j)
     {
       parameters3[j] = static_cast<double>(j) + 1.0;
     }
@@ -382,7 +382,7 @@ itkEuler2DTransformTest(int, char *[])
     TransformType::ParametersType pdash = t23->GetParameters();
 
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
-    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); j++)
+    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); ++j)
     {
       if (std::fabs(parameters3[j] - pdash[j]) > epsilon)
       {

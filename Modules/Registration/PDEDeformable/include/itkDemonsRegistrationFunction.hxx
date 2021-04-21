@@ -33,7 +33,7 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Demon
   RadiusType   r;
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     r[j] = 0;
   }
@@ -136,7 +136,7 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Initi
 
   // compute the normalizer
   m_Normalizer = 0.0;
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     m_Normalizer += fixedImageSpacing[k] * fixedImageSpacing[k];
   }
@@ -175,7 +175,7 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Compu
   PointType mappedPoint;
 
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     mappedPoint[j] += it.GetCenterPixel()[j];
   }
@@ -202,7 +202,7 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Compu
   }
 
   double gradientSquaredMagnitude = 0;
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     gradientSquaredMagnitude += itk::Math::sqr(gradient[j]);
   }
@@ -238,7 +238,7 @@ DemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Compu
   static_assert(PixelType::Dimension == CovariantVectorType::Dimension,
                 "ERROR: PixelType and CovariantVectorType must have the same dimension!");
   PixelType update;
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     update[j] = speedValue * gradient[j] / denominator;
     if (globalData)

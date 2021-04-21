@@ -48,7 +48,7 @@ ThresholdLabelerImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
 {
   auto size = static_cast<unsigned int>(m_Thresholds.size());
 
-  for (unsigned int i = 0; i < size - 1; i++)
+  for (unsigned int i = 0; i < size - 1; ++i)
   {
     if (m_Thresholds[i] > m_Thresholds[i + 1])
     {

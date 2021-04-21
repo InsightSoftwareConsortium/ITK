@@ -177,7 +177,7 @@ ImageFileWriter<TInputImage>::Write()
   typename TInputImage::PointType         origin;
   input->TransformIndexToPhysicalPoint(startIndex, origin);
 
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     m_ImageIO->SetDimensions(i, largestRegion.GetSize(i));
     m_ImageIO->SetSpacing(i, spacing[i]);
@@ -185,7 +185,7 @@ ImageFileWriter<TInputImage>::Write()
     vnl_vector<double> axisDirection(TInputImage::ImageDimension);
     // Please note: direction cosines are stored as columns of the
     // direction matrix
-    for (unsigned int j = 0; j < TInputImage::ImageDimension; j++)
+    for (unsigned int j = 0; j < TInputImage::ImageDimension; ++j)
     {
       axisDirection[j] = direction[j][i];
     }
@@ -261,7 +261,7 @@ ImageFileWriter<TInputImage>::Write()
    */
   unsigned int piece;
 
-  for (piece = 0; piece < numDivisions && !this->GetAbortGenerateData(); piece++)
+  for (piece = 0; piece < numDivisions && !this->GetAbortGenerateData(); ++piece)
   {
     // get the actual piece to write
     ImageIORegion streamIORegion =

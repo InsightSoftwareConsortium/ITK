@@ -103,7 +103,7 @@ itkImageMomentsTest(int argc, char * argv[])
   /* FIXME: The method used here to set the points is klutzy,
      but appears to be the only method currently supported. */
   itk::Index<3> index; /* Index over pixels */
-  for (int i = 0; i < 6; i++)
+  for (int i = 0; i < 6; ++i)
   {
     index.SetIndex(point[i]);
     image->SetPixel(index, mass);

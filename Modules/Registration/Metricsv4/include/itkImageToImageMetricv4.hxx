@@ -488,7 +488,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 {
   const typename FixedImageType::SpacingType & spacing = this->m_FixedImage->GetSpacing();
   double                                       maximumSpacing = 0.0;
-  for (ImageDimensionType i = 0; i < FixedImageDimension; i++)
+  for (ImageDimensionType i = 0; i < FixedImageDimension; ++i)
   {
     if (spacing[i] > maximumSpacing)
     {
@@ -512,7 +512,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
 {
   const typename MovingImageType::SpacingType & spacing = this->m_MovingImage->GetSpacing();
   double                                        maximumSpacing = 0.0;
-  for (ImageDimensionType i = 0; i < MovingImageDimension; i++)
+  for (ImageDimensionType i = 0; i < MovingImageDimension; ++i)
   {
     if (spacing[i] > maximumSpacing)
     {

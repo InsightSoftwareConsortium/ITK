@@ -216,7 +216,7 @@ public:
       DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex << group << " " << std::hex << element << " expected "
                                   << count << "items, but found " << doubleVals.size() << std::dec);
     }
-    for (unsigned i = 0; i < count; i++)
+    for (unsigned i = 0; i < count; ++i)
     {
       target[i] = static_cast<TType>(doubleVals[i]);
     }
@@ -302,7 +302,7 @@ public:
       DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex << group << " " << std::hex << element << " expected "
                                   << count << "items, but found " << doubleVals.size() << std::dec);
     }
-    for (unsigned i = 0; i < count; i++)
+    for (unsigned i = 0; i < count; ++i)
     {
       target[i] = static_cast<TType>(doubleVals[i]);
     }

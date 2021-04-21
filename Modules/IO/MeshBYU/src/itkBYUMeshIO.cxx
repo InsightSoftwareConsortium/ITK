@@ -87,7 +87,7 @@ BYUMeshIO ::ReadMeshInformation()
   // Determine which part to read, default is to readl all parts
   if (m_PartId > numberOfParts)
   {
-    for (unsigned int ii = 0; ii < numberOfParts; ii++)
+    for (unsigned int ii = 0; ii < numberOfParts; ++ii)
     {
       inputFile >> m_FirstCellId >> m_LastCellId;
     }
@@ -99,7 +99,7 @@ BYUMeshIO ::ReadMeshInformation()
   {
     unsigned int firstId;
     unsigned int lastId;
-    for (unsigned int ii = 0; ii < m_PartId; ii++)
+    for (unsigned int ii = 0; ii < m_PartId; ++ii)
     {
       inputFile >> firstId >> lastId;
     }
@@ -107,7 +107,7 @@ BYUMeshIO ::ReadMeshInformation()
     inputFile >> m_FirstCellId;
     inputFile >> m_LastCellId;
 
-    for (unsigned int ii = m_PartId + 1; ii < numberOfParts; ii++)
+    for (unsigned int ii = m_PartId + 1; ii < numberOfParts; ++ii)
     {
       inputFile >> firstId >> lastId;
     }
@@ -137,9 +137,9 @@ BYUMeshIO ::ReadMeshInformation()
 
   // Read and omit points
   double x;
-  for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
+  for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
   {
-    for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
+    for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
     {
       inputFile >> x;
     }
@@ -202,9 +202,9 @@ BYUMeshIO ::ReadPoints(void * buffer)
   inputFile.precision(12);
 
   SizeValueType index = 0;
-  for (SizeValueType id = 0; id < this->m_NumberOfPoints; id++)
+  for (SizeValueType id = 0; id < this->m_NumberOfPoints; ++id)
   {
-    for (unsigned int ii = 0; ii < this->m_PointDimension; ii++)
+    for (unsigned int ii = 0; ii < this->m_PointDimension; ++ii)
     {
       inputFile >> data[index++];
     }

@@ -47,7 +47,7 @@ itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  for (StoppingCriterionType::IterationIdType iter = 0; iter < 10; iter++)
+  for (StoppingCriterionType::IterationIdType iter = 0; iter < 10; ++iter)
   {
     criterion->SetCurrentIteration(iter);
 

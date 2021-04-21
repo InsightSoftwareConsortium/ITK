@@ -121,9 +121,9 @@ public:
 
     m_MetaArray.InitializeEssential(rows, _metaElementType, cols, nullptr, true, true);
     m_Buffer = m_MetaArray.ElementData();
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < rows; ++i)
     {
-      for (int j = 0; j < cols; j++)
+      for (int j = 0; j < cols; ++j)
       {
         m_MetaArray.ElementData(i * cols + j, (double)((*_array)[i][j]));
       }

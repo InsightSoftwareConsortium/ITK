@@ -267,7 +267,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
     distance = 0.0;
-    for (int j = 0; j < 2; j++)
+    for (int j = 0; j < 2; ++j)
     {
       distance += tempIndex[j] * tempIndex[j];
     }

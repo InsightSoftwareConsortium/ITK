@@ -174,14 +174,14 @@ public:
     parameterScales.Fill(1.0);
 
     // checking each sample point
-    for (itk::SizeValueType c = 0; c < numSamples; c++)
+    for (itk::SizeValueType c = 0; c < numSamples; ++c)
     {
       VirtualPointType point = this->m_SamplePoints[c];
 
       ParametersType squaredNorms(numPara);
       this->ComputeSquaredJacobianNorms(point, squaredNorms);
 
-      for (itk::SizeValueType p = 0; p < numPara; p++)
+      for (itk::SizeValueType p = 0; p < numPara; ++p)
       {
         if (norms[p] < squaredNorms[p])
         {
@@ -192,7 +192,7 @@ public:
 
     if (numSamples > 0)
     {
-      for (itk::SizeValueType p = 0; p < numPara; p++)
+      for (itk::SizeValueType p = 0; p < numPara; ++p)
       {
         parameterScales[p] = norms[p];
       }
@@ -286,21 +286,21 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
   virtualImage->TransformIndexToPhysicalPoint(virtualImage->GetLargestPossibleRegion().GetUpperIndex(), upperPoint);
 
   itk::SizeValueType param = 0;
-  for (itk::SizeValueType row = 0; row < ImageDimension; row++)
+  for (itk::SizeValueType row = 0; row < ImageDimension; ++row)
   {
-    for (itk::SizeValueType col = 0; col < ImageDimension; col++)
+    for (itk::SizeValueType col = 0; col < ImageDimension; ++col)
     {
       // max squared jacobian norms
       theoreticalJacobianScales[param++] = upperPoint[col] * upperPoint[col];
     }
   }
-  for (itk::SizeValueType row = 0; row < ImageDimension; row++)
+  for (itk::SizeValueType row = 0; row < ImageDimension; ++row)
   {
     theoreticalJacobianScales[param++] = 1;
   }
 
   bool jacobianPass = true;
-  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); ++p)
   {
     if (itk::Math::NotAlmostEquals(jacobianScales[p], theoreticalJacobianScales[p]))
     {
@@ -309,7 +309,7 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
     }
   }
   bool nonUniformForJacobian = false;
-  for (itk::SizeValueType p = 1; p < jacobianScales.GetSize(); p++)
+  for (itk::SizeValueType p = 1; p < jacobianScales.GetSize(); ++p)
   {
     if (itk::Math::NotAlmostEquals(jacobianScales[p], jacobianScales[0]))
     {
@@ -321,7 +321,7 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
 
   jacobianScaleEstimator->EstimateScales(jacobianScales);
   bool randomPass = true;
-  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); ++p)
   {
     if (std::abs((jacobianScales[p] - theoreticalJacobianScales[p]) / theoreticalJacobianScales[p]) > 0.3)
     {
@@ -331,7 +331,7 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
   }
   jacobianScaleEstimator->EstimateScales(jacobianScales);
   bool fullDomainPass = true;
-  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); ++p)
   {
     if (itk::Math::NotAlmostEquals(jacobianScales[p], theoreticalJacobianScales[p]))
     {

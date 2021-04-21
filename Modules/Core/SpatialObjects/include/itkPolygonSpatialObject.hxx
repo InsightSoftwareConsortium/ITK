@@ -68,7 +68,7 @@ PolygonSpatialObject<TDimension>::GetOrientationInObjectSpace() const
   while (it != itend)
   {
     PointType curpoint = it->GetPositionInObjectSpace();
-    for (unsigned int i = 0; i < TDimension; i++)
+    for (unsigned int i = 0; i < TDimension; ++i)
     {
       if (minPnt[i] > curpoint[i])
       {
@@ -82,7 +82,7 @@ PolygonSpatialObject<TDimension>::GetOrientationInObjectSpace() const
     it++;
   }
   m_OrientationInObjectSpace = -1;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     if (Math::ExactlyEquals(minPnt[i], maxPnt[i]))
     {

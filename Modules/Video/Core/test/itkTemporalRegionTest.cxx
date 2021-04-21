@@ -43,7 +43,7 @@ itkTemporalRegionTest(int, char *[])
   itk::RealTimeStamp    stamp1 = stamp0;
   itk::RealTimeInterval oneSecond(1, 0);
   itk::RealTimeInterval tenSeconds(10, 0);
-  for (unsigned int i = 0; i < 1000000L; i++)
+  for (unsigned int i = 0; i < 1000000L; ++i)
   {
     stamp1 += oneSecond;
   }

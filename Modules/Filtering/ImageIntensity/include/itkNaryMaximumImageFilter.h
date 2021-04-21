@@ -45,7 +45,7 @@ public:
   {
     OutputValueType A = NumericTraits<TOutput>::NonpositiveMin();
 
-    for (unsigned int i = 0; i < B.size(); i++)
+    for (unsigned int i = 0; i < B.size(); ++i)
     {
       if (A < static_cast<OutputValueType>(B[i]))
       {

@@ -110,11 +110,11 @@ itkTransformToDisplacementFieldFilterTest1(int argc, char * argv[])
 
   float     incrValue = 100.0;
   IndexType pixelIndex;
-  for (unsigned int i = 0; i < size[0]; i++)
+  for (unsigned int i = 0; i < size[0]; ++i)
   {
-    for (unsigned int j = 0; j < size[1]; j++)
+    for (unsigned int j = 0; j < size[1]; ++j)
     {
-      for (unsigned int k = 0; k < size[2]; k++)
+      for (unsigned int k = 0; k < size[2]; ++k)
       {
         pixelIndex[0] = i;
         pixelIndex[1] = j;

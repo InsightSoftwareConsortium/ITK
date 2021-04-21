@@ -28,7 +28,7 @@ CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
 {
   const double epsilon = 1e-10;
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     if (std::fabs(p1[i] - p2[i]) > epsilon)
     {
@@ -65,7 +65,7 @@ itkSimilarity2DTransformTest(int, char *[])
   SimilarityTransformType::OutputPointType           r;
 
   r = transform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(p[i] - r[i]) > epsilon)
     {
@@ -122,7 +122,7 @@ itkSimilarity2DTransformTest(int, char *[])
   // Test the Set/Get Parameters
   std::cout << "Testing Set/GetParameters():" << std::endl;
   SimilarityTransformType::ParametersType params(6);
-  for (unsigned int i = 0; i < 6; i++)
+  for (unsigned int i = 0; i < 6; ++i)
   {
     params[i] = i + 1;
   }
@@ -135,7 +135,7 @@ itkSimilarity2DTransformTest(int, char *[])
   outputParams = transform->GetParameters();
 
   std::cout << "Output Parameters = " << outputParams << std::endl;
-  for (unsigned int i = 0; i < 4; i++) // do not test for the offset
+  for (unsigned int i = 0; i < 4; ++i) // do not test for the offset
   {
     if (std::fabs(outputParams[i] - params[i]) > epsilon)
     {
@@ -170,7 +170,7 @@ itkSimilarity2DTransformTest(int, char *[])
   q[0] = p[0] * costh - p[1] * sinth;
   q[1] = p[0] * sinth + p[1] * costh;
   r = transform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -202,7 +202,7 @@ itkSimilarity2DTransformTest(int, char *[])
   q = p + ioffset;
 
   r = transform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -383,7 +383,7 @@ itkSimilarity2DTransformTest(int, char *[])
     t4->ComputeJacobianWithRespectToParameters(p1, jacobian);
 
     TransformType::JacobianType approxJacobian = jacobian;
-    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
       constexpr double              delta = 0.001;
       TransformType::ParametersType plusParameters;
@@ -401,7 +401,7 @@ itkSimilarity2DTransformTest(int, char *[])
       plusPoint = t4->TransformPoint(p1);
       t4->SetParameters(minusParameters);
       minusPoint = t4->TransformPoint(p1);
-      for (unsigned int j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; ++j)
       {
         double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         double computedDerivative = jacobian[j][k];
@@ -542,7 +542,7 @@ itkSimilarity2DTransformTest(int, char *[])
     t4->ComputeJacobianWithRespectToParameters(p1, jacobian);
 
     TransformType::JacobianType approxJacobian = jacobian;
-    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < t1->GetNumberOfParameters(); ++k)
     {
       constexpr double              delta = 0.001;
       TransformType::ParametersType plusParameters;
@@ -560,7 +560,7 @@ itkSimilarity2DTransformTest(int, char *[])
       plusPoint = t4->TransformPoint(p1);
       t4->SetParameters(minusParameters);
       minusPoint = t4->TransformPoint(p1);
-      for (unsigned int j = 0; j < 2; j++)
+      for (unsigned int j = 0; j < 2; ++j)
       {
         double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         double computedDerivative = jacobian[j][k];
@@ -591,7 +591,7 @@ itkSimilarity2DTransformTest(int, char *[])
     center[1] = 10.0;
 
     TransformType::ParametersType parameters(t1->GetNumberOfParameters());
-    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); j++)
+    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); ++j)
     {
       parameters[j] = static_cast<double>(j) + 1.0;
     }
@@ -624,7 +624,7 @@ itkSimilarity2DTransformTest(int, char *[])
     TransformType::ParametersType pdash = t2->GetParameters();
 
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
-    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); j++)
+    for (unsigned int j = 0; j < t1->GetNumberOfParameters(); ++j)
     {
       if (std::fabs(parameters[j] - pdash[j]) > epsilon)
       {

@@ -54,7 +54,7 @@ public:
       io->SetByteOrderToLittleEndian();
     }
 
-    for (unsigned int j = 0; j < TImageType::ImageDimension; j++)
+    for (unsigned int j = 0; j < TImageType::ImageDimension; ++j)
     {
       io->SetDimensions(j, dims[j]);
     }
@@ -146,7 +146,7 @@ itkRawImageIOTest4(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  for (unsigned int i = 0; i < numberOfPixels; i++)
+  for (unsigned int i = 0; i < numberOfPixels; ++i)
   {
     PixelType swappedValue = value;
     // make sure that the file is written in
@@ -179,7 +179,7 @@ itkRawImageIOTest4(int argc, char * argv[])
   }
 
   value = itk::NumericTraits<PixelType>::ZeroValue();
-  for (unsigned int i = 0; i < numberOfPixels; i++)
+  for (unsigned int i = 0; i < numberOfPixels; ++i)
   {
     PixelType swappedValue = value;
     // make sure that the file is written in

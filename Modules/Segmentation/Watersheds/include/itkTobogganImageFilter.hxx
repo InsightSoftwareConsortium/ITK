@@ -106,7 +106,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         MinimumNeighborIndex = CurrentPositionIndex;
         // DirectionImage->PutPixel ( CurrentPositionIndex, 1 );
         // Check the face connected neighbors
-        for (Dimension = 0; Dimension < ImageDimension; Dimension++)
+        for (Dimension = 0; Dimension < ImageDimension; ++Dimension)
         {
           for (t = 1; t >= -1; t = t - 2)
           {
@@ -185,7 +185,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
           // Look at the neighbors
           InputImagePixelType SeedValue;
           SeedValue = inputImage->GetPixel(SeedIndex);
-          for (Dimension = 0; Dimension < ImageDimension; Dimension++)
+          for (Dimension = 0; Dimension < ImageDimension; ++Dimension)
           {
             for (t = -1; t <= 1; t = t + 2)
             {
@@ -233,7 +233,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
       }
       itkDebugMacro(<< "Filling in: " << static_cast<unsigned int>(Visited.size()) << " with: " << LabelForRegion);
       // Loop over all the visited positions, setting their label
-      for (i = 0; i < Visited.size(); i++)
+      for (i = 0; i < Visited.size(); ++i)
       {
         outputImage->SetPixel(Visited[i], LabelForRegion);
       }

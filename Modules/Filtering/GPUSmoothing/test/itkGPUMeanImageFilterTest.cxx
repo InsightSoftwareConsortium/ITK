@@ -73,7 +73,7 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
   }
 
   // test 1~8 threads for CPU
-  for (int nThreads = 1; nThreads <= 8; nThreads++)
+  for (int nThreads = 1; nThreads <= 8; ++nThreads)
   {
     typename MeanFilterType::Pointer CPUFilter = MeanFilterType::New();
 

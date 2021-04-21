@@ -106,7 +106,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   // Manually create and store each vector
 
   // Image no. 1
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; ++i)
   {
     image1It.Set(1);
     ++image1It;
@@ -166,7 +166,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   std::cout << "The " << applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired()
             << " largest eigen values are:" << std::endl;
 
-  for (unsigned int i = 0; i < std::min(numEigVal, NUMLARGESTPC); i++)
+  for (unsigned int i = 0; i < std::min(numEigVal, NUMLARGESTPC); ++i)
   {
     std::cout << eigenValues[i] << std::endl;
   }
@@ -188,7 +188,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   std::cout << "  " << std::endl;
 
   // Print the largest two eigen vectors
-  for (unsigned int j = 1; j < NUMLARGESTPC + 1; j++)
+  for (unsigned int j = 1; j < NUMLARGESTPC + 1; ++j)
   {
     OutputImageType::Pointer outImage2 = applyPCAShapeEstimator->GetOutput(j);
     OutputImageIterator      outImage2It(outImage2, outImage2->GetBufferedRegion());

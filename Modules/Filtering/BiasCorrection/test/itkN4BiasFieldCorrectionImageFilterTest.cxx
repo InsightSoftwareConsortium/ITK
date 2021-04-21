@@ -207,7 +207,7 @@ N4(int argc, char * argv[])
   }
   typename CorrecterType::VariableSizeArrayType maximumNumberOfIterations(
     static_cast<typename CorrecterType::VariableSizeArrayType::SizeValueType>(numIters.size()));
-  for (unsigned int d = 0; d < numIters.size(); d++)
+  for (unsigned int d = 0; d < numIters.size(); ++d)
   {
     maximumNumberOfIterations[d] = numIters[d];
   }
@@ -237,7 +237,7 @@ N4(int argc, char * argv[])
   itk::SizeValueType lowerBound[ImageDimension];
   itk::SizeValueType upperBound[ImageDimension];
 
-  for (unsigned int d = 0; d < ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     float domain =
       static_cast<RealType>(inputImage->GetLargestPossibleRegion().GetSize()[d] - 1) * inputImage->GetSpacing()[d];

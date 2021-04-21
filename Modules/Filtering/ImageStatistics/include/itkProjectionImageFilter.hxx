@@ -73,7 +73,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
 
   if (static_cast<unsigned int>(InputImageDimension) == static_cast<unsigned int>(OutputImageDimension))
   {
-    for (unsigned int i = 0; i < InputImageDimension; i++)
+    for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
       if (i != m_ProjectionDimension)
       {
@@ -92,7 +92,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
       // Can't directly copy the matrices: In the case the dimensions
       // are different, this part of the function still needs to be able
       // to compile.
-      for (unsigned int j = 0; j < InputImageDimension; j++)
+      for (unsigned int j = 0; j < InputImageDimension; ++j)
       {
         outDirection[i][j] = inDirection[i][j];
       }
@@ -101,7 +101,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
   else
   {
     // Then OutputImageDimension = InputImageDimension - 1
-    for (unsigned int i = 0; i < OutputImageDimension; i++)
+    for (unsigned int i = 0; i < OutputImageDimension; ++i)
     {
       unsigned int pos = i;
       if (i == m_ProjectionDimension)
@@ -157,7 +157,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
 
     if (static_cast<unsigned int>(InputImageDimension) == static_cast<unsigned int>(OutputImageDimension))
     {
-      for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+      for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
       {
         if (i != m_ProjectionDimension)
         {
@@ -173,7 +173,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
     }
     else
     {
-      for (unsigned int i = 0; i < OutputImageDimension; i++)
+      for (unsigned int i = 0; i < OutputImageDimension; ++i)
       {
         if (i != m_ProjectionDimension)
         {
@@ -238,7 +238,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
 
   if (static_cast<unsigned int>(InputImageDimension) == static_cast<unsigned int>(OutputImageDimension))
   {
-    for (unsigned int i = 0; i < InputImageDimension; i++)
+    for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
       if (i != m_ProjectionDimension)
       {
@@ -249,7 +249,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
   }
   else
   {
-    for (unsigned int i = 0; i < OutputImageDimension; i++)
+    for (unsigned int i = 0; i < OutputImageDimension; ++i)
     {
       if (i != m_ProjectionDimension)
       {
@@ -301,7 +301,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
 
     if (static_cast<unsigned int>(InputImageDimension) == static_cast<unsigned int>(OutputImageDimension))
     {
-      for (unsigned int i = 0; i < InputImageDimension; i++)
+      for (unsigned int i = 0; i < InputImageDimension; ++i)
       {
         if (i != m_ProjectionDimension)
         {
@@ -315,7 +315,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::DynamicThreadedG
     }
     else
     {
-      for (unsigned int i = 0; i < OutputImageDimension; i++)
+      for (unsigned int i = 0; i < OutputImageDimension; ++i)
       {
         if (i != m_ProjectionDimension)
         {

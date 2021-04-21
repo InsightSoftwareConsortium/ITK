@@ -199,17 +199,17 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Reallocate(int oldS
 
   if (oldSize < newSize)
   {
-    for (int r = 0; r < oldSize; r++)
+    for (int r = 0; r < oldSize; ++r)
     {
-      for (unsigned int c = 0; c < m_VectorDimension; c++)
+      for (unsigned int c = 0; c < m_VectorDimension; ++c)
       {
         m_Codebook[r][c] = tmpCodebook[r][c];
       }
     }
 
-    for (int r = oldSize; r < newSize; r++)
+    for (int r = oldSize; r < newSize; ++r)
     {
-      for (unsigned int c = 0; c < m_VectorDimension; c++)
+      for (unsigned int c = 0; c < m_VectorDimension; ++c)
       {
         m_Codebook[r][c] = 0;
       }
@@ -217,9 +217,9 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Reallocate(int oldS
   } // if oldsize is smaller than the new size
   else
   {
-    for (int r = 0; r < newSize; r++)
+    for (int r = 0; r < newSize; ++r)
     {
-      for (unsigned int c = 0; c < m_VectorDimension; c++)
+      for (unsigned int c = 0; c < m_VectorDimension; ++c)
       {
         m_Codebook[r][c] = tmpCodebook[r][c];
       }
@@ -261,7 +261,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::EstimateModels()
     this->DeleteAllMembershipFunctions();
   }
 
-  for (unsigned int classIndex = 0; classIndex < numberOfModels; classIndex++)
+  for (unsigned int classIndex = 0; classIndex < numberOfModels; ++classIndex)
   {
     membershipFunction = TMembershipFunction::New();
     typename TMembershipFunction::CentroidType centroid;
@@ -331,7 +331,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
 
     // find number of empty cells
     emptycells = 0;
-    for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+    for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; ++i)
     {
       if (m_CodewordHistogram[i][0] == 0)
       {
@@ -353,9 +353,9 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
     // no empty cells, find new centroids and reinitialize for next pass
     if (emptycells == 0)
     {
-      for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+      for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; ++i)
       {
-        for (unsigned int j = 0; j < m_VectorDimension; j++)
+        for (unsigned int j = 0; j < m_VectorDimension; ++j)
         {
           m_Codebook[i][j] = m_Centroid[i][j];
         }
@@ -385,11 +385,11 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
       // of the array.  Take care to protect zero distortion codewords
       // which have a positive m_CodewordHistogram.  note: there must be a
       // faster sort algorithm, but this event should be very unlikely
-      for (unsigned int n = 0; n < m_CurrentNumberOfCodewords - emptycells; n++)
+      for (unsigned int n = 0; n < m_CurrentNumberOfCodewords - emptycells; ++n)
       {
         tempdistortion = 0.0;
         bestcodeword = 0;
-        for (unsigned int i = 0; i < m_NumberOfCodewords; i++)
+        for (unsigned int i = 0; i < m_NumberOfCodewords; ++i)
         {
           if ((m_CodewordDistortion[i][0] >= tempdistortion) && (m_CodewordHistogram[i][0] > 0))
           {
@@ -404,7 +404,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
 
         // find centroid, reinitialize
 
-        for (unsigned int j = 0; j < m_VectorDimension; j++)
+        for (unsigned int j = 0; j < m_VectorDimension; ++j)
         {
           m_Codebook[n][j] = m_Centroid[bestcodeword][j];
         }
@@ -437,7 +437,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
 
   // initialize codeword histogram and distortion
-  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; ++i)
   {
     m_CodewordHistogram[i][0] = 0;
     m_CodewordDistortion[i][0] = 0.0;
@@ -463,7 +463,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   ImageSizeType size = inputImage->GetBufferedRegion().GetSize();
 
   unsigned int totalNumVecsInInput = 1;
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     totalNumVecsInInput *= (SizeValueType)size[i];
   }
@@ -474,19 +474,19 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 
   InputPixelVectorType inputImagePixelVector;
 
-  for (unsigned int n = 0; n < totalNumVecsInInput; n++)
+  for (unsigned int n = 0; n < totalNumVecsInInput; ++n)
   {
     // keep convention that ties go to lower index
     bestdistortion = m_DoubleMaximum;
     bestcodeword = 0;
 
-    for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+    for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; ++i)
     {
       // find the best codeword
       tempdistortion = 0.0;
       inputImagePixelVector = inputImageIt.Get();
 
-      for (unsigned int j = 0; j < m_VectorDimension; j++)
+      for (unsigned int j = 0; j < m_VectorDimension; ++j)
       {
         diff = (double)(inputImagePixelVector[j] - m_Codebook[i][j]);
         tempdistortion += diff * diff;
@@ -517,7 +517,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
     // inputImagePixelVector = *tempImgIt;
     inputImagePixelVector = inputImageIt.Get();
 
-    for (unsigned int j = 0; j < m_VectorDimension; j++)
+    for (unsigned int j = 0; j < m_VectorDimension; ++j)
     {
       m_Centroid[bestcodeword][j] += inputImagePixelVector[j];
     }
@@ -526,7 +526,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   } // all training vectors have been encoded
 
   // compute table frequency and distortion
-  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; ++i)
   {
     if (m_CodewordHistogram[i][0] > 0)
     {
@@ -535,11 +535,11 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   }
 
   // compute centroid
-  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; i++)
+  for (unsigned int i = 0; i < m_CurrentNumberOfCodewords; ++i)
   {
     if (m_CodewordHistogram[i][0] > 0)
     {
-      for (unsigned int j = 0; j < m_VectorDimension; j++)
+      for (unsigned int j = 0; j < m_VectorDimension; ++j)
       {
         m_Centroid[i][j] /= (double)m_CodewordHistogram[i][0];
       }
@@ -566,16 +566,16 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SplitCodewords(int 
   auto * newCodebookData = (double *)new double[m_VectorDimension];
   auto * inCodebookData = (double *)new double[m_VectorDimension];
 
-  for (int i = 0; i < numDesired; i++)
+  for (int i = 0; i < numDesired; ++i)
   {
-    for (unsigned int j = 0; j < m_VectorDimension; j++)
+    for (unsigned int j = 0; j < m_VectorDimension; ++j)
     {
       inCodebookData[j] = m_Codebook[i][j];
     }
 
     Perturb(inCodebookData, scale, newCodebookData);
 
-    for (unsigned int j = 0; j < m_VectorDimension; j++)
+    for (unsigned int j = 0; j < m_VectorDimension; ++j)
     {
       m_Codebook[i + currentSize][j] = newCodebookData[j];
     }
@@ -600,7 +600,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * ol
   addoffset = m_OffsetAdd / std::pow(2.0, (double)scale);
   muloffset = m_OffsetMultiply / std::pow(2.0, (double)scale);
 
-  for (i = 0; i < m_VectorDimension; i++)
+  for (i = 0; i < m_VectorDimension; ++i)
   {
     srand((unsigned)time(nullptr));
     rand_num = (rand()) / ((double)RAND_MAX);

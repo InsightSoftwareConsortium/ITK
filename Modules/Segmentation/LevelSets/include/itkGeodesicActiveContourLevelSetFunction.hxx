@@ -84,7 +84,7 @@ GeodesicActiveContourLevelSetFunction<TImageType, TFeatureImageType>::CalculateA
   for (dit.GoToBegin(), ait.GoToBegin(); !dit.IsAtEnd(); ++dit, ++ait)
   {
     typename VectorImageType::PixelType v = dit.Get();
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       v[j] *= -1.0L;
     }

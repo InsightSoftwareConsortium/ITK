@@ -163,7 +163,7 @@ Stapler<VDimension>::Execute()
   size_t number_of_files = m_Files.size();
 
   // Set the inputs
-  for (i = 0; i < number_of_files; i++)
+  for (i = 0; i < number_of_files; ++i)
   {
     try
     {
@@ -224,7 +224,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
     return -2;
   }
 
-  for (i = 0; i < argc - 5; i++)
+  for (i = 0; i < argc - 5; ++i)
   {
     stapler->AddFileName(argv[i + 5]);
   }
@@ -256,7 +256,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
             << "\t\t-------------- "
             << "\t--------------" << std::endl;
   unsigned int j;
-  for (j = 0; j < stapler->GetNumberOfFiles(); j++)
+  for (j = 0; j < stapler->GetNumberOfFiles(); ++j)
   {
     avg_q += stapler->GetSpecificity(j);
     avg_p += stapler->GetSensitivity(j);

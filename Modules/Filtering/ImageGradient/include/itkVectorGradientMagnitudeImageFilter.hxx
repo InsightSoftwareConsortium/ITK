@@ -153,7 +153,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
   // in case our input image has changed.
   if (m_UseImageSpacing == true)
   {
-    for (unsigned i = 0; i < ImageDimension; i++)
+    for (unsigned i = 0; i < ImageDimension; ++i)
     {
       if (static_cast<TRealType>(this->GetInput()->GetSpacing()[i]) == 0.0)
       {

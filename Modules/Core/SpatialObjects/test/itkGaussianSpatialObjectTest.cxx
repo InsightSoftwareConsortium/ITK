@@ -134,7 +134,7 @@ itkGaussianSpatialObjectTest(int, char *[])
   std::cout << "World bounds = " << boundingBox->GetBounds() << std::endl;
   std::cout << "World Center = " << myGaussian->GetCenterInObjectSpace() << std::endl;
   std::cout << "World Radius = " << myGaussian->GetRadiusInObjectSpace() << std::endl;
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     if (itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2 * i], 7.0) ||
         itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2 * i + 1], 16.0))

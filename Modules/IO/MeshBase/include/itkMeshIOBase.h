@@ -615,7 +615,7 @@ protected:
   void
   ReadBufferAsAscii(T * buffer, std::ifstream & inputFile, SizeValueType numberOfComponents)
   {
-    for (SizeValueType i = 0; i < numberOfComponents; i++)
+    for (SizeValueType i = 0; i < numberOfComponents; ++i)
     {
       inputFile >> buffer[i];
     }
@@ -653,9 +653,9 @@ protected:
                      SizeValueType   numberOfComponents)
   {
     NumberToString<T> convert;
-    for (SizeValueType ii = 0; ii < numberOfLines; ii++)
+    for (SizeValueType ii = 0; ii < numberOfLines; ++ii)
     {
-      for (SizeValueType jj = 0; jj < numberOfComponents; jj++)
+      for (SizeValueType jj = 0; jj < numberOfComponents; ++jj)
       {
         outputFile << convert(buffer[ii * numberOfComponents + jj]) << "  ";
       }
@@ -684,7 +684,7 @@ protected:
     else
     {
       auto * data = new TOutput[numberOfComponents];
-      for (SizeValueType ii = 0; ii < numberOfComponents; ii++)
+      for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
       {
         data[ii] = static_cast<TOutput>(buffer[ii]);
       }
@@ -714,11 +714,11 @@ protected:
     {
       SizeValueType inputIndex = NumericTraits<SizeValueType>::ZeroValue();
       SizeValueType outputIndex = NumericTraits<SizeValueType>::ZeroValue();
-      for (SizeValueType ii = 0; ii < m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < m_NumberOfCells; ++ii)
       {
         inputIndex++; // ignore the cell type
         auto numberOfPoints = static_cast<unsigned int>(input[inputIndex++]);
-        for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
         {
           output[outputIndex++] = static_cast<TOutput>(input[inputIndex++]);
         }
@@ -738,14 +738,14 @@ protected:
       SizeValueType inputIndex = itk::NumericTraits<SizeValueType>::ZeroValue();
       SizeValueType outputIndex = itk::NumericTraits<SizeValueType>::ZeroValue();
 
-      for (SizeValueType ii = 0; ii < m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(input[inputIndex++]);
         auto nn = static_cast<unsigned int>(input[inputIndex++]);
         if (cellType == type)
         {
           output[outputIndex++] = nn;
-          for (unsigned int jj = 0; jj < nn; jj++)
+          for (unsigned int jj = 0; jj < nn; ++jj)
           {
             output[outputIndex++] = static_cast<TOutput>(input[inputIndex++]);
           }
@@ -772,11 +772,11 @@ protected:
     {
       SizeValueType inputIndex = NumericTraits<SizeValueType>::ZeroValue();
       SizeValueType outputIndex = NumericTraits<SizeValueType>::ZeroValue();
-      for (SizeValueType ii = 0; ii < numberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < numberOfCells; ++ii)
       {
         output[outputIndex++] = static_cast<TOutput>(cellType);
         output[outputIndex++] = static_cast<TOutput>(numberOfPoints);
-        for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
         {
           output[outputIndex++] = static_cast<TOutput>(input[inputIndex++]);
         }
@@ -794,12 +794,12 @@ protected:
     {
       SizeValueType inputIndex = NumericTraits<SizeValueType>::ZeroValue();
       SizeValueType outputIndex = NumericTraits<SizeValueType>::ZeroValue();
-      for (SizeValueType ii = 0; ii < numberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < numberOfCells; ++ii)
       {
         auto numberOfPoints = static_cast<unsigned int>(input[inputIndex++]);
         output[outputIndex++] = static_cast<TOutput>(cellType);
         output[outputIndex++] = static_cast<TOutput>(numberOfPoints);
-        for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
         {
           output[outputIndex++] = static_cast<TOutput>(input[inputIndex++]);
         }

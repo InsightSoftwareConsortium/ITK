@@ -75,7 +75,7 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::Scalar
   unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetType          offset;
   OffsetVectorPointer offsets = OffsetVector::New();
-  for (unsigned int d = 0; d < centerIndex; d++)
+  for (unsigned int d = 0; d < centerIndex; ++d)
   {
     offset = hood.GetOffset(d);
     offsets->push_back(offset);
@@ -115,7 +115,7 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCo
   double ** features;
 
   features = new double *[numOffsets];
-  for (size_t i = 0; i < numOffsets; i++)
+  for (size_t i = 0; i < numOffsets; ++i)
   {
     features[i] = new double[numFeatures];
   }
@@ -155,16 +155,16 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCo
   */
 
   // Set up the initial conditions (k = 1)
-  for (featureNum = 0; featureNum < numFeatures; featureNum++)
+  for (featureNum = 0; featureNum < numFeatures; ++featureNum)
   {
     tempFeatureMeans[featureNum] = features[0][featureNum];
     tempFeatureDevs[featureNum] = 0;
   }
   // Run through the recurrence (k = 2 ... N)
-  for (offsetNum = 1; offsetNum < numOffsets; offsetNum++)
+  for (offsetNum = 1; offsetNum < numOffsets; ++offsetNum)
   {
     size_t k = offsetNum + 1;
-    for (featureNum = 0; featureNum < numFeatures; featureNum++)
+    for (featureNum = 0; featureNum < numFeatures; ++featureNum)
     {
       double M_k_minus_1 = tempFeatureMeans[featureNum];
       double S_k_minus_1 = tempFeatureDevs[featureNum];
@@ -177,7 +177,7 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCo
       tempFeatureDevs[featureNum] = S_k;
     }
   }
-  for (featureNum = 0; featureNum < numFeatures; featureNum++)
+  for (featureNum = 0; featureNum < numFeatures; ++featureNum)
   {
     tempFeatureDevs[featureNum] = std::sqrt(tempFeatureDevs[featureNum] / numOffsets);
 
@@ -195,7 +195,7 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCo
 
   delete[] tempFeatureMeans;
   delete[] tempFeatureDevs;
-  for (size_t i = 0; i < numOffsets; i++)
+  for (size_t i = 0; i < numOffsets; ++i)
   {
     delete[] features[i];
   }

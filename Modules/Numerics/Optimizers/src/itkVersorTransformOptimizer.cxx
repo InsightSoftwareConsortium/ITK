@@ -34,7 +34,7 @@ VersorTransformOptimizer::StepAlongGradient(double factor, const DerivativeType 
   //
   VectorType rightPart;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     rightPart[i] = currentPosition[i];
   }
@@ -74,7 +74,7 @@ VersorTransformOptimizer::StepAlongGradient(double factor, const DerivativeType 
 
   // Optimize the non-versor parameters as the
   // RegularStepGradientDescentOptimizer
-  for (unsigned int j = 3; j < NumberOfParameters; j++)
+  for (unsigned int j = 3; j < NumberOfParameters; ++j)
   {
     newParameters[j] = currentPosition[j] + transformedGradient[j] * factor;
   }

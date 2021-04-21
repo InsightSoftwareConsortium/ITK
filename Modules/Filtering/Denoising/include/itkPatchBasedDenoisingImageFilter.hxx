@@ -494,7 +494,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
     curIndex = pwIt.GetIndex();
     // Compute distances of each pixel from center pixel
     Vector<DistanceType, ImageDimension> distanceVector;
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       distanceVector[d] = static_cast<DistanceType>(curIndex[d]) - static_cast<DistanceType>(centerIndex[d]);
     }

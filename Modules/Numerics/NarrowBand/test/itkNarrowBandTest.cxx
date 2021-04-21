@@ -35,7 +35,7 @@ itkNarrowBandTest(int, char *[])
   BandNodeType node;
   band->SetTotalRadius(10);
   band->SetInnerRadius(5);
-  for (i = 0; i < 20; i++)
+  for (i = 0; i < 20; ++i)
   {
     node.m_Data = i * 5.0;
     node.m_Index = i;
@@ -53,7 +53,7 @@ itkNarrowBandTest(int, char *[])
 
   i = 0;
   //  BandNodeType *tmp;
-  for (; it != itend; it++)
+  for (; it != itend; ++it)
   {
     std::cout << "Node " << i << std::endl << "Index: " << it->m_Index << " Data: " << it->m_Data << std::endl;
     i++;

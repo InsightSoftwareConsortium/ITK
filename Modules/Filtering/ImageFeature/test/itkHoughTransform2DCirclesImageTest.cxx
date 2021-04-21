@@ -534,7 +534,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
 
   // Check the circle detection
   double centerTolerance = 2.0;
-  for (i = 0; i < numberOfCircles; i++)
+  for (i = 0; i < numberOfCircles; ++i)
   {
     if (!itk::Math::FloatAlmostEqual((double)(centerResult[i][0]), (double)(center[i][0]), 10, centerTolerance) ||
         !itk::Math::FloatAlmostEqual((double)(centerResult[i][1]), (double)(center[i][1]), 10, centerTolerance) ||

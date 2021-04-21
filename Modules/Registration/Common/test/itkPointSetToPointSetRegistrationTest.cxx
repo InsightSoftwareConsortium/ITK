@@ -53,13 +53,13 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   FixedPointSetType::PointType point;
 
   unsigned int id = 0;
-  for (unsigned int i = 0; i < numberOfPoints / 2; i++)
+  for (unsigned int i = 0; i < numberOfPoints / 2; ++i)
   {
     point[0] = 0;
     point[1] = i;
     fixedPointSet->SetPoint(id++, point);
   }
-  for (unsigned int i = 0; i < numberOfPoints / 2; i++)
+  for (unsigned int i = 0; i < numberOfPoints / 2; ++i)
   {
     point[0] = i;
     point[1] = 0;
@@ -76,13 +76,13 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   movingPointSet->GetPointData()->Reserve(numberOfPoints);
 
   id = 0;
-  for (unsigned int i = 0; i < numberOfPoints / 2; i++)
+  for (unsigned int i = 0; i < numberOfPoints / 2; ++i)
   {
     point[0] = 0;
     point[1] = i;
     movingPointSet->SetPoint(id++, point);
   }
-  for (unsigned int i = 0; i < numberOfPoints / 2; i++)
+  for (unsigned int i = 0; i < numberOfPoints / 2; ++i)
   {
     point[0] = i;
     point[1] = 0;
@@ -148,7 +148,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   ParametersType parameters(transform->GetNumberOfParameters());
 
   // Initialize the offset/vector part
-  for (unsigned int k = 0; k < parameters.size(); k++)
+  for (unsigned int k = 0; k < parameters.size(); ++k)
   {
     parameters[k] = 10.0;
   }
@@ -220,7 +220,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   metric->ComputeSquaredDistanceOn();
 
   // Initialize the offset/vector part
-  for (unsigned int k = 0; k < PointSetDimension; k++)
+  for (unsigned int k = 0; k < PointSetDimension; ++k)
   {
     parameters[k] = 10.0;
   }

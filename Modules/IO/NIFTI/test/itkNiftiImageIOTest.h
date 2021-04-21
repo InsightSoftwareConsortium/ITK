@@ -248,9 +248,9 @@ CORDirCosines()
   typename itk::SpatialOrientationAdapter::DirectionType CORdir =
     itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   typename ImageType::DirectionType dir;
-  for (unsigned i = 0; i < ImageType::ImageDimension; i++)
+  for (unsigned i = 0; i < ImageType::ImageDimension; ++i)
   {
-    for (unsigned j = 0; j < ImageType::ImageDimension; j++)
+    for (unsigned j = 0; j < ImageType::ImageDimension; ++j)
     {
       dir[i][j] = CORdir[i][j];
     }
@@ -310,7 +310,7 @@ TestImageOfSymMats(const std::string & fname)
             << "======================== Initialized Direction" << std::endl
             << myDirection << std::endl;
 
-  for (unsigned i = 0; i < VDimension; i++)
+  for (unsigned i = 0; i < VDimension; ++i)
   {
     size[i] = dimsize;
     index[i] = 0;
@@ -327,45 +327,45 @@ TestImageOfSymMats(const std::string & fname)
 
   int dims[7];
   int _index[7];
-  for (unsigned i = 0; i < VDimension; i++)
+  for (unsigned i = 0; i < VDimension; ++i)
   {
     dims[i] = size[i];
   }
-  for (unsigned i = VDimension; i < 7; i++)
+  for (unsigned i = VDimension; i < 7; ++i)
   {
     dims[i] = 1;
   }
 
   int incr_value = 0;
   //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
-  for (int l = 0; l < dims[6]; l++)
+  for (int l = 0; l < dims[6]; ++l)
   {
     _index[6] = l;
-    for (int m = 0; m < dims[5]; m++)
+    for (int m = 0; m < dims[5]; ++m)
     {
       _index[5] = m;
-      for (int n = 0; n < dims[4]; n++)
+      for (int n = 0; n < dims[4]; ++n)
       {
         _index[4] = n;
-        for (int p = 0; p < dims[3]; p++)
+        for (int p = 0; p < dims[3]; ++p)
         {
           _index[3] = p;
-          for (int i = 0; i < dims[2]; i++)
+          for (int i = 0; i < dims[2]; ++i)
           {
             _index[2] = i;
-            for (int j = 0; j < dims[1]; j++)
+            for (int j = 0; j < dims[1]; ++j)
             {
               _index[1] = j;
-              for (int k = 0; k < dims[0]; k++)
+              for (int k = 0; k < dims[0]; ++k)
               {
                 _index[0] = k;
                 PixelType pixel;
-                for (unsigned int q = 0; q < pixel.Size(); q++)
+                for (unsigned int q = 0; q < pixel.Size(); ++q)
                 {
                   // pixel[q] = randgen.drand32(lowrange,highrange);
                   pixel[q] = incr_value++;
                 }
-                for (unsigned int q = 0; q < VDimension; q++)
+                for (unsigned int q = 0; q < VDimension; ++q)
                 {
                   index[q] = _index[q];
                 }
@@ -425,9 +425,9 @@ TestImageOfSymMats(const std::string & fname)
     std::cout << "Spacing is different: " << readback->GetSpacing() << " != " << vi->GetSpacing() << std::endl;
     same = false;
   }
-  for (unsigned int r = 0; r < VDimension; r++)
+  for (unsigned int r = 0; r < VDimension; ++r)
   {
-    for (unsigned int c = 0; c < VDimension; c++)
+    for (unsigned int c = 0; c < VDimension; ++c)
     {
       if (std::abs(readback->GetDirection()[r][c] - vi->GetDirection()[r][c]) > 1e-7)
       {
@@ -439,29 +439,29 @@ TestImageOfSymMats(const std::string & fname)
     }
   }
   std::cout << "Original Image  ?=   Image read from disk " << std::endl;
-  for (int l = 0; l < dims[6]; l++)
+  for (int l = 0; l < dims[6]; ++l)
   {
     _index[6] = l;
-    for (int m = 0; m < dims[5]; m++)
+    for (int m = 0; m < dims[5]; ++m)
     {
       _index[5] = m;
-      for (int n = 0; n < dims[4]; n++)
+      for (int n = 0; n < dims[4]; ++n)
       {
         _index[4] = n;
-        for (int p = 0; p < dims[3]; p++)
+        for (int p = 0; p < dims[3]; ++p)
         {
           _index[3] = p;
-          for (int i = 0; i < dims[2]; i++)
+          for (int i = 0; i < dims[2]; ++i)
           {
             _index[2] = i;
-            for (int j = 0; j < dims[1]; j++)
+            for (int j = 0; j < dims[1]; ++j)
             {
               _index[1] = j;
-              for (int k = 0; k < dims[0]; k++)
+              for (int k = 0; k < dims[0]; ++k)
               {
                 _index[0] = k;
                 PixelType p1, p2;
-                for (unsigned int q = 0; q < VDimension; q++)
+                for (unsigned int q = 0; q < VDimension; ++q)
                 {
                   index[q] = _index[q];
                 }
@@ -519,7 +519,7 @@ RGBTest(int ac, char * av[])
   typename RGBImageType::SpacingType spacing;
   typename RGBImageType::PointType   origin;
 
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
     size[i] = 5;
     index[i] = 0;
@@ -535,7 +535,7 @@ RGBTest(int ac, char * av[])
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     RGBPixelType pix;
-    for (unsigned int i = 0; i < RGBPixelType::Dimension; i++)
+    for (unsigned int i = 0; i < RGBPixelType::Dimension; ++i)
     {
       pix[i] = randgen.lrand32(255);
     }

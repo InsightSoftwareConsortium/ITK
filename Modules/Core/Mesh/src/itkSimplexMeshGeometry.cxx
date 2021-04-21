@@ -113,7 +113,7 @@ SimplexMeshGeometry::ComputeGeometry()
 void
 SimplexMeshGeometry::CopyFrom(const SimplexMeshGeometry & input)
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     this->neighborIndices[i] = input.neighborIndices[i];
     this->neighbors[i] = input.neighbors[i];

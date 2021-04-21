@@ -66,14 +66,14 @@ itkStatisticsAlgorithmTest(int, char *[])
   measure[1] = 39;
   sample->PushBack(measure);
 
-  for (unsigned int i = 1; i < numberOfSamples; i++)
+  for (unsigned int i = 1; i < numberOfSamples; ++i)
   {
     float value = i + 3;
     measure[0] = value;
     measure[1] = value * value;
     sample->PushBack(measure);
 
-    for (unsigned int j = 0; j < measurementVectorSize; j++)
+    for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
       if (measure[j] < realLower[j])
       {
@@ -93,7 +93,7 @@ itkStatisticsAlgorithmTest(int, char *[])
 
   const float epsilon = 1e-5;
 
-  for (unsigned int j = 0; j < measurementVectorSize; j++)
+  for (unsigned int j = 0; j < measurementVectorSize; ++j)
   {
     if (itk::Math::abs(lower[j] - realLower[j]) > epsilon)
     {

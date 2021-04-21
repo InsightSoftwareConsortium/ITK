@@ -141,7 +141,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
     this->m_MovingDensityFunction->GetPointsLocator()->FindClosestNPoints(
       samplePoint, this->m_EvaluationKNeighborhood, neighbors);
 
-    for (SizeValueType n = 0; n < neighbors.size(); n++)
+    for (SizeValueType n = 0; n < neighbors.size(); ++n)
     {
       RealType gaussian = this->m_MovingDensityFunction->GetGaussian(neighbors[n])->Evaluate(samplePoint);
 
@@ -153,7 +153,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
       typename GaussianType::MeanVectorType mean = this->m_MovingDensityFunction->GetGaussian(neighbors[n])->GetMean();
 
       Array<CoordRepType> diffMean(PointDimension);
-      for (unsigned int i = 0; i < PointDimension; i++)
+      for (unsigned int i = 0; i < PointDimension; ++i)
       {
         diffMean[i] = mean[i] - samplePoint[i];
       }
@@ -170,7 +170,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
       }
 
       DerivativeValueType factor = this->m_Prefactor1 * gaussian / probabilityStarFactor;
-      for (unsigned int i = 0; i < PointDimension; i++)
+      for (unsigned int i = 0; i < PointDimension; ++i)
       {
         derivativeReturn[i] += diffMean[i] * factor;
       }

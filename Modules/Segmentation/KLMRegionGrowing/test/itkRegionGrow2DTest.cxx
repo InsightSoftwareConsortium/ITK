@@ -186,7 +186,7 @@ test_RegionGrowKLMExceptionHandling()
   exceptionTestingFilter5D->SetMaximumNumberOfRegions(2);
 
   // size lengths must be divisible by the grid size along each dimension
-  for (int idim = 0; idim < NUMDIM5D; idim++)
+  for (int idim = 0; idim < NUMDIM5D; ++idim)
   {
     gridSize5D[idim]++;
     exceptionTestingFilter5D->SetGridSize(gridSize5D);
@@ -736,7 +736,7 @@ test_regiongrowKLM1D()
     pixelOut5in[0] = 0;
     pixelOut5in[1] = 0;
     pixelOut5in[2] = 0;
-    for (int idx = 0; idx < gridWidth; idx++)
+    for (int idx = 0; idx < gridWidth; ++idx)
     {
       pixelIn = inIt.Get();
       pixelOut5in[0] += pixelIn[0];
@@ -758,7 +758,7 @@ test_regiongrowKLM1D()
 
     pixelOut5in /= gridWidth;
     pixelOut5in /= spacing[0];
-    for (int idx = 0; idx < gridWidth; idx++)
+    for (int idx = 0; idx < gridWidth; ++idx)
     {
       pixelOut5out = outIt5.Get();
       std::cout << "idx: " << idx << " pixelOut5out: " << pixelOut5out << std::endl;

@@ -42,7 +42,7 @@ public:
   {
     AccumulatorType sum = NumericTraits<TOutput>::ZeroValue();
 
-    for (unsigned int i = 0; i < B.size(); i++)
+    for (unsigned int i = 0; i < B.size(); ++i)
     {
       sum += static_cast<AccumulatorType>(B[i]);
     }

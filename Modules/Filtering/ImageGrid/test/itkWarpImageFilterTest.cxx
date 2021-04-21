@@ -124,7 +124,7 @@ itkWarpImageFilterTest(int, char *[])
   ImagePattern<ImageDimension> pattern;
 
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
@@ -145,7 +145,7 @@ itkWarpImageFilterTest(int, char *[])
 
   ImageType::RegionType fieldRegion;
   ImageType::SizeType   fieldSize;
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     fieldSize[j] = size[j] * factors[j] + 5;
   }
@@ -162,7 +162,7 @@ itkWarpImageFilterTest(int, char *[])
   {
     ImageType::IndexType index = fieldIter.GetIndex();
     VectorType           displacement;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       displacement[j] = (float)index[j] * ((1.0 / factors[j]) - 1.0);
     }
@@ -228,7 +228,7 @@ itkWarpImageFilterTest(int, char *[])
   ImageType::SizeType decrementForScaling;
   ImageType::SizeType clampSizeDecrement;
   ImageType::SizeType clampSize;
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     validSize[j] = size[j] * factors[j];
 
@@ -262,7 +262,7 @@ itkWarpImageFilterTest(int, char *[])
   validRegion.SetSize(validSize);
 
   // adjust the pattern coefficients to match
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] /= (double)factors[j];
   }

@@ -99,7 +99,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
 
     bool newMainLine = false;
     // don't check dim 0!
-    for (unsigned int i = 1; i < ImageDimension; i++)
+    for (unsigned int i = 1; i < ImageDimension; ++i)
     {
       if (idx[i] != prevIdx[i])
       {
@@ -217,7 +217,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   }
 
   // put the lines in their object
-  for (unsigned int i = 0; i < lines.size(); i++)
+  for (unsigned int i = 0; i < lines.size(); ++i)
   {
     LineOfLabelObject & l = lines[i];
     l.labelObject->AddLine(l.line);

@@ -44,7 +44,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   image->Allocate(true); // initialize buffer to zero
 
   // Fill the image with a straight line
-  for (unsigned int i = 0; i < 50; i++)
+  for (unsigned int i = 0; i < 50; ++i)
   {
     ImageType::IndexType ind;
     ind[0] = i;
@@ -65,7 +65,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   gaussianFunction->SetSigma(5.0);
   const GFunctionType::SigmaArrayType & sigma = gaussianFunction->GetSigma();
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     if (sigma[i] != 5.0)
     {
@@ -81,7 +81,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   gaussianFunction->SetExtent(5.0);
   const GFunctionType::ExtentArrayType & ext = gaussianFunction->GetExtent();
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     if (ext[i] != 5.0)
     {
@@ -102,7 +102,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
 
     const GFunctionType::ErrorArrayType & readError = gaussianFunction->GetMaximumError();
 
-    for (unsigned int i = 0; i < Dimension; i++)
+    for (unsigned int i = 0; i < Dimension; ++i)
     {
       if (std::fabs(setError[i] - readError[i]) > 1e-6)
       {

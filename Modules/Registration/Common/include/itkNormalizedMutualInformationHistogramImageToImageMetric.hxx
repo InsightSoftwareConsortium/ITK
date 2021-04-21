@@ -36,7 +36,7 @@ NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage
 
   auto totalFreq = static_cast<HistogramFrequencyRealType>(histogram.GetTotalFrequency());
 
-  for (unsigned int i = 0; i < this->GetHistogramSize()[0]; i++)
+  for (unsigned int i = 0; i < this->GetHistogramSize()[0]; ++i)
   {
     auto freq = static_cast<HistogramFrequencyRealType>(histogram.GetFrequency(i, 0));
 
@@ -48,7 +48,7 @@ NormalizedMutualInformationHistogramImageToImageMetric<TFixedImage, TMovingImage
 
   entropyX = -entropyX / static_cast<MeasureType>(totalFreq) + std::log(totalFreq);
 
-  for (unsigned int i = 0; i < this->GetHistogramSize()[1]; i++)
+  for (unsigned int i = 0; i < this->GetHistogramSize()[1]; ++i)
   {
     auto freq = static_cast<HistogramFrequencyRealType>(histogram.GetFrequency(i, 1));
 

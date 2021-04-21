@@ -182,7 +182,7 @@ TestDriverInvokeProcess(const ArgumentsList & args)
 {
   // a nullptr is required at the end of the table
   auto ** argv = new char *[args.size() + 1];
-  for (unsigned int i = 0; i < args.size(); i++)
+  for (unsigned int i = 0; i < args.size(); ++i)
   {
     argv[i] = args[i];
   }

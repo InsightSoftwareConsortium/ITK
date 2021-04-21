@@ -240,7 +240,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   {
     it.Set(0);
     bool awayfromborder = true;
-    for (unsigned int j = 0; j < ImageDimensionality; j++)
+    for (unsigned int j = 0; j < ImageDimensionality; ++j)
     {
       if (it.GetIndex()[j] < static_cast<typename ImageType::IndexValueType>(imageBorder) ||
           static_cast<unsigned int>(std::abs(static_cast<float>(it.GetIndex()[j]) - static_cast<float>(size[j]))) <
@@ -323,7 +323,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   // run 1: with gradient filter: off
 
   double sumc = 0.0;
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     bool b2 = false;
     switch (i)
@@ -394,7 +394,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
   outputPath += commandName;
   std::cout << outputPath << std::endl;
 
-  for (dimensionality = 2; dimensionality <= 3; dimensionality++)
+  for (dimensionality = 2; dimensionality <= 3; ++dimensionality)
   {
     std::cout << "testing dimension: " << dimensionality << std::endl;
     minimumAverage = itk::NumericTraits<double>::max();

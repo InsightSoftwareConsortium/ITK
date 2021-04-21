@@ -87,7 +87,7 @@ itkKdTreeTest2(int argc, char * argv[])
   tree->PrintTree(std::cout);
 
 
-  for (unsigned int k = 0; k < sample->Size(); k++)
+  for (unsigned int k = 0; k < sample->Size(); ++k)
   {
 
     queryPoint = sample->GetMeasurementVector(k);

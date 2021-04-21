@@ -75,7 +75,7 @@ EllipseSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point)
 {
   double d;
   double r = 0;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     if (m_RadiusInObjectSpace[i] > 0.0)
     {
@@ -107,7 +107,7 @@ EllipseSpatialObject<TDimension>::ComputeMyBoundingBox()
 
   PointType pnt1;
   PointType pnt2;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace[i];
     pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace[i];

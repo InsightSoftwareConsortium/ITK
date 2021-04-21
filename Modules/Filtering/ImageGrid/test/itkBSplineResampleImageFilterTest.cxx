@@ -62,7 +62,7 @@ PrintImageData(ImageTypePtr2D imgPtr)
   int dim = ImageType2D::ImageDimension;
 
   std::cout << "Spacing: " << std::endl;
-  for (int n = 0; n < dim; n++)
+  for (int n = 0; n < dim; ++n)
   {
     std::cout << imgPtr->GetSpacing()[n] << ", ";
   }
@@ -73,9 +73,9 @@ PrintImageData(ImageTypePtr2D imgPtr)
   SizeType2D size = imgPtr->GetLargestPossibleRegion().GetSize();
 
   std::cout << "Data: " << std::endl;
-  for (int n = 0; n < dim - 1; n++)
+  for (int n = 0; n < dim - 1; ++n)
   {
-    for (unsigned int jj = 0; jj < size[n + 1]; jj++)
+    for (unsigned int jj = 0; jj < size[n + 1]; ++jj)
     {
 
       while (!outIt.IsAtEndOfLine())

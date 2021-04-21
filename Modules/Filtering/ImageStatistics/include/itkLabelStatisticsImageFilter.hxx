@@ -103,7 +103,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::MergeMap(MapType & m1, Map
       {
         typename HistogramType::IndexType index;
         index.SetSize(1);
-        for (unsigned int bin = 0; bin < m_NumBins[0]; bin++)
+        for (unsigned int bin = 0; bin < m_NumBins[0]; ++bin)
         {
           index[0] = bin;
           labelStats.m_Histogram->IncreaseFrequency(bin, m2_value.second.m_Histogram->GetFrequency(bin));

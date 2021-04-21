@@ -41,7 +41,7 @@ EuclideanSquareDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x
 
   double temp, distance = NumericTraits<double>::ZeroValue();
 
-  for (unsigned int i = 0; i < measurementVectorSize; i++)
+  for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
     temp = this->GetOrigin()[i] - x[i];
     distance += temp * temp;
@@ -63,7 +63,7 @@ EuclideanSquareDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x
   }
 
   double temp, distance = NumericTraits<double>::ZeroValue();
-  for (unsigned int i = 0; i < measurementVectorSize; i++)
+  for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
     temp = x1[i] - x2[i];
     distance += temp * temp;

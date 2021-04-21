@@ -255,7 +255,7 @@ SliceBySliceImageFilter<TInputImage,
   using InternalInputImagePointer = typename InternalInputImageType::Pointer;
   std::vector<InternalInputImagePointer> internalInputs(this->GetNumberOfIndexedInputs());
 
-  for (unsigned int i = 0; i < numberOfIndexedInputs; i++)
+  for (unsigned int i = 0; i < numberOfIndexedInputs; ++i)
   {
 
     InternalSpacingType internalInputSpacing;
@@ -285,7 +285,7 @@ SliceBySliceImageFilter<TInputImage,
     this->InvokeEvent(IterationEvent());
 
     // update the origin on a per-slice basis
-    for (unsigned int i = 0; i < numberOfIndexedInputs; i++)
+    for (unsigned int i = 0; i < numberOfIndexedInputs; ++i)
     {
       // Passing through a N-1 direction matrix to the internal slice filter is
       // not supported to avoid dealing with singularities, but we still account
@@ -340,7 +340,7 @@ SliceBySliceImageFilter<TInputImage,
 
     // reallocate the internal input at each slice, so the slice by slice filter can work
     // even if the pipeline is run in place
-    for (unsigned int i = 0; i < numberOfIndexedInputs; i++)
+    for (unsigned int i = 0; i < numberOfIndexedInputs; ++i)
     {
       internalInputs[i]->SetRegions(internalInputRegion);
       internalInputs[i]->Allocate();
@@ -358,7 +358,7 @@ SliceBySliceImageFilter<TInputImage,
     progress.CompletedPixel();
 
     // and copy the output slice to the output image
-    for (unsigned int i = 0; i < numberOfIndexedOutputs; i++)
+    for (unsigned int i = 0; i < numberOfIndexedOutputs; ++i)
     {
       ImageAlgorithm::Copy(this->m_OutputFilter->GetOutput(i), this->GetOutput(i), internalOutputRegion, outputRegion);
     }

@@ -45,7 +45,7 @@ itkMetaImageIOGzTest(int ac, char * av[])
   std::string dataName(av[1]);
   dataName += "/GzTest.raw.gz";
   gzFile compressed = gzopen(dataName.c_str(), "wb");
-  for (unsigned short i = 0; i < (32 * 32); i++)
+  for (unsigned short i = 0; i < (32 * 32); ++i)
   {
     unsigned short pixel = i & 0xff;
     if (gzwrite(compressed, &pixel, sizeof(pixel)) != sizeof(pixel))

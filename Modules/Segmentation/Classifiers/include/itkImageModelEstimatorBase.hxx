@@ -56,7 +56,7 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>::PrintSelf(std::ostrea
   os << indent << "Results of the model estimator." << std::endl;
   os << indent << "====================================" << std::endl;
 
-  for (unsigned int classIndex = 0; classIndex < m_NumberOfModels; classIndex++)
+  for (unsigned int classIndex = 0; classIndex < m_NumberOfModels; ++classIndex)
   {
     os << indent << "Statistics for " << classIndex << std::endl;
     (m_MembershipFunctions[classIndex])->Print(os);

@@ -300,16 +300,16 @@ private:
     {
       typename ImageType::IndexType pixelIndex = { { 0, 0 } };
 
-      for (int r = 0; r < out->height; r++)
+      for (int r = 0; r < out->height; ++r)
       {
         ValueType * ptr = reinterpret_cast<ValueType *>(out->imageData + r * out->widthStep);
-        for (int c = 0; c < out->width; c++)
+        for (int c = 0; c < out->width; ++c)
         {
           pixelIndex[0] = c;
           pixelIndex[1] = r;
           typename ImageType::PixelType pixel = in->GetPixel(pixelIndex);
 
-          for (unsigned int i = 0; i < 3; i++)
+          for (unsigned int i = 0; i < 3; ++i)
           {
             *ptr++ = pixel[i];
           }

@@ -104,7 +104,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
       while (!it2D4.IsAtEndOfLine())
       {
         std::cout << "[";
-        for (unsigned int i = 0; i < 2; i++)
+        for (unsigned int i = 0; i < 2; ++i)
         {
           std::cout << it2D4.Get()[i];
           if (i == 0)
@@ -204,7 +204,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   // solved.
   ImageType3D::IndexType foregroundIndex;
   ImageType3D::SizeType  foregroundSize;
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     foregroundSize[i] = 5;
     foregroundIndex[i] = (size3D[i] / 2) - foregroundSize[i] / 2;

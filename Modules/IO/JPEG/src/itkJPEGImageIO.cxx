@@ -517,7 +517,7 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * buffer)
   // write the data. in jpeg, the first row is the top row of the image
   auto *    row_pointers = new JSAMPROW[height];
   const int rowInc = numComp * width;
-  for (unsigned int ui = 0; ui < height; ui++)
+  for (unsigned int ui = 0; ui < height; ++ui)
   {
     row_pointers[ui] = const_cast<JSAMPROW>(outPtr);
     outPtr = const_cast<JSAMPLE *>(outPtr) + rowInc;

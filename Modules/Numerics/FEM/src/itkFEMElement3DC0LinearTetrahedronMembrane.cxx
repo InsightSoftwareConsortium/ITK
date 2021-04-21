@@ -49,7 +49,7 @@ Element3DC0LinearTetrahedronMembrane::Element3DC0LinearTetrahedronMembrane(NodeI
   : Superclass()
 {
   // Set the geometrical points
-  for (int k = 0; k < 4; k++)
+  for (int k = 0; k < 4; ++k)
   {
     this->SetNode(k, ns_[k]);
   }

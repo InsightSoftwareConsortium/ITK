@@ -168,7 +168,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     TransformType::InputPointType fixedCenter;
     TransformType::InputPointType movingCenter;
 
-    for (unsigned int j = 0; j < Dimension; j++)
+    for (unsigned int j = 0; j < Dimension; ++j)
     {
       fixedCenter[j] = fixedOrigin[j] + size[j] * spacing[j] / 2.0;
       movingCenter[j] = movingOrigin[j] + size[j] * spacing[j] / 2.0;
@@ -179,7 +179,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
 
     const double tolerance = 1e-3;
 
-    for (unsigned int k = 0; k < Dimension; k++)
+    for (unsigned int k = 0; k < Dimension; ++k)
     {
       if (std::fabs(translation2[k] - relativeCenter[k]) > tolerance)
       {
@@ -212,7 +212,7 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     expectedPoint[1] = 165.75;
     expectedPoint[2] = 13.25;
 
-    for (unsigned int j = 0; j < Dimension; j++)
+    for (unsigned int j = 0; j < Dimension; ++j)
     {
       if (std::fabs(expectedPoint[j] - mappedOrigin[j]) > tolerance)
       {

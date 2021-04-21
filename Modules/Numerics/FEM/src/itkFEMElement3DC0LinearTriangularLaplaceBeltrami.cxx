@@ -127,39 +127,39 @@ Element3DC0LinearTriangularLaplaceBeltrami::GetStiffnessMatrix(MatrixType & Ke) 
   {
     Ke.set_size(9, 9);
     Ke.fill(0.0);
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[0][dd * 3] = cot[0][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[1][dd * 3 + 1] = cot[0][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[2][dd * 3 + 2] = cot[0][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[3][dd * 3] = cot[1][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[4][dd * 3 + 1] = cot[1][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[5][dd * 3 + 2] = cot[1][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[6][dd * 3] = cot[2][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[7][dd * 3 + 1] = cot[2][dd];
     }
-    for (int dd = 0; dd < 3; dd++)
+    for (int dd = 0; dd < 3; ++dd)
     {
       Ke[8][dd * 3 + 2] = cot[2][dd];
     }

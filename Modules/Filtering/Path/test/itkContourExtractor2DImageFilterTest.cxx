@@ -510,7 +510,7 @@ HasCorrectOutput(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::P
     return false;
   }
 
-  for (unsigned int i = 0; i < correct.size(); i++)
+  for (unsigned int i = 0; i < correct.size(); ++i)
   {
     itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
       extractor->GetOutput(i)->GetVertexList();
@@ -521,7 +521,7 @@ HasCorrectOutput(itkContourExtractor2DImageFilterTestNamespace::ExtractorType::P
     {
       return false;
     }
-    for (unsigned int j = 0; j < correctVertices.size(); j++)
+    for (unsigned int j = 0; j < correctVertices.size(); ++j)
     {
       const itkContourExtractor2DImageFilterTestNamespace::MyVertexType & correctVertex = correctVertices[j];
 

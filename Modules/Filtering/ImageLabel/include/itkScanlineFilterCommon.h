@@ -143,7 +143,7 @@ protected:
     SizeValueType stride = 1;
     RegionType    requestedRegion = m_EnclosingFilter->GetOutput()->GetRequestedRegion();
     // ignore x axis, which is always full size
-    for (unsigned dim = 1; dim < ImageDimension; dim++)
+    for (unsigned dim = 1; dim < ImageDimension; ++dim)
     {
       itkAssertOrThrowMacro(requestedRegion.GetIndex(dim) <= index[dim], "Index must be within the requested region!");
       linearIndex += (index[dim] - requestedRegion.GetIndex(dim)) * stride;
@@ -213,7 +213,7 @@ protected:
     OutputPixelType consecutiveLabel = 0;
     SizeValueType   count = 0;
 
-    for (size_t i = 1; i < N; i++)
+    for (size_t i = 1; i < N; ++i)
     {
       const auto label = static_cast<size_t>(m_UnionFind[i]);
       if (label == i)
@@ -236,7 +236,7 @@ protected:
     // This checks whether the line encodings are really neighbors. The first
     // dimension gets ignored because the encodings are along that axis.
     SizeValueType diffSum = 0;
-    for (unsigned i = 1; i < OutputImageDimension; i++)
+    for (unsigned i = 1; i < OutputImageDimension; ++i)
     {
       SizeValueType diff = Math::abs(A[i] - B[i]);
       if (diff > 1)
@@ -271,7 +271,7 @@ protected:
     {
       OutputOffsetType Off = current[0].where - Neighbour[0].where;
 
-      for (unsigned int i = 1; i < ImageDimension; i++)
+      for (unsigned int i = 1; i < ImageDimension; ++i)
       {
         if (Off[i] != 0)
         {
@@ -408,7 +408,7 @@ protected:
 
     PretendSizeType PretendSize;
     // The first dimension has been collapsed
-    for (SizeValueType i = 0; i < PretendSize.GetSizeDimension(); i++)
+    for (SizeValueType i = 0; i < PretendSize.GetSizeDimension(); ++i)
     {
       PretendSize[i] = OutSize[i + 1];
     }

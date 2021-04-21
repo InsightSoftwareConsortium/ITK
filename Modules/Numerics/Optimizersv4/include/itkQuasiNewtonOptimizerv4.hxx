@@ -70,7 +70,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::StartOptimization
   this->m_NewtonStepValidFlags.resize(numLocals);
 
   this->m_HessianArray.resize(numLocals);
-  for (SizeValueType loc = 0; loc < numLocals; loc++)
+  for (SizeValueType loc = 0; loc < numLocals; ++loc)
   {
     this->m_HessianArray[loc].SetSize(numLocalPara, numLocalPara);
   }
@@ -187,7 +187,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::CombineGradientNe
   const SizeValueType numLocals = this->m_Metric->GetNumberOfParameters() / numLocalPara;
 
   bool validNewtonStepExists = false;
-  for (SizeValueType loc = 0; loc < numLocals; loc++)
+  for (SizeValueType loc = 0; loc < numLocals; ++loc)
   {
     if (this->m_NewtonStepValidFlags[loc])
     {
@@ -207,13 +207,13 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::CombineGradientNe
     }
   }
 
-  for (SizeValueType loc = 0; loc < numLocals; loc++)
+  for (SizeValueType loc = 0; loc < numLocals; ++loc)
   {
     if (!this->m_NewtonStepValidFlags[loc])
     {
       // Using the Gradient step
       const SizeValueType offset = loc * numLocalPara;
-      for (SizeValueType p = offset; p < (offset + numLocalPara); p++)
+      for (SizeValueType p = offset; p < (offset + numLocalPara); ++p)
       {
         this->m_NewtonStep[p] = this->m_Gradient[p] * ratio;
       }
@@ -262,13 +262,13 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ResetNewtonStep(I
   // Initialize Hessian to identity matrix
   m_HessianArray[loc].Fill(NumericTraits<TInternalComputationValueType>::ZeroValue());
 
-  for (unsigned int i = 0; i < numLocalPara; i++)
+  for (unsigned int i = 0; i < numLocalPara; ++i)
   {
     m_HessianArray[loc][i][i] = NumericTraits<TInternalComputationValueType>::OneValue(); // identity matrix
   }
 
   IndexValueType offset = loc * numLocalPara;
-  for (SizeValueType p = 0; p < numLocalPara; p++)
+  for (SizeValueType p = 0; p < numLocalPara; ++p)
   {
     // Set to zero for invalid Newton steps.
     // They must be defined since they will be used during step scale estimation.
@@ -322,7 +322,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::EstimateNewtonSte
     high--;
   }
 
-  for (IndexValueType loc = low; loc <= high; loc++)
+  for (IndexValueType loc = low; loc <= high; ++loc)
   {
     if (this->GetCurrentIteration() == 0)
     {
@@ -357,7 +357,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
   DerivativeType dg(numLocalPara);  // delta of gradient: g_k+1 - g_k
   DerivativeType edg(numLocalPara); // estimated delta of gradient: hessian_k * dx
 
-  for (SizeValueType p = 0; p < numLocalPara; p++)
+  for (SizeValueType p = 0; p < numLocalPara; ++p)
   {
     dx[p] = this->m_CurrentPosition[offset + p] - this->m_PreviousPosition[offset + p];
     // gradient is already negated
@@ -381,7 +381,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
 
   this->m_HessianArray[loc] = newHessian;
 
-  for (SizeValueType p = 0; p < numLocalPara; p++)
+  for (SizeValueType p = 0; p < numLocalPara; ++p)
   {
     if (newHessian[p][p] < 0)
     {
@@ -398,7 +398,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
   else
   {
     DerivativeType gradient(numLocalPara);
-    for (SizeValueType p = 0; p < numLocalPara; p++)
+    for (SizeValueType p = 0; p < numLocalPara; ++p)
     {
       gradient[p] = this->m_Gradient[offset + p];
     }
@@ -408,7 +408,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
     };
     // gradient is already negated
     const DerivativeType newtonStep{ hessianInverse * gradient };
-    for (SizeValueType p = 0; p < numLocalPara; p++)
+    for (SizeValueType p = 0; p < numLocalPara; ++p)
     {
       this->m_NewtonStep[offset + p] = newtonStep[p];
     }

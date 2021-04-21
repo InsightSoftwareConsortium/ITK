@@ -142,7 +142,7 @@ void
 PolygonGroupSpatialObjectXMLFileReader::CharacterDataHandler(const char * inData, int inLength)
 {
   m_CurCharacterData = "";
-  for (int i = 0; i < inLength; i++)
+  for (int i = 0; i < inLength; ++i)
   {
     m_CurCharacterData = m_CurCharacterData + inData[i];
   }

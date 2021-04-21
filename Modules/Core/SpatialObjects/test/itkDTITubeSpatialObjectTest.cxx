@@ -67,7 +67,7 @@ itkDTITubeSpatialObjectTest(int, char *[])
   offset.Fill(10);
   tube1->GetModifiableObjectToParentTransform()->SetOffset(offset);
 
-  for (unsigned int i = 0; i < 10; i++)
+  for (unsigned int i = 0; i < 10; ++i)
   {
     TubePointType p;
     p.SetPositionInObjectSpace(i, i, i);

@@ -53,22 +53,22 @@ itkQuadEdgeMeshIteratorTest(int, char *[])
                                                { -1.0, 0.0, 0.0 }, { -0.5, -a, 0.0 }, { 0.5, -a, 0.0 } };
   MeshType::PointType       pnts[NumPoints];
   MeshType::PointIdentifier pids[NumPoints];
-  for (int i = 0; i < NumPoints; i++)
+  for (int i = 0; i < NumPoints; ++i)
   {
-    for (int j = 0; j < 3; j++)
+    for (int j = 0; j < 3; ++j)
     {
       pnts[i][j] = points[i][j];
     }
     pids[i] = mesh->AddPoint(pnts[i]);
   }
 
-  for (int i = 0; i < NumPoints; i++)
+  for (int i = 0; i < NumPoints; ++i)
   {
     mesh->AddEdge(pids[i], pids[(i + 1) % NumPoints]);
   }
 
   MeshType::QEPrimal * foundEdges[NumEdges];
-  for (int i = 0; i < NumPoints; i++)
+  for (int i = 0; i < NumPoints; ++i)
   {
     foundEdges[i] = mesh->FindEdge(pids[i], pids[(i + 1) % NumEdges]);
     if (!foundEdges[i])

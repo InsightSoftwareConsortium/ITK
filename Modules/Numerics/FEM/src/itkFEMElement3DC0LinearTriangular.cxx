@@ -164,7 +164,7 @@ Element3DC0LinearTriangular::GetLocalFromGlobalCoordinates(const VectorType & gl
   // which 2 out of 3 equations to use to develop equations. (Any 2 should
   // work since we've projected point to plane.)
   //
-  for (maxComponent = 0.0, i = 0; i < 3; i++)
+  for (maxComponent = 0.0, i = 0; i < 3; ++i)
   {
     // trying to avoid an expensive call to fabs()
     if (n[i] < 0)
@@ -181,14 +181,14 @@ Element3DC0LinearTriangular::GetLocalFromGlobalCoordinates(const VectorType & gl
       idx = i;
     }
   }
-  for (j = 0, i = 0; i < 3; i++)
+  for (j = 0, i = 0; i < 3; ++i)
   {
     if (i != idx)
     {
       indices[j++] = i;
     }
   }
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
     rhs[i] = cp[indices[i]] - pt3[indices[i]];
     c1[i] = pt1[indices[i]] - pt3[indices[i]];

@@ -169,14 +169,14 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
                       << ", but the NumberOfParameters for the CostFunction is " << spaceDimension << ".");
   }
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     transformedGradient[i] = m_Gradient[i] / scales[i];
     previousTransformedGradient[i] = m_PreviousGradient[i] / scales[i];
   }
 
   double magnitudeSquare = 0;
-  for (unsigned int dim = 0; dim < spaceDimension; dim++)
+  for (unsigned int dim = 0; dim < spaceDimension; ++dim)
   {
     const double weighted = transformedGradient[dim];
     magnitudeSquare += weighted * weighted;
@@ -197,7 +197,7 @@ RegularStepGradientDescentBaseOptimizer::AdvanceOneStep()
 
   double scalarProduct = 0;
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     const double weight1 = transformedGradient[i];
     const double weight2 = previousTransformedGradient[i];

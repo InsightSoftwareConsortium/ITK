@@ -31,7 +31,7 @@ namespace
 void
 PrintVector(const Vector2Type & v)
 {
-  for (unsigned int i = 0; i < Vector2Type::Dimension; i++)
+  for (unsigned int i = 0; i < Vector2Type::Dimension; ++i)
   {
     std::cout << v[i] << ", ";
   }
@@ -50,9 +50,9 @@ testMatrix(const TMatrix & m1, const TMatrix & m2, int maxUlps = 4)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < TMatrix::RowDimensions; i++)
+  for (unsigned int i = 0; i < TMatrix::RowDimensions; ++i)
   {
-    for (unsigned int j = 0; j < TMatrix::ColumnDimensions; j++)
+    for (unsigned int j = 0; j < TMatrix::ColumnDimensions; ++j)
     {
       if (!testValue(m1[i][j], m2[i][j], maxUlps))
       {
@@ -69,7 +69,7 @@ testVector(const TVector & v1, const TVector & v2, int maxUlps = 4)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < TVector::Dimension; i++)
+  for (unsigned int i = 0; i < TVector::Dimension; ++i)
   {
     if (!testValue(v1[i], v2[i], maxUlps))
     {
@@ -91,7 +91,7 @@ testVariableVector(const TVector & v1, const TVector & v2, int maxUlps = 4)
   {
     return false;
   }
-  for (unsigned int i = 0; i < D1; i++)
+  for (unsigned int i = 0; i < D1; ++i)
   {
     if (!testValue(v1[i], v2[i], maxUlps))
     {
@@ -158,9 +158,9 @@ itkAffineTransformTest(int, char *[])
   Affine2DType::Pointer aff2 = Affine2DType::New();
   aff2->SetMatrix(matrix2);
   aff2->SetOffset(vector2);
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (unsigned int j = 0; j < 2; j++)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       matrix2[i][j] = 0.0;
     }
@@ -200,9 +200,9 @@ itkAffineTransformTest(int, char *[])
   vector2[1] = 1;
   aff2->SetMatrix(matrix2);
   aff2->SetOffset(vector2);
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
-    for (unsigned int j = 0; j < 2; j++)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       matrix2[i][j] = 0.0;
     }
@@ -558,9 +558,9 @@ itkAffineTransformTest(int, char *[])
                     0, 0,  0,  0, 1, 0, 0, 0, 0, 0, 0, 0, 5, 10, 15, 0, 0,  1 };
   vnl_matrix<double>         vnlData(data, 3, 12);
   Affine3DType::JacobianType expectedJacobian(vnlData);
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
-    for (unsigned int j = 0; j < 12; j++)
+    for (unsigned int j = 0; j < 12; ++j)
     {
       if (!testValue(expectedJacobian[i][j], jaffJacobian[i][j]))
       {
@@ -574,9 +574,9 @@ itkAffineTransformTest(int, char *[])
   const Affine3DType::MatrixType     jaffMatrix = jaff->GetMatrix();
   Affine3DType::JacobianPositionType jaffJacobianPosition;
   jaff->ComputeJacobianWithRespectToPosition(jpoint, jaffJacobianPosition);
-  for (unsigned int i = 0; i < Affine3DType::MatrixType::RowDimensions; i++)
+  for (unsigned int i = 0; i < Affine3DType::MatrixType::RowDimensions; ++i)
   {
-    for (unsigned int j = 0; j < Affine3DType::MatrixType::ColumnDimensions; j++)
+    for (unsigned int j = 0; j < Affine3DType::MatrixType::ColumnDimensions; ++j)
     {
       if (!testValue(jaffJacobianPosition[i][j], jaffMatrix[i][j]))
       {
@@ -672,7 +672,7 @@ itkAffineTransformTest(int, char *[])
 
   Affine3DType::ParametersType parametersRead(paff->GetNumberOfParameters());
   parametersRead = paff->GetParameters();
-  for (unsigned int k = 0; k < paff->GetNumberOfParameters(); k++)
+  for (unsigned int k = 0; k < paff->GetNumberOfParameters(); ++k)
   {
     if (!testValue(parameters1[k], parametersRead[k]))
     {
@@ -685,7 +685,7 @@ itkAffineTransformTest(int, char *[])
   Affine3DType::DerivativeType update(paff->GetNumberOfParameters());
   Affine3DType::ParametersType updateTruth;
   updateTruth = parameters1;
-  for (unsigned int i = 0; i < paff->GetNumberOfParameters(); i++)
+  for (unsigned int i = 0; i < paff->GetNumberOfParameters(); ++i)
   {
     update[i] = i / 10.0;
     updateTruth[i] += update[i];
@@ -693,7 +693,7 @@ itkAffineTransformTest(int, char *[])
   /* Update all the parameters, with default scaling factor of 1 */
   paff->UpdateTransformParameters(update);
   parametersRead = paff->GetParameters();
-  for (unsigned int k = 0; k < paff->GetNumberOfParameters(); k++)
+  for (unsigned int k = 0; k < paff->GetNumberOfParameters(); ++k)
   {
     if (itk::Math::NotAlmostEquals(updateTruth[k], parametersRead[k]))
     {
@@ -707,14 +707,14 @@ itkAffineTransformTest(int, char *[])
   }
   /* Update with a non-unit scaling factor */
   double factor = 0.5;
-  for (unsigned int i = 0; i < paff->GetNumberOfParameters(); i++)
+  for (unsigned int i = 0; i < paff->GetNumberOfParameters(); ++i)
   {
     update[i] = i;
     updateTruth[i] += update[i] * factor;
   }
   paff->UpdateTransformParameters(update, factor);
   parametersRead = paff->GetParameters();
-  for (unsigned int k = 0; k < paff->GetNumberOfParameters(); k++)
+  for (unsigned int k = 0; k < paff->GetNumberOfParameters(); ++k)
   {
     if (itk::Math::NotAlmostEquals(updateTruth[k], parametersRead[k]))
     {
@@ -744,7 +744,7 @@ itkAffineTransformTest(int, char *[])
     expectedParameters.Fill(0.0);
     expectedParameters[0] = 1.0;
     expectedParameters[3] = 1.0;
-    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); ++k)
     {
       if (!testValue(parameters2[k], expectedParameters[k]))
       {
@@ -763,7 +763,7 @@ itkAffineTransformTest(int, char *[])
 
     transform->SetParameters(expectedParameters);
     parameters2 = transform->GetParameters();
-    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); ++k)
     {
       if (!testValue(parameters2[k], expectedParameters[k]))
       {
@@ -796,7 +796,7 @@ itkAffineTransformTest(int, char *[])
 
     other->Print(std::cout);
     otherbis->Print(std::cout);
-    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); ++k)
     {
       if (!testValue(parameters2[k], expectedParameters[k]))
       {
@@ -807,7 +807,7 @@ itkAffineTransformTest(int, char *[])
         break;
       }
     }
-    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < transform->GetNumberOfParameters(); ++k)
     {
       if (!testValue(parameters2bis[k], expectedParameters[k]))
       {

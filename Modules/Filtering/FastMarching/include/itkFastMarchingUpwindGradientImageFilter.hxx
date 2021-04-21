@@ -255,7 +255,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::ComputeGradient(
 
   unsigned int xStride[Self::SetDimension];
 
-  for (unsigned int j = 0; j < SetDimension; j++)
+  for (unsigned int j = 0; j < SetDimension; ++j)
   {
     centerPixel = output->GetPixel(index);
 

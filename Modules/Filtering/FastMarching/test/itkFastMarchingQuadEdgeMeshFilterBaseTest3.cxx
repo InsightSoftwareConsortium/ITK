@@ -62,9 +62,9 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
 
   int k = 0;
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; ++i)
   {
-    for (int j = 0; j < 10; j++)
+    for (int j = 0; j < 10; ++j)
     {
       p[1] = static_cast<CoordType>(j);
       if ((k % 2 == 0) && (i != 0) && (j != 0))
@@ -89,9 +89,9 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
 
   k = 0;
 
-  for (int i = 0; i < 9; i++)
+  for (int i = 0; i < 9; ++i)
   {
-    for (int j = 0; j < 9; j++)
+    for (int j = 0; j < 9; ++j)
     {
       plane->AddFaceTriangle(k, k + 1, k + 11);
       plane->AddFaceTriangle(k, k + 11, k + 10);

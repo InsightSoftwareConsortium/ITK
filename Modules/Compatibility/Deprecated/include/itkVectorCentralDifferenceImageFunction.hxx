@@ -58,7 +58,7 @@ VectorCentralDifferenceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(co
   const typename InputImageType::SizeType &  size = this->GetInputImage()->GetBufferedRegion().GetSize();
   const typename InputImageType::IndexType & start = this->GetInputImage()->GetBufferedRegion().GetIndex();
 
-  for (unsigned int dim = 0; dim < TInputImage::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < TInputImage::ImageDimension; ++dim)
   {
     // bounds checking
     if (index[dim] < start[dim] + 1 || index[dim] > (start[dim] + static_cast<OffsetValueType>(size[dim]) - 2))

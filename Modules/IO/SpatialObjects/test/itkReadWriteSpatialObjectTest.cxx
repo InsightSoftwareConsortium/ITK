@@ -69,7 +69,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   LineType::LinePointListType         list6;
   LandmarkType::LandmarkPointListType list7;
 
-  for (unsigned int i = 0; i < 10; i++)
+  for (unsigned int i = 0; i < 10; ++i)
   {
     TubePointType p;
     p.SetPositionInObjectSpace(i, i, i);
@@ -83,7 +83,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     list.push_back(p);
   }
 
-  for (unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     VesselTubePointType p;
     p.SetPositionInObjectSpace(i * 2, i * 2, i * 2);
@@ -103,7 +103,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     list2.push_back(p);
   }
 
-  for (unsigned int i = 0; i < 7; i++)
+  for (unsigned int i = 0; i < 7; ++i)
   {
     DTITubePointType p;
     p.SetPositionInObjectSpace(i * 3, i * 3, i * 3);
@@ -123,7 +123,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     // this is only for testing
     // the tensor matrix should be definite positive
     // in the real case
-    for (unsigned int k = 0; k < 6; k++)
+    for (unsigned int k = 0; k < 6; ++k)
     {
       v[k] = k;
     }
@@ -133,7 +133,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   }
 
   // Blob point list
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     BlobPointType p;
     p.SetPositionInObjectSpace(i, i, i);
@@ -146,12 +146,12 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
 
   // Surface point list
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     SurfacePointType p;
     p.SetPositionInObjectSpace(i, i, i);
     SurfacePointType::CovariantVectorType normal;
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       normal[j] = j;
     }
@@ -164,7 +164,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   }
 
   // Line point list
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     LinePointType p;
     p.SetPositionInObjectSpace(i, i, i);
@@ -174,7 +174,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     p.SetAlpha(i + 3);
     LinePointType::CovariantVectorType normal1;
     LinePointType::CovariantVectorType normal2;
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       normal1[j] = j;
       normal2[j] = 2 * j;
@@ -185,7 +185,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   }
 
   // Landmark point list
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     LinePointType p;
     p.SetPositionInObjectSpace(i, i, i);
@@ -265,7 +265,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   unsigned int dim = 3;
   double       spacing[3];
 
-  for (unsigned int i = 0; i < dim; i++)
+  for (unsigned int i = 0; i < dim; ++i)
   {
     size[i] = 10;
     spacing[i] = i + 1;
@@ -329,7 +329,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   contour->SetIsClosed(true);
   contour->SetAttachedToSlice(50);
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; ++i)
   {
     ContourType::ContourPointType                      ctrlPt;
     ContourType::ContourPointType::PointType           p;
@@ -460,7 +460,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   ReaderType::SpatialObjectType::ChildrenListType::const_iterator obj;
 
   bool found = false;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if (!strcmp((*obj)->GetTypeName().c_str(), "TubeSpatialObject"))
@@ -471,7 +471,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            j != dynamic_cast<TubeType *>((*obj).GetPointer())->GetPoints().end();
            j++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if (itk::Math::NotExactlyEquals((*j).GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
@@ -551,7 +551,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   found = false;
   std::cout << "Testing VesselTubeSpatialObject: ";
   VesselTubeType::TubePointListType::const_iterator jv;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if (!strcmp((*obj)->GetTypeName().c_str(), "VesselTubeSpatialObject"))
@@ -562,7 +562,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            jv != dynamic_cast<VesselTubeType *>((*obj).GetPointer())->GetPoints().end();
            jv++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if (itk::Math::NotExactlyEquals((*jv).GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
@@ -664,7 +664,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   found = false;
   std::cout << "Testing DTITubeSpatialObject: ";
   DTITubeType::DTITubePointListType::const_iterator jdti;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     std::cout << "obj = " << (*obj)->GetTypeName() << std::endl;
     if (!strcmp((*obj)->GetTypeName().c_str(), "DTITubeSpatialObject"))
@@ -675,7 +675,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            jdti != dynamic_cast<DTITubeType *>((*obj).GetPointer())->GetPoints().end();
            jdti++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if (itk::Math::NotExactlyEquals((*jdti).GetPositionInObjectSpace()[d], value * (*obj)->GetId()))
           {
@@ -761,7 +761,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
           return EXIT_FAILURE;
         }
         int ind;
-        for (ind = 0; ind < 6; ind++)
+        for (ind = 0; ind < 6; ++ind)
         {
           if (itk::Math::NotExactlyEquals((*jdti).GetTensorMatrix()[ind], ind))
           {
@@ -792,11 +792,11 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   std::cout << "Testing Ellipse parameters:";
   bool gotEllipse = false;
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "EllipseSpatialObject"))
     {
-      for (unsigned int jj = 0; jj < 3; jj++)
+      for (unsigned int jj = 0; jj < 3; ++jj)
       {
         if (dynamic_cast<EllipseType *>((*obj).GetPointer())->GetRadiusInObjectSpace()[jj] != 9.0)
         {
@@ -820,7 +820,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Image data validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "ImageSpatialObject"))
     {
@@ -849,7 +849,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   std::cout << "Testing Image Mask validity:";
 
   bool maskFound = false;
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "ImageMaskSpatialObject"))
     {
@@ -881,7 +881,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Blob validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     BlobType::BlobPointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "BlobSpatialObject"))
@@ -891,7 +891,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            pit != dynamic_cast<BlobType *>((*obj).GetPointer())->GetPoints().end();
            pit++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
           {
@@ -941,7 +941,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Surface validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     SurfaceType::SurfacePointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "SurfaceSpatialObject"))
@@ -951,7 +951,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            pit != dynamic_cast<SurfaceType *>((*obj).GetPointer())->GetPoints().end();
            pit++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
           {
@@ -1010,7 +1010,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Line validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     LineType::LinePointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "LineSpatialObject"))
@@ -1020,7 +1020,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            pit != dynamic_cast<LineType *>((*obj).GetPointer())->GetPoints().end();
            pit++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
           {
@@ -1084,7 +1084,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Landmark validity:";
 
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     LandmarkType::LandmarkPointListType::const_iterator pit;
     if (!strcmp((*obj)->GetTypeName().c_str(), "LandmarkSpatialObject"))
@@ -1094,7 +1094,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            pit != dynamic_cast<LandmarkType *>((*obj).GetPointer())->GetPoints().end();
            pit++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if (itk::Math::NotExactlyEquals((*pit).GetPositionInObjectSpace()[d], value))
           {
@@ -1110,7 +1110,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << " [PASSED]" << std::endl;
   std::cout << "Testing Contour validity:";
-  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); obj++)
+  for (obj = mySceneChildren->begin(); obj != mySceneChildren->end(); ++obj)
   {
     if (!strcmp((*obj)->GetTypeName().c_str(), "ContourSpatialObject"))
     {
@@ -1145,7 +1145,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            ctrl != dynamic_cast<ContourType *>((*obj).GetPointer())->GetControlPoints().end();
            ctrl++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if ((*ctrl).GetId() != value)
           {
@@ -1220,7 +1220,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
            inter != dynamic_cast<ContourType *>((*obj).GetPointer())->GetPoints().end();
            inter++)
       {
-        for (unsigned int d = 0; d < 3; d++)
+        for (unsigned int d = 0; d < 3; ++d)
         {
           if ((*inter).GetId() != value)
           {

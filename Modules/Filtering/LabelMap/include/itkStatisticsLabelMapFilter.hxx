@@ -134,11 +134,11 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
     // moments
     PointType physicalPosition;
     output->TransformIndexToPhysicalPoint(idx, physicalPosition);
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       centerOfGravity[i] += physicalPosition[i] * v;
       centralMoments[i][i] += v * physicalPosition[i] * physicalPosition[i];
-      for (unsigned int j = i + 1; j < ImageDimension; j++)
+      for (unsigned int j = i + 1; j < ImageDimension; ++j)
       {
         double weight = v * physicalPosition[i] * physicalPosition[j];
         centralMoments[i][j] += weight;
@@ -179,7 +179,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   // the median
   double median = 0;
   double count = 0; // will not be fully set, so do not use later !
-  for (SizeValueType i = 0; i < histogram->Size(); i++)
+  for (SizeValueType i = 0; i < histogram->Size(); ++i)
   {
     count += histogram->GetFrequency(i);
 
@@ -196,26 +196,26 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   if (Math::NotAlmostEquals(sum, 0.0))
   {
     // Normalize using the total mass
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       centerOfGravity[i] /= sum;
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         centralMoments[i][j] /= sum;
       }
     }
 
     // Center the second order moments
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         centralMoments[i][j] -= centerOfGravity[i] * centerOfGravity[j];
       }
     }
 
     // the normalized second order central moment of a pixel
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       centralMoments[i][i] += output->GetSpacing()[i] * output->GetSpacing()[i] / 12.0;
     }
@@ -223,7 +223,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
     // Compute principal moments and axes
     vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
     vnl_diag_matrix<double>           pm{ eigen.D };
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       //    principalMoments[i] = 4 * std::sqrt( pm(i,i) );
       principalMoments[i] = pm(i);
@@ -236,12 +236,12 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
     vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
     std::complex<double>                  det(1.0, 0.0);
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       det *= eigenval(i);
     }
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       principalAxes[ImageDimension - 1][i] *= std::real(det);
     }
@@ -265,11 +265,11 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
     // can't compute anything in that case - just set everything to a default
     // value
     // Normalize using the total mass
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       centerOfGravity[i] = 0;
       principalMoments[i] = 0;
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         principalAxes[i][j] = 0;
       }

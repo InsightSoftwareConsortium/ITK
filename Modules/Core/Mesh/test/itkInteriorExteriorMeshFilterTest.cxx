@@ -53,11 +53,11 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
   int                                    n = 3;     // let's start with a few of them
   PointsContainerType::ElementIdentifier count = 0; // count them
 
-  for (int x = -n; x <= n; x++)
+  for (int x = -n; x <= n; ++x)
   {
-    for (int y = -n; y <= n; y++)
+    for (int y = -n; y <= n; ++y)
     {
-      for (int z = -n; z <= n; z++)
+      for (int z = -n; z <= n; ++z)
       {
         PointType p;
         p[0] = x;

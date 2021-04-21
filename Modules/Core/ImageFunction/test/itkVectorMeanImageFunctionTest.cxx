@@ -101,7 +101,7 @@ itkVectorMeanImageFunctionTest(int, char *[])
 
   // since the input image is constant
   // the should be equal to the initial value
-  for (unsigned int ii = 0; ii < VectorDimension; ii++)
+  for (unsigned int ii = 0; ii < VectorDimension; ++ii)
   {
     if (itk::Math::abs(initialValue[ii] - mean[ii]) > 10e-7)
     {

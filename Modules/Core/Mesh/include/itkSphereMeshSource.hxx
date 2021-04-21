@@ -167,9 +167,9 @@ SphereMeshSource<TOutputMesh>::GenerateData()
 
   // store all regular cells
   CellAutoPointer testCell;
-  for (unsigned int ii = 0; ii + 1 < m_ResolutionX; ii++)
+  for (unsigned int ii = 0; ii + 1 < m_ResolutionX; ++ii)
   {
-    for (unsigned int jj = 0; jj < m_ResolutionY; jj++)
+    for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
     {
       jn = (jj + 1) % m_ResolutionY;
       tripoints[0] = ii * m_ResolutionY + jj;
@@ -191,7 +191,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   }
 
   // store cells containing the south pole nodes
-  for (unsigned int jj = 0; jj < m_ResolutionY; jj++)
+  for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
   {
     jn = (jj + 1) % m_ResolutionY;
     tripoints[0] = numpts - 2;
@@ -205,7 +205,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
   }
 
   // store cells containing the north pole nodes
-  for (unsigned int jj = 0; jj < m_ResolutionY; jj++)
+  for (unsigned int jj = 0; jj < m_ResolutionY; ++jj)
   {
     jn = (jj + 1) % m_ResolutionY;
     tripoints[2] = (m_ResolutionX - 1) * m_ResolutionY + jj;

@@ -255,9 +255,9 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->m_GradientImage->GetPixel(mappedIndex);
-      for (unsigned int par = 0; par < ParametersDimension; par++)
+      for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
-        for (unsigned int dim = 0; dim < ImageDimension; dim++)
+        for (unsigned int dim = 0; dim < ImageDimension; ++dim)
         {
           sum2[par] += jacobian(dim, par) * gradient[dim];
           if (Math::AlmostEquals(fixedValue, m_ForegroundValue))
@@ -277,7 +277,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
   else
   {
     double areaSum = double(fixedArea) + double(movingArea);
-    for (unsigned int par = 0; par < ParametersDimension; par++)
+    for (unsigned int par = 0; par < ParametersDimension; ++par)
     {
       derivative[par] = -(areaSum * sum1[par] - 2.0 * intersection * sum2[par]) / (areaSum * areaSum);
     }
@@ -314,7 +314,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::ComputeGradient()
     currIndex = mit.GetIndex();
     minusIndex = mit.GetIndex();
     plusIndex = mit.GetIndex();
-    for (unsigned int i = 0; i < dim; i++)
+    for (unsigned int i = 0; i < dim; ++i)
     {
       if ((currIndex[i] == 0) ||
           (static_cast<typename MovingImageType::SizeType::SizeValueType>(currIndex[i]) == (movingSize[i] - 1)))

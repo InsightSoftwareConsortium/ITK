@@ -442,7 +442,7 @@ QuadEdge::IsLnextGivenSizeCyclic(const int size) const
 {
   const Self * iterated = this;
 
-  for (int i = 0; i < size; i++)
+  for (int i = 0; i < size; ++i)
   {
     iterated = iterated->GetLnext();
     if (!iterated)

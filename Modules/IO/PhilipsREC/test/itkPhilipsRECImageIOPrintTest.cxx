@@ -162,7 +162,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   std::cout << "EchoTimes =";
-  for (PhilipsRECImageIOType::EchoTimesContainerType::ElementIdentifier iter = 0; iter < ptrToEchoes->Size(); iter++)
+  for (PhilipsRECImageIOType::EchoTimesContainerType::ElementIdentifier iter = 0; iter < ptrToEchoes->Size(); ++iter)
   {
     std::cout << " " << ptrToEchoes->ElementAt(iter);
   }
@@ -239,7 +239,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   std::cout << "RepetitionTimes =";
-  for (PhilipsRECImageIOType::RepetitionTimesContainerType::ElementIdentifier iter = 0; iter < ptrToTR->Size(); iter++)
+  for (PhilipsRECImageIOType::RepetitionTimesContainerType::ElementIdentifier iter = 0; iter < ptrToTR->Size(); ++iter)
   {
     std::cout << " " << ptrToTR->ElementAt(iter);
   }

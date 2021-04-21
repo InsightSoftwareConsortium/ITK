@@ -77,7 +77,7 @@ public:
 
     value = 0.0;
 
-    for (NumberOfParametersType i = 0; i < this->GetNumberOfParameters(); i++)
+    for (NumberOfParametersType i = 0; i < this->GetNumberOfParameters(); ++i)
     {
       derivative[i] = i;
     }
@@ -163,7 +163,7 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   itkOptimizer->SetNumberOfIterations(1);
 
   ScalesType scales(metric->GetNumberOfLocalParameters());
-  for (NumberOfParametersType i = 0; i < metric->GetNumberOfLocalParameters(); i++)
+  for (NumberOfParametersType i = 0; i < metric->GetNumberOfLocalParameters(); ++i)
   {
     scales[i] = i + 2;
   }
@@ -172,9 +172,9 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   ParametersType         truth(metric->GetNumberOfParameters());
   NumberOfParametersType numLocal = metric->GetNumberOfLocalParameters();
   NumberOfParametersType numLoops = metric->GetNumberOfParameters() / numLocal;
-  for (NumberOfParametersType i = 0; i < numLoops; i++)
+  for (NumberOfParametersType i = 0; i < numLoops; ++i)
   {
-    for (NumberOfParametersType j = 0; j < numLocal; j++)
+    for (NumberOfParametersType j = 0; j < numLocal; ++j)
     {
       NumberOfParametersType ind = i * numLocal + j;
       truth[ind] = initialPosition[ind] + (ind) / scales[j];
@@ -201,7 +201,7 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   //
   // check results to see if it is within range
   //
-  for (NumberOfParametersType j = 0; j < metric->GetNumberOfParameters(); j++)
+  for (NumberOfParametersType j = 0; j < metric->GetNumberOfParameters(); ++j)
   {
     if (itk::Math::abs(finalPosition[j] - truth[j]) > 0.000001)
     {

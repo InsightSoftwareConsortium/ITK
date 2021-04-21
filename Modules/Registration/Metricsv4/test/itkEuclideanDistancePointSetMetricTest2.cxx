@@ -75,7 +75,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   unsigned int numberOfPoints = fixedPoints->GetNumberOfPoints();
 
   PointType movingPoint;
-  for (unsigned int n = 0; n < numberOfPoints; n++)
+  for (unsigned int n = 0; n < numberOfPoints; ++n)
   {
     fixedPoint = fixedPoints->GetPoint(n);
     movingPoint[0] = fixedPoint[0] + (n + 1) * 0.5;
@@ -105,7 +105,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   typename FieldType::DirectionType direction;
   direction.Fill(0.0);
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     direction[d][d] = 1.0;
   }
@@ -170,13 +170,13 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   // check the results
   bool passed = true;
-  for (itk::SizeValueType n = 0; n < fixedPoints->GetNumberOfPoints(); n++)
+  for (itk::SizeValueType n = 0; n < fixedPoints->GetNumberOfPoints(); ++n)
   {
     PointType transformedPoint;
     fixedPoint = fixedPoints->GetPoint(n);
     movingPoint = movingPoints->GetPoint(n);
     transformedPoint = displacementTransform->TransformPoint(fixedPoint);
-    for (unsigned int d = 0; d < Dimension; d++)
+    for (unsigned int d = 0; d < Dimension; ++d)
     {
       if (itk::Math::NotExactlyEquals(transformedPoint[d], movingPoint[d]))
       {
@@ -217,7 +217,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   metric->Initialize();
   metric->GetValueAndDerivative(value2, derivative2);
   bool derivative2IsZero = true;
-  for (itk::SizeValueType n = 0; n < metric->GetNumberOfParameters(); n++)
+  for (itk::SizeValueType n = 0; n < metric->GetNumberOfParameters(); ++n)
   {
     if (itk::Math::NotExactlyEquals(derivative2[n],
                                     itk::NumericTraits<typename PointSetMetricType::DerivativeValueType>::ZeroValue()))

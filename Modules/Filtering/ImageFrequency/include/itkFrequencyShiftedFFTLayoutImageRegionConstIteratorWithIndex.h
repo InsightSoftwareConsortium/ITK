@@ -171,7 +171,7 @@ public:
     IndexType freqInd;
 
     freqInd.Fill(0);
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       freqInd[dim] = this->m_PositionIndex[dim] - this->m_ZeroFrequencyIndex[dim];
     }
@@ -194,7 +194,7 @@ public:
     FrequencyType freq;
     IndexType     freqInd = this->GetFrequencyBin();
 
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       freq[dim] = this->m_FrequencyOrigin[dim] + this->m_FrequencySpacing[dim] * freqInd[dim];
     }
@@ -207,7 +207,7 @@ public:
     FrequencyValueType w2(0);
     FrequencyType      w(this->GetFrequency());
 
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       w2 += w[dim] * w[dim];
     }
@@ -250,7 +250,7 @@ private:
   {
     IndexType minIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
     SizeType  sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; ++dim)
     {
       this->m_ZeroFrequencyIndex[dim] =
         static_cast<FrequencyValueType>(minIndex[dim] + std::floor(sizeImage[dim] / 2.0));

@@ -70,7 +70,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
   nThreadVec.push_back(8);
   nThreadVec.push_back(128);
 
-  for (unsigned int idx = 0; idx < nThreadVec.size(); idx++)
+  for (unsigned int idx = 0; idx < nThreadVec.size(); ++idx)
   {
     int            nThreads = nThreadVec[idx];
     itk::TimeProbe cputimer;

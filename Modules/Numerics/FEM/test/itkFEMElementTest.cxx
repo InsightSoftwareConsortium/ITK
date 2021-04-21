@@ -91,7 +91,7 @@ itkFEMElementTest(int ac, char * av[])
 
     f >> numfiles;
     filelist = new char *[numfiles];
-    for (int k = 0; k < numfiles; k++)
+    for (int k = 0; k < numfiles; ++k)
     {
       f >> buffer;
       filelist[k] = new char[strlen(buffer) + 1];
@@ -103,7 +103,7 @@ itkFEMElementTest(int ac, char * av[])
     int ch = -1;
     while (ch < 0 || ch >= numfiles)
     {
-      for (int j = 0; j < numfiles; j++)
+      for (int j = 0; j < numfiles; ++j)
       {
         std::cout << j << ": " << filelist[j] << std::endl;
       }
@@ -175,7 +175,7 @@ itkFEMElementTest(int ac, char * av[])
     itk::fem::LinearSystemWrapperDenseVNL lsw_dvnl;
     itk::fem::LinearSystemWrapperItpack   lsw_itpack;
     itk::fem::LinearSystemWrapperVNL      lsw_vnl;
-    for (s = 0; s < numsolvers; s++)
+    for (s = 0; s < numsolvers; ++s)
     {
       if (s == 2)
       {
@@ -392,13 +392,13 @@ PrintK(itk::fem::Solver & S, int s, char)
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
 
   std::cout << std::endl << "k" << s << "=[";
-  for (unsigned int j = 0; j < lsw->GetSystemOrder(); j++)
+  for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (IDL_OUTPUT)
     {
       std::cout << " [";
     }
-    for (unsigned int k = 0; k < lsw->GetSystemOrder(); k++)
+    for (unsigned int k = 0; k < lsw->GetSystemOrder(); ++k)
     {
       if (k > 0)
       {
@@ -426,9 +426,9 @@ PrintK(itk::fem::Solver & S, int s, char)
 
   vnl_matrix<Float> debugMatrix;
   debugMatrix.set_size(lsw->GetSystemOrder(), lsw->GetSystemOrder());
-  for (unsigned int j = 0; j < lsw->GetSystemOrder(); j++)
+  for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
-    for (unsigned int k = 0; k < lsw->GetSystemOrder(); k++)
+    for (unsigned int k = 0; k < lsw->GetSystemOrder(); ++k)
     {
       debugMatrix(j, k) = lsw->GetMatrixValue(j, k);
     }
@@ -444,7 +444,7 @@ PrintF(itk::fem::Solver & S, int s, char)
   itk::fem::LinearSystemWrapper::Pointer lsw = S.GetLinearSystemWrapper();
 
   std::cout << std::endl << "f" << s << "=[";
-  for (unsigned int j = 0; j < lsw->GetSystemOrder(); j++)
+  for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
     {

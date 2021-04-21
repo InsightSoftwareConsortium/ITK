@@ -45,13 +45,13 @@ ThinPlateR2LogRSplineKernelTransform<TParametersValueType, NDimensions>::Compute
 
   PointsIterator sp = this->m_SourceLandmarks->GetPoints()->Begin();
 
-  for (unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++)
+  for (unsigned int lnd = 0; lnd < numberOfLandmarks; ++lnd)
   {
     InputVectorType            position = thisPoint - sp->Value();
     const TParametersValueType r = position.GetNorm();
     const TParametersValueType R2logR =
       (r > 1e-8) ? r * r * std::log(r) : NumericTraits<TParametersValueType>::ZeroValue();
-    for (unsigned int odim = 0; odim < NDimensions; odim++)
+    for (unsigned int odim = 0; odim < NDimensions; ++odim)
     {
       result[odim] += R2logR * this->m_DMatrix(odim, lnd);
     }

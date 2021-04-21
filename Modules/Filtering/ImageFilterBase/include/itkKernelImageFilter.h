@@ -110,7 +110,7 @@ private:
   MakeKernel(const RadiusType & radius, T & kernel)
   {
     kernel.SetRadius(radius);
-    for (typename T::Iterator kit = kernel.Begin(); kit != kernel.End(); kit++)
+    for (typename T::Iterator kit = kernel.Begin(); kit != kernel.End(); ++kit)
     {
       *kit = 1;
     }

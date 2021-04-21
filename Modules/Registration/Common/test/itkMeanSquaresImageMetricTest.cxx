@@ -163,7 +163,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
   ParametersType parameters(transform->GetNumberOfParameters());
 
   // initialize the offset/vector part
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     parameters[k] = 0.0f;
   }
@@ -216,7 +216,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
 
   // Now check that the same metric value is computed when the number
   // of threads is adjusted from 1 to 8.
-  for (int currNumThreadsToTest = 1; currNumThreadsToTest <= 8; currNumThreadsToTest++)
+  for (int currNumThreadsToTest = 1; currNumThreadsToTest <= 8; ++currNumThreadsToTest)
   {
     itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(currNumThreadsToTest);
     metric->SetNumberOfWorkUnits(currNumThreadsToTest);
@@ -237,7 +237,7 @@ itkMeanSquaresImageMetricTest(int, char *[])
     std::cout << std::endl;
 
     bool sameDerivative = true;
-    for (unsigned int d = 0; d < parameters.Size(); d++)
+    for (unsigned int d = 0; d < parameters.Size(); ++d)
     {
       if (fabs(derivative[d] - referenceDerivative[d]) > 1e-5)
       {

@@ -65,7 +65,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>::SetInputImage(const InputImageTy
     typename InputImageType::SizeType size = ptr->GetBufferedRegion().GetSize();
     m_StartIndex = ptr->GetBufferedRegion().GetIndex();
 
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       m_EndIndex[j] = m_StartIndex[j] + static_cast<IndexValueType>(size[j]) - 1;
       m_StartContinuousIndex[j] = static_cast<CoordRepType>(m_StartIndex[j] - 0.5);

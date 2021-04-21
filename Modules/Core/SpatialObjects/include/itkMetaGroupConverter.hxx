@@ -67,7 +67,7 @@ MetaGroupConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTy
 
   float color[4];
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     color[i] = groupSO->GetProperty().GetColor()[i];
   }

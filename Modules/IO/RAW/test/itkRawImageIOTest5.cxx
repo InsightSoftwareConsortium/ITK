@@ -100,7 +100,7 @@ public:
     double       spacing[2] = { 1.0, 1.0 };
     double       origin[2] = { 0.0, 0.0 };
 
-    for (unsigned int i = 0; i < 2; i++)
+    for (unsigned int i = 0; i < 2; ++i)
     {
       rawImageIO->SetDimensions(i, dim[i]);
       rawImageIO->SetSpacing(i, spacing[i]);

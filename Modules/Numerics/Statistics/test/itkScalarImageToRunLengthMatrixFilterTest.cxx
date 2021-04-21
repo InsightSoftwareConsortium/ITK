@@ -73,7 +73,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
   imageIt.GoToBegin();
 
-  for (unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     for (unsigned int j = 0; j < 5; j++, ++imageIt)
     {
@@ -96,7 +96,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
   // setup the iterator
   InputImageIterator maskIt(mask, mask->GetBufferedRegion());
   maskIt.GoToBegin();
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
     for (int j = 0; j < 5; j++, ++maskIt)
     {
       if (j == 2 && i > 0 && i < 4)
@@ -144,9 +144,9 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
     };
 
     unsigned int count = 0;
-    for (unsigned int i = 0; i < 5; i++)
+    for (unsigned int i = 0; i < 5; ++i)
     {
-      for (unsigned int j = 0; j < 5; j++)
+      for (unsigned int j = 0; j < 5; ++j)
       {
         using IndexType = FilterType::HistogramType::IndexType;
         IndexType index(hist->GetMeasurementVectorSize());
@@ -240,9 +240,9 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
     };
 
     count = 0;
-    for (unsigned int i = 0; i < 5; i++)
+    for (unsigned int i = 0; i < 5; ++i)
     {
-      for (unsigned int j = 0; j < 5; j++)
+      for (unsigned int j = 0; j < 5; ++j)
       {
         using IndexType = FilterType::HistogramType::IndexType;
         IndexType index(hist->GetMeasurementVectorSize());

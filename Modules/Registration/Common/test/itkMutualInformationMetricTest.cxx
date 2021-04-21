@@ -167,9 +167,9 @@ itkMutualInformationMetricTest(int, char *[])
   unsigned long count = 0;
 
   // initialize the linear/matrix part
-  for (unsigned int row = 0; row < ImageDimension; row++)
+  for (unsigned int row = 0; row < ImageDimension; ++row)
   {
-    for (unsigned int col = 0; col < ImageDimension; col++)
+    for (unsigned int col = 0; col < ImageDimension; ++col)
     {
       parameters[count] = 0;
       if (row == col)
@@ -181,7 +181,7 @@ itkMutualInformationMetricTest(int, char *[])
   }
 
   // initialize the offset/vector part
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     parameters[count] = 0;
     ++count;

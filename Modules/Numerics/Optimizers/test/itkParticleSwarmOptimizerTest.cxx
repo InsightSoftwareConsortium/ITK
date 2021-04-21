@@ -70,7 +70,7 @@ itkParticleSwarmOptimizerTest(int argc, char * argv[])
   std::cout << "Particle Swarm Optimizer Test \n \n";
 
   success1 = success2 = success3 = 0;
-  for (i = 0; i < allIterations; i++)
+  for (i = 0; i < allIterations; ++i)
   {
     if (EXIT_SUCCESS == PSOTest1())
     {

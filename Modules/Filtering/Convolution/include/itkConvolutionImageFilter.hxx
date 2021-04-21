@@ -192,7 +192,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelNeedsP
   InputRegionType         kernelRegion = kernel->GetLargestPossibleRegion();
   InputSizeType           kernelSize = kernelRegion.GetSize();
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (kernelSize[i] % 2 == 0) // Check if dimension is even
     {
@@ -212,7 +212,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelPadSiz
   KernelSizeType          kernelSize = kernelRegion.GetSize();
   KernelSizeType          padSize;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     // Pad by 1 if the size fo the image in this dimension is even.
     padSize[i] = 1 - (kernelSize[i] % 2);
@@ -228,7 +228,7 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelRadius
 {
   // Compute the kernel radius.
   KernelSizeType radius;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     radius[i] = kernelImage->GetLargestPossibleRegion().GetSize()[i] / 2;
   }

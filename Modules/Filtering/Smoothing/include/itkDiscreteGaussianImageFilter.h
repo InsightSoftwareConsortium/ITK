@@ -168,7 +168,7 @@ public:
   {
     ArrayType dv;
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       dv[i] = v[i];
     }
@@ -180,7 +180,7 @@ public:
   {
     ArrayType dv;
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       dv[i] = v[i];
     }
@@ -195,7 +195,7 @@ public:
   SetSigmaArray(const ArrayType & sigmas)
   {
     ArrayType variance;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       variance[i] = sigmas[i] * sigmas[i];
     }
@@ -212,7 +212,7 @@ public:
   GetSigmaArray() const
   {
     ArrayType sigmas;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       sigmas[i] = std::sqrt(m_Variance[i]);
     }
@@ -232,7 +232,7 @@ public:
   {
     ArrayType dv;
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       dv[i] = v[i];
     }
@@ -244,7 +244,7 @@ public:
   {
     ArrayType dv;
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       dv[i] = v[i];
     }

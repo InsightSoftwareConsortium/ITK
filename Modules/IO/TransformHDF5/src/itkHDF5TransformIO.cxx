@@ -83,7 +83,7 @@ HDF5TransformIOTemplate<TParametersValueType>::CanWriteFile(const char * fileNam
     ".hdf", ".h4", ".hdf4", ".h5", ".hdf5", ".he4", ".he5", ".hd5", nullptr,
   };
   std::string ext(itksys::SystemTools::GetFilenameLastExtension(fileName));
-  for (unsigned i = 0; extensions[i] != nullptr; i++)
+  for (unsigned i = 0; extensions[i] != nullptr; ++i)
   {
     if (ext == extensions[i])
     {
@@ -185,7 +185,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string 
   {
     const std::unique_ptr<double[]> buf(new double[dim]);
     paramSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
-    for (unsigned i = 0; i < dim; i++)
+    for (unsigned i = 0; i < dim; ++i)
     {
       ParameterArray.SetElement(i, static_cast<ParametersValueType>(buf[i]));
     }
@@ -194,7 +194,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string 
   {
     const std::unique_ptr<float[]> buf(new float[dim]);
     paramSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
-    for (unsigned i = 0; i < dim; i++)
+    for (unsigned i = 0; i < dim; ++i)
     {
       ParameterArray.SetElement(i, static_cast<ParametersValueType>(buf[i]));
     }
@@ -232,7 +232,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadFixedParameters(const std::st
   {
     const std::unique_ptr<double[]> buf(new double[dim]);
     paramSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
-    for (unsigned i = 0; i < dim; i++)
+    for (unsigned i = 0; i < dim; ++i)
     {
       FixedParameterArray.SetElement(i, static_cast<FixedParametersValueType>(buf[i]));
     }
@@ -241,7 +241,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadFixedParameters(const std::st
   {
     const std::unique_ptr<float[]> buf(new float[dim]);
     paramSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
-    for (unsigned i = 0; i < dim; i++)
+    for (unsigned i = 0; i < dim; ++i)
     {
       FixedParameterArray.SetElement(i, static_cast<FixedParametersValueType>(buf[i]));
     }
@@ -294,7 +294,7 @@ HDF5TransformIOTemplate<TParametersValueType>::Read()
     // open /TransformGroup
     H5::Group transformGroup = this->m_H5File->openGroup(transformGroupName);
 
-    for (unsigned int i = 0; i < transformGroup.getNumObjs(); i++)
+    for (unsigned int i = 0; i < transformGroup.getNumObjs(); ++i)
     {
       std::string transformName(GetTransformName(i));
 

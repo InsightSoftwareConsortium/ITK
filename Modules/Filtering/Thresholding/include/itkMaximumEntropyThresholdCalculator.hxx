@@ -60,14 +60,14 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   int total = histogram->GetTotalFrequency();
 
-  for (ih = 0; (unsigned)ih < size; ih++)
+  for (ih = 0; (unsigned)ih < size; ++ih)
   {
     norm_histo[ih] = (double)histogram->GetFrequency(ih, 0) / total;
   }
 
   P1[0] = norm_histo[0];
   P2[0] = 1.0 - P1[0];
-  for (ih = 1; (unsigned)ih < size; ih++)
+  for (ih = 1; (unsigned)ih < size; ++ih)
   {
     P1[ih] = P1[ih - 1] + norm_histo[ih];
     P2[ih] = 1.0 - P1[ih];
@@ -75,7 +75,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Determine the first non-zero bin
   first_bin = 0;
-  for (ih = 0; (unsigned)ih < size; ih++)
+  for (ih = 0; (unsigned)ih < size; ++ih)
   {
     if (!(std::abs(P1[ih]) < tolerance))
     {
@@ -99,11 +99,11 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   // maximizes it
   max_ent = itk::NumericTraits<double>::min();
 
-  for (it = first_bin; it <= last_bin; it++)
+  for (it = first_bin; it <= last_bin; ++it)
   {
     // Entropy of the background pixels
     ent_back = 0.0;
-    for (ih = 0; ih <= it; ih++)
+    for (ih = 0; ih <= it; ++ih)
     {
       if (histogram->GetFrequency(ih, 0) != 0)
       {
@@ -113,7 +113,7 @@ MaximumEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
 
     // Entropy of the object pixels
     ent_obj = 0.0;
-    for (ih = it + 1; (unsigned)ih < size; ih++)
+    for (ih = it + 1; (unsigned)ih < size; ++ih)
     {
       if (histogram->GetFrequency(ih, 0) != 0)
       {

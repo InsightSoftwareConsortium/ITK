@@ -54,7 +54,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
   while (!iter.IsAtEnd())
   {
     PixelType pix;
-    for (unsigned int n = 0; n < vecLength; n++)
+    for (unsigned int n = 0; n < vecLength; ++n)
     {
       pix[n] = counter; //(n+1) + counter;
     }
@@ -83,7 +83,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
   std::cout << "UseImageDirection: " << function->GetUseImageDirection() << std::endl;
 
   /// loop
-  for (int l = 0; l < reps; l++)
+  for (int l = 0; l < reps; ++l)
   {
     iter.GoToBegin();
     while (!iter.IsAtEnd())

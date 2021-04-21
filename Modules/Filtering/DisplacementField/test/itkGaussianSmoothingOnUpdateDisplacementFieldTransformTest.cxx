@@ -81,7 +81,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   //          << field->GetPixelContainer() << std::endl;
   /* We should see 0's on all boundaries from the smoothing routine */
   unsigned int linelength = dimLength * dimensions;
-  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); i++)
+  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
   {
     bool ok = true;
     if (i < linelength && itk::Math::NotAlmostEquals(params[i], paramsZero))
@@ -101,9 +101,9 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   /* Check that we have some smoothing around the outlier we set above. */
   std::cout << "Parameters *after* SmoothDisplacementFieldGauss, around "
             << "outlier: " << std::endl;
-  for (int i = -2; i < 3; i++)
+  for (int i = -2; i < 3; ++i)
   {
-    for (int j = -2; j < 3; j++)
+    for (int j = -2; j < 3; ++j)
     {
       unsigned int index = outlier + (unsigned int)(i * (signed int)(dimLength * dimensions) + j);
       std::cout << params(index) << " ";
@@ -124,7 +124,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   /* We should see 0's on all boundaries from the smoothing routine */
   {
     linelength = dimLength * dimensions;
-    for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); i++)
+    for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
     {
       bool ok = true;
       if (i < linelength && itk::Math::NotAlmostEquals(params[i], paramsZero))
@@ -156,9 +156,9 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   /* Check that we have some smoothing around the outlier we set above. */
   std::cout << "Parameters *after* UpdateTransformParameters with "
             << "uneven field, around outlier: " << std::endl;
-  for (int i = -2; i < 3; i++)
+  for (int i = -2; i < 3; ++i)
   {
-    for (int j = -2; j < 3; j++)
+    for (int j = -2; j < 3; ++j)
     {
       unsigned int index = outlier + (unsigned int)(i * (signed int)(dimLength * dimensions) + j);
       std::cout << params(index) << " ";

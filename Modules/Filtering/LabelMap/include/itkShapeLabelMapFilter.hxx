@@ -75,13 +75,13 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   // Compute the size per pixel, to be used later
   double sizePerPixel = 1;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     sizePerPixel *= output->GetSpacing()[i];
   }
 
   typename std::vector<double> sizePerPixelPerDimension;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     sizePerPixelPerDimension.push_back(sizePerPixel / output->GetSpacing()[i]);
   }
@@ -89,7 +89,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   // Compute the max the index on the border of the image
   IndexType borderMin = output->GetLargestPossibleRegion().GetIndex();
   IndexType borderMax = borderMin;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     borderMax[i] += output->GetLargestPossibleRegion().GetSize()[i] - 1;
   }
@@ -121,7 +121,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
     // Update the centroid - and report the progress
     // First, update the axes that are not 0
-    for (unsigned int i = 1; i < ImageDimension; i++)
+    for (unsigned int i = 1; i < ImageDimension; ++i)
     {
       centroid[i] += (OffsetValueType)length * idx[i];
     }
@@ -129,7 +129,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
     centroid[0] += idx[0] * (OffsetValueType)length + (length * (length - 1)) / 2.0;
 
     // Update the mins and maxs
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       if (idx[i] < mins[i])
       {
@@ -148,7 +148,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
     // Object is on a border ?
     bool isOnBorder = false;
-    for (unsigned int i = 1; i < ImageDimension; i++)
+    for (unsigned int i = 1; i < ImageDimension; ++i)
     {
       if (idx[i] == borderMin[i] || idx[i] == borderMax[i])
       {
@@ -196,7 +196,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
       perimeterOnBorder += sizePerPixelPerDimension[0];
     }
     // Then the other dimensions
-    for (unsigned int i = 1; i < ImageDimension; i++)
+    for (unsigned int i = 1; i < ImageDimension; ++i)
     {
       if (idx[i] == borderMin[i])
       {
@@ -244,10 +244,10 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
         typename LabelObjectType::CentroidType pP;
         output->TransformIndexToPhysicalPoint(iidx, pP);
 
-        for (unsigned int i = 0; i < ImageDimension; i++)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           centralMoments[i][i] += pP[i] * pP[i];
-          for (unsigned int j = i + 1; j < ImageDimension; j++)
+          for (unsigned int j = i + 1; j < ImageDimension; ++j)
           {
             const double cm = pP[i] * pP[j];
             centralMoments[i][j] += cm;
@@ -265,7 +265,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
       const typename ImageType::DirectionType & direction = output->GetDirection();
       VectorType                                scale(output->GetSpacing()[0]);
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         scale[i] *= direction(i, 0);
       }
@@ -273,13 +273,13 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
       const double lcoff_1 = (length - 1.0) / 2.0;
       const double lcoff_2 = (2.0 * length - 1.0) / 3.0;
 
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         centralMoments[i][i] +=
           length * (physicalPosition[i] * physicalPosition[i] +
                     lcoff_1 * (2.0 * physicalPosition[i] * scale[i] + lcoff_2 * scale[i] * scale[i]));
 
-        for (unsigned int j = i + 1; j < ImageDimension; j++)
+        for (unsigned int j = i + 1; j < ImageDimension; ++j)
         {
           const double cm = length * (physicalPosition[i] * physicalPosition[j] +
                                       lcoff_1 * (physicalPosition[i] * scale[j] + scale[i] * physicalPosition[j] +
@@ -296,11 +296,11 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
 
   // final computation
   typename LabelObjectType::RegionType::SizeType boundingBoxSize;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     centroid[i] /= nbOfPixels;
     boundingBoxSize[i] = maxs[i] - mins[i] + 1;
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       centralMoments[i][j] /= nbOfPixels;
     }
@@ -310,9 +310,9 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   output->TransformContinuousIndexToPhysicalPoint(centroid, physicalCentroid);
 
   // Center the second order moments
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       centralMoments[i][j] -= physicalCentroid[i] * physicalCentroid[j];
     }
@@ -322,7 +322,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   VectorType                        principalMoments;
   vnl_symmetric_eigensystem<double> eigen{ centralMoments.GetVnlMatrix().as_matrix() };
   vnl_diag_matrix<double>           pm = eigen.D;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     principalMoments[i] = pm(i);
   }
@@ -334,12 +334,12 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
   std::complex<double>                  det(1.0, 0.0);
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     det *= eigenval(i);
   }
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     principalAxes[ImageDimension - 1][i] *= std::real(det);
   }
@@ -381,12 +381,12 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
   // Compute equivalent ellipsoid radius
   VectorType ellipsoidDiameter;
   double     edet = 1.0;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     edet *= principalMoments[i];
   }
   edet = std::pow(edet, 1.0 / ImageDimension);
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     ellipsoidDiameter[i] = 0.0;
     if (edet != 0.0 && principalMoments[i] / edet > 0.0)
@@ -455,7 +455,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeFeretDiameter(LabelObjectType *
     it += iit.GetIndex() - it.GetIndex();
 
     // Push the pixel in the list if it is on the border of the object
-    for (NeighborIndexType i = 0; i < it.Size(); i++)
+    for (NeighborIndexType i = 0; i < it.Size(); ++i)
     {
       if (it.GetPixel(i) != label)
       {
@@ -472,14 +472,14 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeFeretDiameter(LabelObjectType *
 
   // We can now search the feret diameter
   double feretDiameter = 0;
-  for (typename IndexListType::const_iterator iIt1 = idxList.begin(); iIt1 != idxList.end(); iIt1++)
+  for (typename IndexListType::const_iterator iIt1 = idxList.begin(); iIt1 != idxList.end(); ++iIt1)
   {
     auto iIt2 = iIt1;
-    for (iIt2++; iIt2 != idxList.end(); iIt2++)
+    for (iIt2++; iIt2 != idxList.end(); ++iIt2)
     {
       // Compute the length between the 2 indexes
       double length = 0;
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         const OffsetValueType indexDifference = (iIt1->operator[](i) - iIt2->operator[](i));
         length += std::pow(indexDifference * spacing[i], 2);
@@ -508,7 +508,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   typename LineImageType::IndexType lIdx;
   typename LineImageType::SizeType  lSize;
   RegionType                        boundingBox = labelObject->GetBoundingBox();
-  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
   {
     lIdx[i] = boundingBox.GetIndex()[i + 1];
     lSize[i] = boundingBox.GetSize()[i + 1];
@@ -533,7 +533,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   while (!lit.IsAtEnd())
   {
     const IndexType & idx = lit.GetLine().GetIndex();
-    for (unsigned int i = 0; i < ImageDimension - 1; i++)
+    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
     {
       lIdx[i] = idx[i + 1];
     }
@@ -564,7 +564,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
 
     // and look at the neighbors
     typename LineImageIteratorType::ConstIterator ci;
-    for (ci = lIt.Begin(); ci != lIt.End(); ci++)
+    for (ci = lIt.Begin(); ci != lIt.End(); ++ci)
     {
       // std::cout << "-------------" << std::endl;
       // the vector of lines in the neighbor
@@ -572,7 +572,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
       // prepare the offset to be stored in the intercepts map
       typename LineImageType::OffsetType lno = ci.GetNeighborhoodOffset();
       no[0] = 0;
-      for (unsigned int i = 0; i < ImageDimension - 1; i++)
+      for (unsigned int i = 0; i < ImageDimension - 1; ++i)
       {
         no[i + 1] = itk::Math::abs(lno[i]);
       }
@@ -675,12 +675,12 @@ ShapeLabelMapFilter<TImage, TLabelImage>::PerimeterFromInterceptCount(TMapInterc
   double perimeter = 0.0;
   double pixelSize = 1.0;
   int    dim = TSpacing::GetVectorDimension();
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     pixelSize *= spacing[i];
   }
 
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     OffsetType no;
     no.Fill(0);
@@ -827,7 +827,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeOrientedBoundingBox(LabelObject
   VNLVectorType minimumPrincipalAxis = transformedPixelLocations.get_column(0);
   VNLVectorType maximumPrincipalAxis = transformedPixelLocations.get_column(0);
 
-  for (unsigned int column = 1; column < transformedPixelLocations.columns(); column++)
+  for (unsigned int column = 1; column < transformedPixelLocations.columns(); ++column)
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {

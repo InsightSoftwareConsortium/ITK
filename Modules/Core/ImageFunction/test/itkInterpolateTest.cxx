@@ -136,13 +136,13 @@ itkInterpolateTest(int, char *[])
 
   /* Initialize the image contents */
   IndexType index;
-  for (int slice = 0; slice < 80; slice++)
+  for (int slice = 0; slice < 80; ++slice)
   {
     index[2] = slice;
-    for (int row = 0; row < 40; row++)
+    for (int row = 0; row < 40; ++row)
     {
       index[1] = row;
-      for (int col = 0; col < 20; col++)
+      for (int col = 0; col < 20; ++col)
       {
         index[0] = col;
         image->SetPixel(index, slice + row + col);

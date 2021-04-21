@@ -111,7 +111,7 @@ itkSingleLevelSetWhitakerImage2DWithCurvatureTest(int argc, char * argv[])
 
   input->TransformPhysicalPointToIndex(binary->GetOrigin(), index);
   OffsetType offset;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     offset[i] = index[i];
   }

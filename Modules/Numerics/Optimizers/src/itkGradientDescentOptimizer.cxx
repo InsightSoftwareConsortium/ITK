@@ -167,13 +167,13 @@ GradientDescentOptimizer::AdvanceOneStep()
 
   DerivativeType transformedGradient(spaceDimension);
 
-  for (unsigned int j = 0; j < spaceDimension; j++)
+  for (unsigned int j = 0; j < spaceDimension; ++j)
   {
     transformedGradient[j] = m_Gradient[j] / scales[j];
   }
 
   ParametersType newPosition(spaceDimension);
-  for (unsigned int j = 0; j < spaceDimension; j++)
+  for (unsigned int j = 0; j < spaceDimension; ++j)
   {
     newPosition[j] = currentPosition[j] + direction * m_LearningRate * transformedGradient[j];
   }

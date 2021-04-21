@@ -78,7 +78,7 @@ AttributeKeepNObjectsLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     //   progress.CompletedPixel();
 
     // and move the last objects to the second output
-    for (typename VectorType::const_iterator it = end; it != labelObjects.end(); it++)
+    for (typename VectorType::const_iterator it = end; it != labelObjects.end(); ++it)
     {
       output->RemoveLabelObject(*it);
       output2->AddLabelObject(*it);

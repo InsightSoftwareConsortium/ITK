@@ -155,7 +155,7 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
 
   GPUDisplacementFieldPointer gpuOut;
   CPUDisplacementFieldPointer cpuOut;
-  for (unsigned int i = 0; i < numberOfRepeatedTests; i++)
+  for (unsigned int i = 0; i < numberOfRepeatedTests; ++i)
   {
     std::cout << "---------------------------------------------------" << std::endl;
     std::cout << "Starting GPU Demons" << std::endl;
@@ -177,10 +177,10 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
   size1 = gpuOut->GetLargestPossibleRegion().GetNumberOfPixels();
   size2 = cpuOut->GetLargestPossibleRegion().GetNumberOfPixels();
 
-  for (unsigned int i = 0; (i < size1) && (i < size2); i++)
+  for (unsigned int i = 0; (i < size1) && (i < size2); ++i)
   {
     diff = 0;
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       tmp = gpuBuf[i * ImageDimension + d] - cpuBuf[i * ImageDimension + d];
       diff += tmp * tmp;

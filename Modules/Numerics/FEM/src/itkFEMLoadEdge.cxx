@@ -99,10 +99,10 @@ LoadEdge::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
   auto NEdgePts = static_cast<unsigned int>((EdgeIds[0]).size());
   int  EdgePt;
   // access the edge points.
-  for (unsigned int i = 0; i < NEdgePts; i++)
+  for (unsigned int i = 0; i < NEdgePts; ++i)
   {
     EdgePt = (EdgeIds[EdgeNum])[i];
-    for (unsigned int j = 0; j < NnDOF; j++)
+    for (unsigned int j = 0; j < NnDOF; ++j)
     {
       Fe[NnDOF * EdgePt + j] = Fe[NnDOF * EdgePt + j] + Force[i][j];
     }

@@ -96,7 +96,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
   ParametersType parentPosition(spaceDimension);
   ParametersType childPosition(spaceDimension);
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     parentPosition[i] = parent[i];
   }
@@ -132,13 +132,13 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
   }
 
   A.set_identity();
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     A(i, i) = m_InitialRadius / scales[i];
   }
   m_CurrentIteration = 0;
 
-  for (unsigned int iter = 0; iter < m_MaximumIteration; iter++)
+  for (unsigned int iter = 0; iter < m_MaximumIteration; ++iter)
   {
     if (m_Stop)
     {
@@ -150,7 +150,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
 
     ++m_CurrentIteration;
 
-    for (unsigned int i = 0; i < spaceDimension; i++)
+    for (unsigned int i = 0; i < spaceDimension; ++i)
     {
       if (!m_RandomGenerator)
       {
@@ -162,7 +162,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
     delta = A * f_norm;
     child = parent + delta;
 
-    for (unsigned int i = 0; i < spaceDimension; i++)
+    for (unsigned int i = 0; i < spaceDimension; ++i)
     {
       childPosition[i] = child[i];
     }
@@ -201,7 +201,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
         pvalue = cvalue;
         parent.swap(child);
         adjust = m_GrowthFactor;
-        for (unsigned int i = 0; i < spaceDimension; i++)
+        for (unsigned int i = 0; i < spaceDimension; ++i)
         {
           parentPosition[i] = parent[i];
         }
@@ -220,7 +220,7 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
         pvalue = cvalue;
         parent.swap(child);
         adjust = m_GrowthFactor;
-        for (unsigned int i = 0; i < spaceDimension; i++)
+        for (unsigned int i = 0; i < spaceDimension; ++i)
         {
           parentPosition[i] = parent[i];
         }
@@ -263,9 +263,9 @@ OnePlusOneEvolutionaryOptimizer::StartOptimization()
 
     // A = A + (adjust - 1.0) * A;
     double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm));
-    for (unsigned int c = 0; c < spaceDimension; c++)
+    for (unsigned int c = 0; c < spaceDimension; ++c)
     {
-      for (unsigned int r = 0; r < spaceDimension; r++)
+      for (unsigned int r = 0; r < spaceDimension; ++r)
       {
         A(r, c) += alpha * delta[r] * f_norm[c];
       }

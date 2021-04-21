@@ -206,7 +206,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const s
   // TODO:  m_GSize < 2 has not been tested.
   if (m_GSize < 2)
   {
-    for (outK = 0; outK < outTraverseSize; outK++)
+    for (outK = 0; outK < outTraverseSize; ++outK)
     {
       inK = 2 * outK;
       i2 = inK + 1;
@@ -226,13 +226,13 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const s
 
   else
   {
-    for (outK = 0; outK < outTraverseSize; outK++)
+    for (outK = 0; outK < outTraverseSize; ++outK)
     {
       inK = 2L * outK;
 
       outVal = in[inK] * m_G[0];
 
-      for (int i = 1; i < m_GSize; i++)
+      for (int i = 1; i < m_GSize; ++i)
       {
         // Calculate indices for left and right of symmetrical filter.
         i1 = inK - i;
@@ -290,7 +290,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
   // TODO:  m_GSize < 2 has not been tested.
   if (m_HSize < 2)
   {
-    for (inK = 0; inK < inTraverseSize; inK++)
+    for (inK = 0; inK < inTraverseSize; ++inK)
     {
       out.Set(static_cast<OutputImagePixelType>(in[inK]));
       ++out;
@@ -302,7 +302,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
 
   else
   {
-    for (outK = 0; outK < (int)outTraverseSize; outK++)
+    for (outK = 0; outK < (int)outTraverseSize; ++outK)
     {
       outVal = 0.0;
       for (int k = (outK % 2); k < (int)m_HSize; k += 2)
@@ -391,7 +391,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ReduceNDImage(OutputI
 
   unsigned int     count = scratchRegion.GetNumberOfPixels() * ImageDimension;
   ProgressReporter progress(this, 0, count, 10);
-  for (unsigned int n = 0; n < ImageDimension; n++)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     // Setup iterators for input image.
     ConstInputImageIterator  inIterator1(workingImage, validRegion);
@@ -481,7 +481,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputI
 
   // scratchImage 2 times the space of the original image .
 
-  for (unsigned int n = 0; n < ImageDimension; n++)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     currentSize[n] = currentSize[n] * 2;
   }
@@ -511,7 +511,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputI
 
   unsigned int     count = scratchRegion.GetNumberOfPixels() * ImageDimension;
   ProgressReporter progress(this, 0, count, 10);
-  for (unsigned int n = 0; n < ImageDimension; n++)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     // Setup iterators for input image.
     ConstInputImageIterator  inIterator1(workingImage, workingRegion);
@@ -578,7 +578,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::InitializeScratch(Siz
 {
   unsigned int maxLength = 0;
 
-  for (unsigned int n = 0; n < ImageDimension; n++)
+  for (unsigned int n = 0; n < ImageDimension; ++n)
   {
     if (DataLength[n] > maxLength)
     {

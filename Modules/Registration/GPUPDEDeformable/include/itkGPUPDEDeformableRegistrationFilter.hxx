@@ -138,7 +138,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   else
   {
     typename GPUSuperclass::PixelType zeros;
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       zeros[j] = 0;
     }
@@ -237,7 +237,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   // Release memory for smoothing buffer
   m_TempField->Initialize();
   // Release memory for smoothing kernels
-  for (unsigned int dir = 0; dir < ImageDimension; dir++)
+  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
   {
     m_GPUSmoothingKernels[dir]->Initialize();
     delete m_SmoothingKernels[dir];
@@ -304,7 +304,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
     return;
   }
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     imgSize[i] = outSize[i];
   }
@@ -322,7 +322,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   this->m_GPUKernelManager->GetDeviceInfo(
     CL_DEVICE_MAX_WORK_ITEM_SIZES, sizeof(deviceWorkItemSizes), deviceWorkItemSizes);
 
-  for (indir = 0; indir < ImageDim; indir++)
+  for (indir = 0; indir < ImageDim; ++indir)
   {
     // If blockSize is too big, there will be lot of wasted threads at image
     // boundary, and each work group requires a lot of resources.
@@ -339,7 +339,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     }
     localSize[indir] = blockSize;
 
-    for (int i = 0; i < ImageDim; i++)
+    for (int i = 0; i < ImageDim; ++i)
     {
       globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
                                                                                                   //
@@ -465,7 +465,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   // call to the smoothing function.
   //
   // Allocate smoothing kernel for displacement field
-  for (unsigned int dir = 0; dir < ImageDimension; dir++)
+  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
   {
     // for each smoothing direction
     oper.SetDirection(dir);
@@ -478,7 +478,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
     m_SmoothingKernelSizes[dir] = ksize;
     m_SmoothingKernels[dir] = new DeformationScalarType[ksize];
-    for (int i = 0; i < ksize; i++)
+    for (int i = 0; i < ksize; ++i)
     {
       m_SmoothingKernels[dir][i] = (DeformationScalarType)(oper[i]);
     }
@@ -493,7 +493,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     m_GPUSmoothingKernels[dir]->SetGPUDirtyFlag(true);
   }
   // Allocate smoothing kernel for update field
-  for (unsigned int dir = 0; dir < ImageDimension; dir++)
+  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
   {
     // for each smoothing direction
     oper.SetDirection(dir);
@@ -506,7 +506,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
     m_UpdateFieldSmoothingKernelSizes[dir] = ksize;
     m_UpdateFieldSmoothingKernels[dir] = new DeformationScalarType[ksize];
-    for (int i = 0; i < ksize; i++)
+    for (int i = 0; i < ksize; ++i)
     {
       m_UpdateFieldSmoothingKernels[dir][i] = (DeformationScalarType)(oper[i]);
     }
@@ -532,7 +532,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
     return;
   }
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     m_ImageSizes[i] = outSize[i];
   }

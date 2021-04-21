@@ -119,7 +119,7 @@ testVectorImageAdaptor(typename TAdaptor::Pointer &                             
   bool itFailed = false;
   using InternalPixelType = itk::FixedArray<PixelType, VectorLength>;
   InternalPixelType f;
-  for (unsigned int i = 0; i < VectorLength; i++)
+  for (unsigned int i = 0; i < VectorLength; ++i)
   {
     f[i] = i;
   }
@@ -298,7 +298,7 @@ itkVectorImageTest(int, char * argv[])
       VariableLengthVectorImageType::IndexType start;
       InternalPixelType                        f(VectorLength);
       VariableLengthVectorImageType::SizeType  size;
-      for (unsigned int i = 0; i < VectorLength; i++)
+      for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
       }
@@ -344,7 +344,7 @@ itkVectorImageTest(int, char * argv[])
       FixedArrayImageType::IndexType start;
       InternalPixelType              f;
       FixedArrayImageType::SizeType  size;
-      for (unsigned int i = 0; i < VectorLength; i++)
+      for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
       }
@@ -366,12 +366,12 @@ itkVectorImageTest(int, char * argv[])
         // Test and compare times with iterators
         //
         // First set some pixel
-        for (unsigned int i = 0; i < VectorLength; i++)
+        for (unsigned int i = 0; i < VectorLength; ++i)
         {
           f[i] = i * 0.1;
         }
         FixedArrayImageType::IndexType idx;
-        for (unsigned int i = 0; i < Dimension; i++)
+        for (unsigned int i = 0; i < Dimension; ++i)
         {
           idx[i] = 4;
         }
@@ -403,7 +403,7 @@ itkVectorImageTest(int, char * argv[])
       VectorImageType::IndexType           start;
       itk::VariableLengthVector<PixelType> f(VectorLength);
       VectorImageType::SizeType            size;
-      for (unsigned int i = 0; i < VectorLength; i++)
+      for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
       }
@@ -475,7 +475,7 @@ itkVectorImageTest(int, char * argv[])
       itk::VariableLengthVector<PixelType> f(VectorLength);
       itk::VariableLengthVector<PixelType> ZeroPixel(VectorLength);
       ZeroPixel.Fill(itk::NumericTraits<PixelType>::ZeroValue());
-      for (unsigned int i = 0; i < VectorLength; i++)
+      for (unsigned int i = 0; i < VectorLength; ++i)
       {
         f[i] = i;
       }
@@ -484,7 +484,7 @@ itkVectorImageTest(int, char * argv[])
       size.Fill(11);
       size[Dimension - 1] = 5;
       unsigned long midCtr = 1;
-      for (unsigned int i = 0; i < Dimension; i++)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         midCtr *= size[i];
       }
@@ -608,7 +608,7 @@ itkVectorImageTest(int, char * argv[])
     while (!it.IsAtEnd())
     {
       VectorPixelType f;
-      for (unsigned int i = 0; i < Dimension; i++)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         f[i] = it.GetIndex()[i];
         f[Dimension + i] = it.GetIndex()[i];
@@ -644,7 +644,7 @@ itkVectorImageTest(int, char * argv[])
     bool failed1 = false;
     while (!cit.IsAtEnd())
     {
-      for (unsigned int i = 0; i < Dimension; i++)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         if (itk::Math::NotExactlyEquals(cit.Get()[i], cit.GetIndex()[i]) ||
             itk::Math::NotExactlyEquals(cit.Get()[i + Dimension], cit.GetIndex()[i]))
@@ -688,7 +688,7 @@ itkVectorImageTest(int, char * argv[])
     bool failed1 = false;
     while (!cit.IsAtEnd())
     {
-      for (unsigned int i = 0; i < Dimension; i++)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         if (itk::Math::NotExactlyEquals(cit.Get()[i], cit.GetIndex()[i]) ||
             itk::Math::NotExactlyEquals(cit.Get()[i + Dimension], cit.GetIndex()[i]))
@@ -734,14 +734,14 @@ itkVectorImageTest(int, char * argv[])
       // Move Iterator to a point and see if it reads out the right value
       //
       unsigned int centerIndex = 1;
-      for (unsigned int i = 0; i < Dimension; i++)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         centerIndex *= (radius[i] * 2 + 1);
       }
       centerIndex /= 2;
 
       ConstNeighborhoodIteratorType::IndexType location;
-      for (unsigned int i = 0; i < Dimension; i++)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         location[i] = i + 1;
       }
@@ -780,7 +780,7 @@ itkVectorImageTest(int, char * argv[])
       }
       cNit.GoToBegin();
       unsigned int numPixelsTraversed = 1;
-      for (unsigned int i = 0; i < Dimension; i++)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         numPixelsTraversed *= size[i];
       }
@@ -845,7 +845,7 @@ itkVectorImageTest(int, char * argv[])
         std::cerr << "  SetNext() [FAILED]" << std::endl;
         failed = true;
       }
-      for (unsigned i = 0; i < Dimension; i++)
+      for (unsigned i = 0; i < Dimension; ++i)
       {
         p[i] = p[Dimension + i] = (float)index1[i];
       }
@@ -859,7 +859,7 @@ itkVectorImageTest(int, char * argv[])
       // Test SetNeighborhood() and GetPrevious()
       nit.SetLocation(index1);
       nit.SetNeighborhood(neighborhood);
-      for (unsigned i = 0; i < Dimension; i++)
+      for (unsigned i = 0; i < Dimension; ++i)
       {
         p[i] = p[Dimension + i] = i + 1;
       }

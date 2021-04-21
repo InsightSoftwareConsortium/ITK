@@ -139,7 +139,7 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer>:
   typename OffsetVector::ConstIterator offsets;
   for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
   {
-    for (unsigned int i = 0; i < offsets.Value().GetOffsetDimension(); i++)
+    for (unsigned int i = 0; i < offsets.Value().GetOffsetDimension(); ++i)
     {
       unsigned int distance = itk::Math::abs(offsets.Value()[i]);
       if (distance > minRadius)

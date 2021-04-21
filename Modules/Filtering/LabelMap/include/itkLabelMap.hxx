@@ -186,7 +186,7 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos)
 {
   SizeValueType i = 0;
 
-  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++)
+  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     if (i == pos)
     {
@@ -205,7 +205,7 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) const
 {
   SizeValueType i = 0;
 
-  for (LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++)
+  for (LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     if (i == pos)
     {
@@ -373,7 +373,7 @@ template <typename TLabelObject>
 typename LabelMap<TLabelObject>::LabelObjectType *
 LabelMap<TLabelObject>::GetLabelObject(const IndexType & idx) const
 {
-  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++)
+  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     if (it->second->HasIndex(idx))
     {
@@ -510,7 +510,7 @@ LabelMap<TLabelObject>::GetLabels() const
   LabelVectorType res;
 
   res.reserve(this->GetNumberOfLabelObjects());
-  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++)
+  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     res.push_back(it->first);
   }
@@ -525,7 +525,7 @@ LabelMap<TLabelObject>::GetLabelObjects() const
   LabelObjectVectorType res;
 
   res.reserve(this->GetNumberOfLabelObjects());
-  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++)
+  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     res.push_back(it->second);
   }
@@ -537,7 +537,7 @@ template <typename TLabelObject>
 void
 LabelMap<TLabelObject>::PrintLabelObjects(std::ostream & os) const
 {
-  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++)
+  for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     assert((it->second.IsNotNull()));
     it->second->Print(os);
@@ -550,7 +550,7 @@ template <typename TLabelObject>
 void
 LabelMap<TLabelObject>::Optimize()
 {
-  for (LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); it++)
+  for (LabelObjectContainerConstIterator it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
     assert((it->second.IsNotNull()));
     it->second->Optimize();

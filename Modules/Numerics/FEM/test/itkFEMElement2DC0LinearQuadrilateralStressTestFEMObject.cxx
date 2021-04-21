@@ -134,7 +134,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObject(int argc, char * argv[])
   femObject->Solve();
 
   float soln[8];
-  for (int i = 0; i < 8; i++)
+  for (int i = 0; i < 8; ++i)
   {
     soln[i] = femObject->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

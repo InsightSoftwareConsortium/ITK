@@ -77,10 +77,10 @@ CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
   {
     const PixelType pixel = it.GetPixel(i);
 
-    for (unsigned int dimx = 0; dimx < VectorDimension; dimx++)
+    for (unsigned int dimx = 0; dimx < VectorDimension; ++dimx)
     {
       mean[dimx] += pixel[dimx];
-      for (unsigned int dimy = 0; dimy < VectorDimension; dimy++)
+      for (unsigned int dimy = 0; dimy < VectorDimension; ++dimy)
       {
         covariance[dimx][dimy] +=
           static_cast<PixelComponentRealType>(pixel[dimx]) * static_cast<PixelComponentRealType>(pixel[dimy]);
@@ -92,9 +92,9 @@ CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
 
   mean /= rsize;
 
-  for (unsigned int dimx = 0; dimx < VectorDimension; dimx++)
+  for (unsigned int dimx = 0; dimx < VectorDimension; ++dimx)
   {
-    for (unsigned int dimy = 0; dimy < VectorDimension; dimy++)
+    for (unsigned int dimy = 0; dimy < VectorDimension; ++dimy)
     {
       covariance[dimx][dimy] /= rsize;
       covariance[dimx][dimy] -= mean[dimx] * mean[dimy];

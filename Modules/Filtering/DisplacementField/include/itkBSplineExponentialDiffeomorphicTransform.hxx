@@ -48,7 +48,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::Set
   const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
   }
@@ -64,7 +64,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::Set
   const ArrayType & meshSize)
 {
   ArrayType numberOfControlPoints;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     numberOfControlPoints[d] = meshSize[d] + this->m_SplineOrder;
   }
@@ -81,7 +81,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::Upd
   // Smooth the update field
   //
   bool smoothUpdateField = true;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     if (this->GetNumberOfControlPointsForTheUpdateField()[d] <= this->GetSplineOrder())
     {
@@ -148,7 +148,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::Upd
   // Smooth the velocity field
   //
   bool smoothVelocityField = true;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     if (this->GetNumberOfControlPointsForTheConstantVelocityField()[d] <= this->GetSplineOrder())
     {

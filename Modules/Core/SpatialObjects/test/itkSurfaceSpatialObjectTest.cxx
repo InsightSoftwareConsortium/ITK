@@ -34,12 +34,12 @@ itkSurfaceSpatialObjectTest(int, char *[])
 
   SurfaceType::SurfacePointListType list;
   unsigned int                      i;
-  for (i = 0; i < 10; i++)
+  for (i = 0; i < 10; ++i)
   {
     SurfacePointType p;
     p.SetPositionInObjectSpace(i, i + 1, i + 2);
     VectorType normal;
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       normal[j] = j;
     }
@@ -82,7 +82,7 @@ itkSurfaceSpatialObjectTest(int, char *[])
   i = 0;
   while (it != Surface->GetPoints().end())
   {
-    for (unsigned int d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; ++d)
     {
       if (itk::Math::NotExactlyEquals((*it).GetPositionInWorldSpace()[d], i + d))
       {

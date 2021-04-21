@@ -84,7 +84,7 @@ itkFEMElement3DC0LinearHexahedronStrainTest(int argc, char * argv[])
                               0.00597587f, 0.000594286f, -0.00250921f, 0.00597587f, -0.000594286f, 0.00250921f };
 
   bool foundError = false;
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
     // std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

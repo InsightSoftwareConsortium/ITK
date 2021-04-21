@@ -193,7 +193,7 @@ PhilipsRECImageIOGetImageTypeOffset(int                                         
   int index = volumeIndex * parParam.num_slice_repetitions * numSlices + slice * parParam.num_slice_repetitions;
   int i;
 
-  for (i = 0; i < parParam.num_slice_repetitions; i++)
+  for (i = 0; i < parParam.num_slice_repetitions; ++i)
   {
     if ((sliceImageTypesIndex[index + i].second == imageType) &&
         (sliceScanSequenceIndex[index + i].second == scanSequence))
@@ -248,7 +248,7 @@ PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *         ind
   if ((sortBlock && parParam.slicessorted) || (!sortBlock && !parParam.slicessorted))
   {
     // No sorting necessary for these cases.
-    for (int i = 0; i < parParam.dim[2]; i++)
+    for (int i = 0; i < parParam.dim[2]; ++i)
     {
       (*indexMatrix)[i] = i;
     }
@@ -258,11 +258,11 @@ PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *         ind
   {
     // Ok, need to figure out where all of the images are located
     // using sliceImageTypesIndex and sliceScanSequenceIndex.
-    for (int i = 0; i < parParam.num_slice_repetitions; i++)
+    for (int i = 0; i < parParam.num_slice_repetitions; ++i)
     {
-      for (int j = 0; j < remainingVolumes; j++)
+      for (int j = 0; j < remainingVolumes; ++j)
       {
-        for (int k = 0; k < actualSlices; k++)
+        for (int k = 0; k < actualSlices; ++k)
         {
           (*indexMatrix)[index] = j * parParam.num_slice_repetitions * actualSlices +
                                   k * parParam.num_slice_repetitions +
@@ -282,9 +282,9 @@ PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *         ind
   else
   {
     // Unsort image block or sort by image block.
-    for (int i = 0; i < parParam.image_blocks; i++)
+    for (int i = 0; i < parParam.image_blocks; ++i)
     {
-      for (int j = 0; j < actualSlices; j++)
+      for (int j = 0; j < actualSlices; ++j)
       {
         (*indexMatrix)[index] = j * parParam.image_blocks + i;
         index++;
@@ -428,7 +428,7 @@ PhilipsRECImageIO::Read(void * buffer)
   const unsigned int dimensions = this->GetNumberOfDimensions();
   unsigned int       numberOfPixels = 1;
 
-  for (dim = 0; dim < dimensions; dim++)
+  for (dim = 0; dim < dimensions; ++dim)
   {
     numberOfPixels *= this->m_Dimensions[dim];
   }
@@ -478,7 +478,7 @@ PhilipsRECImageIO::Read(void * buffer)
 
   SizeType imageSliceSizeInBytes = this->GetImageSizeInBytes() / numberOfSlices;
 
-  for (IndexValueType slice = 0; slice < numberOfSlices; slice++)
+  for (IndexValueType slice = 0; slice < numberOfSlices; ++slice)
   {
     IndexValueType realIndex = this->GetSliceIndex((int)slice);
     if (realIndex < 0)
@@ -592,7 +592,7 @@ PhilipsRECImageIO::ReadImageInformation()
   scanningSequenceImageTypeRescaleVector->clear();
   // Must match number of scanning sequences.
   scanningSequenceImageTypeRescaleVector->resize(par.num_scanning_sequences);
-  for (int scanIndex = 0; scanIndex < par.num_scanning_sequences; scanIndex++)
+  for (int scanIndex = 0; scanIndex < par.num_scanning_sequences; ++scanIndex)
   {
     ImageTypeRescaleValuesContainerType::Pointer imageTypeRescaleValuesVector =
       ImageTypeRescaleValuesContainerType::New();
@@ -753,9 +753,9 @@ PhilipsRECImageIO::ReadImageInformation()
   AffineMatrix direction;
   direction.SetIdentity();
   int rows, columns;
-  for (rows = 0; rows < 3; rows++)
+  for (rows = 0; rows < 3; ++rows)
   {
-    for (columns = 0; columns < 3; columns++)
+    for (columns = 0; columns < 3; ++columns)
     {
       direction[columns][rows] = dir[columns][rows];
     }
@@ -889,7 +889,7 @@ PhilipsRECImageIO::ReadImageInformation()
   TriggerTimesContainerType::Pointer triggerTimes = TriggerTimesContainerType::New();
   triggerTimes->resize(par.cardiac_phases);
 
-  for (unsigned int ttime_index = 0; ttime_index < (unsigned int)par.cardiac_phases; ttime_index++)
+  for (unsigned int ttime_index = 0; ttime_index < (unsigned int)par.cardiac_phases; ++ttime_index)
   {
     triggerTimes->SetElement(ttime_index, (double)par.trigger_times[ttime_index]);
   }
@@ -899,7 +899,7 @@ PhilipsRECImageIO::ReadImageInformation()
   EchoTimesContainerType::Pointer echoTimes = EchoTimesContainerType::New();
   echoTimes->resize(par.echoes);
 
-  for (unsigned int echo_index = 0; echo_index < (unsigned int)par.echoes; echo_index++)
+  for (unsigned int echo_index = 0; echo_index < (unsigned int)par.echoes; ++echo_index)
   {
     echoTimes->SetElement(echo_index, (double)par.echo_times[echo_index]);
   }
@@ -917,7 +917,7 @@ PhilipsRECImageIO::ReadImageInformation()
   repTimes->resize(par.mixes); // This has only been verified using a
                                // Look-Locker sequence and may not be valid.
 
-  for (unsigned int rep_index = 0; rep_index < (unsigned int)par.mixes; rep_index++)
+  for (unsigned int rep_index = 0; rep_index < (unsigned int)par.mixes; ++rep_index)
   {
     repTimes->SetElement(rep_index, (double)par.repetition_time[rep_index]);
   }

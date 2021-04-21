@@ -200,7 +200,7 @@ void
 ParticleSwarmOptimizerBase::PrintParamtersType(const ParametersType & x, std::ostream & os) const
 {
   unsigned int sz = x.size();
-  for (unsigned int i = 0; i < sz; i++)
+  for (unsigned int i = 0; i < sz; ++i)
   {
     os << x[i] << " ";
   }
@@ -224,13 +224,13 @@ ParticleSwarmOptimizerBase::StartOptimization()
 
   // run the simulation
   n = static_cast<unsigned int>((GetCostFunction())->GetNumberOfParameters());
-  for (this->m_IterationIndex = 1; m_IterationIndex < m_MaximalNumberOfIterations && !converged; m_IterationIndex++)
+  for (this->m_IterationIndex = 1; m_IterationIndex < m_MaximalNumberOfIterations && !converged; ++m_IterationIndex)
   {
 
     UpdateSwarm();
 
     // update the best function value/parameters
-    for (j = 0; j < this->m_NumberOfParticles; j++)
+    for (j = 0; j < this->m_NumberOfParticles; ++j)
     {
       if (this->m_Particles[j].m_BestValue < m_FunctionBestValue)
       {
@@ -264,9 +264,9 @@ ParticleSwarmOptimizerBase::StartOptimization()
       {
         converged = true;
         std::vector<ParametersType::ValueType> parameterDiffs(this->m_NumberOfParticles);
-        for (k = 0; k < n && converged; k++)
+        for (k = 0; k < n && converged; ++k)
         {
-          for (j = 0; j < this->m_NumberOfParticles; j++)
+          for (j = 0; j < this->m_NumberOfParticles; ++j)
           {
             parameterDiffs[j] = fabs(this->m_Particles[j].m_BestParameters[k] - this->m_ParametersBestValue[k]);
           }
@@ -328,7 +328,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
   {
     itkExceptionMacro(<< "cost function and parameter bounds dimensions mismatch");
   }
-  for (i = 0; i < n; i++)
+  for (i = 0; i < n; ++i)
   {
     if (initialPosition[i] < this->m_ParameterBounds[i].first || initialPosition[i] > this->m_ParameterBounds[i].second)
     {
@@ -347,7 +347,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
     for (it = this->m_Particles.begin(); it != end; ++it)
     {
       ParticleData & p = (*it);
-      for (i = 0; i < n; i++)
+      for (i = 0; i < n; ++i)
       {
         if (p.m_CurrentParameters[i] < m_ParameterBounds[i].first ||
             p.m_CurrentParameters[i] > m_ParameterBounds[i].second ||
@@ -359,7 +359,7 @@ ParticleSwarmOptimizerBase::ValidateSettings()
     }
   }
   // parameters' convergence tolerance has to be positive
-  for (i = 0; i < n; i++)
+  for (i = 0; i < n; ++i)
   {
     if (this->m_ParametersConvergenceTolerance[i] < 0)
     {
@@ -401,7 +401,7 @@ ParticleSwarmOptimizerBase::Initialize()
   }
   // initialize best function value
   this->m_FunctionBestValue = itk::NumericTraits<CostFunctionType::MeasureType>::max();
-  for (unsigned int i = 0; i < this->m_Particles.size(); i++)
+  for (unsigned int i = 0; i < this->m_Particles.size(); ++i)
   {
     if (this->m_FunctionBestValue > m_Particles[i].m_BestValue)
     {
@@ -425,7 +425,7 @@ ParticleSwarmOptimizerBase::RandomInitialization()
 
   // create swarm
   this->m_Particles.resize(m_NumberOfParticles);
-  for (i = 0; i < this->m_NumberOfParticles; i++)
+  for (i = 0; i < this->m_NumberOfParticles; ++i)
   {
     this->m_Particles[i].m_BestParameters.SetSize(n);
     this->m_Particles[i].m_CurrentParameters.SetSize(n);
@@ -441,15 +441,15 @@ ParticleSwarmOptimizerBase::RandomInitialization()
   {
     ParametersType variance(mean.GetSize());
     // variance is set so that 3sigma == bounds
-    for (i = 0; i < n; i++)
+    for (i = 0; i < n; ++i)
     {
       variance[i] = (parameterBounds[i].second - parameterBounds[i].first) / 3.0;
       variance[i] *= variance[i];
     }
 
-    for (i = 1; i < this->m_NumberOfParticles; i++)
+    for (i = 1; i < this->m_NumberOfParticles; ++i)
     {
-      for (j = 0; j < n; j++)
+      for (j = 0; j < n; ++j)
       {
         this->m_Particles[i].m_CurrentParameters[j] = randomGenerator->GetNormalVariate(mean[j], variance[j]);
         // ensure that the particle is inside the feasible region
@@ -464,9 +464,9 @@ ParticleSwarmOptimizerBase::RandomInitialization()
   // create particles with uniform distribution inside the feasible region
   else
   {
-    for (i = 1; i < this->m_NumberOfParticles; i++)
+    for (i = 1; i < this->m_NumberOfParticles; ++i)
     {
-      for (j = 0; j < n; j++)
+      for (j = 0; j < n; ++j)
       {
         this->m_Particles[i].m_CurrentParameters[j] =
           randomGenerator->GetUniformVariate(parameterBounds[j].first, parameterBounds[j].second);
@@ -476,9 +476,9 @@ ParticleSwarmOptimizerBase::RandomInitialization()
 
   // initialize the particles' velocity, so that x_i+v_i is inside the
   // feasible region, and set the best parameters to the current ones
-  for (i = 0; i < this->m_NumberOfParticles; i++)
+  for (i = 0; i < this->m_NumberOfParticles; ++i)
   {
-    for (j = 0; j < n; j++)
+    for (j = 0; j < n; ++j)
     {
       this->m_Particles[i].m_CurrentVelocity[j] =
         (randomGenerator->GetUniformVariate(parameterBounds[j].first, parameterBounds[j].second) -
@@ -487,7 +487,7 @@ ParticleSwarmOptimizerBase::RandomInitialization()
     }
   }
   // initial function evaluations
-  for (i = 0; i < this->m_NumberOfParticles; i++)
+  for (i = 0; i < this->m_NumberOfParticles; ++i)
   {
     this->m_Particles[i].m_CurrentValue = this->m_CostFunction->GetValue(m_Particles[i].m_CurrentParameters);
     this->m_Particles[i].m_BestValue = m_Particles[i].m_CurrentValue;

@@ -87,7 +87,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
    */
 
   TransformType::MeshSizeType requiredMeshSize;
-  for (unsigned int d = 0; d < SpaceDimension; d++)
+  for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
     requiredMeshSize[d] = (d + 1) * meshSize[d];
   }

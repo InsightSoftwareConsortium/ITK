@@ -308,9 +308,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   unsigned long count = 0;
 
   // initialize the linear/matrix part
-  for (unsigned int row = 0; row < ImageDimension; row++)
+  for (unsigned int row = 0; row < ImageDimension; ++row)
   {
-    for (unsigned int col = 0; col < ImageDimension; col++)
+    for (unsigned int col = 0; col < ImageDimension; ++col)
     {
       parameters[count] = 0;
       if (row == col)
@@ -322,7 +322,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   }
 
   // initialize the offset/vector part
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     parameters[count] = 0;
     ++count;
@@ -540,7 +540,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   using TransformType = itk::BSplineTransform<double, ImageDimension, 3>;
   using ParametersType = typename TransformType::ParametersType;
   typename TransformType::PhysicalDimensionsType dimensions;
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     dimensions[dim] = imgFixed->GetSpacing()[dim] * (imgFixed->GetLargestPossibleRegion().GetSize()[dim] - 1);
   }

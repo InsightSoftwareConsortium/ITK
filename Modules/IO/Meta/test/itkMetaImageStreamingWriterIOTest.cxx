@@ -75,7 +75,7 @@ itkMetaImageStreamingWriterIOTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
 
-  for (unsigned int i = 0; i < numberOfPieces; i++)
+  for (unsigned int i = 0; i < numberOfPieces; ++i)
   {
     std::cout << "Reading piece " << i + 1 << " of " << numberOfPieces << std::endl;
 

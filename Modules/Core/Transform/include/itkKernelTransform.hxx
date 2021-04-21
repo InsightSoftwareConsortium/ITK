@@ -104,12 +104,12 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeDeformationContributi
 
   GMatrixType Gmatrix;
 
-  for (unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++)
+  for (unsigned int lnd = 0; lnd < numberOfLandmarks; ++lnd)
   {
     this->ComputeG(thisPoint - sp->Value(), Gmatrix);
-    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
-      for (unsigned int odim = 0; odim < NDimensions; odim++)
+      for (unsigned int odim = 0; odim < NDimensions; ++odim)
       {
         result[odim] += Gmatrix(dim, odim) * m_DMatrix(dim, lnd);
       }
@@ -243,10 +243,10 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeP()
 
   this->m_PMatrix.set_size(NDimensions * numberOfLandmarks, NDimensions * (NDimensions + 1));
   this->m_PMatrix.fill(0.0);
-  for (unsigned long i = 0; i < numberOfLandmarks; i++)
+  for (unsigned long i = 0; i < numberOfLandmarks; ++i)
   {
     this->m_SourceLandmarks->GetPoint(i, &p);
-    for (unsigned int j = 0; j < NDimensions; j++)
+    for (unsigned int j = 0; j < NDimensions; ++j)
     {
       const vnl_matrix<TParametersValueType> temp_matrix{ I * p[j] }; // be explicit about conversions that occur.
       this->m_PMatrix.update(
@@ -268,15 +268,15 @@ KernelTransform<TParametersValueType, NDimensions>::ComputeY()
   this->m_YMatrix.set_size(NDimensions * (numberOfLandmarks + NDimensions + 1), 1);
 
   this->m_YMatrix.fill(0.0);
-  for (unsigned int i = 0; i < numberOfLandmarks; i++)
+  for (unsigned int i = 0; i < numberOfLandmarks; ++i)
   {
-    for (unsigned int j = 0; j < NDimensions; j++)
+    for (unsigned int j = 0; j < NDimensions; ++j)
     {
       this->m_YMatrix.put(i * NDimensions + j, 0, displacement.Value()[j]);
     }
     ++displacement;
   }
-  for (unsigned int i = 0; i < NDimensions * (NDimensions + 1); i++)
+  for (unsigned int i = 0; i < NDimensions * (NDimensions + 1); ++i)
   {
     this->m_YMatrix.put(numberOfLandmarks * NDimensions + i, 0, 0);
   }
@@ -292,23 +292,23 @@ KernelTransform<TParametersValueType, NDimensions>::ReorganizeW()
   // The deformable (non-affine) part of the registration goes here
   this->m_DMatrix.set_size(NDimensions, numberOfLandmarks);
   unsigned int ci = 0;
-  for (unsigned int lnd = 0; lnd < numberOfLandmarks; lnd++)
+  for (unsigned int lnd = 0; lnd < numberOfLandmarks; ++lnd)
   {
-    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
       this->m_DMatrix(dim, lnd) = this->m_WMatrix(ci++, 0);
     }
   }
   // This matrix holds the rotational part of the Affine component
-  for (unsigned int j = 0; j < NDimensions; j++)
+  for (unsigned int j = 0; j < NDimensions; ++j)
   {
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       this->m_AMatrix(i, j) = this->m_WMatrix(ci++, 0);
     }
   }
   // This vector holds the translational part of the Affine component
-  for (unsigned int k = 0; k < NDimensions; k++)
+  for (unsigned int k = 0; k < NDimensions; ++k)
   {
     this->m_BVector(k) = this->m_WMatrix(ci++, 0);
   }
@@ -332,15 +332,15 @@ KernelTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPo
   this->ComputeDeformationContribution(thisPoint, result);
 
   // Add the rotational part of the Affine component
-  for (unsigned int j = 0; j < NDimensions; j++)
+  for (unsigned int j = 0; j < NDimensions; ++j)
   {
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       result[i] += this->m_AMatrix(i, j) * thisPoint[j];
     }
   }
   // This vector holds the translational part of the Affine component
-  for (unsigned int k = 0; k < NDimensions; k++)
+  for (unsigned int k = 0; k < NDimensions; ++k)
   {
     result[k] += this->m_BVector(k) + thisPoint[k];
   }
@@ -396,7 +396,7 @@ KernelTransform<TParametersValueType, NDimensions>::SetParameters(const Paramete
   unsigned int pcounter = 0;
   while (itr != end)
   {
-    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
       landMark[dim] = parameters[pcounter];
       ++pcounter;
@@ -436,7 +436,7 @@ KernelTransform<TParametersValueType, NDimensions>::SetFixedParameters(const Fix
   unsigned int pcounter = 0;
   while (itr != end)
   {
-    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
       landMark[dim] = parameters[pcounter];
       ++pcounter;
@@ -462,7 +462,7 @@ KernelTransform<TParametersValueType, NDimensions>::UpdateParameters() const
   while (itr != end)
   {
     InputPointType landmark = itr.Value();
-    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
       this->m_Parameters[pcounter] = landmark[dim];
       ++pcounter;
@@ -497,7 +497,7 @@ KernelTransform<TParametersValueType, NDimensions>::GetFixedParameters() const
   while (itr != end)
   {
     InputPointType landmark = itr.Value();
-    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
       this->m_FixedParameters[pcounter] = landmark[dim];
       ++pcounter;

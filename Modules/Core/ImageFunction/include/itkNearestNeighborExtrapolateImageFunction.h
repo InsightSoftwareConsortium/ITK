@@ -83,7 +83,7 @@ public:
   {
     IndexType nindex;
 
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       nindex[j] = Math::RoundHalfIntegerUp<IndexValueType>(index[j]);
       if (nindex[j] < this->GetStartIndex()[j])
@@ -110,7 +110,7 @@ public:
   {
     IndexType nindex;
 
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if (index[j] < this->GetStartIndex()[j])
       {

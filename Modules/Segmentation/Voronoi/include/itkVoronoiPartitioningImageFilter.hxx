@@ -34,7 +34,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::ClassifyDiagram()
   IndexList       PixelPool;
 
   this->m_NumberOfBoundary = 0;
-  for (int i = 0; i < this->GetNumberOfSeeds(); i++)
+  for (int i = 0; i < this->GetNumberOfSeeds(); ++i)
   {
     CellAutoPointer currCell;
     this->m_WorkingVD->GetCellId(i, currCell);
@@ -102,7 +102,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentBoundary()
 
   NeighborIdIterator nit;
   NeighborIdIterator nitend;
-  for (int i = 0; i < this->GetNumberOfSeeds(); i++)
+  for (int i = 0; i < this->GetNumberOfSeeds(); ++i)
   {
     nitend = this->m_WorkingVD->NeighborIdsEnd(i);
     for (nit = this->m_WorkingVD->NeighborIdsBegin(i); nit != nitend; ++nit)
@@ -131,7 +131,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::MakeSegmentObject()
   PointIdIterator currPitEnd;
   PointType       currP;
   PointTypeDeque  VertList;
-  for (int i = 0; i < this->GetNumberOfSeeds(); i++)
+  for (int i = 0; i < this->GetNumberOfSeeds(); ++i)
   {
     CellAutoPointer currCell;
     this->m_WorkingVD->GetCellId(i, currCell);
@@ -159,7 +159,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::TestHomogeneity(Index
 
   const InputImageType * inputImage = this->GetInput();
 
-  for (i = 0; i < num; i++)
+  for (i = 0; i < num; ++i)
   {
     getp = (double)(inputImage->GetPixel(Plist[i]));
     addp = addp + getp;

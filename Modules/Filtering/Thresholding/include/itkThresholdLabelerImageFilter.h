@@ -95,7 +95,7 @@ public:
     {
       return m_LabelOffset;
     }
-    for (size_t i = 0; i < size - 1; i++)
+    for (size_t i = 0; i < size - 1; ++i)
     {
       /* Value is in this class if it equals the upper bound. */
       if (m_Thresholds[i] < A && A <= m_Thresholds[i + 1])

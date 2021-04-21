@@ -137,7 +137,7 @@ LinearSystemWrapperItpack::InitializeVector(unsigned int vectorIndex)
   /* insert new vector */
   (*m_Vectors)[vectorIndex] = new doublereal[m_Order];
   /* fill with zeros */
-  for (unsigned int i = 0; i < m_Order; i++)
+  for (unsigned int i = 0; i < m_Order; ++i)
   {
     (*m_Vectors)[vectorIndex][i] = 0.0;
   }
@@ -185,7 +185,7 @@ LinearSystemWrapperItpack::InitializeSolution(unsigned int solutionIndex)
   /* insert new vector */
   (*m_Solutions)[solutionIndex] = new doublereal[m_Order];
   /* fill with zeros */
-  for (unsigned int i = 0; i < m_Order; i++)
+  for (unsigned int i = 0; i < m_Order; ++i)
   {
     (*m_Solutions)[solutionIndex][i] = 0.0;
   }
@@ -366,7 +366,7 @@ LinearSystemWrapperItpack::GetColumnsOfNonZeroMatrixElementsInRow(unsigned int  
     /* get search bounds in appropriate row */
     unsigned int lower = mat->m_IA[row] - 1;
     unsigned int upper = mat->m_IA[row + 1] - 1;
-    for (unsigned int j = lower; j < upper; j++)
+    for (unsigned int j = lower; j < upper; ++j)
     {
       cols.push_back(mat->m_JA[j] - 1);
     }
@@ -399,7 +399,7 @@ LinearSystemWrapperItpack::ScaleMatrix(Float scale, unsigned int matrixIndex)
 
   int          i;
   doublereal * values = (*m_Matrices)[matrixIndex].GetA();
-  for (i = 0; i < (*m_Matrices)[matrixIndex].GetIA()[this->m_Order] - 1; i++)
+  for (i = 0; i < (*m_Matrices)[matrixIndex].GetIA()[this->m_Order] - 1; ++i)
   {
     values[i] = values[i] * scale;
   }
@@ -592,7 +592,7 @@ LinearSystemWrapperItpack::Solve()
    * doublereal fakeZero = 1.0e-16;
 
    * //insert "fake" zeros
-   * for (i=0; i<static_cast<int>(m_Order); i++)
+   * for (i=0; i<static_cast<int>(m_Order); ++i)
    *   {
    *   if( (*m_Matrices)[0].Get(i,i) == 0.0)
    *     {
@@ -670,11 +670,11 @@ LinearSystemWrapperItpack::Solve()
   WKSP = new doublereal[NW + 2];
 
   integer i;
-  for (i = 0; i < NW; i++)
+  for (i = 0; i < NW; ++i)
   {
     WKSP[i] = 0.0;
   }
-  for (i = 0; i < (3 * N); i++)
+  for (i = 0; i < (3 * N); ++i)
   {
     IWKSP[i] = 0;
   }
@@ -834,7 +834,7 @@ LinearSystemWrapperItpack::CopySolution2Vector(unsigned solutionIndex, unsigned 
 
   this->InitializeVector(vectorIndex);
   /* copy values */
-  for (unsigned int i = 0; i < m_Order; i++)
+  for (unsigned int i = 0; i < m_Order; ++i)
   {
     (*m_Vectors)[vectorIndex][i] = (*m_Solutions)[solutionIndex][i];
   }
@@ -867,7 +867,7 @@ LinearSystemWrapperItpack::CopyVector2Solution(unsigned vectorIndex, unsigned in
 
   this->InitializeSolution(solutionIndex);
   /* copy values */
-  for (unsigned int i = 0; i < m_Order; i++)
+  for (unsigned int i = 0; i < m_Order; ++i)
   {
     (*m_Solutions)[solutionIndex][i] = (*m_Vectors)[vectorIndex][i];
   }
@@ -994,7 +994,7 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
   unsigned int i;
   if (m_Vectors)
   {
-    for (i = 0; i < m_NumberOfVectors; i++)
+    for (i = 0; i < m_NumberOfVectors; ++i)
     {
       delete[](*m_Vectors)[i];
     }
@@ -1003,7 +1003,7 @@ LinearSystemWrapperItpack::~LinearSystemWrapperItpack()
 
   if (m_Solutions)
   {
-    for (i = 0; i < m_NumberOfSolutions; i++)
+    for (i = 0; i < m_NumberOfSolutions; ++i)
     {
       delete[](*m_Solutions)[i];
     }

@@ -167,7 +167,7 @@ testFancyStringWithStdVector()
   {
     throw "testFancyStringWithStdVector: failed reading all elements in the string (1)";
   }
-  for (size_t i = 0; i < dataIn.size(); i++)
+  for (size_t i = 0; i < dataIn.size(); ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut1[i]))
     {
@@ -185,7 +185,7 @@ testFancyStringWithStdVector()
   {
     throw "testFancyStringWithStdVector: failed reading all elements for the output vector (1)";
   }
-  for (size_t i = 0; i < dataOut2.size(); i++)
+  for (size_t i = 0; i < dataOut2.size(); ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut2[i]))
     {
@@ -203,7 +203,7 @@ testFancyStringWithStdVector()
   {
     throw "testFancyStringWithStdVector: failed reading user-specified number of elements (1.1)";
   }
-  for (size_t i = 0; i < 5; i++)
+  for (size_t i = 0; i < 5; ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut3[i]))
     {
@@ -221,7 +221,7 @@ testFancyStringWithStdVector()
   {
     throw "testFancyStringWithStdVector: failed reading user-specified number of elements (2.1)";
   }
-  for (size_t i = 0; i < 5; i++)
+  for (size_t i = 0; i < 5; ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut4[i]))
     {
@@ -257,7 +257,7 @@ testFancyStringWithItkArray()
   {
     throw "testFancyStringWithItkArray: failed reading all elements in the string (1)";
   }
-  for (unsigned int i = 0; i < dataIn.GetSize(); i++)
+  for (unsigned int i = 0; i < dataIn.GetSize(); ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut1[i]))
     {
@@ -276,7 +276,7 @@ testFancyStringWithItkArray()
   {
     throw "testFancyStringWithItkArray: failed reading all elements for the output vector (1)";
   }
-  for (unsigned int i = 0; i < dataOut2.GetSize(); i++)
+  for (unsigned int i = 0; i < dataOut2.GetSize(); ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut2[i]))
     {
@@ -295,7 +295,7 @@ testFancyStringWithItkArray()
   {
     throw "testFancyStringWithItkArray: failed reading user-specified number of elements (1.1)";
   }
-  for (unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut3[i]))
     {
@@ -313,7 +313,7 @@ testFancyStringWithItkArray()
   {
     throw "testFancyStringWithItkArray: failed reading user-specified number of elements (2.1)";
   }
-  for (unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     if (itk::Math::NotExactlyEquals(dataIn[i], dataOut4[i]))
     {

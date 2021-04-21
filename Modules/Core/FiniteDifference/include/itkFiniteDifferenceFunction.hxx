@@ -27,7 +27,7 @@ FiniteDifferenceFunction<TImageType>::FiniteDifferenceFunction()
 {
   // initialize variables
   m_Radius.Fill(0);
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_ScaleCoefficients[i] = 1.0;
   }
@@ -51,7 +51,7 @@ template <typename TImageType>
 void
 FiniteDifferenceFunction<TImageType>::SetScaleCoefficients(const PixelRealType vals[ImageDimension])
 {
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_ScaleCoefficients[i] = vals[i];
   }
@@ -61,7 +61,7 @@ template <typename TImageType>
 void
 FiniteDifferenceFunction<TImageType>::GetScaleCoefficients(PixelRealType vals[ImageDimension]) const
 {
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     vals[i] = m_ScaleCoefficients[i];
   }
@@ -83,7 +83,7 @@ FiniteDifferenceFunction<TImageType>::ComputeNeighborhoodScales() const
   NeighborhoodScalesType neighborhoodScales;
 
   neighborhoodScales.Fill(0.0);
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (this->m_Radius[i] > 0)
     {

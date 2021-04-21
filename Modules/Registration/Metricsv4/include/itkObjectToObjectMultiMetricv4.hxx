@@ -87,7 +87,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     itkExceptionMacro("No metrics are assigned. Cannot assign transform.");
   }
   Superclass::SetMovingTransform(transform);
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     this->m_MetricQueue[j]->SetMovingTransform(transform);
   }
@@ -106,7 +106,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     itkExceptionMacro("No metrics are assigned. Cannot assign transform.");
   }
   Superclass::SetFixedTransform(transform);
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     this->m_MetricQueue[j]->SetFixedTransform(transform);
   }
@@ -139,7 +139,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     }
     /* normalize the weights */
     WeightValueType sum = NumericTraits<WeightValueType>::ZeroValue();
-    for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+    for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
     {
       sum += this->m_MetricWeights[j];
     }
@@ -147,7 +147,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     {
       itkExceptionMacro("The derivative weights are too small: " << this->m_MetricWeights);
     }
-    for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+    for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
     {
       this->m_MetricWeights[j] = this->m_MetricWeights[j] / sum;
     }
@@ -165,7 +165,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 
   /* Verify the same transform is in all metrics. */
   const MovingTransformType * firstTransform = nullptr;
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     const MovingTransformType * transform = this->m_MetricQueue[j]->GetMovingTransform();
     // Check if it's a composite. If so, there must be only one transform set to be
@@ -175,7 +175,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
     if (composite != nullptr)
     {
       SizeValueType count = 0;
-      for (size_t n = 0; n < composite->GetNumberOfTransforms(); n++)
+      for (size_t n = 0; n < composite->GetNumberOfTransforms(); ++n)
       {
         if (composite->GetNthTransformToOptimize(static_cast<SizeValueType>(n)))
         {
@@ -218,7 +218,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   }
 
   /* Initialize individual metrics. */
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     try
     {
@@ -236,7 +236,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   /* Get the first valid virtual domain and assign
    * it to this metric as a common virtual domain,
    * for direct use by calling classes. */
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     if (this->m_MetricQueue[j]->GetVirtualImage())
     {
@@ -260,7 +260,7 @@ typename ObjectToObjectMultiMetricv4<TFixedDimension,
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::GetValue()
   const
 {
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     this->m_MetricValueArray[j] = this->m_MetricQueue[j]->GetValue();
   }
@@ -301,7 +301,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 
   // Loop over metrics
   DerivativeValueType totalMagnitude = NumericTraits<DerivativeValueType>::ZeroValue();
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     this->m_MetricQueue[j]->GetValueAndDerivative(metricValue, metricDerivative);
     this->m_MetricValueArray[j] = metricValue;
@@ -315,7 +315,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
       weightOverMagnitude = this->m_MetricWeights[j] / magnitude;
     }
     // derivative = \sum_j w_j * (dM_j / ||dM_j||)
-    for (NumberOfParametersType p = 0; p < this->GetNumberOfParameters(); p++)
+    for (NumberOfParametersType p = 0; p < this->GetNumberOfParameters(); ++p)
     {
       // roll our own loop to avoid temporary variable that could be large when using displacement fields.
       derivativeResult[p] += (metricDerivative[p] * weightOverMagnitude);
@@ -326,7 +326,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   // This keeps the behavior of this metric the same as a regular metric, with respect to derivative
   // magnitudes.
   totalMagnitude /= this->GetNumberOfMetrics();
-  for (NumberOfParametersType p = 0; p < this->GetNumberOfParameters(); p++)
+  for (NumberOfParametersType p = 0; p < this->GetNumberOfParameters(); ++p)
   {
     derivativeResult[p] *= totalMagnitude;
   }
@@ -358,7 +358,7 @@ typename ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtual
 {
   MeasureType value = NumericTraits<MeasureType>::ZeroValue();
 
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     // value = sum_j w_j * M_j
     value += this->m_MetricValueArray[j] * this->m_MetricWeights[j];
@@ -389,7 +389,7 @@ bool
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>::
   SupportsArbitraryVirtualDomainSamples() const
 {
-  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); j++)
+  for (SizeValueType j = 0; j < this->GetNumberOfMetrics(); ++j)
   {
     if (!this->m_MetricQueue[j]->SupportsArbitraryVirtualDomainSamples())
     {
@@ -410,7 +410,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 {
   os << indent << "Weights of metric derivatives: " << this->m_MetricWeights << std::endl;
   os << indent << "The multivariate contains the following metrics: " << std::endl << std::endl;
-  for (SizeValueType i = 0; i < this->GetNumberOfMetrics(); i++)
+  for (SizeValueType i = 0; i < this->GetNumberOfMetrics(); ++i)
   {
     os << indent << "~~~ Metric " << i << " ~~~" << std::endl;
     this->m_MetricQueue[i]->Print(os, indent.GetNextIndent());

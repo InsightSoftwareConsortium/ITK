@@ -88,7 +88,7 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
     // activate all "previous" neighbors that are face+edge+vertex
     // connected to the current pixel. do not include the center pixel
     unsigned int centerIndex = onit.GetCenterNeighborhoodIndex();
-    for (d = 0; d < centerIndex; d++)
+    for (d = 0; d < centerIndex; ++d)
     {
       offset = onit.GetOffset(d);
       init.ActivateOffset(offset);

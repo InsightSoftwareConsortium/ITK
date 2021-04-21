@@ -45,7 +45,7 @@ SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>::SetParameters(const Pa
 
     m_Radius = parameters[0];
 
-    for (unsigned int i = 0; i < SpaceDimension; i++)
+    for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
       m_Translation[i] = parameters[i + 1];
     }
@@ -73,7 +73,7 @@ SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>::Evaluate(const PointTy
   using RealType = typename NumericTraits<OutputType>::RealType;
   RealType output = 0.0;
 
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     output += itk::Math::sqr((point[j] - m_Translation[j]));
   }

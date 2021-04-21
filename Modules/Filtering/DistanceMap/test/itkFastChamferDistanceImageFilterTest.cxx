@@ -31,7 +31,7 @@ SimpleSignedDistance(const TPoint & p)
   double radius = 10;
 
   double accum = 0.0;
-  for (unsigned int j = 0; j < TPoint::PointDimension; j++)
+  for (unsigned int j = 0; j < TPoint::PointDimension; ++j)
   {
     accum += static_cast<double>(itk::Math::sqr(p[j] - center[j]));
   }
@@ -173,7 +173,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   // Exercising filter methods
   float inweights[VDimension];
-  for (unsigned int dim = 0; dim < VDimension; dim++)
+  for (unsigned int dim = 0; dim < VDimension; ++dim)
   {
     if (dim == 0)
     {

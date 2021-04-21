@@ -33,13 +33,13 @@ itkLineSpatialObjectTest(int, char *[])
 
   LineType::LinePointListType list;
   unsigned int                i;
-  for (i = 0; i < 10; i++)
+  for (i = 0; i < 10; ++i)
   {
     LinePointType p;
     p.SetPositionInObjectSpace(i, i + 1, i + 2);
     VectorType normal1;
     VectorType normal2;
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       normal1[j] = j;
       normal2[j] = j * 2;
@@ -89,7 +89,7 @@ itkLineSpatialObjectTest(int, char *[])
   i = 0;
   while (it != line->GetPoints().end())
   {
-    for (unsigned int d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; ++d)
     {
       if (itk::Math::NotExactlyEquals((*it).GetPositionInWorldSpace()[d], i + d))
       {

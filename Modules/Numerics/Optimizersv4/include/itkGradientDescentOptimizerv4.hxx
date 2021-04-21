@@ -201,21 +201,21 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ModifyGradien
 
   if (this->GetWeightsAreIdentity())
   {
-    for (SizeValueType i = 0; i < factor.Size(); i++)
+    for (SizeValueType i = 0; i < factor.Size(); ++i)
     {
       factor[i] = NumericTraits<typename ScalesType::ValueType>::OneValue() / scales[i];
     }
   }
   else
   {
-    for (SizeValueType i = 0; i < factor.Size(); i++)
+    for (SizeValueType i = 0; i < factor.Size(); ++i)
     {
       factor[i] = weights[i] / scales[i];
     }
   }
 
   // Loop over the range. It is inclusive.
-  for (IndexValueType j = subrange[0]; j <= subrange[1]; j++)
+  for (IndexValueType j = subrange[0]; j <= subrange[1]; ++j)
   {
     // scales is checked during StartOptmization for values <=
     // machine epsilon.
@@ -233,7 +233,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ModifyGradien
   const IndexRangeType & subrange)
 {
   // Loop over the range. It is inclusive.
-  for (IndexValueType j = subrange[0]; j <= subrange[1]; j++)
+  for (IndexValueType j = subrange[0]; j <= subrange[1]; ++j)
   {
     this->m_Gradient[j] = this->m_Gradient[j] * this->m_LearningRate;
   }

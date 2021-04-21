@@ -29,7 +29,7 @@ template <typename TInputImage, typename TOutputImage>
 ExpandImageFilter<TInputImage, TOutputImage>::ExpandImageFilter()
 {
   // Set default factors to 1
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_ExpandFactors[j] = 1;
   }
@@ -50,7 +50,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 
   unsigned int j;
   os << indent << "ExpandFactors: [";
-  for (j = 0; j < ImageDimension - 1; j++)
+  for (j = 0; j < ImageDimension - 1; ++j)
   {
     os << m_ExpandFactors[j] << ", ";
   }
@@ -69,7 +69,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::SetExpandFactors(const unsigned in
 {
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     if (factor != m_ExpandFactors[j])
     {
@@ -79,7 +79,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::SetExpandFactors(const unsigned in
   if (j < ImageDimension)
   {
     this->Modified();
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       m_ExpandFactors[j] = factor;
       if (m_ExpandFactors[j] < 1)
@@ -137,7 +137,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     // Don't need to check for division by zero because the factors are
     // clamped to be minimum for 1.
     typename InterpolatorType::ContinuousIndexType inputIndex;
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       inputIndex[j] = ((double)outputIndex[j] + 0.5) / (double)m_ExpandFactors[j] - 0.5;
     }
@@ -189,7 +189,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
    * inputRequestedSize = (outputRequestedSize / ExpandFactor) + 1)
    * The extra 1 above is to take care of edge effects when streaming.
    */
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputRequestedRegionSize[i] =
       (SizeValueType)std::ceil((double)outputRequestedRegionSize[i] / (double)m_ExpandFactors[i]) + 1;
@@ -238,7 +238,7 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   typename TInputImage::SpacingType inputOriginShift;
 
-  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outputSpacing[i] = inputSpacing[i] / (float)m_ExpandFactors[i];
     outputSize[i] = inputSize[i] * (SizeValueType)m_ExpandFactors[i];

@@ -85,9 +85,9 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const 
   HessianType  hessian = this->EvaluateHessian(iP);
   GradientType grad = this->EvaluateGradient(iP);
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
-    for (unsigned int j = 0; j < Dimension; j++)
+    for (unsigned int j = 0; j < Dimension; ++j)
     {
       if (j != i)
       {
@@ -137,9 +137,9 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const 
     ioData.MeanCurvature.m_Computed = true;
     ioData.MeanCurvature.m_Value = NumericTraits<OutputRealType>::ZeroValue();
 
-    for (unsigned int i = 0; i < Dimension; i++)
+    for (unsigned int i = 0; i < Dimension; ++i)
     {
-      for (unsigned int j = 0; j < Dimension; j++)
+      for (unsigned int j = 0; j < Dimension; ++j)
       {
         if (j != i)
         {

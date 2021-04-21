@@ -105,7 +105,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 
   timeVaryingVelocityFieldDirection.SetIdentity();
   timeVaryingVelocityFieldSpacing.Fill(1.0);
-  for (unsigned int d = 0; d < 4; d++)
+  for (unsigned int d = 0; d < 4; ++d)
   {
     float physicalDimensions = (size[d] - splineOrder) * spacing[d];
     timeVaryingVelocityFieldSize[d] =

@@ -104,7 +104,7 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogShapePriorTerm
   // assume the shape parameters is from a independent gaussian distributions
   MeasureType measure = 0.0;
 
-  for (unsigned int j = 0; j < this->m_ShapeFunction->GetNumberOfShapeParameters(); j++)
+  for (unsigned int j = 0; j < this->m_ShapeFunction->GetNumberOfShapeParameters(); ++j)
   {
     measure += itk::Math::sqr((parameters[j] - m_ShapeParameterMeans[j]) / m_ShapeParameterStandardDeviations[j]);
   }

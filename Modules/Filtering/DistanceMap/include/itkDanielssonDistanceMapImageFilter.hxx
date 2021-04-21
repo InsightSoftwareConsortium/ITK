@@ -133,7 +133,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   SizeType      size = region.GetSize();
   SizeValueType maxLength = 0;
 
-  for (unsigned int dim = 0; dim < InputImageDimension; dim++)
+  for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
   {
     if (maxLength < size[dim])
     {
@@ -190,7 +190,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Prep
   OffsetType maxValue;
   OffsetType minValue;
 
-  for (unsigned int j = 0; j < InputImageDimension; j++)
+  for (unsigned int j = 0; j < InputImageDimension; ++j)
   {
     maxValue[j] = 2 * maxLength;
     minValue[j] = 0;
@@ -253,7 +253,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
     double     distance = 0.0;
     if (m_UseImageSpacing)
     {
-      for (unsigned int i = 0; i < InputImageDimension; i++)
+      for (unsigned int i = 0; i < InputImageDimension; ++i)
       {
         double component = distanceVector[i] * static_cast<double>(m_InputSpacingCache[i]);
         distance += component * component;
@@ -261,7 +261,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Comp
     }
     else
     {
-      for (unsigned int i = 0; i < InputImageDimension; i++)
+      for (unsigned int i = 0; i < InputImageDimension; ++i)
       {
         distance += distanceVector[i] * distanceVector[i];
       }
@@ -298,7 +298,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Upda
 
   double norm1 = 0.0;
   double norm2 = 0.0;
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     auto v1 = static_cast<double>(offsetValueHere[i]);
     auto v2 = static_cast<double>(offsetValueThere[i]);
@@ -345,7 +345,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
   ReflectiveImageRegionConstIterator<VectorImageType> it(distanceComponents, region);
 
   typename VectorImageType::OffsetType voffset;
-  for (unsigned int dim = 0; dim < InputImageDimension; dim++)
+  for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
   {
     if (region.GetSize()[dim] > 1)
     {
@@ -405,7 +405,7 @@ DanielssonDistanceMapImageFilter<TInputImage, TOutputImage, TVoronoiImage>::Gene
     if (!inputIt.Get())
     {
       IndexType here = it.GetIndex();
-      for (unsigned int dim = 0; dim < InputImageDimension; dim++)
+      for (unsigned int dim = 0; dim < InputImageDimension; ++dim)
       {
         if (region.GetSize()[dim] <= 1)
         {

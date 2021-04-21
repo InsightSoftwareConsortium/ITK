@@ -93,7 +93,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>::DynamicThreadedG
 
     VectorType warpVector = ItW.Get();
 
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       pointIn2[d] = pointIn1[d] + warpVector[d];
     }
@@ -104,7 +104,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>::DynamicThreadedG
       displacement = this->m_Interpolator->Evaluate(pointIn2);
     }
 
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       pointIn3[d] = pointIn2[d] + displacement[d];
     }

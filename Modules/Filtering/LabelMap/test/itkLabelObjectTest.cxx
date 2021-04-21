@@ -179,7 +179,7 @@ itkLabelObjectTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  for (unsigned int i = 0; i < lo->Size(); i++)
+  for (unsigned int i = 0; i < lo->Size(); ++i)
   {
     if (lo->GetIndex(i) != idxs[i])
     {

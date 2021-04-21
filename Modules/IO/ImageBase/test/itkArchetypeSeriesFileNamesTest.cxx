@@ -32,7 +32,7 @@ itkArchetypeSeriesFileNamesTest(int argc, char * argv[])
 
   std::cout << "Number of arguments: " << argc << std::endl;
 
-  for (int i = 1; i < argc; i++)
+  for (int i = 1; i < argc; ++i)
   {
     std::cout << "Testing argument " << i << std::endl;
     std::cout << "Archetype name: " << argv[i] << std::endl;

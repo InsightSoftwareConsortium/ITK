@@ -46,12 +46,12 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintDerivativeAsVectorImage
   IteratorType it(image, imageRegion);
   it.GoToBegin();
   itk::SizeValueType cnt = 0;
-  for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
+  for (itk::SizeValueType ycnt = 0; ycnt < dim1; ++ycnt)
   {
-    for (itk::SizeValueType xcnt = 0; xcnt < dim0; xcnt++)
+    for (itk::SizeValueType xcnt = 0; xcnt < dim0; ++xcnt)
     {
       std::cout << '[';
-      for (itk::SizeValueType d = 0; d < vecdim - 1; d++)
+      for (itk::SizeValueType d = 0; d < vecdim - 1; ++d)
       {
         std::cout << derivative[cnt * vecdim + d] << ",";
       }
@@ -82,9 +82,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(ImageType * image
   IteratorType it(image, imageRegion);
   it.GoToBegin();
 
-  for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
+  for (itk::SizeValueType ycnt = 0; ycnt < dim1; ++ycnt)
   {
-    for (itk::SizeValueType xcnt = 0; xcnt < dim0; xcnt++)
+    for (itk::SizeValueType xcnt = 0; xcnt < dim0; ++xcnt)
     {
       std::cout << it.Get() << "\t";
       ++it;
@@ -109,9 +109,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(const ImagePointe
   IteratorType it(image, imageRegion);
   it.GoToBegin();
 
-  for (itk::SizeValueType ycnt = 0; ycnt < dim1; ycnt++)
+  for (itk::SizeValueType ycnt = 0; ycnt < dim1; ++ycnt)
   {
-    for (itk::SizeValueType xcnt = 0; xcnt < dim0; xcnt++)
+    for (itk::SizeValueType xcnt = 0; xcnt < dim0; ++xcnt)
     {
       std::cout << it.Get() << "\t";
       ++it;

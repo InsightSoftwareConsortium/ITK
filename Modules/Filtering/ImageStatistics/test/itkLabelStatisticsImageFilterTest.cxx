@@ -107,7 +107,7 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
   }
 
   // Try two labels: one that exists and one that does not
-  for (int i = 0; i < 2; i++)
+  for (int i = 0; i < 2; ++i)
   {
     // Find an existing label
     if (i == 0)

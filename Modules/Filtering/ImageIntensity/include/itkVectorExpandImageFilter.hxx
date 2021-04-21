@@ -32,7 +32,7 @@ template <typename TInputImage, typename TOutputImage>
 VectorExpandImageFilter<TInputImage, TOutputImage>::VectorExpandImageFilter()
 {
   // Set default factors to 1
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_ExpandFactors[j] = 1;
   }
@@ -54,7 +54,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 
   unsigned int j;
   os << indent << "ExpandFactors: [";
-  for (j = 0; j < ImageDimension - 1; j++)
+  for (j = 0; j < ImageDimension - 1; ++j)
   {
     os << m_ExpandFactors[j] << ", ";
   }
@@ -71,7 +71,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::SetExpandFactors(const float
 {
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     if (Math::NotExactlyEquals(factor, m_ExpandFactors[j]))
     {
@@ -81,7 +81,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::SetExpandFactors(const float
   if (j < ImageDimension)
   {
     this->Modified();
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       m_ExpandFactors[j] = factor;
       if (m_ExpandFactors[j] < 1)
@@ -137,7 +137,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     // Determine the input pixel location associated with this output pixel.
     // Don't need to check for division by zero because the factors are
     // clamped to be minimum for 1.
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       inputIndex[j] = ((double)outputIndex[j] + 0.5) / (double)m_ExpandFactors[j] - 0.5;
     }
@@ -147,7 +147,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     {
       interpolatedValue = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
 
-      for (unsigned int k = 0; k < VectorDimension; k++)
+      for (unsigned int k = 0; k < VectorDimension; ++k)
       {
         outputValue[k] = static_cast<OutputValueType>(interpolatedValue[k]);
       }
@@ -188,7 +188,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
 
   // inputRequestedSize = (outputRequestedSize / ExpandFactor) + 1)
   // The extra 1 above is to take care of edge effects when streaming.
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputRequestedRegionSize[i] =
       (SizeValueType)std::ceil((double)outputRequestedRegionSize[i] / (double)m_ExpandFactors[i]) + 1;
@@ -254,7 +254,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   typename TInputImage::SpacingType inputOriginShift;
 
-  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outputSpacing[i] = inputSpacing[i] / (float)m_ExpandFactors[i];
     outputSize[i] = (SizeValueType)((float)inputSize[i] * m_ExpandFactors[i] + 0.5f);

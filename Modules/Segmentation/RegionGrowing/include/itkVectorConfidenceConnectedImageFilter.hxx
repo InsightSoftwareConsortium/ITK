@@ -170,10 +170,10 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       ++seed_cnt;
       const MeanFunctionVectorType       meanContribution = meanFunction->EvaluateAtIndex(*si);
       const CovarianceFunctionMatrixType covarianceContribution = varianceFunction->EvaluateAtIndex(*si);
-      for (unsigned int ii = 0; ii < dimension; ii++)
+      for (unsigned int ii = 0; ii < dimension; ++ii)
       {
         mean[ii] += meanContribution[ii];
-        for (unsigned int jj = 0; jj < dimension; jj++)
+        for (unsigned int jj = 0; jj < dimension; ++jj)
         {
           covariance[ii][jj] += covarianceContribution[ii][jj];
         }
@@ -189,10 +189,10 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     return;
   }
 
-  for (unsigned int ik = 0; ik < dimension; ik++)
+  for (unsigned int ik = 0; ik < dimension; ++ik)
   {
     mean[ik] /= seed_cnt;
-    for (unsigned int jk = 0; jk < dimension; jk++)
+    for (unsigned int jk = 0; jk < dimension; ++jk)
     {
       covariance[ik][jk] /= seed_cnt;
     }
@@ -275,12 +275,12 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     while (!sit.IsAtEnd())
     {
       const InputPixelType pixelValue = sit.Get();
-      for (unsigned int i = 0; i < dimension; i++)
+      for (unsigned int i = 0; i < dimension; ++i)
       {
         const auto pixelValueI = static_cast<ComponentRealType>(pixelValue[i]);
         covariance[i][i] += pixelValueI * pixelValueI;
         mean[i] += pixelValueI;
-        for (unsigned int j = i + 1; j < dimension; j++)
+        for (unsigned int j = i + 1; j < dimension; ++j)
         {
           const auto              pixelValueJ = static_cast<ComponentRealType>(pixelValue[j]);
           const ComponentRealType product = pixelValueI * pixelValueJ;
@@ -291,18 +291,18 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       ++num;
       ++sit;
     }
-    for (unsigned int ii = 0; ii < dimension; ii++)
+    for (unsigned int ii = 0; ii < dimension; ++ii)
     {
       mean[ii] /= static_cast<double>(num);
-      for (unsigned int jj = 0; jj < dimension; jj++)
+      for (unsigned int jj = 0; jj < dimension; ++jj)
       {
         covariance[ii][jj] /= static_cast<double>(num);
       }
     }
 
-    for (unsigned int ik = 0; ik < dimension; ik++)
+    for (unsigned int ik = 0; ik < dimension; ++ik)
     {
-      for (unsigned int jk = 0; jk < dimension; jk++)
+      for (unsigned int jk = 0; jk < dimension; ++jk)
       {
         covariance[ik][jk] -= mean[ik] * mean[jk];
       }

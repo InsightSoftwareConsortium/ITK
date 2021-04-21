@@ -402,7 +402,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcPlanesAndCorners()
 
   int c1 = 0, c2 = 0, c3 = 0;
 
-  for (j = 0; j < 6; j++)
+  for (j = 0; j < 6; ++j)
   { // loop around for planes
     switch (j)
     { // which corners to take
@@ -1031,7 +1031,7 @@ RayCastHelper<TInputImage, TCoordRep>::Reset()
 
   if (m_ValidRay)
   {
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       m_Position3Dvox[i] = m_RayVoxelStartPosition[i];
     }
@@ -1042,15 +1042,15 @@ RayCastHelper<TInputImage, TCoordRep>::Reset()
 
   else
   {
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       m_RayVoxelStartPosition[i] = 0.;
     }
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       m_RayVoxelEndPosition[i] = 0.;
     }
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       m_VoxelIncrement[i] = 0.;
     }
@@ -1058,11 +1058,11 @@ RayCastHelper<TInputImage, TCoordRep>::Reset()
 
     m_TotalRayVoxelPlanes = 0;
 
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; ++i)
     {
       m_RayIntersectionVoxels[i] = nullptr;
     }
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; ++i)
     {
       m_RayIntersectionVoxelIndex[i] = 0;
     }
@@ -1310,7 +1310,7 @@ RayCastHelper<TInputImage, TCoordRep>::IntegrateAboveThreshold(double & integral
   /* Step along the ray as quickly as possible
      integrating the interpolated intensities. */
 
-  for (m_NumVoxelPlanesTraversed = 0; m_NumVoxelPlanesTraversed < m_TotalRayVoxelPlanes; m_NumVoxelPlanesTraversed++)
+  for (m_NumVoxelPlanesTraversed = 0; m_NumVoxelPlanesTraversed < m_TotalRayVoxelPlanes; ++m_NumVoxelPlanesTraversed)
   {
     intensity = this->GetCurrentIntensity();
 
@@ -1351,23 +1351,23 @@ RayCastHelper<TInputImage, TCoordRep>::ZeroState()
   m_VoxelDimensionInY = 0;
   m_VoxelDimensionInZ = 0;
 
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     m_CurrentRayPositionInMM[i] = 0.;
   }
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     m_RayDirectionInMM[i] = 0.;
   }
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     m_RayVoxelStartPosition[i] = 0.;
   }
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     m_RayVoxelEndPosition[i] = 0.;
   }
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     m_VoxelIncrement[i] = 0.;
   }
@@ -1376,11 +1376,11 @@ RayCastHelper<TInputImage, TCoordRep>::ZeroState()
   m_TotalRayVoxelPlanes = 0;
   m_NumVoxelPlanesTraversed = -1;
 
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     m_RayIntersectionVoxels[i] = nullptr;
   }
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     m_RayIntersectionVoxelIndex[i] = 0;
   }
@@ -1448,7 +1448,7 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTyp
   ray.Initialise();
 
   PointType origin = this->m_Image->GetOrigin();
-  for (unsigned int i = 0; i < origin.Length; i++)
+  for (unsigned int i = 0; i < origin.Length; ++i)
     origin[i] -= 0.5 * this->m_Image->GetSpacing()[i];
   ray.SetRay(point - origin, direction);
   ray.IntegrateAboveThreshold(integral, m_Threshold);

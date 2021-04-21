@@ -96,7 +96,7 @@ public:
     itk::TimeProbe timeProbe;
 
     // Walk around the parameter value at parameterIdx
-    for (unsigned int parameterIdx = 0; parameterIdx < parameters.GetSize(); parameterIdx++)
+    for (unsigned int parameterIdx = 0; parameterIdx < parameters.GetSize(); ++parameterIdx)
     {
       std::cout << "Param[" << parameterIdx << "]\tValue\tDerivative " << std::endl;
       double startVal = parameters[parameterIdx];

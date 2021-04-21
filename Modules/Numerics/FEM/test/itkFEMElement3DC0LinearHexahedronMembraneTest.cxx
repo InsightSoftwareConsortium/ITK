@@ -84,7 +84,7 @@ itkFEMElement3DC0LinearHexahedronMembraneTest(int argc, char * argv[])
   float exectedResult[24] = { 0.0f, 0.0f, 0.0f,        0.0f, 0.0f,        0.0f,        0.0f, 0.0f,
                               0.0f, 0.0f, 0.0f,        0.0f, 0.00133333f, 0.0f,        0.0f, 0.00133333f,
                               0.0f, 0.0f, 0.00133333f, 0.0f, 0.0f,        0.00133333f, 0.0f, 0.0f };
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

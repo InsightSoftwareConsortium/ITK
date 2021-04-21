@@ -206,7 +206,7 @@ BSplineLinearTest(FixedImageReaderType * fixedImageReader, MovingImageReaderType
 
   typename TransformType::MeshSizeType           meshSize;
   typename TransformType::PhysicalDimensionsType physicalDimensions;
-  for (unsigned int d = 0; d < SpaceDimension; d++)
+  for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
     physicalDimensions[d] = fixedSpacing[d] * static_cast<CoordinateRepType>(fixedSize[d] - 1);
     meshSize[d] = 4;

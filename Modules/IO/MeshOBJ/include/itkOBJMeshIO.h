@@ -119,10 +119,10 @@ protected:
     NumberToString<T> convert;
     SizeValueType     index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
       outputFile << "v ";
-      for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
+      for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
         outputFile << convert(buffer[index++]) << "  ";
       }
@@ -136,13 +136,13 @@ protected:
   {
     SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
       outputFile << "f ";
       index++;
       auto numberOfCellPoints = static_cast<unsigned int>(buffer[index++]);
 
-      for (unsigned int jj = 0; jj < numberOfCellPoints; jj++)
+      for (unsigned int jj = 0; jj < numberOfCellPoints; ++jj)
       {
         outputFile << buffer[index++] + 1 << "  ";
       }
@@ -158,10 +158,10 @@ protected:
     NumberToString<T> convert;
     SizeValueType     index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
     {
       outputFile << "vn ";
-      for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
+      for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
         outputFile << convert(buffer[index++]) << "  ";
       }

@@ -193,7 +193,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       std::sqrt(double(INSIDE_SIZE * INSIDE_SIZE + INSIDE_SIZE * INSIDE_SIZE + INSIDE_SIZE * INSIDE_SIZE)) * 100.0);
     const ImageType::SpacingType incrementVector = (endPoint - startPoint) / static_cast<double>(numberOfSteps);
     ImageType::PointType         point = startPoint;
-    for (int i = 0; i < numberOfSteps; i++)
+    for (int i = 0; i < numberOfSteps; ++i)
     {
       point += incrementVector;
       const bool isInside = maskSO->IsInsideInWorldSpace(point);

@@ -45,7 +45,7 @@ itkMeanSampleFilterTest2(int, char *[])
   std::cout << "Input sample values " << std::endl;
   while (counter < numberOfMeasurementVectors)
   {
-    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       measure[i] = counter;
     }

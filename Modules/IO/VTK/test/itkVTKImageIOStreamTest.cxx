@@ -124,7 +124,7 @@ TestStreamWrite(char * file1, unsigned int numberOfStreams = 0)
 
   // Create a source object (in this case a constant image).
   typename ImageType::SizeValueType size[TDimension];
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     size[i] = 2 << (i + 1);
   }
@@ -196,7 +196,7 @@ TestStreamRead(char * file1, unsigned int numberOfStreams = 0)
 
   // Create a source object (in this case a constant image).
   typename ImageType::SizeValueType size[TDimension];
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     size[i] = 2 << (i + 1);
   }

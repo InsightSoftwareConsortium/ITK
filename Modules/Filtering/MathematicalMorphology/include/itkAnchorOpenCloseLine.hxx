@@ -46,7 +46,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
     // No point doing anything fancy - just look for the extreme value
     // This is important for angled structuring elements
     InputImagePixelType Extreme = buffer[0];
-    for (unsigned i = 0; i < bufflength; i++)
+    for (unsigned i = 0; i < bufflength; ++i)
     {
       if (Compare1(Extreme, buffer[i]))
       {
@@ -54,7 +54,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
       }
     }
 
-    for (unsigned i = 0; i < bufflength; i++)
+    for (unsigned i = 0; i < bufflength; ++i)
     {
       buffer[i] = Extreme;
     }
@@ -99,7 +99,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
   }
   // fix right border
   Extreme = buffer[bufflength - m_Size / 2 - 2];
-  for (int i = (int)bufflength - m_Size / 2 - 1; i < (int)bufflength; i++)
+  for (int i = (int)bufflength - m_Size / 2 - 1; i < (int)bufflength; ++i)
   {
     if (Compare1(Extreme, buffer[i]))
     {
@@ -192,7 +192,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     {
       // Found a new extrem
       endP = currentP;
-      for (unsigned PP = outLeftP + 1; PP < endP; PP++)
+      for (unsigned PP = outLeftP + 1; PP < endP; ++PP)
       {
         buffer[PP] = Extreme;
       }

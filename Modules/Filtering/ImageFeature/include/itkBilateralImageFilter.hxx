@@ -75,7 +75,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
   if (m_AutomaticKernelSize)
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       radius[i] = (typename TInputImage::SizeType::SizeValueType)std::ceil(m_DomainMu * m_DomainSigma[i] /
                                                                            this->GetInput()->GetSpacing()[i]);
@@ -83,7 +83,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   }
   else
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       radius[i] = m_Radius[i];
     }
@@ -140,7 +140,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 
   if (m_AutomaticKernelSize)
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       radius[i] =
         (typename TInputImage::SizeType::SizeValueType)std::ceil(m_DomainMu * m_DomainSigma[i] / inputSpacing[i]);
@@ -149,7 +149,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   }
   else
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       radius[i] = m_Radius[i];
       domainKernelSize[i] = 2 * radius[i] + 1;
@@ -167,7 +167,7 @@ BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   gaussianImage->SetScale(1.0);
   gaussianImage->SetNormalized(true);
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     mean[i] = inputSpacing[i] * radius[i] + inputOrigin[i]; // center pixel pos
     sigma[i] = m_DomainSigma[i];

@@ -145,7 +145,7 @@ MeanSampleFilter<TSample>::GenerateData()
     const typename SampleType::AbsoluteFrequencyType frequency = iter.GetFrequency();
     totalFrequency += frequency;
 
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
     {
       const auto component = static_cast<MeasurementRealType>(measurement[dim]);
 
@@ -156,7 +156,7 @@ MeanSampleFilter<TSample>::GenerateData()
   // compute the mean if the total frequency is different from zero
   if (totalFrequency > itk::Math::eps)
   {
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
     {
       output[dim] = (sum[dim].GetSum() / static_cast<MeasurementRealType>(totalFrequency));
     }

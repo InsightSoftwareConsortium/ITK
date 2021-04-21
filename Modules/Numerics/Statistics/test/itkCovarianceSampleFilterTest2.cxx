@@ -42,7 +42,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   while (counter < numberOfMeasurementVectors)
   {
-    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       measure[i] = counter;
     }
@@ -88,7 +88,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   const double epsilon = 1e-4;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
     if (std::fabs(meanExpected[i] - mean[i]) > epsilon)
     {
@@ -111,9 +111,9 @@ itkCovarianceSampleFilterTest2(int, char *[])
   matrixExpected[2][1] = 1.0;
   matrixExpected[2][2] = 1.0;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    for (unsigned int j = 0; j < MeasurementVectorSize; j++)
+    for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
     {
       if (std::fabs(matrixExpected[i][j] - covarianceOutput[i][j]) > epsilon)
       {
@@ -136,7 +136,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   while (counter < numberOfMeasurementVectors)
   {
-    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       if (counter == i)
       {
@@ -175,7 +175,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   meanExpected2.Fill(0.333333);
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
     if (std::fabs(meanExpected2[i] - mean[i]) > epsilon)
     {
@@ -198,9 +198,9 @@ itkCovarianceSampleFilterTest2(int, char *[])
   matrixExpected2[2][1] = -0.16667;
   matrixExpected2[2][2] = 0.333333;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    for (unsigned int j = 0; j < MeasurementVectorSize; j++)
+    for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
     {
       if (std::fabs(matrixExpected2[i][j] - matrix[i][j]) > epsilon)
       {
@@ -270,7 +270,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   meanExpected3[1] = 2.08;
   meanExpected3[2] = 0.604;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
     if (std::fabs(meanExpected3[i] - mean[i]) > epsilon)
     {
@@ -293,9 +293,9 @@ itkCovarianceSampleFilterTest2(int, char *[])
   matrixExpected3[2][1] = 0.00135;
   matrixExpected3[2][2] = 0.00043;
 
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    for (unsigned int j = 0; j < MeasurementVectorSize; j++)
+    for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
       if (std::fabs(matrixExpected3[i][j] - matrix[i][j]) > epsilon)
       {
         std::cerr << "Computed covariance matrix value is incorrect" << std::endl;

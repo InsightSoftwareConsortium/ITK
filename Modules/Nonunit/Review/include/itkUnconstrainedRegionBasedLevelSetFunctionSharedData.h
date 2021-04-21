@@ -129,7 +129,7 @@ public:
   {
     ListPixelType L;
 
-    for (unsigned int i = 0; i < this->m_FunctionCount; i++)
+    for (unsigned int i = 0; i < this->m_FunctionCount; ++i)
     {
       L.push_back(i);
     }

@@ -96,7 +96,7 @@ itkKdTreeTest1(int argc, char * argv[])
   DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
 
   OriginType origin(measurementVectorSize);
-  for (unsigned int k = 0; k < sample->Size(); k++)
+  for (unsigned int k = 0; k < sample->Size(); ++k)
   {
 
     queryPoint = sample->GetMeasurementVector(k);

@@ -41,7 +41,7 @@ FourierSeriesPath<VDimension>::Evaluate(const InputType & input) const
     output += m_CosCoefficients->ElementAt(0);
   }
 
-  for (int n = 1; n < numHarmonics; n++)
+  for (int n = 1; n < numHarmonics; ++n)
   {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
     theta = PI * 2.0 * n * input;
@@ -65,7 +65,7 @@ FourierSeriesPath<VDimension>::EvaluateDerivative(const InputType & input) const
 
   const double PI = 4.0 * std::atan(1.0);
 
-  for (int n = 1; n < numHarmonics; n++)
+  for (int n = 1; n < numHarmonics; ++n)
   {
     // input defined over [0,1] maps to theta defined over [0,2pi * n]
     theta = PI * 2.0 * n * input;

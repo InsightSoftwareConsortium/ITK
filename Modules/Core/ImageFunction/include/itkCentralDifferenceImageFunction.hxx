@@ -139,7 +139,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   const typename InputImageType::IndexType & start = region.GetIndex();
 
   const unsigned int MaxDims = Self::ImageDimension;
-  for (unsigned int dim = 0; dim < MaxDims; dim++)
+  for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {
     // bounds checking
     // checks for index either on the boundary or out of bounds.
@@ -198,7 +198,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   const unsigned int MaxDims = Self::ImageDimension;
   bool               dimOutOfBounds[Self::ImageDimension];
 
-  for (unsigned int dim = 0; dim < MaxDims; dim++)
+  for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {
     // initialize to quiet compiler warnings
     neighPixels[dim][0] = &zeroPixel;
@@ -209,11 +209,11 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
       ((index[dim] < (start[dim] + 1)) || index[dim] > (start[dim] + static_cast<OffsetValueType>(size[dim]) - 2));
   }
 
-  for (unsigned int nc = 0; nc < numberComponents; nc++)
+  for (unsigned int nc = 0; nc < numberComponents; ++nc)
   {
     ScalarDerivativeType componentDerivative;
 
-    for (unsigned int dim = 0; dim < MaxDims; dim++)
+    for (unsigned int dim = 0; dim < MaxDims; ++dim)
     {
       // bounds checking
       if (dimOutOfBounds[dim])
@@ -241,14 +241,14 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
     if (this->m_UseImageDirection)
     {
       const auto componentDerivativeOut = inputImage->TransformLocalVectorToPhysicalVector(componentDerivative);
-      for (unsigned int dim = 0; dim < MaxDims; dim++)
+      for (unsigned int dim = 0; dim < MaxDims; ++dim)
       {
         OutputConvertType::SetNthComponent(nc * MaxDims + dim, derivative, componentDerivativeOut[dim]);
       }
     }
     else
     {
-      for (unsigned int dim = 0; dim < MaxDims; dim++)
+      for (unsigned int dim = 0; dim < MaxDims; ++dim)
       {
         OutputConvertType::SetNthComponent(nc * MaxDims + dim, derivative, componentDerivative[dim]);
       }
@@ -296,7 +296,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   const SpacingType & spacing = inputImage->GetSpacing();
 
   const unsigned int MaxDims = Self::ImageDimension;
-  for (unsigned int dim = 0; dim < MaxDims; dim++)
+  for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {
     PointValueType offset = static_cast<PointValueType>(0.5) * spacing[dim];
     // Check the bounds using the point because the image direction may swap dimensions,
@@ -375,7 +375,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   ScalarDerivativeType componentDerivative;
   componentDerivative.Fill(NumericTraits<OutputValueType>::ZeroValue());
 
-  for (unsigned int dim = 0; dim < Self::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < Self::ImageDimension; ++dim)
   {
     // initialize to quiet compiler warnings
     neighPixels[dim][0] = zeroPixel;
@@ -384,9 +384,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
     dimOutOfBounds[dim] = true;
   }
 
-  for (unsigned int nc = 0; nc < numberComponents; nc++)
+  for (unsigned int nc = 0; nc < numberComponents; ++nc)
   {
-    for (unsigned int dim = 0; dim < MaxDims; dim++)
+    for (unsigned int dim = 0; dim < MaxDims; ++dim)
     {
       // Initialize values that only depend on dimension and not component number.
       if (nc == 0)
@@ -442,14 +442,14 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
     if (!this->m_UseImageDirection)
     {
       inputImage->TransformPhysicalVectorToLocalVector(componentDerivative, componentDerivativeOut);
-      for (unsigned int dim = 0; dim < MaxDims; dim++)
+      for (unsigned int dim = 0; dim < MaxDims; ++dim)
       {
         OutputConvertType::SetNthComponent(nc * MaxDims + dim, derivative, componentDerivativeOut[dim]);
       }
     }
     else
     {
-      for (unsigned int dim = 0; dim < MaxDims; dim++)
+      for (unsigned int dim = 0; dim < MaxDims; ++dim)
       {
         OutputConvertType::SetNthComponent(nc * MaxDims + dim, derivative, componentDerivative[dim]);
       }
@@ -500,7 +500,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
   const typename InputImageType::IndexType & start = region.GetIndex();
 
   const unsigned int MaxDims = Self::ImageDimension;
-  for (unsigned int dim = 0; dim < MaxDims; dim++)
+  for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {
     // bounds checking
     if (cindex[dim] < static_cast<ContinuousIndexValueType>(start[dim] + 1) ||
@@ -560,7 +560,7 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
   const unsigned int MaxDims = Self::ImageDimension;
   PixelType          zeroPixel = NumericTraits<PixelType>::ZeroValue();
 
-  for (unsigned int dim = 0; dim < MaxDims; dim++)
+  for (unsigned int dim = 0; dim < MaxDims; ++dim)
   {
     // initialize to quiet compiler warnings
     neighPixels[dim][0] = zeroPixel;
@@ -572,11 +572,11 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
        cindex[dim] > static_cast<ContinuousIndexValueType>(start[dim] + static_cast<OffsetValueType>(size[dim]) - 2));
   }
 
-  for (unsigned int nc = 0; nc < numberComponents; nc++)
+  for (unsigned int nc = 0; nc < numberComponents; ++nc)
   {
     ScalarDerivativeType componentDerivative;
 
-    for (unsigned int dim = 0; dim < MaxDims; dim++)
+    for (unsigned int dim = 0; dim < MaxDims; ++dim)
     {
       if (dimOutOfBounds[dim])
       {
@@ -603,14 +603,14 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
     if (this->m_UseImageDirection)
     {
       const auto componentDerivativeOut = inputImage->TransformLocalVectorToPhysicalVector(componentDerivative);
-      for (unsigned int dim = 0; dim < MaxDims; dim++)
+      for (unsigned int dim = 0; dim < MaxDims; ++dim)
       {
         OutputConvertType::SetNthComponent(nc * MaxDims + dim, derivative, componentDerivativeOut[dim]);
       }
     }
     else
     {
-      for (unsigned int dim = 0; dim < MaxDims; dim++)
+      for (unsigned int dim = 0; dim < MaxDims; ++dim)
       {
         OutputConvertType::SetNthComponent(nc * MaxDims + dim, derivative, componentDerivative[dim]);
       }

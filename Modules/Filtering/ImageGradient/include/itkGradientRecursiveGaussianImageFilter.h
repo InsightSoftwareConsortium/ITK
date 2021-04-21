@@ -216,17 +216,17 @@ private:
 
     const unsigned int nComponents = NumericTraits<OutputPixelType>::GetLength(gradient) / ImageDimension;
 
-    for (unsigned int nc = 0; nc < nComponents; nc++)
+    for (unsigned int nc = 0; nc < nComponents; ++nc)
     {
       GradientVectorType componentGradient;
       GradientVectorType correctedComponentGradient;
-      for (unsigned int dim = 0; dim < ImageDimension; dim++)
+      for (unsigned int dim = 0; dim < ImageDimension; ++dim)
       {
         componentGradient[dim] =
           DefaultConvertPixelTraits<OutputPixelType>::GetNthComponent(nc * ImageDimension + dim, gradient);
       }
       it.GetImage()->TransformLocalVectorToPhysicalVector(componentGradient, correctedComponentGradient);
-      for (unsigned int dim = 0; dim < ImageDimension; dim++)
+      for (unsigned int dim = 0; dim < ImageDimension; ++dim)
       {
         DefaultConvertPixelTraits<OutputPixelType>::SetNthComponent(
           nc * ImageDimension + dim, correctedGradient, correctedComponentGradient[dim]);

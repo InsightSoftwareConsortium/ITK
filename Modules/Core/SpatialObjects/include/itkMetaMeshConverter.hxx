@@ -67,7 +67,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
   while (it_points != points.end())
   {
     typename MeshType::PointType pt;
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       pt[i] = ((*it_points)->m_X)[i] * _mesh->ElementSpacing(i);
     }
@@ -80,7 +80,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
   using CellAutoPointer = typename CellType::CellAutoPointer;
   mesh->SetCellsAllocationMethod(MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
 
-  for (unsigned int celltype = 0; celltype < MET_NUM_CELL_TYPES; celltype++)
+  for (unsigned int celltype = 0; celltype < MET_NUM_CELL_TYPES; ++celltype)
   {
     using CellListType = typename MetaMesh::CellListType;
     const CellListType cells = _mesh->GetCells((MET_CellGeometry)celltype);
@@ -134,7 +134,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
           cell.TakeOwnership(new VertexCellType);
       }
 
-      for (unsigned int i = 0; i < MET_CellSize[celltype]; i++)
+      for (unsigned int i = 0; i < MET_CellSize[celltype]; ++i)
       {
         cell->SetPointId(i, (*it_cells)->m_PointsId[i]);
       }
@@ -232,7 +232,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectToMetaObjec
   while (it_points != points->End())
   {
     auto * pnt = new MeshPoint(NDimensions);
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       pnt->m_X[i] = (*it_points)->Value()[i];
     }

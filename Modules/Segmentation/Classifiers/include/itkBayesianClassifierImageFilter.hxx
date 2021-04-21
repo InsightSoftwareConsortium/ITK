@@ -175,7 +175,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
       PosteriorsPixelType       posteriors(numberOfClasses);
       const PriorsPixelType     priors = itrPriorsImage.Get();
       const MembershipPixelType memberships = itrMembershipImage.Get();
-      for (unsigned int i = 0; i < numberOfClasses; i++)
+      for (unsigned int i = 0; i < numberOfClasses; ++i)
       {
         posteriors[i] = static_cast<TPosteriorsPrecisionType>(memberships[i] * priors[i]);
       }
@@ -249,7 +249,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
   PosteriorsPixelType p;
   const unsigned int  numberOfClasses = this->GetPosteriorImage()->GetVectorLength();
 
-  for (unsigned int iter = 0; iter < m_NumberOfSmoothingIterations; iter++)
+  for (unsigned int iter = 0; iter < m_NumberOfSmoothingIterations; ++iter)
   {
     itrPosteriorImage.GoToBegin();
     while (!itrPosteriorImage.IsAtEnd())
@@ -258,7 +258,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
       // Normalize P so the probability across components sums to 1
       TPosteriorsPrecisionType probability = 0;
-      for (unsigned int i = 0; i < numberOfClasses; i++)
+      for (unsigned int i = 0; i < numberOfClasses; ++i)
       {
         probability += p[i];
       }
@@ -274,7 +274,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
       ++itrPosteriorImage;
     }
 
-    for (unsigned int componentToExtract = 0; componentToExtract < numberOfClasses; componentToExtract++)
+    for (unsigned int componentToExtract = 0; componentToExtract < numberOfClasses; ++componentToExtract)
     {
       // Create an auxiliary image to store one component of the vector image.
       // Smoothing filters typically can't handle multi-component images, so we

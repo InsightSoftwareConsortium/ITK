@@ -29,7 +29,7 @@ RandomPix(vnl_random &                   randgen,
           itk::RGBPixel<unsigned char> & pix,
           double                         _max = itk::NumericTraits<unsigned char>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.lrand32(_max);
   }
@@ -38,7 +38,7 @@ RandomPix(vnl_random &                   randgen,
 static void
 RandomPix(vnl_random & randgen, itk::RGBPixel<char> & pix, double _max = itk::NumericTraits<char>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.lrand32(_max);
   }
@@ -50,7 +50,7 @@ RandomPix(vnl_random &                     randgen,
           itk::Vector<unsigned short, 3> & pix,
           double                           _max = itk::NumericTraits<unsigned short>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.lrand32(_max);
   }
@@ -59,7 +59,7 @@ RandomPix(vnl_random &                     randgen,
 static void
 RandomPix(vnl_random & randgen, itk::Vector<short, 3> & pix, double _max = itk::NumericTraits<short>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.lrand32(_max);
   }
@@ -71,7 +71,7 @@ RandomPix(vnl_random &                   randgen,
           double                         _max = itk::NumericTraits<unsigned int>::max())
 {
   (void)_max;
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.lrand32();
   }
@@ -81,7 +81,7 @@ static void
 RandomPix(vnl_random & randgen, itk::Vector<int, 3> & pix, double _max = itk::NumericTraits<int>::max())
 {
   (void)_max;
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.lrand32();
   }
@@ -90,7 +90,7 @@ RandomPix(vnl_random & randgen, itk::Vector<int, 3> & pix, double _max = itk::Nu
 static void
 RandomPix(vnl_random & randgen, itk::Vector<float, 3> & pix, float _max = itk::NumericTraits<float>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.drand64(_max);
   }
@@ -99,7 +99,7 @@ RandomPix(vnl_random & randgen, itk::Vector<float, 3> & pix, float _max = itk::N
 static void
 RandomPix(vnl_random & randgen, itk::Vector<double, 3> & pix, double _max = itk::NumericTraits<double>::max())
 {
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     pix[i] = randgen.drand64(_max);
   }
@@ -110,7 +110,7 @@ abs_diff(const itk::RGBPixel<unsigned char> & pix1, const itk::RGBPixel<unsigned
 {
   double diff = 0.0;
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     diff += fabs((double)(pix1[i] - pix2[i]));
   }
@@ -122,7 +122,7 @@ abs_diff(const itk::RGBPixel<char> & pix1, const itk::RGBPixel<char> & pix2)
 {
   double diff = 0.0;
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     diff += fabs((double)(pix1[i] - pix2[i]));
   }
@@ -135,7 +135,7 @@ abs_diff(const itk::Vector<float> & pix1, const itk::Vector<float> & pix2)
 {
   double diff = 0.0;
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     diff += fabs(pix1[i] - pix2[i]);
   }
@@ -147,7 +147,7 @@ abs_diff(const itk::Vector<double> & pix1, const itk::Vector<double> & pix2)
 {
   double diff = 0.0;
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     diff += fabs(pix1[i] - pix2[i]);
   }
@@ -160,7 +160,7 @@ abs_diff(const itk::Vector<int> & pix1, const itk::Vector<int> & pix2)
 {
   double diff = 0.0;
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     diff += fabs((double)(pix1[i] - pix2[i]));
   }
@@ -172,7 +172,7 @@ abs_diff(const itk::Vector<unsigned int> & pix1, const itk::Vector<unsigned int>
 {
   double diff = 0.0;
 
-  for (int i = 0; i < 3; i++)
+  for (int i = 0; i < 3; ++i)
   {
     diff += fabs((double)(pix1[i] - pix2[i]));
   }
@@ -184,7 +184,7 @@ abs_diff(const itk::Vector<short> & pix1, const itk::Vector<short> & pix2)
 {
   double diff = 0.0;
 
-  for (short i = 0; i < 3; i++)
+  for (short i = 0; i < 3; ++i)
   {
     diff += fabs((double)(pix1[i] - pix2[i]));
   }
@@ -196,7 +196,7 @@ abs_diff(const itk::Vector<unsigned short> & pix1, const itk::Vector<unsigned sh
 {
   double diff = 0.0;
 
-  for (short i = 0; i < 3; i++)
+  for (short i = 0; i < 3; ++i)
   {
     diff += fabs((double)(pix1[i] - pix2[i]));
   }
@@ -241,7 +241,7 @@ RandomVectorPix(vnl_random &                        randgen,
                 itk::VariableLengthVector<TPixel> & pix,
                 double                              _max = itk::NumericTraits<TPixel>::max())
 {
-  for (size_t i = 0; i < pix.GetSize(); i++)
+  for (size_t i = 0; i < pix.GetSize(); ++i)
   {
     pix.SetElement(i, randgen.drand64(_max));
   }
@@ -258,7 +258,7 @@ template <typename TPixel>
 static bool
 equal(const itk::VariableLengthVector<TPixel> & pix1, const itk::VariableLengthVector<TPixel> & pix2)
 {
-  for (size_t i = 0; i < pix1.GetSize(); i++)
+  for (size_t i = 0; i < pix1.GetSize(); ++i)
   {
     if (pix1[i] != pix2[i])
       return false;
@@ -272,7 +272,7 @@ abs_vector_diff(const itk::VariableLengthVector<TPixel> & pix1, const itk::Varia
 {
   double diff = 0.0;
 
-  for (size_t i = 0; i < pix1.GetSize(); i++)
+  for (size_t i = 0; i < pix1.GetSize(); ++i)
   {
     double d = fabs((double)(pix1[i] - pix2[i]));
     if (d > diff)
@@ -287,7 +287,7 @@ eql_vector_diff(const itk::Point<TPixel, 3> & v1, const itk::Point<TPixel, 3> & 
 {
   double diff = 0.0;
 
-  for (size_t i = 0; i < 3; i++)
+  for (size_t i = 0; i < 3; ++i)
   {
     diff += (v1[i] - v2[i]) * (v1[i] - v2[i]);
   }
@@ -309,7 +309,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   typename ImageType::PointType   origin;
 
   std::cout << "Testing:" << fileName << std::endl;
-  for (unsigned i = 0; i < VDimension; i++)
+  for (unsigned i = 0; i < VDimension; ++i)
   {
     size[i] = 5;
     index[i] = 0;
@@ -465,12 +465,12 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     std::cerr << "Failure reading metaData "
               << "acquisition:TestDoubleArray " << std::endl;
     std::cerr << "metaDataDoubleArray=";
-    for (size_t i = 0; i < metaDataDoubleArray.size(); i++)
+    for (size_t i = 0; i < metaDataDoubleArray.size(); ++i)
       std::cerr << metaDataDoubleArray[i] << " ";
     std::cerr << std::endl;
 
     std::cerr << "metaDataDoubleArray2=";
-    for (size_t i = 0; i < metaDataDoubleArray2.size(); i++)
+    for (size_t i = 0; i < metaDataDoubleArray2.size(); ++i)
       std::cerr << metaDataDoubleArray2[i] << " ";
     std::cerr << std::endl;
 
@@ -484,12 +484,12 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     std::cerr << "Failure reading metaData "
               << "acquisition:TestFloatArray " << std::endl;
     std::cerr << "metaDataFloatArray=";
-    for (size_t i = 0; i < metaDataFloatArray.size(); i++)
+    for (size_t i = 0; i < metaDataFloatArray.size(); ++i)
       std::cerr << metaDataFloatArray[i] << " ";
     std::cerr << std::endl;
 
     std::cerr << "metaDataFloatArray2=";
-    for (size_t i = 0; i < metaDataFloatArray2.size(); i++)
+    for (size_t i = 0; i < metaDataFloatArray2.size(); ++i)
       std::cerr << metaDataFloatArray2[i] << " ";
     std::cerr << std::endl;
 
@@ -565,7 +565,7 @@ MINCReadWriteTestVector(const char * fileName,
 
   std::cout << "Testing:" << fileName << std::endl;
 
-  for (unsigned i = 0; i < VDimension; i++)
+  for (unsigned i = 0; i < VDimension; ++i)
   {
     size[i] = 5;
     index[i] = 0;

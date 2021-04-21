@@ -49,7 +49,7 @@ VnlForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputPtr->Allocate();
 
   unsigned int vectorSize = 1;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (!VnlFFTCommon::IsDimensionSizeLegal(inputSize[i]))
     {
@@ -63,7 +63,7 @@ VnlForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   const InputPixelType * in = inputPtr->GetBufferPointer();
   SignalVectorType       signal(vectorSize);
-  for (unsigned int i = 0; i < vectorSize; i++)
+  for (unsigned int i = 0; i < vectorSize; ++i)
   {
     signal[i] = in[i];
   }

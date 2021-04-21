@@ -198,9 +198,9 @@ public:
 
       m_SecondOrderRawMoments.set_size(ImageDimension, ImageDimension);
       m_SecondOrderCentralMoments.set_size(ImageDimension, ImageDimension);
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           m_SecondOrderRawMoments(i, j) = 0;
           m_SecondOrderCentralMoments(i, j) = 0;

@@ -69,9 +69,9 @@ itkMatrixImageWriteReadTest(int ac, char * av[])
   while (!itr.IsAtEnd())
   {
     itr.Set(matrixPixel);
-    for (unsigned int i = 0; i < 3; i++)
+    for (unsigned int i = 0; i < 3; ++i)
     {
-      for (unsigned int j = 0; j < 3; j++)
+      for (unsigned int j = 0; j < 3; ++j)
       {
         matrixPixel[i][j]++;
       }
@@ -129,9 +129,9 @@ itkMatrixImageWriteReadTest(int ac, char * av[])
     const MatrixPixelType matrixPixel1 = mItr.Get();
     const MatrixPixelType matrixPixel2 = tItr.Get();
 
-    for (unsigned int i = 0; i < 3; i++)
+    for (unsigned int i = 0; i < 3; ++i)
     {
-      for (unsigned int j = 0; j < 3; j++)
+      for (unsigned int j = 0; j < 3; ++j)
       {
         if (std::abs(matrixPixel1[i][j] - matrixPixel2[i][j]) > tolerance)
         {

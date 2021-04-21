@@ -39,7 +39,7 @@ itkNrrdImageIOTestGenerateRandomImage(unsigned int size)
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType   origin;
 
-  for (unsigned int i = 0; i < VImageDimension; i++)
+  for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     sz[i] = size;
     spacing[i] = static_cast<float>(i + 1);

@@ -66,7 +66,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::StartWalking()
 
   const unsigned int spaceDimension = this->m_Metric->GetParameters().GetSize();
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     this->m_NumberOfIterations *= (2 * m_NumberOfSteps[i] + 1);
   }
@@ -84,7 +84,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::StartWalking()
 
   // Setup first grid position.
   ParametersType position(spaceDimension);
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     position[i] = this->GetCurrentPosition()[i] - m_NumberOfSteps[i] * m_StepLength * scales[i];
   }
@@ -198,7 +198,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::IncrementIndex(ParametersT
   }
 
   const ScalesType & scales = this->GetScales();
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     newPosition[i] =
       (m_CurrentIndex[i] - m_NumberOfSteps[i]) * m_StepLength * scales[i] + this->GetInitialPosition()[i];

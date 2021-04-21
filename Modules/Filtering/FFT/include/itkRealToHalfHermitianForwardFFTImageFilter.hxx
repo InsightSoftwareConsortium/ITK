@@ -114,7 +114,7 @@ RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
   outputSize[0] = static_cast<unsigned int>(inputSize[0]) / 2 + 1;
   outputStartIndex[0] = inputStartIndex[0];
 
-  for (unsigned int i = 1; i < OutputImageType::ImageDimension; i++)
+  for (unsigned int i = 1; i < OutputImageType::ImageDimension; ++i)
   {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];

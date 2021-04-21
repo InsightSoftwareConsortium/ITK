@@ -32,7 +32,7 @@ LevelSetDenseImage<TImage>::SetImage(ImageType * inputImage)
   this->m_Image = inputImage;
   typename ImageType::SpacingType spacing = m_Image->GetSpacing();
 
-  for (unsigned int dim = 0; dim < Dimension; dim++)
+  for (unsigned int dim = 0; dim < Dimension; ++dim)
   {
     this->m_NeighborhoodScales[dim] =
       NumericTraits<OutputRealType>::OneValue() / static_cast<OutputRealType>(spacing[dim]);

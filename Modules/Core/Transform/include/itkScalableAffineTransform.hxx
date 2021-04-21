@@ -31,7 +31,7 @@ template <typename TParametersValueType, unsigned int NDimensions>
 ScalableAffineTransform<TParametersValueType, NDimensions>::ScalableAffineTransform()
   : Superclass(Self::ParametersDimension)
 {
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     m_Scale[i] = 1;
     m_MatrixScale[i] = 1;
@@ -44,7 +44,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::ScalableAffineTransf
                                                                                     unsigned int parametersDimension)
   : Superclass(parametersDimension)
 {
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     m_Scale[i] = 1;
     m_MatrixScale[i] = 1;
@@ -55,7 +55,7 @@ template <typename TParametersValueType, unsigned int NDimensions>
 ScalableAffineTransform<TParametersValueType, NDimensions>::ScalableAffineTransform(unsigned int parametersDimension)
   : Superclass(parametersDimension)
 {
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     m_Scale[i] = 1;
     m_MatrixScale[i] = 1;
@@ -68,7 +68,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::ScalableAffineTransf
                                                                                     const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     m_Scale[i] = 1;
     m_MatrixScale[i] = 1;
@@ -85,13 +85,13 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostre
   unsigned int i;
 
   os << indent << "Scale : ";
-  for (i = 0; i < NDimensions; i++)
+  for (i = 0; i < NDimensions; ++i)
   {
     os << m_Scale[i] << " ";
   }
   os << std::endl;
   os << indent << "MatrixScale : ";
-  for (i = 0; i < NDimensions; i++)
+  for (i = 0; i < NDimensions; ++i)
   {
     os << m_MatrixScale[i] << " ";
   }
@@ -103,7 +103,7 @@ template <typename TParametersValueType, unsigned int NDimensions>
 void
 ScalableAffineTransform<TParametersValueType, NDimensions>::SetIdentity()
 {
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     m_Scale[i] = 1;
     m_MatrixScale[i] = 1;
@@ -118,7 +118,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::SetScale(const Input
 {
   unsigned int i;
 
-  for (i = 0; i < NDimensions; i++)
+  for (i = 0; i < NDimensions; ++i)
   {
     m_Scale[i] = scale[i];
   }
@@ -132,7 +132,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::SetScale(const doubl
 {
   unsigned int i;
 
-  for (i = 0; i < NDimensions; i++)
+  for (i = 0; i < NDimensions; ++i)
   {
     m_Scale[i] = scale[i];
   }
@@ -164,7 +164,7 @@ void
 ScalableAffineTransform<TParametersValueType, NDimensions>::ComputeMatrix()
 {
   bool scaleChanged = false;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     if (Math::NotExactlyEquals(m_Scale[i], m_MatrixScale[i]))
     {
@@ -175,7 +175,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::ComputeMatrix()
   {
     MatrixType                                mat;
     typename MatrixType::InternalMatrixType & imat = mat.GetVnlMatrix();
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       if (Math::NotAlmostEquals(m_MatrixScale[i],
                                 NumericTraits<typename NumericTraits<InputVectorType>::ValueType>::ZeroValue()) &&

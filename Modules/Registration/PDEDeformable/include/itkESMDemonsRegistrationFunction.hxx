@@ -32,7 +32,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ES
   RadiusType   r;
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     r[j] = 0;
   }
@@ -155,7 +155,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
   if (m_MaximumUpdateStepLength > 0.0)
   {
     m_Normalizer = 0.0;
-    for (unsigned int k = 0; k < ImageDimension; k++)
+    for (unsigned int k = 0; k < ImageDimension; ++k)
     {
       m_Normalizer += m_FixedImageSpacing[k] * m_FixedImageSpacing[k];
     }
@@ -237,7 +237,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
     // check for NumericTraits<MovingPixelType>::max()
     CovariantVectorType warpedMovingGradient;
     IndexType           tmpIndex = index;
-    for (unsigned int dim = 0; dim < ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       // bounds checking
       if (FirstIndex[dim] == LastIndex[dim] || index[dim] < FirstIndex[dim] || index[dim] >= LastIndex[dim])
@@ -356,7 +356,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   {
     PointType mappedPoint;
     this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       mappedPoint[j] += it.GetCenterPixel()[j];
     }
@@ -408,7 +408,7 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
     {
       const double factor = 2.0 * speedValue / denom;
 
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         update[j] = factor * usedGradientTimes2[j];
       }

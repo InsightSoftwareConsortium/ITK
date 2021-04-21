@@ -39,7 +39,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ShrinkImageFilter<TInputImage, TOutputImage>::ShrinkImageFilter()
 {
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_ShrinkFactors[j] = 1;
   }
@@ -54,7 +54,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Shrink Factor: ";
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     os << m_ShrinkFactors[j] << " ";
   }
@@ -67,7 +67,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int fact
 {
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     if (factor != m_ShrinkFactors[j])
     {
@@ -77,7 +77,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int fact
   if (j < ImageDimension)
   {
     this->Modified();
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       m_ShrinkFactors[j] = factor;
       if (m_ShrinkFactors[j] < 1)
@@ -118,7 +118,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   unsigned int i;
 
   typename TOutputImage::SizeType factorSize;
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     factorSize[i] = m_ShrinkFactors[i];
   }
@@ -143,7 +143,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   // inputIndex = outputIndex * factorSize
   // is equivalent up to a fixed offset which we now compute
   OffsetValueType zeroOffset = 0;
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     offsetIndex[i] = inputIndex[i] - outputIndex[i] * m_ShrinkFactors[i];
     // It is plausible that due to small amounts of loss of numerical
@@ -199,7 +199,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
   // Convert the factor for convenient multiplication
   typename TOutputImage::SizeType factorSize;
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     factorSize[i] = m_ShrinkFactors[i];
   }
@@ -223,7 +223,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // inputIndex = outputIndex * factorSize
   // is equivalent up to a fixed offset which we now compute
   OffsetValueType zeroOffset = 0;
-  for (i = 0; i < TInputImage::ImageDimension; i++)
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     offsetIndex[i] = inputIndex[i] - outputIndex[i] * m_ShrinkFactors[i];
     // It is plausible that due to small amounts of loss of numerical
@@ -276,7 +276,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   typename TOutputImage::SizeType    outputSize;
   typename TOutputImage::IndexType   outputStartIndex;
 
-  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outputSpacing[i] = inputSpacing[i] * (double)m_ShrinkFactors[i];
 
@@ -300,7 +300,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // The physical center's of the input and output should be the same
   ContinuousIndex<SpacePrecisionType, TOutputImage::ImageDimension> inputCenterIndex;
   ContinuousIndex<SpacePrecisionType, TOutputImage::ImageDimension> outputCenterIndex;
-  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     inputCenterIndex[i] = inputStartIndex[i] + (inputSize[i] - 1) / 2.0;
     outputCenterIndex[i] = outputStartIndex[i] + (outputSize[i] - 1) / 2.0;

@@ -350,7 +350,7 @@ SPSAOptimizer::ComputeGradient(const ParametersType & parameters, DerivativeType
     this->GenerateDelta(spaceDimension);
 
     /** Create thetaplus and thetamin */
-    for (unsigned int j = 0; j < spaceDimension; j++)
+    for (unsigned int j = 0; j < spaceDimension; ++j)
     {
       thetaplus[j] = parameters[j] + ck * m_Delta[j];
       thetamin[j] = parameters[j] - ck * m_Delta[j];
@@ -364,7 +364,7 @@ SPSAOptimizer::ComputeGradient(const ParametersType & parameters, DerivativeType
 
     /** Compute the contribution to the gradient g_k  */
     const double valuediff = (valueplus - valuemin) / (2 * ck);
-    for (unsigned int j = 0; j < spaceDimension; j++)
+    for (unsigned int j = 0; j < spaceDimension; ++j)
     {
       // remember to divide the gradient by the NumberOfPerturbations!
       gradient[j] += valuediff / m_Delta[j];
@@ -372,7 +372,7 @@ SPSAOptimizer::ComputeGradient(const ParametersType & parameters, DerivativeType
   } // end for ++perturbation
 
   /** Apply scaling (see below) and divide by the NumberOfPerturbations */
-  for (unsigned int j = 0; j < spaceDimension; j++)
+  for (unsigned int j = 0; j < spaceDimension; ++j)
   {
     gradient[j] /= (itk::Math::sqr(scales[j]) * static_cast<double>(m_NumberOfPerturbations));
   }
@@ -448,7 +448,7 @@ SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double i
   for (SizeValueType n = 1; n <= numberOfGradientEstimates; ++n)
   {
     this->ComputeGradient(initialPosition, m_Gradient);
-    for (unsigned int j = 0; j < spaceDimension; j++)
+    for (unsigned int j = 0; j < spaceDimension; ++j)
     {
       averageAbsoluteGradient[j] += std::fabs(m_Gradient[j]);
     }

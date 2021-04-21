@@ -44,9 +44,9 @@ itkListSampleTest(int argc, char * argv[])
   std::cerr << "Sample length = " << sample->GetMeasurementVectorSize() << std::endl;
   std::cerr << "Vector length = " << itk::NumericTraits<MeasurementVectorType>::GetLength(mv) << std::endl;
 
-  for (unsigned int i = 0; i < sampleSize; i++)
+  for (unsigned int i = 0; i < sampleSize; ++i)
   {
-    for (unsigned int j = 0; j < measurementVectorSize; j++)
+    for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
       mv[j] = rand() / (RAND_MAX + 1.0);
     }
@@ -56,7 +56,7 @@ itkListSampleTest(int argc, char * argv[])
   // Try to push a measurement vector size different from what is set
   MeasurementVectorType mvLargerSize(measurementVectorSize + 1);
 
-  for (unsigned int j = 0; j <= measurementVectorSize; j++)
+  for (unsigned int j = 0; j <= measurementVectorSize; ++j)
   {
     mvLargerSize[j] = rand() / (RAND_MAX + 1.0);
   }
@@ -479,9 +479,9 @@ itkListSampleTest(int argc, char * argv[])
   //
   sample->Clear();
   MeasurementVectorType mvt(measurementVectorSize);
-  for (unsigned int i = 0; i < sampleSize; i++)
+  for (unsigned int i = 0; i < sampleSize; ++i)
   {
-    for (unsigned int j = 0; j < measurementVectorSize; j++)
+    for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
       mvt[j] = j + i * i;
     }
@@ -563,7 +563,7 @@ itkListSampleTest(int argc, char * argv[])
 
     std::cerr << "Trying Iterator Constructor with instance identifier 7...";
     IteratorType iter6(sample);
-    for (unsigned int kk = 0; kk < 7; kk++)
+    for (unsigned int kk = 0; kk < 7; ++kk)
     {
       ++iter6;
     }
@@ -659,14 +659,14 @@ itkListSampleTest(int argc, char * argv[])
 
     ConstIteratorType iter9(sample);
     std::cerr << "Trying Instance identifier = " << iter9.GetInstanceIdentifier() << "...";
-    for (unsigned int kk = 0; kk < 7; kk++)
+    for (unsigned int kk = 0; kk < 7; ++kk)
     {
       ++iter9;
     }
 
     MeasurementVectorType vector9a = iter9.GetMeasurementVector();
     MeasurementVectorType vector9b = sample->GetMeasurementVector(7);
-    for (unsigned int kitr = 0; kitr < measurementVectorSize; kitr++)
+    for (unsigned int kitr = 0; kitr < measurementVectorSize; ++kitr)
     {
       if (itk::Math::abs(vector9b[kitr] - vector9a[kitr]))
       {
