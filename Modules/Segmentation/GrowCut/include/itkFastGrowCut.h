@@ -21,10 +21,10 @@
 #ifndef itkFastGrowCut_h
 #define itkFastGrowCut_h
 
+#include <memory>
+
 #include "FastGrowCut.h"
 
-#include "itkObject.h"
-#include "itkMacro.h"
 #include "itkImageToImageFilter.h"
 
 namespace itk
@@ -107,7 +107,7 @@ public:
 
 protected:
   FastGrowCut() = default;
-  ~FastGrowCut() override;
+  ~FastGrowCut() = default;
 
   // Override since the filter needs all the data for the algorithm
   void
@@ -117,18 +117,16 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
+  using InternalFGCType = FGC::FastGrowCut<InputImagePixelType, LabelPixelType>;
+
 private:
   std::vector<LabelPixelType>      m_imSeedVec;
   std::vector<LabelPixelType>      m_imLabVec;
   std::vector<InputImagePixelType> m_imSrcVec;
   std::vector<long>                m_imROI;
 
-  // logic code
-  // Make smart pointer
-  FGC::FastGrowCut<InputImagePixelType, LabelPixelType> * m_fastGC =
-    new FGC::FastGrowCut<InputImagePixelType, typename LabelImageType::PixelType>();
+  std::shared_ptr<InternalFGCType> m_fastGC = std::make_shared<InternalFGCType>();
 
-  // state variables
   bool m_InitializationFlag = false;
 };
 } // namespace itk

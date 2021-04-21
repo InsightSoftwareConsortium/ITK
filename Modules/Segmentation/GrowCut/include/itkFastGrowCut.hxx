@@ -21,29 +21,12 @@
 #ifndef itkFastGrowCut_hxx
 #define itkFastGrowCut_hxx
 
-#include <iostream>
-
 #include "itkFastGrowCut.h"
-#include "FastGrowCut.h"
 
-#include "itkObjectFactory.h"
-#include "itkSmartPointer.h"
-#include "itkImage.h"
-#include "itkTimeProbe.h"
 #include "itkPrintHelper.h"
 
 namespace itk
 {
-// if using smart pointer, don't need this destructor
-template <typename TInputImage, typename TOutputImage>
-FastGrowCut<TInputImage, TOutputImage>::~FastGrowCut()
-{
-  if (this->m_fastGC != nullptr)
-  {
-    delete m_fastGC;
-  }
-}
-
 template <typename TInputImage, typename TOutputImage>
 void
 FastGrowCut<TInputImage, TOutputImage>::GenerateData()
@@ -64,10 +47,6 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
   ImageAlgorithm::Copy(seedImage, outputImage, region, region);
-
-  itk::TimeProbe timer;
-
-  timer.Start();
 
   std::cerr << "InitializationFlag: " << m_InitializationFlag << std::endl;
   // Find ROI
@@ -99,17 +78,6 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
 
   // Update result. SB: Seed volume is replaced with grow cut result
   FGC::UpdateITKImageROI<LabelPixelType>(m_imLabVec, m_imROI, outputImage);
-
-  timer.Stop();
-
-  if (!m_InitializationFlag)
-  {
-    std::cout << "Initial fast GrowCut segmentation time: " << timer.GetMean() << " seconds\n";
-  }
-  else
-  {
-    std::cout << "Adaptive fast GrowCut segmentation time: " << timer.GetMean() << " seconds\n";
-  }
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -143,7 +111,7 @@ FastGrowCut<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent inde
   os << indent << "imLabVec: " << m_imLabVec << std::endl;
   os << indent << "imSrcVec: " << m_imSrcVec << std::endl;
   os << indent << "imROI: " << m_imROI << std::endl;
-  os << indent << "FastGC: " << m_fastGC << std::endl;
+  os << indent << "FastGC: " << m_fastGC.get() << std::endl;
 }
 
 } // namespace itk
