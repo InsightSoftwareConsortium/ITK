@@ -75,7 +75,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix(
 {
   m_Size = m_BasisImages[0]->GetRequestedRegion().GetSize();
   m_NumPixels = 1;
-  for (unsigned int i = 0; i < BasisImageDimension; i++)
+  for (unsigned int i = 0; i < BasisImageDimension; ++i)
   {
     m_NumPixels *= m_Size[i];
   }
@@ -141,7 +141,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::SetBasisFromModel(Mod
   unsigned int            nImages = model->GetNumberOfPrincipalComponentsRequired();
 
   images.reserve(nImages);
-  for (unsigned int i = 1; i <= nImages; i++)
+  for (unsigned int i = 1; i <= nImages; ++i)
   {
     images.push_back(model->GetOutput(i));
   }

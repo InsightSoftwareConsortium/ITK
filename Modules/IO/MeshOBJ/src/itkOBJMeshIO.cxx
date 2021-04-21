@@ -233,7 +233,7 @@ OBJMeshIO ::ReadPoints(void * buffer)
       if (type == "v")
       {
         std::stringstream ss(inputLine);
-        for (unsigned int ii = 0; ii < this->m_PointDimension; ii++)
+        for (unsigned int ii = 0; ii < this->m_PointDimension; ++ii)
         {
           ss >> data[index++];
         }
@@ -322,7 +322,7 @@ OBJMeshIO ::ReadPointData(void * buffer)
       if (type == "vn")
       {
         std::stringstream ss(inputLine);
-        for (unsigned int ii = 0; ii < this->m_PointDimension; ii++)
+        for (unsigned int ii = 0; ii < this->m_PointDimension; ++ii)
         {
           ss >> data[index++];
         }

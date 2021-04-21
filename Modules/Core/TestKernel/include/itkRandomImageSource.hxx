@@ -41,7 +41,7 @@ RandomImageSource<TOutputImage>::RandomImageSource()
 {
 
   // Default image is 64 wide in each direction.
-  for (unsigned int i = 0; i < TOutputImage::GetImageDimension(); i++)
+  for (unsigned int i = 0; i < TOutputImage::GetImageDimension(); ++i)
   {
     m_Size[i] = 64;
     m_Spacing[i] = 1.0;
@@ -62,7 +62,7 @@ RandomImageSource<TOutputImage>::SetSize(SizeValueArrayType sizeArray)
   const unsigned int count = TOutputImage::ImageDimension;
   unsigned int       i;
 
-  for (i = 0; i < count; i++)
+  for (i = 0; i < count; ++i)
   {
     if (sizeArray[i] != this->m_Size[i])
     {
@@ -72,7 +72,7 @@ RandomImageSource<TOutputImage>::SetSize(SizeValueArrayType sizeArray)
   if (i < count)
   {
     this->Modified();
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; ++i)
     {
       this->m_Size[i] = sizeArray[i];
     }
@@ -93,7 +93,7 @@ RandomImageSource<TOutputImage>::SetSpacing(SpacingValueArrayType spacingArray)
   const unsigned int count = TOutputImage::ImageDimension;
   unsigned int       i;
 
-  for (i = 0; i < count; i++)
+  for (i = 0; i < count; ++i)
   {
     if (Math::NotExactlyEquals(spacingArray[i], this->m_Spacing[i]))
     {
@@ -103,7 +103,7 @@ RandomImageSource<TOutputImage>::SetSpacing(SpacingValueArrayType spacingArray)
   if (i < count)
   {
     this->Modified();
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; ++i)
     {
       this->m_Spacing[i] = spacingArray[i];
     }
@@ -117,7 +117,7 @@ RandomImageSource<TOutputImage>::SetOrigin(PointValueArrayType originArray)
   const unsigned int count = TOutputImage::ImageDimension;
   unsigned int       i;
 
-  for (i = 0; i < count; i++)
+  for (i = 0; i < count; ++i)
   {
     if (Math::NotExactlyEquals(originArray[i], this->m_Origin[i]))
     {
@@ -127,7 +127,7 @@ RandomImageSource<TOutputImage>::SetOrigin(PointValueArrayType originArray)
   if (i < count)
   {
     this->Modified();
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; ++i)
     {
       this->m_Origin[i] = originArray[i];
     }
@@ -138,7 +138,7 @@ template <typename TOutputImage>
 const typename RandomImageSource<TOutputImage>::PointValueType *
 RandomImageSource<TOutputImage>::GetOrigin() const
 {
-  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     this->m_OriginArray[i] = this->m_Origin[i];
   }
@@ -149,7 +149,7 @@ template <typename TOutputImage>
 const typename RandomImageSource<TOutputImage>::SpacingValueType *
 RandomImageSource<TOutputImage>::GetSpacing() const
 {
-  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     this->m_SpacingArray[i] = this->m_Spacing[i];
   }
@@ -231,7 +231,7 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
   TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
 
   IndexValueType indSeed = outputRegionForThread.GetIndex(0);
-  for (unsigned d = 1; d < OutputImageDimension; d++)
+  for (unsigned d = 1; d < OutputImageDimension; ++d)
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }

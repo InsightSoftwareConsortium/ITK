@@ -76,9 +76,9 @@ Element1DStress<TBaseClass>::GetStiffnessMatrix(MatrixType & Ke) const
 
   VectorType d = this->GetNodeCoordinates(1) - this->GetNodeCoordinates(0);
   d = d / d.magnitude();
-  for (unsigned int i = 0; i < Ndims; i++)
+  for (unsigned int i = 0; i < Ndims; ++i)
   {
-    for (unsigned int n = 0; n < Nn; n++)
+    for (unsigned int n = 0; n < Nn; ++n)
     {
       T[n][n * Ndims + i] = d[i];
     }

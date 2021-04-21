@@ -140,7 +140,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
   // for each resolution.
   // it's an IN-PLACE process.
   unsigned int i;
-  for (i = 0; i < m_Resolution; i++)
+  for (i = 0; i < m_Resolution; ++i)
   {
     typename OutputMeshType::CellsContainerPointer    myCells = outputMesh->GetCells();
     typename OutputMeshType::CellsContainer::Iterator cells = myCells->Begin();
@@ -165,7 +165,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
     // and for the Ids to exist only if the point has been copied
     // i.e. even if the container is a vector,
     // we ned to copy the old points first.
-    for (IdentifierType j = 0; j < pointIdxOffset; j++)
+    for (IdentifierType j = 0; j < pointIdxOffset; ++j)
     {
       outputMesh->GetPoint(j, v_pt[0]);
       // this is needed when the PointType is a QuadEdgeMeshPoint
@@ -189,7 +189,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
 
         // for each point of the input triangle, create a copy in the output
         // mesh
-        for (unsigned int ii = 0; ii < 3; ii++)
+        for (unsigned int ii = 0; ii < 3; ++ii)
         {
           // get the point's geometry from previous mesh
           outputMesh->GetPoint(tp[ii], v_pt[ii]);

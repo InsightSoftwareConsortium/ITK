@@ -41,7 +41,7 @@ CumulativeGaussianCostFunction::SetOriginalDataArray(MeasureType * setOriginalDa
   // Set the original data array.
   m_OriginalDataArray->SetSize(m_RangeDimension);
 
-  for (int i = 0; i < (int)(setOriginalDataArray->GetNumberOfElements()); i++)
+  for (int i = 0; i < (int)(setOriginalDataArray->GetNumberOfElements()); ++i)
   {
     m_OriginalDataArray->put(i, setOriginalDataArray->get(i));
   }
@@ -58,7 +58,7 @@ CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
     return 1;
   }
   double fitError = 0.0;
-  for (int i = 0; i < (int)(numberOfElements); i++)
+  for (int i = 0; i < (int)(numberOfElements); ++i)
   {
     fitError += std::pow((setTestArray->get(i) - m_OriginalDataArray->get(i)), 2);
   }
@@ -151,7 +151,7 @@ CumulativeGaussianCostFunction::EvaluateCumulativeGaussian(double argument) cons
 CumulativeGaussianCostFunction::MeasureType
 CumulativeGaussianCostFunction::GetValue(const ParametersType & parameters) const
 {
-  for (unsigned int i = 0; i < m_RangeDimension; i++)
+  for (unsigned int i = 0; i < m_RangeDimension; ++i)
   {
     m_Measure[i] =
       parameters.get(2) +
@@ -167,7 +167,7 @@ CumulativeGaussianCostFunction::GetValuePointer(ParametersType & parameters)
 {
   m_MeasurePointer->SetSize(m_RangeDimension);
 
-  for (unsigned int i = 0; i < m_RangeDimension; i++)
+  for (unsigned int i = 0; i < m_RangeDimension; ++i)
   {
     m_MeasurePointer->put(
       i,

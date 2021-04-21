@@ -55,7 +55,7 @@ Element::ConstPointer
 LoadLandmark::GetAssignedElement(Element::ArrayType1::Pointer elements)
 {
   int numElements = elements->Size();
-  for (int n = 0; n < numElements; n++)
+  for (int n = 0; n < numElements; ++n)
   {
     Element::Pointer nel = elements->GetElement(n);
     if ((nel)->GetLocalFromGlobalCoordinates(m_Source, this->m_Point))
@@ -100,7 +100,7 @@ LoadLandmark::AssignToElement(Element::ArrayType1::Pointer elements)
   // the pointer of the element
 
   int numElements = elements->Size();
-  for (int n = 0; n < numElements && !isFound; n++)
+  for (int n = 0; n < numElements && !isFound; ++n)
   {
     Element::Pointer nel = elements->GetElement(n);
     if ((nel)->GetLocalFromGlobalCoordinates(m_Source, this->m_Point))
@@ -173,9 +173,9 @@ LoadLandmark::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
   // "Integrate" at the location of the point load
   shapeF = element->ShapeFunctions(pt);
   // Calculate the equivalent nodal loads
-  for (unsigned int n = 0; n < Nnodes; n++)
+  for (unsigned int n = 0; n < Nnodes; ++n)
   {
-    for (unsigned int d = 0; d < NnDOF; d++)
+    for (unsigned int d = 0; d < NnDOF; ++d)
     {
       Fe[n * NnDOF + d] += shapeF[n] * force[d];
     }

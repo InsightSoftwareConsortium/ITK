@@ -244,7 +244,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   PointsContainerConstIterator    fixedIt = m_FixedLandmarks.begin();
   for (unsigned int i = 0; fixedIt != m_FixedLandmarks.end(); ++i, ++fixedIt)
   {
-    for (unsigned int dim = 0; dim < ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       q(dim, i) = (*fixedIt)[dim];
     }
@@ -258,7 +258,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   PointsContainerConstIterator    movingIt = m_MovingLandmarks.begin();
   for (unsigned int i = 0; movingIt != m_MovingLandmarks.end(); ++i, ++movingIt)
   {
-    for (unsigned int dim = 0; dim < ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       p(dim, i) = (*movingIt)[dim];
     }
@@ -285,11 +285,11 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // [Q]
   //
   vnl_matrix<ParametersValueType> Q(ImageDimension + 1, ImageDimension + 1, 0.0F);
-  for (unsigned int i = 0; i < numberOfLandmarks; i++)
+  for (unsigned int i = 0; i < numberOfLandmarks; ++i)
   { // Iterate for the number of landmakrs
     vnl_matrix<ParametersValueType> qTemp(ImageDimension + 1, 1);
     // convert vector to colume matrix
-    for (unsigned int k = 0; k < ImageDimension + 1; k++)
+    for (unsigned int k = 0; k < ImageDimension + 1; ++k)
     {
       qTemp(k, 0) = q.get(k, i);
     }
@@ -301,16 +301,16 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   // [C]
   //
   vnl_matrix<ParametersValueType> C(ImageDimension + 1, ImageDimension, 0);
-  for (unsigned int i = 0; i < numberOfLandmarks; i++)
+  for (unsigned int i = 0; i < numberOfLandmarks; ++i)
   {
     vnl_matrix<ParametersValueType> qTemp(ImageDimension + 1, 1);
     vnl_matrix<ParametersValueType> pTemp(1, ImageDimension);
     // convert vector to colume matrix
-    for (unsigned int k = 0; k < ImageDimension + 1; k++)
+    for (unsigned int k = 0; k < ImageDimension + 1; ++k)
     {
       qTemp(k, 0) = q.get(k, i);
     }
-    for (unsigned int k = 0; k < ImageDimension; k++)
+    for (unsigned int k = 0; k < ImageDimension; ++k)
     {
       pTemp(0, k) = p.get(k, i);
     }
@@ -334,7 +334,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   itk::Matrix<ParametersValueType, ImageDimension, ImageDimension> mA =
     itk::Matrix<ParametersValueType, ImageDimension, ImageDimension>(AffineRotation);
   itk::Vector<ParametersValueType, ImageDimension> mT;
-  for (unsigned int t = 0; t < ImageDimension; t++)
+  for (unsigned int t = 0; t < ImageDimension; ++t)
   {
     mT[t] = Affine(t, ImageDimension);
   }
@@ -445,15 +445,15 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     // Computations are relative to the Center of Rotation.
     while (movingItr != m_MovingLandmarks.end())
     {
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         fixedCentered[i] = (*fixedItr)[i] - fixedCentroid[i];
         movingCentered[i] = (*movingItr)[i] - movingCentroid[i];
       }
 
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           // mmm this indices i,j may have to be reverted...
           M[i][j] += fixedCentered[i] * movingCentered[j];

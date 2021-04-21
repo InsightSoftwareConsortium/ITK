@@ -69,7 +69,7 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
   itk::CovariantVector<double, NDimensions> v;
   itk::Vector<double, NDimensions>          t;
 
-  for (unsigned int identifier = 0; identifier < vesselTubeMO->GetPoints().size(); identifier++)
+  for (unsigned int identifier = 0; identifier < vesselTubeMO->GetPoints().size(); ++identifier)
   {
     VesselTubePointType pnt;
 
@@ -88,19 +88,19 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
     pnt.SetRoundness((*it2)->m_Roundness);
     pnt.SetIntensity((*it2)->m_Intensity);
 
-    for (unsigned int ii = 0; ii < NDimensions; ii++)
+    for (unsigned int ii = 0; ii < NDimensions; ++ii)
     {
       v[ii] = (*it2)->m_V1[ii];
     }
     pnt.SetNormal1InObjectSpace(v);
 
-    for (unsigned int ii = 0; ii < NDimensions; ii++)
+    for (unsigned int ii = 0; ii < NDimensions; ++ii)
     {
       v[ii] = (*it2)->m_V2[ii];
     }
     pnt.SetNormal2InObjectSpace(v);
 
-    for (unsigned int ii = 0; ii < NDimensions; ii++)
+    for (unsigned int ii = 0; ii < NDimensions; ++ii)
     {
       t[ii] = (*it2)->m_T[ii];
     }
@@ -149,11 +149,11 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
   // fill in the tube information
 
   typename VesselTubeSpatialObjectType::TubePointListType::const_iterator i;
-  for (i = vesselTubeSO->GetPoints().begin(); i != vesselTubeSO->GetPoints().end(); i++)
+  for (i = vesselTubeSO->GetPoints().begin(); i != vesselTubeSO->GetPoints().end(); ++i)
   {
     auto * pnt = new VesselTubePnt(NDimensions);
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_X[d] = (*i).GetPositionInObjectSpace()[d];
     }
@@ -178,17 +178,17 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
       ++iter;
     }
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_V1[d] = (*i).GetNormal1InObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_V2[d] = (*i).GetNormal2InObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_T[d] = (*i).GetTangentInObjectSpace()[d];
     }
@@ -202,7 +202,7 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
   }
 
   float color[4];
-  for (unsigned int ii = 0; ii < 4; ii++)
+  for (unsigned int ii = 0; ii < 4; ++ii)
   {
     color[ii] = vesselTubeSO->GetProperty().GetColor()[ii];
   }
@@ -228,7 +228,7 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
   vesselTubeMO->ParentPoint(vesselTubeSO->GetParentPoint());
   vesselTubeMO->NPoints(static_cast<int>(vesselTubeMO->GetPoints().size()));
 
-  for (unsigned int ii = 0; ii < NDimensions; ii++)
+  for (unsigned int ii = 0; ii < NDimensions; ++ii)
   {
     vesselTubeMO->ElementSpacing(ii, 1);
     // Spacing is no longer used

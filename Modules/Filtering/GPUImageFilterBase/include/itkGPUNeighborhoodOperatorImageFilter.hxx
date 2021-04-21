@@ -128,7 +128,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   typename NeighborhoodGPUBufferType::SizeType   size;
   typename NeighborhoodGPUBufferType::RegionType region;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     index[i] = 0;
     size[i] = (unsigned int)(p.GetSize(i));
@@ -179,7 +179,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
 
   int ImageDim = (int)TInputImage::ImageDimension;
 
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     radius[i] = (this->GetOperator()).GetRadius(i);
     imgSize[i] = outSize[i];
@@ -187,7 +187,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
 
   size_t localSize[3], globalSize[3];
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
                                                                                                 // total
@@ -204,7 +204,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
     kHd, argidx, otPtr->GetModifiableDataManager());
   this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, m_NeighborhoodGPUBuffer->GetGPUDataManager());
 
-  for (int i = 0; i < (int)TInputImage::ImageDimension; i++)
+  for (int i = 0; i < (int)TInputImage::ImageDimension; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(radius[i]));
   }

@@ -77,7 +77,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
 
   // Allocate the weights tables
   m_WeightOffsetTable = new unsigned int *[m_OffsetTableSize];
-  for (unsigned int i = 0; i < m_OffsetTableSize; i++)
+  for (unsigned int i = 0; i < m_OffsetTableSize; ++i)
   {
     m_WeightOffsetTable[i] = new unsigned int[ImageDimension];
   }
@@ -96,7 +96,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   delete[] m_OffsetTable;
 
   // Clear the weights tables
-  for (unsigned int i = 0; i < m_OffsetTableSize; i++)
+  for (unsigned int i = 0; i < m_OffsetTableSize; ++i)
   {
     delete[] m_WeightOffsetTable[i];
   }
@@ -131,7 +131,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   // in the neighborhood)
   unsigned int iOffset = 0;
   int          empty = VRadius;
-  for (unsigned int iPos = 0; iPos < it.Size(); iPos++)
+  for (unsigned int iPos = 0; iPos < it.Size(); ++iPos)
   {
     // Get the offset (index)
     typename IteratorType::OffsetType off = it.GetOffset(iPos);
@@ -220,7 +220,7 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
     // pixel boundary, the weights form a delta function.
     if (distance[dim] == 0.0)
     {
-      for (unsigned int i = 0; i < m_WindowSize; i++)
+      for (unsigned int i = 0; i < m_WindowSize; ++i)
       {
         xWeight[dim][i] = static_cast<int>(i) == VRadius - 1 ? 1 : 0;
       }
@@ -228,7 +228,7 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
     else
     {
       // i is the relative offset in dimension dim.
-      for (unsigned int i = 0; i < m_WindowSize; i++)
+      for (unsigned int i = 0; i < m_WindowSize; ++i)
       {
         // Increment the offset, taking it through the range
         // (dist + rad - 1, ..., dist - rad), i.e. all x
@@ -245,7 +245,7 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
   // of weights in each dimension
   using PixelType = typename NumericTraits<typename TInputImage::PixelType>::RealType;
   PixelType xPixelValue = NumericTraits<PixelType>::ZeroValue();
-  for (unsigned int j = 0; j < m_OffsetTableSize; j++)
+  for (unsigned int j = 0; j < m_OffsetTableSize; ++j)
   {
     // Get the offset for this neighbor
     unsigned int off = m_OffsetTable[j];

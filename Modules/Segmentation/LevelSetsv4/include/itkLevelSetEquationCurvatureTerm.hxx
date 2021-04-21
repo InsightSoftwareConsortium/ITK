@@ -26,7 +26,7 @@ namespace itk
 template <typename TInput, typename TLevelSetContainer, typename TCurvatureImage>
 LevelSetEquationCurvatureTerm<TInput, TLevelSetContainer, TCurvatureImage>::LevelSetEquationCurvatureTerm()
 {
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     this->m_NeighborhoodScales[i] = 1.0;
   }

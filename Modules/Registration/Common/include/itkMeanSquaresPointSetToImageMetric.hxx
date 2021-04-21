@@ -149,10 +149,10 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDerivative(
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
-      for (unsigned int par = 0; par < ParametersDimension; par++)
+      for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
         RealType sum = NumericTraits<RealType>::ZeroValue();
-        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; dim++)
+        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; ++dim)
         {
           sum += 2.0 * diff * jacobian(dim, par) * gradient[dim];
         }
@@ -170,7 +170,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDerivative(
   }
   else
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] /= this->m_NumberOfPixelsCounted;
     }
@@ -249,10 +249,10 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValueAndDeriv
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
-      for (unsigned int par = 0; par < ParametersDimension; par++)
+      for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
         RealType sum = NumericTraits<RealType>::ZeroValue();
-        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; dim++)
+        for (unsigned int dim = 0; dim < Self::FixedPointSetDimension; ++dim)
         {
           sum += 2.0 * diff * jacobian(dim, par) * gradient[dim];
         }
@@ -270,7 +270,7 @@ MeanSquaresPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValueAndDeriv
   }
   else
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] /= this->m_NumberOfPixelsCounted;
     }

@@ -60,9 +60,9 @@ SlopeInterceptTest()
   niftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
   niftiImage->qfac = 1;
   mat44 matrix;
-  for (unsigned i = 0; i < 4; i++)
+  for (unsigned i = 0; i < 4; ++i)
   {
-    for (unsigned j = 0; j < 4; j++)
+    for (unsigned j = 0; j < 4; ++j)
     {
       matrix.m[i][j] = (i == j) ? 1.0 : 0.0;
     }
@@ -83,7 +83,7 @@ SlopeInterceptTest()
                          nullptr,
                          &(niftiImage->qfac));
   niftiImage->data = malloc(sizeof(PixelType) * 256);
-  for (unsigned i = 0; i < 256; i++)
+  for (unsigned i = 0; i < 256; ++i)
   {
     static_cast<PixelType *>(niftiImage->data)[i] = i;
   }

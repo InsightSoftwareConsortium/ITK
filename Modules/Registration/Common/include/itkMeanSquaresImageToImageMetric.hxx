@@ -75,7 +75,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 
   m_PerThread = new AlignedPerThreadType[this->m_NumberOfWorkUnits];
 
-  for (ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; threadId++)
+  for (ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; ++threadId)
   {
     m_PerThread[threadId].m_MSEDerivative.SetSize(this->m_NumberOfParameters);
   }
@@ -128,7 +128,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Paramet
   }
 
   double mse = m_PerThread[0].m_MSE;
-  for (unsigned int t = 1; t < this->m_NumberOfWorkUnits; t++)
+  for (unsigned int t = 1; t < this->m_NumberOfWorkUnits; ++t)
   {
     mse += m_PerThread[t].m_MSE;
   }
@@ -173,10 +173,10 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeT
 
   // Jacobian should be evaluated at the unmapped (fixed image) point.
   transform->ComputeJacobianWithRespectToParameters(fixedImagePoint, threadS.m_Jacobian);
-  for (unsigned int par = 0; par < this->m_NumberOfParameters; par++)
+  for (unsigned int par = 0; par < this->m_NumberOfParameters; ++par)
   {
     double sum = 0.0;
-    for (unsigned int dim = 0; dim < MovingImageDimension; dim++)
+    for (unsigned int dim = 0; dim < MovingImageDimension; ++dim)
     {
       sum += 2.0 * diff * threadS.m_Jacobian(dim, par) * movingImageGradientValue[dim];
     }
@@ -215,7 +215,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
     derivative = DerivativeType(this->m_NumberOfParameters);
   }
   memset(derivative.data_block(), 0, this->m_NumberOfParameters * sizeof(double));
-  for (ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; threadId++)
+  for (ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; ++threadId)
   {
     memset(m_PerThread[threadId].m_MSEDerivative.data_block(), 0, this->m_NumberOfParameters * sizeof(double));
   }
@@ -234,17 +234,17 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   }
 
   value = 0;
-  for (unsigned int t = 0; t < this->m_NumberOfWorkUnits; t++)
+  for (unsigned int t = 0; t < this->m_NumberOfWorkUnits; ++t)
   {
     value += m_PerThread[t].m_MSE;
-    for (unsigned int parameter = 0; parameter < this->m_NumberOfParameters; parameter++)
+    for (unsigned int parameter = 0; parameter < this->m_NumberOfParameters; ++parameter)
     {
       derivative[parameter] += m_PerThread[t].m_MSEDerivative[parameter];
     }
   }
 
   value /= this->m_NumberOfPixelsCounted;
-  for (unsigned int parameter = 0; parameter < this->m_NumberOfParameters; parameter++)
+  for (unsigned int parameter = 0; parameter < this->m_NumberOfParameters; ++parameter)
   {
     derivative[parameter] /= this->m_NumberOfPixelsCounted;
   }

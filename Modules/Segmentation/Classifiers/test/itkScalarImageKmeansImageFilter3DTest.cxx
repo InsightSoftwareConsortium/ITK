@@ -285,7 +285,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
 
   /* Background Tissues are Lower Label values */
   unsigned char currentLabel = 0;
-  for (unsigned int i = 1; i < 256; i++)
+  for (unsigned int i = 1; i < 256; ++i)
   {
     if (statisticsNonBrainFilter->HasLabel(static_cast<unsigned char>(i)))
     {
@@ -313,7 +313,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   std::cout << "statisticsBrainFilter->Update " << std::endl;
   statisticsBrainFilter->Update();
 
-  for (unsigned int i = 1; i < 256; i++)
+  for (unsigned int i = 1; i < 256; ++i)
   {
     if (statisticsBrainFilter->HasLabel(static_cast<unsigned char>(i)))
     {

@@ -30,7 +30,7 @@ namespace itk
 template <class TInputImage, class TOutputImage>
 BinShrinkImageFilter<TInputImage, TOutputImage>::BinShrinkImageFilter()
 {
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_ShrinkFactors[j] = 1;
   }
@@ -45,7 +45,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Shrink Factor: ";
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     os << m_ShrinkFactors[j] << " ";
   }
@@ -58,7 +58,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int f
 {
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     if (factor != m_ShrinkFactors[j])
     {
@@ -68,7 +68,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int f
   if (j < ImageDimension)
   {
     this->Modified();
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       m_ShrinkFactors[j] = factor;
       if (m_ShrinkFactors[j] < 1)
@@ -294,7 +294,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   typename TOutputImage::PointType   outputOrigin;
   typename TOutputImage::IndexType   outputStartIndex;
 
-  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outputSpacing[i] *= m_ShrinkFactors[i];
 

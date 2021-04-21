@@ -51,7 +51,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
   // Set up operator parameters
   typename GaussianDerivativeImageFunctionType::OrderArrayType order;
-  for (unsigned int i = 0; i < order.Size(); i++)
+  for (unsigned int i = 0; i < order.Size(); ++i)
   {
     order[i] = static_cast<typename GaussianDerivativeImageFunctionType::OrderArrayType::ValueType>(std::stoi(argv[3]));
   }

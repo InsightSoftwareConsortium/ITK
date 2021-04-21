@@ -281,7 +281,7 @@ LSMImageIO::Write(const void * buffer)
   {
     TIFFCreateDirectory(tif);
   }
-  for (page = 0; page < pages; page++)
+  for (page = 0; page < pages; ++page)
   {
     TIFFSetDirectory(tif, page);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
@@ -306,7 +306,7 @@ LSMImageIO::Write(const void * buffer)
       auto * sample_info = new uint16[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       int cc;
-      for (cc = 1; cc < scomponents - 3; cc++)
+      for (cc = 1; cc < scomponents - 3; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }
@@ -395,7 +395,7 @@ LSMImageIO::Write(const void * buffer)
     rowLength *= width;
 
     int row = 0;
-    for (unsigned int idx2 = 0; idx2 < height; idx2++)
+    for (unsigned int idx2 = 0; idx2 < height; ++idx2)
     {
       if (TIFFWriteScanline(tif, const_cast<unsigned char *>(outPtr), row, 0) < 0)
       {

@@ -72,9 +72,9 @@ itkSplineKernelTransformTest(int, char *[])
 
   Points2DIteratorType source2Dend = sourceLandmarks2D->GetPoints()->End();
 
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; j++)
+    for (j = 0; j < 2; ++j)
     {
       sourcePoint2D[0] = j;
       sourcePoint2D[1] = i;
@@ -362,11 +362,11 @@ itkSplineKernelTransformTest(int, char *[])
   Points3DIteratorType ebs3DsEnd = ebs3D->GetModifiableSourceLandmarks()->GetPoints()->End();
   Points3DIteratorType tps3DsEnd = tps3D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; j++)
+    for (j = 0; j < 2; ++j)
     {
-      for (k = 0; k < 2; k++)
+      for (k = 0; k < 2; ++k)
       {
         sourcePoint3D[0] = k;
         sourcePoint3D[1] = j;
@@ -441,7 +441,7 @@ itkSplineKernelTransformTest(int, char *[])
   TPSTransform3DType::ParametersType parameters2 = tps3D->GetParameters();
   const unsigned int                 numberOfParameters = parameters1.Size();
   const double                       tolerance = 1e-7;
-  for (unsigned int pr = 0; pr < numberOfParameters; pr++)
+  for (unsigned int pr = 0; pr < numberOfParameters; ++pr)
   {
     if (itk::Math::abs(parameters1[pr] - parameters2[pr]) > tolerance)
     {
@@ -483,13 +483,13 @@ itkSplineKernelTransformTest(int, char *[])
   Points4DIteratorType ebs4DsEnd = ebs4D->GetModifiableSourceLandmarks()->GetPoints()->End();
   Points4DIteratorType tps4DsEnd = tps4D->GetModifiableSourceLandmarks()->GetPoints()->End();
 
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
-    for (j = 0; j < 2; j++)
+    for (j = 0; j < 2; ++j)
     {
-      for (k = 0; k < 2; k++)
+      for (k = 0; k < 2; ++k)
       {
-        for (l = 0; l < 2; l++)
+        for (l = 0; l < 2; ++l)
         {
           sourcePoint4D[0] = l;
           sourcePoint4D[1] = k;

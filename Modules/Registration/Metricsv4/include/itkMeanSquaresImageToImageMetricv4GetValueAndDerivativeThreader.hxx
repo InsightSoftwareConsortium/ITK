@@ -46,7 +46,7 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
   const unsigned int  nComponents = NumericTraits<FixedImagePixelType>::GetLength(diff);
   metricValueReturn = NumericTraits<MeasureType>::ZeroValue();
 
-  for (unsigned int nc = 0; nc < nComponents; nc++)
+  for (unsigned int nc = 0; nc < nComponents; ++nc)
   {
     MeasureType diffC = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
     metricValueReturn += diffC * diffC;
@@ -67,13 +67,13 @@ MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader<
   this->m_Associate->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
     virtualPoint, jacobian, jacobianPositional);
 
-  for (unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); par++)
+  for (unsigned int par = 0; par < this->GetCachedNumberOfLocalParameters(); ++par)
   {
     localDerivativeReturn[par] = NumericTraits<DerivativeValueType>::ZeroValue();
-    for (unsigned int nc = 0; nc < nComponents; nc++)
+    for (unsigned int nc = 0; nc < nComponents; ++nc)
     {
       MeasureType diffValue = DefaultConvertPixelTraits<FixedImagePixelType>::GetNthComponent(nc, diff);
-      for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; dim++)
+      for (SizeValueType dim = 0; dim < ImageToImageMetricv4Type::MovingImageDimension; ++dim)
       {
         localDerivativeReturn[par] += 2.0 * diffValue * jacobian(dim, par) *
                                       DefaultConvertPixelTraits<MovingImageGradientType>::GetNthComponent(

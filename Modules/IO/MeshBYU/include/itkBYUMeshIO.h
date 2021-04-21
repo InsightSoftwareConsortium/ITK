@@ -122,10 +122,10 @@ protected:
     Indent            indent(1);
     SizeValueType     index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
       outputFile << indent;
-      for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
+      for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
         outputFile << convert(buffer[index++]) << " ";
       }
@@ -140,11 +140,11 @@ protected:
     Indent        indent(7);
     SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
       auto numberOfCellPoints = static_cast<unsigned int>(buffer[++index]);
       index++;
-      for (unsigned int jj = 0; jj < numberOfCellPoints - 1; jj++)
+      for (unsigned int jj = 0; jj < numberOfCellPoints - 1; ++jj)
       {
         outputFile << indent << buffer[index++] + 1;
       }

@@ -29,7 +29,7 @@ VnlFFTCommon::IsDimensionSizeLegal(TSizeValue n)
 {
   int ifac = 2;
 
-  for (int l = 1; l <= 3; l++)
+  for (int l = 1; l <= 3; ++l)
   {
     for (; n % ifac == 0;)
     {
@@ -43,7 +43,7 @@ VnlFFTCommon::IsDimensionSizeLegal(TSizeValue n)
 template <typename TImage>
 VnlFFTCommon::VnlFFTTransform<TImage>::VnlFFTTransform(const typename TImage::SizeType & s)
 {
-  for (unsigned int i = 0; i < TImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
   {
     Base::factors_[TImage::ImageDimension - i - 1].resize(s[i]);
   }

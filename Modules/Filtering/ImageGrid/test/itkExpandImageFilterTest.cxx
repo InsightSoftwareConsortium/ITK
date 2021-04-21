@@ -34,7 +34,7 @@ public:
   ImagePattern()
   {
     m_Offset = 0.0;
-    for (int j = 0; j < VDimension; j++)
+    for (int j = 0; j < VDimension; ++j)
     {
       m_Coeff[j] = 0.0;
     }
@@ -44,7 +44,7 @@ public:
   Evaluate(const IndexType & index)
   {
     double accum = m_Offset;
-    for (int j = 0; j < VDimension; j++)
+    for (int j = 0; j < VDimension; ++j)
     {
       accum += m_Coeff[j] * (double)index[j];
     }
@@ -98,7 +98,7 @@ itkExpandImageFilterTest(int, char *[])
   int                          j;
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }

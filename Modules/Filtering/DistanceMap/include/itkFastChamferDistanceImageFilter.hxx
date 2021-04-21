@@ -45,7 +45,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::FastChamferDistanceIm
       break;
     default:
       itkWarningMacro(<< "Dimension " << ImageDimension << " with Default weights ");
-      for (unsigned int i = 1; i <= ImageDimension; i++)
+      for (unsigned int i = 1; i <= ImageDimension; ++i)
       {
         m_Weights[i - 1] = std::sqrt(static_cast<float>(i));
       }
@@ -119,10 +119,10 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   neighbor_start = center_voxel + 1;
   neighbor_end = it.Size() - 1;
 
-  for (i = neighbor_start; i <= neighbor_end; i++)
+  for (i = neighbor_start; i <= neighbor_end; ++i)
   {
     neighbor_type[i] = -1;
-    for (n = 0; n < ImageDimension; n++)
+    for (n = 0; n < ImageDimension; ++n)
     {
       neighbor_type[i] += static_cast<int>(it.GetOffset(i)[n] != 0);
     }
@@ -143,11 +143,11 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Positive Distance */
     if (center_value > -m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; n++)
+      for (n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value + m_Weights[n];
       }
-      for (i = neighbor_start; i <= neighbor_end; i++)
+      for (i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] < it.GetPixel(i))
@@ -159,12 +159,12 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Negative Distance */
     if (center_value < m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; n++)
+      for (n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value - m_Weights[n];
       }
 
-      for (i = neighbor_start; i <= neighbor_end; i++)
+      for (i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] > it.GetPixel(i))
@@ -187,10 +187,10 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   neighbor_start = 0;
   neighbor_end = center_voxel - 1;
 
-  for (i = neighbor_start; i <= neighbor_end; i++)
+  for (i = neighbor_start; i <= neighbor_end; ++i)
   {
     neighbor_type[i] = -1;
-    for (n = 0; n < ImageDimension; n++)
+    for (n = 0; n < ImageDimension; ++n)
     {
       neighbor_type[i] += (it.GetOffset(i)[n] != 0);
     }
@@ -232,11 +232,11 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Positive Distance */
     if (center_value > -m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; n++)
+      for (n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value + m_Weights[n];
       }
-      for (i = neighbor_start; i <= neighbor_end; i++)
+      for (i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] < it.GetPixel(i))
@@ -249,12 +249,12 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
     /** Update Negative Distance */
     if (center_value < m_Weights[0])
     {
-      for (n = 0; n < ImageDimension; n++)
+      for (n = 0; n < ImageDimension; ++n)
       {
         val[n] = center_value - m_Weights[n];
       }
 
-      for (i = neighbor_start; i <= neighbor_end; i++)
+      for (i = neighbor_start; i <= neighbor_end; ++i)
       {
         // Experiment an InlineGetPixel()
         if (val[neighbor_type[i]] > it.GetPixel(i))
@@ -304,7 +304,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     os << indent << "Chamfer weight " << i << ": " << m_Weights[i] << std::endl;
   }

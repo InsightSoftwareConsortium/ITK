@@ -76,11 +76,11 @@ itkDeformableSimplexMesh3DBalloonForceFilterTest(int, char *[])
 
 
   IndexType index;
-  for (int x = 0; x < 20; x++)
+  for (int x = 0; x < 20; ++x)
   {
-    for (int y = 0; y < 20; y++)
+    for (int y = 0; y < 20; ++y)
     {
-      for (int z = 0; z < 20; z++)
+      for (int z = 0; z < 20; ++z)
       {
         index[0] = x;
         index[1] = y;

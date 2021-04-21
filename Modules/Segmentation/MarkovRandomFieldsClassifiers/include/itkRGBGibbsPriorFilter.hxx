@@ -87,7 +87,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::Allocate()
 
   const unsigned int numberOfPixels = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   m_LabelStatus = new LabelType[numberOfPixels];
-  for (unsigned int index = 0; index < numberOfPixels; index++)
+  for (unsigned int index = 0; index < numberOfPixels; ++index)
   {
     m_LabelStatus[index] = 1;
   }
@@ -107,12 +107,12 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
 
   neighbors[0] = neighbors[1] = neighbors[2] = neighbors[3] = 0;
 
-  for (unsigned int rgb = 0; rgb < m_VecDim; rgb++)
+  for (unsigned int rgb = 0; rgb < m_VecDim; ++rgb)
   {
     origin = static_cast<LabelType>(m_InputImage->GetPixel(Index3D)[rgb]);
     unsigned int j = 0;
 
-    for (unsigned int i = 0; i < ImageDimension - 1; i++)
+    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
     {
       Index3D[i]--;
       neighbors[j] = static_cast<LabelType>(m_InputImage->GetPixel(Index3D)[rgb]);
@@ -140,7 +140,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
     {
       change = 0;
 
-      for (unsigned int i = 0; i < 4; i++)
+      for (unsigned int i = 0; i < 4; ++i)
       {
         if (signs[i] == 0)
         {
@@ -157,7 +157,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
 
       m_LowPoint[rgb] = x / numx;
 
-      for (unsigned int i = 0; i < 4; i++)
+      for (unsigned int i = 0; i < 4; ++i)
       {
         if (signs[i] == 1)
         {
@@ -262,7 +262,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
   }
 
   k = 0;
-  for (j = 0; j < 8; j++)
+  for (j = 0; j < 8; ++j)
   {
     if (f[j] == m_ObjectLabel)
     {
@@ -272,7 +272,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
 
   bool changeflag = (k > 3);
 
-  for (unsigned int jj = 0; jj < 2; jj++)
+  for (unsigned int jj = 0; jj < 2; ++jj)
   {
     energy[jj] = 0;
     energy[jj] += GibbsEnergy(i, 0, jj);
@@ -403,7 +403,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsEnergy(unsigned int i, 
 
   /* Assuming we are segmenting objects with smooth boundaries, we give
    * weight to local characteristics */
-  for (j = 0; j < 8; j++)
+  for (j = 0; j < 8; ++j)
   {
     if ((f[j] == labelledPixel) != changeflag)
     {
@@ -584,7 +584,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
     {
       originPixelVec = inputImageIt.Get();
       GreyScalarBoundary(offsetIndex3D);
-      for (unsigned int rgb = 0; rgb < m_VecDim; rgb++)
+      for (unsigned int rgb = 0; rgb < m_VecDim; ++rgb)
       {
         changedPixelVec[rgb] = m_LowPoint[rgb];
       }
@@ -634,7 +634,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
 
   LabelledImageRegionIterator labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
-  for (unsigned int r = 0; r < size; r++)
+  for (unsigned int r = 0; r < size; ++r)
   {
     m_Region[r] = 0;
     m_RegionCount[r] = 1;

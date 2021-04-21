@@ -182,7 +182,7 @@ itkMeanSquaresImageToImageMetricv4OnVectorTest2(int, char ** const)
   }
   std::cout << "Measure values match." << std::endl;
 
-  for (itk::SizeValueType n = 0; n < scalarDerivative.Size(); n++)
+  for (itk::SizeValueType n = 0; n < scalarDerivative.Size(); ++n)
   {
     if (std::fabs(scalarDerivative[n] - (vectorDerivative[n] / vectorLength)) > tolerance)
     {

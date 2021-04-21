@@ -212,7 +212,7 @@ ImageToHistogramFilter<TImage>::ThreadedComputeMinimumAndMaximum(const RegionTyp
   {
     const PixelType & p = inputIt.Get();
     NumericTraits<PixelType>::AssignToArray(p, m);
-    for (unsigned int i = 0; i < nbOfComponents; i++)
+    for (unsigned int i = 0; i < nbOfComponents; ++i)
     {
       min[i] = std::min(m[i], min[i]);
       max[i] = std::max(m[i], max[i]);
@@ -221,7 +221,7 @@ ImageToHistogramFilter<TImage>::ThreadedComputeMinimumAndMaximum(const RegionTyp
   }
 
   std::lock_guard<std::mutex> mutexHolder(m_Mutex);
-  for (unsigned int i = 0; i < nbOfComponents; i++)
+  for (unsigned int i = 0; i < nbOfComponents; ++i)
   {
     m_Minimum[i] = std::min(m_Minimum[i], min[i]);
     m_Maximum[i] = std::max(m_Maximum[i], max[i]);
@@ -309,7 +309,7 @@ ImageToHistogramFilter<TImage>::ApplyMarginalScale(HistogramMeasurementVectorTyp
 {
   const unsigned int nbOfComponents = this->GetInput()->GetNumberOfComponentsPerPixel();
   bool               clipHistograms = true;
-  for (unsigned int i = 0; i < nbOfComponents; i++)
+  for (unsigned int i = 0; i < nbOfComponents; ++i)
   {
     if (!NumericTraits<HistogramMeasurementType>::is_integer)
     {

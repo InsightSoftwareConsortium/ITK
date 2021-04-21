@@ -142,7 +142,7 @@ public:
     if (static_cast<int>(VLength) <= m_MetaArray.Length())
     {
       unsigned int i;
-      for (i = 0; i < VLength; i++)
+      for (i = 0; i < VLength; ++i)
       {
         this->GetElement((*_array)[i], i);
       }
@@ -161,7 +161,7 @@ public:
     if (static_cast<int>(VLength) <= m_MetaArray.Length())
     {
       unsigned int i;
-      for (i = 0; i < VLength; i++)
+      for (i = 0; i < VLength; ++i)
       {
         this->GetElement((*_vector)[i], i);
       }
@@ -181,7 +181,7 @@ public:
     if (static_cast<int>(VLength) <= m_MetaArray.Length())
     {
       unsigned int i;
-      for (i = 0; i < VLength; i++)
+      for (i = 0; i < VLength; ++i)
       {
         this->GetElement((*_vector)[i], i);
       }
@@ -232,10 +232,10 @@ public:
     int rows = m_MetaArray.Length();
     int cols = m_MetaArray.ElementNumberOfChannels();
     _array->SetSize(rows);
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < rows; ++i)
     {
       (*_array)[i].SetSize(cols);
-      for (int j = 0; j < cols; j++)
+      for (int j = 0; j < cols; ++j)
       {
         (*_array)[i][j] = static_cast<typename TValue::ValueType>(m_MetaArray.ElementData(i * cols + j));
       }

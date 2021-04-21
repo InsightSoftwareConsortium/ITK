@@ -352,7 +352,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(const IndexType
   IndexType neighIndex = index;
 
 
-  for (unsigned int j = 0; j < SetDimension; j++)
+  for (unsigned int j = 0; j < SetDimension; ++j)
   {
     // update left neighbor
     if (index[j] > m_StartIndex[j])
@@ -401,7 +401,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateValue(const IndexType &  
   AxisNodeType node;
   node.SetIndex(index);
 
-  for (unsigned int j = 0; j < SetDimension; j++)
+  for (unsigned int j = 0; j < SetDimension; ++j)
   {
     node.SetValue(m_LargeValue);
 
@@ -457,7 +457,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::UpdateValue(const IndexType &  
 
   double discrim;
 
-  for (unsigned int j = 0; j < SetDimension; j++)
+  for (unsigned int j = 0; j < SetDimension; ++j)
   {
     node = m_NodesUsed[j];
     const auto value = static_cast<double>(node.GetValue());

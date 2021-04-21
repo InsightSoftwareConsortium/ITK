@@ -87,7 +87,7 @@ MakeDisplacementField()
   for (IteratorType it(image, image->GetLargestPossibleRegion()); !it.IsAtEnd(); ++it)
   {
     DisplacementFieldType::PixelType pix;
-    for (unsigned i = 0; i < 3; i++)
+    for (unsigned i = 0; i < 3; ++i)
     {
       pix[i] = 1.0;
     }

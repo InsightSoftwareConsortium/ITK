@@ -216,7 +216,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
   // Setup FFT Line interpolator stack
   auto * FFTLineInterpolator = new FFTLineInterpolatorType::Pointer[alpha_size];
-  for (unsigned int alpha = 0; alpha < alpha_size; alpha++)
+  for (unsigned int alpha = 0; alpha < alpha_size; ++alpha)
   {
     FFTLineInterpolator[alpha] = FFTLineInterpolatorType::New();
     FFTLineInterpolator[alpha]->SetSplineOrder(m_RadialSplineOrder);

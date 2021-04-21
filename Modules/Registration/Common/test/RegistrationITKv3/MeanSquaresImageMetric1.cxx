@@ -155,9 +155,9 @@ main(int argc, char * argv[])
   constexpr int rangex = 50;
   constexpr int rangey = 50;
 
-  for (int dx = -rangex; dx <= rangex; dx++)
+  for (int dx = -rangex; dx <= rangex; ++dx)
   {
-    for (int dy = -rangey; dy <= rangey; dy++)
+    for (int dy = -rangey; dy <= rangey; ++dy)
     {
       displacement[0] = dx;
       displacement[1] = dy;

@@ -216,7 +216,7 @@ LabelObject<TLabel, VImageDimension>::Size() const
 {
   int size = 0;
 
-  for (auto it = m_LineContainer.begin(); it != m_LineContainer.end(); it++)
+  for (auto it = m_LineContainer.begin(); it != m_LineContainer.end(); ++it)
   {
     size += it->GetLength();
   }
@@ -329,7 +329,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
 
       // check the index to be sure that we are still in the same line idx
       bool sameIdx = true;
-      for (unsigned int i = 1; i < ImageDimension; i++)
+      for (unsigned int i = 1; i < ImageDimension; ++i)
       {
         if (currentIdx[i] != idx[i])
         {
@@ -365,7 +365,7 @@ template <typename TLabel, unsigned int VImageDimension>
 void
 LabelObject<TLabel, VImageDimension>::Shift(OffsetType offset)
 {
-  for (auto it = m_LineContainer.begin(); it != m_LineContainer.end(); it++)
+  for (auto it = m_LineContainer.begin(); it != m_LineContainer.end(); ++it)
   {
     LineType & line = *it;
     line.SetIndex(line.GetIndex() + offset);

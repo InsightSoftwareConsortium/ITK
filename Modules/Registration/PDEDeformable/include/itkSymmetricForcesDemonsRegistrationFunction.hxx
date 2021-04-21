@@ -126,7 +126,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
 
   // compute the normalizer
   m_Normalizer = 0.0;
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     m_Normalizer += m_FixedImageSpacing[k] * m_FixedImageSpacing[k];
   }
@@ -175,7 +175,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
   using DisplacementPixelType = typename DisplacementFieldType::PixelType;
   PointType mappedCenterPoint;
   this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedCenterPoint);
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     mappedCenterPoint[dim] += it.GetCenterPixel()[dim];
     // bounds checking
@@ -188,7 +188,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
       tmpIndex[dim] += 1;
       DisplacementPixelType displacement = field->GetPixel(tmpIndex);
       this->GetFixedImage()->TransformIndexToPhysicalPoint(tmpIndex, mappedNeighPoint);
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         mappedNeighPoint[j] += displacement[j];
       }
@@ -204,7 +204,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
       tmpIndex[dim] -= 2;
       displacement = field->GetPixel(tmpIndex);
       this->GetFixedImage()->TransformIndexToPhysicalPoint(tmpIndex, mappedNeighPoint);
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         mappedNeighPoint[j] += displacement[j];
       }
@@ -239,7 +239,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
    * where K = mean square spacing to compensate for the mismatch in units.
    */
   double fixedPlusMovingGradientSquaredMagnitude = 0;
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     fixedPlusMovingGradientSquaredMagnitude += itk::Math::sqr(fixedGradient[dim] + movingGradient[dim]);
   }
@@ -254,7 +254,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
   }
   else
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       update[j] = 2 * speedValue * (fixedGradient[j] + movingGradient[j]) / denominator;
     }
@@ -263,7 +263,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
   // update the squared change value
   PointType newMappedCenterPoint;
   bool      IsOutsideRegion = false;
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     if (globalData)
     {

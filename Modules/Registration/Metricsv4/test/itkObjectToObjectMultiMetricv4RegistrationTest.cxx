@@ -115,7 +115,7 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
   itk::ImageRegionIteratorWithIndex<TImage> it(fixedImage, fixedImage->GetLargestPossibleRegion());
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
-    for (itk::SizeValueType n = 0; n < TImage::ImageDimension; n++)
+    for (itk::SizeValueType n = 0; n < TImage::ImageDimension; ++n)
     {
       if (it.GetIndex()[n] < boundary || (static_cast<itk::OffsetValueType>(size[n]) - it.GetIndex()[n]) <= boundary)
       {

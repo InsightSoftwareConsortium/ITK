@@ -34,7 +34,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 PadImageFilter<TInputImage, TOutputImage>::PadImageFilter()
 {
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     m_PadLowerBound[j] = 0;
     m_PadUpperBound[j] = 0;
@@ -56,7 +56,7 @@ PadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << m_PadLowerBound[0];
   }
-  for (unsigned int j = 1; j < ImageDimension; j++)
+  for (unsigned int j = 1; j < ImageDimension; ++j)
   {
     os << ", " << m_PadLowerBound[j];
   }
@@ -67,7 +67,7 @@ PadImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << m_PadUpperBound[0];
   }
-  for (unsigned int j = 1; j < ImageDimension; j++)
+  for (unsigned int j = 1; j < ImageDimension; ++j)
   {
     os << ", " << m_PadUpperBound[j];
   }
@@ -110,7 +110,7 @@ PadImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
 
-  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outputSize[i] = inputSize[i] + m_PadLowerBound[i] + m_PadUpperBound[i];
     outputStartIndex[i] = inputStartIndex[i] - static_cast<OffsetValueType>(m_PadLowerBound[i]);

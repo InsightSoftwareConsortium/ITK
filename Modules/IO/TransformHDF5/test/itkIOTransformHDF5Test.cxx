@@ -186,7 +186,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   // Set it's parameters
   {
     typename AffineTransformType::ParametersType p = affine->GetParameters();
-    for (unsigned int i = 0; i < p.GetSize(); i++)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -194,7 +194,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   }
   {
     typename AffineTransformType::FixedParametersType p = affine->GetFixedParameters();
-    for (unsigned int i = 0; i < p.GetSize(); i++)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -255,7 +255,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   // Set it's parameters
   {
     typename AffineTransformType::ParametersType p = Bogus->GetParameters();
-    for (unsigned int i = 0; i < p.GetSize(); i++)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -263,7 +263,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   }
   {
     typename AffineTransformType::FixedParametersType p = Bogus->GetFixedParameters();
-    for (unsigned int i = 0; i < p.GetSize(); i++)
+    for (unsigned int i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }

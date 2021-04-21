@@ -76,7 +76,7 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 
   int ImageDim = (int)TInputImage::ImageDimension;
 
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     radius[i] = (this->GetRadius())[i];
     imgSize[i] = outSize[i];
@@ -84,7 +84,7 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 
   size_t localSize[3], globalSize[3];
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
                                                                                                 // total
@@ -99,12 +99,12 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
   this->m_GPUKernelManager->SetKernelArgWithImage(m_MeanFilterGPUKernelHandle, argidx++, inPtr->GetGPUDataManager());
   this->m_GPUKernelManager->SetKernelArgWithImage(m_MeanFilterGPUKernelHandle, argidx++, otPtr->GetGPUDataManager());
 
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(m_MeanFilterGPUKernelHandle, argidx++, sizeof(int), &(radius[i]));
   }
 
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(m_MeanFilterGPUKernelHandle, argidx++, sizeof(int), &(imgSize[i]));
   }

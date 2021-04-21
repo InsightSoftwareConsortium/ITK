@@ -240,13 +240,13 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
 
   typename OutputTransformType::ArrayType updateMeshSize;
   typename OutputTransformType::ArrayType totalMeshSize;
-  for (unsigned int d = 0; d < ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     updateMeshSize[d] = 10;
     totalMeshSize[d] = 0;
   }
 
-  for (unsigned int level = 0; level < numberOfLevels; level++)
+  for (unsigned int level = 0; level < numberOfLevels; ++level)
   {
     // We use the shrink image filter to calculate the fixed parameters of the virtual
     // domain at each level.  To speed up calculation and avoid unnecessary memory
@@ -269,7 +269,7 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
     // A good heuristic is to double the b-spline mesh resolution at each level
     typename OutputTransformType::ArrayType newUpdateMeshSize = updateMeshSize;
     typename OutputTransformType::ArrayType newTotalMeshSize = totalMeshSize;
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       newUpdateMeshSize[d] = newUpdateMeshSize[d] << (level);
       newTotalMeshSize[d] = newTotalMeshSize[d] << (level);

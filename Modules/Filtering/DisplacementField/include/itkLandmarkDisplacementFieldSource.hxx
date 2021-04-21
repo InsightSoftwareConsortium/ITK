@@ -161,7 +161,7 @@ LandmarkDisplacementFieldSource<TOutputImage>::GenerateData()
     OutputPointType interpolatedDisplacement = m_KernelTransform->TransformPoint(outputPoint);
 
     OutputPixelType displacement;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       displacement[i] = interpolatedDisplacement[i] - outputPoint[i];
     }

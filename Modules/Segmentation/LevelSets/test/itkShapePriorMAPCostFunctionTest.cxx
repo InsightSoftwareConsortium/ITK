@@ -212,7 +212,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   std::cout << "Target parameters: " << parameters << std::endl;
   std::cout << "Final parameters: " << optimizer->GetCurrentPosition() << std::endl;
 
-  for (unsigned int j = 0; j < costFunction->GetNumberOfParameters(); j++)
+  for (unsigned int j = 0; j < costFunction->GetNumberOfParameters(); ++j)
   {
     if (itk::Math::abs(parameters[j] - optimizer->GetCurrentPosition()[j]) > 0.5)
     {

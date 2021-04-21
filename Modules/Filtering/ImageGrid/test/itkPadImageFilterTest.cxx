@@ -113,9 +113,9 @@ itkPadImageFilterTest(int, char *[])
 
   // Checkout output values
   ShortImage::Pointer output = padFilter->GetOutput();
-  for (int j = -2; j <= 2; j++)
+  for (int j = -2; j <= 2; ++j)
   {
-    for (int i = -2; i <= 2; i++)
+    for (int i = -2; i <= 2; ++i)
     {
       ShortImage::IndexType index;
       index[0] = i;

@@ -512,7 +512,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
           // that have already been labeled?
           bool _labeled = false;
           bool _connected = false;
-          for (i = 0; i < m_Connectivity.size; i++)
+          for (i = 0; i < m_Connectivity.size; ++i)
           {
             nPos = m_Connectivity.index[i];
             if (Math::AlmostEquals(searchIt.GetPixel(nCenter), searchIt.GetPixel(nPos)) &&
@@ -549,7 +549,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
           if (searchIt.GetPixel(cPos) < searchIt.GetPixel(nCenter))
           {
             isSteepest = true;
-            for (i = 0; i < m_Connectivity.size; i++)
+            for (i = 0; i < m_Connectivity.size; ++i)
             {
               nPos = m_Connectivity.index[i];
               if (searchIt.GetPixel(nPos) < searchIt.GetPixel(cPos))
@@ -579,7 +579,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
             // make sure this is not also a flat region.  If it is,
             // then it must be entered into the flat region table
             // or we could have problems later on.
-            for (i = 0; i < m_Connectivity.size; i++)
+            for (i = 0; i < m_Connectivity.size; ++i)
             {
               nPos = m_Connectivity.index[i];
               if (Math::AlmostEquals(searchIt.GetPixel(nPos), searchIt.GetPixel(nCenter)))
@@ -654,9 +654,9 @@ Segmenter<TInputImage>::GenerateConnectivity()
   nSize = it.Size();
   nCenter = nSize >> 1;
 
-  for (i = 0; i < m_Connectivity.size; i++) // initialize move list
+  for (i = 0; i < m_Connectivity.size; ++i) // initialize move list
   {
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       m_Connectivity.direction[i][j] = 0;
     }
@@ -669,7 +669,7 @@ Segmenter<TInputImage>::GenerateConnectivity()
     m_Connectivity.direction[i][d] = -1;
     i++;
   }
-  for (d = 0; d < static_cast<int>(ImageDimension); d++)
+  for (d = 0; d < static_cast<int>(ImageDimension); ++d)
   {
     stride = it.GetStride(d);
     m_Connectivity.index[i] = nCenter + stride;
@@ -945,7 +945,7 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
   typename SegmentTableType::Pointer segments = this->GetSegmentTable();
 
   // Set up some iterators.
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     hoodRadius[i] = 1;
   }
@@ -1287,7 +1287,7 @@ Segmenter<TInputImage>::UpdateOutputInformation()
   typename OutputImageType::SizeType  outputSize;
   typename OutputImageType::IndexType outputStartIndex;
 
-  for (i = 0; i < OutputImageType::ImageDimension; i++)
+  for (i = 0; i < OutputImageType::ImageDimension; ++i)
   {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];

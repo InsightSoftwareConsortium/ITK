@@ -145,7 +145,7 @@ itkSampleTest(int, char *[])
   std::cout << sample->Size() << std::endl;
 
   MeasurementVectorType measure;
-  for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
     measure[i] = 29 * i * i;
   }
@@ -165,7 +165,7 @@ itkSampleTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  for (unsigned int j = 0; j < MeasurementVectorSize; j++)
+  for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
   {
     if (itk::Math::NotExactlyEquals(measureBack[j], measure[j]))
     {

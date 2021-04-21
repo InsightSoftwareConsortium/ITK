@@ -233,7 +233,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::ConstructDiagram()
   int      edges = m_OutputVD->EdgeListSize();
 
   EdgeInfo LRsites;
-  for (int i = 0; i < edges; i++)
+  for (int i = 0; i < edges; ++i)
   {
     currentPtID = m_OutputVD->GetEdgeEnd(i);
     LRsites = m_OutputVD->GetLine(m_OutputVD->GetEdgeLineID(i));
@@ -275,7 +275,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::ConstructDiagram()
   unsigned char               frontbnd;
   unsigned char               backbnd;
   std::vector<IdentifierType> cellPoints;
-  for (unsigned int i = 0; i < m_NumberOfSeeds; i++)
+  for (unsigned int i = 0; i < m_NumberOfSeeds; ++i)
   {
     buildEdges.clear();
     curr = rawEdges[i].front();
@@ -630,7 +630,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::findLeftHE(PointType * p)
   FortuneHalfEdge * he = ELgethash(bucket);
   if (he == nullptr)
   {
-    for (i = 1; true; i++)
+    for (i = 1; true; ++i)
     {
       if ((he = ELgethash(bucket - i)) != nullptr)
       {
@@ -1034,7 +1034,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
 
   // Build seed sites
   m_SeedSites.resize(m_NumberOfSeeds);
-  for (i = 0; i < m_NumberOfSeeds; i++)
+  for (i = 0; i < m_NumberOfSeeds; ++i)
   {
     m_SeedSites[i].m_Coord = m_Seeds[i];
     m_SeedSites[i].m_Sitenbr = i;
@@ -1059,13 +1059,13 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
   m_PQmin = 0;
   m_PQhashsize = (int)(4 * m_SqrtNSites);
   m_PQHash.resize(m_PQhashsize);
-  for (i = 0; i < m_PQhashsize; i++)
+  for (i = 0; i < m_PQhashsize; ++i)
   {
     m_PQHash[i].m_Next = nullptr;
   }
   m_ELhashsize = (int)(2 * m_SqrtNSites);
   m_ELHash.resize(m_ELhashsize);
-  for (i = 0; i < m_ELhashsize; i++)
+  for (i = 0; i < m_ELhashsize; ++i)
   {
     m_ELHash[i] = nullptr;
   }

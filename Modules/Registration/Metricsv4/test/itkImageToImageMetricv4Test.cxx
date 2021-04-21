@@ -88,10 +88,10 @@ protected:
     // Only do derivative calculations when it is requested in the metric.
     if (this->GetComputeDerivative())
     {
-      for (unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); par++)
+      for (unsigned int par = 0; par < this->m_Associate->GetNumberOfLocalParameters(); ++par)
       {
         double sum = 0.0;
-        for (unsigned int dim = 0; dim < TImageToImageMetricv4::MovingImageDimension; dim++)
+        for (unsigned int dim = 0; dim < TImageToImageMetricv4::MovingImageDimension; ++dim)
         {
           sum += mappedMovingImageGradient[dim] + mappedFixedImageGradient[dim];
         }
@@ -170,7 +170,7 @@ bool
 ImageToImageMetricv4TestTestArray(const TVector & v1, const TVector & v2)
 {
   bool pass = true;
-  for (unsigned int i = 0; i < v1.Size(); i++)
+  for (unsigned int i = 0; i < v1.Size(); ++i)
   {
     const double epsilon = 1e-10;
     if (std::fabs(v1[i] - v2[i]) > epsilon)
@@ -265,10 +265,10 @@ ImageToImageMetricv4TestComputeIdentityTruthValues(const ImageToImageMetricv4Tes
       movingImageDerivative = movingGradientCalculator->Evaluate(point);
     }
 
-    for (unsigned int par = 0; par < metric->GetNumberOfLocalParameters(); par++)
+    for (unsigned int par = 0; par < metric->GetNumberOfLocalParameters(); ++par)
     {
       double sum = 0.0;
-      for (unsigned int dim = 0; dim < ImageToImageMetricv4TestImageDimensionality; dim++)
+      for (unsigned int dim = 0; dim < ImageToImageMetricv4TestImageDimensionality; ++dim)
       {
         sum += movingImageDerivative[dim] + fixedImageDerivative[dim];
       }
@@ -490,7 +490,7 @@ itkImageToImageMetricv4Test(int, char ** const)
   // Run through all the permutations image gradient calculation method.
   ImageToImageMetricv4TestMetricType::MeasureType    truthValue;
   ImageToImageMetricv4TestMetricType::DerivativeType truthDerivative;
-  for (itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6; numberOfThreads++)
+  for (itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6; ++numberOfThreads)
   {
     metric->SetMaximumNumberOfWorkUnits(numberOfThreads);
     for (signed char useMovingFilter = 1; useMovingFilter >= 0; --useMovingFilter)
@@ -620,9 +620,9 @@ itkImageToImageMetricv4Test(int, char ** const)
 
   std::cout << "Creating point set..." << std::endl;
   DimensionSizeType ind = 0;
-  for (DimensionSizeType i = 0; i < imageSize; i++)
+  for (DimensionSizeType i = 0; i < imageSize; ++i)
   {
-    for (DimensionSizeType j = 0; j < imageSize; j++)
+    for (DimensionSizeType j = 0; j < imageSize; ++j)
     {
       testPointCoords[0] = i;
       testPointCoords[1] = j;

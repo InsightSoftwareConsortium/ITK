@@ -48,7 +48,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
     // This is important when operating near the corner of images with
     // angled structuring elements
     InputImagePixelType Extreme = inbuffer[0];
-    for (unsigned i = 0; i < bufflength; i++)
+    for (unsigned i = 0; i < bufflength; ++i)
     {
       if (StrictCompare(Extreme, inbuffer[i]))
       {
@@ -56,7 +56,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
       }
     }
 
-    for (unsigned i = 0; i < bufflength; i++)
+    for (unsigned i = 0; i < bufflength; ++i)
     {
       buffer[i] = Extreme;
     }
@@ -75,7 +75,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
     // Left border, first half of structuring element
     Extreme = inbuffer[inLeftP];
     histo.AddPixel(Extreme);
-    for (int i = 0; (i < middle); i++)
+    for (int i = 0; (i < middle); ++i)
     {
       ++inLeftP;
       histo.AddPixel(inbuffer[inLeftP]);
@@ -87,7 +87,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
     buffer[outLeftP] = Extreme;
 
     // Second half of SE
-    for (int i = 0; i < (int)m_Size - middle - 1; i++)
+    for (int i = 0; i < (int)m_Size - middle - 1; ++i)
     {
       ++inLeftP;
       ++outLeftP;
@@ -116,7 +116,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
   // Left border, first half of structuring element
   Extreme = inbuffer[inLeftP];
   histo.AddPixel(Extreme);
-  for (int i = 0; (i < middle); i++)
+  for (int i = 0; (i < middle); ++i)
   {
     ++inLeftP;
     histo.AddPixel(inbuffer[inLeftP]);
@@ -128,7 +128,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
   buffer[outLeftP] = Extreme;
 
   // Second half of SE
-  for (int i = 0; i < (int)m_Size - middle - 1; i++)
+  for (int i = 0; i < (int)m_Size - middle - 1; ++i)
   {
     ++inLeftP;
     ++outLeftP;
@@ -279,7 +279,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::FinishLine(std::vector<TInputPix> & 
   Extreme = inbuffer[inRightP];
   histo.AddPixel(Extreme);
 
-  for (int i = 0; i < middle; i++)
+  for (int i = 0; i < middle; ++i)
   {
     --inRightP;
     histo.AddPixel(inbuffer[inRightP]);
@@ -290,7 +290,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::FinishLine(std::vector<TInputPix> & 
   }
   buffer[outRightP] = Extreme;
   // second half of SE
-  for (int i = 0; (i < (int)m_Size - middle - 1) && (outLeftP < outRightP); i++)
+  for (int i = 0; (i < (int)m_Size - middle - 1) && (outLeftP < outRightP); ++i)
   {
     --inRightP;
     --outRightP;

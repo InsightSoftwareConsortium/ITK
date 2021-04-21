@@ -47,7 +47,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::BeforeThreadedGen
 
   InputSizeType radius = this->GetRadius();
 
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     threshold *= (2 * radius[i] + 1);
   }
@@ -65,7 +65,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::BeforeThreadedGen
 
   unsigned int numberOfThreads = this->GetNumberOfWorkUnits();
   this->m_Count.SetSize(numberOfThreads);
-  for (unsigned int i = 0; i < numberOfThreads; i++)
+  for (unsigned int i = 0; i < numberOfThreads; ++i)
   {
     this->m_Count[i] = 0;
   }
@@ -159,7 +159,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::AfterThreadedGene
 
   unsigned int numberOfThreads = this->GetNumberOfWorkUnits();
   this->m_Count.SetSize(numberOfThreads);
-  for (unsigned int t = 0; t < numberOfThreads; t++)
+  for (unsigned int t = 0; t < numberOfThreads; ++t)
   {
     this->m_NumberOfPixelsChanged += this->m_Count[t];
   }

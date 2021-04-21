@@ -85,7 +85,7 @@ public:
   {
 
     VectorType v(parameters.Size());
-    for (unsigned int i = 0; i < SpaceDimension; i++)
+    for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
       v[i] = parameters[i];
     }
@@ -104,7 +104,7 @@ public:
   {
 
     VectorType v(parameters.Size());
-    for (unsigned int i = 0; i < SpaceDimension; i++)
+    for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
       v[i] = parameters[i];
     }
@@ -112,7 +112,7 @@ public:
     VectorType gradient = m_A * v - m_B;
     std::cout << gradient << std::endl;
     derivative = DerivativeType(SpaceDimension);
-    for (unsigned int i = 0; i < SpaceDimension; i++)
+    for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
       if (!m_Negate)
       {
@@ -340,7 +340,7 @@ AmoebaTest1()
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
 
-  for (unsigned int j = 0; j < 2; j++)
+  for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > xTolerance)
       pass = false;
@@ -413,7 +413,7 @@ AmoebaTest1()
     std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
     std::cout << "Final position = " << finalPosition << std::endl;
 
-    for (unsigned int j = 0; j < 2; j++)
+    for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > xTolerance)
         pass = false;

@@ -78,7 +78,7 @@ GetCenterOfMass(const ImageType * volume)
     moments->SetImage(volume);
     moments->Compute();
     typename ImageType::PointType::VectorType tempCenterOfMass = moments->GetCenterOfGravity();
-    for (unsigned int q = 0; q < ImageType::ImageDimension; q++)
+    for (unsigned int q = 0; q < ImageType::ImageDimension; ++q)
     {
       CenterOfMass[q] = tempCenterOfMass[q];
     }
@@ -189,7 +189,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // set image origin to be center of the image
   double       transCenter[3];
   unsigned int j, k;
-  for (j = 0; j < 3; j++)
+  for (j = 0; j < 3; ++j)
   {
     transCenter[j] = -0.5 * double(size[j]) * spacing[j];
   }
@@ -229,10 +229,10 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   // check the schedule
   ScheduleType schedule(numLevels, ImageDimension);
 
-  for (k = 0; k < numLevels; k++)
+  for (k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -263,10 +263,10 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   ScheduleType temp(numLevels, ImageDimension);
   temp.Fill(0);
   schedule = temp;
-  for (k = 0; k < numLevels; k++)
+  for (k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -287,7 +287,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // test start factors
   const unsigned int * ss = pyramid->GetStartingShrinkFactors();
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     if (ss[j] != factors[j])
     {
@@ -316,7 +316,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   pyramid->Print(std::cout);
 
   //  update pyramid at a particular level
-  for (unsigned int testLevel = 0; testLevel < numLevels; testLevel++)
+  for (unsigned int testLevel = 0; testLevel < numLevels; ++testLevel)
   {
     pyramid->GetOutput(testLevel)->Update();
     // check the output image information
@@ -367,7 +367,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
       }
       // break;
     }
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       if (itk::Math::NotAlmostEquals(outputSpacing[j], inputSpacing[j] * (double)schedule[testLevel][j]))
       {

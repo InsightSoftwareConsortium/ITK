@@ -70,7 +70,7 @@ PathToChainCodePathFilter<TInputPath, TOutputChainCodePath>::GenerateData()
     }
     else
     {
-      for (int d = 0; d < dimension; d++)
+      for (int d = 0; d < dimension; ++d)
       {
         if (offset[d])
         {

@@ -247,7 +247,7 @@ itkGibbsTest(int, char *[])
   myClassifier->SetDecisionRule((DecisionRuleBasePointer)myDecisionRule);
 
   // Add the membership functions
-  for (unsigned int ii = 0; ii < NUM_CLASSES; ii++)
+  for (unsigned int ii = 0; ii < NUM_CLASSES; ++ii)
   {
     myClassifier->AddMembershipFunction(membershipFunctions[ii]);
   }

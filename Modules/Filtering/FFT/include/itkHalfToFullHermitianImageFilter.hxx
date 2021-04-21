@@ -57,7 +57,7 @@ HalfToFullHermitianImageFilter<TInputImage>::GenerateOutputInformation()
   typename OutputImageType::SizeType  outputSize;
   typename OutputImageType::IndexType outputStartIndex;
 
-  for (unsigned int i = 0; i < OutputImageType::ImageDimension; i++)
+  for (unsigned int i = 0; i < OutputImageType::ImageDimension; ++i)
   {
     outputSize[i] = inputSize[i];
     outputStartIndex[i] = inputStartIndex[i];

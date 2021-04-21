@@ -233,7 +233,7 @@ public:
     bb1.Fill(0.0);
 
     InterpolationGridPointType bb2;
-    for (unsigned int i = 0; i < FEMDimension; i++)
+    for (unsigned int i = 0; i < FEMDimension; ++i)
     {
       bb2[i] = size[i] - 1.0;
     }

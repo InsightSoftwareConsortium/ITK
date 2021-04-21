@@ -249,7 +249,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetDefaultMRFNeighborhoodWeight()
   //-----------------------------------------------------
   m_NeighborhoodSize = 1;
   int neighborhoodRadius = 1; // Default assumes a radius of 1
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     m_NeighborhoodSize *= (2 * neighborhoodRadius + 1);
   }
@@ -258,17 +258,17 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetDefaultMRFNeighborhoodWeight()
     // Assumes a default 3x3x3 window size
     m_MRFNeighborhoodWeight.resize(m_NeighborhoodSize);
 
-    for (int i = 0; i < 9; i++)
+    for (int i = 0; i < 9; ++i)
     {
       m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
     }
 
-    for (int i = 9; i < 18; i++)
+    for (int i = 9; i < 18; ++i)
     {
       m_MRFNeighborhoodWeight[i] = 1.7 * m_SmoothingFactor;
     }
 
-    for (int i = 18; i < 27; i++)
+    for (int i = 18; i < 27; ++i)
     {
       m_MRFNeighborhoodWeight[i] = 1.3 * m_SmoothingFactor;
     }
@@ -283,7 +283,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetDefaultMRFNeighborhoodWeight()
     // Assumes a default 3x3x3 window size
     m_MRFNeighborhoodWeight.resize(m_NeighborhoodSize);
 
-    for (int i = 0; i < m_NeighborhoodSize; i++)
+    for (int i = 0; i < m_NeighborhoodSize; ++i)
     {
       m_MRFNeighborhoodWeight[i] = 1.7 * m_SmoothingFactor;
     }
@@ -295,7 +295,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetDefaultMRFNeighborhoodWeight()
   {
     if ((InputImageDimension > 3))
     {
-      for (int i = 0; i < m_NeighborhoodSize; i++)
+      for (int i = 0; i < m_NeighborhoodSize; ++i)
       {
         m_MRFNeighborhoodWeight[i] = 1;
       }
@@ -315,7 +315,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetMRFNeighborhoodWeight(std::vec
   else
   {
     m_NeighborhoodSize = 1;
-    for (unsigned int i = 0; i < InputImageDimension; i++)
+    for (unsigned int i = 0; i < InputImageDimension; ++i)
     {
       m_NeighborhoodSize *= (2 * m_InputImageNeighborhoodRadius[i] + 1);
     }
@@ -329,7 +329,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::SetMRFNeighborhoodWeight(std::vec
     // and corresponding memory offsets.
     m_MRFNeighborhoodWeight.resize(m_NeighborhoodSize);
 
-    for (unsigned int i = 0; i < betaMatrix.size(); i++)
+    for (unsigned int i = 0; i < betaMatrix.size(); ++i)
     {
       m_MRFNeighborhoodWeight[i] = (betaMatrix[i] * m_SmoothingFactor);
     }
@@ -355,7 +355,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::Allocate()
   // Get the number of valid pixels in the output MRF image
   //---------------------------------------------------------------------
   int tmp;
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     tmp = static_cast<int>(inputImageSize[i]);
 
@@ -400,7 +400,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::ApplyMRFImageFilter()
 
   int totalNumberOfPixelsInInputImage = 1;
 
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     totalNumberOfPixelsInInputImage *= static_cast<int>(inputImageSize[i]);
   }
@@ -549,7 +549,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
 
   // Reinitialize the neighborhood influence at the beginning of the
   // neighborhood operation
-  for (index = 0; index < m_NeighborInfluence.size(); index++)
+  for (index = 0; index < m_NeighborInfluence.size(); ++index)
   {
     m_NeighborInfluence[index] = 0;
   }
@@ -565,7 +565,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
   } // End neighborhood processing
 
   // Add the prior probability to the pixel probability
-  for (index = 0; index < m_NumberOfClasses; index++)
+  for (index = 0; index < m_NumberOfClasses; ++index)
   {
     m_MahalanobisDistance[index] = m_NeighborInfluence[index] - pixelMembershipValue[index];
   }
@@ -574,7 +574,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
   double maximumDistance = -1e+20;
   int    pixLabel = -1;
   double tmpPixDistance;
-  for (index = 0; index < m_NumberOfClasses; index++)
+  for (index = 0; index < m_NumberOfClasses; ++index)
   {
     tmpPixDistance = m_MahalanobisDistance[index];
     if (tmpPixDistance > maximumDistance)

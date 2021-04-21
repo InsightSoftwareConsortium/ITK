@@ -35,7 +35,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   LandmarkType::LandmarkPointListType list;
 
   unsigned int i;
-  for (i = 0; i < 10; i++)
+  for (i = 0; i < 10; ++i)
   {
     LandmarkPointType p;
     PointType         pnt;
@@ -85,7 +85,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   i = 0;
   while (it != landmark->GetPoints().end())
   {
-    for (unsigned int d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; ++d)
     {
       if (itk::Math::NotExactlyEquals((*it).GetPositionInObjectSpace()[d], i + d))
       {
@@ -131,7 +131,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   i = 0;
   while (it != landmark->GetPoints().end())
   {
-    for (unsigned int d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; ++d)
     {
       if (itk::Math::NotExactlyEquals((*it).GetBlue(), i))
       {

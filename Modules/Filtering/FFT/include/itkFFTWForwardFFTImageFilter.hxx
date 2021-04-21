@@ -73,7 +73,7 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   unsigned int totalInputSize = 1;
   unsigned int totalOutputSize = 1;
 
-  for (unsigned i = 0; i < ImageDimension; i++)
+  for (unsigned i = 0; i < ImageDimension; ++i)
   {
     totalInputSize *= inputSize[i];
     totalOutputSize *= outputSize[i];
@@ -103,7 +103,7 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
     flags = flags | FFTW_PRESERVE_INPUT;
   }
   int sizes[ImageDimension];
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     sizes[(ImageDimension - 1) - i] = inputSize[i];
   }

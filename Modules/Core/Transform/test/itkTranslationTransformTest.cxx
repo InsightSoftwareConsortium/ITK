@@ -28,7 +28,7 @@ namespace
 void
 PrintVector(const VectorType & v)
 {
-  for (unsigned int i = 0; i < VectorType::Dimension; i++)
+  for (unsigned int i = 0; i < VectorType::Dimension; ++i)
   {
     std::cout << v[i] << ", ";
   }
@@ -61,7 +61,7 @@ itkTranslationTransformTest(int, char *[])
   vector2[1] = 6;
   TransformType::Pointer aff2 = TransformType::New();
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
     vector2[i] = 0.0;
   }
@@ -89,7 +89,7 @@ itkTranslationTransformTest(int, char *[])
   vector2[0] = 2;
   vector2[1] = 1;
   aff2->SetOffset(vector2);
-  for (i = 0; i < 2; i++)
+  for (i = 0; i < 2; ++i)
   {
     vector2[i] = 0.0;
   }

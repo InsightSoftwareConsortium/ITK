@@ -125,9 +125,9 @@ itkFEMRobustSolverTest(int, char *[])
   FEMVectorType point(ParameterDimension);
   unsigned int  globalNumbering = 0;
 
-  for (unsigned int j = 0; j <= elementDimensionY; j++)
+  for (unsigned int j = 0; j <= elementDimensionY; ++j)
   {
-    for (unsigned int i = 0; i <= elementDimensionX; i++)
+    for (unsigned int i = 0; i <= elementDimensionX; ++i)
     {
       point[0] = i;
       point[1] = j;
@@ -155,9 +155,9 @@ itkFEMRobustSolverTest(int, char *[])
 
   globalNumbering = 0;
 
-  for (unsigned int j = 0; j < elementDimensionY; j++)
+  for (unsigned int j = 0; j < elementDimensionY; ++j)
   {
-    for (unsigned int i = 0; i < elementDimensionX; i++)
+    for (unsigned int i = 0; i < elementDimensionX; ++i)
     {
       unsigned int leftBottomNodeIndex = i + (elementDimensionX + 1) * j;
       unsigned int rightBottomNodeIndex = i + 1 + (elementDimensionX + 1) * j;
@@ -295,7 +295,7 @@ itkFEMRobustSolverTest(int, char *[])
   float groundTruthSolution[18] = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
                                     1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 
-  for (int i = 0; i < numOfDOF; i++)
+  for (int i = 0; i < numOfDOF; ++i)
   {
     solution[i] = solver->GetSolution(i);
 

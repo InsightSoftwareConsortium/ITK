@@ -110,7 +110,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
         /* Be sure to init to 0 here, because the threader may not use
          * all the threads if the region is better split into fewer
          * subregions. */
-        for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; p++)
+        for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
         {
           this->m_GetValueAndDerivativePerThreadVariables[thread].CompensatedDerivatives[p].ResetToZero();
         }
@@ -140,12 +140,12 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
     if (this->m_Associate->m_MovingTransform->GetTransformCategory() !=
         MovingTransformType::TransformCategoryEnum::DisplacementField)
     {
-      for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); p++)
+      for (NumberOfParametersType p = 0; p < this->m_Associate->GetNumberOfParameters(); ++p)
       {
         /* Use a compensated sum to be ready for when there is a very large number of threads */
         CompensatedDerivativeValueType sum;
         sum.ResetToZero();
-        for (ThreadIdType i = 0; i < numThreadsUsed; i++)
+        for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
         {
           sum += this->m_GetValueAndDerivativePerThreadVariables[i].CompensatedDerivatives[p].GetSum();
         }
@@ -293,7 +293,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
     if (this->m_Associate->GetUseFloatingPointCorrection())
     {
       DerivativeValueType correctionResolution = this->m_Associate->GetFloatingPointCorrectionResolution();
-      for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; p++)
+      for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
       {
         auto test = static_cast<intmax_t>(
           this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[p] * correctionResolution);
@@ -301,7 +301,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
           static_cast<DerivativeValueType>(test / correctionResolution);
       }
     }
-    for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; p++)
+    for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
     {
       this->m_GetValueAndDerivativePerThreadVariables[threadId].CompensatedDerivatives[p] +=
         this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[p];
@@ -317,7 +317,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
     {
       OffsetValueType offset =
         this->m_Associate->ComputeParameterOffsetFromVirtualIndex(virtualIndex, this->m_CachedNumberOfLocalParameters);
-      for (NumberOfParametersType i = 0; i < this->m_CachedNumberOfLocalParameters; i++)
+      for (NumberOfParametersType i = 0; i < this->m_CachedNumberOfLocalParameters; ++i)
       {
         /* Be sure to *add* here and not assign. Required for proper behavior
          * with multi-variate metric. */

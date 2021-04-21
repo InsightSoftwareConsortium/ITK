@@ -74,9 +74,9 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
     //
     PixelType valarray[small_xSize][small_ySize] = { { 255, 255, 255 }, { 255, 171, 7 }, { 7, 7, 7 } };
 
-    for (itk::IndexValueType y = 0; y < small_ySize; y++)
+    for (itk::IndexValueType y = 0; y < small_ySize; ++y)
     {
-      for (itk::IndexValueType x = 0; x < small_xSize; x++)
+      for (itk::IndexValueType x = 0; x < small_xSize; ++x)
       {
         const IndexType index = { { x, y } };
         const PixelType value = valarray[x][y];
@@ -193,9 +193,9 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
                                                        default_background_value,
                                                        default_background_value } };
 
-    for (itk::IndexValueType y = 0; y < large_ySize; y++)
+    for (itk::IndexValueType y = 0; y < large_ySize; ++y)
     {
-      for (itk::IndexValueType x = 0; x < large_xSize; x++)
+      for (itk::IndexValueType x = 0; x < large_xSize; ++x)
       {
         const IndexType      index = { { x, y } };
         const PixelType      known_value = valarray[x][y];
@@ -224,9 +224,9 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
 #if 0
  constexpr double incr = 0.1;
  PointType point;
- for (double yy = 0; yy < static_cast<double>(small_ySize-1); yy++)
+ for (double yy = 0; yy < static_cast<double>(small_ySize-1); ++yy)
    {
-   for (double xx = 0; xx < static_cast<double>(small_xSize-1); xx++)
+   for (double xx = 0; xx < static_cast<double>(small_xSize-1); ++xx)
      {
      for (double yyy = yy; yyy < yy + 1.01; yyy += incr)
        {

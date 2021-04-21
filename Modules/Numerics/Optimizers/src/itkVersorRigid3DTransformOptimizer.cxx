@@ -34,7 +34,7 @@ VersorRigid3DTransformOptimizer::StepAlongGradient(double factor, const Derivati
   //
   VectorType rightPart;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     rightPart[i] = currentPosition[i];
   }
@@ -73,7 +73,7 @@ VersorRigid3DTransformOptimizer::StepAlongGradient(double factor, const Derivati
   newParameters[2] = newRotation.GetZ();
 
   // Now do the typical update for a Vector space.
-  for (unsigned int k = 3; k < 6; k++)
+  for (unsigned int k = 3; k < 6; ++k)
   {
     newParameters[k] = currentPosition[k] + transformedGradient[k] * factor;
   }

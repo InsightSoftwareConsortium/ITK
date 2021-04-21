@@ -33,7 +33,7 @@ template <typename TInputImage>
 WarpHarmonicEnergyCalculator<TInputImage>::WarpHarmonicEnergyCalculator()
 {
   m_Image = TInputImage::New();
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
     m_DerivativeWeights[i] = 1.0;
@@ -76,7 +76,7 @@ WarpHarmonicEnergyCalculator<TInputImage>::Compute()
   // in case our input image has changed.
   if (m_UseImageSpacing == true)
   {
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       if (m_Image->GetSpacing()[i] <= 0.0)
       {

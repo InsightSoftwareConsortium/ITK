@@ -37,7 +37,7 @@ print_hex_vals(char const * const data, const int nbytes, FILE * const fp)
     return -1;
   }
   fputs("0x", fp);
-  for (int c = 0; c < nbytes; c++)
+  for (int c = 0; c < nbytes; ++c)
   {
     fprintf(fp, " %x", data[c]);
   }
@@ -161,7 +161,7 @@ DumpNiftiHeader(const std::string & fname)
           hp->regular,
           hp->dim_info);
   fprintf(stderr, "    dim[8]         =");
-  for (int c = 0; c < 8; c++)
+  for (int c = 0; c < 8; ++c)
   {
     fprintf(stderr, " %d", hp->dim[c]);
   }
@@ -183,12 +183,12 @@ DumpNiftiHeader(const std::string & fname)
           hp->bitpix,
           hp->slice_start);
   // break pixdim over 2 lines
-  for (int c = 0; c < 4; c++)
+  for (int c = 0; c < 4; ++c)
   {
     fprintf(stderr, " %f", hp->pixdim[c]);
   }
   fprintf(stderr, "\n                    ");
-  for (int c = 4; c < 8; c++)
+  for (int c = 4; c < 8; ++c)
   {
     fprintf(stderr, " %f", hp->pixdim[c]);
   }
@@ -270,7 +270,7 @@ dumpdata(const void * x)
 {
   std::cerr << "----------------------" << std::endl;
   const float * a = (const float *)x;
-  for (unsigned int i = 0; i < 24; i++) // t
+  for (unsigned int i = 0; i < 24; ++i) // t
   {
     std::cerr << a[i] << std::endl;
   }
@@ -332,15 +332,15 @@ UpperToLowerOrder(int dim)
 {
   auto ** mat = new int *[dim];
 
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     mat[i] = new int[dim];
   }
   // fill in
   int index(0);
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
-    for (int j = i; j < dim; j++)
+    for (int j = i; j < dim; ++j)
     {
       mat[i][j] = index;
       mat[j][i] = index;
@@ -349,7 +349,7 @@ UpperToLowerOrder(int dim)
   }
   auto * rval = new int[index + 1];
   int    index2(0);
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     for (int j = 0; j <= i; j++, index2++)
     {
@@ -357,7 +357,7 @@ UpperToLowerOrder(int dim)
     }
   }
   rval[index2] = -1;
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     delete[] mat[i];
   }
@@ -372,13 +372,13 @@ LowerToUpperOrder(int dim)
 {
   auto ** mat = new int *[dim];
 
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     mat[i] = new int[dim];
   }
   // fill in
   int index(0);
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     for (int j = 0; j <= i; j++, index++)
     {
@@ -388,7 +388,7 @@ LowerToUpperOrder(int dim)
   }
   auto * rval = new int[index + 1];
   int    index2(0);
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     for (int j = i; j < dim; j++, index2++)
     {
@@ -396,7 +396,7 @@ LowerToUpperOrder(int dim)
     }
   }
   rval[index2] = -1;
-  for (int i = 0; i < dim; i++)
+  for (int i = 0; i < dim; ++i)
   {
     delete[] mat[i];
   }
@@ -501,7 +501,7 @@ template <typename TBuffer>
 void
 RescaleFunction(TBuffer * buffer, double slope, double intercept, size_t size)
 {
-  for (size_t i = 0; i < size; i++)
+  for (size_t i = 0; i < size; ++i)
   {
     double tmp = static_cast<double>(buffer[i]) * slope;
     tmp += intercept;
@@ -515,7 +515,7 @@ CastCopy(float * to, const void * from, size_t pixelcount)
 {
   const auto * _from = static_cast<const PixelType *>(from);
 
-  for (size_t i = 0; i < pixelcount; i++)
+  for (size_t i = 0; i < pixelcount; ++i)
   {
     to[i] = static_cast<float>(_from[i]);
   }
@@ -535,13 +535,13 @@ NiftiImageIO::Read(void * buffer)
   int          _size[7];
   unsigned int i;
 
-  for (i = 0; i < start.size(); i++)
+  for (i = 0; i < start.size(); ++i)
   {
     _origin[i] = static_cast<int>(start[i]);
     _size[i] = static_cast<int>(size[i]);
     numElts *= _size[i];
   }
-  for (; i < 7; i++)
+  for (; i < 7; ++i)
   {
     _origin[i] = 0;
     _size[i] = 1;
@@ -573,7 +573,7 @@ NiftiImageIO::Read(void * buffer)
   //
   // decide whether to read whole region or subregion, by stepping
   // thru dims and comparing them to requested sizes
-  for (i = 0; i < this->GetNumberOfDimensions(); i++)
+  for (i = 0; i < this->GetNumberOfDimensions(); ++i)
   {
     if (this->m_NiftiImage->dim[i + 1] != _size[i])
     {
@@ -700,20 +700,20 @@ NiftiImageIO::Read(void * buffer)
     else
     {
       vecOrder = new int[numComponents];
-      for (i = 0; i < numComponents; i++)
+      for (i = 0; i < numComponents; ++i)
       {
         vecOrder[i] = i;
       }
     }
-    for (int t = 0; t < this->m_NiftiImage->dim[4]; t++)
+    for (int t = 0; t < this->m_NiftiImage->dim[4]; ++t)
     {
-      for (int z = 0; z < this->m_NiftiImage->dim[3]; z++)
+      for (int z = 0; z < this->m_NiftiImage->dim[3]; ++z)
       {
-        for (int y = 0; y < this->m_NiftiImage->dim[2]; y++)
+        for (int y = 0; y < this->m_NiftiImage->dim[2]; ++y)
         {
-          for (int x = 0; x < this->m_NiftiImage->dim[1]; x++)
+          for (int x = 0; x < this->m_NiftiImage->dim[1]; ++x)
           {
-            for (unsigned int c = 0; c < numComponents; c++)
+            for (unsigned int c = 0; c < numComponents; ++c)
             {
               const size_t nifti_index =
                 (c * seriesdist + volumedist * t + slicedist * z + rowdist * y + x) * pixelSize;
@@ -849,7 +849,7 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
   dim_info << FPS_INTO_DIM_INFO(nim->freq_dim, nim->phase_dim, nim->slice_dim);
   EncapsulateMetaData<std::string>(thisDic, "dim_info", dim_info.str());
 
-  for (int idx = 0; idx < 8; idx++)
+  for (int idx = 0; idx < 8; ++idx)
   {
     std::ostringstream dim;
     dim << nim->dim[idx];
@@ -886,7 +886,7 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
   slice_start << nim->slice_start;
   EncapsulateMetaData<std::string>(thisDic, "slice_start", slice_start.str());
 
-  for (int idx = 0; idx < 8; idx++)
+  for (int idx = 0; idx < 8; ++idx)
   {
     std::ostringstream pixdim;
     pixdim << nim->pixdim[idx];
@@ -1368,9 +1368,9 @@ mat44_transpose(const mat44 & in)
 {
   mat44 out;
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
-    for (unsigned int j = 0; j < 4; j++)
+    for (unsigned int j = 0; j < 4; ++j)
     {
       out.m[i][j] = in.m[j][i];
     }
@@ -1386,7 +1386,7 @@ NiftiImageIO ::WriteImageInformation()
   //
   // First of all we need to not go any further if there's
   // a dimension of the image that won't fit in a 16 bit short.
-  for (unsigned int i = 0; i < this->GetNumberOfDimensions(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfDimensions(); ++i)
   {
     const unsigned int curdim(this->GetDimensions(i));
     if (curdim > static_cast<unsigned int>(NumericTraits<short>::max()))
@@ -1835,10 +1835,10 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
       }
       const SpatialOrientationAdapter::DirectionType dir = OrientAdapterType().ToDirectionCosines(orient);
       const int                                      max_defined_orientation_dims = (dims > 3) ? 3 : dims;
-      for (int d = 0; d < max_defined_orientation_dims; d++)
+      for (int d = 0; d < max_defined_orientation_dims; ++d)
       {
         std::vector<double> direction(dims, 0.0);
-        for (int i = 0; i < max_defined_orientation_dims; i++)
+        for (int i = 0; i < max_defined_orientation_dims; ++i)
         {
           direction[i] = dir[i][d];
         }
@@ -1994,7 +1994,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
   const int           max_defined_orientation_dims = (dims > 3) ? 3 : dims;
   std::vector<double> xDirection(dims, 0.0);
-  for (int i = 0; i < max_defined_orientation_dims; i++)
+  for (int i = 0; i < max_defined_orientation_dims; ++i)
   {
     xDirection[i] = theMat.m[i][0];
     if (i < 2)
@@ -2008,7 +2008,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
   if (max_defined_orientation_dims > 1)
   {
     std::vector<double> yDirection(dims, 0.0);
-    for (int i = 0; i < max_defined_orientation_dims; i++)
+    for (int i = 0; i < max_defined_orientation_dims; ++i)
     {
       yDirection[i] = theMat.m[i][1];
       if (i < 2)
@@ -2023,7 +2023,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
   if (max_defined_orientation_dims > 2)
   {
     std::vector<double> zDirection(dims, 0.0);
-    for (int i = 0; i < max_defined_orientation_dims; i++)
+    for (int i = 0; i < max_defined_orientation_dims; ++i)
     {
       zDirection[i] = theMat.m[i][2];
       if (i < 2)
@@ -2096,7 +2096,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   const int                                 mindims(dims < 3 ? 3 : dims);
   std::vector<DirectionMatrixComponentType> dirx(mindims, 0.0f);
   unsigned int                              i;
-  for (i = 0; i < this->GetDirection(0).size(); i++)
+  for (i = 0; i < this->GetDirection(0).size(); ++i)
   {
     dirx[i] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(0)[i]);
   }
@@ -2107,7 +2107,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   std::vector<DirectionMatrixComponentType> diry(mindims, 0);
   if (origdims > 1)
   {
-    for (i = 0; i < this->GetDirection(1).size(); i++)
+    for (i = 0; i < this->GetDirection(1).size(); ++i)
     {
       diry[i] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(1)[i]);
     }
@@ -2119,7 +2119,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   std::vector<DirectionMatrixComponentType> dirz(mindims, 0);
   if (origdims > 2)
   {
-    for (size_t ii = 0; ii < this->GetDirection(2).size(); ii++)
+    for (size_t ii = 0; ii < this->GetDirection(2).size(); ++ii)
     {
       dirz[ii] = static_cast<DirectionMatrixComponentType>(-this->GetDirection(2)[ii]);
     }
@@ -2160,9 +2160,9 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
   //
   //
   unsigned int sto_limit = origdims > 3 ? 3 : origdims;
-  for (unsigned int ii = 0; ii < sto_limit; ii++)
+  for (unsigned int ii = 0; ii < sto_limit; ++ii)
   {
-    for (unsigned int jj = 0; jj < sto_limit; jj++)
+    for (unsigned int jj = 0; jj < sto_limit; ++jj)
     {
       this->m_NiftiImage->sto_xyz.m[ii][jj] =
         static_cast<float>(this->GetSpacing(jj)) * this->m_NiftiImage->sto_xyz.m[ii][jj];
@@ -2195,7 +2195,7 @@ NiftiImageIO ::Write(const void * buffer)
   }
   else /// Image intent is vector image
   {
-    for (unsigned int i = 1; i < 8; i++)
+    for (unsigned int i = 1; i < 8; ++i)
     {
       if (this->m_NiftiImage->dim[i] == 0)
       {
@@ -2234,20 +2234,20 @@ NiftiImageIO ::Write(const void * buffer)
     else
     {
       vecOrder = new int[numComponents];
-      for (unsigned i = 0; i < numComponents; i++)
+      for (unsigned i = 0; i < numComponents; ++i)
       {
         vecOrder[i] = i;
       }
     }
-    for (int t = 0; t < this->m_NiftiImage->dim[4]; t++)
+    for (int t = 0; t < this->m_NiftiImage->dim[4]; ++t)
     {
-      for (int z = 0; z < this->m_NiftiImage->dim[3]; z++)
+      for (int z = 0; z < this->m_NiftiImage->dim[3]; ++z)
       {
-        for (int y = 0; y < this->m_NiftiImage->dim[2]; y++)
+        for (int y = 0; y < this->m_NiftiImage->dim[2]; ++y)
         {
-          for (int x = 0; x < this->m_NiftiImage->dim[1]; x++)
+          for (int x = 0; x < this->m_NiftiImage->dim[1]; ++x)
           {
-            for (unsigned int c = 0; c < numComponents; c++)
+            for (unsigned int c = 0; c < numComponents; ++c)
             {
               const size_t nifti_index =
                 (c * seriesdist + volumedist * t + slicedist * z + rowdist * y + x) * this->m_NiftiImage->nbyper;

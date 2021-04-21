@@ -89,7 +89,7 @@ itkImageMaskSpatialObjectTest3(int, char *[])
     regionSize[i] = bndMaxI[i] - bndMinI[i];
   }
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     if (regionSize[i] != 0)
     {

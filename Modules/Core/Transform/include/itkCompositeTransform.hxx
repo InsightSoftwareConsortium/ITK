@@ -436,7 +436,7 @@ CompositeTransform<TParametersValueType, NDimensions>::GetInverse(Self * inverse
 
   /* Copy the optimization flags */
   inverse->m_TransformsToOptimizeFlags.clear();
-  for (auto ofit = this->m_TransformsToOptimizeFlags.begin(); ofit != this->m_TransformsToOptimizeFlags.end(); ofit++)
+  for (auto ofit = this->m_TransformsToOptimizeFlags.begin(); ofit != this->m_TransformsToOptimizeFlags.end(); ++ofit)
   {
     inverse->m_TransformsToOptimizeFlags.push_front(*ofit);
   }
@@ -893,7 +893,7 @@ CompositeTransform<TParametersValueType, NDimensions>::GetTransformsToOptimizeQu
   if (this->GetMTime() > this->m_PreviousTransformsToOptimizeUpdateTime)
   {
     this->m_TransformsToOptimizeQueue.clear();
-    for (size_t n = 0; n < this->m_TransformQueue.size(); n++)
+    for (size_t n = 0; n < this->m_TransformQueue.size(); ++n)
     {
       /* Return them in the same order as they're found in the main list */
       if (this->GetNthTransformToOptimize(static_cast<SizeValueType>(n)))
@@ -916,13 +916,13 @@ CompositeTransform<TParametersValueType, NDimensions>::FlattenTransformQueue()
   TransformQueueType            transformsToOptimizeQueue;
   TransformsToOptimizeFlagsType transformsToOptimizeFlags;
 
-  for (SizeValueType m = 0; m < this->GetNumberOfTransforms(); m++)
+  for (SizeValueType m = 0; m < this->GetNumberOfTransforms(); ++m)
   {
     auto * nestedCompositeTransform = dynamic_cast<Self *>(this->m_TransformQueue[m].GetPointer());
     if (nestedCompositeTransform)
     {
       nestedCompositeTransform->FlattenTransformQueue();
-      for (SizeValueType n = 0; n < nestedCompositeTransform->GetNumberOfTransforms(); n++)
+      for (SizeValueType n = 0; n < nestedCompositeTransform->GetNumberOfTransforms(); ++n)
       {
         transformQueue.push_back(nestedCompositeTransform->GetNthTransformModifiablePointer(n));
         if (nestedCompositeTransform->GetNthTransformToOptimize(n))
@@ -969,7 +969,7 @@ CompositeTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & 
   }
 
   os << indent << "TransformsToOptimizeFlags, begin() to end(): " << std::endl << indent << indent;
-  for (auto it = this->m_TransformsToOptimizeFlags.begin(); it != this->m_TransformsToOptimizeFlags.end(); it++)
+  for (auto it = this->m_TransformsToOptimizeFlags.begin(); it != this->m_TransformsToOptimizeFlags.end(); ++it)
   {
     os << *it << " ";
   }

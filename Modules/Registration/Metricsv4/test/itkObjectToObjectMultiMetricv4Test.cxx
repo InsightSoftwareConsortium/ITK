@@ -53,7 +53,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   // Setup weights
   MultiMetricType::WeightsArrayType origMetricWeights(multiVariateMetric->GetNumberOfMetrics());
   MultiMetricType::WeightValueType  weightSum = 0;
-  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++)
+  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); ++n)
   {
     origMetricWeights[n] = static_cast<MultiMetricType::WeightValueType>(n + 1);
     weightSum += origMetricWeights[n];
@@ -88,7 +88,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   // Test GetDerivative
   MultiMetricType::DerivativeType ResultOfGetDerivative;
   multiVariateMetric->GetDerivative(ResultOfGetDerivative);
-  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); ++p)
   {
     // When accumulation is done accross multiple threads, the accumulations can be done
     // in different orders resulting in slightly different numerical results.
@@ -131,7 +131,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   MultiMetricType::DerivativeValueType totalMagnitude =
     itk::NumericTraits<MultiMetricType::DerivativeValueType>::ZeroValue();
 
-  for (itk::SizeValueType i = 0; i < multiVariateMetric->GetNumberOfMetrics(); i++)
+  for (itk::SizeValueType i = 0; i < multiVariateMetric->GetNumberOfMetrics(); ++i)
   {
     std::cout << "GetValueAndDerivative on component metrics" << std::endl;
     multiVariateMetric->GetMetricQueue()[i]->GetValueAndDerivative(metricValue, metricDerivative);
@@ -148,7 +148,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
       testStatus = EXIT_FAILURE;
     }
     weightedMetricValue += metricValue * origMetricWeights[i] / weightSum;
-    for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+    for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); ++p)
     {
       DerivResultOfGetValueAndDerivativeTruth[p] +=
         metricDerivative[p] * (origMetricWeights[i] / weightSum) / metricDerivative.magnitude();
@@ -156,7 +156,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
     totalMagnitude += metricDerivative.magnitude();
   }
   totalMagnitude /= multiVariateMetric->GetNumberOfMetrics();
-  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); ++p)
   {
     DerivResultOfGetValueAndDerivativeTruth[p] *= totalMagnitude;
   }
@@ -168,7 +168,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
     testStatus = EXIT_FAILURE;
   }
 
-  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); p++)
+  for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); ++p)
   {
     auto tolerance = static_cast<MultiMetricType::DerivativeValueType>(1e-6);
     if (std::fabs(DerivResultOfGetValueAndDerivativeTruth[p] - DerivResultOfGetValueAndDerivative[p]) > tolerance)
@@ -325,7 +325,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
     return EXIT_FAILURE;
   }
   multiVariateMetric->SetMovingTransform(nullptr);
-  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++)
+  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); ++n)
   {
     if (multiVariateMetric->GetMovingTransform() != nullptr ||
         multiVariateMetric->GetMetricQueue()[n]->GetMovingTransform() != nullptr)
@@ -338,7 +338,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
     }
   }
   multiVariateMetric->SetMovingTransform(transform);
-  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); n++)
+  for (itk::SizeValueType n = 0; n < multiVariateMetric->GetNumberOfMetrics(); ++n)
   {
     if (multiVariateMetric->GetMovingTransform() != transform.GetPointer() ||
         multiVariateMetric->GetMetricQueue()[0]->GetMovingTransform() != transform.GetPointer())
@@ -400,7 +400,7 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   movingPoints->Initialize();
 
   PointSetType::PointType point;
-  for (itk::SizeValueType n = 0; n < 100; n++)
+  for (itk::SizeValueType n = 0; n < 100; ++n)
   {
     point[0] = n * 1.0;
     point[1] = n * 2.0;

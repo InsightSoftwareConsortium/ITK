@@ -122,7 +122,7 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   outputFile << "Histogram of the red component" << std::endl;
 
-  for (unsigned int bin = 0; bin < histogramSize; bin++)
+  for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
     outputFile << histogram->GetFrequency(bin, channel) << std::endl;
@@ -150,7 +150,7 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   outputFile << "Histogram of the green component" << std::endl;
 
-  for (unsigned int bin = 0; bin < histogramSize; bin++)
+  for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
     outputFile << histogram->GetFrequency(bin, channel) << std::endl;
@@ -178,7 +178,7 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   outputFile << "Histogram of the blue component" << std::endl;
 
-  for (unsigned int bin = 0; bin < histogramSize; bin++)
+  for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
     outputFile << histogram->GetFrequency(bin, channel) << std::endl;

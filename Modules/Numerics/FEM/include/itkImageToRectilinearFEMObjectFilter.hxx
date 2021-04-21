@@ -177,10 +177,10 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
   }
 
   int gn = 0; // number of node
-  for (typename ImageSizeType::SizeValueType j = 0; j <= m_NumberOfElements[1]; j++)
+  for (typename ImageSizeType::SizeValueType j = 0; j <= m_NumberOfElements[1]; ++j)
   {
     nodeIndex[1] = j * m_PixelsPerElement[1];
-    for (typename ImageSizeType::SizeValueType i = 0; i <= m_NumberOfElements[0]; i++)
+    for (typename ImageSizeType::SizeValueType i = 0; i <= m_NumberOfElements[0]; ++i)
     {
       nodeIndex[0] = i * m_PixelsPerElement[0];
       image->TransformIndexToPhysicalPoint(nodeIndex, nodePoint);
@@ -198,9 +198,9 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
   // Create elements
   gn = 0; // global number of the element
   Element2DC0LinearQuadrilateral::Pointer e;
-  for (unsigned int j = 0; j < m_NumberOfElements[1]; j++)
+  for (unsigned int j = 0; j < m_NumberOfElements[1]; ++j)
   {
-    for (unsigned int i = 0; i < m_NumberOfElements[0]; i++)
+    for (unsigned int i = 0; i < m_NumberOfElements[0]; ++i)
     {
       e = dynamic_cast<Element2DC0LinearQuadrilateral *>(m_Element->CreateAnother().GetPointer());
       e->SetNode(0, femObject->GetNode((unsigned int)(i + (m_NumberOfElements[0] + 1) * j)));
@@ -274,11 +274,11 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
   // Create elements
   gn = 0; // global number of the element
   itk::fem::Element3DC0LinearHexahedron::Pointer e;
-  for (unsigned int k = 0; k < m_NumberOfElements[2]; k++)
+  for (unsigned int k = 0; k < m_NumberOfElements[2]; ++k)
   {
-    for (unsigned int j = 0; j < m_NumberOfElements[1]; j++)
+    for (unsigned int j = 0; j < m_NumberOfElements[1]; ++j)
     {
-      for (unsigned int i = 0; i < m_NumberOfElements[0]; i++)
+      for (unsigned int i = 0; i < m_NumberOfElements[0]; ++i)
       {
         e = dynamic_cast<Element3DC0LinearHexahedron *>(m_Element->CreateAnother().GetPointer());
         e->SetNode(

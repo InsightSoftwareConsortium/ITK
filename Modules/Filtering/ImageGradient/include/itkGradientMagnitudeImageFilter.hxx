@@ -114,7 +114,7 @@ GradientMagnitudeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerate
   // Set up operators
   DerivativeOperator<RealType, ImageDimension> op[ImageDimension];
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     // The operator has default values for its direction (0) and its order (1).
     op[i].CreateDirectional();

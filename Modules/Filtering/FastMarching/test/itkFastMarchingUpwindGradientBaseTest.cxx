@@ -150,7 +150,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
     tempIndex = iterator.GetIndex();
     tempIndex -= offset0;
     distance = 0.0;
-    for (int j = 0; j < 2; j++)
+    for (int j = 0; j < 2; ++j)
     {
       distance += tempIndex[j] * tempIndex[j];
     }
@@ -170,7 +170,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
     // and must be oriented radially from the seed point
 
     double dot = 0.0;
-    for (int j = 0; j < 2; j++)
+    for (int j = 0; j < 2; ++j)
     {
       dot += tempIndex[j] / distance * outputPixel[j];
     }

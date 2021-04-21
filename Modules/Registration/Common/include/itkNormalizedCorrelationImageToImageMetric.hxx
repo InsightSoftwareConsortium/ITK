@@ -264,11 +264,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
-      for (unsigned int par = 0; par < ParametersDimension; par++)
+      for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
         RealType sumF = NumericTraits<RealType>::ZeroValue();
         RealType sumM = NumericTraits<RealType>::ZeroValue();
-        for (unsigned int dim = 0; dim < dimension; dim++)
+        for (unsigned int dim = 0; dim < dimension; ++dim)
         {
           const RealType differential = jacobian(dim, par) * gradient[dim];
           sumF += fixedValue * differential;
@@ -298,14 +298,14 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivativ
 
   if (this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] = (derivativeF[i] - (sfm / smm) * derivativeM[i]) / denom;
     }
   }
   else
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] = NumericTraits<MeasureType>::ZeroValue();
     }
@@ -452,11 +452,11 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
       mappedIndex.CopyWithRound(tempIndex);
 
       const GradientPixelType gradient = this->GetGradientImage()->GetPixel(mappedIndex);
-      for (unsigned int par = 0; par < ParametersDimension; par++)
+      for (unsigned int par = 0; par < ParametersDimension; ++par)
       {
         RealType sumF = NumericTraits<RealType>::ZeroValue();
         RealType sumM = NumericTraits<RealType>::ZeroValue();
-        for (unsigned int dim = 0; dim < dimension; dim++)
+        for (unsigned int dim = 0; dim < dimension; ++dim)
         {
           const RealType differential = jacobian(dim, par) * gradient[dim];
           sumF += fixedValue * differential;
@@ -485,7 +485,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
 
   if (this->m_NumberOfPixelsCounted > 0 && denom != 0.0)
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] = (derivativeF[i] - (sfm / smm) * derivativeM[i]) / denom;
     }
@@ -493,7 +493,7 @@ NormalizedCorrelationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndD
   }
   else
   {
-    for (unsigned int i = 0; i < ParametersDimension; i++)
+    for (unsigned int i = 0; i < ParametersDimension; ++i)
     {
       derivative[i] = NumericTraits<MeasureType>::ZeroValue();
     }

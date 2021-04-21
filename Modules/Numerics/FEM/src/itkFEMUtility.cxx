@@ -75,7 +75,7 @@ GaussIntegrate::Integrate(double (*f)(double), double a, double b, int n)
     ibase = (n * n - 1) / 4;
     sum = w[ibase + m] * (*f)((a + b) / two);
   }
-  for (i = 1; i <= m; i++)
+  for (i = 1; i <= m; ++i)
   {
     t = z[ibase + i - 1];
     tl = (a * (one + t) + (one - t) * b) / two;

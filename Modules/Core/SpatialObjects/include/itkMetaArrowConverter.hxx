@@ -49,7 +49,7 @@ MetaArrowConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType 
   const double *                         metaDirection = metaArrow->Direction();
   typename SpatialObjectType::PointType  positionInObjectSpace;
   typename SpatialObjectType::VectorType directionInObjectSpace;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     positionInObjectSpace[i] = metaPosition[i];
     directionInObjectSpace[i] = metaDirection[i];
@@ -95,7 +95,7 @@ MetaArrowConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTy
   double                                 metaDirection[NDimensions];
   typename SpatialObjectType::PointType  spPositionInObjectSpace = arrowSO->GetPositionInObjectSpace();
   typename SpatialObjectType::VectorType spDirectionInObjectSpace = arrowSO->GetDirectionInObjectSpace();
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     metaPosition[i] = spPositionInObjectSpace[i];
     metaDirection[i] = spDirectionInObjectSpace[i];

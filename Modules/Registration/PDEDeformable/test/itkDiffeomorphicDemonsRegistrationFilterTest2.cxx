@@ -172,7 +172,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   std::cout << "Max. kernel width: " << registrator->GetMaximumKernelWidth() << std::endl;
 
   double v[ImageDimension];
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     v[j] = registrator->GetStandardDeviations()[j];
   }

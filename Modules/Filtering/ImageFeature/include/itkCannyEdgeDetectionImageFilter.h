@@ -152,7 +152,7 @@ public:
   void
   SetVariance(const typename ArrayType::ValueType v)
   {
-    for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+    for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
     {
       if (Math::NotExactlyEquals(m_Variance[i], v))
       {
@@ -168,7 +168,7 @@ public:
   void
   SetMaximumError(const typename ArrayType::ValueType v)
   {
-    for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+    for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
     {
       if (Math::NotExactlyEquals(m_MaximumError[i], v))
       {

@@ -144,11 +144,11 @@ itkImageToListSampleAdaptorTestTemplate()
 
   typename ImageToListSampleAdaptorType::InstanceIdentifier iid;
 
-  for (unsigned int i = 0; i < size[2]; i++)
+  for (unsigned int i = 0; i < size[2]; ++i)
   {
-    for (unsigned int j = 0; j < size[1]; j++)
+    for (unsigned int j = 0; j < size[1]; ++j)
     {
-      for (unsigned int k = 0; k < size[0]; k++)
+      for (unsigned int k = 0; k < size[0]; ++k)
       {
         index[0] = k;
         index[1] = j;

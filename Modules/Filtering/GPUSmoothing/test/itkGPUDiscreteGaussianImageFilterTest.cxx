@@ -61,7 +61,7 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
   float variance = 4.0;
 
   // test 1~8 threads for CPU
-  for (int nThreads = 1; nThreads <= 8; nThreads++)
+  for (int nThreads = 1; nThreads <= 8; ++nThreads)
   {
     typename CPUFilterType::Pointer CPUFilter = CPUFilterType::New();
 

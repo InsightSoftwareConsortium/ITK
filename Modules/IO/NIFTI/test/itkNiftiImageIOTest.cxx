@@ -135,7 +135,7 @@ itkNiftiImageIOTest(int ac, char * av[])
     // Enable old behavior of NIFTI reader
     imageIO->SetLegacyAnalyze75Mode(itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4);
 
-    for (int imagenameindex = 1; imagenameindex < ac; imagenameindex++)
+    for (int imagenameindex = 1; imagenameindex < ac; ++imagenameindex)
     {
       auto fileName = std::string(av[imagenameindex]);
 

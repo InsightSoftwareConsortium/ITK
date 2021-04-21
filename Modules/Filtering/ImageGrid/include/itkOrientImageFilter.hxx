@@ -212,11 +212,11 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   // axis of whatever spatial interpretation, and 2 is the highest order axis.
   //  Perhaps rename them moving_image_reader_axis_i, etc.
 
-  for (unsigned int i = 0; i < NumDims - 1; i++)
+  for (unsigned int i = 0; i < NumDims - 1; ++i)
   {
     if ((fixed_codes[i] & CodeAxisField) != (moving_codes[i] & CodeAxisField))
     {
-      for (unsigned int j = 0; j < NumDims; j++)
+      for (unsigned int j = 0; j < NumDims; ++j)
       {
         if ((moving_codes[i] & CodeAxisField) == (fixed_codes[j] & CodeAxisField))
         {
@@ -235,7 +235,7 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
           else
           {
             // Need to work out an (i j k) cyclic permutation
-            for (unsigned int k = 0; k < NumDims; k++)
+            for (unsigned int k = 0; k < NumDims; ++k)
             {
               if ((moving_codes[j] & CodeAxisField) == (fixed_codes[k] & CodeAxisField))
               {
@@ -255,7 +255,7 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
     }
   }
 
-  for (unsigned int i = 0; i < NumDims; i++)
+  for (unsigned int i = 0; i < NumDims; ++i)
   {
     const unsigned int j = m_PermuteOrder[i];
     if ((moving_codes[j] & CodeAxisIncreasingField) != (fixed_codes[i] & CodeAxisIncreasingField))
@@ -271,7 +271,7 @@ OrientImageFilter<TInputImage, TOutputImage>::SetGivenCoordinateOrientation(Coor
 {
   m_GivenCoordinateOrientation = newCode;
 
-  for (unsigned int j = 0; j < InputImageDimension; j++)
+  for (unsigned int j = 0; j < InputImageDimension; ++j)
   {
     m_PermuteOrder[j] = j;
   }
@@ -289,7 +289,7 @@ OrientImageFilter<TInputImage, TOutputImage>::SetDesiredCoordinateOrientation(Co
   {
     m_DesiredCoordinateOrientation = newCode;
 
-    for (unsigned int j = 0; j < InputImageDimension; j++)
+    for (unsigned int j = 0; j < InputImageDimension; ++j)
     {
       m_PermuteOrder[j] = j;
     }
@@ -305,7 +305,7 @@ template <typename TInputImage, typename TOutputImage>
 bool
 OrientImageFilter<TInputImage, TOutputImage>::NeedToPermute()
 {
-  for (unsigned int j = 0; j < InputImageDimension; j++)
+  for (unsigned int j = 0; j < InputImageDimension; ++j)
   {
     if (m_PermuteOrder[j] != j)
     {
@@ -319,7 +319,7 @@ template <typename TInputImage, typename TOutputImage>
 bool
 OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
 {
-  for (unsigned int j = 0; j < InputImageDimension; j++)
+  for (unsigned int j = 0; j < InputImageDimension; ++j)
   {
     if (m_FlipAxes[j])
     {
@@ -451,9 +451,9 @@ DumpDirections(const std::string & prompt, const typename ImageType::Pointer & i
   const typename ImageType::DirectionType & dir = image->GetDirection();
   std::cerr << prompt << " " << SO_OrientationToString(itk::SpatialOrientationAdapter().FromDirectionCosines(dir))
             << std::endl;
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
-    for (unsigned j = 0; j < 3; j++)
+    for (unsigned j = 0; j < 3; ++j)
     {
       std::cerr << dir[i][j] << " ";
     }
@@ -500,7 +500,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
     permute->SetOrder(m_PermuteOrder);
     permute->ReleaseDataFlagOn();
     DEBUG_EXECUTE(std::cerr << "Permute Axes: ";
-                  for (unsigned i = 0; i < 3; i++) { std::cerr << m_PermuteOrder[i] << " "; } std::cerr << std::endl;
+                  for (unsigned i = 0; i < 3; ++i) { std::cerr << m_PermuteOrder[i] << " "; } std::cerr << std::endl;
                   permute->Update();
                   DumpDirections<TInputImage>("after permute", permute->GetOutput());)
     flipInput = permute->GetOutput();
@@ -517,7 +517,7 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
     flip->FlipAboutOriginOff();
     flip->ReleaseDataFlagOn();
     DEBUG_EXECUTE(std::cerr << "Flip Axes: ";
-                  for (unsigned i = 0; i < 3; i++) { std::cerr << m_FlipAxes[i] << " "; } std::cerr << std::endl;
+                  for (unsigned i = 0; i < 3; ++i) { std::cerr << m_FlipAxes[i] << " "; } std::cerr << std::endl;
                   flip->Update();
                   DumpDirections<TInputImage>("after flip", flip->GetOutput());)
     castInput = flip->GetOutput();

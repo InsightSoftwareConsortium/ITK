@@ -79,7 +79,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 
   // Test itkSetVectorMacro
   double varianceVector[HessianGaussianImageFunctionType::VarianceArrayType::Length];
-  for (unsigned int i = 0; i < HessianGaussianImageFunctionType::VarianceArrayType::Length; i++)
+  for (unsigned int i = 0; i < HessianGaussianImageFunctionType::VarianceArrayType::Length; ++i)
   {
     varianceVector[i] = varianceValue;
   }

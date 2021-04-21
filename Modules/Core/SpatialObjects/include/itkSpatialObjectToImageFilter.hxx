@@ -34,7 +34,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SpatialObjectToIm
   m_Size.Fill(0);
   m_Direction.SetIdentity();
 
-  for (unsigned int i = 0; i < OutputImageDimension; i++)
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0.;
@@ -87,7 +87,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
 {
   unsigned int i;
 
-  for (i = 0; i < TOutputImage::ImageDimension; i++)
+  for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]))
     {
@@ -96,7 +96,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
   }
   if (i < TOutputImage::ImageDimension)
   {
-    for (i = 0; i < TOutputImage::ImageDimension; i++)
+    for (i = 0; i < TOutputImage::ImageDimension; ++i)
     {
       if (spacing[i] != 0)
       {
@@ -114,7 +114,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(spacing[i], m_Spacing[i]))
     {
@@ -123,7 +123,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       if (spacing[i] != 0)
       {
@@ -140,7 +140,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]))
     {
@@ -149,7 +149,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       if (spacing[i] != 0)
       {
@@ -174,7 +174,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const P
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)origin[i], m_Origin[i]))
     {
@@ -183,7 +183,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const P
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       m_Origin[i] = origin[i];
     }
@@ -198,7 +198,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const d
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(origin[i], m_Origin[i]))
     {
@@ -207,7 +207,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const d
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       m_Origin[i] = origin[i];
     }
@@ -221,7 +221,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const f
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)origin[i], m_Origin[i]))
     {
@@ -230,7 +230,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const f
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       m_Origin[i] = origin[i];
     }
@@ -278,7 +278,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
   SizeType size;
 
   InputObject->ComputeFamilyBoundingBox(m_ChildrenDepth);
-  for (i = 0; i < ObjectDimension; i++)
+  for (i = 0; i < ObjectDimension; ++i)
   {
     size[i] = static_cast<SizeValueType>(InputObject->GetFamilyBoundingBoxInWorldSpace()->GetMaximum()[i] -
                                          InputObject->GetFamilyBoundingBoxInWorldSpace()->GetMinimum()[i]);
@@ -294,7 +294,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
   // object's bounding box will be used as default.
 
   bool specified = false;
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (m_Size[i] != 0)
     {
@@ -334,7 +334,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
   {
     // ValueAtInWorldSpace requires the point to be in physical coordinate i.e
     OutputImage->TransformIndexToPhysicalPoint(it.GetIndex(), imagePoint);
-    for (i = 0; i < ObjectDimension; i++)
+    for (i = 0; i < ObjectDimension; ++i)
     {
       objectPoint[i] = imagePoint[i];
     }

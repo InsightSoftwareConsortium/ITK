@@ -83,7 +83,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   typename ImageType::Pointer image = this->GetOutput();
   const SpacingType &         imageSpacing = image->GetSpacing();
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     this->m_PixelsPerElement[i] = elementSpacing[i] / imageSpacing[i];
   }
@@ -110,7 +110,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   itkDebugMacro("Direction: " << this->m_Direction);
 
   // error checking
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (this->m_Size[i] == 0)
     {
@@ -215,10 +215,10 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   typename ImageType::PointType pointCoordinate;
   int                           globalNumbering = 0;
 
-  for (float j = 0; j <= m_NumberOfElements[1]; j++)
+  for (float j = 0; j <= m_NumberOfElements[1]; ++j)
   {
     pointIndex[1] = j * m_PixelsPerElement[1];
-    for (float i = 0; i <= m_NumberOfElements[0]; i++)
+    for (float i = 0; i <= m_NumberOfElements[0]; ++i)
     {
       pointIndex[0] = i * m_PixelsPerElement[0];
       image->TransformContinuousIndexToPhysicalPoint(pointIndex, pointCoordinate);
@@ -232,9 +232,9 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   // create elements
   globalNumbering = 0;
 
-  for (unsigned int j = 0; j < this->m_NumberOfElements[1]; j++)
+  for (unsigned int j = 0; j < this->m_NumberOfElements[1]; ++j)
   {
-    for (unsigned int i = 0; i < this->m_NumberOfElements[0]; i++)
+    for (unsigned int i = 0; i < this->m_NumberOfElements[0]; ++i)
     {
       CellAutoPointer cell;
       cell.TakeOwnership(new QuadrilateralType);
@@ -281,13 +281,13 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   typename ImageType::PointType pointCoordinate;
 
   int globalNumbering = 0;
-  for (float k = 0; k <= m_NumberOfElements[2]; k++)
+  for (float k = 0; k <= m_NumberOfElements[2]; ++k)
   {
     pointIndex[2] = k * m_PixelsPerElement[2];
-    for (float j = 0; j <= m_NumberOfElements[1]; j++)
+    for (float j = 0; j <= m_NumberOfElements[1]; ++j)
     {
       pointIndex[1] = j * m_PixelsPerElement[1];
-      for (float i = 0; i <= m_NumberOfElements[0]; i++)
+      for (float i = 0; i <= m_NumberOfElements[0]; ++i)
       {
         pointIndex[0] = i * m_PixelsPerElement[0];
         image->TransformContinuousIndexToPhysicalPoint(pointIndex, pointCoordinate);
@@ -300,11 +300,11 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   // create elements
   globalNumbering = 0;
-  for (unsigned int k = 0; k < m_NumberOfElements[2]; k++)
+  for (unsigned int k = 0; k < m_NumberOfElements[2]; ++k)
   {
-    for (unsigned int j = 0; j < m_NumberOfElements[1]; j++)
+    for (unsigned int j = 0; j < m_NumberOfElements[1]; ++j)
     {
-      for (unsigned int i = 0; i < m_NumberOfElements[0]; i++)
+      for (unsigned int i = 0; i < m_NumberOfElements[0]; ++i)
       {
         CellAutoPointer cell;
         cell.TakeOwnership(new HexahedronType);
@@ -426,7 +426,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   // initialize nodes
   while (it != meshPoints->End())
   {
-    for (unsigned i = 0; i < ImageDimension; i++)
+    for (unsigned i = 0; i < ImageDimension; ++i)
     {
       point[i] = it.Value()[i];
     }
@@ -648,7 +648,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
   while (it != featurePoints->End())
   {
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       point[i] = it.Value()[i];
       displacement[i] = displacementIt.Value()[i];
@@ -667,9 +667,9 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
     if (this->m_TensorPointSet.IsNotNull())
     {
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           tensor[i][j] = tensorIt.Value()[i][j];
         }
@@ -715,7 +715,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
     output->TransformIndexToPhysicalPoint(iter.GetIndex(), point);
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       globalPoint[d] = point[d];
     }
@@ -724,7 +724,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
     if (element.IsNull())
     {
-      for (unsigned i = 0; i < ImageDimension; i++)
+      for (unsigned i = 0; i < ImageDimension; ++i)
       {
         displacement[i] = 0.0;
       }
@@ -755,7 +755,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         simulatedDisplacement += shape[m] * nodeSolution;
       }
 
-      for (unsigned i = 0; i < ImageDimension; i++)
+      for (unsigned i = 0; i < ImageDimension; ++i)
       {
         displacement[i] = simulatedDisplacement[i];
       }

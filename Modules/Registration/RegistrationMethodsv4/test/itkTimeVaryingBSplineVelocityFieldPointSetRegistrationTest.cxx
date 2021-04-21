@@ -49,7 +49,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   // two circles with a small offset
   PointType offset;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     offset[d] = 2.0;
   }
@@ -164,13 +164,13 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   transformDomainSpacing.Fill(1.0);
   transformDomainSize.Fill(10);
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     transformDomainOrigin[i] = fixedImageOrigin[i];
     transformDomainMeshSize[i] = 8;
     transformDomainSpacing[i] = fixedImageSpacing[i];
     transformDomainSize[i] = fixedImageSize[i];
-    for (unsigned int j = 0; j < Dimension; j++)
+    for (unsigned int j = 0; j < Dimension; ++j)
     {
       transformDomainDirection[i][j] = fixedImageDirection[i][j];
     }
@@ -207,12 +207,12 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   velocityFieldSize.Fill(velocityFieldRegistration->GetNumberOfTimePointSamples());
   velocityFieldDirection.SetIdentity();
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     velocityFieldOrigin[i] = fixedImage->GetOrigin()[i];
     velocityFieldSpacing[i] = fixedImage->GetSpacing()[i];
     velocityFieldSize[i] = fixedImage->GetRequestedRegion().GetSize()[i];
-    for (unsigned int j = 0; j < Dimension; j++)
+    for (unsigned int j = 0; j < Dimension; ++j)
     {
       velocityFieldDirection[i][j] = fixedImage->GetDirection()[i][j];
     }
@@ -227,7 +227,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   VelocityFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
-  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); level++)
+  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); ++level)
   {
     using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
     ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
@@ -248,7 +248,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
     fixedImageSpacing = shrinkFilter->GetOutput()->GetSpacing();
     fixedImageDirection = shrinkFilter->GetOutput()->GetDirection();
 
-    for (unsigned int i = 0; i < Dimension; i++)
+    for (unsigned int i = 0; i < Dimension; ++i)
     {
       velocityFieldSize[i] = fixedImageSize[i];
       velocityFieldOrigin[i] = fixedImageOrigin[i];
@@ -256,7 +256,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
       transformDomainMeshSize[i] <<= 1;
 
-      for (unsigned int j = 0; j < Dimension; j++)
+      for (unsigned int j = 0; j < Dimension; ++j)
       {
         velocityFieldDirection[i][j] = fixedImageDirection[i][j];
       }
@@ -290,7 +290,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   PointType::ValueType tolerance = 0.55;
 
   float averageError = 0.0;
-  for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); n++)
+  for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)
   {
     // compare the points in virtual domain
     PointType transformedMovingPoint =

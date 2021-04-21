@@ -33,7 +33,7 @@ itkMalcolmSparseLevelSetImageTest(int, char *[])
   LabelMapType::Pointer labelMap = LabelMapType::New();
   labelMap->SetBackgroundValue(1);
 
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; ++i)
   {
     ++index[1];
     labelMap->SetPixel(index, -1);

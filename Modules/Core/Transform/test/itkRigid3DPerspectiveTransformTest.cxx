@@ -45,7 +45,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;
 
-    for (unsigned int i = 0; i < N; i++)
+    for (unsigned int i = 0; i < N; ++i)
     {
       if (std::fabs(offset[i] - 0.0) > epsilon)
       {
@@ -74,7 +74,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     std::cout << "pure Translation test:  ";
     std::cout << offset << std::endl;
 
-    for (unsigned int i = 0; i < N; i++)
+    for (unsigned int i = 0; i < N; ++i)
     {
       if (std::fabs(offset[i] - ioffset[i]) > epsilon)
       {
@@ -100,7 +100,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = translation->TransformPoint(p);
-      for (unsigned int i = 0; i < N - 1; i++)
+      for (unsigned int i = 0; i < N - 1; ++i)
       {
         if (std::fabs(s[i] - r[i]) > epsilon)
         {
@@ -159,7 +159,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = rigid->TransformPoint(p);
-      for (unsigned int i = 0; i < N - 1; i++)
+      for (unsigned int i = 0; i < N - 1; ++i)
       {
         if (std::fabs(s[i] - r[i]) > epsilon)
         {

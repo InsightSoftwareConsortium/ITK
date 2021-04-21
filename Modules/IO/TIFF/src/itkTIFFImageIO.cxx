@@ -151,7 +151,7 @@ TIFFImageIO::ReadVolume(void * buffer)
   const size_t width{ m_InternalImage->m_Width };
   const size_t height{ m_InternalImage->m_Height };
 
-  for (uint16 page = 0; page < m_InternalImage->m_NumberOfPages; page++)
+  for (uint16 page = 0; page < m_InternalImage->m_NumberOfPages; ++page)
   {
     if (m_InternalImage->m_IgnoredSubFiles > 0)
     {
@@ -647,7 +647,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
   {
     TIFFCreateDirectory(tif);
   }
-  for (page = 0; page < pages; page++)
+  for (page = 0; page < pages; ++page)
   {
     TIFFSetDirectory(tif, page);
     TIFFSetField(tif, TIFFTAG_IMAGEWIDTH, w);
@@ -673,7 +673,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       uint16 extra_samples = scomponents - 3;
       auto * sample_info = new uint16[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
-      for (uint16 cc = 1; cc < scomponents - 3; cc++)
+      for (uint16 cc = 1; cc < scomponents - 3; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }
@@ -820,7 +820,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
     rowLength *= width;
 
     uint32 row = 0;
-    for (unsigned int idx2 = 0; idx2 < height; idx2++)
+    for (unsigned int idx2 = 0; idx2 < height; ++idx2)
     {
       if (TIFFWriteScanline(tif, const_cast<char *>(outPtr), row, 0) < 0)
       {

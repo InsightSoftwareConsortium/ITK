@@ -46,20 +46,20 @@ MultiphaseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, 
     unsigned int i;
     if (m_UseImageSpacing)
     {
-      for (i = 0; i < ImageDimension; i++)
+      for (i = 0; i < ImageDimension; ++i)
       {
         coeffs[i] = 1.0 / m_LevelSet[0]->GetSpacing()[i];
       }
     }
     else
     {
-      for (i = 0; i < ImageDimension; i++)
+      for (i = 0; i < ImageDimension; ++i)
       {
         coeffs[i] = 1.0;
       }
     }
 
-    for (IdCellType id = 0; id < this->m_FunctionCount; id++)
+    for (IdCellType id = 0; id < this->m_FunctionCount; ++id)
     {
       this->m_DifferenceFunctions[id]->SetScaleCoefficients(coeffs);
     }

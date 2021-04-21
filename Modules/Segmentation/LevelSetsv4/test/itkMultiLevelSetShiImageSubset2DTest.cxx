@@ -143,7 +143,7 @@ itkMultiLevelSetShiImageSubset2DTest(int, char *[])
 
   input->TransformPhysicalPointToIndex(binary->GetOrigin(), index);
   InputImageType::OffsetType offset;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     offset[i] = index[i];
   }

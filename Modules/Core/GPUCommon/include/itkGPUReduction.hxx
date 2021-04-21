@@ -188,7 +188,7 @@ GPUReduction<TElement>::RandomTest()
   unsigned int bytes = size * sizeof(TElement);
   auto *       h_idata = (TElement *)malloc(bytes);
 
-  for (int i = 0; i < size; i++)
+  for (int i = 0; i < size; ++i)
   {
     // Keep the numbers small so we don't get truncation error in the sum
     h_idata[i] = (TElement)(rand() & 0xFF);
@@ -340,7 +340,7 @@ GPUReduction<TElement>::GPUReduce(cl_int         n,
   std::cout << "CPU_VERIFY sum = " << CPUSum << std::endl;
 #endif
 
-  for (int i = 0; i < numBlocks; i++)
+  for (int i = 0; i < numBlocks; ++i)
   {
     gpu_result += h_odata[i];
   }
@@ -357,7 +357,7 @@ GPUReduction<TElement>::CPUGenerateData(TElement * data, int size)
 {
   TElement sum = data[0];
   //     TElement c = (TElement)0.0;
-  for (int i = 1; i < size; i++)
+  for (int i = 1; i < size; ++i)
   {
     // TODO consider using compensated sum algorithm
 

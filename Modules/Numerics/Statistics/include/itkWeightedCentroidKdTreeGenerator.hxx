@@ -66,10 +66,10 @@ WeightedCentroidKdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int  
   MeasurementVectorType tempVector;
   weightedCentroid.Fill(NumericTraits<MeasurementType>::ZeroValue());
 
-  for (i = beginIndex; i < endIndex; i++)
+  for (i = beginIndex; i < endIndex; ++i)
   {
     tempVector = subsample->GetMeasurementVectorByIndex(i);
-    for (j = 0; j < this->GetMeasurementVectorSize(); j++)
+    for (j = 0; j < this->GetMeasurementVectorSize(); ++j)
     {
       weightedCentroid[j] += tempVector[j];
     }
@@ -80,7 +80,7 @@ WeightedCentroidKdTreeGenerator<TSample>::GenerateNonterminalNode(unsigned int  
     this->GetSubsample(), beginIndex, endIndex, m_TempLowerBound, m_TempUpperBound, m_TempMean);
 
   maxSpread = NumericTraits<MeasurementType>::NonpositiveMin();
-  for (i = 0; i < this->GetMeasurementVectorSize(); i++)
+  for (i = 0; i < this->GetMeasurementVectorSize(); ++i)
   {
     spread = m_TempUpperBound[i] - m_TempLowerBound[i];
     if (spread >= maxSpread)

@@ -48,7 +48,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Prin
   Superclass::PrintSelf(os, indent);
   os << indent << "Input aux image: [";
   unsigned int j;
-  for (j = 0; j + 1 < VAuxDimension; j++)
+  for (j = 0; j + 1 < VAuxDimension; ++j)
   {
     os << m_AuxImage[j].GetPointer() << ", ";
   }
@@ -89,7 +89,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
   AuxValueType       auxPixel;
   AuxValueVectorType auxVector;
 
-  for (unsigned int k = 0; k < VAuxDimension; k++)
+  for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     auxPixel = m_AuxImage[k]->GetPixel(index);
     centerValue[k] = (double)auxPixel;
@@ -98,7 +98,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
   // if distance is zero, insert point in inside container
   if (this->GetLastPointIsInside())
   {
-    for (unsigned int k = 0; k < VAuxDimension; k++)
+    for (unsigned int k = 0; k < VAuxDimension; ++k)
     {
       auxVector[k] = centerValue[k];
     }
@@ -112,7 +112,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
   double                        numer[VAuxDimension];
   typename Superclass::NodeType neighNode;
 
-  for (unsigned int k = 0; k < VAuxDimension; k++)
+  for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     numer[k] = 0.0;
   }
@@ -125,7 +125,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
   // of distance along the grid line to the zero set
   // crossing.
 
-  for (unsigned int j = 0; j < SetDimension; j++)
+  for (unsigned int j = 0; j < SetDimension; ++j)
   {
     neighNode = this->GetNodeUsedInCalculation(j);
     if (neighNode.GetValue() >= this->GetLargeValue())
@@ -134,14 +134,14 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
     }
 
     denom += 1.0 / itk::Math::sqr((double)neighNode.GetValue());
-    for (unsigned int k = 0; k < VAuxDimension; k++)
+    for (unsigned int k = 0; k < VAuxDimension; ++k)
     {
       auxPixel = m_AuxImage[k]->GetPixel(neighNode.GetIndex());
       numer[k] += (double)(auxPixel) / itk::Math::sqr((double)neighNode.GetValue());
     }
   }
 
-  for (unsigned int k = 0; k < VAuxDimension; k++)
+  for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     numer[k] /= denom;
     auxVector[k] = numer[k];

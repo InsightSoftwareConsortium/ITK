@@ -63,7 +63,7 @@ template <typename TInternalComputationValueType>
 double
 PowellOptimizerv4<TInternalComputationValueType>::GetLineValue(double x, ParametersType & tempCoord) const
 {
-  for (unsigned int i = 0; i < m_SpaceDimension; i++)
+  for (unsigned int i = 0; i < m_SpaceDimension; ++i)
   {
     tempCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
   }
@@ -93,7 +93,7 @@ template <typename TInternalComputationValueType>
 void
 PowellOptimizerv4<TInternalComputationValueType>::SetCurrentLinePoint(double x, double fx)
 {
-  for (unsigned int i = 0; i < m_SpaceDimension; i++)
+  for (unsigned int i = 0; i < m_SpaceDimension; ++i)
   {
     this->m_CurrentPosition[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
   }
@@ -261,7 +261,7 @@ PowellOptimizerv4<TInternalComputationValueType>::BracketedLineOptimize(double  
   functionValueOfX = functionValueOfV;
   functionValueOfW = functionValueOfV;
 
-  for (m_CurrentLineIteration = 0; m_CurrentLineIteration < m_MaximumLineIteration; m_CurrentLineIteration++)
+  for (m_CurrentLineIteration = 0; m_CurrentLineIteration < m_MaximumLineIteration; ++m_CurrentLineIteration)
   {
     double middle_range = (a + b) / 2;
 
@@ -445,7 +445,7 @@ PowellOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOn
     ibig = 0;
     del = 0.0;
 
-    for (unsigned int i = 0; i < m_SpaceDimension; i++)
+    for (unsigned int i = 0; i < m_SpaceDimension; ++i)
     {
       for (unsigned int j = 0; j < m_SpaceDimension; ++j)
       {
@@ -513,7 +513,7 @@ PowellOptimizerv4<TInternalComputationValueType>::StartOptimization(bool /* doOn
         this->SetCurrentLinePoint(xx, fx);
         p = this->GetCurrentPosition();
 
-        for (unsigned int j = 0; j < m_SpaceDimension; j++)
+        for (unsigned int j = 0; j < m_SpaceDimension; ++j)
         {
           xi[j][ibig] = xx * xit[j];
         }

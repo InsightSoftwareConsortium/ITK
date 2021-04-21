@@ -457,7 +457,7 @@ NrrdImageIO::ReadImageInformation()
       iFlipFactor = 1;
     }
 
-    for (unsigned int axii = 0; axii < domainAxisNum; axii++)
+    for (unsigned int axii = 0; axii < domainAxisNum; ++axii)
     {
       unsigned int naxi = domainAxisIdx[axii];
       this->SetDimensions(axii, static_cast<unsigned int>(nrrd->axis[naxi].size));
@@ -499,7 +499,7 @@ NrrdImageIO::ReadImageInformation()
             }
             this->SetSpacing(axii, spacing);
 
-            for (unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++)
+            for (unsigned int saxi = 0; saxi < nrrd->spaceDim; ++saxi)
             {
               spaceDirStd[saxi] = spaceDir[saxi];
             }
@@ -523,7 +523,7 @@ NrrdImageIO::ReadImageInformation()
       {
         // only set info if we have something to set
         double spaceOrigin[NRRD_SPACE_DIM_MAX];
-        for (unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++)
+        for (unsigned int saxi = 0; saxi < nrrd->spaceDim; ++saxi)
         {
           spaceOrigin[saxi] = nrrd->spaceOrigin[saxi];
         }
@@ -545,7 +545,7 @@ NrrdImageIO::ReadImageInformation()
             // to LPS is well-defined
             break;
         }
-        for (unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++)
+        for (unsigned int saxi = 0; saxi < nrrd->spaceDim; ++saxi)
         {
           this->SetOrigin(saxi, spaceOrigin[saxi]);
         }
@@ -555,7 +555,7 @@ NrrdImageIO::ReadImageInformation()
     {
       double spaceOrigin[NRRD_DIM_MAX];
       int    originStatus = nrrdOriginCalculate(nrrd, domainAxisIdx, domainAxisNum, nrrdCenterCell, spaceOrigin);
-      for (unsigned int saxi = 0; saxi < domainAxisNum; saxi++)
+      for (unsigned int saxi = 0; saxi < domainAxisNum; ++saxi)
       {
         switch (originStatus)
         {
@@ -586,7 +586,7 @@ NrrdImageIO::ReadImageInformation()
     thisDic.Clear();
     std::string classname(this->GetNameOfClass());
     EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
-    for (unsigned int kvpi = 0; kvpi < nrrdKeyValueSize(nrrd); kvpi++)
+    for (unsigned int kvpi = 0; kvpi < nrrdKeyValueSize(nrrd); ++kvpi)
     {
       nrrdKeyValueIndex(nrrd, &keyPtr, &valPtr, kvpi);
       EncapsulateMetaData<std::string>(thisDic, std::string(keyPtr), std::string(valPtr));
@@ -602,7 +602,7 @@ NrrdImageIO::ReadImageInformation()
     // on the on the Write() side, its always written to the fastest axis,
     // so we might was well go with consistent and idiomatic indexing.
     NrrdAxisInfo * naxis;
-    for (unsigned int axii = 0; axii < domainAxisNum; axii++)
+    for (unsigned int axii = 0; axii < domainAxisNum; ++axii)
     {
       unsigned int axi = domainAxisIdx[axii];
       naxis = nrrd->axis + axi;
@@ -679,10 +679,10 @@ NrrdImageIO::ReadImageInformation()
       // so that everything is consistent with the ITK LPS space directions
       // but only do this if we have a three dimensional space or smaller
 
-      for (unsigned int saxi = 0; saxi < domainAxisNum; saxi++)
+      for (unsigned int saxi = 0; saxi < domainAxisNum; ++saxi)
       {
         msrFrame[saxi].resize(domainAxisNum);
-        for (unsigned int saxj = 0; saxj < domainAxisNum; saxj++)
+        for (unsigned int saxj = 0; saxj < domainAxisNum; ++saxj)
         {
           if (domainAxisNum <= 3)
           {
@@ -748,7 +748,7 @@ NrrdImageIO::Read(void * buffer)
       nrrd->axis[0].size = this->GetNumberOfComponents();
     }
     nrrd->dim = baseDim + this->GetNumberOfDimensions();
-    for (unsigned int axi = 0; axi < this->GetNumberOfDimensions(); axi++)
+    for (unsigned int axi = 0; axi < this->GetNumberOfDimensions(); ++axi)
     {
       nrrd->axis[axi + baseDim].size = this->GetDimensions(axi);
     }
@@ -790,7 +790,7 @@ NrrdImageIO::Read(void * buffer)
     Nrrd *       ntmp = nrrdNew();
     unsigned int axmap[NRRD_DIM_MAX];
     axmap[0] = rangeAxisIdx[0];
-    for (unsigned int axi = 1; axi < nrrd->dim; axi++)
+    for (unsigned int axi = 1; axi < nrrd->dim; ++axi)
     {
       axmap[axi] = axi - (axi <= rangeAxisIdx[0]);
     }
@@ -814,7 +814,7 @@ NrrdImageIO::Read(void * buffer)
     {
       // we crop out the mask and put the output in ITK-allocated "buffer"
       size_t size[NRRD_DIM_MAX], minIdx[NRRD_DIM_MAX], maxIdx[NRRD_DIM_MAX];
-      for (unsigned int axi = 0; axi < nrrd->dim; axi++)
+      for (unsigned int axi = 0; axi < nrrd->dim; ++axi)
       {
         minIdx[axi] = (0 == axi) ? 1 : 0;
         maxIdx[axi] = nrrd->axis[axi].size - 1;
@@ -912,7 +912,7 @@ NrrdImageIO::Write(const void * buffer)
         break;
     }
     // the range axis has no space direction
-    for (unsigned int saxi = 0; saxi < spaceDim; saxi++)
+    for (unsigned int saxi = 0; saxi < spaceDim; ++saxi)
     {
       spaceDir[0][saxi] = AIR_NAN;
     }
@@ -925,14 +925,14 @@ NrrdImageIO::Write(const void * buffer)
   nrrdDim = baseDim + spaceDim;
   std::vector<double> spaceDirStd(spaceDim);
   unsigned int        axi;
-  for (axi = 0; axi < spaceDim; axi++)
+  for (axi = 0; axi < spaceDim; ++axi)
   {
     size[axi + baseDim] = this->GetDimensions(axi);
     kind[axi + baseDim] = nrrdKindDomain;
     origin[axi] = this->GetOrigin(axi);
     double spacing = this->GetSpacing(axi);
     spaceDirStd = this->GetDirection(axi);
-    for (unsigned int saxi = 0; saxi < spaceDim; saxi++)
+    for (unsigned int saxi = 0; saxi < spaceDim; ++saxi)
     {
       spaceDir[axi + baseDim][saxi] = spacing * spaceDirStd[saxi];
     }
@@ -1039,9 +1039,9 @@ NrrdImageIO::Write(const void * buffer)
       {
         std::vector<std::vector<double>> msrFrame;
         ExposeMetaData<std::vector<std::vector<double>>>(thisDic, *keyIt, msrFrame);
-        for (unsigned int saxi = 0; saxi < nrrd->spaceDim; saxi++)
+        for (unsigned int saxi = 0; saxi < nrrd->spaceDim; ++saxi)
         {
-          for (unsigned int saxj = 0; saxj < nrrd->spaceDim; saxj++)
+          for (unsigned int saxj = 0; saxj < nrrd->spaceDim; ++saxj)
           {
             if (saxi < msrFrame.size() && saxj < msrFrame[saxi].size())
             {

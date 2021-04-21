@@ -39,7 +39,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::MIRegistr
 
   RadiusType r;
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     r[j] = 2;
     m_NumberOfSamples *= (r[j] * 2 + 1);
@@ -116,7 +116,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
 
   unsigned int indct;
 
-  for (indct = 0; indct < ImageDimension; indct++)
+  for (indct = 0; indct < ImageDimension; ++indct)
   {
     update[indct] = 0.0;
     derivative[indct] = 0.0;
@@ -167,7 +167,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   {
     IndexType index = asamIt.GetIndex(indct);
     inimage = true;
-    for (unsigned int dd = 0; dd < ImageDimension; dd++)
+    for (unsigned int dd = 0; dd < ImageDimension; ++dd)
     {
       if (index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd] - 1))
       {
@@ -191,7 +191,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
 
       PointType mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         mappedPoint[j] += itvec[j];
       }
@@ -256,7 +256,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
       inimage = true;
 
       float d = 0.0;
-      for (unsigned int dd = 0; dd < ImageDimension; dd++)
+      for (unsigned int dd = 0; dd < ImageDimension; ++dd)
       {
         if (index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd] - 1))
         {
@@ -275,7 +275,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         fixedValue = (double)this->m_FixedImage->GetPixel(index);
         fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           fgm += fixedGradient[j] * fixedGradient[j];
         }
@@ -284,7 +284,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         const DeformationPixelType itvec = this->GetDisplacementField()->GetPixel(index);
         PointType                  mappedPoint;
         this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           mappedPoint[j] += itvec[j];
         }
@@ -319,7 +319,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
 
   const DisplacementFieldType * const field = this->GetDisplacementField();
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     hradius[j] = 0;
   }
@@ -332,7 +332,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
     const IndexType index = hoodIt.GetIndex(indct);
     inimage = true;
     float d = 0.0;
-    for (unsigned int dd = 0; dd < ImageDimension; dd++)
+    for (unsigned int dd = 0; dd < ImageDimension; ++dd)
     {
       if (index[dd] < 0 || index[dd] > static_cast<typename IndexType::IndexValueType>(imagesize[dd] - 1))
       {
@@ -354,7 +354,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
       const typename DisplacementFieldType::PixelType hooditvec = this->m_DisplacementField->GetPixel(index);
       PointType                                       mappedPoint;
       this->GetFixedImage()->TransformIndexToPhysicalPoint(index, mappedPoint);
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         mappedPoint[j] += hooditvec[j];
       }
@@ -390,7 +390,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
 
   bool mattes = false;
 
-  for (indct = 0; indct < (unsigned int)numsamplesA; indct++)
+  for (indct = 0; indct < (unsigned int)numsamplesA; ++indct)
   {
     // Get fixed image related information
     fixedValue = fixedSamplesA[indct];
@@ -430,7 +430,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   unsigned int asamples;
 
   // the B samples estimate the entropy
-  for (bsamples = 0; bsamples < (unsigned int)numsamplesB; bsamples++)
+  for (bsamples = 0; bsamples < (unsigned int)numsamplesB; ++bsamples)
   {
     double dDenominatorMoving = m_MinProbability;
     double dDenominatorJoint = m_MinProbability;
@@ -438,7 +438,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
     double dSumFixed = m_MinProbability;
 
     // Estimate the density
-    for (asamples = 0; asamples < (unsigned int)numsamplesA; asamples++)
+    for (asamples = 0; asamples < (unsigned int)numsamplesA; ++asamples)
     {
       double valueFixed = (fixedSamplesB[bsamples] - fixedSamplesA[asamples]) / m_FixedImageStandardDeviation;
       valueFixed = std::exp(-0.5 * valueFixed * valueFixed);
@@ -460,7 +460,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
     dLogSumJoint -= std::log(dDenominatorJoint);
 
     // Estimate the density
-    for (asamples = 0; asamples < (unsigned int)numsamplesA; asamples++)
+    for (asamples = 0; asamples < (unsigned int)numsamplesA; ++asamples)
     {
       double valueFixed = (fixedSamplesB[bsamples] - fixedSamplesA[asamples]) / m_FixedImageStandardDeviation;
       valueFixed = std::exp(-0.5 * valueFixed * valueFixed);
@@ -477,7 +477,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
       // End where we may switch fixed and moving
 
       // This can also be stored away
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         derivative[i] += (fixedGradientsB[bsamples][i] - fixedGradientsA[asamples][i]) * weight;
       }
@@ -504,7 +504,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   derivative /= itk::Math::sqr(m_FixedImageStandardDeviation);
 
   double updatenorm = 0.0;
-  for (unsigned int tt = 0; tt < ImageDimension; tt++)
+  for (unsigned int tt = 0; tt < ImageDimension; ++tt)
   {
     updatenorm += derivative[tt] * derivative[tt];
   }

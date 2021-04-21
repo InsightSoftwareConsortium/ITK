@@ -89,7 +89,7 @@ FFTWComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
   }
 
   int sizes[ImageDimension];
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     sizes[(ImageDimension - 1) - i] = inputSize[i];
   }

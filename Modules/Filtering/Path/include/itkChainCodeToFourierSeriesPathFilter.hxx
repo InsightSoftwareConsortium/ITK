@@ -73,19 +73,19 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
     numHarmonics = numSteps / 2;
   }
 
-  for (unsigned n = 0; n < numHarmonics; n++)
+  for (unsigned n = 0; n < numHarmonics; ++n)
   {
     index = inputPtr->GetStart();
     cosCoefficient.Fill(0.0);
     sinCoefficient.Fill(0.0);
 
-    for (InputPathInputType step = 0; step < numSteps; step++)
+    for (InputPathInputType step = 0; step < numSteps; ++step)
     {
       index += inputPtr->Evaluate(step);
       theta = 2 * n * nPI * (double(step + 1)) / numSteps;
 
       // turn the current index into a vector
-      for (int d = 0; d < dimension; d++)
+      for (int d = 0; d < dimension; ++d)
       {
         indexVector[d] = index[d];
       }

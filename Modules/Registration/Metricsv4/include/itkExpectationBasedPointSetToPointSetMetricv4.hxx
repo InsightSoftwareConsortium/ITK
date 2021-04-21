@@ -120,7 +120,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
 
   VectorType force = (weightedPoint - point) * weight;
 
-  for (unsigned int d = 0; d < localDerivative.Size(); d++)
+  for (unsigned int d = 0; d < localDerivative.Size(); ++d)
   {
     localDerivative[d] = force[d];
   }

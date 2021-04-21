@@ -52,7 +52,7 @@ BoxSigmaImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   using AccumImageType = typename itk::Image<AccPixType, TInputImage::ImageDimension>;
 
   typename TInputImage::SizeType internalRadius;
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     internalRadius[i] = this->GetRadius()[i] + 1;
   }

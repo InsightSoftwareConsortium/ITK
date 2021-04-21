@@ -155,14 +155,14 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   double pixelA, pixelB;
 
   // walk the output image forwards and compute blur
-  for (unsigned int rep = 0; rep < m_Repetitions; rep++)
+  for (unsigned int rep = 0; rep < m_Repetitions; ++rep)
   {
     num_reps++;
 
     itkDebugMacro(<< "Repetition #" << rep);
 
     // blur each dimension
-    for (unsigned int dim = 0; dim < NDimensions; dim++)
+    for (unsigned int dim = 0; dim < NDimensions; ++dim)
     {
       TempIterator tempItDir = TempIterator(tempPtr, tempPtr->GetRequestedRegion());
       tempItDir.GoToBegin();
@@ -174,7 +174,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
         if (index[dim] < (startIndex[dim] + static_cast<typename TTempImage::OffsetValueType>(size[dim]) - 1))
         {
           // Figure out the location of the "neighbor" pixel
-          for (unsigned int i = 0; i < NDimensions; i++)
+          for (unsigned int i = 0; i < NDimensions; ++i)
           {
             if (i == dim)
             {
@@ -215,7 +215,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
         if (index[dim] > startIndex[dim])
         {
           // Figure out the location of the "neighbor" pixel
-          for (unsigned int i = 0; i < NDimensions; i++)
+          for (unsigned int i = 0; i < NDimensions; ++i)
           {
             if (i == dim)
             {

@@ -210,7 +210,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
     SimilaritiesPointDataContainerPointerType similaritiesData = SimilaritiesPointDataContainerType::New();
 
     // insert displacements and similarities
-    for (SizeValueType i = 0; i < this->m_PointsCount; i++)
+    for (SizeValueType i = 0; i < this->m_PointsCount; ++i)
     {
       displacementsPoints->InsertElement(i, points->GetElement(i));
       similaritiesPoints->InsertElement(i, points->GetElement(i));
@@ -283,13 +283,13 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
 
   // start constructing block iterator
   SizeValueType numberOfVoxelInBlock = 1;
-  for (unsigned i = 0; i < ImageSizeType::Dimension; i++)
+  for (unsigned i = 0; i < ImageSizeType::Dimension; ++i)
   {
     numberOfVoxelInBlock *= m_BlockRadius[i] + 1 + m_BlockRadius[i];
   }
 
   // loop thru feature points
-  for (SizeValueType idx = first, last = first + count; idx < last; idx++)
+  for (SizeValueType idx = first, last = first + count; idx < last; ++idx)
   {
     FeaturePointsPhysicalCoordinates originalLocation = featurePoints->GetPoint(idx);
     const auto                       fixedIndex = fixedImage->TransformPhysicalPointToIndex(originalLocation);
@@ -323,7 +323,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
       SimilaritiesValue covariance = NumericTraits<SimilaritiesValue>::ZeroValue();
 
       // iterate over voxels in blockRadius
-      for (SizeValueType i = 0; i < numberOfVoxelInBlock; i++) // windowIterator.Size() == numberOfVoxelInBlock
+      for (SizeValueType i = 0; i < numberOfVoxelInBlock; ++i) // windowIterator.Size() == numberOfVoxelInBlock
       {
         const SimilaritiesValue fixedValue = windowIterator.GetPixel(i);
         const SimilaritiesValue movingValue = centerIterator.GetPixel(i);

@@ -36,7 +36,7 @@ TranslationTransform<TParametersValueType, NDimensions>::TranslationTransform()
   // Therefore the m_IdentityJacobian variable can be
   // initialized here and be shared among all the threads.
   this->m_IdentityJacobian.Fill(0.0);
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     this->m_IdentityJacobian(i, i) = 1.0;
   }
@@ -59,7 +59,7 @@ TranslationTransform<TParametersValueType, NDimensions>::SetParameters(const Par
   }
 
   bool modified = false;
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     if (Math::NotExactlyEquals(m_Offset[i], parameters[i]))
     {
@@ -78,7 +78,7 @@ template <typename TParametersValueType, unsigned int NDimensions>
 const typename TranslationTransform<TParametersValueType, NDimensions>::ParametersType &
 TranslationTransform<TParametersValueType, NDimensions>::GetParameters() const
 {
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     this->m_Parameters[i] = this->m_Offset[i];
   }
@@ -110,7 +110,7 @@ TranslationTransform<TParametersValueType, NDimensions>::Translate(const OutputV
 {
   ParametersType newOffset(SpaceDimension);
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     newOffset[i] = m_Offset[i] + offset[i];
   }

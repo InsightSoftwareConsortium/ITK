@@ -51,7 +51,7 @@ ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData
   OutputSizeType      outputSize = oRegion.GetSize();
   OutputSizeValueType maximumDistance = 0;
 
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     maximumDistance += outputSize[i] * outputSize[i];
   }

@@ -110,7 +110,7 @@ itkPermuteAxesImageFilterTest(int, char *[])
     ImageType::IndexType inputIndex = inputIter.GetIndex();
     ImageType::IndexType outputIndex;
 
-    for (int j = 0; j < ImageDimension; j++)
+    for (int j = 0; j < ImageDimension; ++j)
     {
       outputIndex[j] = inputIndex[order[j]];
     }

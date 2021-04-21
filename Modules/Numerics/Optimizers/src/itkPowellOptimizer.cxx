@@ -71,7 +71,7 @@ PowellOptimizer::GetLineValue(double x) const
 double
 PowellOptimizer::GetLineValue(double x, ParametersType & tempCoord) const
 {
-  for (unsigned int i = 0; i < m_SpaceDimension; i++)
+  for (unsigned int i = 0; i < m_SpaceDimension; ++i)
   {
     tempCoord[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
   }
@@ -103,7 +103,7 @@ PowellOptimizer::GetLineValue(double x, ParametersType & tempCoord) const
 void
 PowellOptimizer::SetCurrentLinePoint(double x, double fx)
 {
-  for (unsigned int i = 0; i < m_SpaceDimension; i++)
+  for (unsigned int i = 0; i < m_SpaceDimension; ++i)
   {
     this->m_CurrentPosition[i] = this->m_LineOrigin[i] + x * this->m_LineDirection[i];
   }
@@ -266,7 +266,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
   functionValueOfX = functionValueOfV;
   functionValueOfW = functionValueOfV;
 
-  for (m_CurrentLineIteration = 0; m_CurrentLineIteration < m_MaximumLineIteration; m_CurrentLineIteration++)
+  for (m_CurrentLineIteration = 0; m_CurrentLineIteration < m_MaximumLineIteration; ++m_CurrentLineIteration)
   {
     double middle_range = (a + b) / 2;
 
@@ -445,13 +445,13 @@ PowellOptimizer::StartOptimization()
   this->SetLine(p, xit);
   fx = this->GetLineValue(0, tempCoord);
 
-  for (m_CurrentIteration = 0; m_CurrentIteration <= m_MaximumIteration; m_CurrentIteration++)
+  for (m_CurrentIteration = 0; m_CurrentIteration <= m_MaximumIteration; ++m_CurrentIteration)
   {
     fp = fx;
     ibig = 0;
     del = 0.0;
 
-    for (unsigned int i = 0; i < m_SpaceDimension; i++)
+    for (unsigned int i = 0; i < m_SpaceDimension; ++i)
     {
       for (unsigned int j = 0; j < m_SpaceDimension; ++j)
       {
@@ -510,7 +510,7 @@ PowellOptimizer::StartOptimization()
         this->SetCurrentLinePoint(xx, fx);
         p = this->GetCurrentPosition();
 
-        for (unsigned int j = 0; j < m_SpaceDimension; j++)
+        for (unsigned int j = 0; j < m_SpaceDimension; ++j)
         {
           xi[j][ibig] = xx * xit[j];
         }

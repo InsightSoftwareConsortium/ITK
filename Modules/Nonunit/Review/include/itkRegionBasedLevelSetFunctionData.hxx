@@ -49,7 +49,7 @@ RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::CreateHeavisideFunc
 
   this->m_HeavisideFunctionOfLevelSetImage->TransformPhysicalPointToIndex(origin, this->m_Start);
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     this->m_End[i] = this->m_Start[i] + static_cast<InputIndexValueType>(region.GetSize()[i]) - 1;
   }
@@ -61,7 +61,7 @@ RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::GetIndex(const Feat
 {
   InputIndexType index;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     index[i] = featureIndex[i] - static_cast<InputIndexValueType>(this->m_Start[i]);
   }
@@ -75,7 +75,7 @@ RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::GetFeatureIndex(con
 {
   FeatureIndexType index;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     index[i] = inputIndex[i] + static_cast<InputIndexValueType>(this->m_Start[i]);
   }

@@ -109,7 +109,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeights()
     const WeightValueType weight = (rawWeight * static_cast<WeightValueType>(frequency));
     totalWeight += weight;
 
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
     {
       const auto component = static_cast<MeasurementRealType>(measurement[dim]);
 
@@ -119,7 +119,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeights()
 
   if (totalWeight > itk::Math::eps)
   {
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
     {
       output[dim] = (sum[dim].GetSum() / static_cast<MeasurementRealType>(totalWeight));
     }
@@ -170,7 +170,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeightingFunction()
     const WeightValueType weight = (rawWeight * static_cast<WeightValueType>(frequency));
     totalWeight += weight;
 
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
     {
       const auto component = static_cast<MeasurementRealType>(measurement[dim]);
 
@@ -180,7 +180,7 @@ WeightedMeanSampleFilter<TSample>::ComputeMeanWithWeightingFunction()
 
   if (totalWeight > itk::Math::eps)
   {
-    for (unsigned int dim = 0; dim < measurementVectorSize; dim++)
+    for (unsigned int dim = 0; dim < measurementVectorSize; ++dim)
     {
       output[dim] = (sum[dim].GetSum() / static_cast<MeasurementRealType>(totalWeight));
     }

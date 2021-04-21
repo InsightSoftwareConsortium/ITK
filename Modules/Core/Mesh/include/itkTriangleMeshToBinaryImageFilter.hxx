@@ -34,7 +34,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::TriangleMeshToBinaryI
   m_Size.Fill(0);
   m_Index.Fill(0);
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     m_Spacing[i] = 1.0;
     m_Origin[i] = 0;
@@ -251,7 +251,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
   PointType p1 = coords[n - 1];
   double    area = 0.0;
 
-  for (int i = 0; i < n; i++)
+  for (int i = 0; i < n; ++i)
   {
     PointType p2 = coords[i];
     // calculate the area (actually double the area) of the polygon's
@@ -294,7 +294,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
       zmax = extent[5] + 1;
     }
     double temp = 1.0 / (p2[2] - p1[2]);
-    for (int z = zmin; z < zmax; z++)
+    for (int z = zmin; z < zmax; ++z)
     {
       double      r = (p2[2] - (double)(z)) * temp;
       double      f = 1.0 - r;
@@ -327,7 +327,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
   // except that 'x' is our depth value and we can store multiple
   // 'x' values per (y,z) value.
 
-  for (int z = extent[4]; z <= extent[5]; z++)
+  for (int z = extent[4]; z <= extent[5]; ++z)
   {
     Point2DVector & xylist = matrix[z - extent[4]];
 
@@ -340,7 +340,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
     std::sort(xylist.begin(), xylist.end(), ComparePoints2D);
 
     n = (int)(xylist.size()) / 2;
-    for (int k = 0; k < n; k++)
+    for (int k = 0; k < n; ++k)
     {
       Point2DType & p2D1 = xylist[2 * k];
       double        X1 = p2D1[0];
@@ -356,7 +356,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
       double temp = 1.0 / (Y2 - Y1);
       auto   ymin = (int)(std::ceil(Y1));
       auto   ymax = (int)(std::ceil(Y2));
-      for (int y = ymin; y < ymax; y++)
+      for (int y = ymin; y < ymax; ++y)
       {
         double r = (Y2 - y) * temp;
         double f = 1.0 - r;
@@ -462,9 +462,9 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
 
   // create the equivalent of vtkStencilData from our zymatrix
   m_StencilIndex.clear(); // prevent corruption of the filter in later updates
-  for (int z = extent[4]; z <= extent[5]; z++)
+  for (int z = extent[4]; z <= extent[5]; ++z)
   {
-    for (int y = extent[2]; y <= extent[3]; y++)
+    for (int y = extent[2]; y <= extent[3]; ++y)
     {
       int           zyidx = (z - extent[4]) * zInc + (y - extent[2]);
       Point1DVector xlist = zymatrix[zyidx];
@@ -491,7 +491,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
 
       std::vector<double> nlist;
       size_t              m = xlist.size();
-      for (size_t j = 1; j < m; j++)
+      for (size_t j = 1; j < m; ++j)
       {
         Point1D p1D = xlist[j];
         double  x = p1D.m_X;
@@ -516,7 +516,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
       int minx1 = extent[0]; // minimum allowable x1 value
       int n = (int)(nlist.size()) / 2;
 
-      for (int i = 0; i < n; i++)
+      for (int i = 0; i < n; ++i)
       {
         auto x1 = (int)(std::ceil(nlist[2 * i]));
         auto x2 = (int)(std::floor(nlist[2 * i + 1]));
@@ -530,7 +530,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
 
         if (x2 >= x1)
         {
-          for (int idX = x1; idX <= x2; idX++)
+          for (int idX = x1; idX <= x2; ++idX)
           {
             m_StencilIndex.push_back(idX + y * m_Size[0] + z * m_Size[0] * m_Size[1]);
           }

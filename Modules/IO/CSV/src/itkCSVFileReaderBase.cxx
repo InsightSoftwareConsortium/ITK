@@ -136,7 +136,7 @@ CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
     {
       if (this->m_UseStringDelimiterCharacter)
       {
-        for (int k = 0; k < 2; k++)
+        for (int k = 0; k < 2; ++k)
         {
           std::getline(linestream, cell, this->m_StringDelimiterCharacter);
         }

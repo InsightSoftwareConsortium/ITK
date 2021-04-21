@@ -132,7 +132,7 @@ itkWarpMeshFilterTest(int, char *[])
 
   while (inputPoint != lastInputPoint && outputPoint != lastOutputPoint)
   {
-    for (unsigned int i = 0; i < Dimension; i++)
+    for (unsigned int i = 0; i < Dimension; ++i)
     {
       const double distance = outputPoint.Value()[i] - inputPoint.Value()[i];
       if (std::fabs(distance - simpleVector[i]) > tolerance)

@@ -63,7 +63,7 @@ public:
   {
     TOutput result;
 
-    for (unsigned int i = 0; i < VectorDimension; i++)
+    for (unsigned int i = 0; i < VectorDimension; ++i)
     {
       const RealType scaledComponent = static_cast<RealType>(x[i]) * m_Factor;
       result[i] = static_cast<typename TOutput::ValueType>(scaledComponent);

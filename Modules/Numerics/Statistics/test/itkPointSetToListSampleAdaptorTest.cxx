@@ -31,7 +31,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
   PointSetType::PointType point;
 
   unsigned int numberOfPoints = 10;
-  for (unsigned int i = 0; i < numberOfPoints; i++)
+  for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
     point[0] = i * 3;
     point[1] = i * 3 + 1;
@@ -155,7 +155,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
 
   listSample->Print(std::cout);
 
-  for (unsigned int i = 0; i < numberOfPoints; i++)
+  for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
     PointSetToListSampleAdaptorType::InstanceIdentifier id = i;
     PointSetType::PointType                             tempPointSet(0.0);

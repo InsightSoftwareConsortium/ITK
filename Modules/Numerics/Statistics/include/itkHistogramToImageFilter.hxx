@@ -88,7 +88,7 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::GenerateOutputInformation
   // Set the image size to the number of bins along each dimension.
   // TODO: is it possible to have a size 0 on one of the dimension? if yes, the size must be checked
   unsigned int minDim = std::min((unsigned int)ImageDimension, inputHistogram->GetMeasurementVectorSize());
-  for (unsigned int i = 0; i < minDim; i++)
+  for (unsigned int i = 0; i < minDim; ++i)
   {
     size[i] = inputHistogram->GetSize(i);
     origin[i] = inputHistogram->GetMeasurement(0, i);
@@ -96,7 +96,7 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::GenerateOutputInformation
   }
 
   // if the image is of greater dimension than the histogram, use some default values
-  for (unsigned int i = inputHistogram->GetMeasurementVectorSize(); i < ImageDimension; i++)
+  for (unsigned int i = inputHistogram->GetMeasurementVectorSize(); i < ImageDimension; ++i)
   {
     size[i] = 1;
     origin[i] = 0.0;

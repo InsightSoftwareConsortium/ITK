@@ -93,7 +93,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetParameters(const Parameter
 
   // Transfer the translation part
   OffsetType offset;
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     offset[i] = parameters[i + 3];
   }
@@ -170,7 +170,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPoi
   unsigned int   i;
   InputPointType centered;
 
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     centered[i] = point[i] - m_CenterOfRotation[i];
   }
@@ -178,7 +178,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPoi
   InputPointType rotated = m_RotationMatrix * centered;
 
   InputPointType rigided;
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     rigided[i] = rotated[i] + m_Offset[i] + m_CenterOfRotation[i] + m_FixedOffset[i];
   }

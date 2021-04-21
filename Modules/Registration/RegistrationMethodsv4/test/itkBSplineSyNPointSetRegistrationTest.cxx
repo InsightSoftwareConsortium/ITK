@@ -47,7 +47,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
 
   // two circles with a small offset
   PointType offset;
-  for (unsigned int d = 0; d < PointSetType::PointDimension; d++)
+  for (unsigned int d = 0; d < PointSetType::PointDimension; ++d)
   {
     offset[d] = 2.0;
   }
@@ -144,7 +144,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
 
   OutputTransformType::ArrayType updateMeshSize;
   OutputTransformType::ArrayType totalMeshSize;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     updateMeshSize[d] = 10;
     totalMeshSize[d] = 0;
@@ -172,7 +172,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   smoothingSigmasPerLevel.SetSize(3);
   smoothingSigmasPerLevel.Fill(0);
 
-  for (unsigned int level = 0; level < numberOfLevels; level++)
+  for (unsigned int level = 0; level < numberOfLevels; ++level)
   {
     // We use the shrink image filter to calculate the fixed parameters of the virtual
     // domain at each level.  To speed up calculation and avoid unnecessary memory
@@ -194,7 +194,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
     // A good heuristic is to double the b-spline mesh resolution at each level
     OutputTransformType::ArrayType newUpdateMeshSize = updateMeshSize;
     OutputTransformType::ArrayType newTotalMeshSize = totalMeshSize;
-    for (unsigned int d = 0; d < Dimension; d++)
+    for (unsigned int d = 0; d < Dimension; ++d)
     {
       newUpdateMeshSize[d] = newUpdateMeshSize[d] << (level);
       newTotalMeshSize[d] = newTotalMeshSize[d] << (level);
@@ -237,7 +237,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   PointType::ValueType tolerance = 0.01;
 
   float averageError = 0.0;
-  for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); n++)
+  for (unsigned int n = 0; n < movingPoints->GetNumberOfPoints(); ++n)
   {
     // compare the points in virtual domain
     PointType transformedMovingPoint =

@@ -92,7 +92,7 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   std::cout << "File " << argv[1] << " has " << labelMap->GetNumberOfLabelObjects() << " labels." << std::endl;
 
   // Retrieve all attributes
-  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
     ShapeLabelObjectType * labelObject = labelMap->GetNthLabelObject(n);
     std::cout << "Label: " << itk::NumericTraits<LabelMapType::LabelType>::PrintType(labelObject->GetLabel())
@@ -117,7 +117,7 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     std::cout << "    OrientedBoundingBoxSize: " << labelObject->GetOrientedBoundingBoxSize() << std::endl;
     std::cout << "    OrientedBoundingBoxOrigin: " << labelObject->GetOrientedBoundingBoxOrigin() << std::endl;
   }
-  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
     ShapeLabelObjectType * labelCopy = labelMap->GetNthLabelObject(n);
     ShapeLabelObjectType * labelObject = labelMap->GetNthLabelObject(0);
@@ -247,7 +247,7 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   }
   // Check that the accessors match the Get's
 
-  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
     itk::Functor::LabelLabelObjectAccessor<ShapeLabelObjectType> accessorLabel;
     ShapeLabelObjectType *                                       l = labelMap->GetNthLabelObject(n);
@@ -363,7 +363,7 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   }
 
   // Cover PrintSelf
-  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
     ShapeLabelObjectType * l = labelMap->GetNthLabelObject(n);
     std::cout << "Print ShapeLabelObject " << n << std::endl;
@@ -371,7 +371,7 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   }
 
   // Check transforms
-  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
+  for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); ++n)
   {
     ShapeLabelObjectType *                       l = labelMap->GetNthLabelObject(n);
     ShapeLabelObjectType::AffineTransformPointer principleToPhysical = l->GetPrincipalAxesToPhysicalAxesTransform();

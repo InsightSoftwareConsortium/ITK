@@ -49,7 +49,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::RegionBasedLevelSetF
   m_FeatureImage = nullptr;
   m_UpdateC = false;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_InvSpacing[i] = 1;
   }
@@ -174,9 +174,9 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeCurvature(con
 
   unsigned int i, j;
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       if (j != i)
       {
@@ -211,7 +211,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHessian(const
   gd->m_GradMag = 0.;
   unsigned int i, j;
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     const auto positionA = static_cast<unsigned int>(this->m_Center + this->m_xStride[i]);
     const auto positionB = static_cast<unsigned int>(this->m_Center - this->m_xStride[i]);
@@ -224,7 +224,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeHessian(const
 
     gd->m_dxy[i][i] = (this->m_InvSpacing[i]) * (gd->m_dx_forward[i] - gd->m_dx_backward[i]);
 
-    for (j = i + 1; j < ImageDimension; j++)
+    for (j = i + 1; j < ImageDimension; ++j)
     {
       const auto positionAa = static_cast<unsigned int>(this->m_Center - this->m_xStride[i] - this->m_xStride[j]);
       const auto positionBa = static_cast<unsigned int>(this->m_Center - this->m_xStride[i] + this->m_xStride[j]);
@@ -285,7 +285,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
   {
     advection_field = this->AdvectionField(it, offset, gd);
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       x_energy = m_AdvectionWeight * advection_field[i];
 
@@ -331,7 +331,7 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeLaplacian(Glo
   ScalarValueType laplacian = 0.;
 
   // Compute the laplacian using the existing second derivative values
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     laplacian += gd->m_dxy[i][i];
   }

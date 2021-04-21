@@ -134,12 +134,12 @@ ImageSeriesWriter<TInputImage, TOutputImage>::GenerateNumericFileNames()
 
   // Compute the number of files to be generated
   unsigned int numberOfFiles = 1;
-  for (unsigned int n = TOutputImage::ImageDimension; n < TInputImage::ImageDimension; n++)
+  for (unsigned int n = TOutputImage::ImageDimension; n < TInputImage::ImageDimension; ++n)
   {
     numberOfFiles *= inRegion.GetSize(n);
   }
 
-  for (unsigned int slice = 0; slice < numberOfFiles; slice++)
+  for (unsigned int slice = 0; slice < numberOfFiles; ++slice)
   {
     snprintf(fileName, IOCommon::ITK_MAXPATHLEN + 1, m_SeriesFormat.c_str(), fileNumber);
     m_FileNames.push_back(fileName);
@@ -181,7 +181,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
 
   // The size of the output will match the input sizes, up to the
   // dimension of the input.
-  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outRegion.SetSize(i, inputImage->GetRequestedRegion().GetSize()[i]);
   }
@@ -196,12 +196,12 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   double                               spacing[TOutputImage::ImageDimension];
   double                               origin[TOutputImage::ImageDimension];
   typename TOutputImage::DirectionType direction;
-  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     origin[i] = inputImage->GetOrigin()[i];
     spacing[i] = inputImage->GetSpacing()[i];
     outRegion.SetSize(i, inputImage->GetRequestedRegion().GetSize()[i]);
-    for (unsigned int j = 0; j < TOutputImage::ImageDimension; j++)
+    for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
     {
       direction[j][i] = inputImage->GetDirection()[j][i];
     }
@@ -229,13 +229,13 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   SizeValueType pixelsPerFile = outputImage->GetRequestedRegion().GetNumberOfPixels();
 
   inSize.Fill(1);
-  for (unsigned int ns = 0; ns < TOutputImage::ImageDimension; ns++)
+  for (unsigned int ns = 0; ns < TOutputImage::ImageDimension; ++ns)
   {
     inSize[ns] = outRegion.GetSize()[ns];
   }
 
   unsigned int expectedNumberOfFiles = 1;
-  for (unsigned int n = TOutputImage::ImageDimension; n < TInputImage::ImageDimension; n++)
+  for (unsigned int n = TOutputImage::ImageDimension; n < TInputImage::ImageDimension; ++n)
   {
     expectedNumberOfFiles *= inRegion.GetSize(n);
   }
@@ -255,7 +255,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   // build a filename and write the file.
 
   typename InputImageType::OffsetValueType offset = 0;
-  for (unsigned int slice = 0; slice < m_FileNames.size(); slice++)
+  for (unsigned int slice = 0; slice < m_FileNames.size(); ++slice)
   {
     // Select a "slice" of the image.
     inIndex = inputImage->ComputeIndex(offset);
@@ -314,7 +314,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
         DoubleArrayType originArray(inputImageDimension);
         DoubleArrayType spacingArray(inputImageDimension);
 
-        for (unsigned int d = 0; d < inputImageDimension; d++)
+        for (unsigned int d = 0; d < inputImageDimension; ++d)
         {
           originArray[d] = origin2[d];
           spacingArray[d] = spacing2[d];
@@ -327,9 +327,9 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
         typename InputImageType::DirectionType direction2 = inputImage->GetDirection();
         using DoubleMatrixType = Matrix<double, inputImageDimension, inputImageDimension>;
         DoubleMatrixType directionMatrix;
-        for (unsigned int i = 0; i < inputImageDimension; i++)
+        for (unsigned int i = 0; i < inputImageDimension; ++i)
         {
-          for (unsigned int j = 0; j < inputImageDimension; j++)
+          for (unsigned int j = 0; j < inputImageDimension; ++j)
           {
             directionMatrix[j][i] = direction2[i][j];
           }

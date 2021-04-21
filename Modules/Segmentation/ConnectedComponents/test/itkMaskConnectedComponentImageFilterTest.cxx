@@ -96,7 +96,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
 
   // use upper left corner
   index.Fill(0);
-  for (unsigned int i = 0; i < MaskImageType::ImageDimension; i++)
+  for (unsigned int i = 0; i < MaskImageType::ImageDimension; ++i)
   {
     size[i] = static_cast<unsigned long>(0.375 * maskSize[i]);
   }
@@ -111,7 +111,7 @@ itkMaskConnectedComponentImageFilterTest(int argc, char * argv[])
   }
 
   // use middle section
-  for (unsigned int i = 0; i < MaskImageType::ImageDimension; i++)
+  for (unsigned int i = 0; i < MaskImageType::ImageDimension; ++i)
   {
     index[i] = static_cast<long>(0.375 * maskSize[i]);
     size[i] = static_cast<unsigned long>(0.25 * maskSize[i]);

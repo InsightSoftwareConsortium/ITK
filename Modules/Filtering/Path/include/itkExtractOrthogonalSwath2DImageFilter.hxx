@@ -32,7 +32,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetSpacing(const double * spacing)
 {
   unsigned int i;
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(spacing[i], m_Spacing[i]))
     {
@@ -41,7 +41,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetSpacing(const double * spacing)
   }
   if (i < ImageDimension)
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       m_Spacing[i] = spacing[i];
     }
@@ -54,7 +54,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetSpacing(const float * spacing)
 {
   unsigned int i;
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]))
     {
@@ -63,7 +63,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetSpacing(const float * spacing)
   }
   if (i < ImageDimension)
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       m_Spacing[i] = spacing[i];
     }
@@ -84,7 +84,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetOrigin(const double * origin)
 {
   unsigned int i;
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(origin[i], m_Origin[i]))
     {
@@ -93,7 +93,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetOrigin(const double * origin)
   }
   if (i < ImageDimension)
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       m_Origin[i] = origin[i];
     }
@@ -106,7 +106,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetOrigin(const float * origin)
 {
   unsigned int i;
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)origin[i], m_Origin[i]))
     {
@@ -115,7 +115,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::SetOrigin(const float * origin)
   }
   if (i < ImageDimension)
   {
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       m_Origin[i] = origin[i];
     }

@@ -35,7 +35,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::InverseDisplacem
 {
   m_OutputSpacing.Fill(1.0);
   m_OutputOrigin.Fill(0.0);
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Size[i] = 0;
   }
@@ -130,7 +130,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
 
   InputSizeType size = region.GetSize();
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     size[i] = static_cast<SizeValueType>(size[i] / m_SubsamplingFactor);
     spacing[i] *= m_SubsamplingFactor;
@@ -175,7 +175,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
 
     target->InsertElement(landmarkId, targetPoint);
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       sourcePoint[i] = targetPoint[i] + value[i];
     }
@@ -250,7 +250,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 
     OutputPixelType inverseDisplacement;
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       inverseDisplacement[i] = interpolation[i] - outputPoint[i];
     }

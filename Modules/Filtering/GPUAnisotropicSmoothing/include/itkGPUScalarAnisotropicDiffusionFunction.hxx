@@ -79,7 +79,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
 
   unsigned int numPixel = 1;
   unsigned int bufferSize = 1;
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     imgSize[i] = outSize[i];
     imgScale[i] = this->m_ScaleCoefficients[i];
@@ -135,13 +135,13 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
   }
 
   // Set filter scale parameter
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(float), &(imgScale[i]));
   }
 
   // Set image size
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     kernelManager->SetKernelArg(kernelHandle, argidx++, sizeof(int), &(imgSize[i]));
   }
@@ -163,7 +163,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
                                                                     // Copy
                                                                     // GPU->CPU
 
-  for (int i = 0; i < (int)bufferSize; i++)
+  for (int i = 0; i < (int)bufferSize; ++i)
   {
     sum += (double)intermSum[i];
   }

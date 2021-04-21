@@ -40,7 +40,7 @@ CompositeValleyFunction::CompositeValleyFunction(const MeasureArrayType & classM
     throw ex;
   }
 
-  for (std::size_t i = 0; i < length; i++)
+  for (std::size_t i = 0; i < length; ++i)
   {
     this->AddNewClass(classMeans[i], classSigmas[i]);
   }
@@ -64,7 +64,7 @@ CompositeValleyFunction::Initialize()
 
   auto noOfClasses = static_cast<SizeValueType>(m_Targets.size());
 
-  for (i = 0; i < noOfClasses; i++)
+  for (i = 0; i < noOfClasses; ++i)
   {
     if (m_Targets[i].GetMean() > m_Targets[high].GetMean())
     {

@@ -100,7 +100,7 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
   BinaryImageType::RegionType            region;
   BinaryImageType::RegionType::SizeType  sz;
   BinaryImageType::RegionType::IndexType idx;
-  for (unsigned k = 0; k < 3; k++)
+  for (unsigned k = 0; k < 3; ++k)
   {
     sz[k] = 64;
     idx[k] = 0;

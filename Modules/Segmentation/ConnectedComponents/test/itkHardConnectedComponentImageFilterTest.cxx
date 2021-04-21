@@ -61,36 +61,36 @@ DoIt(int argc, char * argv[], const std::string pixelType)
 
   int       row, col;
   IndexType myIndex;
-  for (row = 0; row < 20; row++)
+  for (row = 0; row < 20; ++row)
   {
-    for (col = 0; col < 20; col++)
+    for (col = 0; col < 20; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;
       inputimg->SetPixel(myIndex, false);
     }
   }
-  for (row = 0; row < 15; row++)
+  for (row = 0; row < 15; ++row)
   {
-    for (col = 0; col < 20; col++)
+    for (col = 0; col < 20; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;
       inputimg->SetPixel(myIndex, true);
     }
   }
-  for (row = 0; row < 10; row++)
+  for (row = 0; row < 10; ++row)
   {
-    for (col = 5; col < 15; col++)
+    for (col = 5; col < 15; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;
       inputimg->SetPixel(myIndex, false);
     }
   }
-  for (row = 0; row < 7; row++)
+  for (row = 0; row < 7; ++row)
   {
-    for (col = 7; col < 12; col++)
+    for (col = 7; col < 12; ++col)
     {
       myIndex[1] = row;
       myIndex[0] = col;
@@ -113,7 +113,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
 
   std::cout << "Input Image" << std::endl;
   it.GoToBegin();
-  for (int i = 0; i < height * width; i++)
+  for (int i = 0; i < height * width; ++i)
   {
     if ((i % width) == 0)
     {
@@ -129,7 +129,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
 
   std::cout << std::endl << "Output Image" << std::endl;
   ot.GoToBegin();
-  for (int i = 0; i < height * width; i++)
+  for (int i = 0; i < height * width; ++i)
   {
     if ((i % width) == 0)
     {

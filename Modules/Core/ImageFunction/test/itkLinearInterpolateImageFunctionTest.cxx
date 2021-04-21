@@ -107,7 +107,7 @@ RunLinearInterpolateTest()
 
   // Setup for testing up to Dimension=4
   unsigned int dimLengths[4] = { 1, 1, 1, 1 };
-  for (unsigned int ind = 0; ind < Dimensions; ind++)
+  for (unsigned int ind = 0; ind < Dimensions; ++ind)
   {
     dimLengths[ind] = dimMaxLength;
   }
@@ -132,7 +132,7 @@ RunLinearInterpolateTest()
         {
           PixelType value = 3 * dimIt[0];
           index[0] = dimIt[0];
-          for (unsigned int ind = 1; ind < Dimensions; ind++)
+          for (unsigned int ind = 1; ind < Dimensions; ++ind)
           {
             value += dimIt[ind];
             index[ind] = dimIt[ind];
@@ -176,7 +176,7 @@ RunLinearInterpolateTest()
 
   PointType       point;
   AccumulatorType testLengths[4] = { 1, 1, 1, 1 };
-  for (unsigned int ind = 0; ind < Dimensions; ind++)
+  for (unsigned int ind = 0; ind < Dimensions; ++ind)
   {
     testLengths[ind] = dimMaxLength - 1;
   }
@@ -200,7 +200,7 @@ RunLinearInterpolateTest()
                 {
                   AccumulatorType expectedValue = 3 * steps[0];
                   point[0] = steps[0];
-                  for (unsigned int ind = 1; ind < Dimensions; ind++)
+                  for (unsigned int ind = 1; ind < Dimensions; ++ind)
                   {
                     expectedValue += steps[ind];
                     point[ind] = steps[ind];

@@ -55,7 +55,7 @@ typename GaussianSpatialObject<TDimension>::ScalarType
 GaussianSpatialObject<TDimension>::SquaredZScoreInObjectSpace(const PointType & point) const
 {
   ScalarType r = 0;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     r += point[i] * point[i];
   }
@@ -86,7 +86,7 @@ GaussianSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point
     if (this->GetMyBoundingBoxInObjectSpace()->IsInside(point))
     {
       double r = 0;
-      for (unsigned int i = 0; i < TDimension; i++)
+      for (unsigned int i = 0; i < TDimension; ++i)
       {
         r += (point[i] - m_CenterInObjectSpace[i]) * (point[i] - m_CenterInObjectSpace[i]);
       }
@@ -113,7 +113,7 @@ GaussianSpatialObject<TDimension>::ComputeMyBoundingBox()
 
   PointType pnt1;
   PointType pnt2;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     pnt1[i] = m_CenterInObjectSpace[i] - m_RadiusInObjectSpace;
     pnt2[i] = m_CenterInObjectSpace[i] + m_RadiusInObjectSpace;

@@ -124,7 +124,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
 
     // Check shrink factors and compute variances
     allOnes = true;
-    for (idim = 0; idim < ImageDimension; idim++)
+    for (idim = 0; idim < ImageDimension; ++idim)
     {
       if (ilevel == static_cast<int>(this->GetNumberOfLevels()) - 1)
       {
@@ -267,13 +267,13 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   IndexType  requestedIndex;
 
   // compute requested regions for lower levels
-  for (ilevel = refLevel + 1; ilevel < static_cast<int>(this->GetNumberOfLevels()); ilevel++)
+  for (ilevel = refLevel + 1; ilevel < static_cast<int>(this->GetNumberOfLevels()); ++ilevel)
   {
     requestedRegion = this->GetOutput(ilevel - 1)->GetRequestedRegion();
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for (idim = 0; idim < static_cast<int>(ImageDimension); idim++)
+    for (idim = 0; idim < static_cast<int>(ImageDimension); ++idim)
     {
       factors[idim] = this->GetSchedule()[ilevel - 1][idim] / this->GetSchedule()[ilevel][idim];
 
@@ -310,7 +310,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
     requestedSize = requestedRegion.GetSize();
     requestedIndex = requestedRegion.GetIndex();
 
-    for (idim = 0; idim < static_cast<int>(ImageDimension); idim++)
+    for (idim = 0; idim < static_cast<int>(ImageDimension); ++idim)
     {
       factors[idim] = this->GetSchedule()[ilevel][idim] / this->GetSchedule()[ilevel + 1][idim];
 
@@ -380,7 +380,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   RegionType   baseRegion;
 
   unsigned int idim;
-  for (idim = 0; idim < ImageDimension; idim++)
+  for (idim = 0; idim < ImageDimension; ++idim)
   {
     unsigned int factor = this->GetSchedule()[refLevel][idim];
     baseIndex[idim] *= static_cast<IndexValueType>(factor);
@@ -400,7 +400,7 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateI
   RegionType inputRequestedRegion = baseRegion;
   refLevel = 0;
 
-  for (idim = 0; idim < TInputImage::ImageDimension; idim++)
+  for (idim = 0; idim < TInputImage::ImageDimension; ++idim)
   {
     oper->SetDirection(idim);
     oper->SetVariance(itk::Math::sqr(0.5 * static_cast<float>(this->GetSchedule()[refLevel][idim])));

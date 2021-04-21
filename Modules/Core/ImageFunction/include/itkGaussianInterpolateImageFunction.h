@@ -116,7 +116,7 @@ public:
   SetSigma(RealType * s)
   {
     ArrayType sigma;
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       sigma[d] = s[d];
     }

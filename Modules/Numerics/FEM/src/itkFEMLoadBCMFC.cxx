@@ -75,13 +75,13 @@ LoadBCMFC::AddRightHandSideTerm(Element::Float term)
 {
   vnl_vector<Element::Float> tmpRightHandSide;
   tmpRightHandSide.set_size(this->m_RightHandSide.size());
-  for (unsigned int i = 0; i < this->m_RightHandSide.size(); i++)
+  for (unsigned int i = 0; i < this->m_RightHandSide.size(); ++i)
   {
     tmpRightHandSide[i] = this->m_RightHandSide[i];
   }
 
   this->m_RightHandSide.set_size(this->m_RightHandSide.size() + 1);
-  for (unsigned int i = 0; i < tmpRightHandSide.size(); i++)
+  for (unsigned int i = 0; i < tmpRightHandSide.size(); ++i)
   {
     this->m_RightHandSide[i] = tmpRightHandSide[i];
   }
@@ -136,7 +136,7 @@ LoadBCMFC::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   os << indent << "Index: " << this->m_Index << std::endl;
   os << indent << "Left Hand Side Size: " << this->m_LeftHandSide.size() << std::endl;
-  for (unsigned int i = 0; i < this->m_LeftHandSide.size(); i++)
+  for (unsigned int i = 0; i < this->m_LeftHandSide.size(); ++i)
   {
     os << indent << "Left Hand Side Element (" << i << "): " << this->m_LeftHandSide[i].m_element << std::endl;
     os << indent << "Left Hand Side DOF (" << i << "): " << this->m_LeftHandSide[i].dof << std::endl;

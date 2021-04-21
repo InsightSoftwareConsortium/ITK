@@ -110,7 +110,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   while (p_iter != pointsContainer->End())
   {
-    for (unsigned int i = 0; i < PointSetType::PointDimension; i++)
+    for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
     {
       double temp;
       dataStream >> temp;
@@ -130,7 +130,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   /* Preparing the gaussian mixture components */
   using ComponentPointer = ComponentType::Pointer;
   std::vector<ComponentPointer> components;
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     components.push_back(ComponentType::New());
     (components[i])->SetSample(sample);
@@ -143,7 +143,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetInitialProportions(initialProportions);
 
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     estimator->AddComponent((ComponentType::Superclass *)(components[i]).GetPointer());
   }
@@ -153,7 +153,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   std::cout << "DEBUG: current iteration = " << estimator->GetCurrentIteration() << std::endl;
 
   bool passed = true;
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
@@ -236,7 +236,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   const FilterType::MembershipFunctionsWeightsArrayType weightsArray = weightArrayObjects->Get();
 
   std::cout << "Estimator membership function Weight/proporation output: " << std::endl;
-  for (unsigned int i = 0; i < weightsArray.Size(); i++)
+  for (unsigned int i = 0; i < weightsArray.Size(); ++i)
   {
     std::cout << "Membership function: \t" << i << "\t" << weightsArray[i] << std::endl;
   }
@@ -258,7 +258,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   p_iter = pointsContainer2->Begin();
   while (p_iter != pointsContainer2->End())
   {
-    for (unsigned int i = 0; i < PointSetType::PointDimension; i++)
+    for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
     {
       double temp;
       dataTargetStream >> temp;

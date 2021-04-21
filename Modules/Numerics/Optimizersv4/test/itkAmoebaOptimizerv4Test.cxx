@@ -402,7 +402,7 @@ AmoebaTest1()
   std::cout << "Right answer   = " << trueParameters[0] << " , " << trueParameters[1] << std::endl;
   std::cout << "Final position = " << finalPosition << std::endl;
 
-  for (unsigned int j = 0; j < 2; j++)
+  for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > xTolerance)
       pass = false;

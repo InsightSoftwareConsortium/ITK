@@ -54,7 +54,7 @@ VerifyFilterOutput(const ShortImage * inputImage, const FloatImage * outputImage
     else
     {
       ShortImage::IndexType borderIdx = idx;
-      for (unsigned int i = 0; i < ShortImage::ImageDimension; i++)
+      for (unsigned int i = 0; i < ShortImage::ImageDimension; ++i)
       {
         if (borderIdx[i] < inputIndex[i])
         {

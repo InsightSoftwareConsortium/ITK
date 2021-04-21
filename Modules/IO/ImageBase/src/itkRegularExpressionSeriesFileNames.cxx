@@ -69,7 +69,7 @@ RegularExpressionSeriesFileNames::GetFileNames()
 
   // Scan directory for files. Each file is checked to see if it
   // matches the m_RegularExpression.
-  for (unsigned long i = 0; i < fileDir.GetNumberOfFiles(); i++)
+  for (unsigned long i = 0; i < fileDir.GetNumberOfFiles(); ++i)
   {
     // Only read files
     if (itksys::SystemTools::FileIsDirectory((m_Directory + "/" + fileDir.GetFile(i)).c_str()))
@@ -119,7 +119,7 @@ RegularExpressionSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) co
   os << indent << "NumericSort: " << m_NumericSort << std::endl;
   os << indent << "RegularExpression: " << m_RegularExpression << std::endl;
 
-  for (unsigned int i = 0; i < m_FileNames.size(); i++)
+  for (unsigned int i = 0; i < m_FileNames.size(); ++i)
   {
     os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;
   }

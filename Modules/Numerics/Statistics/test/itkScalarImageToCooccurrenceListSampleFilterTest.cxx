@@ -62,14 +62,14 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
   // setup the iterator
   InputImageIterator imageIt(image, image->GetBufferedRegion());
 
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
     for (int j = 0; j < 5; j++, ++imageIt)
     {
       imageIt.Set(i % 5 + j);
     }
 
   imageIt.GoToBegin();
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
   {
     for (int j = 0; j < 5; j++, ++imageIt)
     {

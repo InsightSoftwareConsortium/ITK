@@ -60,7 +60,7 @@ CenteredRigid2DTransform<TParametersValueType>::SetParameters(const ParametersTy
   this->SetVarAngle(angle);
   // Set the center
   InputPointType center;
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     center[i] = parameters[i + 1];
   }
@@ -68,7 +68,7 @@ CenteredRigid2DTransform<TParametersValueType>::SetParameters(const ParametersTy
 
   // Set the translation
   OutputVectorType translation;
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     translation[j] = parameters[j + 1 + SpaceDimension];
   }
@@ -101,12 +101,12 @@ CenteredRigid2DTransform<TParametersValueType>::GetParameters() const
   // Get the angle
   this->m_Parameters[0] = this->GetAngle();
   // Get the center
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     this->m_Parameters[i + 1] = this->GetCenter()[i];
   }
   // Get the translation
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     this->m_Parameters[j + 1 + SpaceDimension] = this->GetTranslation()[j];
   }

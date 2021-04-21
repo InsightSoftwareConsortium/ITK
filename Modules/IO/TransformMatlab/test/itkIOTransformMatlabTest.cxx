@@ -44,7 +44,7 @@ oneTest(const char * goodname, const char * badname)
   // Set it's parameters
   {
     typename AffineTransformType::ParametersType p = affine->GetParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -52,7 +52,7 @@ oneTest(const char * goodname, const char * badname)
   }
   {
     typename AffineTransformType::FixedParametersType p = affine->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -112,7 +112,7 @@ oneTest(const char * goodname, const char * badname)
   // Set it's parameters
   {
     typename AffineTransformType::ParametersType p = Bogus->GetParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -120,7 +120,7 @@ oneTest(const char * goodname, const char * badname)
   }
   {
     typename AffineTransformType::FixedParametersType p = Bogus->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }

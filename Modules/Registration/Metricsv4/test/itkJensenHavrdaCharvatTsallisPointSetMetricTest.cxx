@@ -40,7 +40,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   PointType  offset;
   float      normOffset = 0;
   VectorType normalizedOffset;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     offset[d] = 2;
     normOffset += itk::Math::sqr(offset[d]);
@@ -90,7 +90,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   float        metricValues2D[] = { 0.143842f, -0.0129571f, -0.00105768f, -0.000115118f, -1.40956e-05f, -1.84099e-06f };
   float metricValues3D[] = { 0.175588f, -0.0086854f, -0.000475248f, -3.46729e-05f, -2.84585e-06f, -2.49151e-07f };
 
-  for (unsigned int i = 0; i < numberOfAlphaValues; i++)
+  for (unsigned int i = 0; i < numberOfAlphaValues; ++i)
   {
 
     std::cout << "Alpha = " << alphaValues[i] << std::endl;
@@ -115,7 +115,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     std::cout << "value: " << value << std::endl;
     std::cout << "normalized derivative: " << derivative << std::endl;
 
-    for (unsigned int d = 0; d < metric->GetNumberOfParameters(); d++)
+    for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
     {
       if (std::fabs(derivative[d] - normalizedOffset[d]) / normalizedOffset[d] > 0.01)
       {
@@ -160,7 +160,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     moving_str2 << "0 0 0 0" << std::endl;
 
     typename PointType::VectorType vector;
-    for (unsigned int d = 0; d < metric->GetNumberOfParameters(); d++)
+    for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
     {
       vector[d] = derivative[count++];
     }
@@ -171,7 +171,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
       PointType sourcePoint = ItM.Value();
       PointType targetPoint = sourcePoint + vector;
 
-      for (unsigned int d = 0; d < metric->GetNumberOfParameters(); d++)
+      for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
       {
         moving_str1 << sourcePoint[d] << " ";
         moving_str2 << targetPoint[d] << " ";

@@ -111,7 +111,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
 
   while (p_iter != pointsContainer->End())
   {
-    for (i = 0; i < PointSetType::PointDimension; i++)
+    for (i = 0; i < PointSetType::PointDimension; ++i)
     {
       dataStream >> temp;
       point[i] = temp;
@@ -130,7 +130,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   /* Preparing the gaussian mixture components */
   using ComponentPointer = ComponentType::Pointer;
   std::vector<ComponentPointer> components;
-  for (i = 0; i < numberOfClasses; i++)
+  for (i = 0; i < numberOfClasses; ++i)
   {
     components.push_back(ComponentType::New());
     (components[i])->SetSample(sample);
@@ -143,7 +143,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetInitialProportions(initialProportions);
 
-  for (i = 0; i < numberOfClasses; i++)
+  for (i = 0; i < numberOfClasses; ++i)
   {
     estimator->AddComponent((ComponentType::Superclass *)(components[i]).GetPointer());
   }
@@ -155,7 +155,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
   bool               passed = true;
   double             displacement;
   const unsigned int measurementVectorSize = sample->GetMeasurementVectorSize();
-  for (i = 0; i < numberOfClasses; i++)
+  for (i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
@@ -163,7 +163,7 @@ itkExpectationMaximizationMixtureModelEstimatorTest(int argc, char * argv[])
     std::cout << "    Proportion: ";
     std::cout << "         " << (estimator->GetProportions())[i] << std::endl;
     displacement = 0.0;
-    for (j = 0; j < measurementVectorSize; j++)
+    for (j = 0; j < measurementVectorSize; ++j)
     {
       temp = (components[i])->GetFullParameters()[j] - trueParameters[i][j];
       displacement += (temp * temp);

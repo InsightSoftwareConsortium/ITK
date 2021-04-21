@@ -69,7 +69,7 @@ FillWithCircle(TImage *                   image,
   {
     index = it.GetIndex();
     double distance = 0;
-    for (unsigned int j = 0; j < TImage::ImageDimension; j++)
+    for (unsigned int j = 0; j < TImage::ImageDimension; ++j)
     {
       distance += itk::Math::sqr((double)index[j] - center[j]);
     }

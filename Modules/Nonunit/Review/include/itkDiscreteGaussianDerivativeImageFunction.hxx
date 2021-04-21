@@ -69,7 +69,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   // Create N operators (N=ImageDimension) with the order specified in m_Order
   unsigned int idx;
 
-  for (unsigned int direction = 0; direction < Self::ImageDimension2; direction++)
+  for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)
   {
     m_OperatorArray[direction].SetDirection(direction);
     m_OperatorArray[direction].SetMaximumKernelWidth(m_MaximumKernelWidth);
@@ -213,7 +213,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
     IndexType baseIndex;
     double    distance[ImageDimension2];
 
-    for (dim = 0; dim < ImageDimension2; dim++)
+    for (dim = 0; dim < ImageDimension2; ++dim)
     {
       baseIndex[dim] = Math::Floor<IndexValueType>(cindex[dim]);
       distance[dim] = cindex[dim] - static_cast<double>(baseIndex[dim]);
@@ -225,14 +225,14 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtContinu
     TOutput value = NumericTraits<TOutput>::ZeroValue();
     TOutput totalOverlap = NumericTraits<TOutput>::ZeroValue();
 
-    for (NumberOfNeighborsType counter = 0; counter < numberOfNeighbors; counter++)
+    for (NumberOfNeighborsType counter = 0; counter < numberOfNeighbors; ++counter)
     {
       double                overlap = 1.0;   // fraction overlap
       NumberOfNeighborsType upper = counter; // each bit indicates upper/lower neighbour
       IndexType             neighIndex;
 
       // get neighbor index and overlap fraction
-      for (dim = 0; dim < ImageDimension2; dim++)
+      for (dim = 0; dim < ImageDimension2; ++dim)
       {
         if (upper & 1)
         {

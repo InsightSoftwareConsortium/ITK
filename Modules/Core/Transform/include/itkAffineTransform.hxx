@@ -105,9 +105,9 @@ AffineTransform<TParametersValueType, NDimensions>::Scale(const OutputVectorType
   MatrixType   trans;
   unsigned int i, j;
 
-  for (i = 0; i < NDimensions; i++)
+  for (i = 0; i < NDimensions; ++i)
   {
-    for (j = 0; j < NDimensions; j++)
+    for (j = 0; j < NDimensions; ++j)
     {
       trans[i][j] = 0.0;
     }
@@ -135,9 +135,9 @@ AffineTransform<TParametersValueType, NDimensions>::Rotate(int axis1, int axis2,
   MatrixType   trans;
   unsigned int i, j;
 
-  for (i = 0; i < NDimensions; i++)
+  for (i = 0; i < NDimensions; ++i)
   {
-    for (j = 0; j < NDimensions; j++)
+    for (j = 0; j < NDimensions; ++j)
     {
       trans[i][j] = 0.0;
     }
@@ -247,9 +247,9 @@ AffineTransform<TParametersValueType, NDimensions>::Shear(int axis1, int axis2, 
   MatrixType   trans;
   unsigned int i, j;
 
-  for (i = 0; i < NDimensions; i++)
+  for (i = 0; i < NDimensions; ++i)
   {
-    for (j = 0; j < NDimensions; j++)
+    for (j = 0; j < NDimensions; ++j)
     {
       trans[i][j] = 0.0;
     }
@@ -295,9 +295,9 @@ AffineTransform<TParametersValueType, NDimensions>::Metric(const Self * other) c
 {
   ScalarType result = 0.0, term;
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NDimensions; j++)
+    for (unsigned int j = 0; j < NDimensions; ++j)
     {
       term = this->GetMatrix()[i][j] - other->GetMatrix()[i][j];
       result += term * term;
@@ -315,9 +315,9 @@ AffineTransform<TParametersValueType, NDimensions>::Metric() const
 {
   ScalarType result = 0.0, term;
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NDimensions; j++)
+    for (unsigned int j = 0; j < NDimensions; ++j)
     {
       if (i == j)
       {

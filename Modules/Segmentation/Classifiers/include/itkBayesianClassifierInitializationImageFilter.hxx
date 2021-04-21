@@ -93,7 +93,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   kmeansFilter->SetInput(this->GetInput());
   kmeansFilter->SetUseNonContiguousLabels(false);
 
-  for (unsigned k = 0; k < m_NumberOfClasses; k++)
+  for (unsigned k = 0; k < m_NumberOfClasses; ++k)
   {
     const double userProvidedInitialMean = k;
     // TODO: Choose more reasonable defaults for specifying the initial means
@@ -254,7 +254,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   while (!itrMembershipImage.IsAtEnd())
   {
     mv[0] = itrInputImage.Get();
-    for (unsigned int i = 0; i < m_NumberOfClasses; i++)
+    for (unsigned int i = 0; i < m_NumberOfClasses; ++i)
     {
       membershipPixel[i] = (m_MembershipFunctionContainer->GetElement(i))->Evaluate(mv);
     }

@@ -65,7 +65,7 @@ BoxSpatialObject<TDimension>::ComputeMyBoundingBox()
 
   PointType pnt1;
   PointType pnt2;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     pnt1[i] = m_PositionInObjectSpace[i];
     pnt2[i] = m_PositionInObjectSpace[i] + m_SizeInObjectSpace[i];

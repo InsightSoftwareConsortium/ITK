@@ -139,7 +139,7 @@ public:
 
     while (!it.IsAtEnd())
     {
-      for (unsigned int i = 0; i < Self::ObjectDimension; i++)
+      for (unsigned int i = 0; i < Self::ObjectDimension; ++i)
       {
         point[i] = it.GetIndex()[i];
       }
@@ -370,7 +370,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
 
   m_ParametersScale[0] = 100; // angle scale
 
-  for (unsigned int i = 1; i < 3; i++)
+  for (unsigned int i = 1; i < 3; ++i)
   {
     m_ParametersScale[i] = 1; // offset scale
   }
@@ -447,7 +447,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
 
   std::cout << "Final Solution is : " << finalParameters << std::endl;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     if (finalParameters[i] > 1) // if we are not within 1 pixel the registration fails
     {

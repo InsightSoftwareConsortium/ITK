@@ -141,7 +141,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 #ifdef PAMI
   MakeSet(m_SortPixels[0].Pos);
   // m_Processed[0] = true;
-  for (SizeValueType k = 1; k < buffsize; k++)
+  for (SizeValueType k = 1; k < buffsize; ++k)
   {
     OffsetValueType ThisPos = m_SortPixels[k].Pos;
     IndexType       ThisWhere = input->ComputeIndex(ThisPos);
@@ -164,7 +164,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     else
     {
       // need a bounds check for each neighbour
-      for (unsigned i = 0; i < TheseOffsets.size(); i++)
+      for (unsigned i = 0; i < TheseOffsets.size(); ++i)
       {
         if (output->GetRequestedRegion().IsInside(ThisWhere + TheseOffsets[i]))
         {
@@ -182,7 +182,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 #else
   MakeSet(m_SortPixels[0].Pos);
   m_Processed[0] = true;
-  for (SizeValueType k = 1; k < buffsize; k++)
+  for (SizeValueType k = 1; k < buffsize; ++k)
   {
     OffsetValueType ThisPos = m_SortPixels[k].Pos;
     OffsetValueType PrevPos = m_SortPixels[k - 1].Pos;
@@ -210,7 +210,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     if (fit->IsInside(ThisWhere))
     {
       // no need for neighbor bounds check
-      for (unsigned i = 0; i < TheseDirectOffsets.size(); i++)
+      for (unsigned i = 0; i < TheseDirectOffsets.size(); ++i)
       {
         OffsetValueType NeighInd = ThisPos + TheseDirectOffsets[i];
         if (m_Processed[NeighInd])
@@ -221,7 +221,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     }
     else
     {
-      for (unsigned i = 0; i < TheseOffsets.size(); i++)
+      for (unsigned i = 0; i < TheseOffsets.size(); ++i)
       {
         if (output->GetRequestedRegion().IsInside(ThisWhere + TheseOffsets[i]))
         {
@@ -315,7 +315,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   IndexType       idx = this->GetOutput()->GetRequestedRegion().GetIndex();
   OffsetValueType offset = this->GetOutput()->ComputeOffset(idx);
 
-  for (LIt = OffsetList.begin(); LIt != OffsetList.end(); LIt++)
+  for (LIt = OffsetList.begin(); LIt != OffsetList.end(); ++LIt)
   {
     OffsetType O = It.GetOffset(*LIt);
     PosOffsets.push_back(this->GetOutput()->ComputeOffset(idx + O) - offset);

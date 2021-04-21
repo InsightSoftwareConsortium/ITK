@@ -368,12 +368,12 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   TInternalComputationValueType                       local_mi;
   TInternalComputationValueType                       eps = NumericTraits<TInternalComputationValueType>::epsilon();
   typename JointPDFType::IndexType                    index;
-  for (SizeValueType ii = 0; ii < m_NumberOfHistogramBins; ii++)
+  for (SizeValueType ii = 0; ii < m_NumberOfHistogramBins; ++ii)
   {
     MarginalPDFIndexType mind;
     mind[0] = ii;
     px = this->m_FixedImageMarginalPDF->GetPixel(mind);
-    for (SizeValueType jj = 0; jj < m_NumberOfHistogramBins; jj++)
+    for (SizeValueType jj = 0; jj < m_NumberOfHistogramBins; ++jj)
     {
       mind[0] = jj;
       py = this->m_MovingImageMarginalPDF->GetPixel(mind);

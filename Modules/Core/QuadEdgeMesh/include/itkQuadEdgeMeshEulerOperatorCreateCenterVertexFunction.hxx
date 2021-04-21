@@ -70,7 +70,7 @@ QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
   } // rof
   vec /= CoordRepType(sum);
   PointType p;
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     p[i] = vec[i];
   }

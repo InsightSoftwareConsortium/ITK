@@ -42,7 +42,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   // Set it's parameters
   {
     typename AffineTransformType::ParametersType p = affine->GetParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -50,7 +50,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   }
   {
     typename AffineTransformType::FixedParametersType p = affine->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -121,7 +121,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   // Set it's parameters
   {
     typename AffineTransformType::ParametersType p = Bogus->GetParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }
@@ -129,7 +129,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   }
   {
     typename AffineTransformType::FixedParametersType p = Bogus->GetFixedParameters();
-    for (i = 0; i < p.GetSize(); i++)
+    for (i = 0; i < p.GetSize(); ++i)
     {
       p[i] = i;
     }

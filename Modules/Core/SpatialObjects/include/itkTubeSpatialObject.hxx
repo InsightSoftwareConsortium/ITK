@@ -199,7 +199,7 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
       double A = 0;
       double B = 0;
 
-      for (unsigned int i = 0; i < TDimension; i++)
+      for (unsigned int i = 0; i < TDimension; ++i)
       {
         A += (b[i] - a[i]) * (point[i] - a[i]);
         B += (b[i] - a[i]) * (b[i] - a[i]);
@@ -242,7 +242,7 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
           double lambdaR = lambdaMinR + lambda * (lambdaMaxR - lambdaMinR);
 
           PointType p;
-          for (unsigned int i = 0; i < TDimension; i++)
+          for (unsigned int i = 0; i < TDimension; ++i)
           {
             p[i] = a[i] + lambda * (b[i] - a[i]);
           }
@@ -330,7 +330,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     x1 = this->GetPoint(it1)->GetPositionInObjectSpace();
     x3 = this->GetPoint(it3)->GetPositionInObjectSpace();
     l = 0;
-    for (unsigned int i = 0; i < TDimension; i++)
+    for (unsigned int i = 0; i < TDimension; ++i)
     {
       t[i] = (x3[i] - x1[i]);
       l = l + t[i] * t[i];
@@ -343,7 +343,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       x2 = this->GetPoint(it2)->GetPositionInObjectSpace();
 
       l = 0;
-      for (unsigned int i = 0; i < TDimension; i++)
+      for (unsigned int i = 0; i < TDimension; ++i)
       {
         t[i] = (x3[i] - x2[i]);
         l = l + t[i] * t[i];
@@ -363,7 +363,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
         return false;
       }
     }
-    for (unsigned int i = 0; i < TDimension; i++)
+    for (unsigned int i = 0; i < TDimension; ++i)
     {
       t[i] /= l;
     }
@@ -417,7 +417,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       if (it1 != 0)
       {
         l = 0;
-        for (unsigned int i = 0; i < TDimension; i++)
+        for (unsigned int i = 0; i < TDimension; ++i)
         {
           l += n1[i] * prevN1[i];
         }
@@ -494,7 +494,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       if (it1 != 0)
       {
         l = 0;
-        for (unsigned int i = 0; i < TDimension; i++)
+        for (unsigned int i = 0; i < TDimension; ++i)
         {
           l += n1[i] * prevN1[i];
         }
@@ -503,7 +503,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
           n1 *= -1;
         }
         l = 0;
-        for (unsigned int i = 0; i < TDimension; i++)
+        for (unsigned int i = 0; i < TDimension; ++i)
         {
           l += n2[i] * prevN2[i];
         }

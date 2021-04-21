@@ -31,7 +31,7 @@ MinimumDecisionRule::Evaluate(const MembershipVectorType & discriminantScores) c
     MembershipValueType min = discriminantScores[0];
     ClassIdentifierType i;
 
-    for (i = 1; i < discriminantScores.size(); i++)
+    for (i = 1; i < discriminantScores.size(); ++i)
     {
       if (discriminantScores[i] < min)
       {

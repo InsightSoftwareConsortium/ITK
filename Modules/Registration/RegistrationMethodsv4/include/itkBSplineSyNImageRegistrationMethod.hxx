@@ -275,7 +275,7 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
       typename DerivativeType::iterator it;
       for (it = metricDerivative.begin(); it != metricDerivative.end(); it += ImageDimension)
       {
-        for (unsigned int d = 0; d < ImageDimension; d++)
+        for (unsigned int d = 0; d < ImageDimension; ++d)
         {
           *(it + d) *= this->m_OptimizerWeights[d];
         }
@@ -296,7 +296,7 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
       while (It != transformedPointSet->GetPoints()->End())
       {
         typename BSplinePointSetType::PixelType displacement;
-        for (unsigned int d = 0; d < ImageDimension; d++)
+        for (unsigned int d = 0; d < ImageDimension; ++d)
         {
           displacement[d] = metricDerivative[count * ImageDimension + d];
         }
@@ -379,7 +379,7 @@ typename BSplineSyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTra
 
   DisplacementFieldPointer smoothField = duplicator->GetOutput();
 
-  for (unsigned int d = 0; d < numberOfControlPoints.Size(); d++)
+  for (unsigned int d = 0; d < numberOfControlPoints.Size(); ++d)
   {
     if (numberOfControlPoints[d] <= 0)
     {

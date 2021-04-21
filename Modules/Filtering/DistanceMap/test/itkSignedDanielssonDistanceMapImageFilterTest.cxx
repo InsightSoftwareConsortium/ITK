@@ -94,9 +94,9 @@ test(int testIdx)
     std::cout << "Compute with a 9x9 image, with a 5x5 square at the center set to ON." << std::endl << std::endl;
     // Test the signed Danielsson Output for the a 5x5 square in a 9x9 image
     int i, j;
-    for (i = 2; i <= 6; i++)
+    for (i = 2; i <= 6; ++i)
     {
-      for (j = 2; j <= 6; j++)
+      for (j = 2; j <= 6; ++j)
       {
         index2D[0] = i;
         index2D[1] = j;
@@ -144,7 +144,7 @@ test(int testIdx)
       while (!it2D4.IsAtEndOfLine())
       {
         std::cout << "[";
-        for (unsigned int i = 0; i < 2; i++)
+        for (unsigned int i = 0; i < 2; ++i)
         {
           std::cout << it2D4.Get()[i];
           if (i == 0)

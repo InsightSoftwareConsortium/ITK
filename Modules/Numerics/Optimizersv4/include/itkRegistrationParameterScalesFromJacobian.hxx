@@ -48,7 +48,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateScales(ScalesType & pa
   parameterScales.Fill(NumericTraits<typename ScalesType::ValueType>::OneValue());
 
   // checking each sample point
-  for (SizeValueType c = 0; c < numSamples; c++)
+  for (SizeValueType c = 0; c < numSamples; ++c)
   {
     const VirtualPointType point = this->m_SamplePoints[c];
 
@@ -60,7 +60,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateScales(ScalesType & pa
 
   if (numSamples > 0)
   {
-    for (SizeValueType p = 0; p < numPara; p++)
+    for (SizeValueType p = 0; p < numPara; ++p)
     {
       parameterScales[p] = norms[p] / numSamples;
     }
@@ -85,7 +85,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateStepScale(const Parame
   FloatType  scaleSum = NumericTraits<FloatType>::ZeroValue();
 
   // checking each sample point
-  for (SizeValueType c = 0; c < numSamples; c++)
+  for (SizeValueType c = 0; c < numSamples; ++c)
   {
     scaleSum += sampleScales[c];
   }
@@ -124,7 +124,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateLocalStepScales(const 
   localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::ZeroValue());
 
   // checking each sample point
-  for (SizeValueType c = 0; c < numSamples; c++)
+  for (SizeValueType c = 0; c < numSamples; ++c)
   {
     VirtualPointType & point = this->m_SamplePoints[c];
     IndexValueType     localId =
@@ -157,7 +157,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::ComputeSampleStepScales(const 
 
 
   // checking each sample point
-  for (SizeValueType c = 0; c < numSamples; c++)
+  for (SizeValueType c = 0; c < numSamples; ++c)
   {
     const VirtualPointType & point = this->m_SamplePoints[c];
 
@@ -181,7 +181,7 @@ RegistrationParameterScalesFromJacobian<TMetric>::ComputeSampleStepScales(const 
       SizeValueType offset = this->m_Metric->ComputeParameterOffsetFromVirtualPoint(point, numPara);
 
       ParametersType localStep(numPara);
-      for (SizeValueType p = 0; p < numPara; p++)
+      for (SizeValueType p = 0; p < numPara; ++p)
       {
         localStep[p] = step[offset + p];
       }

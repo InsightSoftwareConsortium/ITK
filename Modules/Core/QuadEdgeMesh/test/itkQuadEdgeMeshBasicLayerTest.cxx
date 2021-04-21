@@ -73,7 +73,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   //////////////////////////////////////////////////////////
   std::cout << "Testing ring for Origin() unset values" << std::endl;
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
   {
     if (e[i]->IsOriginSet())
     {
@@ -89,7 +89,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   int org[5] = { 0, 1, 2, 3, 0 };
   int dest[5] = { 1, 2, 3, 0, 2 };
 
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
   {
     e[i]->SetOrigin(org[i]);
     e[i]->SetDestination(dest[i]);
@@ -98,7 +98,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   //////////////////////////////////////////////////////////
   std::cout << "Testing ring for Origin() set values... " << std::endl;
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
   {
     if (!e[i]->IsOriginSet())
     {
@@ -120,7 +120,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
 
   //////////////////////////////////////////////////////////
   std::cout << "Testing Origin() and Destination() adjacency... " << std::endl;
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
   {
     if (e[i]->GetOrigin() != org[i])
     {
@@ -157,7 +157,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
                                  { 3, 0, 1 },
                                  { 0, 2, 0 }, // Last 0 is a dummy
                                  { 2, 3, 1 } };
-  for (int edge = 0; edge < 5; edge++)
+  for (int edge = 0; edge < 5; ++edge)
   {
     int test = 0;
     for (IteratorGeom itOnext = e[edge]->BeginGeomOnext(); itOnext != e[edge]->EndGeomOnext(); itOnext++, test++)
@@ -177,7 +177,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   //////////////////////////////////////////////////////////
   std::cout << "Testing Lnext iterators... " << std::endl;
   int lnextDestination[5][3] = { { 0, 1, 2 }, { 1, 2, 0 }, { 2, 3, 0 }, { 3, 0, 2 }, { 0, 2, 3 } };
-  for (int edge = 0; edge < 5; edge++)
+  for (int edge = 0; edge < 5; ++edge)
   {
     int test = 0;
     for (IteratorGeom itLnext = e[edge]->BeginGeomLnext(); itLnext != e[edge]->EndGeomLnext(); itLnext++, test++)
@@ -213,7 +213,7 @@ itkQuadEdgeMeshBasicLayerTest(int, char *[])
   //////////////////////////////////////////////////////////
   std::cout << "Testing Sym iterators... " << std::endl;
   int symDestination[5][3] = { { 0, 1 }, { 1, 2 }, { 2, 3 }, { 3, 0 }, { 0, 2 } };
-  for (int edge = 0; edge < 5; edge++)
+  for (int edge = 0; edge < 5; ++edge)
   {
     test = 0;
     for (IteratorGeom itSym = e[edge]->BeginGeomSym(); itSym != e[edge]->EndGeomSym(); itSym++, test++)

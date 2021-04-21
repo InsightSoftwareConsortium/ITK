@@ -120,7 +120,7 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::ComputeGradient(Outp
 
   centerPixel = oImage->GetPixel(iNode);
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     neighIndex = iNode;
 

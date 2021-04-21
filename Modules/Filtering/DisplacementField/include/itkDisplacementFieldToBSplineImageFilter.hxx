@@ -175,7 +175,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
       typename OutputFieldType::IndexType index = ItB.GetIndex();
 
       bool isOnStationaryBoundary = false;
-      for (unsigned int d = 0; d < ImageDimension; d++)
+      for (unsigned int d = 0; d < ImageDimension; ++d)
       {
         if (index[d] == startIndex[d] || index[d] == startIndex[d] + static_cast<int>(this->m_BSplineDomainSize[d]) - 1)
         {
@@ -213,7 +213,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
       bool isOnStationaryBoundary = false;
       if (this->m_EnforceStationaryBoundary && this->m_UseInputFieldToDefineTheBSplineDomain)
       {
-        for (unsigned int d = 0; d < ImageDimension; d++)
+        for (unsigned int d = 0; d < ImageDimension; ++d)
         {
           if (index[d] == startIndex[d] ||
               index[d] == startIndex[d] + static_cast<int>(this->m_BSplineDomainSize[d]) - 1)
@@ -256,7 +256,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
       {
         if (this->m_EstimateInverse)
         {
-          for (unsigned int d = 0; d < ImageDimension; d++)
+          for (unsigned int d = 0; d < ImageDimension; ++d)
           {
             physicalPoint[d] += data[d];
           }
@@ -309,7 +309,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 
       if (this->m_EstimateInverse)
       {
-        for (unsigned int d = 0; d < ImageDimension; d++)
+        for (unsigned int d = 0; d < ImageDimension; ++d)
         {
           physicalPoint[d] += data[d];
         }
@@ -326,7 +326,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
       {
         // If we enforce the stationary and the point is on the boundary (or really close
         // to the boundary), we can ignore it.
-        for (unsigned int d = 0; d < ImageDimension; d++)
+        for (unsigned int d = 0; d < ImageDimension; ++d)
         {
           if (cidx[d] < static_cast<typename ContinuousIndexType::CoordRepType>(startIndex[d]) + 0.5 ||
               cidx[d] > static_cast<typename ContinuousIndexType::CoordRepType>(

@@ -485,9 +485,9 @@ HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::v
   dim[0] = dir[0].size();
   const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
   unsigned                        k(0);
-  for (unsigned i = 0; i < dim[1]; i++)
+  for (unsigned i = 0; i < dim[1]; ++i)
   {
-    for (unsigned j = 0; j < dim[0]; j++)
+    for (unsigned j = 0; j < dim[0]; ++j)
     {
       buf[k] = dir[i][j];
       k++;
@@ -514,7 +514,7 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
   }
   dirSpace.getSimpleExtentDims(dim, nullptr);
   rval.resize(dim[1]);
-  for (unsigned i = 0; i < dim[1]; i++)
+  for (unsigned i = 0; i < dim[1]; ++i)
   {
     rval[i].resize(dim[0]);
   }
@@ -524,9 +524,9 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
     const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
     dirSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     int k = 0;
-    for (unsigned i = 0; i < dim[1]; i++)
+    for (unsigned i = 0; i < dim[1]; ++i)
     {
-      for (unsigned j = 0; j < dim[0]; j++)
+      for (unsigned j = 0; j < dim[0]; ++j)
       {
         rval[i][j] = buf[k];
         k++;
@@ -538,9 +538,9 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
     const std::unique_ptr<float[]> buf(new float[dim[0] * dim[1]]);
     dirSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     int k = 0;
-    for (unsigned i = 0; i < dim[1]; i++)
+    for (unsigned i = 0; i < dim[1]; ++i)
     {
-      for (unsigned j = 0; j < dim[0]; j++)
+      for (unsigned j = 0; j < dim[0]; ++j)
       {
         rval[i][j] = buf[k];
         k++;
@@ -570,7 +570,7 @@ HDF5ImageIO ::StoreMetaData(MetaDataDictionary * metaDict,
     // metadatadictionary actually is used in ITK
     std::vector<TType> valVec = this->ReadVector<TType>(HDFPath);
     Array<TType>       val(static_cast<typename Array<TType>::SizeValueType>(valVec.size()));
-    for (unsigned int i = 0; i < val.GetSize(); i++)
+    for (unsigned int i = 0; i < val.GetSize(); ++i)
     {
       val[i] = valVec[i];
     }
@@ -686,7 +686,7 @@ HDF5ImageIO ::ReadImageInformation()
     OriginName += Origin;
     this->m_Origin = this->ReadVector<double>(OriginName);
 
-    for (int i = 0; i < numDims; i++)
+    for (int i = 0; i < numDims; ++i)
     {
       this->SetDirection(i, directions[i]);
     }
@@ -694,7 +694,7 @@ HDF5ImageIO ::ReadImageInformation()
     std::string SpacingName(groupName);
     SpacingName += Spacing;
     std::vector<double> spacing = this->ReadVector<double>(SpacingName);
-    for (int i = 0; i < numDims; i++)
+    for (int i = 0; i < numDims; ++i)
     {
       this->SetSpacing(i, spacing[i]);
     }
@@ -704,7 +704,7 @@ HDF5ImageIO ::ReadImageInformation()
 
     {
       std::vector<ImageIOBase::SizeValueType> Dims = this->ReadVector<ImageIOBase::SizeValueType>(DimensionsName);
-      for (int i = 0; i < numDims; i++)
+      for (int i = 0; i < numDims; ++i)
       {
         this->SetDimensions(i, Dims[i]);
       }
@@ -741,7 +741,7 @@ HDF5ImageIO ::ReadImageInformation()
     MetaDataGroupName += MetaDataName;
     MetaDataGroupName += "/";
     H5::Group metaGroup(this->m_H5File->openGroup(MetaDataGroupName));
-    for (unsigned int i = 0; i < metaGroup.getNumObjs(); i++)
+    for (unsigned int i = 0; i < metaGroup.getNumObjs(); ++i)
     {
       H5std_string name = metaGroup.getObjnameByIdx(i);
 
@@ -988,7 +988,7 @@ HDF5ImageIO ::WriteMetaArray(const std::string & name, MetaDataObjectBase * meta
   }
   Array<TType>       val = metaObj->GetMetaDataObjectValue();
   std::vector<TType> vecVal(val.GetSize());
-  for (unsigned i = 0; i < val.size(); i++)
+  for (unsigned i = 0; i < val.size(); ++i)
   {
     vecVal[i] = val[i];
   }
@@ -1094,7 +1094,7 @@ HDF5ImageIO ::WriteImageInformation()
     // MetaData.
     MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
     auto                 it = metaDict.Begin(), end = metaDict.End();
-    for (; it != end; it++)
+    for (; it != end; ++it)
     {
       MetaDataObjectBase * metaObj = it->second.GetPointer();
       std::string          objName(MetaDataGroupName);

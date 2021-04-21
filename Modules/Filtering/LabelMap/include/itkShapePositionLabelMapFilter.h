@@ -109,7 +109,7 @@ protected:
       using CoordinateType = double;
       Point<CoordinateType, ImageDimension> point;
       // copy the position to a point, required by TransformPhysicalPointToIndex
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         // FIXME: This is a bug. The cast should be as in the following line
         // where CoordinateType is used as the type to cast to. We are temporarily
@@ -122,7 +122,7 @@ protected:
     else
     {
       // copy the position to the index, to avoid warnings
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         idx[i] = static_cast<IndexValueType>(position[i]);
       }

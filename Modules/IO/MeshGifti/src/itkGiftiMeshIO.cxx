@@ -85,9 +85,9 @@ GiftiMeshIO::CanWriteFile(const char * fileName)
 void
 GiftiMeshIO::SetDirection(const DirectionType & direction)
 {
-  for (unsigned int rr = 0; rr < 4; rr++)
+  for (unsigned int rr = 0; rr < 4; ++rr)
   {
-    for (unsigned int cc = 0; cc < 4; cc++)
+    for (unsigned int cc = 0; cc < 4; ++cc)
     {
       m_Direction[rr][cc] = direction[rr][cc];
     }
@@ -187,9 +187,9 @@ GiftiMeshIO::ReadMeshInformation()
       // get coord system
       if (m_GiftiImage->darray[ii]->numCS)
       {
-        for (unsigned int rr = 0; rr < 4; rr++)
+        for (unsigned int rr = 0; rr < 4; ++rr)
         {
-          for (unsigned int cc = 0; cc < 4; cc++)
+          for (unsigned int cc = 0; cc < 4; ++cc)
           {
             m_Direction[rr][cc] = m_GiftiImage->darray[ii]->coordsys[0]->xform[rr][cc];
           }
@@ -758,7 +758,7 @@ GiftiMeshIO::WriteMeshInformation()
     m_GiftiImage->darray[dalist[0]]->num_dim = 2;
 
     long long nvals = 1;
-    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++)
+    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ++ii)
     {
       m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
       nvals *= dimensions[ii];
@@ -802,9 +802,9 @@ GiftiMeshIO::WriteMeshInformation()
     gifti_add_empty_CS(m_GiftiImage->darray[dalist[0]]);
     if (m_GiftiImage->darray[dalist[0]]->numCS)
     {
-      for (unsigned int rr = 0; rr < 4; rr++)
+      for (unsigned int rr = 0; rr < 4; ++rr)
       {
-        for (unsigned int cc = 0; cc < 4; cc++)
+        for (unsigned int cc = 0; cc < 4; ++cc)
         {
           m_GiftiImage->darray[dalist[0]]->coordsys[0]->xform[rr][cc] = m_Direction[rr][cc];
         }
@@ -830,7 +830,7 @@ GiftiMeshIO::WriteMeshInformation()
     m_GiftiImage->darray[dalist[0]]->num_dim = 2;
 
     long long nvals = 1;
-    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++)
+    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ++ii)
     {
       m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
       nvals *= dimensions[ii];
@@ -895,7 +895,7 @@ GiftiMeshIO::WriteMeshInformation()
     }
 
     long long nvals = 1;
-    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++)
+    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ++ii)
     {
       m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
       nvals *= dimensions[ii];
@@ -981,7 +981,7 @@ GiftiMeshIO::WriteMeshInformation()
     }
 
     long long nvals = 1;
-    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ii++)
+    for (int ii = 0; ii < m_GiftiImage->darray[dalist[0]]->num_dim; ++ii)
     {
       m_GiftiImage->darray[dalist[0]]->dims[ii] = dimensions[ii];
       nvals *= dimensions[ii];

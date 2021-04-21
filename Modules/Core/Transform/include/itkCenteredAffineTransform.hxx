@@ -39,9 +39,9 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters() cons
   unsigned int par = 0;
 
   const MatrixType & matrix = this->GetMatrix();
-  for (unsigned int row = 0; row < NDimensions; row++)
+  for (unsigned int row = 0; row < NDimensions; ++row)
   {
-    for (unsigned int col = 0; col < NDimensions; col++)
+    for (unsigned int col = 0; col < NDimensions; ++col)
     {
       this->m_Parameters[par] = matrix[row][col];
       ++par;
@@ -50,7 +50,7 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters() cons
 
   // Transfer the rotation center
   InputPointType center = this->GetCenter();
-  for (unsigned int j = 0; j < NDimensions; j++)
+  for (unsigned int j = 0; j < NDimensions; ++j)
   {
     this->m_Parameters[par] = center[j];
     ++par;
@@ -58,7 +58,7 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters() cons
 
   // Transfer the translation
   OutputVectorType translation = this->GetTranslation();
-  for (unsigned int k = 0; k < NDimensions; k++)
+  for (unsigned int k = 0; k < NDimensions; ++k)
   {
     this->m_Parameters[par] = translation[k];
     ++par;
@@ -82,9 +82,9 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::SetParameters(const 
   }
 
   MatrixType matrix;
-  for (unsigned int row = 0; row < NDimensions; row++)
+  for (unsigned int row = 0; row < NDimensions; ++row)
   {
-    for (unsigned int col = 0; col < NDimensions; col++)
+    for (unsigned int col = 0; col < NDimensions; ++col)
     {
       matrix[row][col] = this->m_Parameters[par];
       ++par;
@@ -95,7 +95,7 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::SetParameters(const 
 
   // Transfer the rotation center
   InputPointType center;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     center[i] = this->m_Parameters[par];
     ++par;
@@ -104,7 +104,7 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::SetParameters(const 
 
   // Transfer the translation
   OutputVectorType translation;
-  for (unsigned int k = 0; k < NDimensions; k++)
+  for (unsigned int k = 0; k < NDimensions; ++k)
   {
     translation[k] = this->m_Parameters[par];
     ++par;
@@ -131,9 +131,9 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::ComputeJacobianWithR
   jacobian.Fill(0.0);
 
   unsigned int blockOffset = 0;
-  for (unsigned int block = 0; block < SpaceDimension; block++)
+  for (unsigned int block = 0; block < SpaceDimension; ++block)
   {
-    for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+    for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
     {
       jacobian(block, blockOffset + dim) = p[dim];
     }
@@ -142,17 +142,17 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::ComputeJacobianWithR
 
   // Block associated with the center parameters
   const MatrixType & matrix = this->GetMatrix();
-  for (unsigned int k = 0; k < SpaceDimension; k++)
+  for (unsigned int k = 0; k < SpaceDimension; ++k)
   {
     jacobian(k, blockOffset + k) = 1.0;
-    for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+    for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
     {
       jacobian(k, blockOffset + dim) -= matrix[k][dim];
     }
   }
   blockOffset += SpaceDimension;
   // Block associated with the translations
-  for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+  for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian(dim, blockOffset + dim) = 1.0;
   }

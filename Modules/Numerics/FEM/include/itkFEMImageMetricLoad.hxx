@@ -87,7 +87,7 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   typename FixedType::IndexType  tindex;
   //  typename MovingType::IndexType rindex;
   // initialize the offset/vector part
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     // Set the size of the image region
     size[k] = 1;
@@ -133,7 +133,7 @@ ImageMetricLoad<TMoving, TFixed>::ImageMetricLoad()
   m_SolutionIndex = 1;
   m_SolutionIndex2 = 0;
   m_Sign = 1.0;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_MetricRadius[i] = 1;
   }
@@ -156,9 +156,9 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
   const unsigned int Nnodes = (*elt)->GetNumberOfNodes();
 
   solmat.set_size(Nnodes * ImageDimension, 1);
-  for (; elt != element->end(); elt++)
+  for (; elt != element->end(); ++elt)
   {
-    for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; i++)
+    for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; ++i)
     {
       static_cast<Element *>((*elt))->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
@@ -166,11 +166,11 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
 
       float solval, posval;
       Float detJ = (*elt)->JacobianDeterminant(ip);
-      for (unsigned int f = 0; f < ImageDimension; f++)
+      for (unsigned int f = 0; f < ImageDimension; ++f)
       {
         solval = 0.0;
         posval = 0.0;
-        for (unsigned int n = 0; n < Nnodes; n++)
+        for (unsigned int n = 0; n < Nnodes; ++n)
         {
           posval += shapef[n] * (((*elt)->GetNodeCoordinates(n))[f]);
           float nodeval =
@@ -194,7 +194,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
         // do nothing we dont care if the metric region is outside the image
         // std::cerr << e << std::endl;
       }
-      for (unsigned int n = 0; n < Nnodes; n++)
+      for (unsigned int n = 0; n < Nnodes; ++n)
       {
         itk::fem::Element::Float temp = shapef[n] * tempe * w * detJ;
         energy += temp;
@@ -224,20 +224,20 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
   const unsigned int Nnodes = (*elt)->GetNumberOfNodes();
 
   solmat.set_size(Nnodes * ImageDimension, 1);
-  for (; elt != element->end(); elt++)
+  for (; elt != element->end(); ++elt)
   {
-    for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; i++)
+    for (unsigned int i = 0; i < m_NumberOfIntegrationPoints; ++i)
     {
       static_cast<Element *>((*elt))->GetIntegrationPointAndWeight(i, ip, w, m_NumberOfIntegrationPoints);
       // FIXME REMOVE WHEN ELEMENT NEW IS BASE CLASS
       shapef = (*elt)->ShapeFunctions(ip);
 
       Float detJ = (*elt)->JacobianDeterminant(ip);
-      for (unsigned int f = 0; f < ImageDimension; f++)
+      for (unsigned int f = 0; f < ImageDimension; ++f)
       {
         float solval = 0.0;
         float posval = 0.0;
-        for (unsigned int n = 0; n < Nnodes; n++)
+        for (unsigned int n = 0; n < Nnodes; ++n)
         {
           posval += shapef[n] * (((*elt)->GetNodeCoordinates(n))[f]);
           float nodeval =
@@ -261,7 +261,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
         // do nothing we dont care if the metric region is outside the image
         // std::cerr << e << std::endl;
       }
-      for (unsigned int n = 0; n < Nnodes; n++)
+      for (unsigned int n = 0; n < Nnodes; ++n)
       {
         itk::fem::Element::Float temp = shapef[n] * tempe * w * detJ;
         energy += temp;
@@ -292,7 +292,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol)
   // ------------------------------------------------------------
 
   VectorType OutVec;
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     if (itk::Math::isnan(Gpos[k]) || itk::Math::isinf(Gpos[k]) || itk::Math::isnan(Gsol[k]) ||
         itk::Math::isinf(Gsol[k]) || std::fabs(Gpos[k]) > 1.e33 || std::fabs(Gsol[k]) > 1.e33)
@@ -312,7 +312,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol)
   OutVec.set_size(ImageDimension);
 
   int lobordercheck = 0, hibordercheck = 0;
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     // Set the size of the image region
     parameters[k] = Gsol[k];
@@ -366,7 +366,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol)
 
   m_Energy += (double)measure;
   float gmag = 0.0;
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     if (lobordercheck < 0 || hibordercheck >= 0 || itk::Math::isnan(derivative[k]) || itk::Math::isinf(derivative[k]))
     {
@@ -415,7 +415,7 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec)
   VectorType                     OutVec(ImageDimension, 0.0); // gradient direction
   // std::cout << " pos   translation " << InVec  << endl;
   // initialize the offset/vector part
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     // Set the size of the image region
     parameters[k] = InVec[k + ImageDimension];                        // this
@@ -504,7 +504,7 @@ ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType G
 
   VectorType OutVec;
   OutVec.set_size(ImageDimension);
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     parameters[k] = Gsol[k];                                         // this
                                                                      // gives
@@ -547,7 +547,7 @@ ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType G
   typename ImageType::IndexType difIndex[ImageDimension][2];
 
   typename MetricBaseType::MeasureType dPixL, dPixR;
-  for (row = 0; row < ImageDimension; row++)
+  for (row = 0; row < ImageDimension; ++row)
   {
     difIndex[row][0] = tindex;
     difIndex[row][1] = tindex;
@@ -620,7 +620,7 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
   inds[0] = -1.0;
   inds[1] = 0.0;
   inds[2] = 1.0;
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     a0norm /= 3.0;
     if (k < ImageDimension - 1)
@@ -668,13 +668,13 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
   if (ImageDimension == 2)
   {
     double measure[3][3];
-    for (int row = -1; row < 2; row++)
+    for (int row = -1; row < 2; ++row)
     {
-      for (int col = -1; col < 2; col++)
+      for (int col = -1; col < 2; ++col)
       {
         temp[0] = tindex[0] + (long)row;
         temp[1] = tindex[1] + (long)col;
-        for (unsigned int i = 0; i < ImageDimension; i++)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           if (temp[i] > m_TarSize[i] - 1)
           {
@@ -702,9 +702,9 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
         datatotal += measure[row + 1][col + 1];
       }
     }
-    for (unsigned int cb1 = 0; cb1 < 3; cb1++)
+    for (unsigned int cb1 = 0; cb1 < 3; ++cb1)
     {
-      for (unsigned int cb2 = 0; cb2 < 3; cb2++)
+      for (unsigned int cb2 = 0; cb2 < 3; ++cb2)
       {
         met = measure[cb1][cb2];
         ind1 = inds[cb1] * a1norm;
@@ -717,16 +717,16 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
   else if (ImageDimension == 3)
   {
     double measure3D[3][3][3];
-    for (int row = -1; row < 2; row++)
+    for (int row = -1; row < 2; ++row)
     {
-      for (int col = -1; col < 2; col++)
+      for (int col = -1; col < 2; ++col)
       {
-        for (int z = -1; z < 2; z++)
+        for (int z = -1; z < 2; ++z)
         {
           temp[0] = tindex[0] + (long)row;
           temp[1] = tindex[1] + (long)col;
           temp[2] = tindex[2] + (long)z;
-          for (unsigned int i = 0; i < ImageDimension; i++)
+          for (unsigned int i = 0; i < ImageDimension; ++i)
           {
             if (temp[i] > m_TarSize[i] - 1)
             {
@@ -755,11 +755,11 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
         }
       }
     }
-    for (unsigned int cb1 = 0; cb1 < 2; cb1++)
+    for (unsigned int cb1 = 0; cb1 < 2; ++cb1)
     {
-      for (unsigned int cb2 = 0; cb2 < 2; cb2++)
+      for (unsigned int cb2 = 0; cb2 < 2; ++cb2)
       {
-        for (unsigned int cb3 = 0; cb3 < 2; cb3++)
+        for (unsigned int cb3 = 0; cb3 < 2; ++cb3)
         {
           chebycoefs[0] += measure3D[cb1][cb2][cb3] * inds[cb1] * a1norm;
           chebycoefs[1] += measure3D[cb1][cb2][cb3] * inds[cb2] * a1norm;
@@ -810,7 +810,7 @@ ImageMetricLoad<TMoving, TFixed>::ApplyLoad(Element::ConstPointer element, Eleme
   //
   Element::Float      w;
   Element::VectorType force(Ndofs, 0.0);
-  for (unsigned int i = 0; i < Nip; i++)
+  for (unsigned int i = 0; i < Nip; ++i)
   {
     element->GetIntegrationPointAndWeight(i, ip, w, order);
     if (Ndofs == 3)
@@ -838,11 +838,11 @@ ImageMetricLoad<TMoving, TFixed>::ApplyLoad(Element::ConstPointer element, Eleme
       shapef = element->ShapeFunctions(ip);
     }
     const Element::Float detJ = element->JacobianDeterminant(ip);
-    for (unsigned int f = 0; f < Ndofs; f++)
+    for (unsigned int f = 0; f < Ndofs; ++f)
     {
       float solval = 0.0;
       float posval = 0.0;
-      for (unsigned int n = 0; n < Nnodes; n++)
+      for (unsigned int n = 0; n < Nnodes; ++n)
       {
         posval += shapef[n] * ((element->GetNodeCoordinates(n))[f]);
         solval += shapef[n] * S->GetSolutionValue(element->GetNode(n)->GetDegreeOfFreedom(f), TotalSolutionIndex);
@@ -859,9 +859,9 @@ ImageMetricLoad<TMoving, TFixed>::ApplyLoad(Element::ConstPointer element, Eleme
       0.0); // HACK:  Is this setting to all zeros necessary given that the next line overwrites the values anyway
     force = this->Fe(gip, gsol);
     // Calculate the equivalent nodal loads
-    for (unsigned int n = 0; n < Nnodes; n++)
+    for (unsigned int n = 0; n < Nnodes; ++n)
     {
-      for (unsigned int d = 0; d < Ndofs; d++)
+      for (unsigned int d = 0; d < Ndofs; ++d)
       {
         itk::fem::Element::Float temp = shapef[n] * force[d] * w * detJ;
         _Fe[n * Ndofs + d] += temp;

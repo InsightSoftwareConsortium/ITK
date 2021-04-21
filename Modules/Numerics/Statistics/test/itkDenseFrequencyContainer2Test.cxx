@@ -40,7 +40,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
   // Test the SetFrequency() / GetFrequency() methods
   {
     std::cout << "Testing Set/Get Frequency methods...";
-    for (unsigned int bin = 0; bin < numberOfBins; bin++)
+    for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
       // Compute any value as frequency just to test the SetFrequency() method
       const auto frequency = static_cast<AbsoluteFrequencyType>(bin * bin);
@@ -48,7 +48,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
     }
 
 
-    for (unsigned int bin = 0; bin < numberOfBins; bin++)
+    for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
       // Test if the values can be read back
       const auto                  frequency = static_cast<AbsoluteFrequencyType>(bin * bin);
@@ -91,7 +91,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
   {
     std::cout << "Testing IncreaseFrequency method...";
     // Try not to depend on previous tests....So, we initialize the histogram again.
-    for (unsigned int bin = 0; bin < numberOfBins; bin++)
+    for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
       // Compute any value as frequency just to test the SetFrequency() method
       const auto frequency = static_cast<AbsoluteFrequencyType>(bin * bin);
@@ -99,7 +99,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
     }
 
     // Now increment by a number (we use "bin", but any other will do it...)
-    for (unsigned int bin = 0; bin < numberOfBins; bin++)
+    for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
       // Compute any value as frequency just to test the IncreaseFrequency() method
       const auto frequency = static_cast<AbsoluteFrequencyType>(bin);
@@ -108,7 +108,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
 
 
     // Test if the values can be read back
-    for (unsigned int bin = 0; bin < numberOfBins; bin++)
+    for (unsigned int bin = 0; bin < numberOfBins; ++bin)
     {
       const auto                  frequency = static_cast<AbsoluteFrequencyType>(bin * bin + bin);
       const AbsoluteFrequencyType stored = container->GetFrequency(bin);

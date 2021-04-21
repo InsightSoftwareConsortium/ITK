@@ -120,7 +120,7 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeGl
   }
 
   double maxScaleCoefficient = 0.0;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     maxScaleCoefficient = std::max(this->m_ScaleCoefficients[i], maxScaleCoefficient);
   }

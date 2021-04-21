@@ -76,7 +76,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(kmeansFilter->Update());
 
 
-  for (unsigned k = 0; k < numberOfInitialClasses; k++)
+  for (unsigned k = 0; k < numberOfInitialClasses; ++k)
   {
     kmeansFilter->AddClassWithInitialMean(std::stod(argv[k + numberOfArgumentsBeforeMeans]));
   }

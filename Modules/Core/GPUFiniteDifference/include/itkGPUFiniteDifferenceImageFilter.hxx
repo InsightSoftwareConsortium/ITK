@@ -274,14 +274,14 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::I
     using SpacingType = typename TOutputImage::SpacingType;
     const SpacingType spacing = outputImage->GetSpacing();
 
-    for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
     {
       coeffs[i] = 1.0 / spacing[i];
     }
   }
   else
   {
-    for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+    for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
     {
       coeffs[i] = 1.0;
     }

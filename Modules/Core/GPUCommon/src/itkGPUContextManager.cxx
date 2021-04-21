@@ -66,7 +66,7 @@ GPUContextManager::GPUContextManager()
 
   // create command queues
   m_CommandQueue = (cl_command_queue *)malloc(m_NumberOfDevices * sizeof(cl_command_queue));
-  for (unsigned int i = 0; i < m_NumberOfDevices; i++)
+  for (unsigned int i = 0; i < m_NumberOfDevices; ++i)
   {
     m_CommandQueue[i] = clCreateCommandQueue(m_Context, m_Devices[i], 0, &errid);
 
@@ -82,7 +82,7 @@ GPUContextManager::GPUContextManager()
 GPUContextManager::~GPUContextManager()
 {
   cl_int errid;
-  for (unsigned int i = 0; i < m_NumberOfDevices; i++)
+  for (unsigned int i = 0; i < m_NumberOfDevices; ++i)
   {
     errid = clReleaseCommandQueue(m_CommandQueue[i]);
     OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);

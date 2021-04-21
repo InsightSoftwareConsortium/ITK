@@ -67,10 +67,10 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest4(int, char *[])
   double alpha = (30.0 / 180.0) * itk::Math::pi;
   double delta = 2.0 / std::tan(alpha);
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; ++i)
   {
 
-    for (int j = 0; j < 10; j++)
+    for (int j = 0; j < 10; ++j)
     {
       p[0] = static_cast<CoordType>(0.5 * j * delta + i * delta);
       p[1] = static_cast<CoordType>(j);
@@ -85,9 +85,9 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest4(int, char *[])
 
   k = 0;
 
-  for (int i = 0; i < 9; i++)
+  for (int i = 0; i < 9; ++i)
   {
-    for (int j = 0; j < 9; j++)
+    for (int j = 0; j < 9; ++j)
     {
       plane->AddFaceTriangle(k, k + 1, k + 11);
       plane->AddFaceTriangle(k, k + 11, k + 10);

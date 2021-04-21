@@ -83,10 +83,10 @@ public:
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
-    for (int y = -YRange; y <= YRange; y++)
+    for (int y = -YRange; y <= YRange; ++y)
     {
       const auto yd = (double)y;
-      for (int x = -XRange; x <= XRange; x++)
+      for (int x = -XRange; x <= XRange; ++x)
       {
         const auto xd = (double)x;
         m_TheoreticalData[valueindex] = ra * xd + rb * yd + rc;
@@ -111,10 +111,10 @@ public:
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
-    for (int y = -YRange; y <= YRange; y++)
+    for (int y = -YRange; y <= YRange; ++y)
     {
       const auto yd = (double)y;
-      for (int x = -XRange; x <= XRange; x++)
+      for (int x = -XRange; x <= XRange; ++x)
       {
         const auto xd = (double)x;
         double     value = a * xd + b * yd + c;
@@ -142,10 +142,10 @@ public:
 
     // Compute points of the function over a square region
     unsigned valueindex = 0;
-    for (int y = -YRange; y <= YRange; y++)
+    for (int y = -YRange; y <= YRange; ++y)
     {
       const auto yd = (double)y;
-      for (int x = -XRange; x <= XRange; x++)
+      for (int x = -XRange; x <= XRange; ++x)
       {
         const auto xd = (double)x;
         m_Derivative[0][valueindex] = xd;
@@ -366,7 +366,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   //
   bool   pass = true;
   double trueParameters[3] = { ra, rb, rc };
-  for (unsigned int j = 0; j < LMCostFunction::SpaceDimension; j++)
+  for (unsigned int j = 0; j < LMCostFunction::SpaceDimension; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
       pass = false;

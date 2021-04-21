@@ -33,7 +33,7 @@ itkCorrelationImageToImageMetricv4Test_GetToyImagePixelValue(TIndexType         
                                                              double             c)
 {
   double v = 0.0;
-  for (unsigned int i = 0; i < Dim; i++)
+  for (unsigned int i = 0; i < Dim; ++i)
   {
     v += (index[i] + offset[i]) * (index[i] + offset[i]);
   }
@@ -162,7 +162,7 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
 
   using PointType = ImageType::PointType;
   PointType p0;
-  for (unsigned int i = 0; i < imageDimensionality; i++)
+  for (unsigned int i = 0; i < imageDimensionality; ++i)
     p0[i] = 0;
 
   itFixed.GoToBegin();

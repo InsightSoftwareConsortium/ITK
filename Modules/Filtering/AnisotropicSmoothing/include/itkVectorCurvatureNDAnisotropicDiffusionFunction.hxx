@@ -101,7 +101,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
   PixelType ans;
 
   // Calculate the partial derivatives for each dimension
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     // "Half" derivatives
     dx_forward[i] = it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center);
@@ -114,16 +114,16 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
     dx[i] = dx[i] * this->m_ScaleCoefficients[i];
   }
 
-  for (k = 0; k < VectorDimension; k++)
+  for (k = 0; k < VectorDimension; ++k)
   {
     grad_mag_sq[k] = 0.0;
     grad_mag_sq_d[k] = 0.0;
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       // Gradient magnitude approximations
       grad_mag_sq[k] += dx_forward[i][k] * dx_forward[i][k];
       grad_mag_sq_d[k] += dx_backward[i][k] * dx_backward[i][k];
-      for (j = 0; j < ImageDimension; j++)
+      for (j = 0; j < ImageDimension; ++j)
       {
         if (j != i)
         {
@@ -140,7 +140,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
     grad_mag[k] = std::sqrt(m_MIN_NORM + grad_mag_sq[k]);
     grad_mag_d[k] = std::sqrt(m_MIN_NORM + grad_mag_sq_d[k]);
     // this grad mag should depend only on the current k
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       dx_forward_Cn[i][k] = dx_forward[i][k] / grad_mag[k];
       dx_backward_Cn[i][k] = dx_backward[i][k] / grad_mag_d[k];
@@ -150,7 +150,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
   double grad_mag_sq_tmp = 0.0;
   double grad_mag_sq_d_tmp = 0.0;
 
-  for (k = 0; k < VectorDimension; k++)
+  for (k = 0; k < VectorDimension; ++k)
   {
     grad_mag_sq_tmp += grad_mag_sq[k];
     grad_mag_sq_d_tmp += grad_mag_sq_d[k];
@@ -159,7 +159,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
   // this grad mag should depend on the sum over k's
   // Conductance Terms
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     if (m_K == 0.0)
     {
@@ -173,11 +173,11 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
     }
   }
 
-  for (k = 0; k < VectorDimension; k++)
+  for (k = 0; k < VectorDimension; ++k)
   {
     // First order normalized finite-difference conductance products
     speed = 0.0;
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       dx_forward_Cn[i][k] *= Cx[i];
       dx_backward_Cn[i][k] *= Cxd[i];
@@ -190,7 +190,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
     propagation_gradient = 0.0;
     if (speed > 0.0)
     {
-      for (i = 0; i < ImageDimension; i++)
+      for (i = 0; i < ImageDimension; ++i)
       {
         propagation_gradient += itk::Math::sqr(std::min(dx_backward[i][k], ScalarValueTypeZero)) +
                                 itk::Math::sqr(std::max(dx_forward[i][k], ScalarValueTypeZero));
@@ -198,7 +198,7 @@ VectorCurvatureNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neigh
     }
     else
     {
-      for (i = 0; i < ImageDimension; i++)
+      for (i = 0; i < ImageDimension; ++i)
       {
         propagation_gradient += itk::Math::sqr(std::max(dx_backward[i][k], ScalarValueTypeZero)) +
                                 itk::Math::sqr(std::min(dx_forward[i][k], ScalarValueTypeZero));

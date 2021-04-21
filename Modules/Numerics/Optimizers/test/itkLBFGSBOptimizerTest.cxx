@@ -288,7 +288,7 @@ itkLBFGSBOptimizerTest(int, char *[])
   std::string errorIn;
 
   double trueParameters[2] = { 4.0 / 3.0, -1.0 };
-  for (unsigned int j = 0; j < 2; j++)
+  for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
     {

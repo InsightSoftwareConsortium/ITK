@@ -82,7 +82,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     if (ot.Get())
     {
-      for (i = 0; i < ImageDimension; i++)
+      for (i = 0; i < ImageDimension; ++i)
       {
         IndexType currentIndex = ot.GetIndex();
         currentIndex[i] = currentIndex[i] - 1;
@@ -106,7 +106,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
             if (equivalenceTable[static_cast<LabelType>(ot.Get())] > equivalenceTable[label])
             {
               q = equivalenceTable[static_cast<LabelType>(ot.Get())];
-              for (p = q; p <= maxLabel; p++)
+              for (p = q; p <= maxLabel; ++p)
               {
                 if (equivalenceTable[p] == q)
                 {
@@ -117,7 +117,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
             else
             {
               q = equivalenceTable[label];
-              for (p = q; p <= maxLabel; p++)
+              for (p = q; p <= maxLabel; ++p)
               {
                 if (equivalenceTable[p] == q)
                 {
@@ -142,19 +142,19 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
     progress.CompletedPixel();
   }
 
-  for (p = 1; p <= maxLabel; p++)
+  for (p = 1; p <= maxLabel; ++p)
   {
-    for (m = p; (m <= maxLabel) && (equivalenceTable[m] != p); m++)
+    for (m = p; (m <= maxLabel) && (equivalenceTable[m] != p); ++m)
     {
     }
     if (m > maxLabel)
     {
-      for (m = p; (m <= maxLabel) && (equivalenceTable[m] < p); m++)
+      for (m = p; (m <= maxLabel) && (equivalenceTable[m] < p); ++m)
       {
       }
       if (m <= maxLabel)
       {
-        for (i = m; i <= maxLabel; i++)
+        for (i = m; i <= maxLabel; ++i)
         {
           if (equivalenceTable[i] == m)
           {
@@ -167,11 +167,11 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   auto * flags = new unsigned char[NumericTraits<LabelType>::max()];
   memset(flags, 0, maxLabel + 1);
-  for (iter = m_Seeds.begin(); iter != m_Seeds.end(); iter++)
+  for (iter = m_Seeds.begin(); iter != m_Seeds.end(); ++iter)
   {
     const IndexType currentIndex = *iter;
     m = equivalenceTable[static_cast<LabelType>(output->GetPixel(currentIndex))];
-    for (i = m; i <= maxLabel; i++)
+    for (i = m; i <= maxLabel; ++i)
     {
       if (equivalenceTable[i] == m)
       {

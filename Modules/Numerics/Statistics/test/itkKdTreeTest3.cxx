@@ -102,7 +102,7 @@ itkKdTreeTest3(int argc, char * argv[])
 
   OriginType origin(measurementVectorSize);
 
-  for (unsigned int k = 0; k < sample->Size(); k++)
+  for (unsigned int k = 0; k < sample->Size(); ++k)
   {
     queryPoint = sample->GetMeasurementVector(k);
 

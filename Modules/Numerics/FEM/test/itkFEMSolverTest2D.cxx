@@ -83,7 +83,7 @@ itkFEMSolverTest2D(int argc, char * argv[])
 
   int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = femSO->GetFEMObject()->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

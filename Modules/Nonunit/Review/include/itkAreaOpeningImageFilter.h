@@ -120,7 +120,7 @@ protected:
     {
       // compute pixel size
       double psize = 1.0;
-      for (unsigned i = 0; i < ImageDimension; i++)
+      for (unsigned i = 0; i < ImageDimension; ++i)
       {
         psize *= this->GetInput()->GetSpacing()[i];
       }

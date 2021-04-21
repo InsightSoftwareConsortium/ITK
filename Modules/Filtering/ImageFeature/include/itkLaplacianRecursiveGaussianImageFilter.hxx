@@ -34,7 +34,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecur
 {
   m_NormalizeAcrossScale = false;
 
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; i++)
+  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
   {
     m_SmoothingFilters[i] = GaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
@@ -55,7 +55,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::LaplacianRecur
 
   if (NumberOfSmoothingFilters > 1)
   {
-    for (unsigned int i = 1; i < NumberOfSmoothingFilters; i++)
+    for (unsigned int i = 1; i < NumberOfSmoothingFilters; ++i)
     {
       m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput());
     }
@@ -71,7 +71,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealType sigma)
 {
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; i++)
+  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
   {
     m_SmoothingFilters[i]->SetSigma(sigma);
   }
@@ -99,7 +99,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAc
 {
   m_NormalizeAcrossScale = normalize;
 
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; i++)
+  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
   {
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
   }
@@ -134,7 +134,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   itkDebugMacro(<< "LaplacianRecursiveGaussianImageFilter generating data ");
 
   // Set the number of threads on all the filters
-  for (unsigned int i = 0; i < ImageDimension - 1; i++)
+  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
   {
     m_SmoothingFilters[i]->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   }
@@ -148,7 +148,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   const unsigned int numberOfFilters = (ImageDimension * ImageDimension) + ImageDimension + 1;
 
   // register (most) filters with the progress accumulator
-  for (unsigned int i = 0; i < NumberOfSmoothingFilters; i++)
+  for (unsigned int i = 0; i < NumberOfSmoothingFilters; ++i)
   {
     progress->RegisterInternalFilter(m_SmoothingFilters[i], 1.0 / numberOfFilters);
   }
@@ -201,7 +201,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(addFilter, 1.0 / numberOfFilters);
 
 
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     unsigned int i = 0;
     unsigned int j = 0;

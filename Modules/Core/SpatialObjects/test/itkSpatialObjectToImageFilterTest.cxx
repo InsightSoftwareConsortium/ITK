@@ -82,7 +82,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   float  spacingFloat[2];
   double spacingDouble[2];
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     spacingFloat[i] = 1.0;
     spacingDouble[i] = 1.0;
@@ -91,7 +91,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   imageFilter->SetSpacing(spacingDouble);
   const double * spacing_result = imageFilter->GetSpacing();
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     if (spacing_result[i] != 1.0)
     {
@@ -108,7 +108,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   float  originFloat[2];
   double originDouble[2];
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     originFloat[i] = 0.0;
     originDouble[i] = 0.0;
@@ -117,7 +117,7 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   imageFilter->SetOrigin(originDouble);
   const double * origin_result = imageFilter->GetOrigin();
 
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     if (origin_result[i] != 0.0)
     {
@@ -147,9 +147,9 @@ itkSpatialObjectToImageFilterTest(int, char *[])
 
   ImageType::IndexType index;
   // Test only centered pixels
-  for (int i = -5; i < 5; i++)
+  for (int i = -5; i < 5; ++i)
   {
-    for (int j = -5; j < 5; j++)
+    for (int j = -5; j < 5; ++j)
     {
       index[0] = 25 + i;
       index[1] = 25 + j;
@@ -174,9 +174,9 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   std::cout << "Testing SetUseObjectValue: ";
 
   // Test only centered pixels
-  for (int i = -5; i < 5; i++)
+  for (int i = -5; i < 5; ++i)
   {
-    for (int j = -5; j < 5; j++)
+    for (int j = -5; j < 5; ++j)
     {
       index[0] = 25 + i;
       index[1] = 25 + j;

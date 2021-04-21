@@ -145,7 +145,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType * in, bool force3Cha
   if (ImageType::ImageDimension > 2)
   {
     bool IsA2DImage = false;
-    for (unsigned int dim = 2; (dim < ImageType::ImageDimension) && !IsA2DImage; dim++)
+    for (unsigned int dim = 2; (dim < ImageType::ImageDimension) && !IsA2DImage; ++dim)
     {
       if (size[dim] != 1)
       {
@@ -236,7 +236,7 @@ OpenCVImageBridge::ITKImageToIplImage(const TInputImageType * in, bool force3Cha
   if (outChannels == 1)
   {
     size_t paddedRowBytes = typeSize * out->width;
-    for (int i = 0; i < out->height; i++)
+    for (int i = 0; i < out->height; ++i)
     {
       memcpy(out->imageData + i * out->widthStep, in->GetBufferPointer() + i * out->width, paddedRowBytes);
     }
@@ -290,7 +290,7 @@ OpenCVImageBridge::ITKImageToCVMat(const TInputImageType * in, bool force3Channe
   if (ImageType::ImageDimension > 2)
   {
     bool IsA2DImage = false;
-    for (unsigned int dim = 2; (dim < ImageType::ImageDimension) && !IsA2DImage; dim++)
+    for (unsigned int dim = 2; (dim < ImageType::ImageDimension) && !IsA2DImage; ++dim)
     {
       if (size[dim] != 1)
       {

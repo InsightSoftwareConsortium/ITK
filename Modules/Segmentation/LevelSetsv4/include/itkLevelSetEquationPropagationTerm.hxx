@@ -94,7 +94,7 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
   //
   LevelSetOutputRealType propagation_gradient = zero;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     propagation_gradient +=
       itk::Math::sqr(std::max(backwardGradient[i], zero)) + itk::Math::sqr(std::min(forwardGradient[i], zero));
@@ -113,7 +113,7 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
   const LevelSetOutputRealType zero = NumericTraits<LevelSetOutputRealType>::ZeroValue();
   LevelSetOutputRealType       propagation_gradient = zero;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     propagation_gradient += itk::Math::sqr(std::max(iData.BackwardGradient.m_Value[i], zero)) +
                             itk::Math::sqr(std::min(iData.ForwardGradient.m_Value[i], zero));

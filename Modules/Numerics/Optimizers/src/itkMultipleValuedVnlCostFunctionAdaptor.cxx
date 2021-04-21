@@ -66,7 +66,7 @@ MultipleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparame
   if (this->m_ScalesInitialized)
   {
     const ScalesType & invScales = this->GetInverseScales();
-    for (unsigned int i = 0; i < parameters.size(); i++)
+    for (unsigned int i = 0; i < parameters.size(); ++i)
     {
       parameters[i] = inparameters[i] * invScales[i];
     }
@@ -103,7 +103,7 @@ MultipleValuedVnlCostFunctionAdaptor ::gradf(const InternalParametersType & inpa
   if (this->m_ScalesInitialized)
   {
     const ScalesType & invScales = this->GetInverseScales();
-    for (unsigned int i = 0; i < parameters.size(); i++)
+    for (unsigned int i = 0; i < parameters.size(); ++i)
     {
       parameters[i] = inparameters[i] * invScales[i];
     }
@@ -130,7 +130,7 @@ MultipleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
   if (this->m_ScalesInitialized)
   {
     const ScalesType & invScales = this->GetInverseScales();
-    for (unsigned int i = 0; i < parameters.size(); i++)
+    for (unsigned int i = 0; i < parameters.size(); ++i)
     {
       parameters[i] = x[i] * invScales[i];
     }
@@ -163,9 +163,9 @@ MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalGradient(const De
   const unsigned int cols = input.cols();
 
   const ScalesType & invScales = this->GetInverseScales();
-  for (unsigned int i = 0; i < rows; i++)
+  for (unsigned int i = 0; i < rows; ++i)
   {
-    for (unsigned int j = 0; j < cols; j++)
+    for (unsigned int j = 0; j < cols; ++j)
     {
       output(j, i) = input(i, j);
 
@@ -184,7 +184,7 @@ MultipleValuedVnlCostFunctionAdaptor::ConvertExternalToInternalMeasures(const Me
 {
   const unsigned int size = input.size();
 
-  for (unsigned int i = 0; i < size; i++)
+  for (unsigned int i = 0; i < size; ++i)
   {
     output[i] = input[i];
   }

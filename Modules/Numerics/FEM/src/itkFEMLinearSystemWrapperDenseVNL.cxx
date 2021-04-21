@@ -274,15 +274,15 @@ LinearSystemWrapperDenseVNL::ScaleSolution(Float scale, unsigned int solutionInd
 LinearSystemWrapperDenseVNL::~LinearSystemWrapperDenseVNL()
 {
   unsigned int i;
-  for (i = 0; i < m_NumberOfMatrices; i++)
+  for (i = 0; i < m_NumberOfMatrices; ++i)
   {
     this->DestroyMatrix(i);
   }
-  for (i = 0; i < m_NumberOfVectors; i++)
+  for (i = 0; i < m_NumberOfVectors; ++i)
   {
     this->DestroyVector(i);
   }
-  for (i = 0; i < m_NumberOfSolutions; i++)
+  for (i = 0; i < m_NumberOfSolutions; ++i)
   {
     this->DestroySolution(i);
   }

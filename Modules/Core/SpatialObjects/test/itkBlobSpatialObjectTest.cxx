@@ -34,7 +34,7 @@ itkBlobSpatialObjectTest(int, char *[])
   BlobType::BlobPointListType list;
 
   unsigned int i;
-  for (i = 0; i < 10; i++)
+  for (i = 0; i < 10; ++i)
   {
     BlobPointType p;
     PointType     pnt;
@@ -91,7 +91,7 @@ itkBlobSpatialObjectTest(int, char *[])
   i = 0;
   while (it != blob->GetPoints().end())
   {
-    for (unsigned int d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; ++d)
     {
       if (itk::Math::NotExactlyEquals((*it).GetPositionInObjectSpace()[d], i + d))
       {
@@ -137,7 +137,7 @@ itkBlobSpatialObjectTest(int, char *[])
   i = 0;
   while (it != blob->GetPoints().end())
   {
-    for (unsigned int d = 0; d < 3; d++)
+    for (unsigned int d = 0; d < 3; ++d)
     {
       if (itk::Math::NotExactlyEquals((*it).GetBlue(), i))
       {

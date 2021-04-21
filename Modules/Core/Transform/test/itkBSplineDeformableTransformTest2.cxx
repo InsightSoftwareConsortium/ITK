@@ -180,7 +180,7 @@ public:
     infile.open(argv[1]);
 
     const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
-    for (unsigned int n = 0; n < numberOfNodes; n++)
+    for (unsigned int n = 0; n < numberOfNodes; ++n)
     {
       infile >> parameters[n];
       infile >> parameters[n + numberOfNodes];

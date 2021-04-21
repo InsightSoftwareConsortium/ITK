@@ -509,10 +509,10 @@ public:
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       offset[i] = m_CenterOfGravity[i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         matrix[j][i] = m_WeightedPrincipalAxes[i][j]; // Note the transposition
       }
@@ -535,10 +535,10 @@ public:
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       offset[i] = m_CenterOfGravity[i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         matrix[j][i] = m_WeightedPrincipalAxes[i][j]; // Note the transposition
       }

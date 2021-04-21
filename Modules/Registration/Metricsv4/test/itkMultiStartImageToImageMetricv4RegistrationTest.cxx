@@ -214,7 +214,7 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   affineTransform->SetParameters(MOptimizer->GetBestParameters());
 
   MOptimizerType::MetricValuesListType metlist = MOptimizer->GetMetricValuesList();
-  for (unsigned int i = 0; i < metlist.size(); i++)
+  for (unsigned int i = 0; i < metlist.size(); ++i)
   {
     std::cout << " angle " << i * rotplus << " energy " << metlist[i] << std::endl;
   }

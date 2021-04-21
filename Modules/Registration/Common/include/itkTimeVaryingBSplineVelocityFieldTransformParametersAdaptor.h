@@ -152,7 +152,7 @@ public:
   GetRequiredControlPointLatticeOrigin() const
   {
     OriginType requiredLatticeOrigin;
-    for (SizeValueType i = 0; i < TotalDimension; i++)
+    for (SizeValueType i = 0; i < TotalDimension; ++i)
     {
       requiredLatticeOrigin[i] = this->m_RequiredFixedParameters[TotalDimension + i];
     }
@@ -164,7 +164,7 @@ public:
   GetRequiredControlPointLatticeSpacing() const
   {
     SpacingType requiredLatticeSpacing;
-    for (SizeValueType i = 0; i < TotalDimension; i++)
+    for (SizeValueType i = 0; i < TotalDimension; ++i)
     {
       FixedParametersValueType domainPhysicalDimensions =
         static_cast<FixedParametersValueType>(this->m_RequiredTransformDomainSize[i] - 1.0) *
@@ -180,7 +180,7 @@ public:
   GetRequiredControlPointLatticeSize() const
   {
     SizeType requiredLatticeSize;
-    for (SizeValueType i = 0; i < TotalDimension; i++)
+    for (SizeValueType i = 0; i < TotalDimension; ++i)
     {
       requiredLatticeSize[i] = static_cast<SizeValueType>(this->m_RequiredFixedParameters[i]);
     }

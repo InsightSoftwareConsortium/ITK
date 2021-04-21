@@ -68,7 +68,7 @@ ExhaustiveOptimizer::StartWalking()
 
   const unsigned int spaceDimension = this->GetInitialPosition().GetSize();
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     m_MaximumNumberOfIterations *= (2 * m_NumberOfSteps[i] + 1);
   }
@@ -86,7 +86,7 @@ ExhaustiveOptimizer::StartWalking()
 
   // Setup first grid position.
   ParametersType position(spaceDimension);
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     position[i] = this->GetInitialPosition()[i] - m_NumberOfSteps[i] * m_StepLength * scales[i];
   }
@@ -199,7 +199,7 @@ ExhaustiveOptimizer::IncrementIndex(ParametersType & newPosition)
   }
 
   const ScalesType & scales = this->GetScales();
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     newPosition[i] =
       (m_CurrentIndex[i] - m_NumberOfSteps[i]) * m_StepLength * scales[i] + this->GetInitialPosition()[i];

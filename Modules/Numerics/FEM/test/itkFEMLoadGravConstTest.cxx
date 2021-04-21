@@ -78,7 +78,7 @@ itkFEMLoadGravConstTest(int argc, char * argv[])
 
   int               numDOF = femSO->GetFEMObject()->GetNumberOfDegreesOfFreedom();
   vnl_vector<float> soln(numDOF);
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

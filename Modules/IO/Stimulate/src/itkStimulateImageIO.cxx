@@ -243,7 +243,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       {
         this->SetNumberOfDimensions(2);
       }
-      for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+      for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         m_Dimensions[i] = dims[i];
       }
@@ -261,7 +261,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       sscanf(line, "%*s %f %f %f %f", origin, origin + 1, origin + 2, origin + 3);
       // reset locale
       std::locale::global(currentLocale);
-      for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+      for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         m_Origin[i] = origin[i];
       }
@@ -301,7 +301,7 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
       sscanf(line, "%*s %f %f %f %f", spacing, spacing + 1, spacing + 2, spacing + 3);
       // reset locale
       std::locale::global(currentLocale);
-      for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+      for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
       {
         m_Spacing[i] = spacing[i];
       }
@@ -443,14 +443,14 @@ StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   // compute any missing informations:
   if (!spacing_specified && fov_specified)
   {
-    for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+    for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
     {
       m_Spacing[i] = fov[i] / dims[i];
     }
   }
   if (!origin_specified && fov_specified)
   {
-    for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+    for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
     {
       m_Origin[i] = (m_Spacing[i] - fov[i]) / 2.;
     }
@@ -508,25 +508,25 @@ StimulateImageIO::Write(const void * buffer)
 
   // Write characteristics of the data
   file << "\ndim:";
-  for (i = 0; i < m_NumberOfDimensions; i++)
+  for (i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << " " << m_Dimensions[i];
   }
 
   file << "\norigin:";
-  for (i = 0; i < m_NumberOfDimensions; i++)
+  for (i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << " " << m_Origin[i];
   }
 
   file << "\nfov:";
-  for (i = 0; i < m_NumberOfDimensions; i++)
+  for (i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << " " << m_Spacing[i] * m_Dimensions[i]; // fov = interval * dim
   }
 
   file << "\ninterval:";
-  for (i = 0; i < m_NumberOfDimensions; i++)
+  for (i = 0; i < m_NumberOfDimensions; ++i)
   {
     file << " " << m_Spacing[i];
   }

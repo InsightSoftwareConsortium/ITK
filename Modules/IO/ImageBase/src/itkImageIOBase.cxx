@@ -37,7 +37,7 @@ ImageIOBase::Reset(const bool)
   m_Initialized = false;
   m_FileName = "";
   m_NumberOfComponents = 1;
-  for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
     m_Dimensions[i] = 0;
     m_Strides[i] = 0;
@@ -95,7 +95,7 @@ ImageIOBase::Resize(const unsigned int numDimensions, const unsigned int * dimen
   m_NumberOfDimensions = numDimensions;
   if (dimensions != nullptr)
   {
-    for (unsigned int i = 0; i < m_NumberOfDimensions; i++)
+    for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
     {
       m_Dimensions[i] = dimensions[i];
     }
@@ -163,7 +163,7 @@ ImageIOBase::SetDirection(unsigned int i, const vnl_vector<double> & direction)
   std::vector<double> v;
   v.resize(m_Direction.size());
   // Note: direction.size() <= v.size().
-  for (unsigned int j = 0; j < direction.size(); j++)
+  for (unsigned int j = 0; j < direction.size(); ++j)
   {
     v[j] = direction[j];
   }
@@ -210,7 +210,7 @@ ImageIOBase::ComputeStrides()
 {
   m_Strides[0] = this->GetComponentSize();
   m_Strides[1] = m_NumberOfComponents * m_Strides[0];
-  for (unsigned int i = 2; i <= (m_NumberOfDimensions + 1); i++)
+  for (unsigned int i = 2; i <= (m_NumberOfDimensions + 1); ++i)
   {
     m_Strides[i] = static_cast<SizeType>(m_Dimensions[i - 2]) * m_Strides[i - 1];
   }
@@ -223,7 +223,7 @@ ImageIOBase::GetImageSizeInPixels() const
   unsigned int i;
   SizeType     numPixels = 1;
 
-  for (i = 0; i < m_NumberOfDimensions; i++)
+  for (i = 0; i < m_NumberOfDimensions; ++i)
   {
     numPixels *= m_Dimensions[i];
   }
@@ -280,9 +280,9 @@ ImageIOBase::SetNumberOfDimensions(unsigned int dim)
     m_Dimensions.resize(dim);
     m_Direction.resize(dim);
     std::vector<double> axis(dim);
-    for (unsigned int i = 0; i < dim; i++)
+    for (unsigned int i = 0; i < dim; ++i)
     {
-      for (unsigned int j = 0; j < dim; j++)
+      for (unsigned int j = 0; j < dim; ++j)
       {
         if (i == j)
         {
@@ -708,7 +708,7 @@ WriteBuffer(std::ostream & os, const TComponent * buffer, ImageIOBase::SizeType 
   const TComponent * ptr = buffer;
 
   using PrintType = typename itk::NumericTraits<TComponent>::PrintType;
-  for (ImageIOBase::SizeType i = 0; i < num; i++)
+  for (ImageIOBase::SizeType i = 0; i < num; ++i)
   {
     if (!(i % 6) && i)
     {
@@ -1115,14 +1115,14 @@ ImageIOBase::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion
   ImageIORegion streamableRegion(maxDimension);
 
   // Second: copy only the number of dimension that the file has.
-  for (unsigned int i = 0; i < minIODimension; i++)
+  for (unsigned int i = 0; i < minIODimension; ++i)
   {
     streamableRegion.SetSize(i, this->m_Dimensions[i]);
     streamableRegion.SetIndex(i, 0);
   }
 
   // Third: set the rest to the default : start = 0, size = 1
-  for (unsigned int j = minIODimension; j < streamableRegion.GetImageDimension(); j++)
+  for (unsigned int j = minIODimension; j < streamableRegion.GetImageDimension(); ++j)
   {
     streamableRegion.SetSize(j, 1);
     streamableRegion.SetIndex(j, 0);

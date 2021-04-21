@@ -141,7 +141,7 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
     gradientTolerance = std::stod(argv[5]);
     std::cout << "gradientTolerance = " << gradientTolerance << std::endl;
   }
-  for (unsigned int i = 0; i < dimension; i++)
+  for (unsigned int i = 0; i < dimension; ++i)
   {
     scales[i + dimension * dimension] = translationScale;
   }
@@ -180,7 +180,7 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
   const unsigned int offsetOrder = finalParameters.Size() - actualParameters.Size();
   constexpr double   tolerance = 1.0; // equivalent to 1 pixel.
 
-  for (unsigned int i = 0; i < numbeOfParameters; i++)
+  for (unsigned int i = 0; i < numbeOfParameters; ++i)
   {
     // the parameters are negated in order to get the inverse transformation.
     // this only works for comparing translation parameters....

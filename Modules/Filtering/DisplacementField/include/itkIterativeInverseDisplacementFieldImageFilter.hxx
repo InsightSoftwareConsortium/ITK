@@ -107,7 +107,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
     int                         stillSamePoint;
     InputImageRegionType        region = inputPtr->GetLargestPossibleRegion();
     unsigned int                numberOfPoints = 1;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       numberOfPoints *= region.GetSize()[i];
     }
@@ -132,7 +132,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
       displacement = OutputIt.Get();
 
       // compute the required input image point
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         mappedPoint[j] = originalPoint[j] + displacement[j];
         newPoint[j] = mappedPoint[j];
@@ -144,7 +144,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
         forwardVector = inputFieldInterpolator->Evaluate(mappedPoint);
 
         smallestError = 0;
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           smallestError += std::pow(mappedPoint[j] + forwardVector[j] - originalPoint[j], 2);
         }
@@ -152,7 +152,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
       }
 
       // iteration loop
-      for (unsigned int i = 0; i < m_NumberOfIterations; i++)
+      for (unsigned int i = 0; i < m_NumberOfIterations; ++i)
       {
         double tmp;
 
@@ -161,14 +161,14 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
           step = step / 2;
         }
 
-        for (unsigned int k = 0; k < ImageDimension; k++)
+        for (unsigned int k = 0; k < ImageDimension; ++k)
         {
           mappedPoint[k] += step;
           if (inputFieldInterpolator->IsInsideBuffer(mappedPoint))
           {
             forwardVector = inputFieldInterpolator->Evaluate(mappedPoint);
             tmp = 0;
-            for (unsigned int l = 0; l < ImageDimension; l++)
+            for (unsigned int l = 0; l < ImageDimension; ++l)
             {
               tmp += std::pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
             }
@@ -176,7 +176,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
             if (tmp < smallestError)
             {
               smallestError = tmp;
-              for (unsigned int l = 0; l < ImageDimension; l++)
+              for (unsigned int l = 0; l < ImageDimension; ++l)
               {
                 newPoint[l] = mappedPoint[l];
               }
@@ -188,7 +188,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
           {
             forwardVector = inputFieldInterpolator->Evaluate(mappedPoint);
             tmp = 0;
-            for (unsigned int l = 0; l < ImageDimension; l++)
+            for (unsigned int l = 0; l < ImageDimension; ++l)
             {
               tmp += std::pow(mappedPoint[l] + forwardVector[l] - originalPoint[l], 2);
             }
@@ -196,7 +196,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
             if (tmp < smallestError)
             {
               smallestError = tmp;
-              for (unsigned int l = 0; l < ImageDimension; l++)
+              for (unsigned int l = 0; l < ImageDimension; ++l)
               {
                 newPoint[l] = mappedPoint[l];
               }
@@ -207,7 +207,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
         } // end for loop over image dimension
 
         stillSamePoint = 1;
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           if (Math::NotExactlyEquals(newPoint[j], mappedPoint[j]))
           {
@@ -222,7 +222,7 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
         }
       } // end iteration loop
 
-      for (unsigned int k = 0; k < ImageDimension; k++)
+      for (unsigned int k = 0; k < ImageDimension; ++k)
       {
         outputValue[k] = static_cast<OutputImageValueType>(mappedPoint[k] - originalPoint[k]);
       }

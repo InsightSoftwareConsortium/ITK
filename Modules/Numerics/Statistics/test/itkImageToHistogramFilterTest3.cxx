@@ -83,7 +83,7 @@ itkImageToHistogramFilterTest3(int argc, char * argv[])
 
   unsigned int channel = 0; // red channel
   outputFile << "Histogram of the scalar component" << std::endl;
-  for (unsigned int bin = 0; bin < histogramSize; bin++)
+  for (unsigned int bin = 0; bin < histogramSize; ++bin)
   {
     outputFile << "bin = " << bin << " frequency = ";
     outputFile << histogram->GetFrequency(bin, channel) << std::endl;

@@ -349,9 +349,9 @@ protected:
 
     // Calculate the directional derivatives for each vector component using
     // central differences.
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
-      for (j = 0; j < VectorDimension; j++)
+      for (j = 0; j < VectorDimension; ++j)
       {
         d_phi_du[i][j] =
           m_DerivativeWeights[i] * m_SqrtComponentWeights[j] * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
@@ -359,9 +359,9 @@ protected:
     }
 
     // Calculate the symmetric metric tensor g
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
-      for (j = i; j < ImageDimension; j++)
+      for (j = i; j < ImageDimension; ++j)
       {
         g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
       }
@@ -459,9 +459,9 @@ protected:
 
     // Calculate the directional derivatives for each vector component using
     // central differences.
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
-      for (j = 0; j < VectorDimension; j++)
+      for (j = 0; j < VectorDimension; ++j)
       {
         d_phi_du[i][j] =
           m_DerivativeWeights[i] * m_SqrtComponentWeights[j] * 0.5 * (it.GetNext(i)[j] - it.GetPrevious(i)[j]);
@@ -469,9 +469,9 @@ protected:
     }
 
     // Calculate the symmetric metric tensor g
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
-      for (j = i; j < ImageDimension; j++)
+      for (j = i; j < ImageDimension; ++j)
       {
         g[j][i] = g[i][j] = dot_product(d_phi_du[i], d_phi_du[j]);
       }

@@ -147,7 +147,7 @@ CSVNumericObjectFileWriter<TValue, NRows, NColumns>::Write()
   {
     if (!this->m_ColumnHeaders.empty())
     {
-      for (unsigned int i = 0; i < this->m_ColumnHeaders.size(); i++)
+      for (unsigned int i = 0; i < this->m_ColumnHeaders.size(); ++i)
       {
         outputStream << this->m_ColumnHeaders[i];
         if (i < this->m_ColumnHeaders.size() - 1)
@@ -157,7 +157,7 @@ CSVNumericObjectFileWriter<TValue, NRows, NColumns>::Write()
       }
       outputStream << std::endl;
     }
-    for (unsigned int i = 0; i < this->m_Rows; i++)
+    for (unsigned int i = 0; i < this->m_Rows; ++i)
     {
       if (!this->m_RowHeaders.empty())
       {
@@ -167,7 +167,7 @@ CSVNumericObjectFileWriter<TValue, NRows, NColumns>::Write()
         }
       }
 
-      for (unsigned int j = 0; j < this->m_Columns; j++)
+      for (unsigned int j = 0; j < this->m_Columns; ++j)
       {
         outputStream << std::setprecision(std::numeric_limits<TValue>::digits10) << *(this->m_InputObject++);
 

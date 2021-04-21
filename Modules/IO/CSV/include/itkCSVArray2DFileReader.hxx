@@ -74,7 +74,7 @@ CSVArray2DFileReader<TData>::Parse()
     this->m_Array2DDataObject->HasColumnHeadersOn();
 
     // push the entries into the column headers vector.
-    for (unsigned int i = 0; i < columns + 1; i++)
+    for (unsigned int i = 0; i < columns + 1; ++i)
     {
       this->GetNextField(entry);
       this->m_Array2DDataObject->ColumnHeadersPushBack(entry);
@@ -93,7 +93,7 @@ CSVArray2DFileReader<TData>::Parse()
   }
 
   // Get the rest of the data
-  for (unsigned int i = 0; i < rows; i++)
+  for (unsigned int i = 0; i < rows; ++i)
   {
     // if there are row headers, push them into the vector for row headers
     if (this->m_HasRowHeaders)
@@ -104,7 +104,7 @@ CSVArray2DFileReader<TData>::Parse()
     }
 
     // parse the numeric data into the Array2D object
-    for (unsigned int j = 0; j < columns; j++)
+    for (unsigned int j = 0; j < columns; ++j)
     {
       this->GetNextField(entry);
       this->m_Array2DDataObject->SetMatrixData(i, j, this->ConvertStringToValueType<TData>(entry));

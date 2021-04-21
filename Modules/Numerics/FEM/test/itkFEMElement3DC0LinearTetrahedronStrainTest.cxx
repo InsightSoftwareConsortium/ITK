@@ -86,7 +86,7 @@ itkFEMElement3DC0LinearTetrahedronStrainTest(int argc, char * argv[])
                               0.0f, 0.0f, 0.0f, 4.33333e-05f, 7.01453e-22f, -8.70691e-38f };
 
   bool foundError = false;
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
     // std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

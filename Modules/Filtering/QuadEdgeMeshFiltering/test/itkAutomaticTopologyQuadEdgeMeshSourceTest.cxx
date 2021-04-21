@@ -75,7 +75,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
 
   IdentifierArrayType idArray(8);
   {
-    for (unsigned int i = 0; i < 8; i++)
+    for (unsigned int i = 0; i < 8; ++i)
     {
       idArray[i] = i;
     }
@@ -212,7 +212,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   unsigned long i;
 
   std::cout << mesh->GetNumberOfPoints() << " points:" << std::endl;
-  for (i = 0; i < mesh->GetNumberOfPoints(); i++)
+  for (i = 0; i < mesh->GetNumberOfPoints(); ++i)
   {
     PointType point;
     bool      dummy = mesh->GetPoint(i, &point);
@@ -223,7 +223,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   }
 
   std::cout << "\n" << mesh->GetNumberOfCells() << " cells:" << std::endl;
-  for (i = 0; i < mesh->GetNumberOfCells(); i++)
+  for (i = 0; i < mesh->GetNumberOfCells(); ++i)
   {
     using CellAutoPointer = MeshType::CellAutoPointer;
     CellAutoPointer cell;
@@ -243,7 +243,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
   }
   std::cout << "\n";
 
-  for (i = 0; i < mesh->GetNumberOfCells(); i++)
+  for (i = 0; i < mesh->GetNumberOfCells(); ++i)
   {
     using CellAutoPointer = MeshType::CellAutoPointer;
     CellAutoPointer cell;

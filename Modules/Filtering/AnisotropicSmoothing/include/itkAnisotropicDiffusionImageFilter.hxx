@@ -56,7 +56,7 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::InitializeIteration(
   if (this->GetUseImageSpacing())
   {
     minSpacing = this->GetInput()->GetSpacing()[0];
-    for (unsigned int i = 1; i < ImageDimension; i++)
+    for (unsigned int i = 1; i < ImageDimension; ++i)
     {
       if (this->GetInput()->GetSpacing()[i] < minSpacing)
       {

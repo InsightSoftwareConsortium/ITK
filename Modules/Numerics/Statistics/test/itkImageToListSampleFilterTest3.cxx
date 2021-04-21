@@ -59,7 +59,7 @@ itkImageToListSampleFilterTest3(int, char *[])
 
   while (!it.IsAtEnd())
   {
-    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       value[i] = i + it.GetIndex()[0];
     }

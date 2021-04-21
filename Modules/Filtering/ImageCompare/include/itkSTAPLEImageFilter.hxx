@@ -245,7 +245,7 @@ STAPLEImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   m_Sensitivity.clear();
   m_Specificity.clear();
-  for (i = 0; i < number_of_input_files; i++)
+  for (i = 0; i < number_of_input_files; ++i)
   {
     m_Sensitivity.push_back(p[i]);
     m_Specificity.push_back(q[i]);

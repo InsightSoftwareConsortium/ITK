@@ -94,20 +94,20 @@ ImageMomentsCalculator<TImage>::Compute()
     {
       m_M0 += value;
 
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         m_M1[i] += static_cast<double>(indexPosition[i]) * value;
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           double weight = value * static_cast<double>(indexPosition[i]) * static_cast<double>(indexPosition[j]);
           m_M2[i][j] += weight;
         }
       }
 
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         m_Cg[i] += physicalPosition[i] * value;
-        for (unsigned int j = 0; j < ImageDimension; j++)
+        for (unsigned int j = 0; j < ImageDimension; ++j)
         {
           double weight = value * physicalPosition[i] * physicalPosition[j];
           m_Cm[i][j] += weight;
@@ -126,11 +126,11 @@ ImageMomentsCalculator<TImage>::Compute()
   }
 
   // Normalize using the total mass
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Cg[i] /= m_M0;
     m_M1[i] /= m_M0;
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       m_M2[i][j] /= m_M0;
       m_Cm[i][j] /= m_M0;
@@ -138,9 +138,9 @@ ImageMomentsCalculator<TImage>::Compute()
   }
 
   // Center the second order moments
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       m_M2[i][j] -= m_M1[i] * m_M1[j];
       m_Cm[i][j] -= m_Cg[i] * m_Cg[j];
@@ -150,7 +150,7 @@ ImageMomentsCalculator<TImage>::Compute()
   // Compute principal moments and axes
   vnl_symmetric_eigensystem<double> eigen{ m_Cm.GetVnlMatrix().as_matrix() };
   vnl_diag_matrix<double>           pm{ eigen.D };
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Pm[i] = pm(i) * m_M0;
   }
@@ -162,12 +162,12 @@ ImageMomentsCalculator<TImage>::Compute()
   vnl_diag_matrix<std::complex<double>> eigenval{ eigenrot.D };
   std::complex<double>                  det(1.0, 0.0);
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     det *= eigenval(i);
   }
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Pa[ImageDimension - 1][i] *= std::real(det);
   }
@@ -276,10 +276,10 @@ ImageMomentsCalculator<TImage>::GetPrincipalAxesToPhysicalAxesTransform() const
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     offset[i] = m_Cg[i];
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       matrix[j][i] = m_Pa[i][j]; // Note the transposition
     }
@@ -302,10 +302,10 @@ ImageMomentsCalculator<TImage>::GetPhysicalAxesToPrincipalAxesTransform() const
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     offset[i] = m_Cg[i];
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       matrix[j][i] = m_Pa[i][j]; // Note the transposition
     }

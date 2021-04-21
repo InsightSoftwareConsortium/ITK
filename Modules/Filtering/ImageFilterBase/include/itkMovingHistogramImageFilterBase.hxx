@@ -61,7 +61,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
 
   // create a center index to compute the offset
   IndexType centerIndex;
-  for (unsigned axis = 0; axis < ImageDimension; axis++)
+  for (unsigned axis = 0; axis < ImageDimension; ++axis)
   {
     centerIndex[axis] = kernel.GetSize()[axis] / 2;
   }
@@ -113,7 +113,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   FixedArray<SizeValueType, ImageDimension> axisCount;
   axisCount.Fill(0);
 
-  for (unsigned axis = 0; axis < ImageDimension; axis++)
+  for (unsigned axis = 0; axis < ImageDimension; ++axis)
   {
     OffsetType refOffset;
     refOffset.Fill(0);
@@ -165,7 +165,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   using MapCountType = typename std::set<DirectionCost>;
   MapCountType invertedCount;
   unsigned int i;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     invertedCount.insert(DirectionCost(i, axisCount[i]));
   }
@@ -199,7 +199,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::GetDirAndOff
   // 1 non zero (positive) entry in LineOffset.
   // When moving between planes there will be some negative ones too.
   LineOffset = Changes = LineStart - PrevLineStart;
-  for (unsigned int y = 0; y < ImageDimension; y++)
+  for (unsigned int y = 0; y < ImageDimension; ++y)
   {
     if (LineOffset[y] > 0)
     {

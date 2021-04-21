@@ -183,7 +183,7 @@ itkFastMarchingTest2(int, char *[])
     {
       tempIndex -= offset0;
       double distance = 0.0;
-      for (int j = 0; j < 2; j++)
+      for (int j = 0; j < 2; ++j)
       {
         distance += tempIndex[j] * tempIndex[j];
       }

@@ -56,7 +56,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
 
   typename MeanAlgorithmType::MeasurementVectorType mean = meanAlgorithm->GetMean();
 
-  for (unsigned int i = 0; i < SampleDimension; i++)
+  for (unsigned int i = 0; i < SampleDimension; ++i)
   {
     m_Mean[i] = mean[i];
   }
@@ -68,9 +68,9 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
   covarianceAlgorithm->Update();
 
   typename CovarianceAlgorithmType::MatrixType covarianceMatrix = covarianceAlgorithm->GetCovarianceMatrix();
-  for (unsigned int i = 0; i < covarianceMatrix.Rows(); i++)
+  for (unsigned int i = 0; i < covarianceMatrix.Rows(); ++i)
   {
-    for (unsigned int j = 0; j < covarianceMatrix.Rows(); j++)
+    for (unsigned int j = 0; j < covarianceMatrix.Rows(); ++j)
     {
       m_CovarianceMatrix(i, j) = covarianceMatrix(i, j);
     }
@@ -136,7 +136,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
         ind = m_Image->TransformPhysicalPointToIndex(tPnt);
         mv[0] = m_Image->GetPixel(ind);
         m_Sum += static_cast<AccumulateType>(mv[0]);
-        for (unsigned int i = 1; i < Self::SampleDimension; i++)
+        for (unsigned int i = 1; i < Self::SampleDimension; ++i)
         {
           ind[m_SampleDirection] += 1;
           mv[i] = m_Image->GetPixel(ind);
@@ -159,7 +159,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     Point<double, Self::ObjectDimension> ptMin;
     Point<double, Self::ObjectDimension> ptMax;
     SizeType                             size;
-    for (unsigned int i = 0; i < Self::ObjectDimension; i++)
+    for (unsigned int i = 0; i < Self::ObjectDimension; ++i)
     {
       ptMin[i] = bounds[i * 2];
       ptMax[i] = bounds[i * 2 + 1];
@@ -168,7 +168,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
     auto      indMax = m_Image->TransformPhysicalPointToIndex(ptMax);
     IndexType imageIndex = m_Image->GetLargestPossibleRegion().GetIndex();
     SizeType  imageSize = m_Image->GetLargestPossibleRegion().GetSize();
-    for (unsigned int i = 0; i < Self::ObjectDimension; i++)
+    for (unsigned int i = 0; i < Self::ObjectDimension; ++i)
     {
       if (indMin[i] > indMax[i])
       {
@@ -205,7 +205,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
       {
         mv[0] = it.Get();
         m_Sum += static_cast<AccumulateType>(mv[0]);
-        for (unsigned int i = 1; i < Self::SampleDimension; i++)
+        for (unsigned int i = 1; i < Self::SampleDimension; ++i)
         {
           ind[m_SampleDirection] += 1;
           mv[i] = m_Image->GetPixel(ind);

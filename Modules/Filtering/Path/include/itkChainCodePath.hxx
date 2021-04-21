@@ -63,7 +63,7 @@ ChainCodePath<VDimension>::EvaluateToIndex(const InputType & input) const
   IndexType index = m_Start;
 
   // Iterate through the chaincode, summing the offsets as we go.
-  for (InputType i = 0; i < input; i++)
+  for (InputType i = 0; i < input; ++i)
   {
     index += m_Chain[i];
   }

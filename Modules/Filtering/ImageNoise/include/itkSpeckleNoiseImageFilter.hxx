@@ -46,7 +46,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
 
   // Create a random generator per thread
   IndexValueType indSeed = 0;
-  for (unsigned d = 0; d < TOutputImage::ImageDimension; d++)
+  for (unsigned d = 0; d < TOutputImage::ImageDimension; ++d)
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }
@@ -104,7 +104,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
         }
       } while (nu > std::exp(-xi) * std::pow(xi, delta - 1.0));
       double gamma = xi;
-      for (int i = 0; i < floork; i++)
+      for (int i = 0; i < floork; ++i)
       {
         gamma -= std::log(1.0 - rand->GetVariateWithOpenUpperRange());
       }

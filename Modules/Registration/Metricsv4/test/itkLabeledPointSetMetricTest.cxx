@@ -40,7 +40,7 @@ itkLabeledPointSetMetricTestRun()
 
   // Produce two simple point sets of 1) a circle and 2) the same circle with an offset;
   PointType offset;
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     offset[d] = 1.1 + d;
   }
@@ -99,7 +99,7 @@ itkLabeledPointSetMetricTestRun()
 
   std::cout << "value: " << value << std::endl;
   std::cout << "derivative: " << derivative << std::endl;
-  for (unsigned int d = 0; d < metric->GetNumberOfParameters(); d++)
+  for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
   {
     if (std::fabs(derivative[d] - offset[d]) / offset[d] > 0.01)
     {
@@ -130,7 +130,7 @@ itkLabeledPointSetMetricTestRun()
   moving_str2 << "0 0 0 0" << std::endl;
 
   typename PointType::VectorType vector;
-  for (unsigned int d = 0; d < metric->GetNumberOfParameters(); d++)
+  for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
   {
     vector[d] = derivative[count++];
   }
@@ -141,7 +141,7 @@ itkLabeledPointSetMetricTestRun()
     PointType sourcePoint = ItM.Value();
     PointType targetPoint = sourcePoint + vector;
 
-    for (unsigned int d = 0; d < metric->GetNumberOfParameters(); d++)
+    for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
     {
       moving_str1 << sourcePoint[d] << " ";
       moving_str2 << targetPoint[d] << " ";

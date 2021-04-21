@@ -182,12 +182,12 @@ itkImageAdaptorInterpolateImageFunctionTest(int, char *[])
     index = iter.GetIndex();
     value = 0;
 
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       value += index[j];
     }
 
-    for (unsigned int k = 0; k < ImageDimension; k++)
+    for (unsigned int k = 0; k < ImageDimension; ++k)
     {
       pixel[k] = (k + 1) * value;
     }

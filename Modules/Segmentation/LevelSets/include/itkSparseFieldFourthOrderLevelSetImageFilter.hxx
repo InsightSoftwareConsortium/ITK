@@ -95,7 +95,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
 
   const NeighborhoodScalesType neighborhoodScales = this->GetDifferenceFunction()->ComputeNeighborhoodScales();
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     stride[j] = it.GetStride(j);
     indicator[j] = one << j;
@@ -103,10 +103,10 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
 
   curvature = NumericTraits<ValueType>::ZeroValue();
 
-  for (counter = 0; counter < m_NumVertex; counter++)
+  for (counter = 0; counter < m_NumVertex; ++counter)
   {
     position = center;
-    for (unsigned int k = 0; k < ImageDimension; k++)
+    for (unsigned int k = 0; k < ImageDimension; ++k)
     {
       if (counter & indicator[k])
       {
@@ -120,7 +120,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
     else
     {
       normalvector = it.GetPixel(position)->m_Data;
-      for (unsigned int j = 0; j < ImageDimension; j++) // derivative axis
+      for (unsigned int j = 0; j < ImageDimension; ++j) // derivative axis
       {
         if (counter & indicator[j])
         {
@@ -152,7 +152,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ComputeCur
 
   DistanceImageIteratorType distanceImageIterator(distanceImage, distanceImage->GetRequestedRegion());
   typename SparseImageIteratorType::RadiusType radius;
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     radius[j] = 1;
   }

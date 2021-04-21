@@ -36,7 +36,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpVector
   m_OutputOrigin.Fill(0.0);
   m_OutputDirection.SetIdentity();
 
-  for (unsigned int i = 0; i < PixelDimension; i++)
+  for (unsigned int i = 0; i < PixelDimension; ++i)
   {
     m_EdgePaddingValue[i] = 0;
   }
@@ -163,7 +163,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThr
     displacement = fieldIt.Get();
 
     // compute the required input image point
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       point[j] += displacement[j];
     }
@@ -174,7 +174,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThr
       using OutputType = typename InterpolatorType::OutputType;
       const OutputType interpolatedValue = m_Interpolator->Evaluate(point);
 
-      for (unsigned int k = 0; k < PixelDimension; k++)
+      for (unsigned int k = 0; k < PixelDimension; ++k)
       {
         outputValue[k] = static_cast<ValueType>(interpolatedValue[k]);
       }

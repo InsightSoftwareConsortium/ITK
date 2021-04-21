@@ -43,7 +43,7 @@ ReadWriteCompare(PixelType value, std::string type)
   direction[1][0] = -1;
   direction[0][0] = 0;
   direction[1][1] = 0;
-  for (size_t ii = 0; ii < Dimension; ii++)
+  for (size_t ii = 0; ii < Dimension; ++ii)
   {
     spacing[ii] = 0.12;
     origin[ii] = 3.2;
@@ -123,10 +123,10 @@ testMetaImage(int, char *[])
   MetaImage tImCopy(&tIm);
 
   int i;
-  for (i = 0; i < 64; i++)
+  for (i = 0; i < 64; ++i)
     tIm.ElementData(i, i);
 
-  for (i = 0; i < 64; i++)
+  for (i = 0; i < 64; ++i)
   {
     if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {
@@ -203,7 +203,7 @@ testMetaImage(int, char *[])
   }
 
   tIm2.PrintInfo();
-  for (i = 0; i < 64; i++)
+  for (i = 0; i < 64; ++i)
   {
     if (itk::Math::NotExactlyEquals(i, tIm.ElementData(i)))
     {

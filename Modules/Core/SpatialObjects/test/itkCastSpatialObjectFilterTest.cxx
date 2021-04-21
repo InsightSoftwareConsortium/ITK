@@ -35,7 +35,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
   using TubeType = itk::TubeSpatialObject<3>;
   using TubePointType = itk::TubeSpatialObjectPoint<3>;
   TubeType::TubePointListType list3;
-  for (unsigned int i = 0; i < 7; i++)
+  for (unsigned int i = 0; i < 7; ++i)
   {
     TubePointType p;
     p.SetPositionInObjectSpace(i * 3, i * 3, i * 3);
@@ -84,9 +84,9 @@ itkCastSpatialObjectFilterTest(int, char *[])
     }
 
     TubeType::TubePointListType::const_iterator pnt;
-    for (pnt = tListTube->GetPoints().begin(); pnt != tListTube->GetPoints().end(); pnt++)
+    for (pnt = tListTube->GetPoints().begin(); pnt != tListTube->GetPoints().end(); ++pnt)
     {
-      for (unsigned int d = 0; d < 3; d++)
+      for (unsigned int d = 0; d < 3; ++d)
       {
         if (itk::Math::NotAlmostEquals((*pnt).GetPositionInWorldSpace()[d], value * tListTube->GetId()))
         {

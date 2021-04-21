@@ -31,27 +31,27 @@ PrintInformation(ImagePointer image1, ImagePointer image2)
             << "      Output" << std::endl;
   std::cout << "Origin"
             << "      Origin" << std::endl;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  " << image1->GetOrigin()[i] << "       " << image2->GetOrigin()[i] << std::endl;
   }
   std::cout << "Spacing"
             << "      Spacing" << std::endl;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << std::endl;
   }
   std::cout << "Direction"
             << "  Direction" << std::endl;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  ";
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       std::cout << image1->GetDirection()[i][j] << " ";
     }
     std::cout << "     ";
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       std::cout << image2->GetDirection()[i][j] << " ";
     }
@@ -69,7 +69,7 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
   std::cout << "Origin"
             << "      Origin"
             << "      Origin" << std::endl;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  " << image1->GetOrigin()[i] << "       " << image2->GetOrigin()[i] << "       "
               << image3->GetOrigin()[i] << std::endl;
@@ -77,7 +77,7 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
   std::cout << "Spacing"
             << "      Spacing"
             << "      Spacing" << std::endl;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     std::cout << "    " << image1->GetSpacing()[i] << "        " << image2->GetSpacing()[i] << "        "
               << image3->GetSpacing()[i] << std::endl;
@@ -85,20 +85,20 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
   std::cout << "Direction"
             << "  Direction"
             << "  Direction" << std::endl;
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     std::cout << "  ";
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       std::cout << image1->GetDirection()[i][j] << " ";
     }
     std::cout << "     ";
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       std::cout << image2->GetDirection()[i][j] << " ";
     }
     std::cout << "     ";
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       std::cout << image3->GetDirection()[i][j] << " ";
     }

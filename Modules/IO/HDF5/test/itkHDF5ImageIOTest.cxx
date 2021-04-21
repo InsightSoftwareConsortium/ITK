@@ -36,7 +36,7 @@ HDF5ReadWriteTest(const char * fileName)
   typename ImageType::SpacingType spacing;
   typename ImageType::PointType   origin;
 
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
     size[i] = 5;
     index[i] = 0;

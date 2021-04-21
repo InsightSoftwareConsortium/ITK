@@ -193,7 +193,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
     {
       tempIndex -= offset0;
       double distance = 0.0;
-      for (unsigned int j = 0; j < Dimension; j++)
+      for (unsigned int j = 0; j < Dimension; ++j)
       {
         distance += tempIndex[j] * tempIndex[j];
       }

@@ -82,7 +82,7 @@ itkFEMElement2DC0LinearLineStressTest(int argc, char * argv[])
   float             expectedResult[6] = { 0.0f, 0.0f, 1.66667e-07f, 0.0f, 5e-07f, 0.0f };
 
   bool foundError = false;
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
     if (std::fabs(expectedResult[i] - soln[i]) > 0.0000001)

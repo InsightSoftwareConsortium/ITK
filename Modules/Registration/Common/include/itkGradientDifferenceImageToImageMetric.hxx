@@ -40,7 +40,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GradientDiffere
 
   m_TransformMovingImageFilter = nullptr;
 
-  for (iDimension = 0; iDimension < FixedImageDimension; iDimension++)
+  for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
     m_MinFixedGradient[iDimension] = 0;
     m_MaxFixedGradient[iDimension] = 0;
@@ -48,7 +48,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GradientDiffere
     m_Variance[iDimension] = 0;
   }
 
-  for (iDimension = 0; iDimension < MovedImageDimension; iDimension++)
+  for (iDimension = 0; iDimension < MovedImageDimension; ++iDimension)
   {
     m_MinMovedGradient[iDimension] = 0;
     m_MaxMovedGradient[iDimension] = 0;
@@ -98,7 +98,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   m_CastFixedImageFilter = CastFixedImageFilterType::New();
   m_CastFixedImageFilter->SetInput(this->m_FixedImage);
 
-  for (iFilter = 0; iFilter < FixedImageDimension; iFilter++)
+  for (iFilter = 0; iFilter < FixedImageDimension; ++iFilter)
   {
     m_FixedSobelOperators[iFilter].SetDirection(iFilter);
     m_FixedSobelOperators[iFilter].CreateDirectional();
@@ -120,7 +120,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   m_CastMovedImageFilter = CastMovedImageFilterType::New();
   m_CastMovedImageFilter->SetInput(m_TransformMovingImageFilter->GetOutput());
 
-  for (iFilter = 0; iFilter < MovedImageDimension; iFilter++)
+  for (iFilter = 0; iFilter < MovedImageDimension; ++iFilter)
   {
     m_MovedSobelOperators[iFilter].SetDirection(iFilter);
     m_MovedSobelOperators[iFilter].CreateDirectional();
@@ -157,7 +157,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMovedGra
   unsigned int           iDimension;
   MovedGradientPixelType gradient;
 
-  for (iDimension = 0; iDimension < FixedImageDimension; iDimension++)
+  for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
     using IteratorType = itk::ImageRegionConstIteratorWithIndex<MovedGradientImageType>;
 
@@ -199,7 +199,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance
   FixedGradientPixelType mean[FixedImageDimension];
   FixedGradientPixelType gradient;
 
-  for (iDimension = 0; iDimension < FixedImageDimension; iDimension++)
+  for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
     using IteratorType = itk::ImageRegionConstIteratorWithIndex<FixedGradientImageType>;
 
@@ -278,7 +278,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
   m_TransformMovingImageFilter->UpdateLargestPossibleRegion();
   MeasureType measure = NumericTraits<MeasureType>::ZeroValue();
 
-  for (iDimension = 0; iDimension < FixedImageDimension; iDimension++)
+  for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
     if (Math::AlmostEquals(m_Variance[iDimension], NumericTraits<MovedGradientPixelType>::ZeroValue()))
     {
@@ -343,7 +343,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
 
   // Update the gradient images
 
-  for (iFilter = 0; iFilter < MovedImageDimension; iFilter++)
+  for (iFilter = 0; iFilter < MovedImageDimension; ++iFilter)
   {
     m_MovedSobelFilters[iFilter]->UpdateLargestPossibleRegion();
   }
@@ -361,7 +361,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   MovedGradientPixelType subtractionFactor[FixedImageDimension];
   MeasureType            currentMeasure;
 
-  for (iDimension = 0; iDimension < FixedImageDimension; iDimension++)
+  for (iDimension = 0; iDimension < FixedImageDimension; ++iDimension)
   {
     subtractionFactor[iDimension] = 1.0;
   }
@@ -388,7 +388,7 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(
   const unsigned int numberOfParameters = this->GetNumberOfParameters();
   derivative = DerivativeType(numberOfParameters);
 
-  for (unsigned int i = 0; i < numberOfParameters; i++)
+  for (unsigned int i = 0; i < numberOfParameters; ++i)
   {
     testPoint[i] -= this->m_DerivativeDelta;
     const MeasureType valuep0 = this->GetValue(testPoint);

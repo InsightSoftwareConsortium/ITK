@@ -141,7 +141,7 @@ public:
     FrequencyType freq;
     IndexType     freqInd = this->GetFrequencyBin();
     // FrequencyType freq;
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       freq[dim] = this->m_FrequencyOrigin[dim] + this->m_FrequencySpacing[dim] * freqInd[dim];
     }
@@ -154,7 +154,7 @@ public:
     FrequencyValueType w2(0);
     FrequencyType      w(this->GetFrequency());
 
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       w2 += w[dim] * w[dim];
     }

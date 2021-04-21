@@ -50,7 +50,7 @@ MinMaxCurvatureFlowFunction<TImage>::SetStencilRadius(const RadiusValueType valu
   RadiusType   radius;
   unsigned int j;
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     radius[j] = m_StencilRadius;
   }
@@ -74,7 +74,7 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
   unsigned int    j;
   RadiusValueType span = 2 * m_StencilRadius + 1;
   RadiusValueType sqrRadius = m_StencilRadius * m_StencilRadius;
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     counter[j] = 0;
   }
@@ -90,7 +90,7 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
     *opIter = NumericTraits<PixelType>::ZeroValue();
 
     RadiusValueType length = 0;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       length += static_cast<RadiusValueType>(
         itk::Math::sqr(static_cast<IndexValueType>(counter[j]) - static_cast<IndexValueType>(m_StencilRadius)));
@@ -102,7 +102,7 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
     }
 
     bool carryOver = true;
-    for (j = 0; carryOver && j < ImageDimension; j++)
+    for (j = 0; carryOver && j < ImageDimension; ++j)
     {
       counter[j] += 1;
       carryOver = false;
@@ -144,7 +144,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
   center = it.Size() / 2;
 
   gradMagnitude = NumericTraits<PixelType>::ZeroValue();
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     stride = it.GetStride((SizeValueType)j);
     gradient[j] = 0.5 * (it.GetPixel(center + stride) - it.GetPixel(center - stride));
@@ -165,7 +165,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
 
   RadiusValueType counter[ImageDimension];
   RadiusValueType span = 2 * m_StencilRadius + 1;
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     counter[j] = 0;
   }
@@ -182,7 +182,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
     PixelType dotProduct = NumericTraits<PixelType>::ZeroValue();
     PixelType vectorMagnitude = NumericTraits<PixelType>::ZeroValue();
 
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       IndexValueType diff = static_cast<IndexValueType>(counter[j]) - static_cast<IndexValueType>(m_StencilRadius);
 
@@ -204,7 +204,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
     }
 
     bool carryOver = true;
-    for (j = 0; carryOver && j < ImageDimension; j++)
+    for (j = 0; carryOver && j < ImageDimension; ++j)
     {
       counter[j] += 1;
       carryOver = false;

@@ -46,7 +46,7 @@ itkGPUReductionTest(int argc, char * argv[])
   unsigned int bytes = numPixels * sizeof(ElementType);
   auto *       h_idata = (ElementType *)malloc(bytes);
 
-  for (int ii = 0; ii < numPixels; ii++)
+  for (int ii = 0; ii < numPixels; ++ii)
   {
     h_idata[ii] = 1;
   }

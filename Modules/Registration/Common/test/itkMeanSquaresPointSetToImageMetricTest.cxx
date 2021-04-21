@@ -210,7 +210,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
   ParametersType parameters(transform->GetNumberOfParameters());
 
   // initialize the offset/vector part
-  for (unsigned int k = 0; k < ImageDimension; k++)
+  for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     parameters[k] = 0.0f;
   }

@@ -59,7 +59,7 @@ itkSimplexMeshVolumeCalculatorTest(int, char *[])
   VolumeCalculatorType::Pointer calculator = VolumeCalculatorType::New();
 
   calculator->SetSimplexMesh(simplexFilter->GetOutput());
-  for (int i = 1; i <= 5; i++)
+  for (int i = 1; i <= 5; ++i)
   {
     mySphereMeshSource->SetResolution(i);
     simplexFilter->Update();

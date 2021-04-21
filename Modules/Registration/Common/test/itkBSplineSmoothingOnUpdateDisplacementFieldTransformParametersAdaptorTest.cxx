@@ -91,7 +91,7 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
   SpacingType requiredSpacing;
   requiredSpacing.Fill(0.6);
   SizeType requiredSize;
-  for (unsigned int d = 0; d < SpaceDimension; d++)
+  for (unsigned int d = 0; d < SpaceDimension; ++d)
   {
     requiredSize[d] = static_cast<SizeType::SizeValueType>((spacing[d] * (size[d] - 1) / requiredSpacing[d]) + 1);
   }

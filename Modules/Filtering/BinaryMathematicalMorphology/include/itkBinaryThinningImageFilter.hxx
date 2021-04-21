@@ -145,7 +145,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
   {
     noChange = true;
     // Loop through the thinning steps.
-    for (int step = 1; step <= 4; step++)
+    for (int step = 1; step <= 4; ++step)
     {
       pixelsToDelete.clear();
       // Loop through the image.
@@ -271,7 +271,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
 
       // Loop through the vector of pixels to delete and set these pixels to 0 in
       // the image.
-      for (pixelsToDeleteIt = pixelsToDelete.begin(); pixelsToDeleteIt != pixelsToDelete.end(); pixelsToDeleteIt++)
+      for (pixelsToDeleteIt = pixelsToDelete.begin(); pixelsToDeleteIt != pixelsToDelete.end(); ++pixelsToDeleteIt)
       {
         thinImage->SetPixel(*pixelsToDeleteIt, 0);
       }

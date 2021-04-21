@@ -77,7 +77,7 @@ itkFEMElement3DC0LinearTetrahedronMembraneTest(int argc, char * argv[])
   float exectedResult[12] = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.66667e-05f, 0.0f, 0.0f };
 
   bool foundError = false;
-  for (int i = 0; i < numDOF; i++)
+  for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
     // std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

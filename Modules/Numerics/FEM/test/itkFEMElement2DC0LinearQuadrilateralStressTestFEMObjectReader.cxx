@@ -85,7 +85,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTestFEMObjectReader(int argc, char * a
   femSO->GetFEMObject()->Solve();
 
   float soln[8];
-  for (int i = 0; i < 8; i++)
+  for (int i = 0; i < 8; ++i)
   {
     soln[i] = femSO->GetFEMObject()->GetSolution(i);
     std::cout << "Solution[" << i << "]:" << soln[i] << std::endl;

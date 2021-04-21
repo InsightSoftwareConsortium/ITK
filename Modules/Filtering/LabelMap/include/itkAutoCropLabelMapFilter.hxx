@@ -74,7 +74,7 @@ AutoCropLabelMapFilter<TInputImage>::GenerateOutputInformation()
       const typename TInputImage::IndexValueType length = lit.GetLine().GetLength();
 
       // update the mins and maxs
-      for (unsigned int i = 0; i < ImageDimension; i++)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         if (idx[i] < minIdx[i])
         {
@@ -100,7 +100,7 @@ AutoCropLabelMapFilter<TInputImage>::GenerateOutputInformation()
   SizeType             regionSize;
   InputImageRegionType cropRegion;
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     regionSize[i] = maxIdx[i] - minIdx[i] + 1;
   }

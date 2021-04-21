@@ -146,7 +146,7 @@ itkFEMLoadPointTestUser(int, char *[])
   // Solvers being tested
   int numsolvers = 3;
 
-  for (int s = 0; s < numsolvers; s++)
+  for (int s = 0; s < numsolvers; ++s)
   {
     if (s == 2)
     {
@@ -172,7 +172,7 @@ itkFEMLoadPointTestUser(int, char *[])
 
     int               numDOF = femObject->GetNumberOfDegreesOfFreedom();
     vnl_vector<float> soln(numDOF);
-    for (int i = 0; i < numDOF; i++)
+    for (int i = 0; i < numDOF; ++i)
     {
       soln[i] = solver->GetSolution(i);
     }

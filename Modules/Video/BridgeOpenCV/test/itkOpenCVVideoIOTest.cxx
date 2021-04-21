@@ -74,7 +74,7 @@ readCorrectly(itk::OpenCVVideoIO::Pointer opencvIO, CvCapture * capture, FrameOf
 {
   bool ret = true;
   // Check meta data
-  for (unsigned int i = 0; i < ImageType::ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
   {
     if (opencvIO->GetSpacing(i) != 1.0)
     {
@@ -289,7 +289,7 @@ test_OpenCVVideoIO(char *          input,
   // Set up OpenCV capture
   CvCapture * capture = cvCaptureFromFile(opencvIO->GetFileName());
   // Loop through all frames
-  for (FrameOffsetType i = 0; i * opencvIO->GetIFrameInterval() < opencvIO->GetFrameTotal(); i++)
+  for (FrameOffsetType i = 0; i * opencvIO->GetIFrameInterval() < opencvIO->GetFrameTotal(); ++i)
   {
     if (!readCorrectly(opencvIO, capture, i * opencvIO->GetIFrameInterval()))
     {
@@ -486,7 +486,7 @@ test_OpenCVVideoIO(char *          input,
   opencvIO2->SetFileName(input);
   opencvIO2->ReadImageInformation();
   // Loop through all frames to read with opencvIO2 and write with opencvIO
-  for (unsigned int i = 0; i * opencvIO2->GetIFrameInterval() < inNumFrames; i++)
+  for (unsigned int i = 0; i * opencvIO2->GetIFrameInterval() < inNumFrames; ++i)
   {
     // Set up a buffer to read to
     itk::SizeValueType bufferSizeT = opencvIO2->GetImageSizeInBytes();

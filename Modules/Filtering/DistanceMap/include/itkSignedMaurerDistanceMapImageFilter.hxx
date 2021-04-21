@@ -157,7 +157,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution
-  for (unsigned int d = 0; d < ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     m_CurrentDimension = d;
     this->GetMultiThreader()->SingleMethodExecute();
@@ -180,10 +180,10 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
 
   // compute the number of rows first, so we can setup a progress reporter
   std::vector<InputSizeValueType> NumberOfRows;
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     NumberOfRows.push_back(1);
-    for (unsigned int d = 0; d < InputImageDimension; d++)
+    for (unsigned int d = 0; d < InputImageDimension; ++d)
     {
       if (d != i)
       {
@@ -231,11 +231,11 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   OutputIndexType    idx;
   idx.Fill(0);
 
-  for (InputSizeValueType n = 0; n < tempRow; n++)
+  for (InputSizeValueType n = 0; n < tempRow; ++n)
   {
     index = n;
     count = 0;
-    for (unsigned int d = m_CurrentDimension + 1; d < m_CurrentDimension + InputImageDimension; d++)
+    for (unsigned int d = m_CurrentDimension + 1; d < m_CurrentDimension + InputImageDimension; ++d)
     {
       offsetIndex[d % InputImageDimension] =
         static_cast<OutputIndexValueType>(static_cast<double>(index) / static_cast<double>(k[count]));
@@ -328,7 +328,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned 
 
   int l = -1;
 
-  for (unsigned int i = 0; i < nd; i++)
+  for (unsigned int i = 0; i < nd; ++i)
   {
     idx[d] = i + startIndex[d];
 
@@ -375,7 +375,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned 
 
   l = 0;
 
-  for (unsigned int i = 0; i < nd; i++)
+  for (unsigned int i = 0; i < nd; ++i)
   {
     OutputPixelType iw;
 

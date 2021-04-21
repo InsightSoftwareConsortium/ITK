@@ -133,7 +133,7 @@ public:
     {
       m_Force.set_size(force.size());
     }
-    for (unsigned int i = 0; i < force.size(); i++)
+    for (unsigned int i = 0; i < force.size(); ++i)
     {
       m_Force[i] = force[i];
     }
@@ -149,7 +149,7 @@ public:
     {
       m_Source.set_size(source.size());
     }
-    for (unsigned int i = 0; i < source.size(); i++)
+    for (unsigned int i = 0; i < source.size(); ++i)
     {
       m_Source[i] = source[i];
     }
@@ -179,7 +179,7 @@ public:
     {
       m_Target.set_size(target.size());
     }
-    for (unsigned int i = 0; i < target.size(); i++)
+    for (unsigned int i = 0; i < target.size(); ++i)
     {
       m_Target[i] = target[i];
     }
@@ -188,7 +188,7 @@ public:
   void
   ScalePointAndForce(double * spacing, double fwt)
   {
-    for (unsigned int i = 0; i < m_Target.size(); i++)
+    for (unsigned int i = 0; i < m_Target.size(); ++i)
     {
       m_Target[i] /= spacing[i];
       m_Source[i] /= spacing[i];

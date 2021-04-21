@@ -43,15 +43,15 @@ void resetData(::itk::Image<PixelType, 3>::Pointer image, std::vector<int> & ref
   PixelType     temp;
 
   // fill the image with random values
-  for (z = 0; z < size[2]; z++)
+  for (z = 0; z < size[2]; ++z)
   {
     index[2] = z;
     temp[2] = rand();
-    for (y = 0; y < size[1]; y++)
+    for (y = 0; y < size[1]; ++y)
     {
       index[1] = y;
       temp[1] = rand();
-      for (x = 0; x < size[0]; x++)
+      for (x = 0; x < size[0]; ++x)
       {
         index[0] = x;
         temp[0] = rand();

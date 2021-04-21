@@ -140,7 +140,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcr
 
   itkStaticAssert(ImageDimension > 0, "Images shall have one dimension at least");
   const unsigned int imageDimensionMinus1 = ImageDimension - 1;
-  for (unsigned int i = 0; i != imageDimensionMinus1; i++)
+  for (unsigned int i = 0; i != imageDimensionMinus1; ++i)
   {
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
   }

@@ -99,7 +99,7 @@ ChangeRegionLabelMapFilter<TInputImage>::ThreadedProcessLabelObject(LabelObjectT
 
   const IndexType idxMin = m_Region.GetIndex();
   IndexType       idxMax;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     idxMax[i] = idxMin[i] + m_Region.GetSize()[i] - 1;
   }
@@ -111,7 +111,7 @@ ChangeRegionLabelMapFilter<TInputImage>::ThreadedProcessLabelObject(LabelObjectT
     const IndexValueType length = lit.GetLine().GetLength();
 
     bool outside = false;
-    for (unsigned int i = 1; i < ImageDimension; i++)
+    for (unsigned int i = 1; i < ImageDimension; ++i)
     {
       if (idx[i] < idxMin[i] || idx[i] > idxMax[i])
       {

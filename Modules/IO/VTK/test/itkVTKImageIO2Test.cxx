@@ -207,7 +207,7 @@ public:
       typename ImageType::RegionType region = image->GetLargestPossibleRegion();
       typename ImageType::SizeType   size = region.GetSize();
       bool                           sizeGood = true;
-      for (unsigned int i = 0; i < ImageType::GetImageDimension(); i++)
+      for (unsigned int i = 0; i < ImageType::GetImageDimension(); ++i)
       {
         if (size[i] != 10)
         {

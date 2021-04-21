@@ -165,7 +165,7 @@ DOMNode::GetNumberOfChildren() const
 void
 DOMNode::GetAllChildren(ChildrenListType & output)
 {
-  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); ++i)
   {
     DOMNode * node = this->GetChild(i);
     output.push_back(node);
@@ -176,7 +176,7 @@ DOMNode::GetAllChildren(ChildrenListType & output)
 void
 DOMNode::GetAllChildren(ConstChildrenListType & output) const
 {
-  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); ++i)
   {
     const DOMNode * node = this->GetChild(i);
     output.push_back(node);
@@ -187,7 +187,7 @@ DOMNode::GetAllChildren(ConstChildrenListType & output) const
 void
 DOMNode::GetChildren(const std::string & tag, ChildrenListType & output)
 {
-  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); ++i)
   {
     DOMNode * node = this->GetChild(i);
     if (tag == node->GetName())
@@ -201,7 +201,7 @@ DOMNode::GetChildren(const std::string & tag, ChildrenListType & output)
 void
 DOMNode::GetChildren(const std::string & tag, ConstChildrenListType & output) const
 {
-  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); i++)
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(this->GetNumberOfChildren()); ++i)
   {
     const DOMNode * node = this->GetChild(i);
     if (tag == node->GetName())
@@ -336,7 +336,7 @@ DOMNode *
 DOMNode::GetChild(const std::string & tag, IdentifierType i)
 {
   IdentifierType k = 0;
-  for (IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); j++)
+  for (IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); ++j)
   {
     DOMNode * node = this->GetChild(j);
     if (tag == node->GetName())
@@ -364,7 +364,7 @@ DOMNode::GetChild(const std::string & tag, IdentifierType i) const
 DOMNode *
 DOMNode::GetChildByID(const std::string & value)
 {
-  for (IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); j++)
+  for (IdentifierType j = 0; j < static_cast<IdentifierType>(this->GetNumberOfChildren()); ++j)
   {
     DOMNode * node = this->GetChild(j);
     if (value == node->GetID())
@@ -396,7 +396,7 @@ DOMNode::GetSibling(OffsetType i)
   }
 
   IdentifierType j;
-  for (j = 0; j < static_cast<IdentifierType>(parent->GetNumberOfChildren()); j++)
+  for (j = 0; j < static_cast<IdentifierType>(parent->GetNumberOfChildren()); ++j)
   {
     if (parent->GetChild(j) == this)
     {
@@ -626,7 +626,7 @@ DOMNode::GetPath() const
     return path;
   }
 
-  for (IdentifierType i = 0; i < static_cast<IdentifierType>(parent->GetNumberOfChildren()); i++)
+  for (IdentifierType i = 0; i < static_cast<IdentifierType>(parent->GetNumberOfChildren()); ++i)
   {
     if (parent->GetChild(i) == this)
     {

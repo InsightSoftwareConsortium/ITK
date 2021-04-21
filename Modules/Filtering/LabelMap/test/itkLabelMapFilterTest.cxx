@@ -58,12 +58,12 @@ itkLabelMapFilterTest(int argc, char * argv[])
 
   IndexType idxVertical;
   idxVertical[0] = 5;
-  for (int ctr = 0; ctr < 5; ctr++)
+  for (int ctr = 0; ctr < 5; ++ctr)
   {
     idxVertical[1] = ctr;
     map->SetPixel(idxVertical, 1);
   }
-  for (int ctr = 6; ctr < 11; ctr++)
+  for (int ctr = 6; ctr < 11; ++ctr)
   {
     idxVertical[1] = ctr;
     map->SetPixel(idxVertical, 1);

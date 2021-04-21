@@ -108,13 +108,13 @@ set3DInterpData(typename TImage::Pointer imgPtr)
 
   /* Initialize the image contents */
   IndexType3D index;
-  for (unsigned int slice = 0; slice < size[2]; slice++)
+  for (unsigned int slice = 0; slice < size[2]; ++slice)
   {
     index[2] = slice;
-    for (unsigned int row = 0; row < size[1]; row++)
+    for (unsigned int row = 0; row < size[1]; ++row)
     {
       index[1] = row;
-      for (unsigned int col = 0; col < size[0]; col++)
+      for (unsigned int col = 0; col < size[0]; ++col)
       {
         index[0] = col;
         imgPtr->SetPixel(index, slice + row + col);
@@ -224,7 +224,7 @@ TestContinuousIndexDerivative(const TInterpolator *       interp,
     std::cout << "Interpolated Value: " << value2 << "\n";
     value = interp->EvaluateDerivativeAtContinuousIndex(index);
     std::cout << " Value: ";
-    for (int i = 0; i < ImageDimension3D; i++)
+    for (int i = 0; i < ImageDimension3D; ++i)
     {
       if (i != 0)
       {
@@ -284,7 +284,7 @@ test1DCubicSpline()
   bool                    b_Inside[NPOINTS] = { true, true, true, false, true };
 
   // an integer position inside the image
-  for (int ii = 0; ii < NPOINTS; ii++)
+  for (int ii = 0; ii < NPOINTS; ++ii)
   {
 
     cindex = ContinuousIndexType1D(&darray1[ii]);
@@ -322,7 +322,7 @@ test2DSpline()
   ImageType2D::IndexType startIndex = image->GetRequestedRegion().GetIndex();
 
   /* Create and initialize the interpolator */
-  for (unsigned int splineOrder = 0; splineOrder <= 5; splineOrder++)
+  for (unsigned int splineOrder = 0; splineOrder <= 5; ++splineOrder)
   {
     InterpolatorType2D::Pointer interp = InterpolatorType2D::New();
     interp->SetSplineOrder(splineOrder);
@@ -354,7 +354,7 @@ test2DSpline()
     bool   b_Inside[NPOINTS2] = { true, true, true, false };
 
     // an integer position inside the image
-    for (int ii = 0; ii < NPOINTS2; ii++)
+    for (int ii = 0; ii < NPOINTS2; ++ii)
     {
       cindex = ContinuousIndexType2D(&darray1[ii][0]);
       cindex[0] += startIndex[0];
@@ -394,7 +394,7 @@ test3DSpline()
   image->SetSpacing(spacing);
 
   /* Create and initialize the interpolator */
-  for (int splineOrder = 2; splineOrder <= 5; splineOrder++)
+  for (int splineOrder = 2; splineOrder <= 5; ++splineOrder)
   {
     InterpolatorType3D::Pointer interp = InterpolatorType3D::New();
     interp->SetSplineOrder(splineOrder);
@@ -427,7 +427,7 @@ test3DSpline()
     bool   b_Inside[NPOINTS3] = { true, true, true, false, true };
 
     // an integer position inside the image
-    for (int ii = 0; ii < NPOINTS3; ii++)
+    for (int ii = 0; ii < NPOINTS3; ++ii)
     {
       cindex = ContinuousIndexType3D(&darray1[ii][0]);
       passed = TestContinuousIndex<InterpolatorType3D, ContinuousIndexType3D>(
@@ -465,7 +465,7 @@ test3DSplineDerivative()
   image->SetSpacing(spacing);
 
   /* Create and initialize the interpolator */
-  for (int splineOrder = 1; splineOrder <= 5; splineOrder++)
+  for (int splineOrder = 1; splineOrder <= 5; ++splineOrder)
   {
     InterpolatorType3D::Pointer interp = InterpolatorType3D::New();
     interp->SetSplineOrder(splineOrder);
@@ -502,7 +502,7 @@ test3DSplineDerivative()
     bool b_Inside[NPOINTS4] = { true, true, true, false };
 
     // an integer position inside the image
-    for (int ii = 0; ii < NPOINTS4; ii++)
+    for (int ii = 0; ii < NPOINTS4; ++ii)
     {
       cindex = ContinuousIndexType3D(&darray1[ii][0]);
       passed = TestContinuousIndexDerivative<InterpolatorType3D, ContinuousIndexType3D>(
@@ -532,7 +532,7 @@ testInteger3DSpline()
   image->SetSpacing(spacing);
 
   /* Create and initialize the interpolator */
-  for (int splineOrder = 2; splineOrder <= 5; splineOrder++)
+  for (int splineOrder = 2; splineOrder <= 5; ++splineOrder)
   {
     InterpolatorIntegerType3D::Pointer interp = InterpolatorIntegerType3D::New();
     interp->SetSplineOrder(splineOrder);
@@ -565,7 +565,7 @@ testInteger3DSpline()
     bool   b_Inside[NPOINTS4b] = { true, true, true, false };
 
     // an integer position inside the image
-    for (int ii = 0; ii < NPOINTS4b; ii++)
+    for (int ii = 0; ii < NPOINTS4b; ++ii)
     {
       cindex = ContinuousIntegerIndexType3D(&darray1[ii][0]);
       passed = TestContinuousIndex<InterpolatorIntegerType3D, ContinuousIntegerIndexType3D>(
@@ -750,15 +750,15 @@ set3DDerivativeData(ImageType3D::Pointer imgPtr)
   double      value;
   double      slice1, row1, col1;
   IndexType3D index;
-  for (unsigned int slice = 0; slice < size[2]; slice++)
+  for (unsigned int slice = 0; slice < size[2]; ++slice)
   {
     index[2] = slice;
     slice1 = slice - 20.0; // Center offset
-    for (unsigned int row = 0; row < size[1]; row++)
+    for (unsigned int row = 0; row < size[1]; ++row)
     {
       index[1] = row;
       row1 = row - 20.0; // Center
-      for (unsigned int col = 0; col < size[0]; col++)
+      for (unsigned int col = 0; col < size[0]; ++col)
       {
         index[0] = col;
         col1 = col - 20.0; // Center

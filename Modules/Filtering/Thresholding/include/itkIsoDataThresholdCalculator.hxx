@@ -48,7 +48,7 @@ IsoDataThresholdCalculator<THistogram, TOutput>::GenerateData()
   while (true)
   {
     // Skip the empty bins to speed up things
-    for (InstanceIdentifier i = currentPos; i < size; i++)
+    for (InstanceIdentifier i = currentPos; i < size; ++i)
     {
       if (histogram->GetFrequency(i, 0) > 0)
       {
@@ -67,7 +67,7 @@ IsoDataThresholdCalculator<THistogram, TOutput>::GenerateData()
     double l = 0;
     double totl = 0;
 
-    for (InstanceIdentifier i = 0; i <= currentPos; i++)
+    for (InstanceIdentifier i = 0; i <= currentPos; ++i)
     {
       totl += static_cast<double>(histogram->GetFrequency(i, 0));
       l += static_cast<double>(histogram->GetMeasurement(i, 0)) * static_cast<double>(histogram->GetFrequency(i, 0));
@@ -76,7 +76,7 @@ IsoDataThresholdCalculator<THistogram, TOutput>::GenerateData()
     double h = 0;
     double toth = 0;
 
-    for (InstanceIdentifier i = currentPos + 1; i < size; i++)
+    for (InstanceIdentifier i = currentPos + 1; i < size; ++i)
     {
       toth += static_cast<double>(histogram->GetFrequency(i, 0));
       h += static_cast<double>(histogram->GetMeasurement(i, 0)) * static_cast<double>(histogram->GetFrequency(i, 0));

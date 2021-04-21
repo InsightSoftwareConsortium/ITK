@@ -220,13 +220,13 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   typename FixedImageType::SpacingType   fixedImageSpacing = fixedImage->GetSpacing();
   typename FixedImageType::DirectionType fixedImageDirection = fixedImage->GetDirection();
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     velocityFieldIndex[i] = fixedImageIndex[i];
     velocityFieldSize[i] = fixedImageSize[i];
     velocityFieldOrigin[i] = fixedImageOrigin[i];
     velocityFieldSpacing[i] = fixedImageSpacing[i];
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       velocityFieldDirection[i][j] = fixedImageDirection[i][j];
     }
@@ -305,7 +305,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
 
   typename VelocityFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
-  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); level++)
+  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); ++level)
   {
     using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
@@ -326,12 +326,12 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
     fixedImageSpacing = shrinkFilter->GetOutput()->GetSpacing();
     fixedImageDirection = shrinkFilter->GetOutput()->GetDirection();
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       velocityFieldSize[i] = fixedImageSize[i];
       velocityFieldOrigin[i] = fixedImageOrigin[i];
       velocityFieldSpacing[i] = fixedImageSpacing[i];
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         velocityFieldDirection[i][j] = fixedImageDirection[i][j];
       }

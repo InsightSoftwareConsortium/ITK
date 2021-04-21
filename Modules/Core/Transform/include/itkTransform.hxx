@@ -104,14 +104,14 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::UpdateTran
 
   if (factor == 1.0)
   {
-    for (NumberOfParametersType k = 0; k < numberOfParameters; k++)
+    for (NumberOfParametersType k = 0; k < numberOfParameters; ++k)
     {
       this->m_Parameters[k] += update[k];
     }
   }
   else
   {
-    for (NumberOfParametersType k = 0; k < numberOfParameters; k++)
+    for (NumberOfParametersType k = 0; k < numberOfParameters; ++k)
     {
       this->m_Parameters[k] += update[k] * factor;
     }
@@ -142,10 +142,10 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformV
   JacobianPositionType jacobian;
   this->ComputeJacobianWithRespectToPosition(point, jacobian);
   OutputVectorType result;
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     result[i] = NumericTraits<TParametersValueType>::ZeroValue();
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       result[i] += jacobian[i][j] * vector[j];
     }
@@ -164,10 +164,10 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformV
   JacobianPositionType jacobian;
   this->ComputeJacobianWithRespectToPosition(point, jacobian);
   OutputVnlVectorType result;
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     result[i] = NumericTraits<ParametersValueType>::ZeroValue();
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       result[i] += jacobian[i][j] * vector[j];
     }
@@ -195,10 +195,10 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformV
   OutputVectorPixelType result;
   result.SetSize(NOutputDimensions);
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     result[i] = NumericTraits<ParametersValueType>::ZeroValue();
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       result[i] += jacobian[i][j] * vector[j];
     }
@@ -217,10 +217,10 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformC
   InverseJacobianPositionType jacobian;
   this->ComputeInverseJacobianWithRespectToPosition(point, jacobian);
   OutputCovariantVectorType result;
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     result[i] = NumericTraits<TParametersValueType>::ZeroValue();
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       result[i] += jacobian[j][i] * vector[j];
     }
@@ -248,10 +248,10 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformC
   OutputVectorPixelType result;
   result.SetSize(NOutputDimensions);
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
     result[i] = NumericTraits<ParametersValueType>::ZeroValue();
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       result[i] += jacobian[j][i] * vector[j];
     }
@@ -289,7 +289,7 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformD
   }
 
   InputDiffusionTensor3DType inTensor;
-  for (unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     inTensor[i] = inputTensor[i];
   }
@@ -298,7 +298,7 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformD
 
   OutputVectorPixelType outputTensor;
   outputTensor.SetSize(6);
-  for (unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     outputTensor[i] = outTensor[i];
   }
@@ -316,14 +316,14 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::
   Matrix<TParametersValueType, 3, 3> matrix;
 
   matrix.Fill(0.0);
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     matrix(i, i) = 1.0;
   }
 
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NOutputDimensions; j++)
+    for (unsigned int j = 0; j < NOutputDimensions; ++j)
     {
       if ((i < 3) && (j < 3))
       {
@@ -339,7 +339,7 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::
   Vector<TParametersValueType, 3> ev1;
   Vector<TParametersValueType, 3> ev2;
   Vector<TParametersValueType, 3> ev3;
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     ev1[i] = eigenVectors(2, i);
     ev2[i] = eigenVectors(1, i);
@@ -367,9 +367,9 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::
   Matrix<TParametersValueType, 3, 3> e1;
   Matrix<TParametersValueType, 3, 3> e2;
   Matrix<TParametersValueType, 3, 3> e3;
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       e1(i, j) = eigenValues[2] * ev1[i] * ev1[j];
       e2(i, j) = eigenValues[1] * ev2[i] * ev2[j];
@@ -404,9 +404,9 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformS
   JacobianType tensor;
   tensor.SetSize(NInputDimensions, NInputDimensions);
 
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       tensor(i, j) = inputTensor(i, j);
     }
@@ -415,9 +415,9 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformS
   JacobianType                        outTensor = jacobian * tensor * invJacobian;
   OutputSymmetricSecondRankTensorType outputTensor;
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NOutputDimensions; j++)
+    for (unsigned int j = 0; j < NOutputDimensions; ++j)
     {
       outputTensor(i, j) = outTensor(i, j);
     }
@@ -447,9 +447,9 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformS
   JacobianType tensor;
   tensor.SetSize(NInputDimensions, NInputDimensions);
 
-  for (unsigned int i = 0; i < NInputDimensions; i++)
+  for (unsigned int i = 0; i < NInputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NInputDimensions; j++)
+    for (unsigned int j = 0; j < NInputDimensions; ++j)
     {
       tensor(i, j) = inputTensor[j + NInputDimensions * i];
     }
@@ -460,9 +460,9 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformS
   OutputVectorPixelType outputTensor;
   outputTensor.SetSize(NOutputDimensions * NOutputDimensions);
 
-  for (unsigned int i = 0; i < NOutputDimensions; i++)
+  for (unsigned int i = 0; i < NOutputDimensions; ++i)
   {
-    for (unsigned int j = 0; j < NOutputDimensions; j++)
+    for (unsigned int j = 0; j < NOutputDimensions; ++j)
     {
       outputTensor[j + NOutputDimensions * i] = outTensor(i, j);
     }
@@ -495,10 +495,10 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::ApplyToIma
   typename ImageType::SpacingType   spacing = image->GetSpacing();
   typename ImageType::DirectionType direction = image->GetDirection();
   // transform direction cosines and compute new spacing
-  for (unsigned i = 0; i < ImageType::ImageDimension; i++)
+  for (unsigned i = 0; i < ImageType::ImageDimension; ++i)
   {
     Vector<typename Self::ParametersValueType, ImageType::ImageDimension> dirVector;
-    for (unsigned k = 0; k < ImageType::ImageDimension; k++)
+    for (unsigned k = 0; k < ImageType::ImageDimension; ++k)
     {
       dirVector[k] = direction[k][i];
     }
@@ -507,7 +507,7 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::ApplyToIma
     dirVector = inverse->TransformVector(dirVector);
     spacing[i] = dirVector.Normalize();
 
-    for (unsigned k = 0; k < ImageType::ImageDimension; k++)
+    for (unsigned k = 0; k < ImageType::ImageDimension; ++k)
     {
       direction[k][i] = dirVector[k];
     }

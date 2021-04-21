@@ -78,7 +78,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TIma
     numberOfDimensions = ImageToImageMetricv4Type::MovingImageDimension;
   }
 
-  for (ImageDimensionType j = 0; j < numberOfDimensions; j++)
+  for (ImageDimensionType j = 0; j < numberOfDimensions; ++j)
   {
     gradientSquaredMagnitude += itk::Math::sqr((*gradient)[j]);
   }
@@ -103,7 +103,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner, TIma
     return true;
   }
 
-  for (SizeValueType p = 0; p < this->GetCachedNumberOfLocalParameters(); p++)
+  for (SizeValueType p = 0; p < this->GetCachedNumberOfLocalParameters(); ++p)
   {
     localDerivativeReturn[p] = speedValue * (*gradient)[p] / denominator;
   }

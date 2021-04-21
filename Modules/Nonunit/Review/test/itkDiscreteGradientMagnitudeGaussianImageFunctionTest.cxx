@@ -91,7 +91,7 @@ itkDiscreteGradientMagnitudeGaussianImageFunctionTestND(int argc, char * argv[])
 
   // Test itkSetVectorMacro
   double varianceVector[DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType::Length];
-  for (unsigned int i = 0; i < DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType::Length; i++)
+  for (unsigned int i = 0; i < DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType::Length; ++i)
   {
     varianceVector[i] = varianceValue;
   }

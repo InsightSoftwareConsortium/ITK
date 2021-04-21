@@ -61,14 +61,14 @@ itkTriangleMeshToSimplexMeshFilter2Test(int, char *[])
 
   using NeighborsListType = SimplexMeshType::NeighborListType;
 
-  for (int i = 0; i < 7; i++)
+  for (int i = 0; i < 7; ++i)
   {
     itk::TimeProbe      timeProbe;
     NeighborsListType * neighbors = nullptr;
 
     timeProbe.Start();
     const unsigned int lastIndex = simplexMesh->GetPoints()->Size();
-    for (unsigned int pointIndex = 0; pointIndex < lastIndex; pointIndex++)
+    for (unsigned int pointIndex = 0; pointIndex < lastIndex; ++pointIndex)
     {
       neighbors = simplexMesh->GetNeighbors(pointIndex, i);
       if (pointIndex != (lastIndex - 1))

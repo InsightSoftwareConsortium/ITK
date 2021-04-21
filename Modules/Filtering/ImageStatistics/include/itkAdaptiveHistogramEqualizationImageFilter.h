@@ -147,7 +147,7 @@ public:
     h.SetMaximum(this->m_InputMaximum);
 
     typename Superclass::HistogramType::RealType kernelSize = 1;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       kernelSize *= (2 * this->GetRadius()[i] + 1);
     }

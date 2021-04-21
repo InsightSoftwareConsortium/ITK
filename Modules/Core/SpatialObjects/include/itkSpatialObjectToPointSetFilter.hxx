@@ -111,7 +111,7 @@ SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::Genera
       typename PointBasedSpatialObjectType::PointType transformedPoint =
         inputSO->GetPoint(i)->GetPositionInWorldSpace();
 
-      for (unsigned int j = 0; j < Self::ObjectDimension; j++)
+      for (unsigned int j = 0; j < Self::ObjectDimension; ++j)
       {
         point[j] = transformedPoint[j];
       }
@@ -132,7 +132,7 @@ SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::Genera
         typename PointBasedSpatialObjectType::PointType transformedPoint =
           pointSO->GetPoint(i)->GetPositionInWorldSpace();
 
-        for (unsigned int j = 0; j < Self::ObjectDimension; j++)
+        for (unsigned int j = 0; j < Self::ObjectDimension; ++j)
         {
           point[j] = transformedPoint[j];
         }

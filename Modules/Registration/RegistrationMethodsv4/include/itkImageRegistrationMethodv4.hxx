@@ -270,7 +270,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       using OptimizerWeightsValueType = typename OptimizerWeightsType::ValueType;
       auto tolerance = static_cast<OptimizerWeightsValueType>(1e-4);
 
-      for (SizeValueType i = 0; i < this->m_OptimizerWeights.Size(); i++)
+      for (SizeValueType i = 0; i < this->m_OptimizerWeights.Size(); ++i)
       {
         OptimizerWeightsValueType difference =
           std::fabs(NumericTraits<OptimizerWeightsValueType>::OneValue() - this->m_OptimizerWeights[i]);
@@ -404,7 +404,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     }
     else if (this->m_Metric->GetMetricCategory() == ObjectToObjectMetricBaseTemplateEnums::MetricCategory::MULTI_METRIC)
     {
-      for (SizeValueType n = 0; n < this->m_NumberOfMetrics; n++)
+      for (SizeValueType n = 0; n < this->m_NumberOfMetrics; ++n)
       {
         if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() ==
             ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
@@ -433,7 +433,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     this->m_MovingImageMasks.clear();
     this->m_MovingImageMasks.resize(this->m_NumberOfMetrics);
 
-    for (SizeValueType n = 0; n < this->m_NumberOfMetrics; n++)
+    for (SizeValueType n = 0; n < this->m_NumberOfMetrics; ++n)
     {
       this->m_FixedImageMasks[n] = nullptr;
       this->m_MovingImageMasks[n] = nullptr;
@@ -505,7 +505,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       multiMetric->SetVirtualDomainFromImage(currentLevelVirtualDomainImage);
     }
 
-    for (SizeValueType n = 0; n < multiMetric->GetNumberOfMetrics(); n++)
+    for (SizeValueType n = 0; n < multiMetric->GetNumberOfMetrics(); ++n)
     {
       if (multiMetric->GetMetricQueue()[n]->GetMetricCategory() ==
           ObjectToObjectMetricBaseTemplateEnums::MetricCategory::IMAGE_METRIC)
@@ -607,7 +607,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_MovingPointSets.clear();
   this->m_MovingPointSets.resize(this->m_NumberOfMetrics);
 
-  for (SizeValueType n = 0; n < this->m_NumberOfMetrics; n++)
+  for (SizeValueType n = 0; n < this->m_NumberOfMetrics; ++n)
   {
     this->m_FixedSmoothImages[n] = nullptr;
     this->m_MovingSmoothImages[n] = nullptr;
@@ -889,7 +889,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     // and learning rates.
 
     this->m_TransformParametersAdaptorsPerLevel.clear();
-    for (SizeValueType level = 0; level < this->m_NumberOfLevels; level++)
+    for (SizeValueType level = 0; level < this->m_NumberOfLevels; ++level)
     {
       this->m_TransformParametersAdaptorsPerLevel.push_back(nullptr);
     }
@@ -966,7 +966,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   const VirtualDomainRegionType &                    virtualDomainRegion = virtualImage->GetRequestedRegion();
   const typename VirtualDomainImageType::SpacingType oneThirdVirtualSpacing = virtualImage->GetSpacing() / 3.0;
 
-  for (SizeValueType n = 0; n < numberOfLocalMetrics; n++)
+  for (SizeValueType n = 0; n < numberOfLocalMetrics; ++n)
   {
     typename MetricSamplePointSetType::Pointer samplePointSet = MetricSamplePointSetType::New();
     samplePointSet->Initialize();
@@ -1005,7 +1005,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
             virtualImage->TransformIndexToPhysicalPoint(It.GetIndex(), point);
 
             // randomly perturb the point within a voxel (approximately)
-            for (SizeValueType d = 0; d < ImageDimension; d++)
+            for (SizeValueType d = 0; d < ImageDimension; ++d)
             {
               point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
             }
@@ -1041,7 +1041,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           virtualImage->TransformIndexToPhysicalPoint(ItR.GetIndex(), point);
 
           // randomly perturb the point within a voxel (approximately)
-          for (unsigned int d = 0; d < ImageDimension; d++)
+          for (unsigned int d = 0; d < ImageDimension; ++d)
           {
             point[d] += randomizer->GetNormalVariate() * oneThirdVirtualSpacing[d];
           }
@@ -1196,7 +1196,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   os << indent << "Metric sampling strategy: " << this->m_MetricSamplingStrategy << std::endl;
 
   os << indent << "Metric sampling percentage: ";
-  for (SizeValueType i = 0; i < this->m_NumberOfLevels; i++)
+  for (SizeValueType i = 0; i < this->m_NumberOfLevels; ++i)
   {
     os << this->m_MetricSamplingPercentagePerLevel[i] << " ";
   }

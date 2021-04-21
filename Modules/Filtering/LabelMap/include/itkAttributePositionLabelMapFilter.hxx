@@ -48,7 +48,7 @@ AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>::
   {
     Point<double, ImageDimension> point;
     // copy the position to a point, required by TransformPhysicalPointToIndex
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       point[i] = position[i];
     }
@@ -57,7 +57,7 @@ AttributePositionLabelMapFilter<TImage, TAttributeAccessor, VPhysicalPosition>::
   else
   {
     // copy the position to the index, to avoid warnings
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       idx[i] = position[i];
     }

@@ -141,7 +141,7 @@ VectorResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType>
       NumericTraits<PixelType>::SetLength(pixval, numberOfComponents);
 
       const OutputType value = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
-      for (unsigned int i = 0; i < numberOfComponents; i++)
+      for (unsigned int i = 0; i < numberOfComponents; ++i)
       {
         pixval[i] = static_cast<PixelComponentType>(value[i]);
       }

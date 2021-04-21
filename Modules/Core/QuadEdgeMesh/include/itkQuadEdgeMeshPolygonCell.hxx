@@ -37,7 +37,7 @@ QuadEdgeMeshPolygonCell<TCellInterface>::QuadEdgeMeshPolygonCell(PointIdentifier
 
   // Create the rest
   QuadEdgeType * last = m_EdgeRingEntry;
-  for (PointIdentifier i = 1; i < nPoints; i++)
+  for (PointIdentifier i = 1; i < nPoints; ++i)
   {
     edge = new EdgeCellType();
     m_EdgeCellList.push_back(edge);

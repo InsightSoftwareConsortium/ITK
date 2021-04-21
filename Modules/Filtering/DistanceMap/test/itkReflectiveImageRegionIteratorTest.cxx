@@ -124,7 +124,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   // to by the iterator.  These should obviously always be the same.
   // But this test exposes a bug in the code that has been fixed.
   ImageType::OffsetType voffset;
-  for (unsigned int dim = 0; dim < Dimension; dim++)
+  for (unsigned int dim = 0; dim < Dimension; ++dim)
   {
     if (region.GetSize()[dim] > 1)
     {

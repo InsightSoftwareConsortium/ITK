@@ -323,7 +323,7 @@ PerformSimpleImageRegistration(int argc, char * argv[])
 
   typename DisplacementFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
-  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); level++)
+  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); ++level)
   {
     // We use the shrink image filter to calculate the fixed parameters of the virtual
     // domain at each level.  To speed up calculation and avoid unnecessary memory

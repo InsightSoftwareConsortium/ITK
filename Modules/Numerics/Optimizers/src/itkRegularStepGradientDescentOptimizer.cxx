@@ -34,7 +34,7 @@ RegularStepGradientDescentOptimizer::StepAlongGradient(double factor, const Deri
   ParametersType newPosition(spaceDimension);
   ParametersType currentPosition = this->GetCurrentPosition();
 
-  for (unsigned int j = 0; j < spaceDimension; j++)
+  for (unsigned int j = 0; j < spaceDimension; ++j)
   {
     newPosition[j] = currentPosition[j] + transformedGradient[j] * factor;
   }

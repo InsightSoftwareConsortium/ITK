@@ -54,7 +54,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   while (!it.IsAtEnd())
   {
     PixelType value;
-    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       value[i] = i + it.GetIndex()[0];
     }
@@ -160,11 +160,11 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
   MeasurementVectorType measurementVector;
 
-  for (unsigned int i = 0; i < size[2]; i++)
+  for (unsigned int i = 0; i < size[2]; ++i)
   {
-    for (unsigned int j = 0; j < size[1]; j++)
+    for (unsigned int j = 0; j < size[1]; ++j)
     {
-      for (unsigned int k = 0; k < size[0]; k++)
+      for (unsigned int k = 0; k < size[0]; ++k)
       {
         index[0] = k;
         index[1] = j;
@@ -184,7 +184,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
         iid = adaptor->GetImage()->ComputeOffset(index);
 
         MeasurementVectorType measurementVectorFromAdaptor = adaptor->GetMeasurementVector(iid);
-        for (unsigned int m = 0; m < 5; m++)
+        for (unsigned int m = 0; m < 5; ++m)
         {
           if (!itk::Math::FloatAlmostEqual(measurementVectorFromAdaptor[m], measurementVector[m], 4, 1.0E-6))
           {
@@ -221,7 +221,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
   const double epsilon = 1e-3;
 
-  for (unsigned int m = 0; m < 5; m++)
+  for (unsigned int m = 0; m < 5; ++m)
   {
     if (!itk::Math::FloatAlmostEqual(v1[m], v2[m], 4, epsilon))
     {

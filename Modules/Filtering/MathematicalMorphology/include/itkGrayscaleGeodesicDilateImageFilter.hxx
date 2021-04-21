@@ -345,7 +345,7 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
 
       // Dilate by checking the face connected neighbors (and center pixel)
       typename NeighborhoodIteratorType::ConstIterator sIt;
-      for (sIt = markerIt.Begin(); !sIt.IsAtEnd(); sIt++)
+      for (sIt = markerIt.Begin(); !sIt.IsAtEnd(); ++sIt)
       {
         // a pixel in the neighborhood
         value = sIt.Get();

@@ -31,7 +31,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
   this->ProcessObject::SetNumberOfRequiredOutputs(1 + AuxDimension);
 
   AuxImagePointer ptr;
-  for (unsigned int k = 0; k < AuxDimension; k++)
+  for (unsigned int k = 0; k < AuxDimension; ++k)
   {
     ptr = AuxImageType::New();
     this->ProcessObject::SetNthOutput(k + 1, ptr.GetPointer());
@@ -78,7 +78,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
   // set the size of all the auxiliary outputs
   // to be the same as the primary output
   OutputImageType * primaryOutput = this->GetOutput();
-  for (unsigned int k = 0; k < AuxDimension; k++)
+  for (unsigned int k = 0; k < AuxDimension; ++k)
   {
     AuxImageType * ptr = this->GetAuxiliaryImage(k);
     ptr->CopyInformation(primaryOutput);
@@ -94,7 +94,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
   DataObject * itkNotUsed(output))
 {
   // This filter requires all of the output images in the buffer.
-  for (unsigned int j = 0; j < this->GetNumberOfIndexedOutputs(); j++)
+  for (unsigned int j = 0; j < this->GetNumberOfIndexedOutputs(); ++j)
   {
     if (this->ProcessObject::GetOutput(j))
     {
@@ -132,7 +132,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
   }
 
   // allocate memory for the auxiliary outputs
-  for (unsigned int k = 0; k < AuxDimension; k++)
+  for (unsigned int k = 0; k < AuxDimension; ++k)
   {
     AuxImageType * ptr = this->GetAuxiliaryImage(k);
     ptr->SetBufferedRegion(ptr->GetRequestedRegion());
@@ -159,7 +159,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
       // check if node index is within the output level set
       if (this->m_BufferedRegion.IsInside(node))
       {
-        for (unsigned int k = 0; k < AuxDimension; k++)
+        for (unsigned int k = 0; k < AuxDimension; ++k)
         {
           this->m_AuxImages[k]->SetPixel(node, auxVec[k]);
         }
@@ -183,7 +183,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
       // check if node index is within the output level set
       if (this->m_BufferedRegion.IsInside(node))
       {
-        for (unsigned int k = 0; k < AuxDimension; k++)
+        for (unsigned int k = 0; k < AuxDimension; ++k)
         {
           this->m_AuxImages[k]->SetPixel(node, auxVec[k]);
         }
@@ -233,13 +233,13 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
     this->m_Heap.push(NodePairType(iNode, outputPixel));
 
     // update auxiliary values
-    for (unsigned int k = 0; k < AuxDimension; k++)
+    for (unsigned int k = 0; k < AuxDimension; ++k)
     {
       double       numer = 0.;
       double       denom = 0.;
       AuxValueType auxVal;
 
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         temp_node = NodesUsed[j];
 

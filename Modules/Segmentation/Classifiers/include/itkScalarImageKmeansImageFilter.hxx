@@ -86,7 +86,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
   const size_t numberOfClasses = this->m_InitialMeans.size();
 
   ParametersType initialMeans(numberOfClasses);
-  for (unsigned int cl = 0; cl < numberOfClasses; cl++)
+  for (unsigned int cl = 0; cl < numberOfClasses; ++cl)
   {
     initialMeans[cl] = this->m_InitialMeans[cl];
   }
@@ -124,7 +124,7 @@ ScalarImageKmeansImageFilter<TInputImage, TOutputImage>::GenerateData()
   unsigned int                 label = 0;
   MembershipFunctionVectorType membershipFunctions;
 
-  for (unsigned int k = 0; k < numberOfClasses; k++)
+  for (unsigned int k = 0; k < numberOfClasses; ++k)
   {
     classLabels[k] = label;
     label += labelInterval;

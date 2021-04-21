@@ -82,7 +82,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
 
   RealType minSpacing = spacing[0];
 
-  for (unsigned int d = 0; d < ImageDimension; d++)
+  for (unsigned int d = 0; d < ImageDimension; ++d)
   {
     if (spacing[d] < minSpacing)
     {
@@ -113,7 +113,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
       distancesFrequency.clear();
       averageAbsoluteIntensityDifference.clear();
 
-      for (unsigned int i = 0; i < It.GetNeighborhood().Size(); i++)
+      for (unsigned int i = 0; i < It.GetNeighborhood().Size(); ++i)
       {
         bool           IsInBounds1;
         InputPixelType pixel1 = It.GetPixel(i, IsInBounds1);
@@ -128,7 +128,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
           PointType point1;
           inputImage->TransformIndexToPhysicalPoint(It.GetIndex(i), point1);
 
-          for (unsigned int j = 0; j < It.GetNeighborhood().Size(); j++)
+          for (unsigned int j = 0; j < It.GetNeighborhood().Size(); ++j)
           {
             if (i == j)
             {
@@ -151,7 +151,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
               const RealType distance = point1.SquaredEuclideanDistanceTo(point2);
 
               bool distanceFound = false;
-              for (unsigned int k = 0; k < distances.size(); k++)
+              for (unsigned int k = 0; k < distances.size(); ++k)
               {
                 if (itk::Math::abs(distances[k] - distance) < 0.5 * minSpacing)
                 {
@@ -178,7 +178,7 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Ge
       RealType sumXY = 0.0;
       RealType sumXX = 0.0;
 
-      for (unsigned int k = 0; k < distances.size(); k++)
+      for (unsigned int k = 0; k < distances.size(); ++k)
       {
         if (distancesFrequency[k] == 0)
         {

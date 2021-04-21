@@ -40,7 +40,7 @@ ManhattanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x) cons
 
   double temp, distance = NumericTraits<double>::ZeroValue();
 
-  for (unsigned int i = 0; i < measurementVectorSize; i++)
+  for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
     temp = std::abs(this->GetOrigin()[i] - x[i]);
     distance += temp;
@@ -60,7 +60,7 @@ ManhattanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, con
   }
 
   double temp, distance = NumericTraits<double>::ZeroValue();
-  for (unsigned int i = 0; i < measurementVectorSize; i++)
+  for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
     temp = std::abs(x1[i] - x2[i]);
     distance += temp;

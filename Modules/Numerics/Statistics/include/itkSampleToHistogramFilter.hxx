@@ -167,7 +167,7 @@ SampleToHistogramFilter<TSample, THistogram>::GenerateData()
     {
       Algorithm::FindSampleBound(inputSample, inputSample->Begin(), inputSample->End(), lower, upper);
 
-      for (unsigned int i = 0; i < measurementVectorSize; i++)
+      for (unsigned int i = 0; i < measurementVectorSize; ++i)
       {
         if (!NumericTraits<HistogramMeasurementType>::is_integer)
         {
@@ -223,7 +223,7 @@ SampleToHistogramFilter<TSample, THistogram>::GenerateData()
     }
     else
     {
-      for (unsigned int i = 0; i < measurementVectorSize; i++)
+      for (unsigned int i = 0; i < measurementVectorSize; ++i)
       {
         h_lower[i] = static_cast<HistogramMeasurementType>(lower[i]);
         h_upper[i] = static_cast<HistogramMeasurementType>(upper[i]);
@@ -263,7 +263,7 @@ SampleToHistogramFilter<TSample, THistogram>::GenerateData()
   while (iter != last)
   {
     lvector = iter.GetMeasurementVector();
-    for (i = 0; i < inputSample->GetMeasurementVectorSize(); i++)
+    for (i = 0; i < inputSample->GetMeasurementVectorSize(); ++i)
     {
       hvector[i] = SafeAssign(lvector[i]);
     }

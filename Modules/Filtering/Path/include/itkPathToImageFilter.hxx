@@ -33,7 +33,7 @@ PathToImageFilter<TInputPath, TOutputImage>::PathToImageFilter()
   this->SetNumberOfRequiredInputs(1);
   m_Size.Fill(0);
 
-  for (unsigned int i = 0; i < OutputImageDimension; i++)
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     // Set an image spacing for the user
     m_Spacing[i] = 1.0;
@@ -85,7 +85,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetSpacing(const double * spacing)
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(spacing[i], m_Spacing[i]))
     {
@@ -94,7 +94,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetSpacing(const double * spacing)
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       m_Spacing[i] = spacing[i];
     }
@@ -107,7 +107,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetSpacing(const float * spacing)
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]))
     {
@@ -116,7 +116,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetSpacing(const float * spacing)
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       m_Spacing[i] = spacing[i];
     }
@@ -137,7 +137,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const double * origin)
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(origin[i], m_Origin[i]))
     {
@@ -146,7 +146,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const double * origin)
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       m_Origin[i] = origin[i];
     }
@@ -159,7 +159,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const float * origin)
 {
   unsigned int i;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (Math::NotExactlyEquals((double)origin[i], m_Origin[i]))
     {
@@ -168,7 +168,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const float * origin)
   }
   if (i < OutputImageDimension)
   {
-    for (i = 0; i < OutputImageDimension; i++)
+    for (i = 0; i < OutputImageDimension; ++i)
     {
       m_Origin[i] = origin[i];
     }
@@ -200,7 +200,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   double   origin[OutputImageDimension];
   SizeType size;
 
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     // Set Image size to the size of the path's bounding box
     // size[i] = (SizeValueType)
@@ -221,7 +221,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   // paths's bounding box will be used as default.
 
   bool specified = false;
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (m_Size[i] != 0)
     {
@@ -251,7 +251,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   // the spatial object is used as default.
 
   specified = false;
-  for (i = 0; i < OutputImageDimension; i++)
+  for (i = 0; i < OutputImageDimension; ++i)
   {
     if (m_Spacing[i] != 0.0)
     {

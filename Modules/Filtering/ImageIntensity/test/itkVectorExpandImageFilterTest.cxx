@@ -34,7 +34,7 @@ public:
   ImagePattern()
   {
     m_Offset = 0.0;
-    for (int j = 0; j < VDimension; j++)
+    for (int j = 0; j < VDimension; ++j)
     {
       m_Coeff[j] = 0.0;
     }
@@ -44,7 +44,7 @@ public:
   Evaluate(const IndexType & index)
   {
     double accum = m_Offset;
-    for (int j = 0; j < VDimension; j++)
+    for (int j = 0; j < VDimension; ++j)
     {
       accum += m_Coeff[j] * (double)index[j];
     }
@@ -104,7 +104,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   int                          j, k;
   ImagePattern<ImageDimension> pattern;
   pattern.m_Offset = 64;
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     pattern.m_Coeff[j] = 1.0;
   }
@@ -119,7 +119,7 @@ itkVectorExpandImageFilterTest(int, char *[])
 
     double    value = pattern.Evaluate(inIter.GetIndex());
     PixelType pixel;
-    for (k = 0; k < VectorDimension; k++)
+    for (k = 0; k < VectorDimension; ++k)
     {
       pixel[k] = vectorCoeff[k] * value;
     }
@@ -189,7 +189,7 @@ itkVectorExpandImageFilterTest(int, char *[])
       input->TransformPhysicalPointToIndex(point, inputIndex);
       double baseValue = pattern.Evaluate(inputIndex);
 
-      for (k = 0; k < VectorDimension; k++)
+      for (k = 0; k < VectorDimension; ++k)
       {
         if (itk::Math::abs(baseValue * vectorCoeff[k] - value[k]) > 1e-4)
         {
@@ -205,7 +205,7 @@ itkVectorExpandImageFilterTest(int, char *[])
     else
     {
 
-      for (k = 0; k < VectorDimension; k++)
+      for (k = 0; k < VectorDimension; ++k)
       {
         if (itk::Math::NotExactlyEquals(value[k], padValue[k]))
         {
@@ -256,7 +256,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   while (!outIter.IsAtEnd())
   {
 
-    for (k = 0; k < VectorDimension; k++)
+    for (k = 0; k < VectorDimension; ++k)
     {
       if (itk::Math::NotExactlyEquals(outIter.Get()[k], streamIter.Get()[k]))
       {

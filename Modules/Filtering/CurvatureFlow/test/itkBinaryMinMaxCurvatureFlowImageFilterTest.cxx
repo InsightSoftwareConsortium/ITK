@@ -140,7 +140,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     float                         value;
 
     double lhs = 0.0;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       lhs += itk::Math::sqr((double)index[j] - (double)size[j] * 0.5);
     }
@@ -181,7 +181,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
 
   typename ImageType::Pointer swapPointer = circleImage;
 
-  for (j = 0; j < numberOfRuns; j++)
+  for (j = 0; j < numberOfRuns; ++j)
   {
 
     denoiser->SetInput(swapPointer);
@@ -221,7 +221,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     PixelType                     value = outIter.Get();
 
     double lhs = 0.0;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       lhs += itk::Math::sqr((double)index[j] - (double)size[j] * 0.5);
     }

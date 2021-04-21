@@ -24,9 +24,9 @@ using Test4ImageType = itk::Image<unsigned char, 3>;
 void
 PrintDir(Test4ImageType::DirectionType & dir)
 {
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
-    for (unsigned j = 0; j < 3; j++)
+    for (unsigned j = 0; j < 3; ++j)
     {
       std::cerr << dir[i][j] << " ";
     }
@@ -56,7 +56,7 @@ itkNiftiImageIOTest4(int ac, char * av[])
   Test4ImageType::SpacingType spacing;
   constexpr unsigned          dimsize = 2;
 
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
     size[i] = dimsize;
     index[i] = 0;
@@ -94,9 +94,9 @@ itkNiftiImageIOTest4(int ac, char * av[])
   axis[2] = 1.0;
   transform->Rotate3D(axis, randgen.drand32(0, 3.1415926 * 2.0));
   TransformType::MatrixType mat = transform->GetMatrix();
-  for (unsigned i = 0; i < 3; i++)
+  for (unsigned i = 0; i < 3; ++i)
   {
-    for (unsigned j = 0; j < 3; j++)
+    for (unsigned j = 0; j < 3; ++j)
     {
       dir[i][j] = mat[i][j];
     }
@@ -152,9 +152,9 @@ itkNiftiImageIOTest4(int ac, char * av[])
   std::cerr << "Retrieved direction" << std::endl;
   PrintDir(dir2);
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       if (!Equal(dir[i][j], dir2[i][j]))
       {

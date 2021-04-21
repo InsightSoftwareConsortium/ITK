@@ -57,7 +57,7 @@ CenteredSimilarity2DTransform<TParametersValueType>::SetParameters(const Paramet
   this->SetVarAngle(angle);
 
   InputPointType center;
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     center[j] = parameters[j + 2];
   }
@@ -65,7 +65,7 @@ CenteredSimilarity2DTransform<TParametersValueType>::SetParameters(const Paramet
 
   // Set translation
   OffsetType translation;
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     translation[i] = parameters[i + 4];
   }
@@ -93,13 +93,13 @@ CenteredSimilarity2DTransform<TParametersValueType>::GetParameters() const
   this->m_Parameters[1] = this->GetAngle();
 
   InputPointType center = this->GetCenter();
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     this->m_Parameters[j + 2] = center[j];
   }
 
   OffsetType translation = this->GetTranslation();
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     this->m_Parameters[i + 4] = translation[i];
   }

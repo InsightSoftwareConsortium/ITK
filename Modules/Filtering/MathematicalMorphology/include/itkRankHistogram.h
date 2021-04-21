@@ -141,7 +141,7 @@ public:
   {
     SizeValueType count = 0;
     SizeValueType target = (int)(m_Rank * (m_Entries - 1)) + 1;
-    for (typename MapType::iterator it = m_Map.begin(); it != m_Map.end(); it++)
+    for (typename MapType::iterator it = m_Map.begin(); it != m_Map.end(); ++it)
     {
       count += it->second;
       if (count >= target)
@@ -307,7 +307,7 @@ public:
   {
     SizeValueType count = 0;
     SizeValueType target = (SizeValueType)(m_Rank * (m_Entries - 1)) + 1;
-    for (SizeValueType i = 0; i < m_Size; i++)
+    for (SizeValueType i = 0; i < m_Size; ++i)
     {
       count += m_Vec[i];
       if (count >= target)

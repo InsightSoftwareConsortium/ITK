@@ -98,13 +98,13 @@ GradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhood
   delta = NumericTraits<PixelRealType>::ZeroValue();
 
   // Calculate the centralized derivatives for each dimension.
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     dx[i] = (it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center - m_Stride[i])) / 2.0f;
     dx[i] *= this->m_ScaleCoefficients[i];
   }
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     // "Half" directional derivatives
     dx_forward = it.GetPixel(m_Center + m_Stride[i]) - it.GetPixel(m_Center);
@@ -117,7 +117,7 @@ GradientNDAnisotropicDiffusionFunction<TImage>::ComputeUpdate(const Neighborhood
     // along each  dimension.
     accum = 0.0;
     accum_d = 0.0;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       if (j != i)
       {

@@ -152,7 +152,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::BeforeThreadedGe
   if (!m_DefFieldSameInformation)
   {
     m_StartIndex = fieldPtr->GetBufferedRegion().GetIndex();
-    for (unsigned i = 0; i < ImageDimension; i++)
+    for (unsigned i = 0; i < ImageDimension; ++i)
     {
       m_EndIndex[i] = m_StartIndex[i] + fieldPtr->GetBufferedRegion().GetSize()[i] - 1;
     }
@@ -195,7 +195,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
   IndexType neighIndex;
   double    distance[ImageDimension];
 
-  for (dim = 0; dim < ImageDimension; dim++)
+  for (dim = 0; dim < ImageDimension; ++dim)
   {
     baseIndex[dim] = Math::Floor<IndexValueType>(index[dim]);
 
@@ -228,13 +228,13 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::EvaluateDisplace
   double       totalOverlap = 0.0;
   unsigned int numNeighbors(1 << TInputImage::ImageDimension);
 
-  for (unsigned int counter = 0; counter < numNeighbors; counter++)
+  for (unsigned int counter = 0; counter < numNeighbors; ++counter)
   {
     double       overlap = 1.0;   // fraction overlap
     unsigned int upper = counter; // each bit indicates upper/lower neighbour
 
     // get neighbor index and overlap fraction
-    for (dim = 0; dim < ImageDimension; dim++)
+    for (dim = 0; dim < ImageDimension; ++dim)
     {
       if (upper & 1)
       {
@@ -305,7 +305,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
       displacement = fieldIt.Get();
 
       // compute the required input image point
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         point[j] += displacement[j];
       }
@@ -335,7 +335,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::DynamicThreadedG
 
       this->EvaluateDisplacementAtPhysicalPoint(point, fieldPtr, displacement);
       // compute the required input image point
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         point[j] += displacement[j];
       }

@@ -111,7 +111,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Befor
   typename OBOType::Pointer obo = OBOType::New();
   obo->SetInput(this->GetInput());
   SizeType rad = m_DilationRadius;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     rad[i]++;
   }
@@ -156,7 +156,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Befor
   using RadiusType = typename SliceKernelType::RadiusType;
   RadiusType srad;
   srad.Fill(NumericTraits<typename RadiusType::SizeValueType>::ZeroValue());
-  for (unsigned int i = 0, j = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0, j = 0; i < ImageDimension; ++i)
   {
     if (j != static_cast<unsigned int>(m_SliceDimension))
     {

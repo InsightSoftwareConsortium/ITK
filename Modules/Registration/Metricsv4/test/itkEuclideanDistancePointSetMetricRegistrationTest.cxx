@@ -105,7 +105,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   unsigned int numberOfPoints = fixedPoints->GetNumberOfPoints();
 
   PointType movingPoint;
-  for (unsigned int n = 0; n < numberOfPoints; n++)
+  for (unsigned int n = 0; n < numberOfPoints; ++n)
   {
     fixedPoint = fixedPoints->GetPoint(n);
     movingPoint[0] = fixedPoint[0] * std::cos(theta) - fixedPoint[1] * std::sin(theta);
@@ -172,7 +172,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   bool                                             passed = true;
   auto                                             tolerance = static_cast<typename PointType::ValueType>(1e-4);
   typename TTransform::InverseTransformBasePointer fixedInverse = metric->GetFixedTransform()->GetInverseTransform();
-  for (unsigned int n = 0; n < numberOfPoints; n++)
+  for (unsigned int n = 0; n < numberOfPoints; ++n)
   {
     // compare the points in moving domain so we don't have to worry about an inverse
     // of the displacement field transform
@@ -261,7 +261,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
 
   FieldType::DirectionType direction;
   direction.Fill(static_cast<RealType>(0.0));
-  for (unsigned int d = 0; d < Dimension; d++)
+  for (unsigned int d = 0; d < Dimension; ++d)
   {
     direction[d][d] = static_cast<RealType>(1.0);
   }

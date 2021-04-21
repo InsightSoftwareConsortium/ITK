@@ -29,7 +29,7 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MRIBiasEnergyFunction()
   , m_Image(nullptr)
   , m_Mask(nullptr)
 {
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     m_SamplingFactor[i] = 1;
   }
@@ -305,9 +305,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::SetSchedule
 
   this->Modified();
   unsigned int level, dim;
-  for (level = 0; level < m_NumberOfLevels; level++)
+  for (level = 0; level < m_NumberOfLevels; ++level)
   {
-    for (dim = 0; dim < ImageDimension; dim++)
+    for (dim = 0; dim < ImageDimension; ++dim)
     {
       m_Schedule[level][dim] = schedule[level][dim];
 
@@ -333,9 +333,9 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::IsScheduleD
 {
   unsigned int ilevel, idim;
 
-  for (ilevel = 0; ilevel < schedule.rows() - 1; ilevel++)
+  for (ilevel = 0; ilevel < schedule.rows() - 1; ++ilevel)
   {
-    for (idim = 0; idim < schedule.columns(); idim++)
+    for (idim = 0; idim < schedule.columns(); ++idim)
     {
       if (schedule[ilevel][idim] == 0)
       {
@@ -404,7 +404,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::Initialize(
   if (this->GetBiasFieldMultiplicative())
   {
     const unsigned int size = m_TissueClassMeans.Size();
-    for (unsigned int i = 0; i < size; i++)
+    for (unsigned int i = 0; i < size; ++i)
     {
       m_TissueClassSigmas[i] = std::log(1.0 + m_TissueClassSigmas[i] / (m_TissueClassMeans[i] + 1.0));
       m_TissueClassMeans[i] = std::log(m_TissueClassMeans[i] + 1.0);
@@ -502,7 +502,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
 
   int                                         noOfBiasFieldCoefficients = bias.GetNumberOfCoefficients();
   typename EnergyFunctionType::ParametersType initialPosition(noOfBiasFieldCoefficients);
-  for (int i = 0; i < noOfBiasFieldCoefficients; i++)
+  for (int i = 0; i < noOfBiasFieldCoefficients; ++i)
   {
     initialPosition[i] = bias.GetCoefficients()[i];
   }
@@ -512,10 +512,10 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
   {
     unsigned int level;
     unsigned int dim;
-    for (level = 0; level < m_NumberOfLevels; level++)
+    for (level = 0; level < m_NumberOfLevels; ++level)
     {
       typename EnergyFunctionType::SamplingFactorType energySampling;
-      for (dim = 0; dim < ImageDimension; dim++)
+      for (dim = 0; dim < ImageDimension; ++dim)
       {
         energySampling[dim] = m_Schedule[level][dim];
       }
@@ -666,7 +666,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
   int                 nCoef = bias.GetNumberOfCoefficients();
   std::vector<double> lastBiasCoef;
   lastBiasCoef.resize(nCoef);
-  for (int i = 0; i < nCoef; i++)
+  for (int i = 0; i < nCoef; ++i)
   {
     lastBiasCoef[i] = 0;
   }
@@ -689,7 +689,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
       itkDebugMacro(<< "  Correcting bias...");
 
       m_BiasFieldCoefficients.clear();
-      for (int i = 0; i < nCoef; i++)
+      for (int i = 0; i < nCoef; ++i)
       {
         m_BiasFieldCoefficients.push_back(lastBiasCoef[i]);
       }
@@ -697,13 +697,13 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
       bias = this->EstimateBiasField(*iter, m_BiasFieldDegree, m_VolumeCorrectionMaximumIteration);
 
       m_EstimatedBiasFieldCoefficients.resize(bias.GetCoefficients().size());
-      for (unsigned int k = 0; k < bias.GetCoefficients().size(); k++)
+      for (unsigned int k = 0; k < bias.GetCoefficients().size(); ++k)
       {
         m_EstimatedBiasFieldCoefficients[k] = bias.GetCoefficients()[k];
       }
 
       m_BiasFieldCoefficients.clear();
-      for (int i = 0; i < nCoef; i++)
+      for (int i = 0; i < nCoef; ++i)
       {
         lastBiasCoef[i] = (bias.GetCoefficients()[i] + lastBiasCoef[i]) / 2;
         m_BiasFieldCoefficients.push_back(lastBiasCoef[i]);
@@ -721,7 +721,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
     // and the Initial Radius (i.e. everything that has been
     // log-transformed in the initialization)
     const unsigned int size = m_TissueClassMeans.Size();
-    for (unsigned int i = 0; i < size; i++)
+    for (unsigned int i = 0; i < size; ++i)
     {
       m_TissueClassMeans[i] = std::exp(m_TissueClassMeans[i]) - 1.0;
       m_TissueClassSigmas[i] = std::exp(m_TissueClassSigmas[i]) * (1.0 + m_TissueClassMeans[i]) - m_TissueClassMeans[i];
@@ -861,7 +861,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GetBiasFiel
   unsigned int       dim;
   int                biasDim = 0;
 
-  for (dim = 0; dim < ImageDimension; dim++)
+  for (dim = 0; dim < ImageDimension; ++dim)
   {
     if (size[dim] > 1)
     {
@@ -872,7 +872,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GetBiasFiel
   biasSize.resize(biasDim);
 
   biasDim = 0;
-  for (dim = 0; dim < ImageDimension; dim++)
+  for (dim = 0; dim < ImageDimension; ++dim)
   {
     if (size[dim] > 1)
     {
@@ -892,7 +892,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
   OutputImageSizeType  size = requestedRegion.GetSize();
   OutputImageIndexType indexLast = indexFirst;
 
-  for (SizeValueType i = 0; i < ImageDimension; i++)
+  for (SizeValueType i = 0; i < ImageDimension; ++i)
   {
     indexLast[i] = indexFirst[i] + static_cast<IndexValueType>(size[i]) - 1;
   }

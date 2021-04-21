@@ -32,7 +32,7 @@ ChainCodePath2D ::EvaluateToIndex(const InputType & input) const
   IndexType index = GetStart();
 
   // Iterate through the chaincode, summing the offsets as we go.
-  for (InputType i = 0; i < input; i++)
+  for (InputType i = 0; i < input; ++i)
   {
     index += DecodeOffset(m_Chain2D[i]);
   }
@@ -58,7 +58,7 @@ ChainCodePath2D ::GetChainCodeAsString() const
 {
   std::string printableChain;
 
-  for (unsigned int i = 0; i < m_Chain2D.size(); i++)
+  for (unsigned int i = 0; i < m_Chain2D.size(); ++i)
   {
     // Make a single char string out of the current step
     std::ostringstream printableStep;

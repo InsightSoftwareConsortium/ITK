@@ -120,7 +120,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::StartOptimizati
   /* Initialize the optimizer, but don't run it. */
   this->m_OptimizersList[0]->StartOptimization(true /* doOnlyInitialization */);
 
-  for (SizeValueType whichOptimizer = 1; whichOptimizer < maxOpt; whichOptimizer++)
+  for (SizeValueType whichOptimizer = 1; whichOptimizer < maxOpt; ++whichOptimizer)
   {
     this->m_MetricValuesList.push_back(this->m_MaximumMetricValue);
     const ParametersType & compareParams = this->m_OptimizersList[whichOptimizer]->GetCurrentPosition();
@@ -164,7 +164,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
       NumericTraits<TInternalComputationValueType>::OneValue() / static_cast<TInternalComputationValueType>(maxOpt);
     itkDebugMacro(" nopt " << maxOpt);
 
-    for (SizeValueType whichOptimizer = 0; whichOptimizer < maxOpt; whichOptimizer++)
+    for (SizeValueType whichOptimizer = 0; whichOptimizer < maxOpt; ++whichOptimizer)
     {
       this->m_OptimizersList[whichOptimizer]->GetMetric()->GetValueAndDerivative(
         const_cast<MeasureType &>(this->m_OptimizersList[whichOptimizer]->GetCurrentMetricValue()),

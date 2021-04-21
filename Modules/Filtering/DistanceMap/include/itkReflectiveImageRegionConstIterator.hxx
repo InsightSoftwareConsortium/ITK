@@ -26,7 +26,7 @@ template <typename TImage>
 ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator()
   : ImageConstIteratorWithIndex<TImage>()
 {
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
     m_BeginOffset[dim] = 0;
     m_EndOffset[dim] = 0;
@@ -38,7 +38,7 @@ template <typename TImage>
 ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator(TImage * ptr, const RegionType & region)
   : ImageConstIteratorWithIndex<TImage>(ptr, region)
 {
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
     m_BeginOffset[dim] = 0;
     m_EndOffset[dim] = 0;
@@ -60,7 +60,7 @@ ReflectiveImageRegionConstIterator<TImage>::ReflectiveImageRegionConstIterator(
 {
   this->ImageConstIteratorWithIndex<TImage>::operator=(it);
 
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
     m_BeginOffset[dim] = 0;
     m_EndOffset[dim] = 0;
@@ -75,7 +75,7 @@ ReflectiveImageRegionConstIterator<TImage>::operator=(const Self & it)
   {
     this->ImageConstIteratorWithIndex<TImage>::operator=(it);
 
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
     {
       m_BeginOffset[dim] = it.m_BeginOffset[dim];
       m_EndOffset[dim] = it.m_EndOffset[dim];
@@ -116,7 +116,7 @@ template <typename TImage>
 void
 ReflectiveImageRegionConstIterator<TImage>::FillOffsets(const OffsetValueType & value)
 {
-  for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < TImage::ImageDimension; ++dim)
   {
     m_BeginOffset[dim] = value;
     m_EndOffset[dim] = value;
@@ -131,7 +131,7 @@ ReflectiveImageRegionConstIterator<TImage> &
 ReflectiveImageRegionConstIterator<TImage>::operator++()
 {
   this->m_Remaining = false;
-  for (unsigned int in = 0; in < TImage::ImageDimension; in++)
+  for (unsigned int in = 0; in < TImage::ImageDimension; ++in)
   {
     if (m_IsFirstPass[in])
     {

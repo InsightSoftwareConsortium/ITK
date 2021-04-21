@@ -150,7 +150,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   SizeValueType diameter = 2 * scanParameters.radius[0];
 
   const LocalRealType localZero = NumericTraits<LocalRealType>::ZeroValue();
-  for (SizeValueType i = numberOfFillZero; i < (diameter + NumericTraits<SizeValueType>::OneValue()); i++)
+  for (SizeValueType i = numberOfFillZero; i < (diameter + NumericTraits<SizeValueType>::OneValue()); ++i)
   {
     LocalRealType sumFixed2 = localZero;
     LocalRealType sumMoving2 = localZero;
@@ -541,7 +541,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       return;
     }
 
-    for (ImageDimensionType qq = 0; qq < TImageToImageMetric::VirtualImageDimension; qq++)
+    for (ImageDimensionType qq = 0; qq < TImageToImageMetric::VirtualImageDimension; ++qq)
     {
       derivWRTImage[qq] = 2.0 * sFixedMoving / (sFixedFixed_sMovingMoving) *
                           (fixedI - sFixedMoving / sMovingMoving * movingI) * movingImageGradient[qq];
@@ -560,10 +560,10 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
     NumberOfParametersType numberOfLocalParameters =
       this->m_Associate->GetMovingTransform()->GetNumberOfLocalParameters();
 
-    for (NumberOfParametersType par = 0; par < numberOfLocalParameters; par++)
+    for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
     {
       deriv[par] = NumericTraits<DerivativeValueType>::ZeroValue();
-      for (ImageDimensionType dim = 0; dim < TImageToImageMetric::MovingImageDimension; dim++)
+      for (ImageDimensionType dim = 0; dim < TImageToImageMetric::MovingImageDimension; ++dim)
       {
         deriv[par] += derivWRTImage[dim] * jacobian(dim, par);
       }

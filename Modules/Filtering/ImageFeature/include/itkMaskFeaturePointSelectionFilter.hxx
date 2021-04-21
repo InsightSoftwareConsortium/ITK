@@ -76,13 +76,13 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::ComputeConnectivityOf
     // use Neighbourhood to compute all offsets in radius 1
     Neighborhood<unsigned, ImageDimension> neighborhood;
     neighborhood.SetRadius(NumericTraits<SizeValueType>::OneValue());
-    for (SizeValueType i = 0, n = neighborhood.Size(); i < n; i++)
+    for (SizeValueType i = 0, n = neighborhood.Size(); i < n; ++i)
     {
       OffsetType off = neighborhood.GetOffset(i);
 
       // count 0s offsets in each dimension
       unsigned numberOfZeros = 0;
-      for (unsigned j = 0; j < ImageDimension; j++)
+      for (unsigned j = 0; j < ImageDimension; ++j)
       {
         if (off[j] == 0)
         {
@@ -196,7 +196,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
     {
       CompensatedSummation<double> sum;
       CompensatedSummation<double> sumOfSquares;
-      for (NeighborSizeType i = 0; i < numPixelsInNeighborhood; i++)
+      for (NeighborSizeType i = 0; i < numPixelsInNeighborhood; ++i)
       {
         const ImagePixelType pixel = imageItr.GetPixel(i);
         sum += pixel;
@@ -255,11 +255,11 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
         gradientItr.GoToBegin();
 
         // iterate over voxels in the neighbourhood
-        for (SizeValueType i = 0; i < gradientItr.Size(); i++)
+        for (SizeValueType i = 0; i < gradientItr.Size(); ++i)
         {
           OffsetType off = gradientItr.GetOffset(i);
 
-          for (unsigned j = 0; j < ImageDimension; j++)
+          for (unsigned j = 0; j < ImageDimension; ++j)
           {
             OffsetType left = off;
             left[j] -= 1;
@@ -303,7 +303,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
 
       // mark off connected points
       constexpr MapPixelType ineligeblePointCode = 0;
-      for (size_t j = 0, n = m_NonConnectivityOffsets.size(); j < n; j++)
+      for (size_t j = 0, n = m_NonConnectivityOffsets.size(); j < n; ++j)
       {
         IndexType idx = rit->second;
         idx += m_NonConnectivityOffsets[j];

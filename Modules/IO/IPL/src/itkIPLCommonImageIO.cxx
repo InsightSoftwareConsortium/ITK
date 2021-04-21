@@ -77,7 +77,7 @@ IPLCommonImageIO::Read(void * buffer)
   auto   it = m_FilenameList->begin();
   auto   itend = m_FilenameList->end();
 
-  for (; it != itend; it++)
+  for (; it != itend; ++it)
   {
     std::string   curfilename = (*it)->GetImageFileName();
     std::ifstream f;
@@ -200,7 +200,7 @@ IPLCommonImageIO::ReadImageInformation()
 
   GEImageHeader * curImageHeader;
 
-  for (i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; i++)
+  for (i = 0, numfiles = Dir->GetNumberOfFiles(); i < numfiles; ++i)
   {
     const char * curFname = Dir->GetFile(static_cast<unsigned int>(i));
 

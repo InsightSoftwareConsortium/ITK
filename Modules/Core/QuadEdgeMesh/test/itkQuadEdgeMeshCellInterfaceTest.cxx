@@ -84,10 +84,10 @@ TestCellInterface(std::string name, TCell * aCell)
   std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << std::endl;
   std::cout << "    NumberOfBoundaryFeatures:" << std::endl;
   // Note the <= is here to test the default case
-  for (unsigned int i = 0; i <= cell->GetDimension(); i++)
+  for (unsigned int i = 0; i <= cell->GetDimension(); ++i)
   {
     std::cout << "      " << i << ": " << cell->GetNumberOfBoundaryFeatures(i) << std::endl;
-    for (unsigned int j = 0; j < cell->GetNumberOfBoundaryFeatures(i); j++)
+    for (unsigned int j = 0; j < cell->GetNumberOfBoundaryFeatures(i); ++j)
     {
       CellAutoPointer feature;
       cell->GetBoundaryFeature(i, j, feature);
@@ -120,7 +120,7 @@ TestCellInterface(std::string name, TCell * aCell)
   using PointIdentifier = MeshType::PointIdentifier;
 
   auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
-  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; i++)
+  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; ++i)
   {
     pointIds[i] = i;
   }
@@ -214,7 +214,7 @@ TestQECellInterface(std::string name, TCell * aCell)
   using PointIdentifier = typename TCell::PointIdentifier;
 
   auto * pointIds = new PointIdentifier[cell->GetNumberOfPoints() * 2];
-  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; i++)
+  for (unsigned int i = 0; i < cell->GetNumberOfPoints() * 2; ++i)
   {
     pointIds[i] = i;
   }

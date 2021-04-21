@@ -75,10 +75,10 @@ itkBSplineResampleImageFunctionTest(int, char *[])
   const double minValue = randImage->GetOrigin()[0];
   const double maxValue = LastPhysicalLocation[0];
 
-  for (unsigned int k = 0; k < 10; k++)
+  for (unsigned int k = 0; k < 10; ++k)
   {
     ResampleFunctionType::PointType point;
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       point[j] = vnl_sample_uniform(minValue, maxValue);
     }

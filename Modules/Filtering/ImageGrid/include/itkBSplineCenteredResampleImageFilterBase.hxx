@@ -244,11 +244,11 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
   std::vector<double> temp;
   temp.resize(inTraverseSize);
 
-  for (inK = 0; inK < inTraverseSize; inK++)
+  for (inK = 0; inK < inTraverseSize; ++inK)
   {
     temp[inK] = in[inK] * this->m_G[0];
 
-    for (int i = 1; i < this->m_GSize; i++)
+    for (int i = 1; i < this->m_GSize; ++i)
     {
       // Calculate indices for left and right of symmetrical filter.
       i1 = inK - i;
@@ -275,7 +275,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage
     }
   }
 
-  for (outK = 0; outK < outTraverseSize; outK++)
+  for (outK = 0; outK < outTraverseSize; ++outK)
   {
     i1 = 2 * outK;
     double outVal = (temp[i1] + temp[i1 + 1]) / 2.0;
@@ -308,7 +308,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
 
   double outVal, outVal2;
 
-  for (inK = 0; inK < (IndexValueType)inTraverseSize; inK++)
+  for (inK = 0; inK < (IndexValueType)inTraverseSize; ++inK)
   {
     // outK = inK * 2L;
     outVal = in[inK] * this->m_H[0];

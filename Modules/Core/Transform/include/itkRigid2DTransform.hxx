@@ -236,7 +236,7 @@ Rigid2DTransform<TParametersValueType>::SetParameters(const ParametersType & par
 
   // Set translation
   OutputVectorType translation;
-  for (unsigned int i = 0; i < OutputSpaceDimension; i++)
+  for (unsigned int i = 0; i < OutputSpaceDimension; ++i)
   {
     translation[i] = parameters[i + 1];
   }
@@ -263,7 +263,7 @@ Rigid2DTransform<TParametersValueType>::GetParameters() const
   // Get the angle
   this->m_Parameters[0] = this->GetAngle();
   // Get the translation
-  for (unsigned int i = 0; i < OutputSpaceDimension; i++)
+  for (unsigned int i = 0; i < OutputSpaceDimension; ++i)
   {
     this->m_Parameters[i + 1] = this->GetTranslation()[i];
   }
@@ -294,7 +294,7 @@ Rigid2DTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(c
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 1;
-  for (unsigned int dim = 0; dim < OutputSpaceDimension; dim++)
+  for (unsigned int dim = 0; dim < OutputSpaceDimension; ++dim)
   {
     j[dim][blockOffset + dim] = 1.0;
   }

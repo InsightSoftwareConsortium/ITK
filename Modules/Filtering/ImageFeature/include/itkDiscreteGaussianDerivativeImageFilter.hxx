@@ -47,7 +47,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateInputR
   GaussianDerivativeOperator<OutputPixelType, ImageDimension> oper;
   typename TInputImage::SizeType                              radius;
 
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; i++)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     // Determine the size of the operator in this dimension.  Note that the
     // Gaussian is built as a 1D operator in each of the specified directions.

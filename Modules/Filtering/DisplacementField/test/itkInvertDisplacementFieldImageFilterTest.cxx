@@ -61,7 +61,7 @@ itkInvertDisplacementFieldImageFilterTest(int, char *[])
   {
     DisplacementFieldType::IndexType index = ItF.GetIndex();
     bool                             isOnBoundary = false;
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       if (index[d] == startIndex[d] || index[d] == static_cast<int>(size[d]) - startIndex[d] - 1)
       {

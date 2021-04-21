@@ -50,7 +50,7 @@ MultivariateLegendrePolynomial::MultivariateLegendrePolynomial(unsigned int     
   m_PrevZ = -1;
 
   m_NormFactor = DoubleArrayType(m_Dimension);
-  for (unsigned int j = 0; j < m_Dimension; j++)
+  for (unsigned int j = 0; j < m_Dimension; ++j)
   {
     m_NormFactor[j] = 2.0f / (static_cast<double>(m_DomainSize[j]) - 1.0f);
   }
@@ -127,7 +127,7 @@ MultivariateLegendrePolynomial::SetCoefficients(const CoefficientArrayType & coe
 
   // copy coefficients to array of double
   m_CoefficientArray.resize(m_NumberOfCoefficients);
-  for (unsigned int i = 0; i < m_NumberOfCoefficients; i++)
+  for (unsigned int i = 0; i < m_NumberOfCoefficients; ++i)
   {
     m_CoefficientArray[i] = coefficients[i];
   }
@@ -148,7 +148,7 @@ MultivariateLegendrePolynomial::SetCoefficients(const ParametersType & coefficie
 
   // copy coefficients to array of double
   m_CoefficientArray.resize(m_NumberOfCoefficients);
-  for (unsigned int i = 0; i < m_NumberOfCoefficients; i++)
+  for (unsigned int i = 0; i < m_NumberOfCoefficients; ++i)
   {
     m_CoefficientArray[i] = coefficients[i];
   }
@@ -171,7 +171,7 @@ MultivariateLegendrePolynomial::CalculateXCoef(double norm_y, const CoefficientA
   // compute x_coef[i] = sum (0 <= j <= m-i) pij * P(y)]
   int offset = 0;
 
-  for (unsigned int lx = 0; lx <= m_Degree; lx++)
+  for (unsigned int lx = 0; lx <= m_Degree; ++lx)
   {
     m_CachedXCoef[lx] = LegendreSum(norm_y, m_Degree - lx, coef, offset);
 
@@ -187,14 +187,14 @@ MultivariateLegendrePolynomial::CalculateYCoef(double norm_z, const CoefficientA
   unsigned int       c_index = 0;
   const unsigned int lxmax = m_Degree;
 
-  for (unsigned int lx = 0; lx <= lxmax; lx++)
+  for (unsigned int lx = 0; lx <= lxmax; ++lx)
   {
     const unsigned int lymax = m_Degree - lx;
     for (unsigned int ly = 0; ly <= lymax; ly++, c_index++)
     {
       unsigned int z_index = c_index;
       unsigned int lzmax = m_Degree - lx - ly;
-      for (unsigned int lz = 0; lz <= lzmax; lz++)
+      for (unsigned int lz = 0; lz <= lzmax; ++lz)
       {
         m_CachedZCoef[lz] = coef[z_index];
         z_index += ((m_Degree + 1 - lz) * (m_Degree + 2 - lz) / 2) - lx;
@@ -232,7 +232,7 @@ MultivariateLegendrePolynomial::GetNumberOfCoefficients(unsigned int dimension, 
   unsigned int numerator = 1;
   unsigned int denominator = 1;
 
-  for (unsigned int i = 1; i <= dimension; i++)
+  for (unsigned int i = 1; i <= dimension; ++i)
   {
     numerator *= (degree + i);
     denominator *= i;

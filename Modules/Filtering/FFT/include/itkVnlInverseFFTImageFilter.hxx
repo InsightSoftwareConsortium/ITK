@@ -51,7 +51,7 @@ VnlInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   const InputPixelType * in = inputPtr->GetBufferPointer();
 
   unsigned int vectorSize = 1;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     if (!VnlFFTCommon::IsDimensionSizeLegal(outputSize[i]))
     {
@@ -64,7 +64,7 @@ VnlInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 
   SignalVectorType signal(vectorSize);
-  for (unsigned int i = 0; i < vectorSize; i++)
+  for (unsigned int i = 0; i < vectorSize; ++i)
   {
     signal[i] = in[i];
   }
@@ -81,7 +81,7 @@ VnlInverseFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   // should have been accounted for by the VNL inverse Fourier transform,
   // but it is not.  So, we take care of it by dividing the signal by
   // the vectorSize.
-  for (unsigned int i = 0; i < vectorSize; i++)
+  for (unsigned int i = 0; i < vectorSize; ++i)
   {
     out[i] = signal[i].real() / vectorSize;
   }

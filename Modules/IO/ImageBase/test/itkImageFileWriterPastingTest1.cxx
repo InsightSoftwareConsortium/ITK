@@ -65,7 +65,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
 
-  for (unsigned int i = 0; i < m_NumberOfPieces; i++)
+  for (unsigned int i = 0; i < m_NumberOfPieces; ++i)
   {
     std::cout << "Reading piece " << i + 1 << " of " << m_NumberOfPieces << std::endl;
 

@@ -176,10 +176,10 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   this->m_JointAssociate->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
     virtualPoint, jacobian, jacobianPositional);
 
-  for (NumberOfParametersType par = 0; par < this->GetCachedNumberOfLocalParameters(); par++)
+  for (NumberOfParametersType par = 0; par < this->GetCachedNumberOfLocalParameters(); ++par)
   {
     InternalComputationValueType sum = NumericTraits<InternalComputationValueType>::ZeroValue();
-    for (SizeValueType dim = 0; dim < TImageToImageMetric::MovingImageDimension; dim++)
+    for (SizeValueType dim = 0; dim < TImageToImageMetric::MovingImageDimension; ++dim)
     {
       sum += scalingfactor * jacobian(dim, par) * movingImageGradient[dim];
     }

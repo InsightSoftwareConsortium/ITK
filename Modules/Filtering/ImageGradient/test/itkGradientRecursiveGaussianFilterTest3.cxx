@@ -164,9 +164,9 @@ itkGradientRecursiveGaussianFilterTest3Compare(typename TGradImage1DType::Pointe
   {
     typename TGradImage1DType::PixelType     scalar = scalarIt.Value();
     typename TGradImageVectorType::PixelType vector = vector2DIt.Value();
-    for (unsigned int d = 0; d < numDimensions; d++)
+    for (unsigned int d = 0; d < numDimensions; ++d)
     {
-      for (unsigned int c = 0; c < vector.GetNumberOfComponents() / numDimensions; c++)
+      for (unsigned int c = 0; c < vector.GetNumberOfComponents() / numDimensions; ++c)
       {
         typename TGradImage1DType::PixelType::ValueType truth = scalar[d] / (c + 1.0);
         typename TGradImage1DType::PixelType::ValueType test = vector[d + (c * numDimensions)];

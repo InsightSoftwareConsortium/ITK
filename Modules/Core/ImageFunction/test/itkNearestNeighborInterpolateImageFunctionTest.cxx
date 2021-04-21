@@ -103,9 +103,9 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   //   Intensity = f(x,y) = x + 3 * y
   //
   //
-  for (unsigned int y = 0; y < maxy; y++)
+  for (unsigned int y = 0; y < maxy; ++y)
   {
-    for (unsigned int x = 0; x < maxx; x++)
+    for (unsigned int x = 0; x < maxx; ++x)
     {
       IndexType index;
       index[0] = x;
@@ -144,9 +144,9 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   constexpr double incr = 0.1;
   PointType        point;
 
-  for (double yy = 0; yy < static_cast<double>(maxy - 1); yy++)
+  for (double yy = 0; yy < static_cast<double>(maxy - 1); ++yy)
   {
-    for (double xx = 0; xx < static_cast<double>(maxx - 1); xx++)
+    for (double xx = 0; xx < static_cast<double>(maxx - 1); ++xx)
     {
       for (double yyy = yy; yyy < yy + 1.01; yyy += incr)
       {

@@ -37,7 +37,7 @@ ReadWrite(TScalar low, TScalar hi, char * file1, char * file2, bool ascii)
   // The source object is templated on the output type.
   //
   typename ImageType::SizeValueType size[TDimension];
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     size[i] = 2 << (i + 1);
   }

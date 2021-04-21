@@ -25,9 +25,9 @@ testMatrix(const TMatrix & m1, const TMatrix & m2)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < TMatrix::RowDimensions; i++)
+  for (unsigned int i = 0; i < TMatrix::RowDimensions; ++i)
   {
-    for (unsigned int j = 0; j < TMatrix::ColumnDimensions; j++)
+    for (unsigned int j = 0; j < TMatrix::ColumnDimensions; ++j)
     {
       if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
       {
@@ -44,7 +44,7 @@ testVector(const TVector & v1, const TVector & v2)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < TVector::Dimension; i++)
+  for (unsigned int i = 0; i < TVector::Dimension; ++i)
   {
     if (std::fabs(v1[i] - v2[i]) > epsilon)
     {

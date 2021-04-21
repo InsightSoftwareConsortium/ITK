@@ -169,7 +169,7 @@ VoronoiDiagram2D<TCoordRepType>::Reset()
   m_VoronoiRegions.resize(m_NumberOfSeeds);
   m_CellNeighborsID.resize(m_NumberOfSeeds);
 
-  for (unsigned int i = 0; i < m_NumberOfSeeds; i++)
+  for (unsigned int i = 0; i < m_NumberOfSeeds; ++i)
   {
     m_VoronoiRegions[i] = new PolygonCellType;
     m_CellNeighborsID[i].clear();
@@ -183,7 +183,7 @@ VoronoiDiagram2D<TCoordRepType>::InsertCells()
 {
   genericCellPointer cellPtr;
 
-  for (unsigned int i = 0; i < m_NumberOfSeeds; i++)
+  for (unsigned int i = 0; i < m_NumberOfSeeds; ++i)
   {
     cellPtr.TakeOwnership(m_VoronoiRegions[i]);
     this->SetCell(i, cellPtr);

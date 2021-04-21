@@ -140,7 +140,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // set image origin to be center of the image
   double transCenter[3];
-  for (unsigned int j = 0; j < 3; j++)
+  for (unsigned int j = 0; j < 3; ++j)
   {
     transCenter[j] = -0.5 * double(size[j]);
   }
@@ -171,10 +171,10 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   ScheduleType schedule(numLevels, ImageDimension);
   unsigned int j, k;
 
-  for (k = 0; k < numLevels; k++)
+  for (k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -203,10 +203,10 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // check the schedule;
   schedule = ScheduleType(numLevels, ImageDimension);
-  for (k = 0; k < numLevels; k++)
+  for (k = 0; k < numLevels; ++k)
   {
     unsigned int denominator = 1 << k;
-    for (j = 0; j < ImageDimension; j++)
+    for (j = 0; j < ImageDimension; ++j)
     {
       schedule[k][j] = factors[j] / denominator;
       if (schedule[k][j] == 0)
@@ -227,7 +227,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
 
   // test start factors
   const unsigned int * ss = pyramid->GetStartingShrinkFactors();
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     if (ss[j] != factors[j])
     {
@@ -271,7 +271,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   OutputImageType::SizeType            outputSize = pyramid->GetOutput(testLevel)->GetLargestPossibleRegion().GetSize();
   const OutputImageType::SpacingType & outputSpacing = pyramid->GetOutput(testLevel)->GetSpacing();
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     if (itk::Math::NotAlmostEquals(outputSpacing[j], inputSpacing[j] * (double)schedule[testLevel][j]))
     {

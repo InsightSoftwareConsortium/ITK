@@ -41,7 +41,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::PrintSelf(std::ostream & 
   os << indent << "Maximum Iteration: " << this->GetMaximumIteration() << std::endl;
   os << indent << "Sample: " << this->GetSample() << std::endl;
   os << indent << "Number Of Components: " << this->GetNumberOfComponents() << std::endl;
-  for (unsigned int i = 0; i < this->GetNumberOfComponents(); i++)
+  for (unsigned int i = 0; i < this->GetNumberOfComponents(); ++i)
   {
     os << indent << "Component Membership Function[" << i << "]: " << this->GetComponentMembershipFunction(i)
        << std::endl;
@@ -136,7 +136,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateDensities()
 {
   bool componentModified = false;
 
-  for (size_t i = 0; i < m_ComponentVector.size(); i++)
+  for (size_t i = 0; i < m_ComponentVector.size(); ++i)
   {
     if ((m_ComponentVector[i])->AreParametersModified())
     {
@@ -239,7 +239,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::CalculateExpectation() co
       {
         logProportion = NumericTraits<double>::NonpositiveMin();
       }
-      for (measurementVectorIndex = 0; measurementVectorIndex < size; measurementVectorIndex++)
+      for (measurementVectorIndex = 0; measurementVectorIndex < size; ++measurementVectorIndex)
       {
         temp = m_ComponentVector[componentIndex]->GetWeight(measurementVectorIndex);
         if (temp > NumericTraits<double>::epsilon())
@@ -364,7 +364,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::GetOutput() const
     typename GaussianMembershipFunctionType::Pointer membershipFunction = GaussianMembershipFunctionType::New();
     membershipFunction->SetMeasurementVectorSize(measurementVectorSize);
     unsigned int parameterIndex = 0;
-    for (unsigned int j = 0; j < measurementVectorSize; j++)
+    for (unsigned int j = 0; j < measurementVectorSize; ++j)
     {
       mean[j] = parameters[j];
       ++parameterIndex;

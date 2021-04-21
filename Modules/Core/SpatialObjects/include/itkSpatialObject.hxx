@@ -113,7 +113,7 @@ SpatialObject<TDimension>::DerivativeAtInObjectSpace(const PointType &          
     auto                                    it_v2 = v2.cbegin();
 
     DerivativeOffsetType offsetDiv2;
-    for (unsigned short i = 0; i < TDimension; i++)
+    for (unsigned short i = 0; i < TDimension; ++i)
     {
       offsetDiv2[i] = offset[i] / 2.0;
     }
@@ -704,7 +704,7 @@ SpatialObject<TDimension>::ComputeFamilyBoundingBox(unsigned int depth, const st
   {
     PointType pointMin = m_MyBoundingBoxInObjectSpace->GetMinimum();
     PointType pointMax = m_MyBoundingBoxInObjectSpace->GetMaximum();
-    for (unsigned int i = 0; i < ObjectDimension; i++)
+    for (unsigned int i = 0; i < ObjectDimension; ++i)
     {
       if (Math::NotExactlyEquals(pointMin[i], 0) || Math::NotExactlyEquals(pointMax[i], 0))
       {
@@ -1137,7 +1137,7 @@ SpatialObject<TDimension>::RequestedRegionIsOutsideOfTheBufferedRegion()
   const SizeType & requestedRegionSize = m_RequestedRegion.GetSize();
   const SizeType & bufferedRegionSize = m_BufferedRegion.GetSize();
 
-  for (i = 0; i < ObjectDimension; i++)
+  for (i = 0; i < ObjectDimension; ++i)
   {
     if ((requestedRegionIndex[i] < bufferedRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >
@@ -1176,7 +1176,7 @@ SpatialObject<TDimension>::VerifyRequestedRegion()
   const SizeType & requestedRegionSize = m_RequestedRegion.GetSize();
   const SizeType & largestPossibleRegionSize = m_LargestPossibleRegion.GetSize();
 
-  for (i = 0; i < ObjectDimension; i++)
+  for (i = 0; i < ObjectDimension; ++i)
   {
     if ((requestedRegionIndex[i] < largestPossibleRegionIndex[i]) ||
         ((requestedRegionIndex[i] + static_cast<OffsetValueType>(requestedRegionSize[i])) >

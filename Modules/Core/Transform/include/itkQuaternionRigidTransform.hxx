@@ -92,14 +92,14 @@ QuaternionRigidTransform<TParametersValueType>::SetParameters(const ParametersTy
 
   // Transfer the quaternion part
   unsigned int par = 0;
-  for (unsigned int j = 0; j < 4; j++)
+  for (unsigned int j = 0; j < 4; ++j)
   {
     m_Rotation[j] = parameters[par];
     ++par;
   }
   this->ComputeMatrix();
   // Transfer the constant part
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     translation[i] = parameters[par];
     ++par;
@@ -122,13 +122,13 @@ QuaternionRigidTransform<TParametersValueType>::GetParameters() const
 
   // Transfer the quaternion part
   unsigned int par = 0;
-  for (unsigned int j = 0; j < 4; j++)
+  for (unsigned int j = 0; j < 4; ++j)
   {
     this->m_Parameters[par] = quaternion[j];
     ++par;
   }
   // Transfer the constant part
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     this->m_Parameters[par] = translation[i];
     ++par;
@@ -168,7 +168,7 @@ QuaternionRigidTransform<TParametersValueType>::ComputeJacobianWithRespectToPara
 
   // compute derivatives for the translation part
   unsigned int blockOffset = 4;
-  for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+  for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;
   }

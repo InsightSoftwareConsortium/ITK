@@ -462,7 +462,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(Sim
 
   if (mag > 0.5)
   {
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 3; ++i)
     {
       vec_for[i] = (0.5 * vec_for[i]) / mag;
     }

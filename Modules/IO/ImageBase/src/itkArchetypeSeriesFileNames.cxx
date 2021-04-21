@@ -217,7 +217,7 @@ ArchetypeSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Number of groupings: " << const_cast<ArchetypeSeriesFileNames *>(this)->GetNumberOfGroupings()
      << std::endl;
 
-  for (unsigned int j = 0; j < const_cast<ArchetypeSeriesFileNames *>(this)->GetNumberOfGroupings(); j++)
+  for (unsigned int j = 0; j < const_cast<ArchetypeSeriesFileNames *>(this)->GetNumberOfGroupings(); ++j)
   {
     os << indent << "Grouping #" << j << std::endl;
     StringVectorType                 group = const_cast<ArchetypeSeriesFileNames *>(this)->GetFileNames(j);

@@ -45,7 +45,7 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::Compute()
                                                                    // pixels
                                                                    // to begin
 
-  for (unsigned int iteration = 0; iteration < this->m_NumberOfIterations; iteration++)
+  for (unsigned int iteration = 0; iteration < this->m_NumberOfIterations; ++iteration)
   {
     ImageRegionConstIteratorWithIndex<InputImageType> iIt(this->m_Image, this->m_Image->GetRequestedRegion());
 

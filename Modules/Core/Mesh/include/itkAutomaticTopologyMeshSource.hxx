@@ -67,7 +67,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const CoordinateType * p0)
   PointType    newPoint;
   unsigned int i;
 
-  for (i = 0; i < PointDimension; i++)
+  for (i = 0; i < PointDimension; ++i)
   {
     newPoint[i] = p0[i];
   }
@@ -88,11 +88,11 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(CoordinateType x0,
   unsigned int   i;
   unsigned int   end = (PointDimension < 6 ? PointDimension : 6);
 
-  for (i = 0; i < end; i++)
+  for (i = 0; i < end; ++i)
   {
     newPoint[i] = p0[i];
   }
-  for (; i < PointDimension; i++)
+  for (; i < PointDimension; ++i)
   {
     newPoint[i] = 0;
   }
@@ -154,7 +154,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & po
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray(pointIdsEnd);
     IdentifierType      i;
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
@@ -170,7 +170,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & po
 
     // Set the boundaries for the new cell.
 
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       IdentifierType boundaryID = vertexArray[i];
       m_OutputMesh->SetBoundaryAssignment(0, cellID, i, boundaryID);
@@ -205,7 +205,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType 
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray(pointIdsEnd);
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
@@ -214,7 +214,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType 
 
     // Add the edges, keeping track of edge IDs.
     IdentifierArrayType lineArray(lineIdsEnd);
-    for (i = 0; i < lineIdsEnd; i++)
+    for (i = 0; i < lineIdsEnd; ++i)
     {
       lineArray[i] = AddLine(pointIDs[i], pointIDs[(i + 1) % pointIdsEnd]);
     }
@@ -228,12 +228,12 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType 
 
     // Set the boundaries for the new cell.
 
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(0, cellID, i, vertexArray[i]);
     }
 
-    for (i = 0; i < lineIdsEnd; i++)
+    for (i = 0; i < lineIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(1, cellID, i, lineArray[i]);
     }
@@ -267,7 +267,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const IdentifierArray
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray(pointIdsEnd);
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
@@ -290,12 +290,12 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const IdentifierArray
 
     // Set the boundaries for the new cell.
 
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(0, cellID, i, vertexArray[i]);
     }
 
-    for (i = 0; i < lineIdsEnd; i++)
+    for (i = 0; i < lineIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(1, cellID, i, lineArray[i]);
     }
@@ -329,7 +329,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const IdentifierArrayTy
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray(pointIdsEnd);
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
@@ -361,17 +361,17 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const IdentifierArrayTy
 
     // Set the boundaries for the new cell.
 
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(0, cellID, i, vertexArray[i]);
     }
 
-    for (i = 0; i < lineIdsEnd; i++)
+    for (i = 0; i < lineIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(1, cellID, i, lineArray[i]);
     }
 
-    for (i = 0; i < faceIdsEnd; i++)
+    for (i = 0; i < faceIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(2, cellID, i, faceArray[i]);
     }
@@ -406,7 +406,7 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const IdentifierArrayTyp
 
     // Add the points and vertices, keeping track of the vertex IDs.
     IdentifierArrayType vertexArray(pointIdsEnd);
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       IdentifierType pointID = pointIDs[i];
       vertexArray[i] = AddVertex(pointID);
@@ -446,17 +446,17 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const IdentifierArrayTyp
 
     // Set the boundaries for the new cell.
 
-    for (i = 0; i < pointIdsEnd; i++)
+    for (i = 0; i < pointIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(0, cellID, i, vertexArray[i]);
     }
 
-    for (i = 0; i < lineIdsEnd; i++)
+    for (i = 0; i < lineIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(1, cellID, i, lineArray[i]);
     }
 
-    for (i = 0; i < faceIdsEnd; i++)
+    for (i = 0; i < faceIdsEnd; ++i)
     {
       m_OutputMesh->SetBoundaryAssignment(2, cellID, i, faceArray[i]);
     }

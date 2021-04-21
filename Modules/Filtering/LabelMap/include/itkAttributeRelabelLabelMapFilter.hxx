@@ -70,7 +70,7 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
   // and put back the objects in the map
   output->ClearLabels();
   unsigned int label = 0;
-  for (typename VectorType::const_iterator it = labelObjects.begin(); it != labelObjects.end(); it++)
+  for (typename VectorType::const_iterator it = labelObjects.begin(); it != labelObjects.end(); ++it)
   {
     // avoid the background label if it is used
     if (label == output->GetBackgroundValue())

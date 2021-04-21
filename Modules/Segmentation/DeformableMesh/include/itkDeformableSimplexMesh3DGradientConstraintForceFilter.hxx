@@ -60,12 +60,12 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
   delete m_StartVoxel;
   m_StartVoxel = nullptr;
   std::vector<ImageVoxel *>::iterator it;
-  for (it = m_Positive.begin(); it != m_Positive.end(); it++)
+  for (it = m_Positive.begin(); it != m_Positive.end(); ++it)
   {
     delete *it;
   }
   m_Positive.erase(m_Positive.begin(), m_Positive.end());
-  for (it = m_Negative.begin(); it != m_Negative.end(); it++)
+  for (it = m_Negative.begin(); it != m_Negative.end(); ++it)
   {
     delete *it;
   }
@@ -385,7 +385,7 @@ DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::C
   double                              mag, max = 0;
   GradientIndexType                   coord3, coord2;
   coord2.Fill(0);
-  for (it = m_Positive.begin(); it != m_Positive.end(); it++)
+  for (it = m_Positive.begin(); it != m_Positive.end(); ++it)
   {
     coord3[0] = static_cast<GradientIndexValueType>((*it)->GetX());
     coord3[1] = static_cast<GradientIndexValueType>((*it)->GetY());

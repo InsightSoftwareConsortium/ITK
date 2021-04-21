@@ -29,7 +29,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Gradie
   m_NoiseLevel = 200;
   m_IterationNum = 2;
   m_LaplacianFilter = LaplacianFilterType::New();
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Steps[i] = 1.0;
   }
@@ -94,7 +94,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitIn
   m_IntermediateImage->SetBufferedRegion(m_IntermediateImage->GetRequestedRegion());
   m_IntermediateImage->Allocate();
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     m_InternalImages[i] = InternalImageType::New();
     m_InternalImages[i]->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
@@ -139,11 +139,11 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::InitIn
   {
     b = 0.0;
     m_vec = inputIt.Get();
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       b = b + m_vec[i] * m_vec[i]; /*  b = fx^2 + fy^2 ... */
     }
-    for (i = 0; i < ImageDimension; i++)
+    for (i = 0; i < ImageDimension; ++i)
     {
       c_vec[i] = b * m_vec[i]; /* c1 = b * fx, c2 = b * fy ... */
     }
@@ -167,7 +167,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Update
   unsigned int       i;
   InputImageIterator intermediateIt(m_IntermediateImage, m_IntermediateImage->GetBufferedRegion());
 
-  for (i = 0; i < ImageDimension; i++)
+  for (i = 0; i < ImageDimension; ++i)
   {
     InternalImageIterator internalIt(m_InternalImages[i], m_InternalImages[i]->GetBufferedRegion());
 
@@ -212,7 +212,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Update
     const double alpha = 1 - b * m_TimeStep; // first part of term 1, eqn 16
 
     PixelType m_vec;
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       const double first_term = alpha * intermediateIt.Get()[i]; // term1, eqn 16
       const double third_term = c_vec[i] * m_TimeStep;           // term3, eqn 16
@@ -225,7 +225,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Update
     ++BIt;
   }
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_LaplacianFilter->SetInput(m_InternalImages[i]);
     m_LaplacianFilter->UpdateLargestPossibleRegion();
@@ -238,7 +238,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Update
     intermediateIt.GoToBegin();
 
     double r = m_NoiseLevel * m_TimeStep; /** eqn 17, dx and dy are assumed to be 1 */
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       r = r / m_Steps[j];
     }

@@ -93,7 +93,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
 
   /* We should see 0's on all boundaries from the smoothing routine */
   unsigned int linelength = dimLength * dimensions;
-  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); i++)
+  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
   {
     bool ok = true;
 
@@ -125,9 +125,9 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   std::cout << "Parameters *after* SmoothDisplacementFieldBSpline, around "
             << "outlier: " << std::endl;
 
-  for (int i = -2; i < 3; i++)
+  for (int i = -2; i < 3; ++i)
   {
-    for (int j = -2; j < 3; j++)
+    for (int j = -2; j < 3; ++j)
     {
       unsigned int index = outlier + (unsigned int)(i * (signed int)(dimLength * dimensions) + j);
       std::cout << params(index) << " ";
@@ -157,7 +157,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   /* We should see 0's on all boundaries from the smoothing routine */
   {
     linelength = dimLength * dimensions;
-    for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); i++)
+    for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
     {
       bool ok = true;
       if (i < linelength && params[i] > 1e-6)
@@ -198,9 +198,9 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
   /* Check that we have some smoothing around the outlier we set above. */
   std::cout << "Parameters *after* UpdateTransformParameters with "
             << "uneven field, around outlier: " << std::endl;
-  for (int i = -2; i < 3; i++)
+  for (int i = -2; i < 3; ++i)
   {
-    for (int j = -2; j < 3; j++)
+    for (int j = -2; j < 3; ++j)
     {
       unsigned int index = outlier + (unsigned int)(i * (signed int)(dimLength * dimensions) + j);
       std::cout << params(index) << " ";

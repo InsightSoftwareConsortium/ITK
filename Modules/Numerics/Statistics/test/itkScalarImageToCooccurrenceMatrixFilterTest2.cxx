@@ -70,7 +70,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
 
   imageIt.GoToBegin();
 
-  for (unsigned int i = 0; i < 5; i++)
+  for (unsigned int i = 0; i < 5; ++i)
   {
     for (unsigned int j = 0; j < 5; j++, ++imageIt)
     {
@@ -93,7 +93,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
   // setup the iterator
   InputImageIterator maskIt(mask, mask->GetBufferedRegion());
   maskIt.GoToBegin();
-  for (int i = 0; i < 5; i++)
+  for (int i = 0; i < 5; ++i)
     for (int j = 0; j < 5; j++, ++maskIt)
     {
       if (j == 2 && i > 0 && i < 4)

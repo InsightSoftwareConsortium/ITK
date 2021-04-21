@@ -105,7 +105,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
   ParametersType parentPosition(spaceDimension);
   ParametersType childPosition(spaceDimension);
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     parentPosition[i] = parent[i];
   }
@@ -142,7 +142,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
   }
 
   A.set_identity();
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     A(i, i) = m_InitialRadius / scales[i];
   }
@@ -157,7 +157,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
       break;
     }
 
-    for (unsigned int i = 0; i < spaceDimension; i++)
+    for (unsigned int i = 0; i < spaceDimension; ++i)
     {
       if (!m_RandomGenerator)
       {
@@ -169,7 +169,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
     delta = A * f_norm;
     child = parent + delta;
 
-    for (unsigned int i = 0; i < spaceDimension; i++)
+    for (unsigned int i = 0; i < spaceDimension; ++i)
     {
       childPosition[i] = child[i];
     }
@@ -212,7 +212,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
       pvalue = cvalue;
       parent.swap(child);
       adjust = m_GrowthFactor;
-      for (unsigned int i = 0; i < spaceDimension; i++)
+      for (unsigned int i = 0; i < spaceDimension; ++i)
       {
         parentPosition[i] = parent[i];
       }
@@ -254,9 +254,9 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
 
     // A = A + (adjust - 1.0) * A;
     double alpha = ((adjust - 1.0) / dot_product(f_norm, f_norm));
-    for (unsigned int c = 0; c < spaceDimension; c++)
+    for (unsigned int c = 0; c < spaceDimension; ++c)
     {
-      for (unsigned int r = 0; r < spaceDimension; r++)
+      for (unsigned int r = 0; r < spaceDimension; ++r)
       {
         A(r, c) += alpha * delta[r] * f_norm[c];
       }

@@ -468,7 +468,7 @@ nextpair:
   /*    Calc correction factor to make sum of squares = TLEN    */
   ts = m_TLEN / ts; /* Should be close to 1.0  */
   tr = std::sqrt(ts);
-  for (p = 0; p < m_TLEN; p++)
+  for (p = 0; p < m_TLEN; ++p)
   {
     tx = m_Vec1[p] * tr;
     m_Vec1[p] = (int)((tx < 0.0) ? (tx - 0.5) : (tx + 0.5));
@@ -477,7 +477,7 @@ nextpair:
 recalcsumsq:
   /*    Calculate actual sum of squares for correction   */
   ts = 0.0;
-  for (p = 0; p < m_TLEN; p++)
+  for (p = 0; p < m_TLEN; ++p)
   {
     tx = m_Vec1[p];
     ts += (tx * tx);

@@ -156,7 +156,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
   using SmootherType = VectorNeighborhoodOperatorImageFilter<VelocityFieldType, VelocityFieldType>;
   typename SmootherType::Pointer smoother = SmootherType::New();
 
-  for (unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; d++)
+  for (unsigned int d = 0; d < TimeVaryingVelocityFieldDimension; ++d)
   {
     using GaussianType = GaussianOperator<DisplacementVectorValueType, NDimensions + 1>;
     GaussianType gaussian;
@@ -210,7 +210,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
     TimeVaryingVelocityFieldIndexType index = fieldIt.GetIndex();
 
     bool isOnBoundary = false;
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       if (index[d] == startIndex[d] || index[d] == static_cast<IndexValueType>(size[d]) - startIndex[d] - 1)
       {

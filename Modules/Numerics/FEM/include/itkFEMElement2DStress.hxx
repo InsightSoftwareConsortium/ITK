@@ -44,7 +44,7 @@ Element2DStress<TBaseClass>::GetStrainDisplacementMatrix(MatrixType & B, const M
 
   B.set_size(3, 2 * Nn);
   // Copy the shape function derivatives to the B matrix.
-  for (unsigned int i = 0; i < Nn; i++)
+  for (unsigned int i = 0; i < Nn; ++i)
   {
     // Compute B index
     p = i << 1;

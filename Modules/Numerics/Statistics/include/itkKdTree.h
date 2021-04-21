@@ -619,7 +619,7 @@ public:
       m_Distances[m_FarthestNeighborIndex] = distance;
       double     farthestDistance = NumericTraits<double>::min();
       const auto size = static_cast<unsigned int>(m_Distances.size());
-      for (unsigned int i = 0; i < size; i++)
+      for (unsigned int i = 0; i < size; ++i)
       {
         if (m_Distances[i] > farthestDistance)
         {

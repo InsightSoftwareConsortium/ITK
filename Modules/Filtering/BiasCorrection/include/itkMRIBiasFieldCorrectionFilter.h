@@ -114,7 +114,7 @@ public:
   void
   SetSamplingFactors(const SamplingFactorType factor)
   {
-    for (unsigned int i = 0; i < SpaceDimension; i++)
+    for (unsigned int i = 0; i < SpaceDimension; ++i)
     {
       m_SamplingFactor[i] = factor[i];
     }

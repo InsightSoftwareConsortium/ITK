@@ -73,7 +73,7 @@ MINCImageIO::Read(void * buffer)
   auto * start = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
   auto * count = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
 
-  for (unsigned int i = 0; i < nDims; i++)
+  for (unsigned int i = 0; i < nDims; ++i)
   {
     if (i < m_IORegion.GetImageDimension())
     {
@@ -147,7 +147,7 @@ MINCImageIO::CleanupDimensions()
 {
   if (this->m_MINCPImpl->m_DimensionName)
   {
-    for (int i = 0; i < this->m_MINCPImpl->m_NDims; i++)
+    for (int i = 0; i < this->m_MINCPImpl->m_NDims; ++i)
     {
       mifree_name(this->m_MINCPImpl->m_DimensionName[i]);
       this->m_MINCPImpl->m_DimensionName[i] = nullptr;
@@ -183,7 +183,7 @@ MINCImageIO::AllocateDimensions(int nDims)
   this->m_MINCPImpl->m_MincFileDims = new midimhandle_t[this->m_MINCPImpl->m_NDims];
   this->m_MINCPImpl->m_MincApparentDims = new midimhandle_t[this->m_MINCPImpl->m_NDims];
 
-  for (int i = 0; i < this->m_MINCPImpl->m_NDims; i++)
+  for (int i = 0; i < this->m_MINCPImpl->m_NDims; ++i)
   {
     this->m_MINCPImpl->m_DimensionName[i] = nullptr;
     this->m_MINCPImpl->m_DimensionSize[i] = 0;
@@ -307,7 +307,7 @@ MINCImageIO::ReadImageInformation()
     itkExceptionMacro(<< "Could not get dimension handles!");
   }
 
-  for (int i = 0; i < this->m_MINCPImpl->m_NDims; i++)
+  for (int i = 0; i < this->m_MINCPImpl->m_NDims; ++i)
   {
     char *       name;
     double       _sep;
@@ -425,7 +425,7 @@ MINCImageIO::ReadImageInformation()
   int spatial_dimension_count = 0;
 
   // extract direction cosines
-  for (int i = 1; i < 4; i++)
+  for (int i = 1; i < 4; ++i)
   {
     if (this->m_MINCPImpl->m_DimensionIndices[i] != -1) // this dimension is present
     {
@@ -479,7 +479,7 @@ MINCImageIO::ReadImageInformation()
       miget_dimension_cosines(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_dir[0]);
       miget_dimension_start(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_ORDER_APPARENT, &_start);
 
-      for (int j = 0; j < 3; j++)
+      for (int j = 0; j < 3; ++j)
         dir_cos[j][i - 1] = _dir[j];
 
       origin[i - 1] = _start;
@@ -529,7 +529,7 @@ MINCImageIO::ReadImageInformation()
 
   o_origin = dir_cos * origin;
 
-  for (int i = 0; i < spatial_dimension_count; i++)
+  for (int i = 0; i < spatial_dimension_count; ++i)
     this->SetOrigin(i, o_origin[i]);
 
   miclass_t volume_data_class;
@@ -964,9 +964,9 @@ MINCImageIO::WriteImageInformation()
   dircosmatrix.set_identity();
   vnl_vector<double> origin(nDims);
 
-  for (unsigned int i = 0; i < nDims; i++)
+  for (unsigned int i = 0; i < nDims; ++i)
   {
-    for (unsigned int j = 0; j < nDims; j++)
+    for (unsigned int j = 0; j < nDims; ++j)
     {
       dircosmatrix[i][j] = this->GetDirection(i)[j];
     }
@@ -976,11 +976,11 @@ MINCImageIO::WriteImageInformation()
   const vnl_matrix<double> inverseDirectionCosines{ vnl_matrix_inverse<double>(dircosmatrix).as_matrix() };
   origin *= inverseDirectionCosines; // transform to minc convention
 
-  for (unsigned int i = 0; i < nDims; i++)
+  for (unsigned int i = 0; i < nDims; ++i)
   {
     unsigned int j = i + (nComp > 1 ? 1 : 0);
     double       dir_cos[3];
-    for (unsigned int k = 0; k < 3; k++)
+    for (unsigned int k = 0; k < 3; ++k)
     {
       if (k < nDims)
       {
@@ -1076,7 +1076,7 @@ MINCImageIO::WriteImageInformation()
     if (dimension_order.length() == (minc_dimensions * 2))
     {
       dimorder_good = true;
-      for (unsigned int i = 0; i < minc_dimensions && dimorder_good; i++)
+      for (unsigned int i = 0; i < minc_dimensions && dimorder_good; ++i)
       {
         bool positive = (dimension_order[i * 2] == '+');
         int  j = 0;
@@ -1159,7 +1159,7 @@ MINCImageIO::WriteImageInformation()
 
   if (!dimorder_good) // use default order!
   {
-    for (unsigned int i = 0; i < minc_dimensions; i++)
+    for (unsigned int i = 0; i < minc_dimensions; ++i)
       this->m_MINCPImpl->m_MincFileDims[i] = this->m_MINCPImpl->m_MincApparentDims[i];
   }
 
@@ -1308,7 +1308,7 @@ get_buffer_min_max(const void * _buffer, size_t len, double & buf_min, double & 
   const auto * buf = static_cast<const T *>(_buffer);
 
   buf_min = buf_max = buf[0];
-  for (size_t i = 0; i < len; i++)
+  for (size_t i = 0; i < len; ++i)
   {
     if (buf[i] < (double)buf_min)
       buf_min = (double)buf[i];
@@ -1327,7 +1327,7 @@ MINCImageIO::Write(const void * buffer)
   auto * start = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
   auto * count = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
 
-  for (unsigned int i = 0; i < nDims; i++)
+  for (unsigned int i = 0; i < nDims; ++i)
   {
     if (i < m_IORegion.GetImageDimension())
     {

@@ -118,9 +118,9 @@ protected:
   {
     outputFile.precision(6);
     SizeValueType index = 0;
-    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
-      for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
+      for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
         outputFile << std::fixed << buffer[index++] << "  ";
       }
@@ -139,9 +139,9 @@ protected:
 
     ReadCellsBuffer(buffer, data);
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
-      for (unsigned int jj = 0; jj < numberOfCellPoints; jj++)
+      for (unsigned int jj = 0; jj < numberOfCellPoints; ++jj)
       {
         outputFile << data[index++] << "  ";
       }
@@ -157,9 +157,9 @@ protected:
   {
     if (input && output)
     {
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
-        for (unsigned int jj = 0; jj < 3; jj++)
+        for (unsigned int jj = 0; jj < 3; ++jj)
         {
           /** point identifiers start from the third elements, first element is cellType, the second is numberOfPoints
            */

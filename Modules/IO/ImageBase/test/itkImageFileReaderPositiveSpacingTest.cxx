@@ -42,7 +42,7 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
   ImageNDType::Pointer image = reader->GetOutput();
   image->DisconnectPipeline();
   ImageNDType::SpacingType spacing = image->GetSpacing();
-  for (unsigned int ii = 0; ii < image->GetImageDimension(); ii++)
+  for (unsigned int ii = 0; ii < image->GetImageDimension(); ++ii)
   {
     if (spacing[ii] < 0)
     {
@@ -68,14 +68,14 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
   ImageNDType::PointType     ioOrigin;
   ImageNDType::SizeType      ioSize;
   const double *             transformMatrix = metaImage.TransformMatrix();
-  for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ii++)
+  for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ++ii)
   {
     ioSize[ii] = metaImage.DimSize(ii);
     ioSpacing[ii] = metaImage.ElementSpacing(ii);
     ioOrigin[ii] = metaImage.Position(ii);
     // Please note: direction cosines are stored as columns of the
     // direction matrix
-    for (unsigned int jj = 0; jj < ImageNDType::ImageDimension; jj++)
+    for (unsigned int jj = 0; jj < ImageNDType::ImageDimension; ++jj)
     {
       ioDirection[jj][ii] = transformMatrix[ii * ImageNDType::ImageDimension + jj];
     }
@@ -93,7 +93,7 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
   ImageNDType::DirectionType scale;
   ImageNDType::DirectionType indexToPhysicalPoint;
   ImageNDType::DirectionType physicalPointToIndex;
-  for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ii++)
+  for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ++ii)
   {
     scale[ii][ii] = ioSpacing[ii];
   }
@@ -109,10 +109,10 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
     image->TransformIndexToPhysicalPoint(index, point);
     // Compute index from physical point in baseline
     ImageNDType::IndexType baselineIndex;
-    for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ii++)
+    for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ++ii)
     {
       double sum = itk::NumericTraits<double>::ZeroValue();
-      for (unsigned int jj = 0; jj < ImageNDType::ImageDimension; jj++)
+      for (unsigned int jj = 0; jj < ImageNDType::ImageDimension; ++jj)
       {
         sum += physicalPointToIndex[ii][jj] * (point[jj] - ioOrigin[jj]);
       }

@@ -77,7 +77,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   SampleType::Pointer sample = SampleType::New();
   sample->SetMeasurementVectorSize(Dimension);
 
-  for (unsigned int i = 0; i < numberOfLevelSetFunctions; i++)
+  for (unsigned int i = 0; i < numberOfLevelSetFunctions; ++i)
   {
     index[0] = 10 * i;
     index[1] = 0;

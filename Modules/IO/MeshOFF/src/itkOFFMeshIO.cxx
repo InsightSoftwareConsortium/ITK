@@ -161,7 +161,7 @@ OFFMeshIO ::ReadMeshInformation()
     // Read points start position in the file
     m_PointsStartPosition = m_InputFile.tellg();
 
-    for (SizeValueType id = 0; id < this->m_NumberOfPoints; id++)
+    for (SizeValueType id = 0; id < this->m_NumberOfPoints; ++id)
     {
       std::getline(m_InputFile, line, '\n');
     }
@@ -171,7 +171,7 @@ OFFMeshIO ::ReadMeshInformation()
 
     // Read each ecll's number of points and put them to cell buffer size
     unsigned int numberOfCellPoints = 0;
-    for (SizeValueType id = 0; id < this->m_NumberOfCells; id++)
+    for (SizeValueType id = 0; id < this->m_NumberOfCells; ++id)
     {
       m_InputFile >> numberOfCellPoints;
       this->m_CellBufferSize += numberOfCellPoints;
@@ -214,7 +214,7 @@ OFFMeshIO ::ReadMeshInformation()
     // Read cells
     itk::uint32_t numberOfCellPoints = 0;
     auto *        cellsBuffer = new itk::uint32_t[this->m_NumberOfCells];
-    for (unsigned long id = 0; id < this->m_NumberOfCells; id++)
+    for (unsigned long id = 0; id < this->m_NumberOfCells; ++id)
     {
       this->ReadBufferAsBinary(&numberOfCellPoints, m_InputFile, 1);
       this->m_CellBufferSize += numberOfCellPoints;

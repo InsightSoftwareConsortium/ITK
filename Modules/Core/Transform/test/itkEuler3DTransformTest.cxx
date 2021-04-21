@@ -107,7 +107,7 @@ itkEuler3DTransformTest(int, char *[])
 
   EulerTransformType::OutputPointType r;
   r = eulerTransform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -140,7 +140,7 @@ itkEuler3DTransformTest(int, char *[])
 
   r1 = eulerTransform->TransformPoint(p);
   r2 = eulerTransform2->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(r1[i] - r2[i]) > epsilon)
     {
@@ -174,7 +174,7 @@ itkEuler3DTransformTest(int, char *[])
   q = p + ioffset;
 
   r = eulerTransform->TransformPoint(p);
-  for (unsigned int i = 0; i < N; i++)
+  for (unsigned int i = 0; i < N; ++i)
   {
     if (std::fabs(q[i] - r[i]) > epsilon)
     {
@@ -197,7 +197,7 @@ itkEuler3DTransformTest(int, char *[])
   // Testing Parameters
   std::cout << "Testing Set/Get Parameters: ";
   EulerTransformType::ParametersType parameters(6);
-  for (unsigned int i = 0; i < 6; i++)
+  for (unsigned int i = 0; i < 6; ++i)
   {
     parameters[i] = i;
   }
@@ -259,7 +259,7 @@ itkEuler3DTransformTest(int, char *[])
   }
   std::cout << " [ PASSED ] " << std::endl;
   // Really test the Jacobian
-  for (unsigned int pp = 0; pp < 2; pp++)
+  for (unsigned int pp = 0; pp < 2; ++pp)
   {
     std::cout << "Testing Jacobian when ComputeZYX is ";
     if (pp == 0)
@@ -291,7 +291,7 @@ itkEuler3DTransformTest(int, char *[])
     std::cout << jacobian << std::endl;
 
     EulerTransformType::JacobianType approxJacobian = jacobian;
-    for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); k++)
+    for (unsigned int k = 0; k < eulerTransform->GetNumberOfParameters(); ++k)
     {
       constexpr double                   delta = 0.001;
       EulerTransformType::ParametersType plusParameters;
@@ -309,7 +309,7 @@ itkEuler3DTransformTest(int, char *[])
       plusPoint = eulerTransform->TransformPoint(pInit);
       eulerTransform->SetParameters(minusParameters);
       minusPoint = eulerTransform->TransformPoint(pInit);
-      for (unsigned int j = 0; j < 3; j++)
+      for (unsigned int j = 0; j < 3; ++j)
       {
         double approxDerivative = (plusPoint[j] - minusPoint[j]) / (2.0 * delta);
         double computedDerivative = jacobian[j][k];
@@ -374,9 +374,9 @@ itkEuler3DTransformTest(int, char *[])
 
     // attempt to set an non-orthogonal matrix
     unsigned int par = 0;
-    for (unsigned int row = 0; row < 3; row++)
+    for (unsigned int row = 0; row < 3; ++row)
     {
-      for (unsigned int col = 0; col < 3; col++)
+      for (unsigned int col = 0; col < 3; ++col)
       {
         matrix[row][col] = static_cast<double>(par + 1);
         ++par;
@@ -450,7 +450,7 @@ itkEuler3DTransformTest(int, char *[])
       t3->SetMatrix(t->GetMatrix());
 
       ParametersType par0 = t3->GetParameters();
-      for (unsigned int k = 0; k < e.GetSize(); k++)
+      for (unsigned int k = 0; k < e.GetSize(); ++k)
       {
         if (std::fabs(e[k] - par0[k]) > epsilon)
         {
@@ -479,7 +479,7 @@ itkEuler3DTransformTest(int, char *[])
 
       ParametersType par0 = t3->GetParameters();
       ParametersType par1 = t_inv->GetParameters();
-      for (unsigned int k = 0; k < par1.GetSize(); k++)
+      for (unsigned int k = 0; k < par1.GetSize(); ++k)
       {
         if (std::fabs(par1[k] - par0[k]) > epsilon)
         {

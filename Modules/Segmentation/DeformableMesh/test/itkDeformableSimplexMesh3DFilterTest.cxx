@@ -101,11 +101,11 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   originalImage->Allocate();
 
   IndexType index;
-  for (int x = 0; x < 20; x++)
+  for (int x = 0; x < 20; ++x)
   {
-    for (int y = 0; y < 20; y++)
+    for (int y = 0; y < 20; ++y)
     {
-      for (int z = 0; z < 20; z++)
+      for (int z = 0; z < 20; ++z)
       {
         index[0] = x;
         index[1] = y;
@@ -159,7 +159,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
 
   constexpr unsigned int numberOfCycles = 100;
 
-  for (unsigned int i = 0; i < numberOfCycles; i++)
+  for (unsigned int i = 0; i < numberOfCycles; ++i)
   {
     // must disconnect the pipeline
     simplexMesh->DisconnectPipeline();

@@ -116,7 +116,7 @@ public:
   bool
   VerifyInsideRegion(const TIndex & featureIndex)
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if ((featureIndex[j] < static_cast<InputIndexValueType>(this->m_Start[j])) ||
           (featureIndex[j] > static_cast<InputIndexValueType>(this->m_End[j])))

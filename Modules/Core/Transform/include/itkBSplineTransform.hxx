@@ -98,7 +98,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumberOfPa
   // of pixels in the grid region.
   NumberOfParametersType numberOfParametersPerDimension = 1;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     numberOfParametersPerDimension *= static_cast<NumberOfParametersType>(this->m_FixedParameters[i]);
   }
@@ -128,7 +128,7 @@ auto
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformDomainOrigin() const -> OriginType
 {
   OriginType origin;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     const ScalarType spacing = this->m_FixedParameters[2 * NDimensions + i];
     origin[i] = spacing * 0.5 * (SplineOrder - 1);
@@ -136,7 +136,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformD
 
   origin = this->GetTransformDomainDirection() * origin;
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     const ScalarType grid_origin = this->m_FixedParameters[NDimensions + i];
     origin[i] += grid_origin;
@@ -167,7 +167,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformD
 {
   const MeshSizeType     size = this->GetTransformDomainMeshSize();
   PhysicalDimensionsType physicalDim;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     ScalarType spacing = this->m_FixedParameters[2 * NDimensions + i];
     physicalDim[i] = size[i] * spacing;
@@ -199,9 +199,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformD
 {
   DirectionType direction;
 
-  for (unsigned int di = 0; di < NDimensions; di++)
+  for (unsigned int di = 0; di < NDimensions; ++di)
   {
-    for (unsigned int dj = 0; dj < NDimensions; dj++)
+    for (unsigned int dj = 0; dj < NDimensions; ++dj)
     {
       const FixedParametersValueType v = this->m_FixedParameters[3 * NDimensions + (di * NDimensions + dj)];
       direction[di][dj] = static_cast<typename DirectionType::ValueType>(v);
@@ -234,7 +234,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformD
 {
   MeshSizeType meshSize;
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     using ValueType = typename MeshSizeType::SizeValueType;
     meshSize[i] = static_cast<ValueType>(this->m_FixedParameters[i]) - SplineOrder;
@@ -254,30 +254,30 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetFixedParam
 
   // Set the grid size parameters
   const SizeType & gridSize = this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize();
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     this->m_FixedParameters[i] = static_cast<FixedParametersValueType>(gridSize[i]);
   }
 
   const OriginType & origin = this->m_CoefficientImages[0]->GetOrigin();
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     this->m_FixedParameters[NDimensions + i] = static_cast<FixedParametersValueType>(origin[i]);
   }
 
   // Set the spacing parameters
   const SpacingType & spacing = this->m_CoefficientImages[0]->GetSpacing();
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     this->m_FixedParameters[2 * NDimensions + i] = static_cast<FixedParametersValueType>(spacing[i]);
   }
 
   // Set the direction parameters
   const DirectionType & direction = this->m_CoefficientImages[0]->GetDirection();
-  for (unsigned int di = 0; di < NDimensions; di++)
+  for (unsigned int di = 0; di < NDimensions; ++di)
   {
-    for (unsigned int dj = 0; dj < NDimensions; dj++)
+    for (unsigned int dj = 0; dj < NDimensions; ++dj)
     {
       this->m_FixedParameters[3 * NDimensions + (di * NDimensions + dj)] =
         static_cast<FixedParametersValueType>(direction[di][dj]);
@@ -296,7 +296,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetFixedParam
 {
 
   // Set the grid size parameters
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     this->m_FixedParameters[i] = static_cast<FixedParametersValueType>(meshSize[i] + SplineOrder);
   }
@@ -306,20 +306,20 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetFixedParam
   using PointType = typename ImageType::PointType;
   PointType origin;
   origin.Fill(0.0);
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     ScalarType gridSpacing = meshPhysical[i] / static_cast<ScalarType>(meshSize[i]);
     origin[i] = -0.5 * gridSpacing * (SplineOrder - 1);
   }
 
   origin = meshDirection * origin;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     this->m_FixedParameters[NDimensions + i] = static_cast<FixedParametersValueType>(origin[i] + meshOrigin[i]);
   }
 
   // Set the spacing parameters
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     ScalarType gridSpacing = meshPhysical[i] / static_cast<ScalarType>(meshSize[i]);
 
@@ -327,9 +327,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetFixedParam
   }
 
   // Set the direction parameters
-  for (unsigned int di = 0; di < NDimensions; di++)
+  for (unsigned int di = 0; di < NDimensions; ++di)
   {
-    for (unsigned int dj = 0; dj < NDimensions; dj++)
+    for (unsigned int dj = 0; dj < NDimensions; ++dj)
     {
       this->m_FixedParameters[3 * NDimensions + (di * NDimensions + dj)] =
         static_cast<FixedParametersValueType>(meshDirection[di][dj]);
@@ -351,7 +351,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetCoefficien
 
   // set the grid size parameters
   SizeType gridSize;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     gridSize[i] = static_cast<SizeValueType>(this->m_FixedParameters[i]);
   }
@@ -359,7 +359,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetCoefficien
 
   // Set the origin parameters
   OriginType origin;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     origin[i] = this->m_FixedParameters[NDimensions + i];
   }
@@ -367,7 +367,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetCoefficien
 
   // Set the spacing parameters
   SpacingType spacing;
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     spacing[i] = this->m_FixedParameters[2 * NDimensions + i];
   }
@@ -375,9 +375,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetCoefficien
 
   // Set the direction parameters
   DirectionType direction;
-  for (unsigned int di = 0; di < NDimensions; di++)
+  for (unsigned int di = 0; di < NDimensions; ++di)
   {
-    for (unsigned int dj = 0; dj < NDimensions; dj++)
+    for (unsigned int dj = 0; dj < NDimensions; ++dj)
     {
       direction[di][dj] = this->m_FixedParameters[3 * NDimensions + (di * NDimensions + dj)];
     }
@@ -385,7 +385,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetCoefficien
   this->m_CoefficientImages[0]->SetDirection(direction);
 
   // Copy the information to the rest of the images
-  for (unsigned int i = 1; i < SpaceDimension; i++)
+  for (unsigned int i = 1; i < SpaceDimension; ++i)
   {
     this->m_CoefficientImages[i]->CopyInformation(this->m_CoefficientImages[0]);
     this->m_CoefficientImages[i]->SetRegions(this->m_CoefficientImages[0]->GetLargestPossibleRegion());
@@ -435,7 +435,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetCoefficien
 {
   bool validArrayOfImages = true;
 
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     validArrayOfImages &= (images[j].IsNotNull());
   }
@@ -452,7 +452,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::SetCoefficien
 
   const SizeValueType totalParameters = numberOfPixels * SpaceDimension;
   this->m_InternalParametersBuffer.SetSize(totalParameters);
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     const SizeValueType numberOfPixels_j = images[j]->GetLargestPossibleRegion().GetNumberOfPixels();
     if (numberOfPixels_j * SpaceDimension != totalParameters)
@@ -486,7 +486,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::InsideValidRe
 
   // Needed so that index can be changed
   bool inside = true;
-  for (unsigned int j = 0; j < SpaceDimension; j++)
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
   {
     const ScalarType maxLimit =
       static_cast<ScalarType>(gridSize[j]) - 0.5 * static_cast<ScalarType>(SplineOrder - 1) - 1.0;
@@ -549,7 +549,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
     IteratorType                coeffIterator[SpaceDimension];
     unsigned long               counter = 0;
     const ParametersValueType * basePointer = this->m_CoefficientImages[0]->GetBufferPointer();
-    for (unsigned int j = 0; j < SpaceDimension; j++)
+    for (unsigned int j = 0; j < SpaceDimension; ++j)
     {
       coeffIterator[j] = IteratorType(this->m_CoefficientImages[j], supportRegion);
     }
@@ -559,7 +559,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
       while (!coeffIterator[0].IsAtEndOfLine())
       {
         // Multiply weigth with coefficient
-        for (unsigned int j = 0; j < SpaceDimension; j++)
+        for (unsigned int j = 0; j < SpaceDimension; ++j)
         {
           outputPoint[j] += static_cast<ScalarType>(weights[counter] * coeffIterator[j].Get());
         }
@@ -569,20 +569,20 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
 
         // Go to next coefficient in the support region
         ++counter;
-        for (unsigned int j = 0; j < SpaceDimension; j++)
+        for (unsigned int j = 0; j < SpaceDimension; ++j)
         {
           ++(coeffIterator[j]);
         }
       } // end scanline
 
-      for (unsigned int j = 0; j < SpaceDimension; j++)
+      for (unsigned int j = 0; j < SpaceDimension; ++j)
       {
         coeffIterator[j].NextLine();
       }
     }
 
     // Return results
-    for (unsigned int j = 0; j < SpaceDimension; j++)
+    for (unsigned int j = 0; j < SpaceDimension; ++j)
     {
       outputPoint[j] += point[j];
     }
@@ -590,7 +590,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
   else
   {
     itkWarningMacro("B-spline coefficients have not been set");
-    for (unsigned int j = 0; j < SpaceDimension; j++)
+    for (unsigned int j = 0; j < SpaceDimension; ++j)
     {
       outputPoint[j] = point[j];
     }
@@ -635,7 +635,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::ComputeJacobi
   const MeshSizeType meshSize = this->GetTransformDomainMeshSize();
   SizeType           cumulativeGridSizes;
   cumulativeGridSizes[0] = (meshSize[0] + SplineOrder);
-  for (unsigned int d = 1; d < SpaceDimension; d++)
+  for (unsigned int d = 1; d < SpaceDimension; ++d)
   {
     cumulativeGridSizes[d] = cumulativeGridSizes[d - 1] * (meshSize[d] + SplineOrder);
   }
@@ -649,12 +649,12 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::ComputeJacobi
     typename ImageType::OffsetType currentIndex = It.GetIndex() - startIndex;
 
     unsigned long number = currentIndex[0];
-    for (unsigned int d = 1; d < SpaceDimension; d++)
+    for (unsigned int d = 1; d < SpaceDimension; ++d)
     {
       number += (currentIndex[d] * cumulativeGridSizes[d - 1]);
     }
 
-    for (unsigned int d = 0; d < SpaceDimension; d++)
+    for (unsigned int d = 0; d < SpaceDimension; ++d)
     {
       jacobian(d, number + d * numberOfParametersPerDimension) = weights[counter];
     }

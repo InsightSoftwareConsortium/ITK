@@ -38,11 +38,11 @@ ElasticBodyReciprocalSplineKernelTransform<TParametersValueType, NDimensions>::C
   const TParametersValueType factor = (r > 1e-8) ? (-1.0 / r) : NumericTraits<TParametersValueType>::ZeroValue();
   const TParametersValueType radial = m_Alpha * r;
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     const typename InputVectorType::ValueType xi = x[i] * factor;
     // G is symmetric
-    for (unsigned int j = 0; j < i; j++)
+    for (unsigned int j = 0; j < i; ++j)
     {
       const TParametersValueType value = xi * x[j];
       gmatrix[i][j] = value;

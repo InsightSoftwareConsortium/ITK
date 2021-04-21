@@ -39,7 +39,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
 
   int result(EXIT_SUCCESS);
 
-  for (unsigned pass = 0; pass < 2; pass++)
+  for (unsigned pass = 0; pass < 2; ++pass)
   {
     using TensorReconstructionImageFilterType =
       itk::DiffusionTensor3DReconstructionImageFilter<ReferencePixelType, GradientPixelType, TensorPrecisionType>;
@@ -92,7 +92,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     using GradientSizeType = GradientRegionType::SizeType;
     using ReferenceIndexType = ReferenceRegionType::IndexType;
 
-    for (unsigned int i = 0; i < numberOfGradientImages; i++)
+    for (unsigned int i = 0; i < numberOfGradientImages; ++i)
     {
       GradientImageType::Pointer gradientImage = GradientImageType::New();
       GradientSizeType           sizeGradientImage = { { 4, 4, 4 } };
@@ -165,7 +165,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     std::cout << std::endl << "Pixels at index: " << tensorImageIndex << std::endl;
     std::cout << "Reference pixel " << referenceImage->GetPixel(referenceImageIndex) << std::endl;
 
-    for (unsigned int i = 0; i < numberOfGradientImages; i++)
+    for (unsigned int i = 0; i < numberOfGradientImages; ++i)
     {
       const GradientImageType * gradImage(tensorReconstructionFilter->GetGradientImage(i));
       std::cout << "Gradient image " << i << " pixel : " << gradImage->GetPixel(gradientImageIndex) << std::endl;
@@ -178,10 +178,10 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     std::cout << std::endl << "Reconstructed tensor : " << std::endl;
     bool   passed = true;
     double precision = 0.0001;
-    for (unsigned int i = 0; i < 3; i++)
+    for (unsigned int i = 0; i < 3; ++i)
     {
       std::cout << "\t";
-      for (unsigned int j = 0; j < 3; j++)
+      for (unsigned int j = 0; j < 3; ++j)
       {
         std::cout << tensorImage->GetPixel(tensorImageIndex)(i, j) << " ";
         if ((itk::Math::abs(tensorImage->GetPixel(tensorImageIndex)(i, j) - expectedResult[i][j])) > precision)

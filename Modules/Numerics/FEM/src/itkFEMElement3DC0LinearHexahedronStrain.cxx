@@ -53,7 +53,7 @@ Element3DC0LinearHexahedronStrain::Element3DC0LinearHexahedronStrain(NodeIDType 
   : Superclass()
 {
   // Set the geometrical points
-  for (int k = 0; k < 8; k++)
+  for (int k = 0; k < 8; ++k)
   {
     this->SetNode(k, ns_[k]);
   }

@@ -178,22 +178,22 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   virtualImage->TransformIndexToPhysicalPoint(virtualImage->GetLargestPossibleRegion().GetUpperIndex(), upperPoint);
 
   itk::SizeValueType param = 0;
-  for (itk::SizeValueType row = 0; row < ImageDimension; row++)
+  for (itk::SizeValueType row = 0; row < ImageDimension; ++row)
   {
-    for (itk::SizeValueType col = 0; col < ImageDimension; col++)
+    for (itk::SizeValueType col = 0; col < ImageDimension; ++col)
     {
       // uses the corners for affine transform
       // = (0 + 0 + n*n + n*n)/4 = n*n/2
       theoreticalJacobianScales[param++] = upperPoint[col] * upperPoint[col] / 2.0;
     }
   }
-  for (itk::SizeValueType row = 0; row < ImageDimension; row++)
+  for (itk::SizeValueType row = 0; row < ImageDimension; ++row)
   {
     theoreticalJacobianScales[param++] = 1;
   }
 
   bool jacobianPass = true;
-  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); ++p)
   {
     if (std::abs((jacobianScales[p] - theoreticalJacobianScales[p]) / theoreticalJacobianScales[p]) > 0.01)
     {
@@ -211,7 +211,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   }
 
   bool nonUniformForJacobian = false;
-  for (itk::SizeValueType p = 1; p < jacobianScales.GetSize(); p++)
+  for (itk::SizeValueType p = 1; p < jacobianScales.GetSize(); ++p)
   {
     if (itk::Math::NotExactlyEquals(jacobianScales[p], jacobianScales[0]))
     {
@@ -292,7 +292,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   theoreticalLocalScales.Fill(1.0);
 
   bool displacementPass = true;
-  for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); p++)
+  for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); ++p)
   {
     if (std::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
     {

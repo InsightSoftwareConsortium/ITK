@@ -137,7 +137,7 @@ InteriorExteriorMeshFilter<TInputMesh, TOutputMesh, TSpatialFunction>::GenerateD
 
   unsigned int maxDimension = TInputMesh::MaxTopologicalDimension;
 
-  for (unsigned int dim = 0; dim < maxDimension; dim++)
+  for (unsigned int dim = 0; dim < maxDimension; ++dim)
   {
     outputMesh->SetBoundaryAssignments(dim, inputMesh->GetBoundaryAssignments(dim));
   }

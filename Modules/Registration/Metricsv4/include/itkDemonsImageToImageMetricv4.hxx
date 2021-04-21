@@ -84,7 +84,7 @@ DemonsImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalCo
   }
 
   this->m_Normalizer = NumericTraits<TInternalComputationValueType>::ZeroValue();
-  for (ImageDimensionType k = 0; k < dimension; k++)
+  for (ImageDimensionType k = 0; k < dimension; ++k)
   {
     this->m_Normalizer += imageSpacing[k] * imageSpacing[k];
   }

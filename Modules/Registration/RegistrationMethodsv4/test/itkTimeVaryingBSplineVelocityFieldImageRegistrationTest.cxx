@@ -268,13 +268,13 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   transformDomainSpacing.Fill(1.0);
   transformDomainSize.Fill(10);
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     transformDomainOrigin[i] = fixedImageOrigin[i];
     transformDomainMeshSize[i] = 3;
     transformDomainSpacing[i] = fixedImageSpacing[i];
     transformDomainSize[i] = fixedImageSize[i];
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       transformDomainDirection[i][j] = fixedImageDirection[i][j];
     }
@@ -312,12 +312,12 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldSize.Fill(velocityFieldRegistration->GetNumberOfTimePointSamples());
   velocityFieldDirection.SetIdentity();
 
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     velocityFieldOrigin[i] = fixedImage->GetOrigin()[i];
     velocityFieldSpacing[i] = fixedImage->GetSpacing()[i];
     velocityFieldSize[i] = fixedImage->GetRequestedRegion().GetSize()[i];
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       velocityFieldDirection[i][j] = fixedImage->GetDirection()[i][j];
     }
@@ -332,7 +332,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 
   typename VelocityFieldRegistrationType::TransformParametersAdaptorsContainerType adaptors;
 
-  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); level++)
+  for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); ++level)
   {
     using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
@@ -353,7 +353,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
     fixedImageSpacing = shrinkFilter->GetOutput()->GetSpacing();
     fixedImageDirection = shrinkFilter->GetOutput()->GetDirection();
 
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       velocityFieldSize[i] = fixedImageSize[i];
       velocityFieldOrigin[i] = fixedImageOrigin[i];
@@ -361,7 +361,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 
       transformDomainMeshSize[i] <<= 1;
 
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         velocityFieldDirection[i][j] = fixedImageDirection[i][j];
       }

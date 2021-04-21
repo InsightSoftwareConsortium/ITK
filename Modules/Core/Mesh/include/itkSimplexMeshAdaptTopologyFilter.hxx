@@ -84,7 +84,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::CopyInputMeshToOutputMe
 
   GeometryMapConstIterator inputGeometryItr = inputGeometryData->Begin();
 
-  for (PointIdentifier pointId = 0; pointId < numberOfPoints; pointId++)
+  for (PointIdentifier pointId = 0; pointId < numberOfPoints; ++pointId)
   {
     auto *                outputGeometryDataItem = new SimplexMeshGeometry;
     SimplexMeshGeometry * inputGeometryDataItem = inputGeometryItr.Value();

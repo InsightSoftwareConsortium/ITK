@@ -52,7 +52,7 @@ MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::AllocateImage(co
   SizeType    size;
   SpacingType spacing;
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     size[i] = image->DimSize()[i];
     if (Math::ExactlyEquals(image->ElementSpacing()[i], NumericTraits<typename SpacingType::ValueType>::ZeroValue()))
@@ -128,7 +128,7 @@ MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::SpatialObjectToM
   float spacing[NDimensions];
   int   size[NDimensions];
 
-  for (unsigned int i = 0; i < NDimensions; i++)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
     size[i] = SOImage->GetLargestPossibleRegion().GetSize()[i];
     spacing[i] = SOImage->GetSpacing()[i];

@@ -137,7 +137,7 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUComputeUpdate(const typena
 
   int ImageDim = (int)TImage::ImageDimension;
 
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     imgSize[i] = outSize[i];
     imgScale[i] = this->m_ScaleCoefficients[i];
@@ -146,7 +146,7 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUComputeUpdate(const typena
   size_t localSize[3], globalSize[3];
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
 
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
                                                                                                 // total
@@ -165,14 +165,14 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUComputeUpdate(const typena
     this->m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(typename TImage::PixelType), &(m_K));
 
   // filter scale parameter
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(
       this->m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(float), &(imgScale[i]));
   }
 
   // image size
-  for (int i = 0; i < ImageDim; i++)
+  for (int i = 0; i < ImageDim; ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(this->m_ComputeUpdateGPUKernelHandle, argidx++, sizeof(int), &(imgSize[i]));
   }

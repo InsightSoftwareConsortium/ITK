@@ -179,7 +179,7 @@ Element2DC0QuadraticTriangular::GetLocalFromGlobalCoordinates(const VectorType &
 
   e1 = itk::fem::Element2DC0LinearTriangularMembrane::New();
   // four linear triangles are used
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     e1->SetNode(0, this->GetNode(LinearTris[i][0]));
     e1->SetNode(1, this->GetNode(LinearTris[i][1]));

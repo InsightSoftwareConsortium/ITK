@@ -29,7 +29,7 @@ itkCoxDeBoorBSplineKernelFunctionTest2(int, char *[])
 
   KernelType::Pointer kernelOrderMinus1 = KernelType::New();
 
-  for (unsigned int order = 2; order <= 10; order++)
+  for (unsigned int order = 2; order <= 10; ++order)
   {
     kernel->SetSplineOrder(order);
     kernelOrderMinus1->SetSplineOrder(order - 1);
@@ -44,7 +44,7 @@ itkCoxDeBoorBSplineKernelFunctionTest2(int, char *[])
       }
 
       // try calculating the nth derivative
-      for (unsigned int d = 2; d < order - 1; d++)
+      for (unsigned int d = 2; d < order - 1; ++d)
       {
         try
         {

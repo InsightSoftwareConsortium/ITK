@@ -29,7 +29,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::NormalVectorDiffusionFunction()
   // check: should some of this be in Initialize?
   RadiusType r;
 
-  for (unsigned int j = 0; j < ImageDimension; j++)
+  for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     r[j] = 1;
   }
@@ -72,18 +72,18 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
 
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
-  for (j = 0; j < ImageDimension; j++)
+  for (j = 0; j < ImageDimension; ++j)
   {
     stride[j] = it.GetStride(j);
   }
   center = it.Size() / 2;
 
-  for (i = 0; i < ImageDimension; i++) // flux offset axis
+  for (i = 0; i < ImageDimension; ++i) // flux offset axis
   {
     PreviousNode = it.GetPrevious(i);
     if (PreviousNode == nullptr)
     {
-      for (j = 0; j < ImageDimension; j++)
+      for (j = 0; j < ImageDimension; ++j)
       {
         CenterNode->m_Flux[i][j] = NumericTraits<NodeValueType>::ZeroValue();
       }
@@ -91,7 +91,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
     else
     {
       PreviousPixel = PreviousNode->m_Data;
-      for (j = 0; j < ImageDimension; j++) // derivative axis
+      for (j = 0; j < ImageDimension; ++j) // derivative axis
       {
         if (i != j) // compute derivative on a plane
         {
@@ -146,10 +146,10 @@ NormalVectorDiffusionFunction<TSparseImageType>::PrecomputeSparseUpdate(Neighbor
       } // end derivative axis
 
       // now compute the intrinsic derivative
-      for (j = 0; j < ImageDimension; j++) // component axis
+      for (j = 0; j < ImageDimension; ++j) // component axis
       {
         DotProduct = NumericTraits<NodeValueType>::ZeroValue();
-        for (k = 0; k < ImageDimension; k++) // derivative axis
+        for (k = 0; k < ImageDimension; ++k) // derivative axis
         {
           DotProduct += (gradient[k][j] * CenterNode->m_ManifoldNormal[i][k]);
         }
@@ -187,7 +187,7 @@ NormalVectorDiffusionFunction<TSparseImageType>::ComputeSparseUpdate(Neighborhoo
   const NeighborhoodScalesType neighborhoodScales = this->ComputeNeighborhoodScales();
 
   change = NumericTraits<NormalVectorType>::ZeroValue();
-  for (i = 0; i < ImageDimension; i++) // flux offset axis
+  for (i = 0; i < ImageDimension; ++i) // flux offset axis
   {
     NextNode = it.GetNext(i);
     if (NextNode == nullptr)

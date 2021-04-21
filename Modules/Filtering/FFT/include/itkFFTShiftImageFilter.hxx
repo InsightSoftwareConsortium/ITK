@@ -37,7 +37,7 @@ FFTShiftImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Compute the shift.
   typename Superclass::OffsetType shift;
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     shift[i] = (size[i] / 2);
     if (m_Inverse)

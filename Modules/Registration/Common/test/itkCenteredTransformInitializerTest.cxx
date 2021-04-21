@@ -49,7 +49,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   const typename FixedImageType::SizeType &   fixedSize = fixedRegion.GetSize();
   const typename FixedImageType::IndexType &  fixedIndex = fixedRegion.GetIndex();
   ContinuousIndexType                         fixedCenterIndex;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     assert(0 < fixedSize[i]);
     fixedCenterIndex[i] = static_cast<double>(fixedIndex[i]) + static_cast<double>(fixedSize[i] - 1) / 2.0;
@@ -60,7 +60,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   const typename MovingImageType::SizeType &   movingSize = movingRegion.GetSize();
   const typename MovingImageType::IndexType &  movingIndex = movingRegion.GetIndex();
   ContinuousIndexType                          movingCenterIndex;
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     assert(0 < movingSize[i]);
     movingCenterIndex[i] = static_cast<double>(movingIndex[i]) + static_cast<double>(movingSize[i] - 1) / 2.0;
@@ -94,7 +94,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   const double                            tolerance = 1e-3;
 
   // Verfications for the Geometry Mode
-  for (unsigned int k = 0; k < Dimension; k++)
+  for (unsigned int k = 0; k < Dimension; ++k)
   {
     if (std::fabs(center1[k] - fixedCenter[k]) > tolerance)
     {
@@ -135,7 +135,7 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   const TransformType::OffsetType &       offset2 = transform->GetOffset();
 
   // Verfications for the Moments Mode
-  for (unsigned int k = 0; k < Dimension; k++)
+  for (unsigned int k = 0; k < Dimension; ++k)
   {
     if (std::fabs(center2[k] - fixedCenter[k]) > tolerance)
     {

@@ -49,7 +49,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::~BinaryMask3DMeshSource()
 
   if (m_CurrentFrame)
   {
-    for (i = 0; i < 2000; i++)
+    for (i = 0; i < 2000; ++i)
     {
       free(m_CurrentFrame[i]);
     }
@@ -57,7 +57,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::~BinaryMask3DMeshSource()
   }
   if (m_CurrentRow)
   {
-    for (i = 0; i < 200; i++)
+    for (i = 0; i < 200; ++i)
     {
       free(m_CurrentRow[i]);
     }
@@ -65,7 +65,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::~BinaryMask3DMeshSource()
   }
   if (m_LastFrame)
   {
-    for (i = 0; i < m_LastFrameNum; i++)
+    for (i = 0; i < m_LastFrameNum; ++i)
     {
       free(m_LastFrame[i]);
     }
@@ -73,7 +73,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::~BinaryMask3DMeshSource()
   }
   if (m_LastRow)
   {
-    for (i = 0; i < m_LastRowNum; i++)
+    for (i = 0; i < m_LastRowNum; ++i)
     {
       free(m_LastRow[i]);
     }
@@ -1074,21 +1074,21 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
 
   if (m_CurrentRow)
   {
-    for (i = 0; i < 200; i++)
+    for (i = 0; i < 200; ++i)
     {
       free(m_CurrentRow[i]);
     }
     free(m_CurrentRow);
   }
   m_CurrentRow = (IdentifierType **)malloc(200 * sizeof(IdentifierType *));
-  for (i = 0; i < 200; i++)
+  for (i = 0; i < 200; ++i)
   {
     m_CurrentRow[i] = (IdentifierType *)malloc(2 * sizeof(IdentifierType));
   }
 
   if (m_CurrentFrame)
   {
-    for (i = 0; i < 2000; i++)
+    for (i = 0; i < 2000; ++i)
     {
       free(m_CurrentFrame[i]);
     }
@@ -1097,7 +1097,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
 
   m_CurrentFrame = (IdentifierType **)malloc(2000 * sizeof(IdentifierType *));
 
-  for (i = 0; i < 2000; i++)
+  for (i = 0; i < 2000; ++i)
   {
     m_CurrentFrame[i] = (IdentifierType *)malloc(2 * sizeof(IdentifierType));
   }
@@ -1172,7 +1172,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::CreateMesh()
       }
     }
 
-    for (j = 0; j < 14; j++)
+    for (j = 0; j < 14; ++j)
     {
       m_CurrentVoxel[j] = 0;
     }
@@ -1204,14 +1204,14 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
   IdentifierType ** currentframetmp;
 
   currentrowtmp = (IdentifierType **)malloc(4 * sizeof(IdentifierType *));
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     currentrowtmp[i] = (IdentifierType *)malloc(2 * sizeof(IdentifierType));
     currentrowtmp[i][0] = 0;
     currentrowtmp[i][1] = 0;
   }
   currentframetmp = (IdentifierType **)malloc(4 * sizeof(IdentifierType *));
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     currentframetmp[i] = (IdentifierType *)malloc(2 * sizeof(IdentifierType));
     currentframetmp[i][0] = 0;
@@ -1221,7 +1221,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
   if ((index % m_ImageWidth == 0) || (index > m_LastVoxelIndex + 1))
   {
     m_ColFlag = 0;
-    for (i = 0; i < 14; i++)
+    for (i = 0; i < 14; ++i)
     {
       m_LastVoxel[i] = 0;
     }
@@ -1262,14 +1262,14 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
       {
         if (m_LastRowNum > m_CurrentRowIndex)
         {
-          for (i = m_CurrentRowIndex; i < m_LastRowNum; i++)
+          for (i = m_CurrentRowIndex; i < m_LastRowNum; ++i)
           {
             free(m_LastRow[i]);
           }
         }
         m_LastRow = (IdentifierType **)realloc(m_LastRow, m_CurrentRowIndex * sizeof(IdentifierType *));
       }
-      for (i = 0; i < m_CurrentRowIndex; i++)
+      for (i = 0; i < m_CurrentRowIndex; ++i)
       {
         if (i > m_LastRowNum - 1)
         {
@@ -1288,7 +1288,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
     {
       if (m_LastRowNum > 0)
       {
-        for (i = 0; i < m_LastRowNum; i++)
+        for (i = 0; i < m_LastRowNum; ++i)
         {
           free(m_LastRow[i]);
         }
@@ -1311,14 +1311,14 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
       {
         if (m_LastFrameNum > m_CurrentFrameIndex)
         {
-          for (i = m_CurrentFrameIndex; i < m_LastFrameNum; i++)
+          for (i = m_CurrentFrameIndex; i < m_LastFrameNum; ++i)
           {
             free(m_LastFrame[i]);
           }
         }
         m_LastFrame = (IdentifierType **)realloc(m_LastFrame, m_CurrentFrameIndex * sizeof(IdentifierType *));
       }
-      for (i = 0; i < m_CurrentFrameIndex; i++)
+      for (i = 0; i < m_CurrentFrameIndex; ++i)
       {
         if (i > m_LastFrameNum - 1)
         {
@@ -1335,7 +1335,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
   {
     if (index % (m_ImageWidth * m_ImageHeight) == 0)
     {
-      for (i = 0; i < m_LastFrameNum; i++)
+      for (i = 0; i < m_LastFrameNum; ++i)
       {
         free(m_LastFrame[i]);
       }
@@ -2326,7 +2326,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
       {
         m_CurrentRowNum += 100;
         m_CurrentRow = (IdentifierType **)realloc(m_CurrentRow, sizeof(IdentifierType *) * m_CurrentRowNum);
-        for (j = m_CurrentRowIndex; j < m_CurrentRowNum; j++)
+        for (j = m_CurrentRowIndex; j < m_CurrentRowNum; ++j)
         {
           m_CurrentRow[j] = (IdentifierType *)malloc(sizeof(IdentifierType) * 2);
         }
@@ -2341,7 +2341,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
       {
         m_CurrentFrameNum += 1000;
         m_CurrentFrame = (IdentifierType **)realloc(m_CurrentFrame, sizeof(IdentifierType *) * m_CurrentFrameNum);
-        for (j = m_CurrentFrameIndex; j < m_CurrentFrameNum; j++)
+        for (j = m_CurrentFrameIndex; j < m_CurrentFrameNum; ++j)
         {
           m_CurrentFrame[j] = (IdentifierType *)malloc(sizeof(IdentifierType) * 2);
         }
@@ -2351,13 +2351,13 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
     i++;
   }
 
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     free(currentrowtmp[i]);
   }
   free(currentrowtmp);
 
-  for (i = 0; i < 4; i++)
+  for (i = 0; i < 4; ++i)
   {
     free(currentframetmp[i]);
   }
@@ -2371,7 +2371,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
   m_LastVoxel[9] = m_CurrentVoxel[10];
   m_LastVoxel[8] = m_CurrentVoxel[6];
   m_LastVoxel[12] = m_CurrentVoxel[11];
-  for (i = 1; i < 14; i++)
+  for (i = 1; i < 14; ++i)
   {
     m_CurrentVoxel[i] = 0;
   }
@@ -2388,7 +2388,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddNodes(int               ind
   int        i;
   OPointType new_p;
 
-  for (i = 0; i < 3; i++)
+  for (i = 0; i < 3; ++i)
   {
     m_PointFound = 0;
     if (m_AvailableNodes[nodesid[i]] != 0)

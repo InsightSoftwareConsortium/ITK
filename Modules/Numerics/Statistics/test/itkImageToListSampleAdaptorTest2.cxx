@@ -49,7 +49,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   while (!it.IsAtEnd())
   {
     PixelType value;
-    for (unsigned int i = 0; i < MeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
     {
       value[i] = i + it.GetIndex()[0];
     }
@@ -68,9 +68,9 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   ImageToListSampleAdaptorType::InstanceIdentifier id;
 
-  for (unsigned int i = 0; i < size[2]; i++)
-    for (unsigned int j = 0; j < size[1]; j++)
-      for (unsigned int k = 0; k < size[0]; k++)
+  for (unsigned int i = 0; i < size[2]; ++i)
+    for (unsigned int j = 0; j < size[1]; ++j)
+      for (unsigned int k = 0; k < size[0]; ++k)
       {
         index[0] = k;
         index[1] = j;
@@ -78,7 +78,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
         pixel = image->GetPixel(index);
         id = image->ComputeOffset(index);
-        for (unsigned int m = 0; m < adaptor->GetMeasurementVectorSize(); m++)
+        for (unsigned int m = 0; m < adaptor->GetMeasurementVectorSize(); ++m)
         {
           if (adaptor->GetMeasurementVector(id)[m] != pixel[m])
           {
@@ -141,7 +141,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   {
     VariableLengthPixelType value(vMeasurementVectorSize);
 
-    for (unsigned int i = 0; i < vMeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < vMeasurementVectorSize; ++i)
     {
       value[i] = i + ivt.GetIndex()[0];
     }
@@ -161,11 +161,11 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   VariableLengthImageToListSampleAdaptorType::InstanceIdentifier vId;
 
-  for (unsigned int i = 0; i < size[2]; i++)
+  for (unsigned int i = 0; i < size[2]; ++i)
   {
-    for (unsigned int j = 0; j < size[1]; j++)
+    for (unsigned int j = 0; j < size[1]; ++j)
     {
-      for (unsigned int k = 0; k < size[0]; k++)
+      for (unsigned int k = 0; k < size[0]; ++k)
       {
         vIndex[0] = k;
         vIndex[1] = j;
@@ -173,7 +173,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
         vPixel = vImage->GetPixel(vIndex);
         vId = vImage->ComputeOffset(vIndex);
-        for (unsigned int m = 0; m < vAdaptor->GetMeasurementVectorSize(); m++)
+        for (unsigned int m = 0; m < vAdaptor->GetMeasurementVectorSize(); ++m)
         {
           if (itk::Math::NotExactlyEquals(vAdaptor->GetMeasurementVector(vId)[m], vPixel[m]))
           {
@@ -217,7 +217,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   {
     RGBPixelType value;
 
-    for (unsigned int i = 0; i < rgbMeasurementVectorSize; i++)
+    for (unsigned int i = 0; i < rgbMeasurementVectorSize; ++i)
     {
       value[i] = i + rgbt.GetIndex()[0];
     }
@@ -237,11 +237,11 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   RGBImageToListSampleAdaptorType::InstanceIdentifier rgbId;
 
-  for (unsigned int i = 0; i < size[2]; i++)
+  for (unsigned int i = 0; i < size[2]; ++i)
   {
-    for (unsigned int j = 0; j < size[1]; j++)
+    for (unsigned int j = 0; j < size[1]; ++j)
     {
-      for (unsigned int k = 0; k < size[0]; k++)
+      for (unsigned int k = 0; k < size[0]; ++k)
       {
         rgbIndex[0] = k;
         rgbIndex[1] = j;
@@ -249,7 +249,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
         rgbPixel = rgbImage->GetPixel(rgbIndex);
         rgbId = rgbImage->ComputeOffset(rgbIndex);
-        for (unsigned int m = 0; m < rgbAdaptor->GetMeasurementVectorSize(); m++)
+        for (unsigned int m = 0; m < rgbAdaptor->GetMeasurementVectorSize(); ++m)
         {
           if (rgbAdaptor->GetMeasurementVector(rgbId)[m] != rgbPixel[m])
           {

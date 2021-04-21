@@ -33,7 +33,7 @@ samePoint(const TPoint & p1, const TPoint & p2, double epsilon = 1e-8)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < TPoint::PointDimension; i++)
+  for (unsigned int i = 0; i < TPoint::PointDimension; ++i)
   {
     if (!itk::Math::FloatAlmostEqual(p1[i], p2[i], 10, epsilon))
     {
@@ -54,7 +54,7 @@ sameVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < TVector::Dimension; i++)
+  for (unsigned int i = 0; i < TVector::Dimension; ++i)
   {
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
@@ -82,7 +82,7 @@ sameVariableVector(const TVector & v1, const TVector & v2, double epsilon = 1e-8
   {
     return false;
   }
-  for (unsigned int i = 0; i < D1; i++)
+  for (unsigned int i = 0; i < D1; ++i)
   {
     if (!itk::Math::FloatAlmostEqual(v1[i], v2[i], 10, epsilon))
     {
@@ -103,7 +103,7 @@ sameTensor(const TTensor & t1, const TTensor & t2, double epsilon = 1e-8)
 {
   bool pass = true;
 
-  for (unsigned int i = 0; i < TTensor::InternalDimension; i++)
+  for (unsigned int i = 0; i < TTensor::InternalDimension; ++i)
   {
     if (!itk::Math::FloatAlmostEqual(t1[i], t2[i], 10, epsilon))
     {
@@ -128,9 +128,9 @@ sameArray2D(const TArray2D & a1, const TArray2D_ARG1 & a2, double epsilon = 1e-8
   {
     return false;
   }
-  for (unsigned int i = 0; i < a1.cols(); i++)
+  for (unsigned int i = 0; i < a1.cols(); ++i)
   {
-    for (unsigned int j = 0; j < a1.rows(); j++)
+    for (unsigned int j = 0; j < a1.rows(); ++j)
     {
       if (!itk::Math::FloatAlmostEqual(a1(j, i), a2(j, i), 10, epsilon))
       {
@@ -363,7 +363,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   DisplacementTransformType::JacobianType identity(Dimensions, Dimensions), testIdentity;
 
   identity.Fill(0);
-  for (unsigned int i = 0; i < Dimensions; i++)
+  for (unsigned int i = 0; i < Dimensions; ++i)
   {
     identity[i][i] = 1.0;
   }
@@ -541,7 +541,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   ScalarType testFactor = 1.5;
 
-  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); i++)
+  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
   {
     params[i] = i;
     updateTruth[i] = params[i] + derivative[i] * testFactor;
@@ -550,7 +550,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   displacementTransform->UpdateTransformParameters(derivative, testFactor);
   params = displacementTransform->GetParameters();
 
-  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); i++)
+  for (unsigned int i = 0; i < displacementTransform->GetNumberOfParameters(); ++i)
   {
     if (itk::Math::NotExactlyEquals(params[i], updateTruth[i]))
     {

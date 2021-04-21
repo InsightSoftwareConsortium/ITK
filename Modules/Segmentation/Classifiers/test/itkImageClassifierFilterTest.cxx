@@ -75,10 +75,10 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   InputImageType::IndexType index;
   unsigned int              halfSize = size[1] / 2;
 
-  for (unsigned int y = 0; y < halfSize; y++)
+  for (unsigned int y = 0; y < halfSize; ++y)
   {
     index[1] = y;
-    for (unsigned int x = 0; x < size[0]; x++)
+    for (unsigned int x = 0; x < size[0]; ++x)
     {
       index[0] = x;
       InputPixelType value;
@@ -92,10 +92,10 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   double mean2 = 200.5;
   double standardDeviation2 = 20.0;
 
-  for (unsigned int y = halfSize; y < size[1]; y++)
+  for (unsigned int y = halfSize; y < size[1]; ++y)
   {
     index[1] = y;
-    for (unsigned int x = 0; x < size[0]; x++)
+    for (unsigned int x = 0; x < size[0]; ++x)
     {
       index[0] = x;
       InputPixelType value;
@@ -130,7 +130,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   using ComponentPointer = ComponentType::Pointer;
   std::vector<ComponentPointer> components;
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     components.push_back(ComponentType::New());
     (components[i])->SetSample(sample);
@@ -150,14 +150,14 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   estimator->SetInitialProportions(initialProportions);
 
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     estimator->AddComponent((ComponentType::Superclass *)(components[i]).GetPointer());
   }
 
   estimator->Update();
 
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "Cluster[" << i << "]" << std::endl;
     std::cout << "    Parameters:" << std::endl;
@@ -227,7 +227,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   const ImageClassifierFilterType::MembershipFunctionsWeightsArrayType weightsArray = weightArrayObjects->Get();
 
   std::cout << "Estimator membership function Weight/proporation output: " << std::endl;
-  for (unsigned int i = 0; i < weightsArray.Size(); i++)
+  for (unsigned int i = 0; i < weightsArray.Size(); ++i)
   {
     std::cout << "Membership function: \t" << i << "\t" << weightsArray[i] << std::endl;
   }

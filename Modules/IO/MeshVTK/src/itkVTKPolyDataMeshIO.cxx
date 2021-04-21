@@ -864,12 +864,12 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
       unsigned int numberOfVertices = 0;
       ExposeMetaData<unsigned int>(metaDic, "numberOfVertices", numberOfVertices);
 
-      for (unsigned int ii = 0; ii < numberOfVertices; ii++)
+      for (unsigned int ii = 0; ii < numberOfVertices; ++ii)
       {
         inputFile >> numPoints;
         data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::VERTEX_CELL);
         data[index++] = numPoints;
-        for (unsigned int jj = 0; jj < numPoints; jj++)
+        for (unsigned int jj = 0; jj < numPoints; ++jj)
         {
           inputFile >> data[index++];
         }
@@ -880,12 +880,12 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
       unsigned int numberOfLines = 0;
       ExposeMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
 
-      for (unsigned int ii = 0; ii < numberOfLines; ii++)
+      for (unsigned int ii = 0; ii < numberOfLines; ++ii)
       {
         inputFile >> numPoints;
         data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::LINE_CELL);
         data[index++] = numPoints;
-        for (unsigned int jj = 0; jj < numPoints; jj++)
+        for (unsigned int jj = 0; jj < numPoints; ++jj)
         {
           inputFile >> data[index++];
         }
@@ -896,13 +896,13 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
       unsigned int numberOfPolygons = 0;
       ExposeMetaData<unsigned int>(metaDic, "numberOfPolygons", numberOfPolygons);
 
-      for (unsigned int ii = 0; ii < numberOfPolygons; ii++)
+      for (unsigned int ii = 0; ii < numberOfPolygons; ++ii)
       {
         inputFile >> numPoints;
 
         data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYGON_CELL);
         data[index++] = numPoints;
-        for (unsigned int jj = 0; jj < numPoints; jj++)
+        for (unsigned int jj = 0; jj < numPoints; ++jj)
         {
           inputFile >> data[index++];
         }

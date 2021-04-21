@@ -99,10 +99,10 @@ DifferenceOfGaussiansGradientImageFilter<TInputImage, TDataType>::GenerateData()
     {
       // We're in a safe position, so calculate the gradient for
       // each dimension
-      for (unsigned int i = 0; i < NDimensions; i++)
+      for (unsigned int i = 0; i < NDimensions; ++i)
       {
         // Build the indices for each pixel
-        for (unsigned int j = 0; j < NDimensions; j++)
+        for (unsigned int j = 0; j < NDimensions; ++j)
         {
           if (j == i)
           {

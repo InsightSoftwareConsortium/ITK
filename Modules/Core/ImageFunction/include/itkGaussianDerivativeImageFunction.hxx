@@ -52,7 +52,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetSigma(const double * s
 {
   unsigned int i;
 
-  for (i = 0; i < Self::ImageDimension; i++)
+  for (i = 0; i < Self::ImageDimension; ++i)
   {
     if (sigma[i] != m_Sigma[i])
     {
@@ -61,7 +61,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetSigma(const double * s
   }
   if (i < Self::ImageDimension)
   {
-    for (i = 0; i < Self::ImageDimension; i++)
+    for (i = 0; i < Self::ImageDimension; ++i)
     {
       m_Sigma[i] = sigma[i];
     }
@@ -75,7 +75,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetSigma(const double sig
 {
   unsigned int i;
 
-  for (i = 0; i < Self::ImageDimension; i++)
+  for (i = 0; i < Self::ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(sigma, m_Sigma[i]))
     {
@@ -84,7 +84,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetSigma(const double sig
   }
   if (i < Self::ImageDimension)
   {
-    for (i = 0; i < Self::ImageDimension; i++)
+    for (i = 0; i < Self::ImageDimension; ++i)
     {
       m_Sigma[i] = sigma;
     }
@@ -98,7 +98,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetExtent(const double * 
 {
   unsigned int i;
 
-  for (i = 0; i < Self::ImageDimension; i++)
+  for (i = 0; i < Self::ImageDimension; ++i)
   {
     if (extent[i] != m_Extent[i])
     {
@@ -107,7 +107,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetExtent(const double * 
   }
   if (i < Self::ImageDimension)
   {
-    for (i = 0; i < Self::ImageDimension; i++)
+    for (i = 0; i < Self::ImageDimension; ++i)
     {
       m_Extent[i] = extent[i];
     }
@@ -121,7 +121,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetExtent(const double ex
 {
   unsigned int i;
 
-  for (i = 0; i < Self::ImageDimension; i++)
+  for (i = 0; i < Self::ImageDimension; ++i)
   {
     if (Math::NotExactlyEquals(extent, m_Extent[i]))
     {
@@ -130,7 +130,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::SetExtent(const double ex
   }
   if (i < Self::ImageDimension)
   {
-    for (i = 0; i < Self::ImageDimension; i++)
+    for (i = 0; i < Self::ImageDimension; ++i)
     {
       m_Extent[i] = extent;
     }

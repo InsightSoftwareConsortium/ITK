@@ -191,7 +191,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   CovarianceSampleFilterType::MatrixType covarianceCalculatedUsingCovarianceSampleFilter =
     covarianceFilter->GetCovarianceMatrix();
 
-  for (unsigned int k = 0; k < MeasurementVectorSize; k++)
+  for (unsigned int k = 0; k < MeasurementVectorSize; ++k)
   {
     const double variance = covarianceCalculatedUsingCovarianceSampleFilter(k, k);
     const double standardDeviationValue = std::sqrt(variance);

@@ -86,7 +86,7 @@ itkMRFImageFilterTest(int, char *[])
   // Slice 1
   //--------------------------------------------------------------------------
   // Row 1-3
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3
     dblVec[0] = 21;
@@ -102,7 +102,7 @@ itkMRFImageFilterTest(int, char *[])
   }
 
   // Row 4-6
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3
     dblVec[0] = 15;
@@ -121,7 +121,7 @@ itkMRFImageFilterTest(int, char *[])
   // Slice 2
   //--------------------------------------------------------------------------
   // Row 1-3
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3 Row k
     dblVec[0] = 14;
@@ -137,7 +137,7 @@ itkMRFImageFilterTest(int, char *[])
   }
 
   // Row 4-6
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3 Row k
     dblVec[0] = 15;
@@ -156,7 +156,7 @@ itkMRFImageFilterTest(int, char *[])
   // Slice 3
   //--------------------------------------------------------------------------
   // Row 1-3
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3 Row k
     dblVec[0] = 19;
@@ -172,7 +172,7 @@ itkMRFImageFilterTest(int, char *[])
   }
 
   // Row 4-6
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3 Row k
     dblVec[0] = 12;
@@ -220,7 +220,7 @@ itkMRFImageFilterTest(int, char *[])
   //--------------------------------------------------------------------------
   // Row 1-3
 
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3 Row k
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
@@ -228,7 +228,7 @@ itkMRFImageFilterTest(int, char *[])
   }
 
   // Row 4-6
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
       classoutIt.Set(1);
@@ -237,7 +237,7 @@ itkMRFImageFilterTest(int, char *[])
   // Slice 2
   //--------------------------------------------------------------------------
   // Row 1-6
-  for (k = 0; k < (halfHeight * 2); k++)
+  for (k = 0; k < (halfHeight * 2); ++k)
   {
     // Vector no. 1-3 Row k
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
@@ -247,7 +247,7 @@ itkMRFImageFilterTest(int, char *[])
   //--------------------------------------------------------------------------
   // Slice 3
   //--------------------------------------------------------------------------
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     // Vector no. 1-3 Row k
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
@@ -255,7 +255,7 @@ itkMRFImageFilterTest(int, char *[])
   }
 
   // Row 4-6
-  for (k = 0; k < halfHeight; k++)
+  for (k = 0; k < halfHeight; ++k)
   {
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
       classoutIt.Set(1);
@@ -321,7 +321,7 @@ itkMRFImageFilterTest(int, char *[])
   myClassifier->SetDecisionRule((itk::Statistics::DecisionRule *)myDecisionRule);
 
   // Add the membership functions
-  for (unsigned int ii = 0; ii < NUM_CLASSES; ii++)
+  for (unsigned int ii = 0; ii < NUM_CLASSES; ++ii)
   {
     myClassifier->AddMembershipFunction(membershipFunctions[ii]);
   }

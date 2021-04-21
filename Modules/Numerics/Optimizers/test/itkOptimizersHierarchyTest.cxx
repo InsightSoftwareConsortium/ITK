@@ -61,7 +61,7 @@ itkOptimizersHierarchyTest(int, char *[])
 
   const double tolerance = 1e-10;
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     if (itk::Math::abs(parameterScaleGot[i] - parameterScale[i]) > tolerance)
     {
@@ -75,7 +75,7 @@ itkOptimizersHierarchyTest(int, char *[])
 
   OptimizerType::ParametersType initialPositionGot = genericOptimizer->GetInitialPosition();
 
-  for (unsigned int i = 0; i < spaceDimension; i++)
+  for (unsigned int i = 0; i < spaceDimension; ++i)
   {
     if (itk::Math::abs(initialPositionGot[i] - initialPosition[i]) > tolerance)
     {

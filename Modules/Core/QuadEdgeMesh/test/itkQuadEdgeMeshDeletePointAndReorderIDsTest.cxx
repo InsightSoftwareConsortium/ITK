@@ -49,7 +49,7 @@ itkQuadEdgeMeshDeletePointAndReorderIDsTest(int, char *[])
   pts[4][1] = 0.0;
   pts[4][2] = 1.0;
 
-  for (unsigned int e = 0; e < 5; e++)
+  for (unsigned int e = 0; e < 5; ++e)
   {
     mesh->SetPoint(e, pts[e]);
     mesh->SetPointData(e, e);
@@ -60,7 +60,7 @@ itkQuadEdgeMeshDeletePointAndReorderIDsTest(int, char *[])
 
   CellType::CellAutoPointer cellpointer;
   QEPolygonCellType *       poly;
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; ++i)
   {
     poly = new QEPolygonCellType(3);
     cellpointer.TakeOwnership(poly);

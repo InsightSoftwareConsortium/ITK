@@ -185,7 +185,7 @@ MultiStartOptimizerv4RunTest(itk::MultiStartOptimizerv4::Pointer & itkOptimizer)
   ParametersType trueParameters(2);
   trueParameters[0] = 2.0;
   trueParameters[1] = -2.0;
-  for (itk::SizeValueType j = 0; j < 2; j++)
+  for (itk::SizeValueType j = 0; j < 2; ++j)
   {
     if (fabs(bestPosition[j] - trueParameters[j]) > 0.01)
     {
@@ -224,9 +224,9 @@ itkMultiStartOptimizerv4Test(int, char *[])
    */
   // We start not so far from  | 2 -2 |
   OptimizerType::ParametersListType parametersList = itkOptimizer->GetParametersList();
-  for (int i = -3; i < 3; i++)
+  for (int i = -3; i < 3; ++i)
   {
-    for (int j = -3; j < 3; j++)
+    for (int j = -3; j < 3; ++j)
     {
       ParametersType testPosition(spaceDimension);
       testPosition[0] = (double)i;
@@ -253,7 +253,7 @@ itkMultiStartOptimizerv4Test(int, char *[])
   parametersList.clear();
   for (int i = -99; i < 103; i += 100)
   {
-    for (int j = -3; j < -2; j++)
+    for (int j = -3; j < -2; ++j)
     {
       ParametersType testPosition(spaceDimension);
       testPosition[0] = (double)i;
@@ -274,7 +274,7 @@ itkMultiStartOptimizerv4Test(int, char *[])
    */
   std::cout << "Test optimization 3: with local optimizer passed by user" << std::endl;
   parametersList.clear();
-  for (int i = 1; i < 2; i++)
+  for (int i = 1; i < 2; ++i)
   {
     for (int j = -103; j < 99; j += 100)
     {

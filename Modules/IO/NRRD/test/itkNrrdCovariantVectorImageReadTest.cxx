@@ -61,13 +61,13 @@ itkNrrdCovariantVectorImageReadTest(int ac, char * av[])
   // coincide with sample coordinates
   double       err = 0;
   unsigned int idx = 0;
-  for (unsigned int zi = 0; zi < 5; zi++)
+  for (unsigned int zi = 0; zi < 5; ++zi)
   {
     coord[2] = zi;
-    for (unsigned int yi = 0; yi < 5; yi++)
+    for (unsigned int yi = 0; yi < 5; ++yi)
     {
       coord[1] = yi;
-      for (unsigned int xi = 0; xi < 5; xi++)
+      for (unsigned int xi = 0; xi < 5; ++xi)
       {
         coord[0] = xi;
         sample = image->GetPixel(coord);

@@ -170,13 +170,13 @@ CenteredEuler3DTransform<TParametersValueType>::ComputeJacobianWithRespectToPara
 
   // compute derivatives for the center of rotation part
   unsigned int blockOffset = 3;
-  for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+  for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;
   }
   blockOffset += SpaceDimension;
   // compute derivatives for the translation part
-  for (unsigned int dim = 0; dim < SpaceDimension; dim++)
+  for (unsigned int dim = 0; dim < SpaceDimension; ++dim)
   {
     jacobian[dim][blockOffset + dim] = 1.0;
   }

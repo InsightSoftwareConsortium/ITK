@@ -71,7 +71,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::GetSumOfSquaredPositionChanges(InternalPara
   double       sum = 0.0;
   unsigned int i;
 
-  for (i = 0; i < (unsigned int)previous.size(); i++)
+  for (i = 0; i < (unsigned int)previous.size(); ++i)
   {
     temp = m_DistanceMetric->Evaluate(previous[i], current[i]);
     sum += temp;
@@ -110,7 +110,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::IsFarther(ParameterType &         pointA,
 {
   // calculates the vertex of the Cell bounded by the lowerBound
   // and the upperBound
-  for (unsigned int i = 0; i < m_MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < m_MeasurementVectorSize; ++i)
   {
     if ((pointA[i] - pointB[i]) < 0.0)
     {
@@ -153,12 +153,12 @@ KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
       return;
     }
 
-    for (i = 0; i < (unsigned int)node->Size(); i++)
+    for (i = 0; i < (unsigned int)node->Size(); ++i)
     {
       tempId = node->GetInstanceIdentifier(i);
       this->GetPoint(individualPoint, m_KdTree->GetMeasurementVector(tempId));
       closest = this->GetClosestCandidate(individualPoint, validIndexes);
-      for (j = 0; j < m_MeasurementVectorSize; j++)
+      for (j = 0; j < m_MeasurementVectorSize; ++j)
       {
         m_CandidateVector[closest].WeightedCentroid[j] += individualPoint[j];
       }
@@ -198,7 +198,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::Filter(KdTreeNodeType *        node,
 
     if (validIndexes.size() == 1)
     {
-      for (j = 0; j < m_MeasurementVectorSize; j++)
+      for (j = 0; j < m_MeasurementVectorSize; ++j)
       {
         m_CandidateVector[closest].WeightedCentroid[j] += weightedCentroid[j];
       }
@@ -243,7 +243,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::FillClusterLabels(KdTreeNodeType * node, in
       return;
     }
 
-    for (i = 0; i < (unsigned int)node->Size(); i++)
+    for (i = 0; i < (unsigned int)node->Size(); ++i)
     {
       m_ClusterLabels[node->GetInstanceIdentifier(i)] = closestIndex;
     }
@@ -262,9 +262,9 @@ KdTreeBasedKmeansEstimator<TKdTree>::CopyParameters(ParametersType & source, Int
   unsigned int i, j;
   int          index = 0;
 
-  for (i = 0; i < (unsigned int)(source.size() / m_MeasurementVectorSize); i++)
+  for (i = 0; i < (unsigned int)(source.size() / m_MeasurementVectorSize); ++i)
   {
-    for (j = 0; j < m_MeasurementVectorSize; j++)
+    for (j = 0; j < m_MeasurementVectorSize; ++j)
     {
       target[i][j] = source[index];
       ++index;
@@ -279,9 +279,9 @@ KdTreeBasedKmeansEstimator<TKdTree>::CopyParameters(InternalParametersType & sou
   unsigned int i, j;
   int          index = 0;
 
-  for (i = 0; i < (unsigned int)source.size(); i++)
+  for (i = 0; i < (unsigned int)source.size(); ++i)
   {
-    for (j = 0; j < m_MeasurementVectorSize; j++)
+    for (j = 0; j < m_MeasurementVectorSize; ++j)
     {
       target[index] = source[i][j];
       ++index;
@@ -295,9 +295,9 @@ KdTreeBasedKmeansEstimator<TKdTree>::CopyParameters(InternalParametersType & sou
 {
   unsigned int i, j;
 
-  for (i = 0; i < (unsigned int)source.size(); i++)
+  for (i = 0; i < (unsigned int)source.size(); ++i)
   {
-    for (j = 0; j < m_MeasurementVectorSize; j++)
+    for (j = 0; j < m_MeasurementVectorSize; ++j)
     {
       target[i][j] = source[i][j];
     }
@@ -323,7 +323,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::StartOptimization()
   InternalParametersType currentPosition;
   // currentPosition.resize(m_Parameters.size() / m_MeasurementVectorSize);
 
-  for (i = 0; i < m_Parameters.size() / m_MeasurementVectorSize; i++)
+  for (i = 0; i < m_Parameters.size() / m_MeasurementVectorSize; ++i)
   {
     ParameterType m;
     ParameterType m1;
@@ -337,7 +337,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::StartOptimization()
   m_CurrentIteration = 0;
   std::vector<int> validIndexes;
 
-  for (i = 0; i < (unsigned int)(m_Parameters.size() / m_MeasurementVectorSize); i++)
+  for (i = 0; i < (unsigned int)(m_Parameters.size() / m_MeasurementVectorSize); ++i)
   {
     validIndexes.push_back(i);
   }
@@ -371,7 +371,7 @@ KdTreeBasedKmeansEstimator<TKdTree>::StartOptimization()
     m_GenerateClusterLabels = true;
     m_ClusterLabels.clear();
     m_ClusterLabels.rehash(m_KdTree->GetSample()->Size());
-    for (i = 0; i < (unsigned int)(m_Parameters.size() / m_MeasurementVectorSize); i++)
+    for (i = 0; i < (unsigned int)(m_Parameters.size() / m_MeasurementVectorSize); ++i)
     {
       validIndexes.push_back(i);
     }
@@ -409,13 +409,13 @@ KdTreeBasedKmeansEstimator<TKdTree>::GetOutput() const
   unsigned int                   numberOfClasses = m_Parameters.size() / m_MeasurementVectorSize;
   MembershipFunctionVectorType & membershipFunctionsVector = m_MembershipFunctionsObject->Get();
 
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     DistanceToCentroidMembershipFunctionPointer membershipFunction = DistanceToCentroidMembershipFunctionType::New();
     membershipFunction->SetMeasurementVectorSize(m_MeasurementVectorSize);
     typename DistanceToCentroidMembershipFunctionType::CentroidType centroid;
     centroid.SetSize(m_MeasurementVectorSize);
-    for (unsigned int j = 0; j < m_MeasurementVectorSize; j++)
+    for (unsigned int j = 0; j < m_MeasurementVectorSize; ++j)
     {
       unsigned int parameterIndex = i * m_MeasurementVectorSize + j;
       centroid[j] = m_Parameters[parameterIndex];
@@ -431,7 +431,7 @@ template <typename TKdTree>
 void
 KdTreeBasedKmeansEstimator<TKdTree>::GetPoint(ParameterType & point, MeasurementVectorType measurements)
 {
-  for (unsigned int i = 0; i < m_MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < m_MeasurementVectorSize; ++i)
   {
     point[i] = measurements[i];
   }
@@ -442,7 +442,7 @@ void
 KdTreeBasedKmeansEstimator<TKdTree>::PrintPoint(ParameterType & point)
 {
   std::cout << "[ ";
-  for (unsigned int i = 0; i < m_MeasurementVectorSize; i++)
+  for (unsigned int i = 0; i < m_MeasurementVectorSize; ++i)
   {
     std::cout << point[i] << " ";
   }

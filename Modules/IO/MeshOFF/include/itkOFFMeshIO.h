@@ -121,11 +121,11 @@ protected:
     unsigned int  numberOfPoints = 0;
     std::string   line;
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
       inputFile >> numberOfPoints;
       buffer[index++] = static_cast<T>(numberOfPoints);
-      for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+      for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
       {
         inputFile >> buffer[index++];
       }
@@ -144,12 +144,12 @@ protected:
     {
       SizeValueType indInput = 0;
       SizeValueType indOutput = 0;
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         indInput++; // ignore the cell type
         auto numberOfPoints = static_cast<unsigned int>(input[indInput++]);
         output[indOutput++] = static_cast<TOutput>(numberOfPoints);
-        for (unsigned int jj = 0; jj < numberOfPoints; jj++)
+        for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
         {
           output[indOutput++] = static_cast<TOutput>(input[indInput++]);
         }
@@ -163,13 +163,13 @@ protected:
   {
     SizeValueType index = 0;
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
       index++;
       auto numberOfCellPoints = static_cast<unsigned int>(buffer[index++]);
       outputFile << numberOfCellPoints << "  ";
 
-      for (unsigned int jj = 0; jj < numberOfCellPoints; jj++)
+      for (unsigned int jj = 0; jj < numberOfCellPoints; ++jj)
       {
         outputFile << buffer[index++] << "  ";
       }

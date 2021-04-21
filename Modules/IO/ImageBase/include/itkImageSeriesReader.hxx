@@ -175,7 +175,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
 
     // Initialize the position to the origin returned by the reader
     unsigned int j;
-    for (j = 0; j < TOutputImage::ImageDimension; j++)
+    for (j = 0; j < TOutputImage::ImageDimension; ++j)
     {
       position1[j] = static_cast<SpacingScalarType>(origin[j]);
     }
@@ -188,7 +188,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     const TOutputImage * last = lastReader->GetOutput();
 
     // Initialize the position to the origin returned by the reader
-    for (j = 0; j < TOutputImage::ImageDimension; j++)
+    for (j = 0; j < TOutputImage::ImageDimension; ++j)
     {
       positionN[j] = static_cast<SpacingScalarType>(last->GetOrigin()[j]);
     }

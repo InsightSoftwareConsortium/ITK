@@ -77,7 +77,7 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
 
   // two circles with a small offset
   PointType offset;
-  for (unsigned int d = 0; d < PointSetType::PointDimension; d++)
+  for (unsigned int d = 0; d < PointSetType::PointDimension; ++d)
   {
     offset[d] = 2.0;
   }
@@ -161,7 +161,7 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
     metric->GetMovingTransform()->GetInverseTransform();
   typename AffineTransformType::InverseTransformBasePointer fixedInverse =
     metric->GetFixedTransform()->GetInverseTransform();
-  for (unsigned int n = 0; n < metric->GetNumberOfComponents(); n++)
+  for (unsigned int n = 0; n < metric->GetNumberOfComponents(); ++n)
   {
     // compare the points in virtual domain
     PointType transformedMovingPoint = movingInverse->TransformPoint(movingPoints->GetPoint(n));

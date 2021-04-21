@@ -122,7 +122,7 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   // Set up operators
   DerivativeOperator<OperatorValueType, InputImageDimension> op[InputImageDimension];
 
-  for (unsigned int i = 0; i < InputImageDimension; i++)
+  for (unsigned int i = 0; i < InputImageDimension; ++i)
   {
     // The operator has default values for its direction (0) and its order (1).
     op[i].CreateDirectional();

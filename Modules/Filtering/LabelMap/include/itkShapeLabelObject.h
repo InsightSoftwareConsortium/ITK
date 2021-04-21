@@ -634,10 +634,10 @@ public:
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < VImageDimension; i++)
+    for (unsigned int i = 0; i < VImageDimension; ++i)
     {
       offset[i] = m_Centroid[i];
-      for (unsigned int j = 0; j < VImageDimension; j++)
+      for (unsigned int j = 0; j < VImageDimension; ++j)
       {
         matrix[j][i] = m_PrincipalAxes[i][j]; // Note the transposition
       }
@@ -660,10 +660,10 @@ public:
   {
     typename AffineTransformType::MatrixType matrix;
     typename AffineTransformType::OffsetType offset;
-    for (unsigned int i = 0; i < VImageDimension; i++)
+    for (unsigned int i = 0; i < VImageDimension; ++i)
     {
       offset[i] = m_Centroid[i];
-      for (unsigned int j = 0; j < VImageDimension; j++)
+      for (unsigned int j = 0; j < VImageDimension; ++j)
       {
         matrix[j][i] = m_PrincipalAxes[i][j]; // Note the transposition
       }

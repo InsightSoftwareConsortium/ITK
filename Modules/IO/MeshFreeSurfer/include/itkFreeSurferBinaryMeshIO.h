@@ -121,9 +121,9 @@ protected:
   {
     auto * data = new float[this->m_NumberOfPoints * this->m_PointDimension];
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
-      for (unsigned int jj = 0; jj < this->m_PointDimension; jj++)
+      for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
         data[ii * this->m_PointDimension + jj] = static_cast<float>(buffer[ii * this->m_PointDimension + jj]);
       }
@@ -157,9 +157,9 @@ protected:
   {
     if (input && output)
     {
-      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ii++)
+      for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
-        for (unsigned int jj = 0; jj < 3; jj++)
+        for (unsigned int jj = 0; jj < 3; ++jj)
         {
           /** point identifiers start from the third elements, first element is
             cellType, the second is numberOfPoints. */
@@ -176,7 +176,7 @@ protected:
   {
     auto * data = new float[this->m_NumberOfPointPixels];
 
-    for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ii++)
+    for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
     {
       data[ii] = static_cast<float>(buffer[ii]);
     }

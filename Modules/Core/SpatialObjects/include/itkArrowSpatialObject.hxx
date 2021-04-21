@@ -75,7 +75,7 @@ ArrowSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) c
   PointType pnt = this->GetPositionInObjectSpace();
 
   bool isInside = true;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     if (Math::NotExactlyEquals(point[i], pnt[i]))
     {
@@ -108,7 +108,7 @@ ArrowSpatialObject<TDimension>::GetDirectionInWorldSpace() const
 {
   PointType pnt = this->GetPositionInObjectSpace();
   PointType pnt2;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
   }
@@ -128,7 +128,7 @@ ArrowSpatialObject<TDimension>::GetLengthInWorldSpace() const
 {
   PointType pnt = this->GetPositionInObjectSpace();
   PointType pnt2;
-  for (unsigned int i = 0; i < TDimension; i++)
+  for (unsigned int i = 0; i < TDimension; ++i)
   {
     pnt2[i] = pnt[i] + m_LengthInObjectSpace * m_DirectionInObjectSpace[i];
   }

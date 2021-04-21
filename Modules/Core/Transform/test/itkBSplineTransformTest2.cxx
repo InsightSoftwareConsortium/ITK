@@ -137,7 +137,7 @@ public:
 
     using PhysicalDimensionsType = typename TransformType::PhysicalDimensionsType;
     PhysicalDimensionsType fixedDimensions;
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       fixedDimensions[d] = fixedSpacing[d] * (fixedSize[d] - 1.0);
     }
@@ -156,7 +156,7 @@ public:
     infile.open(argv[1]);
 
     const unsigned int numberOfNodes = numberOfParameters / SpaceDimension;
-    for (unsigned int n = 0; n < numberOfNodes; n++)
+    for (unsigned int n = 0; n < numberOfNodes; ++n)
     {
       infile >> parameters[n];
       infile >> parameters[n + numberOfNodes];

@@ -110,9 +110,9 @@ MahalanobisDistanceMetric<TVector>::CalculateInverseCovariance()
   // pack the cov matrix from in_model to tmp_cov_mat
   double cov_sum = 0;
 
-  for (unsigned int band_x = 0; band_x < m_Covariance.cols(); band_x++)
+  for (unsigned int band_x = 0; band_x < m_Covariance.cols(); ++band_x)
   {
-    for (unsigned int band_y = 0; band_y < m_Covariance.rows(); band_y++)
+    for (unsigned int band_y = 0; band_y < m_Covariance.rows(); ++band_y)
     {
       cov_sum += itk::Math::abs(m_Covariance[band_x][band_y]);
     }
@@ -152,7 +152,7 @@ MahalanobisDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & measu
   tempMat.set_size(1, this->GetMeasurementVectorSize());
 
   // Compute |y - mean |
-  for (unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++)
+  for (unsigned int i = 0; i < this->GetMeasurementVectorSize(); ++i)
   {
     tempVec[0][i] = measurement[i] - this->GetOrigin()[i];
   }
@@ -185,7 +185,7 @@ MahalanobisDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, c
   tempMat.set_size(1, this->GetMeasurementVectorSize());
 
   // Compute |x1 - x2 |
-  for (unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++)
+  for (unsigned int i = 0; i < this->GetMeasurementVectorSize(); ++i)
   {
     tempVec[0][i] = x1[i] - x2[i];
   }

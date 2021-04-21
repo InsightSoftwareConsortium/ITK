@@ -111,7 +111,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
 
     // Read the input vector
     inputImagePixel = inIt.Get();
-    for (classIndex = 0; classIndex < numberOfClasses; classIndex++)
+    for (classIndex = 0; classIndex < numberOfClasses; ++classIndex)
     {
       discriminantScores[classIndex] = (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
     }
@@ -158,7 +158,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::GetPixelMembershipValue(cons
   unsigned int        numberOfClasses = this->GetNumberOfClasses();
   std::vector<double> pixelMembershipValue(numberOfClasses);
 
-  for (unsigned int classIndex = 0; classIndex < numberOfClasses; classIndex++)
+  for (unsigned int classIndex = 0; classIndex < numberOfClasses; ++classIndex)
   {
     pixelMembershipValue[classIndex] = (this->GetMembershipFunction(classIndex))->Evaluate(inputImagePixel);
   }

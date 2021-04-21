@@ -66,7 +66,7 @@ public:
     using OutputValueType = typename TOutput::ValueType;
 
     TOutput value;
-    for (unsigned int k = 0; k < TOutput::Dimension; k++)
+    for (unsigned int k = 0; k < TOutput::Dimension; ++k)
     {
       value[k] = static_cast<OutputValueType>(A[k]);
     }

@@ -41,7 +41,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetTransformC
   // return Unknown.
   TransformCategoryEnum result = Self::TransformCategoryEnum::UnknownTransformCategory;
 
-  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++)
+  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
     const TransformCategoryEnum type = this->GetNthTransformConstPointer(tind)->GetTransformCategory();
     if (tind == 0)
@@ -67,7 +67,7 @@ bool
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::IsLinear() const
 {
   // If all sub-transforms are linear, return true.
-  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++)
+  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
     if (!this->GetNthTransformConstPointer(tind)->IsLinear())
     {
@@ -220,7 +220,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfPa
   NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
 
 
-  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++)
+  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
     /* Use raw pointer for efficiency */
     const TransformType * transform = this->GetNthTransformConstPointer(tind);
@@ -246,7 +246,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfLo
    * the value. */
   NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
 
-  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++)
+  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
     const TransformType * transform = this->GetNthTransformConstPointer(tind);
     result += transform->GetNumberOfLocalParameters();
@@ -262,7 +262,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfFi
 {
   NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
 
-  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++)
+  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
     const TransformType * transform = this->GetNthTransformConstPointer(tind);
     result += transform->GetFixedParameters().Size();
@@ -298,7 +298,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::UpdateTransfo
 
   NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
 
-  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); tind++)
+  for (SizeValueType tind = 0; tind < this->GetNumberOfTransforms(); ++tind)
   {
     // HACK:  The following line looks wrong.  We should not need to const_cast
     TransformType * subtransform = this->GetNthTransformModifiablePointer(tind);

@@ -56,13 +56,13 @@ itkMinimumMaximumImageFilterTest(int, char *[])
 
   // Initialize the image contents with the minimum value
   itk::Index<3> index;
-  for (int slice = 0; slice < 20; slice++)
+  for (int slice = 0; slice < 20; ++slice)
   {
     index[2] = slice;
-    for (int row = 0; row < 20; row++)
+    for (int row = 0; row < 20; ++row)
     {
       index[1] = row;
-      for (int col = 0; col < 20; col++)
+      for (int col = 0; col < 20; ++col)
       {
         index[0] = col;
         image->SetPixel(index, minimum);

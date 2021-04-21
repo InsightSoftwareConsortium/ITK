@@ -156,7 +156,7 @@ public:
     VNLVectorType displacement = svd.solve(y);
 
     PointType oP;
-    for (unsigned int dim = 0; dim < PointDimension; dim++)
+    for (unsigned int dim = 0; dim < PointDimension; ++dim)
     {
       oP[dim] = iP[dim] + displacement[dim];
     }

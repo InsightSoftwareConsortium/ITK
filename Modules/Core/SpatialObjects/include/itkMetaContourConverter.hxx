@@ -58,7 +58,7 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
   auto itCP = contourMO->GetControlPoints().begin();
 
-  for (unsigned int identifier = 0; identifier < contourMO->GetControlPoints().size(); identifier++)
+  for (unsigned int identifier = 0; identifier < contourMO->GetControlPoints().size(); ++identifier)
   {
     ControlPointType pnt;
 
@@ -69,17 +69,17 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     using CovariantVectorType = typename ControlPointType::CovariantVectorType;
     CovariantVectorType normal;
 
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       point[i] = (*itCP)->m_X[i] * contourMO->ElementSpacing(i);
     }
 
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       pickedPoint[i] = (*itCP)->m_XPicked[i] * contourMO->ElementSpacing(i);
     }
 
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       normal[i] = (*itCP)->m_V[i];
     }
@@ -102,14 +102,14 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
   using InterpolatedPointType = typename ContourSpatialObjectType::ContourPointType;
   auto itI = contourMO->GetInterpolatedPoints().begin();
 
-  for (unsigned int identifier = 0; identifier < contourMO->GetInterpolatedPoints().size(); identifier++)
+  for (unsigned int identifier = 0; identifier < contourMO->GetInterpolatedPoints().size(); ++identifier)
   {
     InterpolatedPointType pnt;
 
     using PointType = typename ControlPointType::PointType;
     PointType point;
 
-    for (unsigned int i = 0; i < NDimensions; i++)
+    for (unsigned int i = 0; i < NDimensions; ++i)
     {
       point[i] = (*itI)->m_X[i];
     }
@@ -144,23 +144,23 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
   // fill in the control points information
   typename ContourSpatialObjectType::ContourPointListType::const_iterator itCP;
 
-  for (itCP = contourSO->GetControlPoints().begin(); itCP != contourSO->GetControlPoints().end(); itCP++)
+  for (itCP = contourSO->GetControlPoints().begin(); itCP != contourSO->GetControlPoints().end(); ++itCP)
   {
     auto * pnt = new ContourControlPnt(NDimensions);
 
     pnt->m_Id = (*itCP).GetId();
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_X[d] = (*itCP).GetPositionInObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_XPicked[d] = (*itCP).GetPickedPointInObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_V[d] = (*itCP).GetNormalInObjectSpace()[d];
     }
@@ -184,12 +184,12 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
 
   // fill in the interpolated points information
   typename ContourSpatialObjectType::ContourPointListType::const_iterator itI;
-  for (itI = contourSO->GetPoints().begin(); itI != contourSO->GetPoints().end(); itI++)
+  for (itI = contourSO->GetPoints().begin(); itI != contourSO->GetPoints().end(); ++itI)
   {
     auto * pnt = new ContourInterpolatedPnt(NDimensions);
 
     pnt->m_Id = (*itI).GetId();
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_X[d] = (*itI).GetPositionInObjectSpace()[d];
     }
@@ -228,7 +228,7 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
   }
 
   float color[4];
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     color[i] = contourSO->GetProperty().GetColor()[i];
   }

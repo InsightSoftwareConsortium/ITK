@@ -67,7 +67,7 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
   constexpr OutputPixelType outsideValue = 0;
   constexpr OutputPixelType insideValue = 255;
 
-  for (int nThreads = 1; nThreads <= 8; nThreads++)
+  for (int nThreads = 1; nThreads <= 8; ++nThreads)
   {
     typename ThresholdFilterType::Pointer CPUFilter = ThresholdFilterType::New();
     itk::TimeProbe                        cputimer;

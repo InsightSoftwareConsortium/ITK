@@ -263,7 +263,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
 
   // Histogram of number of pixels in each Z plane for the entire 3D volume
   m_GlobalZHistogram = new int[m_ZSize];
-  for (i = 0; i < m_ZSize; i++)
+  for (i = 0; i < m_ZSize; ++i)
   {
     m_GlobalZHistogram[i] = 0;
   }
@@ -297,21 +297,21 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   // Cumulative frequency of number of pixels in each Z plane for the entire 3D
   // volume
   m_ZCumulativeFrequency = new int[m_ZSize];
-  for (i = 0; i < m_ZSize; i++)
+  for (i = 0; i < m_ZSize; ++i)
   {
     m_ZCumulativeFrequency[i] = 0;
   }
 
   // The mapping from a z-value to the thread in whose region the z-value lies
   m_MapZToThreadNumber = new unsigned int[m_ZSize];
-  for (i = 0; i < m_ZSize; i++)
+  for (i = 0; i < m_ZSize; ++i)
   {
     m_MapZToThreadNumber[i] = 0;
   }
 
   // The boundaries defining thread regions
   m_Boundary = new unsigned int[m_NumOfThreads];
-  for (i = 0; i < m_NumOfThreads; i++)
+  for (i = 0; i < m_NumOfThreads; ++i)
   {
     m_Boundary[i] = 0;
   }
@@ -361,7 +361,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ConstructActi
       center_index = outputIt.GetIndex();
       statusIt.SetLocation(center_index);
 
-      for (unsigned int j = 0; j < ImageDimension; j++)
+      for (unsigned int j = 0; j < ImageDimension; ++j)
       {
         if ((center_index[j]) <= (startIndex[j]) ||
             (center_index[j]) >= startIndex[j] + static_cast<StartIndexValueType>(regionSize[j] - 1))
@@ -469,7 +469,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeAct
   if (this->GetUseImageSpacing())
   {
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
     }
@@ -690,7 +690,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ComputeInitia
   unsigned int i, j;
 
   m_ZCumulativeFrequency[0] = m_GlobalZHistogram[0];
-  for (i = 1; i < m_ZSize; i++)
+  for (i = 1; i < m_ZSize; ++i)
   {
     m_ZCumulativeFrequency[i] = m_ZCumulativeFrequency[i - 1] + m_GlobalZHistogram[i];
   }
@@ -699,14 +699,14 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ComputeInitia
   // boundaries.
   m_Boundary[m_NumOfThreads - 1] = m_ZSize - 1; // special case: the upper
                                                 // bound for the last thread
-  for (i = 0; i < m_NumOfThreads - 1; i++)
+  for (i = 0; i < m_NumOfThreads - 1; ++i)
   {
     // compute m_Boundary[i]
 
     float cutOff = 1.0 * (i + 1) * m_ZCumulativeFrequency[m_ZSize - 1] / m_NumOfThreads;
 
     // find the position in the cumulative freq dist where this cutoff is met
-    for (j = (i == 0 ? 0 : m_Boundary[i - 1]); j < m_ZSize; j++)
+    for (j = (i == 0 ? 0 : m_Boundary[i - 1]); j < m_ZSize; ++j)
     {
       if (cutOff > m_ZCumulativeFrequency[j])
       {
@@ -721,7 +721,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ComputeInitia
         // flat patch in the cumulative freq. dist. then we can choose
         // a bound midway in that flat patch .
         unsigned int k;
-        for (k = 1; j + k < m_ZSize; k++)
+        for (k = 1; j + k < m_ZSize; ++k)
         {
           if (m_ZCumulativeFrequency[j + k] != m_ZCumulativeFrequency[j])
           {
@@ -740,15 +740,15 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ComputeInitia
   // Also initialize the mapping from the Z value --> the thread number
   // i.e. m_MapZToThreadNumber[]
   // Also divide the lists up according to the boundaries
-  for (i = 0; i <= m_Boundary[0]; i++)
+  for (i = 0; i <= m_Boundary[0]; ++i)
   {
     // this Z belongs to the region associated with thread-0
     m_MapZToThreadNumber[i] = 0;
   }
 
-  for (unsigned int t = 1; t < m_NumOfThreads; t++)
+  for (unsigned int t = 1; t < m_NumOfThreads; ++t)
   {
-    for (i = m_Boundary[t - 1] + 1; i <= m_Boundary[t]; i++)
+    for (i = m_Boundary[t - 1] + 1; i <= m_Boundary[t]; ++i)
     {
       // this Z belongs to the region associated with thread-0
       m_MapZToThreadNumber[i] = t;
@@ -781,11 +781,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
 
   // Layers used as buffers for transferring pixels during load balancing
   m_Data[ThreadId].m_LoadTransferBufferLayers = new LayerListType[2 * m_NumberOfLayers + 1];
-  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     m_Data[ThreadId].m_LoadTransferBufferLayers[i].reserve(m_NumOfThreads);
 
-    for (j = 0; j < m_NumOfThreads; j++)
+    for (j = 0; j < m_NumOfThreads; ++j)
     {
       m_Data[ThreadId].m_LoadTransferBufferLayers[i].push_back(LayerType::New());
     }
@@ -818,15 +818,15 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   // for the Downlists
   m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1] = new LayerPointerType *[m_NumberOfLayers + 1];
 
-  for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+  for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i] = new LayerPointerType[m_NumOfThreads];
     m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i] = new LayerPointerType[m_NumOfThreads];
   }
 
-  for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+  for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
-    for (j = 0; j < m_NumOfThreads; j++)
+    for (j = 0; j < m_NumOfThreads; ++j)
     {
       m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i][j] = LayerType::New();
       m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i][j] = LayerType::New();
@@ -835,7 +835,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
 
   // Local histogram for every thread (used during Iterate() )
   m_Data[ThreadId].m_ZHistogram = new int[m_ZSize];
-  for (i = 0; i < m_ZSize; i++)
+  for (i = 0; i < m_ZSize; ++i)
   {
     m_Data[ThreadId].m_ZHistogram[i] = 0;
   }
@@ -857,7 +857,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedIniti
 
   LayerNodeType *nodePtr, *nodeTempPtr;
 
-  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     typename LayerType::Iterator layerIt = m_Layers[i]->Begin();
     typename LayerType::Iterator layerEnd = m_Layers[i]->End();
@@ -936,7 +936,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
   // Delete initial nodes, the node pool, the layers.
   if (!m_Layers.empty())
   {
-    for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+    for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
     {
       // return all the nodes in layer i to the main node pool
       LayerNodeType *  nodePtr = nullptr;
@@ -958,7 +958,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
   if (m_Data != nullptr)
   {
     // Deallocate the thread local data structures.
-    for (ThreadIdType ThreadId = 0; ThreadId < m_NumOfThreads; ThreadId++)
+    for (ThreadIdType ThreadId = 0; ThreadId < m_NumOfThreads; ++ThreadId)
     {
 
 
@@ -971,7 +971,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
       }
 
       // 1. delete nodes on the thread layers
-      for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+      for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
       {
         // return all the nodes in layer i to thread-i's node pool
         LayerNodeType *  nodePtr;
@@ -987,9 +987,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
 
       // 2. cleanup the LoadTransferBufferLayers: empty all and return the nodes
       // to the pool
-      for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+      for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
       {
-        for (ThreadIdType tid = 0; tid < m_NumOfThreads; tid++)
+        for (ThreadIdType tid = 0; tid < m_NumOfThreads; ++tid)
         {
           if (tid == ThreadId)
           {
@@ -1013,10 +1013,10 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
 
       // 3. clear up the nodes in the last layer of
       // m_InterNeighborNodeTransferBufferLayers (if any)
-      for (i = 0; i < m_NumOfThreads; i++)
+      for (i = 0; i < m_NumOfThreads; ++i)
       {
         LayerNodeType * nodePtr;
-        for (unsigned int InOrOut = 0; InOrOut < 2; InOrOut++)
+        for (unsigned int InOrOut = 0; InOrOut < 2; ++InOrOut)
         {
           LayerPointerType layerPtr =
             m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[InOrOut][m_NumberOfLayers][i];
@@ -1031,7 +1031,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::DeallocateDat
       }
 
       // check if all last layers are empty and then delete them
-      for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+      for (i = 0; i < static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
       {
         delete[] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[0][i];
         delete[] m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[1][i];
@@ -1161,7 +1161,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
         // Update the RMS difference here
         unsigned int count = 0;
         this->SetRMSChange(static_cast<double>(m_ValueZero));
-        for (unsigned i = 0; i < this->m_NumOfThreads; i++)
+        for (unsigned i = 0; i < this->m_NumOfThreads; ++i)
         {
           this->SetRMSChange(this->GetRMSChange() + this->m_Data[i].m_RMSChange);
           count += this->m_Data[i].m_Count;
@@ -1175,7 +1175,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
       // Should we stop iterating ? (in case there are too few pixels to
       // process for every thread)
       this->m_Stop = true;
-      for (unsigned i = 0; i < this->m_NumOfThreads; i++)
+      for (unsigned i = 0; i < this->m_NumOfThreads; ++i)
       {
         if (this->m_Data[i].m_Layers[0]->Size() > 10)
         {
@@ -1188,7 +1188,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
       this->InvokeEvent(ProgressEvent());
       this->SetElapsedIterations(++iter);
 
-      for (unsigned i = 0; i < this->m_NumOfThreads; i++)
+      for (unsigned i = 0; i < this->m_NumOfThreads; ++i)
       {
         m_TimeStepList[i] = this->m_Data[i].TimeStep;
       }
@@ -1263,7 +1263,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalcu
   if (this->GetUseImageSpacing())
   {
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       minSpacing = std::min(minSpacing, this->GetInput()->GetSpacing()[i]);
     }
@@ -1675,7 +1675,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ClearInterNei
   unsigned int InOrOut,
   unsigned int BufferLayerNumber)
 {
-  for (unsigned int i = 0; i < m_NumOfThreads; i++)
+  for (unsigned int i = 0; i < m_NumOfThreads; ++i)
   {
     ClearList(ThreadId, m_Data[ThreadId].m_InterNeighborNodeTransferBufferLayers[InOrOut][BufferLayerNumber][i]);
   }
@@ -2131,7 +2131,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
   NodeCounterType max = 0;
   NodeCounterType total = 0; // the total nodes in the active layer of the surface
 
-  for (i = 0; i < m_NumOfThreads; i++)
+  for (i = 0; i < m_NumOfThreads; ++i)
   {
     NodeCounterType count = m_Data[i].m_Layers[0]->Size();
     total += count;
@@ -2155,9 +2155,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
   // Change the boundaries --------------------------
 
   // compute the global histogram from the individual histograms
-  for (i = 0; i < m_NumOfThreads; i++)
+  for (i = 0; i < m_NumOfThreads; ++i)
   {
-    for (j = (i == 0 ? 0 : m_Boundary[i - 1] + 1); j <= m_Boundary[i]; j++)
+    for (j = (i == 0 ? 0 : m_Boundary[i - 1] + 1); j <= m_Boundary[i]; ++j)
     {
       m_GlobalZHistogram[j] = m_Data[i].m_ZHistogram[j];
     }
@@ -2165,7 +2165,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
 
   // compute the cumulative frequency distribution using the histogram
   m_ZCumulativeFrequency[0] = m_GlobalZHistogram[0];
-  for (i = 1; i < m_ZSize; i++)
+  for (i = 1; i < m_ZSize; ++i)
   {
     m_ZCumulativeFrequency[i] = m_ZCumulativeFrequency[i - 1] + m_GlobalZHistogram[i];
   }
@@ -2173,13 +2173,13 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
   // now define the boundaries
   m_Boundary[m_NumOfThreads - 1] = m_ZSize - 1; // special case: the last bound
 
-  for (i = 0; i < m_NumOfThreads - 1; i++)
+  for (i = 0; i < m_NumOfThreads - 1; ++i)
   {
     // compute m_Boundary[i]
     float cutOff = 1.0f * (i + 1) * m_ZCumulativeFrequency[m_ZSize - 1] / m_NumOfThreads;
 
     // find the position in the cumulative freq dist where this cutoff is met
-    for (j = (i == 0 ? 0 : m_Boundary[i - 1]); j < m_ZSize; j++)
+    for (j = (i == 0 ? 0 : m_Boundary[i - 1]); j < m_ZSize; ++j)
     {
       if (cutOff > m_ZCumulativeFrequency[j])
       {
@@ -2194,7 +2194,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
         // flat patch in the cum freq dist then ... . we can choose a bound
         // midway in that flat patch
         unsigned int k;
-        for (k = 1; j + k < m_ZSize; k++)
+        for (k = 1; j + k < m_ZSize; ++k)
         {
           if (m_ZCumulativeFrequency[j + k] != m_ZCumulativeFrequency[j])
           {
@@ -2224,17 +2224,17 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
   // Reset the individual histograms to reflect the new distrbution
   // Also reset the mapping from the Z value --> the thread number i.e.
   // m_MapZToThreadNumber[]
-  for (i = 0; i < m_NumOfThreads; i++)
+  for (i = 0; i < m_NumOfThreads; ++i)
   {
     if (i != 0)
     {
-      for (j = 0; j <= m_Boundary[i - 1]; j++)
+      for (j = 0; j <= m_Boundary[i - 1]; ++j)
       {
         m_Data[i].m_ZHistogram[j] = 0;
       }
     }
 
-    for (j = (i == 0 ? 0 : m_Boundary[i - 1] + 1); j <= m_Boundary[i]; j++)
+    for (j = (i == 0 ? 0 : m_Boundary[i - 1] + 1); j <= m_Boundary[i]; ++j)
     {
       // this Z histogram value should be given to thread-i
       m_Data[i].m_ZHistogram[j] = m_GlobalZHistogram[j];
@@ -2243,7 +2243,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CheckLoadBala
       m_MapZToThreadNumber[j] = i;
     }
 
-    for (j = m_Boundary[i] + 1; j < m_ZSize; j++)
+    for (j = m_Boundary[i] + 1; j < m_ZSize; ++j)
     {
       m_Data[i].m_ZHistogram[j] = 0;
     }
@@ -2257,9 +2257,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadB
   unsigned int i;
 
   // cleanup the layers first
-  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
-    for (ThreadIdType tid = 0; tid < m_NumOfThreads; tid++)
+    for (ThreadIdType tid = 0; tid < m_NumOfThreads; ++tid)
     {
       if (tid == ThreadId)
       {
@@ -2273,7 +2273,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadB
 
   LayerNodeType * nodePtr;
   // for all layers
-  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+  for (i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     typename LayerType::Iterator layerIt = m_Data[ThreadId].m_Layers[i]->Begin();
     typename LayerType::Iterator layerEnd = m_Data[ThreadId].m_Layers[i]->End();
@@ -2308,10 +2308,10 @@ template <typename TInputImage, typename TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadBalance2(ThreadIdType ThreadId)
 {
-  for (unsigned i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; i++)
+  for (unsigned i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     // check all other threads
-    for (ThreadIdType tid = 0; tid < m_NumOfThreads; tid++)
+    for (ThreadIdType tid = 0; tid < m_NumOfThreads; ++tid)
     {
       if (tid == ThreadId)
       {
@@ -2511,12 +2511,12 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std
   os << indent << "m_IsoSurfaceValue: " << this->GetIsoSurfaceValue() << std::endl;
   os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
   ThreadIdType ThreadId;
-  for (ThreadId = 0; ThreadId < m_NumOfThreads; ThreadId++)
+  for (ThreadId = 0; ThreadId < m_NumOfThreads; ++ThreadId)
   {
     os << indent << "ThreadId: " << ThreadId << std::endl;
     if (m_Data != nullptr)
     {
-      for (i = 0; i < m_Data[ThreadId].m_Layers.size(); i++)
+      for (i = 0; i < m_Data[ThreadId].m_Layers.size(); ++i)
       {
         os << indent << "m_Layers[" << i << "]: size=" << m_Data[ThreadId].m_Layers[i]->Size() << std::endl;
         os << indent << m_Data[ThreadId].m_Layers[i];

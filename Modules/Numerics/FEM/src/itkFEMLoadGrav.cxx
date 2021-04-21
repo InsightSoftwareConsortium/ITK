@@ -90,7 +90,7 @@ LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
   Fe.fill(0.0);
 
   Element::Float w, detJ;
-  for (unsigned int i = 0; i < Nip; i++)
+  for (unsigned int i = 0; i < Nip; ++i)
   {
     element->GetIntegrationPointAndWeight(i, ip, w, order);
     gip = element->GetGlobalFromLocalCoordinates(ip);
@@ -110,14 +110,14 @@ LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
     {
       Nd = force_tmp.size();
     }
-    for (unsigned int d = 0; d < Nd; d++)
+    for (unsigned int d = 0; d < Nd; ++d)
     {
       force[d] = force_tmp[d];
     }
     // Claculate the equivalent nodal loads
-    for (unsigned int n = 0; n < Nnodes; n++)
+    for (unsigned int n = 0; n < Nnodes; ++n)
     {
-      for (unsigned int d = 0; d < Ndofs; d++)
+      for (unsigned int d = 0; d < Ndofs; ++d)
       {
         Fe[n * Ndofs + d] += shapeF[n] * force[d] * w * detJ;
       }

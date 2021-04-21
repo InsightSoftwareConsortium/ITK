@@ -60,7 +60,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
   IndexType neighIndex;
   double    distance[ImageDimension];
 
-  for (dim = 0; dim < ImageDimension; dim++)
+  for (dim = 0; dim < ImageDimension; ++dim)
   {
     baseIndex[dim] = Math::Floor<IndexValueType>(index[dim]);
 
@@ -94,13 +94,13 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
 
   RealType totalOverlap = 0.0;
 
-  for (unsigned int counter = 0; counter < m_Neighbors; counter++)
+  for (unsigned int counter = 0; counter < m_Neighbors; ++counter)
   {
     double       overlap = 1.0;   // fraction overlap
     unsigned int upper = counter; // each bit indicates upper/lower neighbour
 
     // get neighbor index and overlap fraction
-    for (dim = 0; dim < ImageDimension; dim++)
+    for (dim = 0; dim < ImageDimension; ++dim)
     {
       if (upper & 1)
       {
@@ -120,7 +120,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
     if (overlap)
     {
       const PixelType input = this->GetInputImage()->GetPixel(neighIndex);
-      for (unsigned int k = 0; k < this->GetInputImage()->GetNumberOfComponentsPerPixel(); k++)
+      for (unsigned int k = 0; k < this->GetInputImage()->GetNumberOfComponentsPerPixel(); ++k)
       {
         output[k] += overlap * static_cast<RealType>(input[k]);
       }
@@ -149,7 +149,7 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
   // but that lies within the image
   IndexType insideIndex;
 
-  for (unsigned int dim = 0; dim < ImageDimension; dim++)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     if (index[dim] >= this->m_StartIndex[dim])
     {

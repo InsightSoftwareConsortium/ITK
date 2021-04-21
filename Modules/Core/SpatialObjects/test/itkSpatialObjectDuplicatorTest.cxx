@@ -71,7 +71,7 @@ itkSpatialObjectDuplicatorTest(int, char *[])
   // Tubes
   DTITubeType::DTITubePointListType list3;
 
-  for (unsigned int i = 0; i < 7; i++)
+  for (unsigned int i = 0; i < 7; ++i)
   {
     DTITubePointType p;
     p.SetPositionInObjectSpace(i * 3, i * 3, i * 3);
@@ -90,7 +90,7 @@ itkSpatialObjectDuplicatorTest(int, char *[])
     // this is only for testing
     // the tensor matrix should be definite positive
     // in the real case
-    for (unsigned int k = 0; k < 6; k++)
+    for (unsigned int k = 0; k < 6; ++k)
     {
       v[k] = k;
     }
@@ -126,9 +126,9 @@ itkSpatialObjectDuplicatorTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    for (jdti = dtiTube_copy->GetPoints().begin(); jdti != dtiTube_copy->GetPoints().end(); jdti++)
+    for (jdti = dtiTube_copy->GetPoints().begin(); jdti != dtiTube_copy->GetPoints().end(); ++jdti)
     {
-      for (unsigned int d = 0; d < 3; d++)
+      for (unsigned int d = 0; d < 3; ++d)
       {
         if (itk::Math::NotAlmostEquals((*jdti).GetPositionInWorldSpace()[d], value * dtiTube_copy->GetId()))
         {
@@ -202,7 +202,7 @@ itkSpatialObjectDuplicatorTest(int, char *[])
         return EXIT_FAILURE;
       }
       int ind;
-      for (ind = 0; ind < 6; ind++)
+      for (ind = 0; ind < 6; ++ind)
       {
         if (itk::Math::NotExactlyEquals((*jdti).GetTensorMatrix()[ind], ind))
         {

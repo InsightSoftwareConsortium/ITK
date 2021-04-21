@@ -123,7 +123,7 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>::AfterThreadedGenerateDat
   countIntersect = 0;
 
   // Accumulate counts over all threads
-  for (i = 0; i < numberOfThreads; i++)
+  for (i = 0; i < numberOfThreads; ++i)
   {
     countImage1 += m_CountOfImage1[i];
     countImage2 += m_CountOfImage2[i];

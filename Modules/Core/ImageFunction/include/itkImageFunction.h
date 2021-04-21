@@ -134,7 +134,7 @@ public:
   virtual bool
   IsInsideBuffer(const IndexType & index) const
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       if (index[j] < m_StartIndex[j])
       {
@@ -154,7 +154,7 @@ public:
   virtual bool
   IsInsideBuffer(const ContinuousIndexType & index) const
   {
-    for (unsigned int j = 0; j < ImageDimension; j++)
+    for (unsigned int j = 0; j < ImageDimension; ++j)
     {
       /* Test for negative of a positive so we can catch NaN's. */
       if (!(index[j] >= m_StartContinuousIndex[j] && index[j] < m_EndContinuousIndex[j]))

@@ -98,7 +98,7 @@ WindowConvergenceMonitoringFunction<TScalar>::GetConvergenceValue() const
   typename EnergyProfileType::Pointer energyProfileWindow = EnergyProfileType::New();
   energyProfileWindow->Initialize();
 
-  for (unsigned int n = 0; n < this->m_WindowSize; n++)
+  for (unsigned int n = 0; n < this->m_WindowSize; ++n)
   {
     ProfilePointType windowPoint;
     windowPoint[0] = static_cast<typename ProfilePointType::CoordRepType>(n) /

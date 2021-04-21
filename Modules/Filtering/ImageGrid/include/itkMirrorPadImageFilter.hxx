@@ -50,7 +50,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
   // value for the region parameters.  If we wrap on a region, then we
   // also increment to the next region for the next higher dimension.
   //
-  for (ctr = 0; (ctr < ImageDimension) && !done; ctr++)
+  for (ctr = 0; (ctr < ImageDimension) && !done; ++ctr)
   {
     regIndices[ctr]++;
     done = 1;
@@ -73,7 +73,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextOutputRegion(long *
   // If any dimension has zero size, then we do not need to process this
   // region.  Report this back to the calling routine.
   //
-  for (ctr = 0; ctr < ImageDimension; ctr++)
+  for (ctr = 0; ctr < ImageDimension; ++ctr)
   {
     if (nextSize[ctr] == 0)
     {
@@ -107,7 +107,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextInputRegion(long * 
   // value for the region parameters.  If we wrap on a region, then we
   // also increment to the next region for the next higher dimension.
   //
-  for (ctr = 0; (ctr < ImageDimension) && !done; ctr++)
+  for (ctr = 0; (ctr < ImageDimension) && !done; ++ctr)
   {
     regIndices[ctr]++;
     done = 1;
@@ -130,7 +130,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateNextInputRegion(long * 
   // If any dimension has zero size, then we do not need to process this
   // region.  Report this back to the calling routine.
   //
-  for (ctr = 0; ctr < ImageDimension; ctr++)
+  for (ctr = 0; ctr < ImageDimension; ++ctr)
   {
     if (nextSize[ctr] == 0)
     {
@@ -191,7 +191,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::ConvertOutputIndexToInputIndex(
   InputImageIndexType  inputRegionStart = inputRegion.GetIndex();
   InputImageSizeType   inputSizes = inputRegion.GetSize();
 
-  for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+  for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {
     a = outputRegionStart[dimCtr];
     c = inputRegionStart[dimCtr];
@@ -353,7 +353,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::BuildPreRegions(std::vector<lon
   }
   // Handle the rest of the pre-region by stepping through in blocks of
   // the size of the input image.
-  for (ctr = 1; ctr < numRegs; ctr++)
+  for (ctr = 1; ctr < numRegs; ++ctr)
   {
     regCtr++;
     offset = 0;
@@ -503,7 +503,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
   // Calculate the actual number of regions for each dimension,
   // and set up the required variables here.
-  for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+  for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {
     numIn[dimCtr] = 1; // Always assume exactly one inter region.
     numPre[dimCtr] =   // Count how many versions of input fit in pre-pad
@@ -528,7 +528,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // Generate the break points for the image regions we counted in the
   // previous loop.
   //
-  for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+  for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {
     //
     // Generate region 0 (inter-region) information.  Based on the indices
@@ -583,12 +583,12 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   // Pick the indices which span the largest input region we need for this
   // output region.
   //
-  for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+  for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {
     minIndex[dimCtr] = inputRegionStart[dimCtr][0];
     maxIndex[dimCtr] = minIndex[dimCtr] + static_cast<long>(inputRegionSizes[dimCtr][0]);
 
-    for (regCtr = 1; regCtr < (numIn[dimCtr] + numPre[dimCtr] + numPost[dimCtr]); regCtr++)
+    for (regCtr = 1; regCtr < (numIn[dimCtr] + numPre[dimCtr] + numPost[dimCtr]); ++regCtr)
     {
       if (minIndex[dimCtr] == maxIndex[dimCtr])
       {
@@ -611,7 +611,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
   typename TInputImage::SizeType  inputRequestedRegionSize;
   typename TInputImage::IndexType inputRequestedRegionStartIndex;
-  for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+  for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {
     inputRequestedRegionStartIndex[dimCtr] = minIndex[dimCtr];
     inputRequestedRegionSize[dimCtr] = maxIndex[dimCtr] - minIndex[dimCtr];
@@ -666,7 +666,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Calculate the actual number of regions for each dimension,
   // and set up the required variables here.
-  for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+  for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {
     numIn[dimCtr] = 1; // Always assume exactly one inter region.
     numPre[dimCtr] =   // Count how many versions of input fit in pre-pad
@@ -692,7 +692,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Generate the break points for the image regions we counted in the
   // previous loop.
-  for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+  for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
   {
     // Generate region 0 (inter-region) information.  Based on the indices
     // of the input and the output for this dimension, decide what are the
@@ -751,7 +751,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   i = 0;
 
   // Now walk the regions.
-  for (regCtr = 0; regCtr < numRegions; regCtr++)
+  for (regCtr = 0; regCtr < numRegions; ++regCtr)
   {
     // If both a valid output and input region are defined for the particular
     // defined region, then copy the input values to the output values.
@@ -768,7 +768,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
       }
       else // this is a padding region, which might need exponential decay
       {
-        for (dimCtr = 0; dimCtr < ImageDimension; dimCtr++)
+        for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
         {
           oddRegionArray[dimCtr] =
             RegionIsOdd(inputIndex[dimCtr], outputRegion.GetIndex()[dimCtr], static_cast<long>(inputSize[dimCtr]));

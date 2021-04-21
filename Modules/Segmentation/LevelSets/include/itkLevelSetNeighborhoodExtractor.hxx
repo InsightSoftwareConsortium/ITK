@@ -239,7 +239,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
 
   // In each dimension, find the distance to the zero set
   // by linear interpolating along the grid line.
-  for (unsigned int j = 0; j < SetDimension; j++)
+  for (unsigned int j = 0; j < SetDimension; ++j)
   {
     neighNode.SetValue(m_LargeValue);
     spacing = m_InputLevelSet->GetSpacing()[j];
@@ -282,7 +282,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
   // The final distance is given by the minimum distance to the plane
   // crossing formed by the zero set crossing points.
   distance = 0.0;
-  for (unsigned int j = 0; j < SetDimension; j++)
+  for (unsigned int j = 0; j < SetDimension; ++j)
   {
     neighNode = m_NodesUsed[j];
 

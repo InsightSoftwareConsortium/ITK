@@ -83,7 +83,7 @@ NumericSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "IncrementIndex: " << m_IncrementIndex << std::endl;
   os << indent << "SeriesFormat: " << m_SeriesFormat << std::endl;
 
-  for (unsigned int i = 0; i < m_FileNames.size(); i++)
+  for (unsigned int i = 0; i < m_FileNames.size(); ++i)
   {
     os << indent << "FileNames[" << i << "]: " << m_FileNames[i] << std::endl;
   }

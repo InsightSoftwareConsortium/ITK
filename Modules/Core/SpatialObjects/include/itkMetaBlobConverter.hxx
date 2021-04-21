@@ -57,14 +57,14 @@ MetaBlobConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
   vnl_vector<double> v(NDimensions);
 
-  for (unsigned int identifier = 0; identifier < Blob->GetPoints().size(); identifier++)
+  for (unsigned int identifier = 0; identifier < Blob->GetPoints().size(); ++identifier)
   {
     BlobPointType pnt;
 
     using PointType = typename BlobSpatialObjectType::PointType;
     PointType point;
 
-    for (unsigned int ii = 0; ii < NDimensions; ii++)
+    for (unsigned int ii = 0; ii < NDimensions; ++ii)
     {
       point[ii] = (*it2)->m_X[ii] * Blob->ElementSpacing(ii);
     }
@@ -98,11 +98,11 @@ MetaBlobConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
 
   // fill in the Blob information
   typename BlobSpatialObjectType::BlobPointListType::const_iterator it;
-  for (it = blobSO->GetPoints().begin(); it != blobSO->GetPoints().end(); it++)
+  for (it = blobSO->GetPoints().begin(); it != blobSO->GetPoints().end(); ++it)
   {
     auto * pnt = new BlobPnt(NDimensions);
 
-    for (unsigned int d = 0; d < NDimensions; d++)
+    for (unsigned int d = 0; d < NDimensions; ++d)
     {
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
@@ -125,7 +125,7 @@ MetaBlobConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
   }
 
   float color[4];
-  for (unsigned int ii = 0; ii < 4; ii++)
+  for (unsigned int ii = 0; ii < 4; ++ii)
   {
     color[ii] = spatialObject->GetProperty().GetColor()[ii];
   }
