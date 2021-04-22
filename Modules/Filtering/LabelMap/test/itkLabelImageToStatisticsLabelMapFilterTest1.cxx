@@ -43,22 +43,22 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
 
   // reading image to file
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  typename ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   // converting Label image to Statistics label map
   // don't set the output type to test the default value of the template parameter
   using I2LType = itk::LabelImageToStatisticsLabelMapFilter<ImageType, ImageType>;
-  I2LType::Pointer         i2l = I2LType::New();
-  itk::SimpleFilterWatcher watcher1(i2l);
+  typename I2LType::Pointer i2l = I2LType::New();
+  itk::SimpleFilterWatcher  watcher1(i2l);
 
   i2l->SetInput(reader->GetOutput());
 
   // test all the possible ways to set the feature image. Be sure they can work with const images.
-  ImageType::ConstPointer constOutput = reader2->GetOutput();
+  typename ImageType::ConstPointer constOutput = reader2->GetOutput();
   i2l->SetInput2(constOutput);
   i2l->SetFeatureImage(constOutput);
   i2l->SetInput(1, constOutput);
@@ -109,19 +109,34 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   i2l->SetNumberOfBins(numberOfBins);
   ITK_TEST_SET_GET_VALUE(numberOfBins, i2l->GetNumberOfBins());
 
-  using L2IType = itk::LabelMapToLabelImageFilter<I2LType::OutputImageType, ImageType>;
-  L2IType::Pointer         l2i = L2IType::New();
-  itk::SimpleFilterWatcher watcher2(l2i);
+  using L2IType = itk::LabelMapToLabelImageFilter<typename I2LType::OutputImageType, ImageType>;
+  typename L2IType::Pointer l2i = L2IType::New();
+  itk::SimpleFilterWatcher  watcher2(l2i);
 
   l2i->SetInput(i2l->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  // testing mean and median
+  using OutputImageType = typename I2LType::OutputImageType;
+  using PixelType = typename OutputImageType::PixelType;
+  using LabelVectorType = typename OutputImageType::LabelVectorType;
+  ITK_TRY_EXPECT_NO_EXCEPTION(i2l->Update());
+  const OutputImageType * const features = i2l->GetOutput();
+  const LabelVectorType         labels = features->GetLabels();
+  for (PixelType label : labels)
+  {
+    const double mean{ features->GetLabelObject(label)->GetMean() };
+    ITK_TEST_EXPECT_EQUAL(mean, 255)
+    const double median{ features->GetLabelObject(label)->GetMedian() };
+    ITK_TEST_EXPECT_EQUAL(median, 255)
+  }
 
   return EXIT_SUCCESS;
 }

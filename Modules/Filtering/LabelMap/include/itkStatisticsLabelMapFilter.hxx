@@ -101,6 +101,9 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   principalAxes.Fill(0);
   VectorType principalMoments;
   principalMoments.Fill(0);
+  using ValuesContainer = std::vector<FeatureImagePixelType>;
+  ValuesContainer all_values;
+  all_values.reserve(labelObject->Size());
 
 
   // iterate over all the indexes
@@ -109,6 +112,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   {
     const IndexType &             idx = it.GetIndex();
     const FeatureImagePixelType & v = featureImage->GetPixel(idx);
+    all_values.push_back(v);
     mv[0] = v;
     histogram->GetIndex(mv, histogramIndex);
     histogram->IncreaseFrequencyOfIndex(histogramIndex, 1);
@@ -177,16 +181,16 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   }
 
   // the median
-  double median = 0;
-  double count = 0; // will not be fully set, so do not use later !
-  for (SizeValueType i = 0; i < histogram->Size(); ++i)
+  double median{};
+  if (all_values.size() > 0)
   {
-    count += histogram->GetFrequency(i);
-
-    if (count >= (totalFreq / 2))
+    typename ValuesContainer::iterator all_values_middle{ all_values.begin() + all_values.size() / 2 };
+    std::nth_element(all_values.begin(), all_values_middle, all_values.end());
+    median = *all_values_middle;
+    if (all_values.size() % 2 == 0)
     {
-      median = histogram->GetMeasurementVector(i)[0];
-      break;
+      // The median is the average of two elements when the array is even-sized.
+      median = 0.5 * (median + *std::max_element(all_values.begin(), all_values_middle));
     }
   }
 
