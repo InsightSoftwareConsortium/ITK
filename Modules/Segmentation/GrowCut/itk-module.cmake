@@ -15,6 +15,7 @@ itk_module(
     ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
+    ITKSmoothing
     ITKMetaIO
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
