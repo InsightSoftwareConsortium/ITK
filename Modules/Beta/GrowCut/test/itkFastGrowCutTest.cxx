@@ -57,18 +57,17 @@ public:
 int
 itkFastGrowCutTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc < 4)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImage seedsImage noisyLabels medianLabels";
+    std::cerr << " inputImage seedsImage noisyLabels [medianLabels]";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
   const char * inputImage = argv[1];
   const char * seedsImage = argv[2];
   const char * noisyLabels = argv[3];
-  const char * medianLabels = argv[4];
 
   constexpr unsigned int Dimension = 3;
   using PixelType = short;
@@ -87,22 +86,26 @@ itkFastGrowCutTest(int argc, char * argv[])
   ShowProgress::Pointer showProgress = ShowProgress::New();
   fgcFilter->AddObserver(itk::ProgressEvent(), showProgress);
 
-  // Filter the original, noisy image
+  // Filter the original, possibly noisy image
   fgcFilter->SetInput(image);
   fgcFilter->SetSeedImage(seeds);
   fgcFilter->Update();
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(fgcFilter->GetOutput(), noisyLabels, true));
 
-  // Now median denoise the input and pass that through the filter
-  using MedianType = itk::MedianImageFilter<ImageType, ImageType>;
-  MedianType::Pointer medianFilter = MedianType::New();
-  medianFilter->SetInput(image);
-  medianFilter->SetRadius(1);
-  medianFilter->Update();
+  if (argc >= 5)
+  {
+    const char * medianLabels = argv[4];
+    // Now median denoise the input and pass that through the filter
+    using MedianType = itk::MedianImageFilter<ImageType, ImageType>;
+    MedianType::Pointer medianFilter = MedianType::New();
+    medianFilter->SetInput(image);
+    medianFilter->SetRadius(1);
+    medianFilter->Update();
 
-  fgcFilter->SetInput(medianFilter->GetOutput());
-  fgcFilter->Update();
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(fgcFilter->GetOutput(), medianLabels, true));
+    fgcFilter->SetInput(medianFilter->GetOutput());
+    fgcFilter->Update();
+    ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(fgcFilter->GetOutput(), medianLabels, true));
+  }
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

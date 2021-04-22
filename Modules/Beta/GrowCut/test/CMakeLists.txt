@@ -6,7 +6,18 @@ set(GrowCutTests
 
 CreateTestDriver(GrowCut "${GrowCut-Test_LIBRARIES}" "${GrowCutTests}")
 
-itk_add_test(NAME itkFastGrowCutTest
+itk_add_test(NAME itkFastGrowCutTestDzZ
+  COMMAND GrowCutTestDriver
+    --compare
+      DATA{Baseline/DzZ_T1.seg.nrrd}
+      ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ-label.nrrd
+  itkFastGrowCutTest
+    DATA{Input/DzZ_T1_orig.nhdr,DzZ_T1_orig.raw.gz}
+    DATA{Input/DzZ_Seeds.seg.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/itkFastGrowCutTestDzZ-label.nrrd
+  )
+
+itk_add_test(NAME itkFastGrowCutTestLarge
   COMMAND GrowCutTestDriver
     --compare
       DATA{Baseline/NoisyResult.seg.nrrd}
