@@ -17,6 +17,7 @@ itk_module(GrowCut
     ITKImageGrid
   TEST_DEPENDS
     ITKTestKernel
+    ITKSmoothing
     ITKMetaIO
   DESCRIPTION
     "${DOCUMENTATION}"

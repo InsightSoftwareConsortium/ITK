@@ -19,7 +19,9 @@
 #include "itkFastGrowCut.h"
 
 #include "itkCommand.h"
+#include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMedianImageFilter.h"
 #include "itkTestingMacros.h"
 
 namespace
@@ -52,48 +54,55 @@ public:
 };
 } // namespace
 
-int itkFastGrowCutTest(int argc, char * argv[])
+int
+itkFastGrowCutTest(int argc, char * argv[])
 {
-  if (argc < 2)
+  if (argc < 5)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputImage";
+    std::cerr << " inputImage seedsImage noisyLabels medianLabels";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
-  const char * outputImageFileName = argv[1];
+  const char * inputImage = argv[1];
+  const char * seedsImage = argv[2];
+  const char * noisyLabels = argv[3];
+  const char * medianLabels = argv[4];
 
   constexpr unsigned int Dimension = 3;
-  using PixelType = float;
+  using PixelType = short;
   using ImageType = itk::Image<PixelType, Dimension>;
   using LabelType = itk::Image<unsigned char, Dimension>;
 
-  using FilterType = itk::FastGrowCut<ImageType, LabelType>;
-  FilterType::Pointer filter = FilterType::New();
+  using FGCType = itk::FastGrowCut<ImageType, LabelType>;
+  FGCType::Pointer fgcFilter = FGCType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, FastGrowCut, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(fgcFilter, FastGrowCut, ImageToImageFilter);
 
-  // Create input image to avoid test dependencies.
-  ImageType::SizeType size;
-  size.Fill(128);
-  ImageType::Pointer image = ImageType::New();
-  image->SetRegions(size);
-  image->Allocate();
-  image->FillBuffer(1.1f);
+  // Read the images
+  ImageType::Pointer image = itk::ReadImage<ImageType>(inputImage);
+  LabelType::Pointer seeds = itk::ReadImage<LabelType>(inputImage);
 
   ShowProgress::Pointer showProgress = ShowProgress::New();
-  filter->AddObserver(itk::ProgressEvent(), showProgress);
-  filter->SetInput(image);
+  fgcFilter->AddObserver(itk::ProgressEvent(), showProgress);
 
-  using WriterType = itk::ImageFileWriter<LabelType>;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(outputImageFileName);
-  writer->SetInput(filter->GetOutput());
-  writer->SetUseCompression(true);
+  // Filter the original, noisy image
+  fgcFilter->SetInput(image);
+  fgcFilter->SetSeedImage(seeds);
+  fgcFilter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(fgcFilter->GetOutput(), noisyLabels, true));
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  // Now median denoise the input and pass that through the filter
+  using MedianType = itk::MedianImageFilter<ImageType, ImageType>;
+  MedianType::Pointer medianFilter = MedianType::New();
+  medianFilter->SetInput(image);
+  medianFilter->SetRadius(1);
+  medianFilter->Update();
 
+  fgcFilter->SetInput(medianFilter->GetOutput());
+  fgcFilter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(fgcFilter->GetOutput(), medianLabels, true));
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
