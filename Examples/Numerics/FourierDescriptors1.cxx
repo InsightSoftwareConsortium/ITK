@@ -132,7 +132,7 @@ main(int argc, char * argv[])
   PointIterator pointItr = points->Begin();
 
   PointType point;
-  for (unsigned int pt = 0; pt < numberOfPoints; pt++)
+  for (unsigned int pt = 0; pt < numberOfPoints; ++pt)
   {
     inputFile >> point[0] >> point[1];
     pointItr.Value() = point;
@@ -182,7 +182,7 @@ main(int argc, char * argv[])
   FFTSpectrumType signal(spectrumSize);
 
   pointItr = points->Begin();
-  for (unsigned int p = 0; p < numberOfPoints; p++)
+  for (unsigned int p = 0; p < numberOfPoints; ++p)
   {
     signal[p] = FFTCoefficientType(pointItr.Value()[0], pointItr.Value()[1]);
     ++pointItr;
@@ -199,7 +199,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for (unsigned int pad = numberOfPoints; pad < spectrumSize; pad++)
+  for (unsigned int pad = numberOfPoints; pad < spectrumSize; ++pad)
   {
     signal[pad] = 0.0;
   }
@@ -213,7 +213,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   std::cout << "Input to the FFT transform" << std::endl;
-  for (unsigned int s = 0; s < spectrumSize; s++)
+  for (unsigned int s = 0; s < spectrumSize; ++s)
   {
     std::cout << s << " : ";
     std::cout << signal[s] << std::endl;
@@ -240,7 +240,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   std::cout << std::endl;
   std::cout << "Result from the FFT transform" << std::endl;
-  for (unsigned int k = 0; k < spectrumSize; k++)
+  for (unsigned int k = 0; k < spectrumSize; ++k)
   {
     const double real = signal[k].real();
     const double imag = signal[k].imag();

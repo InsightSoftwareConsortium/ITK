@@ -146,7 +146,7 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  for (unsigned k = 0; k < numberOfInitialClasses; k++)
+  for (unsigned k = 0; k < numberOfInitialClasses; ++k)
   {
     const double userProvidedInitialMean = std::stod(argv[k + argoffset]);
     kmeansFilter->AddClassWithInitialMean(userProvidedInitialMean);

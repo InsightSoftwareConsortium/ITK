@@ -286,7 +286,7 @@ main(int argc, char * argv[])
 
   // First, get fixed image physical dimensions
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedPhysicalDimensions[i] =
       fixedImage->GetSpacing()[i] *
@@ -295,7 +295,7 @@ main(int argc, char * argv[])
   }
 
   // Create the transform adaptors specific to B-splines
-  for (unsigned int level = 0; level < numberOfLevels; level++)
+  for (unsigned int level = 0; level < numberOfLevels; ++level)
   {
     using ShrinkFilterType =
       itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
@@ -308,7 +308,7 @@ main(int argc, char * argv[])
     // level
     //
     TransformType::MeshSizeType requiredMeshSize;
-    for (unsigned int d = 0; d < ImageDimension; d++)
+    for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       requiredMeshSize[d] = meshSize[d] << level;
     }

@@ -87,7 +87,7 @@ main(int argc, char * argv[])
   inputsize = inputreader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   // worksize is the nearest multiple of 2 larger than the input
-  for (unsigned int i = 0; i < 2; i++)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     unsigned int n = 0;
     worksize[i] = inputsize[i];

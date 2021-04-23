@@ -184,15 +184,15 @@ main(int argc, char * argv[])
   constexpr double radius2 = radius * radius;
   PixelType *      it = localBuffer;
 
-  for (unsigned int z = 0; z < size[2]; z++)
+  for (unsigned int z = 0; z < size[2]; ++z)
   {
     const double dz =
       static_cast<double>(z) - static_cast<double>(size[2]) / 2.0;
-    for (unsigned int y = 0; y < size[1]; y++)
+    for (unsigned int y = 0; y < size[1]; ++y)
     {
       const double dy =
         static_cast<double>(y) - static_cast<double>(size[1]) / 2.0;
-      for (unsigned int x = 0; x < size[0]; x++)
+      for (unsigned int x = 0; x < size[0]; ++x)
       {
         const double dx =
           static_cast<double>(x) - static_cast<double>(size[0]) / 2.0;

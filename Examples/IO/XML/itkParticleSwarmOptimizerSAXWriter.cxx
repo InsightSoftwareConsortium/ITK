@@ -127,7 +127,7 @@ ParticleSwarmOptimizerSAXWriter::WriteFile()
     // Note: The data-cast to unsigned int is required
     //       because itk::Array only supports 'unsigned int' number of
     //       elements.
-    for (unsigned int i = 0; i < ptols.GetSize(); i++)
+    for (unsigned int i = 0; i < ptols.GetSize(); ++i)
     {
       ofs << " " << ptols[i];
     }

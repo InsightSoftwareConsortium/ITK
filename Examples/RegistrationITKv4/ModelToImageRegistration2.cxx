@@ -115,7 +115,7 @@ public:
 
     double magnitude2 = 0.0;
 
-    for (unsigned int i = 0; i < gradient.size(); i++)
+    for (unsigned int i = 0; i < gradient.size(); ++i)
     {
       const double fc = gradient[i] / scales[i];
       magnitude2 += fc * fc;

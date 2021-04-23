@@ -469,7 +469,7 @@ main(int argc, char * argv[])
     region.Print(std::cout);
 
     std::cout << "  Resolution: [";
-    for (i = 0; i < Dimension; i++)
+    for (i = 0; i < Dimension; ++i)
     {
       std::cout << spacing[i];
       if (i < Dimension - 1)
@@ -479,7 +479,7 @@ main(int argc, char * argv[])
 
     const InputImageType::PointType origin = image->GetOrigin();
     std::cout << "  Origin: [";
-    for (i = 0; i < Dimension; i++)
+    for (i = 0; i < Dimension; ++i)
     {
       std::cout << origin[i];
       if (i < Dimension - 1)

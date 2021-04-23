@@ -208,7 +208,7 @@ main(int argc, char * argv[])
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
   TransformType::MeshSizeType           meshSize;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedPhysicalDimensions[i] =
       fixedSpacing[i] * static_cast<double>(fixedSize[i] - 1);
@@ -259,7 +259,7 @@ main(int argc, char * argv[])
 
   infile.open(argv[1]);
 
-  for (unsigned int n = 0; n < numberOfNodes; n++)
+  for (unsigned int n = 0; n < numberOfNodes; ++n)
   {
     infile >> parameters[n];                     // X coordinate
     infile >> parameters[n + numberOfNodes];     // Y coordinate

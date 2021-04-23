@@ -825,7 +825,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   OptimizerType::ScalesType scales(shape->GetNumberOfParameters());
   scales.Fill(1.0);
-  for (unsigned int k = 0; k < numberOfPCAModes; k++)
+  for (unsigned int k = 0; k < numberOfPCAModes; ++k)
   {
     scales[k] = 20.0; // scales for the pca mode multiplier
   }

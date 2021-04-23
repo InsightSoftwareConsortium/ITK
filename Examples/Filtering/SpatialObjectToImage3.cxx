@@ -159,7 +159,7 @@ main(int argc, char * argv[])
 
   typename PolygonType::PolygonPointType polygonPoint;
 
-  for (unsigned int i = 0; i < numberOfPoints; i++)
+  for (unsigned int i = 0; i < numberOfPoints; ++i)
   {
     const double angle = 2.0 * itk::Math::pi * i / numberOfPoints;
     radial[0] = radius * std::cos(angle);

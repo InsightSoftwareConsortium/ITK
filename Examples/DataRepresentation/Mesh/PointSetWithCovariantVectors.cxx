@@ -105,7 +105,7 @@ main(int, char *[])
   unsigned int     pointId = 0;
   constexpr double radius = 300.0;
 
-  for (unsigned int i = 0; i < 360; i++)
+  for (unsigned int i = 0; i < 360; ++i)
   {
     const double angle = i * std::atan(1.0) / 45.0;
     point[0] = radius * std::sin(angle);
@@ -150,7 +150,7 @@ main(int, char *[])
   {
     point = pointIterator.Value();
     gradient = pixelIterator.Value();
-    for (unsigned int i = 0; i < Dimension; i++)
+    for (unsigned int i = 0; i < Dimension; ++i)
     {
       point[i] += gradient[i];
     }

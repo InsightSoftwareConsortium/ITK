@@ -420,7 +420,7 @@ main(int argc, char * argv[])
   DeformableTransformType::MeshSizeType           meshSize;
   DeformableTransformType::OriginType             fixedOrigin;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] =
@@ -575,7 +575,7 @@ main(int argc, char * argv[])
 
   unsigned int counter = 0;
 
-  for (unsigned int k = 0; k < SpaceDimension; k++)
+  for (unsigned int k = 0; k < SpaceDimension; ++k)
   {
     using ParametersImageType = DeformableTransformType::ImageType;
     using ResamplerType =

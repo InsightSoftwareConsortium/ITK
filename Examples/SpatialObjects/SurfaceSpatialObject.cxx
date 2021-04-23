@@ -67,7 +67,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   SurfaceType::SurfacePointListType list;
 
-  for (unsigned int i = 0; i < 3; i++)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     SurfacePointType p;
     PointType        pnt;
@@ -77,7 +77,7 @@ main(int, char *[])
     p.SetPositionInObjectSpace(pnt);
     p.SetColor(1, 0, 0, 1);
     CovariantVectorType normal;
-    for (unsigned int j = 0; j < 3; j++)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       normal[j] = j;
     }

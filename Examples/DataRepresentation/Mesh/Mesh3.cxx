@@ -103,7 +103,7 @@ main(int, char *[])
   PointType point;
 
   constexpr unsigned int numberOfPoints = 10;
-  for (unsigned int id = 0; id < numberOfPoints; id++)
+  for (unsigned int id = 0; id < numberOfPoints; ++id)
   {
     point[0] = static_cast<PointType::ValueType>(id);              // x
     point[1] = std::log(static_cast<double>(id) + itk::Math::eps); // y
@@ -129,7 +129,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   CellType::CellAutoPointer line;
   const unsigned int        numberOfCells = numberOfPoints - 1;
-  for (unsigned int cellId = 0; cellId < numberOfCells; cellId++)
+  for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
   {
     line.TakeOwnership(new LineType);
     line->SetPointId(0, cellId);     // first point
@@ -155,7 +155,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for (unsigned int cellId = 0; cellId < numberOfCells; cellId++)
+  for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
   {
     mesh->SetCellData(cellId, static_cast<PixelType>(cellId * cellId));
   }
