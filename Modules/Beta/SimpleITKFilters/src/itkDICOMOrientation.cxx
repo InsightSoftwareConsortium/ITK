@@ -170,27 +170,50 @@ DICOMOrientation::DirectionCosinesToOrientation(const DirectionType & dir)
   // but it is DIFFERENT in the meaning of direction in terms of sign-ness.
   CoordinateEnum terms[3] = { CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN, CoordinateEnum::UNKNOWN };
 
-  for (unsigned i = 0; i < 3; i++)
-  {
+  std::multimap< double, std::pair<unsigned, unsigned> > value_to_idx;
+  for (unsigned int c = 0; c < 3; ++c )
+    {
+    for (unsigned int r = 0; r < 3; ++r )
+      {
+      value_to_idx.emplace(std::abs(dir[c][r]), std::make_pair(c,r));
+      }
+    }
 
-    const unsigned dominant_axis = Function::Max3(dir[0][i], dir[1][i], dir[2][i]);
+  for (unsigned i = 0; i < 3; ++i)
+    {
 
-    const int dominate_sgn = Math::sgn(dir[dominant_axis][i]);
+    auto max_idx = value_to_idx.rbegin()->second;
+    const unsigned int max_c = max_idx.first;
+    const unsigned int max_r = max_idx.second;
 
-    switch (dominant_axis)
+    const int max_sgn = Math::sgn(dir[max_c][max_r]);
+
+    for (auto it = value_to_idx.begin(); it != value_to_idx.end();)
+    {
+    if (it->second.first == max_c || it->second.second == max_r)
+      {
+      value_to_idx.erase(it++);
+      }
+    else
+      {
+      ++it;
+      }
+    }
+
+    switch (max_c)
     {
       case 0: {
-        // When the dominate axis sign is positive, assign the coordinate for the direction we are increasing towards.
+        // When the dominant axis sign is positive, assign the coordinate for the direction we are increasing towards.
         // ITK is in LPS, so that is the positive direction
-        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Left : CoordinateEnum::Right;
+        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::Left : CoordinateEnum::Right;
         break;
       }
       case 1: {
-        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Posterior : CoordinateEnum::Anterior;
+        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::Posterior : CoordinateEnum::Anterior;
         break;
       }
       case 2: {
-        terms[i] = (dominate_sgn == 1) ? CoordinateEnum::Superior : CoordinateEnum::Inferior;
+        terms[max_r] = (max_sgn == 1) ? CoordinateEnum::Superior : CoordinateEnum::Inferior;
         break;
       }
       default:
