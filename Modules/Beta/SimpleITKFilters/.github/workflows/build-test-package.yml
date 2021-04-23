@@ -8,9 +8,9 @@ jobs:
     strategy:
       max-parallel: 3
       matrix:
-        os: [ubuntu-18.04, windows-2019, macos-10.15]
+        os: [ubuntu-20.04, windows-2019, macos-10.15]
         include:
-          - os: ubuntu-18.04
+          - os: ubuntu-20.04
             c-compiler: "gcc"
             cxx-compiler: "g++"
             itk-git-tag: "v5.2.0"
@@ -130,7 +130,7 @@ jobs:
         shell: cmd
 
   build-linux-python-packages:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     strategy:
       max-parallel: 2
       matrix:
@@ -257,7 +257,7 @@ jobs:
       - build-linux-python-packages
       - build-macos-python-packages
       - build-windows-python-packages
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Download Python Packages
