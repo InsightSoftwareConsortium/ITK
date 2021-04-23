@@ -28,6 +28,11 @@ else()
     set(_castxml_hash a3c929ebd652fd159709826e154d566235fb12903dac04070854e83abf0e091ae369421b83699d4d78d4334ce1c5b7c9fda5f90e0c8e31170b7e902273eb4a09)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
+  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
+
+    set(_castxml_hash 611035b111b6c632e7d009a8e036c095661ef9e0ba43ee849e655675bee9492558edfa96348b83349f667581d6b0c9c894fe184d8beaec1482a7c69a0288c06d)
+    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
