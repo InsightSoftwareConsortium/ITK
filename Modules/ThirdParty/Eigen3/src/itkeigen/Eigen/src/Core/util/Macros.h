@@ -35,6 +35,12 @@
   #define EIGEN_COMP_CLANG 0
 #endif
 
+/// \internal EIGEN_COMP_CASTXML set to 1 if being preprocessed by CastXML
+#if defined(__castxml__)
+    #define EIGEN_COMP_CASTXML 1
+#else
+    #define EIGEN_COMP_CASTXML 0
+#endif
 
 /// \internal EIGEN_COMP_LLVM set to 1 if the compiler backend is llvm
 #if defined(__llvm__)
