@@ -79,7 +79,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   BlobType::BlobPointListType list;
 
-  for (unsigned int i = 0; i < 4; i++)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     BlobPointType p;
     PointType     pnt;

@@ -201,7 +201,7 @@ main()
     itk::Statistics::GaussianMixtureModelComponent<SampleType>;
 
   std::vector<ComponentType::Pointer> components;
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     components.push_back(ComponentType::New());
     (components[i])->SetSample(sample);

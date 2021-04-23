@@ -207,7 +207,7 @@ main(int argc, char * argv[])
   TransformType::MeshSizeType           meshSize;
   TransformType::OriginType             fixedOrigin;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedOrigin[i] = fixedImage->GetOrigin()[i];
     fixedPhysicalDimensions[i] =

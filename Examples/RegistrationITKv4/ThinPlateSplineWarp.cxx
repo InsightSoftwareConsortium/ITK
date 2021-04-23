@@ -208,7 +208,7 @@ main(int argc, char * argv[])
     index = fi.GetIndex();
     field->TransformIndexToPhysicalPoint(index, point1);
     point2 = tps->TransformPoint(point1);
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       displacement[i] = point2[i] - point1[i];
     }

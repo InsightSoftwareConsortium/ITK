@@ -80,7 +80,7 @@ main(int, char *[])
   unsigned int            pointId = 0;
   constexpr double        radius = 3.0;
 
-  for (unsigned int i = 0; i < 360; i++)
+  for (unsigned int i = 0; i < 360; ++i)
   {
     const double angle = i * itk::Math::pi / 180.0;
     point[0] = radius * std::sin(angle);

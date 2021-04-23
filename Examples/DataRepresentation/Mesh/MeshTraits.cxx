@@ -161,7 +161,7 @@ main(int, char *[])
   PointType point;
 
   constexpr unsigned int numberOfPoints = 10;
-  for (unsigned int id = 0; id < numberOfPoints; id++)
+  for (unsigned int id = 0; id < numberOfPoints; ++id)
   {
     point[0] = 1.565; // Initialize points here
     point[1] = 3.647; // with arbitrary values
@@ -190,7 +190,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   CellType::CellAutoPointer line;
   const unsigned int        numberOfCells = numberOfPoints - 1;
-  for (unsigned int cellId = 0; cellId < numberOfCells; cellId++)
+  for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
   {
     line.TakeOwnership(new LineType);
     line->SetPointId(0, cellId);     // first point
@@ -214,7 +214,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  for (unsigned int cellId = 0; cellId < numberOfCells; cellId++)
+  for (unsigned int cellId = 0; cellId < numberOfCells; ++cellId)
   {
     CellDataType value;
     mesh->SetCellData(cellId, value);

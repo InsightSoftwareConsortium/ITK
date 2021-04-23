@@ -111,7 +111,7 @@ ParticleSwarmOptimizerDOMReader::GenerateData(const DOMNodeType * inputdom,
     s.ToData(ubound); // read all data elements in the string
     // combine the two
     ParticleSwarmOptimizer::ParameterBoundsType bounds;
-    for (size_t i = 0; i < lbound.size(); i++)
+    for (size_t i = 0; i < lbound.size(); ++i)
     {
       std::pair<double, double> value;
       value.first = lbound[i];

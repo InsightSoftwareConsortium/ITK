@@ -99,7 +99,7 @@ main(int, char *[])
     p.AddField("Lambda2", 5 * i);
     p.AddField("Lambda3", 6 * i);
     auto * v = new float[6];
-    for (unsigned int k = 0; k < 6; k++)
+    for (unsigned int k = 0; k < 6; ++k)
     {
       v[k] = k;
     }

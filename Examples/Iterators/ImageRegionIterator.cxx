@@ -174,7 +174,7 @@ main(int argc, char * argv[])
   const ImageType::PointType & inputOrigin = reader->GetOutput()->GetOrigin();
   double                       outputOrigin[Dimension];
 
-  for (unsigned int i = 0; i < Dimension; i++)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     outputOrigin[i] = inputOrigin[i] + spacing[i] * inputStart[i];
   }

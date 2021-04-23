@@ -174,9 +174,9 @@ main(int argc, char ** argv)
     // Creates a circular structuring element by activating all the pixels
     // less than radius distance from the center of the neighborhood.
 
-    for (float y = -rad; y <= rad; y++)
+    for (float y = -rad; y <= rad; ++y)
     {
-      for (float x = -rad; x <= rad; x++)
+      for (float x = -rad; x <= rad; ++x)
       {
         ShapedNeighborhoodIteratorType::OffsetType off;
 
@@ -211,7 +211,7 @@ main(int argc, char ** argv)
       ShapedNeighborhoodIteratorType::ConstIterator ci;
 
       bool flag = true;
-      for (ci = it.Begin(); ci != it.End(); ci++)
+      for (ci = it.Begin(); ci != it.End(); ++ci)
       {
         if (ci.Get() == background_value)
         {

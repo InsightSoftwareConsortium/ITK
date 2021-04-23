@@ -782,7 +782,7 @@ main(int argc, char * argv[])
   parametersScale.set_size(3);
   parametersScale[0] = 1000; // angle scale
 
-  for (unsigned int i = 1; i < 3; i++)
+  for (unsigned int i = 1; i < 3; ++i)
   {
     parametersScale[i] = 2; // offset scale
   }

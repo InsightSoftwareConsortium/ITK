@@ -210,7 +210,7 @@ main(int argc, char * argv[])
   TransformType::PhysicalDimensionsType fixedPhysicalDimensions;
   TransformType::MeshSizeType           meshSize;
 
-  for (unsigned int i = 0; i < SpaceDimension; i++)
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
     fixedPhysicalDimensions[i] =
       fixedSpacing[i] * static_cast<double>(fixedSize[i] - 1);

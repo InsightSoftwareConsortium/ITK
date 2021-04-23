@@ -599,7 +599,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   dimension = 0;
-  for (unsigned int b0 = 0; b0 < n0; b0++)
+  for (unsigned int b0 = 0; b0 < n0; ++b0)
   {
     MeshType::CellIdentifier id;
     bool found = mesh->GetBoundaryAssignment(dimension, cellId, b0, &id);
@@ -610,7 +610,7 @@ main(int, char *[])
 
   dimension = 1;
   std::cout << "Boundary features of dimension " << dimension << std::endl;
-  for (unsigned int b1 = 0; b1 < n1; b1++)
+  for (unsigned int b1 = 0; b1 < n1; ++b1)
   {
     MeshType::CellIdentifier id;
     bool found = mesh->GetBoundaryAssignment(dimension, cellId, b1, &id);
@@ -622,7 +622,7 @@ main(int, char *[])
 
   dimension = 2;
   std::cout << "Boundary features of dimension " << dimension << std::endl;
-  for (unsigned int b2 = 0; b2 < n2; b2++)
+  for (unsigned int b2 = 0; b2 < n2; ++b2)
   {
     MeshType::CellIdentifier id;
     bool found = mesh->GetBoundaryAssignment(dimension, cellId, b2, &id);
@@ -654,7 +654,7 @@ main(int, char *[])
   std::cout << "Boundary features of dimension " << dimension;
   n1 = mesh->GetNumberOfCellBoundaryFeatures(dimension, cellId);
   std::cout << " = " << n1 << std::endl;
-  for (unsigned int b1 = 0; b1 < n1; b1++)
+  for (unsigned int b1 = 0; b1 < n1; ++b1)
   {
     MeshType::CellIdentifier id;
     bool found = mesh->GetBoundaryAssignment(dimension, cellId, b1, &id);

@@ -177,7 +177,7 @@ main(int argc, char * argv[])
   std::cout << "Histogram size " << histogramSize << std::endl;
 
   unsigned int bin;
-  for (bin = 0; bin < histogramSize; bin++)
+  for (bin = 0; bin < histogramSize; ++bin)
   {
     std::cout << "bin = " << bin << " frequency = ";
     std::cout << histogram->GetFrequency(bin, 0) << std::endl;

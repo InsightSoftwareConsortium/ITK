@@ -214,7 +214,7 @@ main(int argc, char * argv[])
   // In this for loop, we will extract the 'n' gradient images + 1 reference
   // image from the DWI Vector image.
   //
-  for (unsigned int i = 0; i < numberOfImages; i++)
+  for (unsigned int i = 0; i < numberOfImages; ++i)
   {
     GradientImageType::Pointer image = GradientImageType::New();
     image->CopyInformation(img);
@@ -242,7 +242,7 @@ main(int argc, char * argv[])
   {
     unsigned int referenceImageIndex = 0;
     using GradientWriterType = itk::ImageFileWriter<GradientImageType>;
-    for (unsigned int i = 0; i < numberOfImages; i++)
+    for (unsigned int i = 0; i < numberOfImages; ++i)
     {
       GradientWriterType::Pointer gradientWriter = GradientWriterType::New();
       gradientWriter->SetInput(imageContainer[i]);

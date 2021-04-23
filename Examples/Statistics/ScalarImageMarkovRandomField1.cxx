@@ -279,7 +279,7 @@ main(int argc, char * argv[])
 
   double                               meanDistance = 0;
   MembershipFunctionType::CentroidType centroid(1);
-  for (unsigned int i = 0; i < numberOfClasses; i++)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     MembershipFunctionPointer membershipFunction =
       MembershipFunctionType::New();

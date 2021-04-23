@@ -126,7 +126,7 @@ main(int argc, char * argv[])
   if (argc > 3)
   {
     double scale = std::stod(argv[3]);
-    for (unsigned int i = 0; i < Dimension; i++)
+    for (unsigned int i = 0; i < Dimension; ++i)
     {
       spacing[i] *= scale;
     }
