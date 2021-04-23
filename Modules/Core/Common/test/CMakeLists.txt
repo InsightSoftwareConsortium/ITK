@@ -630,6 +630,7 @@ set(ITKCommonGTests
       itkWeakPointerGTest.cxx
       itkCommonTypeTraitsGTest.cxx
       itkMetaDataDictionaryGTest.cxx
+      itkSpatialOrientationAdaptorGTest.cxx
 )
 CreateGoogleTestDriver(ITKCommon "${ITKCommon-Test_LIBRARIES}" "${ITKCommonGTests}")
 # If `-static` was passed to CMAKE_EXE_LINKER_FLAGS, compilation fails. No need to

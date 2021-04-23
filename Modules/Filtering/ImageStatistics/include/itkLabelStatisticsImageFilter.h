@@ -37,7 +37,7 @@ namespace itk
  * the regions are defined via a label map (a second input).  The
  * label image should be integral type. The filter needs all of its
  * input image.  It behaves as a filter with an input and output. Thus
- * it can be inserted in a pipline with other filters and the
+ * it can be inserted in a pipeline with other filters and the
  * statistics will only be recomputed if a downstream filter changes.
  *
  * Optionally, the filter also computes intensity histograms on each

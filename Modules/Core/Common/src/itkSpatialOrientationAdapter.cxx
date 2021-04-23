@@ -32,47 +32,70 @@ namespace itk
 SpatialOrientationAdapter::OrientationType
 SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
 {
-  int      axes[9] = { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-  unsigned dominant_axis;
-
-  dominant_axis = Function::Max3(Dir[0][0], Dir[1][0], Dir[2][0]);
-  axes[dominant_axis] = Function::Sign(Dir[dominant_axis][0]);
-  dominant_axis = Function::Max3(Dir[0][1], Dir[1][1], Dir[2][1]);
-  axes[dominant_axis + 3] = Function::Sign(Dir[dominant_axis][1]);
-  dominant_axis = Function::Max3(Dir[0][2], Dir[1][2], Dir[2][2]);
-  axes[dominant_axis + 6] = Function::Sign(Dir[dominant_axis][2]);
 
   SpatialOrientation::CoordinateTerms terms[3] = { SpatialOrientation::ITK_COORDINATE_UNKNOWN,
                                                    SpatialOrientation::ITK_COORDINATE_UNKNOWN,
                                                    SpatialOrientation::ITK_COORDINATE_UNKNOWN };
 
-  for (unsigned i = 0; i < 3; ++i)
+
+  std::multimap<double, std::pair<unsigned, unsigned>> value_to_idx;
+  for (unsigned int c = 0; c < 3; ++c)
   {
-    if (int(axes[(i * 3)]) == 1)
+    for (unsigned int r = 0; r < 3; ++r)
     {
-      terms[i] = SpatialOrientation::ITK_COORDINATE_Right;
-    }
-    else if (axes[(i * 3)] == -1)
-    {
-      terms[i] = SpatialOrientation::ITK_COORDINATE_Left;
-    }
-    else if (axes[(i * 3) + 1] == 1)
-    {
-      terms[i] = SpatialOrientation::ITK_COORDINATE_Anterior;
-    }
-    else if (axes[(i * 3) + 1] == -1)
-    {
-      terms[i] = SpatialOrientation::ITK_COORDINATE_Posterior;
-    }
-    else if (axes[(i * 3) + 2] == 1)
-    {
-      terms[i] = SpatialOrientation::ITK_COORDINATE_Inferior;
-    }
-    else if (axes[(i * 3) + 2] == -1)
-    {
-      terms[i] = SpatialOrientation::ITK_COORDINATE_Superior;
+      value_to_idx.emplace(std::abs(Dir[c][r]), std::make_pair(c, r));
     }
   }
+
+  for (unsigned i = 0; i < 3; ++i)
+  {
+
+    auto               max_idx = value_to_idx.rbegin()->second;
+    const unsigned int max_c = max_idx.first;
+    const unsigned int max_r = max_idx.second;
+
+    const int max_sgn = Math::sgn(Dir[max_c][max_r]);
+
+    for (auto it = value_to_idx.begin(); it != value_to_idx.end();)
+    {
+      if (it->second.first == max_c || it->second.second == max_r)
+      {
+        value_to_idx.erase(it++);
+      }
+      else
+      {
+        ++it;
+      }
+    }
+
+
+    switch (max_c)
+    {
+      case 0:
+      {
+        // When the dominant axis sign is positive, assign the coordinate for the direction we are increasing away from.
+        terms[max_r] =
+          (max_sgn == 1) ? SpatialOrientation::ITK_COORDINATE_Right : SpatialOrientation::ITK_COORDINATE_Left;
+        break;
+      }
+      case 1:
+      {
+        terms[max_r] =
+          (max_sgn == 1) ? SpatialOrientation::ITK_COORDINATE_Anterior : SpatialOrientation::ITK_COORDINATE_Posterior;
+        break;
+      }
+      case 2:
+      {
+        terms[max_r] =
+          (max_sgn == 1) ? SpatialOrientation::ITK_COORDINATE_Inferior : SpatialOrientation::ITK_COORDINATE_Superior;
+        break;
+      }
+      default:
+        itkGenericExceptionMacro("Unexpected Axis");
+    }
+  }
+
+
   //
   // all terms must be defined, otherwise just punt
   if (terms[0] == SpatialOrientation::ITK_COORDINATE_UNKNOWN ||
