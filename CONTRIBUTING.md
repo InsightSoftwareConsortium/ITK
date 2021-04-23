@@ -7,6 +7,8 @@ This article documents how to contribute improvements to ITK.
 
 For a *quick start guide*, see the [ITK Git Cheatsheet].
 
+If you are looking for an issue to resolve that will help the ITK community, see the *good first issue* label in the [ITKSphinxExamples](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/labels/good-first-issue) or [ITK](https://github.com/InsightSoftwareConsortium/ITK/labels/Good%20first%20issue) repositories.
+
 Setup
 -----
 
