@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-simpleitkfilters',
-    version='0.2.0',
+    version='0.3.0',
     author='SimpleITK',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
@@ -44,6 +44,6 @@ setup(
     keywords='ITK InsightToolkit',
     url=r'https://itk.org/',
     install_requires=[
-        r'itk>=5.2rc1'
+        r'itk>=5.2.0'
     ]
     )
