@@ -28,6 +28,11 @@ else()
     set(_castxml_hash a3c929ebd652fd159709826e154d566235fb12903dac04070854e83abf0e091ae369421b83699d4d78d4334ce1c5b7c9fda5f90e0c8e31170b7e902273eb4a09)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
+  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
+
+    set(_castxml_hash 611035b111b6c632e7d009a8e036c095661ef9e0ba43ee849e655675bee9492558edfa96348b83349f667581d6b0c9c894fe184d8beaec1482a7c69a0288c06d)
+    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
@@ -40,6 +45,11 @@ else()
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
     set(_castxml_hash 0ba8deff17b3a8f5a2cd22939ff83a864629201d8b881e44d7ed01d0fd2aa578338e3319e402c226b3648a6027a4538e8c4cd066d6fe2c49eb1a4471e803b827)
+    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_download_castxml_binaries 1)
+  elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
+
+    set(_castxml_hash 5faef93541cb5f30414286a844e47b5732777f26246c6e0933170668e9cf2ff4f3fa4292e861e73e91ed50971caa9d6e7481eead9c9cefda6d54a9042634bf5c)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
@@ -91,11 +101,12 @@ else()
         itk_download_attempt_check(LLVM)
         itk_download_attempt_check(Clang)
       endif()
-      set(llvm_version 10.0.0)
-      set(llvm_hash 693cefdc49d618f828144486a18b473f)
+      set(llvm_version 11.1.0)
+      set(llvm_folder ${llvm_version})
+      set(llvm_md5 69bc06661ce8f1872e27b40ff96002b2)
       ExternalProject_Add(llvm
-        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_version}/llvm-${llvm_version}.src.tar.xz"
-        URL_HASH MD5=${llvm_hash}
+        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_folder}/llvm-${llvm_version}.src.tar.xz"
+        URL_MD5 ${llvm_md5}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
         CMAKE_ARGS -Wno-dev
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
@@ -109,10 +120,10 @@ else()
           -DLLVM_INCLUDE_DOCS:BOOL=OFF
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
         )
-      set(clang_hash 717ef92318fed4dbe1ee058368cfb552)
+      set(clang_md5 133c6719e22bfded74fcaf1d3092e979)
       ExternalProject_Add(clang
-        URL "https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_version}/clang-${llvm_version}.src.tar.xz"
-        URL_HASH MD5=${clang_hash}
+        URL https://github.com/llvm/llvm-project/releases/download/llvmorg-${llvm_folder}/clang-${llvm_version}.src.tar.xz
+        URL_MD5 ${clang_md5}
         DEPENDS llvm
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
         CMAKE_ARGS -Wno-dev
@@ -137,7 +148,7 @@ else()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
       # CastXML master, 2020-04-27
-      GIT_TAG v0.3.4
+      GIT_TAG v0.4.3
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
