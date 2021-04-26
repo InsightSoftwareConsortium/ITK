@@ -96,7 +96,7 @@
 int
 main(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc < 3)
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << "  inputImageFile  outputImageFile";
