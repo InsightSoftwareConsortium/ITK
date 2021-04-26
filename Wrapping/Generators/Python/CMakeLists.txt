@@ -450,8 +450,10 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
     endif()
     if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL 3.13.0 AND NOT MSVC)
       include(CheckIPOSupported)
-      check_ipo_supported()
-      set_property(TARGET ${lib} PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+      check_ipo_supported(RESULT ipo_is_supported)
+      if (ipo_is_supported)
+        set_property(TARGET ${lib} PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+      endif()
     endif()
 
     # Link the modules together
