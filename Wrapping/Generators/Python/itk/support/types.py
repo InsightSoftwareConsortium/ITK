@@ -128,7 +128,10 @@ class itkCType:
         else:
             _UL: "itkCType" = itkCType("unsigned long", "UL", np.uint64)
             _SL: "itkCType" = itkCType("signed long", "SL", np.int64)
-            _LD: "itkCType" = itkCType("long double", "LD", np.float128)
+            if hasattr(np, 'float128'):
+                _LD: "itkCType" = itkCType("long double", "LD", np.float128)
+            else:
+                _LD: "itkCType" = itkCType("long double", "LD")
         _ULL: "itkCType" = itkCType("unsigned long long", "ULL", np.uint64)
         _SC: "itkCType" = itkCType("signed char", "SC", np.int8)
         _SS: "itkCType" = itkCType("signed short", "SS", np.int16)
