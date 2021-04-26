@@ -273,7 +273,7 @@ itk_add_test(NAME itkLabelImageToStatisticsLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Input/Spots.png}
               ${ITK_TEST_OUTPUT_DIR}/Spots-labelimage-to-statisticslabel.png
-    itkLabelImageToStatisticsLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/Spots.png} DATA{${ITK_DATA_ROOT}/Input/Spots.png} ${ITK_TEST_OUTPUT_DIR}/Spots-labelimage-to-statisticslabel.png 0 1 1 1 128)
+    itkLabelImageToStatisticsLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/Spots.png} DATA{${ITK_DATA_ROOT}/Input/Spots.png} ${ITK_TEST_OUTPUT_DIR}/Spots-labelimage-to-statisticslabel.png 0 1 1 1 256)
 itk_add_test(NAME itkLabelMapFilterTest
       COMMAND ITKLabelMapTestDriver itkLabelMapFilterTest)
 itk_add_test(NAME itkLabelMapMaskImageFilterTest-0-0-0
@@ -598,6 +598,7 @@ itk_add_test(NAME itkStatisticsUniqueLabelMapFilterTest2
       1 100)
 
 set(ITKLabelMapGTests
-  itkShapeLabelMapFilterGTest.cxx)
+  itkShapeLabelMapFilterGTest.cxx
+  itkStatisticsLabelMapFilterGTest.cxx)
 
 CreateGoogleTestDriver(ITKLabelMap "${ITKLabelMap-Test_LIBRARIES}" "${ITKLabelMapGTests}")
