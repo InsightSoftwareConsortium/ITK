@@ -55,12 +55,9 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   {
     this->m_MattesAssociate->m_MovingImageMarginalPDF.resize(this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0F);
   }
-  else
-  {
-    std::fill(this->m_MattesAssociate->m_MovingImageMarginalPDF.begin(),
-              this->m_MattesAssociate->m_MovingImageMarginalPDF.end(),
-              PDFValueType{});
-  }
+  std::fill(this->m_MattesAssociate->m_MovingImageMarginalPDF.begin(),
+            this->m_MattesAssociate->m_MovingImageMarginalPDF.end(),
+            PDFValueType{});
 
   const ThreadIdType mattesAssociateNumThreadsUsed = this->m_MattesAssociate->GetNumberOfWorkUnitsUsed();
   const bool         reinitializeThreaderFixedImageMarginalPDF =
@@ -71,14 +68,11 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF.resize(
       mattesAssociateNumThreadsUsed, std::vector<PDFValueType>(this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0F));
   }
-  else
+  for (ThreadIdType threadId = 0; threadId < mattesAssociateNumThreadsUsed; ++threadId)
   {
-    for (ThreadIdType threadId = 0; threadId < mattesAssociateNumThreadsUsed; ++threadId)
-    {
-      std::fill(this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].begin(),
-                this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].end(),
-                PDFValueType{});
-    }
+    std::fill(this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].begin(),
+              this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].end(),
+              PDFValueType{});
   }
 
   const ThreadIdType localNumberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
