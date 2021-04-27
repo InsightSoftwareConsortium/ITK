@@ -249,3 +249,39 @@ TEST_F(StatisticsLabelMapFixture, 2D_rand_with_outliers)
     labelObject->Print(std::cout);
   }
 }
+
+
+TEST_F(StatisticsLabelMapFixture, 2D_even)
+{
+  using Utils = FixtureUtilities<2, unsigned char>;
+
+  auto image = Utils::CreateImage();
+  auto labelImage = Utils ::CreateLabelImage();
+
+  // Set label with two elements far apart, the median should be average
+  image->SetPixel({ 0, 0 }, 10);
+  image->SetPixel({ 0, 1 }, 100);
+  image->SetPixel({ 0, 2 }, 1);
+  image->SetPixel({ 0, 3 }, 200);
+
+  Utils::LabelPixelType label = 1;
+  labelImage->SetPixel({ 0, 0 }, label);
+  labelImage->SetPixel({ 0, 1 }, label);
+  labelImage->SetPixel({ 0, 2 }, label);
+  labelImage->SetPixel({ 0, 3 }, label);
+
+
+  Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
+
+  EXPECT_NEAR(1.0, labelObject->GetMinimum(), 1e-12);
+  EXPECT_NEAR(200.0, labelObject->GetMaximum(), 1e-12);
+  EXPECT_NEAR(Utils::ComputeExactMedian(labelObject, image), labelObject->GetMedian(), 0.5);
+  EXPECT_NEAR(311.0, labelObject->GetSum(), 1e-12);
+  EXPECT_NEAR(8640.25, labelObject->GetVariance(), 1e-10);
+  EXPECT_NEAR(92.95294, labelObject->GetStandardDeviation(), 1e-5);
+
+  if (::testing::Test::HasFailure())
+  {
+    labelObject->Print(std::cout);
+  }
+}

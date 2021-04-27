@@ -177,15 +177,28 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   }
 
   // the median
-  double median = 0;
-  double count = 0; // will not be fully set, so do not use later !
-  for (SizeValueType i = 0; i < histogram->Size(); i++)
+  double median = 0.0;
+  double count = 0.0; // will not be fully set, so do not use later !
+  for (SizeValueType i = 0; i < histogram->Size(); ++i)
   {
     count += histogram->GetFrequency(i);
 
     if (count >= (totalFreq / 2))
     {
       median = histogram->GetMeasurementVector(i)[0];
+      // If there are an even number of elements average with the next bin with elements
+      if (labelObject->Size() % 2 == 0 && count == totalFreq / 2)
+      {
+        while (++i < histogram->Size())
+        {
+          if (histogram->GetFrequency(i) > 0)
+          {
+            median += histogram->GetMeasurementVector(i)[0];
+            median *= 0.5;
+            break;
+          }
+        }
+      }
       break;
     }
   }
