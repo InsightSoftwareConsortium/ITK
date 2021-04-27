@@ -182,7 +182,7 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
 
   // Do Segmentation
   m_fastGC->DoSegmentation();
-  m_fastGC->GetForegroundmage(m_imLabVec);
+  m_fastGC->GetLabelImage(m_imLabVec);
 
   // Update result. SB: Seed volume is replaced with grow cut result
   {

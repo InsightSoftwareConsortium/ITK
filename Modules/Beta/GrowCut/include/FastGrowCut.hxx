@@ -257,7 +257,7 @@ void FastGrowCut<SrcPixelType, LabPixelType>
 
 template<typename SrcPixelType, typename LabPixelType>
 void FastGrowCut<SrcPixelType, LabPixelType>
-::GetLabeImage(std::vector<LabPixelType>& imLab) {
+::GetLabelImage(std::vector<LabPixelType>& imLab) {
 
     imLab.resize(m_DIMXYZ);
     std::copy(m_imLab.begin(), m_imLab.end(), imLab.begin());

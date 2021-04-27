@@ -55,7 +55,7 @@ public:
   void SetWorkMode( bool bSegInitialized = false );
   void SetImageSize( const std::vector<long>& imSize );
   void DoSegmentation();
-  void GetLabeImage( std::vector<LabPixelType>& imLab );
+  void GetLabelImage( std::vector<LabPixelType>& imLab );
   void GetForegroundmage( std::vector<LabPixelType>& imFgrd );
 
 private:
