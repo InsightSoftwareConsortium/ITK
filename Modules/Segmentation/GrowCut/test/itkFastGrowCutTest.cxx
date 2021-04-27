@@ -81,7 +81,7 @@ itkFastGrowCutTest(int argc, char * argv[])
 
   // Read the images
   ImageType::Pointer image = itk::ReadImage<ImageType>(inputImage);
-  LabelType::Pointer seeds = itk::ReadImage<LabelType>(inputImage);
+  LabelType::Pointer seeds = itk::ReadImage<LabelType>(seedsImage);
 
   ShowProgress::Pointer showProgress = ShowProgress::New();
   fgcFilter->AddObserver(itk::ProgressEvent(), showProgress);
