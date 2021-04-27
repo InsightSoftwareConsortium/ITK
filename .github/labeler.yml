@@ -1,77 +1,77 @@
 # Commit prefix regexes
 type:Compiler:
-    title: "^COMP:.*"
+  title: "^COMP:.*"
 
 type:Bug:
-    title: "^BUG:.*"
+  title: "^BUG:.*"
 
 area:Documentation:
-    title: "^DOC:.*"
+  title: "^DOC:.*"
 
 type:Enhancement:
-    title: "^ENH:.*"
+  title: "^ENH:.*"
 
 type:Performance:
-    title: "^PERF:.*"
+  title: "^PERF:.*"
 
 type:Style:
-    title: "^STYLE:.*"
+  title: "^STYLE:.*"
 
 # Modified filename regexes
 area:Bridge:
-    files:
-      - "Modules/Bridge/*"
+  files:
+    - "Modules/Bridge/*"
 
 area:Core:
-    files:
-      - "Modules/Core/*"
+  files:
+    - "Modules/Core/*"
 
 area:Documentation:
-    files:
-      - "Documentation/*"
+  files:
+    - "Documentation/*"
 
 area:Examples:
-    files:
-      - "Examples/*"
+  files:
+    - "Examples/*"
 
 area:Filtering:
-    files:
-      - "Modules/Filtering/*"
+  files:
+    - "Modules/Filtering/*"
 
 area:IO:
-    files:
-      - "Modules/IO/*"
+  files:
+    - "Modules/IO/*"
 
 area:Numerics:
-    files:
-      - "Modules/Numerics/*"
+  files:
+    - "Modules/Numerics/*"
 
 area:Python wrapping:
-    files:
-      - ".*.py*"
+  files:
+    - ".*.py*"
 
 area:Registration:
-    files:
-      - "Modules/Registration/*"
+  files:
+    - "Modules/Registration/*"
 
 area:Remotes:
-    files:
-      - "Modules/Remote/*"
+  files:
+    - "Modules/Remote/*"
 
 area:Segmentation:
-    files:
-      - "Modules/Segmentation/*"
+  files:
+    - "Modules/Segmentation/*"
 
 area:ThirdParty:
-    files:
-      - "Modules/ThirdParty/*"
+  files:
+    - "Modules/ThirdParty/*"
 
 area:Video:
-    files:
-      - "Modules/Video/*"
+  files:
+    - "Modules/Video/*"
 
 type:Testing:
-    files:
-      - "Testing/*"
-      - ".*Test.*.cxx"
-      - ".*Test.*.py"
+  files:
+    - "Testing/*"
+    - ".*Test.*.cxx"
+    - ".*Test.*.py"
