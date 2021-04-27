@@ -19,49 +19,59 @@ type:Style:
 
 # Modified filename regexes
 area:Bridge:
-    file: "Modules/Bridge/*"
+    files:
+      - "Modules/Bridge/*"
 
 area:Core:
-    file: "Modules/Core/*"
+    files:
+      - "Modules/Core/*"
 
 area:Documentation:
-    file: "Documentation/*"
+    files:
+      - "Documentation/*"
 
 area:Examples:
-    file: "Examples/*"
+    files:
+      - "Examples/*"
 
 area:Filtering:
-    file: "Modules/Filtering/*"
+    files:
+      - "Modules/Filtering/*"
 
 area:IO:
-    file: "Modules/IO/*"
+    files:
+      - "Modules/IO/*"
 
 area:Numerics:
-    file: "Modules/Numerics/*"
+    files:
+      - "Modules/Numerics/*"
 
 area:Python wrapping:
-    file: "*.py*"
+    files:
+      - ".*.py*"
 
 area:Registration:
-    file: "Modules/Registration/*"
+    files:
+      - "Modules/Registration/*"
 
 area:Remotes:
-    file: "Modules/Remote/*"
+    files:
+      - "Modules/Remote/*"
 
 area:Segmentation:
-    file: "Modules/Segmentation/*"
+    files:
+      - "Modules/Segmentation/*"
 
 area:ThirdParty:
-    file: "Modules/ThirdParty/*"
+    files:
+      - "Modules/ThirdParty/*"
 
 area:Video:
-    file: "Modules/Video/*"
+    files:
+      - "Modules/Video/*"
 
 type:Testing:
-    file: "Testing/*"
-
-type:Testing:
-    file: "*Test*.cxx"
-
-type:Testing:
-    file: "*Test*.py"
+    files:
+      - "Testing/*"
+      - ".*Test.*.cxx"
+      - ".*Test.*.py"
