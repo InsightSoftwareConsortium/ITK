@@ -63,7 +63,7 @@ public:
   void
   DoSegmentation();
   void
-  GetLabeImage(std::vector<LabPixelType> & imLab);
+  GetLabelImage(std::vector<LabPixelType> & imLab);
   void
   GetForegroundmage(std::vector<LabPixelType> & imFgrd);
 

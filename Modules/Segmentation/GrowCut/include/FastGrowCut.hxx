@@ -285,7 +285,7 @@ FastGrowCut<SrcPixelType, LabPixelType>::DoSegmentation()
 
 template <typename SrcPixelType, typename LabPixelType>
 void
-FastGrowCut<SrcPixelType, LabPixelType>::GetLabeImage(std::vector<LabPixelType> & imLab)
+FastGrowCut<SrcPixelType, LabPixelType>::GetLabelImage(std::vector<LabPixelType> & imLab)
 {
 
   imLab.resize(m_DIMXYZ);
