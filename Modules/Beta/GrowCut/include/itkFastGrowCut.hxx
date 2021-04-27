@@ -116,13 +116,13 @@ ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
   typename ImageType::IndexType    index;
   long                             i, j, k, kk, DIMXYZ;
 
-  DIMXYZ = (imROI[3] - imROI[0]) * (imROI[4] - imROI[1]) * (imROI[5] - imROI[2]);
+  DIMXYZ = (imROI[3] - imROI[0] + 1) * (imROI[4] - imROI[1] + 1) * (imROI[5] - imROI[2] + 1);
   imROIVec.clear();
   imROIVec.resize(DIMXYZ);
   kk = 0;
-  for (k = imROI[2]; k < imROI[5]; k++)
-    for (j = imROI[1]; j < imROI[4]; j++)
-      for (i = imROI[0]; i < imROI[3]; i++)
+  for (k = imROI[2]; k <= imROI[5]; k++)
+    for (j = imROI[1]; j <= imROI[4]; j++)
+      for (i = imROI[0]; i <= imROI[3]; i++)
       {
         index[0] = i;
         index[1] = j;
@@ -130,7 +130,7 @@ ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
         imROIVec[kk++] = im->GetPixel(index);
       }
 }
-}
+} // namespace
 
 namespace itk
 {
@@ -173,7 +173,7 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
   std::vector<long> imSize(3);
   for (int i = 0; i < 3; i++)
   {
-    imSize[i] = m_imROI[i + 3] - m_imROI[i];
+    imSize[i] = m_imROI[i + 3] - m_imROI[i] + 1;
   }
   m_fastGC->SetSourceImage(m_imSrcVec);
   m_fastGC->SetSeedlImage(m_imSeedVec);
@@ -193,9 +193,9 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
     outputImage->FillBuffer(0);
     kk = 0;
     // TODO: replace these loops by a region iterator
-    for (k = m_imROI[2]; k < m_imROI[5]; k++)
-      for (j = m_imROI[1]; j < m_imROI[4]; j++)
-        for (i = m_imROI[0]; i < m_imROI[3]; i++)
+    for (k = m_imROI[2]; k <= m_imROI[5]; k++)
+      for (j = m_imROI[1]; j <= m_imROI[4]; j++)
+        for (i = m_imROI[0]; i <= m_imROI[3]; i++)
         {
           index[0] = i;
           index[1] = j;
