@@ -145,6 +145,8 @@ protected:
 
       std::sort(values.begin(), values.end());
 
+      assert(!values.empty());
+
       auto n1 = values.size() / 2;
       if (values.size() % 2 == 0)
       {
@@ -170,6 +172,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_zero)
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, 1, 1 << 8);
 
+  ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(0.0, labelObject->GetMinimum(), 1e-12);
   EXPECT_NEAR(0.0, labelObject->GetMaximum(), 1e-12);
   EXPECT_NEAR(Utils::ComputeExactMedian(labelObject, image), labelObject->GetMedian(), 1e-12);
@@ -205,6 +208,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
 
+  ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(value, labelObject->GetMinimum(), 1e-12);
   EXPECT_NEAR(value, labelObject->GetMaximum(), 1e-12);
   EXPECT_NEAR(Utils::ComputeExactMedian(labelObject, image), labelObject->GetMedian(), 1e-12);
@@ -240,6 +244,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_rand_with_outliers)
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
 
+  ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(0.0, labelObject->GetMinimum(), 1e-12);
   EXPECT_NEAR(500.0, labelObject->GetMaximum(), 1e-12);
   EXPECT_NEAR(Utils::ComputeExactMedian(labelObject, image), labelObject->GetMedian(), 1e-12);
@@ -273,6 +278,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_even)
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
 
+  ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(1.0, labelObject->GetMinimum(), 1e-12);
   EXPECT_NEAR(200.0, labelObject->GetMaximum(), 1e-12);
   EXPECT_NEAR(Utils::ComputeExactMedian(labelObject, image), labelObject->GetMedian(), 1e-12);
@@ -307,6 +313,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_three)
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
 
+  ASSERT_GT(labelObject->Size(), 0);
   EXPECT_NEAR(1.0, labelObject->GetMinimum(), 1e-12);
   EXPECT_NEAR(10.0, labelObject->GetMaximum(), 1e-12);
   EXPECT_NEAR(Utils::ComputeExactMedian(labelObject, image), labelObject->GetMedian(), 1e-12);
