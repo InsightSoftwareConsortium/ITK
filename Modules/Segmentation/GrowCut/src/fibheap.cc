@@ -59,9 +59,9 @@ using namespace std;
 //***************************************************************************
 
 // FibHeapNode::FibHeapNode() {
-//   Left = Right = Parent = Child = NULL;
-//   Degree = Mark = NegInfinityFlag = 0;
-// }
+//  Left = Right = Parent = Child = NULL;
+//  Degree = Mark = NegInfinityFlag = 0;
+//}
 
 //=========================================================
 // FibHeapNode Destructor
@@ -84,8 +84,8 @@ FibHeapNode::~FibHeapNode() {}
 //=========================================================
 
 // void FibHeapNode::FHN_Assign(FibHeapNode& RHS) {
-//   NegInfinityFlag = RHS.NegInfinityFlag;
-// }
+//  NegInfinityFlag = RHS.NegInfinityFlag;
+//}
 
 //=========================================================
 // FHN_Cmp()
@@ -109,10 +109,10 @@ FibHeapNode::~FibHeapNode() {}
 //=========================================================
 
 // int  FibHeapNode::FHN_Cmp(FibHeapNode& RHS) {
-//   if (NegInfinityFlag)
-//     return RHS.NegInfinityFlag ? 0 : -1;
-//   return RHS.NegInfinityFlag ? 1 : 0;
-// }
+//  if (NegInfinityFlag)
+//    return RHS.NegInfinityFlag ? 0 : -1;
+//  return RHS.NegInfinityFlag ? 1 : 0;
+//}
 
 //========================================================================
 // We do, on occasion, compare and assign objects of type FibHeapNode, but
@@ -296,8 +296,8 @@ FibHeap::Union(FibHeap * OtherHeap)
 //===========================================================================
 
 // FibHeapNode *FibHeap::Minimum() {
-//   return MinRoot;
-// }
+//  return MinRoot;
+//}
 
 //===========================================================================
 // ExtractMin() - O(n) worst-case actual; O(lg n) amortized
@@ -510,11 +510,11 @@ FibHeap::Print(FibHeapNode * Tree, FibHeapNode * theParent)
 //===========================================================================
 
 // void FibHeap::_Exchange(FibHeapNode*& N1, FibHeapNode*& N2) {
-//   FibHeapNode *Temp;
-//   Temp = N1;
-//   N1 = N2;
-//   N2 = Temp;
-// }
+//  FibHeapNode *Temp;
+//  Temp = N1;
+//  N1 = N2;
+//  N2 = Temp;
+//}
 
 //===========================================================================
 // Consolidate()
