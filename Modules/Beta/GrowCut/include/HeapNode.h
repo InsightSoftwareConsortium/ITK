@@ -34,23 +34,50 @@
 /***************************************************************************
  * class HeapNode
  ***************************************************************************/
-namespace FGC {
-    class HeapNode : public FibHeapNode {
-        float   N;
-        long IndexV;
+namespace FGC
+{
+class HeapNode : public FibHeapNode
+{
+  float N;
+  long  IndexV;
 
-    public:
-        HeapNode() : FibHeapNode() { N = 0; }
-        virtual void operator =(FibHeapNode& RHS);
-        virtual int  operator ==(FibHeapNode& RHS);
-        virtual int  operator <(FibHeapNode& RHS);
-        virtual void operator =(double NewKeyVal );
-        virtual void Print();
-        double GetKeyValue() { return N; }
-        void SetKeyValue(float n) { N = n; }
-        long int GetIndexValue() { return IndexV; }
-        void SetIndexValue( long int v) { IndexV = v; }
-    };
-}
+public:
+  HeapNode()
+    : FibHeapNode()
+  {
+    N = 0;
+  }
+  virtual void
+  operator=(FibHeapNode & RHS);
+  virtual int
+  operator==(FibHeapNode & RHS);
+  virtual int
+  operator<(FibHeapNode & RHS);
+  virtual void
+  operator=(double NewKeyVal);
+  virtual void
+  Print();
+  double
+  GetKeyValue()
+  {
+    return N;
+  }
+  void
+  SetKeyValue(float n)
+  {
+    N = n;
+  }
+  long int
+  GetIndexValue()
+  {
+    return IndexV;
+  }
+  void
+  SetIndexValue(long int v)
+  {
+    IndexV = v;
+  }
+};
+} // namespace FGC
 
 #endif /* defined(____HeapNode__) */

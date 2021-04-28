@@ -25,7 +25,7 @@
    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
    DEALINGS IN THE SOFTWARE.
  */
- // Adapted from: https://github.com/ljzhu/FastGrowCut
+// Adapted from: https://github.com/ljzhu/FastGrowCut
 
 #ifndef FastGrowCut_h
 #define FastGrowCut_h
@@ -40,43 +40,54 @@
 
 #include "fibheap.h"
 #include "HeapNode.h"
-namespace FGC {
+namespace FGC
+{
 
-const float DIST_INF = std::numeric_limits<float>::max();
-const float DIST_EPSION = 1e-3f;
+const float         DIST_INF = std::numeric_limits<float>::max();
+const float         DIST_EPSION = 1e-3f;
 const unsigned char NNGBH = 26;
-typedef float FPixelType;
+typedef float       FPixelType;
 
-template<typename SrcPixelType, typename LabPixelType>
-class FastGrowCut {
+template <typename SrcPixelType, typename LabPixelType>
+class FastGrowCut
+{
 public:
-  void SetSourceImage( const std::vector<SrcPixelType>& imSrc );
-  void SetSeedlImage( std::vector<LabPixelType>& imSeed );
-  void SetWorkMode( bool bSegInitialized = false );
-  void SetImageSize( const std::vector<long>& imSize );
-  void DoSegmentation();
-  void GetLabelImage( std::vector<LabPixelType>& imLab );
-  void GetForegroundmage( std::vector<LabPixelType>& imFgrd );
+  void
+  SetSourceImage(const std::vector<SrcPixelType> & imSrc);
+  void
+  SetSeedlImage(std::vector<LabPixelType> & imSeed);
+  void
+  SetWorkMode(bool bSegInitialized = false);
+  void
+  SetImageSize(const std::vector<long> & imSize);
+  void
+  DoSegmentation();
+  void
+  GetLabelImage(std::vector<LabPixelType> & imLab);
+  void
+  GetForegroundmage(std::vector<LabPixelType> & imFgrd);
 
 private:
-  void InitializationAHP();
-  void DijkstraBasedClassificationAHP();
+  void
+  InitializationAHP();
+  void
+  DijkstraBasedClassificationAHP();
 
   std::vector<SrcPixelType> m_imSrc;
   std::vector<LabPixelType> m_imSeed;
   std::vector<LabPixelType> m_imLabPre;
-  std::vector<FPixelType> m_imDistPre;
+  std::vector<FPixelType>   m_imDistPre;
   std::vector<LabPixelType> m_imLab;
-  std::vector<FPixelType> m_imDist;
+  std::vector<FPixelType>   m_imDist;
 
-  std::vector<long> m_imSize;
-  long m_DIMX{0}, m_DIMY{0}, m_DIMZ{0}, m_DIMXY{0}, m_DIMXYZ{0};
-  std::vector<int> m_indOff;
-  std::vector<unsigned char>  m_NBSIZE;
+  std::vector<long>          m_imSize;
+  long                       m_DIMX{ 0 }, m_DIMY{ 0 }, m_DIMZ{ 0 }, m_DIMXY{ 0 }, m_DIMXYZ{ 0 };
+  std::vector<int>           m_indOff;
+  std::vector<unsigned char> m_NBSIZE;
 
-  FibHeap m_heap;
+  FibHeap               m_heap;
   std::vector<HeapNode> m_hpNodes;
-  bool m_bSegInitialized {false};
+  bool                  m_bSegInitialized{ false };
 };
 } // end namespace FGC
 
