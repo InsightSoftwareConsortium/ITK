@@ -37,14 +37,15 @@
 #include <stdlib.h>
 #include <fstream>
 #include <iterator>
+#include <limits>
 
 #include "fibheap.h"
 #include "HeapNode.h"
+
 namespace FGC
 {
-
 const float         DIST_INF = std::numeric_limits<float>::max();
-const float         DIST_EPSION = 1e-3f;
+const float         DIST_EPSILON = 1e-3f;
 const unsigned char NNGBH = 26;
 typedef float       FPixelType;
 

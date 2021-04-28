@@ -126,8 +126,8 @@ FastGrowCut<SrcPixelType, LabPixelType>::InitializationAHP()
       }
       else
       {
-        m_hpNodes[index] = (float)DIST_EPSION;
-        m_imDist[index] = DIST_EPSION;
+        m_hpNodes[index] = (float)DIST_EPSILON;
+        m_imDist[index] = DIST_EPSILON;
       }
 
       m_heap.Insert(&m_hpNodes[index]);
@@ -141,10 +141,10 @@ FastGrowCut<SrcPixelType, LabPixelType>::InitializationAHP()
     {
       if (m_imSeed[index] != 0 && m_imSeed[index] != m_imLabPre[index])
       {
-        //             if(m_imSeed[index] != 0 && (m_imDistPre[index] != 0 ||  (m_imDistPre[index] == 0 && \
-//               m_imSeed[index] != m_imLabPre[index]))) {
-        m_hpNodes[index] = (float)DIST_EPSION;
-        m_imDist[index] = DIST_EPSION;
+        // if(m_imSeed[index] != 0 && (m_imDistPre[index] != 0 ||  (m_imDistPre[index] == 0 && \
+        // m_imSeed[index] != m_imLabPre[index]))) {
+        m_hpNodes[index] = (float)DIST_EPSILON;
+        m_imDist[index] = DIST_EPSILON;
         m_imLab[index] = m_imSeed[index];
       }
       else
