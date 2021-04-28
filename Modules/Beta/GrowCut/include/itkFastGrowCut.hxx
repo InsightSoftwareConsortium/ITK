@@ -24,86 +24,10 @@
 #include "itkFastGrowCut.h"
 
 #include "itkPrintHelper.h"
+#include "itkImageMaskSpatialObject.h"
 
 namespace
 {
-template <typename ITKImageType>
-void
-FindITKImageROI(ITKImageType * im, std::vector<long> & imROI)
-{
-
-  typename ITKImageType::IndexType roiStart;
-  typename ITKImageType::IndexType roiEnd;
-  typename ITKImageType::IndexType start;
-  typename ITKImageType::SizeType  size;
-
-  size = im->GetLargestPossibleRegion().GetSize();
-  start = im->GetLargestPossibleRegion().GetIndex();
-
-
-  roiStart[0] = 0;
-  roiStart[1] = 0;
-  roiStart[2] = 0;
-  roiEnd[0] = 0;
-  roiEnd[1] = 0;
-  roiEnd[2] = 0;
-
-  unsigned int ndims = im->GetImageDimension();
-
-  bool                                            foundLabel = false;
-  itk::ImageRegionIteratorWithIndex<ITKImageType> label(im, im->GetBufferedRegion());
-  for (label.GoToBegin(); !label.IsAtEnd(); ++label)
-  {
-    if (label.Get() != 0)
-    {
-      typename ITKImageType::IndexType idx = label.GetIndex();
-      for (unsigned i = 0; i < ndims; i++)
-      {
-        if (!foundLabel)
-        {
-          roiStart[i] = idx[i];
-          roiEnd[i] = idx[i];
-        }
-        else
-        {
-          if (idx[i] <= roiStart[i])
-          {
-            roiStart[i] = idx[i];
-          }
-          if (idx[i] >= roiEnd[i])
-          {
-            roiEnd[i] = idx[i];
-          }
-        }
-      }
-      foundLabel = true;
-    }
-  }
-
-  int radius = 17;
-  for (unsigned i = 0; i < ndims; i++)
-  {
-    int diff = static_cast<int>(roiStart[i] - radius);
-    if (diff >= start[i])
-    {
-      roiStart[i] -= radius;
-    }
-    else
-    {
-      roiStart[i] = start[i];
-    }
-    roiEnd[i] = (static_cast<unsigned int>(roiEnd[i] + radius) < size[i]) ? (roiEnd[i] + radius) : size[i] - 1;
-  }
-
-  // copy ROI to vector
-  imROI.resize(6);
-  for (unsigned i = 0; i < 3; i++)
-  {
-    imROI[i] = roiStart[i];
-    imROI[i + 3] = roiEnd[i];
-  }
-}
-
 template <typename PixelType>
 void
 ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
@@ -134,22 +58,18 @@ ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
 
 namespace itk
 {
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TLabelImage>
 void
-FastGrowCut<TInputImage, TOutputImage>::GenerateData()
+FastGrowCut<TInputImage, TLabelImage>::GenerateData()
 {
-  using OutputImageType = TOutputImage;
-  using OutputImageRegionType = typename OutputImageType::RegionType;
-
-  using InputImageType = TInputImage;
-  using InputImageRegionType = typename InputImageType::RegionType;
+  using RegionType = typename TInputImage::RegionType;
 
   auto inputImage = this->GetInput();
   auto seedImage = this->GetSeedImage();
   auto outputImage = this->GetOutput();
 
   // Copy seedImage into the output
-  InputImageRegionType region = inputImage->GetRequestedRegion();
+  RegionType region = inputImage->GetRequestedRegion();
   outputImage->SetLargestPossibleRegion(region);
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
@@ -159,8 +79,18 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
   // Find ROI
   if (!m_InitializationFlag)
   {
-    // TODO: replace this by ImageMaskSpatialObject::ComputeMyBoundingBoxInIndexSpace()
-    FindITKImageROI(outputImage, m_imROI);
+    using ImageMask = ImageMaskSpatialObject<3, LabelPixelType>;
+    typename ImageMask::Pointer maskSO = ImageMask::New();
+    maskSO->SetImage(outputImage);
+    RegionType bbRegion = maskSO->ComputeMyBoundingBoxInIndexSpace();
+
+    // copy ROI to vector
+    m_imROI.resize(6);
+    for (unsigned d = 0; d < 3; d++)
+    {
+      m_imROI[d] = bbRegion.GetIndex(d);
+      m_imROI[d + 3] = bbRegion.GetIndex(d) + bbRegion.GetSize(d) - 1;
+    }
     std::cerr << "image ROI = [" << m_imROI[0] << "," << m_imROI[1] << "," << m_imROI[2] << ";" << m_imROI[3] << ","
               << m_imROI[4] << "," << m_imROI[5] << "]" << std::endl;
     // SB: Find the ROI from the seed volume in the source volume and store it in m_imSrcVec
@@ -205,17 +135,17 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateData()
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TLabelImage>
 void
-FastGrowCut<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
+FastGrowCut<TInputImage, TLabelImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TLabelImage>
 void
-FastGrowCut<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
+FastGrowCut<TInputImage, TLabelImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   if (this->GetInput())
@@ -225,9 +155,9 @@ FastGrowCut<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TLabelImage>
 void
-FastGrowCut<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+FastGrowCut<TInputImage, TLabelImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   using namespace itk::print_helper;

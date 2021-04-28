@@ -15,6 +15,7 @@ itk_module(GrowCut
   DEPENDS
     ITKCommon
     ITKImageGrid
+    ITKSpatialObjects
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing
