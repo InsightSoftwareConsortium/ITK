@@ -41,8 +41,9 @@ HeapNode::Print()
 void
 HeapNode::operator=(double NewKeyVal)
 {
+  N = static_cast<float>(NewKeyVal);
   HeapNode Tmp;
-  Tmp.N = N = NewKeyVal;
+  Tmp.N = N;
   FHN_Assign(Tmp);
 }
 
