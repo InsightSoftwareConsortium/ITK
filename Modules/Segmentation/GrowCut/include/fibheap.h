@@ -24,6 +24,7 @@
 #define NOTOK -1
 
 #include <cstdio>
+#include "GrowCutExport.h"
 
 //======================================================
 // Fibonacci Heap Node Class
@@ -31,7 +32,7 @@
 
 class FibHeap;
 
-class FibHeapNode
+class GrowCut_EXPORT FibHeapNode
 {
   friend class FibHeap;
   FibHeapNode *Left, *Right, *Parent, *Child;
@@ -73,7 +74,7 @@ public:
 // Fibonacci Heap Class
 //========================================================================
 
-class FibHeap
+class GrowCut_EXPORT FibHeap
 {
   FibHeapNode * MinRoot;
   long          NumNodes, NumTrees, NumMarkedNodes;
