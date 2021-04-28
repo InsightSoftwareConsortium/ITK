@@ -137,7 +137,7 @@ class itkCType:
         _SS: "itkCType" = itkCType("signed short", "SS", np.int16)
         _SI: "itkCType" = itkCType("signed int", "SI", np.int32)
         _SLL: "itkCType" = itkCType("signed long long", "SLL", np.int64)
-        _B: "itkCType" = itkCType("bool", "B", np.bool)
+        _B: "itkCType" = itkCType("bool", "B", np.bool8)
         return _F, _D, _UC, _US, _UI, _UL, _SL, _LD, _ULL, _SC, _SS, _SI, _SLL, _B
 
 
