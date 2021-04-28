@@ -31,12 +31,14 @@
 #define ____HeapNode__
 
 #include "fibheap.h"
+#include "GrowCutExport.h"
+
 /***************************************************************************
  * class HeapNode
  ***************************************************************************/
 namespace FGC
 {
-class HeapNode : public FibHeapNode
+class GrowCut_EXPORT HeapNode : public FibHeapNode
 {
   float N;
   long  IndexV;
