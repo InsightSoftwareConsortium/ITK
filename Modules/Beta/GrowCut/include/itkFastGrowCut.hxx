@@ -56,117 +56,384 @@ ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
 
 namespace itk
 {
-template <typename TInputImage, typename TLabelImage>
-void
-FastGrowCut<TInputImage, TLabelImage>::GenerateData()
+template <typename TInputImage, typename TLabelImage, typename TMaskImage>
+bool
+FastGrowCut<TInputImage, TLabelImage, TMaskImage>::InitializationAHP()
 {
-  using RegionType = typename TInputImage::RegionType;
-
-  auto inputImage = this->GetInput();
-  auto seedImage = this->GetSeedImage();
-  auto outputImage = this->GetOutput();
-
-  // Copy seedImage into the output
-  RegionType region = inputImage->GetRequestedRegion();
-  outputImage->SetLargestPossibleRegion(region);
-  outputImage->SetBufferedRegion(region);
-  outputImage->Allocate();
-  ImageAlgorithm::Copy(seedImage, outputImage, region, region);
-
-  std::cerr << "InitializationFlag: " << m_InitializationFlag << std::endl;
-  // Find ROI
-  if (!m_InitializationFlag)
+  // Release memory before reallocating
+  if (m_Heap != nullptr)
   {
-    using ImageMask = ImageMaskSpatialObject<3, LabelPixelType>;
-    typename ImageMask::Pointer maskSO = ImageMask::New();
-    maskSO->SetImage(outputImage);
-    RegionType bbRegion = maskSO->ComputeMyBoundingBoxInIndexSpace();
-    bbRegion.PadByRadius(17); // expand it by some padding radius
-    bbRegion.Crop(seedImage->GetLargestPossibleRegion()); // clip it to the original image size
+    delete m_Heap;
+    m_Heap = nullptr;
+  }
+  if (m_HeapNodes != nullptr)
+  {
+    delete[] m_HeapNodes;
+    m_HeapNodes = nullptr;
+  }
 
-    // copy ROI to vector
-    m_imROI.resize(6);
-    for (unsigned d = 0; d < 3; d++)
+  auto seedLabelVolume = this->GetSeedImage();
+  auto resultLabelVolume = this->GetOutput();
+  auto maskLabelVolume = this->GetMaskImage();
+
+  RegionType region = resultLabelVolume->GetRequestedRegion();
+
+  NodeIndexType m_DimX = region.GetSize(0);
+  NodeIndexType m_DimY = region.GetSize(1);
+  NodeIndexType m_DimZ = region.GetSize(2);
+  NodeIndexType dimXYZ = m_DimX * m_DimY * m_DimZ;
+
+  m_HeapNodes = new FibHeapNode[dimXYZ + 1]; // size is +1 for storing the zeroValueElement
+  if (m_HeapNodes == nullptr)
+  {
+    itkExceptionMacro("Memory allocation failed. Dimensions: " << m_DimX << "x" << m_DimY << "x" << m_DimZ);
+  }
+
+  m_Heap = new FibHeap;
+  m_Heap->SetHeapNodes(m_HeapNodes);
+
+  const LabelPixelType * seedLabelVolumePtr = seedLabelVolume->GetBufferPointer();
+
+  if (!m_bSegInitialized)
+  {
+    m_DistanceVolume->SetOrigin(resultLabelVolume->GetOrigin());
+    m_DistanceVolume->SetSpacing(resultLabelVolume->GetSpacing());
+    m_DistanceVolume->SetRegions(region);
+    m_DistanceVolume->SetLargestPossibleRegion(resultLabelVolume->GetLargestPossibleRegion());
+    m_DistanceVolume->Allocate(true);
+    LabelPixelType *   resultLabelVolumePtr = static_cast<LabelPixelType *>(resultLabelVolume->GetBufferPointer());
+    NodeKeyValueType * distanceVolumePtr = static_cast<NodeKeyValueType *>(m_DistanceVolume->GetBufferPointer());
+
+    // Compute index offset
+    m_NeighborIndexOffsets.clear();
+    m_NeighborDistancePenalties.clear();
+    // Neighbors are traversed in the order of m_NeighborIndexOffsets,
+    // therefore one would expect that the offsets should
+    // be as continuous as possible (e.g., x coordinate
+    // should change most quickly), but that resulted in
+    // about 5-6% longer computation time. Therefore,
+    // we put indices in order x1y1z1, x1y1z2, x1y1z3, etc.
+    SpacingType spacing = seedLabelVolume->GetSpacing();
+    for (long ix = -1; ix <= 1; ix++)
     {
-      m_imROI[d] = bbRegion.GetIndex(d);
-      m_imROI[d + 3] = bbRegion.GetIndex(d) + bbRegion.GetSize(d) - 1;
-    }
-    std::cerr << "image ROI = [" << m_imROI[0] << "," << m_imROI[1] << "," << m_imROI[2] << ";" << m_imROI[3] << ","
-              << m_imROI[4] << "," << m_imROI[5] << "]" << std::endl;
-    // SB: Find the ROI from the seed volume in the source volume and store it in m_imSrcVec
-    ExtractITKImageROI<InputImagePixelType>(inputImage, m_imROI, m_imSrcVec);
-  }
-  // SB: Store the ROI from the seed volume in m_imSeedVec
-  ExtractITKImageROI<LabelPixelType>(outputImage, m_imROI, m_imSeedVec);
-
-  // Initialize FastGrowCut
-  std::vector<long> imSize(3);
-  for (int i = 0; i < 3; i++)
-  {
-    imSize[i] = m_imROI[i + 3] - m_imROI[i] + 1;
-  }
-  m_fastGC->SetSourceImage(m_imSrcVec);
-  m_fastGC->SetSeedlImage(m_imSeedVec);
-  m_fastGC->SetImageSize(imSize);
-  m_fastGC->SetWorkMode(m_InitializationFlag);
-
-  // Do Segmentation
-  m_fastGC->DoSegmentation();
-  m_fastGC->GetLabelImage(m_imLabVec);
-
-  // Update result. SB: Seed volume is replaced with grow cut result
-  {
-    IndexType index;
-    long      i, j, k, kk;
-
-    // Set non-ROI as zeros
-    outputImage->FillBuffer(0);
-    kk = 0;
-    // TODO: replace these loops by a region iterator
-    for (k = m_imROI[2]; k <= m_imROI[5]; k++)
-      for (j = m_imROI[1]; j <= m_imROI[4]; j++)
-        for (i = m_imROI[0]; i <= m_imROI[3]; i++)
+      for (long iy = -1; iy <= 1; iy++)
+      {
+        for (long iz = -1; iz <= 1; iz++)
         {
-          index[0] = i;
-          index[1] = j;
-          index[2] = k;
-          outputImage->SetPixel(index, m_imLabVec[kk++]);
+          if (ix == 0 && iy == 0 && iz == 0)
+          {
+            continue;
+          }
+          m_NeighborIndexOffsets.push_back(ix + long(m_DimX) * (iy + long(m_DimY) * iz));
+          m_NeighborDistancePenalties.push_back(this->m_DistancePenalty * sqrt((spacing[0] * ix) * (spacing[0] * ix) +
+                                                                               (spacing[1] * iy) * (spacing[1] * iy) +
+                                                                               (spacing[2] * iz) * (spacing[2] * iz)));
         }
+      }
+    }
+
+    // Determine neighborhood size for computation at each voxel.
+    // The neighborhood size is everywhere the same (size of m_NeighborIndexOffsets)
+    // except at the edges of the volume, where the neighborhood size is 0.
+    m_NumberOfNeighbors.resize(dimXYZ);
+    const unsigned char numberOfNeighbors = static_cast<unsigned char>(m_NeighborIndexOffsets.size());
+    unsigned char *     nbSizePtr = &(m_NumberOfNeighbors[0]);
+    for (NodeIndexType z = 0; z < m_DimZ; z++)
+    {
+      bool zEdge = (z == 0 || z == m_DimZ - 1);
+      for (NodeIndexType y = 0; y < m_DimY; y++)
+      {
+        bool yEdge = (y == 0 || y == m_DimY - 1);
+        *(nbSizePtr++) = 0; // x == 0 (there is always padding, so we don't need to check if m_DimX>0)
+        unsigned char nbSize = (zEdge || yEdge) ? 0 : numberOfNeighbors;
+        for (NodeIndexType x = m_DimX - 2; x > 0; x--)
+        {
+          *(nbSizePtr++) = nbSize;
+        }
+        *(nbSizePtr++) =
+          0; // x == m_DimX-1 (there is always padding, so we don'neighborNewDistance need to check if m_DimX>1)
+      }
+    }
+
+    if (!maskLabelVolume)
+    {
+      // no mask
+      for (NodeIndexType index = 0; index < dimXYZ; index++)
+      {
+        LabelPixelType seedValue = seedLabelVolumePtr[index];
+        resultLabelVolumePtr[index] = seedValue;
+        if (seedValue == 0)
+        {
+          m_HeapNodes[index] = DIST_INF;
+          distanceVolumePtr[index] = DIST_INF;
+        }
+        else
+        {
+          m_HeapNodes[index] = DIST_EPSILON;
+          distanceVolumePtr[index] = DIST_EPSILON;
+        }
+        m_HeapNodes[index].SetIndexValue(index);
+        m_Heap->Insert(&m_HeapNodes[index]);
+      }
+    }
+    else
+    {
+      // with mask
+      const MaskPixelType * maskLabelVolumePtr = maskLabelVolume->GetBufferPointer();
+      for (NodeIndexType index = 0; index < dimXYZ; index++)
+      {
+        if (maskLabelVolumePtr[index] != 0)
+        {
+          // masked region
+          resultLabelVolumePtr[index] = 0;
+          // small distance will prevent overwriting of masked voxels
+          m_HeapNodes[index] = DIST_EPSILON;
+          distanceVolumePtr[index] = DIST_EPSILON;
+          // we don't add masked voxels to the heap
+          // to exclude them from region growing
+        }
+        else
+        {
+          // non-masked region
+          LabelPixelType seedValue = seedLabelVolumePtr[index];
+          resultLabelVolumePtr[index] = seedValue;
+          if (seedValue == 0)
+          {
+            m_HeapNodes[index] = DIST_INF;
+            distanceVolumePtr[index] = DIST_INF;
+          }
+          else
+          {
+            m_HeapNodes[index] = DIST_EPSILON;
+            distanceVolumePtr[index] = DIST_EPSILON;
+          }
+          m_HeapNodes[index].SetIndexValue(index);
+          m_Heap->Insert(&m_HeapNodes[index]);
+        }
+      }
+    }
   }
+  else
+  {
+    // Already initialized
+    LabelPixelType *   resultLabelVolumePtr = resultLabelVolume->GetBufferPointer();
+    NodeKeyValueType * distanceVolumePtr = m_DistanceVolume->GetBufferPointer();
+    for (NodeIndexType index = 0; index < dimXYZ; index++)
+    {
+      if (seedLabelVolumePtr[index] != 0)
+      {
+        // Only grow from new/changed seeds
+        if (resultLabelVolumePtr[index] != seedLabelVolumePtr[index] // changed seed
+            || distanceVolumePtr[index] > DIST_EPSILON               // new seed
+        )
+        {
+          m_HeapNodes[index] = DIST_EPSILON;
+          distanceVolumePtr[index] = DIST_EPSILON;
+          resultLabelVolumePtr[index] = seedLabelVolumePtr[index];
+          m_HeapNodes[index].SetIndexValue(index);
+          m_Heap->Insert(&m_HeapNodes[index]);
+        }
+        // Old seeds will be completely ignored in updates, as their labels have been already propagated
+        // and their value cannot changed (because their value is prescribed).
+      }
+      else
+      {
+        m_HeapNodes[index] = DIST_INF;
+        m_HeapNodes[index].SetIndexValue(index);
+        m_Heap->Insert(&m_HeapNodes[index]);
+      }
+    }
+  }
+
+  // Insert 0 then extract it, which will balance heap
+  NodeIndexType zeroValueElementIndex = dimXYZ;
+  m_HeapNodes[zeroValueElementIndex] = 0;
+  m_HeapNodes[zeroValueElementIndex].SetIndexValue(zeroValueElementIndex);
+  m_Heap->Insert(&m_HeapNodes[zeroValueElementIndex]);
+  m_Heap->ExtractMin();
+
+  return true;
 }
 
-template <typename TInputImage, typename TLabelImage>
+template <typename TInputImage, typename TLabelImage, typename TMaskImage>
 void
-FastGrowCut<TInputImage, TLabelImage>::EnlargeOutputRequestedRegion(DataObject * output)
+FastGrowCut<TInputImage, TLabelImage, TMaskImage>::DijkstraBasedClassificationAHP()
+{
+  if (m_Heap == nullptr || m_HeapNodes == nullptr)
+  {
+    return;
+  }
+
+  auto intensityVolume = this->GetInput();
+  auto resultLabelVolume = this->GetOutput();
+
+  LabelPixelType *           resultLabelVolumePtr = resultLabelVolume->GetBufferPointer();
+  const IntensityPixelType * imSrc = intensityVolume->GetBufferPointer();
+
+  if (!m_bSegInitialized)
+  {
+    // Full computation
+    NodeKeyValueType * distanceVolumePtr = m_DistanceVolume->GetBufferPointer();
+    LabelPixelType *   resultLabelVolumePtr = resultLabelVolume->GetBufferPointer();
+
+    // Normal Dijkstra (to be used in initializing the segmenter for the current image)
+    while (!m_Heap->IsEmpty())
+    {
+      FibHeapNode *    hnMin = m_Heap->ExtractMin();
+      NodeIndexType    index = hnMin->GetIndexValue();
+      NodeKeyValueType currentDistance = hnMin->GetKeyValue();
+      LabelPixelType   currentLabel = resultLabelVolumePtr[index];
+
+      // Update neighbors
+      NodeKeyValueType pixCenter = imSrc[index];
+      unsigned char    nbSize = m_NumberOfNeighbors[index];
+      for (unsigned char i = 0; i < nbSize; i++)
+      {
+        NodeIndexType    indexNgbh = index + m_NeighborIndexOffsets[i];
+        NodeKeyValueType neighborCurrentDistance = distanceVolumePtr[indexNgbh];
+        NodeKeyValueType neighborNewDistance =
+          fabs(pixCenter - imSrc[indexNgbh]) + currentDistance + m_NeighborDistancePenalties[i];
+        if (neighborCurrentDistance > neighborNewDistance)
+        {
+          distanceVolumePtr[indexNgbh] = neighborNewDistance;
+          resultLabelVolumePtr[indexNgbh] = currentLabel;
+          m_Heap->DecreaseKey(&m_HeapNodes[indexNgbh], neighborNewDistance);
+        }
+      }
+    }
+  }
+  else
+  {
+    // Quick update
+
+    // Adaptive Dijkstra
+    NodeKeyValueType * distanceVolumePtr = m_DistanceVolume->GetBufferPointer();
+    while (!m_Heap->IsEmpty())
+    {
+      FibHeapNode *    hnMin = m_Heap->ExtractMin();
+      NodeKeyValueType currentDistance = hnMin->GetKeyValue();
+
+      // Stop if minimum value is infinite (it means there are no more voxels to propagate labels from)
+      if (currentDistance == DIST_INF)
+      {
+        break;
+      }
+
+      NodeIndexType  index = hnMin->GetIndexValue();
+      LabelPixelType currentLabel = resultLabelVolumePtr[index];
+
+      // Update neighbors
+      NodeKeyValueType pixCenter = imSrc[index];
+      unsigned char    nbSize = m_NumberOfNeighbors[index];
+      for (unsigned char i = 0; i < nbSize; i++)
+      {
+        NodeIndexType    indexNgbh = index + m_NeighborIndexOffsets[i];
+        NodeKeyValueType neighborCurrentDistance = distanceVolumePtr[indexNgbh];
+        NodeKeyValueType neighborNewDistance =
+          fabs(pixCenter - imSrc[indexNgbh]) + currentDistance + m_NeighborDistancePenalties[i];
+        if (neighborCurrentDistance > neighborNewDistance)
+        {
+          distanceVolumePtr[indexNgbh] = neighborNewDistance;
+          resultLabelVolumePtr[indexNgbh] = currentLabel;
+
+          m_Heap->DecreaseKey(&m_HeapNodes[indexNgbh], neighborNewDistance);
+        }
+      }
+    }
+  }
+
+  m_bSegInitialized = true;
+
+  // Release memory
+  delete m_Heap;
+  m_Heap = nullptr;
+  delete[] m_HeapNodes;
+  m_HeapNodes = nullptr;
+}
+
+template <typename TInputImage, typename TLabelImage, typename TMaskImage>
+void
+FastGrowCut<TInputImage, TLabelImage, TMaskImage>::GenerateData()
+{
+  auto       inputImage = this->GetInput();
+  auto       seedImage = this->GetSeedImage();
+  auto       outputImage = this->GetOutput();
+  RegionType inRegion = inputImage->GetLargestPossibleRegion();
+
+  SpacingType  spacing = inputImage->GetSpacing();
+  const double compareTolerance = (spacing[0] + spacing[1] + spacing[2]) / 3.0 * 0.01;
+
+  // Copy seedImage into the output
+  RegionType region = outputImage->GetRequestedRegion();
+
+  // currently, RequestedRegion is controlled via maskInput
+  if (region != inRegion)
+  {
+    itkExceptionMacro("Currently, RequestedRegion has to be equal to LargestPossibleRegion");
+  }
+
+  outputImage->SetLargestPossibleRegion(inRegion);
+  outputImage->SetBufferedRegion(region);
+  outputImage->Allocate();
+  // ImageAlgorithm::Copy(seedImage, outputImage, region, region);
+
+  // These checks are done elsewhere in ITK pipeline:
+  // if ((spacing - outputImage->GetSpacing()).GetNorm() > compareTolerance ||
+  //     (inputImage->GetOrigin() - outputImage->GetOrigin()).GetNorm() > compareTolerance)
+  // {
+  //   // Restart growcut from scratch if image size is changed (then cached buffers cannot be reused)
+  //   this->Reset();
+  // }
+
+
+  IdentifierType maxNumberOfVoxels = std::numeric_limits<NodeIndexType>::max();
+  if (region.GetNumberOfPixels() >= maxNumberOfVoxels)
+  {
+    // we use unsigned int as index type to reduce memory usage, which limits number of voxels to 2^32,
+    // but this is not a practical limitation, as images containing more than 2^32 voxels would take too
+    // much time an memory to grow-cut anyway
+    itkExceptionMacro("Image size is too large (" << region.GetNumberOfPixels() << " voxels)."
+                                                  << " Maximum number of voxels is " << maxNumberOfVoxels - 1 << ".");
+  }
+
+  SizeType size = region.GetSize();
+  if (size[0] <= 2 || size[1] <= 2 || size[2] <= 2)
+  {
+    // image is too small (there should be space for at least one voxel padding around the image)
+    itkExceptionMacro("Image size is too small. Minimum size along each dimension is 3.");
+  }
+
+  this->InitializationAHP();
+  this->DijkstraBasedClassificationAHP();
+}
+
+template <typename TInputImage, typename TLabelImage, typename TMaskImage>
+void
+FastGrowCut<TInputImage, TLabelImage, TMaskImage>::EnlargeOutputRequestedRegion(DataObject * output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template <typename TInputImage, typename TLabelImage>
+template <typename TInputImage, typename TLabelImage, typename TMaskImage>
 void
-FastGrowCut<TInputImage, TLabelImage>::GenerateInputRequestedRegion()
+FastGrowCut<TInputImage, TLabelImage, TMaskImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   if (this->GetInput())
   {
-    InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
+    typename InputImageType::Pointer input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegionToLargestPossibleRegion();
   }
 }
 
-template <typename TInputImage, typename TLabelImage>
+
+template <typename TInputImage, typename TLabelImage, typename TMaskImage>
 void
-FastGrowCut<TInputImage, TLabelImage>::PrintSelf(std::ostream & os, Indent indent) const
+FastGrowCut<TInputImage, TLabelImage, TMaskImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  using namespace itk::print_helper;
-  os << indent << "InitializationFlag: " << m_InitializationFlag << std::endl;
-  os << indent << "imSeedVec: " << m_imSeedVec << std::endl;
-  os << indent << "imLabVec: " << m_imLabVec << std::endl;
-  os << indent << "imSrcVec: " << m_imSrcVec << std::endl;
-  os << indent << "imROI: " << m_imROI << std::endl;
-  os << indent << "FastGC: " << m_fastGC.get() << std::endl;
+  // TODO: print other members
 }
 
 } // namespace itk
