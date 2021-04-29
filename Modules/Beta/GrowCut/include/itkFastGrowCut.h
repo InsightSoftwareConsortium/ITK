@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-// Adapted from: https://github.com/ljzhu/FastGrowCut
-
 #ifndef itkFastGrowCut_h
 #define itkFastGrowCut_h
 
@@ -32,10 +30,21 @@ namespace itk
 
 /** \class FastGrowCut
  *
- * \brief Filters a image by iterating over its pixels.
+ * \brief Segments a 3D image from user-provided seeds.
  *
- * Filters a image by iterating over its pixels in a multi-threaded way
- * and {to be completed by the developer}.
+ * Seeds could be just foreground and background, or multiple seeds for multiple objects.
+ *
+ * Computational complexity is V*log(V), where V is number of voxels in the region to be segmented.
+ *
+ * Based on the method first introduced by:
+ * 
+ * Liangjia Zhu, Ivan Kolesov, Yi Gao, Ron Kikinis, Allen Tannenbaum.
+ * An Effective Interactive Medical Image Segmentation Method Using Fast GrowCut
+ * International Conference on Medical Image Computing and Computer Assisted Intervention (MICCAI),
+ * Interactive Medical Image Computing Workshop, 2014
+ * https://robobees.seas.harvard.edu/files/nac/files/zhu-miccai2014.pdf
+ *
+ * Original code was located at: https://github.com/ljzhu/FastGrowCut
  *
  * \ingroup GrowCut
  *
