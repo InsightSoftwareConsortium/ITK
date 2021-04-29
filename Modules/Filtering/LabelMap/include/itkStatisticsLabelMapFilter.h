@@ -147,10 +147,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  FeatureImagePixelType m_Minimum;
-  FeatureImagePixelType m_Maximum;
-  unsigned int          m_NumberOfBins;
-  bool                  m_ComputeHistogram;
+  FeatureImagePixelType m_Minimum{ NumericTraits<FeatureImagePixelType>::ZeroValue() };
+  FeatureImagePixelType m_Maximum{ NumericTraits<FeatureImagePixelType>::ZeroValue() };
+  // Set the number of bins to match the number of values for 8,16-bit integers.
+  static constexpr bool m_DefaultNumberOfBinsToNumberOfValues =
+    NumericTraits<typename Self::FeatureImagePixelType>::IsInteger && sizeof(typename Self::FeatureImagePixelType) <= 2;
+  unsigned int m_NumberOfBins{ m_DefaultNumberOfBinsToNumberOfValues
+                                 ? 1 << (8 * sizeof(typename Self::FeatureImagePixelType))
+                                 : 128 };
+  bool         m_ComputeHistogram{ true };
 }; // end of class
 } // end namespace itk
 

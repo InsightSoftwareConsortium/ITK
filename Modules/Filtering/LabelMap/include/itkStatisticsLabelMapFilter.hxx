@@ -31,10 +31,6 @@ namespace itk
 template <typename TImage, typename TFeatureImage>
 StatisticsLabelMapFilter<TImage, TFeatureImage>::StatisticsLabelMapFilter()
 {
-  m_Minimum = NumericTraits<FeatureImagePixelType>::ZeroValue();
-  m_Maximum = NumericTraits<FeatureImagePixelType>::ZeroValue();
-  m_NumberOfBins = 128;
-  m_ComputeHistogram = true;
   this->SetNumberOfRequiredInputs(2);
 }
 
@@ -73,10 +69,22 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   histogramSize.Fill(m_NumberOfBins);
 
   typename HistogramType::MeasurementVectorType featureImageMin(1);
-  featureImageMin.Fill(m_Minimum);
 
   typename HistogramType::MeasurementVectorType featureImageMax(1);
-  featureImageMax.Fill(m_Maximum);
+
+
+  if (NumericTraits<typename Self::FeatureImagePixelType>::IsInteger &&
+      m_NumberOfBins == 1 << (8 * sizeof(typename Self::FeatureImagePixelType)))
+  {
+    // Add padding so the center of bins are integers
+    featureImageMin.Fill(NumericTraits<typename Self::FeatureImagePixelType>::min() - 0.5);
+    featureImageMax.Fill(NumericTraits<typename Self::FeatureImagePixelType>::max() + 0.5);
+  }
+  else
+  {
+    featureImageMin.Fill(m_Minimum);
+    featureImageMax.Fill(m_Maximum);
+  }
 
   typename HistogramType::Pointer histogram = HistogramType::New();
   histogram->SetMeasurementVectorSize(1);
@@ -177,15 +185,28 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   }
 
   // the median
-  double median = 0;
-  double count = 0; // will not be fully set, so do not use later !
+  double median = 0.0;
+  double count = 0.0; // will not be fully set, so do not use later !
   for (SizeValueType i = 0; i < histogram->Size(); ++i)
   {
     count += histogram->GetFrequency(i);
 
-    if (count >= (totalFreq / 2))
+    if (count >= ((totalFreq + 1) / 2))
     {
       median = histogram->GetMeasurementVector(i)[0];
+      // If there are an even number of elements average with the next bin with elements
+      if (labelObject->Size() % 2 == 0 && count == totalFreq / 2)
+      {
+        while (++i < histogram->Size())
+        {
+          if (histogram->GetFrequency(i) > 0)
+          {
+            median += histogram->GetMeasurementVector(i)[0];
+            median *= 0.5;
+            break;
+          }
+        }
+      }
       break;
     }
   }
