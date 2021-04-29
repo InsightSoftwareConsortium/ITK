@@ -25,7 +25,6 @@
    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
    DEALINGS IN THE SOFTWARE.
  */
-//  Created by Salma Bengali on 4/15/14.
 
 #ifndef ____HeapNode__
 #define ____HeapNode__

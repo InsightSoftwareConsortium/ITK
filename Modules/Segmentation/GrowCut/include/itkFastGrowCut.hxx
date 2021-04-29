@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-// Adapted from: https://github.com/ljzhu/FastGrowCut
-
 #ifndef itkFastGrowCut_hxx
 #define itkFastGrowCut_hxx
 
