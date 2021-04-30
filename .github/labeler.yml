@@ -17,7 +17,13 @@ type:Performance:
 type:Style:
   title: "^STYLE:.*"
 
-# Modified filename regexes
+type:Coverage:
+  title: "coverage"
+
+type:Design:
+  title: "design"
+
+# Filename regexes
 area:Bridge:
   files:
     - "Modules/Bridge/*"
@@ -29,6 +35,7 @@ area:Core:
 area:Documentation:
   files:
     - "Documentation/*"
+    - "Utilities/Doxygen/*"
 
 area:Examples:
   files:
@@ -48,7 +55,11 @@ area:Numerics:
 
 area:Python wrapping:
   files:
+    - "Modules/Generators/Python/*"
+    - "Modules/.*/wrapping/*"
+    - ".*.notwrapped"
     - ".*.py*"
+    - ".*.wrap"
 
 area:Registration:
   files:
@@ -74,4 +85,11 @@ type:Testing:
   files:
     - "Testing/*"
     - ".*Test.*.cxx"
+    - ".*Test.*.h.*"
     - ".*Test.*.py"
+
+type:Infrastructure:
+  files:
+    - "CMake/*"
+    - ".github/*"
+    - "Utilities/*"
