@@ -825,7 +825,7 @@ def {snakeCase}(*args{args_typehint}, {kwargs_typehints}**kwargs){return_typehin
     import itk
 
     kwarg_typehints = {{ {kwarg_dict} }}
-    specified_kwarg_typehints = {{ k:v for (k,v) in kwarg_typehints.items() if kwarg_typehints[k] != ... }}
+    specified_kwarg_typehints = {{ k:v for (k,v) in kwarg_typehints.items() if kwarg_typehints[k] is not ... }}
     kwargs.update(specified_kwarg_typehints)
 
     instance = itk.{processObject}.New(*args, **kwargs)
