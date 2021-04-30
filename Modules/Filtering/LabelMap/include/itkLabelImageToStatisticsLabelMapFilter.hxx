@@ -29,7 +29,7 @@ LabelImageToStatisticsLabelMapFilter<TInputImage, TFeatureImage, TOutputImage>::
   m_BackgroundValue = NumericTraits<OutputImagePixelType>::NonpositiveMin();
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
-  m_NumberOfBins = 128;
+  m_NumberOfBins = LabelObjectValuatorType::GetDefaultNumberOfBins();
   m_ComputeHistogram = true;
   this->SetNumberOfRequiredInputs(2);
 }
