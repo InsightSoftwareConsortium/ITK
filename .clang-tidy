@@ -1,0 +1,5 @@
+Checks: '-*,-modernize-use-using,-modernize-use-nullptr'
+CheckOptions:
+    - key:             modernize-use-nullptr.NullMacros
+      value:           NULL,CUSTOM_NULL
+FormatStyle: 'file'
