@@ -529,6 +529,8 @@ include(ITKModuleEnablement)
 
 # Setup clang-format for code style enforcement
 include(ITKClangFormatSetup)
+# Setup clang-tidy for code best-practices enforcement for C++11
+include(ITKClangTidySetup)
 #----------------------------------------------------------------------
 # Generate ITKConfig.cmake for the build tree.
 set(ITK_CONFIG_CODE "
