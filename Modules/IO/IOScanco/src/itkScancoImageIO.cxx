@@ -261,6 +261,8 @@ ScancoImageIO::InitializeHeader()
 {
   memset(this->m_Version, 0, 18);
   memset(this->m_PatientName, 0, 42);
+  this->m_PatientIndex = 0;
+  this->m_ScannerID = 0;
   memset(this->m_CreationDate, 0, 32);
   memset(this->m_ModificationDate, 0, 32);
   this->ScanDimensionsPixels[0] = 0;
@@ -269,8 +271,6 @@ ScancoImageIO::InitializeHeader()
   this->ScanDimensionsPhysical[0] = 0;
   this->ScanDimensionsPhysical[1] = 0;
   this->ScanDimensionsPhysical[2] = 0;
-  this->m_PatientIndex = 0;
-  this->m_ScannerID = 0;
   this->m_SliceThickness = 0;
   this->m_SliceIncrement = 0;
   this->m_StartPosition = 0;
