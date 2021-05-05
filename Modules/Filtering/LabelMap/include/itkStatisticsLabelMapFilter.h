@@ -133,6 +133,15 @@ public:
   itkSetMacro(NumberOfBins, unsigned int);
   itkGetConstReferenceMacro(NumberOfBins, unsigned int);
 
+  // Set the default number of bins to match the number of values for 8 or 16-bit integers; otherwise 128
+  static constexpr unsigned int
+  GetDefaultNumberOfBins()
+  {
+    return NumericTraits<FeatureImagePixelType>::IsInteger && sizeof(FeatureImagePixelType) <= 2
+             ? 1 << (8 * sizeof(FeatureImagePixelType))
+             : 128;
+  }
+
 protected:
   StatisticsLabelMapFilter();
   ~StatisticsLabelMapFilter() override = default;
@@ -147,10 +156,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  FeatureImagePixelType m_Minimum;
-  FeatureImagePixelType m_Maximum;
-  unsigned int          m_NumberOfBins;
-  bool                  m_ComputeHistogram;
+  FeatureImagePixelType m_Minimum{ NumericTraits<FeatureImagePixelType>::ZeroValue() };
+  FeatureImagePixelType m_Maximum{ NumericTraits<FeatureImagePixelType>::ZeroValue() };
+  unsigned int          m_NumberOfBins{ GetDefaultNumberOfBins() };
+  bool                  m_ComputeHistogram{ true };
 }; // end of class
 } // end namespace itk
 
