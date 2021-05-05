@@ -58,7 +58,7 @@ area:Python wrapping:
     - "Modules/Generators/Python/*"
     - "Modules/.*/wrapping/*"
     - ".*.notwrapped"
-    - ".*.py*"
+    - ".*.py.*"
     - ".*.wrap"
 
 area:Registration:
