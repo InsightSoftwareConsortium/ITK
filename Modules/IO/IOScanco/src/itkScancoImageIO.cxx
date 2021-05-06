@@ -1387,7 +1387,9 @@ ScancoImageIO::WriteISQHeader(std::ofstream * file)
     this->InitializeHeader();
   }
   this->SetHeaderFromMetaDataDictionary();
+  // now overwrite some values which we don't want taken from metadata
   this->SetVersion("CTDATA-HEADER_V1");
+  this->m_MuScaling = 0.0; // we don't want rescaling to occur on reading
 
   delete[] this->m_RawHeader;
   this->m_RawHeader = new char[512];
