@@ -137,6 +137,10 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     support/init_helpers
     support/build_options
     )
+  set(ITK_PYTHON_STUB_MODULES
+    itk-stubs/__init__
+    itk-stubs/BaseClasses
+    )
   set(ITK_INIT_MODULE "${CMAKE_CURRENT_SOURCE_DIR}/itk/__init__.py")
   set(ITK_CONFIGURATION_INIT_MODULE "${ITK_PYTHON_PACKAGE_DIR}/Configuration/__init__.py")
   # Done listing files.
@@ -158,6 +162,15 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
         DEPENDS ${src}
         COMMENT "Copying ${_file}.py to ${copy_tgt}.")
     endforeach()
+    foreach(_file ${ITK_PYTHON_STUB_MODULES})
+      set(src "${CMAKE_CURRENT_SOURCE_DIR}/${_file}.pyi")
+      set(copy_tgt    "${WrapITK_BINARY_DIR}/Generators/Python/${_file}.pyi")
+      list(APPEND ITK_WRAP_PYTHON_FILES "${copy_tgt}")
+      add_custom_command(OUTPUT ${copy_tgt}
+              COMMAND ${CMAKE_COMMAND} -E copy_if_different ${src} ${copy_tgt}
+              DEPENDS ${src}
+              COMMENT "Copying ${_file}.pyi to ${copy_tgt}.")
+    endforeach()
     set(src "${ITK_INIT_MODULE}")
     set(copy_tgt "${ITK_PYTHON_PACKAGE_DIR}/__init__.py")
     list(APPEND ITK_WRAP_PYTHON_FILES "${copy_tgt}")
@@ -171,11 +184,17 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   # Install the package python files.
   set(ITK_WRAP_PYTHON_FILES )
+  set(ITK_WRAP_PYTHON_STUB_FILES )
   foreach(_file ${ITK_PYTHON_SUPPORT_MODULES})
     set(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/itk/${_file}.py")
     list(APPEND ITK_WRAP_PYTHON_FILES ${ITK_WRAP_PYTHON_FILES} "${install_tgt}")
   endforeach()
+  foreach(_file ${ITK_PYTHON_STUB_MODULES})
+    set(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/${_file}.py")
+    list(APPEND ITK_WRAP_PYTHON_STUB_FILES ${ITK_WRAP_PYTHON_STUB_FILES} "${install_tgt}")
+  endforeach()
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/support "ITKCommon" ${ITK_WRAP_PYTHON_FILES})
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk-stubs "ITKCommon" ${ITK_WRAP_PYTHON_STUB_FILES})
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/Configuration "ITKCommon" "${ITK_CONFIGURATION_INIT_MODULE}")
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${ITK_INIT_MODULE})
 endif()
