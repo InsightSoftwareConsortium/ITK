@@ -1,6 +1,7 @@
 itk_wrap_module(ITKVideo)
 
 set(WRAPPER_SUBMODULE_ORDER
+  itkTemporalDataObject
   itkVideoStream
 )
 

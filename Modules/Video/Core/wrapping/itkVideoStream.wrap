@@ -2,7 +2,7 @@ itk_wrap_include("itkImage.h")
 
 itk_wrap_class("itk::VideoStream" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${WRAP_ITK_REAL})
+    foreach(t ${WRAP_ITK_SCALAR})
       itk_wrap_template("I${ITKM_${t}}${d}" "itk::Image<${ITKT_${t}}, ${d}>")
     endforeach()
   endforeach()
