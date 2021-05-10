@@ -332,7 +332,7 @@ VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber, FramePointer frame)
 
 
 template <typename TFrameType>
-typename VideoStream<TFrameType>::FramePointer
+typename VideoStream<TFrameType>::FrameType *
 VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
 {
 
@@ -344,7 +344,7 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
 
 
 template <typename TFrameType>
-typename VideoStream<TFrameType>::FrameConstPointer
+const typename VideoStream<TFrameType>::FrameType *
 VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const
 {
   typename BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
