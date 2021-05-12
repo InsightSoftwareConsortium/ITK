@@ -261,6 +261,8 @@ ScancoImageIO::InitializeHeader()
 {
   memset(this->m_Version, 0, 18);
   memset(this->m_PatientName, 0, 42);
+  this->m_PatientIndex = 0;
+  this->m_ScannerID = 0;
   memset(this->m_CreationDate, 0, 32);
   memset(this->m_ModificationDate, 0, 32);
   this->ScanDimensionsPixels[0] = 0;
@@ -269,8 +271,6 @@ ScancoImageIO::InitializeHeader()
   this->ScanDimensionsPhysical[0] = 0;
   this->ScanDimensionsPhysical[1] = 0;
   this->ScanDimensionsPhysical[2] = 0;
-  this->m_PatientIndex = 0;
-  this->m_ScannerID = 0;
   this->m_SliceThickness = 0;
   this->m_SliceIncrement = 0;
   this->m_StartPosition = 0;
@@ -1067,6 +1067,72 @@ ScancoImageIO::PopulateMetaDataDictionary()
   EncapsulateMetaData<double>(thisDic, "MuWater", this->m_MuWater);
 }
 
+void
+ScancoImageIO::SetHeaderFromMetaDataDictionary()
+{
+  MetaDataDictionary & metaData = this->GetMetaDataDictionary();
+
+  std::string stringMeta;
+  if (ExposeMetaData<std::string>(metaData, "Version", stringMeta))
+  {
+    strncpy(this->m_Version, stringMeta.c_str(), 18);
+  }
+  if (ExposeMetaData<std::string>(metaData, "PatientName", stringMeta))
+  {
+    strncpy(this->m_PatientName, stringMeta.c_str(), 42);
+  }
+
+  ExposeMetaData<int>(metaData, "PatientIndex", this->m_PatientIndex);
+  ExposeMetaData<int>(metaData, "ScannerID", this->m_ScannerID);
+
+  if (ExposeMetaData<std::string>(metaData, "CreationDate", stringMeta))
+  {
+    strncpy(this->m_CreationDate, stringMeta.c_str(), 32);
+  }
+  if (ExposeMetaData<std::string>(metaData, "ModificationDate", stringMeta))
+  {
+    strncpy(this->m_ModificationDate, stringMeta.c_str(), 32);
+  }
+
+  ExposeMetaData<double>(metaData, "SliceThickness", this->m_SliceThickness);
+  ExposeMetaData<double>(metaData, "SliceIncrement", this->m_SliceIncrement);
+
+  std::vector<double> dataRange(2);
+  if (ExposeMetaData<std::vector<double>>(metaData, "DataRange", dataRange))
+  {
+    this->m_DataRange[0] = dataRange[0];
+    this->m_DataRange[1] = dataRange[1];
+  }
+
+  ExposeMetaData<double>(metaData, "MuScaling", this->m_MuScaling);
+  ExposeMetaData<int>(metaData, "NumberOfSamples", this->m_NumberOfSamples);
+  ExposeMetaData<int>(metaData, "NumberOfProjections", this->m_NumberOfProjections);
+  ExposeMetaData<double>(metaData, "ScanDistance", this->m_ScanDistance);
+  ExposeMetaData<double>(metaData, "SampleTime", this->m_SampleTime);
+  ExposeMetaData<int>(metaData, "ScannerType", this->m_ScannerType);
+  ExposeMetaData<int>(metaData, "MeasurementIndex", this->m_MeasurementIndex);
+  ExposeMetaData<int>(metaData, "Site", this->m_Site);
+  ExposeMetaData<int>(metaData, "ReconstructionAlg", this->m_ReconstructionAlg);
+  ExposeMetaData<double>(metaData, "ReferenceLine", this->m_ReferenceLine);
+  ExposeMetaData<double>(metaData, "Energy", this->m_Energy);
+  ExposeMetaData<double>(metaData, "Intensity", this->m_Intensity);
+  ExposeMetaData<double>(metaData, "Intensity", this->m_Intensity);
+
+  ExposeMetaData<int>(metaData, "RescaleType", this->m_RescaleType);
+  if (ExposeMetaData<std::string>(metaData, "RescaleUnits", stringMeta))
+  {
+    strncpy(this->m_RescaleUnits, stringMeta.c_str(), 18);
+  }
+  if (ExposeMetaData<std::string>(metaData, "CalibrationData", stringMeta))
+  {
+    strncpy(this->m_CalibrationData, stringMeta.c_str(), 66);
+  }
+
+  ExposeMetaData<double>(metaData, "RescaleSlope", this->m_RescaleSlope);
+  ExposeMetaData<double>(metaData, "RescaleIntercept", this->m_RescaleIntercept);
+  ExposeMetaData<double>(metaData, "MuWater", this->m_MuWater);
+}
+
 template <typename TBufferType>
 void
 RescaleToHU(TBufferType * buffer, size_t size, double slope, double intercept)
@@ -1319,8 +1385,12 @@ ScancoImageIO::WriteISQHeader(std::ofstream * file)
   if (!this->m_HeaderInitialized)
   {
     this->InitializeHeader();
-    this->SetVersion("CTDATA-HEADER_V1");
   }
+  this->SetHeaderFromMetaDataDictionary();
+  // now overwrite some values which we don't want taken from metadata
+  this->SetVersion("CTDATA-HEADER_V1");
+  this->m_MuScaling = 0.0; // we don't want rescaling to occur on reading
+
   delete[] this->m_RawHeader;
   this->m_RawHeader = new char[512];
   char * header = this->m_RawHeader;
@@ -1446,7 +1516,7 @@ ScancoImageIO::Write(const void * buffer)
     itkExceptionMacro("ScancoImageIO only supports writing short files.");
   }
 
-  if (itk::ByteSwapper<short>::SystemIsBigEndian())
+  if (ByteSwapper<short>::SystemIsBigEndian())
   {
     char * tempmemory = new char[numberOfBytes];
     memcpy(tempmemory, buffer, numberOfBytes);

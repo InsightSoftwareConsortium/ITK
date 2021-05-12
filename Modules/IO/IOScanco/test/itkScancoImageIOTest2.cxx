@@ -20,6 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScancoImageIO.h"
+#include "itkScancoImageIOFactory.h"
 #include "itkTestingMacros.h"
 
 
@@ -43,11 +44,12 @@ itkScancoImageIOTest2(int argc, char * argv[])
   constexpr unsigned int Dimension = 3;
   using PixelType = short;
   using ImageType = itk::Image<PixelType, Dimension>;
+  ImageType::Pointer image;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
 
-  // force use of ScancoIO
+  itk::ScancoImageIOFactory::RegisterOneFactory();
   using IOType = itk::ScancoImageIO;
   IOType::Pointer scancoIO = IOType::New();
 
@@ -55,12 +57,12 @@ itkScancoImageIOTest2(int argc, char * argv[])
 
 
   reader->SetImageIO(scancoIO);
-
-  // read the file
   reader->SetFileName(inputFileName);
-  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
-  ImageType::Pointer image = reader->GetOutput();
-  auto               metaData = image->GetMetaDataDictionary();
+  // Populate the IO with file's metadata
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->UpdateOutputInformation());
+  // Read the file without explicitly requesting ScancoIO
+  ITK_TRY_EXPECT_NO_EXCEPTION(image = itk::ReadImage<ImageType>(inputFileName));
+  itk::MetaDataDictionary & metaData = image->GetMetaDataDictionary(); // Get metadata from regularly read image
 
   std::cout << "Version: \t\t" << scancoIO->GetVersion() << std::endl;
   ITK_TEST_EXPECT_EQUAL(scancoIO->GetVersion(), std::string("CTDATA-HEADER_V1"));
@@ -146,19 +148,18 @@ itkScancoImageIOTest2(int argc, char * argv[])
   std::cout << "CreationDate: \t" << scancoIO->GetCreationDate() << std::endl;
   std::cout << "ModificationDate: \t" << scancoIO->GetModificationDate() << std::endl;
 
-  // Generate test image
+  itk::EncapsulateMetaData<std::string>(metaData, "PatientName", std::string("Zukic"));
+
   using WriterType = itk::ImageFileWriter<ImageType>;
   WriterType::Pointer writer = WriterType::New();
-  if (argc > 3)
+  if (argc > 3) // Explicitly use scancoIO
   {
     ITK_TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
     ITK_TEST_EXPECT_TRUE(!scancoIO->CanWriteFile((outputFileName + ".exe").c_str()));
-
     writer->SetImageIO(scancoIO);
-    scancoIO->SetPatientName("McCormick");
   }
-  writer->SetInput(reader->GetOutput());
+  writer->SetInput(image);
   writer->SetFileName(outputFileName);
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 

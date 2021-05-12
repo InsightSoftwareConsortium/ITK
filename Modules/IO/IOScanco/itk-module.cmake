@@ -12,6 +12,7 @@ itk_module(
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
+    ITKIOMeta
   FACTORY_NAMES
     ImageIO::Scanco
   DESCRIPTION "Module ingested from upstream."

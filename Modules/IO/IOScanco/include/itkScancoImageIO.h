@@ -325,6 +325,9 @@ private:
   PopulateMetaDataDictionary();
 
   void
+  SetHeaderFromMetaDataDictionary();
+
+  void
   WriteISQHeader(std::ofstream * file);
 
   // Header information
