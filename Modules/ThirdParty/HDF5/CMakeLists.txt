@@ -23,15 +23,19 @@ if(ITK_USE_SYSTEM_HDF5)
   if(HDF5_DIR)
     set(_HDF5_DIR_CODE "set(HDF5_DIR \"${HDF5_DIR}\")")
   endif()
+  if(HDF5_NO_MODULE)
+    set(_HDF5_NO_MODULE_ARG "NO_MODULE")
+  endif()
+
   # When ITK's config is loaded, load HDF5 too.
   set(ITKHDF5_EXPORT_CODE_INSTALL "
 ${_HDF5_DIR_CODE}
-find_package(HDF5 REQUIRED COMPONENTS CXX C)
+find_package(HDF5 ${_HDF5_NO_MODULE_ARG} REQUIRED COMPONENTS CXX C)
 ")
     set(ITKHDF5_EXPORT_CODE_BUILD "
 if(NOT ITK_BINARY_DIR)
   ${_HDF5_DIR_CODE}
-  find_package(HDF5 REQUIRED COMPONENTS CXX C)
+  find_package(HDF5 ${_HDF5_NO_MODULE_ARG} REQUIRED COMPONENTS CXX C)
 endif()
 ")
 
