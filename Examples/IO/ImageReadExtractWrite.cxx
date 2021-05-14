@@ -60,12 +60,11 @@ int
 main(int argc, char ** argv)
 {
   // Verify the number of parameters in the command line
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " input3DImageFile  output2DImageFile "
+    std::cerr << argv[0] << " input3DImageFile output2DImageFile sliceNumber"
               << std::endl;
-    std::cerr << " sliceNumber " << std::endl;
     return EXIT_FAILURE;
   }
 
