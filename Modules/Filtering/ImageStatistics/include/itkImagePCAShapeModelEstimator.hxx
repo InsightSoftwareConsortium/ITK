@@ -63,8 +63,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output))
 {
-  // this filter requires the all of the output images to be in
-  // the buffer
+  // Require all of the output images to be in the buffer
   for (unsigned int idx = 0; idx < this->GetNumberOfIndexedOutputs(); ++idx)
   {
     if (this->GetOutput(idx))
@@ -109,9 +108,9 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::GenerateInputRequestedRe
 
         InputImagePointer ptr = const_cast<TInputImage *>(this->GetInput(idx));
         ptr->SetRequestedRegion(requestedRegion);
-      } // if ( this->GetIntput(idx))
-    }   // for idx
-  }     // if( this->GetInput(0) )
+      }
+    }
+  }
 }
 
 /**
@@ -300,10 +299,8 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::CalculateInnerProduct()
     m_InputImageIteratorArray[i].GoToBegin();
   }
 
-  //-------------------------------------------------------------------
   // Set up the matrix to hold the inner product and the means from the
   // training data
-  //-------------------------------------------------------------------
   m_InputImageSize = (inputImagePointerArray[0])->GetBufferedRegion().GetSize();
 
   m_NumberOfPixels = 1;
@@ -312,9 +309,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::CalculateInnerProduct()
     m_NumberOfPixels *= m_InputImageSize[i];
   }
 
-  //-------------------------------------------------------------------------
-  // Calculate the Means
-  //-------------------------------------------------------------------------
+  // Calculate the means
   m_Means.set_size(m_NumberOfPixels);
   m_Means.fill(0);
 
@@ -329,20 +324,16 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::CalculateInnerProduct()
       m_Means[band_x] += tempImageItA.Get();
       ++tempImageItA;
     }
-  } // end: looping through the image
-  //-------------------------------------------------------------------------
+  }
 
   m_Means /= m_NumberOfTrainingImages;
 
-  //-------------------------------------------------------------------------
   // Calculate the inner product
-  //-------------------------------------------------------------------------
   m_InnerProduct.set_size(m_NumberOfTrainingImages, m_NumberOfTrainingImages);
   m_InnerProduct.fill(0);
 
   InputImageConstIterator tempImageItB;
 
-  //-------------------------------------------------------------------------
   for (unsigned int band_x = 0; band_x < m_NumberOfTrainingImages; ++band_x)
   {
     for (unsigned int band_y = 0; band_y <= band_x; ++band_y)
@@ -360,21 +351,18 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::CalculateInnerProduct()
 
         ++tempImageItA;
         ++tempImageItB;
-      } // end: looping through the image
-    }   // end: band_y loop
-  }     // end: band_x loop
+      }
+    }
+  }
 
-  //---------------------------------------------------------------------
   // Fill the rest of the inner product matrix and make it symmetric
-  //---------------------------------------------------------------------
-
   for (unsigned int band_x = 0; band_x < (m_NumberOfTrainingImages - 1); ++band_x)
   {
     for (unsigned int band_y = band_x + 1; band_y < m_NumberOfTrainingImages; ++band_y)
     {
       m_InnerProduct[band_x][band_y] = m_InnerProduct[band_y][band_x];
-    } // end band_y loop
-  }   // end band_x loop
+    }
+  }
 
   if ((m_NumberOfTrainingImages - 1) != 0)
   {
@@ -402,14 +390,12 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
 
   MatrixOfDoubleType eigenVectorsOfInnerProductMatrix = eigenVectors_eigenValues.V;
 
-  //--------------------------------------------------------------------
   // Calculate the principal shape variations
   //
   // m_EigenVectors capture the principal shape variantions
   // m_EigenValues capture the relative weight of each variation
   // Multiply original image vetors with the eigenVectorsOfInnerProductMatrix
   // to derive the principal shapes.
-  //--------------------------------------------------------------------
 
   m_EigenVectors.set_size(m_NumberOfPixels, m_NumberOfTrainingImages);
   m_EigenVectors.fill(0);
@@ -443,15 +429,11 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
   // is ordered in decending order of their corresponding eigen values.
   m_EigenValues.flip();
 
-  //--------------------------------------------------------------------
   // Normalize the eigen values
-  //--------------------------------------------------------------------
-
   m_EigenVectorNormalizedEnergy = m_EigenValues;
   m_EigenVectorNormalizedEnergy.normalize();
 } // end EstimatePCAShapeModelParameters
 
-//-----------------------------------------------------------------
 } // namespace itk
 
 #endif

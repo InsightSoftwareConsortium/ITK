@@ -174,16 +174,16 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
+  using CompensatedSummationType = itk::CompensatedSummation<RealType>;
+
   using DistanceMapType = Image<RealType, Self::ImageDimension>;
   using DistanceMapPointer = typename DistanceMapType::Pointer;
-
 
   DistanceMapPointer m_DistanceMap{ nullptr };
 
   RealType       m_MaxDistance{ NumericTraits<RealType>::ZeroValue() };
   IdentifierType m_PixelCount{};
 
-  using CompensatedSummationType = itk::CompensatedSummation<RealType>;
   CompensatedSummationType m_Sum;
 
   RealType m_DirectedHausdorffDistance{ NumericTraits<RealType>::ZeroValue() };

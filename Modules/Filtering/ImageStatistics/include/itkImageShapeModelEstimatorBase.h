@@ -73,12 +73,13 @@ protected:
   GenerateData() override;
 
 private:
-  /**Container for holding the training image */
-  InputImagePointer m_InputImage;
-
   /** The core virtual function to perform ShapeModelling of the input data */
   virtual void
   EstimateShapeModels() = 0;
+
+  /**Container for holding the training image. */
+  InputImagePointer m_InputImage;
+
 }; // class ImageShapeModelEstimator
 } // namespace itk
 

@@ -147,7 +147,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreade
 {
   ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
 
-  // find mean over all threads
+  // Find mean over all threads
   IdentifierType count = 0;
   RealType       sum = NumericTraits<RealType>::ZeroValue();
 
@@ -187,7 +187,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImage1Type> bC;
   FaceListType faceList = bC(input, outputRegionForThread, radius);
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
   // Process each of the boundary faces.  These are N-d regions which border
@@ -203,15 +203,15 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
 
     while (!bit.IsAtEnd())
     {
-      // first test
-      // if current pixel is not on, let's continue
+      // First test
+      // If current pixel is not on, let's continue
       if (Math::NotExactlyEquals(bit.GetCenterPixel(), NumericTraits<InputImage1PixelType>::ZeroValue()))
       {
         bool bIsOnContour = false;
 
         for (unsigned int i = 0; i < neighborhoodSize; ++i)
         {
-          // second test if at least one neighbour pixel is off
+          // Second test if at least one neighbour pixel is off
           // the center pixel belongs to contour
           if (Math::ExactlyEquals(bit.GetPixel(i), NumericTraits<InputImage1PixelType>::ZeroValue()))
           {
@@ -220,7 +220,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
           }
         }
 
-        // set pixel center pixel value whether it is or not on contour
+        // Set pixel center pixel value whether it is or not on contour
         if (bIsOnContour)
         {
           const RealType value = it2.Get();

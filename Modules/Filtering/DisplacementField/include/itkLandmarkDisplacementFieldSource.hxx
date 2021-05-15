@@ -232,6 +232,7 @@ LandmarkDisplacementFieldSource<TOutputImage>::GetMTime() const
   }
   return latestTime;
 }
+
 } // end namespace itk
 
 #endif

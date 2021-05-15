@@ -295,7 +295,7 @@ private:
   CodebookMatrixOfDoubleType  m_CodewordDistortion;
 }; // class ImageKmeansModelEstimator
 
-} // namespace itk
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImageKmeansModelEstimator.hxx"

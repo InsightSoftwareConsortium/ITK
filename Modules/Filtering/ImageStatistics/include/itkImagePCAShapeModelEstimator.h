@@ -211,8 +211,9 @@ private:
 
   // The number of output Principal Components
   unsigned int m_NumberOfPrincipalComponentsRequired;
-}; // class ImagePCAShapeModelEstimator
-} // namespace itk
+};
+
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkImagePCAShapeModelEstimator.hxx"

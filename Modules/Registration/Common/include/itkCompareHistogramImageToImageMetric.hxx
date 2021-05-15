@@ -204,6 +204,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::os
   }
   os << indent << "TrainingFixedImageRegion: " << m_TrainingFixedImageRegion << std::endl;
 }
-} // End namespace itk
+
+} // end namespace itk
 
 #endif // itkCompareHistogramImageToImageMetric_hxx
