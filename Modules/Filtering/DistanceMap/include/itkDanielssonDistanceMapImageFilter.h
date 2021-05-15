@@ -226,8 +226,7 @@ private:
   bool m_UseImageSpacing;
 
   SpacingType m_InputSpacingCache;
-
-}; // end of DanielssonDistanceMapImageFilter class
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

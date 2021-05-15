@@ -123,7 +123,8 @@ private:
 #endif
   double m_IsInsidePrecisionInObjectSpace;
 };
-} // end of namespace itk
+
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMeshSpatialObject.hxx"

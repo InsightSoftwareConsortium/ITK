@@ -159,7 +159,8 @@ private:
   FixedImageRegionType    m_TrainingFixedImageRegion;
   HistogramPointerType    m_TrainingHistogram;
 };
-} // End namespace itk.
+
+} // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkCompareHistogramImageToImageMetric.hxx"

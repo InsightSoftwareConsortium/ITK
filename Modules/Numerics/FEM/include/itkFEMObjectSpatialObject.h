@@ -73,7 +73,6 @@ public:
     return m_FEMObject.GetPointer();
   }
 
-
   /** Returns the latest modified time of the object and its component. */
   ModifiedTimeType
   GetMTime() const override;

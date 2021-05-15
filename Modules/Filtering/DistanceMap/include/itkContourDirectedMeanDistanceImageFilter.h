@@ -176,7 +176,7 @@ private:
   Array<IdentifierType> m_Count;
   RealType              m_ContourDirectedMeanDistance;
   bool                  m_UseImageSpacing;
-}; // end of class
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

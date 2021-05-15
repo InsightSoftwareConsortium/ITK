@@ -224,6 +224,7 @@ protected:
   /** Typedef support for coefficient vector type.  Necessary to
    *  work around compiler bug on VC++. */
   using CoefficientVector = typename Superclass::CoefficientVector;
+
   using PixelType = typename Superclass::PixelType;
 
   /** Calculates operator coefficients. */

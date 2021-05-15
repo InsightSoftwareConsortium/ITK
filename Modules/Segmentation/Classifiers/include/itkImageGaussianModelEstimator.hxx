@@ -89,24 +89,16 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
     }
   }
 
-  //-------------------------------------------------------------------
   // Set up the gaussian membership calculators
-  //-------------------------------------------------------------------
-
   unsigned int numberOfModels = this->GetNumberOfModels();
 
-  //-------------------------------------------------------------------
   // Call local function to estimate mean variances of the various
   // class labels in the training set.
   // The statistics class functions have not been used since all the
   // class statistics are calculated simultaneously here.
-  //-------------------------------------------------------------------
-
   this->EstimateGaussianModelParameters();
 
-  //-------------------------------------------------------------------
   // Populate the membership functions for all the classes
-  //-------------------------------------------------------------------
   MembershipFunctionPointer                             membershipFunction;
   typename MembershipFunctionType::MeanVectorType       tmean;
   typename MembershipFunctionType::CovarianceMatrixType tcov;
@@ -138,19 +130,13 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
   InputImageConstPointer  inputImage = this->GetInputImage();
   InputImageConstIterator inIt(inputImage, inputImage->GetBufferedRegion());
 
-  //-------------------------------------------------------------------
-
-  //-------------------------------------------------------------------
   // Set the iterators and the pixel type definition for the training image
   TrainingImageConstPointer trainingImage = this->GetTrainingImage();
 
   TrainingImageConstIterator trainingImageIt(trainingImage, trainingImage->GetBufferedRegion());
 
-  //-------------------------------------------------------------------
-
   unsigned int numberOfModels = (this->GetNumberOfModels());
 
-  //-------------------------------------------------------------------
   // Set up the matrices to hold the means and the covariance for the
   // training data
 
@@ -160,7 +146,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
   m_NumberOfSamples.set_size(numberOfModels, 1);
   m_NumberOfSamples.fill(0);
 
-  // delete previous allocation first
+  // Delete previous allocation first
   delete[] m_Covariance;
   // Number of covariance matrices are equal to the number of classes
   m_Covariance = (MatrixType *)new MatrixType[numberOfModels];
@@ -199,7 +185,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
         }
       }
     }
-  } // end for
+  }
 
   // Loop through the classes to calculate the means and covariance
   for (unsigned int classIndex = 0; classIndex < numberOfModels; ++classIndex)
@@ -210,7 +196,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
       {
         m_Means[classIndex][i] /= m_NumberOfSamples[classIndex][0];
       }
-    } // end if
+    }
 
     else
     {
@@ -218,7 +204,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
       {
         m_Means[classIndex][i] = 0;
       }
-    } // end else
+    }
 
     if (Math::NotAlmostEquals((m_NumberOfSamples[classIndex][0] - 1), 0.0))
     {
@@ -227,9 +213,9 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
         for (unsigned int band_y = 0; band_y <= band_x; ++band_y)
         {
           m_Covariance[classIndex][band_x][band_y] /= (m_NumberOfSamples[classIndex][0] - 1);
-        } // end for band_y loop
-      }   // end for band_x loop
-    }     // end if
+        }
+      }
+    }
 
     else
     {
@@ -240,7 +226,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
           m_Covariance[classIndex][band_x][band_y] = 0;
         }
       }
-    } // end else
+    }
 
     MatrixType tempMeanSq;
     tempMeanSq.set_size(VectorDimension, VectorDimension);
@@ -252,7 +238,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
       {
         tempMeanSq[band_x][band_y] = m_Means[classIndex][band_x] * m_Means[classIndex][band_y];
       }
-    } // end for band_x loop
+    }
 
     if (Math::NotAlmostEquals((m_NumberOfSamples[classIndex][0] - 1), 0.0))
     {
@@ -274,7 +260,8 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
       }   // end band_x loop
     }     // end if loop
   }       // end class index loop
-} // end EstimateGaussianModelParameters
-} // namespace itk
+}
+
+} // end namespace itk
 
 #endif
