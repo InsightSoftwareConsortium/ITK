@@ -28,34 +28,11 @@ namespace itk
 {
 
 template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::MatrixOffsetTransformBase()
-  : Superclass(ParametersDimension)
-{
-  m_Matrix.SetIdentity();
-  m_MatrixMTime.Modified();
-  m_Offset.Fill(0);
-  m_Center.Fill(0);
-  m_Translation.Fill(0);
-  m_Singular = false;
-  m_InverseMatrix.SetIdentity();
-  m_InverseMatrixMTime = m_MatrixMTime;
-  this->m_FixedParameters.SetSize(NInputDimensions);
-  this->m_FixedParameters.Fill(0.0);
-}
-
-
-template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::MatrixOffsetTransformBase(
   unsigned int paramDims)
   : Superclass(paramDims)
 {
-  m_Matrix.SetIdentity();
   m_MatrixMTime.Modified();
-  m_Offset.Fill(0);
-  m_Center.Fill(0);
-  m_Translation.Fill(0);
-  m_Singular = false;
-  m_InverseMatrix.SetIdentity();
   m_InverseMatrixMTime = m_MatrixMTime;
   this->m_FixedParameters.SetSize(NInputDimensions);
   this->m_FixedParameters.Fill(0.0);
@@ -66,16 +43,11 @@ template <typename TParametersValueType, unsigned int NInputDimensions, unsigned
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::MatrixOffsetTransformBase(
   const MatrixType &       matrix,
   const OutputVectorType & offset)
+  : m_Matrix(matrix)
+  , m_Offset(offset)
 {
-  m_Matrix = matrix;
   m_MatrixMTime.Modified();
-  m_Offset = offset;
-  m_Center.Fill(0);
-  m_Translation.Fill(0);
-  for (unsigned int i = 0; i < NOutputDimensions; ++i)
-  {
-    m_Translation[i] = offset[i];
-  }
+  std::copy_n(offset.begin(), NOutputDimensions, m_Translation.begin());
   this->ComputeMatrixParameters();
 }
 
