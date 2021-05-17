@@ -1,4 +1,4 @@
-itk_wrap_module(ITKVideo)
+itk_wrap_module(ITKVideoCore)
 
 set(WRAPPER_SUBMODULE_ORDER
   itkTemporalDataObject
