@@ -24,6 +24,23 @@
 
 namespace
 {
+
+template <typename TParametersValueType, unsigned NDimensions>
+void
+Check_New_MatrixOffsetTransformBase()
+{
+  const auto transformBase = itk::MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>::New();
+
+  EXPECT_TRUE(transformBase->GetMatrix().GetVnlMatrix().is_identity());
+
+  const auto zeroFilledFixedArray = itk::FixedArray<double, NDimensions>::Filled(0.0);
+
+  EXPECT_EQ(zeroFilledFixedArray, transformBase->GetOffset());
+  EXPECT_EQ(zeroFilledFixedArray, transformBase->GetCenter());
+  EXPECT_EQ(zeroFilledFixedArray, transformBase->GetTranslation());
+}
+
+
 template <unsigned int NDimensions>
 void
 Assert_SetFixedParameters_throws_when_size_is_less_than_NDimensions()
@@ -40,6 +57,14 @@ Assert_SetFixedParameters_throws_when_size_is_less_than_NDimensions()
 }
 
 } // namespace
+
+
+// Checks the object created by MatrixOffsetTransformBase::New().
+TEST(MatrixOffsetTransformBase, CheckNew)
+{
+  Check_New_MatrixOffsetTransformBase<float, 2>();
+  Check_New_MatrixOffsetTransformBase<double, 3>();
+}
 
 
 TEST(MatrixOffsetTransformBase, SetFixedParametersThrowsWhenSizeIsLessThanNDimensions)
