@@ -109,6 +109,9 @@ public:
   using Self = GaussianDerivativeOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(GaussianDerivativeOperator, NeighborhoodOperator);
+
   using InterpolationModeEnum = GaussianDerivativeOperatorEnums::InterpolationMode;
 
   /** Neighborhood operator types. */
@@ -239,13 +242,6 @@ private:
    * operator of 0-order respecting the remaining parameters. */
   CoefficientVector
   GenerateGaussianCoefficients() const;
-
-  /** For compatibility with itkWarningMacro */
-  const char *
-  GetNameOfClass() const override
-  {
-    return "itkGaussianDerivativeOperator";
-  }
 
   /** Normalize derivatives across scale space */
   bool m_NormalizeAcrossScale{ true };
