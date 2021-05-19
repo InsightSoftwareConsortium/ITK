@@ -188,6 +188,7 @@ public:
   {
     m_MaximumKernelWidth = n;
   }
+  itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
   /** Sets/Get the order of the derivative. */
   void
