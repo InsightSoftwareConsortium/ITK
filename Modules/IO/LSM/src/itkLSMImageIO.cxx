@@ -273,8 +273,8 @@ LSMImageIO::Write(const void * buffer)
     return;
   }
 
-  uint32 w = width;
-  uint32 h = height;
+  uint32_t w = width;
+  uint32_t h = height;
 
   TIFFSetTagExtender(TagExtender);
   if (m_NumberOfDimensions == 3)
@@ -302,8 +302,8 @@ LSMImageIO::Write(const void * buffer)
     {
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
-      uint16 extra_samples = scomponents - 3;
-      auto * sample_info = new uint16[scomponents - 3];
+      uint16_t extra_samples = scomponents - 3;
+      auto *   sample_info = new uint16_t[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       int cc;
       for (cc = 1; cc < scomponents - 3; ++cc)
@@ -343,7 +343,7 @@ LSMImageIO::Write(const void * buffer)
 
     TIFFSetField(tif, TIFFTAG_COMPRESSION, compression); // Fix for compression
 
-    uint16 photometric = (scomponents == 1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
+    uint16_t photometric = (scomponents == 1) ? PHOTOMETRIC_MINISBLACK : PHOTOMETRIC_RGB;
 
     if (compression == COMPRESSION_JPEG)
     {
