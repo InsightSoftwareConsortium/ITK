@@ -73,7 +73,7 @@ public:
   using Self = DerivativeOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
-  using PixelType = typename Superclass::PixelType;
+  using PixelType = TPixel;
   using PixelRealType = typename Superclass::PixelRealType;
 
   /** Sets the order of the derivative. */
