@@ -99,6 +99,7 @@ public:
    *  default. This method must be called BEFORE CreateOperator */
   void
   SetDerivativeScalings(const double * s);
+  itkGetConstMacro(DerivativeScalings, const double *);
 
 protected:
   /** Alias support for coefficient vector type. Necessary to
