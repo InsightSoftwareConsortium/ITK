@@ -1059,7 +1059,7 @@ TIFFImageIO::AllocateTiffPalette(uint16_t bps)
     itkExceptionMacro("Can't allocate space for Blue channel of component tables.");
   }
   // TIFF palette length is fixed for a given bpp
-  uint64_t TIFFPaletteLength = uint64{ 1 } << bps;
+  uint64_t TIFFPaletteLength = uint64_t{ 1 } << bps;
   for (size_t i = 0; i < TIFFPaletteLength; ++i)
   {
     if (i < m_ColorPalette.size())
