@@ -77,7 +77,7 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, TDimension, TAllocator>;
 
   /** Additional type aliases. */
-  using PixelType = typename Superclass::PixelType;
+  using PixelType = TPixel;
   using SizeType = typename Superclass::SizeType;
   using OffsetType = typename Superclass::OffsetType;
   using SpacingType = Vector<double, TDimension>;

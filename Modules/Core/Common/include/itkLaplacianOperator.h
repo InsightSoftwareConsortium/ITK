@@ -71,7 +71,7 @@ public:
   using Self = LaplacianOperator;
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
-  using PixelType = typename Superclass::PixelType;
+  using PixelType = TPixel;
   using SizeType = typename Superclass::SizeType;
 
   LaplacianOperator()
