@@ -313,7 +313,7 @@ DCMTKImageIO ::ReorderRGBValues(void * buffer, const void * data, size_t count, 
   {
     // DCMTK only supports unsigned integer types for RGB(A) images.
     // see DCMTK file dcmimage/libsrc/dicoimg.cc (function const void *DiColorImage::getData(...) )
-    // DCMTK only supports uint8, uint16, and uint32, but we leave LONG (at least 32bits but
+    // DCMTK only supports uint8_t, uint16_t, and uint32_t, but we leave LONG (at least 32bits but
     // could be 64bits) for future support.
     case IOComponentEnum::UCHAR:
       ReorderRGBValues<unsigned char>(buffer, data, count, voxel_size);
