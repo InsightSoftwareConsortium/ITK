@@ -77,6 +77,7 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, TDimension, TAllocator>;
 
   /** Additional type aliases. */
+  using PixelType = typename Superclass::PixelType;
   using SizeType = typename Superclass::SizeType;
   using OffsetType = typename Superclass::OffsetType;
   using SpacingType = Vector<double, TDimension>;
@@ -224,8 +225,6 @@ protected:
   /** Typedef support for coefficient vector type.  Necessary to
    *  work around compiler bug on VC++. */
   using CoefficientVector = typename Superclass::CoefficientVector;
-
-  using PixelType = typename Superclass::PixelType;
 
   /** Calculates operator coefficients. */
   CoefficientVector
