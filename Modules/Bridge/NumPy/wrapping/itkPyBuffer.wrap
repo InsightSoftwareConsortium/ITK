@@ -2,7 +2,7 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/PyBuffer.i.init"
                "${CMAKE_CURRENT_BINARY_DIR}/PyBuffer.i"
                @ONLY)
 itk_wrap_class("itk::PyBuffer")
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;SC;SS;SI;SL;F")
+  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
   UNIQUE(vector_universe "${WRAP_ITK_VECTOR};VD;CVD")
   foreach(t ${types})
     string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes ${vector_universe})
@@ -89,7 +89,7 @@ itk_end_wrap_class()
 # VNL vectors
 
 itk_wrap_class("itk::PyVnl")
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;SC;SS;SI;SL;F")
+  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
   foreach(t ${types})
     set(PixelType ${t})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
