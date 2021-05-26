@@ -927,7 +927,7 @@ GDCMImageIO::Write(const void * buffer)
             const std::string si = sf.FromString(tag, value.c_str(), value.size());
             de.SetByteValue(si.c_str(), static_cast<uint32_t>(si.size()));
           }
-          else
+          else if (vrtype != ( gdcm::VR::INVALID ))
           {
             const gdcm::String<> si = sf.FromString(tag, value.c_str(), value.size());
             de.SetByteValue(si.c_str(), static_cast<uint32_t>(si.size()));
