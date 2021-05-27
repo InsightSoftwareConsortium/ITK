@@ -16,7 +16,7 @@
 
 #include "gdcmImageToImageFilter.h"
 #include "gdcmPhotometricInterpretation.h"
-
+#include <limits>
 namespace gdcm
 {
 

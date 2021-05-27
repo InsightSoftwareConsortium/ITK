@@ -4,7 +4,7 @@
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_na.h"
 #include "testlib/testlib_test.h"
-
+#include <limits>
 
 #define print_hex(p)                                                                                                   \
   std::hex << std::setfill('0') << std::setw(2) << (short)reinterpret_cast<unsigned char *>(&(p))[sizeof(p) - 1];      \
