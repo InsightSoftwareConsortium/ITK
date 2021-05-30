@@ -76,8 +76,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DerivativeOperator, NeighborhoodOperator);
 
-  using PixelType = TPixel;
-  using PixelRealType = typename Superclass::PixelRealType;
+  /** Type alias support for pixel real type.*/
+  using typename Superclass::PixelRealType;
 
   /** Sets the order of the derivative. */
   void
@@ -102,9 +102,8 @@ public:
   }
 
 protected:
-  /** Typedef support for coefficient vector type.  Necessary to
-   * work around compiler bug on VC++. */
-  using CoefficientVector = typename Superclass::CoefficientVector;
+  /** Type alias support for coefficient vector type.*/
+  using typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
   CoefficientVector

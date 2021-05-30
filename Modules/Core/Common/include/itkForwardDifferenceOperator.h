@@ -54,11 +54,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ForwardDifferenceOperator, NeighborhoodOperator);
 
-  using PixelType = typename Superclass::PixelType;
+  /** Type alias support for pixel type. */
+  using PixelType = TPixel;
 
 protected:
-  /** Necessary to work around VC++ compiler bug. */
-  using CoefficientVector = typename Superclass::CoefficientVector;
+  /** Type alias support for coefficient vector type.*/
+  using typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
   CoefficientVector
