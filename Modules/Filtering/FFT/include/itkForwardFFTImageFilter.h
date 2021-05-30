@@ -79,6 +79,9 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(ForwardFFTImageFilter, ImageToImageFilter);
+
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.
    *
