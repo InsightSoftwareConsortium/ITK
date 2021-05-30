@@ -54,7 +54,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ForwardDifferenceOperator, NeighborhoodOperator);
 
-  using PixelType = typename Superclass::PixelType;
+  using PixelType = TPixel;
 
 protected:
   /** Necessary to work around VC++ compiler bug. */

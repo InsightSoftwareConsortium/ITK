@@ -135,7 +135,7 @@ protected:
   /** Alias support for coefficient vector type. Necessary to
    * work around compiler bug on VC++. */
   using CoefficientVector = typename Superclass::CoefficientVector;
-  using PixelType = typename Superclass::PixelType;
+  using PixelType = typename TPixel;
 
   /** Calculates operator coefficients. */
   CoefficientVector
