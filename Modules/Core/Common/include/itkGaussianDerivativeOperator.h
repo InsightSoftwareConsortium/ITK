@@ -210,7 +210,8 @@ public:
   PrintSelf(std::ostream & os, Indent i) const override;
 
 protected:
-  using CoefficientVector = typename Superclass::CoefficientVector;
+  /** Type alias support for coefficient vector type.*/
+  using typename Superclass::CoefficientVector;
 
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.
    */

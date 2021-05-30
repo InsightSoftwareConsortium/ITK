@@ -74,7 +74,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LaplacianOperator, NeighborhoodOperator);
 
-  using PixelType = TPixel;
   using SizeType = typename Superclass::SizeType;
 
   LaplacianOperator()
@@ -105,9 +104,8 @@ public:
   itkGetConstMacro(DerivativeScalings, const double *);
 
 protected:
-  /** Alias support for coefficient vector type. Necessary to
-   * work around compiler bug on VC++. */
-  using CoefficientVector = typename Superclass::CoefficientVector;
+  /** Type alias support for coefficient vector type.*/
+  using typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
   CoefficientVector
