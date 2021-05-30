@@ -141,9 +141,6 @@ public:
     Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
-protected:
-  using CoefficientVector = typename Superclass::CoefficientVector;
-
 public:
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.
    */
@@ -161,6 +158,9 @@ public:
   ModifiedBesselI(int, double);
 
 protected:
+  /** Type alias support for coefficient vector type.*/
+  using typename Superclass::CoefficientVector;
+
   /** Calculates operator coefficients. */
   CoefficientVector
   GenerateCoefficients() override;
