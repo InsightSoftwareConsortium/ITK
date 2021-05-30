@@ -34,7 +34,7 @@ namespace itk
 class MathematicalMorphologyEnums
 {
 public:
-  /**\class AlgorithmType
+  /**\class Algorithm
    * \brief Algorithm or implementation used in the dilation/erosion operations.
    * \ingroup ITKMathematicalMorphology
    */
