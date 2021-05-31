@@ -28,13 +28,13 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Intel" AND
   message(FATAL_ERROR "Intel C++ (ICC) 14.0 or later is required.")
 endif ()
 
-# Make sure we have C++11 enabled.
-if(NOT ITK_IGNORE_CMAKE_CXX11_CHECKS)
+# Make sure we have C++14 enabled.
+if(NOT ITK_IGNORE_CMAKE_CXX14_CHECKS)
   # Needed to make sure libraries and executables not built by the
-  # itkModuleMacros still have the C++11 compiler flags enabled
+  # itkModuleMacros still have the C++14 compiler flags enabled
   # Wrap this in an escape hatch for unknown compilers
   if(NOT CMAKE_CXX_STANDARD)
-    set(CMAKE_CXX_STANDARD 11) # Supported values are ``11``, ``14``, and ``17``.
+    set(CMAKE_CXX_STANDARD 14) # Supported values are 14, 17, 20, and 23.
   endif()
   if(NOT CMAKE_CXX_STANDARD_REQUIRED)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
