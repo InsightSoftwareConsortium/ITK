@@ -16,6 +16,9 @@
  *
  *=========================================================================*/
 
+// we need to test the deprecated itkStaticAssert
+#define ITK_LEGACY_TEST
+
 #include "itkMetaProgrammingLibrary.h"
 #include "itkIsSame.h"
 #include "itkStaticAssert.h"

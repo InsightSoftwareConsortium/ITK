@@ -18,9 +18,6 @@
 #ifndef itkConfigure_h
 #define itkConfigure_h
 
-/* Define granular compiler features. */
-#include "itk_compiler_detection.h"
-
 /*
  * here is where system computed values get stored these values should only
  * change when the target compile platform changes

@@ -34,7 +34,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GradientRecursi
   m_NormalizeAcrossScale = false;
   this->m_UseImageDirection = true;
 
-  itkStaticAssert(ImageDimension > 0, "Images shall have one dimension at least");
+  static_assert(ImageDimension > 0, "Images shall have one dimension at least");
   const unsigned int imageDimensionMinus1 = ImageDimension - 1;
   if (ImageDimension > 1)
   {
@@ -97,7 +97,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(c
   if (this->m_Sigma != sigma)
   {
     this->m_Sigma = sigma;
-    itkStaticAssert(ImageDimension > 0, "Images shall have one dimension at least");
+    static_assert(ImageDimension > 0, "Images shall have one dimension at least");
     const unsigned int imageDimensionMinus1 = ImageDimension - 1;
     for (unsigned int i = 0; i != imageDimensionMinus1; ++i)
     {
@@ -138,7 +138,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcr
 {
   m_NormalizeAcrossScale = normalize;
 
-  itkStaticAssert(ImageDimension > 0, "Images shall have one dimension at least");
+  static_assert(ImageDimension > 0, "Images shall have one dimension at least");
   const unsigned int imageDimensionMinus1 = ImageDimension - 1;
   for (unsigned int i = 0; i != imageDimensionMinus1; ++i)
   {
@@ -199,7 +199,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Compute the contribution of each filter to the total progress.
   const double weight = 1.0 / (ImageDimension * ImageDimension);
 
-  itkStaticAssert(ImageDimension > 0, "Images shall have one dimension at least");
+  static_assert(ImageDimension > 0, "Images shall have one dimension at least");
   const unsigned int imageDimensionMinus1 = ImageDimension - 1;
   if (ImageDimension > 1)
   {

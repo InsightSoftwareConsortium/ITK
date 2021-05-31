@@ -18,7 +18,6 @@
 
 #include "itkPromoteType.h"
 #include <complex>
-#include <itkStaticAssert.h>
 #include <itkIsSame.h>
 
 namespace itk
@@ -55,22 +54,21 @@ itkPromoteType(int, char *[])
   //   the following list able to hold their entire value range: int, unsigned
   //   int, long, unsigned long, long long, unsigned long long.
 
-  itkStaticAssert((IsSame<PromoteType<signed char, int>::Type, int>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<signed char, short>::Type, int>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<unsigned char, int>::Type, int>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<unsigned char, unsigned int>::Type, unsigned int>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<int, int>::Type, int>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<short, int>::Type, int>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<double, int>::Type, double>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<float, int>::Type, float>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<long, int>::Type, long>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<long long, int>::Type, long long>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<int, long long>::Type, long long>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<long, long double>::Type, long double>::Value), "test failed");
-  itkStaticAssert((IsSame<PromoteType<double, std::complex<double>>::Type, std::complex<double>>::Value),
-                  "test failed");
+  static_assert((IsSame<PromoteType<signed char, int>::Type, int>::Value), "test failed");
+  static_assert((IsSame<PromoteType<signed char, short>::Type, int>::Value), "test failed");
+  static_assert((IsSame<PromoteType<unsigned char, int>::Type, int>::Value), "test failed");
+  static_assert((IsSame<PromoteType<unsigned char, unsigned int>::Type, unsigned int>::Value), "test failed");
+  static_assert((IsSame<PromoteType<int, int>::Type, int>::Value), "test failed");
+  static_assert((IsSame<PromoteType<short, int>::Type, int>::Value), "test failed");
+  static_assert((IsSame<PromoteType<double, int>::Type, double>::Value), "test failed");
+  static_assert((IsSame<PromoteType<float, int>::Type, float>::Value), "test failed");
+  static_assert((IsSame<PromoteType<long, int>::Type, long>::Value), "test failed");
+  static_assert((IsSame<PromoteType<long long, int>::Type, long long>::Value), "test failed");
+  static_assert((IsSame<PromoteType<int, long long>::Type, long long>::Value), "test failed");
+  static_assert((IsSame<PromoteType<long, long double>::Type, long double>::Value), "test failed");
+  static_assert((IsSame<PromoteType<double, std::complex<double>>::Type, std::complex<double>>::Value), "test failed");
 
-  itkStaticAssert((IsSame<PromoteType<std::complex<int>, std::complex<double>>::Type, std::complex<double>>::Value),
-                  "test failed");
+  static_assert((IsSame<PromoteType<std::complex<int>, std::complex<double>>::Type, std::complex<double>>::Value),
+                "test failed");
   return EXIT_SUCCESS;
 }
