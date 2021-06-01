@@ -50,7 +50,7 @@ operator<<(std::ostream & out, HashImageFilterEnums::HashFunction value);
  *\class HashImageFilter
  * \brief Generates a md5 hash string from an image.
  *
- * \note This class utlizes low level buffer pointer access, to work
+ * \note This class utilizes low level buffer pointer access, to work
  * with itk::Image and itk::VectorImage. It is modelled after the access
  * an ImageFileWriter provides to an ImageIO.
  *
