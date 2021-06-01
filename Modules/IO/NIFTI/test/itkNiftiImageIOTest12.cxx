@@ -25,33 +25,42 @@ itkNiftiImageIOTest12(int ac, char * av[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac > 1)
+  if (ac != 3)
   {
-    char * testdir = *++av;
-    --ac;
-    itksys::SystemTools::ChangeDirectory(testdir);
-  }
-  if (ac != 2)
+    std::cerr << "Incorrect command line usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(av) << " <TempOutputDirectory> <filename>" << std::endl;
     return EXIT_FAILURE;
-
-
-  char * arg1 = av[1];
-
-  // make large RGB Image
+  }
+  constexpr unsigned int CmdLineTestDirPos = 1;
+  const std::string      testdir{ av[CmdLineTestDirPos] };
+  itksys::SystemTools::ChangeDirectory(testdir);
+  constexpr unsigned int CmdLineFilenamePos = 2;
+  const std::string      imgfilename{ av[CmdLineFilenamePos] };
 
   using ImageType = itk::VectorImage<unsigned char, 3>;
 
   ImageType::RegionType region;
-  ImageType::SizeType   size = { { 2024, 1024, 1024 } };
+
+  // make a large RGB Image
+  // test is too slow with large image ImageType::SizeType   size = { { 2024, 1024, 1024 } };
+
+  // make small RGB Image
+  ImageType::SizeType size = { { 24, 10, 11 } };
   region.SetSize(size);
+#if 0 // using non-zero start index exposes bug in ITK IO physical space preservation
+  ImageType::IndexType startIndex = { { 200, 300, 400 } };
+#else
+  ImageType::IndexType startIndex = { { 0, 0, 0 } };
+#endif
+  region.SetIndex(startIndex);
 
   ImageType::Pointer image = ImageType::New();
   image->SetRegions(region);
   image->SetNumberOfComponentsPerPixel(3);
+  image->SetOrigin(ImageType::PointType({ -7.0, -13.0, -19.0 }));
   image->Allocate();
 
   { // Fill in entire image
-
     ImageType::PixelType value(3);
 
     itk::ImageRegionIterator<ImageType> ri(image, region);
@@ -69,30 +78,55 @@ itkNiftiImageIOTest12(int ac, char * av[])
   }
 
   using Hasher = itk::Testing::HashImageFilter<ImageType>;
-  Hasher::Pointer hasher = Hasher::New();
-  hasher->SetInput(image);
-  hasher->InPlaceOff();
-  hasher->Update();
 
-  std::string originalHash = hasher->GetHash();
+  auto myHasher = [&](ImageType::Pointer imptr) -> std::string {
+    Hasher::Pointer originalHasher = Hasher::New();
+    originalHasher->InPlaceOff();
+    originalHasher->SetInput(imptr);
+    originalHasher->Update();
+    return originalHasher->GetHash();
+  };
 
+  const std::string originalHash = myHasher(image);
   std::cout << "Original image hash: " << originalHash << std::endl;
 
   try
   {
-    itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(image, arg1);
+    itk::IOTestHelper::WriteImage<ImageType, itk::NiftiImageIO>(image, imgfilename);
 
-    image = itk::IOTestHelper::ReadImage<ImageType>(arg1);
-    hasher->SetInput(image);
-    hasher->Update();
+    ImageType::Pointer readImage = itk::IOTestHelper::ReadImage<ImageType>(imgfilename);
 
-    std::string readHash = hasher->GetHash();
+    const std::string readHash = myHasher(readImage);
     std::cout << "Read hash: " << readHash << std::endl;
 
     ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
+
+    ImageType::IndexType threeIndex = { { 3, 3, 3 } };
+    ImageType::PointType origPhysLocationIndexThree;
+    image->TransformIndexToPhysicalPoint<double>(threeIndex, origPhysLocationIndexThree);
+    ImageType::PointType readPhysLocationIndexThree;
+    readImage->TransformIndexToPhysicalPoint<double>(threeIndex, readPhysLocationIndexThree);
+
+    // If the origins, and the spacings, and the direction cosines are the smae,
+    // then index locations should all represent the same physical locations as well.
+    if (origPhysLocationIndexThree.EuclideanDistanceTo(readPhysLocationIndexThree) > 1e-5)
+    {
+      std::cerr << "ERROR: Physical space not preserved in nifti writer" << std::endl;
+      std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
+      return EXIT_FAILURE;
+    }
+    else
+    {
+      std::cout << "Index location [3,3,3] represents same physical space:" << std::endl;
+      std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
+    }
   }
-  catch (itk::ExceptionObject &)
-  {}
+  catch (itk::ExceptionObject & e)
+  {
+    std::cerr << "Exception occurred: " << std::endl;
+    std::cerr << e.GetDescription() << std::endl;
+    return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }
