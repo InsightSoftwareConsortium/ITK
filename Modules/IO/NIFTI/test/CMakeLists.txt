@@ -73,6 +73,8 @@ itk_add_test(NAME itkNiftiVectorImageTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIR} )
 itk_add_test(NAME itkNiftiDimensionLimitsTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} SizeFailure.nii.gz )
+itk_add_test(NAME itkNiftiLargeRGBTest
+        COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest12 ${ITK_TEST_OUTPUT_DIR} LargeRGBImage.nii.gz )
 itk_add_test(NAME itkNiftiReadAnalyzeTest
       COMMAND ITKIONIFTITestDriver itkNiftiReadAnalyzeTest ${ITK_TEST_OUTPUT_DIR} )
 itk_add_test(NAME itkExtractSliceSlopeInterceptUCHAR
