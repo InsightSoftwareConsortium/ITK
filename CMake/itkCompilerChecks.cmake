@@ -1,31 +1,31 @@
-# Minimum compiler version check: GCC >= 4.8
+# Minimum compiler version check: GCC
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.8)
-  message(FATAL_ERROR "GCC 4.8 or later is required.")
+    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
+  message(FATAL_ERROR "GCC 5.1 or later is required.")
 endif ()
 
-# Minimum compiler version check: LLVM Clang >= 3.3
+# Minimum compiler version check: LLVM Clang
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.3)
-  message(FATAL_ERROR "LLVM Clang 3.3 or later is required.")
+    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 3.4)
+  message(FATAL_ERROR "LLVM Clang 3.4 or later is required.")
 endif ()
 
-# Minimum compiler version check: Apple Clang >= 5.0 (Xcode 5.0)
+# Minimum compiler version check: Apple Clang >= 5.1 (Xcode 5.1)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.0)
-  message(FATAL_ERROR "Apple Clang 5.0 or later is required.")
+    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
+  message(FATAL_ERROR "Apple Clang 5.1 or later is required.")
 endif ()
 
-# Minimum compiler version check: Microsoft C/C++ >= 19.0 (aka VS 2015 aka VS 14.0)
+# Minimum compiler version check: Microsoft C/C++ >= 19.10 (MSVC 14.1, Visual Studio 15 2017)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.0)
-  message(FATAL_ERROR "Microsoft Visual Studio 2015 or later is required.")
+    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.10)
+  message(FATAL_ERROR "Microsoft Visual Studio 2017 or later is required.")
 endif ()
 
-# Minimum compiler version check: Intel C++ (ICC) >= 14
+# Minimum compiler version check: Intel C++ (ICC)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Intel" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 14.0)
-  message(FATAL_ERROR "Intel C++ (ICC) 14.0 or later is required.")
+    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 17.0)
+  message(FATAL_ERROR "Intel C++ (ICC) 17.0 or later is required.")
 endif ()
 
 # Make sure we have C++14 enabled.
