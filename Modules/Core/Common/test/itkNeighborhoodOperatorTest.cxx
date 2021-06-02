@@ -165,7 +165,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   std::cout << "Testing 2D LaplacianOperator" << std::endl;
   itk::LaplacianOperator<PixelType, Dimension2D, vnl_vector<PixelType>> a2;
 
-  const double scales_2d[Dimension2D] = { 1.0 / 2.0, 1.0 / 4.0 };
+  const double scales_2d[] = { 1.0 / 2.0, 1.0 / 4.0 };
   a2.SetDerivativeScalings(scales_2d);
   ITK_TEST_SET_GET_VALUE(*scales_2d, *(a2.GetDerivativeScalings()));
 
@@ -185,7 +185,7 @@ itkNeighborhoodOperatorTest(int, char *[])
   std::cout << "Testing 3D LaplacianOperator" << std::endl;
   itk::LaplacianOperator<PixelType, Dimension3D, vnl_vector<PixelType>> a3;
 
-  const double scales_3d[Dimension3D] = { 1.0 / 2.0, 1.0 / 4.0, 1.0 / 5.0 };
+  const double scales_3d[] = { 1.0 / 2.0, 1.0 / 4.0, 1.0 / 5.0 };
   a3.SetDerivativeScalings(scales_3d);
   ITK_TEST_SET_GET_VALUE(*scales_3d, *(a3.GetDerivativeScalings()));
 
