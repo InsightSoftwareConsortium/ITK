@@ -166,7 +166,7 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::SetMetric(MetricType * metric)
 
   this->SetCostFunctionAdaptor(adaptor);
 
-  m_VnlOptimizer.reset(new InternalOptimizerType(*adaptor, this));
+  m_VnlOptimizer = std::make_unique<InternalOptimizerType>(*adaptor, this);
 }
 
 template <typename TInternalVnlOptimizerType>

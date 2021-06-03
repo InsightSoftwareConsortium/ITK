@@ -290,7 +290,7 @@ HDF5TransformIOTemplate<TParametersValueType>::Read()
   // happens in a big try/catch clause
   try
   {
-    this->m_H5File.reset(new H5::H5File(this->GetFileName(), H5F_ACC_RDONLY));
+    this->m_H5File = std::make_unique<H5::H5File>(this->GetFileName(), H5F_ACC_RDONLY);
     // open /TransformGroup
     H5::Group transformGroup = this->m_H5File->openGroup(transformGroupName);
 
@@ -420,7 +420,8 @@ HDF5TransformIOTemplate<TParametersValueType>::Write()
 #  error The selected version of HDF5 library does not support setting backwards compatibility at run-time.\
   Please use a different version of HDF5, e.g. the one bundled with ITK (by setting ITK_USE_SYSTEM_HDF5 to OFF).
 #endif
-    this->m_H5File.reset(new H5::H5File(this->GetFileName(), H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl));
+    this->m_H5File =
+      std::make_unique<H5::H5File>(this->GetFileName(), H5F_ACC_TRUNC, H5::FileCreatPropList::DEFAULT, fapl);
 
     this->WriteString(ItkVersion, Version::GetITKVersion());
     this->WriteString(HDFVersion, H5_VERS_INFO);
