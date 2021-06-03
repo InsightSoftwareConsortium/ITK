@@ -83,8 +83,8 @@ public:
   /** Type of QuadEdge with which to apply slicing. */
   using QEType = TQEType;
 
-  using MeshType = typename Superclass::MeshType;
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::MeshType;
+  using typename Superclass::OutputType;
 
   using EdgeStatusEnum = QuadEdgeMeshEulerOperatorFlipEdgeFunctionEnums::EdgeStatusType;
 #if !defined(ITK_LEGACY_REMOVE)

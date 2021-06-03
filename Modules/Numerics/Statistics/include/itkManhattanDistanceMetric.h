@@ -44,9 +44,9 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementVectorType;
 
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementVectorSizeType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ManhattanDistanceMetric, DistanceMetric);

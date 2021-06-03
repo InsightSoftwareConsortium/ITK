@@ -92,7 +92,7 @@ public:
   using HistogramMeasurementVectorType = typename HistogramType::MeasurementVectorType;
 
   /** Type for the data object output */
-  using DataObjectPointer = typename Superclass::DataObjectPointer;
+  using typename Superclass::DataObjectPointer;
 
   using Superclass::SetInput;
 

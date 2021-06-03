@@ -83,46 +83,46 @@ public:
   /* Types common to both container and sub transforms */
 
   /** Parameters type. */
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersValueType;
   using ScalarType = ParametersValueType;
   /** Derivative type */
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeType;
   /** Jacobian type. */
-  using JacobianType = typename Superclass::JacobianType;
-  using JacobianPositionType = typename Superclass::JacobianPositionType;
-  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::JacobianPositionType;
+  using typename Superclass::InverseJacobianPositionType;
   /** Transform category type. */
-  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
+  using typename Superclass::TransformCategoryEnum;
 
   /* Types relative to the container transform. */
 
   /** InverseTransform type. */
-  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+  using typename Superclass::InverseTransformBasePointer;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
   /** Standard vector type for this class. */
-  using InputVectorType = typename Superclass::InputVectorType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
+  using typename Superclass::InputVectorType;
+  using typename Superclass::OutputVectorType;
   /** Standard covariant vector type for this class */
-  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
-  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using typename Superclass::InputCovariantVectorType;
+  using typename Superclass::OutputCovariantVectorType;
   /** Standard vnl_vector type for this class. */
-  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
-  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
+  using typename Superclass::InputVnlVectorType;
+  using typename Superclass::OutputVnlVectorType;
   /** Standard Vectorpixel type for this class */
-  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
-  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
+  using typename Superclass::InputVectorPixelType;
+  using typename Superclass::OutputVectorPixelType;
   /** Standard DiffusionTensor3D type alias for this class */
-  using InputDiffusionTensor3DType = typename Superclass::InputDiffusionTensor3DType;
-  using OutputDiffusionTensor3DType = typename Superclass::OutputDiffusionTensor3DType;
+  using typename Superclass::InputDiffusionTensor3DType;
+  using typename Superclass::OutputDiffusionTensor3DType;
   /** Standard SymmetricSecondRankTensor type alias for this class */
-  using InputSymmetricSecondRankTensorType = typename Superclass::InputSymmetricSecondRankTensorType;
-  using OutputSymmetricSecondRankTensorType = typename Superclass::OutputSymmetricSecondRankTensorType;
+  using typename Superclass::InputSymmetricSecondRankTensorType;
+  using typename Superclass::OutputSymmetricSecondRankTensorType;
 
   /* Types relative to the sub transform type. */
 
@@ -133,7 +133,7 @@ public:
   using TransformQueueType = std::deque<TransformTypePointer>;
 
   /** The number of parameters defining this transform. */
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::NumberOfParametersType;
 
   /** Dimension of the domain spaces. */
   static constexpr unsigned int InputDimension = NDimensions;

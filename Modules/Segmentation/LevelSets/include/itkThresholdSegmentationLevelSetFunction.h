@@ -74,10 +74,10 @@ public:
   itkTypeMacro(ThresholdSegmentationLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
-  using ImageType = typename Superclass::ImageType;
-  using ScalarValueType = typename Superclass::ScalarValueType;
-  using FeatureScalarType = typename Superclass::FeatureScalarType;
-  using RadiusType = typename Superclass::RadiusType;
+  using typename Superclass::ImageType;
+  using typename Superclass::ScalarValueType;
+  using typename Superclass::FeatureScalarType;
+  using typename Superclass::RadiusType;
 
   /** Extract some parameters from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

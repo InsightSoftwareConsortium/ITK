@@ -87,19 +87,19 @@ public:
   static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
 
   /** CoordRep type alias support */
-  using CoordRepType = typename Superclass::CoordRepType;
+  using typename Superclass::CoordRepType;
 
   /** InputeType type alias support */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** OutputType type alias support */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Point type alias support */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Parameters type alias support */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
 
   /** Image type alias support */
   using ImageType = TImage;

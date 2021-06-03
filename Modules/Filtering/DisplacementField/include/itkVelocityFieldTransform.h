@@ -51,36 +51,36 @@ public:
   itkNewMacro(Self);
 
   /** InverseTransform type. */
-  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+  using typename Superclass::InverseTransformBasePointer;
 
   /** Scalar type. */
-  using ScalarType = typename Superclass::ScalarType;
+  using typename Superclass::ScalarType;
 
   /** Type of the input parameters. */
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersValueType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
 
   /** Transform category type. */
-  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
+  using typename Superclass::TransformCategoryEnum;
 
   /** The number of parameters defining this transform. */
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::NumberOfParametersType;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = typename Superclass::InputVectorType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
+  using typename Superclass::InputVectorType;
+  using typename Superclass::OutputVectorType;
 
-  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
-  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
+  using typename Superclass::InputVectorPixelType;
+  using typename Superclass::OutputVectorPixelType;
 
   /** Derivative type */
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeType;
 
   /** Dimension of the velocity field . */
   static constexpr unsigned int VelocityFieldDimension = NDimensions + 1;
@@ -89,7 +89,7 @@ public:
   static constexpr unsigned int Dimension = NDimensions;
 
   /** Define the displacement field type and corresponding interpolator type. */
-  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
+  using typename Superclass::DisplacementFieldType;
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Define the displacement field type and corresponding interpolator type. */

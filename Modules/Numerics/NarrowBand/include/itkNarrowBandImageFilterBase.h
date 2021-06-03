@@ -81,9 +81,9 @@ public:
   itkTypeMacro(NarrowBandImageFilterBase, ImageToImageFilter);
 
   /**Typedefs from the superclass */
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::FiniteDifferenceFunctionType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -91,10 +91,10 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   /** The index type for the output image. */
   using IndexType = typename OutputImageType::IndexType;

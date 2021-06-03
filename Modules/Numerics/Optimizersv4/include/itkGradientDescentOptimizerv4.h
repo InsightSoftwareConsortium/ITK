@@ -98,13 +98,13 @@ public:
   using InternalComputationValueType = TInternalComputationValueType;
 
   /** Derivative type */
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeType;
 
   /** Metric type over which this class is templated */
-  using MeasureType = typename Superclass::MeasureType;
-  using IndexRangeType = typename Superclass::IndexRangeType;
-  using ScalesType = typename Superclass::ScalesType;
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::IndexRangeType;
+  using typename Superclass::ScalesType;
+  using typename Superclass::ParametersType;
 
   /**
    * Set/Get the learning rate to apply. It is overridden by

@@ -69,20 +69,20 @@ public:
   static constexpr unsigned int OutputSpaceDimension = NDimensions;
 
   /** Type of the input parameters. */
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersValueType;
   using ScalarType = ParametersValueType;
 
 
   /** Type of the Jacobian matrix. */
-  using JacobianType = typename Superclass::JacobianType;
-  using JacobianPositionType = typename Superclass::JacobianPositionType;
-  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::JacobianPositionType;
+  using typename Superclass::InverseJacobianPositionType;
 
   /** Transform category type. */
-  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
+  using typename Superclass::TransformCategoryEnum;
 
   /** Standard vector type for this class. */
   using InputVectorType = Vector<TParametersValueType, Self::InputSpaceDimension>;
@@ -102,7 +102,7 @@ public:
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/
-  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
+  using typename Superclass::InverseTransformBaseType;
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /**  Method to transform a point. */

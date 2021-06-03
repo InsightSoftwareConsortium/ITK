@@ -101,7 +101,7 @@ public:
   itkTypeMacro(BayesianClassifierImageFilter, ImageToImageFilter);
 
   /** Input and Output image types. */
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImageType;
 
   /** Dimension of the input image. */
   static constexpr unsigned int Dimension = InputImageType::ImageDimension;
@@ -149,7 +149,7 @@ public:
   using DecisionRuleType = Statistics::MaximumDecisionRule;
   using DecisionRulePointer = DecisionRuleType::Pointer;
 
-  using DataObjectPointer = typename Superclass::DataObjectPointer;
+  using typename Superclass::DataObjectPointer;
 
   /** An image from a single component of the Posterior. */
   using ExtractedComponentImageType = itk::Image<TPosteriorsPrecisionType, Self::Dimension>;

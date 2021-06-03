@@ -67,8 +67,8 @@ public:
 
   itkTypeMacro(HeavisideStepFunction, HeavisideStepFunctionBase);
 
-  using InputType = typename Superclass::InputType;
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::InputType;
+  using typename Superclass::OutputType;
 
   /** Evaluate at the specified input position */
   OutputType

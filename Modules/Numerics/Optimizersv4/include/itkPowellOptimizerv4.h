@@ -72,9 +72,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(PowellOptimizerv4, Superclass);
 
-  using ParametersType = typename Superclass::ParametersType;
-  using MeasureType = typename Superclass::MeasureType;
-  using ScalesType = typename Superclass::ScalesType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::ScalesType;
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro(MaximumIteration, unsigned int);

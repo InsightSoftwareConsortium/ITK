@@ -181,7 +181,7 @@ public:
   using RadiusType = typename ConstNeighborhoodIteratorType::RadiusType;
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** VectorGradientMagnitudeImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel

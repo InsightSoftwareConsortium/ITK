@@ -63,12 +63,12 @@ public:
   itkTypeMacro(RGBGibbsPriorFilter, MRFImageFilter);
 
   /** Types from superclass.  */
-  using InputImagePixelType = typename Superclass::InputImagePixelType;
-  using InputImageRegionConstIterator = typename Superclass::InputImageRegionConstIterator;
-  using InputImageRegionIterator = typename Superclass::InputImageRegionIterator;
-  using LabelledImageRegionIterator = typename Superclass::LabelledImageRegionIterator;
-  using LabelledImagePixelType = typename Superclass::LabelledImagePixelType;
-  using IndexValueType = typename Superclass::IndexValueType;
+  using typename Superclass::InputImagePixelType;
+  using typename Superclass::InputImageRegionConstIterator;
+  using typename Superclass::InputImageRegionIterator;
+  using typename Superclass::LabelledImageRegionIterator;
+  using typename Superclass::LabelledImagePixelType;
+  using typename Superclass::IndexValueType;
 
   /** A smart pointer to the input image type. */
   using InputImageType = TInputImage;

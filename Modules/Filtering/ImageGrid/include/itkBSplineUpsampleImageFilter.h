@@ -101,16 +101,16 @@ public:
   itkNewMacro(Self);
 
   /** InputImageType type alias support */
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImageType;
 
   /** InputImagePointer type alias support */
-  using InputImagePointer = typename Superclass::InputImagePointer;
+  using typename Superclass::InputImagePointer;
 
   /** OutputImageIterator type alias support */
-  using OutputImageIterator = typename Superclass::OutputImageIterator;
+  using typename Superclass::OutputImageIterator;
 
   /** OutputImagePointer type alias support */
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputImagePointer;
 
   /** Creates an image twice the size of the input image with spacing half the
    * input image. */

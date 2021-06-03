@@ -49,9 +49,9 @@ public:
 
   using MeshType = TMesh;
   using MeshPointer = typename MeshType::Pointer;
-  using TransformType = typename Superclass::TransformType;
-  using PointType = typename Superclass::PointType;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using typename Superclass::TransformType;
+  using typename Superclass::PointType;
+  using typename Superclass::BoundingBoxType;
 
   using PointContainerType = VectorContainer<IdentifierType, PointType>;
   using PointContainerPointer = typename PointContainerType::Pointer;

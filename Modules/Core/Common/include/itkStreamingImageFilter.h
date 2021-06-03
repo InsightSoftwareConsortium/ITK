@@ -68,7 +68,7 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
   using OutputImageRegionType = typename OutputImageType::RegionType;
   using OutputImagePixelType = typename OutputImageType::PixelType;
-  using DataObjectPointer = typename Superclass::DataObjectPointer;
+  using typename Superclass::DataObjectPointer;
 
   /** Dimension of input image. */
   static constexpr unsigned int InputImageDimension = InputImageType::ImageDimension;

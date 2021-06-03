@@ -117,20 +117,20 @@ public:
   itkTypeMacro(CurvatureRegistrationFilter, PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   /** FixedImage image type. */
-  using FixedImageType = typename Superclass::FixedImageType;
-  using FixedImagePointer = typename Superclass::FixedImagePointer;
+  using typename Superclass::FixedImageType;
+  using typename Superclass::FixedImagePointer;
   static constexpr unsigned int ImageDimension = FixedImageType::ImageDimension;
 
   /** MovingImage image type. */
-  using MovingImageType = typename Superclass::MovingImageType;
-  using MovingImagePointer = typename Superclass::MovingImagePointer;
+  using typename Superclass::MovingImageType;
+  using typename Superclass::MovingImagePointer;
 
   /** Deformation field type. */
-  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
-  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using typename Superclass::DisplacementFieldType;
+  using typename Superclass::DisplacementFieldPointer;
 
   using DisplacementFieldPixelType = typename TDisplacementField::PixelType;
   using DisplacementFieldComponentType = typename DisplacementFieldPixelType::ValueType;
@@ -151,7 +151,7 @@ public:
   using DisplacementFieldComponentImagePointer = typename DisplacementFieldComponentImageType::Pointer;
 
   /** FiniteDifferenceFunction type. */
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::FiniteDifferenceFunctionType;
 
   /** CurvatureRegistrationFilterFunction type. */
   using RegistrationFunctionType = TImageForceFunction;

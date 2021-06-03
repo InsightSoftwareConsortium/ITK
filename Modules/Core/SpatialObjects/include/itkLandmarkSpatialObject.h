@@ -50,10 +50,10 @@ public:
   using LandmarkPointType = SpatialObjectPoint<TDimension>;
   using LandmarkPointListType = std::vector<LandmarkPointType>;
 
-  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
-  using PointType = typename Superclass::PointType;
-  using TransformType = typename Superclass::TransformType;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using typename Superclass::SpatialObjectPointType;
+  using typename Superclass::PointType;
+  using typename Superclass::TransformType;
+  using typename Superclass::BoundingBoxType;
   using PointContainerType = VectorContainer<IdentifierType, PointType>;
   using PointContainerPointer = SmartPointer<PointContainerType>;
 

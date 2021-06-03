@@ -88,11 +88,11 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Inherited type alias from the superclass. */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputPointType = typename Superclass::InputPointType;
-  using ValueType = typename Superclass::ValueType;
-  using InputSpacingType = typename Superclass::InputSpacingType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputPointType;
+  using typename Superclass::ValueType;
+  using typename Superclass::InputSpacingType;
 
   using FeatureImageType = TFeatureImage;
   using FeatureImagePointer = typename FeatureImageType::Pointer;
@@ -106,10 +106,10 @@ public:
   using IndexType = typename OutputImageType::IndexType;
   using OutputPixelType = typename OutputImageType::PixelType;
 
-  using TimeStepType = typename Superclass::TimeStepType;
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::FiniteDifferenceFunctionType;
 
-  using IdCellType = typename Superclass::IdCellType;
+  using typename Superclass::IdCellType;
 
   using FunctionType = TFunction;
   using FunctionPtr = typename FunctionType::Pointer;

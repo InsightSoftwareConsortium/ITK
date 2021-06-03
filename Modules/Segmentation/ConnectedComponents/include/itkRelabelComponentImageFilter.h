@@ -93,7 +93,7 @@ public:
   /**
    * Types from the Superclass
    */
-  using InputImagePointer = typename Superclass::InputImagePointer;
+  using typename Superclass::InputImagePointer;
 
   /**
    * Extract some information from the image types.  Dimensionality

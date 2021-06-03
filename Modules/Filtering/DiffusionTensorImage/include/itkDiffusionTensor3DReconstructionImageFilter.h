@@ -176,7 +176,7 @@ public:
 
   using OutputImageType = TensorImageType;
 
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** Typedef defining one (of the many) gradient images.  */
   using GradientImageType = Image<GradientPixelType, 3>;

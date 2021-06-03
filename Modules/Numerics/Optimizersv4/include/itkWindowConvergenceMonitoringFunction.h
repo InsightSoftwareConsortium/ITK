@@ -55,9 +55,9 @@ public:
   using ScalarType = TScalar;
   using RealType = typename NumericTraits<ScalarType>::RealType;
 
-  using EnergyValueType = typename Superclass::EnergyValueType;
-  using EnergyValueContainerType = typename Superclass::EnergyValueContainerType;
-  using EnergyValueContainerSizeType = typename Superclass::EnergyValueContainerSizeType;
+  using typename Superclass::EnergyValueType;
+  using typename Superclass::EnergyValueContainerType;
+  using typename Superclass::EnergyValueContainerSizeType;
   using EnergyValueIterator = typename EnergyValueContainerType::iterator;
   using EnergyValueConstIterator = typename EnergyValueContainerType::const_iterator;
 

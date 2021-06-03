@@ -55,16 +55,16 @@ public:
   itkNewMacro(Self);
 
   /** Scalar type. */
-  using ScalarType = typename Superclass::ScalarType;
+  using typename Superclass::ScalarType;
 
   /** Parameters type. */
-  using ParametersType = typename Superclass::ParametersType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::FixedParametersType;
 
   /** Jacobian type. */
-  using JacobianType = typename Superclass::JacobianType;
-  using JacobianPositionType = typename Superclass::JacobianPositionType;
-  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::JacobianPositionType;
+  using typename Superclass::InverseJacobianPositionType;
 
   /** Dimension of the domain space. */
   static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
@@ -77,12 +77,12 @@ public:
   /** Get alpha */
   itkGetConstMacro(Alpha, TParametersValueType);
 
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using InputVectorType = typename Superclass::InputVectorType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
-  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
-  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::InputVectorType;
+  using typename Superclass::OutputVectorType;
+  using typename Superclass::InputCovariantVectorType;
+  using typename Superclass::OutputCovariantVectorType;
 
 protected:
   ElasticBodyReciprocalSplineKernelTransform();
@@ -90,7 +90,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using GMatrixType = typename Superclass::GMatrixType;
+  using typename Superclass::GMatrixType;
   /** Compute G(x)
    * For the elastic body spline, this is:
    * G(x) = [alpha*r(x)*I - 3*x*x'/r(x)]

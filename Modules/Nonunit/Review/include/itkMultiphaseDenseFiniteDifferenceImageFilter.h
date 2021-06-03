@@ -123,36 +123,36 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Convenient type alias */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputRegionType = typename Superclass::InputRegionType;
-  using InputSizeType = typename Superclass::InputSizeType;
-  using InputSizeValueType = typename Superclass::InputSizeValueType;
-  using InputIndexType = typename Superclass::InputIndexType;
-  using InputIndexValueType = typename Superclass::InputIndexValueType;
-  using InputPixelType = typename Superclass::InputPixelType;
-  using InputPointType = typename Superclass::InputPointType;
-  using InputSpacingType = typename Superclass::InputSpacingType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputRegionType;
+  using typename Superclass::InputSizeType;
+  using typename Superclass::InputSizeValueType;
+  using typename Superclass::InputIndexType;
+  using typename Superclass::InputIndexValueType;
+  using typename Superclass::InputPixelType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::InputSpacingType;
   using ValueType = typename InputImageType::ValueType;
 
-  using FeatureImageType = typename Superclass::FeatureImageType;
-  using FeatureSizeType = typename Superclass::FeatureSizeType;
-  using FeatureImagePointer = typename Superclass::FeatureImagePointer;
-  using FeatureRegionType = typename Superclass::FeatureRegionType;
-  using FeatureSpacingType = typename Superclass::FeatureSpacingType;
-  using FeaturePointType = typename Superclass::FeaturePointType;
-  using FeaturePixelType = typename Superclass::FeaturePixelType;
+  using typename Superclass::FeatureImageType;
+  using typename Superclass::FeatureSizeType;
+  using typename Superclass::FeatureImagePointer;
+  using typename Superclass::FeatureRegionType;
+  using typename Superclass::FeatureSpacingType;
+  using typename Superclass::FeaturePointType;
+  using typename Superclass::FeaturePixelType;
 
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
-  using OutputRegionType = typename Superclass::OutputRegionType;
-  using OutputSizeType = typename Superclass::OutputSizeType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputRegionType;
+  using typename Superclass::OutputSizeType;
   using SizeValueType = typename Superclass::OutputSizeValueType;
-  using OutputIndexType = typename Superclass::OutputIndexType;
-  using OutputIndexValueType = typename Superclass::OutputIndexValueType;
+  using typename Superclass::OutputIndexType;
+  using typename Superclass::OutputIndexValueType;
   using OutputPixelType = typename OutputImageType::PixelType;
 
-  using IdCellType = typename Superclass::IdCellType;
+  using typename Superclass::IdCellType;
 
   using ThresholdFilterType = BinaryThresholdImageFilter<InputImageType, InputImageType>;
   using ThresholdFilterPointer = typename ThresholdFilterType::Pointer;
@@ -160,12 +160,12 @@ public:
   using MaurerType = SignedMaurerDistanceMapImageFilter<InputImageType, InputImageType>;
   using MaurerPointer = typename MaurerType::Pointer;
 
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
-  using FiniteDifferenceFunctionPointer = typename Superclass::FiniteDifferenceFunctionPointer;
+  using typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::FiniteDifferenceFunctionPointer;
   using NeighborhoodIteratorType = typename FiniteDifferenceFunctionType::NeighborhoodType;
 
   /** The value type of a time step.  Inherited from the superclass. */
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename FaceCalculatorType::FaceListType;

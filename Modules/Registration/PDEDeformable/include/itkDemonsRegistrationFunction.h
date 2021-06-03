@@ -70,29 +70,29 @@ public:
   itkTypeMacro(DemonsRegistrationFunction, PDEDeformableRegistrationFunction);
 
   /** MovingImage image type. */
-  using MovingImageType = typename Superclass::MovingImageType;
-  using MovingImagePointer = typename Superclass::MovingImagePointer;
+  using typename Superclass::MovingImageType;
+  using typename Superclass::MovingImagePointer;
 
   /** FixedImage image type. */
-  using FixedImageType = typename Superclass::FixedImageType;
-  using FixedImagePointer = typename Superclass::FixedImagePointer;
+  using typename Superclass::FixedImageType;
+  using typename Superclass::FixedImagePointer;
   using IndexType = typename FixedImageType::IndexType;
   using SizeType = typename FixedImageType::SizeType;
   using SpacingType = typename FixedImageType::SpacingType;
 
   /** Deformation field type. */
-  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
-  using DisplacementFieldTypePointer = typename Superclass::DisplacementFieldTypePointer;
+  using typename Superclass::DisplacementFieldType;
+  using typename Superclass::DisplacementFieldTypePointer;
 
   /** Inherit some enums from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Inherit some enums from the superclass. */
-  using PixelType = typename Superclass::PixelType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::PixelType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::TimeStepType;
 
   /** Interpolator type. */
   using CoordRepType = double;

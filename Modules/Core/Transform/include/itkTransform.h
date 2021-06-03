@@ -116,10 +116,10 @@ public:
   }
 
   /** Type of the input parameters. */
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersValueType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
   using DerivativeType = Array<ParametersValueType>;
 
   /** Type of the scalar representing coordinate and vector elements. */
@@ -171,7 +171,7 @@ public:
   using InputDirectionMatrix = Matrix<double, Self::InputSpaceDimension, Self::InputSpaceDimension>;
   using DirectionChangeMatrix = Matrix<double, Self::OutputSpaceDimension, Self::InputSpaceDimension>;
 
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::NumberOfParametersType;
 
   /**  Method to transform a point.
    * \warning This method must be thread-safe. See, e.g., its use
@@ -451,7 +451,7 @@ public:
   std::string
   GetTransformTypeAsString() const override;
 
-  using TransformCategoryEnum = typename Superclass::TransformCategoryEnum;
+  using typename Superclass::TransformCategoryEnum;
 
   /** Indicates the category transform.
    *  e.g. an affine transform, or a local one, e.g. a deformation field.

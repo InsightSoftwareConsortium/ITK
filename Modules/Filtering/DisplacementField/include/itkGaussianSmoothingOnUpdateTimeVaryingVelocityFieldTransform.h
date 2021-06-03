@@ -58,13 +58,13 @@ public:
   static constexpr unsigned int TimeVaryingVelocityFieldDimension = NDimensions + 1;
 
   /** Types from superclass */
-  using ScalarType = typename Superclass::ScalarType;
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::ScalarType;
+  using typename Superclass::DerivativeType;
   using DerivativeValueType = typename DerivativeType::ValueType;
-  using VelocityFieldType = typename Superclass::VelocityFieldType;
+  using typename Superclass::VelocityFieldType;
 
-  using TimeVaryingVelocityFieldType = typename Superclass::TimeVaryingVelocityFieldType;
-  using TimeVaryingVelocityFieldPointer = typename Superclass::TimeVaryingVelocityFieldPointer;
+  using typename Superclass::TimeVaryingVelocityFieldType;
+  using typename Superclass::TimeVaryingVelocityFieldPointer;
 
   using DisplacementVectorType = typename VelocityFieldType::PixelType;
   using DisplacementVectorValueType = typename DisplacementVectorType::ValueType;

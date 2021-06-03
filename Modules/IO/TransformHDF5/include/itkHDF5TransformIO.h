@@ -91,9 +91,9 @@ public:
   using Self = HDF5TransformIOTemplate;
   using Superclass = TransformIOBaseTemplate<TParametersValueType>;
   using Pointer = SmartPointer<Self>;
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformListType = typename Superclass::TransformListType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformListType;
   using ParametersType = typename TransformType::ParametersType;
   using ParametersValueType = typename TransformType::ParametersValueType;
   using FixedParametersType = typename TransformType::FixedParametersType;

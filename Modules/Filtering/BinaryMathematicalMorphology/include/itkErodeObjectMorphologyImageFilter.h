@@ -63,7 +63,7 @@ public:
   itkTypeMacro(ErodeObjectMorphologyImageFilter, ObjectMorphologyImageFilter);
 
   /** Declaration of Pixel Type */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** Kernel type alias */
   using KernelType = TKernel;
@@ -74,7 +74,7 @@ public:
   using OutputNeighborhoodIteratorType = NeighborhoodIterator<TOutputImage>;
 
   /** Default boundary condition type */
-  using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
+  using typename Superclass::DefaultBoundaryConditionType;
 
   /** Set the object's value. Added for API consistency with itkBinaryErode
     filter */

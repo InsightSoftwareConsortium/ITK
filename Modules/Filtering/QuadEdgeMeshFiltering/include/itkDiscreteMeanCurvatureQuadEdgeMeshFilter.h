@@ -44,23 +44,23 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = DiscreteCurvatureQuadEdgeMeshFilter<TInputMesh, TOutputMesh>;
 
-  using InputMeshType = typename Superclass::InputMeshType;
-  using InputMeshPointer = typename Superclass::InputMeshPointer;
+  using typename Superclass::InputMeshType;
+  using typename Superclass::InputMeshPointer;
 
-  using OutputMeshType = typename Superclass::OutputMeshType;
-  using OutputMeshPointer = typename Superclass::OutputMeshPointer;
-  using OutputPointsContainerPointer = typename Superclass::OutputPointsContainerPointer;
-  using OutputPointsContainerIterator = typename Superclass::OutputPointsContainerIterator;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
-  using OutputCoordType = typename Superclass::OutputCoordType;
-  using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
-  using OutputCellIdentifier = typename Superclass::OutputCellIdentifier;
-  using OutputQEType = typename Superclass::OutputQEType;
-  using OutputMeshTraits = typename Superclass::OutputMeshTraits;
-  using OutputCurvatureType = typename Superclass::OutputCurvatureType;
+  using typename Superclass::OutputMeshType;
+  using typename Superclass::OutputMeshPointer;
+  using typename Superclass::OutputPointsContainerPointer;
+  using typename Superclass::OutputPointsContainerIterator;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::OutputVectorType;
+  using typename Superclass::OutputCoordType;
+  using typename Superclass::OutputPointIdentifier;
+  using typename Superclass::OutputCellIdentifier;
+  using typename Superclass::OutputQEType;
+  using typename Superclass::OutputMeshTraits;
+  using typename Superclass::OutputCurvatureType;
 
-  using TriangleType = typename Superclass::TriangleType;
+  using typename Superclass::TriangleType;
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(DiscreteMeanCurvatureQuadEdgeMeshFilter, DiscreteCurvatureQuadEdgeMeshFilter);

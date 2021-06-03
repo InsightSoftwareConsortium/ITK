@@ -55,18 +55,18 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Some convenient type alias. */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
-  using InputImageRegionType = typename Superclass::InputImageRegionType;
-  using InputImagePixelType = typename Superclass::InputImagePixelType;
-  using LabelObjectType = typename Superclass::LabelObjectType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageConstPointer;
+  using typename Superclass::InputImageRegionType;
+  using typename Superclass::InputImagePixelType;
+  using typename Superclass::LabelObjectType;
 
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
-  using OutputImageConstPointer = typename Superclass::OutputImageConstPointer;
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputImageConstPointer;
+  using typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImagePixelType;
   using IndexType = typename OutputImageType::IndexType;
 
   /** ImageDimension constants */

@@ -153,7 +153,7 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** Set get the binary ON value of the input image. */
   itkSetMacro(ForegroundValue, InputPixelType);

@@ -69,8 +69,8 @@ public:
   itkTypeMacro(DoubleThresholdImageFilter, ImageToImageFilter);
 
   /** Types from the superclass */
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageType;
 
   /** Pixel types. */
   using InputPixelType = typename TInputImage::PixelType;

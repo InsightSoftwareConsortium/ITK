@@ -57,10 +57,10 @@ public:
   itkTypeMacro(SpatialFunction, FunctionBase);
 
   /** Input type for the function. */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type for the function. */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Spatial dimension. */
   static constexpr unsigned int ImageDimension = VImageDimension;

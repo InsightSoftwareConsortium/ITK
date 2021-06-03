@@ -54,10 +54,10 @@ public:
   itkNewMacro(Self);
 
   /** Input type for the function */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type for the function */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Set/Get and set the center of the cylinder. */
   itkGetConstMacro(Center, InputType);

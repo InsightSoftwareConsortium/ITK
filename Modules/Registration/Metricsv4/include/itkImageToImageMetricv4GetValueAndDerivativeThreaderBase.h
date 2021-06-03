@@ -56,8 +56,8 @@ public:
   itkTypeMacro(ImageToImageMetricv4GetValueAndDerivativeThreaderBase, DomainThreader);
 
   /** Superclass types. */
-  using DomainType = typename Superclass::DomainType;
-  using AssociateType = typename Superclass::AssociateType;
+  using typename Superclass::DomainType;
+  using typename Superclass::AssociateType;
 
   /** Types of the target class. */
   using ImageToImageMetricv4Type = TImageToImageMetricv4;

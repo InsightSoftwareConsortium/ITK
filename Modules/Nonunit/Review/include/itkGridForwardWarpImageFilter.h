@@ -77,8 +77,8 @@ public:
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Inherit some types from the superclass. */
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputImagePointer;
   using IndexType = typename OutputImageType::IndexType;
   using SizeType = typename OutputImageType::SizeType;
   using PixelType = typename OutputImageType::PixelType;

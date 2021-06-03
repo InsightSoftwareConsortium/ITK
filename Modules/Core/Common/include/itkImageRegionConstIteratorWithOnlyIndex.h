@@ -140,11 +140,11 @@ public:
    * they need to be redone here for this subclass to compile properly with gcc.
    */
   /** Types inherited from the Superclass */
-  using IndexType = typename Superclass::IndexType;
-  using SizeType = typename Superclass::SizeType;
-  using OffsetType = typename Superclass::OffsetType;
-  using RegionType = typename Superclass::RegionType;
-  using ImageType = typename Superclass::ImageType;
+  using typename Superclass::IndexType;
+  using typename Superclass::SizeType;
+  using typename Superclass::OffsetType;
+  using typename Superclass::RegionType;
+  using typename Superclass::ImageType;
 
   /** Default constructor. Needed since we provide a cast constructor. */
   ImageRegionConstIteratorWithOnlyIndex()

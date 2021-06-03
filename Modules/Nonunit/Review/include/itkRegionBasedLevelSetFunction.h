@@ -84,13 +84,13 @@ public:
 
   /** Extract some parameters from the superclass. */
   using TimeStepType = double;
-  using ImageType = typename Superclass::ImageType;
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::ImageType;
+  using typename Superclass::PixelType;
   using ScalarValueType = PixelType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::NeighborhoodScalesType;
+  using typename Superclass::FloatOffsetType;
   using VectorType = FixedArray<ScalarValueType, Self::ImageDimension>;
 
   /* This structure is derived from LevelSetFunction and stores intermediate

@@ -116,11 +116,11 @@ public:
   using RegionType = typename MovingImageType::RegionType;
 
   /** Metric and transform type alias */
-  using ImageMetricType = typename Superclass::ImageMetricType;
+  using typename Superclass::ImageMetricType;
   using ImageMetricPointer = typename ImageMetricType::Pointer;
   using VirtualImageType = typename ImageMetricType::VirtualImageType;
   using MeasureType = typename ImageMetricType::MeasureType;
-  using MultiMetricType = typename Superclass::MultiMetricType;
+  using typename Superclass::MultiMetricType;
 
   using OutputTransformType = TOutputTransform;
   using OutputTransformPointer = typename OutputTransformType::Pointer;
@@ -133,9 +133,9 @@ public:
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
   using DisplacementVectorType = typename TimeVaryingVelocityFieldType::PixelType;
 
-  using CompositeTransformType = typename Superclass::CompositeTransformType;
+  using typename Superclass::CompositeTransformType;
 
-  using DecoratedOutputTransformType = typename Superclass::DecoratedOutputTransformType;
+  using typename Superclass::DecoratedOutputTransformType;
   using DecoratedOutputTransformPointer = typename DecoratedOutputTransformType::Pointer;
 
   using NumberOfIterationsArrayType = Array<SizeValueType>;

@@ -236,8 +236,8 @@ public:
   /** Hierarchy type alias and values. */
   using Self = QuadEdgeMeshFrontIterator;
   using Superclass = QuadEdgeMeshFrontBaseIterator<TMesh, TQE>;
-  using MeshType = typename Superclass::MeshType;
-  using QEType = typename Superclass::QEType;
+  using typename Superclass::MeshType;
+  using typename Superclass::QEType;
 
 public:
   /** Object creation methods. */
@@ -265,8 +265,8 @@ public:
   /** Hierarchy type alias & values. */
   using Self = QuadEdgeMeshConstFrontIterator;
   using Superclass = QuadEdgeMeshFrontBaseIterator<TMesh, TQE>;
-  using QEType = typename Superclass::QEType;
-  using MeshType = typename Superclass::MeshType;
+  using typename Superclass::QEType;
+  using typename Superclass::MeshType;
   using NoConstType = QuadEdgeMeshFrontIterator<MeshType, QEType>;
 
 public:

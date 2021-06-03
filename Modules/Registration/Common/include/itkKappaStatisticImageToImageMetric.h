@@ -69,23 +69,23 @@ public:
   itkTypeMacro(KappaStatisticImageToImageMetric, ImageToImageMetric);
 
   /** Types transferred from the base class */
-  using RealType = typename Superclass::RealType;
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformParametersType = typename Superclass::TransformParametersType;
-  using TransformJacobianType = typename Superclass::TransformJacobianType;
-  using GradientImageType = typename Superclass::GradientImageType;
-  using GradientPixelType = typename Superclass::GradientPixelType;
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
+  using typename Superclass::RealType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformParametersType;
+  using typename Superclass::TransformJacobianType;
+  using typename Superclass::GradientImageType;
+  using typename Superclass::GradientPixelType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
 
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using FixedImageType = typename Superclass::FixedImageType;
-  using MovingImageType = typename Superclass::MovingImageType;
-  using FixedImageConstPointer = typename Superclass::FixedImageConstPointer;
-  using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
-  using FixedImageRegionType = typename Superclass::FixedImageRegionType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::FixedImageType;
+  using typename Superclass::MovingImageType;
+  using typename Superclass::FixedImageConstPointer;
+  using typename Superclass::MovingImageConstPointer;
+  using typename Superclass::FixedImageRegionType;
 
   /** Computes the gradient image and assigns it to m_GradientImage */
   void

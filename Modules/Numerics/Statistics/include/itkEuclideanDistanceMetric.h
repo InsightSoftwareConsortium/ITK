@@ -41,11 +41,11 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementVectorType;
   using ValueType = typename MeasurementVectorTraitsTypes<MeasurementVectorType>::ValueType;
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementVectorSizeType;
 
-  using OriginType = typename Superclass::OriginType;
+  using typename Superclass::OriginType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(EuclideanDistanceMetric, DistanceMetric);

@@ -82,7 +82,7 @@ public:
   using PixelType = typename InputImageType::PixelType;
   using RegionType = typename InputImageType::RegionType;
   using IndexType = typename InputImageType::IndexType;
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
   using InputImageRegionType = typename InputImageType::RegionType;
 
   using SpacingType = typename InputImageType::SpacingType;
@@ -98,7 +98,7 @@ public:
   using ArrayType = FixedArray<unsigned, ImageDimension>;
   using RealImageType = Image<CoordRepType, ImageDimension>;
   using RealImagePointer = typename RealImageType::Pointer;
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ContinuousIndexType;
   using RealType = float;
 
   /** Interpolation kernel type (default spline order = 3) */

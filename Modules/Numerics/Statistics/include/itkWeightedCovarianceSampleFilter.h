@@ -57,14 +57,14 @@ public:
   itkNewMacro(Self);
 
   /** Types derived from the base class */
-  using SampleType = typename Superclass::SampleType;
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
-  using MeasurementType = typename Superclass::MeasurementType;
+  using typename Superclass::SampleType;
+  using typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementType;
 
   /** Types derived from the base class */
-  using MeasurementVectorRealType = typename Superclass::MeasurementVectorRealType;
-  using MeasurementRealType = typename Superclass::MeasurementRealType;
+  using typename Superclass::MeasurementVectorRealType;
+  using typename Superclass::MeasurementRealType;
 
 
   /** Type of weight values */
@@ -92,12 +92,12 @@ public:
 
 
   /** Types derived from the base class */
-  using MatrixType = typename Superclass::MatrixType;
-  using MatrixDecoratedType = typename Superclass::MatrixDecoratedType;
+  using typename Superclass::MatrixType;
+  using typename Superclass::MatrixDecoratedType;
 
   /** Types derived from the base class */
-  using MeasurementVectorDecoratedType = typename Superclass::MeasurementVectorDecoratedType;
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::MeasurementVectorDecoratedType;
+  using typename Superclass::OutputType;
 
 protected:
   WeightedCovarianceSampleFilter();

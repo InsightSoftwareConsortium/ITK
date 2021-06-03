@@ -93,11 +93,11 @@ public:
   itkTypeMacro(RegistrationParameterScalesEstimator, Superclass);
 
   /** Type of scales */
-  using ScalesType = typename Superclass::ScalesType;
+  using typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
   /** Type of float */
-  using FloatType = typename Superclass::FloatType;
+  using typename Superclass::FloatType;
 
   using MetricType = TMetric;
   using MetricPointer = typename MetricType::Pointer;

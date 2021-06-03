@@ -167,10 +167,10 @@ public:
 
   /** PixelContainer type alias support Used to construct a container for
    * the pixel data. */
-  using PixelContainer = typename Superclass::PixelContainer;
-  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
-  using PixelContainerConstPointer = typename Superclass::PixelContainerConstPointer;
-  using IOPixelType = typename Superclass::IOPixelType;
+  using typename Superclass::PixelContainer;
+  using typename Superclass::PixelContainerPointer;
+  using typename Superclass::PixelContainerConstPointer;
+  using typename Superclass::IOPixelType;
 
   /** Typedef for the length of vectors in the VectorImage. */
   using VectorLengthType = typename VectorImageType::VectorLengthType;

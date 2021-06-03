@@ -163,20 +163,20 @@ public:
   using Superclass = ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>;
 
   /** Inherit type alias from superclass */
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
-  using RadiusType = typename Superclass::RadiusType;
-  using SizeType = typename Superclass::SizeType;
-  using SizeValueType = typename Superclass::SizeValueType;
-  using ConstIterator = typename Superclass::ConstIterator;
-  using IndexListType = typename Superclass::IndexListType;
-  using BoundaryConditionType = typename Superclass::BoundaryConditionType;
-  using ImageBoundaryConditionPointerType = typename Superclass::ImageBoundaryConditionPointerType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using IndexType = typename Superclass::IndexType;
-  using ImageType = typename Superclass::ImageType;
-  using RegionType = typename Superclass::RegionType;
-  using IndexValueType = typename Superclass::IndexValueType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::SizeType;
+  using typename Superclass::SizeValueType;
+  using typename Superclass::ConstIterator;
+  using typename Superclass::IndexListType;
+  using typename Superclass::BoundaryConditionType;
+  using typename Superclass::ImageBoundaryConditionPointerType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::IndexType;
+  using typename Superclass::ImageType;
+  using typename Superclass::RegionType;
+  using typename Superclass::IndexValueType;
 
   /** An  iterator for the ShapedNeighborhood classes. */
   struct Iterator : public ConstIterator
@@ -261,7 +261,7 @@ public:
 protected:
   friend Superclass;
 
-  using NeighborIndexType = typename Superclass::NeighborIndexType;
+  using typename Superclass::NeighborIndexType;
 };
 } // namespace itk
 

@@ -68,25 +68,25 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(WrapPadImageFilter, PadImageFilter);
 
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
-  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::OutputImagePointer;
+  using typename Superclass::InputImageConstPointer;
 
   /** Typedef to describe the output image region type. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
-  using InputImageRegionType = typename Superclass::InputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
+  using typename Superclass::InputImageRegionType;
 
   /** Typedef to describe the type of pixel. */
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
-  using InputImagePixelType = typename Superclass::InputImagePixelType;
+  using typename Superclass::OutputImagePixelType;
+  using typename Superclass::InputImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  using OutputImageIndexType = typename Superclass::OutputImageIndexType;
-  using InputImageIndexType = typename Superclass::InputImageIndexType;
-  using OutputImageSizeType = typename Superclass::OutputImageSizeType;
-  using InputImageSizeType = typename Superclass::InputImageSizeType;
+  using typename Superclass::OutputImageIndexType;
+  using typename Superclass::InputImageIndexType;
+  using typename Superclass::OutputImageSizeType;
+  using typename Superclass::InputImageSizeType;
 
   /** ImageDimension enumeration. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;

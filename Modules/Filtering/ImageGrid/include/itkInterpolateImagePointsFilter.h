@@ -98,9 +98,9 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Typedefs from the Superclass */
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::InputImagePointer;
 
   /** Typedefs to describe and access output image. */
   using OutputImagePointer = typename TOutputImage::Pointer;

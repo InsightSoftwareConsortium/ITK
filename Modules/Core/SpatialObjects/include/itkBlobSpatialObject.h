@@ -60,10 +60,10 @@ public:
   using BlobPointType = SpatialObjectPoint<TDimension>;
   using BlobPointListType = std::vector<BlobPointType>;
 
-  using PointType = typename Superclass::PointType;
-  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
-  using TransformType = typename Superclass::TransformType;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using typename Superclass::PointType;
+  using typename Superclass::SpatialObjectPointType;
+  using typename Superclass::TransformType;
+  using typename Superclass::BoundingBoxType;
   using PointContainerType = VectorContainer<IdentifierType, PointType>;
   using PointContainerPointer = SmartPointer<PointContainerType>;
 

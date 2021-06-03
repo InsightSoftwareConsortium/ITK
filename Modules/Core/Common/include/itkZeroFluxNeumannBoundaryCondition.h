@@ -63,16 +63,16 @@ public:
   using Superclass = ImageBoundaryCondition<TInputImage, TOutputImage>;
 
   /** Extract information from the image type. */
-  using PixelType = typename Superclass::PixelType;
-  using PixelPointerType = typename Superclass::PixelPointerType;
-  using OutputPixelType = typename Superclass::OutputPixelType;
-  using RegionType = typename Superclass::RegionType;
-  using IndexType = typename Superclass::IndexType;
-  using SizeType = typename Superclass::SizeType;
-  using OffsetType = typename Superclass::OffsetType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using typename Superclass::PixelType;
+  using typename Superclass::PixelPointerType;
+  using typename Superclass::OutputPixelType;
+  using typename Superclass::RegionType;
+  using typename Superclass::IndexType;
+  using typename Superclass::SizeType;
+  using typename Superclass::OffsetType;
+  using typename Superclass::NeighborhoodType;
 
-  using NeighborhoodAccessorFunctorType = typename Superclass::NeighborhoodAccessorFunctorType;
+  using typename Superclass::NeighborhoodAccessorFunctorType;
 
   /** Extract information from the image type. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

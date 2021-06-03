@@ -60,12 +60,12 @@ public:
   itkTypeMacro(EuclideanDistancePointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
 
   /** Types transferred from the base class */
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
-  using PointType = typename Superclass::PointType;
-  using PixelType = typename Superclass::PixelType;
-  using PointIdentifier = typename Superclass::PointIdentifier;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::LocalDerivativeType;
+  using typename Superclass::PointType;
+  using typename Superclass::PixelType;
+  using typename Superclass::PointIdentifier;
 
   /**
    * Calculates the local metric value for a single point.

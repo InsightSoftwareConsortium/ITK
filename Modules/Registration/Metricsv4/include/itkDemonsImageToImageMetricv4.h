@@ -77,29 +77,29 @@ public:
   itkTypeMacro(DemonsImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Superclass types */
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
 
-  using FixedImagePointType = typename Superclass::FixedImagePointType;
-  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
-  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using typename Superclass::FixedImagePointType;
+  using typename Superclass::FixedImagePixelType;
+  using typename Superclass::FixedImageGradientType;
 
-  using MovingImagePointType = typename Superclass::MovingImagePointType;
-  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
-  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
+  using typename Superclass::MovingImagePointType;
+  using typename Superclass::MovingImagePixelType;
+  using typename Superclass::MovingImageGradientType;
 
-  using MovingTransformType = typename Superclass::MovingTransformType;
-  using JacobianType = typename Superclass::JacobianType;
-  using VirtualImageType = typename Superclass::VirtualImageType;
-  using VirtualIndexType = typename Superclass::VirtualIndexType;
-  using VirtualPointType = typename Superclass::VirtualPointType;
+  using typename Superclass::MovingTransformType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualIndexType;
+  using typename Superclass::VirtualPointType;
   using VirtualSPointSetType = typename Superclass::VirtualPointSetType;
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::NumberOfParametersType;
 
   /** It should be possible to derive the internal computation type from the class object. */
   using InternalComputationValueType = TInternalComputationValueType;
 
-  using ImageDimensionType = typename Superclass::ImageDimensionType;
+  using typename Superclass::ImageDimensionType;
 
   /* Image dimension accessors */
   static constexpr ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;

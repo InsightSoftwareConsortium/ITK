@@ -49,20 +49,20 @@ public:
   itkTypeMacro(VoronoiPartitioningImageFilter, VoronoiSegmentationImageFilterBase);
 
   /** Convenient type alias. */
-  using BinaryObjectImage = typename Superclass::BinaryObjectImage;
-  using IndexList = typename Superclass::IndexList;
-  using IndexType = typename Superclass::IndexType;
-  using RegionType = typename Superclass::RegionType;
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputPixelType = typename Superclass::OutputPixelType;
+  using typename Superclass::BinaryObjectImage;
+  using typename Superclass::IndexList;
+  using typename Superclass::IndexType;
+  using typename Superclass::RegionType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputPixelType;
 
-  using PointType = typename Superclass::PointType;
-  using PointTypeDeque = typename Superclass::PointTypeDeque;
-  using PointIdIterator = typename Superclass::PointIdIterator;
-  using CellAutoPointer = typename Superclass::CellAutoPointer;
-  using EdgeIterator = typename Superclass::EdgeIterator;
-  using NeighborIdIterator = typename Superclass::NeighborIdIterator;
+  using typename Superclass::PointType;
+  using typename Superclass::PointTypeDeque;
+  using typename Superclass::PointIdIterator;
+  using typename Superclass::CellAutoPointer;
+  using typename Superclass::EdgeIterator;
+  using typename Superclass::NeighborIdIterator;
 
   /** Create the output results.  */
   void

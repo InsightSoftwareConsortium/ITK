@@ -62,11 +62,11 @@ public:
   itkNewMacro(Self);
 
   /** Typedefs from the superclass */
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
-  using MembershipFunctionType = typename Superclass::MembershipFunctionType;
-  using WeightArrayType = typename Superclass::WeightArrayType;
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MembershipFunctionType;
+  using typename Superclass::WeightArrayType;
+  using typename Superclass::ParametersType;
 
   /** Type of the membership function. Gaussian density function */
   using NativeMembershipFunctionType = GaussianMembershipFunction<MeasurementVectorType>;

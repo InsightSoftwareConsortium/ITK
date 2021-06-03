@@ -51,7 +51,7 @@ public:
   using Superclass = FastMarchingBase<TInput, TOutput>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using Traits = typename Superclass::Traits;
+  using typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -61,13 +61,13 @@ public:
 
   using InputMeshType = typename Superclass::InputDomainType;
   using InputMeshPointer = typename Superclass::InputDomainPointer;
-  using InputPixelType = typename Superclass::InputPixelType;
+  using typename Superclass::InputPixelType;
   using InputPointType = typename InputMeshType::PointType;
   using InputPointIdentifierType = typename InputMeshType::PointIdentifier;
 
   using OutputMeshType = typename Superclass::OutputDomainType;
   using OutputMeshPointer = typename Superclass::OutputDomainPointer;
-  using OutputPixelType = typename Superclass::OutputPixelType;
+  using typename Superclass::OutputPixelType;
   using OutputPointType = typename OutputMeshType::PointType;
   using OutputVectorType = typename OutputPointType::VectorType;
   using OutputVectorRealType = typename OutputVectorType::RealValueType;
@@ -95,7 +95,7 @@ public:
   //  using NodeContainerPointer = typename Traits::NodeContainerPointer;
   //  using NodeContainerConstIterator = typename Traits::NodeContainerConstIterator;
 
-  using LabelType = typename Superclass::LabelType;
+  using typename Superclass::LabelType;
 
   using NodeLabelMapType = std::map<NodeType, LabelType>;
   using NodeLabelMapIterator = typename NodeLabelMapType::iterator;

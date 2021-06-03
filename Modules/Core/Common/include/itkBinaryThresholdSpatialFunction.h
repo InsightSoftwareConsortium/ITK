@@ -59,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** OutputType type alias support. */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** InputType type alias support. */
   using InputType = typename TFunction::InputType;

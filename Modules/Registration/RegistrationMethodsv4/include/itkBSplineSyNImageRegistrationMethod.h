@@ -72,40 +72,40 @@ public:
   /** Input type alias for the images. */
   using FixedImageType = TFixedImage;
   using FixedImagePointer = typename FixedImageType::Pointer;
-  using FixedImagesContainerType = typename Superclass::FixedImagesContainerType;
+  using typename Superclass::FixedImagesContainerType;
   using MovingImageType = TMovingImage;
   using MovingImagePointer = typename MovingImageType::Pointer;
-  using MovingImagesContainerType = typename Superclass::MovingImagesContainerType;
+  using typename Superclass::MovingImagesContainerType;
 
-  using PointSetType = typename Superclass::PointSetType;
-  using PointSetsContainerType = typename Superclass::PointSetsContainerType;
+  using typename Superclass::PointSetType;
+  using typename Superclass::PointSetsContainerType;
 
   /** Metric and transform type alias */
-  using ImageMetricType = typename Superclass::ImageMetricType;
+  using typename Superclass::ImageMetricType;
   using ImageMetricPointer = typename ImageMetricType::Pointer;
   using MeasureType = typename ImageMetricType::MeasureType;
 
-  using ImageMaskSpatialObjectType = typename Superclass::ImageMaskSpatialObjectType;
+  using typename Superclass::ImageMaskSpatialObjectType;
   using MaskImageType = typename ImageMaskSpatialObjectType::ImageType;
-  using FixedImageMaskType = typename Superclass::FixedImageMaskType;
+  using typename Superclass::FixedImageMaskType;
   using FixedMaskImageType = typename ImageMaskSpatialObjectType::ImageType;
-  using FixedImageMasksContainerType = typename Superclass::FixedImageMasksContainerType;
-  using MovingImageMaskType = typename Superclass::MovingImageMaskType;
+  using typename Superclass::FixedImageMasksContainerType;
+  using typename Superclass::MovingImageMaskType;
   using MovingMaskImageType = typename ImageMaskSpatialObjectType::ImageType;
-  using MovingImageMasksContainerType = typename Superclass::MovingImageMasksContainerType;
+  using typename Superclass::MovingImageMasksContainerType;
 
-  using VirtualImageType = typename Superclass::VirtualImageType;
-  using VirtualImageBaseType = typename Superclass::VirtualImageBaseType;
-  using VirtualImageBaseConstPointer = typename Superclass::VirtualImageBaseConstPointer;
+  using typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImageBaseType;
+  using typename Superclass::VirtualImageBaseConstPointer;
 
-  using MultiMetricType = typename Superclass::MultiMetricType;
-  using MetricType = typename Superclass::MetricType;
+  using typename Superclass::MultiMetricType;
+  using typename Superclass::MetricType;
   using MetricPointer = typename MetricType::Pointer;
-  using PointSetMetricType = typename Superclass::PointSetMetricType;
+  using typename Superclass::PointSetMetricType;
 
-  using NumberOfIterationsArrayType = typename Superclass::NumberOfIterationsArrayType;
+  using typename Superclass::NumberOfIterationsArrayType;
 
-  using InitialTransformType = typename Superclass::InitialTransformType;
+  using typename Superclass::InitialTransformType;
   using OutputTransformType = TOutputTransform;
   using OutputTransformPointer = typename OutputTransformType::Pointer;
   using RealType = typename OutputTransformType::ScalarType;
@@ -120,12 +120,12 @@ public:
   using WeightedMaskImageType = typename BSplineFilterType::RealImageType;
   using BSplinePointSetType = typename BSplineFilterType::InputPointSetType;
 
-  using CompositeTransformType = typename Superclass::CompositeTransformType;
-  using DisplacementFieldTransformType = typename Superclass::DisplacementFieldTransformType;
-  using DisplacementFieldTransformPointer = typename Superclass::DisplacementFieldTransformPointer;
+  using typename Superclass::CompositeTransformType;
+  using typename Superclass::DisplacementFieldTransformType;
+  using typename Superclass::DisplacementFieldTransformPointer;
   using TransformBaseType = typename CompositeTransformType::TransformType;
 
-  using DecoratedOutputTransformType = typename Superclass::DecoratedOutputTransformType;
+  using typename Superclass::DecoratedOutputTransformType;
   using DecoratedOutputTransformPointer = typename DecoratedOutputTransformType::Pointer;
 
 protected:

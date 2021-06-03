@@ -67,36 +67,36 @@ public:
   static constexpr unsigned int ParametersDimension = 6;
 
   /** Parameters Type   */
-  using ScalarType = typename Superclass::ScalarType;
-  using ParametersType = typename Superclass::ParametersType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using JacobianType = typename Superclass::JacobianType;
-  using JacobianPositionType = typename Superclass::JacobianPositionType;
-  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using InputVectorType = typename Superclass::InputVectorType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
-  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
-  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
-  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
-  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
-  using MatrixType = typename Superclass::MatrixType;
-  using InverseMatrixType = typename Superclass::InverseMatrixType;
-  using CenterType = typename Superclass::CenterType;
-  using OffsetType = typename Superclass::OffsetType;
-  using TranslationType = typename Superclass::TranslationType;
+  using typename Superclass::ScalarType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::JacobianPositionType;
+  using typename Superclass::InverseJacobianPositionType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::InputVectorType;
+  using typename Superclass::OutputVectorType;
+  using typename Superclass::InputVnlVectorType;
+  using typename Superclass::OutputVnlVectorType;
+  using typename Superclass::InputCovariantVectorType;
+  using typename Superclass::OutputCovariantVectorType;
+  using typename Superclass::MatrixType;
+  using typename Superclass::InverseMatrixType;
+  using typename Superclass::CenterType;
+  using typename Superclass::OffsetType;
+  using typename Superclass::TranslationType;
 
   /** Versor type. */
-  using VersorType = typename Superclass::VersorType;
+  using typename Superclass::VersorType;
   using VectorType = typename VersorType::VectorType;
 
-  using AxisType = typename Superclass::AxisType;
-  using AngleType = typename Superclass::AngleType;
+  using typename Superclass::AxisType;
+  using typename Superclass::AngleType;
 
-  using AxisValueType = typename Superclass::AxisValueType;
-  using TranslationValueType = typename Superclass::TranslationValueType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
+  using typename Superclass::AxisValueType;
+  using typename Superclass::TranslationValueType;
+  using typename Superclass::ParametersValueType;
 
   using DerivativeType = Array<ParametersValueType>;
 

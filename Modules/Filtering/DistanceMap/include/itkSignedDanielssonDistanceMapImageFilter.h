@@ -150,7 +150,7 @@ public:
   using VoronoiPixelType = typename VoronoiImageType::PixelType;
 
   /** Pointer Type for data object */
-  using DataObjectPointer = typename Superclass::DataObjectPointer;
+  using typename Superclass::DataObjectPointer;
 
   /** Set if the distance should be squared. */
   itkSetMacro(SquaredDistance, bool);

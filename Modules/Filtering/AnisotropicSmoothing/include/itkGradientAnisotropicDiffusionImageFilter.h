@@ -67,7 +67,7 @@ public:
   itkTypeMacro(GradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
   /** Extract information from the superclass. */
-  using UpdateBufferType = typename Superclass::UpdateBufferType;
+  using typename Superclass::UpdateBufferType;
 
   /** Extract information from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

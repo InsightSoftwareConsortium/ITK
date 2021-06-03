@@ -50,7 +50,7 @@ public:
   using Superclass = KernelFunctionBase<TRealValueType>;
   using Pointer = SmartPointer<Self>;
 
-  using RealType = typename Superclass::RealType;
+  using typename Superclass::RealType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

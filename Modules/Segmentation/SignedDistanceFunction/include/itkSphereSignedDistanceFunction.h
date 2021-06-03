@@ -60,22 +60,22 @@ public:
   itkNewMacro(Self);
 
   /** OutputType type alias support */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** InputeType type alias support */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Dimension underlying input image. */
   static constexpr unsigned int SpaceDimension = Superclass::SpaceDimension;
 
   /** CoordRep type alias support */
-  using CoordRepType = typename Superclass::CoordRepType;
+  using typename Superclass::CoordRepType;
 
   /** Point type alias support */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Type of the shape parameters. */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
 
   /** A sphere is defined by a set of shape parameters. The first parameter
    * is the radius and the next SpaceDimension parameters represent the center. */

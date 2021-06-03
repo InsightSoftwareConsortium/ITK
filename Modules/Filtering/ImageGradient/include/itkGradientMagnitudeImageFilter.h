@@ -73,7 +73,7 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** GradientMagnitudeImageFilter needs a larger input requested
    * region than the output requested region (larger by the kernel

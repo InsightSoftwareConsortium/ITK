@@ -50,11 +50,11 @@ public:
   itkTypeMacro(LevelSetDomainPartitionImageWithKdTree, LevelSetDomainPartitionImage);
 
   using ImageType = TImage;
-  using ListIndexType = typename Superclass::ListIndexType;
-  using ListRegionType = typename Superclass::ListRegionType;
-  using ListPointType = typename Superclass::ListPointType;
-  using ListIteratorType = typename Superclass::ListIteratorType;
-  using IdentifierListType = typename Superclass::IdentifierListType;
+  using typename Superclass::ListIndexType;
+  using typename Superclass::ListRegionType;
+  using typename Superclass::ListPointType;
+  using typename Superclass::ListIteratorType;
+  using typename Superclass::IdentifierListType;
 
   using CentroidVectorType = typename ListPointType::VectorType;
   using SampleType = typename Statistics::ListSample<CentroidVectorType>;

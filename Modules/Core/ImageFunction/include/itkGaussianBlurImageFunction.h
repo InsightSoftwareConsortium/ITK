@@ -63,8 +63,8 @@ public:
   /** InputImageType type alias support */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
-  using IndexType = typename Superclass::IndexType;
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::IndexType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Dimension of the underlying image. */
   static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
@@ -90,7 +90,7 @@ public:
   using SigmaArrayType = itk::FixedArray<double, Self::ImageDimension>;
 
   /** Point type alias support */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Evalutate the  in the given dimension at specified point */
   TOutput

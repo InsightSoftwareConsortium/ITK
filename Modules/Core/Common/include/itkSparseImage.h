@@ -89,13 +89,13 @@ public:
   using NodeType = TNode;
 
   /** Types derived from the Superclass */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** Tyepdef for the functor used to access a neighborhood of pixel
    * pointers. */
   using NeighborhoodAccessorFunctorType = NeighborhoodAccessorFunctor<Self>;
 
-  using IOPixelType = typename Superclass::IOPixelType;
+  using typename Superclass::IOPixelType;
 
   /** The list types for storing the active pixels. */
   using NodeListType = SparseFieldLayer<NodeType>;

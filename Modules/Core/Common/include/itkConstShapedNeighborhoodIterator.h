@@ -84,10 +84,10 @@ public:
   using Superclass = NeighborhoodIterator<TImage, TBoundaryCondition>;
 
   /** Inherit type alias from superclass */
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
-  using RadiusType = typename Superclass::RadiusType;
-  using SizeType = typename Superclass::SizeType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::SizeType;
   using SizeValueType = typename SizeType::SizeValueType;
 
   /** Typedef support for common objects */

@@ -59,10 +59,10 @@ public:
   itkTypeMacro(GaussianSpatialFunction, SpatialFunction);
 
   /** Input type for the function. */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type for the function. */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Type used to store gaussian parameters. */
   using ArrayType = FixedArray<double, VImageDimension>;

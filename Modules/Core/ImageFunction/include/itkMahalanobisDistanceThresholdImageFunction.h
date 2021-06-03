@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** InputImageType type alias support */
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImageType;
 
   /** Typedef to describe the type of pixel. */
   using PixelType = typename TInputImage::PixelType;
@@ -74,13 +74,13 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Point type alias support */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Index type alias support */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** ContinuousIndex type alias support */
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Type used to represent the Covariance matrix of the vector population. */
   using CovarianceMatrixType = vnl_matrix<double>;

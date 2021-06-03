@@ -76,13 +76,13 @@ public:
   itkTypeMacro(GradientNDAnisotropicDiffusionFunction, ScalarAnisotropicDiffusionFunction);
 
   /** Inherit some parameters from the superclass type. */
-  using ImageType = typename Superclass::ImageType;
-  using PixelType = typename Superclass::PixelType;
-  using PixelRealType = typename Superclass::PixelRealType;
-  using TimeStepType = typename Superclass::TimeStepType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using typename Superclass::ImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::PixelRealType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::FloatOffsetType;
 
   using NeighborhoodSizeValueType = SizeValueType;
 

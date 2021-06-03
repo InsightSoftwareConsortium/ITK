@@ -161,10 +161,10 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Inherited type alias from the superclass. */
-  using ValueType = typename Superclass::ValueType;
-  using IndexType = typename Superclass::IndexType;
-  using TimeStepType = typename Superclass::TimeStepType;
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::ValueType;
+  using typename Superclass::IndexType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::InputImageType;
 
   /** Local image type alias */
   using FeatureImageType = TFeatureImage;

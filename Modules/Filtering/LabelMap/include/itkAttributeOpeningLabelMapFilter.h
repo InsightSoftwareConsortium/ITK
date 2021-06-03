@@ -61,7 +61,7 @@ public:
   using PixelType = typename ImageType::PixelType;
   using IndexType = typename ImageType::IndexType;
 
-  using LabelObjectType = typename Superclass::LabelObjectType;
+  using typename Superclass::LabelObjectType;
 
   using AttributeAccessorType = TAttributeAccessor;
   using AttributeValueType = typename AttributeAccessorType::AttributeValueType;

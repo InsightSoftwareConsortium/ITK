@@ -65,30 +65,30 @@ public:
   using LocalOptimizerType = itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>;
   using LocalOptimizerPointer =
     typename itk::GradientDescentOptimizerv4Template<TInternalComputationValueType>::Pointer;
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
   using OptimizerType = ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>;
   using OptimizerPointer = typename OptimizerType::Pointer;
   using OptimizersListType = std::vector<LocalOptimizerPointer>;
   using OptimizersListSizeType = typename OptimizersListType::size_type;
 
   /** Stop condition return string type */
-  using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
+  using typename Superclass::StopConditionReturnStringType;
 
   /** Stop condition internal string type */
-  using StopConditionDescriptionType = typename Superclass::StopConditionDescriptionType;
+  using typename Superclass::StopConditionDescriptionType;
 
   /** It should be possible to derive the internal computation type from the class object. */
   using InternalComputationValueType = TInternalComputationValueType;
 
   /** Metric type over which this class is templated */
-  using MetricType = typename Superclass::MetricType;
+  using typename Superclass::MetricType;
   using MetricTypePointer = typename MetricType::Pointer;
 
   /** Derivative type */
   using DerivativeType = typename MetricType::DerivativeType;
 
   /** Measure type */
-  using MeasureType = typename Superclass::MeasureType;
+  using typename Superclass::MeasureType;
   using MetricValuesListType = std::vector<MeasureType>;
 
   /** Get stop condition enum */

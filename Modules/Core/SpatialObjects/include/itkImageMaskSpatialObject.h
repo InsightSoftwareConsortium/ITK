@@ -52,17 +52,17 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using ScalarType = typename Superclass::ScalarType;
-  using PixelType = typename Superclass::PixelType;
-  using ImageType = typename Superclass::ImageType;
-  using ImagePointer = typename Superclass::ImagePointer;
-  using IndexType = typename Superclass::IndexType;
-  using RegionType = typename Superclass::RegionType;
-  using SizeType = typename Superclass::SizeType;
-  using TransformType = typename Superclass::TransformType;
-  using PointType = typename Superclass::PointType;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
-  using InterpolatorType = typename Superclass::InterpolatorType;
+  using typename Superclass::ScalarType;
+  using typename Superclass::PixelType;
+  using typename Superclass::ImageType;
+  using typename Superclass::ImagePointer;
+  using typename Superclass::IndexType;
+  using typename Superclass::RegionType;
+  using typename Superclass::SizeType;
+  using typename Superclass::TransformType;
+  using typename Superclass::PointType;
+  using typename Superclass::BoundingBoxType;
+  using typename Superclass::InterpolatorType;
 
   using SliceIteratorType = itk::ImageSliceConstIteratorWithIndex<ImageType>;
 

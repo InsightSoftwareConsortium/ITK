@@ -54,7 +54,7 @@ public:
   itkTypeMacro(PointSetToImageFilter, ImageSource);
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** Some convenient type alias. */
   using InputPointSetType = TInputPointSet;

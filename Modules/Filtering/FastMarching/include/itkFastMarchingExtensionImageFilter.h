@@ -74,9 +74,9 @@ public:
   itkTypeMacro(FastMarchingExtensionImageFilter, FastMarchingImageFilter);
 
   /** Inherited type alias. */
-  using LevelSetType = typename Superclass::LevelSetType;
-  using SpeedImageType = typename Superclass::SpeedImageType;
-  using LevelSetImageType = typename Superclass::LevelSetImageType;
+  using typename Superclass::LevelSetType;
+  using typename Superclass::SpeedImageType;
+  using typename Superclass::LevelSetImageType;
 
   /** The dimension of the level set. */
   static constexpr unsigned int SetDimension = Superclass::SetDimension;

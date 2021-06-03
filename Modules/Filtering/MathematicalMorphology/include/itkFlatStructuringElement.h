@@ -93,23 +93,23 @@ public:
   using Superclass = Neighborhood<bool, VDimension>;
 
   /** External support for pixel type. */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** Iterator type alias support Note the naming is intentional, i.e.,
    * AllocatorType::iterator and AllocatorType::const_iterator, because the
    * allocator may be a vnl object or other type, which uses this form. */
-  using Iterator = typename Superclass::Iterator;
-  using ConstIterator = typename Superclass::ConstIterator;
+  using typename Superclass::Iterator;
+  using typename Superclass::ConstIterator;
 
   /** Size and value type alias support */
-  using SizeType = typename Superclass::SizeType;
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::SizeType;
+  using typename Superclass::OffsetType;
 
   /** Radius type alias support */
-  using RadiusType = typename Superclass::RadiusType;
+  using typename Superclass::RadiusType;
 
   /** External slice iterator type type alias support */
-  using SliceIteratorType = typename Superclass::SliceIteratorType;
+  using typename Superclass::SliceIteratorType;
 
   /** External support for dimensionality. */
   static constexpr unsigned int NeighborhoodDimension = VDimension;

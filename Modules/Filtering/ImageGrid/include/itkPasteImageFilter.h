@@ -72,8 +72,8 @@ public:
   itkTypeMacro(PasteImageFilter, InPlaceImageFilter);
 
   /** Typedefs from Superclass */
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::OutputImagePointer;
 
   /** Typedef to describe the output and input image region types. */
   using InputImageType = TInputImage;

@@ -93,7 +93,7 @@ public:
   itkTypeMacro(IsotropicDiffusionLevelSetFilter, SparseFieldFourthOrderLevelSetImageFilter);
   itkNewMacro(Self);
 
-  using SparseImageType = typename Superclass::SparseImageType;
+  using typename Superclass::SparseImageType;
   using FunctionType = LevelSetFunctionWithRefitTerm<TOutputImage, SparseImageType>;
   using RadiusType = typename FunctionType::RadiusType;
 

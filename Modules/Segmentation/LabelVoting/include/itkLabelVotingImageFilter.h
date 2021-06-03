@@ -109,7 +109,7 @@ public:
   using LabelCountType = unsigned long;
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** Set label value for undecided pixels. */
   void

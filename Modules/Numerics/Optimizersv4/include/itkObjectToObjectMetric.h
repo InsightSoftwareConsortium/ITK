@@ -110,20 +110,20 @@ public:
   using InternalComputationValueType = TParametersValueType;
 
   /**  Type of the measure. */
-  using MeasureType = typename Superclass::MeasureType;
+  using typename Superclass::MeasureType;
 
   /**  Type of object. */
   using ObjectType = typename Superclass::Object;
 
   /**  Type of the derivative. */
-  using DerivativeType = typename Superclass::DerivativeType;
-  using DerivativeValueType = typename Superclass::DerivativeValueType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeValueType;
 
   /**  Type of the parameters. */
-  using ParametersType = typename Superclass::ParametersType;
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::NumberOfParametersType;
 
-  using GradientSourceEnum = typename Superclass::GradientSourceEnum;
+  using typename Superclass::GradientSourceEnum;
 
   /** Dimension type */
   using DimensionType = SizeValueType;

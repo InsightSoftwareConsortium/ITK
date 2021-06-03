@@ -49,11 +49,11 @@ public:
   using SpatialObjectPointType = TSpatialObjectPointType;
   using SpatialObjectPointListType = std::vector<SpatialObjectPointType>;
 
-  using PointType = typename Superclass::PointType;
-  using TransformType = typename Superclass::TransformType;
-  using VectorType = typename Superclass::VectorType;
-  using CovariantVectorType = typename Superclass::CovariantVectorType;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using typename Superclass::PointType;
+  using typename Superclass::TransformType;
+  using typename Superclass::VectorType;
+  using typename Superclass::CovariantVectorType;
+  using typename Superclass::BoundingBoxType;
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 

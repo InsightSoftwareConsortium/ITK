@@ -48,10 +48,10 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformListType = typename Superclass::TransformListType;
-  using ConstTransformListType = typename Superclass::ConstTransformListType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformListType;
+  using typename Superclass::ConstTransformListType;
   using ParametersType = typename TransformType::ParametersType;
 
   using MatrixOffsetTransformBaseType = MatrixOffsetTransformBase<TParametersValueType, 3, 3>;

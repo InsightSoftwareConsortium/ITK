@@ -63,19 +63,19 @@ public:
   itkTypeMacro(BasicDilateImageFilter, MorphologyImageFilter);
 
   /** Declaration of pixel type. */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** Kernel (structuring element) iterator. */
-  using KernelIteratorType = typename Superclass::KernelIteratorType;
+  using typename Superclass::KernelIteratorType;
 
   /** Neighborhood iterator type. */
-  using NeighborhoodIteratorType = typename Superclass::NeighborhoodIteratorType;
+  using typename Superclass::NeighborhoodIteratorType;
 
   /** Kernel type alias. */
-  using KernelType = typename Superclass::KernelType;
+  using typename Superclass::KernelType;
 
   /** Default boundary condition type */
-  using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
+  using typename Superclass::DefaultBoundaryConditionType;
 
   /** ImageDimension constants */
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;

@@ -97,8 +97,8 @@ public:
   itkTypeMacro(BinaryMinMaxCurvatureFlowImageFilter, MinMaxCurvatureFlowImageFilter);
 
   /** Inherit type alias from Superclass. */
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
-  using OutputImageType = typename Superclass::OutputImageType;
+  using typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::OutputImageType;
 
   /** BinaryMinMaxCurvatureFlowFunction type. */
   using BinaryMinMaxCurvatureFlowFunctionType = BinaryMinMaxCurvatureFlowFunction<OutputImageType>;

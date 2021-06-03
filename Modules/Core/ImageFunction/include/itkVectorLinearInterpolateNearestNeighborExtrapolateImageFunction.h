@@ -70,12 +70,12 @@ public:
   itkTypeMacro(VectorLinearInterpolateNearestNeighborExtrapolateImageFunction, VectorInterpolateImageFunction);
 
   /** InputImageType type alias support */
-  using InputImageType = typename Superclass::InputImageType;
-  using PixelType = typename Superclass::PixelType;
-  using ValueType = typename Superclass::ValueType;
-  using RealType = typename Superclass::RealType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::ValueType;
+  using typename Superclass::RealType;
 
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Grab the vector dimension from the superclass. */
   // static constexpr unsigned int Dimension = //                    Superclass::Dimension;
@@ -84,14 +84,14 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Index type alias support */
-  using IndexType = typename Superclass::IndexType;
-  using IndexValueType = typename Superclass::IndexValueType;
+  using typename Superclass::IndexType;
+  using typename Superclass::IndexValueType;
 
   /** ContinuousIndex type alias support */
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Output type is Vector<double,Dimension> */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Should check if an index is inside the image buffer, however we
    * require that it answers true to use the extrapolation possibility. */

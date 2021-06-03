@@ -71,10 +71,10 @@ public:
   itkTypeMacro(FourierSeriesPath, ParametricPath);
 
   /** Input type */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Basic data-structure types used */
   using ContinuousIndexType = ContinuousIndex<double, VDimension>;

@@ -67,12 +67,12 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedefs from the superclass. */
-  using TimeStepType = typename Superclass::TimeStepType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using IndexType = typename Superclass::IndexType;
-  using SparseImageType = typename Superclass::SparseImageType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::IndexType;
+  using typename Superclass::SparseImageType;
 
   /** The node type for the sparse image. */
   using NodeType = typename SparseImageType::NodeType;

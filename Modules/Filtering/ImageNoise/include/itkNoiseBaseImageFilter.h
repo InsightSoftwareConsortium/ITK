@@ -47,7 +47,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
+  using typename Superclass::OutputImagePixelType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NoiseBaseImageFilter, InPlaceImageFilter);

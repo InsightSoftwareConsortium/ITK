@@ -149,7 +149,7 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** Iterator types. */
   using InputConstIteratorType = ImageRegionConstIterator<TInputImage>;

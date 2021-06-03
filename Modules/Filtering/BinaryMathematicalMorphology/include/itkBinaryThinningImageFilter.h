@@ -101,7 +101,7 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Superclass type alias. */
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
+  using typename Superclass::OutputImagePixelType;
 
   /** Neighborhood iterator type */
   using NeighborhoodIteratorType = NeighborhoodIterator<TInputImage>;

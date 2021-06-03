@@ -79,7 +79,7 @@ public:
   itkTypeMacro(NeighborhoodOperator, NeighborhoodOperator);
 
   /** Size object type alias support */
-  using SizeType = typename Superclass::SizeType;
+  using typename Superclass::SizeType;
 
   /** External support for pixel type */
   using PixelType = TPixel;

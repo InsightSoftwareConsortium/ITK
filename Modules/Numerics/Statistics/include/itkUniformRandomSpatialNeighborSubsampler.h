@@ -54,7 +54,7 @@ public:
   /** Standard class type aliases */
   using Self = UniformRandomSpatialNeighborSubsampler<TSample, TRegion>;
   using Superclass = SpatialNeighborSubsampler<TSample, TRegion>;
-  using Baseclass = typename Superclass::Baseclass;
+  using typename Superclass::Baseclass;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -65,27 +65,27 @@ public:
   itkNewMacro(Self);
 
   /** type alias alias for the source data container */
-  using SampleType = typename Superclass::SampleType;
-  using SampleConstPointer = typename Superclass::SampleConstPointer;
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
-  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using typename Superclass::SampleType;
+  using typename Superclass::SampleConstPointer;
+  using typename Superclass::MeasurementVectorType;
+  using typename Superclass::InstanceIdentifier;
 
-  using SubsampleType = typename Superclass::SubsampleType;
-  using SubsamplePointer = typename Superclass::SubsamplePointer;
-  using SubsampleConstIterator = typename Superclass::SubsampleConstIterator;
-  using InstanceIdentifierHolder = typename Superclass::InstanceIdentifierHolder;
+  using typename Superclass::SubsampleType;
+  using typename Superclass::SubsamplePointer;
+  using typename Superclass::SubsampleConstIterator;
+  using typename Superclass::InstanceIdentifierHolder;
   using SeedType = typename Baseclass::SeedType;
 
   using SearchSizeType = unsigned long;
   using RandomIntType = unsigned int;
 
   /** type alias related to image region */
-  using RadiusType = typename Superclass::RadiusType;
-  using RegionType = typename Superclass::RegionType;
-  using IndexType = typename Superclass::IndexType;
-  using IndexValueType = typename Superclass::IndexValueType;
-  using SizeType = typename Superclass::SizeType;
-  using ImageHelperType = typename Superclass::ImageHelperType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::RegionType;
+  using typename Superclass::IndexType;
+  using typename Superclass::IndexValueType;
+  using typename Superclass::SizeType;
+  using typename Superclass::ImageHelperType;
 
 
   /** type alias related to random variate generator */

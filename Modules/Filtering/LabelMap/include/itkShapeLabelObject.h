@@ -48,7 +48,7 @@ public:
   /** Standard class type aliases */
   using Self = ShapeLabelObject;
   using Superclass = LabelObject<TLabel, VImageDimension>;
-  using LabelObjectType = typename Superclass::LabelObjectType;
+  using typename Superclass::LabelObjectType;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   using ConstWeakPointer = WeakPointer<const Self>;
@@ -63,15 +63,15 @@ public:
 
   static constexpr unsigned int ImageDimension = VImageDimension;
 
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   using LabelType = TLabel;
 
-  using LineType = typename Superclass::LineType;
+  using typename Superclass::LineType;
 
-  using LengthType = typename Superclass::LengthType;
+  using typename Superclass::LengthType;
 
-  using AttributeType = typename Superclass::AttributeType;
+  using typename Superclass::AttributeType;
 
   /** The number of pixels. */
   static constexpr AttributeType NUMBER_OF_PIXELS = 100;

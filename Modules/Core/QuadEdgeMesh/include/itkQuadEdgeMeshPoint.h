@@ -44,13 +44,13 @@ public:
   /** Types & values defined in superclass. */
   static constexpr unsigned int PointDimension = VPointDimension;
 
-  using ValueType = typename Superclass::ValueType;
-  using CoordRepType = typename Superclass::CoordRepType;
-  using RealType = typename Superclass::RealType;
-  using BaseArray = typename Superclass::BaseArray;
-  using Iterator = typename Superclass::Iterator;
-  using ConstIterator = typename Superclass::ConstIterator;
-  using VectorType = typename Superclass::VectorType;
+  using typename Superclass::ValueType;
+  using typename Superclass::CoordRepType;
+  using typename Superclass::RealType;
+  using typename Superclass::BaseArray;
+  using typename Superclass::Iterator;
+  using typename Superclass::ConstIterator;
+  using typename Superclass::VectorType;
 
   using ValueArrayType = ValueType[Self::PointDimension];
 

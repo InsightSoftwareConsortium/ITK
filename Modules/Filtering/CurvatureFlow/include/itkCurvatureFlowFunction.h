@@ -59,15 +59,15 @@ public:
   itkTypeMacro(CurvatureFlowFunction, FiniteDifferenceFunction);
 
   /** Inherit some parameters from the superclass type. */
-  using ImageType = typename Superclass::ImageType;
-  using PixelType = typename Superclass::PixelType;
-  using RadiusType = typename Superclass::RadiusType;
+  using typename Superclass::ImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::RadiusType;
   using ScalarValueType = PixelType;
-  using PixelRealType = typename Superclass::PixelRealType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::PixelRealType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::NeighborhoodScalesType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::TimeStepType;
 
   /** Extract superclass dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

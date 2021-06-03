@@ -104,7 +104,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
   using InputImageRegionType = typename TInputImage::RegionType;
 
   /** UnaryFunctorImageFilter can be implemented as a multithreaded filter.

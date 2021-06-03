@@ -52,13 +52,13 @@ public:
   using SurfacePointType = SurfaceSpatialObjectPoint<TDimension>;
   using SurfacePointListType = std::vector<SurfacePointType>;
 
-  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
-  using PointType = typename Superclass::PointType;
-  using TransformType = typename Superclass::TransformType;
+  using typename Superclass::SpatialObjectPointType;
+  using typename Superclass::PointType;
+  using typename Superclass::TransformType;
   using PointContainerType = VectorContainer<IdentifierType, PointType>;
   using PointContainerPointer = SmartPointer<PointContainerType>;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
-  using CovariantVectorType = typename Superclass::CovariantVectorType;
+  using typename Superclass::BoundingBoxType;
+  using typename Superclass::CovariantVectorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -76,11 +76,11 @@ public:
   using MovingPointSetPointer = typename MovingPointSetType::Pointer;
 
   /** Types transferred from the base class */
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using LocalDerivativeType = typename Superclass::LocalDerivativeType;
-  using PointType = typename Superclass::PointType;
-  using PointIdentifier = typename Superclass::PointIdentifier;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::LocalDerivativeType;
+  using typename Superclass::PointType;
+  using typename Superclass::PointIdentifier;
 
   using LabelType = typename Superclass::PixelType;
   using LabelSetType = std::vector<LabelType>;

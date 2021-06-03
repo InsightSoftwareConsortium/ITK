@@ -155,30 +155,30 @@ public:
   using ScalarType = TParametersValueType;
 
   /** Standard parameters container. */
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersValueType;
 
   /** Standard Jacobian container. */
-  using JacobianType = typename Superclass::JacobianType;
-  using JacobianPositionType = typename Superclass::JacobianPositionType;
-  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::JacobianPositionType;
+  using typename Superclass::InverseJacobianPositionType;
 
   /** The number of parameters defining this transform. */
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::NumberOfParametersType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = typename Superclass::InputVectorType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
+  using typename Superclass::InputVectorType;
+  using typename Superclass::OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
-  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using typename Superclass::InputCovariantVectorType;
+  using typename Superclass::OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
-  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
+  using typename Superclass::InputVnlVectorType;
+  using typename Superclass::OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
   using InputPointType = Point<TParametersValueType, Self::SpaceDimension>;
@@ -205,9 +205,9 @@ public:
   SetFixedParameters(const FixedParametersType & passedParameters) override;
 
   /** Parameters as SpaceDimension number of images. */
-  using ImageType = typename Superclass::ImageType;
-  using ImagePointer = typename Superclass::ImagePointer;
-  using CoefficientImageArray = typename Superclass::CoefficientImageArray;
+  using typename Superclass::ImageType;
+  using typename Superclass::ImagePointer;
+  using typename Superclass::CoefficientImageArray;
 
   /** Set the array of coefficient images.
    *
@@ -224,22 +224,22 @@ public:
   SetCoefficientImages(const CoefficientImageArray & images) override;
 
   /** Typedefs for specifying the extent of the grid. */
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::RegionType;
 
-  using IndexType = typename Superclass::IndexType;
-  using SizeType = typename Superclass::SizeType;
-  using SpacingType = typename Superclass::SpacingType;
-  using DirectionType = typename Superclass::DirectionType;
-  using OriginType = typename Superclass::OriginType;
+  using typename Superclass::IndexType;
+  using typename Superclass::SizeType;
+  using typename Superclass::SpacingType;
+  using typename Superclass::DirectionType;
+  using typename Superclass::OriginType;
 
   /** Interpolation weights function type. */
-  using WeightsFunctionType = typename Superclass::WeightsFunctionType;
+  using typename Superclass::WeightsFunctionType;
 
-  using WeightsType = typename Superclass::WeightsType;
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::WeightsType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Parameter index array type. */
-  using ParameterIndexArrayType = typename Superclass::ParameterIndexArrayType;
+  using typename Superclass::ParameterIndexArrayType;
 
   /**
    * Transform points by a BSpline deformable transformation.
@@ -269,9 +269,9 @@ public:
   GetNumberOfParametersPerDimension() const override;
 
   using PhysicalDimensionsType = typename Superclass::SpacingType;
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
-  using MeshSizeType = typename Superclass::MeshSizeType;
+  using typename Superclass::MeshSizeType;
 
   /** Function to specify the transform domain origin. */
   virtual void

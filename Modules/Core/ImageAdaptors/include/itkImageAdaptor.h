@@ -99,33 +99,33 @@ public:
   using AccessorFunctorType = typename InternalImageType::AccessorFunctorType::template Rebind<Self>::Type;
 
   /** Index type alias support An index is used to access pixel values. */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
   using IndexValueType = typename IndexType::IndexValueType;
 
   /** Size type alias support A size is used to define region bounds. */
-  using SizeType = typename Superclass::SizeType;
+  using typename Superclass::SizeType;
   using SizeValueType = typename SizeType::SizeValueType;
 
   /** Offset type alias support */
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
 
   /** Region type alias support A region is used to specify a subset of
    *  an image. */
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::RegionType;
 
   /** Spacing type alias support  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  using SpacingType = typename Superclass::SpacingType;
+  using typename Superclass::SpacingType;
 
   /** Origin type alias support  The origin is the geometric coordinates
    * of the index (0,0). */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Direction type alias support  The Direction is a matix of
    * direction cosines that specify the direction between samples.
    * */
-  using DirectionType = typename Superclass::DirectionType;
+  using typename Superclass::DirectionType;
 
 
   /**

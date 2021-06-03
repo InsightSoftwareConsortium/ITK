@@ -50,12 +50,12 @@ public:
 
   static constexpr unsigned int Dimension = Superclass::Dimension;
 
-  using InputType = typename Superclass::InputType;
-  using OutputType = typename Superclass::OutputType;
-  using OutputRealType = typename Superclass::OutputRealType;
-  using GradientType = typename Superclass::GradientType;
-  using HessianType = typename Superclass::HessianType;
-  using LevelSetDataType = typename Superclass::LevelSetDataType;
+  using typename Superclass::InputType;
+  using typename Superclass::OutputType;
+  using typename Superclass::OutputRealType;
+  using typename Superclass::GradientType;
+  using typename Superclass::HessianType;
+  using typename Superclass::LevelSetDataType;
 
   /** Returns the gradient of the level set function at a given location inputIndex */
   OutputType

@@ -38,26 +38,26 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(TransformTestHelper, Transform);
 
-  using JacobianType = typename Superclass::JacobianType;
-  using JacobianPositionType = typename Superclass::JacobianPositionType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::JacobianPositionType;
 
-  using ParametersType = typename Superclass::ParametersType;
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using InputVectorType = typename Superclass::InputVectorType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
-  using InputVectorPixelType = typename Superclass::InputVectorPixelType;
-  using OutputVectorPixelType = typename Superclass::OutputVectorPixelType;
-  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
-  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
-  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
-  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::InputVectorType;
+  using typename Superclass::OutputVectorType;
+  using typename Superclass::InputVectorPixelType;
+  using typename Superclass::OutputVectorPixelType;
+  using typename Superclass::InputVnlVectorType;
+  using typename Superclass::OutputVnlVectorType;
+  using typename Superclass::InputCovariantVectorType;
+  using typename Superclass::OutputCovariantVectorType;
 
-  using InputDiffusionTensor3DType = typename Superclass::InputDiffusionTensor3DType;
-  using OutputDiffusionTensor3DType = typename Superclass::OutputDiffusionTensor3DType;
+  using typename Superclass::InputDiffusionTensor3DType;
+  using typename Superclass::OutputDiffusionTensor3DType;
 
-  using InputSymmetricSecondRankTensorType = typename Superclass::InputSymmetricSecondRankTensorType;
-  using OutputSymmetricSecondRankTensorType = typename Superclass::OutputSymmetricSecondRankTensorType;
+  using typename Superclass::InputSymmetricSecondRankTensorType;
+  using typename Superclass::OutputSymmetricSecondRankTensorType;
 
   OutputPointType
   TransformPoint(const InputPointType & itkNotUsed(inputPoint)) const override

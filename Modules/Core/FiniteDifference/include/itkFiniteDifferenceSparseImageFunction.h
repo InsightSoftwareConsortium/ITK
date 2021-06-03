@@ -62,11 +62,11 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedefs from the superclass. */
-  using PixelType = typename Superclass::PixelType;
-  using TimeStepType = typename Superclass::TimeStepType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using typename Superclass::PixelType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::FloatOffsetType;
   using SparseImageType = typename Superclass::ImageType;
 
   /** The index type for the sparse image. */

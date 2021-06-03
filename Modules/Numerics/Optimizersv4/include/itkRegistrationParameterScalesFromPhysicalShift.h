@@ -51,18 +51,18 @@ public:
   itkTypeMacro(RegistrationParameterScalesFromPhysicalShift, RegistrationParameterScalesFromShiftBase);
 
   /** Type of scales */
-  using ScalesType = typename Superclass::ScalesType;
+  using typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
   /** Type of float */
-  using FloatType = typename Superclass::FloatType;
+  using typename Superclass::FloatType;
 
-  using VirtualPointType = typename Superclass::VirtualPointType;
-  using VirtualIndexType = typename Superclass::VirtualIndexType;
-  using MovingTransformType = typename Superclass::MovingTransformType;
-  using FixedTransformType = typename Superclass::FixedTransformType;
-  using JacobianType = typename Superclass::JacobianType;
-  using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
+  using typename Superclass::VirtualPointType;
+  using typename Superclass::VirtualIndexType;
+  using typename Superclass::MovingTransformType;
+  using typename Superclass::FixedTransformType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::VirtualImageConstPointer;
 
 protected:
   RegistrationParameterScalesFromPhysicalShift() = default;

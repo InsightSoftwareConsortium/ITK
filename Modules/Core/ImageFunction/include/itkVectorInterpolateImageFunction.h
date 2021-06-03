@@ -68,22 +68,22 @@ public:
   itkTypeMacro(VectorInterpolateImageFunction, ImageFunction);
 
   /** InputImageType type alias support */
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImageType;
   using PixelType = typename InputImageType::PixelType;
   using ValueType = typename PixelType::ValueType;
   using RealType = typename NumericTraits<ValueType>::RealType;
 
   /** Point type alias support */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Index type alias support */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** ContinuousIndex type alias support */
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Output type is RealType of TInputImage::PixelType. */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** CoordRep type alias support */
   using CoordRepType = TCoordRep;

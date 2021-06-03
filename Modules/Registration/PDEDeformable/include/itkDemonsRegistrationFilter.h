@@ -79,22 +79,22 @@ public:
   itkTypeMacro(DemonsRegistrationFilter, PDEDeformableRegistrationFilter);
 
   /** Inherit types from superclass. */
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   /** FixedImage image type. */
-  using FixedImageType = typename Superclass::FixedImageType;
-  using FixedImagePointer = typename Superclass::FixedImagePointer;
+  using typename Superclass::FixedImageType;
+  using typename Superclass::FixedImagePointer;
 
   /** MovingImage image type. */
-  using MovingImageType = typename Superclass::MovingImageType;
-  using MovingImagePointer = typename Superclass::MovingImagePointer;
+  using typename Superclass::MovingImageType;
+  using typename Superclass::MovingImagePointer;
 
   /** displacement field type. */
-  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
-  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
+  using typename Superclass::DisplacementFieldType;
+  using typename Superclass::DisplacementFieldPointer;
 
   /** FiniteDifferenceFunction type. */
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::FiniteDifferenceFunctionType;
 
   /** DemonsRegistrationFilterFunction type. */
   using DemonsRegistrationFunctionType =

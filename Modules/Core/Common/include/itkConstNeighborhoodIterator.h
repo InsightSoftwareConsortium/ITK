@@ -67,11 +67,11 @@ public:
   using Superclass = Neighborhood<InternalPixelType *, Self::Dimension>;
 
   /** Inherit type alias from superclass */
-  using OffsetType = typename Superclass::OffsetType;
-  using RadiusType = typename Superclass::RadiusType;
-  using SizeType = typename Superclass::SizeType;
-  using Iterator = typename Superclass::Iterator;
-  using ConstIterator = typename Superclass::ConstIterator;
+  using typename Superclass::OffsetType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::SizeType;
+  using typename Superclass::Iterator;
+  using typename Superclass::ConstIterator;
 
   /** Typedef support for common objects */
   using ImageType = TImage;

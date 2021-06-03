@@ -59,18 +59,18 @@ public:
   itkTypeMacro(CropImageFilter, ExtractImageFilter);
 
   /** Typedef to describe the output and input image region types. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
-  using InputImageRegionType = typename Superclass::InputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
+  using typename Superclass::InputImageRegionType;
 
   /** Typedef to describe the type of pixel. */
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
-  using InputImagePixelType = typename Superclass::InputImagePixelType;
+  using typename Superclass::OutputImagePixelType;
+  using typename Superclass::InputImagePixelType;
 
   /** Typedef to describe the output and input image index and size types. */
-  using OutputImageIndexType = typename Superclass::OutputImageIndexType;
-  using InputImageIndexType = typename Superclass::InputImageIndexType;
-  using OutputImageSizeType = typename Superclass::OutputImageSizeType;
-  using InputImageSizeType = typename Superclass::InputImageSizeType;
+  using typename Superclass::OutputImageIndexType;
+  using typename Superclass::InputImageIndexType;
+  using typename Superclass::OutputImageSizeType;
+  using typename Superclass::InputImageSizeType;
   using SizeType = InputImageSizeType;
 
   /** ImageDimension constants. */

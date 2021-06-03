@@ -51,34 +51,34 @@ public:
 
   itkTypeMacro(LevelSetContainer, LevelSetContainerBase);
 
-  using LevelSetIdentifierType = typename Superclass::LevelSetIdentifierType;
+  using typename Superclass::LevelSetIdentifierType;
 
-  using LevelSetType = typename Superclass::LevelSetType;
-  using LevelSetPointer = typename Superclass::LevelSetPointer;
-  using InputIndexType = typename Superclass::InputIndexType;
+  using typename Superclass::LevelSetType;
+  using typename Superclass::LevelSetPointer;
+  using typename Superclass::InputIndexType;
   using OutputPixelType = typename Superclass::OutputType;
-  using OutputRealType = typename Superclass::OutputRealType;
-  using GradientType = typename Superclass::GradientType;
-  using HessianType = typename Superclass::HessianType;
+  using typename Superclass::OutputRealType;
+  using typename Superclass::GradientType;
+  using typename Superclass::HessianType;
 
-  using LevelSetContainerType = typename Superclass::LevelSetContainerType;
-  using LevelSetContainerConstIteratorType = typename Superclass::LevelSetContainerConstIteratorType;
-  using LevelSetContainerIteratorType = typename Superclass::LevelSetContainerIteratorType;
+  using typename Superclass::LevelSetContainerType;
+  using typename Superclass::LevelSetContainerConstIteratorType;
+  using typename Superclass::LevelSetContainerIteratorType;
 
-  using HeavisideType = typename Superclass::HeavisideType;
-  using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
+  using typename Superclass::HeavisideType;
+  using typename Superclass::HeavisideConstPointer;
 
   static constexpr unsigned int Dimension = LevelSetType::Dimension;
 
-  using IdListType = typename Superclass::IdListType;
-  using IdListIterator = typename Superclass::IdListIterator;
-  using IdListImageType = typename Superclass::IdListImageType;
-  using CacheImageType = typename Superclass::CacheImageType;
-  using DomainMapImageFilterType = typename Superclass::DomainMapImageFilterType;
+  using typename Superclass::IdListType;
+  using typename Superclass::IdListIterator;
+  using typename Superclass::IdListImageType;
+  using typename Superclass::CacheImageType;
+  using typename Superclass::DomainMapImageFilterType;
 
-  using DomainMapImageFilterPointer = typename Superclass::DomainMapImageFilterPointer;
-  using LevelSetDomainType = typename Superclass::LevelSetDomainType;
-  using DomainIteratorType = typename Superclass::DomainIteratorType;
+  using typename Superclass::DomainMapImageFilterPointer;
+  using typename Superclass::LevelSetDomainType;
+  using typename Superclass::DomainIteratorType;
 
 protected:
   LevelSetContainer() = default;
@@ -108,33 +108,33 @@ public:
 
   itkTypeMacro(LevelSetContainer, LevelSetContainerBase);
 
-  using LevelSetIdentifierType = typename Superclass::LevelSetIdentifierType;
+  using typename Superclass::LevelSetIdentifierType;
 
-  using LevelSetPointer = typename Superclass::LevelSetPointer;
-  using InputIndexType = typename Superclass::InputIndexType;
+  using typename Superclass::LevelSetPointer;
+  using typename Superclass::InputIndexType;
   using OutputPixelType = typename Superclass::OutputType;
-  using OutputRealType = typename Superclass::OutputRealType;
-  using GradientType = typename Superclass::GradientType;
-  using HessianType = typename Superclass::HessianType;
+  using typename Superclass::OutputRealType;
+  using typename Superclass::GradientType;
+  using typename Superclass::HessianType;
 
-  using LevelSetContainerType = typename Superclass::LevelSetContainerType;
-  using LevelSetContainerConstIteratorType = typename Superclass::LevelSetContainerConstIteratorType;
-  using LevelSetContainerIteratorType = typename Superclass::LevelSetContainerIteratorType;
+  using typename Superclass::LevelSetContainerType;
+  using typename Superclass::LevelSetContainerConstIteratorType;
+  using typename Superclass::LevelSetContainerIteratorType;
 
-  using HeavisideType = typename Superclass::HeavisideType;
-  using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
+  using typename Superclass::HeavisideType;
+  using typename Superclass::HeavisideConstPointer;
 
   static constexpr unsigned int Dimension = LevelSetType::Dimension;
 
-  using IdListType = typename Superclass::IdListType;
-  using IdListIterator = typename Superclass::IdListIterator;
-  using IdListImageType = typename Superclass::IdListImageType;
-  using CacheImageType = typename Superclass::CacheImageType;
-  using DomainMapImageFilterType = typename Superclass::DomainMapImageFilterType;
+  using typename Superclass::IdListType;
+  using typename Superclass::IdListIterator;
+  using typename Superclass::IdListImageType;
+  using typename Superclass::CacheImageType;
+  using typename Superclass::DomainMapImageFilterType;
 
-  using DomainMapImageFilterPointer = typename Superclass::DomainMapImageFilterPointer;
-  using LevelSetDomainType = typename Superclass::LevelSetDomainType;
-  using DomainIteratorType = typename Superclass::DomainIteratorType;
+  using typename Superclass::DomainMapImageFilterPointer;
+  using typename Superclass::LevelSetDomainType;
+  using typename Superclass::DomainIteratorType;
 
   using LevelSetImageType = typename LevelSetType::ImageType;
   using LevelSetImagePointer = typename LevelSetImageType::Pointer;

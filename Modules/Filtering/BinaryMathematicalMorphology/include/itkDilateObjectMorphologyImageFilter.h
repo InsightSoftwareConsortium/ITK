@@ -64,7 +64,7 @@ public:
   itkTypeMacro(DilateObjectMorphologyImageFilter, ObjectMorphologyImageFilter);
 
   /** duplicates from base class to avoid compiler warnings */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** duplicates from base class to avoid compiler warnings */
   using KernelType = TKernel;
@@ -75,7 +75,7 @@ public:
   /** duplicates from base class to avoid compiler warnings */
   using OutputNeighborhoodIteratorType = NeighborhoodIterator<TOutputImage>;
 
-  using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
+  using typename Superclass::DefaultBoundaryConditionType;
 
   /** Type of the pixels in the Kernel. */
   using KernelPixelType = typename TKernel::PixelType;

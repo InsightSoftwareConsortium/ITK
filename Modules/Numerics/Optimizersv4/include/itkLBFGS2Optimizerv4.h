@@ -191,7 +191,7 @@ public:
   using ScalesType = Superclass::ScalesType;
 
   /** Stop condition return string type */
-  using StopConditionReturnStringType = typename Superclass::StopConditionReturnStringType;
+  using typename Superclass::StopConditionReturnStringType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

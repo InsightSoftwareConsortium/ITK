@@ -100,7 +100,7 @@ public:
   itkNewMacro(Self);
 
   /** The sparse image type used in LevelSetFunctionWithRefitTerm */
-  using SparseImageType = typename Superclass::SparseImageType;
+  using typename Superclass::SparseImageType;
 
   /** The level set function class with a refit term that forces the curvature
       of the moving front to match a prescribed curvature image. */

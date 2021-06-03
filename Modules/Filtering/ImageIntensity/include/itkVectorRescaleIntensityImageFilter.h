@@ -119,8 +119,8 @@ public:
   using InputRealType = typename NumericTraits<InputValueType>::RealType;
   using OutputRealType = typename NumericTraits<OutputValueType>::RealType;
 
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VectorRescaleIntensityImageFilter, UnaryFunctorImageFilter);

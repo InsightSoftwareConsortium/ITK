@@ -96,11 +96,11 @@ public:
   using ImageBoundaryConditionPointerType = ImageBoundaryCondition<OutputImageType> *;
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
-  using OperatorValueType = typename Superclass::OperatorValueType;
+  using typename Superclass::OutputImageRegionType;
+  using typename Superclass::OperatorValueType;
 
   /** Neighborhood types */
-  using OutputNeighborhoodType = typename Superclass::OutputNeighborhoodType;
+  using typename Superclass::OutputNeighborhoodType;
 
   /** Set the mask image. Using a mask is optional.  When a mask is
    * specified, the normalized correlation is only calculated for

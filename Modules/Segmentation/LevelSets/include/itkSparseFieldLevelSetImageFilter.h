@@ -253,9 +253,9 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /**Typedefs from the superclass */
-  using TimeStepType = typename Superclass::TimeStepType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodScalesType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

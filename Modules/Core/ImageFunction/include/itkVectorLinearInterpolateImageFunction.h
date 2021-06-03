@@ -59,10 +59,10 @@ public:
   itkTypeMacro(VectorLinearInterpolateImageFunction, VectorInterpolateImageFunction);
 
   /** InputImageType type alias support */
-  using InputImageType = typename Superclass::InputImageType;
-  using PixelType = typename Superclass::PixelType;
-  using ValueType = typename Superclass::ValueType;
-  using RealType = typename Superclass::RealType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::ValueType;
+  using typename Superclass::RealType;
 
   /** Grab the vector dimension from the superclass. */
   static constexpr unsigned int Dimension = Superclass::Dimension;
@@ -71,14 +71,14 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Index type alias support */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** ContinuousIndex type alias support */
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ContinuousIndexType;
   using InternalComputationType = typename ContinuousIndexType::ValueType;
 
   /** Output type is Vector<double,Dimension> */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Evaluate the function at a ContinuousIndex position
    *

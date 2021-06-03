@@ -85,14 +85,14 @@ public:
 
   /** Convenient type alias. */
   using TimeStepType = double;
-  using ImageType = typename Superclass::ImageType;
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::ImageType;
+  using typename Superclass::PixelType;
   using ScalarValueType = PixelType;
-  using PixelRealType = typename Superclass::PixelRealType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using typename Superclass::PixelRealType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::NeighborhoodScalesType;
+  using typename Superclass::FloatOffsetType;
 
   /** The vector type that will be used in the calculations. */
   //  typedef

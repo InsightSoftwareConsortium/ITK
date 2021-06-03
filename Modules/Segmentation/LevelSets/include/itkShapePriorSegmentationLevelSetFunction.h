@@ -72,17 +72,17 @@ public:
   itkTypeMacro(ShapePriorSegmentationLevelSetFunction, SegmentationLevelSetFunction);
 
   /** Extract some parameters from the superclass. */
-  using ImageType = typename Superclass::ImageType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using ScalarValueType = typename Superclass::ScalarValueType;
-  using FeatureScalarType = typename Superclass::FeatureScalarType;
-  using RadiusType = typename Superclass::RadiusType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using VectorImageType = typename Superclass::VectorImageType;
-  using PixelType = typename Superclass::PixelType;
-  using TimeStepType = typename Superclass::TimeStepType;
-  using IndexType = typename Superclass::IndexType;
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ImageType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::ScalarValueType;
+  using typename Superclass::FeatureScalarType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::VectorImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::IndexType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Extract some parameters from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -128,7 +128,7 @@ public:
 
   /** A global data type used to store values needed to compute the time step.
    */
-  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
+  using typename Superclass::GlobalDataStruct;
   struct ShapePriorGlobalDataStruct : public GlobalDataStruct
   {
     ScalarValueType m_MaxShapePriorChange;

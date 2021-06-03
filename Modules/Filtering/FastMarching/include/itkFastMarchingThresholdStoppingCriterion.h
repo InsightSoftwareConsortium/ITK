@@ -49,8 +49,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingThresholdStoppingCriterion, FastMarchingStoppingCriterionBase);
 
-  using OutputPixelType = typename Superclass::OutputPixelType;
-  using NodeType = typename Superclass::NodeType;
+  using typename Superclass::OutputPixelType;
+  using typename Superclass::NodeType;
 
   /** Get/set the threshold used by the stopping criteria. */
   itkSetMacro(Threshold, OutputPixelType);

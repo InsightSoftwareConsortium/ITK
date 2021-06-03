@@ -58,11 +58,11 @@ public:
   itkTypeMacro(BinaryMinMaxCurvatureFlowFunction, MinMaxCurvatureFlowFunction);
 
   /** Inherit some parameters from the superclass type. */
-  using PixelType = typename Superclass::PixelType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using ImageType = typename Superclass::ImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::ImageType;
 
   /** Extract superclass dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

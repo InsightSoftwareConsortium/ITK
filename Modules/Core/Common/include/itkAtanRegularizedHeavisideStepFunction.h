@@ -62,9 +62,9 @@ public:
 
   itkTypeMacro(AtanRegularizedHeavisideStepFunction, RegularizedHeavisideStepFunction);
 
-  using InputType = typename Superclass::InputType;
-  using OutputType = typename Superclass::OutputType;
-  using RealType = typename Superclass::RealType;
+  using typename Superclass::InputType;
+  using typename Superclass::OutputType;
+  using typename Superclass::RealType;
 
   /** Evaluate at the specified input position */
   OutputType

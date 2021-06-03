@@ -93,15 +93,15 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Typedefs from the superclass */
-  using InputImageType = typename Superclass::InputImageType;
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::IndexType;
   using NormalVectorType = typename Superclass::NodeDataType;
-  using NodeValueType = typename Superclass::NodeValueType;
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::NodeValueType;
+  using typename Superclass::FiniteDifferenceFunctionType;
 
-  using SparseOutputImageType = typename Superclass::SparseOutputImageType;
+  using typename Superclass::SparseOutputImageType;
   using NormalBandNodeType = typename Superclass::OutputNodeType;
-  using NodeListType = typename Superclass::NodeListType;
+  using typename Superclass::NodeListType;
 
   /** The iterator for the input image. */
   using InputImageIteratorType = ConstNeighborhoodIterator<InputImageType>;

@@ -113,15 +113,15 @@ public:
   itkNewMacro(Self);
 
   /** Types inherited from Superclass. */
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using DerivativeValueType = typename Superclass::DerivativeValueType;
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
-  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
-  using MovingTransformType = typename Superclass::MovingTransformType;
-  using FixedTransformType = typename Superclass::FixedTransformType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeValueType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::NumberOfParametersType;
+  using typename Superclass::CoordinateRepresentationType;
+  using typename Superclass::MovingTransformType;
+  using typename Superclass::FixedTransformType;
 
   /** type alias related to the metric queue */
   using MetricType = Superclass;
@@ -129,7 +129,7 @@ public:
   using MetricBaseConstPointer = typename MetricType::ConstPointer;
   using MetricQueueType = std::deque<MetricBasePointer>;
 
-  using ObjectType = typename Superclass::ObjectType;
+  using typename Superclass::ObjectType;
 
   using WeightValueType = typename DerivativeType::ValueType;
   using WeightsArrayType = Array<WeightValueType>;
@@ -211,7 +211,7 @@ public:
   bool
   SupportsArbitraryVirtualDomainSamples() const override;
 
-  using MetricCategoryType = typename Superclass::MetricCategoryType;
+  using typename Superclass::MetricCategoryType;
 
   /** Get metric category */
   MetricCategoryType

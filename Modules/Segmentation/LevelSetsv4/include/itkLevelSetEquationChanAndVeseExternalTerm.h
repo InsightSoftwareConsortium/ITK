@@ -64,24 +64,24 @@ public:
   /** Run-time type information */
   itkTypeMacro(LevelSetEquationChanAndVeseExternalTerm, LevelSetEquationChanAndVeseInternalTerm);
 
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputPixelType = typename Superclass::InputPixelType;
-  using InputPixelRealType = typename Superclass::InputPixelRealType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputPixelType;
+  using typename Superclass::InputPixelRealType;
 
-  using LevelSetContainerType = typename Superclass::LevelSetContainerType;
-  using LevelSetContainerPointer = typename Superclass::LevelSetContainerPointer;
-  using LevelSetType = typename Superclass::LevelSetType;
-  using LevelSetPointer = typename Superclass::LevelSetPointer;
-  using LevelSetOutputPixelType = typename Superclass::LevelSetOutputPixelType;
-  using LevelSetOutputRealType = typename Superclass::LevelSetOutputRealType;
-  using LevelSetInputIndexType = typename Superclass::LevelSetInputIndexType;
-  using LevelSetGradientType = typename Superclass::LevelSetGradientType;
-  using LevelSetHessianType = typename Superclass::LevelSetHessianType;
-  using LevelSetIdentifierType = typename Superclass::LevelSetIdentifierType;
+  using typename Superclass::LevelSetContainerType;
+  using typename Superclass::LevelSetContainerPointer;
+  using typename Superclass::LevelSetType;
+  using typename Superclass::LevelSetPointer;
+  using typename Superclass::LevelSetOutputPixelType;
+  using typename Superclass::LevelSetOutputRealType;
+  using typename Superclass::LevelSetInputIndexType;
+  using typename Superclass::LevelSetGradientType;
+  using typename Superclass::LevelSetHessianType;
+  using typename Superclass::LevelSetIdentifierType;
 
-  using DomainMapImageFilterType = typename Superclass::DomainMapImageFilterType;
-  using CacheImageType = typename Superclass::CacheImageType;
+  using typename Superclass::DomainMapImageFilterType;
+  using typename Superclass::CacheImageType;
 
   using DomainIteratorType = typename DomainMapImageFilterType::DomainMapType::const_iterator;
 
@@ -89,8 +89,8 @@ public:
   using IdListIterator = typename LevelSetContainerType::IdListIterator;
   using IdListConstIterator = typename LevelSetContainerType::IdListConstIterator;
 
-  using HeavisideType = typename Superclass::HeavisideType;
-  using HeavisideConstPointer = typename Superclass::HeavisideConstPointer;
+  using typename Superclass::HeavisideType;
+  using typename Superclass::HeavisideConstPointer;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
   void

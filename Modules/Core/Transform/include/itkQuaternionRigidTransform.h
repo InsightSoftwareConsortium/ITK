@@ -69,28 +69,28 @@ public:
   static constexpr unsigned int ParametersDimension = 7;
 
   /** Parameters Type   */
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
-  using JacobianType = typename Superclass::JacobianType;
-  using JacobianPositionType = typename Superclass::JacobianPositionType;
-  using InverseJacobianPositionType = typename Superclass::InverseJacobianPositionType;
-  using ScalarType = typename Superclass::ScalarType;
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using InputVectorType = typename Superclass::InputVectorType;
-  using OutputVectorType = typename Superclass::OutputVectorType;
-  using OutputVectorValueType = typename Superclass::OutputVectorValueType;
-  using InputVnlVectorType = typename Superclass::InputVnlVectorType;
-  using OutputVnlVectorType = typename Superclass::OutputVnlVectorType;
-  using InputCovariantVectorType = typename Superclass::InputCovariantVectorType;
-  using OutputCovariantVectorType = typename Superclass::OutputCovariantVectorType;
-  using MatrixType = typename Superclass::MatrixType;
-  using InverseMatrixType = typename Superclass::InverseMatrixType;
-  using CenterType = typename Superclass::CenterType;
-  using OffsetType = typename Superclass::OffsetType;
-  using TranslationType = typename Superclass::TranslationType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersValueType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::JacobianPositionType;
+  using typename Superclass::InverseJacobianPositionType;
+  using typename Superclass::ScalarType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::InputVectorType;
+  using typename Superclass::OutputVectorType;
+  using typename Superclass::OutputVectorValueType;
+  using typename Superclass::InputVnlVectorType;
+  using typename Superclass::OutputVnlVectorType;
+  using typename Superclass::InputCovariantVectorType;
+  using typename Superclass::OutputCovariantVectorType;
+  using typename Superclass::MatrixType;
+  using typename Superclass::InverseMatrixType;
+  using typename Superclass::CenterType;
+  using typename Superclass::OffsetType;
+  using typename Superclass::TranslationType;
 
   /** VnlQuaternion type.  */
   using VnlQuaternionType = vnl_quaternion<TParametersValueType>;

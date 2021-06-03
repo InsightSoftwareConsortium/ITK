@@ -217,18 +217,18 @@ public:
   using Superclass = ConstNeighborhoodIterator<TImage, TBoundaryCondition>;
 
   /** Extract type alias from superclass. */
-  using InternalPixelType = typename Superclass::InternalPixelType;
-  using PixelType = typename Superclass::PixelType;
-  using SizeType = typename Superclass::SizeType;
-  using ImageType = typename Superclass::ImageType;
-  using RegionType = typename Superclass::RegionType;
-  using IndexType = typename Superclass::IndexType;
-  using OffsetType = typename Superclass::OffsetType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using Iterator = typename Superclass::Iterator;
-  using ConstIterator = typename Superclass::ConstIterator;
-  using ImageBoundaryConditionPointerType = typename Superclass::ImageBoundaryConditionPointerType;
+  using typename Superclass::InternalPixelType;
+  using typename Superclass::PixelType;
+  using typename Superclass::SizeType;
+  using typename Superclass::ImageType;
+  using typename Superclass::RegionType;
+  using typename Superclass::IndexType;
+  using typename Superclass::OffsetType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::Iterator;
+  using typename Superclass::ConstIterator;
+  using typename Superclass::ImageBoundaryConditionPointerType;
 
   /** Default constructor. */
   NeighborhoodIterator()

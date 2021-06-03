@@ -98,7 +98,7 @@ public:
   //  Must be instantiated through another class. itkNewMacro( Self );
 
   /** InputInputImage type alias support */
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImageType;
 
   /** Dimension underlying input image. */
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
@@ -113,7 +113,7 @@ public:
   using RegionType = typename TInputImage::RegionType;
 
   /** OutputImagePixelType type alias support */
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
+  using typename Superclass::OutputImagePixelType;
 
   /** Iterator type alias support */
   using ConstInputImageIterator = itk::ImageLinearConstIteratorWithIndex<TInputImage>;

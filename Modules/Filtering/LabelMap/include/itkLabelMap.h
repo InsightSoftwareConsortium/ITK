@@ -89,7 +89,7 @@ public:
 
   using LabelObjectPointerType = typename LabelObjectType::Pointer;
 
-  using SizeValueType = typename Superclass::SizeValueType;
+  using typename Superclass::SizeValueType;
   using LengthType = SizeValueType;
 
   /** Dimension of the image.  This constant is used by functions that are
@@ -107,31 +107,31 @@ public:
   using LabelObjectVectorType = std::vector<LabelObjectPointerType>;
 
   /** Index type alias support An index is used to access pixel values. */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** Offset type alias support An offset is used to access pixel values. */
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::OffsetType;
 
   /** Size type alias support A size is used to define region bounds. */
-  using SizeType = typename Superclass::SizeType;
+  using typename Superclass::SizeType;
 
   /** Direction type alias support A matrix of direction cosines. */
-  using DirectionType = typename Superclass::DirectionType;
+  using typename Superclass::DirectionType;
 
   /** Region type alias support A region is used to specify a subset of an image.
    */
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::RegionType;
 
   /** Spacing type alias support  Spacing holds the size of a pixel.  The
    * spacing is the geometric distance between image samples. */
-  using SpacingType = typename Superclass::SpacingType;
+  using typename Superclass::SpacingType;
 
   /** Origin type alias support  The origin is the geometric coordinates
    * of the index (0,0). */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Offset type alias (relative position between indices) */
-  using OffsetValueType = typename Superclass::OffsetValueType;
+  using typename Superclass::OffsetValueType;
 
   /** Restore the data object to its initial state. This means releasing
    * memory. */

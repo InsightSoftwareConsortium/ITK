@@ -43,10 +43,10 @@ public:
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
 
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
 
   itkTypeMacro(RegistrationParameterScalesEstimatorTestMetric, ImageToImageMetricv4);
 
@@ -141,18 +141,18 @@ public:
   itkTypeMacro(RegistrationParameterScalesEstimatorTest, RegistrationParameterScalesEstimator);
 
   /** Type of scales */
-  using ScalesType = typename Superclass::ScalesType;
+  using typename Superclass::ScalesType;
   /** Type of parameters of the optimizer */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
   /** Type of float */
-  using FloatType = typename Superclass::FloatType;
+  using typename Superclass::FloatType;
 
-  using VirtualPointType = typename Superclass::VirtualPointType;
-  using VirtualIndexType = typename Superclass::VirtualIndexType;
-  using MovingTransformType = typename Superclass::MovingTransformType;
-  using FixedTransformType = typename Superclass::FixedTransformType;
-  using JacobianType = typename Superclass::JacobianType;
-  using VirtualImageConstPointer = typename Superclass::VirtualImageConstPointer;
+  using typename Superclass::VirtualPointType;
+  using typename Superclass::VirtualIndexType;
+  using typename Superclass::MovingTransformType;
+  using typename Superclass::FixedTransformType;
+  using typename Superclass::JacobianType;
+  using typename Superclass::VirtualImageConstPointer;
 
   /** Estimate parameter scales with maximum squared norms of Jacobians. */
   void

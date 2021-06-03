@@ -103,10 +103,10 @@ public:
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
   /** Types inherited from the superclass */
-  using OutputImageType = typename Superclass::OutputImageType;
+  using typename Superclass::OutputImageType;
 
   /** FiniteDifferenceFunction type. */
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::FiniteDifferenceFunctionType;
 
   /** PDEDeformableRegistrationFilterFunction type. */
   using PDEDeformableRegistrationFunctionType =

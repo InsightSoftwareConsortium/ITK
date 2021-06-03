@@ -51,19 +51,19 @@ public:
   itkTypeMacro(HistogramImageToImageMetric, ImageToImageMetric);
 
   /** Types transferred from the base class */
-  using RealType = typename Superclass::RealType;
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformParametersType = typename Superclass::TransformParametersType;
-  using TransformJacobianType = typename Superclass::TransformJacobianType;
-  using GradientPixelType = typename Superclass::GradientPixelType;
-  using InputPointType = typename Superclass::InputPointType;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using FixedImageType = typename Superclass::FixedImageType;
+  using typename Superclass::RealType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformParametersType;
+  using typename Superclass::TransformJacobianType;
+  using typename Superclass::GradientPixelType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::FixedImageType;
   using FixedImagePixelType = typename Superclass::FixedImageType::PixelType;
-  using MovingImageType = typename Superclass::MovingImageType;
+  using typename Superclass::MovingImageType;
   using MovingImagePixelType = typename Superclass::MovingImageType::PixelType;
   using FixedImageConstPointerType = typename Superclass::FixedImageConstPointer;
   using MovingImageConstPointerType = typename Superclass::MovingImageConstPointer;

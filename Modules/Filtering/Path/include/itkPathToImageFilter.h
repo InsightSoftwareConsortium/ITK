@@ -52,7 +52,7 @@ public:
   itkTypeMacro(PathToImageFilter, ImageSource);
 
   /** Some convenient type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
   using InputPathType = TInputPath;
   using InputPathPointer = typename InputPathType::Pointer;
   using InputPathConstPointer = typename InputPathType::ConstPointer;

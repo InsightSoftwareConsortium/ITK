@@ -64,7 +64,7 @@ public:
   using MeasurementVectorType = TVector;
 
   /** Typedef to represent the length of measurement vectors */
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementVectorSizeType;
 
   /**  Set the length of each measurement vector. */
   void SetMeasurementVectorSize(MeasurementVectorSizeType) override;

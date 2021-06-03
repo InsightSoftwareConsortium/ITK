@@ -35,9 +35,9 @@ public:
   using Self = MatlabTransformIOTemplate;
   using Superclass = TransformIOBaseTemplate<ParametersValueType>;
   using Pointer = SmartPointer<Self>;
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformListType = typename Superclass::TransformListType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformListType;
 
   using ConstTransformListType = typename TransformIOBaseTemplate<ParametersValueType>::ConstTransformListType;
 

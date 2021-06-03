@@ -123,7 +123,7 @@ public:
   using UpdateBufferType = Image<double, Self::ImageDimension>;
   using BufferValueType = typename UpdateBufferType::ValueType;
 
-  using DataObjectPointer = typename Superclass::DataObjectPointer;
+  using typename Superclass::DataObjectPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -77,11 +77,11 @@ public:
   itkTypeMacro(FiniteDifferenceSparseImageFilter, FiniteDifferenceImageFilter);
 
   /**Typedefs from the superclass */
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImageType;
   using SparseOutputImageType = typename Superclass::OutputImageType;
-  using PixelType = typename Superclass::PixelType;
-  using TimeStepType = typename Superclass::TimeStepType;
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::PixelType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::FiniteDifferenceFunctionType;
   // the PixelType is from output image; therefore, it is a pointer
 
   /** Dimensionality of input and output data is assumed to be the same.

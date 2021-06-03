@@ -31,7 +31,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using NodeType = typename Superclass::NodeType;
+  using typename Superclass::NodeType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

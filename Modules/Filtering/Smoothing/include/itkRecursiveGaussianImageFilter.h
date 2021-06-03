@@ -108,8 +108,8 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using RealType = typename Superclass::RealType;
-  using ScalarRealType = typename Superclass::ScalarRealType;
+  using typename Superclass::RealType;
+  using typename Superclass::ScalarRealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

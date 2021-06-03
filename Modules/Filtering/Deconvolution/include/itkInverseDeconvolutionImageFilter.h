@@ -78,26 +78,26 @@ public:
   using InputImageType = TInputImage;
   using OutputImageType = TOutputImage;
   using KernelImageType = TKernelImage;
-  using InputPixelType = typename Superclass::InputPixelType;
-  using OutputPixelType = typename Superclass::OutputPixelType;
-  using KernelPixelType = typename Superclass::KernelPixelType;
-  using InputIndexType = typename Superclass::InputIndexType;
-  using OutputIndexType = typename Superclass::OutputIndexType;
-  using KernelIndexType = typename Superclass::KernelIndexType;
-  using InputSizeType = typename Superclass::InputSizeType;
-  using OutputSizeType = typename Superclass::OutputSizeType;
-  using KernelSizeType = typename Superclass::KernelSizeType;
-  using SizeValueType = typename Superclass::SizeValueType;
-  using InputRegionType = typename Superclass::InputRegionType;
-  using OutputRegionType = typename Superclass::OutputRegionType;
-  using KernelRegionType = typename Superclass::KernelRegionType;
+  using typename Superclass::InputPixelType;
+  using typename Superclass::OutputPixelType;
+  using typename Superclass::KernelPixelType;
+  using typename Superclass::InputIndexType;
+  using typename Superclass::OutputIndexType;
+  using typename Superclass::KernelIndexType;
+  using typename Superclass::InputSizeType;
+  using typename Superclass::OutputSizeType;
+  using typename Superclass::KernelSizeType;
+  using typename Superclass::SizeValueType;
+  using typename Superclass::InputRegionType;
+  using typename Superclass::OutputRegionType;
+  using typename Superclass::KernelRegionType;
 
   /** Internal image types. */
-  using InternalImageType = typename Superclass::InternalImageType;
-  using InternalImagePointerType = typename Superclass::InternalImagePointerType;
-  using InternalComplexType = typename Superclass::InternalComplexType;
-  using InternalComplexImageType = typename Superclass::InternalComplexImageType;
-  using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
+  using typename Superclass::InternalImageType;
+  using typename Superclass::InternalImagePointerType;
+  using typename Superclass::InternalComplexType;
+  using typename Superclass::InternalComplexImageType;
+  using typename Superclass::InternalComplexImagePointerType;
 
   /** Set/get the threshold value used to determine whether a
    * frequency of the Fourier transform of the blurring kernel is

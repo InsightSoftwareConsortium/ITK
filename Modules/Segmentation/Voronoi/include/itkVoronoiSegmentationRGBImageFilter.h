@@ -70,13 +70,13 @@ public:
   itkNewMacro(Self);
 
   /** Convenient type alias. */
-  using BinaryObjectImage = typename Superclass::BinaryObjectImage;
-  using IndexList = typename Superclass::IndexList;
-  using IndexType = typename Superclass::IndexType;
-  using RegionType = typename Superclass::RegionType;
-  using PixelType = typename Superclass::PixelType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::BinaryObjectImage;
+  using typename Superclass::IndexList;
+  using typename Superclass::IndexType;
+  using typename Superclass::RegionType;
+  using typename Superclass::PixelType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageType;
   using RGBHCVPixel = Vector<float, 6>;
   using RGBHCVImage = Image<RGBHCVPixel>;
 

@@ -90,7 +90,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Superclass type alias. */
-  using InputImagePointer = typename Superclass::InputImagePointer;
+  using typename Superclass::InputImagePointer;
 
   /** Standard New method. */
   itkNewMacro(Self);

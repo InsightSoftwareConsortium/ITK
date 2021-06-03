@@ -66,32 +66,32 @@ public:
   itkTypeMacro(JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
 
   /** Type used for representing parameter values  */
-  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
+  using typename Superclass::CoordinateRepresentationType;
   /** Type used internally for computations */
   /** It should be possible to derive the internal computation type from the class object. */
   using InternalComputationValueType = TInternalComputationValueType;
   /**  Type of the parameters. */
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::NumberOfParametersType;
 
   /** Superclass type alias */
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using FixedImagePointType = typename Superclass::FixedImagePointType;
-  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::FixedImagePointType;
+  using typename Superclass::FixedImagePixelType;
   using FixedImageGradientType = typename Superclass::FixedGradientPixelType;
-  using MovingImagePointType = typename Superclass::MovingImagePointType;
-  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
+  using typename Superclass::MovingImagePointType;
+  using typename Superclass::MovingImagePixelType;
   using MovingImageGradientType = typename Superclass::MovingGradientPixelType;
 
   using FixedTransformJacobianType = typename Superclass::FixedTransformType::JacobianType;
   using MovingTransformJacobianType = typename Superclass::MovingTransformType::JacobianType;
 
-  using VirtualImageType = typename Superclass::VirtualImageType;
-  using VirtualIndexType = typename Superclass::VirtualIndexType;
-  using VirtualPointType = typename Superclass::VirtualPointType;
-  using VirtualPointSetType = typename Superclass::VirtualPointSetType;
+  using typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualIndexType;
+  using typename Superclass::VirtualPointType;
+  using typename Superclass::VirtualPointSetType;
 
   /* Image dimension accessors */
   static constexpr typename TVirtualImage::ImageDimensionType VirtualImageDimension = TVirtualImage::ImageDimension;

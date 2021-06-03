@@ -81,7 +81,7 @@ public:
   using Superclass = FastMarchingBase<TInput, TOutput>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using Traits = typename Superclass::Traits;
+  using typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,11 +92,11 @@ public:
 
   using InputImageType = typename Superclass::InputDomainType;
   using InputImagePointer = typename Superclass::InputDomainPointer;
-  using InputPixelType = typename Superclass::InputPixelType;
+  using typename Superclass::InputPixelType;
 
   using OutputImageType = typename Superclass::OutputDomainType;
   using OutputImagePointer = typename Superclass::OutputDomainPointer;
-  using OutputPixelType = typename Superclass::OutputPixelType;
+  using typename Superclass::OutputPixelType;
   using OutputSpacingType = typename OutputImageType::SpacingType;
   using OutputSizeType = typename OutputImageType::SizeType;
   using OutputRegionType = typename OutputImageType::RegionType;
@@ -109,7 +109,7 @@ public:
   using NodePairContainerPointer = typename Traits::NodePairContainerPointer;
   using NodePairContainerConstIterator = typename Traits::NodePairContainerConstIterator;
 
-  using LabelType = typename Superclass::LabelType;
+  using typename Superclass::LabelType;
 
   static constexpr unsigned int ImageDimension = Traits::ImageDimension;
 

@@ -56,31 +56,31 @@ public:
 
   static constexpr unsigned int Dimension = VDimension;
 
-  using InputType = typename Superclass::InputType;
-  using OutputType = typename Superclass::OutputType;
-  using OutputRealType = typename Superclass::OutputRealType;
-  using GradientType = typename Superclass::GradientType;
-  using HessianType = typename Superclass::HessianType;
-  using LevelSetDataType = typename Superclass::LevelSetDataType;
+  using typename Superclass::InputType;
+  using typename Superclass::OutputType;
+  using typename Superclass::OutputRealType;
+  using typename Superclass::GradientType;
+  using typename Superclass::HessianType;
+  using typename Superclass::LevelSetDataType;
 
-  using LayerIdType = typename Superclass::LayerIdType;
-  using LabelObjectType = typename Superclass::LabelObjectType;
-  using LabelObjectPointer = typename Superclass::LabelObjectPointer;
-  using LabelObjectLengthType = typename Superclass::LabelObjectLengthType;
-  using LabelObjectLineType = typename Superclass::LabelObjectLineType;
+  using typename Superclass::LayerIdType;
+  using typename Superclass::LabelObjectType;
+  using typename Superclass::LabelObjectPointer;
+  using typename Superclass::LabelObjectLengthType;
+  using typename Superclass::LabelObjectLineType;
 
-  using LabelMapType = typename Superclass::LabelMapType;
-  using LabelMapPointer = typename Superclass::LabelMapPointer;
-  using LabelMapConstPointer = typename Superclass::LabelMapConstPointer;
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::LabelMapType;
+  using typename Superclass::LabelMapPointer;
+  using typename Superclass::LabelMapConstPointer;
+  using typename Superclass::RegionType;
 
-  using LayerType = typename Superclass::LayerType;
-  using LayerIterator = typename Superclass::LayerIterator;
-  using LayerConstIterator = typename Superclass::LayerConstIterator;
+  using typename Superclass::LayerType;
+  using typename Superclass::LayerIterator;
+  using typename Superclass::LayerConstIterator;
 
-  using LayerMapType = typename Superclass::LayerMapType;
-  using LayerMapIterator = typename Superclass::LayerMapIterator;
-  using LayerMapConstIterator = typename Superclass::LayerMapConstIterator;
+  using typename Superclass::LayerMapType;
+  using typename Superclass::LayerMapIterator;
+  using typename Superclass::LayerMapConstIterator;
 
   /** Returns the value of the level set function at a given location iP */
   using Superclass::Evaluate;

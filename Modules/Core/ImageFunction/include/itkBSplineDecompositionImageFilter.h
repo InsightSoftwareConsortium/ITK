@@ -89,10 +89,10 @@ public:
   itkNewMacro(Self);
 
   /** Inherit input and output image types from Superclass. */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageConstPointer;
+  using typename Superclass::OutputImagePointer;
 
   using CoeffType = typename itk::NumericTraits<typename TOutputImage::PixelType>::RealType;
 

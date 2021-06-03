@@ -122,7 +122,7 @@ public:
   using InputPixelType = typename InputImageType::PixelType;
   using OutputPixelType = typename OutputImageType::PixelType;
 
-  using AccumulatorType = typename Superclass::AccumulatorType;
+  using typename Superclass::AccumulatorType;
 
   /** Set the value in the image to consider as "foreground". Defaults to
    * maximum value of PixelType. Subclasses may alias this to

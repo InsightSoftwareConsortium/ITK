@@ -156,7 +156,7 @@ public:
   using Superclass = ImageToImageFilter<TInputImage, TClassifiedImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputImagePointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

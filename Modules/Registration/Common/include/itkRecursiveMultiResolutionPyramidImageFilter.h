@@ -83,11 +83,11 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Inherit types from the superclass.. */
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
-  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::OutputImagePointer;
+  using typename Superclass::InputImageConstPointer;
 
   /** Given one output whose requested region has been set,
    * this method sets the requested region for the remaining
