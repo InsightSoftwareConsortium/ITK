@@ -71,13 +71,13 @@ public:
 
   /** Typedefs associated with the transform */
 
-  using TransformBaseType = typename Superclass::TransformBaseType;
+  using typename Superclass::TransformBaseType;
   using TransformType = TTransform;
   using TransformPointer = typename TransformType::Pointer;
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersValueType;
+  using typename Superclass::FixedParametersType;
 
   /** Set the transform to be adapted */
   itkSetObjectMacro(Transform, TransformType);

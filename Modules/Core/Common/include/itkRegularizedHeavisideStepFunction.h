@@ -57,8 +57,8 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using InputType = typename Superclass::InputType;
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::InputType;
+  using typename Superclass::OutputType;
 
   using RealType = typename NumericTraits<InputType>::RealType;
 

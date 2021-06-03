@@ -59,8 +59,8 @@ public:
   /** Extract dimension from output image. */
   static constexpr unsigned int PointDimension = TPointSet::PointDimension;
 
-  using InputPointSetType = typename Superclass::InputPointSetType;
-  using InputPointType = typename Superclass::InputPointType;
+  using typename Superclass::InputPointSetType;
+  using typename Superclass::InputPointType;
 
   /** Point set type alias support */
   using PointSetType = TPointSet;

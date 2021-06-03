@@ -31,9 +31,9 @@ public:
   using Superclass = TreeIteratorBase<TTreeType>;
   using TreeType = TTreeType;
   using ValueType = typename TTreeType::ValueType;
-  using TreeNodeType = typename Superclass::TreeNodeType;
+  using typename Superclass::TreeNodeType;
   using ChildIdentifier = typename TreeNodeType::ChildIdentifier;
-  using NodeType = typename Superclass::NodeType;
+  using typename Superclass::NodeType;
 
   /** Constructor */
   ChildTreeIterator(TreeType * tree, const TreeNodeType * start = nullptr);

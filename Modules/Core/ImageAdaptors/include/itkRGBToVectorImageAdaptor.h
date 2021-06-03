@@ -55,9 +55,9 @@ public:
 
   /** PixelContainer type alias support Used to construct a container for
    * the pixel data. */
-  using PixelContainer = typename Superclass::PixelContainer;
-  using PixelContainerPointer = typename Superclass::PixelContainerPointer;
-  using PixelContainerConstPointer = typename Superclass::PixelContainerConstPointer;
+  using typename Superclass::PixelContainer;
+  using typename Superclass::PixelContainerPointer;
+  using typename Superclass::PixelContainerConstPointer;
 
 protected:
   RGBToVectorImageAdaptor() = default;

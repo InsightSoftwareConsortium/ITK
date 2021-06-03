@@ -81,34 +81,34 @@ public:
 
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputPixelType = typename Superclass::InputPixelType;
-  using InputIndexType = typename Superclass::InputIndexType;
-  using InputIndexValueType = typename Superclass::InputIndexValueType;
-  using InputSizeType = typename Superclass::InputSizeType;
-  using InputSizeValueType = typename Superclass::InputSizeValueType;
-  using InputRegionType = typename Superclass::InputRegionType;
-  using InputPointType = typename Superclass::InputPointType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImageConstPointer;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputPixelType;
+  using typename Superclass::InputIndexType;
+  using typename Superclass::InputIndexValueType;
+  using typename Superclass::InputSizeType;
+  using typename Superclass::InputSizeValueType;
+  using typename Superclass::InputRegionType;
+  using typename Superclass::InputPointType;
 
-  using FeatureImageType = typename Superclass::FeatureImageType;
+  using typename Superclass::FeatureImageType;
   using FeatureImageConstPointer = typename FeatureImageType::ConstPointer;
-  using FeaturePixelType = typename Superclass::FeaturePixelType;
-  using FeatureIndexType = typename Superclass::FeatureIndexType;
-  using FeatureOffsetType = typename Superclass::FeatureOffsetType;
+  using typename Superclass::FeaturePixelType;
+  using typename Superclass::FeatureIndexType;
+  using typename Superclass::FeatureOffsetType;
 
-  using ScalarValueType = typename Superclass::ScalarValueType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using RadiusType = typename Superclass::RadiusType;
-  using TimeStepType = typename Superclass::TimeStepType;
-  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
-  using PixelType = typename Superclass::PixelType;
-  using VectorType = typename Superclass::VectorType;
+  using typename Superclass::ScalarValueType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::GlobalDataStruct;
+  using typename Superclass::PixelType;
+  using typename Superclass::VectorType;
 
-  using SharedDataType = typename Superclass::SharedDataType;
-  using SharedDataPointer = typename Superclass::SharedDataPointer;
+  using typename Superclass::SharedDataType;
+  using typename Superclass::SharedDataPointer;
 
   using ImageIteratorType = ImageRegionIteratorWithIndex<InputImageType>;
   using ConstImageIteratorType = ImageRegionConstIteratorWithIndex<InputImageType>;

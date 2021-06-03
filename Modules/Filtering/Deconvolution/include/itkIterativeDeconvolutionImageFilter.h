@@ -70,11 +70,11 @@ public:
   using OutputImageType = TOutputImage;
 
   /** Internal types used by the FFT filters. */
-  using InternalImageType = typename Superclass::InternalImageType;
-  using InternalImagePointerType = typename Superclass::InternalImagePointerType;
-  using InternalComplexType = typename Superclass::InternalComplexType;
-  using InternalComplexImageType = typename Superclass::InternalComplexImageType;
-  using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
+  using typename Superclass::InternalImageType;
+  using typename Superclass::InternalImagePointerType;
+  using typename Superclass::InternalComplexType;
+  using typename Superclass::InternalComplexImageType;
+  using typename Superclass::InternalComplexImagePointerType;
 
   /** Runtime information support. */
   itkTypeMacro(IterativeDeconvolutionImageFilter, ConvolutionImageFilterBase);
@@ -136,8 +136,8 @@ protected:
   /** Intermediate results. Protected for easy access by subclasses. */
   InternalImagePointerType m_CurrentEstimate;
 
-  using FFTFilterType = typename Superclass::FFTFilterType;
-  using IFFTFilterType = typename Superclass::IFFTFilterType;
+  using typename Superclass::FFTFilterType;
+  using typename Superclass::IFFTFilterType;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

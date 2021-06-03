@@ -28,7 +28,7 @@ class DerivativeOperatorTestHelper : public DerivativeOperator<TPixel, VDimensio
 {
 public:
   using Superclass = DerivativeOperator<TPixel, VDimension>;
-  using CoefficientVector = typename Superclass::CoefficientVector;
+  using typename Superclass::CoefficientVector;
 
   bool
   CheckCoefficients(const CoefficientVector & expected)

@@ -86,9 +86,9 @@ public:
   itkTypeMacro(AnisotropicDiffusionImageFilter, DenseFiniteDifferenceImageFilter);
 
   /** Capture information from the superclass. */
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using UpdateBufferType = typename Superclass::UpdateBufferType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::UpdateBufferType;
 
   /** Dimensionality of input and output data is assumed to be the same.
    * It is inherited from the superclass. */
@@ -96,8 +96,8 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  using PixelType = typename Superclass::PixelType;
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::PixelType;
+  using typename Superclass::TimeStepType;
 
   /** Set/Get the time step for each iteration */
   itkSetMacro(TimeStep, TimeStepType);

@@ -59,7 +59,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::NumberOfParametersType;
 
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
@@ -75,11 +75,11 @@ public:
   using ScalarType = double;
 
   /** Type of the input parameters. */
-  using ParametersType = typename Superclass::ParametersType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::FixedParametersType;
 
   /** Type of the Jacobian matrix. */
-  using JacobianType = typename Superclass::JacobianType;
+  using typename Superclass::JacobianType;
 
   /** Standard vector type for this class. */
   using InputVectorType = Vector<TParametersValueType, Self::InputSpaceDimension>;

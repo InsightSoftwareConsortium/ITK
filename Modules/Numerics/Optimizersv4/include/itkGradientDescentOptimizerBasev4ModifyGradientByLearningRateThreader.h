@@ -52,8 +52,8 @@ public:
 
   itkNewMacro(Self);
 
-  using DomainType = typename Superclass::DomainType;
-  using AssociateType = typename Superclass::AssociateType;
+  using typename Superclass::DomainType;
+  using typename Superclass::AssociateType;
   using IndexRangeType = DomainType;
 
 protected:

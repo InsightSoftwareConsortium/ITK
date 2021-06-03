@@ -65,7 +65,7 @@ public:
   using Superclass = FastMarchingImageFilterBase<TInput, TOutput>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using Traits = typename Superclass::Traits;
+  using typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,20 +92,20 @@ public:
 
 
   /** Index type alias support */
-  using NodeType = typename Superclass::NodeType;
-  using NodePairType = typename Superclass::NodePairType;
+  using typename Superclass::NodeType;
+  using typename Superclass::NodePairType;
 
-  //  using NodeContainerType = typename Superclass::NodeContainerType;
-  //  using NodeContainerPointer = typename Superclass::NodeContainerPointer;
-  //  using NodeContainerConstIterator = typename Superclass::NodeContainerConstIterator;
+  //  using typename Superclass::NodeContainerType;
+  //  using typename Superclass::NodeContainerPointer;
+  //  using typename Superclass::NodeContainerConstIterator;
 
-  using NodePairContainerType = typename Superclass::NodePairContainerType;
-  using NodePairContainerPointer = typename Superclass::NodePairContainerPointer;
-  using NodePairContainerConstIterator = typename Superclass::NodePairContainerConstIterator;
+  using typename Superclass::NodePairContainerType;
+  using typename Superclass::NodePairContainerPointer;
+  using typename Superclass::NodePairContainerConstIterator;
 
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputPixelType = typename Superclass::OutputPixelType;
-  using InternalNodeStructure = typename Superclass::InternalNodeStructure;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputPixelType;
+  using typename Superclass::InternalNodeStructure;
 
   /** Get one of the extended auxiliary variable image. */
   AuxImageType *

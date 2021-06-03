@@ -47,8 +47,8 @@ public:
   using Superclass = FunctionBase<TMesh, typename TMesh::EdgeListPointerType>;
 
   // Types in superclass:
-  using InputType = typename Superclass::InputType;
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::InputType;
+  using typename Superclass::OutputType;
 
   // Local aliases
   using MeshType = InputType;

@@ -59,7 +59,7 @@ public:
   using IndexValueType = typename IndexType::IndexValueType;
   using PointType = typename ImageType::PointType;
 
-  using IdentifierListType = typename Superclass::IdentifierListType;
+  using typename Superclass::IdentifierListType;
 
   using ListImageType = Image<IdentifierListType, ImageDimension>;
   using ListImagePointer = typename ListImageType::Pointer;

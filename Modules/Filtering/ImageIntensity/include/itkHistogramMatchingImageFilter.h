@@ -97,11 +97,11 @@ public:
   using OutputImageRegionType = typename TOutputImage::RegionType;
 
   /** Inherited type alias. */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageConstPointer;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputImagePointer;
 
   /** Pixel related type alias. */
   using InputPixelType = typename InputImageType::PixelType;

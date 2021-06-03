@@ -60,29 +60,29 @@ public:
   itkTypeMacro(GPUFiniteDifferenceFunction, FiniteDifferenceFunction);
 
   /** Extract some parameters from the image type */
-  using ImageType = typename Superclass::ImageType;
-  using PixelType = typename Superclass::PixelType;
-  using PixelRealType = typename Superclass::PixelRealType;
+  using typename Superclass::ImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::PixelRealType;
 
   /** Save image dimension. */
   static constexpr unsigned int ImageDimension = ImageType::ImageDimension;
 
   /** Define the TimeStepType to always be double. */
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   /** The default boundary condition for finite difference
    * functions that is used unless overridden in the Evaluate() method. */
-  using DefaultBoundaryConditionType = typename Superclass::DefaultBoundaryConditionType;
+  using typename Superclass::DefaultBoundaryConditionType;
 
   /** Neighborhood radius type */
-  using RadiusType = typename Superclass::RadiusType;
+  using typename Superclass::RadiusType;
 
   /** Neighborhood type */
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using typename Superclass::NeighborhoodType;
 
   /** A floating point offset from an image grid location. Used for
    * interpolation among grid values in a neighborhood. */
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
+  using typename Superclass::FloatOffsetType;
 
 #if !defined(ITK_WRAPPING_PARSER)
   /** Empty implementation - this will not be used by GPU filters */

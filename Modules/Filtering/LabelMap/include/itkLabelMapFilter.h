@@ -72,11 +72,11 @@ public:
   itkNewMacro(Self);
 
   /** Some convenient type alias. */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputImageConstPointer = typename Superclass::InputImageConstPointer;
-  using InputImageRegionType = typename Superclass::InputImageRegionType;
-  using InputImagePixelType = typename Superclass::InputImagePixelType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputImageConstPointer;
+  using typename Superclass::InputImageRegionType;
+  using typename Superclass::InputImagePixelType;
   using LabelObjectType = typename InputImageType::LabelObjectType;
 
   using OutputImageType = TOutputImage;

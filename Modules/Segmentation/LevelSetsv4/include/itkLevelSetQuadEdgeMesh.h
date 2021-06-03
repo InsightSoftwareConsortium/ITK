@@ -53,12 +53,12 @@ public:
   /** Run-time type information */
   itkTypeMacro(LevelSetQuadEdgeMesh, LevelSetBase);
 
-  using InputType = typename Superclass::InputType;
-  using OutputType = typename Superclass::OutputType;
-  using OutputRealType = typename Superclass::OutputRealType;
-  using GradientType = typename Superclass::GradientType;
-  using HessianType = typename Superclass::HessianType;
-  using LevelSetDataType = typename Superclass::LevelSetDataType;
+  using typename Superclass::InputType;
+  using typename Superclass::OutputType;
+  using typename Superclass::OutputRealType;
+  using typename Superclass::GradientType;
+  using typename Superclass::HessianType;
+  using typename Superclass::LevelSetDataType;
 
   itkSetObjectMacro(Mesh, MeshType);
   itkGetModifiableObjectMacro(Mesh, MeshType);

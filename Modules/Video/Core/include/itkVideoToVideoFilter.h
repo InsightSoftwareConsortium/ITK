@@ -57,8 +57,8 @@ public:
   using ConstWeakPointer = WeakPointer<const Self>;
 
   /** Superclass type alias */
-  using OutputFrameType = typename Superclass::OutputFrameType;
-  using OutputFrameSpatialRegionType = typename Superclass::OutputFrameSpatialRegionType;
+  using typename Superclass::OutputFrameType;
+  using typename Superclass::OutputFrameSpatialRegionType;
 
   /** Input type alias */
   using InputFrameType = typename InputVideoStreamType::FrameType;

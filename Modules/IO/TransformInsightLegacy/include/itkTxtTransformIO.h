@@ -35,9 +35,9 @@ public:
   using Self = TxtTransformIOTemplate;
   using Superclass = TransformIOBaseTemplate<TParametersValueType>;
   using Pointer = SmartPointer<Self>;
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformListType = typename Superclass::TransformListType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformListType;
   using ConstTransformListType = typename TransformIOBaseTemplate<TParametersValueType>::ConstTransformListType;
 
   using ParametersType = typename TransformType::ParametersType;

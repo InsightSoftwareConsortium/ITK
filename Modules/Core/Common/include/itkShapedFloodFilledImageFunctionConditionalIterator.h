@@ -44,28 +44,28 @@ public:
   using Superclass = ShapedFloodFilledImageFunctionConditionalConstIterator<TImage, TFunction>;
 
   /** Type of function */
-  using FunctionType = typename Superclass::FunctionType;
+  using typename Superclass::FunctionType;
 
   /** Type of vector used to store location info in the spatial function */
-  using FunctionInputType = typename Superclass::FunctionInputType;
+  using typename Superclass::FunctionInputType;
 
   /** Index type alias support */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** Size type alias support */
-  using SizeType = typename Superclass::SizeType;
+  using typename Superclass::SizeType;
 
   /** Region type alias support */
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::RegionType;
 
   /** Image type alias support */
-  using ImageType = typename Superclass::ImageType;
+  using typename Superclass::ImageType;
 
   /** Internal Pixel Type */
-  using InternalPixelType = typename Superclass::InternalPixelType;
+  using typename Superclass::InternalPixelType;
 
   /** External Pixel Type */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** Dimension of the image the iterator walks.  This constant is needed so
    * functions that are templated over image iterator type (as opposed to

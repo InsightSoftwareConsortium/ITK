@@ -71,12 +71,12 @@ public:
   static constexpr unsigned int Dimension = NDimensions;
 
   /** Types from superclass */
-  using ScalarType = typename Superclass::ScalarType;
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::ScalarType;
+  using typename Superclass::DerivativeType;
   using DerivativeValueType = typename DerivativeType::ValueType;
-  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
-  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
-  using DisplacementFieldConstPointer = typename Superclass::DisplacementFieldConstPointer;
+  using typename Superclass::DisplacementFieldType;
+  using typename Superclass::DisplacementFieldPointer;
+  using typename Superclass::DisplacementFieldConstPointer;
 
   using TransformPointer = typename Transform<TParametersValueType, NDimensions, NDimensions>::Pointer;
 

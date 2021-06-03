@@ -89,7 +89,7 @@ public:
   using MaskIndexType = typename MaskImageType::IndexType;
   using MaskImageRegionType = typename MaskImageType::RegionType;
 
-  using HistogramType = typename Superclass::HistogramType;
+  using typename Superclass::HistogramType;
   using CalculatorType = YenThresholdCalculator<HistogramType, InputPixelType>;
 
   /** Image related type alias. */

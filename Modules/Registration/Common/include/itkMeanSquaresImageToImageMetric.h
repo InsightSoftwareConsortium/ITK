@@ -54,26 +54,26 @@ public:
   itkTypeMacro(MeanSquaresImageToImageMetric, ImageToImageMetric);
 
   /** Types inherited from Superclass. */
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformJacobianType = typename Superclass::TransformJacobianType;
-  using InterpolatorType = typename Superclass::InterpolatorType;
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using ParametersType = typename Superclass::ParametersType;
-  using FixedImageType = typename Superclass::FixedImageType;
-  using MovingImageType = typename Superclass::MovingImageType;
-  using MovingImagePointType = typename Superclass::MovingImagePointType;
-  using FixedImageConstPointer = typename Superclass::FixedImageConstPointer;
-  using MovingImageConstPointer = typename Superclass::MovingImageConstPointer;
-  using CoordinateRepresentationType = typename Superclass::CoordinateRepresentationType;
-  using FixedImageSampleContainer = typename Superclass::FixedImageSampleContainer;
-  using ImageDerivativesType = typename Superclass::ImageDerivativesType;
-  using WeightsValueType = typename Superclass::WeightsValueType;
-  using IndexValueType = typename Superclass::IndexValueType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformJacobianType;
+  using typename Superclass::InterpolatorType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::FixedImageType;
+  using typename Superclass::MovingImageType;
+  using typename Superclass::MovingImagePointType;
+  using typename Superclass::FixedImageConstPointer;
+  using typename Superclass::MovingImageConstPointer;
+  using typename Superclass::CoordinateRepresentationType;
+  using typename Superclass::FixedImageSampleContainer;
+  using typename Superclass::ImageDerivativesType;
+  using typename Superclass::WeightsValueType;
+  using typename Superclass::IndexValueType;
 
   // Needed for evaluation of Jacobian.
-  using FixedImagePointType = typename Superclass::FixedImagePointType;
+  using typename Superclass::FixedImagePointType;
 
   /** The moving image dimension. */
   static constexpr unsigned int MovingImageDimension = MovingImageType::ImageDimension;

@@ -65,16 +65,16 @@ public:
   using CriterionType = TCriterion;
   using MeasureType = typename CriterionType::MeasureType;
 
-  using PriorityType = typename Superclass::PriorityType;
-  using PriorityQueueItemType = typename Superclass::PriorityQueueItemType;
-  using PriorityQueueType = typename Superclass::PriorityQueueType;
-  using PriorityQueuePointer = typename Superclass::PriorityQueuePointer;
+  using typename Superclass::PriorityType;
+  using typename Superclass::PriorityQueueItemType;
+  using typename Superclass::PriorityQueueType;
+  using typename Superclass::PriorityQueuePointer;
 
-  using QueueMapType = typename Superclass::QueueMapType;
-  using QueueMapIterator = typename Superclass::QueueMapIterator;
+  using typename Superclass::QueueMapType;
+  using typename Superclass::QueueMapIterator;
 
-  using OperatorType = typename Superclass::OperatorType;
-  using OperatorPointer = typename Superclass::OperatorPointer;
+  using typename Superclass::OperatorType;
+  using typename Superclass::OperatorPointer;
 
   using QuadricElementType = QuadEdgeMeshDecimationQuadricElementHelper<OutputPointType>;
 

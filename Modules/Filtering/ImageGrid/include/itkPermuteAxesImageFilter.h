@@ -69,9 +69,9 @@ public:
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;
 
   /** Inherited types */
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputImageRegionType;
 
   /** PermuteOrderArray type. */
   using PermuteOrderArrayType = FixedArray<unsigned int, Self::ImageDimension>;

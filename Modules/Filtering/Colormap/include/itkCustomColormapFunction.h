@@ -59,9 +59,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  using RGBPixelType = typename Superclass::RGBPixelType;
-  using ScalarType = typename Superclass::ScalarType;
-  using RealType = typename Superclass::RealType;
+  using typename Superclass::RGBPixelType;
+  using typename Superclass::ScalarType;
+  using typename Superclass::RealType;
 
   using ChannelType = std::vector<RealType>;
 

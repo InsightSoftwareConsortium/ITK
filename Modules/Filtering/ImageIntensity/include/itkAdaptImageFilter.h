@@ -143,7 +143,7 @@ public:
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using FunctorType = typename Superclass::FunctorType;
+  using typename Superclass::FunctorType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

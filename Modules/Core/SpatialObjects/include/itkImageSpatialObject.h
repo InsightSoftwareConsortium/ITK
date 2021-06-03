@@ -53,7 +53,7 @@ public:
   using ImageType = Image<PixelType, TDimension>;
   using ImagePointer = typename ImageType::ConstPointer;
   using IndexType = typename ImageType::IndexType;
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
   using InterpolatorType = InterpolateImageFunction<ImageType>;
 
   using NNInterpolatorType = NearestNeighborInterpolateImageFunction<ImageType>;

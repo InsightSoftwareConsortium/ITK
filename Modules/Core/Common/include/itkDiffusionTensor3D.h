@@ -84,15 +84,15 @@ public:
   using Superclass = SymmetricSecondRankTensor<TComponent, 3>;
 
   /** Propagating some type alias from the superclass */
-  using ValueType = typename Superclass::ValueType;
-  using ComponentType = typename Superclass::ComponentType;
-  using ComponentArrayType = typename Superclass::ComponentArrayType;
+  using typename Superclass::ValueType;
+  using typename Superclass::ComponentType;
+  using typename Superclass::ComponentArrayType;
 
-  using AccumulateValueType = typename Superclass::AccumulateValueType;
-  using RealValueType = typename Superclass::RealValueType;
+  using typename Superclass::AccumulateValueType;
+  using typename Superclass::RealValueType;
 
-  using EigenValuesArrayType = typename Superclass::EigenValuesArrayType;
-  using EigenVectorsMatrixType = typename Superclass::EigenVectorsMatrixType;
+  using typename Superclass::EigenValuesArrayType;
+  using typename Superclass::EigenVectorsMatrixType;
 
   /** Default Constructor. */
   DiffusionTensor3D() = default;

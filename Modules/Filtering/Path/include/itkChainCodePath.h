@@ -66,8 +66,8 @@ public:
   itkTypeMacro(ChainCodePath, Path);
 
   /** OutputType type alias support */
-  using OutputType = typename Superclass::OutputType;
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::OutputType;
+  using typename Superclass::InputType;
 
   /** The output type of this function is an Index */
   using OffsetType = OutputType;

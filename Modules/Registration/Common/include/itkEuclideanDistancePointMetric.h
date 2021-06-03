@@ -64,23 +64,23 @@ public:
   itkTypeMacro(EuclideanDistancePointMetric, Object);
 
   /** Types transferred from the base class. */
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
-  using TransformParametersType = typename Superclass::TransformParametersType;
-  using TransformJacobianType = typename Superclass::TransformJacobianType;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
+  using typename Superclass::TransformParametersType;
+  using typename Superclass::TransformJacobianType;
 
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using FixedPointSetType = typename Superclass::FixedPointSetType;
-  using MovingPointSetType = typename Superclass::MovingPointSetType;
-  using FixedPointSetConstPointer = typename Superclass::FixedPointSetConstPointer;
-  using MovingPointSetConstPointer = typename Superclass::MovingPointSetConstPointer;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::FixedPointSetType;
+  using typename Superclass::MovingPointSetType;
+  using typename Superclass::FixedPointSetConstPointer;
+  using typename Superclass::MovingPointSetConstPointer;
 
-  using FixedPointIterator = typename Superclass::FixedPointIterator;
-  using FixedPointDataIterator = typename Superclass::FixedPointDataIterator;
+  using typename Superclass::FixedPointIterator;
+  using typename Superclass::FixedPointDataIterator;
 
-  using MovingPointIterator = typename Superclass::MovingPointIterator;
-  using MovingPointDataIterator = typename Superclass::MovingPointDataIterator;
+  using typename Superclass::MovingPointIterator;
+  using typename Superclass::MovingPointDataIterator;
 
   using DistanceMapType = TDistanceMap;
   using DistanceMapPointer = typename DistanceMapType::ConstPointer;

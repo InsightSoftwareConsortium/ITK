@@ -75,7 +75,7 @@ public:
   using MeasurementVectorType = TMeasurementVector;
 
   /** Length of each measurement vector */
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementVectorSizeType;
 
   /** Type of the mean vector. RealType on a vector-type is the same
    * vector-type but with a real element type.  */

@@ -111,14 +111,14 @@ public:
   itkTypeMacro(CurvatureFlowImageFilter, DenseFiniteDifferenceImageFilter);
 
   /** InputImage type. */
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::InputImageType;
 
   /** OutputImage type. */
-  using OutputImageType = typename Superclass::OutputImageType;
+  using typename Superclass::OutputImageType;
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** FiniteDifferenceFunction type. */
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::FiniteDifferenceFunctionType;
 
   /** CurvatureFlowFunction type. */
   using CurvatureFlowFunctionType = CurvatureFlowFunction<OutputImageType>;
@@ -129,10 +129,10 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** The time step type. Inherited from the superclass. */
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   /** Set the timestep parameter. */
   itkSetMacro(TimeStep, TimeStepType);

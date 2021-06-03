@@ -72,15 +72,15 @@ public:
   using ConstIterator = typename AllocatorType::const_iterator;
 
   /** Size and value type alias support */
-  using SizeType = typename Superclass::SizeType;
-  using SizeValueType = typename Superclass::SizeValueType;
+  using typename Superclass::SizeType;
+  using typename Superclass::SizeValueType;
 
   /** Offset and value type alias support */
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::OffsetType;
   using OffsetValueType = typename OffsetType::OffsetValueType;
 
   /** Radius type alias support */
-  using RadiusType = typename Superclass::RadiusType;
+  using typename Superclass::RadiusType;
 
   /** External slice iterator type type alias support */
   using SliceIteratorType = SliceIterator<TPixel, Self>;

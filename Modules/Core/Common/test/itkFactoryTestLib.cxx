@@ -40,8 +40,8 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(TestImportImageContainer, ImportImageContainer);
 
-  using ElementIdentifier = typename Superclass::ElementIdentifier;
-  using Element = typename Superclass::Element;
+  using typename Superclass::ElementIdentifier;
+  using typename Superclass::Element;
 
   using Allocator = std::allocator<TElement>;
 

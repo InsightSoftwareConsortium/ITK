@@ -54,20 +54,20 @@ public:
 
   static constexpr unsigned int ImageDimension = VImageDimension;
 
-  using PixelType = typename Superclass::PixelType;
-  using ValueType = typename Superclass::ValueType;
-  using InternalPixelType = typename Superclass::InternalPixelType;
-  using IOPixelType = typename Superclass::IOPixelType;
-  using DirectionType = typename Superclass::DirectionType;
-  using SpacingType = typename Superclass::SpacingType;
-  using PixelContainer = typename Superclass::PixelContainer;
-  using SizeType = typename Superclass::SizeType;
-  using IndexType = typename Superclass::IndexType;
-  using OffsetType = typename Superclass::OffsetType;
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::PixelType;
+  using typename Superclass::ValueType;
+  using typename Superclass::InternalPixelType;
+  using typename Superclass::IOPixelType;
+  using typename Superclass::DirectionType;
+  using typename Superclass::SpacingType;
+  using typename Superclass::PixelContainer;
+  using typename Superclass::SizeType;
+  using typename Superclass::IndexType;
+  using typename Superclass::OffsetType;
+  using typename Superclass::RegionType;
   using PixelContainerPointer = typename PixelContainer::Pointer;
   using PixelContainerConstPointer = typename PixelContainer::ConstPointer;
-  using AccessorType = typename Superclass::AccessorType;
+  using typename Superclass::AccessorType;
 
   using AccessorFunctorType = DefaultPixelAccessorFunctor<Self>;
 

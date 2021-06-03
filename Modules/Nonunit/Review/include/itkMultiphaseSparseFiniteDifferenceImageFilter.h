@@ -200,41 +200,41 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /**Typedefs from the superclass */
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   /** Information derived from the image types. */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputImagePointer = typename Superclass::InputImagePointer;
-  using InputRegionType = typename Superclass::InputRegionType;
-  using InputSizeType = typename Superclass::InputSizeType;
-  using InputSizeValueType = typename Superclass::InputSizeValueType;
-  using InputIndexType = typename Superclass::InputIndexType;
-  using InputIndexValueType = typename Superclass::InputIndexValueType;
-  using InputPixelType = typename Superclass::InputPixelType;
-  using InputPointType = typename Superclass::InputPointType;
-  using InputSpacingType = typename Superclass::InputSpacingType;
-  using InputOffsetValueType = typename Superclass::InputOffsetValueType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputImagePointer;
+  using typename Superclass::InputRegionType;
+  using typename Superclass::InputSizeType;
+  using typename Superclass::InputSizeValueType;
+  using typename Superclass::InputIndexType;
+  using typename Superclass::InputIndexValueType;
+  using typename Superclass::InputPixelType;
+  using typename Superclass::InputPointType;
+  using typename Superclass::InputSpacingType;
+  using typename Superclass::InputOffsetValueType;
 
-  using FeatureImageType = typename Superclass::FeatureImageType;
-  using FeatureSizeType = typename Superclass::FeatureSizeType;
-  using FeatureImagePointer = typename Superclass::FeatureImagePointer;
-  using FeatureRegionType = typename Superclass::FeatureRegionType;
-  using FeatureSpacingType = typename Superclass::FeatureSpacingType;
-  using FeaturePointType = typename Superclass::FeaturePointType;
+  using typename Superclass::FeatureImageType;
+  using typename Superclass::FeatureSizeType;
+  using typename Superclass::FeatureImagePointer;
+  using typename Superclass::FeatureRegionType;
+  using typename Superclass::FeatureSpacingType;
+  using typename Superclass::FeaturePointType;
 
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
-  using OutputRegionType = typename Superclass::OutputRegionType;
-  using OutputSizeType = typename Superclass::OutputSizeType;
-  using OutputIndexType = typename Superclass::OutputIndexType;
-  using OutputIndexValueType = typename Superclass::OutputIndexValueType;
-  using OutputPixelType = typename Superclass::OutputPixelType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputRegionType;
+  using typename Superclass::OutputSizeType;
+  using typename Superclass::OutputIndexType;
+  using typename Superclass::OutputIndexValueType;
+  using typename Superclass::OutputPixelType;
 
   using ValueType = typename InputImageType::ValueType;
-  using IdCellType = typename Superclass::IdCellType;
+  using typename Superclass::IdCellType;
 
-  using FiniteDifferenceFunctionType = typename Superclass::FiniteDifferenceFunctionType;
-  using FiniteDifferenceFunctionPointer = typename Superclass::FiniteDifferenceFunctionPointer;
+  using typename Superclass::FiniteDifferenceFunctionType;
+  using typename Superclass::FiniteDifferenceFunctionPointer;
   using FiniteDifferenceFunctionFloatOffsetType = typename FiniteDifferenceFunctionType::FloatOffsetType;
 
   /** Node type used in sparse field layer lists. */

@@ -206,7 +206,7 @@ public:
 
   /** Type definition for the input grid size type used to create
    * initial atomic regions. */
-  using GridSizeType = typename Superclass::GridSizeType;
+  using typename Superclass::GridSizeType;
 
   /** Type definition for the output image. */
   using OutputImageType = TOutputImage;

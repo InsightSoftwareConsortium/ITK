@@ -52,9 +52,9 @@ public:
   using ConstPointer = SmartPointer<const Self>;
   using Superclass = SpatialObject<TDimension>;
   using SuperclassPointer = SmartPointer<Superclass>;
-  using PointType = typename Superclass::PointType;
-  using TransformType = typename Superclass::TransformType;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
+  using typename Superclass::PointType;
+  using typename Superclass::TransformType;
+  using typename Superclass::BoundingBoxType;
 
   static constexpr unsigned int ObjectDimensions = TDimension;
 

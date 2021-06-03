@@ -78,10 +78,10 @@ public:
   /** It should be possible to derive the internal computation type from the class object. */
   using InternalComputationValueType = TInternalComputationValueType;
 
-  using ParametersType = typename Superclass::ParametersType;
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using IndexRangeType = typename Superclass::IndexRangeType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::IndexRangeType;
 
   /** Type for Hessian matrix in the Quasi-Newton method */
   using HessianType = itk::Array2D<TInternalComputationValueType>;

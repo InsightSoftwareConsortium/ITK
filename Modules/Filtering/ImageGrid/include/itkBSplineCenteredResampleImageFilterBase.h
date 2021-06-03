@@ -81,10 +81,10 @@ public:
   itkNewMacro(Self);
 
   /** OutputImagePixelType type alias support */
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
+  using typename Superclass::OutputImagePixelType;
 
   /** OutputImageIterator type alias support */
-  using OutputImageIterator = typename Superclass::OutputImageIterator;
+  using typename Superclass::OutputImageIterator;
 
 protected:
   void

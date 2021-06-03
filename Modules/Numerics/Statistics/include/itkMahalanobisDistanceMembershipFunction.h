@@ -79,7 +79,7 @@ public:
   using MeasurementVectorType = TVector;
 
   /** Typedef to represent the length of measurement vectors */
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementVectorSizeType;
 
   /** Type of the mean vector. RealType on a vector-type is the same
    * vector-type but with a real element type.  */

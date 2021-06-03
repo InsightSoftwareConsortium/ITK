@@ -65,18 +65,18 @@ public:
   itkTypeMacro(DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction);
 
   /** Image dependent types */
-  using InputImageType = typename Superclass::InputImageType;
-  using InputPixelType = typename Superclass::InputPixelType;
-  using IndexType = typename Superclass::IndexType;
-  using IndexValueType = typename Superclass::IndexValueType;
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::InputPixelType;
+  using typename Superclass::IndexType;
+  using typename Superclass::IndexValueType;
+  using typename Superclass::ContinuousIndexType;
+  using typename Superclass::PointType;
 
   /** Dimension of the underlying image */
   static constexpr unsigned int ImageDimension2 = InputImageType::ImageDimension;
 
   /** Output type */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Arrays for native types */
   using VarianceArrayType = FixedArray<double, Self::ImageDimension2>;

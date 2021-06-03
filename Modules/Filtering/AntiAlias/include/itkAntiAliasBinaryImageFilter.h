@@ -116,11 +116,11 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Inherited type alias from the superclass. */
-  using ValueType = typename Superclass::ValueType;
-  using IndexType = typename Superclass::IndexType;
-  using TimeStepType = typename Superclass::TimeStepType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using InputImageType = typename Superclass::InputImageType;
+  using typename Superclass::ValueType;
+  using typename Superclass::IndexType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::InputImageType;
 
   /** The function type which will calculate the curvature flow */
   using CurvatureFunctionType = CurvatureFlowFunction<OutputImageType>;

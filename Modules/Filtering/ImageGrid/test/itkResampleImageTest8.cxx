@@ -37,10 +37,10 @@ public:
   itkNewMacro(Self);
 
   /** Standard parameters container. */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
 
   /** Fixed Parameter type */
-  using FixedParametersType = typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersType;
 
   /** Standard vector type for this class. */
   using InputVectorType = itk::Vector<double, itkGetStaticConstMacro(InputSpaceDimension)>;

@@ -51,8 +51,8 @@ public:
   using SizeType = typename OutputImageType::SizeType;
   using SizeValueType = typename OutputImageType::SizeValueType;
 
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::ParametersType;
   using EnabledArrayType = std::vector<bool>;
 
   /** Method for creation through the object factory. */

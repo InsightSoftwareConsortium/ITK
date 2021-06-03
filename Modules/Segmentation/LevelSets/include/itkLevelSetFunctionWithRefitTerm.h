@@ -67,13 +67,13 @@ public:
   itkNewMacro(Self);
 
   /** Extract some parameters from the superclass. */
-  using ImageType = typename Superclass::ImageType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using ScalarValueType = typename Superclass::ScalarValueType;
-  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::ImageType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::ScalarValueType;
+  using typename Superclass::GlobalDataStruct;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::NeighborhoodScalesType;
+  using typename Superclass::TimeStepType;
 
   using NeighborhoodSizeValueType = typename NeighborhoodType::SizeValueType;
 

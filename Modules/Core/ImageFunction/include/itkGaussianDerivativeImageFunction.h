@@ -83,7 +83,7 @@ public:
   using OperatorNeighborhoodType = Neighborhood<TOutput, Self::ImageDimension>;
 
   using VectorType = Vector<TOutput, Self::ImageDimension>;
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
   using OperatorArrayType = FixedArray<OperatorNeighborhoodType, Self::ImageDimension>;
 
   using GaussianDerivativeSpatialFunctionType = GaussianDerivativeSpatialFunction<TOutput, 1>;

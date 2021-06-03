@@ -47,13 +47,13 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementVectorType;
 
-  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
+  using typename Superclass::TotalAbsoluteFrequencyType;
 
-  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
+  using typename Superclass::AbsoluteFrequencyType;
 
-  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using typename Superclass::InstanceIdentifier;
 
   /** Get the size of the sample (number of measurements) */
   InstanceIdentifier

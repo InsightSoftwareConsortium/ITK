@@ -37,14 +37,14 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FastMarchingBaseTestHelper, FastMarchingBase);
 
-  using Traits = typename Superclass::Traits;
-  using OutputDomainType = typename Superclass::OutputDomainType;
+  using typename Superclass::Traits;
+  using typename Superclass::OutputDomainType;
 
-  //  using NodeContainerType = typename Superclass::NodeContainerType;
-  using NodeType = typename Superclass::NodeType;
+  //  using typename Superclass::NodeContainerType;
+  using typename Superclass::NodeType;
 
-  using OutputPixelType = typename Superclass::OutputPixelType;
-  using LabelType = typename Superclass::LabelType;
+  using typename Superclass::OutputPixelType;
+  using typename Superclass::LabelType;
 
 protected:
   FastMarchingBaseTestHelper() = default;

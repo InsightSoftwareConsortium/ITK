@@ -51,7 +51,7 @@ public:
   AllocateUpdateBuffer() override
   {}
 
-  using TimeStepType = typename Superclass::TimeStepType;
+  using typename Superclass::TimeStepType;
 
   void
   ApplyUpdate(TimeStepType itkNotUsed(dt)) override

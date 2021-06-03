@@ -86,7 +86,7 @@ public:
   using CovariantVectorType = CovariantVector<typename VectorType::ValueType, 3>;
 
   /** */
-  using CellType = typename Superclass::CellType;
+  using typename Superclass::CellType;
 
   /** */
   using CellAutoPointer = typename CellType::CellAutoPointer;
@@ -117,14 +117,14 @@ public:
   using MeshTraits = TMeshTraits;
   using PixelType = typename MeshTraits::PixelType;
   using PointsContainer = typename MeshTraits::PointsContainer;
-  using PointsContainerPointer = typename Superclass::PointsContainerPointer;
+  using typename Superclass::PointsContainerPointer;
   using PointsContainerIterator = typename Superclass::PointsContainer::Iterator;
-  using PointsContainerConstIterator = typename Superclass::PointsContainerConstIterator;
-  using CellsContainerPointer = typename Superclass::CellsContainerPointer;
-  using CellsContainerConstPointer = typename Superclass::CellsContainerConstPointer;
-  using CellsContainerIterator = typename Superclass::CellsContainerIterator;
-  using CellsContainerConstIterator = typename Superclass::CellsContainerConstIterator;
-  using CellIdentifier = typename Superclass::CellIdentifier;
+  using typename Superclass::PointsContainerConstIterator;
+  using typename Superclass::CellsContainerPointer;
+  using typename Superclass::CellsContainerConstPointer;
+  using typename Superclass::CellsContainerIterator;
+  using typename Superclass::CellsContainerConstIterator;
+  using typename Superclass::CellIdentifier;
 
   /** set the map of geometrydata to the new pointer */
   itkSetMacro(GeometryData, GeometryMapPointer);

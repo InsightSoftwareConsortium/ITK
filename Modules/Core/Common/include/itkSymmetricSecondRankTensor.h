@@ -95,7 +95,7 @@ public:
 
   /**  Define the component type. */
   using ComponentType = TComponent;
-  using ValueType = typename Superclass::ValueType;
+  using typename Superclass::ValueType;
   using AccumulateValueType = typename NumericTraits<ValueType>::RealType;
   using RealValueType = typename NumericTraits<ValueType>::RealType;
 

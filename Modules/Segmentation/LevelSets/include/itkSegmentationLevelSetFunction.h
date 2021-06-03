@@ -59,17 +59,17 @@ public:
   itkTypeMacro(SegmentationLevelSetFunction, LevelSetFunction);
 
   /** Extract some parameters from the superclass. */
-  using ImageType = typename Superclass::ImageType;
-  using RadiusType = typename Superclass::RadiusType;
-  using PixelRealType = typename Superclass::PixelRealType;
+  using typename Superclass::ImageType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::PixelRealType;
   using FeatureImageType = TFeatureImageType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using ScalarValueType = typename Superclass::ScalarValueType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::ScalarValueType;
+  using typename Superclass::NeighborhoodType;
   using FeatureScalarType = typename FeatureImageType::PixelType;
   using IndexType = typename ImageType::IndexType;
-  using VectorType = typename Superclass::VectorType;
-  using GlobalDataStruct = typename Superclass::GlobalDataStruct;
+  using typename Superclass::VectorType;
+  using typename Superclass::GlobalDataStruct;
 
   /** Extract some parameters from the superclass. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

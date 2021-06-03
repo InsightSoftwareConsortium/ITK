@@ -47,7 +47,7 @@ public:
   using ParameterImagePointer = typename ParameterImageType::Pointer;
 
   /** Type of the common data object used in OptimizerParameters */
-  using CommonContainerType = typename Superclass::CommonContainerType;
+  using typename Superclass::CommonContainerType;
 
   /** Default constructor. */
   ImageVectorOptimizerParametersHelper();

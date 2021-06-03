@@ -94,7 +94,7 @@ public:
   using OutputImagePointer = typename OutputImageType::Pointer;
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** FastMarchingUpwindGradientImageFilter type alias. */
   using FastMarchingUpwindGradientImageFilterType =

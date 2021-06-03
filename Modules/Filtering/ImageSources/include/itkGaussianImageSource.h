@@ -85,8 +85,8 @@ public:
   using SizeValueType = typename TOutputImage::SizeValueType;
 
   /** Types for parameters. */
-  using ParametersValueType = typename Superclass::ParametersValueType;
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::ParametersType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GaussianImageSource, ParametricImageSource);

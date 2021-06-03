@@ -55,16 +55,16 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Other useful type alias. */
-  using InputImageType = typename Superclass::InputImageType;
-  using KernelImageType = typename Superclass::KernelImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::KernelImageType;
+  using typename Superclass::OutputImageType;
 
   /** Internal types used by the FFT filters. */
-  using InternalImageType = typename Superclass::InternalImageType;
-  using InternalImagePointerType = typename Superclass::InternalImagePointerType;
-  using InternalComplexType = typename Superclass::InternalComplexType;
-  using InternalComplexImageType = typename Superclass::InternalComplexImageType;
-  using InternalComplexImagePointerType = typename Superclass::InternalComplexImagePointerType;
+  using typename Superclass::InternalImageType;
+  using typename Superclass::InternalImagePointerType;
+  using typename Superclass::InternalComplexType;
+  using typename Superclass::InternalComplexImageType;
+  using typename Superclass::InternalComplexImagePointerType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

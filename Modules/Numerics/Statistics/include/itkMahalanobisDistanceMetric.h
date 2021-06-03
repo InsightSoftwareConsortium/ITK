@@ -58,10 +58,10 @@ public:
   itkNewMacro(Self);
 
   /** Typedef to represent the measurement vector type */
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementVectorType;
 
   /** Typedef to represent the length of measurement vectors */
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementVectorSizeType;
 
   /** Type used for representing the mean vector */
   using MeanVectorType = typename Superclass::OriginType;

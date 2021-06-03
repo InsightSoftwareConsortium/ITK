@@ -72,8 +72,8 @@ public:
   static constexpr unsigned int Dimension = VDimension;
 
   /** OutputType type alias support */
-  using OutputType = typename Superclass::OutputType;
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::OutputType;
+  using typename Superclass::InputType;
 
   /** The input/output type alias*/
   using PathIndexType = InputType;
@@ -81,7 +81,7 @@ public:
   using HilbertOrderType = unsigned int;
   using HilbertPathType = std::vector<IndexType>;
   using HilbertPathSizeType = typename HilbertPathType::size_type;
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::OffsetType;
 
   // Functions inherited from Path
 

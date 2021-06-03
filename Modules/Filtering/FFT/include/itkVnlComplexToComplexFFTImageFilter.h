@@ -51,8 +51,8 @@ public:
 
   using ImageType = TImage;
   using PixelType = typename ImageType::PixelType;
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
   using OutputImageRegionType = typename OutputImageType::RegionType;
 
   /** Method for creation through the object factory. */

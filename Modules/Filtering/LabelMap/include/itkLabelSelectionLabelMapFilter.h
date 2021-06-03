@@ -74,10 +74,10 @@ public:
   using PixelType = typename ImageType::PixelType;
   using IndexType = typename ImageType::IndexType;
 
-  using AttributeAccessorType = typename Superclass::AttributeAccessorType;
-  using AttributeValueType = typename Superclass::AttributeValueType;
+  using typename Superclass::AttributeAccessorType;
+  using typename Superclass::AttributeValueType;
 
-  using AttributeSetType = typename Superclass::AttributeSetType;
+  using typename Superclass::AttributeSetType;
 
   /** ImageDimension constants */
   static constexpr unsigned int ImageDimension = TImage::ImageDimension;

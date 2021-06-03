@@ -82,12 +82,12 @@ public:
   itkNewMacro(Self);
 
   /** type alias alias for the source data container */
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
-  using MeasurementType = typename Superclass::MeasurementType;
-  using SubsampleType = typename Superclass::SubsampleType;
-  using SubsamplePointer = typename Superclass::SubsamplePointer;
-  using KdTreeType = typename Superclass::KdTreeType;
-  using KdTreeNodeType = typename Superclass::KdTreeNodeType;
+  using typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementType;
+  using typename Superclass::SubsampleType;
+  using typename Superclass::SubsamplePointer;
+  using typename Superclass::KdTreeType;
+  using typename Superclass::KdTreeNodeType;
 
 protected:
   /** Constructor */

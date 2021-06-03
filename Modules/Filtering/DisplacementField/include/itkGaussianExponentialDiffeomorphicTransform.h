@@ -78,14 +78,14 @@ public:
   static constexpr unsigned int Dimension = NDimensions;
 
   /** Types from superclass */
-  using ScalarType = typename Superclass::ScalarType;
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::ScalarType;
+  using typename Superclass::DerivativeType;
   using DerivativeValueType = typename DerivativeType::ValueType;
 
-  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
-  using DisplacementFieldPointer = typename Superclass::DisplacementFieldPointer;
-  using ConstantVelocityFieldType = typename Superclass::ConstantVelocityFieldType;
-  using ConstantVelocityFieldPointer = typename Superclass::ConstantVelocityFieldPointer;
+  using typename Superclass::DisplacementFieldType;
+  using typename Superclass::DisplacementFieldPointer;
+  using typename Superclass::ConstantVelocityFieldType;
+  using typename Superclass::ConstantVelocityFieldPointer;
 
   using DisplacementVectorType = typename DisplacementFieldType::PixelType;
 

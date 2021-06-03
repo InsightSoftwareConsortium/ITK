@@ -54,27 +54,27 @@
 // classes deriving form CellInterface (excluded).
 #define itkCellInheritedTypedefs(superclassArg)                                                                        \
   using Superclass = superclassArg;                                                                                    \
-  using PixelType = typename Superclass::PixelType;                                                                    \
-  using CellType = typename Superclass::CellType;                                                                      \
-  using CellAutoPointer = typename Superclass::CellAutoPointer;                                                        \
-  using CellConstAutoPointer = typename Superclass::CellConstAutoPointer;                                              \
-  using CellRawPointer = typename Superclass::CellRawPointer;                                                          \
-  using CellConstRawPointer = typename Superclass::CellConstRawPointer;                                                \
-  using CellTraits = typename Superclass::CellTraits;                                                                  \
-  using CoordRepType = typename Superclass::CoordRepType;                                                              \
-  using InterpolationWeightType = typename Superclass::InterpolationWeightType;                                        \
-  using PointIdentifier = typename Superclass::PointIdentifier;                                                        \
-  using PointIdIterator = typename Superclass::PointIdIterator;                                                        \
-  using PointIdConstIterator = typename Superclass::PointIdConstIterator;                                              \
-  using CellIdentifier = typename Superclass::CellIdentifier;                                                          \
-  using CellFeatureIdentifier = typename Superclass::CellFeatureIdentifier;                                            \
+  using typename Superclass::PixelType;                                                                                \
+  using typename Superclass::CellType;                                                                                 \
+  using typename Superclass::CellAutoPointer;                                                                          \
+  using typename Superclass::CellConstAutoPointer;                                                                     \
+  using typename Superclass::CellRawPointer;                                                                           \
+  using typename Superclass::CellConstRawPointer;                                                                      \
+  using typename Superclass::CellTraits;                                                                               \
+  using typename Superclass::CoordRepType;                                                                             \
+  using typename Superclass::InterpolationWeightType;                                                                  \
+  using typename Superclass::PointIdentifier;                                                                          \
+  using typename Superclass::PointIdIterator;                                                                          \
+  using typename Superclass::PointIdConstIterator;                                                                     \
+  using typename Superclass::CellIdentifier;                                                                           \
+  using typename Superclass::CellFeatureIdentifier;                                                                    \
   using CellFeatureCount = typename Superclass::CellFeatureIdentifier;                                                 \
-  using PointType = typename Superclass::PointType;                                                                    \
-  using VectorType = typename Superclass::VectorType;                                                                  \
-  using PointsContainer = typename Superclass::PointsContainer;                                                        \
-  using UsingCellsContainer = typename Superclass::UsingCellsContainer;                                                \
-  using ParametricCoordArrayType = typename Superclass::ParametricCoordArrayType;                                      \
-  using ShapeFunctionsArrayType = typename Superclass::ShapeFunctionsArrayType;                                        \
+  using typename Superclass::PointType;                                                                                \
+  using typename Superclass::VectorType;                                                                               \
+  using typename Superclass::PointsContainer;                                                                          \
+  using typename Superclass::UsingCellsContainer;                                                                      \
+  using typename Superclass::ParametricCoordArrayType;                                                                 \
+  using typename Superclass::ShapeFunctionsArrayType;                                                                  \
   static constexpr unsigned int PointDimension = Superclass::PointDimension
 
 namespace itk

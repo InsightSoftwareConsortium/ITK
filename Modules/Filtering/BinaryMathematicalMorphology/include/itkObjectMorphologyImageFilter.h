@@ -93,7 +93,7 @@ public:
   using IndexType = typename TInputImage::IndexType;
   using PixelType = typename TInputImage::PixelType;
 
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   using ImageBoundaryConditionPointerType = ImageBoundaryCondition<InputImageType> *;
   using ImageBoundaryConditionConstPointerType = const ImageBoundaryCondition<InputImageType> *;

@@ -78,10 +78,10 @@ public:
   itkTypeMacro(ParametricPath, Path);
 
   /** Input type */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   using IndexType = Index<VDimension>;
   using OffsetType = Offset<VDimension>;

@@ -66,29 +66,29 @@ public:
 
   /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
 
   /** Type of the feature image representing the edge potential map. */
-  using FeatureImageType = typename Superclass::FeatureImageType;
-  using FeatureImagePointer = typename Superclass::FeatureImagePointer;
+  using typename Superclass::FeatureImageType;
+  using typename Superclass::FeatureImagePointer;
 
   /** Type of the return measure value. */
-  using MeasureType = typename Superclass::MeasureType;
+  using typename Superclass::MeasureType;
 
   /** Dimension constant. */
   static constexpr unsigned int ImageDimension = TFeatureImage::ImageDimension;
 
   /** Type of pixel used to represent the level set. */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** Type of node used to represent the active region around the zero set. */
-  using NodeType = typename Superclass::NodeType;
+  using typename Superclass::NodeType;
 
   /** Type of container used to store the level set nodes. */
-  using NodeContainerType = typename Superclass::NodeContainerType;
+  using typename Superclass::NodeContainerType;
 
   /** Type of the shape signed distance function. */
-  using ShapeFunctionType = typename Superclass::ShapeFunctionType;
+  using typename Superclass::ShapeFunctionType;
 
   /** Type of the array for storing shape parameter mean and standard deviation.
    * FIXME: should be templated.

@@ -541,10 +541,10 @@ class MyDerivedCSNI : public itk::ConstShapedNeighborhoodIterator<ImageType>
 {
 public:
   using Superclass = typename itk::ConstShapedNeighborhoodIterator<ImageType>;
-  using SizeType = typename Superclass::SizeType;
-  using IndexType = typename Superclass::IndexType;
-  using RadiusType = typename Superclass::RadiusType;
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::SizeType;
+  using typename Superclass::IndexType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::RegionType;
 
   void
   TestNewExposedProtectedMembers();

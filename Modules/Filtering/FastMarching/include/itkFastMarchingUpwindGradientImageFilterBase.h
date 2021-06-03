@@ -62,7 +62,7 @@ public:
   using Superclass = FastMarchingImageFilterBase<TInput, TOutput>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using Traits = typename Superclass::Traits;
+  using typename Superclass::Traits;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -73,10 +73,10 @@ public:
   /** The dimension of the level set. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
-  using NodeType = typename Superclass::NodeType;
-  using OutputImageType = typename Superclass::OutputImageType;
-  using OutputPixelType = typename Superclass::OutputPixelType;
-  using OutputSpacingType = typename Superclass::OutputSpacingType;
+  using typename Superclass::NodeType;
+  using typename Superclass::OutputImageType;
+  using typename Superclass::OutputPixelType;
+  using typename Superclass::OutputSpacingType;
 
   /** GradientPixel type alias support */
   using GradientPixelType = CovariantVector<OutputPixelType, ImageDimension>;
@@ -142,10 +142,10 @@ protected:
 //  /** The dimension of the level set. */
 //  static constexpr unsigned int ImageDimension = //                      Superclass::ImageDimension;
 
-//  using NodeType = typename Superclass::NodeType;
-//  using OutputImageType = typename Superclass::OutputImageType;
-//  using OutputPixelType = typename Superclass::OutputPixelType;
-//  using OutputSpacingType = typename Superclass::OutputSpacingType;
+//  using typename Superclass::NodeType;
+//  using typename Superclass::OutputImageType;
+//  using typename Superclass::OutputPixelType;
+//  using typename Superclass::OutputSpacingType;
 
 //  /** GradientPixel type alias support */
 //  using GradientPixelType = CovariantVector< OutputPixelType,

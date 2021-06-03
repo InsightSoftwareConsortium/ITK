@@ -74,7 +74,7 @@ public:
   itkTypeMacro(CurvatureAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
 
   /** Extract superclass information. */
-  using UpdateBufferType = typename Superclass::UpdateBufferType;
+  using typename Superclass::UpdateBufferType;
 
   /** Extract superclass image dimension. */
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;

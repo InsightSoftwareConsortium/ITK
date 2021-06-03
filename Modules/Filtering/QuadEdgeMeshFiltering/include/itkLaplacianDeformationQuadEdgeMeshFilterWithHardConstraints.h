@@ -57,16 +57,16 @@ public:
 
   /** Output types. */
   using OutputMeshType = TOutputMesh;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using OutputCoordRepType = typename Superclass::OutputCoordRepType;
-  using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::OutputCoordRepType;
+  using typename Superclass::OutputPointIdentifier;
 
   static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
 
   using SolverTraits = TSolverTraits;
-  using ValueType = typename Superclass::ValueType;
-  using MatrixType = typename Superclass::MatrixType;
-  using VectorType = typename Superclass::VectorType;
+  using typename Superclass::ValueType;
+  using typename Superclass::MatrixType;
+  using typename Superclass::VectorType;
 
   itkNewMacro(Self);
   itkTypeMacro(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints, LaplacianDeformationQuadEdgeMeshFilter);
@@ -77,16 +77,16 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using OutputMapPointIdentifier = typename Superclass::OutputMapPointIdentifier;
-  using OutputMapPointIdentifierIterator = typename Superclass::OutputMapPointIdentifierIterator;
-  using OutputMapPointIdentifierConstIterator = typename Superclass::OutputMapPointIdentifierConstIterator;
+  using typename Superclass::OutputMapPointIdentifier;
+  using typename Superclass::OutputMapPointIdentifierIterator;
+  using typename Superclass::OutputMapPointIdentifierConstIterator;
 
-  using ConstraintMapType = typename Superclass::ConstraintMapType;
-  using ConstraintMapConstIterator = typename Superclass::ConstraintMapConstIterator;
+  using typename Superclass::ConstraintMapType;
+  using typename Superclass::ConstraintMapConstIterator;
 
-  using RowType = typename Superclass::RowType;
-  using RowConstIterator = typename Superclass::RowConstIterator;
-  using RowIterator = typename Superclass::RowIterator;
+  using typename Superclass::RowType;
+  using typename Superclass::RowConstIterator;
+  using typename Superclass::RowIterator;
 
   void
   ComputeVertexIdMapping() override;

@@ -117,36 +117,36 @@ public:
   itkTypeMacro(Self, Superclass);
 
   /** superclass types */
-  using MeasureType = typename Superclass::MeasureType;
-  using DerivativeType = typename Superclass::DerivativeType;
-  using DerivativeValueType = typename Superclass::DerivativeValueType;
-  using VirtualPointType = typename Superclass::VirtualPointType;
-  using FixedImagePointType = typename Superclass::FixedImagePointType;
-  using FixedImagePixelType = typename Superclass::FixedImagePixelType;
-  using FixedTransformType = typename Superclass::FixedTransformType;
-  using FixedImageGradientType = typename Superclass::FixedImageGradientType;
+  using typename Superclass::MeasureType;
+  using typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeValueType;
+  using typename Superclass::VirtualPointType;
+  using typename Superclass::FixedImagePointType;
+  using typename Superclass::FixedImagePixelType;
+  using typename Superclass::FixedTransformType;
+  using typename Superclass::FixedImageGradientType;
   using FixedImageJacobianType = typename FixedTransformType::JacobianType;
 
-  using MovingImagePointType = typename Superclass::MovingImagePointType;
-  using MovingImagePixelType = typename Superclass::MovingImagePixelType;
-  using MovingImageGradientType = typename Superclass::MovingImageGradientType;
-  using MovingTransformType = typename Superclass::MovingTransformType;
+  using typename Superclass::MovingImagePointType;
+  using typename Superclass::MovingImagePixelType;
+  using typename Superclass::MovingImageGradientType;
+  using typename Superclass::MovingTransformType;
   using MovingImageJacobianType = typename MovingTransformType::JacobianType;
-  using JacobianType = typename Superclass::JacobianType;
+  using typename Superclass::JacobianType;
 
-  using VirtualImageGradientType = typename Superclass::VirtualImageGradientType;
+  using typename Superclass::VirtualImageGradientType;
 
-  using FixedImageType = typename Superclass::FixedImageType;
-  using MovingImageType = typename Superclass::MovingImageType;
-  using VirtualImageType = typename Superclass::VirtualImageType;
-  using FixedOutputPointType = typename Superclass::FixedOutputPointType;
-  using MovingOutputPointType = typename Superclass::MovingOutputPointType;
+  using typename Superclass::FixedImageType;
+  using typename Superclass::MovingImageType;
+  using typename Superclass::VirtualImageType;
+  using typename Superclass::FixedOutputPointType;
+  using typename Superclass::MovingOutputPointType;
 
   using FixedTransformJacobianType = typename Superclass::FixedTransformType::JacobianType;
   using MovingTransformJacobianType = typename Superclass::MovingTransformType::JacobianType;
 
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
-  using ImageDimensionType = typename Superclass::ImageDimensionType;
+  using typename Superclass::NumberOfParametersType;
+  using typename Superclass::ImageDimensionType;
 
   using ImageRegionType = typename VirtualImageType::RegionType;
   using RadiusType = typename VirtualImageType::SizeType;

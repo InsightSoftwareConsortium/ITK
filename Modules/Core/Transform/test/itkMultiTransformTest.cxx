@@ -90,12 +90,12 @@ public:
   itkNewMacro(Self);
 
   /** Sub transform type **/
-  using TransformType = typename Superclass::TransformType;
-  using TransformTypePointer = typename Superclass::TransformTypePointer;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformTypePointer;
   /** InverseTransform type. */
-  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
-  using InputPointType = typename Superclass::InputPointType;
-  using JacobianType = typename Superclass::JacobianType;
+  using typename Superclass::InverseTransformBasePointer;
+  using typename Superclass::InputPointType;
+  using typename Superclass::JacobianType;
 
   typename Superclass::OutputPointType
   TransformPoint(const InputPointType & point) const override

@@ -106,8 +106,8 @@ public:
   using PointCellLinksContainerIterator = typename PointCellLinksContainer::const_iterator;
 
   using CellFeatureCount = CellFeatureIdentifier;
-  using CellType = typename Superclass::CellType;
-  using CellAutoPointer = typename Superclass::CellAutoPointer;
+  using typename Superclass::CellType;
+  using typename Superclass::CellAutoPointer;
   using PolygonCellType = PolygonCell<CellType>;
   using EdgeInfo = Point<int, 2>;
   using EdgeInfoDQ = std::deque<EdgeInfo>;

@@ -74,7 +74,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(LaplacianOperator, NeighborhoodOperator);
 
-  using SizeType = typename Superclass::SizeType;
+  using typename Superclass::SizeType;
 
   LaplacianOperator()
   {

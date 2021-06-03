@@ -61,10 +61,10 @@ public:
   itkTypeMacro(InteriorExteriorSpatialFunction, SpatialFunction);
 
   /** Input type for the function */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type for the function */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Evaluate the function at a given position.
    * A return of 1 means inside or on the surface of the function,

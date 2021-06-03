@@ -69,14 +69,14 @@ public:
 
   // Repeat type alias and enums from parent class
 
-  using Float = typename Superclass::Float;
-  using MatrixType = typename Superclass::MatrixType;
-  using VectorType = typename Superclass::VectorType;
-  using LoadType = typename Superclass::LoadType;
-  using LoadPointer = typename Superclass::LoadPointer;
-  using NodeIDType = typename Superclass::NodeIDType;
-  using DegreeOfFreedomIDType = typename Superclass::DegreeOfFreedomIDType;
-  using Node = typename Superclass::Node;
+  using typename Superclass::Float;
+  using typename Superclass::MatrixType;
+  using typename Superclass::VectorType;
+  using typename Superclass::LoadType;
+  using typename Superclass::LoadPointer;
+  using typename Superclass::NodeIDType;
+  using typename Superclass::DegreeOfFreedomIDType;
+  using typename Superclass::Node;
   enum
   {
     InvalidDegreeOfFreedomID = Superclass::InvalidDegreeOfFreedomID

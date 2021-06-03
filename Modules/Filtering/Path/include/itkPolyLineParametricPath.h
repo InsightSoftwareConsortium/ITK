@@ -69,13 +69,13 @@ public:
   itkTypeMacro(PolyLineParametricPath, ParametricPath);
 
   /** Input type */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Basic data-structure types used */
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ContinuousIndexType;
   using IndexType = Index<VDimension>;
   using OffsetType = Offset<VDimension>;
   using PointType = Point<double, VDimension>;

@@ -76,10 +76,10 @@ public:
   itkNewMacro(Self);
 
   /** Input type for the function. */
-  using InputType = typename Superclass::InputType;
+  using typename Superclass::InputType;
 
   /** Output type for the function. */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** The type of vector used to store the gradient info. */
   using GradientType = CovariantVector<double, VDimension>;

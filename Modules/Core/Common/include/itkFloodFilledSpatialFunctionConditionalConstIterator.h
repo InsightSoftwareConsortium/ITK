@@ -41,31 +41,31 @@ public:
   using Superclass = FloodFilledFunctionConditionalConstIterator<TImage, TFunction>;
 
   /** Type of function */
-  using FunctionType = typename Superclass::FunctionType;
+  using typename Superclass::FunctionType;
 
   /** Type of vector used to store location info in the spatial function */
-  using FunctionInputType = typename Superclass::FunctionInputType;
+  using typename Superclass::FunctionInputType;
 
   /** Index type alias support */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** Index ContainerType. */
-  using SeedsContainerType = typename Superclass::SeedsContainerType;
+  using typename Superclass::SeedsContainerType;
 
   /** Size type alias support */
-  using SizeType = typename Superclass::SizeType;
+  using typename Superclass::SizeType;
 
   /** Region type alias support */
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::RegionType;
 
   /** Image type alias support */
-  using ImageType = typename Superclass::ImageType;
+  using typename Superclass::ImageType;
 
   /** Internal Pixel Type */
-  using InternalPixelType = typename Superclass::InternalPixelType;
+  using typename Superclass::InternalPixelType;
 
   /** External Pixel Type */
-  using PixelType = typename Superclass::PixelType;
+  using typename Superclass::PixelType;
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. This version of the constructor uses

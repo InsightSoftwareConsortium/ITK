@@ -122,7 +122,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using RegionType = typename Superclass::RegionType;
+  using typename Superclass::RegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

@@ -66,8 +66,8 @@ public:
   itkTypeMacro(JoinSeriesImageFilter, ImageToImageFilter);
 
   /** Compiler can't inherit type alias? */
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
   using InputImagePointer = typename InputImageType::Pointer;
   using OutputImagePointer = typename OutputImageType::Pointer;
   using InputImageRegionType = typename InputImageType::RegionType;

@@ -76,21 +76,21 @@ public:
   itkTypeMacro(FastMarchingUpwindGradientImageFilter, FastMarchingImageFilter);
 
   /** Inherited type alias. */
-  using LevelSetType = typename Superclass::LevelSetType;
-  using SpeedImageType = typename Superclass::SpeedImageType;
-  using LevelSetImageType = typename Superclass::LevelSetImageType;
-  using LevelSetPointer = typename Superclass::LevelSetPointer;
-  using SpeedImageConstPointer = typename Superclass::SpeedImageConstPointer;
-  using LabelImageType = typename Superclass::LabelImageType;
-  using PixelType = typename Superclass::PixelType;
-  using AxisNodeType = typename Superclass::AxisNodeType;
-  using NodeType = typename Superclass::NodeType;
-  using NodeContainer = typename Superclass::NodeContainer;
-  using NodeContainerPointer = typename Superclass::NodeContainerPointer;
+  using typename Superclass::LevelSetType;
+  using typename Superclass::SpeedImageType;
+  using typename Superclass::LevelSetImageType;
+  using typename Superclass::LevelSetPointer;
+  using typename Superclass::SpeedImageConstPointer;
+  using typename Superclass::LabelImageType;
+  using typename Superclass::PixelType;
+  using typename Superclass::AxisNodeType;
+  using typename Superclass::NodeType;
+  using typename Superclass::NodeContainer;
+  using typename Superclass::NodeContainerPointer;
 
-  using IndexType = typename Superclass::IndexType;
-  using OutputSpacingType = typename Superclass::OutputSpacingType;
-  using LevelSetIndexType = typename Superclass::LevelSetIndexType;
+  using typename Superclass::IndexType;
+  using typename Superclass::OutputSpacingType;
+  using typename Superclass::LevelSetIndexType;
 
   using PointType = typename Superclass::OutputPointType;
 

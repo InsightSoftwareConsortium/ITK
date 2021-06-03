@@ -57,28 +57,28 @@ public:
   itkTypeMacro(CenteredVersorTransformInitializer, Object);
 
   /** Type of the transform to initialize */
-  using TransformType = typename Superclass::TransformType;
-  using TransformPointer = typename Superclass::TransformPointer;
+  using typename Superclass::TransformType;
+  using typename Superclass::TransformPointer;
 
   /** Dimension of parameters. */
   static constexpr unsigned int InputSpaceDimension = Superclass::InputSpaceDimension;
   static constexpr unsigned int OutputSpaceDimension = Superclass::OutputSpaceDimension;
 
   /** Image Types to use in the initialization of the transform */
-  using FixedImageType = typename Superclass::FixedImageType;
-  using MovingImageType = typename Superclass::MovingImageType;
+  using typename Superclass::FixedImageType;
+  using typename Superclass::MovingImageType;
 
-  using FixedImagePointer = typename Superclass::FixedImagePointer;
-  using MovingImagePointer = typename Superclass::MovingImagePointer;
+  using typename Superclass::FixedImagePointer;
+  using typename Superclass::MovingImagePointer;
 
   /** Offset type. */
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::OffsetType;
 
   /** Point type. */
-  using InputPointType = typename Superclass::InputPointType;
+  using typename Superclass::InputPointType;
 
   /** Vector type. */
-  using OutputVectorType = typename Superclass::OutputVectorType;
+  using typename Superclass::OutputVectorType;
 
   /** Initialize the transform using data from the images */
   void

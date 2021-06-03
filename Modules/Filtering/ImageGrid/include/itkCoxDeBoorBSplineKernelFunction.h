@@ -65,7 +65,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using RealType = typename Superclass::RealType;
+  using typename Superclass::RealType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

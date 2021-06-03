@@ -46,7 +46,7 @@ public:
   /** Standard class type aliases */
   using Self = StatisticsLabelObject;
   using Superclass = ShapeLabelObject<TLabel, VImageDimension>;
-  using LabelObjectType = typename Superclass::LabelObjectType;
+  using typename Superclass::LabelObjectType;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   using ConstWeakPointer = WeakPointer<const Self>;
@@ -61,15 +61,15 @@ public:
 
   static constexpr unsigned int ImageDimension = VImageDimension;
 
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   using PointType = Point<double, Self::ImageDimension>;
 
   using LabelType = TLabel;
 
-  using LineType = typename Superclass::LineType;
+  using typename Superclass::LineType;
 
-  using LengthType = typename Superclass::LengthType;
+  using typename Superclass::LengthType;
 
   using MatrixType = Matrix<double, Self::ImageDimension, Self::ImageDimension>;
 
@@ -77,7 +77,7 @@ public:
 
   using HistogramType = Statistics::Histogram<double>;
 
-  using AttributeType = typename Superclass::AttributeType;
+  using typename Superclass::AttributeType;
   static constexpr AttributeType MINIMUM = 200;
   static constexpr AttributeType MAXIMUM = 201;
   static constexpr AttributeType MEAN = 202;
@@ -244,7 +244,7 @@ public:
 
   using RegionType = ImageRegion<Self::ImageDimension>;
 
-  using CentroidType = typename Superclass::CentroidType;
+  using typename Superclass::CentroidType;
 
   template <typename TSourceLabelObject>
   void

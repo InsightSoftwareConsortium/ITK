@@ -65,7 +65,7 @@ public:
   using IndexType = Index<VIndexDimension>;
 
   /** The Array type from which this Vector is derived. */
-  using BaseArray = typename Superclass::BaseArray;
+  using typename Superclass::BaseArray;
   using Iterator = typename BaseArray::Iterator;
   using ConstIterator = typename BaseArray::ConstIterator;
 

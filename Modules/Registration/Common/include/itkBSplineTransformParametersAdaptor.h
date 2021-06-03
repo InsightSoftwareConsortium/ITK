@@ -82,10 +82,10 @@ public:
   using TransformType = TTransform;
   using TransformPointer = typename TransformType::Pointer;
 
-  using FixedParametersType = typename Superclass::FixedParametersType;
-  using FixedParametersValueType = typename Superclass::FixedParametersValueType;
-  using ParametersType = typename Superclass::ParametersType;
-  using ParametersValueType = typename Superclass::ParametersValueType;
+  using typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersValueType;
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
 
   using OriginType = typename TransformType::OriginType;
   using SizeType = typename TransformType::SizeType;

@@ -58,12 +58,12 @@ public:
 
   /** Typedefs for Measurement vector, measurement, Instance Identifier,
    * frequency, size, size element value from the template argument TSample */
-  using SampleType = typename Superclass::SampleType;
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
-  using MeasurementType = typename Superclass::MeasurementType;
-  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
-  using SubsampleType = typename Superclass::SubsampleType;
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::SampleType;
+  using typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementType;
+  using typename Superclass::InstanceIdentifier;
+  using typename Superclass::SubsampleType;
+  using typename Superclass::OutputType;
 
   /** Type of the distance radius. */
   using RadiusType = double;

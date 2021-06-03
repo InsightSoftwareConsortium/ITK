@@ -55,9 +55,9 @@ public:
   itkTypeMacro(Element3DMembrane1DOF, TBaseClass);
 
   // Repeat the required type alias and enums from parent class
-  using Float = typename Superclass::Float;
-  using MatrixType = typename Superclass::MatrixType;
-  using VectorType = typename Superclass::VectorType;
+  using typename Superclass::Float;
+  using typename Superclass::MatrixType;
+  using typename Superclass::VectorType;
 
   /**
    * Default constructor only clears the internal storage

@@ -142,7 +142,7 @@ protected:
   GenerateData() override;
 
   // type inherited from the superclass
-  using NeighborIndexContainer = typename Superclass::NeighborIndexContainer;
+  using typename Superclass::NeighborIndexContainer;
 };
 } // end namespace itk
 

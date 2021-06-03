@@ -61,15 +61,15 @@ public:
 
   /**  MeasureType type alias.
    *  It defines a type used to return the cost function value. */
-  using MeasureType = typename Superclass::MeasureType;
+  using typename Superclass::MeasureType;
 
   /** DerivativeType type alias.
    *  It defines a type used to return the cost function derivative.  */
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeType;
 
   /**  ParametersType type alias.
    *  It defines a position in the optimization search space. */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
 
   /** Type of the feature image representing the edge potential map. */
   using FeatureImageType = TFeatureImage;

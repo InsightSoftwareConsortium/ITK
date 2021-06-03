@@ -57,8 +57,8 @@ public:
   /** InputImageType type alias support */
   using InputImageType = TInputImage;
   using InputPixelType = typename InputImageType::PixelType;
-  using IndexType = typename Superclass::IndexType;
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::IndexType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(NeighborhoodOperatorImageFunction, ImageFunction);
@@ -69,7 +69,7 @@ public:
   using NeighborhoodType = Neighborhood<TOutput, Self::ImageDimension>;
 
   /** Point type alias support */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Set the input image. */
   // virtual void SetInputImage( InputImageType * ptr );

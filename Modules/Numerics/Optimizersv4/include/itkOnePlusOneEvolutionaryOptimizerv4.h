@@ -91,13 +91,13 @@ public:
   using NormalVariateGeneratorType = Statistics::RandomVariateGeneratorBase;
 
   /** Measure type */
-  using MeasureType = typename Superclass::MeasureType;
+  using typename Superclass::MeasureType;
 
   /** Parameters type */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
 
   /** Scales type */
-  using ScalesType = typename Superclass::ScalesType;
+  using typename Superclass::ScalesType;
 
   /** Set/Get maximum iteration limit. */
   itkSetMacro(MaximumIteration, unsigned int);

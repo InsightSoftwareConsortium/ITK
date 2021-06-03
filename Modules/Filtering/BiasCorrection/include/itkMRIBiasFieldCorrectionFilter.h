@@ -77,7 +77,7 @@ public:
 
   /** Parameters type for optimizer (coefficients type for bias
    * field estimate). */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
 
   /** Not used, but expected by SingleValuedNonLinearOptimizer class. */
   using DerivativeType = Superclass::DerivativeType;

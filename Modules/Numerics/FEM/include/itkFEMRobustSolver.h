@@ -98,20 +98,20 @@ public:
   itkTypeMacro(RobustSolver, Solver);
 
   /** Inherit some types from the superclass. */
-  using VectorType = typename Superclass::VectorType;
-  using Float = typename Superclass::Float;
-  using InterpolationGridType = typename Superclass::InterpolationGridType;
-  using InterpolationGridPointerType = typename Superclass::InterpolationGridPointerType;
-  using InterpolationGridSizeType = typename Superclass::InterpolationGridSizeType;
-  using InterpolationGridRegionType = typename Superclass::InterpolationGridRegionType;
-  using InterpolationGridPointType = typename Superclass::InterpolationGridPointType;
-  using InterpolationGridSpacingType = typename Superclass::InterpolationGridSpacingType;
-  using InterpolationGridIndexType = typename Superclass::InterpolationGridIndexType;
+  using typename Superclass::VectorType;
+  using typename Superclass::Float;
+  using typename Superclass::InterpolationGridType;
+  using typename Superclass::InterpolationGridPointerType;
+  using typename Superclass::InterpolationGridSizeType;
+  using typename Superclass::InterpolationGridRegionType;
+  using typename Superclass::InterpolationGridPointType;
+  using typename Superclass::InterpolationGridSpacingType;
+  using typename Superclass::InterpolationGridIndexType;
   using InterpolationGridDirectionType = typename InterpolationGridType::DirectionType;
 
   static constexpr unsigned int FEMDimension = VDimension;
 
-  using FEMObjectType = typename Superclass::FEMObjectType;
+  using typename Superclass::FEMObjectType;
 
   /** Some convenient types */
   using MatrixType = typename Element::MatrixType;

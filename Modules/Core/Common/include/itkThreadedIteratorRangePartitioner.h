@@ -128,7 +128,7 @@ public:
   itkTypeMacro(ThreadedIteratorRangePartitioner, ThreadedDomainPartitioner);
 
   /** Type for convenience of base class methods */
-  using DomainType = typename Superclass::DomainType;
+  using typename Superclass::DomainType;
 
   using IteratorType = TIterator;
 

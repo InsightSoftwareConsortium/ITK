@@ -70,64 +70,64 @@ public:
   static constexpr unsigned int MaxTopologicalDimension = Traits::MaxTopologicalDimension;
 
   /** Types defined in superclass. */
-  using CellPixelType = typename Superclass::CellPixelType;
-  using CoordRepType = typename Superclass::CoordRepType;
-  using PointIdentifier = typename Superclass::PointIdentifier;
-  using PointHashType = typename Superclass::PointHashType;
-  using PointType = typename Superclass::PointType;
-  using CellTraits = typename Superclass::CellTraits;
+  using typename Superclass::CellPixelType;
+  using typename Superclass::CoordRepType;
+  using typename Superclass::PointIdentifier;
+  using typename Superclass::PointHashType;
+  using typename Superclass::PointType;
+  using typename Superclass::CellTraits;
 
   using PointIdInternalIterator = typename CellTraits::PointIdInternalIterator;
   using PointIdIterator = typename CellTraits::PointIdIterator;
 
   // Point section:
-  using PointsContainer = typename Superclass::PointsContainer;
-  using PointsContainerPointer = typename Superclass::PointsContainerPointer;
+  using typename Superclass::PointsContainer;
+  using typename Superclass::PointsContainerPointer;
   using CoordRepArrayType = CoordRepType[Self::PointDimension];
 
   // Point data section:
-  using PointDataContainer = typename Superclass::PointDataContainer;
-  using PointDataContainerPointer = typename Superclass::PointDataContainerPointer;
-  using PointDataContainerIterator = typename Superclass::PointDataContainerIterator;
-  using PointsContainerConstIterator = typename Superclass::PointsContainerConstIterator;
-  using PointsContainerIterator = typename Superclass::PointsContainerIterator;
+  using typename Superclass::PointDataContainer;
+  using typename Superclass::PointDataContainerPointer;
+  using typename Superclass::PointDataContainerIterator;
+  using typename Superclass::PointsContainerConstIterator;
+  using typename Superclass::PointsContainerIterator;
 
   // Cell section:
-  using CellIdentifier = typename Superclass::CellIdentifier;
-  using CellType = typename Superclass::CellType;
-  using CellAutoPointer = typename Superclass::CellAutoPointer;
-  using CellFeatureIdentifier = typename Superclass::CellFeatureIdentifier;
-  using CellFeatureCount = typename Superclass::CellFeatureCount;
-  using CellMultiVisitorType = typename Superclass::CellMultiVisitorType;
-  using CellsContainer = typename Superclass::CellsContainer;
-  using CellsContainerPointer = typename Superclass::CellsContainerPointer;
+  using typename Superclass::CellIdentifier;
+  using typename Superclass::CellType;
+  using typename Superclass::CellAutoPointer;
+  using typename Superclass::CellFeatureIdentifier;
+  using typename Superclass::CellFeatureCount;
+  using typename Superclass::CellMultiVisitorType;
+  using typename Superclass::CellsContainer;
+  using typename Superclass::CellsContainerPointer;
 
-  using CellsContainerConstIterator = typename Superclass::CellsContainerConstIterator;
-  using CellsContainerIterator = typename Superclass::CellsContainerIterator;
+  using typename Superclass::CellsContainerConstIterator;
+  using typename Superclass::CellsContainerIterator;
 
-  using CellLinksContainer = typename Superclass::CellLinksContainer;
-  using CellLinksContainerPointer = typename Superclass::CellLinksContainerPointer;
-  using CellLinksContainerIterator = typename Superclass::CellLinksContainerIterator;
+  using typename Superclass::CellLinksContainer;
+  using typename Superclass::CellLinksContainerPointer;
+  using typename Superclass::CellLinksContainerIterator;
 
   // Cell data section:
-  using CellDataContainer = typename Superclass::CellDataContainer;
-  using CellDataContainerPointer = typename Superclass::CellDataContainerPointer;
-  using CellDataContainerIterator = typename Superclass::CellDataContainerIterator;
+  using typename Superclass::CellDataContainer;
+  using typename Superclass::CellDataContainerPointer;
+  using typename Superclass::CellDataContainerIterator;
 
   // Point / Cell correspondence section:
-  using PointCellLinksContainer = typename Superclass::PointCellLinksContainer;
-  using PointCellLinksContainerIterator = typename Superclass::PointCellLinksContainerIterator;
+  using typename Superclass::PointCellLinksContainer;
+  using typename Superclass::PointCellLinksContainerIterator;
 
   // BoundaryAssignMents section:
-  using BoundaryAssignmentsContainer = typename Superclass::BoundaryAssignmentsContainer;
-  using BoundaryAssignmentsContainerPointer = typename Superclass::BoundaryAssignmentsContainerPointer;
-  using BoundaryAssignmentsContainerVector = typename Superclass::BoundaryAssignmentsContainerVector;
+  using typename Superclass::BoundaryAssignmentsContainer;
+  using typename Superclass::BoundaryAssignmentsContainerPointer;
+  using typename Superclass::BoundaryAssignmentsContainerVector;
 
   // Miscellaneous section:
-  using BoundingBoxPointer = typename Superclass::BoundingBoxPointer;
-  using BoundingBoxType = typename Superclass::BoundingBoxType;
-  using RegionType = typename Superclass::RegionType;
-  using InterpolationWeightType = typename Superclass::InterpolationWeightType;
+  using typename Superclass::BoundingBoxPointer;
+  using typename Superclass::BoundingBoxType;
+  using typename Superclass::RegionType;
+  using typename Superclass::InterpolationWeightType;
 
   /** Specific types for a quad-edge structure. */
   using PrimalDataType = typename Traits::PrimalDataType;

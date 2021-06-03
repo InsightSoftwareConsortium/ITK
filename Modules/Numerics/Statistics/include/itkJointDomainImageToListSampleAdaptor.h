@@ -116,13 +116,13 @@ public:
   /** the number of components in a measurement vector */
   static constexpr unsigned int MeasurementVectorSize = ImageJointDomainTraitsType::Dimension;
 
-  using MeasurementVectorSizeType = typename Superclass::MeasurementVectorSizeType;
+  using typename Superclass::MeasurementVectorSizeType;
 
   /** type alias for Measurement vector, measurement,
    * Instance Identifier, frequency, size, size element value */
-  using AbsoluteFrequencyType = typename Superclass::AbsoluteFrequencyType;
-  using TotalAbsoluteFrequencyType = typename Superclass::TotalAbsoluteFrequencyType;
-  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using typename Superclass::AbsoluteFrequencyType;
+  using typename Superclass::TotalAbsoluteFrequencyType;
+  using typename Superclass::InstanceIdentifier;
 
   /** Image type alias */
   using ImageType = TImage;

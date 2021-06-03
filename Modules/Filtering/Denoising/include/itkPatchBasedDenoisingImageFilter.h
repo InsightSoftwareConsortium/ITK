@@ -70,7 +70,7 @@ public:
   using Superclass = PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
-  using OutputImagePointer = typename Superclass::OutputImagePointer;
+  using typename Superclass::OutputImagePointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -79,8 +79,8 @@ public:
   itkTypeMacro(PatchBasedDenoisingImageFilter, PatchBasedDenoisingBaseImageFilter);
 
   /** Type definition for the input image. */
-  using InputImageType = typename Superclass::InputImageType;
-  using OutputImageType = typename Superclass::OutputImageType;
+  using typename Superclass::InputImageType;
+  using typename Superclass::OutputImageType;
 
   /** Image dimension, assumed to be the same for input and output data*/
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
@@ -94,8 +94,8 @@ public:
 
   /** Type definition for the input and output pixel types.
       Output pixel type will be used in computations. */
-  using PixelType = typename Superclass::PixelType;
-  using PixelValueType = typename Superclass::PixelValueType;
+  using typename Superclass::PixelType;
+  using typename Superclass::PixelValueType;
 
   using RealType = typename NumericTraits<PixelType>::RealType;
   using RealValueType = typename NumericTraits<PixelValueType>::RealType;
@@ -104,11 +104,11 @@ public:
   using ShortArrayType = Array<unsigned short>;
 
   /** Type definition for patch weights type. */
-  using ListAdaptorType = typename Superclass::ListAdaptorType;
-  using PatchRadiusType = typename Superclass::PatchRadiusType;
-  using InputImagePatchIterator = typename Superclass::InputImagePatchIterator;
+  using typename Superclass::ListAdaptorType;
+  using typename Superclass::PatchRadiusType;
+  using typename Superclass::InputImagePatchIterator;
   using PatchSampleType = ListAdaptorType;
-  using PatchWeightsType = typename Superclass::PatchWeightsType;
+  using typename Superclass::PatchWeightsType;
 
   /** Type definitions for delegate classes. */
   using BaseSamplerType = itk::Statistics::RegionConstrainedSubsampler<PatchSampleType, InputImageRegionType>;

@@ -55,9 +55,9 @@ public:
   itkTypeMacro(GPUImageToImageFilter, TParentImageFilter);
 
   /** Superclass type alias. */
-  using DataObjectIdentifierType = typename Superclass::DataObjectIdentifierType;
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
-  using OutputImagePixelType = typename Superclass::OutputImagePixelType;
+  using typename Superclass::DataObjectIdentifierType;
+  using typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImagePixelType;
 
   /** Some convenient type alias. */
   using InputImageType = TInputImage;

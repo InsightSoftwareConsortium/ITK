@@ -64,7 +64,7 @@ public:
   itkTypeMacro(SpatialObjectToImageFilter, ImageSource);
 
   /** Superclass type alias. */
-  using OutputImageRegionType = typename Superclass::OutputImageRegionType;
+  using typename Superclass::OutputImageRegionType;
 
   /** Some convenient type alias. */
   using InputSpatialObjectType = TInputSpatialObject;

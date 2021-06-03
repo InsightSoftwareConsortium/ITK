@@ -53,7 +53,7 @@ public:
   using PointsContainerConstPointer = typename MeshType::PointsContainerConstPointer;
   using PointsContainerConstIterator = typename MeshType::PointsContainerConstIterator;
 
-  using IdentifierListType = typename Superclass::IdentifierListType;
+  using typename Superclass::IdentifierListType;
 
   using ListMeshType = std::map<PointIdentifierType, IdentifierListType>;
 

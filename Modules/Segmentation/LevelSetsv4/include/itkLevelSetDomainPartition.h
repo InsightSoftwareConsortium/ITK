@@ -50,7 +50,7 @@ public:
   using ImageType = TImage;
   using ImagePointer = typename ImageType::Pointer;
 
-  using ListPixelType = typename Superclass::ListPixelType;
+  using typename Superclass::ListPixelType;
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */

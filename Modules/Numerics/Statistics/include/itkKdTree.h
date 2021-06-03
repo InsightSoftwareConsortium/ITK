@@ -149,9 +149,9 @@ template <typename TSample>
 struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
 {
   using Superclass = KdTreeNode<TSample>;
-  using MeasurementType = typename Superclass::MeasurementType;
-  using CentroidType = typename Superclass::CentroidType;
-  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using typename Superclass::MeasurementType;
+  using typename Superclass::CentroidType;
+  using typename Superclass::InstanceIdentifier;
 
   KdTreeNonterminalNode(unsigned int, MeasurementType, Superclass *, Superclass *);
 
@@ -264,9 +264,9 @@ template <typename TSample>
 struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode : public KdTreeNode<TSample>
 {
   using Superclass = KdTreeNode<TSample>;
-  using MeasurementType = typename Superclass::MeasurementType;
-  using CentroidType = typename Superclass::CentroidType;
-  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using typename Superclass::MeasurementType;
+  using typename Superclass::CentroidType;
+  using typename Superclass::InstanceIdentifier;
   using MeasurementVectorSizeType = typename TSample::MeasurementVectorSizeType;
 
   KdTreeWeightedCentroidNonterminalNode(unsigned int,
@@ -394,9 +394,9 @@ template <typename TSample>
 struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode : public KdTreeNode<TSample>
 {
   using Superclass = KdTreeNode<TSample>;
-  using MeasurementType = typename Superclass::MeasurementType;
-  using CentroidType = typename Superclass::CentroidType;
-  using InstanceIdentifier = typename Superclass::InstanceIdentifier;
+  using typename Superclass::MeasurementType;
+  using typename Superclass::CentroidType;
+  using typename Superclass::InstanceIdentifier;
 
   KdTreeTerminalNode() = default;
 

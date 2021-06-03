@@ -60,13 +60,13 @@ public:
   itkTypeMacro(ThreadedImageRegionPartitioner, ThreadedDomainPartitioner);
 
   /** Type of the object being threaded over */
-  using DomainType = typename Superclass::DomainType;
+  using typename Superclass::DomainType;
 
   /** Deprecated type alias. */
   static constexpr unsigned int ImageDimension = VDimension;
   using ImageRegionType = typename Self::DomainType;
-  using SizeType = typename Self::DomainType::SizeType;
-  using IndexType = typename Self::DomainType::IndexType;
+  using SizeType = typename ImageRegionType::SizeType;
+  using IndexType = typename ImageRegionType::IndexType;
 
   /** Split the ImageRegion \c completeRegion into up to \c requestedTotal
    * non-overlapping subregions, setting subregion number \c threadId as

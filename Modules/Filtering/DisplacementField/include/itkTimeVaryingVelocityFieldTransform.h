@@ -70,31 +70,31 @@ public:
   itkNewMacro(Self);
 
   /** InverseTransform type. */
-  using InverseTransformBasePointer = typename Superclass::InverseTransformBasePointer;
+  using typename Superclass::InverseTransformBasePointer;
 
   /** Interpolator types.*/
-  using InterpolatorType = typename Superclass::InterpolatorType;
+  using typename Superclass::InterpolatorType;
   using VelocityFieldIntegratorType = typename Superclass::VelocityFieldInterpolatorType;
 
   /** Field types. */
-  using DisplacementFieldType = typename Superclass::DisplacementFieldType;
-  using VelocityFieldType = typename Superclass::VelocityFieldType;
+  using typename Superclass::DisplacementFieldType;
+  using typename Superclass::VelocityFieldType;
 
   using TimeVaryingVelocityFieldType = VelocityFieldType;
   using TimeVaryingVelocityFieldPointer = typename VelocityFieldType::Pointer;
 
   /** Scalar type. */
-  using ScalarType = typename Superclass::ScalarType;
+  using typename Superclass::ScalarType;
 
   /** Type of the input parameters. */
-  using ParametersType = typename Superclass::ParametersType;
+  using typename Superclass::ParametersType;
   using ParametersValueType = typename ParametersType::ValueType;
-  using FixedParametersType = typename Superclass::FixedParametersType;
+  using typename Superclass::FixedParametersType;
   using FixedParametersValueType = typename FixedParametersType::ValueType;
-  using NumberOfParametersType = typename Superclass::NumberOfParametersType;
+  using typename Superclass::NumberOfParametersType;
 
   /** Derivative type */
-  using DerivativeType = typename Superclass::DerivativeType;
+  using typename Superclass::DerivativeType;
 
   using TransformPointer = typename Transform<TParametersValueType, NDimensions, NDimensions>::Pointer;
 

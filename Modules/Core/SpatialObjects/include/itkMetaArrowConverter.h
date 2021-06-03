@@ -49,9 +49,9 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaArrowConverter, MetaConverterBase);
 
-  using SpatialObjectType = typename Superclass::SpatialObjectType;
+  using typename Superclass::SpatialObjectType;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
-  using MetaObjectType = typename Superclass::MetaObjectType;
+  using typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
   using ArrowSpatialObjectType = ArrowSpatialObject<NDimensions>;

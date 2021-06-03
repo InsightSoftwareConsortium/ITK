@@ -128,18 +128,18 @@ public:
 
   /** Input types. */
   using InputMeshType = TInputMesh;
-  using InputPointType = typename Superclass::InputPointType;
+  using typename Superclass::InputPointType;
 
   static constexpr unsigned int InputPointDimension = InputMeshType::PointDimension;
 
   /** Output types. */
   using OutputMeshType = TOutputMesh;
-  using OutputCoordRepType = typename Superclass::OutputCoordRepType;
-  using OutputPointType = typename Superclass::OutputPointType;
-  using OutputPointIdentifier = typename Superclass::OutputPointIdentifier;
-  using OutputQEPrimal = typename Superclass::OutputQEPrimal;
-  using OutputVectorType = typename Superclass::OutputVectorType;
-  using OutputQEIterator = typename Superclass::OutputQEIterator;
+  using typename Superclass::OutputCoordRepType;
+  using typename Superclass::OutputPointType;
+  using typename Superclass::OutputPointIdentifier;
+  using typename Superclass::OutputQEPrimal;
+  using typename Superclass::OutputVectorType;
+  using typename Superclass::OutputQEIterator;
 
   static constexpr unsigned int OutputPointDimension = OutputMeshType::PointDimension;
 

@@ -73,10 +73,10 @@ public:
   /** Some type alias. */
   using InputMeshType = TInputMesh;
   using OutputMeshType = TOutputMesh;
-  using PointType = typename Superclass::PointType;
-  using GradientIndexType = typename Superclass::GradientIndexType;
-  using GradientIndexValueType = typename Superclass::GradientIndexValueType;
-  using GradientImageType = typename Superclass::GradientImageType;
+  using typename Superclass::PointType;
+  using typename Superclass::GradientIndexType;
+  using typename Superclass::GradientIndexValueType;
+  using typename Superclass::GradientImageType;
 
   /* Mesh pointer definition. */
   using InputMeshPointer = typename InputMeshType::Pointer;

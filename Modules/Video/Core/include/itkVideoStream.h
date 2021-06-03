@@ -54,7 +54,7 @@ public:
   using FrameType = TFrameType;
   using FramePointer = typename FrameType::Pointer;
   using FrameConstPointer = typename FrameType::ConstPointer;
-  using BufferType = typename Superclass::BufferType;
+  using typename Superclass::BufferType;
 
   using SpatialRegionType = typename FrameType::RegionType;
   using IndexType = typename FrameType::IndexType;

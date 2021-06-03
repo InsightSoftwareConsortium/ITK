@@ -46,7 +46,7 @@ public:
   using ScalarType = double;
   using VectorType = Vector<double, TDimension>;
   using PointType = Point<double, TDimension>;
-  using TransformType = typename Superclass::TransformType;
+  using typename Superclass::TransformType;
   using MatrixType = typename TransformType::MatrixType;
 
   /** Method for creation through the object factory. */

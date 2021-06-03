@@ -78,16 +78,16 @@ public:
   itkNewMacro(Self);
 
   /** Typedefs from the superclass. */
-  using TimeStepType = typename Superclass::TimeStepType;
-  using RadiusType = typename Superclass::RadiusType;
-  using NeighborhoodType = typename Superclass::NeighborhoodType;
-  using NeighborhoodScalesType = typename Superclass::NeighborhoodScalesType;
-  using FloatOffsetType = typename Superclass::FloatOffsetType;
-  using IndexType = typename Superclass::IndexType;
-  using SparseImageType = typename Superclass::SparseImageType;
-  using NodeType = typename Superclass::NodeType;
-  using NodeValueType = typename Superclass::NodeValueType;
-  using NormalVectorType = typename Superclass::NormalVectorType;
+  using typename Superclass::TimeStepType;
+  using typename Superclass::RadiusType;
+  using typename Superclass::NeighborhoodType;
+  using typename Superclass::NeighborhoodScalesType;
+  using typename Superclass::FloatOffsetType;
+  using typename Superclass::IndexType;
+  using typename Superclass::SparseImageType;
+  using typename Superclass::NodeType;
+  using typename Superclass::NodeValueType;
+  using typename Superclass::NormalVectorType;
 
   /** This method is used to choose between isotropic/anisotropic filtering. A
       parameter value of 0 indicates isotropic diffusion and is the

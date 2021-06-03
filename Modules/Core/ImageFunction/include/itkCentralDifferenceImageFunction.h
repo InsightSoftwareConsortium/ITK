@@ -103,7 +103,7 @@ public:
   using InputPixelConvertType = DefaultConvertPixelTraits<InputPixelType>;
 
   /** OutputType typdef support. */
-  using OutputType = typename Superclass::OutputType;
+  using typename Superclass::OutputType;
 
   /** Output convert type alias support */
   using OutputConvertType = DefaultConvertPixelTraits<OutputType>;
@@ -115,13 +115,13 @@ public:
   using ScalarDerivativeType = CovariantVector<OutputValueType, Self::ImageDimension>;
 
   /** Index type alias support */
-  using IndexType = typename Superclass::IndexType;
+  using typename Superclass::IndexType;
 
   /** ContinuousIndex type alias support */
-  using ContinuousIndexType = typename Superclass::ContinuousIndexType;
+  using typename Superclass::ContinuousIndexType;
 
   /** Point type alias support */
-  using PointType = typename Superclass::PointType;
+  using typename Superclass::PointType;
 
   /** Spacing type alias support */
   using SpacingType = typename TInputImage::SpacingType;

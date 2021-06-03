@@ -96,17 +96,17 @@ public:
   /** Type definitions from the Superclass */
 
   /**Set the decision rule */
-  using MeasurementVectorType = typename Superclass::MeasurementVectorType;
+  using typename Superclass::MeasurementVectorType;
 
   /** Typedefs for membership function */
-  using MembershipFunctionType = typename Superclass::MembershipFunctionType;
+  using typename Superclass::MembershipFunctionType;
 
-  using MembershipFunctionPointer = typename Superclass::MembershipFunctionPointer;
+  using typename Superclass::MembershipFunctionPointer;
 
-  using MembershipFunctionPointerVector = typename Superclass::MembershipFunctionPointerVector;
+  using typename Superclass::MembershipFunctionPointerVector;
 
   /** Type alias for decision rule */
-  using DecisionRuleType = typename Superclass::DecisionRuleType;
+  using typename Superclass::DecisionRuleType;
 
   /** Get/Set the input image. */
   itkSetConstObjectMacro(InputImage, InputImageType);
