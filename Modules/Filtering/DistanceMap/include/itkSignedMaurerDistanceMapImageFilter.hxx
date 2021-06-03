@@ -200,13 +200,13 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   {
     progressPerDimension = 0.67f / (static_cast<float>(ImageDimension) + 1);
   }
-  std::unique_ptr<ProgressReporter> progress(
-    new ProgressReporter(this,
-                         threadId,
-                         NumberOfRows[m_CurrentDimension],
-                         30,
-                         0.33f + static_cast<float>(m_CurrentDimension * progressPerDimension),
-                         progressPerDimension));
+  auto progress =
+    std::make_unique<ProgressReporter>(this,
+                                       threadId,
+                                       NumberOfRows[m_CurrentDimension],
+                                       30,
+                                       0.33f + static_cast<float>(m_CurrentDimension * progressPerDimension),
+                                       progressPerDimension);
 
   // This variable provides the amount by which to divide the dimensionless index in order to get the index for each
   // dimension.

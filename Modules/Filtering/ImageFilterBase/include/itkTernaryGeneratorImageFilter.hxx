@@ -262,9 +262,9 @@ TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputIma
 
   if (inputPtr1 && inputPtr2 && inputPtr3)
   {
-    inputIt1.reset(new ImageScanlineConstIterator<TInputImage1>(inputPtr1, outputRegionForThread));
-    inputIt2.reset(new ImageScanlineConstIterator<TInputImage2>(inputPtr2, outputRegionForThread));
-    inputIt3.reset(new ImageScanlineConstIterator<TInputImage3>(inputPtr3, outputRegionForThread));
+    inputIt1 = std::make_unique<ImageScanlineConstIterator<TInputImage1>>(inputPtr1, outputRegionForThread);
+    inputIt2 = std::make_unique<ImageScanlineConstIterator<TInputImage2>>(inputPtr2, outputRegionForThread);
+    inputIt3 = std::make_unique<ImageScanlineConstIterator<TInputImage3>>(inputPtr3, outputRegionForThread);
 
     while (!outputIt.IsAtEnd())
     {
@@ -287,15 +287,15 @@ TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputIma
   {
     if (inputPtr1)
     {
-      inputIt1.reset(new ImageScanlineConstIterator<TInputImage1>(inputPtr1, outputRegionForThread));
+      inputIt1 = std::make_unique<ImageScanlineConstIterator<TInputImage1>>(inputPtr1, outputRegionForThread);
     }
     if (inputPtr2)
     {
-      inputIt2.reset(new ImageScanlineConstIterator<TInputImage2>(inputPtr2, outputRegionForThread));
+      inputIt2 = std::make_unique<ImageScanlineConstIterator<TInputImage2>>(inputPtr2, outputRegionForThread);
     }
     if (inputPtr3)
     {
-      inputIt3.reset(new ImageScanlineConstIterator<TInputImage3>(inputPtr3, outputRegionForThread));
+      inputIt3 = std::make_unique<ImageScanlineConstIterator<TInputImage3>>(inputPtr3, outputRegionForThread);
     }
 
 
