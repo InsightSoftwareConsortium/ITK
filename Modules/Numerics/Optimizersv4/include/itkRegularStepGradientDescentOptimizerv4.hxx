@@ -41,25 +41,8 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::StartOptim
 {
   this->m_UseConvergenceMonitoring = false;
 
-  // Call the grandparent version for basic validation and setup
-  GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOptimization(doOnlyInitialization);
-
-  if (this->m_ReturnBestParametersAndValue)
-  {
-    this->m_BestParameters = this->GetCurrentPosition();
-    this->m_CurrentBestValue = NumericTraits<MeasureType>::max();
-  }
-
-  const SizeValueType spaceDimension = this->m_Metric->GetNumberOfParameters();
-
-  this->m_Gradient = DerivativeType(spaceDimension);
-  this->m_PreviousGradient = DerivativeType(spaceDimension);
-  this->m_Gradient.Fill(0.0f);
-  this->m_PreviousGradient.Fill(0.0f);
-
-  // Reset the iterations and learning rate scale when the optimizer is started again.
+  // Reset the learning rate scale when the optimizer is started again.
   this->m_CurrentLearningRateRelaxation = 1.0;
-  this->m_CurrentIteration = 0;
 
   // validity check for the value of GradientMagnitudeTolerance
   if (m_GradientMagnitudeTolerance < 0.0)
@@ -69,10 +52,9 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::StartOptim
                       << m_GradientMagnitudeTolerance);
   }
 
-  if (!doOnlyInitialization)
-  {
-    this->ResumeOptimization();
-  }
+  /* Must call the superclass version for basic validation, setup,
+   * and to start the optimization loop. */
+  Superclass::StartOptimization(doOnlyInitialization);
 }
 
 template <typename TInternalComputationValueType>

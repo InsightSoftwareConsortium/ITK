@@ -384,6 +384,50 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
                                                                                 currentLearningRateRelaxation);
   }
 
+  // Verify that the optimizer stays at the initial position if
+  // number of iterations is set to one.
+  std::cout << "\nCheck the optimizer position (parameters) are equal to the initial "
+               "value when number of iterations is set to one:"
+            << std::endl;
+  {
+    RSGv4TestMetric::Pointer metric = RSGv4TestMetric::New();
+    itkOptimizer->SetMetric(metric);
+    using ParametersType = RSGv4TestMetric::ParametersType;
+    const unsigned int spaceDimension = metric->GetNumberOfParameters();
+    ParametersType     initialPosition(spaceDimension);
+    initialPosition[0] = 100;
+    initialPosition[1] = -100;
+    metric->SetParameters(initialPosition);
+
+    itkOptimizer->SetNumberOfIterations(1);
+    try
+    {
+      itkOptimizer->StartOptimization();
+    }
+    catch (const itk::ExceptionObject & e)
+    {
+      return EXIT_FAILURE;
+    }
+
+    // Check results to see if it is within range
+    ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
+    double         trueParameters[2] = { 100, -100 };
+    for (unsigned int j = 0; j < 2; ++j)
+    {
+      if (!itk::Math::FloatAlmostEqual(finalPosition[j], trueParameters[j]))
+      {
+        testStatus = EXIT_FAILURE;
+      }
+    }
+
+    // Also the score should be equal to the initial score
+    double value = itkOptimizer->GetValue();
+    if (value != 24000)
+    {
+      testStatus = EXIT_FAILURE;
+    }
+  }
+
   //
   // Test the Exception if the GradientMagnitudeTolerance is set to a negative value
   //

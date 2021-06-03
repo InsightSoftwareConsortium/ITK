@@ -332,6 +332,32 @@ itkGradientDescentOptimizerv4Test(int, char *[])
     }
   }
 
+  // Verify that the optimizer stays at the initial position if
+  // number of iterations is set to one.
+  std::cout << "\nCheck the optimizer position (parameters) are equal to the initial "
+               "value when number of iterations is set to one:"
+            << std::endl;
+  {
+    scales.Fill(1.0);
+    weights.Fill(1.0);
+    itkOptimizer->SetScales(scales);
+    itkOptimizer->SetWeights(weights);
+    itkOptimizer->SetNumberOfIterations(1);
+    metric->SetParameters(initialPosition);
+    trueParameters[0] = 100;
+    trueParameters[1] = -100;
+    if (GradientDescentOptimizerv4RunTest(itkOptimizer, trueParameters) == EXIT_FAILURE)
+    {
+      result = EXIT_FAILURE;
+    }
+    // Also the score should be equal to the initial score
+    double value = itkOptimizer->GetValue();
+    if (value != 24000)
+    {
+      result = EXIT_FAILURE;
+    }
+  }
+
   std::cout << "\nTest the Exception if the optimizer is not set properly:" << std::endl;
   OptimizerType::Pointer badOptimizer = OptimizerType::New();
   bool                   caught = false;
