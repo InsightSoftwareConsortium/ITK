@@ -67,7 +67,7 @@ class FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex
 public:
   /** Standard class type alias. */
   using Self = FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex;
-  using Superclass = ImageRegionIteratorWithIndex<TImage>;
+  using Superclass = FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
