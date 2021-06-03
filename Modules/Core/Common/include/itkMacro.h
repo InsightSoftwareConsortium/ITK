@@ -162,8 +162,8 @@ namespace itk
  * MSVC++ 14.16 _MSC_VER == 1916 (Visual Studio 2017 version 15.9)
  * MSVC++ 14.2 _MSC_VER == 1920 (Visual Studio 2019 Version 16.0)
  */
-#if defined(_MSC_VER) && (_MSC_VER < 1900)
-#  error "Visual Studio < 2015 is not supported under ITKv5"
+#if defined(_MSC_VER) && (_MSC_VER < 1910)
+#  error "Visual Studio < 2017 is not supported under ITKv5.3"
 #endif
 #if defined(__SUNPRO_CC) && (__SUNPRO_CC < 0x5140)
 #  error "SUNPro C++ < 5.14.0 is not supported under ITKv5 and above"
@@ -178,8 +178,8 @@ namespace itk
 #  error "The MetroWerks compiler is not supported in ITKv4 and above"
 #endif
 #if defined(__GNUC__) && !defined(__clang__) && !defined(__INTEL_COMPILER) &&                                          \
-  ((__GNUC__ < 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ < 8)))
-#  error "GCC < 4.8 is not supported under ITKv5"
+  ((__GNUC__ < 5) || ((__GNUC__ == 5) && (__GNUC_MINOR__ < 1)))
+#  error "GCC < 5.1 is not supported under ITKv5.3"
 #endif
 #if defined(__sgi)
 // This is true for IRIX 6.5.18m with MIPSPro 7.3.1.3m.
@@ -188,14 +188,14 @@ namespace itk
 #  error "The SGI compiler is not supported under ITKv4 and above"
 #endif
 #if defined(__APPLE__)
-#  if defined(__clang__) && (__cplusplus < 201103L)
-#    error "Apple LLVM < 5.0 (clang < 3.3) is not supported under ITKv5"
+#  if defined(__clang__) && (__cplusplus < 201402L)
+#    error "Apple LLVM < 5.1 (clang < 3.4) is not supported under ITKv5.3"
 #  endif
-#elif defined(__clang__) && ((__clang_major__ < 3) || ((__clang_major__ == 3) && (__clang_minor__ < 3)))
-#  error "Clang < 3.3 is not supported under ITKv5"
+#elif defined(__clang__) && ((__clang_major__ < 3) || ((__clang_major__ == 3) && (__clang_minor__ < 4)))
+#  error "Clang < 3.4 is not supported under ITKv5.3"
 #endif
-#if defined(__INTEL_COMPILER) && (__INTEL_COMPILER < 1504)
-#  error "Intel C++ < 15.0.4 is not supported under ITKv5"
+#if defined(__INTEL_COMPILER) && (__INTEL_COMPILER < 1700)
+#  error "Intel C++ < 17.0 is not supported under ITKv5.3"
 #endif
 
 // Setup symbol exports
