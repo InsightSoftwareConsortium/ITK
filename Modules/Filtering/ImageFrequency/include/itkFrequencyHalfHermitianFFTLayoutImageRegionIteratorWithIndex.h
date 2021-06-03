@@ -67,7 +67,7 @@ class FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex
 public:
   /** Standard class type alias. */
   using Self = FrequencyHalfHermitianFFTLayoutImageRegionIteratorWithIndex;
-  using Superclass = ImageRegionIteratorWithIndex<TImage>;
+  using Superclass = FrequencyHalfHermitianFFTLayoutImageRegionConstIteratorWithIndex<TImage>;
 
   /** Types inherited from the Superclass */
   using typename Superclass::IndexType;
