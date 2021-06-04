@@ -34,7 +34,7 @@ for i in range(n):
     M.append(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
 
 if M[5] - M[4] > 1000:
-    print("Memory leak!")
+    print("Memory leak 1!")
     sys.exit(1)
 
 # creating new numpy volume each time
@@ -45,7 +45,7 @@ for i in range(n):
     inputVolume = converter.GetImageViewFromArray(inputNumpyVolume)
     M.append(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
 if M[5] - M[4] > 1000:
-    print("Memory leak!")
+    print("Memory leak 2!")
     sys.exit(1)
 
 # creating new numpy volume but not calling converter.GetImageViewFromArray(inputNumpyVolume)
@@ -55,5 +55,5 @@ for i in range(n):
     inputNumpyVolume = np.ones([100, 100, 100], dtype=np.float32)
     M.append(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
 if M[5] - M[4] > 1000:
-    print("Memory leak!")
+    print("Memory leak 3!")
     sys.exit(1)
