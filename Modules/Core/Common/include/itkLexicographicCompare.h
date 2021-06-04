@@ -74,17 +74,12 @@ public:
   bool
   operator()(const TBidirectionalRange1 & lhs, const TBidirectionalRange2 & rhs) const
   {
-    using ReverseIterator1 = std::reverse_iterator<decltype(std::begin(lhs))>;
-    using ReverseIterator2 = std::reverse_iterator<decltype(std::begin(rhs))>;
-
     // Note that the begin and end arguments are passed in reverse order, as
-    // each of them is converted to an std::reverse_iterator! (From C++14,
-    // std::make_reverse_iterator would be of help here, to construct the four
-    // std::reverse_iterator arguments!)
-    return std::lexicographical_compare(ReverseIterator1{ std::end(lhs) },
-                                        ReverseIterator1{ std::begin(lhs) },
-                                        ReverseIterator2{ std::end(rhs) },
-                                        ReverseIterator2{ std::begin(rhs) });
+    // each of them is converted to an std::reverse_iterator!
+    return std::lexicographical_compare(std::make_reverse_iterator(std::end(lhs)),
+                                        std::make_reverse_iterator(std::begin(lhs)),
+                                        std::make_reverse_iterator(std::end(rhs)),
+                                        std::make_reverse_iterator(std::begin(rhs)));
   }
 };
 
