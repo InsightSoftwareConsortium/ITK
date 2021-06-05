@@ -257,22 +257,12 @@ private:
   {
     return (includeCenterPixel ? 1 : 0) + CalculateNumberOfConnectedNeighbors(maximumCityblockDistance);
   }
-
-
-  template <unsigned int VImageDimensionOfFriend, std::size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>
-  friend std::array<
-    Offset<VImageDimensionOfFriend>,
-    ConnectedImageNeighborhoodShape<VImageDimensionOfFriend>::CalculateNumberOfOffsets(VMaximumCityblockDistance,
-                                                                                       VIncludeCenterPixel)>
-  GenerateConnectedImageNeighborhoodShapeOffsets() ITK_NOEXCEPT;
 };
 
 
 /** Generates the offsets for a connected image neighborhood shape. */
 template <unsigned int VImageDimension, std::size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>
-std::array<Offset<VImageDimension>,
-           ConnectedImageNeighborhoodShape<VImageDimension>::CalculateNumberOfOffsets(VMaximumCityblockDistance,
-                                                                                      VIncludeCenterPixel)>
+auto
 GenerateConnectedImageNeighborhoodShapeOffsets() ITK_NOEXCEPT
 {
   constexpr ConnectedImageNeighborhoodShape<VImageDimension> shape{ VMaximumCityblockDistance, VIncludeCenterPixel };
