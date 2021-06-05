@@ -473,8 +473,7 @@ Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::TransformS
 
 template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 template <typename TImage>
-typename std::enable_if<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions,
-                        void>::type
+std::enable_if_t<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions, void>
 Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::ApplyToImageMetadata(TImage * image) const
 {
   using ImageType = TImage;

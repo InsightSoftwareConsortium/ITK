@@ -85,7 +85,7 @@ private:
   constexpr static bool SupportsDirectPixelAccess =
     std::is_same<PixelType, InternalPixelType>::value &&
     std::is_same<typename TImage::AccessorType, DefaultPixelAccessor<PixelType>>::value &&
-    std::is_same<AccessorFunctorType, DefaultPixelAccessorFunctor<typename std::remove_const<TImage>::type>>::value;
+    std::is_same<AccessorFunctorType, DefaultPixelAccessorFunctor<std::remove_const_t<TImage>>>::value;
 
   // Tells whether or not this range is using a pointer as iterator.
   constexpr static bool UsingPointerAsIterator = SupportsDirectPixelAccess;
@@ -94,7 +94,7 @@ private:
   {};
 
   using OptionalAccessorFunctorType =
-    typename std::conditional<SupportsDirectPixelAccess, EmptyAccessorFunctor, AccessorFunctorType>::type;
+    std::conditional_t<SupportsDirectPixelAccess, EmptyAccessorFunctor, AccessorFunctorType>;
 
   // PixelProxy: internal class that aims to act like a reference to a pixel:
   // It acts either like 'PixelType &' or like 'const PixelType &', depending
@@ -237,15 +237,14 @@ private:
     friend class ImageBufferRange;
 
     // Image type class that is either 'const' or non-const qualified, depending on QualifiedIterator and TImage.
-    using QualifiedImageType = typename std::conditional<VIsConst, const ImageType, ImageType>::type;
+    using QualifiedImageType = std::conditional_t<VIsConst, const ImageType, ImageType>;
 
     static constexpr bool IsImageTypeConst = std::is_const<QualifiedImageType>::value;
 
-    using QualifiedInternalPixelType =
-      typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
+    using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 
     // Pixel type class that is either 'const' or non-const qualified, depending on QualifiedImageType.
-    using QualifiedPixelType = typename std::conditional<IsImageTypeConst, const PixelType, PixelType>::type;
+    using QualifiedPixelType = std::conditional_t<IsImageTypeConst, const PixelType, PixelType>;
 
 
     // Wraps a reference to a pixel.
@@ -292,8 +291,7 @@ private:
     // Types conforming the iterator requirements of the C++ standard library:
     using difference_type = std::ptrdiff_t;
     using value_type = PixelType;
-    using reference =
-      typename std::conditional<SupportsDirectPixelAccess, QualifiedPixelType &, PixelProxy<IsImageTypeConst>>::type;
+    using reference = std::conditional_t<SupportsDirectPixelAccess, QualifiedPixelType &, PixelProxy<IsImageTypeConst>>;
     using pointer = QualifiedPixelType *;
     using iterator_category = std::random_access_iterator_tag;
 
@@ -326,7 +324,7 @@ private:
     {
       assert(m_InternalPixelPointer != nullptr);
 
-      using PixelWrapper = typename std::conditional<SupportsDirectPixelAccess, PixelReferenceWrapper, reference>::type;
+      using PixelWrapper = std::conditional_t<SupportsDirectPixelAccess, PixelReferenceWrapper, reference>;
 
       return PixelWrapper{ *m_InternalPixelPointer, m_OptionalAccessorFunctor };
     }
@@ -487,8 +485,7 @@ private:
 
   static constexpr bool IsImageTypeConst = std::is_const<TImage>::value;
 
-  using QualifiedInternalPixelType =
-    typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
+  using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 
   class AccessorFunctorInitializer final
   {
@@ -549,10 +546,9 @@ private:
   SizeValueType m_NumberOfPixels = 0;
 
 public:
-  using const_iterator =
-    typename std::conditional<UsingPointerAsIterator, const InternalPixelType *, QualifiedIterator<true>>::type;
-  using iterator = typename std::
-    conditional<UsingPointerAsIterator, QualifiedInternalPixelType *, QualifiedIterator<IsImageTypeConst>>::type;
+  using const_iterator = std::conditional_t<UsingPointerAsIterator, const InternalPixelType *, QualifiedIterator<true>>;
+  using iterator =
+    std::conditional_t<UsingPointerAsIterator, QualifiedInternalPixelType *, QualifiedIterator<IsImageTypeConst>>;
   using reverse_iterator = std::reverse_iterator<iterator>;
   using const_reverse_iterator = std::reverse_iterator<const_iterator>;
 

@@ -112,9 +112,9 @@ private:
     friend class ImageRegionRange;
 
     // Use either a const or a non-const qualified image buffer iterator.
-    using QualifiedBufferIteratorType = typename std::conditional<VIsConst,
-                                                                  typename ImageBufferRange<TImage>::const_iterator,
-                                                                  typename ImageBufferRange<TImage>::iterator>::type;
+    using QualifiedBufferIteratorType = std::conditional_t<VIsConst,
+                                                           typename ImageBufferRange<TImage>::const_iterator,
+                                                           typename ImageBufferRange<TImage>::iterator>;
 
     // QualifiedIterator data members (strictly private):
 

@@ -246,12 +246,12 @@ template <typename TImagePointer>
 ITK_TEMPLATE_EXPORT void
 WriteImage(TImagePointer && image, const std::string & filename, bool compress = false)
 {
-  using NonReferenceImagePointer = typename std::remove_reference<TImagePointer>::type;
+  using NonReferenceImagePointer = std::remove_reference_t<TImagePointer>;
   static_assert(std::is_pointer<NonReferenceImagePointer>::value ||
                   mpl::IsSmartPointer<NonReferenceImagePointer>::Value,
                 "WriteImage requires a raw pointer or SmartPointer.");
 
-  using ImageType = typename std::remove_const<typename std::remove_reference<decltype(*image)>::type>::type;
+  using ImageType = std::remove_const_t<std::remove_reference_t<decltype(*image)>>;
   auto writer = ImageFileWriter<ImageType>::New();
   writer->SetInput(image);
   writer->SetFileName(filename);

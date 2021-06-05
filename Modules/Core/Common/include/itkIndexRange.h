@@ -258,7 +258,7 @@ public:
 
 
     // When BeginAtZero is true, use zero as minimum index, otherwise use itk::Index<N>.
-    using MinIndexType = typename std::conditional<VBeginAtZero, ZeroIndex, IndexType>::type;
+    using MinIndexType = std::conditional_t<VBeginAtZero, ZeroIndex, IndexType>;
 
     // Private constructor, only used by friend class IndexRange.
     const_iterator(const IndexType & index, const MinIndexType & minIndex, const IndexType & maxIndex) ITK_NOEXCEPT
@@ -310,7 +310,7 @@ public:
    * case there is a substitution failure, and C++ "SFINAE" kicks in).
    */
   template <bool VIsSubstitutionFailure = VBeginAtZero,
-            typename TVoid = typename std::enable_if<!VIsSubstitutionFailure>::type>
+            typename TVoid = std::enable_if_t<!VIsSubstitutionFailure>>
   explicit IndexRange(const ImageRegion<VDimension> & imageRegion)
     : // Note: Use parentheses instead of curly braces to initialize data members,
       // to avoid AppleClang 6.0.0.6000056 compile errors, "no viable conversion..."
