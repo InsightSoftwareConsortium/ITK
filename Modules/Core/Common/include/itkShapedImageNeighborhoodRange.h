@@ -294,15 +294,14 @@ private:
     friend class ShapedImageNeighborhoodRange;
 
     // Image type class that is either 'const' or non-const qualified, depending on QualifiedIterator and TImage.
-    using QualifiedImageType = typename std::conditional<VIsConst, const ImageType, ImageType>::type;
+    using QualifiedImageType = std::conditional_t<VIsConst, const ImageType, ImageType>;
 
     static constexpr bool IsImageTypeConst = std::is_const<QualifiedImageType>::value;
 
-    using QualifiedInternalPixelType =
-      typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
+    using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 
     // Pixel type class that is either 'const' or non-const qualified, depending on QualifiedImageType.
-    using QualifiedPixelType = typename std::conditional<IsImageTypeConst, const PixelType, PixelType>::type;
+    using QualifiedPixelType = std::conditional_t<IsImageTypeConst, const PixelType, PixelType>;
 
     // Pointer to the buffer of the image. Only null when the iterator is default-constructed.
     QualifiedInternalPixelType * m_ImageBufferPointer = nullptr;
@@ -579,8 +578,7 @@ private:
 
   static constexpr bool IsImageTypeConst = std::is_const<TImage>::value;
 
-  using QualifiedInternalPixelType =
-    typename std::conditional<IsImageTypeConst, const InternalPixelType, InternalPixelType>::type;
+  using QualifiedInternalPixelType = std::conditional_t<IsImageTypeConst, const InternalPixelType, InternalPixelType>;
 
 
   // Just the data from itk::ImageRegion (not the virtual table)

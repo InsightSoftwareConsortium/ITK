@@ -31,8 +31,8 @@ Expect_data_returns_pointer_to_first_element(T & container)
 {
   static_assert(std::is_pointer<decltype(container.data())>::value, "data() must return a pointer");
 
-  static_assert(std::is_const<typename std::remove_reference<decltype(*(container.data()))>::type>::value ==
-                  std::is_const<typename std::remove_reference<decltype(container[0])>::type>::value,
+  static_assert(std::is_const<std::remove_reference_t<decltype(*(container.data()))>>::value ==
+                  std::is_const<std::remove_reference_t<decltype(container[0])>>::value,
                 "*container.data() and container[0] must have the same const-ness");
 
   EXPECT_EQ(container.data(), &container[0]);

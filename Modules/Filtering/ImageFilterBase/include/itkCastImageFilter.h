@@ -141,13 +141,13 @@ protected:
 
   template <typename TInputPixelType,
             typename TOutputPixelType,
-            typename std::enable_if<mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type = 0>
+            std::enable_if_t<mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int> = 0>
   void
   DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread);
 
   template <typename TInputPixelType,
             typename TOutputPixelType,
-            typename std::enable_if<!mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int>::type = 0>
+            std::enable_if_t<!mpl::is_static_castable<TInputPixelType, TOutputPixelType>::value, int> = 0>
   void
   DynamicThreadedGenerateDataDispatched(const OutputImageRegionType & outputRegionForThread);
 

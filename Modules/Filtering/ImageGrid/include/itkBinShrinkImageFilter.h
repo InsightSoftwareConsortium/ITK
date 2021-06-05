@@ -136,7 +136,7 @@ private:
 
   /** Round different pixel types. */
   template <class TOutputType, class TInputType>
-  typename std::enable_if<std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
+  std::enable_if_t<std::numeric_limits<TOutputType>::is_integer, TOutputType>
   RoundIfInteger(TInputType input)
   {
     return Math::Round<TOutputType>(input);
@@ -145,7 +145,7 @@ private:
   // For Non-fundamental types numeric_limits is not specialized, and
   // is_integer defaults to false.
   template <class TOutputType, class TInputType>
-  typename std::enable_if<!std::numeric_limits<TOutputType>::is_integer, TOutputType>::type
+  std::enable_if_t<!std::numeric_limits<TOutputType>::is_integer, TOutputType>
   RoundIfInteger(const TInputType & input, ...)
   {
     return static_cast<TOutputType>(input);

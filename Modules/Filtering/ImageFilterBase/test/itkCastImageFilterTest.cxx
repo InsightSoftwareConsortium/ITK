@@ -94,24 +94,25 @@ GetCastTypeName()
 // static_cast_is_well_defined function returns true if the result of the static cast is well defined
 // and false if the result is undefined.
 template <typename TInput, typename TOutput>
-static typename std::enable_if<std::is_integral<TOutput>::value && std::is_integral<TInput>::value, bool>::type
+static std::enable_if_t<std::is_integral<TOutput>::value && std::is_integral<TInput>::value, bool>
   static_cast_is_well_defined(TInput)
 {
   return true; // casting from int to int types employes deterministic 2's complement behavior
 }
 
 template <typename TInput, typename TOutput>
-static typename std::enable_if<std::is_floating_point<TOutput>::value &&
-                                 (std::is_floating_point<TInput>::value || std::is_integral<TInput>::value),
-                               bool>::type static_cast_is_well_defined(TInput)
+static std::enable_if_t<std::is_floating_point<TOutput>::value &&
+                          (std::is_floating_point<TInput>::value || std::is_integral<TInput>::value),
+                        bool>
+  static_cast_is_well_defined(TInput)
 {
   return true; // Floating point to floating point static casts are always consistently defined.
 }
 
 template <typename TInput, typename TOutput>
-static typename std::enable_if<std::is_integral<TOutput>::value && std::is_unsigned<TOutput>::value &&
-                                 std::is_floating_point<TInput>::value,
-                               bool>::type
+static std::enable_if_t<std::is_integral<TOutput>::value && std::is_unsigned<TOutput>::value &&
+                          std::is_floating_point<TInput>::value,
+                        bool>
 static_cast_is_well_defined(TInput value)
 {
   if (value < 0.0 || value > static_cast<TInput>(std::numeric_limits<TOutput>::max()))
@@ -122,9 +123,9 @@ static_cast_is_well_defined(TInput value)
 }
 
 template <typename TInput, typename TOutput>
-static typename std::enable_if<std::is_integral<TOutput>::value && std::is_signed<TOutput>::value &&
-                                 std::is_floating_point<TInput>::value,
-                               bool>::type
+static std::enable_if_t<std::is_integral<TOutput>::value && std::is_signed<TOutput>::value &&
+                          std::is_floating_point<TInput>::value,
+                        bool>
 static_cast_is_well_defined(TInput value)
 {
   if (value < static_cast<TInput>(std::numeric_limits<TOutput>::min()) ||

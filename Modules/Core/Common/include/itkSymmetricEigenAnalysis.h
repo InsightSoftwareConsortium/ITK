@@ -613,8 +613,8 @@ private:
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
-    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
-    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using ValueTypeCV = std::remove_pointer_t<PointerType>;
+    using ValueType = std::remove_cv_t<ValueTypeCV>;
     using EigenLibMatrixType = Eigen::Matrix<ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
     EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
@@ -715,8 +715,8 @@ private:
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
-    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
-    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using ValueTypeCV = std::remove_pointer_t<PointerType>;
+    using ValueType = std::remove_cv_t<ValueTypeCV>;
     using EigenLibMatrixType = Eigen::Matrix<ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
     EigenConstMatrixMap inputMatrix(pointerToData, m_Dimension, m_Dimension);
@@ -910,8 +910,8 @@ private:
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
-    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
-    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using ValueTypeCV = std::remove_pointer_t<PointerType>;
+    using ValueType = std::remove_cv_t<ValueTypeCV>;
     using EigenLibMatrixType = Eigen::Matrix<ValueType, VDimension, VDimension, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
     EigenConstMatrixMap inputMatrix(pointerToData);
@@ -1067,8 +1067,8 @@ private:
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
-    using ValueTypeCV = typename std::remove_pointer<PointerType>::type;
-    using ValueType = typename std::remove_cv<ValueTypeCV>::type;
+    using ValueTypeCV = std::remove_pointer_t<PointerType>;
+    using ValueType = std::remove_cv_t<ValueTypeCV>;
     using EigenLibMatrixType = Eigen::Matrix<ValueType, VDimension, VDimension, Eigen::RowMajor>;
     using EigenConstMatrixMap = Eigen::Map<const EigenLibMatrixType>;
     EigenConstMatrixMap inputMatrix(pointerToData);

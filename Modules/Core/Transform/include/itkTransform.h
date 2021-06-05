@@ -553,12 +553,10 @@ public:
    * The image parameter may be either a SmartPointer or a raw pointer.
    * */
   template <typename TImage>
-  typename std::enable_if<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions,
-                          void>::type
+  std::enable_if_t<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions, void>
   ApplyToImageMetadata(TImage * image) const;
   template <typename TImage>
-  typename std::enable_if<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions,
-                          void>::type
+  std::enable_if_t<TImage::ImageDimension == NInputDimensions && TImage::ImageDimension == NOutputDimensions, void>
   ApplyToImageMetadata(SmartPointer<TImage> image) const
   {
     this->ApplyToImageMetadata(image.GetPointer()); // Delegate to the raw pointer signature
