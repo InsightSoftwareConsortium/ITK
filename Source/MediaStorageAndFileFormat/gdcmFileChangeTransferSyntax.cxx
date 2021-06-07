@@ -35,16 +35,15 @@ namespace gdcm
 class FileChangeTransferSyntaxInternals
 {
 public:
-  FileChangeTransferSyntaxInternals():
-    IC(nullptr),
-    InitializeCopy(false)
-  {}
+  FileChangeTransferSyntaxInternals()
+    
+  = default;
   ~FileChangeTransferSyntaxInternals()
     {
     delete IC;
     }
-  ImageCodec *IC;
-  bool InitializeCopy;
+  ImageCodec *IC{nullptr};
+  bool InitializeCopy{false};
   std::streampos PixelDataPos;
   std::string InFilename;
   std::string OutFilename;
