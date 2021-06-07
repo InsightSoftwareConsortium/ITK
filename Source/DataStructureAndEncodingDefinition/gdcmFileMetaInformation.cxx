@@ -704,7 +704,7 @@ std::istream &FileMetaInformation::ReadCompat(std::istream &is)
 #define ADDVRIMPLICIT( element ) \
     case element: \
       de.SetVR( (VR::VRType)TagToType<0x0002,element>::VRType ); \
-      break;
+      break
 
 bool AddVRToDataElement(DataElement &de)
 {

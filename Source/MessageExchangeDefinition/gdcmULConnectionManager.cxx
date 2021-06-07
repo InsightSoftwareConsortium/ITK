@@ -907,7 +907,12 @@ EStateID ULConnectionManager::RunEventLoop(ULEvent& currentEvent, ULConnection* 
       //this gathering of the state is for scus that have just sent out a request
       theState = inWhichConnection->GetState();
     }
-    std::istream &is = *inWhichConnection->GetProtocol();
+    std::istream * tempProtocolStream =  inWhichConnection->GetProtocol();
+    if(tempProtocolStream == nullptr)
+    {
+      throw Exception("ProtocolStream as nullptr is invalid");
+    }
+    std::istream &is = *tempProtocolStream;
     //std::ostream &os = *inWhichConnection->GetProtocol();
 
     BasePDU* theFirstPDU = nullptr;// the first pdu read in during this event loop,

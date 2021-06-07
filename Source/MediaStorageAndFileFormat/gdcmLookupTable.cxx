@@ -269,15 +269,15 @@ void LookupTable::SetBlueLUT(const unsigned char *blue, unsigned int length)
 }
 
 namespace {
-  typedef union {
+  using U8 = union {
     uint8_t rgb[4]; // 3rd value = 0
     uint32_t I;
-  } U8;
+  };
 
-  typedef union {
+  using U16 = union {
     uint16_t rgb[4]; // 3rd value = 0
     uint64_t I;
-  } U16;
+  };
 
   struct ltstr8
     {

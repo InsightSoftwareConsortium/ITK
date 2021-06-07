@@ -193,17 +193,9 @@ enum Operation
 class FileStreamerInternals
 {
 public:
-  FileStreamerInternals():operation(NOOPERATION),
-  CurrentTag(0x0,0x0),
-  MaxSizeDE(0),
-  StartOffset(0),
-  CheckTemplateFileName(false),
-  InitializeCopy(false),
-  CheckPixelDataElement(false),
-  pFile(nullptr),
-  ReservedDataLength(0),
-  ReservedGroupDataElement(0),
-  Self(nullptr)
+  FileStreamerInternals():
+  CurrentTag(0x0,0x0)
+  
     {
     PrivateCreator.SetByteValue("",0);
     }
@@ -662,26 +654,26 @@ public:
   std::string TemplateFilename;
   std::string OutFilename;
 private:
-  Operation operation;
+  Operation operation{NOOPERATION};
   Tag CurrentTag;
   DataElement PrivateCreator;
-  size_t MaxSizeDE;
-  uint8_t StartOffset;
+  size_t MaxSizeDE{0};
+  uint8_t StartOffset{0};
 public:
-  bool CheckTemplateFileName;
-  bool InitializeCopy;
-  bool CheckPixelDataElement;
+  bool CheckTemplateFileName{false};
+  bool InitializeCopy{false};
+  bool CheckPixelDataElement{false};
 private:
   // really private !
-  FILE* pFile;
+  FILE* pFile{nullptr};
   std::streampos thepos;
   size_t actualde;
   size_t CurrentDataLenth;
   Tag CurrentGroupTag;
-  off64_t ReservedDataLength;
-  unsigned short ReservedGroupDataElement;
+  off64_t ReservedDataLength{0};
+  unsigned short ReservedGroupDataElement{0};
 public:
-  FileStreamer *Self;
+  FileStreamer *Self{nullptr};
 private:
   bool UpdateDataElement( const Tag & t )
     {

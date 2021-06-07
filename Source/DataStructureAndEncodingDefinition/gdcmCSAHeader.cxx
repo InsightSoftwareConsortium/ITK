@@ -961,13 +961,13 @@ bool CSAHeader::LoadFromDataElement(DataElement const &de)
   if( v2 == t1.GetElement() )
     {
     //std::cout << "Image shadow data (0029,xx10)\n\n";
-    DataElementTag = t1;;
+    DataElementTag = t1;
     }
   //else if( de.GetTag().GetPrivateCreator() == t2 )
   else if( v2 == t2.GetElement() )
     {
     //std::cout << "Series shadow data (0029,xx20)\n\n";
-    DataElementTag = t2;;
+    DataElementTag = t2;
     }
   else
     {

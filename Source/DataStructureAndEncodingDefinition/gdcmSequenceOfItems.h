@@ -166,7 +166,7 @@ public:
         l += item.template GetLength<TDE>();
         if( l > SequenceLengthField )
           {
-          gdcmDebugMacro( "Found: Length of Item larger than expected" )
+          gdcmDebugMacro( "Found: Length of Item larger than expected" );
           throw "Length of Item larger than expected";
           }
         assert( l <= SequenceLengthField );

@@ -35,9 +35,9 @@ class DICOMDIRGeneratorInternal
 public:
   DICOMDIRGeneratorInternal():F(new File) {}
   SmartPointer<File> F;
-  typedef Directory::FilenamesType  FilenamesType;
+  using FilenamesType = Directory::FilenamesType;
   FilenamesType fns;
-  typedef Directory::FilenameType  FilenameType;
+  using FilenameType = Directory::FilenameType;
   FilenameType rootdir;
   Scanner scanner;
   std::vector<uint32_t> OffsetTable;

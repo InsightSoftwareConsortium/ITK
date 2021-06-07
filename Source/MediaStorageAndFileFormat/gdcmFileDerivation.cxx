@@ -188,13 +188,13 @@ static const CodeDefinition PurposeOfReferencetoAlternateRepresentation[] = {
 class FileDerivationInternals
 {
 public:
-  FileDerivationInternals():References(),DerivationCodeSequenceCodeValue(0),PurposeOfReferenceCodeSequenceCodeValue(0),DerivationDescription(),
-    AppendDerivationHistory(false) {}
+  FileDerivationInternals():References(),DerivationDescription()
+    {}
   std::vector< std::pair< std::string, std::string > > References;
-  unsigned int DerivationCodeSequenceCodeValue;
-  unsigned int PurposeOfReferenceCodeSequenceCodeValue;
+  unsigned int DerivationCodeSequenceCodeValue{0};
+  unsigned int PurposeOfReferenceCodeSequenceCodeValue{0};
   std::string DerivationDescription;
-  bool AppendDerivationHistory;
+  bool AppendDerivationHistory{false};
 };
 
 FileDerivation::FileDerivation():F(new File),Internals(new FileDerivationInternals)

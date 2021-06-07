@@ -553,7 +553,7 @@ bool ImageCodec::DoOverlayCleanup(std::istream &is, std::ostream &os)
           *it = ((*it >> (PF.GetBitsStored() - PF.GetHighBit() - 1)) & pmask);
           }
         os.write((char *)&buffer[0], bytesRead);
-        };
+        }
 #else
       //std::ostreambuf_iterator<char> end_of_stream_iterator;
       //std::ostreambuf_iterator<char> out_iter(os.rdbuf());

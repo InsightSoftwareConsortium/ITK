@@ -114,7 +114,7 @@ private:
  * @param msg message part
  */
 #if defined(NDEBUG) && !defined(GDCM_ALWAYS_TRACE_MACRO)
-#define gdcmDebugMacro(msg) {}
+#define gdcmDebugMacro(msg) GDCM_NOOP_STATEMENT
 #else
 #define gdcmDebugMacro(msg)                                       \
 {                                                                 \
@@ -128,7 +128,8 @@ private:
    std::ostream &_os = gdcm::Trace::GetDebugStream();             \
    _os << osmacro.str() << "\n\n" << std::endl;                   \
    }                                                              \
-}
+}                                                                 \
+GDCM_NOOP_STATEMENT
 #endif //NDEBUG
 
 /**
@@ -136,7 +137,7 @@ private:
  * @param msg message part
  */
 #if defined(NDEBUG) && !defined(GDCM_ALWAYS_TRACE_MACRO)
-#define gdcmWarningMacro(msg) {}
+#define gdcmWarningMacro(msg) GDCM_NOOP_STATEMENT
 #else
 #define gdcmWarningMacro(msg)                                     \
 {                                                                 \
@@ -149,7 +150,8 @@ private:
    std::ostream &_os = gdcm::Trace::GetWarningStream();           \
    _os << osmacro.str() << std::endl;                             \
    }                                                              \
-}
+}                                                                 \
+GDCM_NOOP_STATEMENT
 #endif //NDEBUG
 
 /**
@@ -158,7 +160,7 @@ private:
  * @param msg second message part
  */
 #if defined(NDEBUG) && !defined(GDCM_ALWAYS_TRACE_MACRO)
-#define gdcmErrorMacro(msg) {}
+#define gdcmErrorMacro(msg) GDCM_NOOP_STATEMENT
 #else
 #define gdcmErrorMacro(msg)                                       \
 {                                                                 \
@@ -171,7 +173,8 @@ private:
    std::ostream &_os = gdcm::Trace::GetErrorStream();             \
    _os << osmacro.str() << std::endl;                             \
    }                                                              \
-}
+}                                                                 \
+GDCM_NOOP_STATEMENT
 #endif //NDEBUG
 
 /**
@@ -181,7 +184,7 @@ private:
  *        gdcmAssertMacro( "my message" && 2 < 3 )
  */
 #if defined(NDEBUG) && !defined(GDCM_ALWAYS_TRACE_MACRO)
-#define gdcmAssertMacro(arg) {}
+#define gdcmAssertMacro(arg) GDCM_NOOP_STATEMENT
 #else
 #define gdcmAssertMacro(arg)                                      \
 {                                                                 \
@@ -195,7 +198,8 @@ private:
    _os << osmacro.str() << std::endl;                             \
    assert ( arg );                                                \
    }                                                              \
-}
+}                                                                 \
+GDCM_NOOP_STATEMENT
 #endif //NDEBUG
 
 /**
@@ -217,7 +221,8 @@ private:
            << "\n\n";                                             \
    throw osmacro.str();                                           \
    }                                                              \
-}
+}                                                                 \
+GDCM_NOOP_STATEMENT
 #else
 // Simply reproduce gdcmAssertMacro behavior:
 #define gdcmAssertAlwaysMacro(arg) gdcmAssertMacro(arg)

@@ -29,7 +29,7 @@ namespace gdcm
     class Segment {
     public:
         virtual ~Segment() = default;
-        typedef std::map<const EntryType*, const Segment*> SegmentMap;
+        using SegmentMap = std::map<const EntryType *, const Segment *>;
         virtual bool Expand(const SegmentMap& instances,
             std::vector<EntryType>& expanded) const = 0;
         const EntryType* First() const { return _first; }
@@ -54,7 +54,7 @@ namespace gdcm
     template <typename EntryType>
     class DiscreteSegment : public Segment<EntryType> {
     public:
-        typedef typename Segment<EntryType>::SegmentMap SegmentMap;
+        using SegmentMap = typename Segment<EntryType>::SegmentMap;
         DiscreteSegment(const EntryType* first)
             : Segment<EntryType>(first, first+2+*(first+1)) {}
         bool Expand(const SegmentMap&,
@@ -69,7 +69,7 @@ namespace gdcm
     template <typename EntryType>
     class LinearSegment : public Segment<EntryType> {
     public:
-        typedef typename Segment<EntryType>::SegmentMap SegmentMap;
+        using SegmentMap = typename Segment<EntryType>::SegmentMap;
         LinearSegment(const EntryType* first)
             : Segment<EntryType>(first, first+3) {}
         bool Expand(const SegmentMap&,
@@ -98,7 +98,7 @@ namespace gdcm
     template <typename EntryType>
     class IndirectSegment : public Segment<EntryType> {
     public:
-        typedef typename Segment<EntryType>::SegmentMap SegmentMap;
+        using SegmentMap = typename Segment<EntryType>::SegmentMap;
         IndirectSegment(const EntryType* first)
             : Segment<EntryType>(first, first+2+4/sizeof(EntryType)) {}
         bool Expand(const SegmentMap& instances,
@@ -135,7 +135,7 @@ namespace gdcm
     void ExpandPalette(const EntryType* raw_values, uint32_t length,
         std::vector<EntryType>& palette)
     {
-        typedef std::deque<Segment<EntryType>*> SegmentList;
+        using SegmentList = std::deque<Segment<EntryType> *>;
         SegmentList segments;
         const EntryType* raw_seg = raw_values;
         while ( (std::distance(raw_values, raw_seg) * sizeof(EntryType)) <length ) {

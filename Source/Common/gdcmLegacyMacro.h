@@ -45,6 +45,17 @@
 # endif
 #endif
 
+/** The `static_assert(true, "")`  idiom is commonly employed for
+ *  C++11 or greater to ensure that it is compile-time only
+ *  check that can not be part of the binary file.
+ *  This allows a macro to be used anywhere that a statement
+ *  is expected, and to enforce consistent use of ; after
+ *  a macro. The static_assert is a constexpr that can be used
+ *  in places where raw statements (i.e. 'do{} while(0)') are
+ *  not allowed (i.e. after class member function definitions).
+ *  */
+#  define GDCM_NOOP_STATEMENT static_assert(true, "")
+
 // Macros to create runtime deprecation warning messages in function
 // bodies.  Example usage:
 //

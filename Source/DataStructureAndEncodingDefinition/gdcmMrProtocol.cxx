@@ -22,7 +22,7 @@ namespace gdcm
 struct MrProtocol::Element {
 };
 
-typedef std::map< std::string, std::string > MyMapType;
+using MyMapType = std::map<std::string, std::string>;
 struct MrProtocol::Internals {
   MyMapType mymap;
   std::string csastr;
