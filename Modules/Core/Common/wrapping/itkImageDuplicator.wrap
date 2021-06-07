@@ -10,7 +10,7 @@ endmacro()
 itk_wrap_class("itk::ImageDuplicator" POINTER)
   # Making sure that all types wrapped in PyBuffer are also wrapped for ImageDuplicator
   # as this filter is used in the Python NumPy  bridge.
-  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;SC;SS;SI;SL;F")
+  UNIQUE(types "${WRAP_ITK_SCALAR};UC;D;US;UI;UL;ULL;SC;SS;SI;SL;SLL;F")
   foreach(t ${types})
     string(REGEX MATCHALL "(V${t}|CV${t})" VectorTypes ${WRAP_ITK_VECTOR})
     set(PixelType ${t})
