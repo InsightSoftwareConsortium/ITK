@@ -27,6 +27,8 @@
 #include "itkWeakPointer.h"
 #include "itkNeighborhoodAccessorFunctor.h"
 
+#include <type_traits> // For is_same
+
 namespace itk
 {
 /** \class Image
@@ -318,9 +320,15 @@ public:
   unsigned int
   GetNumberOfComponentsPerPixel() const override;
 
-  /** Returns (image1 == image2). */
-  friend bool
-  operator==(const Image & lhs, const Image & rhs)
+  /** Returns (image1 == image2).
+   * \note `operator==` and `operator!=` are defined as function templates
+   * (rather than as non-templates), just to allow template instantiation of
+   * `itk::Image` for non-EqualityComparable pixel types.
+   */
+  template <typename TEqualityComparable>
+  friend std::enable_if_t<std::is_same<TEqualityComparable, TPixel>::value, bool>
+  operator==(const Image<TEqualityComparable, VImageDimension> & lhs,
+             const Image<TEqualityComparable, VImageDimension> & rhs)
   {
     if ((lhs.GetBufferedRegion() != rhs.GetBufferedRegion()) || (lhs.m_Spacing != rhs.m_Spacing) ||
         (lhs.m_Origin != rhs.m_Origin) || (lhs.m_Direction != rhs.m_Direction) ||
@@ -349,16 +357,18 @@ public:
       return false;
     }
 
-    const TPixel * const lhsBufferPointer = lhsBuffer.GetBufferPointer();
-    const TPixel * const rhsBufferPointer = rhsBuffer.GetBufferPointer();
+    const TEqualityComparable * const lhsBufferPointer = lhsBuffer.GetBufferPointer();
+    const TEqualityComparable * const rhsBufferPointer = rhsBuffer.GetBufferPointer();
 
     return ((lhsBufferPointer == rhsBufferPointer) ||
             std::equal(lhsBufferPointer, lhsBufferPointer + bufferSize, rhsBufferPointer));
   }
 
   /** Returns (image1 != image2). */
-  friend bool
-  operator!=(const Image & lhs, const Image & rhs)
+  template <typename TEqualityComparable>
+  friend std::enable_if_t<std::is_same<TEqualityComparable, TPixel>::value, bool>
+  operator!=(const Image<TEqualityComparable, VImageDimension> & lhs,
+             const Image<TEqualityComparable, VImageDimension> & rhs)
   {
     return !(lhs == rhs);
   }

@@ -133,8 +133,21 @@ Expect_unequal_when_pixel_values_differ()
   Expect_unequal(*image1, *image2);
 }
 
+
+// An example of a type that does not support `x == y`, for instances `x`, `y`.
+// (Neither does it support `x != y`).
+struct NonEqualityComparableType
+{
+  int data;
+};
+
 } // namespace
 
+
+// Test template instantiations for int, and for a non-EqualityComparable
+// pixel type.
+template class itk::Image<int>;
+template class itk::Image<NonEqualityComparableType>;
 
 // Tests that for any ImageType, objects constructed by ImageType::New()
 // compare equal, using operator==(const Image &, const Image &).
@@ -174,4 +187,22 @@ TEST(Image, UnequalWhenPixelValuesDiffer)
 {
   Expect_unequal_when_pixel_values_differ<itk::Image<int>>();
   Expect_unequal_when_pixel_values_differ<itk::Image<double, 3>>();
+}
+
+
+// Tests `FillBuffer` for pixels of type `NonEqualityComparableType`. Aims to
+// suppress Linux (Ubuntu 7.5.0-3ubuntu1~18.04) GCC GNU 7.5.0 warning:
+// 'FillBuffer(const TPixel&)' defined but not used [-Wunused-function]
+TEST(Image, FillBufferOfNonEqualityComparableType)
+{
+  const auto ImageDimagion = 2U;
+  const auto image = itk::Image<NonEqualityComparableType, ImageDimagion>::New();
+  image->SetRegions(itk::Size<ImageDimagion>::Filled(1));
+  image->Allocate();
+
+  for (const auto i : { 0, 1 })
+  {
+    image->FillBuffer({ i });
+    EXPECT_EQ(image->GetPixel({}).data, i);
+  }
 }
