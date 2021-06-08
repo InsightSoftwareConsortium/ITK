@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkNiftiImageIOTest.h"
-#include "itkEnableIf.h"
+#include <type_traits> // for enable_if
 #include <limits>
 /* VS 2015 has a bug when building release with the heavily nested for
  * loops iterating too many times.  This turns off optimization to
@@ -29,8 +29,7 @@
 
 template <typename ScalarType>
 void
-Decrement(ScalarType & value,
-          typename itk::DisableIfC<std::numeric_limits<ScalarType>::is_signed, ScalarType>::Type * = nullptr)
+Decrement(ScalarType & value, std::enable_if_t<!std::numeric_limits<ScalarType>::is_signed, ScalarType> * = nullptr)
 {
   if (value > 1)
   {
@@ -40,8 +39,7 @@ Decrement(ScalarType & value,
 
 template <typename ScalarType>
 void
-Decrement(ScalarType & value,
-          typename itk::EnableIfC<std::numeric_limits<ScalarType>::is_signed, ScalarType>::Type * = nullptr)
+Decrement(ScalarType & value, std::enable_if_t<std::numeric_limits<ScalarType>::is_signed, ScalarType> * = nullptr)
 {
   if (value > -std::numeric_limits<ScalarType>::max() + 1)
   {
