@@ -731,7 +731,17 @@ def vtk_image_from_image(l_image: "itkt.ImageOrImageSource") -> "vtk.vtkImageDat
     dims = [1] * 3
     dims[:dim] = itk.size(l_image)
     vtk_image.SetDimensions(dims)
-    # Todo: Add Direction with VTK 9
+    # Copy direction matrix for VTK>=9
+    import vtk
+    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+        l_direction = l_image.GetDirection()
+        direction = itk.array_from_matrix(l_direction).flatten().tolist()
+        if len(direction) == 4:
+            # Change 2d matrix to 3d
+            direction = [ direction[0], direction[1], 0.0,
+                          direction[2], direction[3], 0.0,
+                                   0.0,          0.0, 1.0 ]
+        vtk_image.SetDirectionMatrix(direction)
     if l_image.GetImageDimension() == 3:
         PixelType = itk.template(l_image)[1][0]
         if PixelType == itk.Vector:
@@ -772,7 +782,22 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
     l_origin = [0.0] * dim
     l_origin[:dim] = vtk_image.GetOrigin()[:dim]
     l_image.SetOrigin(l_origin)
-    # Todo: Add Direction with VTK 9
+    # Direction support with VTK 9
+    import vtk
+    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+        direction = vtk_image.GetDirectionMatrix()
+        if dim==3:
+            direction_array = np.identity(3)
+            for y in (0,1,2):
+                for x in (0,1,2):
+                    direction_array[x,y] = direction.GetElement(x,y)
+        elif dim==2:
+            direction_array = np.identity(2)
+            for y in (0,1):
+                for x in (0,1):
+                    direction_array[x,y] = direction.GetElement(x,y)
+        l_direction = itk.matrix_from_array(direction_array)
+        l_image.SetDirection(l_direction)
     return l_image
 
 

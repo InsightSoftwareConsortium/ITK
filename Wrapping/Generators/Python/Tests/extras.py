@@ -586,6 +586,10 @@ try:
 
     print("Testing vtk conversion")
     image = itk.image_from_array(np.random.rand(2, 3, 4))
+    z_rot = np.asarray([[0,1,0], [-1,0,0], [0,0,1]], dtype=np.float64)
+    z_rot_itk = itk.matrix_from_array(z_rot)
+    image.SetDirection(z_rot_itk)
+
     vtk_image = itk.vtk_image_from_image(image)
     image_round = itk.image_from_vtk_image(vtk_image)
     assert np.array_equal(itk.origin(image), itk.origin(image_round))
@@ -594,10 +598,20 @@ try:
     assert np.array_equal(
         itk.array_view_from_image(image), itk.array_view_from_image(image_round)
     )
+    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+        z_rot_round = itk.array_from_matrix(image_round.GetDirection())
+        assert np.array_equal(z_rot, z_rot_round)
+    else:
+        print("VTK version <9. Direction unsupported.")
+
 
     image = itk.image_from_array(
         np.random.rand(5, 4, 2).astype(np.float32), is_vector=True
     )
+    z_rot = np.asarray([[0,1], [-1,0]], dtype=np.float64)
+    z_rot_itk = itk.matrix_from_array(z_rot)
+    image.SetDirection(z_rot_itk)
+
     vtk_image = itk.vtk_image_from_image(image)
     image_round = itk.image_from_vtk_image(vtk_image)
     assert np.array_equal(itk.origin(image), itk.origin(image_round))
@@ -606,6 +620,10 @@ try:
     assert np.array_equal(
         itk.array_view_from_image(image), itk.array_view_from_image(image_round)
     )
+    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+        z_rot_round = itk.array_from_matrix(image_round.GetDirection())
+        assert np.array_equal(z_rot, z_rot_round)
+
 except ImportError:
     print("vtk not imported. Skipping vtk conversion tests")
     pass
