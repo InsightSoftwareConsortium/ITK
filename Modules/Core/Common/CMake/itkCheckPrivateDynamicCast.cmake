@@ -52,7 +52,7 @@ int main(void)
 # accomplished with a custom command as a post build step for the
 # compilation of the executable.
   file(WRITE "${test_project_dir}/CMakeLists.txt" "
-cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16.3 FATAL_ERROR)
 foreach(p
     ## Only policies introduced after the cmake_minimum_required
     ## version need to explicitly be set to NEW.

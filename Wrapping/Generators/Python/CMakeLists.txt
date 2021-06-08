@@ -448,7 +448,7 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
         set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
       endif()
     endif()
-    if ("${CMAKE_VERSION}" VERSION_GREATER_EQUAL 3.13.0 AND NOT MSVC)
+    if (NOT MSVC)
       include(CheckIPOSupported)
       check_ipo_supported(RESULT ipo_is_supported)
       if (ipo_is_supported)

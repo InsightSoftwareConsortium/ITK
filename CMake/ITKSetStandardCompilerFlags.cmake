@@ -21,10 +21,8 @@
 
 include(CheckCXXCompilerFlag)
 include(CheckCCompilerFlag)
-if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.14.0)
-  include(CheckPIESupported)
-  check_pie_supported()
-endif()
+include(CheckPIESupported)
+check_pie_supported()
 
 function(check_c_compiler_flags c_flag_var)
   set(local_c_flags "")
