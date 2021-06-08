@@ -253,9 +253,7 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
 
   include(GoogleTest)
 
-  # CMake 3.10 added this method, to avoid configure time introspection.
-  # Verion 3.10.3 is needed for the DISCOVERY_TIMEOUT method
-  if(NOT CMAKE_CROSSCOMPILING AND NOT ${CMAKE_VERSION} VERSION_LESS "3.10.3" )
+  if(NOT CMAKE_CROSSCOMPILING)
     gtest_discover_tests( ${exe} DISCOVERY_TIMEOUT 15 )
   else()
     set(_skip_dependency)

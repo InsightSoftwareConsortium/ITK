@@ -1,7 +1,7 @@
 project(Eigen3)
 
 # Same version of ITK cmake_minimum_required
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.16.3)
 
 # ITK doesn't compile anything here, just generates targets for the INTERFACE library.
 if(FALSE)
