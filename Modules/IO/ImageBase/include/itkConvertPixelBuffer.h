@@ -21,7 +21,7 @@
 
 #include "itkObject.h"
 #include "itkNumericTraits.h"
-#include "itkEnableIf.h"
+#include <type_traits> // for enable_if
 
 namespace itk
 {
@@ -167,11 +167,11 @@ protected:
    *  world of rgb<float> or rgb<double> alpha would have to be 1.0
    */
   template <typename UComponentType>
-  static typename DisableIfC<NumericTraits<UComponentType>::IsInteger, UComponentType>::Type
+  static std::enable_if_t<!NumericTraits<UComponentType>::IsInteger, UComponentType>
   DefaultAlphaValue();
 
   template <typename UComponentType>
-  static typename EnableIfC<NumericTraits<UComponentType>::IsInteger, UComponentType>::Type
+  static std::enable_if_t<NumericTraits<UComponentType>::IsInteger, UComponentType>
   DefaultAlphaValue();
 };
 } // namespace itk
