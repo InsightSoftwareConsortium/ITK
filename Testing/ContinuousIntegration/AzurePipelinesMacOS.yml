@@ -6,7 +6,7 @@ trigger:
     - master
     - release*
 variables:
-  ExternalDataVersion: 5.1.0
+  ExternalDataVersion: 5.2.0
 jobs:
 - job: macOS
   timeoutInMinutes: 0
