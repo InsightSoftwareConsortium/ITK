@@ -163,7 +163,7 @@ class vnl_svd_fixed
   bool valid_;        // false if the NETLIB call failed.
 
   // Disallow assignment.
-  vnl_svd_fixed<T,R,C>(vnl_svd_fixed<T,R,C> const &) { }
+  vnl_svd_fixed(vnl_svd_fixed<T,R,C> const &) { }
   vnl_svd_fixed<T,R,C>& operator=(vnl_svd_fixed<T,R,C> const &) { return *this; }
 };
 
