@@ -300,7 +300,7 @@ ITKCommon_EXPORT std::istream &
 template <typename TFirstType>
 struct MapRecordPlusor
 {
-  MapRecordPlusor<TFirstType>(const char * token = "Size")
+  MapRecordPlusor(const char * token = "Size")
     : m_Token(token)
   {}
 
@@ -320,7 +320,7 @@ struct MapRecordPlusor
 template <typename TFirstType>
 struct MapRecordConditionalPlusor
 {
-  MapRecordConditionalPlusor<TFirstType>(const char * filter, const char * token = "Size")
+  MapRecordConditionalPlusor(const char * filter, const char * token = "Size")
     : m_Filter(filter)
     , m_Token(token)
   {}
