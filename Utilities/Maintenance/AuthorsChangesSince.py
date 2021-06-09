@@ -243,13 +243,16 @@ os.chdir(scratch_dir)
 examples_dir = scratch_dir / "ITKSphinxExamples"
 if not examples_dir.exists():
     subprocess.check_call(
-        "git clone https://github.com/InsightSoftwareConsortium/ITKSphinxExamples", shell=True
+        "git clone https://github.com/InsightSoftwareConsortium/ITKSphinxExamples",
+        shell=True,
     )
 os.chdir(examples_dir)
 update_previous_authors(f'--until="{revision_time}"')
 update_recent_authors(f'--since="{revision_time}"')
 update_authors_with_email(f'--since="{revision_time}"')
-commit_link_prefix = "https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/commit/"
+commit_link_prefix = (
+    "https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/commit/"
+)
 write_changelog("ITK Sphinx Examples", commit_link_prefix, f'--since="{revision_time}"')
 
 # ITKSoftwareGuide Repository
