@@ -185,26 +185,21 @@ def format_shortlog(log, commit_link_prefix):
         else:
             prefix = line.split(":")[0].strip()
             commit = line.split(":")[-1]
+            description = line.partition(":")[2].rpartition(":")[0].strip()
             if prefix == "BUG":
-                description = line.split(":")[1]
                 bug_fixes.append((description, commit))
             elif prefix == "COMP":
-                description = line.split(":")[1]
                 platform_fixes.append((description, commit))
             elif prefix == "DOC":
-                description = line.split(":")[1]
                 doc_updates.append((description, commit))
             elif prefix == "ENH":
-                description = line.split(":")[1]
                 enhancements.append((description, commit))
             elif prefix == "PERF":
-                description = line.split(":")[1]
                 performance_improvements.append((description, commit))
             elif prefix == "STYLE":
-                description = line.split(":")[1]
                 style_changes.append((description, commit))
             else:
-                description = line.split(":")[1]
+                description = line.rpartition(":")[0].strip()
                 misc_changes.append((description, commit))
     output += formatted_current_author()
 
