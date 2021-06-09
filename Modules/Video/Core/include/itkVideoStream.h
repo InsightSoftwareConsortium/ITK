@@ -187,9 +187,9 @@ public:
    * Head of the ring buffer in place and just use the frame number as an
    * offset. This allows all references to frames to be processed by an
    * explicit frame number rather than a potentially confusing offset. */
-  FramePointer
+  FrameType *
   GetFrame(SizeValueType frameNumber);
-  FrameConstPointer
+  const FrameType *
   GetFrame(SizeValueType frameNumber) const;
 
   /** Get/Set the LargestPossibleRegion of a frame */
