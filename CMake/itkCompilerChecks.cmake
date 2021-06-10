@@ -10,10 +10,10 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND
   message(FATAL_ERROR "LLVM Clang 3.4 or later is required.")
 endif ()
 
-# Minimum compiler version check: Apple Clang >= 5.1 (Xcode 5.1)
+# Minimum compiler version check: Apple Clang >= 7.0.2 (Xcode 7.2.1)
 if (CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" AND
-    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 5.1)
-  message(FATAL_ERROR "Apple Clang 5.1 or later is required.")
+    CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7.0.2)
+  message(FATAL_ERROR "Apple Clang 7.0.2 or later is required.")
 endif ()
 
 # Minimum compiler version check: Microsoft C/C++ >= 19.10 (MSVC 14.1, Visual Studio 15 2017)
