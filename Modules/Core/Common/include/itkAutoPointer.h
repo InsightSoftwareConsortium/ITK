@@ -159,12 +159,7 @@ public:
     return (void *)m_Pointer == (void *)r.m_Pointer;
   }
 
-  /** Comparison of pointers. NonEqual comparison.  */
-  bool
-  operator!=(const AutoPointer & r) const
-  {
-    return (void *)m_Pointer != (void *)r.m_Pointer;
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Comparison of pointers. Less than comparison.  */
   bool

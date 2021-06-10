@@ -211,21 +211,16 @@ public:
     {
       return m_Iter == r.m_Iter;
     }
-    bool
-    operator!=(const Iterator & r) const
-    {
-      return m_Iter != r.m_Iter;
-    }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Iterator);
+
     bool
     operator==(const ConstIterator & r) const
     {
       return m_Iter == r.m_Iter;
     }
-    bool
-    operator!=(const ConstIterator & r) const
-    {
-      return m_Iter != r.m_Iter;
-    }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
     /** Get the index into the MapContainer associated with this iterator.   */
     ElementIdentifier
@@ -301,21 +296,16 @@ public:
     {
       return m_Iter == r.m_Iter;
     }
-    bool
-    operator!=(const Iterator & r) const
-    {
-      return m_Iter != r.m_Iter;
-    }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Iterator);
+
     bool
     operator==(const ConstIterator & r) const
     {
       return m_Iter == r.m_Iter;
     }
-    bool
-    operator!=(const ConstIterator & r) const
-    {
-      return m_Iter != r.m_Iter;
-    }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
     /** Get the index into the MapContainer associated with this iterator.   */
     ElementIdentifier

@@ -77,11 +77,7 @@ public:
   }
 
   template <typename R>
-  bool
-  operator!=(R r) const
-  {
-    return (m_Pointer != (ObjectType *)r);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(R);
 
   /** Access function to pointer. */
   ObjectType *

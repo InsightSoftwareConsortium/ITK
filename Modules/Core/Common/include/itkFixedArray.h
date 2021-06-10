@@ -104,16 +104,14 @@ public:
     }
     Iterator    operator->() const { return (m_Iterator - 1); }
     ValueType & operator*() const { return *(m_Iterator - 1); }
-    bool
-    operator!=(const ReverseIterator & rit) const
-    {
-      return m_Iterator != rit.m_Iterator;
-    }
+
     bool
     operator==(const ReverseIterator & rit) const
     {
       return m_Iterator == rit.m_Iterator;
     }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ReverseIterator);
 
   private:
     Iterator m_Iterator;
@@ -153,16 +151,14 @@ public:
     }
     ConstIterator     operator->() const { return (m_Iterator - 1); }
     const ValueType & operator*() const { return *(m_Iterator - 1); }
-    bool
-    operator!=(const ConstReverseIterator & rit) const
-    {
-      return m_Iterator != rit.m_Iterator;
-    }
+
     bool
     operator==(const ConstReverseIterator & rit) const
     {
       return m_Iterator == rit.m_Iterator;
     }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstReverseIterator);
 
   private:
     ConstIterator m_Iterator;
@@ -254,11 +250,8 @@ public:
   bool
   operator==(const FixedArray & r) const;
 
-  bool
-  operator!=(const FixedArray & r) const
-  {
-    return !operator==(r);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(FixedArray);
+
 
   /** Allow the FixedArray to be indexed normally.  No bounds checking is done.
    */

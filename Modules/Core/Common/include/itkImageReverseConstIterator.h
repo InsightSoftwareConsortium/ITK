@@ -291,20 +291,14 @@ public:
   /** Comparison operator. Two iterators are the same if they "point to" the
    * same memory location */
   bool
-  operator!=(const Self & it) const
-  {
-    // two iterators are the same if they "point to" the same memory location
-    return (m_Buffer + m_Offset) != (it.m_Buffer + it.m_Offset);
-  }
-
-  /** Comparison operator. Two iterators are the same if they "point to" the
-   * same memory location */
-  bool
   operator==(const Self & it) const
   {
     // two iterators are the same if they "point to" the same memory location
     return (m_Buffer + m_Offset) == (it.m_Buffer + it.m_Offset);
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
 
   /** Get the index. This provides a read only reference to the index.
    * This causes the index to be calculated from pointer arithmetic and is

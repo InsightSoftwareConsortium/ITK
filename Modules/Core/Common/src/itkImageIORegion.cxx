@@ -234,13 +234,6 @@ ImageIORegion::operator==(const Self & region) const
   return (m_Index == region.m_Index) && (m_Size == region.m_Size) && (m_ImageDimension == region.m_ImageDimension);
 }
 
-/** Compare two regions. */
-bool
-ImageIORegion::operator!=(const Self & region) const
-{
-  return !(*this == region);
-}
-
 void
 ImageIORegion::PrintSelf(std::ostream & os, Indent indent) const
 {

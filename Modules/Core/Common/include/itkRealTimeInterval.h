@@ -94,8 +94,7 @@ public:
   operator<(const Self &) const;
   bool
   operator==(const Self &) const;
-  bool
-  operator!=(const Self &) const;
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
   bool
   operator<=(const Self &) const;
   bool

@@ -169,10 +169,7 @@ public:
   bool
   operator==(const Self & v) const;
 
-  /** Versor operator!=  Performs the comparison between two versors.
-   * this operation uses an arbitrary threshold for the comparison.  */
-  bool
-  operator!=(const Self & v) const;
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns the Scalar part. */
   ValueType

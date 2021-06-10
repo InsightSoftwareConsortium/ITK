@@ -409,13 +409,6 @@ VariableLengthVector<TValue>::operator==(const Self & v) const
   return true;
 }
 
-template <typename TValue>
-bool
-VariableLengthVector<TValue>::operator!=(const Self & v) const
-{
-  return !operator==(v);
-}
-
 /**
  * Returns vector's Euclidean Norm
  */

@@ -156,9 +156,7 @@ public:
   bool
   operator==(const Self & region) const;
 
-  /** Compare two regions. */
-  bool
-  operator!=(const Self & region) const;
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Test if an index is inside */
   bool

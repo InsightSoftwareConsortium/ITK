@@ -186,11 +186,7 @@ public:
   inline bool
   operator==(const Self & matrix) const;
 
-  inline bool
-  operator!=(const Self & matrix) const
-  {
-    return !this->operator==(matrix);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Assignment operator. */
   inline const Self &

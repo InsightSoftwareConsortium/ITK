@@ -165,15 +165,12 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & o) const
-    {
-      return m_ListIterator != o.m_ListIterator;
-    }
-    bool
     operator==(const ConstIterator & o) const
     {
       return m_ListIterator == o.m_ListIterator;
     }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
     bool
     IsAtEnd() const

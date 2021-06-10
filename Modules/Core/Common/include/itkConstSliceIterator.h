@@ -114,12 +114,7 @@ public:
            orig.m_Slice.start() == this->m_Slice.start();
   }
 
-  /** Returns the logical inverse of the boolean == of two slice iterators. */
-  bool
-  operator!=(const ConstSliceIterator & orig) const
-  {
-    return !operator==(orig);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstSliceIterator);
 
   /** Returns the boolean < of two slice iterator positions.  Result
    * is only true if the slice iterators have the same stride and

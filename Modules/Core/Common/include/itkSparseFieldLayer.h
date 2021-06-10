@@ -59,18 +59,7 @@ public:
     }
   }
 
-  bool
-  operator!=(const ConstSparseFieldLayerIterator o) const
-  {
-    if (m_Pointer != o.m_Pointer)
-    {
-      return true;
-    }
-    else
-    {
-      return false;
-    }
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstSparseFieldLayerIterator);
 
   ConstSparseFieldLayerIterator &
   operator++()
