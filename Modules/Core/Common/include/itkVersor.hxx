@@ -143,14 +143,6 @@ Versor<T>::operator/(const Self & v) const
 /** Comparison operator */
 template <typename T>
 bool
-Versor<T>::operator!=(const Self & v) const
-{
-  return !(*this == v);
-}
-
-/** Comparison operator */
-template <typename T>
-bool
 Versor<T>::operator==(const Self & v) const
 {
   // Evaluate the quaternion ratio between them

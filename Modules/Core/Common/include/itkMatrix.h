@@ -244,11 +244,8 @@ public:
     return equal;
   }
 
-  inline bool
-  operator!=(const Self & matrix) const
-  {
-    return !this->operator==(matrix);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
 
   inline const Self &
   operator=(const InternalMatrixType & matrix)

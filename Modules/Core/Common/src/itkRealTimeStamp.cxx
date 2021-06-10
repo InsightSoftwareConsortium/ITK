@@ -353,15 +353,6 @@ RealTimeStamp::operator==(const Self & other) const
   return ((this->m_MicroSeconds == other.m_MicroSeconds) && (this->m_Seconds == other.m_Seconds));
 }
 
-/**
- * Compare two time Stamps.
- */
-bool
-RealTimeStamp::operator!=(const Self & other) const
-{
-  return ((this->m_MicroSeconds != other.m_MicroSeconds) || (this->m_Seconds != other.m_Seconds));
-}
-
 /** Default print out of a RealTimeStamp */
 std::ostream &
 operator<<(std::ostream & os, const RealTimeStamp & v)

@@ -388,14 +388,7 @@ public:
     return it.GetCenterPointer() == this->GetCenterPointer();
   }
 
-  /** Returns a boolean != comparison of the memory addresses of the center
-   * elements of two ConstNeighborhoodIterators of like pixel type and
-   * dimensionality.  The radii of the iterators are ignored. */
-  bool
-  operator!=(const Self & it) const
-  {
-    return it.GetCenterPointer() != this->GetCenterPointer();
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns a boolean < comparison of the memory addresses of the center
    * elements of two ConstNeighborhoodIterators of like pixel type and

@@ -86,11 +86,7 @@ public:
     return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
   }
 
-  bool
-  operator!=(const DataObjectConstIterator & iter) const
-  {
-    return !(*this == iter);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(DataObjectConstIterator);
 
   void
   GoToBegin()

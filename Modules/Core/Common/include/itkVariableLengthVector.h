@@ -960,8 +960,7 @@ public:
   bool
   operator==(const Self & v) const;
 
-  bool
-  operator!=(const Self & v) const;
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns vector's Euclidean Norm  */
   RealValueType

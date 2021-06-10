@@ -240,11 +240,8 @@ public:
   {
     return Superclass::operator==(v);
   }
-  bool
-  operator!=(const Self & v) const
-  {
-    return !operator==(v);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns the Euclidean Norm of the vector  */
   RealValueType

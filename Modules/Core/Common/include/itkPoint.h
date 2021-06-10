@@ -135,18 +135,7 @@ public:
     return same;
   }
 
-  /** Compare two points for inequality. */
-  bool
-  operator!=(const Self & pt) const
-  {
-    bool same = true;
-
-    for (unsigned int i = 0; i < NPointDimension && same; ++i)
-    {
-      same = (Math::ExactlyEquals((*this)[i], pt[i]));
-    }
-    return !same;
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Point operator+=.  Adds a vector to the current point. */
   const Self &

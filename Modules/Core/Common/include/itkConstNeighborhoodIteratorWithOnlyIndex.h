@@ -230,14 +230,7 @@ public:
     return it.GetIndex() == this->GetIndex();
   }
 
-  /** Returns a boolean != comparison of the current location/index
-   * of two ConstNeighborhoodIteratorWithOnlyIndexs of like
-   * dimensionality.  The radii of the iterators are ignored. */
-  bool
-  operator!=(const Self & it) const
-  {
-    return it.GetIndex() != this->GetIndex();
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Returns a boolean < comparison of the  current location/index of
    * two ConstNeighborhoodIteratorWithOnlyIndexs
