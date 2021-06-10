@@ -185,26 +185,21 @@ def format_shortlog(log, commit_link_prefix):
         else:
             prefix = line.split(":")[0].strip()
             commit = line.split(":")[-1]
+            description = line.partition(":")[2].rpartition(":")[0].strip()
             if prefix == "BUG":
-                description = line.split(":")[1]
                 bug_fixes.append((description, commit))
             elif prefix == "COMP":
-                description = line.split(":")[1]
                 platform_fixes.append((description, commit))
             elif prefix == "DOC":
-                description = line.split(":")[1]
                 doc_updates.append((description, commit))
             elif prefix == "ENH":
-                description = line.split(":")[1]
                 enhancements.append((description, commit))
             elif prefix == "PERF":
-                description = line.split(":")[1]
                 performance_improvements.append((description, commit))
             elif prefix == "STYLE":
-                description = line.split(":")[1]
                 style_changes.append((description, commit))
             else:
-                description = line.split(":")[1]
+                description = line.rpartition(":")[0].strip()
                 misc_changes.append((description, commit))
     output += formatted_current_author()
 
@@ -248,13 +243,16 @@ os.chdir(scratch_dir)
 examples_dir = scratch_dir / "ITKSphinxExamples"
 if not examples_dir.exists():
     subprocess.check_call(
-        "git clone https://github.com/InsightSoftwareConsortium/ITKSphinxExamples", shell=True
+        "git clone https://github.com/InsightSoftwareConsortium/ITKSphinxExamples",
+        shell=True,
     )
 os.chdir(examples_dir)
 update_previous_authors(f'--until="{revision_time}"')
 update_recent_authors(f'--since="{revision_time}"')
 update_authors_with_email(f'--since="{revision_time}"')
-commit_link_prefix = "https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/commit/"
+commit_link_prefix = (
+    "https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/commit/"
+)
 write_changelog("ITK Sphinx Examples", commit_link_prefix, f'--since="{revision_time}"')
 
 # ITKSoftwareGuide Repository
