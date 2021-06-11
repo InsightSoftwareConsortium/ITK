@@ -9,4 +9,12 @@ itk_wrap_class("itk::GenerateImageSource" POINTER)
     endforeach()
   endforeach()
 
+  # SymmetricSecondRankTensor Images
+  UNIQUE(ssrt_types "${WRAP_ITK_REAL};D")
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${ssrt_types})
+      itk_wrap_template("${ITKM_ISSRT${ITKM_${t}}${d}${d}}"  "${ITKT_ISSRT${ITKM_${t}}${d}${d}}")
+    endforeach()
+  endforeach()
+
 itk_end_wrap_class()
