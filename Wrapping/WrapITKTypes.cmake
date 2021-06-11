@@ -245,6 +245,9 @@ WRAP_TYPE("itk::Image" "I" "itkImage.h")
 
     # SymmetricSecondRankTensor types required by level set filters
     ADD_TEMPLATE("${ITKM_SSRT${ITKM_D}${d}}${d}"  "${ITKT_SSRT${ITKM_D}${d}}, ${d}")
+    if(ITK_WRAP_float)
+      ADD_TEMPLATE("${ITKM_SSRT${ITKM_F}${d}}${d}"  "${ITKT_SSRT${ITKM_F}${d}}, ${d}")
+    endif()
 
   endforeach()
 
