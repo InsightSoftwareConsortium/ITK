@@ -8,10 +8,10 @@
 # The ITK style guidelines are represented by clang-format version 8.0.0
 # rules defined in ${ITK_SOURCE_DIR}/.clang-format
 #
-option(ITK_USE_CLANGFORMAT "Enable the use of clang-format enforce ITK coding style." ${BUILD_TESTING})
-mark_as_advanced(ITK_USE_CLANGFORMAT)
+option(ITK_USE_CLANG_FORMAT "Enable the use of clang-format enforce ITK coding style." ${BUILD_TESTING})
+mark_as_advanced(ITK_USE_CLANG_FORMAT)
 
-if ( ITK_USE_CLANGFORMAT AND NOT EXISTS "${CLANGFORMAT_EXECUTABLE}" )
+if ( ITK_USE_CLANG_FORMAT AND NOT EXISTS "${CLANGFORMAT_EXECUTABLE}" )
   # Download pre-built binaries (about 2M ) of clang-format extracted from
   # http://releases.llvm.org/download.html and cached on data.kitware.com
   #
@@ -55,7 +55,7 @@ endif()
 if(CLANGFORMAT_EXECUTABLE)
   mark_as_advanced(CLANGFORMAT_EXECUTABLE)
 endif()
-if ( ITK_USE_CLANGFORMAT AND NOT EXISTS "${CLANGFORMAT_EXECUTABLE}")
+if ( ITK_USE_CLANG_FORMAT AND NOT EXISTS "${CLANGFORMAT_EXECUTABLE}")
   message(FATAL_ERROR "Missing suitable clang-format executable, set CLANGFORMAT_EXECUTABLE variable to version 8.0")
   unset(CLANGFORMAT_EXECUTABLE)
 endif()
