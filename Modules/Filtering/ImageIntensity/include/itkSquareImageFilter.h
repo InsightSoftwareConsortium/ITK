@@ -44,16 +44,12 @@ public:
   Square() = default;
   ~Square() = default;
   bool
-  operator!=(const Square &) const
+  operator==(const Square &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Square & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Square);
 
   inline TOutput
   operator()(const TInput & A) const

@@ -36,16 +36,12 @@ public:
   Modulus2() = default;
   ~Modulus2() = default;
   bool
-  operator!=(const Modulus2 &) const
+  operator==(const Modulus2 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Modulus2 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Modulus2);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const

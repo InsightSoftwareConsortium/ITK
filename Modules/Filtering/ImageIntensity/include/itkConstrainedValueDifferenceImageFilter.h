@@ -61,16 +61,12 @@ public:
   ConstrainedValueDifference() = default;
   ~ConstrainedValueDifference() = default;
   bool
-  operator!=(const ConstrainedValueDifference &) const
+  operator==(const ConstrainedValueDifference &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const ConstrainedValueDifference & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstrainedValueDifference);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const

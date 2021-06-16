@@ -37,16 +37,12 @@ public:
   Tan() = default;
   ~Tan() = default;
   bool
-  operator!=(const Tan &) const
+  operator==(const Tan &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Tan & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Tan);
 
   inline TOutput
   operator()(const TInput & A) const

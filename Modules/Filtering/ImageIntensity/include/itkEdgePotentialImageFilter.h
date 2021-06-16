@@ -46,16 +46,12 @@ public:
   EdgePotential() = default;
   ~EdgePotential() = default;
   bool
-  operator!=(const EdgePotential &) const
+  operator==(const EdgePotential &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const EdgePotential & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(EdgePotential);
 
   inline TOutput
   operator()(const TInput & A) const

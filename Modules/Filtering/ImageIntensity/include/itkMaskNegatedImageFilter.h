@@ -43,16 +43,12 @@ public:
   {}
   ~MaskNegatedInput() = default;
   bool
-  operator!=(const MaskNegatedInput &) const
+  operator==(const MaskNegatedInput &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const MaskNegatedInput & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(MaskNegatedInput);
 
   inline TOutput
   operator()(const TInput & A, const TMask & B) const

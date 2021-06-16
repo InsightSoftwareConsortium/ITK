@@ -154,15 +154,13 @@ public:
   {}
 
   bool
-  operator!=(const WienerDeconvolutionFunctor &) const
+  operator==(const WienerDeconvolutionFunctor &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const WienerDeconvolutionFunctor & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(WienerDeconvolutionFunctor);
+
   inline TPixel
   operator()(const TPixel & I, const TPixel & H) const
   {

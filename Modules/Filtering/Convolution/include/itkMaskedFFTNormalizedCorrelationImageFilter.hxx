@@ -70,16 +70,12 @@ public:
   }
 
   bool
-  operator!=(const PostProcessCorrelation &) const
+  operator==(const PostProcessCorrelation &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const PostProcessCorrelation & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(PostProcessCorrelation);
 
   inline TImage
   operator()(const TImage & NCC, const TImage & denominator, const TImage & numberOfOverlapPixels) const

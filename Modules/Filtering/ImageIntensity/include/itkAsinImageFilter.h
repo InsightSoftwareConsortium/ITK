@@ -37,16 +37,12 @@ public:
   Asin() = default;
   ~Asin() = default;
   bool
-  operator!=(const Asin &) const
+  operator==(const Asin &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Asin & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Asin);
 
   inline TOutput
   operator()(const TInput & A) const

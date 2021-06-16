@@ -35,18 +35,14 @@ class Pow
 {
 public:
   Pow() = default;
-  bool
-  operator!=(const Pow &) const
-  {
-    // we contain no data, so we are always the same
-    return false;
-  }
 
   bool
-  operator==(const Pow & other) const
+  operator==(const Pow &) const
   {
-    return !(*this != other);
+    return true;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Pow);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const

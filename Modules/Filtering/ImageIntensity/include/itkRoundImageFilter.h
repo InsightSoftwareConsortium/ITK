@@ -37,16 +37,12 @@ public:
   Round() = default;
   ~Round() = default;
   bool
-  operator!=(const Round &) const
+  operator==(const Round &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Round & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Round);
 
   inline TOutput
   operator()(const TInput & A) const

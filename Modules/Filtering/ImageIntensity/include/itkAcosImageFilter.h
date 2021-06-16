@@ -37,16 +37,12 @@ public:
   Acos() = default;
   ~Acos() = default;
   bool
-  operator!=(const Acos &) const
+  operator==(const Acos &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Acos & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Acos);
 
   inline TOutput
   operator()(const TInput & A) const

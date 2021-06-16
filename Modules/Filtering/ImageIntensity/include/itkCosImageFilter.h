@@ -37,16 +37,12 @@ public:
   Cos() = default;
   ~Cos() = default;
   bool
-  operator!=(const Cos &) const
+  operator==(const Cos &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Cos & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Cos);
 
   inline TOutput
   operator()(const TInput & A) const

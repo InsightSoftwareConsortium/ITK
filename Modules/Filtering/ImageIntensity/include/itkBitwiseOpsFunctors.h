@@ -37,16 +37,12 @@ public:
   AND() = default;
   ~AND() = default;
   bool
-  operator!=(const AND &) const
+  operator==(const AND &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const AND & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(AND);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -67,16 +63,12 @@ public:
   OR() = default;
   ~OR() = default;
   bool
-  operator!=(const OR &) const
+  operator==(const OR &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const OR & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(OR);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -97,16 +89,12 @@ public:
   XOR() = default;
   ~XOR() = default;
   bool
-  operator!=(const XOR &) const
+  operator==(const XOR &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const XOR & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(XOR);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -128,16 +116,12 @@ public:
   // BitwiseNot() {} default constructor OK
 
   bool
-  operator!=(const BitwiseNot &) const
+  operator==(const BitwiseNot &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const BitwiseNot & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(BitwiseNot);
 
   inline TOutput
   operator()(const TInput & A) const

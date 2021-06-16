@@ -61,16 +61,12 @@ public:
   AbsoluteValueDifference2() = default;
   ~AbsoluteValueDifference2() = default;
   bool
-  operator!=(const AbsoluteValueDifference2 &) const
+  operator==(const AbsoluteValueDifference2 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const AbsoluteValueDifference2 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(AbsoluteValueDifference2);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const

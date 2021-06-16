@@ -36,16 +36,12 @@ public:
   Maximum() = default;
   ~Maximum() = default;
   bool
-  operator!=(const Maximum &) const
+  operator==(const Maximum &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Maximum & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Maximum);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
