@@ -265,9 +265,12 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
     this->InvokeEvent(IterationEvent());
     itkDebugMacro(<< "Current position: " << this->GetCurrentPosition());
   }
-  m_StopConditionDescription.str("");
-  m_StopConditionDescription << this->GetNameOfClass() << ": ";
-  m_StopConditionDescription << "Maximum number of iterations (" << m_MaximumIteration << ") exceeded. ";
+  if (this->m_CurrentIteration >= m_MaximumIteration)
+  {
+    m_StopConditionDescription.str("");
+    m_StopConditionDescription << this->GetNameOfClass() << ": ";
+    m_StopConditionDescription << "Maximum number of iterations (" << m_MaximumIteration << ") exceeded. ";
+  }
   this->InvokeEvent(EndEvent());
 }
 
