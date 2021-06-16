@@ -60,16 +60,12 @@ public:
   SquaredDifference2() = default;
   ~SquaredDifference2() = default;
   bool
-  operator!=(const SquaredDifference2 &) const
+  operator==(const SquaredDifference2 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const SquaredDifference2 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(SquaredDifference2);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const

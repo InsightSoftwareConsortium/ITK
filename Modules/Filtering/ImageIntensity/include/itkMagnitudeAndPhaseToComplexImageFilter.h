@@ -61,16 +61,12 @@ public:
   MagnitudeAndPhaseToComplex() = default;
   ~MagnitudeAndPhaseToComplex() = default;
   bool
-  operator!=(const MagnitudeAndPhaseToComplex &) const
+  operator==(const MagnitudeAndPhaseToComplex &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const MagnitudeAndPhaseToComplex & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(MagnitudeAndPhaseToComplex);
 
   inline std::complex<TOutput>
   operator()(const TInput1 & A, const TInput2 & B) const

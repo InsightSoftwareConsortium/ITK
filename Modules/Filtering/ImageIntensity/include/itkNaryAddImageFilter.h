@@ -55,11 +55,7 @@ public:
     return true;
   }
 
-  bool
-  operator!=(const Add1 &) const
-  {
-    return false;
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Add1);
 };
 } // namespace Functor
 

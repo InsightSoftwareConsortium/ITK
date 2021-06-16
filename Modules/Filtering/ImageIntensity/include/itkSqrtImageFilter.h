@@ -37,16 +37,12 @@ public:
   Sqrt() = default;
   ~Sqrt() = default;
   bool
-  operator!=(const Sqrt &) const
+  operator==(const Sqrt &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Sqrt & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Sqrt);
 
   inline TOutput
   operator()(const TInput & A) const

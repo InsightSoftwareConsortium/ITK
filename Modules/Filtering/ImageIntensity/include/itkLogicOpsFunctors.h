@@ -68,17 +68,13 @@ public:
 
   ~LogicOpBase() = default;
 
+  bool
+  operator==(const Self &) const
+  {
+    return true;
+  }
 
-  bool
-  operator!=(const Self &) const
-  {
-    return false;
-  }
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   void
   SetForegroundValue(const TOutput & FG)
@@ -127,15 +123,13 @@ public:
   ~Equal() = default;
 
   bool
-  operator!=(const Self &) const
+  operator==(const Self &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
@@ -164,16 +158,15 @@ public:
 
   NotEqual() = default;
   ~NotEqual() = default;
+
   bool
-  operator!=(const Self &) const
+  operator==(const Self &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
@@ -204,15 +197,13 @@ public:
   ~GreaterEqual() = default;
 
   bool
-  operator!=(const Self &) const
+  operator==(const Self &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
@@ -241,16 +232,15 @@ public:
   using Self = Greater;
   Greater() = default;
   ~Greater() = default;
+
   bool
-  operator!=(const Self &) const
+  operator==(const Self &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
@@ -280,16 +270,15 @@ public:
 
   LessEqual() = default;
   ~LessEqual() = default;
+
   bool
-  operator!=(const Self &) const
+  operator==(const Self &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
@@ -318,16 +307,15 @@ public:
   using Self = Less;
   Less() = default;
   ~Less() = default;
+
   bool
-  operator!=(const Self &) const
+  operator==(const Self &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
+
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
   {
@@ -351,17 +339,14 @@ class ITK_TEMPLATE_EXPORT NOT : public LogicOpBase<TInput, TInput, TOutput>
 public:
   NOT() = default;
   ~NOT() = default;
-  bool
-  operator!=(const NOT &) const
-  {
-    return false;
-  }
 
   bool
-  operator==(const NOT & other) const
+  operator==(const NOT &) const
   {
-    return !(*this != other);
+    return true;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(NOT);
 
   inline TOutput
   operator()(const TInput & A) const
@@ -385,17 +370,14 @@ class ITK_TEMPLATE_EXPORT TernaryOperator
 public:
   TernaryOperator() = default;
   ~TernaryOperator() = default;
-  bool
-  operator!=(const TernaryOperator &) const
-  {
-    return false;
-  }
 
   bool
-  operator==(const TernaryOperator & other) const
+  operator==(const TernaryOperator &) const
   {
-    return !(*this != other);
+    return true;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TernaryOperator);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const

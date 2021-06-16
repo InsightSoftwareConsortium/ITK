@@ -35,16 +35,12 @@ public:
   TensorFractionalAnisotropyFunction() = default;
   ~TensorFractionalAnisotropyFunction() = default;
   bool
-  operator!=(const TensorFractionalAnisotropyFunction &) const
+  operator==(const TensorFractionalAnisotropyFunction &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const TensorFractionalAnisotropyFunction & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TensorFractionalAnisotropyFunction);
 
   inline RealValueType
   operator()(const TInput & x) const

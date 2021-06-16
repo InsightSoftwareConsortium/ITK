@@ -42,16 +42,12 @@ public:
   Cast() = default;
   virtual ~Cast() = default;
   bool
-  operator!=(const Cast &) const
+  operator==(const Cast &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Cast & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Cast);
 
   inline TOutput
   operator()(const TInput & A) const

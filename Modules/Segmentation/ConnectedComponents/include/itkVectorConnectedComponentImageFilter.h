@@ -67,16 +67,12 @@ public:
   }
 
   bool
-  operator!=(const SimilarVectorsFunctor &) const
+  operator==(const SimilarVectorsFunctor &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const SimilarVectorsFunctor & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(SimilarVectorsFunctor);
 
   bool
   operator()(const TInput & a, const TInput & b) const

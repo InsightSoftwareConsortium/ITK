@@ -130,15 +130,13 @@ public:
   ~InverseDeconvolutionFunctor() = default;
 
   bool
-  operator!=(const InverseDeconvolutionFunctor &) const
+  operator==(const InverseDeconvolutionFunctor &) const
   {
-    return false;
+    return true;
   }
-  bool
-  operator==(const InverseDeconvolutionFunctor & other) const
-  {
-    return !(*this != other);
-  }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(InverseDeconvolutionFunctor);
+
   inline TOutput
   operator()(const TInput1 & I, const TInput2 & H) const
   {

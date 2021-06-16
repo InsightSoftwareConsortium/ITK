@@ -52,16 +52,12 @@ public:
   ~VectorMagnitude() = default;
 
   bool
-  operator!=(const VectorMagnitude &) const
+  operator==(const VectorMagnitude &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const VectorMagnitude & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(VectorMagnitude);
 
   inline TOutput
   operator()(const TInput & A) const

@@ -61,11 +61,7 @@ public:
     return true;
   }
 
-  bool
-  operator!=(const Maximum1 &) const
-  {
-    return false;
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Maximum1);
 };
 } // namespace Functor
 

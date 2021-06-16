@@ -37,16 +37,12 @@ public:
   Add2() = default;
   ~Add2() = default;
   bool
-  operator!=(const Add2 &) const
+  operator==(const Add2 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Add2 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Add2);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -68,16 +64,12 @@ public:
   Add3() = default;
   ~Add3() = default;
   bool
-  operator!=(const Add3 &) const
+  operator==(const Add3 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Add3 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Add3);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const
@@ -99,16 +91,12 @@ public:
   Sub2() = default;
   ~Sub2() = default;
   bool
-  operator!=(const Sub2 &) const
+  operator==(const Sub2 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Sub2 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Sub2);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -130,16 +118,12 @@ public:
   Mult() = default;
   ~Mult() = default;
   bool
-  operator!=(const Mult &) const
+  operator==(const Mult &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Mult & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Mult);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -161,16 +145,12 @@ public:
   Div() = default;
   ~Div() = default;
   bool
-  operator!=(const Div &) const
+  operator==(const Div &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Div & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Div);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -245,16 +225,12 @@ public:
   ~Modulus() = default;
 
   bool
-  operator!=(const Modulus &) const
+  operator==(const Modulus &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Modulus & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Modulus);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -336,16 +312,12 @@ class DivFloor
 {
 public:
   bool
-  operator!=(const DivFloor &) const
+  operator==(const DivFloor &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const DivFloor & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(DivFloor);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -383,16 +355,12 @@ class DivReal
 public:
   // Use default copy, assigned and destructor
   bool
-  operator!=(const DivReal &) const
+  operator==(const DivReal &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const DivReal & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(DivReal);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const
@@ -415,16 +383,12 @@ public:
   UnaryMinus() = default;
   ~UnaryMinus() = default;
   bool
-  operator!=(const UnaryMinus &) const
+  operator==(const UnaryMinus &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const UnaryMinus & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(UnaryMinus);
 
   inline TOutput
   operator()(const TInput1 & A) const

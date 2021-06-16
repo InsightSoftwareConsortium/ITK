@@ -38,16 +38,12 @@ public:
   ComplexToModulus() = default;
   ~ComplexToModulus() = default;
   bool
-  operator!=(const ComplexToModulus &) const
+  operator==(const ComplexToModulus &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const ComplexToModulus & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ComplexToModulus);
 
   inline TOutput
   operator()(const TInput & A) const

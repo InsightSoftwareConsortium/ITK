@@ -36,16 +36,12 @@ public:
   Minimum() = default;
   ~Minimum() = default;
   bool
-  operator!=(const Minimum &) const
+  operator==(const Minimum &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Minimum & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Minimum);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const

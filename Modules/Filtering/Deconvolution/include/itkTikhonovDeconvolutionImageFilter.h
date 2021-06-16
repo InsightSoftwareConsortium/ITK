@@ -130,17 +130,14 @@ public:
     , m_KernelZeroMagnitudeThreshold(f.m_KernelZeroMagnitudeThreshold)
   {}
 
+  bool
+  operator==(const TikhonovDeconvolutionFunctor &) const
+  {
+    return true;
+  }
 
-  bool
-  operator!=(const TikhonovDeconvolutionFunctor &) const
-  {
-    return false;
-  }
-  bool
-  operator==(const TikhonovDeconvolutionFunctor & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TikhonovDeconvolutionFunctor);
+
   inline TOutput
   operator()(const TInput1 & I, const TInput2 & H) const
   {

@@ -40,16 +40,12 @@ public:
   ~LandweberMethod() = default;
 
   bool
-  operator!=(const LandweberMethod &) const
+  operator==(const LandweberMethod &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const LandweberMethod & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(LandweberMethod);
 
   inline TOutput
   operator()(const TInput1 & estimateFT, const TInput2 & kernelFT, const TInput2 & inputFT) const

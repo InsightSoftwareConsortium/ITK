@@ -36,16 +36,12 @@ public:
   ModulusSquare3() = default;
   ~ModulusSquare3() = default;
   bool
-  operator!=(const ModulusSquare3 &) const
+  operator==(const ModulusSquare3 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const ModulusSquare3 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ModulusSquare3);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B, const TInput3 & C) const

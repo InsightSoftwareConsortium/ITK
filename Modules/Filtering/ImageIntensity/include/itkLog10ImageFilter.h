@@ -37,16 +37,12 @@ public:
   Log10() = default;
   ~Log10() = default;
   bool
-  operator!=(const Log10 &) const
+  operator==(const Log10 &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Log10 & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Log10);
 
   inline TOutput
   operator()(const TInput & A) const

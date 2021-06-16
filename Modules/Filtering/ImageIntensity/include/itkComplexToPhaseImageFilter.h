@@ -39,16 +39,12 @@ public:
   ComplexToPhase() = default;
   ~ComplexToPhase() = default;
   bool
-  operator!=(const ComplexToPhase &) const
+  operator==(const ComplexToPhase &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const ComplexToPhase & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ComplexToPhase);
 
   inline TOutput
   operator()(const TInput & A) const

@@ -50,16 +50,12 @@ public:
   BoundedReciprocal() = default;
   ~BoundedReciprocal() = default;
   bool
-  operator!=(const BoundedReciprocal &) const
+  operator==(const BoundedReciprocal &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const BoundedReciprocal & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(BoundedReciprocal);
 
   inline TOutput
   operator()(const TInput & A) const

@@ -37,16 +37,12 @@ public:
   Exp() = default;
   ~Exp() = default;
   bool
-  operator!=(const Exp &) const
+  operator==(const Exp &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Exp & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Exp);
 
   inline TOutput
   operator()(const TInput & A) const

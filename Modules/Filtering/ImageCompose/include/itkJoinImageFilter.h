@@ -68,16 +68,12 @@ public:
   using JoinType = Vector<JoinValueType, Self::JoinDimension>;
 
   bool
-  operator!=(const JoinFunctor &) const
+  operator==(const JoinFunctor &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const JoinFunctor & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(JoinFunctor);
 
   /** operator().  This is the "call" method of the functor. */
   inline JoinType
