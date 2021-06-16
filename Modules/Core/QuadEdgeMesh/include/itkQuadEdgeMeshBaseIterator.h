@@ -131,30 +131,13 @@ public:
 
   /** Iteration methods. */
   bool
-  operator==(Self & r)
-  {
-    return ((m_StartEdge == r.m_StartEdge) && (m_Iterator == r.m_Iterator) && (m_OpType == r.m_OpType) &&
-            (m_Start == r.m_Start));
-  }
-
-  bool
   operator==(const Self & r) const
   {
     return ((m_StartEdge == r.m_StartEdge) && (m_Iterator == r.m_Iterator) && (m_OpType == r.m_OpType) &&
             (m_Start == r.m_Start));
   }
 
-  bool
-  operator!=(Self & r)
-  {
-    return (!(this->operator==(r)));
-  }
-
-  bool
-  operator!=(const Self & r) const
-  {
-    return (!(this->operator==(r)));
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   Self &
   operator++()

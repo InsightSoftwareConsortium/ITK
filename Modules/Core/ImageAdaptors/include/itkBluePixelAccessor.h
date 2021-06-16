@@ -66,16 +66,12 @@ public:
   }
 
   bool
-  operator!=(const Self &) const
+  operator==(const Self &) const
   {
-    return false;
+    return true;
   }
 
-  bool
-  operator==(const Self & other) const
-  {
-    return !(*this != other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 };
 } // end namespace itk
 
