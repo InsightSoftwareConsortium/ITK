@@ -232,12 +232,7 @@ public:
     return (m_Index == region.m_Index) && (m_Size == region.m_Size);
   }
 
-  /** Compare two regions. */
-  bool
-  operator!=(const Self & region) const ITK_NOEXCEPT
-  {
-    return !(*this == region);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Test if an index is inside */
   bool

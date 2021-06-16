@@ -118,11 +118,9 @@ protected:
     {
       return (m_Edge == r.m_Edge);
     }
-    bool
-    operator!=(const FrontAtom & r) const
-    {
-      return (m_Edge != r.m_Edge);
-    }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(FrontAtom);
+
     bool
     operator<(const FrontAtom & r) const
     {
@@ -171,28 +169,12 @@ public:
 
   // Iteration methods.
   bool
-  operator==(Self & r) const
-  {
-    return (m_Start == r.m_Start);
-  }
-
-  bool
   operator==(const Self & r) const
   {
     return (m_Start == r.m_Start);
   }
 
-  bool
-  operator!=(Self & r) const
-  {
-    return (!(this->operator==(r)));
-  }
-
-  bool
-  operator!=(const Self & r) const
-  {
-    return (!(this->operator==(r)));
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   Self &
   operator++();
