@@ -3,7 +3,7 @@
 #
 
 # Needed VTK version
-set(VERSION_MIN "5.10.0")
+set(VERSION_MIN "8.1.0")
 
 # Look for VTK
 find_package(VTK NO_MODULE REQUIRED)
@@ -65,9 +65,6 @@ if(NOT VTK_RENDERING_BACKEND STREQUAL "None")
 endif()
 if (${VTK_VERSION} VERSION_LESS ${VERSION_MIN})
   message(ERROR " VtkGlue requires VTK version ${VERSION_MIN} or newer but the current version is ${VTK_VERSION}")
-elseif( ${VTK_VERSION} VERSION_LESS 6.0.0 )
-  set(ITKVtkGlue_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
-  set(ITKVtkGlue_VTK_LIBRARIES ${VTK_LIBRARIES})
 else()
   vtk_module_config(ITKVtkGlue_VTK
     ${_required_vtk_libraries}
