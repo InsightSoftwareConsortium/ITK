@@ -80,16 +80,11 @@ if(NOT VTK_RENDERING_BACKEND STREQUAL \"None\")
     ${_target_prefix}InteractionWidgets
   )
 endif()
-if(${VTK_VERSION} VERSION_LESS 6.0.0)
-  set(ITKVtkGlue_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
-  set(ITKVtkGlue_VTK_LIBRARIES ${VTK_LIBRARIES})
-else()
-  vtk_module_config(ITKVtkGlue_VTK
-    \${_required_vtk_libraries}
-    )
-  set(ITKVtkGlue_VTK_LIBRARIES \${_required_vtk_libraries})
-  set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \${ITKVtkGlue_VTK_DEFINITIONS})
-endif()
+vtk_module_config(ITKVtkGlue_VTK
+  \${_required_vtk_libraries}
+  )
+set(ITKVtkGlue_VTK_LIBRARIES \${_required_vtk_libraries})
+set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \${ITKVtkGlue_VTK_DEFINITIONS})
 ")
 set(ITKVtkGlue_EXPORT_CODE_BUILD "
 if(NOT ITK_BINARY_DIR)
@@ -140,16 +135,11 @@ if(NOT ITK_BINARY_DIR)
       ${_target_prefix}InteractionWidgets
     )
   endif()
-  if( ${VTK_VERSION} VERSION_LESS 6.0.0 )
-    set(ITKVtkGlue_VTK_INCLUDE_DIRS ${VTK_INCLUDE_DIRS})
-    set(ITKVtkGlue_VTK_LIBRARIES ${VTK_LIBRARIES})
-  else()
-    vtk_module_config(ITKVtkGlue_VTK
-      \${_required_vtk_libraries}
-      )
-    set(ITKVtkGlue_VTK_LIBRARIES \${_required_vtk_libraries})
-    set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \${ITKVtkGlue_VTK_DEFINITIONS})
-  endif()
+  vtk_module_config(ITKVtkGlue_VTK
+    \${_required_vtk_libraries}
+    )
+  set(ITKVtkGlue_VTK_LIBRARIES \${_required_vtk_libraries})
+  set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS \${ITKVtkGlue_VTK_DEFINITIONS})
 endif()
 ")
 
