@@ -41,6 +41,7 @@ exclude = [
     "ScalarImageToTextureFeaturesFilter",
     # These classes are just ignored.
     "ScanlineFilterCommon",  # Segfault
+    "ImageToVTKImageFilter",
     "templated_class",
     "auto_pipeline",
     "pipeline",
