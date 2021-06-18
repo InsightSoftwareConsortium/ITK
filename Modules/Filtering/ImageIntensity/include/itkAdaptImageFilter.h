@@ -83,18 +83,14 @@ public:
     m_Accessor = accessor;
   }
 
-  /** operator!=.  Needed to determine if two accessors are the same. */
-  bool
-  operator!=(const Self & functor) const
-  {
-    return (m_Accessor != functor.m_Accessor);
-  }
-
+  /** Needed to determine if two accessors are the same. */
   bool
   operator==(const Self & other) const
   {
-    return !(*this != other);
+    return m_Accessor == other.m_Accessor;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
 private:
   AccessorType m_Accessor;

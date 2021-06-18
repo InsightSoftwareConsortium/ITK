@@ -59,21 +59,14 @@ public:
 
   using ChangeMapType = std::map<TInput, TOutput>;
 
-  bool
-  operator!=(const ChangeLabel & other) const
-  {
-    if (m_ChangeMap != other.m_ChangeMap)
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const ChangeLabel & other) const
   {
-    return !(*this != other);
+    return m_ChangeMap == other.m_ChangeMap;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ChangeLabel);
 
   TOutput
   GetChange(const TInput & original)

@@ -43,20 +43,12 @@ public:
   }
 
   bool
-  operator!=(const VectorIndexSelectionCast & other) const
-  {
-    if (m_Index != other.m_Index)
-    {
-      return true;
-    }
-    return false;
-  }
-
-  bool
   operator==(const VectorIndexSelectionCast & other) const
   {
-    return !(*this != other);
+    return m_Index == other.m_Index;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(VectorIndexSelectionCast);
 
   inline TOutput
   operator()(const TInput & A) const

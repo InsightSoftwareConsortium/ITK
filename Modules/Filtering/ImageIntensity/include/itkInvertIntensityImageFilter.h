@@ -43,21 +43,14 @@ public:
     m_Maximum = max;
   }
 
-  bool
-  operator!=(const InvertIntensityTransform & other) const
-  {
-    if (m_Maximum != other.m_Maximum)
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const InvertIntensityTransform & other) const
   {
-    return !(*this != other);
+    return m_Maximum == other.m_Maximum;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(InvertIntensityTransform);
 
   inline TOutput
   operator()(const TInput & x) const

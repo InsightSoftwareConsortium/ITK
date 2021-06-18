@@ -38,21 +38,14 @@ public:
   ExpNegative() { m_Factor = 1.0; }
   ~ExpNegative() = default;
 
-  bool
-  operator!=(const ExpNegative & other) const
-  {
-    if (Math::NotExactlyEquals(m_Factor, other.m_Factor))
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const ExpNegative & other) const
   {
-    return !(*this != other);
+    return Math::ExactlyEquals(m_Factor, other.m_Factor);
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ExpNegative);
 
   inline TOutput
   operator()(const TInput & A) const

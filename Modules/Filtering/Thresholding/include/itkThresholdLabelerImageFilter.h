@@ -66,21 +66,14 @@ public:
     m_LabelOffset = labelOffset;
   }
 
-  bool
-  operator!=(const ThresholdLabeler & other) const
-  {
-    if (m_Thresholds != other.m_Thresholds || m_LabelOffset != other.m_LabelOffset)
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const ThresholdLabeler & other) const
   {
-    return !(*this != other);
+    return m_Thresholds == other.m_Thresholds && m_LabelOffset == other.m_LabelOffset;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ThresholdLabeler);
 
   inline TOutput
   operator()(const TInput & A) const

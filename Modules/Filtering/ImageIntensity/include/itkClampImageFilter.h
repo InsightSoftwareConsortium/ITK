@@ -68,9 +68,9 @@ public:
   SetBounds(const OutputType lowerBound, const OutputType upperBound);
 
   bool
-  operator!=(const Self & other) const;
-  bool
   operator==(const Self & other) const;
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   OutputType
   operator()(const InputType & A) const;

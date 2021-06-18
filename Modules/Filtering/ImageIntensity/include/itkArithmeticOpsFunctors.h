@@ -185,18 +185,14 @@ public:
   ~DivideOrZeroOut() = default;
 
   bool
-  operator!=(const DivideOrZeroOut & other) const
-  {
-    return !(*this == other);
-  }
-
-  bool
   operator==(const DivideOrZeroOut & itkNotUsed(other)) const
   {
     // Always return true for now.  Do a comparison to m_Threshold if it is
     // every made set-able.
     return true;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(DivideOrZeroOut);
 
   inline TOutput
   operator()(const TNumerator & n, const TDenominator & d) const
@@ -269,20 +265,12 @@ public:
   }
 
   bool
-  operator!=(const ModulusTransform & other) const
-  {
-    if (m_Dividend != other.m_Dividend)
-    {
-      return true;
-    }
-    return false;
-  }
-
-  bool
   operator==(const ModulusTransform & other) const
   {
-    return !(*this != other);
+    return m_Dividend == other.m_Dividend;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ModulusTransform);
 
   inline TOutput
   operator()(const TInput & x) const

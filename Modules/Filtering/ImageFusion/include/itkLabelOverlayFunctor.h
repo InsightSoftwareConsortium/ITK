@@ -88,18 +88,13 @@ public:
   }
 
   bool
-  operator!=(const LabelOverlayFunctor & l) const
+  operator==(const LabelOverlayFunctor & other) const
   {
-    bool areDifferent = Math::NotExactlyEquals(l.m_Opacity, m_Opacity) || l.m_BackgroundValue != m_BackgroundValue ||
-                        l.m_RGBFunctor != m_RGBFunctor;
-    return areDifferent;
+    return Math::ExactlyEquals(m_Opacity, other.m_Opacity) && m_BackgroundValue == other.m_BackgroundValue &&
+           m_RGBFunctor == other.m_RGBFunctor;
   }
 
-  bool
-  operator==(const LabelOverlayFunctor & l) const
-  {
-    return !(*this != l);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(LabelOverlayFunctor);
 
   ~LabelOverlayFunctor() = default;
 

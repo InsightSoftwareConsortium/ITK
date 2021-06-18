@@ -263,11 +263,7 @@ public:
       return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-    bool
-    operator!=(const ConstLineIterator & iter) const
-    {
-      return !(*this == iter);
-    }
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstLineIterator);
 
     void
     GoToBegin()
@@ -363,11 +359,7 @@ public:
       return m_Index == iter.m_Index && m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-    bool
-    operator!=(const ConstIndexIterator & iter) const
-    {
-      return !(*this == iter);
-    }
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIndexIterator);
 
     void
     GoToBegin()

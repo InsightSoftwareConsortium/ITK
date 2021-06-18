@@ -41,25 +41,18 @@ public:
     , m_WindowMinimum(0)
   {}
   ~IntensityWindowingTransform() = default;
-  bool
-  operator!=(const IntensityWindowingTransform & other) const
-  {
-    if (Math::NotExactlyEquals(m_Factor, other.m_Factor) || Math::NotExactlyEquals(m_Offset, other.m_Offset) ||
-        Math::NotExactlyEquals(m_OutputMaximum, other.m_OutputMaximum) ||
-        Math::NotExactlyEquals(m_OutputMinimum, other.m_OutputMinimum) ||
-        Math::NotExactlyEquals(m_WindowMaximum, other.m_WindowMaximum) ||
-        Math::NotExactlyEquals(m_WindowMinimum, other.m_WindowMinimum))
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const IntensityWindowingTransform & other) const
   {
-    return !(*this != other);
+    return Math::ExactlyEquals(m_Factor, other.m_Factor) && Math::ExactlyEquals(m_Offset, other.m_Offset) &&
+           Math::ExactlyEquals(m_OutputMaximum, other.m_OutputMaximum) &&
+           Math::ExactlyEquals(m_OutputMinimum, other.m_OutputMinimum) &&
+           Math::ExactlyEquals(m_WindowMaximum, other.m_WindowMaximum) &&
+           Math::ExactlyEquals(m_WindowMinimum, other.m_WindowMinimum);
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(IntensityWindowingTransform);
 
   void
   SetFactor(RealType a)

@@ -61,23 +61,17 @@ public:
   }
 
   ~Sigmoid() = default;
-  bool
-  operator!=(const Sigmoid & other) const
-  {
-    if (Math::NotExactlyEquals(m_Alpha, other.m_Alpha) || Math::NotExactlyEquals(m_Beta, other.m_Beta) ||
-        Math::NotExactlyEquals(m_OutputMaximum, other.m_OutputMaximum) ||
-        Math::NotExactlyEquals(m_OutputMinimum, other.m_OutputMinimum))
-    {
-      return true;
-    }
-    return false;
-  }
+
 
   bool
   operator==(const Sigmoid & other) const
   {
-    return !(*this != other);
+    return Math::ExactlyEquals(m_Alpha, other.m_Alpha) && Math::ExactlyEquals(m_Beta, other.m_Beta) &&
+           Math::ExactlyEquals(m_OutputMaximum, other.m_OutputMaximum) &&
+           Math::ExactlyEquals(m_OutputMinimum, other.m_OutputMinimum);
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Sigmoid);
 
   inline TOutput
   operator()(const TInput & A) const

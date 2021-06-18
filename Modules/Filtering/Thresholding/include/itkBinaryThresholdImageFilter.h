@@ -98,23 +98,16 @@ public:
     m_OutsideValue = value;
   }
 
-  bool
-  operator!=(const BinaryThreshold & other) const
-  {
-    if (m_LowerThreshold != other.m_LowerThreshold || m_UpperThreshold != other.m_UpperThreshold ||
-        Math::NotExactlyEquals(m_InsideValue, other.m_InsideValue) ||
-        Math::NotExactlyEquals(m_OutsideValue, other.m_OutsideValue))
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const BinaryThreshold & other) const
   {
-    return !(*this != other);
+    return m_LowerThreshold == other.m_LowerThreshold && m_UpperThreshold == other.m_UpperThreshold &&
+           Math::ExactlyEquals(m_InsideValue, other.m_InsideValue) &&
+           Math::ExactlyEquals(m_OutsideValue, other.m_OutsideValue);
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(BinaryThreshold);
 
   inline TOutput
   operator()(const TInput & A) const
