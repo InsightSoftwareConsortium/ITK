@@ -5,8 +5,8 @@ from . import _ITKPyBasePython
 import collections
 
 from sys import version_info as _version_info
-if _version_info < (3, 6, 0):
-    raise RuntimeError("Python 3.6 or later required")
+if _version_info < (3, 7, 0):
+    raise RuntimeError("Python 3.7 or later required")
 %}
 
 //By including pyabc.i and using the -py3 command line option when calling SWIG,

@@ -17,12 +17,18 @@ jobs:
     - checkout: self
       clean: true
       fetchDepth: 5
+
     - bash: |
         set -x
         if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
           git checkout $(System.PullRequest.SourceCommitId)
         fi
       displayName: 'Checkout pull request HEAD'
+
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.9'
+        architecture: 'x64'
 
     - bash: |
         set -x
