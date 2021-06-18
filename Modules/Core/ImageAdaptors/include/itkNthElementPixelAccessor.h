@@ -91,13 +91,15 @@ public:
     m_ElementNumber = nth;
   }
 
-  /** operator!=. This is needed to convert a pixel accessor to a functor.
+  /** This is needed to convert a pixel accessor to a functor.
    * \sa AdaptImageFilter */
   bool
-  operator!=(const Self & accessor) const
+  operator==(const Self & accessor) const
   {
-    return (m_ElementNumber != accessor.m_ElementNumber);
+    return m_ElementNumber == accessor.m_ElementNumber;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Assignment operator */
   NthElementPixelAccessor &
@@ -197,13 +199,15 @@ public:
 
   NthElementPixelAccessor(unsigned int length = 1) { Superclass::SetVectorLength(length); }
 
-  /** operator!=. This is needed to convert a pixel accessor to a functor.
+  /** This is needed to convert a pixel accessor to a functor.
    * \sa AdaptImageFilter */
   bool
-  operator!=(const Self & accessor) const
+  operator==(const Self & accessor) const
   {
-    return (m_ElementNumber != accessor.m_ElementNumber);
+    return m_ElementNumber == accessor.m_ElementNumber;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
   /** Assignment operator */
   NthElementPixelAccessor &
