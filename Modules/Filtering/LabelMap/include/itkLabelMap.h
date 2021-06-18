@@ -372,11 +372,7 @@ public:
       return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-    bool
-    operator!=(const ConstIterator & iter) const
-    {
-      return !(*this == iter);
-    }
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
     void
     GoToBegin()
@@ -463,11 +459,7 @@ public:
       return m_Iterator == iter.m_Iterator && m_Begin == iter.m_Begin && m_End == iter.m_End;
     }
 
-    bool
-    operator!=(const Iterator & iter) const
-    {
-      return !(*this == iter);
-    }
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Iterator);
 
     void
     GoToBegin()

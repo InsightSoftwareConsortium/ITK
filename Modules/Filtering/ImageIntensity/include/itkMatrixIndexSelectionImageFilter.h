@@ -45,20 +45,12 @@ public:
   }
 
   bool
-  operator!=(const MatrixIndexSelection & other) const
-  {
-    if (m_I != other.m_I || m_J != other.m_J)
-    {
-      return true;
-    }
-    return false;
-  }
-
-  bool
   operator==(const MatrixIndexSelection & other) const
   {
-    return !(*this != other);
+    return m_I == other.m_I && m_J == other.m_J;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(MatrixIndexSelection);
 
   inline TOutput
   operator()(const TInput & A) const

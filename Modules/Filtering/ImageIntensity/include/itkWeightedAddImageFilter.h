@@ -42,21 +42,14 @@ public:
     , m_Beta(0.0)
   {}
   ~WeightedAdd2() = default;
-  bool
-  operator!=(const WeightedAdd2 & other) const
-  {
-    if (Math::NotExactlyEquals(m_Alpha, other.m_Alpha))
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const WeightedAdd2 & other) const
   {
-    return !(*this != other);
+    return Math::ExactlyEquals(m_Alpha, other.m_Alpha);
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(WeightedAdd2);
 
   inline TOutput
   operator()(const TInput1 & A, const TInput2 & B) const

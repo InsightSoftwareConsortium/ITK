@@ -63,16 +63,9 @@ Clamp<TInput, TOutput>::SetBounds(const OutputType lowerBound, const OutputType 
 
 template <typename TInput, typename TOutput>
 bool
-Clamp<TInput, TOutput>::operator!=(const Self & other) const
-{
-  return m_UpperBound != other.m_UpperBound || m_LowerBound != other.m_LowerBound;
-}
-
-template <typename TInput, typename TOutput>
-bool
 Clamp<TInput, TOutput>::operator==(const Self & other) const
 {
-  return !(*this != other);
+  return m_UpperBound == other.m_UpperBound && m_LowerBound == other.m_LowerBound;
 }
 
 } // end namespace Functor

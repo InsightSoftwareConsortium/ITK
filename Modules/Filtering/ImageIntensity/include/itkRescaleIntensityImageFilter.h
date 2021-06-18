@@ -68,22 +68,15 @@ public:
   {
     m_Maximum = max;
   }
-  bool
-  operator!=(const IntensityLinearTransform & other) const
-  {
-    if (Math::NotExactlyEquals(m_Factor, other.m_Factor) || Math::NotExactlyEquals(m_Offset, other.m_Offset) ||
-        Math::NotExactlyEquals(m_Maximum, other.m_Maximum) || Math::NotExactlyEquals(m_Minimum, other.m_Minimum))
-    {
-      return true;
-    }
-    return false;
-  }
 
   bool
   operator==(const IntensityLinearTransform & other) const
   {
-    return !(*this != other);
+    return Math::ExactlyEquals(m_Factor, other.m_Factor) && Math::ExactlyEquals(m_Offset, other.m_Offset) &&
+           Math::ExactlyEquals(m_Maximum, other.m_Maximum) && Math::ExactlyEquals(m_Minimum, other.m_Minimum);
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(IntensityLinearTransform);
 
   inline TOutput
   operator()(const TInput & x) const
