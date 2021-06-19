@@ -31,20 +31,12 @@ public:
   TanHelper() = default;
   ~TanHelper() = default;
   bool
-  operator!=(const TanHelper & rhs) const
+  operator==(const TanHelper & rhs) const
   {
-    return this != &rhs;
+    return this == &rhs;
   }
 
-  bool
-  operator==(const TanHelper & other) const = delete;
-  /* NOTE: operator== NOT defined. It is not required
-   * as part of the defined specification for a Function.
-  bool operator==(const TanHelper & other) const
-  {
-    return !( *this != other );
-  }
-  */
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TanHelper);
 
   inline TOutput
   operator()(const TInput & A) const
