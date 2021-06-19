@@ -118,13 +118,6 @@ TemporalRegion::operator==(const Self & region) const
 }
 
 // ---------------------------------------------------------------------------
-bool
-TemporalRegion::operator!=(const Self & region) const
-{
-  return !(operator==(region));
-}
-
-// ---------------------------------------------------------------------------
 void
 TemporalRegion::PrintSelf(std::ostream & os, Indent indent) const
 {

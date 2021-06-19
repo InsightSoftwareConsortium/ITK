@@ -181,11 +181,7 @@ public:
             m_MethodType == other.GetMethodType());
   }
 
-  bool
-  operator!=(const CallRecord & other) const
-  {
-    return !(*this == other);
-  }
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(CallRecord);
 
 protected:
   SizeValueType  m_CallerId;
