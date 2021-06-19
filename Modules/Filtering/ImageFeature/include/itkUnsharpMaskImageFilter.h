@@ -193,16 +193,12 @@ private:
     }
 
     bool
-    operator==(const UnsharpMaskingFunctor & other)
+    operator==(const UnsharpMaskingFunctor & other) const
     {
       return (m_Amount == other.m_Amount) && (m_Threshold == other.m_Threshold) && (m_Clamp == other.m_Clamp);
     }
 
-    bool
-    operator!=(const UnsharpMaskingFunctor & other)
-    {
-      return !(*this == other);
-    }
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(UnsharpMaskingFunctor);
 
     inline OutPixelType
     operator()(const InPixelType & v, const FunctorRealType & s) const
