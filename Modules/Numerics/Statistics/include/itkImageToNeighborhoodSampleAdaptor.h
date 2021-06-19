@@ -209,16 +209,12 @@ public:
     }
 
     bool
-    operator!=(const ConstIterator & it) const
-    {
-      return (m_MeasurementVectorCache[0] != it.m_MeasurementVectorCache[0]);
-    }
-
-    bool
     operator==(const ConstIterator & it) const
     {
       return (m_MeasurementVectorCache[0] == it.m_MeasurementVectorCache[0]);
     }
+
+    ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(ConstIterator);
 
   protected:
     // This method should only be available to the ListSample class

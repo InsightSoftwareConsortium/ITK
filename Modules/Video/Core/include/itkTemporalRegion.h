@@ -98,8 +98,7 @@ public:
   bool
   operator==(const Self & region) const;
 
-  bool
-  operator!=(const Self & region) const;
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
 protected:
   void

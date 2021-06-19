@@ -59,20 +59,12 @@ public:
   ~SimilarPixelsFunctor() = default;
 
   bool
-  operator!=(const SimilarPixelsFunctor & other) const
-  {
-    if (m_Threshold != other.m_Threshold)
-    {
-      return true;
-    }
-    return false;
-  }
-
-  bool
   operator==(const SimilarPixelsFunctor & other) const
   {
-    return !(*this != other);
+    return m_Threshold == other.m_Threshold;
   }
+
+  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(SimilarPixelsFunctor);
 
   void
   SetDistanceThreshold(const TInput & thresh)
