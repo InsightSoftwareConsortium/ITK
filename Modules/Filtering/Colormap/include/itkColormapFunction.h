@@ -72,18 +72,6 @@ public:
   itkSetMacro(MaximumInputValue, ScalarType);
   itkGetConstMacro(MaximumInputValue, ScalarType);
 
-  virtual bool
-  operator!=(const ColormapFunction &) const
-  {
-    return false;
-  }
-
-  virtual bool
-  operator==(const ColormapFunction & other) const
-  {
-    return !(*this != other);
-  }
-
   virtual RGBPixelType
   operator()(const ScalarType &) const = 0;
 
