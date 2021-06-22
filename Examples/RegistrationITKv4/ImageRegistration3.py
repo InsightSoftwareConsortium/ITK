@@ -38,7 +38,7 @@ output_image_file = sys.argv[3]
 #
 #  Define data types
 #
-PixelType = itk.ctype('float')
+PixelType = itk.ctype("float")
 
 #
 #  Read the fixed and moving images using filenames
@@ -56,8 +56,9 @@ initial_transform = itk.TranslationTransform[itk.D, Dimension].New()
 #
 # Create the matching metric we will use to compare the images during
 # optimization.
-matching_metric = itk.MeanSquaresImageToImageMetricv4[type(fixed_image),
-        type(moving_image)].New()
+matching_metric = itk.MeanSquaresImageToImageMetricv4[
+    type(fixed_image), type(moving_image)
+].New()
 
 #
 # Create the optimizer we will use for optimization.
@@ -76,6 +77,7 @@ def iteration_update():
     parameter_list = [current_parameters[i] for i in range(len(current_parameters))]
     print(f"Metric: {metric_value:.8g}  \tParameters: {parameter_list}")
 
+
 iteration_command = itk.PyCommand.New()
 iteration_command.SetCommandCallable(iteration_update)
 optimizer.AddObserver(itk.IterationEvent(), iteration_command)
@@ -83,11 +85,13 @@ optimizer.AddObserver(itk.IterationEvent(), iteration_command)
 #
 # One level registration process without shrinking and smoothing.
 #
-registration = itk.ImageRegistrationMethodv4.New(fixed_image=fixed_image,
-        moving_image=moving_image,
-        optimizer=optimizer,
-        metric=matching_metric,
-        initial_transform=initial_transform,)
+registration = itk.ImageRegistrationMethodv4.New(
+    fixed_image=fixed_image,
+    moving_image=moving_image,
+    optimizer=optimizer,
+    metric=matching_metric,
+    initial_transform=initial_transform,
+)
 registration.SetNumberOfLevels(1)
 registration.SetSmoothingSigmasPerLevel([0])
 registration.SetShrinkFactorsPerLevel([1])
@@ -112,16 +116,18 @@ print(f"Translation Y =  {final_parameters[1]:f}")
 # Now, we use the final transform for resampling the
 # moving image.
 #
-resampled_moving = itk.resample_image_filter(moving_image,
-        transform=registration.GetTransform(),
-        use_reference_image=True,
-        reference_image=fixed_image,
-        default_pixel_value=100)
+resampled_moving = itk.resample_image_filter(
+    moving_image,
+    transform=registration.GetTransform(),
+    use_reference_image=True,
+    reference_image=fixed_image,
+    default_pixel_value=100,
+)
 
 #
 # Cast to 8-bit unsigned integer pixels, supported by the PNG file format
 #
-OutputPixelType = itk.ctype('unsigned char')
+OutputPixelType = itk.ctype("unsigned char")
 resampled_cast = resampled_moving.astype(OutputPixelType)
 
 #

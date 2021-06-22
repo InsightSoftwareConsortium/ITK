@@ -27,7 +27,23 @@ from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
 
 from itk.support.extras import *
 from itk.support.init_helpers import *
-from itk.support.types import itkCType, F, D, UC, US, UI, UL, SL, LD, ULL, SC, SS, SI, SLL, B
+from itk.support.types import (
+    itkCType,
+    F,
+    D,
+    UC,
+    US,
+    UI,
+    UL,
+    SL,
+    LD,
+    ULL,
+    SC,
+    SS,
+    SI,
+    SLL,
+    B,
+)
 
 
 def _initialize_module():

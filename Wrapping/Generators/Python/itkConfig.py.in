@@ -83,7 +83,7 @@ def _itk_format_warning(
     lineno: int,  # Ignore lineno
     line: Optional[str] = None,  # Ignore line
 ) -> str:
-    """"Format the warnings issued by itk to display only the message.
+    """Format the warnings issued by itk to display only the message.
 
     This will ignore the filename and the line number where the warning was
     triggered. The message is returned to the warnings module.
@@ -139,7 +139,9 @@ def _initialize():
     return _swig_lib, _swig_py, _config_py, _doxygen_root, _path
 
 
-ITK_GLOBAL_VERSION_STRING: str = "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+ITK_GLOBAL_VERSION_STRING: str = (
+    "@ITK_VERSION_MAJOR@.@ITK_VERSION_MINOR@.@ITK_VERSION_PATCH@"
+)
 ITK_GLOBAL_WRAPPING_BUILD_OPTIONS: Dict[str, List[str]] = {
     "ITK_WRAP_IMAGE_DIMS": "@ITK_WRAP_IMAGE_DIMS@".split(";"),
     "WRAP_ITK_USIGN_INT": "@WRAP_ITK_USIGN_INT@".split(";"),

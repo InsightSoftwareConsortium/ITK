@@ -21,6 +21,7 @@ from typing import Optional, Union, Dict, Any, List, Tuple, Sequence, TYPE_CHECK
 from sys import stderr as system_error_stream
 
 import numpy as np
+
 try:
     from numpy.typing import ArrayLike
 except ImportError:
@@ -276,7 +277,7 @@ def _get_itk_pixelid(numpy_array_type):
 
 def _GetArrayFromImage(
     image_or_filter, function_name: str, keep_axes: bool, update: bool, ttype
-)-> np.ndarray:
+) -> np.ndarray:
     """Get an Array with the content of the image buffer"""
     # Finds the image type
     import itk
@@ -329,10 +330,7 @@ def GetArrayViewFromImage(
 array_view_from_image = GetArrayViewFromImage
 
 
-def _GetImageFromArray(
-  arr:ArrayLike,
-  function_name: str,
-  is_vector: bool, ttype):
+def _GetImageFromArray(arr: ArrayLike, function_name: str, is_vector: bool, ttype):
     """Get an ITK image from a Python array."""
     import itk
 
@@ -387,9 +385,8 @@ Please specify an output type via the 'ttype' keyword parameter."""
 
 
 def GetImageFromArray(
-  arr:ArrayLike,
-  is_vector: bool = False,
-  ttype=None) -> "itkt.ImageBase":
+    arr: ArrayLike, is_vector: bool = False, ttype=None
+) -> "itkt.ImageBase":
     """Get an ITK image from a Python array."""
     return _GetImageFromArray(arr, "GetImageFromArray", is_vector, ttype)
 
@@ -398,9 +395,8 @@ image_from_array = GetImageFromArray
 
 
 def GetImageViewFromArray(
-  arr:ArrayLike,
-  is_vector: bool = False,
-  ttype=None) -> "itkt.ImageBase":
+    arr: ArrayLike, is_vector: bool = False, ttype=None
+) -> "itkt.ImageBase":
     """Get an ITK image view from a Python array."""
     return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector, ttype)
 
@@ -409,8 +405,8 @@ image_view_from_array = GetImageViewFromArray
 
 
 def array_from_vector_container(
-  container:"itkt.VectorContainer",
-  ttype=None) -> np.ndarray:
+    container: "itkt.VectorContainer", ttype=None
+) -> np.ndarray:
     """Get an Array with the content of the vector container"""
     import itk
 
@@ -435,8 +431,8 @@ def array_from_vector_container(
 
 
 def array_view_from_vector_container(
-  container:"itkt.VectorContainer",
-  ttype=None) -> np.ndarray:
+    container: "itkt.VectorContainer", ttype=None
+) -> np.ndarray:
     """Get an Array view with the content of the vector container"""
     import itk
 
@@ -460,9 +456,7 @@ def array_view_from_vector_container(
     return itk.PyVectorContainer[keys[0]].array_view_from_vector_container(container)
 
 
-def vector_container_from_array(
-  arr:ArrayLike,
-  ttype=None) -> "itkt.VectorContainer":
+def vector_container_from_array(arr: ArrayLike, ttype=None) -> "itkt.VectorContainer":
     """Get a vector container from a Python array"""
     import itk
 
@@ -544,7 +538,7 @@ def GetArrayViewFromVnlMatrix(vnl_matrix, ttype=None) -> np.ndarray:
 array_view_from_vnl_matrix = GetArrayViewFromVnlMatrix
 
 
-def _GetVnlObjectFromArray(arr : ArrayLike, function_name: str, ttype):
+def _GetVnlObjectFromArray(arr: ArrayLike, function_name: str, ttype):
     """Get a vnl object from a Python array."""
     import itk
 
@@ -568,9 +562,7 @@ def _GetVnlObjectFromArray(arr : ArrayLike, function_name: str, ttype):
     return templatedFunction(arr)
 
 
-def GetVnlVectorFromArray(
-  arr:ArrayLike,
-  ttype=None):
+def GetVnlVectorFromArray(arr: ArrayLike, ttype=None):
     """Get a vnl vector from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray", ttype)
 
@@ -578,9 +570,7 @@ def GetVnlVectorFromArray(
 vnl_vector_from_array = GetVnlVectorFromArray
 
 
-def GetVnlMatrixFromArray(
-  arr:ArrayLike,
-  ttype=None):
+def GetVnlMatrixFromArray(arr: ArrayLike, ttype=None):
     """Get a vnl matrix from a Python array."""
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray", ttype)
 
@@ -595,7 +585,7 @@ def GetArrayFromMatrix(itk_matrix) -> np.ndarray:
 array_from_matrix = GetArrayFromMatrix
 
 
-def GetMatrixFromArray(arr : ArrayLike) -> "itkt.Matrix":
+def GetMatrixFromArray(arr: ArrayLike) -> "itkt.Matrix":
     import itk
 
     vnl_matrix = GetVnlMatrixFromArray(arr)
@@ -733,14 +723,23 @@ def vtk_image_from_image(l_image: "itkt.ImageOrImageSource") -> "vtk.vtkImageDat
     vtk_image.SetDimensions(dims)
     # Copy direction matrix for VTK>=9
     import vtk
-    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+
+    if vtk.vtkVersion.GetVTKMajorVersion() >= 9:
         l_direction = l_image.GetDirection()
         direction = itk.array_from_matrix(l_direction).flatten().tolist()
         if len(direction) == 4:
             # Change 2d matrix to 3d
-            direction = [ direction[0], direction[1], 0.0,
-                          direction[2], direction[3], 0.0,
-                                   0.0,          0.0, 1.0 ]
+            direction = [
+                direction[0],
+                direction[1],
+                0.0,
+                direction[2],
+                direction[3],
+                0.0,
+                0.0,
+                0.0,
+                1.0,
+            ]
         vtk_image.SetDirectionMatrix(direction)
     if l_image.GetImageDimension() == 3:
         PixelType = itk.template(l_image)[1][0]
@@ -784,18 +783,19 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
     l_image.SetOrigin(l_origin)
     # Direction support with VTK 9
     import vtk
-    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+
+    if vtk.vtkVersion.GetVTKMajorVersion() >= 9:
         direction = vtk_image.GetDirectionMatrix()
-        if dim==3:
+        if dim == 3:
             direction_array = np.identity(3)
-            for y in (0,1,2):
-                for x in (0,1,2):
-                    direction_array[x,y] = direction.GetElement(x,y)
-        elif dim==2:
+            for y in (0, 1, 2):
+                for x in (0, 1, 2):
+                    direction_array[x, y] = direction.GetElement(x, y)
+        elif dim == 2:
             direction_array = np.identity(2)
-            for y in (0,1):
-                for x in (0,1):
-                    direction_array[x,y] = direction.GetElement(x,y)
+            for y in (0, 1):
+                for x in (0, 1):
+                    direction_array[x, y] = direction.GetElement(x, y)
         l_direction = itk.matrix_from_array(direction_array)
         l_image.SetDirection(l_direction)
     return l_image
