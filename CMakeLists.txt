@@ -29,7 +29,7 @@ foreach(pnew "") # Currently Empty
     cmake_policy(SET ${pnew} NEW)
   endif()
 endforeach()
-foreach(pold "CMP0120") # CMP0120 will require non-trivial effort to address
+foreach(pold "CMP0120" "CMP0091") # CMP0120 will require non-trivial effort to address
   if(POLICY ${pold})
     cmake_policy(SET ${pold} OLD)
   endif()
