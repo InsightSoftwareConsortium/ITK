@@ -19,6 +19,8 @@
 
 #include "itkSimpleFastMutexLock.h"
 
+#include <iostream> // For cout.
+
 
 int
 itkSimpleFastMutexLockTest(int, char *[])
