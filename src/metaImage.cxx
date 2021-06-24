@@ -91,7 +91,6 @@ static const std::streamoff MaxIOChunk = 1024 * 1024 * 1024;
 // MetaImage Constructors
 //
 MetaImage::MetaImage()
-  : MetaObject()
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
@@ -103,7 +102,6 @@ MetaImage::MetaImage()
 
 //
 MetaImage::MetaImage(const char * _headerName)
-  : MetaObject()
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
@@ -117,7 +115,6 @@ MetaImage::MetaImage(const char * _headerName)
 
 //
 MetaImage::MetaImage(MetaImage * _im)
-  : MetaObject()
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
@@ -169,7 +166,6 @@ MetaImage::MetaImage(int               _nDims,
                      MET_ValueEnumType _elementType,
                      int               _elementNumberOfChannels,
                      void *            _elementData)
-  : MetaObject()
 {
   // Only consider at most 10 element of spacing:
   // See MetaObject::InitializeEssential(_nDims)
@@ -189,7 +185,6 @@ MetaImage::MetaImage(int               _nDims,
                      MET_ValueEnumType _elementType,
                      int               _elementNumberOfChannels,
                      void *            _elementData)
-  : MetaObject()
 {
   InitHelper(_nDims, _dimSize, _elementSpacing, _elementType, _elementNumberOfChannels, _elementData);
 }
@@ -202,7 +197,6 @@ MetaImage::MetaImage(int               _x,
                      MET_ValueEnumType _elementType,
                      int               _elementNumberOfChannels,
                      void *            _elementData)
-  : MetaObject()
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
@@ -239,7 +233,6 @@ MetaImage::MetaImage(int               _x,
                      MET_ValueEnumType _elementType,
                      int               _elementNumberOfChannels,
                      void *            _elementData)
-  : MetaObject()
 {
   META_DEBUG_PRINT( "MetaImage()" );
 
