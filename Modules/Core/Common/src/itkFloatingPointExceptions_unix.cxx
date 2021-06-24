@@ -73,6 +73,16 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 #  endif
 #endif
 
+// Define used macros with defaults if not available
+#if defined(ITK_FEENABLEEXCEPT_NOOP)
+#  if !defined(FE_DIVBYZERO)
+#    define FE_DIVBYZERO 4
+#  endif
+#  if !defined(FE_INVALID)
+#    define FE_INVALID 1
+#  endif
+#endif
+
 // Considering the following macros:
 //
 // * ITK_FEENABLEEXCEPT_NOOP   : If it applies, defined above
