@@ -26,8 +26,7 @@ jobs:
 
     - bash: |
         set -x
-        sudo pip3 install ninja numpy
-        sudo pip3 install ninja numpy>=1.20 typing-extensions
+        sudo pip3 install ninja numpy==1.20.3 typing-extensions
         sudo python3 -m pip install --upgrade setuptools
         sudo python3 -m pip install scikit-ci-addons
         sudo python3 -m pip install lxml dask distributed

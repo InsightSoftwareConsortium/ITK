@@ -31,7 +31,7 @@ jobs:
 
     - bash: |
         set -x
-        python3 -m pip install ninja numpy>=1.20 typing-extensions
+        python3 -m pip install ninja numpy==1.20.3 typing-extensions
         python3 -m pip install --upgrade setuptools
         python3 -m pip install lxml scikit-ci-addons dask distributed
       displayName: 'Install dependencies'
