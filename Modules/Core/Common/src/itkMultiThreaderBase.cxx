@@ -535,11 +535,6 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
   }
   ProgressReporter progress(filter, 0, 1);
 
-  SizeValueType pixelCount = 1;
-  for (unsigned d = 0; d < dimension; ++d)
-  {
-    pixelCount *= size[d];
-  }
   struct RegionAndCallback rnc
   {
     funcP, dimension, index, size, 0, filter
