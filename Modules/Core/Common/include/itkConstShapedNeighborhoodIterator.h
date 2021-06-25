@@ -281,7 +281,9 @@ public:
   using Superclass::IsAtEnd;
   using Superclass::GetOffset;
   using Superclass::operator==;
+#ifndef ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
   using Superclass::operator!=;
+#endif
   using Superclass::operator<;
   using Superclass::operator>;
   using Superclass::operator>=;

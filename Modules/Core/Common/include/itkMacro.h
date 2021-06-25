@@ -394,18 +394,28 @@ namespace itk
     static_assert(false, "Replace deprecated ITK_DISALLOW_COPY_AND_ASSIGN with modern ITK_DISALLOW_COPY_AND_MOVE")
 #endif
 
+
+// When ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR is defined, ITK uses
+// the ability for operator!= to be rewritten automatically in terms of
+// operator==, as introduced with C++20. This macro is experimental. It may be
+// modified, renamed, or removed without backward compatibility support.
+#if __cplusplus >= 202002L
+#  define ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
+#endif
+
 // Note: The following macro, ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TypeName),
 // is only for internal use within the implementation of ITK. It may be
 // modified, renamed, or removed without backward compatibility support.
-#if __cplusplus < 202002L
+#ifdef ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
+// With C++20, operator!= is automatically rewritten in terms of the
+// corresponding operator==.
+#  define ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TypeName) ITK_MACROEND_NOOP_STATEMENT
+#else
 // For C++14 and C++17, this macro defines an operator!= member function that
 // just calls the corresponding operator== member function.
 #  define ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TypeName)                                                               \
     bool operator!=(const TypeName & other) const { return !(this->operator==(other)); }                               \
     ITK_MACROEND_NOOP_STATEMENT
-#else
-// With C++20, operator!= is defined implicitly, calling the corresponding operator==.
-#  define ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(TypeName) ITK_MACROEND_NOOP_STATEMENT
 #endif
 
 /** Macro used to add standard methods to all classes, mainly type
