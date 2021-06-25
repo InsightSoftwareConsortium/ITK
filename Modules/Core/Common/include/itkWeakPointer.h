@@ -76,8 +76,14 @@ public:
     return (m_Pointer == (ObjectType *)r);
   }
 
+#ifndef ITK_EXPERIMENTAL_CXX20_REWRITTEN_UNEQUAL_OPERATOR
   template <typename R>
-  ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(R);
+  bool
+  operator!=(R r) const
+  {
+    return !(this->operator==(r));
+  }
+#endif
 
   /** Access function to pointer. */
   ObjectType *
