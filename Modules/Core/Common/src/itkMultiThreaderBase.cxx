@@ -537,7 +537,7 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
 
   struct RegionAndCallback rnc
   {
-    funcP, dimension, index, size, 0, filter
+    funcP, dimension, index, size, filter
   };
   this->SetSingleMethod(&MultiThreaderBase::ParallelizeImageRegionHelper, &rnc);
   this->SingleMethodExecute();
@@ -561,7 +561,7 @@ MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
   }
   ThreadIdType total = splitter->GetSplit(threadId, threadCount, region);
 
-  TotalProgressReporter reporter(rnc->filter, rnc->pixelCount);
+  TotalProgressReporter reporter(rnc->filter, 0);
 
   if (threadId < total)
   {

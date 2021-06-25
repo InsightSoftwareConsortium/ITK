@@ -441,7 +441,6 @@ protected:
     unsigned int           dimension;
     const IndexValueType * index;
     const SizeValueType *  size;
-    SizeValueType          pixelCount;
     ProcessObject *        filter;
   };
 
