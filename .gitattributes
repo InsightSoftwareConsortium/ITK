@@ -52,13 +52,15 @@ Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-
 Documentation/ReleaseNotes/* hooks-max-size=300000
 Utilities/Doxygen/doxygen.config.in hooks-max-size=150000
 
-Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/gdcmPrivateDefaultDicts.cxx hook-max-size=1021501
-Modules/ThirdParty/GDCM/src/gdcm/Utilities/gdcmopenjpeg/src/lib/openjp2/j2k.c hook-max-size=654063
-Modules/ThirdParty/GDCM/src/gdcm/Source/InformationObjectDefinition/Part3.xml hook-max-size=4336000
-Source/InformationObjectDefinition/Part3.xml hook-max-size=4336000
+Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/gdcmPrivateDefaultDicts.cxx hooks-max-size=1021501
+Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1200000
+Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1200000
+Modules/ThirdParty/GDCM/src/gdcm/Utilities/gdcmopenjpeg/src/lib/openjp2/j2k.c hooks-max-size=654063
+Modules/ThirdParty/GDCM/src/gdcm/Source/InformationObjectDefinition/Part3.xml hooks-max-size=4336000
+Source/InformationObjectDefinition/Part3.xml hooks-max-size=4336000
 
 # Avoid ghostflow-check-master failures
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5C.c      hook-max-size=400000
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Dchunk.c hook-max-size=400000
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Shyper.c hook-max-size=500000
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Tconv.c  hook-max-size=500000
+Modules/ThirdParty/HDF5/src/itkhdf5/src/H5C.c      hooks-max-size=400000
+Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Dchunk.c hooks-max-size=400000
+Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Shyper.c hooks-max-size=500000
+Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Tconv.c  hooks-max-size=500000
