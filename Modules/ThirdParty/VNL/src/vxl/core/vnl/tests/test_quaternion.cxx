@@ -5,7 +5,7 @@
 #include "vnl/vnl_quaternion.h"
 
 #include "vnl/vnl_rotation_matrix.h"
-
+#include <limits>
 // Tolerance between doubles. This was inferred by trial and error.
 // Could be derived mathematically?
 const double dtol = 16 * std::numeric_limits<double>::epsilon();

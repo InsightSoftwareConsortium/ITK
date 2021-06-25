@@ -6,7 +6,7 @@
 
 
 #include <iostream>
-
+#include <limits>
 #include "testlib/testlib_test.h"
 
 #include "vnl/vnl_vector.h"

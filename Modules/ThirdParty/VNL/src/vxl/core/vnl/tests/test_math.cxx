@@ -4,6 +4,7 @@
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_complex.h" // for vnl_math::abs(std::complex)
 #include "testlib/testlib_test.h"
+#include <limits>
 
 static constexpr double vnl_math_test_20_epsilon = 2 * 10 * std::numeric_limits<double>::epsilon();
 static constexpr double vnl_math_test_2_epsilon = 2 * std::numeric_limits<double>::epsilon();
