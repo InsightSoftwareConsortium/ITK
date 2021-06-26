@@ -47,7 +47,7 @@ namespace gdcm{
   thePDV.SetCommand(true);
   thePDV.SetLastFragment(true);
   //ignore incoming data set, make your own
-  ;
+
   CommandDataSet ds;
   ds.Insert( pc.GetAbstractSyntax().GetAsDataElement() );
   {

@@ -41,6 +41,7 @@ extract_source () {
     git_archive
     pushd "${extractdir}/${name}-reduced"
     echo "* -whitespace" > .gitattributes
+    echo "Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1200000" >> .gitattributes
     popd
 }
 

@@ -21,12 +21,12 @@
 
 namespace gdcm {
 
-typedef struct
+using GROUP_ENTRY = struct
 {
   uint16_t group;
   const char *abbreviation;
   const char *name;
-} GROUP_ENTRY;
+};
 
 static GROUP_ENTRY groupname[] = {
   {0x0000,"CMD","Command"},

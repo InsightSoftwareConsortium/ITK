@@ -1181,7 +1181,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
    * Note that this struct must live as long as the main JPEG parameter
    * struct, to avoid dangling-pointer problems.
    */
-  struct jpeg_error_mgr jerr;
+  struct my_error_mgr jerr;
   /* More stuff */
   //FILE * outfile;    /* target file */
   std::ostream * outfile = &os;
@@ -1195,7 +1195,15 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
    * This routine fills in the contents of struct jerr, and returns jerr's
    * address which we place into the link field in cinfo.
    */
-  cinfo.err = jpeg_std_error(&jerr);
+  cinfo.err = jpeg_std_error(&jerr.pub);
+  jerr.pub.error_exit = my_error_exit;
+    // Establish the setjmp return context for my_error_exit to use.
+    if (setjmp(jerr.setjmp_buffer))
+      {
+      jpeg_destroy_compress(&cinfo);
+      return false;
+      }
+
   /* Now we can initialize the JPEG compression object. */
   jpeg_create_compress(&cinfo);
 
@@ -1400,6 +1408,14 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
      * address which we place into the link field in cinfo.
      */
     cinfo.err = jpeg_std_error(&jerr.pub);
+    jerr.pub.error_exit = my_error_exit;
+    // Establish the setjmp return context for my_error_exit to use.
+    if (setjmp(jerr.setjmp_buffer))
+      {
+      jpeg_destroy_compress(&cinfo);
+      return false;
+      }
+
     /* Now we can initialize the JPEG compression object. */
     jpeg_create_compress(&cinfo);
 

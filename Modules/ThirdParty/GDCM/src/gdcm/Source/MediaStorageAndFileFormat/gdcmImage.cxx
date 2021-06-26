@@ -20,6 +20,7 @@
 #include "gdcmFragment.h"
 
 #include <iostream>
+#include <limits>
 
 namespace gdcm
 {

@@ -45,7 +45,7 @@ struct EmptyMaskGenerator::impl
   bool collectuids(Tag const & tag, std::map< std::string, std::string > & hash);
   bool setup(const char * dirname, const char * outdir);
   bool setmask( File & file );
-  bool derive( const char * filename, File & file );
+  bool derive( const char * filename, File & file ) const;
   bool anonymizeattributes( const char * filename, File & file );
   bool populateattributes( const char * filename, File const & orifile, File & file );
   bool setts( File & file );
@@ -131,7 +131,7 @@ bool EmptyMaskGenerator::impl::setup(const char * dirname, const char * outdir)
   return true;
 }
 
-bool EmptyMaskGenerator::impl::derive( const char * filename, File & file )
+bool EmptyMaskGenerator::impl::derive( const char * filename, File & file ) const
 {
   FileDerivation fd;
   const char * referencedsopclassuid = s.GetValue (filename, TSOPClassUID);
