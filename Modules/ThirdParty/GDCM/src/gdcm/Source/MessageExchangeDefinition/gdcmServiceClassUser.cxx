@@ -35,8 +35,8 @@ using namespace network;
 class ServiceClassUserInternals
 {
 public:
-  ULConnection* mConnection;
-  ULConnection* mSecondaryConnection;
+  ULConnection* mConnection{nullptr};
+  ULConnection* mSecondaryConnection{nullptr};
   ULTransitionTable mTransitions;
 
   std::string hostname;
@@ -46,7 +46,7 @@ public:
   std::string calledaetitle;
   double timeout;
 
-  ServiceClassUserInternals():mConnection(nullptr),mSecondaryConnection(nullptr){}
+  ServiceClassUserInternals()= default;
   ~ServiceClassUserInternals(){
     delete mConnection;
     delete mSecondaryConnection;

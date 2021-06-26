@@ -112,6 +112,7 @@ bool ImageChangePhotometricInterpretation::ChangeYBR2RGB()
   image.GetBuffer( p8 );
 
   const PixelFormat &pf = image.GetPixelFormat();
+  if( image.GetPlanarConfiguration() != 0 ) return false;
   if( pf.GetSamplesPerPixel() != 3 || pf.GetPixelRepresentation() != 0 ) return false;
   if( pf.GetBitsAllocated() == 16 )
   {
@@ -187,6 +188,7 @@ bool ImageChangePhotometricInterpretation::ChangeRGB2YBR()
   image.GetBuffer( p8 );
 
   const PixelFormat &pf = image.GetPixelFormat();
+  if( image.GetPlanarConfiguration() != 0 ) return false;
   if( pf.GetSamplesPerPixel() != 3 || pf.GetPixelRepresentation() != 0 ) return false;
   if( pf.GetBitsAllocated() == 16 )
   {

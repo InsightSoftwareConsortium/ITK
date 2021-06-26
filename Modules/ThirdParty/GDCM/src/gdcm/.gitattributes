@@ -1,4 +1,5 @@
 * -whitespace
+Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1200000
 
 /Source/DataDictionary/gdcmDefaultDicts.cxx hooks.MaxObjectKiB=2048
 /Source/InformationObjectDefinition/Part3.xml hooks.MaxObjectKiB=4096

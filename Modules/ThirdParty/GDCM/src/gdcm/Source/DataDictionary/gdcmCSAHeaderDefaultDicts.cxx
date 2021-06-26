@@ -26,14 +26,14 @@
 
 
 namespace gdcm {
-typedef struct
+using CSA_DICT_ENTRY = struct
 {
   const char *name;
   const char *type;
   VR::VRType vr;
   VM::VMType vm;
   const char *description;
-} CSA_DICT_ENTRY;
+};
 
 static const CSA_DICT_ENTRY CSAHeaderDataDict [] = {
   {"AcquisitionDate","3",VR::DA,VM::VM1,"A number identifying the single continuous gathering of data over a period of time which resulted in this image"},

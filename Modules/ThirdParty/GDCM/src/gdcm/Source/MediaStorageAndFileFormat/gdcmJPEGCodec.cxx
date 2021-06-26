@@ -101,7 +101,6 @@ void JPEGCodec::SetupJPEGBitCodec(int bit)
 {
   BitSample = bit;
   delete Internal; Internal = nullptr;
-  assert( Internal == nullptr );
   // what should I do with those single bit images ?
   if ( BitSample <= 8 )
     {
@@ -122,9 +121,6 @@ void JPEGCodec::SetupJPEGBitCodec(int bit)
     {
     // gdcmNonImageData/RT/RTDOSE.dcm
     gdcmWarningMacro( "Cannot instantiate JPEG codec for bit sample: " << bit );
-    // Clearly make sure Internal will not be used
-    delete Internal;
-    Internal = nullptr;
     }
 }
 
