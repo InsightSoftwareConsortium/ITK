@@ -27,44 +27,35 @@ namespace itk
 template <typename TValue>
 Array<TValue>::Array()
   : vnl_vector<TValue>()
-{
-  m_LetArrayManageMemory = true;
-}
+{}
 
 /** Copy constructor */
 template <typename TValue>
 Array<TValue>::Array(const Self & rhs)
   : vnl_vector<TValue>(rhs)
-  ,
-  // The vnl vector copy constructor creates new memory
-  // no matter the setting of let array manage memory of rhs
-  m_LetArrayManageMemory(true)
+// The copy constructor creates new memory, no matter
+// the setting of let array manage memory of rhs
 {}
 
 template <typename TValue>
 Array<TValue>::Array(const VnlVectorType & rhs)
   : vnl_vector<TValue>(rhs)
-  ,
-  // The vnl vector copy constructor creates new memory
-  // no matter the setting of let array manage memory of rhs
-  m_LetArrayManageMemory(true)
+// The vnl vector copy constructor creates new memory
+// no matter the setting of let array manage memory of rhs
 {}
 
 /** Constructor with size */
 template <typename TValue>
 Array<TValue>::Array(SizeValueType dimension)
   : vnl_vector<TValue>(dimension)
-  ,
-  // The vnl vector copy constructor creates new memory
-  // no matter the setting of let array manage memory of rhs
-  m_LetArrayManageMemory(true)
+// The vnl vector copy constructor creates new memory
+// no matter the setting of let array manage memory of rhs
 {}
 
 /** Constructor with size and initial value for each element. */
 template <typename TValue>
 Array<TValue>::Array(const SizeValueType dimension, const TValue & value)
   : vnl_vector<TValue>(dimension, value)
-  , m_LetArrayManageMemory{ true }
 {}
 
 /** Constructor with user specified data */
@@ -81,10 +72,8 @@ Array<TValue>::Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMe
 template <typename TValue>
 Array<TValue>::Array(const ValueType * datain, SizeValueType sz)
   : vnl_vector<TValue>(datain, sz)
-  ,
-  // The vnl vector copy constructor creates new memory
-  // no matter the setting of let array manage memory of rhs
-  m_LetArrayManageMemory(true)
+// The vnl vector copy constructor creates new memory
+// no matter the setting of let array manage memory of rhs
 {}
 
 #else // defined ( ITK_LEGACY_REMOVE )
@@ -94,10 +83,8 @@ Array<TValue>::Array(const ValueType * datain, SizeValueType sz, bool /* LetArra
   : /* NOTE: The 3rd argument "LetArrayManageMemory, was never valid to use, but is
      * preserved to maintain backwards compatibility*/
   vnl_vector<TValue>(datain, sz)
-  ,
-  // The vnl vector copy constructor creates new memory
-  // no matter the setting of let array manage memory of rhs
-  m_LetArrayManageMemory(true)
+// The vnl vector copy constructor creates new memory
+// no matter the setting of let array manage memory of rhs
 {}
 #endif
 

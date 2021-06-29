@@ -90,11 +90,9 @@ public:
 
 #else // defined ( ITK_LEGACY_REMOVE )
   /** Constructor that initializes array with contents from a user supplied
-   * buffer. The pointer to the buffer and the length is specified. By default,
-   * the array does not manage the memory of the buffer. It merely points to
-   * that location and it is the user's responsibility to delete it.
-   * If "LetArrayManageMemory" is true, then this class will free the
-   * memory when this object is destroyed. */
+   * buffer. The pointer to the buffer and the length is specified. The array
+   * does a deep copy of the const pointer data, so the array class also
+   * manages memory. The 3rd argument is only for backward compatibility. */
   Array(const ValueType * datain, SizeValueType sz, bool LetArrayManageMemory = false);
 #endif
 
@@ -102,7 +100,6 @@ public:
   template <typename TArrayValue>
   Array(const Array<TArrayValue> & r)
   {
-    this->m_LetArrayManageMemory = true;
     this->SetSize(r.GetSize());
     for (SizeValueType i = 0; i < r.GetSize(); ++i)
     {
@@ -207,7 +204,8 @@ public:
   }
 
 private:
-  bool m_LetArrayManageMemory;
+  /** Indicates whether this array manages the memory of its data. */
+  bool m_LetArrayManageMemory{ true };
 };
 
 template <typename TValue>
