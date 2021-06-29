@@ -38,7 +38,7 @@ set(
   itkRieszFrequencyFilterBankGeneratorTest.cxx
   itkMonogenicSignalFrequencyImageFilterTest.cxx
   # StructureTensor
-  itkStructureTensorTest.cxx
+  itkStructureTensorImageFilterTest.cxx
   # TODO Wavelet + Riesz + PhaseAnalysis. This is not an unit test. Convert to example or application.
   itkRieszWaveletPhaseAnalysisTest.cxx
   itkStructureTensorWithGeneralizedRieszTest.cxx
@@ -220,10 +220,10 @@ itk_add_test(
 )
 # StructureTensor
 itk_add_test(
-  NAME itkStructureTensorTest
+  NAME itkStructureTensorImageFilterTest
   COMMAND
     IsotropicWaveletsTestDriver
-    itkStructureTensorTest
+    itkStructureTensorImageFilterTest
 )
 # VectorInverseFFT
 itk_add_test(
