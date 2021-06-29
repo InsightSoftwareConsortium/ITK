@@ -7,6 +7,15 @@ if(ITK_WRAP_PYTHON)
       ${ITK_EXAMPLE_DATA_ROOT}/DiagonalLines.png
   )
 
+  list(FIND ITK_WRAP_IMAGE_DIMS 3 wrap_3_index)
+  if(wrap_3_index GREATER -1)
+    itk_python_add_test(
+      NAME itkApplyToImageMetadataTest
+      COMMAND
+        ${CMAKE_CURRENT_SOURCE_DIR}/itkApplyToImageMetadataTest.py
+    )
+  endif()
+
   itk_python_expression_add_test(
     NAME PythonInstantiateBSplineTransform2D2D
     EXPRESSION "t = itk.BSplineTransform[itk.D, 2, 2].New()"

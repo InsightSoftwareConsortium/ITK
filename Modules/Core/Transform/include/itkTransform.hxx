@@ -456,52 +456,60 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::TransformSym
 }
 
 template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
-template <typename TImage>
-std::enable_if_t<TImage::ImageDimension == VInputDimension && TImage::ImageDimension == VOutputDimension, void>
-Transform<TParametersValueType, VInputDimension, VOutputDimension>::ApplyToImageMetadata(TImage * image) const
+void
+Transform<TParametersValueType, VInputDimension, VOutputDimension>::ApplyToImageMetadataInternal(
+  ImageBase<VInputDimension> * image) const
 {
-  using ImageType = TImage;
-
-  if (!this->IsLinear())
+  if constexpr (VInputDimension == VOutputDimension)
   {
-    itkWarningMacro("ApplyToImageMetadata was invoked with non-linear transform of type: "
-                    << this->GetNameOfClass() << ". This might produce unexpected results.");
-  }
+    using ImageType = ImageBase<VInputDimension>;
 
-  const typename Self::Pointer inverse = this->GetInverseTransform();
-  if (inverse.IsNull())
-  {
-    itkExceptionMacro(
-      "ApplyToImageMetadata was invoked with non-invertible transform of type: " << this->GetNameOfClass());
-  }
-
-  // transform origin
-  typename ImageType::PointType origin = image->GetOrigin();
-  origin = inverse->TransformPoint(origin);
-  image->SetOrigin(origin);
-
-  typename ImageType::SpacingType   spacing = image->GetSpacing();
-  typename ImageType::DirectionType direction = image->GetDirection();
-  // transform direction cosines and compute new spacing
-  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
-  {
-    Vector<typename Self::ParametersValueType, ImageType::ImageDimension> dirVector;
-    for (unsigned int k = 0; k < ImageType::ImageDimension; ++k)
+    if (!this->IsLinear())
     {
-      dirVector[k] = direction[k][i];
+      itkWarningMacro("ApplyToImageMetadata was invoked with non-linear transform of type: "
+                      << this->GetNameOfClass() << ". This might produce unexpected results.");
     }
 
-    dirVector *= spacing[i];
-    dirVector = inverse->TransformVector(dirVector);
-    spacing[i] = dirVector.Normalize();
-
-    for (unsigned int k = 0; k < ImageType::ImageDimension; ++k)
+    const typename Self::Pointer inverse = this->GetInverseTransform();
+    if (inverse.IsNull())
     {
-      direction[k][i] = dirVector[k];
+      itkExceptionMacro(
+        "ApplyToImageMetadata was invoked with non-invertible transform of type: " << this->GetNameOfClass());
     }
+
+    // transform origin
+    typename ImageType::PointType origin = image->GetOrigin();
+    origin = inverse->TransformPoint(origin);
+    image->SetOrigin(origin);
+
+    typename ImageType::SpacingType   spacing = image->GetSpacing();
+    typename ImageType::DirectionType direction = image->GetDirection();
+    // transform direction cosines and compute new spacing
+    for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
+    {
+      Vector<typename Self::ParametersValueType, ImageType::ImageDimension> dirVector;
+      for (unsigned int k = 0; k < ImageType::ImageDimension; ++k)
+      {
+        dirVector[k] = direction[k][i];
+      }
+
+      dirVector *= spacing[i];
+      dirVector = inverse->TransformVector(dirVector);
+      spacing[i] = dirVector.Normalize();
+
+      for (unsigned int k = 0; k < ImageType::ImageDimension; ++k)
+      {
+        direction[k][i] = dirVector[k];
+      }
+    }
+    image->SetDirection(direction);
+    image->SetSpacing(spacing);
   }
-  image->SetDirection(direction);
-  image->SetSpacing(spacing);
+  else
+  {
+    itkExceptionMacro("ApplyToImageMetadata was invoked with transform of type: "
+                      << this->GetNameOfClass() << " that has different input and output dimensions.");
+  }
 }
 
 
