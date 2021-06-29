@@ -34,16 +34,27 @@ namespace utils
 using IndexPairType = std::pair<unsigned int, unsigned int>;
 
 /** Get the (Level,Band) from a linear index output.
- * The index corresponding to the low-pass image is the last one, corresponding to the IndexPairType(this->GetLevels(),
- * 0). In a steerable pyramid: TotalOutputs = 1 + Levels * Bands The outputs are ordered, if n is the \c linearIndex:
+ * The index corresponding to the low-pass image is the last one, corresponding to the
+ * IndexPairType(this->GetLevels(), 0).
+ *
+ * In a steerable pyramid: TotalOutputs = 1 + Levels * Bands
+ *
+ * The outputs are ordered, if n is the \c linearIndex:
+ *
  * n:0 ---> level:0 band:1,
  * n:1 ---> l:0, b:2, etc. until b == bands.
  * n:bands-1 ---> l:0, b=bands
+ *
  * If there is more than one level:
+ *
  * n:bands ---> l:1, b=1
+ *
  * if only one level:
+ *
  * n:bands ---> l:0, b=0
+ *
  * Independently of the numbers of levels or bands, the last index is always the low pass:
+ *
  * nLowPass ---> l:Levels, b=0
  *
  * Note that bands and levels are always >= 1. The level/bands returned here corresponds to an index.
