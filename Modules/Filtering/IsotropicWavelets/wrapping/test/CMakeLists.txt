@@ -36,3 +36,7 @@ itk_python_expression_add_test(NAME itkFrequencyExpandViaInverseFFTImageFilterPy
   EXPRESSION "instance = itk.FrequencyExpandViaInverseFFTImageFilter.New()")
 itk_python_expression_add_test(NAME itkFrequencyShrinkViaInverseFFTImageFilterPythonTest
   EXPRESSION "instance = itk.FrequencyShrinkViaInverseFFTImageFilter.New()")
+itk_python_expression_add_test(NAME itkExpandWithZerosImageFilter
+  EXPRESSION "instance = itk.ExpandWithZerosImageFilter.New()")
+itk_python_expression_add_test(NAME itkShrinkDecimateImageFilter
+  EXPRESSION "instance = itk.ShrinkDecimateImageFilter.New()")
