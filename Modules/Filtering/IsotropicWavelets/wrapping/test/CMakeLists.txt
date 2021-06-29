@@ -40,3 +40,5 @@ itk_python_expression_add_test(NAME itkExpandWithZerosImageFilter
   EXPRESSION "instance = itk.ExpandWithZerosImageFilter.New()")
 itk_python_expression_add_test(NAME itkShrinkDecimateImageFilter
   EXPRESSION "instance = itk.ShrinkDecimateImageFilter.New()")
+itk_python_expression_add_test(NAME itkIsotropicWaveletsUtilitiesPythonTest
+  EXPRESSION "itk.IsotropicWaveletsUtilities.Factorial(2)")
