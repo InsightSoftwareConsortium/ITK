@@ -4,56 +4,40 @@ set -e
 set -x
 shopt -s dotglob
 
-readonly name="zlib"
-readonly ownership="Zlib Upstream <kwrobot@kitware.com>"
+readonly name="zlib-ng"
+readonly ownership="Zlib-ng Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/ZLIB/src/itk$name"
-readonly repo="https://gitlab.kitware.com/third-party/zlib.git"
-readonly tag="for/itk-v1.2.11-2017-01-15-cacf7f1d"
+readonly repo="https://github.com/zlib-ng/zlib-ng.git"
+readonly tag="develop"
 readonly paths="
 CMakeLists.txt
+cmake/*
+arch/*
+*.c
+*.h
 
-adler32.c
-compress.c
-crc32.c
-deflate.c
-gzclose.c
-gzlib.c
-gzread.c
-gzwrite.c
-infback.c
-inffast.c
-inflate.c
-inftrees.c
-trees.c
-uncompr.c
-zutil.c
+gzread.c.in
+zconf.h.in
+zlib.h.in
+zlib_name_mangling.h.in
+zlib_name_mangling.h.empty
+zlib.pc.cmakein
 
-crc32.h
-deflate.h
-gzguts.h
-inffast.h
-inffixed.h
-inflate.h
-inftrees.h
-trees.h
-zlib.h
-zutil.h
-
-zconf.h.cmakein
-
+zlib.map
+win32/zlibcompat.def
 win32/zlib1.rc
-win32/DLL_FAQ.txt
+win32/zlib.def
 
 .gitattributes
-ChangeLog
-README
-README.kitware.md
-FAQ
-INDEX
+README.md
+INDEX.md
 "
+
 
 extract_source () {
     git_archive
+    pushd "${extractdir}/${name}-reduced"
+    popd
 }
 
 . "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
