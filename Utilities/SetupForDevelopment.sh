@@ -51,6 +51,9 @@ messages for interaction with Gerrit. Also, removing the "gerrit" and "stage" re
           git remote remove stage
 fi
 
+# Blame should ignore bulk style changes by default
+git config blame.ignoreRevsFile .git-blame-ignore-revs
+
 # Style hook configuration
 git config hooks.KWStyle.conf "Utilities/KWStyle/ITK.kws.xml"
 git config hooks.KWStyle.overwriteRulesConf "Utilities/KWStyle/ITKOverwrite.txt"
@@ -107,5 +110,5 @@ echo -e "Git version $git_version is OK.\n"
 
 
 # Record the version of this setup so Hooks/pre-commit can check it.
-SetupForDevelopment_VERSION=7
+SetupForDevelopment_VERSION=8
 git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}
