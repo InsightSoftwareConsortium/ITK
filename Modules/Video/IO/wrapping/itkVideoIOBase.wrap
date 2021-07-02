@@ -1,0 +1,5 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkVideoIOBase.h")
+itk_wrap_simple_class("itk::VideoIOBaseEnums")
+
+itk_wrap_simple_class("itk::VideoIOBase" POINTER)

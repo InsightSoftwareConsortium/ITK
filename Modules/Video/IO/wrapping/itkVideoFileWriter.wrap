@@ -1,0 +1,12 @@
+itk_wrap_include("itkImage.h")
+itk_wrap_include("itkVideoStream.h")
+
+UNIQUE(image_types "UC;ULL;D;${WRAP_ITK_ALL_TYPES}")
+itk_wrap_class("itk::VideoFileWriter" POINTER)
+  foreach(t ${image_types})
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+      itk_wrap_template("VSI${ITKM_${t}}${d}"
+                        "itk::VideoStream<itk::Image<${ITKT_${t}},${d}>>")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
