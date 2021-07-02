@@ -107,6 +107,13 @@ donations to NumFOCUS are tax-deductible as allowed by law. As with any
 donation, you should consult with your personal tax adviser or the IRS about
 your particular tax situation.
 
+Professional Services
+---------------------
+
+[Kitware](https://www.kitware.com/) provides professional services for ITK,
+including custom solution creation, collaborative research and development,
+development support, and training.
+
 Citation
 --------
 
