@@ -62,6 +62,7 @@ Similarity3DTransform<TParametersValueType>::SetScale(ScaleType scale)
 {
   m_Scale = scale;
   this->ComputeMatrix();
+  this->ComputeOffset();
 }
 
 // Directly set the matrix
