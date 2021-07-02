@@ -586,7 +586,7 @@ try:
 
     print("Testing vtk conversion")
     image = itk.image_from_array(np.random.rand(2, 3, 4))
-    z_rot = np.asarray([[0,1,0], [-1,0,0], [0,0,1]], dtype=np.float64)
+    z_rot = np.asarray([[0, 1, 0], [-1, 0, 0], [0, 0, 1]], dtype=np.float64)
     z_rot_itk = itk.matrix_from_array(z_rot)
     image.SetDirection(z_rot_itk)
 
@@ -598,17 +598,16 @@ try:
     assert np.array_equal(
         itk.array_view_from_image(image), itk.array_view_from_image(image_round)
     )
-    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+    if vtk.vtkVersion.GetVTKMajorVersion() >= 9:
         z_rot_round = itk.array_from_matrix(image_round.GetDirection())
         assert np.array_equal(z_rot, z_rot_round)
     else:
         print("VTK version <9. Direction unsupported.")
 
-
     image = itk.image_from_array(
         np.random.rand(5, 4, 2).astype(np.float32), is_vector=True
     )
-    z_rot = np.asarray([[0,1], [-1,0]], dtype=np.float64)
+    z_rot = np.asarray([[0, 1], [-1, 0]], dtype=np.float64)
     z_rot_itk = itk.matrix_from_array(z_rot)
     image.SetDirection(z_rot_itk)
 
@@ -620,7 +619,7 @@ try:
     assert np.array_equal(
         itk.array_view_from_image(image), itk.array_view_from_image(image_round)
     )
-    if vtk.vtkVersion.GetVTKMajorVersion()>=9:
+    if vtk.vtkVersion.GetVTKMajorVersion() >= 9:
         z_rot_round = itk.array_from_matrix(image_round.GetDirection())
         assert np.array_equal(z_rot, z_rot_round)
 

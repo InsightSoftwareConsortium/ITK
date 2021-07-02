@@ -53,21 +53,21 @@ compare_filter.Update()
 assert compare_filter.GetMaximumDifference() < 0.000000001
 
 # Check the type hints
-type_hints = get_type_hints(itk.median_image_filter, globalns= { 'itk': itk })
+type_hints = get_type_hints(itk.median_image_filter, globalns={"itk": itk})
 
-assert 'args' in type_hints
-args_hints = type_hints['args']
+assert "args" in type_hints
+args_hints = type_hints["args"]
 assert get_origin(args_hints) is Union
 assert itk.ImageBase in get_args(args_hints)
 
-assert 'radius' in type_hints
-radius_hints = type_hints['radius']
+assert "radius" in type_hints
+radius_hints = type_hints["radius"]
 assert get_origin(radius_hints) is Union
 assert int in get_args(radius_hints)
 assert Sequence[int] in get_args(radius_hints)
 
-assert 'return' in type_hints
-result_hints = type_hints['return']
+assert "return" in type_hints
+result_hints = type_hints["return"]
 assert itk.ImageBase in get_args(args_hints)
 
 # Check for process_object attribute pointing to the associated class

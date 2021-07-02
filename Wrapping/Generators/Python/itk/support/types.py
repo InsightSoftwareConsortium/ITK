@@ -17,6 +17,7 @@
 # ==========================================================================*/
 
 from typing import Union, Optional, Tuple, TYPE_CHECKING
+
 try:
     from numpy.typing import ArrayLike
 except ImportError:
@@ -128,7 +129,7 @@ class itkCType:
         else:
             _UL: "itkCType" = itkCType("unsigned long", "UL", np.uint64)
             _SL: "itkCType" = itkCType("signed long", "SL", np.int64)
-            if hasattr(np, 'float128'):
+            if hasattr(np, "float128"):
                 _LD: "itkCType" = itkCType("long double", "LD", np.float128)
             else:
                 _LD: "itkCType" = itkCType("long double", "LD")

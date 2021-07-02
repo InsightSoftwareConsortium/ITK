@@ -25,7 +25,7 @@ import numpy as np
 
 
 class TestNumpyITKMemoryviewInterface(unittest.TestCase):
-    """ This tests numpy array <-> ITK Scalar Image conversion. """
+    """This tests numpy array <-> ITK Scalar Image conversion."""
 
     def setUp(self):
         pass

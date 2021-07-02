@@ -33,13 +33,16 @@ def _lazy_itk_module_reconstructor(module_name, state):
 
     return lazy_module
 
+
 def _ThreadingRLock(*args, **kwargs):
     """threading RLock"""
     try:
         from threading import RLock
+
         return RLock(*args, **kwargs)
     except (ImportError, OSError):
         pass
+
 
 class ITKLazyLoadLock(object):
     """Need to use a recursive lock for thread ownership
@@ -83,12 +86,14 @@ class ITKLazyLoadLock(object):
 
     @classmethod
     def create_mp_lock(cls):
-        if not hasattr(cls, 'mp_lock'):
+        if not hasattr(cls, "mp_lock"):
             try:
                 from multiprocessing import RLock
+
                 cls.mp_lock = RLock()
             except (ImportError, OSError):
                 cls.mp_lock = None
+
 
 class LazyITKModule(types.ModuleType):
 
@@ -117,7 +122,7 @@ class LazyITKModule(types.ModuleType):
     @classmethod
     def get_lock(cls):
         """Get the global lock. Construct it if it does not exist."""
-        if not hasattr(cls, '_lock'):
+        if not hasattr(cls, "_lock"):
             cls._lock = ITKLazyLoadLock()
         return cls._lock
 

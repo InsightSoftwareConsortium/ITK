@@ -83,7 +83,13 @@ def create_and_test(t, create_method):
         except Exception as e:
             msg = (
                 "%s, %s: wrong Python class name: %s. "
-                "Exception while evaluating it: %s" % (t, actual_type, obj_type, e)
+                "Exception while evaluating it: %s"
+                % (
+                    t,
+                    actual_type,
+                    obj_type,
+                    e,
+                )
             )
             wrongType = 1
     if wrongType:
