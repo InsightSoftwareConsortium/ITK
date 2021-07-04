@@ -328,6 +328,26 @@ swap(Vector<T, NVectorDimension> & a, Vector<T, NVectorDimension> & b)
   a.swap(b);
 }
 
+
+/** Makes a Vector object, having the specified values as coordinates. */
+template <typename TValue, typename... TVariadic>
+auto
+MakeVector(const TValue firstValue, const TVariadic... otherValues)
+{
+  // Assert that the other values have the same type as the first value.
+  const auto assertSameType = [](const auto value) {
+    static_assert(std::is_same<decltype(value), const TValue>::value, "Each value must have the same type!");
+    return true;
+  };
+  const bool assertions[] = { true, assertSameType(otherValues)... };
+  (void)assertions;
+  (void)assertSameType;
+
+  constexpr unsigned                  dimension{ 1 + sizeof...(TVariadic) };
+  const std::array<TValue, dimension> stdArray{ { firstValue, otherValues... } };
+  return Vector<TValue, dimension>{ stdArray };
+}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

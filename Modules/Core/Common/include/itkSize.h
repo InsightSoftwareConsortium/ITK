@@ -20,8 +20,8 @@
 
 #include "itkIntTypes.h"
 #include "itkMacro.h"
-#include <algorithm> // For copy_n.
-#include <type_traits>
+#include <algorithm>   // For copy_n.
+#include <type_traits> // For is_integral.
 #include <memory>
 
 namespace itk
@@ -470,6 +470,20 @@ swap(Size<VDimension> & one, Size<VDimension> & two)
 {
   std::swap(one.m_InternalArray, two.m_InternalArray);
 }
+
+
+/** Makes a Size object, having the specified size values. */
+template <typename... T>
+auto
+MakeSize(const T... values)
+{
+  const auto toValueType = [](const auto value) {
+    static_assert(std::is_integral<decltype(value)>::value, "Each value must have an integral type!");
+    return static_cast<SizeValueType>(value);
+  };
+  return Size<sizeof...(T)>{ { toValueType(values)... } };
+}
+
 
 // static constexpr definition explicitly needed in C++11
 template <unsigned int VDimension>
