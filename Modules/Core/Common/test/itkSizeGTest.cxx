@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkSize.h"
 #include <gtest/gtest.h>
+#include <initializer_list>
 #include <limits>
 
 namespace
@@ -56,4 +57,18 @@ TEST(Size, FilledReturnsSizeWithSpecifiedValueForEachDimension)
   Expect_Filled_returns_Size_with_specified_value_for_each_element<1>();
   Expect_Filled_returns_Size_with_specified_value_for_each_element<2>();
   Expect_Filled_returns_Size_with_specified_value_for_each_element<3>();
+}
+
+
+TEST(Size, Make)
+{
+  static_assert((decltype(itk::MakeSize(1, 1))::Dimension == 2) && (decltype(itk::MakeSize(1, 1, 1))::Dimension == 3),
+                "The dimension of the created itk::Size should equal the number of arguments");
+
+  EXPECT_EQ(itk::MakeSize(0, 0), itk::Size<2>());
+  EXPECT_EQ(itk::MakeSize(0, 0, 0), itk::Size<3>());
+
+  const auto itkSize = itk::MakeSize(1, 2, 3, 4);
+  const auto values = { 1, 2, 3, 4 };
+  EXPECT_TRUE(std::equal(itkSize.begin(), itkSize.end(), values.begin(), values.end()));
 }

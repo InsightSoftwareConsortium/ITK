@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkIndex.h"
 #include <gtest/gtest.h>
+#include <initializer_list>
 #include <limits>
 
 namespace
@@ -55,4 +56,18 @@ TEST(Index, FilledReturnsIndexWithSpecifiedValueForEachElement)
   // Test for 1-D and 3-D.
   Expect_Filled_returns_Index_with_specified_value_for_each_element<1>();
   Expect_Filled_returns_Index_with_specified_value_for_each_element<3>();
+}
+
+
+TEST(Index, Make)
+{
+  static_assert((decltype(itk::MakeIndex(1, 1))::Dimension == 2) && (decltype(itk::MakeIndex(1, 1, 1))::Dimension == 3),
+                "The dimension of the created itk::Size should equal the number of arguments");
+
+  EXPECT_EQ(itk::MakeIndex(0, 0), itk::Index<2>());
+  EXPECT_EQ(itk::MakeIndex(0, 0, 0), itk::Index<3>());
+
+  const auto itkIndex = itk::MakeIndex(1, 2, 3, 4);
+  const auto values = { 1, 2, 3, 4 };
+  EXPECT_TRUE(std::equal(itkIndex.begin(), itkIndex.end(), values.begin(), values.end()));
 }

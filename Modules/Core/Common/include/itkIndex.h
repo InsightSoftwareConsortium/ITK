@@ -19,6 +19,7 @@
 #define itkIndex_h
 
 #include "itkOffset.h"
+#include <type_traits> // For is_integral.
 
 namespace itk
 {
@@ -567,6 +568,20 @@ swap(Index<VDimension> & one, Index<VDimension> & two)
 {
   std::swap(one.m_InternalArray, two.m_InternalArray);
 }
+
+
+/** Makes an Index object, having the specified index values. */
+template <typename... T>
+auto
+MakeIndex(const T... values)
+{
+  const auto toValueType = [](const auto value) {
+    static_assert(std::is_integral<decltype(value)>::value, "Each value must have an integral type!");
+    return static_cast<IndexValueType>(value);
+  };
+  return Index<sizeof...(T)>{ { toValueType(values)... } };
+}
+
 
 // static constexpr definition explicitly needed in C++11
 template <unsigned int VDimension>
