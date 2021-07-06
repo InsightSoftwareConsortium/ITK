@@ -976,7 +976,15 @@ def imread(
         # Increase dimension if last dimension is not of size one.
         if increase_dimension and image_IO.GetDimensions(dimension - 1) != 1:
             dimension += 1
-        ImageType = itk.Image[pixel_type, dimension]
+        is_vlv = False
+        try:
+            is_vlv = itk.template(pixel_type)[0] is itk.VariableLengthVector
+        except KeyError:
+            pass
+        if is_vlv:
+            ImageType = itk.VectorImage[itk.template(pixel_type)[1][0], dimension]
+        else:
+            ImageType = itk.Image[pixel_type, dimension]
         reader = template_reader_type[ImageType].New(**kwargs)
     else:
         reader = template_reader_type.New(**kwargs)
