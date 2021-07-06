@@ -81,3 +81,13 @@ itk_python_add_test(NAME PythonMultiprocessLazyLoad
       COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/multiprocess_lazy_loading.py
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png} DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
     )
+
+# Test proper reading and writing of VariableLengthVector
+itk_python_add_test(NAME PythonVLVReadWriteTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/readWriteVLV.py
+      DATA{${WrapITK_SOURCE_DIR}/images/TestVLV.seg.nrrd}
+      ${ITK_TEST_OUTPUT_DIR}/TestVLV.seg.nrrd
+      59 85 58 5
+    )
