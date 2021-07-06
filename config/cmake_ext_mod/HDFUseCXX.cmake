@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -70,7 +70,9 @@ macro (HDF_CXX_FUNCTION_TEST OTHER_TEST)
       )
     endif ()
 
-    #message (STATUS "Performing ${OTHER_TEST}")
+    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+      message (TRACE "Performing ${OTHER_TEST}")
+    endif ()
     TRY_COMPILE (${OTHER_TEST}
         ${CMAKE_BINARY_DIR}
         ${HDF_RESOURCES_EXT_DIR}/HDFCXXTests.cpp
@@ -80,9 +82,13 @@ macro (HDF_CXX_FUNCTION_TEST OTHER_TEST)
     )
     if (${OTHER_TEST} EQUAL 0)
       set (${OTHER_TEST} 1 CACHE INTERNAL "CXX test ${FUNCTION}")
-      message (STATUS "Performing CXX Test ${OTHER_TEST} - Success")
+      if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+        message (VERBOSE "Performing CXX Test ${OTHER_TEST} - Success")
+      endif ()
     else ()
-      message (STATUS "Performing CXX Test ${OTHER_TEST} - Failed")
+      if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+        message (VERBOSE "Performing CXX Test ${OTHER_TEST} - Failed")
+      endif ()
       set (${OTHER_TEST} "" CACHE INTERNAL "CXX test ${FUNCTION}")
       file (APPEND ${CMAKE_BINARY_DIR}/CMakeFiles/CMakeError.log
           "Performing CXX Test ${OTHER_TEST} failed with the following output:\n"
@@ -97,11 +103,6 @@ endmacro ()
 #-----------------------------------------------------------------------------
 if (CMAKE_CXX_COMPILER_LOADED)
   foreach (cxx_test
-      OLD_HEADER_FILENAME
-      HDF_NO_NAMESPACE
-      HDF_NO_STD
-      BOOL_NOTDEFINED
-      NO_STATIC_CAST
       CXX_HAVE_OFFSETOF
   )
     HDF_CXX_FUNCTION_TEST (${cxx_test})

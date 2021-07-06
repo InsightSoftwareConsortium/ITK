@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -118,7 +118,9 @@ if (NOT SZIP_FOUND)
       "SZip was not found. Make sure SZIP_LIBRARY and SZIP_INCLUDE_DIR are set or set the SZIP_INSTALL environment variable."
   )
   if (NOT SZIP_FIND_QUIETLY)
-    message (STATUS "${SZIP_DIR_MESSAGE}")
+    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+      message (VERBOSE "${SZIP_DIR_MESSAGE}")
+    endif ()
   else ()
     if (SZIP_FIND_REQUIRED)
       message (FATAL_ERROR "SZip was NOT found and is Required by this project")
