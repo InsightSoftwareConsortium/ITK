@@ -77,6 +77,9 @@ ThreadPool::GetInstance()
       {
         new ThreadPool(); // constructor sets m_PimplGlobals->m_ThreadPoolInstance
       }
+#if defined(ITK_USE_PTHREADS)
+      pthread_atfork(ThreadPool::PrepareForFork, ThreadPool::ResumeFromFork, ThreadPool::ResumeFromFork);
+#endif
     }
   }
   return m_PimplGlobals->m_ThreadPoolInstance;
@@ -132,7 +135,8 @@ ThreadPool::GetNumberOfCurrentlyIdleThreads() const
   return int(m_Threads.size()) - int(m_WorkQueue.size()); // lousy approximation
 }
 
-ThreadPool::~ThreadPool()
+void
+ThreadPool::CleanUp()
 {
   {
     std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
@@ -154,6 +158,21 @@ ThreadPool::~ThreadPool()
   }
 }
 
+void
+ThreadPool::PrepareForFork()
+{
+  m_PimplGlobals->m_ThreadPoolInstance->CleanUp();
+}
+
+void
+ThreadPool::ResumeFromFork()
+{
+  ThreadPool * instance = m_PimplGlobals->m_ThreadPoolInstance.GetPointer();
+  ThreadIdType threadCount = instance->m_Threads.size();
+  instance->m_Threads.clear();
+  instance->m_Stopping = false;
+  instance->AddThreads(threadCount);
+}
 
 void
 ThreadPool::ThreadExecute()

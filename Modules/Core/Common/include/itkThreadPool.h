@@ -124,13 +124,23 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   SetDoNotWaitForThreads(bool doNotWaitForThreads);
 
 protected:
-  /* We need access to the mutex in AddWork, and the variable is only
+  /** We need access to the mutex in AddWork, and the variable is only
    * visible in .cxx file, so this method returns it. */
   std::mutex &
   GetMutex();
 
   ThreadPool();
-  ~ThreadPool() override;
+
+  /** Stop the pool and release threads. To be called by the destructor and atfork. */
+  void
+  CleanUp();
+
+  ~ThreadPool() override { this->CleanUp(); }
+
+  static void
+  PrepareForFork();
+  static void
+  ResumeFromFork();
 
 private:
   /** Only used to synchronize the global variable across static libraries.*/
