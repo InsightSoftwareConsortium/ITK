@@ -1,0 +1,9 @@
+Niftilib has been developed by members of the NIFTI DFWG and volunteers in the
+neuroimaging community and serves as a reference implementation of the nifti-1
+file format.
+
+http://nifti.nimh.nih.gov/
+
+Nifticlib code is released into the public domain, developers are encouraged to
+incorporate niftilib code into their applications, and, to contribute changes
+and enhancements to niftilib.
