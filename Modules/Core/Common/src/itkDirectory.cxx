@@ -58,7 +58,7 @@ Directory::PrintSelf(std::ostream & os, Indent indent) const
 bool
 Directory::Load(const char * dir)
 {
-  return m_Internal->Load(dir);
+  return static_cast<bool>(m_Internal->Load(dir));
 }
 
 /**

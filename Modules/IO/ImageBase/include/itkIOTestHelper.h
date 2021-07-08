@@ -152,7 +152,7 @@ public:
   static int
   Remove(const char * fname)
   {
-    return itksys::SystemTools::RemoveFile(fname);
+    return static_cast<bool>(itksys::SystemTools::RemoveFile(fname));
   }
 
   template <typename ImageType>
