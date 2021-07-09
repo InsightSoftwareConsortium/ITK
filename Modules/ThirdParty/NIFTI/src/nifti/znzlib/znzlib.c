@@ -22,6 +22,7 @@ NB: seeks for writable files with compression are quite restricted
  */
 
 #include "znzlib.h"
+#include "znzlib_version.h"
 
 /*
 znzlib.c  (zipped or non-zipped library)
@@ -80,7 +81,7 @@ znzFile znzopen(const char *path, const char *mode, int use_compression)
   return file;
 }
 
-
+#ifdef COMPILE_NIFTIUNUSED_CODE
 znzFile znzdopen(int fd, const char *mode, int use_compression)
 {
   znzFile file;
@@ -106,6 +107,7 @@ znzFile znzdopen(int fd, const char *mode, int use_compression)
 #endif
   return file;
 }
+#endif
 
 
 int Xznzclose(znzFile * file)
@@ -196,11 +198,11 @@ size_t znzwrite(const void* buf, size_t size, size_t nmemb, znzFile file)
   return fwrite(buf,size,nmemb,file->nzfptr);
 }
 
-long znzseek(znzFile file, long offset, int whence)
+znz_off_t znzseek(znzFile file, znz_off_t offset, int whence)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
-  if (file->zfptr!=NULL) return (long) gzseek(file->zfptr,offset,whence);
+  if (file->zfptr!=NULL) return (znz_off_t) gzseek(file->zfptr,offset,whence);
 #endif
   return fseek(file->nzfptr,offset,whence);
 }
@@ -221,11 +223,11 @@ int znzrewind(znzFile stream)
   return 0;
 }
 
-long znztell(znzFile file)
+znz_off_t znztell(znzFile file)
 {
   if (file==NULL) { return 0; }
 #ifdef HAVE_ZLIB
-  if (file->zfptr!=NULL) return (long) gztell(file->zfptr);
+  if (file->zfptr!=NULL) return (znz_off_t) gztell(file->zfptr);
 #endif
   return ftell(file->nzfptr);
 }
@@ -239,7 +241,7 @@ int znzputs(const char * str, znzFile file)
   return fputs(str,file->nzfptr);
 }
 
-
+#ifdef COMPILE_NIFTIUNUSED_CODE
 char * znzgets(char* str, int size, znzFile file)
 {
   if (file==NULL) { return NULL; }
@@ -317,5 +319,6 @@ int znzprintf(znzFile stream, const char *format, ...)
   va_end(va);
   return retval;
 }
+#endif
 
 #endif

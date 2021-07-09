@@ -1,31 +1,21 @@
 set(NIFTI_ZNZLIB_NAME ${NIFTI_PACKAGE_PREFIX}znz)
 
-add_library(${NIFTI_ZNZLIB_NAME} znzlib.c )
+add_nifti_library(${NIFTI_ZNZLIB_NAME} znzlib.c )
 target_link_libraries( ${NIFTI_ZNZLIB_NAME} PUBLIC ${NIFTI_ZLIB_LIBRARIES} )
-target_include_directories(${NIFTI_ZNZLIB_NAME} PUBLIC
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-        $<INSTALL_INTERFACE:${NIFTI_INSTALL_INCLUDE_DIR}>
-        )
-
+set_target_properties(
+  ${NIFTI_ZNZLIB_NAME}
+  PROPERTIES
+    PUBLIC_HEADER ${CMAKE_CURRENT_LIST_DIR}/znzlib.h
+    )
+target_compile_definitions(${NIFTI_ZNZLIB_NAME} PUBLIC  ${ZNZ_COMPILE_DEF})
 # Set library version if building shared libs.
 if(BUILD_SHARED_LIBS)
-  set_target_properties(${NIFTI_ZNZLIB_NAME} PROPERTIES ${NIFTI_LIBRARY_PROPERTIES})
+    get_lib_version_vars("znzlib_version.h" ZNZLIB_VERSION ZNZLIB_MAJOR_VERSION)
+    set_target_properties(${NIFTI_ZNZLIB_NAME}
+      PROPERTIES
+        ${NIFTI_LIBRARY_PROPERTIES}
+        VERSION ${ZNZLIB_VERSION}
+        SOVERSION ${ZNZLIB_MAJOR_VERSION}
+        )
 endif()
-
-
-if(NOT NIFTI_INSTALL_NO_LIBRARIES)
-  install(TARGETS ${NIFTI_ZNZLIB_NAME}
-          EXPORT ${NIFTI_INSTALL_EXPORT_NAME}
-          RUNTIME DESTINATION ${NIFTI_INSTALL_RUNTIME_DIR} COMPONENT RuntimeLibraries
-          LIBRARY DESTINATION ${NIFTI_INSTALL_LIBRARY_DIR} COMPONENT RuntimeLibraries
-          ARCHIVE DESTINATION ${NIFTI_INSTALL_LIBRARY_DIR} COMPONENT Development
-          INCLUDES DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
-          )
-endif()
-
-if(NOT NIFTI_INSTALL_NO_DEVELOPMENT)
-  file(GLOB __files "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
-  install(FILES ${__files}
-    DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
-    COMPONENT Development)
-endif()
+install_nifti_target(${NIFTI_ZNZLIB_NAME})

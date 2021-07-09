@@ -7,6 +7,10 @@
            - added DT_RGBA32 and NIFTI_TYPE_RGBA32
            - added NIFTI_INTENT codes:
                 TIME_SERIES, NODE_INDEX, RGB_VECTOR, RGBA_VECTOR, SHAPE
+
+        08 Mar 2019 [PT,DRG]
+           - Updated to include [qs]form_code = 5 
+
  */
 
 #ifndef _NIFTI_HEADER_
@@ -953,6 +957,33 @@ typedef struct { unsigned char r,g,b; } rgb_byte ;
 
 #define NIFTI_INTENT_SHAPE        2005
 
+ /*! The following intent codes have been used by FSL FNIRT for
+     displacement/coefficient files.
+
+     These codes are included to prevent clashes in community-created
+     extensions to NIfTI. Encoding and decoding behavior for these
+     intents is not specified by the standard, and support is OPTIONAL
+     for conforming implementations.
+     */
+
+#define NIFTI_INTENT_FSL_FNIRT_DISPLACEMENT_FIELD       2006
+#define NIFTI_INTENT_FSL_CUBIC_SPLINE_COEFFICIENTS      2007
+#define NIFTI_INTENT_FSL_DCT_COEFFICIENTS               2008
+#define NIFTI_INTENT_FSL_QUADRATIC_SPLINE_COEFFICIENTS  2009
+
+ /*! The following intent codes have been used by FSL TOPUP for
+     displacement/coefficient files.
+
+     These codes are included to prevent clashes in community-created
+     extensions to NIfTI. Encoding and decoding behavior for these
+     intents is not specified by the standard, and support is OPTIONAL
+     for conforming implementations.
+     */
+
+#define NIFTI_INTENT_FSL_TOPUP_CUBIC_SPLINE_COEFFICIENTS        2016
+#define NIFTI_INTENT_FSL_TOPUP_QUADRATIC_SPLINE_COEFFICIENTS    2017
+#define NIFTI_INTENT_FSL_TOPUP_FIELD                            2018
+
 /* @} */
 
 /*---------------------------------------------------------------------------*/
@@ -1231,6 +1262,13 @@ typedef struct { unsigned char r,g,b; } rgb_byte ;
                                     /*! MNI 152 normalized coordinates. */
 
 #define NIFTI_XFORM_MNI_152      4
+
+                                    /*!  Normalized coordinates (for
+                                         any general standard template
+                                         space). Added March 8, 2019. */
+
+#define NIFTI_XFORM_TEMPLATE_OTHER  5
+
 /* @} */
 
 /*---------------------------------------------------------------------------*/

@@ -129,7 +129,7 @@ static const char * g_history[] =
   "   - added -keep_hist option, to store the command as a COMMENT extension\n",
   "     (includes fill_cmd_string() and add_int(), is done for all actions)\n"
   "   - added remove_ext_list(), for removing a list of extensions by indices\n"
-  "   - added -strip action, to strip all extensions and descrip fields\n"
+  "   - added -strip_extras action, to strip all exts and descrip fields\n"
   "\n",
   "1.9  25 Aug 2005 [rickr] - const/string cleanup for warnings\n",
   "1.10 18 Nov 2005 [rickr] - added check_hdr and check_nim actions\n",
@@ -1029,7 +1029,7 @@ int use_full(const char * prog )
    "       (in example #3, the extension is copied from a text file)\n"
    "\n"
    "\n"
-   "      1. nifti_tool -strip -overwrite -infiles *.nii\n"
+   "      1. nifti_tool -strip_extras -overwrite -infiles *.nii\n"
    "      2. nifti_tool -add_comment 'converted from MY_AFNI_DSET+orig' \\\n"
    "                    -prefix dnew -infiles dset0.nii\n"
    );
@@ -1390,7 +1390,7 @@ int use_full(const char * prog )
    "\n");
    printf(
    "       e.g. to strip all *.nii datasets in this directory:\n"
-   "       nifti_tool -strip -overwrite -infiles *.nii\n"
+   "       nifti_tool -strip_extras -overwrite -infiles *.nii\n"
    "\n");
    printf(
    "    -swap_as_nifti    : swap the header according to nifti_1_header\n"
@@ -2530,7 +2530,7 @@ int act_mod_hdrs( nt_opts * opts )
 {
    nifti_1_header * nhdr;
    nifti_image    * nim;         /* for reading/writing entire datasets */
-   int              filec, swap;
+   int              filec, swap=0;
    const char     * fname;
    char           * dupname;
    char             func[] = { "act_mod_hdrs" };
@@ -3765,7 +3765,7 @@ int act_disp_ci( nt_opts * opts )
       if( len < 0 || !data )
       {
          fprintf(stderr,"** FAILURE for dataset '%s'\n", nim->fname);
-         if( data ) free(data);
+         if( data ) { free(data); data = NULL; }
          err++;
       }
 

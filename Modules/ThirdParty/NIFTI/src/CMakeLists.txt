@@ -13,6 +13,7 @@ set(NIFTI_USE_PACKAGING OFF CACHE BOOL "Do not use packaging from nifti when inc
 set(NIFTI_BUILD_APPLICATIONS OFF CACHE BOOL "Do not build applications provided by NIFTI" FORCE)
 # Testing is not compatible with ITK at the moment
 set(NIFTI_BUILD_TESTING OFF) # "Do not build nifit testing applications"
+set(DOWNLOAD_TEST_DATA OFF) # Don't download testing data
 
 add_definitions(-DITKZLIB)
 set(NIFTI_INSTALL_EXPORT_NAME ${ITKNIFTI-targets}) # "Set the nifti package export target name"

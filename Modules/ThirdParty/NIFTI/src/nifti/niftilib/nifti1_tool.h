@@ -134,7 +134,7 @@ int check_total_size ( const char *mesg, field_s *fields, int nfields, int tot_s
 int clear_float_zeros( char * str );
 int diff_field       (field_s *fieldp, void * str0, void * str1, int nfields);
 int disp_nifti1_extension( const char *mesg, nifti1_extension * ext, int maxlen);
-int disp_field       ( const char *mesg,field_s *fp,void *str,int nfields,int header);
+int disp_field       ( const char *mesg,field_s *fieldp,void *str,int nfields,int header);
 int disp_field_s_list( const char *mesg, field_s *, int nfields);
 int disp_nt_opts     ( const char *mesg, nt_opts * opts);
 int disp_raw_data    (void * data, int type, int nvals, char space,int newline);
