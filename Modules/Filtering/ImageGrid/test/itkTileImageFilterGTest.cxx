@@ -118,7 +118,7 @@ TEST_F(TileImageFixture, VectorImage)
 
   auto image = ImageType::New();
 
-  typename ImageType::SizeType imageSize = MakeSize(10, 10);
+  typename ImageType::SizeType imageSize = itk::MakeSize(10, 10);
 
   const unsigned int numberOfComponents = 5;
 

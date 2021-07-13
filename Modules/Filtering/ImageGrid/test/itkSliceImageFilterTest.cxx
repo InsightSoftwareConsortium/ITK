@@ -314,7 +314,7 @@ TEST(SliceImageFilterTests, Sizes)
 
   using namespace itk::GTest::TypedefsAndConstructors::Dimension3;
 
-  source->SetSize(MakeSize(19, 17, 11));
+  source->SetSize(itk::MakeSize(19, 17, 11));
 
   filter = FilterType::New();
   filter->SetInput(source->GetOutput());
@@ -324,7 +324,7 @@ TEST(SliceImageFilterTests, Sizes)
   EXPECT_EQ(9, filter->GetOutput()->GetLargestPossibleRegion().GetSize(1));
   EXPECT_EQ(6, filter->GetOutput()->GetLargestPossibleRegion().GetSize(2));
 
-  source->SetSize(MakeSize(5, 2, 3));
+  source->SetSize(itk::MakeSize(5, 2, 3));
 
   std::cout << "CHECK" << std::endl;
 

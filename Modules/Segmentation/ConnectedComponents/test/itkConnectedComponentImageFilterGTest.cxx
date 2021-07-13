@@ -39,7 +39,7 @@ CreateTestImageA()
   using ImageType = itk::Image<PixelType, Dimension>;
 
   auto image = ImageType::New();
-  image->SetRegions(ImageType::RegionType(MakeSize(2u, 2u, 2u)));
+  image->SetRegions(ImageType::RegionType(itk::MakeSize(2u, 2u, 2u)));
   image->Allocate(true);
 
   for (size_t i = 0; i < 8; ++i)

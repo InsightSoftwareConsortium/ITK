@@ -111,14 +111,14 @@ TEST(ITKBSplineTransform, Copying_Clone)
 
   ASSERT_EQ(coeffImageArray.Size(), 2);
 
-  SizeType      imageSize = MakeSize(10, 10);
+  SizeType      imageSize = itk::MakeSize(10, 10);
   DirectionType imageDirection; // filled with zeros
   imageDirection(0, 1) = -1;
   imageDirection(1, 0) = 1;
 
-  VectorType imageSpacing = MakeVector(1.1, 1.2);
+  VectorType imageSpacing = itk::MakeVector(1.1, 1.2);
 
-  PointType imageOrigin = MakePoint(0.9, 0.8);
+  PointType imageOrigin = itk::MakePoint(0.9, 0.8);
 
   coeffImageArray[0] = ImageType::New();
 
@@ -153,10 +153,10 @@ TEST(ITKBSplineTransform, Copying_Clone)
 
   bspline_eq(bspline1.GetPointer(), bspline1.GetPointer(), "Check after initialization by coefficient images.");
 
-  ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainOrigin(), MakePoint(-0.3, 1.9), 1e-15);
+  ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainOrigin(), itk::MakePoint(-0.3, 1.9), 1e-15);
   EXPECT_EQ(bspline1->GetTransformDomainDirection(), imageDirection);
-  EXPECT_EQ(bspline1->GetTransformDomainMeshSize(), MakeSize(7, 7));
-  ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainPhysicalDimensions(), MakeVector(7.7, 8.4), 1e-15);
+  EXPECT_EQ(bspline1->GetTransformDomainMeshSize(), itk::MakeSize(7, 7));
+  ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainPhysicalDimensions(), itk::MakeVector(7.7, 8.4), 1e-15);
 
   BSplineType::Pointer bspline2 = BSplineType::New();
   bspline2->SetFixedParameters(bspline1->GetFixedParameters());

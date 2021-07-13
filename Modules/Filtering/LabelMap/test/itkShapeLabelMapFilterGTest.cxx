@@ -113,30 +113,30 @@ TEST_F(ShapeLabelMapFixture, 3D_T1x1x1)
 
   Utils::ImageType::Pointer image(Utils::CreateImage());
 
-  image->SetPixel(MakeIndex(5, 7, 9), 1);
+  image->SetPixel(itk::MakeIndex(5, 7, 9), 1);
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
 
-  ITK_EXPECT_VECTOR_NEAR(MakeIndex(5, 7, 9), labelObject->GetBoundingBox().GetIndex(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakeSize(1, 1, 1), labelObject->GetBoundingBox().GetSize(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(5.0, 7.0, 9.0), labelObject->GetCentroid(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeIndex(5, 7, 9), labelObject->GetBoundingBox().GetIndex(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeSize(1, 1, 1), labelObject->GetBoundingBox().GetSize(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(5.0, 7.0, 9.0), labelObject->GetCentroid(), 1e-10);
   EXPECT_EQ(0.0, labelObject->GetElongation());
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(0.0, 0.0, 0.0), labelObject->GetEquivalentEllipsoidDiameter(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(0.0, 0.0, 0.0), labelObject->GetEquivalentEllipsoidDiameter(), 1e-10);
   EXPECT_NEAR(4.83598, labelObject->GetEquivalentSphericalPerimeter(), 1e-4); // resulting value
   EXPECT_NEAR(0.62035, labelObject->GetEquivalentSphericalRadius(), 1e-4);    // resulting value
   EXPECT_EQ(0.0, labelObject->GetFeretDiameter());
   EXPECT_EQ(0.0, labelObject->GetFlatness());
   EXPECT_EQ(1u, labelObject->GetNumberOfPixels());
   EXPECT_EQ(0u, labelObject->GetNumberOfPixelsOnBorder());
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(1u, 1u, 1u), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(4.5, 6.5, 8.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(1u, 1u, 1u), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(4.5, 6.5, 8.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-10);
   EXPECT_NEAR(3.004, labelObject->GetPerimeter(), 1e-4); // resulting value
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorder());
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorderRatio());
   EXPECT_EQ(1.0, labelObject->GetPhysicalSize());
   // labelObject->GetPrincipalAxes();  degenerate case
-  EXPECT_EQ(MakeVector(0.0, 0.0, 0.0), labelObject->GetPrincipalMoments());
+  EXPECT_EQ(itk::MakeVector(0.0, 0.0, 0.0), labelObject->GetPrincipalMoments());
   EXPECT_NEAR(1.6098, labelObject->GetRoundness(), 0.0001); // resulting value
 
   EXPECT_EQ(labelObject->GetBoundingBox(), labelObject->GetRegion());
@@ -157,32 +157,32 @@ TEST_F(ShapeLabelMapFixture, 3D_T3x2x1)
 
   for (unsigned int i = 5; i < 8; ++i)
   {
-    image->SetPixel(MakeIndex(i, 9, 11), 1);
-    image->SetPixel(MakeIndex(i, 10, 11), 1);
+    image->SetPixel(itk::MakeIndex(i, 9, 11), 1);
+    image->SetPixel(itk::MakeIndex(i, 10, 11), 1);
   }
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
 
-  ITK_EXPECT_VECTOR_NEAR(MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakeSize(3, 2, 1), labelObject->GetBoundingBox().GetSize(), 1e-99);
-  EXPECT_EQ(MakePoint(6, 9.5, 11.0), labelObject->GetCentroid());
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeSize(3, 2, 1), labelObject->GetBoundingBox().GetSize(), 1e-99);
+  EXPECT_EQ(itk::MakePoint(6.0, 9.5, 11.0), labelObject->GetCentroid());
   EXPECT_NEAR(1.63299, labelObject->GetElongation(), 1e-4);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(0.0, 0.0, 0.0), labelObject->GetEquivalentEllipsoidDiameter(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(0.0, 0.0, 0.0), labelObject->GetEquivalentEllipsoidDiameter(), 1e-10);
   EXPECT_NEAR(15.96804, labelObject->GetEquivalentSphericalPerimeter(), 1e-4); // resulting value
   EXPECT_NEAR(1.12725, labelObject->GetEquivalentSphericalRadius(), 1e-4);     // resulting value
   EXPECT_NEAR(2.23606, labelObject->GetFeretDiameter(), 1e-4);
   EXPECT_EQ(0.0, labelObject->GetFlatness());
   EXPECT_EQ(6u, labelObject->GetNumberOfPixels());
   EXPECT_EQ(0u, labelObject->GetNumberOfPixelsOnBorder());
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(1u, 2u, 3u), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(7.5, 8.5, 10.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(1u, 2u, 3u), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(7.5, 8.5, 10.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-10);
   EXPECT_NEAR(14.62414, labelObject->GetPerimeter(), 1e-4); // resulting value
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorder());
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorderRatio());
   EXPECT_EQ(6.0, labelObject->GetPhysicalSize());
   // labelObject->GetPrincipalAxes(); omitted
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(0, 0.25, 0.666667), labelObject->GetPrincipalMoments(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(0.0, 0.25, 0.666667), labelObject->GetPrincipalMoments(), 1e-4);
   EXPECT_NEAR(1.09189, labelObject->GetRoundness(), 1e-4); // resulting value
 
   EXPECT_EQ(labelObject->GetBoundingBox(), labelObject->GetRegion());
@@ -204,8 +204,8 @@ TEST_F(ShapeLabelMapFixture, 3D_T3x2x1_Direction)
 
   for (unsigned int i = 5; i < 8; ++i)
   {
-    image->SetPixel(MakeIndex(i, 9, 11), 1);
-    image->SetPixel(MakeIndex(i, 10, 11), 1);
+    image->SetPixel(itk::MakeIndex(i, 9, 11), 1);
+    image->SetPixel(itk::MakeIndex(i, 10, 11), 1);
   }
 
   DirectionType direction;
@@ -221,25 +221,26 @@ TEST_F(ShapeLabelMapFixture, 3D_T3x2x1_Direction)
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
 
-  ITK_EXPECT_VECTOR_NEAR(MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakeSize(3, 2, 1), labelObject->GetBoundingBox().GetSize(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(5.06906, -3.25286, -14.5249), labelObject->GetCentroid(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeSize(3, 2, 1), labelObject->GetBoundingBox().GetSize(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(5.06906, -3.25286, -14.5249), labelObject->GetCentroid(), 1e-4);
   EXPECT_NEAR(1.63299, labelObject->GetElongation(), 1e-4);
-  // ITK_EXPECT_VECTOR_NEAR(MakePoint(0.0,0.0,0.0), labelObject->GetEquivalentEllipsoidDiameter(), 1e-10);
+  // ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(0.0,0.0,0.0), labelObject->GetEquivalentEllipsoidDiameter(), 1e-10);
   EXPECT_NEAR(15.96804, labelObject->GetEquivalentSphericalPerimeter(), 1e-4); // resulting value
   EXPECT_NEAR(1.12725, labelObject->GetEquivalentSphericalRadius(), 1e-4);     // resulting value
   EXPECT_NEAR(2.23606, labelObject->GetFeretDiameter(), 1e-4);
   // EXPECT_EQ(0.0, labelObject->GetFlatness()); unstable due to division near zero
   EXPECT_EQ(6u, labelObject->GetNumberOfPixels());
   EXPECT_EQ(0u, labelObject->GetNumberOfPixelsOnBorder());
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(1u, 2u, 3u), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(3.22524, -3.19685, -14.83670), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(1u, 2u, 3u), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(
+    itk::MakePoint(3.22524, -3.19685, -14.83670), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
   EXPECT_NEAR(14.62414, labelObject->GetPerimeter(), 1e-4); // resulting value
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorder());
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorderRatio());
   EXPECT_EQ(6.0, labelObject->GetPhysicalSize());
   // labelObject->GetPrincipalAxes(); omitted
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(0, 0.25, 0.666667), labelObject->GetPrincipalMoments(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(0.0, 0.25, 0.666667), labelObject->GetPrincipalMoments(), 1e-4);
   EXPECT_NEAR(1.09189, labelObject->GetRoundness(), 1e-4); // resulting value
 
   if (::testing::Test::HasFailure())
@@ -261,29 +262,29 @@ TEST_F(ShapeLabelMapFixture, 3D_T2x2x2_Spacing)
   {
     for (unsigned int j = 0; j < 2; ++j)
     {
-      image->SetPixel(MakeIndex(5 + j, 9 + i, 11), 1);
-      image->SetPixel(MakeIndex(5 + j, 9 + i, 12), 1);
+      image->SetPixel(itk::MakeIndex(5 + j, 9 + i, 11), 1);
+      image->SetPixel(itk::MakeIndex(5 + j, 9 + i, 12), 1);
     }
   }
 
-  image->SetSpacing(MakeVector(1.0, 1.1, 2.2));
+  image->SetSpacing(itk::MakeVector(1.0, 1.1, 2.2));
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
 
-  ITK_EXPECT_VECTOR_NEAR(MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakeSize(2, 2, 2), labelObject->GetBoundingBox().GetSize(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(5.5, 10.45, 25.3), labelObject->GetCentroid(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeSize(2, 2, 2), labelObject->GetBoundingBox().GetSize(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(5.5, 10.45, 25.3), labelObject->GetCentroid(), 1e-4);
   EXPECT_NEAR(2.0, labelObject->GetElongation(), 1e-4);
   ITK_EXPECT_VECTOR_NEAR(
-    MakePoint(2.4814, 2.72954, 5.45908), labelObject->GetEquivalentEllipsoidDiameter(), 1e-4); // resulting value
-  EXPECT_NEAR(34.86751, labelObject->GetEquivalentSphericalPerimeter(), 1e-4);                 // resulting value
-  EXPECT_NEAR(1.66573, labelObject->GetEquivalentSphericalRadius(), 1e-4);                     // resulting value
+    itk::MakePoint(2.4814, 2.72954, 5.45908), labelObject->GetEquivalentEllipsoidDiameter(), 1e-4); // resulting value
+  EXPECT_NEAR(34.86751, labelObject->GetEquivalentSphericalPerimeter(), 1e-4);                      // resulting value
+  EXPECT_NEAR(1.66573, labelObject->GetEquivalentSphericalRadius(), 1e-4);                          // resulting value
   EXPECT_NEAR(2.65518, labelObject->GetFeretDiameter(), 1e-4);
   EXPECT_NEAR(1.1, labelObject->GetFlatness(), 1e-4);
   EXPECT_EQ(8u, labelObject->GetNumberOfPixels());
   EXPECT_EQ(0u, labelObject->GetNumberOfPixelsOnBorder());
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(2, 2.2, 4.4), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(2.0, 2.2, 4.4), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
   EXPECT_NEAR(28.3919, labelObject->GetPerimeter(), 1e-4); // resulting value
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorder());
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorderRatio());
@@ -291,9 +292,9 @@ TEST_F(ShapeLabelMapFixture, 3D_T2x2x2_Spacing)
   // Because the sign of the Eigen vectors is not
   // unique, therefore the axes may not always point in the same
   // direction making origin not unique. Therefore we check the expected origin the the list of vertices.
-  EXPECT_TRUE(Utils::TestListHasPoint(labelObject->GetOrientedBoundingBoxVertices(), MakePoint(4.5, 9.35, 23.1)));
+  EXPECT_TRUE(Utils::TestListHasPoint(labelObject->GetOrientedBoundingBoxVertices(), itk::MakePoint(4.5, 9.35, 23.1)));
   // labelObject->GetPrincipalAxes(); omitted
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(0.25, 0.3025, 1.21), labelObject->GetPrincipalMoments(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(0.25, 0.3025, 1.21), labelObject->GetPrincipalMoments(), 1e-4);
   EXPECT_NEAR(1.22808, labelObject->GetRoundness(), 1e-4); // resulting value
 
   if (::testing::Test::HasFailure())
@@ -325,37 +326,38 @@ TEST_F(ShapeLabelMapFixture, 3D_T2x2x2_Spacing_Direction)
   {
     for (unsigned int j = 0; j < 2; ++j)
     {
-      image->SetPixel(MakeIndex(5 + j, 9 + i, 11), 1);
-      image->SetPixel(MakeIndex(5 + j, 9 + i, 12), 1);
+      image->SetPixel(itk::MakeIndex(5 + j, 9 + i, 11), 1);
+      image->SetPixel(itk::MakeIndex(5 + j, 9 + i, 12), 1);
     }
   }
 
-  image->SetSpacing(MakeVector(1.0, 1.1, 2.2));
+  image->SetSpacing(itk::MakeVector(1.0, 1.1, 2.2));
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
 
-  ITK_EXPECT_VECTOR_NEAR(MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakeSize(2, 2, 2), labelObject->GetBoundingBox().GetSize(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(10.13655, 4.21035, -25.67227), labelObject->GetCentroid(), 1e-4); // resulting value
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeIndex(5, 9, 11), labelObject->GetBoundingBox().GetIndex(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeSize(2, 2, 2), labelObject->GetBoundingBox().GetSize(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(
+    itk::MakePoint(10.13655, 4.21035, -25.67227), labelObject->GetCentroid(), 1e-4); // resulting value
   EXPECT_NEAR(2.0, labelObject->GetElongation(), 1e-4);
   ITK_EXPECT_VECTOR_NEAR(
-    MakePoint(2.4814, 2.72954, 5.45908), labelObject->GetEquivalentEllipsoidDiameter(), 1e-4); // resulting value
-  EXPECT_NEAR(34.86751, labelObject->GetEquivalentSphericalPerimeter(), 1e-4);                 // resulting value
-  EXPECT_NEAR(1.66573, labelObject->GetEquivalentSphericalRadius(), 1e-4);                     // resulting value
+    itk::MakePoint(2.4814, 2.72954, 5.45908), labelObject->GetEquivalentEllipsoidDiameter(), 1e-4); // resulting value
+  EXPECT_NEAR(34.86751, labelObject->GetEquivalentSphericalPerimeter(), 1e-4);                      // resulting value
+  EXPECT_NEAR(1.66573, labelObject->GetEquivalentSphericalRadius(), 1e-4);                          // resulting value
   EXPECT_NEAR(2.65518, labelObject->GetFeretDiameter(), 1e-4);
   EXPECT_NEAR(1.1, labelObject->GetFlatness(), 1e-4);
   EXPECT_EQ(8u, labelObject->GetNumberOfPixels());
   EXPECT_EQ(0u, labelObject->GetNumberOfPixelsOnBorder());
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(2, 2.2, 4.4), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(2.0, 2.2, 4.4), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
   ITK_EXPECT_VECTOR_NEAR(
-    MakePoint(8.92548, 4.27240, -23.31018), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4); // resulting value
-  EXPECT_NEAR(28.3919, labelObject->GetPerimeter(), 1e-4);                                      // resulting value
+    itk::MakePoint(8.92548, 4.27240, -23.31018), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4); // resulting value
+  EXPECT_NEAR(28.3919, labelObject->GetPerimeter(), 1e-4);                                           // resulting value
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorder());
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorderRatio());
   EXPECT_NEAR(19.36, labelObject->GetPhysicalSize(), 1e-10);
   // labelObject->GetPrincipalAxes(); omitted
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(0.25, 0.3025, 1.21), labelObject->GetPrincipalMoments(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(0.25, 0.3025, 1.21), labelObject->GetPrincipalMoments(), 1e-4);
   EXPECT_NEAR(1.22808, labelObject->GetRoundness(), 1e-4); // resulting value
 
   if (::testing::Test::HasFailure())
@@ -373,12 +375,12 @@ TEST_F(ShapeLabelMapFixture, 2D_T1x1)
 
   Utils::ImageType::Pointer image(Utils::CreateImage());
 
-  image->SetPixel(MakeIndex(5, 7), 1);
+  image->SetPixel(itk::MakeIndex(5, 7), 1);
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(1.0, 1.0), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(4.5, 6.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(1.0, 1.0), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(4.5, 6.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
 
   if (::testing::Test::HasFailure())
   {
@@ -395,14 +397,15 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_1)
 
   Utils::ImageType::Pointer image(Utils::CreateImage());
 
-  image->SetPixel(MakeIndex(5, 7), 1);
-  image->SetPixel(MakeIndex(6, 8), 1);
+  image->SetPixel(itk::MakeIndex(5, 7), 1);
+  image->SetPixel(itk::MakeIndex(6, 8), 1);
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
-  ITK_EXPECT_VECTOR_NEAR(MakeSize(2, 2), labelObject->GetBoundingBox().GetSize(), 1e-99);
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(Math::sqrt2, 2.0 * Math::sqrt2), labelObject->GetOrientedBoundingBoxSize(), 1e-4);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(4.0, 7.0), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeSize(2, 2), labelObject->GetBoundingBox().GetSize(), 1e-99);
+  ITK_EXPECT_VECTOR_NEAR(
+    itk::MakeVector(Math::sqrt2, 2.0 * Math::sqrt2), labelObject->GetOrientedBoundingBoxSize(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(4.0, 7.0), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
 
   if (::testing::Test::HasFailure())
   {
@@ -419,8 +422,8 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_1_FlipDirection)
 
   Utils::ImageType::Pointer image(Utils::CreateImage());
 
-  image->SetPixel(MakeIndex(5, 7), 1);
-  image->SetPixel(MakeIndex(6, 8), 1);
+  image->SetPixel(itk::MakeIndex(5, 7), 1);
+  image->SetPixel(itk::MakeIndex(6, 8), 1);
 
   DirectionType direction;
 
@@ -433,8 +436,9 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_1_FlipDirection)
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(Math::sqrt2, 2.0 * Math::sqrt2), labelObject->GetOrientedBoundingBoxSize(), 1e-4);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(6.0, 5.0), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(
+    itk::MakeVector(Math::sqrt2, 2.0 * Math::sqrt2), labelObject->GetOrientedBoundingBoxSize(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(6.0, 5.0), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
 
 
   if (::testing::Test::HasFailure())
@@ -452,8 +456,8 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_2_Direction)
 
   Utils::ImageType::Pointer image(Utils::CreateImage());
 
-  image->SetPixel(MakeIndex(5, 7), 1);
-  image->SetPixel(MakeIndex(5, 8), 1);
+  image->SetPixel(itk::MakeIndex(5, 7), 1);
+  image->SetPixel(itk::MakeIndex(5, 8), 1);
 
   DirectionType direction;
 
@@ -471,10 +475,10 @@ TEST_F(ShapeLabelMapFixture, 2D_T1_2_Direction)
 
   EXPECT_EQ(obbVertices.Size(), 4);
 
-  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(8.5, 4.5)));
-  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(8.5, 5.5)));
-  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(6.5, 4.5)));
-  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, MakePoint(6.5, 5.5)));
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, itk::MakePoint(8.5, 4.5)));
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, itk::MakePoint(8.5, 5.5)));
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, itk::MakePoint(6.5, 4.5)));
+  EXPECT_TRUE(Utils::TestListHasPoint(obbVertices, itk::MakePoint(6.5, 5.5)));
 
 
   if (::testing::Test::HasFailure())
@@ -496,14 +500,14 @@ TEST_F(ShapeLabelMapFixture, 2D_T2x4)
   {
     for (unsigned int j = 3; j < 7; ++j)
     {
-      image->SetPixel(MakeIndex(i, j), 1);
+      image->SetPixel(itk::MakeIndex(i, j), 1);
     }
   }
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(image);
 
-  ITK_EXPECT_VECTOR_NEAR(MakeVector(2.0, 4.0), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(MakePoint(3.5, 2.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakeVector(2.0, 4.0), labelObject->GetOrientedBoundingBoxSize(), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(itk::MakePoint(3.5, 2.5), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
 
   if (::testing::Test::HasFailure())
   {
