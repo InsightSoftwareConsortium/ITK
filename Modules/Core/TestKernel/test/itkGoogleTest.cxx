@@ -36,30 +36,30 @@ TEST(GoogleTest, TypedefsAndConstructors_Dimension2)
   PointType pt1;
   pt1[0] = 1.1;
   pt1[1] = 2.2;
-  const PointType pt2 = MakePoint(1.1, 2.2);
+  const PointType pt2 = itk::MakePoint(1.1, 2.2);
   EXPECT_TRUE(pt1 == pt2);
   ITK_EXPECT_VECTOR_NEAR(pt1, pt2, 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(pt1, MakePoint(1.1, 2.2), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(pt1, itk::MakePoint(1.1, 2.2), 1e-10);
 
   VectorType vec1;
   vec1[0] = 1.1;
   vec1[1] = 2.2;
-  const VectorType vec2 = MakeVector(1.1, 2.2);
+  const VectorType vec2 = itk::MakeVector(1.1, 2.2);
   EXPECT_TRUE(vec1 == vec2);
   ITK_EXPECT_VECTOR_NEAR(vec1, vec2, 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(vec1, MakeVector(1.1, 2.2), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(vec1, itk::MakeVector(1.1, 2.2), 1e-10);
 
   const IndexType idx1 = { { 0, 1 } };
-  const IndexType idx2 = MakeIndex(0, 1);
+  const IndexType idx2 = itk::MakeIndex(0, 1);
   EXPECT_TRUE(idx1 == idx2);
   ITK_EXPECT_VECTOR_NEAR(idx1, idx2, 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(idx1, MakeIndex(0, 1), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(idx1, itk::MakeIndex(0, 1), 1e-10);
 
   const SizeType sz1 = { { 0u, 1u } };
-  const SizeType sz2 = MakeSize(0u, 1u);
+  const SizeType sz2 = itk::MakeSize(0u, 1u);
   EXPECT_TRUE(sz1 == sz2);
   ITK_EXPECT_VECTOR_NEAR(sz1, sz2, 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(sz1, MakeSize(0u, 1u), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(sz1, itk::MakeSize(0u, 1u), 1e-10);
 }
 
 
@@ -73,27 +73,27 @@ TEST(GoogleTest, TypedefsAndConstructors_Dimension3)
   pt1[0] = 1.1;
   pt1[1] = 2.2;
   pt1[2] = 3.3;
-  const PointType pt2 = MakePoint(1.1, 2.2, 3.3);
+  const PointType pt2 = itk::MakePoint(1.1, 2.2, 3.3);
   EXPECT_TRUE(pt1 == pt2);
   ITK_EXPECT_VECTOR_NEAR(pt1, pt2, 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(pt1, MakePoint(1.1, 2.2, 3.3), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(pt1, itk::MakePoint(1.1, 2.2, 3.3), 1e-10);
 
   VectorType vec1;
   vec1[0] = 1.1;
   vec1[1] = 2.2;
   vec1[2] = 3.3;
-  const VectorType vec2 = MakeVector(1.1, 2.2, 3.3);
+  const VectorType vec2 = itk::MakeVector(1.1, 2.2, 3.3);
   EXPECT_TRUE(vec1 == vec2);
   ITK_EXPECT_VECTOR_NEAR(vec1, vec2, 1e-10);
-  ITK_EXPECT_VECTOR_NEAR(vec1, MakeVector(1.1, 2.2, 3.3), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(vec1, itk::MakeVector(1.1, 2.2, 3.3), 1e-10);
 
   const IndexType idx1 = { { 0, 1, 2 } };
-  const IndexType idx2 = MakeIndex(0, 1, 2);
+  const IndexType idx2 = itk::MakeIndex(0, 1, 2);
   EXPECT_TRUE(idx1 == idx2);
   ITK_EXPECT_VECTOR_NEAR(idx1, idx2, 1e-10);
 
   const SizeType sz1 = { { 0u, 1u, 2u } };
-  const SizeType sz2 = MakeSize(0u, 1u, 2u);
+  const SizeType sz2 = itk::MakeSize(0u, 1u, 2u);
   EXPECT_TRUE(sz1 == sz2);
-  ITK_EXPECT_VECTOR_NEAR(sz1, MakeSize(0u, 1u, 2u), 1e-10);
+  ITK_EXPECT_VECTOR_NEAR(sz1, itk::MakeSize(0u, 1u, 2u), 1e-10);
 }
