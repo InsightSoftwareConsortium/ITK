@@ -1,0 +1,20 @@
+itk_wrap_include("itkImage.h")
+
+# Do not wrap for input of lowest dimension D as this would result in
+# output frames of dimension D-1 which are not supported.
+# Find minimum and remove from list
+set(m_d "9999999")
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  if(${d} LESS ${m_d})
+     set(m_d ${d})
+  endif()
+endforeach()
+string(REPLACE ${m_d} "" INPUT_DIMS "${ITK_WRAP_IMAGE_DIMS}")
+
+itk_wrap_class("itk::ImageToVideoFilter" POINTER)
+  foreach(d ${INPUT_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      itk_wrap_template("I${ITKM_${t}}${d}" "itk::Image<${ITKT_${t}}, ${d}>")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()

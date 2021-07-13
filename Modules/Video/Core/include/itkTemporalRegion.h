@@ -105,10 +105,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Time boundaries */
-  RealTimeStamp    m_RealStart;
+  /** Timestamp corresponding to the first frame in the region. */
+  RealTimeStamp m_RealStart;
+  /** Time interval corresponding to the entire length of time
+   *  represented by the region over ALL frames */
   RealTimeInterval m_RealDuration;
-  FrameOffsetType  m_FrameStart{ 0 };
-  FrameOffsetType  m_FrameDuration{ 0 };
+  /** Index of the first frame in the region */
+  FrameOffsetType m_FrameStart{ 0 };
+  /** Total number of frames represented by the region (NOT individual frame duration) */
+  FrameOffsetType m_FrameDuration{ 0 };
 
 }; // end class TemporalRegion
 

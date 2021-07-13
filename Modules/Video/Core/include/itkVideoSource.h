@@ -32,7 +32,7 @@ namespace itk
  * produce a VideoStream as their output. This class defines GetOutput() which
  * returns a pointer to the VideoStream object on output port 0.
  *
- * The other roll that VideoSource plays is to implement the framework for
+ * The other role that VideoSource plays is to implement the framework for
  * spatial streaming to complement the temporal streaming implemented in
  * TemporalProcessObject. This implementation mirrors the implementation in
  * ImageSource except that each thread will be able to operate on a spatial
