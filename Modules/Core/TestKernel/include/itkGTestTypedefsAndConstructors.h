@@ -53,36 +53,6 @@ using DirectionType = ImageBaseType::DirectionType;
 using VectorType = ImageBaseType::SpacingType;
 using RegionType = ImageBaseType::RegionType;
 
-inline static PointType
-MakePoint(PointType::ValueType p1, PointType::ValueType p2)
-{
-  const PointType::ValueType a[] = { p1, p2 };
-  PointType                  point(a);
-  return point;
-}
-
-inline static VectorType
-MakeVector(VectorType::ValueType v1, VectorType::ValueType v2)
-{
-  const VectorType::ValueType a[] = { v1, v2 };
-  VectorType                  vector(a);
-  return vector;
-}
-
-inline static IndexType
-MakeIndex(IndexType::IndexValueType i1, IndexType::IndexValueType i2)
-{
-  IndexType idx = { { i1, i2 } };
-  return idx;
-}
-
-inline static SizeType
-MakeSize(SizeType::SizeValueType s1, SizeType::SizeValueType s2)
-{
-  SizeType size = { { s1, s2 } };
-  return size;
-}
-
 } // end namespace Dimension2
 
 
@@ -104,36 +74,6 @@ using PointType = ImageBaseType::PointType;
 using DirectionType = ImageBaseType::DirectionType;
 using VectorType = ImageBaseType::SpacingType;
 using RegionType = ImageBaseType::RegionType;
-
-inline static PointType
-MakePoint(PointType::ValueType p1, PointType::ValueType p2, PointType::ValueType p3)
-{
-  const PointType::ValueType a[] = { p1, p2, p3 };
-  PointType                  point(a);
-  return point;
-}
-
-inline static VectorType
-MakeVector(VectorType::ValueType v1, VectorType::ValueType v2, VectorType::ValueType v3)
-{
-  const VectorType::ValueType a[] = { v1, v2, v3 };
-  VectorType                  vector(a);
-  return vector;
-}
-
-inline static IndexType
-MakeIndex(IndexType::IndexValueType i1, IndexType::IndexValueType i2, IndexType::IndexValueType i3)
-{
-  IndexType idx = { { i1, i2, i3 } };
-  return idx;
-}
-
-inline static SizeType
-MakeSize(SizeType::SizeValueType s1, SizeType::SizeValueType s2, SizeType::SizeValueType s3)
-{
-  SizeType size = { { s1, s2, s3 } };
-  return size;
-}
 
 } // end namespace Dimension3
 
