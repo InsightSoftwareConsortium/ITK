@@ -198,15 +198,15 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
   image->FillBuffer(value);
 
   // Test with outliers outside the label.
-  image->SetPixel(IndexType{ 0, 0 }, 32000);
-  image->SetPixel(IndexType{ 0, 1 }, -32000);
+  image->SetPixel(itk::MakeIndex(0, 0), 32000);
+  image->SetPixel(itk::MakeIndex(0, 1), -32000);
 
 
   auto                  labelImage = Utils ::CreateLabelImage();
   Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
-  labelImage->SetPixel(IndexType{ 0, 0 }, 0);
-  labelImage->SetPixel(IndexType{ 0, 1 }, 0);
+  labelImage->SetPixel(itk::MakeIndex(0, 0), 0);
+  labelImage->SetPixel(itk::MakeIndex(0, 1), 0);
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
 
@@ -233,16 +233,16 @@ TEST_F(StatisticsLabelMapFixture, 2D_rand_with_outliers)
   auto labelImage = Utils ::CreateLabelImage();
 
   // Test with outliers outside the label.
-  image->SetPixel(IndexType{ 0, 0 }, 32000);
-  image->SetPixel(IndexType{ 0, 1 }, -2000);
+  image->SetPixel(itk::MakeIndex(0, 0), 32000);
+  image->SetPixel(itk::MakeIndex(0, 1), -2000);
   // Set min/max in label
-  image->SetPixel(IndexType{ 0, 2 }, 0);
-  image->SetPixel(IndexType{ 0, 3 }, 500);
+  image->SetPixel(itk::MakeIndex(0, 2), 0);
+  image->SetPixel(itk::MakeIndex(0, 3), 500);
 
   Utils::LabelPixelType label = 1;
   labelImage->FillBuffer(label);
-  labelImage->SetPixel(IndexType{ 0, 0 }, 0);
-  labelImage->SetPixel(IndexType{ 0, 1 }, 0);
+  labelImage->SetPixel(itk::MakeIndex(0, 0), 0);
+  labelImage->SetPixel(itk::MakeIndex(0, 1), 0);
 
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 16);
@@ -268,16 +268,16 @@ TEST_F(StatisticsLabelMapFixture, 2D_even)
   auto labelImage = Utils ::CreateLabelImage();
 
   // Set label with two elements far apart, the median should be average
-  image->SetPixel(IndexType{ 0, 0 }, 10);
-  image->SetPixel(IndexType{ 0, 1 }, 100);
-  image->SetPixel(IndexType{ 0, 2 }, 1);
-  image->SetPixel(IndexType{ 0, 3 }, 200);
+  image->SetPixel(itk::MakeIndex(0, 0), 10);
+  image->SetPixel(itk::MakeIndex(0, 1), 100);
+  image->SetPixel(itk::MakeIndex(0, 2), 1);
+  image->SetPixel(itk::MakeIndex(0, 3), 200);
 
   Utils::LabelPixelType label = 1;
-  labelImage->SetPixel(IndexType{ 0, 0 }, label);
-  labelImage->SetPixel(IndexType{ 0, 1 }, label);
-  labelImage->SetPixel(IndexType{ 0, 2 }, label);
-  labelImage->SetPixel(IndexType{ 0, 3 }, label);
+  labelImage->SetPixel(itk::MakeIndex(0, 0), label);
+  labelImage->SetPixel(itk::MakeIndex(0, 1), label);
+  labelImage->SetPixel(itk::MakeIndex(0, 2), label);
+  labelImage->SetPixel(itk::MakeIndex(0, 3), label);
 
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);
@@ -306,14 +306,14 @@ TEST_F(StatisticsLabelMapFixture, 2D_three)
   auto labelImage = Utils ::CreateLabelImage();
 
   // Set label with two elements far apart, the median should be average
-  image->SetPixel(IndexType{ 0, 0 }, 1);
-  image->SetPixel(IndexType{ 0, 1 }, 3);
-  image->SetPixel(IndexType{ 0, 2 }, 10);
+  image->SetPixel(itk::MakeIndex(0, 0), 1);
+  image->SetPixel(itk::MakeIndex(0, 1), 3);
+  image->SetPixel(itk::MakeIndex(0, 2), 10);
 
   Utils::LabelPixelType label = 1;
-  labelImage->SetPixel(IndexType{ 0, 0 }, label);
-  labelImage->SetPixel(IndexType{ 0, 1 }, label);
-  labelImage->SetPixel(IndexType{ 0, 2 }, label);
+  labelImage->SetPixel(itk::MakeIndex(0, 0), label);
+  labelImage->SetPixel(itk::MakeIndex(0, 1), label);
+  labelImage->SetPixel(itk::MakeIndex(0, 2), label);
 
 
   Utils::LabelObjectType::ConstPointer labelObject = Utils::ComputeLabelObject(labelImage, image, label, 1 << 8);

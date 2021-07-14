@@ -57,7 +57,7 @@ itkNiftiImageIOTest12(int ac, char * av[])
   ImageType::Pointer image = ImageType::New();
   image->SetRegions(region);
   image->SetNumberOfComponentsPerPixel(3);
-  image->SetOrigin(ImageType::PointType({ -7.0, -13.0, -19.0 }));
+  image->SetOrigin(itk::MakePoint(-7.0, -13.0, -19.0));
   image->Allocate();
 
   { // Fill in entire image

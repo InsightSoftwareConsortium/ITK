@@ -119,7 +119,7 @@ itkImageToVideoFilterTest(int argc, char * argv[])
       {
         auto idx = it.GetIndex();
         auto frame = videoOutput->GetFrame(idx[frameAxis]);
-        ITK_TEST_EXPECT_EQUAL(frame->GetPixel({ idx[1], idx[2] }), it.Get());
+        ITK_TEST_EXPECT_EQUAL(frame->GetPixel(itk::MakeIndex(idx[1], idx[2])), it.Get());
 
         ++it;
       }
