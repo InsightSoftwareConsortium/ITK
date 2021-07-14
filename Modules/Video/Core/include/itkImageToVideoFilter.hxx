@@ -24,6 +24,7 @@
 #include "itkMacro.h"
 #include "itkRealTimeInterval.h"
 #include "itkRealTimeStamp.h"
+#include "itkVideoStream.h"
 
 namespace itk
 {
@@ -98,7 +99,32 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
   const InputImageType * input = this->GetInput();
 
   // Get first input frame's largest possible spatial region
-  InputImageRegionType inputRegion = input->GetLargestPossibleRegion();
+  InputImageRegionType                 inputRegion = input->GetLargestPossibleRegion();
+  typename InputImageType::SizeType    inputSize = inputRegion.GetSize();
+  typename InputImageType::IndexType   inputIndex = inputRegion.GetIndex();
+  typename InputImageType::SpacingType inputSpacing = input->GetSpacing();
+  typename InputImageType::PointType   inputOrigin = input->GetOrigin();
+
+  // Set temporal frame + duration from user-defined frame axis in input image.
+  // Must set temporal region first before spatial metadata can be set for each frame.
+  OutputTemporalRegionType outputTemporalRegion;
+  outputTemporalRegion.SetFrameStart(inputIndex[m_FrameAxis]);
+  outputTemporalRegion.SetFrameDuration(inputSize[m_FrameAxis]);
+
+  // Interpret input temporal axis spatial spacing + origin in time domain.
+  RealTimeStamp realStart;
+  realStart += RealTimeInterval(
+    static_cast<RealTimeInterval::SecondsDifferenceType>(inputOrigin[m_FrameAxis]),
+    static_cast<RealTimeInterval::MicroSecondsDifferenceType>(std::fmod(inputOrigin[m_FrameAxis], 1) * 1e6));
+
+  auto             realDurationRaw = inputSpacing[m_FrameAxis] * inputSize[m_FrameAxis];
+  RealTimeInterval realDuration(
+    static_cast<RealTimeInterval::SecondsDifferenceType>(realDurationRaw),
+    static_cast<RealTimeInterval::MicroSecondsDifferenceType>(std::fmod(realDurationRaw, 1) * 1e6));
+
+  outputTemporalRegion.SetRealStart(realStart);
+  outputTemporalRegion.SetRealDuration(realDuration);
+  this->GetOutput()->SetLargestPossibleTemporalRegion(outputTemporalRegion);
 
   // Set the output spatial region from the input image's largest spatial region,
   // discarding along the user-defined image axis
@@ -109,8 +135,8 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
   {
     if (inputIdx != m_FrameAxis)
     {
-      SizeValueType  axisSize = inputRegion.GetSize(inputIdx);
-      IndexValueType axisStart = inputRegion.GetIndex(inputIdx);
+      SizeValueType  axisSize = inputSize[inputIdx];
+      IndexValueType axisStart = inputIndex[inputIdx];
       outputSpatialRegion.SetSize(outputIdx, axisSize);
       outputSpatialRegion.SetIndex(outputIdx, axisStart);
       ++outputIdx;
@@ -122,16 +148,14 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
   this->GetOutput()->SetRequestedRegionToLargestPossibleRegion();
 
   // Propagate physical spacing and origin
-  typename InputImageType::SpacingType                   inputSpacing = input->GetSpacing();
-  typename InputImageType::PointType                     inputOrigin = input->GetOrigin();
   typename OutputVideoStreamType::FrameType::SpacingType outputSpacing;
   typename OutputVideoStreamType::FrameType::PointType   outputOrigin;
   for (inputIdx = 0, outputIdx = 0; inputIdx < InputImageType::ImageDimension; inputIdx++)
   {
     if (inputIdx != m_FrameAxis)
     {
-      outputSpacing.SetElement(outputIdx, inputSpacing.GetElement(inputIdx));
-      outputOrigin.SetElement(outputIdx, inputOrigin.GetElement(inputIdx));
+      outputSpacing.SetElement(outputIdx, inputSpacing[inputIdx]);
+      outputOrigin.SetElement(outputIdx, inputOrigin[inputIdx]);
       outputIdx++;
     }
   }
@@ -166,26 +190,8 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
   }
   this->GetOutput()->SetAllFramesDirection(outputDirection);
 
-
-  // Set temporal frame + duration from user-defined frame axis in input image
-  OutputTemporalRegionType outputTemporalRegion;
-  outputTemporalRegion.SetFrameStart(inputRegion.GetIndex(m_FrameAxis));
-  outputTemporalRegion.SetFrameDuration(inputRegion.GetSize(m_FrameAxis));
-
-  // Interpret input temporal axis spatial spacing + origin in time domain
-  RealTimeStamp realStart;
-  realStart += RealTimeInterval(
-    static_cast<RealTimeInterval::SecondsDifferenceType>(inputOrigin[m_FrameAxis]),
-    static_cast<RealTimeInterval::MicroSecondsDifferenceType>(std::fmod(inputOrigin[m_FrameAxis], 1) * 1e6));
-
-  auto             realDurationRaw = inputSpacing[m_FrameAxis] * inputRegion.GetSize(m_FrameAxis);
-  RealTimeInterval realDuration(
-    static_cast<RealTimeInterval::SecondsDifferenceType>(realDurationRaw),
-    static_cast<RealTimeInterval::MicroSecondsDifferenceType>(std::fmod(realDurationRaw, 1) * 1e6));
-
-  outputTemporalRegion.SetRealStart(realStart);
-  outputTemporalRegion.SetRealDuration(realDuration);
-  this->GetOutput()->SetLargestPossibleTemporalRegion(outputTemporalRegion);
+  // Propagate pixel components (for vector images)
+  this->GetOutput()->SetAllFramesNumberOfComponentsPerPixel(input->GetNumberOfComponentsPerPixel());
 }
 
 // The default implementation of UpdateOutputInformation in VideoSource attempts to set the
