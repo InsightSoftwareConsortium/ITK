@@ -250,9 +250,9 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ReadMeta(const std::str
 /** Write a meta file give the type */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 MetaScene *
-MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(SpatialObjectType * soScene,
-                                                                         unsigned int        depth,
-                                                                         const std::string & name)
+MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(const SpatialObjectType * soScene,
+                                                                         unsigned int              depth,
+                                                                         const std::string &       name)
 {
   auto * metaScene = new MetaScene(NDimensions);
 
@@ -266,9 +266,9 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(Spatial
   metaScene->ElementSpacing(spacing);
   delete[] spacing;
 
-  using ListType = typename SpatialObjectType::ChildrenListType;
+  using ListType = typename SpatialObjectType::ChildrenConstListType;
 
-  ListType * childrenList = soScene->GetChildren(depth, name);
+  ListType * childrenList = soScene->GetConstChildren(depth, name);
   childrenList->push_front(soScene); // add the top level object to the list
                                      //   to be processed.
 
@@ -368,10 +368,10 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(Spatial
 /** Write a meta file give the type */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
 bool
-MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::WriteMeta(SpatialObjectType * soScene,
-                                                                   const std::string & fileName,
-                                                                   unsigned int        depth,
-                                                                   const std::string & soName)
+MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::WriteMeta(const SpatialObjectType * soScene,
+                                                                   const std::string &       fileName,
+                                                                   unsigned int              depth,
+                                                                   const std::string &       soName)
 {
   MetaScene * metaScene = this->CreateMetaScene(soScene, depth, soName);
 

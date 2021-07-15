@@ -107,9 +107,12 @@ public:
 
   /** Return type for the list of children */
   using ChildrenListType = std::list<Pointer>;
+  using ChildrenConstListType = std::list<ConstPointer>;
   using ChildrenListPointer = ChildrenListType *;
+  using ChildrenConstListPointer = ChildrenConstListType *;
 
   using ObjectListType = std::list<Pointer>;
+  using ObjectConstListType = std::list<ConstPointer>;
 
   using RegionType = ImageRegion<VDimension>;
 
@@ -385,8 +388,16 @@ public:
   virtual ChildrenListType *
   GetChildren(unsigned int depth = 0, const std::string & name = "") const;
 
+  virtual ChildrenConstListType *
+  GetConstChildren(unsigned int depth = 0, const std::string & name = "") const;
+
   virtual void
   AddChildrenToList(ChildrenListType * childrenList, unsigned int depth = 0, const std::string & name = "") const;
+
+  virtual void
+  AddChildrenToConstList(ChildrenConstListType * childrenList,
+                         unsigned int            depth = 0,
+                         const std::string &     name = "") const;
 
   /** Returns the number of children currently assigned to the object. */
   unsigned int

@@ -62,6 +62,7 @@ public:
   /** SpatialObject Scene types */
   using SpatialObjectType = itk::SpatialObject<NDimensions>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** Typedef for auxiliary conversion classes */
   using MetaConverterBaseType = MetaConverterBase<NDimensions>;
@@ -74,10 +75,10 @@ public:
 
   /** write out a SpatialObject */
   bool
-  WriteMeta(SpatialObjectType * soScene,
-            const std::string & fileName,
-            unsigned int        depth = SpatialObjectType::MaximumDepth,
-            const std::string & soName = "");
+  WriteMeta(const SpatialObjectType * soScene,
+            const std::string &       fileName,
+            unsigned int              depth = SpatialObjectType::MaximumDepth,
+            const std::string &       soName = "");
 
   itkGetMacro(Event, MetaEvent *);
   itkSetObjectMacro(Event, MetaEvent);
@@ -108,9 +109,9 @@ public:
                         MetaConverterBaseType * converter);
 
   MetaScene *
-  CreateMetaScene(SpatialObjectType * soScene,
-                  unsigned int        depth = SpatialObjectType::MaximumDepth,
-                  const std::string & name = "");
+  CreateMetaScene(const SpatialObjectType * soScene,
+                  unsigned int              depth = SpatialObjectType::MaximumDepth,
+                  const std::string &       name = "");
 
   SpatialObjectPointer
   CreateSpatialObjectScene(MetaScene * mScene);
@@ -126,7 +127,7 @@ private:
 
   template <typename TConverter>
   MetaObject *
-  SpatialObjectToMetaObject(SpatialObjectPointer & so)
+  SpatialObjectToMetaObject(SpatialObjectConstPointer & so)
   {
     typename TConverter::Pointer converter = TConverter::New();
     // needed just for Image & ImageMask

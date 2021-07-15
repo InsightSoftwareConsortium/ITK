@@ -46,6 +46,7 @@ public:
 
   using SpatialObjectType = SpatialObject<NDimensions>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
+  using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
@@ -71,7 +72,7 @@ public:
 
   /** Set the Input  */
   void
-  SetInput(SpatialObjectType * input)
+  SetInput(const SpatialObjectType * input)
   {
     m_SpatialObject = input;
   }
@@ -104,7 +105,7 @@ protected:
   ~SpatialObjectWriter() override = default;
 
 private:
-  SpatialObjectPointer m_SpatialObject;
+  SpatialObjectConstPointer m_SpatialObject;
 
   typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter;
 };

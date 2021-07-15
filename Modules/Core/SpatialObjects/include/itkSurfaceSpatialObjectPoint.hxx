@@ -45,12 +45,39 @@ SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(const Covaria
   m_NormalInObjectSpace = normal;
 }
 
+/** Set the normal : N-D case */
+template <unsigned int TPointDimension>
+void
+SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInWorldSpace(const CovariantVectorType & normal)
+{
+  if (this->m_SpatialObject == nullptr)
+  {
+    itkExceptionMacro(<< "The SpatialObject must be set prior to calling.");
+  }
+
+  m_NormalInObjectSpace =
+    Superclass::m_SpatialObject->GetObjectToWorldTransform()->GetInverseTransform()->TransformCovariantVector(normal);
+}
+
 /** Get the normal at one point */
 template <unsigned int TPointDimension>
 const typename SurfaceSpatialObjectPoint<TPointDimension>::CovariantVectorType &
 SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const
 {
   return m_NormalInObjectSpace;
+}
+
+/** Get the normal at one point */
+template <unsigned int TPointDimension>
+const typename SurfaceSpatialObjectPoint<TPointDimension>::CovariantVectorType
+SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInWorldSpace() const
+{
+  if (this->m_SpatialObject == nullptr)
+  {
+    itkExceptionMacro(<< "The SpatialObject must be set prior to calling.");
+  }
+
+  return Superclass::m_SpatialObject->GetObjectToWorldTransform()->TransformCovariantVector(m_NormalInObjectSpace);
 }
 
 /** Print the object */
@@ -72,7 +99,7 @@ SurfaceSpatialObjectPoint<TPointDimension>::operator=(const SurfaceSpatialObject
   if (this != &rhs)
   {
     Superclass::operator=(rhs);
-    this->m_NormalInObjectSpace = rhs.m_NormalInObjectSpace;
+    this->SetNormalInObjectSpace(rhs.GetNormalInObjectSpace());
   }
   return *this;
 }
