@@ -459,7 +459,7 @@ class VNL_EXPORT vnl_vector
     set_data(datain, this->size(), LetArrayManageMemory);
   }
  protected:
-  vnl_vector<T>( size_t ext_num_elmts, T * extdata, bool manage_own_memory )
+  vnl_vector( size_t ext_num_elmts, T * extdata, bool manage_own_memory )
     : num_elmts{ ext_num_elmts }
     , data{ extdata }
     , m_LetArrayManageMemory{ manage_own_memory }

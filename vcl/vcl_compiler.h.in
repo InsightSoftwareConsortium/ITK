@@ -3,15 +3,12 @@
 
 //:
 // \file
-// This file is generated from vcl_compiler_detection.h.in
+// This file is generated from vcl_compiler.h.in
 // This file has mostly been replaced with
 // CMake supported features in the auto-generated
 // vcl_compiler_detection.h that should be included
 // independently where needed
 //
-
-//----------------------------------------------------------------------
-// syntax-like things.
 
 /* The version of the CXX compiler used when VXL was built */
 #define VXL_COMPILED_CXX_STANDARD_VERSION @VXL_COMPILED_CXX_STANDARD_VERSION@
