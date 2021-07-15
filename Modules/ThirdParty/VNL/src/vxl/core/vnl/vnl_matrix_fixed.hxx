@@ -357,13 +357,13 @@ template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::set_identity()
 {
-  // Two simple loops are generally better than having a branch inside
-  // the loop. Probably worth the O(n) extra writes.
-  for (unsigned int i = 0; i < nrows; ++i)
-    for (unsigned int j = 0; j < ncols; ++j)
-      this->data_[i][j] = T(0);
-  for (unsigned int i = 0; i < nrows && i < ncols; ++i)
-    this->data_[i][i] = T(1);
+  // A reset of this object, followed by a loop over the diagonal, is
+  // probably better than having a branch inside the loop. Probably
+  // worth the O(n) extra writes.
+  *this = vnl_matrix_fixed();
+  const unsigned n = std::min( nrows, ncols );
+  for (unsigned int i = 0; i < n; ++i)
+    this->data_[i][i] = 1;
   return *this;
 }
 
