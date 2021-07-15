@@ -95,6 +95,12 @@ itkSurfaceSpatialObjectTest(int, char *[])
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
+
+      if (itk::Math::NotExactlyEquals((*it).GetNormalInWorldSpace()[d], d))
+      {
+        std::cout << "[FAILED]" << std::endl;
+        return EXIT_FAILURE;
+      }
     }
     it++;
     i++;
@@ -167,6 +173,15 @@ itkSurfaceSpatialObjectTest(int, char *[])
     VectorType normal;
     normal.Fill(276);
     pOriginal.SetNormalInObjectSpace(normal);
+    for (size_t j = 0; j < 3; ++j)
+    {
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetNormalInWorldSpace()[j], normal[j]));
+    }
+    pOriginal.SetNormalInWorldSpace(normal);
+    for (size_t j = 0; j < 3; ++j)
+    {
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetNormalInObjectSpace()[j], normal[j]));
+    }
 
     // Copy
     SurfacePointType pCopy(pOriginal);
@@ -195,6 +210,8 @@ itkSurfaceSpatialObjectTest(int, char *[])
       {
         ITK_TEST_EXPECT_TRUE(
           itk::Math::AlmostEquals(pOriginal.GetNormalInObjectSpace()[j], pv.GetNormalInObjectSpace()[j]));
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(pOriginal.GetNormalInWorldSpace()[j], pv.GetNormalInObjectSpace()[j]));
       }
     }
   }

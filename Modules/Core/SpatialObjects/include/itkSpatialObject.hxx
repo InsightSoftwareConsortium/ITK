@@ -783,6 +783,38 @@ SpatialObject<TDimension>::GetChildren(unsigned int depth, const std::string & n
   return childrenSO;
 }
 
+/** Get the children list as const pointers.
+ * User is responsible for freeing the list, but not the elements of
+ * the list. */
+template <unsigned int TDimension>
+typename SpatialObject<TDimension>::ChildrenConstListType *
+SpatialObject<TDimension>::GetConstChildren(unsigned int depth, const std::string & name) const
+{
+  auto * childrenSO = new ChildrenConstListType;
+
+  auto it = m_ChildrenList.begin();
+  while (it != m_ChildrenList.end())
+  {
+    if ((*it)->GetTypeName().find(name) != std::string::npos)
+    {
+      childrenSO->push_back((*it));
+    }
+    it++;
+  }
+
+  if (depth > 0)
+  {
+    it = m_ChildrenList.begin();
+    while (it != m_ChildrenList.end())
+    {
+      (*it)->AddChildrenToConstList(childrenSO, depth - 1, name);
+      it++;
+    }
+  }
+
+  return childrenSO;
+}
+
 template <unsigned int TDimension>
 void
 SpatialObject<TDimension>::AddChildrenToList(ChildrenListType *  childrenList,
@@ -805,6 +837,33 @@ SpatialObject<TDimension>::AddChildrenToList(ChildrenListType *  childrenList,
     while (it != m_ChildrenList.end())
     {
       (*it)->AddChildrenToList(childrenList, depth - 1, name);
+      ++it;
+    }
+  }
+}
+
+template <unsigned int TDimension>
+void
+SpatialObject<TDimension>::AddChildrenToConstList(ChildrenConstListType * childrenList,
+                                                  unsigned int            depth,
+                                                  const std::string &     name) const
+{
+  auto it = m_ChildrenList.begin();
+  while (it != m_ChildrenList.end())
+  {
+    if ((*it)->GetTypeName().find(name) != std::string::npos)
+    {
+      childrenList->push_back((*it));
+    }
+    it++;
+  }
+
+  if (depth > 0)
+  {
+    it = m_ChildrenList.begin();
+    while (it != m_ChildrenList.end())
+    {
+      (*it)->AddChildrenToConstList(childrenList, depth - 1, name);
       ++it;
     }
   }

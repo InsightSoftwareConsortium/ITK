@@ -58,9 +58,17 @@ public:
   const CovariantVectorType &
   GetNormalInObjectSpace() const;
 
+  /** Get Normal */
+  const CovariantVectorType
+  GetNormalInWorldSpace() const;
+
   /** Set Normal */
   void
   SetNormalInObjectSpace(const CovariantVectorType & normal);
+
+  /** Set Normal */
+  void
+  SetNormalInWorldSpace(const CovariantVectorType & normal);
 
   /** Copy one SurfaceSpatialObjectPoint to another */
   Self &
