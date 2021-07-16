@@ -24,12 +24,12 @@ cmake_policy(VERSION ${ITK_CMAKE_POLICY_VERSION})
 # Now enumerate specific policies newer than ITK_NEWEST_VALIDATED_POLICIES_VERSION
 # that may need to be individually set to NEW/OLD
 #
-foreach(pnew "") # Currently Empty
+foreach(pnew "CMP0120")
   if(POLICY ${pnew})
     cmake_policy(SET ${pnew} NEW)
   endif()
 endforeach()
-foreach(pold "CMP0120" "CMP0091") # CMP0120 will require non-trivial effort to address
+foreach(pold "CMP0091")
   if(POLICY ${pold})
     cmake_policy(SET ${pold} OLD)
   endif()
@@ -243,7 +243,7 @@ mark_as_advanced(CMAKE_DEBUG_POSTFIX)
 
 # Configure find_package behavior
 if(NOT DEFINED CMAKE_FIND_USE_PACKAGE_REGISTRY)
-  set(CMAKE_FIND_USE_PACKAGE_REGISTRY 0)
+    set(CMAKE_FIND_USE_PACKAGE_REGISTRY 0)
 endif()
 
 # Setup build locations for shared libraries ----START

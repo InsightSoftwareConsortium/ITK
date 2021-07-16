@@ -21,52 +21,18 @@
 
 #include "itkMacro.h"
 
-#if ITK_COMPILER_CXX_STATIC_ASSERT
-//  Use the C++11 static_assert if available
-
+#if !defined(ITK_LEGACY_REMOVE)
 /** Static assertion.
- * This macro will either emulate static assertions on the current compiler or
- * use C++11 \c static_assert() keyword.
+ * This macro will use C++11 \c static_assert() keyword.
  * \param expr compile-time expression to check
- * \param str  string literal that will appear (C++11, GCC 4.3+) as compiler
- * error if \c expr is \c false.
+ * \param str  string literal that will appear as compiler error if \c expr is \c false.
  * \ingroup ITKCommon
  */
 #  define itkStaticAssert(expr, str) static_assert(expr, str)
-#elif defined(__GNUC__) && !defined(__INTEL_COMPILER)
-//  This trick restricts the static assertion to non global contexts (-> functions)
-#  define itkStaticAssert(expr, str)                                                                                   \
-    ({                                                                                                                 \
-      extern int __attribute__((error(str))) StaticAssertFailure();                                                    \
-      ((void)((expr) ? 0 : StaticAssertFailure()), 0);                                                                 \
-    })
 #else
-//  Usual trick (boost, clang, ...), but it will loose the error message on the
-//  way
-#  define ITK_JOIN(X, Y) ITK_DO_JOIN(X, Y)
-#  define ITK_DO_JOIN(X, Y) ITK_DO_JOIN2(X, Y)
-#  define ITK_DO_JOIN2(X, Y) X##Y
-
-namespace itk
-{
-/// \cond HIDE_META_PROGRAMMING
-/** Internal class to emulate static assertions of pre-C++11 compilers.
- * \sa \c itkStaticAssert
- * \ingroup ITKCommon
- */
-template <bool V>
-struct StaticAssertFailure;
-template <>
-struct StaticAssertFailure<true>
-{};
-/// \endcond
-} // namespace itk
-
-#  define itkStaticAssert(expr, str)                                                                                   \
-    enum                                                                                                               \
-    {                                                                                                                  \
-      ITK_JOIN(static_assert_typedef, __LINE__) = sizeof(itk::StaticAssertFailure<((expr) == 0 ? false : true)>)       \
-    };
+#  define itkStaticAssert(expr, str) Use C++ 11 static_assert directly
 #endif
+
+// TODO: remove this file entirely in the future (e.g. with ITKv6)
 
 #endif // itkStaticAssert_h

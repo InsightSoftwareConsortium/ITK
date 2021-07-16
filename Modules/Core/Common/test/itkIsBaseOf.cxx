@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "itkIsBaseOf.h"
-#include "itkStaticAssert.h"
 
 struct Base
 {};
@@ -27,13 +26,13 @@ struct Child : Base
 int
 itkIsBaseOf(int, char *[])
 {
-  itkStaticAssert((itk::mpl::IsConvertible<char, double>::Value), "Unit test failed");
-  itkStaticAssert((!itk::mpl::IsConvertible<char, char *>::Value), "Unit test failed");
+  static_assert((itk::mpl::IsConvertible<char, double>::Value), "Unit test failed");
+  static_assert((!itk::mpl::IsConvertible<char, char *>::Value), "Unit test failed");
 
-  itkStaticAssert((itk::mpl::IsBaseOf<Base, Child>::Value), "Unit test failed");
-  itkStaticAssert((!itk::mpl::IsBaseOf<Child, Base>::Value), "Unit test failed");
+  static_assert((itk::mpl::IsBaseOf<Base, Child>::Value), "Unit test failed");
+  static_assert((!itk::mpl::IsBaseOf<Child, Base>::Value), "Unit test failed");
 
-  itkStaticAssert((!itk::mpl::IsBaseOf<void, Child>::Value), "Unit test failed");
+  static_assert((!itk::mpl::IsBaseOf<void, Child>::Value), "Unit test failed");
 
   return EXIT_SUCCESS;
 }

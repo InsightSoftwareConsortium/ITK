@@ -23,7 +23,6 @@
 #include <cstring>
 #include <cstdlib>
 #include "itkIsBaseOf.h"
-#include "itkStaticAssert.h"
 #include "itkMath.h"
 
 namespace itk
@@ -292,10 +291,10 @@ template <typename TReallocatePolicy, typename TKeepValuesPolicy>
 void
 VariableLengthVector<TValue>::SetSize(unsigned int sz, TReallocatePolicy reallocatePolicy, TKeepValuesPolicy keepValues)
 {
-  itkStaticAssert(
+  static_assert(
     (itk::mpl::IsBaseOf<AllocateRootPolicy, TReallocatePolicy>::Value),
     "The allocation policy does not inherit from itk::VariableLengthVector::AllocateRootPolicy as expected");
-  itkStaticAssert(
+  static_assert(
     (itk::mpl::IsBaseOf<KeepValuesRootPolicy, TKeepValuesPolicy>::Value),
     "The old values keeping policy does not inherit from itk::VariableLengthVector::KeepValuesRootPolicy as expected");
 

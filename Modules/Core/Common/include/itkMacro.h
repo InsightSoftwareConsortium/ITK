@@ -1371,4 +1371,22 @@ itkDynamicCastInDebugMode(TSource x)
   return static_cast<TTarget>(x);
 #endif
 }
+
+// Defines which used to be in itk_compiler_detection.h
+#define ITK_ALIGNAS(X) alignas(X)
+#define ITK_ALIGNOF(X) alignof(X)
+#define ITK_DEPRECATED [[deprecated]]
+#define ITK_DEPRECATED_MSG(MSG) [[deprecated(MSG)]]
+#define ITK_CONSTEXPR constexpr
+#define ITK_DELETED_FUNCTION = delete
+#define ITK_EXTERN_TEMPLATE extern
+#define ITK_FINAL final
+#define ITK_NOEXCEPT noexcept
+#define ITK_NOEXCEPT_EXPR(X) noexcept(X)
+#define ITK_NULLPTR nullptr
+#define ITK_OVERRIDE override
+#define ITK_STATIC_ASSERT(X) static_assert(X, #X)
+#define ITK_STATIC_ASSERT_MSG(X, MSG) static_assert(X, MSG)
+#define ITK_THREAD_LOCAL thread_local
+
 #endif // end of itkMacro.h
