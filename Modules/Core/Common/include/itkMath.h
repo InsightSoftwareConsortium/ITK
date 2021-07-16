@@ -774,7 +774,7 @@ GreatestPrimeFactor(unsigned long long n);
  */
 template <typename TReturnType = std::uintmax_t>
 constexpr TReturnType
-UnsignedProduct(const std::uintmax_t a, const std::uintmax_t b) ITK_NOEXCEPT
+UnsignedProduct(const std::uintmax_t a, const std::uintmax_t b) noexcept
 {
   static_assert(std::is_unsigned<TReturnType>::value, "UnsignedProduct only supports unsigned return types");
 
@@ -796,7 +796,7 @@ UnsignedProduct(const std::uintmax_t a, const std::uintmax_t b) ITK_NOEXCEPT
  */
 template <typename TReturnType = std::uintmax_t>
 constexpr TReturnType
-UnsignedPower(const std::uintmax_t base, const std::uintmax_t exponent) ITK_NOEXCEPT
+UnsignedPower(const std::uintmax_t base, const std::uintmax_t exponent) noexcept
 {
   static_assert(std::is_unsigned<TReturnType>::value, "UnsignedPower only supports unsigned return types");
 

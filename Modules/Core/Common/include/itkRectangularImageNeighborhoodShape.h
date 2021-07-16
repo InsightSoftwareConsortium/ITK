@@ -56,7 +56,7 @@ public:
   static constexpr unsigned int ImageDimension = VImageDimension;
 
   /** Constructs a hyperrectangular shape whose size is specified by the radius */
-  constexpr explicit RectangularImageNeighborhoodShape(const Size<ImageDimension> & radius) ITK_NOEXCEPT
+  constexpr explicit RectangularImageNeighborhoodShape(const Size<ImageDimension> & radius) noexcept
     : m_Radius(radius)
     , m_NumberOfOffsets(CalculateNumberOfOffsets(ImageDimension))
   {}
@@ -64,7 +64,7 @@ public:
 
   /** Returns the number of offsets needed to represent this shape. */
   constexpr std::size_t
-  GetNumberOfOffsets() const ITK_NOEXCEPT
+  GetNumberOfOffsets() const noexcept
   {
     return m_NumberOfOffsets;
   }
@@ -72,7 +72,7 @@ public:
 
   /** Fills the specified buffer with the offsets for a neighborhood of this shape. */
   void
-  FillOffsets(Offset<ImageDimension> * const offsets) const ITK_NOEXCEPT
+  FillOffsets(Offset<ImageDimension> * const offsets) const noexcept
   {
     if (m_NumberOfOffsets > 0)
     {
@@ -114,7 +114,7 @@ private:
   // Private helper function to calculate the number of Offsets by a recursive
   // function call. Recursion is necessary for C++11 constexpr.
   constexpr std::size_t
-  CalculateNumberOfOffsets(const unsigned dimension) const ITK_NOEXCEPT
+  CalculateNumberOfOffsets(const unsigned dimension) const noexcept
   {
     return (dimension == 0)
              ? 1

@@ -48,7 +48,7 @@ private:
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ObjectCounter);
 
-  ObjectCounter() ITK_NOEXCEPT { ++m_Count; }
+  ObjectCounter() noexcept { ++m_Count; }
 
   ~ObjectCounter() { --m_Count; }
 

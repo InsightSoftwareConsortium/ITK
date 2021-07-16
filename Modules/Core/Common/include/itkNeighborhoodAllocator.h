@@ -85,7 +85,7 @@ public:
 
 
   /** Move-constructor. */
-  NeighborhoodAllocator(Self && other) ITK_NOEXCEPT
+  NeighborhoodAllocator(Self && other) noexcept
     : m_ElementCount{ other.m_ElementCount }
     , m_Data{ std::move(other.m_Data) }
   {
@@ -108,7 +108,7 @@ public:
 
   /** Move-assignment. */
   Self &
-  operator=(Self && other) ITK_NOEXCEPT
+  operator=(Self && other) noexcept
   {
     if (this != &other)
     {
@@ -164,13 +164,13 @@ public:
   }
 
   TPixel *
-  data() ITK_NOEXCEPT
+  data() noexcept
   {
     return m_Data.get();
   }
 
   const TPixel *
-  data() const ITK_NOEXCEPT
+  data() const noexcept
   {
     return m_Data.get();
   }
