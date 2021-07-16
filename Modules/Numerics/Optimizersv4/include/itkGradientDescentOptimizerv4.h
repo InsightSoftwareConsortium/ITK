@@ -202,6 +202,10 @@ public:
   EstimateLearningRate();
 
 protected:
+  /** Compute value and derivative, handle exceptions, store best value, and update iteration */
+  void
+  GetMetricValueAndDerivative();
+
   /** Advance one step following the gradient direction.
    * Includes transform update. */
   virtual void

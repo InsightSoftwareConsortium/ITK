@@ -41,14 +41,19 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::StartOptimiza
   // Must call the superclass version for basic validation and setup.
   Superclass::StartOptimization(doOnlyInitialization);
 
+  // Initialize variables
+  this->m_CurrentIteration = 0;
+  this->m_ConvergenceValue = NumericTraits<TInternalComputationValueType>::max();
+  this->m_CurrentMetricValue = NumericTraits<MeasureType>::max();
+  this->m_Gradient.Fill(NumericTraits<TInternalComputationValueType>::ZeroValue());
+  this->m_PreviousGradient.Fill(NumericTraits<TInternalComputationValueType>::ZeroValue());
+
+  // Update best parameters.
   if (this->m_ReturnBestParametersAndValue)
   {
     this->m_BestParameters = this->GetCurrentPosition();
-    this->m_CurrentBestValue = NumericTraits<MeasureType>::max();
+    this->m_CurrentBestValue = this->m_CurrentMetricValue;
   }
-
-  this->m_CurrentIteration = 0;
-  this->m_ConvergenceValue = NumericTraits<TInternalComputationValueType>::max();
 
   if (!doOnlyInitialization)
   {
@@ -76,10 +81,33 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
   this->m_StopConditionDescription << this->GetNameOfClass() << ": ";
   this->InvokeEvent(StartEvent());
 
+  // If it is the first iteration, the value and derivative are computed for the first time
+  if (this->m_CurrentIteration == 0)
+  {
+    // Unless no iterations were requested, in which case the value and derivative
+    // are never computed
+    if (this->m_CurrentIteration >= this->m_NumberOfIterations)
+    {
+      this->m_StopConditionDescription << "Maximum number of iterations (" << this->m_NumberOfIterations
+                                       << ") exceeded.";
+      this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
+      this->StopOptimization();
+      return;
+    }
+
+    // Compute metric value/derivative.
+    this->GetMetricValueAndDerivative();
+
+    // Some metrics (RegularStep, QuasiNewton) rely on both m_Gradient and m_PreviousGradient to be valid.
+    // Therefore set m_PreviousGradient to be equal to m_Gradient.
+    this->m_PreviousGradient = this->m_Gradient;
+  }
+
+  // Loop until stop condition encountered
   this->m_Stop = false;
   while (!this->m_Stop)
   {
-    // Do not run the loop if the maximum number of iterations is reached or its value is zero.
+    // Check for exit on iterations
     if (this->m_CurrentIteration >= this->m_NumberOfIterations)
     {
       this->m_StopConditionDescription << "Maximum number of iterations (" << this->m_NumberOfIterations
@@ -87,26 +115,6 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
       this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
       this->StopOptimization();
       break;
-    }
-
-    // Save previous value with shallow swap that will be used by child optimizer.
-    swap(this->m_PreviousGradient, this->m_Gradient);
-
-    // Compute metric value/derivative.
-    try
-    {
-      // m_Gradient will be sized as needed by metric. If it's already
-      // proper size, no new allocation is done.
-      this->m_Metric->GetValueAndDerivative(this->m_CurrentMetricValue, this->m_Gradient);
-    }
-    catch (ExceptionObject & err)
-    {
-      this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::COSTFUNCTION_ERROR;
-      this->m_StopConditionDescription << "Metric error during optimization";
-      this->StopOptimization();
-
-      // Pass exception to caller
-      throw err;
     }
 
     // Check if optimization has been stopped externally.
@@ -143,17 +151,43 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
     // This will modify the gradient and update the transform.
     this->AdvanceOneStep();
 
-    // Store best value and position
-    if (this->m_ReturnBestParametersAndValue && this->m_CurrentMetricValue < this->m_CurrentBestValue)
-    {
-      this->m_CurrentBestValue = this->m_CurrentMetricValue;
-      this->m_BestParameters = this->GetCurrentPosition();
-    }
+    // Save previous value with shallow swap that will be used by child optimizer.
+    swap(this->m_PreviousGradient, this->m_Gradient);
 
-    // Update and check iteration count
-    this->m_CurrentIteration++;
-
+    // Compute metric value/derivative.
+    this->GetMetricValueAndDerivative();
   } // while (!m_Stop)
+}
+
+template <typename TInternalComputationValueType>
+void
+GradientDescentOptimizerv4Template<TInternalComputationValueType>::GetMetricValueAndDerivative()
+{
+  // Compute metric value/derivative.
+  try
+  {
+    // m_Gradient will be sized as needed by metric. If it's already
+    // proper size, no new allocation is done.
+    this->m_Metric->GetValueAndDerivative(this->m_CurrentMetricValue, this->m_Gradient);
+  }
+  catch (ExceptionObject & err)
+  {
+    this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::COSTFUNCTION_ERROR;
+    this->m_StopConditionDescription << "Metric error during optimization";
+    this->StopOptimization();
+    // Pass exception to caller
+    throw err;
+  }
+
+  // Store best value and position
+  if (this->m_ReturnBestParametersAndValue && this->m_CurrentMetricValue < this->m_CurrentBestValue)
+  {
+    this->m_CurrentBestValue = this->m_CurrentMetricValue;
+    this->m_BestParameters = this->GetCurrentPosition();
+  }
+
+  // Update and check iteration count
+  this->m_CurrentIteration++;
 }
 
 template <typename TInternalComputationValueType>

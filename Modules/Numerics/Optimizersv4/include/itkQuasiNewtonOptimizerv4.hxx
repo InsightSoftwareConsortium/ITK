@@ -98,7 +98,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
   const SizeValueType numPara = this->m_Metric->GetNumberOfParameters();
   this->m_CurrentPosition = this->m_Metric->GetParameters();
 
-  if (this->GetCurrentIteration() == 0)
+  if (this->GetCurrentIteration() == 1)
   {
     // initialize some information
     this->m_PreviousValue = this->GetCurrentMetricValue();
@@ -136,7 +136,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
     return;
   }
 
-  if (this->GetCurrentIteration() > 0)
+  if (this->GetCurrentIteration() > 1)
   {
     ParametersType lastStep(numPara);
     lastStep = this->m_CurrentPosition - this->m_PreviousPosition;
@@ -324,7 +324,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::EstimateNewtonSte
 
   for (IndexValueType loc = low; loc <= high; ++loc)
   {
-    if (this->GetCurrentIteration() == 0)
+    if (this->GetCurrentIteration() == 1)
     {
       this->m_NewtonStepValidFlags[loc] = false;
     }
@@ -345,7 +345,7 @@ template <typename TInternalComputationValueType>
 bool
 QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAndStepWithBFGS(IndexValueType loc)
 {
-  if (this->GetCurrentIteration() == 0)
+  if (this->GetCurrentIteration() == 1)
   {
     return false;
   }
