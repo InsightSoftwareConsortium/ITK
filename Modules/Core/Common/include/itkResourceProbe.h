@@ -176,9 +176,6 @@ protected:
   void
   PrintJSONvar(std::ostream & os, const char * varName, T varValue, unsigned indent = 4, bool comma = true);
 
-  /** Obsolete member function from ITK 4.8 - 4.13. Does not do anything anymore. */
-  itkLegacyMacro(virtual void GetSystemInformation());
-
 private:
   ValueType m_StartValue;
   ValueType m_TotalValue;
