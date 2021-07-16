@@ -202,6 +202,28 @@ VideoStream<TFrameType>::GetFrameDirection(SizeValueType frameNumber) const
   return const_cast<Self *>(this)->m_DirectionCache[frameNumber];
 }
 
+template <typename TFrameType>
+void
+VideoStream<TFrameType>::SetFrameNumberOfComponentsPerPixel(SizeValueType frameNumber, NumberOfComponentsPerPixelType n)
+{
+  m_NumberOfComponentsPerPixelCache[frameNumber] = n;
+
+  // If the frame is currently buffered, set the actual frame's region
+  SizeValueType bufStart = m_BufferedTemporalRegion.GetFrameStart();
+  SizeValueType bufDur = m_BufferedTemporalRegion.GetFrameDuration();
+  if (frameNumber >= bufStart && frameNumber < bufStart + bufDur)
+  {
+    FrameType * frame = this->GetFrame(frameNumber);
+    frame->SetNumberOfComponentsPerPixel(n);
+  }
+}
+
+template <typename TFrameType>
+const typename VideoStream<TFrameType>::NumberOfComponentsPerPixelType &
+VideoStream<TFrameType>::GetFrameNumberOfComponentsPerPixel(SizeValueType frameNumber) const
+{
+  return const_cast<Self *>(this)->m_NumberOfComponentsPerPixelCache[frameNumber];
+}
 
 template <typename TFrameType>
 void
@@ -308,6 +330,10 @@ VideoStream<TFrameType>::InitializeEmptyFrames()
     if (m_DirectionCache.find(i) != m_DirectionCache.end())
     {
       this->GetFrame(i)->SetDirection(m_DirectionCache[i]);
+    }
+    if (m_NumberOfComponentsPerPixelCache.find(i) != m_NumberOfComponentsPerPixelCache.end())
+    {
+      this->GetFrame(i)->SetNumberOfComponentsPerPixel(m_NumberOfComponentsPerPixelCache[i]);
     }
   }
 }
@@ -530,6 +556,30 @@ VideoStream<TFrameType>::SetAllFramesDirection(typename TFrameType::DirectionTyp
   for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
   {
     this->SetFrameDirection(i, direction);
+  }
+}
+
+template <typename TFrameType>
+void
+VideoStream<TFrameType>::SetAllFramesNumberOfComponentsPerPixel(NumberOfComponentsPerPixelType n)
+{
+  SizeValueType numFrames = m_LargestPossibleTemporalRegion.GetFrameDuration();
+  SizeValueType startFrame = m_LargestPossibleTemporalRegion.GetFrameStart();
+
+  // If the largest region is infinite, use the largest of the requested or
+  // buffered region
+  if (numFrames == ITK_INFINITE_FRAME_DURATION)
+  {
+    SizeValueType bufEnd = m_BufferedTemporalRegion.GetFrameStart() + m_BufferedTemporalRegion.GetFrameDuration();
+    SizeValueType reqEnd = m_RequestedTemporalRegion.GetFrameStart() + m_RequestedTemporalRegion.GetFrameDuration();
+    (bufEnd > reqEnd) ? (numFrames = bufEnd) : (numFrames = reqEnd);
+  }
+
+  // Go through the number of required frames, making sure none are empty and
+  // setting the region
+  for (SizeValueType i = startFrame; i < startFrame + numFrames; ++i)
+  {
+    this->SetFrameNumberOfComponentsPerPixel(i, n);
   }
 }
 

@@ -31,7 +31,7 @@ namespace itk
  *\class ImageToVideoFilter
  * \brief Converts Image to VideoStream representation with a temporal axis
  *
- * ImageToVideoFilter is a ProcessObject for converting an Image to a VideoStream.
+ * ImageToVideoFilter is a ProcessObject for converting an Image or VectorImage to a VideoStream.
  * The user provides an input image of at least two dimensions and specifies one axis to interpret
  * as the temporal axis. Image slices along the designated axis are grafted into
  * video frames in the output VideoStream. The filter assumes that temporal samples are axis-aligned
