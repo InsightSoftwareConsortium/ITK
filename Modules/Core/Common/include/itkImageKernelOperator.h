@@ -54,8 +54,6 @@ public:
   using Superclass = NeighborhoodOperator<TPixel, VDimension, TAllocator>;
 
   using ImageType = Image<TPixel, VDimension>;
-  using SizeType = typename Superclass::SizeType;
-  using CoefficientVector = typename Superclass::CoefficientVector;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageKernelOperator, NeighborhoodOperator);
@@ -79,6 +77,9 @@ public:
   }
 
 protected:
+  /** Type alias support for coefficient vector type.*/
+  using typename Superclass::CoefficientVector;
+
   /** Calculates operator coefficients. */
   CoefficientVector
   GenerateCoefficients() override;

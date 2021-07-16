@@ -87,6 +87,8 @@ public:
   /** Slice iterator type alias support */
   using SliceIteratorType = SliceIterator<TPixel, Self>;
 
+  using PixelRealType = typename NumericTraits<TPixel>::RealType;
+
   /** Sets the dimensional direction of a directional operator. */
   void
   SetDirection(const unsigned long & direction)
@@ -135,16 +137,14 @@ public:
     Superclass::PrintSelf(os, i.GetNextIndent());
   }
 
-  using PixelRealType = typename NumericTraits<TPixel>::RealType;
-
   /** Multiplies all of the coefficients of the kernel by a single scalar value.
    */
   void ScaleCoefficients(PixelRealType);
 
 protected:
-  /** Typedef support  for coefficient vector type.  Necessary
+  /** Type alias support for coefficient vector type. Necessary
    * to fix bug in the microsoft VC++ compiler. */
-  using CoefficientVector = std::vector<PixelRealType>;
+  using CoefficientVector = typename std::vector<PixelRealType>;
 
   /** A subclass-specific algorithm that computes the coefficients
    * of the operator. */

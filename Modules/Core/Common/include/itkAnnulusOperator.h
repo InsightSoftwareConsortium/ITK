@@ -78,8 +78,8 @@ public:
 
   /** Additional type aliases. */
   using PixelType = TPixel;
-  using SizeType = typename Superclass::SizeType;
-  using OffsetType = typename Superclass::OffsetType;
+  using typename Superclass::SizeType;
+  using typename Superclass::OffsetType;
   using SpacingType = Vector<double, TDimension>;
 
   /** Run-time type information (and related methods). */
@@ -222,9 +222,8 @@ public:
   }
 
 protected:
-  /** Typedef support for coefficient vector type.  Necessary to
-   *  work around compiler bug on VC++. */
-  using CoefficientVector = typename Superclass::CoefficientVector;
+  /** Type alias support for coefficient vector type.*/
+  using typename Superclass::CoefficientVector;
 
   /** Calculates operator coefficients. */
   CoefficientVector
