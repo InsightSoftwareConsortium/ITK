@@ -108,7 +108,7 @@ struct NotNoexceptMove
  * And when the contained class might throw at move, the qualifer automatically
  * propagates it to FixedArray.
  * This is the same behaviour as std::array. It proves there is no need to
- * add noexcept (ITK_NOEXCEPT) to the container. This would disallow using it
+ * add noexcept to the container. This would disallow using it
  * with might-throw-objects.
  */
 TEST(CommonTypeTraits, FixedArrayIsNoExceptMovable)
