@@ -135,18 +135,18 @@ private:
     QualifiedIterator(const QualifiedBufferIteratorType & bufferIterator,
                       const OffsetTableType &             offsetTable,
                       const OffsetType &                  iterationOffset,
-                      const SizeType &                    regionSize) ITK_NOEXCEPT
+                      const SizeType &                    regionSize) noexcept
       : m_BufferIterator(bufferIterator)
       ,
-        // Note: Use parentheses instead of curly braces to initialize data members,
-        // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
-        m_OffsetTable(offsetTable)
+      // Note: Use parentheses instead of curly braces to initialize data members,
+      // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
+      m_OffsetTable(offsetTable)
       , m_IterationOffset(iterationOffset)
       , m_IterationRegionSize(regionSize)
     {}
 
     template <std::size_t VIndex>
-    void Increment(std::true_type) ITK_NOEXCEPT
+    void Increment(std::true_type) noexcept
     {
       static_assert(VIndex < (ImageDimension - 1), "For a larger index value, the other overload should be picked");
 
@@ -161,7 +161,7 @@ private:
     }
 
     template <std::size_t VIndex>
-    void Increment(std::false_type) ITK_NOEXCEPT
+    void Increment(std::false_type) noexcept
     {
       static_assert(VIndex == (ImageDimension - 1), "For a smaller index value, the other overload should be picked");
 
@@ -171,7 +171,7 @@ private:
 
 
     template <std::size_t VIndex>
-    void Decrement(std::true_type) ITK_NOEXCEPT
+    void Decrement(std::true_type) noexcept
     {
       static_assert(VIndex < (ImageDimension - 1), "For a larger index value, the other overload should be picked");
 
@@ -186,7 +186,7 @@ private:
     }
 
     template <std::size_t VIndex>
-    void Decrement(std::false_type) ITK_NOEXCEPT
+    void Decrement(std::false_type) noexcept
     {
       static_assert(VIndex == (ImageDimension - 1), "For a smaller index value, the other overload should be picked");
 
@@ -212,23 +212,23 @@ private:
 
     /** Constructor that allows implicit conversion from non-const to const
      * iterator. Also serves as copy-constructor of a non-const iterator.  */
-    QualifiedIterator(const QualifiedIterator<false> & arg) ITK_NOEXCEPT
+    QualifiedIterator(const QualifiedIterator<false> & arg) noexcept
       : m_BufferIterator(arg.m_BufferIterator)
       ,
-        // Note: Use parentheses instead of curly braces to initialize data members,
-        // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
-        m_OffsetTable(arg.m_OffsetTable)
+      // Note: Use parentheses instead of curly braces to initialize data members,
+      // to avoid AppleClang 6.0.0.6000056 compilation error, "no viable conversion..."
+      m_OffsetTable(arg.m_OffsetTable)
       , m_IterationOffset(arg.m_IterationOffset)
       , m_IterationRegionSize(arg.m_IterationRegionSize)
     {}
 
 
     /**  Returns a reference to the current pixel. */
-    reference operator*() const ITK_NOEXCEPT { return *m_BufferIterator; }
+    reference operator*() const noexcept { return *m_BufferIterator; }
 
     /** Prefix increment ('++it'). */
     QualifiedIterator &
-    operator++() ITK_NOEXCEPT
+    operator++() noexcept
     {
       this->Increment<0>(std::integral_constant<bool, (ImageDimension > 1)>{});
       return *this;
@@ -238,7 +238,7 @@ private:
     /** Postfix increment ('it++').
      * \note Usually prefix increment ('++it') is preferable. */
     QualifiedIterator
-    operator++(int) ITK_NOEXCEPT
+    operator++(int) noexcept
     {
       auto result = *this;
       ++(*this);
@@ -248,7 +248,7 @@ private:
 
     /** Prefix decrement ('--it'). */
     QualifiedIterator &
-    operator--() ITK_NOEXCEPT
+    operator--() noexcept
     {
       this->Decrement<0>(std::integral_constant<bool, (ImageDimension > 1)>{});
       return *this;
@@ -258,7 +258,7 @@ private:
     /** Postfix increment ('it--').
      * \note  Usually prefix increment ('--it') is preferable. */
     QualifiedIterator
-    operator--(int) ITK_NOEXCEPT
+    operator--(int) noexcept
     {
       auto result = *this;
       --(*this);
@@ -270,7 +270,7 @@ private:
      * should be from the same range. This operator does not support comparing iterators
      * from different ranges. */
     friend bool
-    operator==(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
+    operator==(const QualifiedIterator & lhs, const QualifiedIterator & rhs) noexcept
     {
       return lhs.m_BufferIterator == rhs.m_BufferIterator;
     }
@@ -278,7 +278,7 @@ private:
 
     /** Returns (it1 != it2) for iterators it1 and it2. */
     friend bool
-    operator!=(const QualifiedIterator & lhs, const QualifiedIterator & rhs) ITK_NOEXCEPT
+    operator!=(const QualifiedIterator & lhs, const QualifiedIterator & rhs) noexcept
     {
       // Implemented just like the corresponding std::rel_ops operator.
       return !(lhs == rhs);
@@ -287,7 +287,7 @@ private:
 
     /** Explicitly-defaulted assignment operator. */
     QualifiedIterator &
-    operator=(const QualifiedIterator &) ITK_NOEXCEPT = default;
+    operator=(const QualifiedIterator &) noexcept = default;
 
 
     /** Explicitly-defaulted destructor. */
@@ -326,7 +326,7 @@ public:
 
   /** Constructs an empty range
    */
-  ImageRegionRange() ITK_NOEXCEPT = default;
+  ImageRegionRange() noexcept = default;
 
 
   /** Constructs an object, representing the range of pixels of the specified
@@ -370,7 +370,7 @@ public:
 
   /** Returns an iterator to the first pixel. */
   iterator
-  begin() const ITK_NOEXCEPT
+  begin() const noexcept
   {
     return iterator{ m_BufferBegin + Self::ComputeOffset(m_OffsetTable, m_BufferedRegionIndex, m_IterationRegionIndex),
                      m_OffsetTable,
@@ -380,7 +380,7 @@ public:
 
   /** Returns an 'end iterator' for this range. */
   iterator
-  end() const ITK_NOEXCEPT
+  end() const noexcept
   {
     auto endRegionIndex = m_IterationRegionIndex;
     endRegionIndex.back() += m_IterationRegionSize.back();
@@ -397,42 +397,42 @@ public:
   /** Returns a const iterator to the first pixel.
    * Provides only read-only access to the pixel data. */
   const_iterator
-  cbegin() const ITK_NOEXCEPT
+  cbegin() const noexcept
   {
     return this->begin();
   }
 
   /** Returns a const 'end iterator' for this range. */
   const_iterator
-  cend() const ITK_NOEXCEPT
+  cend() const noexcept
   {
     return this->end();
   }
 
   /** Returns a reverse 'begin iterator' for this range. */
   reverse_iterator
-  rbegin() const ITK_NOEXCEPT
+  rbegin() const noexcept
   {
     return reverse_iterator{ this->end() };
   }
 
   /** Returns a reverse 'end iterator' for this range. */
   reverse_iterator
-  rend() const ITK_NOEXCEPT
+  rend() const noexcept
   {
     return reverse_iterator{ this->begin() };
   }
 
   /** Returns a const reverse 'begin iterator' for this range. */
   const_reverse_iterator
-  crbegin() const ITK_NOEXCEPT
+  crbegin() const noexcept
   {
     return this->rbegin();
   }
 
   /** Returns a const reverse 'end iterator' for this range. */
   const_reverse_iterator
-  crend() const ITK_NOEXCEPT
+  crend() const noexcept
   {
     return this->rend();
   }
@@ -440,7 +440,7 @@ public:
 
   /** Returns the size of the range, that is the number of pixels in the region. */
   std::size_t
-  size() const ITK_NOEXCEPT
+  size() const noexcept
   {
     return std::accumulate(
       m_IterationRegionSize.begin(), m_IterationRegionSize.end(), std::size_t{ 1 }, std::multiplies<std::size_t>{});
@@ -449,7 +449,7 @@ public:
 
   /** Tells whether the range is empty. */
   bool
-  empty() const ITK_NOEXCEPT
+  empty() const noexcept
   {
     return std::any_of(m_IterationRegionSize.begin(), m_IterationRegionSize.end(), [](const SizeValueType sizeValue) {
       return sizeValue == 0;

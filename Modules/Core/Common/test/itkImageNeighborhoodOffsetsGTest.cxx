@@ -40,14 +40,14 @@ public:
 
   // Returns the number of offsets needed to represent this shape.
   constexpr std::size_t
-  GetNumberOfOffsets() const ITK_NOEXCEPT
+  GetNumberOfOffsets() const noexcept
   {
     return 0;
   }
 
   // Fills the specified buffer with the offsets for this shape.
   void
-  FillOffsets(itk::Offset<ImageDimension> *) const ITK_NOEXCEPT
+  FillOffsets(itk::Offset<ImageDimension> *) const noexcept
   {
     // The shape is empty, so just do nothing!
   }

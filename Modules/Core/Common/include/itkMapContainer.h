@@ -97,14 +97,14 @@ public:
 
   /** Cast the container to a STL container type */
   STLContainerType &
-  CastToSTLContainer() ITK_NOEXCEPT
+  CastToSTLContainer() noexcept
   {
     return *this;
   }
 
   /** Cast the container to a const STL container type */
   const STLContainerType &
-  CastToSTLConstContainer() const ITK_NOEXCEPT
+  CastToSTLConstContainer() const noexcept
   {
     return *this;
   }

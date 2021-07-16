@@ -230,8 +230,7 @@ public:
   using ComponentWeightsType = FixedArray<TRealType, VectorDimension>;
   using DerivativeWeightsType = FixedArray<TRealType, ImageDimension>;
 #if !defined(ITK_LEGACY_REMOVE)
-  using WeightsType ITK_DEPRECATED_MSG("Use DerivativeWeightsType or ComponentWeightsType instead.") =
-    ComponentWeightsType;
+  using WeightsType [[deprecated("Use DerivativeWeightsType or ComponentWeightsType instead.")]] = ComponentWeightsType;
 #endif
 
   /** Directly Set/Get the array of weights used in the gradient calculations.
