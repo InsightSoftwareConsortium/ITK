@@ -19,6 +19,7 @@
 #define itkMorphologicalGradientImageFilter_hxx
 
 #include "itkMorphologicalGradientImageFilter.h"
+#include "itkConversion.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include <string>
@@ -42,7 +43,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetKernel(const KernelType & kernel)
 {
-  const auto * flatKernel = dynamic_cast<const FlatKernelType *>(&kernel);
+  const auto * flatKernel = Experimental::Conversion::Convert<const FlatKernelType *>(&kernel);
 
   if (flatKernel != nullptr && flatKernel->GetDecomposable())
   {
@@ -86,7 +87,7 @@ template <typename TInputImage, typename TOutputImage, typename TKernel>
 void
 MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::SetAlgorithm(AlgorithmEnum algo)
 {
-  const auto * flatKernel = dynamic_cast<const FlatKernelType *>(&this->GetKernel());
+  const auto * flatKernel = Experimental::Conversion::Convert<const FlatKernelType *>(&this->GetKernel());
 
   if (m_Algorithm != algo)
   {

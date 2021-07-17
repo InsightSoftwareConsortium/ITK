@@ -29,6 +29,7 @@
 #define itkBayesianClassifierImageFilter_hxx
 
 #include "itkBayesianClassifierImageFilter.h"
+#include "itkConversion.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk
@@ -145,7 +146,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
 
   if (m_UserProvidedPriors)
   {
-    const auto * priorsImage = dynamic_cast<const PriorsImageType *>(this->GetInput(1));
+    const auto * priorsImage = Experimental::Conversion::Convert<const PriorsImageType *>(this->GetInput(1));
 
     if (priorsImage == nullptr)
     {
