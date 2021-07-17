@@ -25,7 +25,8 @@ using ImageType = itk::Image<int, 2>;
 using RegionType = ImageType::RegionType;
 using IndexType = ImageType::IndexType;
 using SizeType = ImageType::SizeType;
-using IteratorType = itk::ConstNeighborhoodIterator<ImageType>;
+using BoundaryConditionType = itk::PeriodicBoundaryCondition<ImageType, ImageType>;
+using IteratorType = itk::ConstNeighborhoodIterator<ImageType, BoundaryConditionType>;
 using RadiusType = IteratorType::RadiusType;
 
 using VectorImageType = itk::VectorImage<int, 2>;
@@ -291,12 +292,10 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   testImage->SetRegions(testRegion);
   testImage->Allocate();
 
-  using BoundaryConditionType = itk::PeriodicBoundaryCondition<ImageType, ImageType>;
-  using IterType = itk::ConstNeighborhoodIterator<ImageType, BoundaryConditionType>;
-  IterType              testIter(radius, testImage, testRegion);
+  IteratorType          testIter(radius, testImage, testRegion);
   BoundaryConditionType boundaryCondition;
   testIter.OverrideBoundaryCondition(&boundaryCondition);
-  std::vector<IterType::OffsetType> back;
+  std::vector<IteratorType::OffsetType> back;
   back.push_back({ { -1, 0 } });
   back.push_back({ { 0, -1 } });
   back.push_back({ { 0, 0 } });
