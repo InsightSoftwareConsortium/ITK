@@ -113,6 +113,10 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   // First test the filter without any intensity image.
   using LabelGeometryType = itk::LabelGeometryImageFilter<LabelImageType, IntensityImageType>;
   typename LabelGeometryType::Pointer labelGeometryFilter = LabelGeometryType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(labelGeometryFilter, LabelGeometryImageFilter, ImageToImageFilter);
+
+
   labelGeometryFilter->SetInput(labelReader->GetOutput());
   labelGeometryFilter->SetIntensityInput(intensityReader->GetOutput());
 

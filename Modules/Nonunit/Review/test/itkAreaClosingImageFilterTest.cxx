@@ -49,36 +49,14 @@ itkAreaClosingImageFilterTest(int argc, char * argv[])
   using FilterType = itk::AreaClosingImageFilter<IType, IType>;
   FilterType::Pointer filter = FilterType::New();
 
-  //
-  // Tests for raising code coverage
-  //
-  filter->FullyConnectedOn();
-  if (!filter->GetFullyConnected())
-  {
-    std::cerr << "Set/GetFullyConnected() error" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AreaClosingImageFilter, AttributeMorphologyBaseImageFilter);
 
-  filter->FullyConnectedOff();
-  if (filter->GetFullyConnected())
-  {
-    std::cerr << "Set/GetFullyConnected() error" << std::endl;
-    return EXIT_FAILURE;
-  }
 
-  filter->UseImageSpacingOn();
-  if (!filter->GetUseImageSpacing())
-  {
-    std::cerr << "Set/GetUseImageSpacing() error" << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto fullyConnected = false;
+  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
 
-  filter->UseImageSpacingOff();
-  if (filter->GetUseImageSpacing())
-  {
-    std::cerr << "Set/GetUseImageSpacing() error" << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto useImageSpacing = false;
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
 
 
   filter->SetInput(reader->GetOutput());

@@ -76,6 +76,9 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
   using MetricType = itk::MattesMutualInformationImageToImageMetric<ImageType, ImageType>;
   MetricType::Pointer metric = MetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MattesMutualInformationImageToImageMetric, ImageToImageMetric);
+
+
   using TranformType = itk::TranslationTransform<double, Dimension>;
   TranformType::Pointer transform = TranformType::New();
 
