@@ -19,6 +19,7 @@
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 #include "itkConformalFlatteningMeshFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkConformalFlatteningMeshFilterTest(int argc, char * argv[])
@@ -66,7 +67,9 @@ itkConformalFlatteningMeshFilterTest(int argc, char * argv[])
 
   FilterType::Pointer filter = FilterType::New();
 
-  // Connect the input
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ConformalFlatteningMeshFilter, MeshToMeshFilter);
+
+
   filter->SetInput(mesh);
 
   CellIdentifier polarCellId = 0; // default set to the first cell
