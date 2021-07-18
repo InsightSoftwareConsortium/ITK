@@ -21,7 +21,7 @@
 
 #include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkShapePositionLabelMapFilter.h"
-
+#include "itkTestingMacros.h"
 
 int
 itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
@@ -29,9 +29,10 @@ itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "usage: " << argv[0] << " input output attribute" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output attribute" << std::endl;
+    return EXIT_FAILURE;
   }
 
   // declare the dimension used, and the type of the input image
@@ -66,7 +67,9 @@ itkShapePositionLabelMapFilterTest1(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
 
-  return 0;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  return EXIT_SUCCESS;
 }

@@ -28,7 +28,8 @@ itkConvertLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputLabelImage outputLabelImage";
     std::cerr << std::endl;
     return EXIT_FAILURE;

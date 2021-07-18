@@ -23,6 +23,7 @@
 #include "itkStreamingImageFilter.h"
 #include "itkImageRegionSplitterMultidimensional.h"
 #include "itkPipelineMonitorImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -30,8 +31,9 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile outputImageFile numberOfStreamDivisions" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "  inputImageFile outputImageFile numberOfStreamDivisions" << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -20,7 +20,7 @@
 #include "itkJPEG2000ImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
+#include "itkTestingMacros.h"
 
 int
 itkJPEG2000ImageIOTest04(int argc, char * argv[])
@@ -28,8 +28,9 @@ itkJPEG2000ImageIOTest04(int argc, char * argv[])
   // Verify the number of parameters in the command line
   if (argc < 5)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile J2KOutputImageFile tileSizeX tileSizeY" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImageFile J2KOutputImageFile tileSizeX tileSizeY" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -62,15 +63,9 @@ itkJPEG2000ImageIOTest04(int argc, char * argv[])
 
   writer->SetInput(reader->GetOutput());
   writer->SetImageIO(base);
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
   return EXIT_SUCCESS;
 }

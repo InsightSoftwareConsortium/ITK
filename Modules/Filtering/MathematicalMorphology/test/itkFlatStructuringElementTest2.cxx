@@ -22,6 +22,8 @@
 #include "itkImageFileWriter.h"
 #include <itkConstantPadImageFilter.h>
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
+
 using namespace itk;
 
 /**
@@ -72,35 +74,30 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
 {
   if (argc < 1)
   {
-    std::cerr << "Missing argument" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " InputImg OutputImg" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " InputImg OutputImg" << std::endl;
     std::cerr << "Images must be odd in size in all dimensions" << std::endl;
     return EXIT_FAILURE;
   }
+
   constexpr static unsigned int Dimension = 2;
-  /**********************************************************/
-  /*******Read test image as unsigned char********/
-  /**********************************************************/
+
+  // Read test image as unsigned char
   using ImageUCType = itk::Image<unsigned char, Dimension>;
   using ReaderUCType = itk::ImageFileReader<ImageUCType>;
   ReaderUCType::Pointer reader = ReaderUCType::New();
   reader->SetFileName(argv[1]);
-  try
-  {
-    reader->UpdateLargestPossibleRegion();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected while reading " << argv[1] << " : " << e;
-    return 1000;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->UpdateLargestPossibleRegion());
+
 
   ImageUCType::Pointer testImg = reader->GetOutput();
   using FSEType = itk::FlatStructuringElement<Dimension>;
 
-  /**********************************************************/
-  /*******Cast to Bool Image. Required by constructor *******/
-  /**********************************************************/
+
+  // Cast to Bool Image. Required by constructor
+
   using ImageBoolType = itk::Image<bool, Dimension>;
 
   using RescaleType = itk::RescaleIntensityImageFilter<ImageUCType, ImageUCType>;
@@ -118,28 +115,18 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   FSEType              flatStructure = FSEType::FromImage(testImgBool);
   ImageUCType::Pointer imgFromStructure = GetImage(flatStructure);
 
-  /*****************************************************************/
-  /**Write result from GetImage for comparisson with input image ***/
-  /*****************************************************************/
+  // Write result from GetImage for comparisson with input image
 
   using WriterType = itk::ImageFileWriter<ImageUCType>;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(imgFromStructure);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception writing test image:" << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  /**********************************************************/
-  /****Even input image sizes generate exception ************/
-  /**********************************************************/
+
+  // Even input image sizes generate exception
+
   // Pad test image to even size
   using ConstPadFilterType = itk::ConstantPadImageFilter<ImageBoolType, ImageBoolType>;
   ConstPadFilterType::Pointer padFilter = ConstPadFilterType::New();
@@ -150,26 +137,14 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   padFilter->SetPadLowerBound(lowerExtendRegion);
   ImageBoolType::PixelType constPixel = true;
   padFilter->SetConstant(constPixel);
-  padFilter->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(padFilter->Update());
+
 
   ImageBoolType::Pointer evenBoolImg = padFilter->GetOutput();
-  bool                   evenSizeImgGeneratesException = false;
-  try
-  {
-    FSEType flatSFromEven = FSEType::FromImage(evenBoolImg);
-  }
-  catch (itk::ExceptionObject &)
-  {
-    evenSizeImgGeneratesException = true;
-  }
 
-  if (evenSizeImgGeneratesException)
-  {
-    return EXIT_SUCCESS;
-  }
-  else
-  {
-    std::cout << "Failure:: exception not caught on constructor when image has even size" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(FSEType::FromImage(evenBoolImg));
+
+
+  return EXIT_SUCCESS;
 }

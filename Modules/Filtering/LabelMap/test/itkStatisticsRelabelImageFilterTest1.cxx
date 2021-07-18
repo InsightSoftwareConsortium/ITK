@@ -29,7 +29,9 @@ itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
 
   if (argc != 7)
   {
-    std::cerr << "Usage: " << argv[0] << " input feature output";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input feature output";
     std::cerr << " background";
     std::cerr << " reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;

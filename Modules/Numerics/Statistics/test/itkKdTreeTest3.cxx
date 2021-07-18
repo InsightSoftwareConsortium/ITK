@@ -19,6 +19,7 @@
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkListSample.h"
 #include "itkKdTreeGenerator.h"
+#include "itkTestingMacros.h"
 #include <fstream>
 #include <algorithm>
 
@@ -27,9 +28,9 @@ itkKdTreeTest3(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing parameters" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " numberOfDataPoints numberOfTestPoints "
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " numberOfDataPoints numberOfTestPoints "
               << "numberOfNeighbors bucketSize [graphvizDotOutputFile]" << std::endl;
     return EXIT_FAILURE;
   }

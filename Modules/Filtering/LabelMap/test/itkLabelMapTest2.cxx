@@ -19,16 +19,11 @@
 #include <iostream>
 #include "itkLabelMap.h"
 #include "itkLabelObject.h"
+#include "itkTestingMacros.h"
 
 int
-itkLabelMapTest2(int argc, char * argv[])
+itkLabelMapTest2(int, char *[])
 {
-  if (argc != 1)
-  {
-    std::cerr << "usage: " << argv[0] << "" << std::endl;
-    return EXIT_FAILURE;
-  }
-
   constexpr unsigned int dim = 3;
 
   using LabelObjectType = itk::LabelObject<unsigned long, dim>;

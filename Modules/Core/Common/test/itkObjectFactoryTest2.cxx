@@ -19,6 +19,7 @@
 #include "itkImage.h"
 #include "itkRGBPixel.h"
 #include "itkTextOutput.h" // Needed to see warnings
+#include "itkTestingMacros.h"
 
 using myPointer = itk::ImportImageContainer<unsigned long, short>::Pointer;
 bool
@@ -89,7 +90,9 @@ itkObjectFactoryTest2(int argc, char * argv[])
   itk::ObjectFactoryBase::UnRegisterAllFactories();
   if (argc < 2)
   {
-    std::cout << "Usage: " << argv[0] << " FactoryPath [FactoryPath [FactoryPath ..." << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " FactoryPath [FactoryPath [FactoryPath ..." << std::endl;
     return EXIT_FAILURE;
   }
 

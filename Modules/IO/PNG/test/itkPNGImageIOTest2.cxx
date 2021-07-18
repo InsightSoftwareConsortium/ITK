@@ -50,7 +50,9 @@ itkPNGImageIOTest2(int argc, char * argv[])
   // Test the reading of an image as grayscale image and writing of grayscale image
   if (argc < 5)
   {
-    std::cerr << "Usage: " << argv[0] << " input"
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input"
               << " output"
               << " useCompression"
               << " compressionLevel"

@@ -32,7 +32,9 @@ itkLabelMapToAttributeImageFilterTest1(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "usage: " << argv[0] << " input output" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output" << std::endl;
     return EXIT_FAILURE;
   }
 

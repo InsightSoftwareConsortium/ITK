@@ -30,8 +30,10 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputFile" << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cout << " InputFile" << std::endl;
+    return EXIT_FAILURE;
   }
 
   using ImageType = itk::Image<unsigned char, 2>;

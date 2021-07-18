@@ -20,6 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkScalarChanAndVeseSparseLevelSetImageFilterTest2(int argc, char * argv[])
@@ -27,9 +28,9 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputLevelSetImage inputFeatureImage ";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "inputLevelSetImage inputFeatureImage ";
     std::cerr << " outputLevelSetImage" << std::endl;
     return EXIT_FAILURE;
   }
@@ -74,11 +75,15 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest2(int argc, char * argv[])
 
   LevelSetReaderType::Pointer levelSetReader1 = LevelSetReaderType::New();
   levelSetReader1->SetFileName(argv[1]);
-  levelSetReader1->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(levelSetReader1->Update());
+
 
   FeatureReaderType::Pointer featureReader = FeatureReaderType::New();
   featureReader->SetFileName(argv[2]);
-  featureReader->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(featureReader->Update());
+
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 
@@ -96,7 +101,8 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest2(int argc, char * argv[])
   levelSetFilter->GetDifferenceFunction(0)->SetLambda1(l1);
   levelSetFilter->GetDifferenceFunction(0)->SetLambda2(l2);
 
-  levelSetFilter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(levelSetFilter->Update());
+
 
   WriterType::Pointer writer1 = WriterType::New();
 
@@ -105,16 +111,8 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest2(int argc, char * argv[])
 
   writer1->SetFileName(argv[3]);
 
-  try
-  {
-    writer1->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer1->Update());
+
 
   return EXIT_SUCCESS;
 }

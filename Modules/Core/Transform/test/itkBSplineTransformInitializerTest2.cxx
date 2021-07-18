@@ -46,8 +46,9 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0] << " fixedImage ";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " fixedImage ";
     return EXIT_FAILURE;
   }
 
@@ -60,16 +61,8 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName(argv[1]);
 
-  try
-  {
-    fixedReader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
+
 
   // We first use the passed fixed image to construct the control point
   // grid and save the control point locations.

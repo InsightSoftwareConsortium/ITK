@@ -335,8 +335,10 @@ itkSimpleImageRegistrationTest3(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputPrefix" << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " imageDimension fixedImage movingImage outputPrefix" << std::endl;
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[1]))
@@ -349,6 +351,6 @@ itkSimpleImageRegistrationTest3(int argc, char * argv[])
 
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
 }

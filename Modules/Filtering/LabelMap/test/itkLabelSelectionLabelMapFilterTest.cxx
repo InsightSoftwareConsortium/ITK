@@ -31,9 +31,10 @@ itkLabelSelectionLabelMapFilterTest(int argc, char * argv[])
 
   if (argc != 5)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output exclude label" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output exclude label" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr int dim = 2;
@@ -66,7 +67,9 @@ itkLabelSelectionLabelMapFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
 
-  return 0;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  return EXIT_SUCCESS;
 }

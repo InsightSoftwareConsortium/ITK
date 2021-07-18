@@ -22,6 +22,7 @@
 
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkVTKImageIO2Test2(int argc, char * argv[])
@@ -31,10 +32,11 @@ itkVTKImageIO2Test2(int argc, char * argv[])
   // VTKImageIO with tensors
   //
 
-
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " outputFileName" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 

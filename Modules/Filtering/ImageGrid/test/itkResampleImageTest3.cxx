@@ -37,7 +37,8 @@ itkResampleImageTest3(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImage resampledImage" << std::endl;
     return EXIT_FAILURE;
   }
@@ -108,16 +109,8 @@ itkResampleImageTest3(int argc, char * argv[])
   writer1->SetFileName(argv[2]);
   writer1->SetInput(resample->GetOutput());
 
-  // Run the resampling filter
-  try
-  {
-    writer1->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer1->Update());
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

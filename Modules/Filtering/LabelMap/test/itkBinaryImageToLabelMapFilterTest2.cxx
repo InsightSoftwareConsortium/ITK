@@ -29,7 +29,8 @@ itkBinaryImageToLabelMapFilterTest2(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "inputBinaryImage outputLabelImage";
     std::cerr << "foregroundValue backgroundValue NumThreads";
     std::cerr << std::endl;
@@ -71,7 +72,9 @@ itkBinaryImageToLabelMapFilterTest2(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(labelToImage->GetOutput());
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

@@ -19,6 +19,7 @@
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkListSample.h"
 #include "itkWeightedCentroidKdTreeGenerator.h"
+#include "itkTestingMacros.h"
 #include <fstream>
 
 // Testing the weighed centroid Kd tree generator using varaiable length vector
@@ -28,9 +29,9 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " numberOfDataPoints numberOfTestPoints bucketSize [graphvizDotOutputFile]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " numberOfDataPoints numberOfTestPoints bucketSize [graphvizDotOutputFile]" << std::endl;
     return EXIT_FAILURE;
   }
 

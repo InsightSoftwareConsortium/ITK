@@ -19,6 +19,7 @@
 #include "itkImageMomentsCalculator.h"
 
 #include "itkImageMaskSpatialObject.h"
+#include "itkTestingMacros.h"
 
 using PixelType = unsigned short;
 using VectorType = itk::Vector<double, 3>;
@@ -33,7 +34,9 @@ itkImageMomentsTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: " << argv[0] << " <mask|nomask>" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " <mask|nomask>" << std::endl;
     return EXIT_FAILURE;
   }
   const std::string maskCondition{ argv[1] };

@@ -19,6 +19,7 @@
 #include "itkImageToHistogramFilter.h"
 #include "itkImageFileReader.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageToHistogramFilterTest2(int argc, char * argv[])
@@ -26,9 +27,9 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << " inputRGBImageFileName outputHistogramFile.txt [autoMinumumMaximum]"
-              << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputRGBImageFileName outputHistogramFile.txt [autoMinumumMaximum]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -97,15 +98,7 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   histogramFilter->SetInput(reader->GetOutput());
 
-  try
-  {
-    histogramFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(histogramFilter->Update());
 
 
   using HistogramType = HistogramFilterType::HistogramType;
@@ -135,15 +128,7 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   histogramFilter->SetHistogramSize(size);
 
-  try
-  {
-    histogramFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(histogramFilter->Update());
 
 
   channel = 1; // green channel
@@ -163,15 +148,7 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   histogramFilter->SetHistogramSize(size);
 
-  try
-  {
-    histogramFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(histogramFilter->Update());
 
 
   channel = 2; // blue channel

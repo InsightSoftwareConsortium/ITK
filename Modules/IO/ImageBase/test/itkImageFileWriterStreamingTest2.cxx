@@ -21,7 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkTestingComparisonImageFilter.h"
-
+#include "itkTestingMacros.h"
 
 using PixelType = unsigned char;
 using ImageType = itk::Image<PixelType, 3>;
@@ -63,10 +63,11 @@ int
 itkImageFileWriterStreamingTest2(int argc, char * argv[])
 {
 
-
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " input output " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output " << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -97,18 +98,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   if (numberOfDataPieces != writer->GetNumberOfStreamDivisions())
     return EXIT_FAILURE;
 
-  // write the whole image
-  try
-  {
-    std::cout << "=== Updating ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Write the whole image
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   if (!monitor->VerifyAllInputCanStream(4))
   {
@@ -140,17 +132,8 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Updating 1x1x1 IORegion ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "=== Updating 1x1x1 IORegion ==" << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   if (!monitor->VerifyAllInputCanStream(1))
@@ -174,17 +157,8 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Updating 2x2x2 IORegion with odd offset ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "=== Updating 2x2x2 IORegion with odd offset ==" << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   if (!monitor->VerifyAllInputCanStream(-1))
@@ -209,17 +183,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Updating 1x1xlong IORegion ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "=== Updating 1x1xlong IORegion ==" << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   if (!monitor->VerifyAllInputCanStream(-1))
   {
@@ -243,17 +209,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Updating 1xlongx1 IORegion ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "=== Updating 1xlongx1 IORegion ==" << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   if (!monitor->VerifyAllInputCanStream(-1))
   {
@@ -278,17 +236,8 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Updating Full IORegion ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "=== Updating Full IORegion ==" << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   if (!monitor->VerifyAllInputCanStream(4))
   {
@@ -302,9 +251,8 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   }
 
   reader->Modified();
-  bool thrownException = false;
-  ////////////////////////////////////////////////
-  // test out of bounds region
+
+  // Test out of bounds region
   ioregion.SetIndex(0, largestRegion.GetIndex()[0] - 1);
   ioregion.SetIndex(1, largestRegion.GetIndex()[1]);
   ioregion.SetIndex(2, largestRegion.GetIndex()[2]);
@@ -314,26 +262,13 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught expected exception" << std::endl;
-    std::cout << err << std::endl;
-    thrownException = true;
-  }
-
-  if (!thrownException)
-    return EXIT_FAILURE;
+  std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
+  ITK_TRY_EXPECT_EXCEPTION(writer->Update());
 
 
   reader->Modified();
-  thrownException = false;
-  ////////////////////////////////////////////////
-  // test out of bounds region
+
+  // Test out of bounds region
   ioregion.SetIndex(0, largestRegion.GetIndex()[0] + largestRegion.GetSize()[0] / 2 + 1);
   ioregion.SetIndex(1, largestRegion.GetIndex()[1] + largestRegion.GetSize()[1] / 2 + 1);
   ioregion.SetIndex(2, largestRegion.GetIndex()[2] + largestRegion.GetSize()[2] / 2 + 1);
@@ -343,26 +278,13 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught expected exception" << std::endl;
-    std::cout << err << std::endl;
-    thrownException = true;
-  }
+  std::cout << "=== Updating out of bounds IORegion ==" << std::endl;
+  ITK_TRY_EXPECT_EXCEPTION(writer->Update());
 
-  if (!thrownException)
-  {
-    return EXIT_FAILURE;
-  }
 
   reader->Modified();
-  ////////////////////////////////////////////////
-  // test when regions aren't matching
+
+  // Test when regions aren't matching
   ImageType::RegionType halfLargestRegion;
   halfLargestRegion.SetIndex(largestRegion.GetIndex());
   halfLargestRegion.SetSize(0, largestRegion.GetSize()[0] / 2);
@@ -382,20 +304,12 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   writer->SetIORegion(ioregion);
 
-  try
-  {
-    std::cout << "=== Preparing mismatched IORegion ==" << std::endl;
-    monitor->Update();
-    monitor->VerifyAllInputCanStream(1);
-    std::cout << "=== Updating mismatched IORegion ==" << std::endl;
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(monitor->Update());
+  monitor->VerifyAllInputCanStream(1);
+
+  std::cout << "=== Updating mismatched IORegion ==" << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   if (!monitor->VerifyAllNoUpdate())
   {
