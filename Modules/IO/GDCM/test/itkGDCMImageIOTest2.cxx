@@ -18,6 +18,7 @@
 #include "itkGDCMImageIO.h"
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
+#include "itkTestingMacros.h"
 
 #include <sstream>
 
@@ -30,7 +31,9 @@ itkGDCMImageIOTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " InputFile OutputDicomRoot\n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " InputFile OutputDicomRoot" << std::endl;
     return EXIT_FAILURE;
   }
   const char * input = argv[1];
@@ -149,16 +152,9 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   // Save as raw
   writer->UseCompressionOff();
   writer->SetFileName(output_raw.c_str());
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

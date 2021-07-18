@@ -34,7 +34,9 @@ itkBMPImageIOTest5(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "Usage: " << argv[0] << " compressedImage"
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " compressedImage"
               << " uncompressedImage" << std::endl;
     return EXIT_FAILURE;
   }

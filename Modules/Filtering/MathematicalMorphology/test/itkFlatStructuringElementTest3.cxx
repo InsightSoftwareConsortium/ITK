@@ -18,6 +18,7 @@
 
 #include "itkFlatStructuringElement.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 template <class TSEType>
 void
@@ -66,8 +67,9 @@ itkFlatStructuringElementTest3(int argc, char * argv[])
   // test polygon SEs
   if (argc < 4)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << argv[0] << " OutputImage Radius Lines Dimension" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " OutputImage Radius Lines Dimension" << std::endl;
     return EXIT_FAILURE;
   }
 

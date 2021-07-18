@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkStochasticFractalDimensionImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 namespace StochasticFractalDimensionImageFilterTest
 {
@@ -99,30 +100,26 @@ public:
       fractalFilter->SetMaskImage(thresholder->GetOutput());
     }
 
-    try
-    {
-      itk::TimeProbe timer;
+    itk::TimeProbe timer;
 
-      timer.Start();
-      std::cout << "/" << std::flush;
-      fractalFilter->Update();
-      std::cout << "/" << std::flush;
-      timer.Stop();
+    timer.Start();
+    std::cout << "/" << std::flush;
 
-      std::cout << "   (elapsed time: " << timer.GetMean() << ")" << std::endl;
-    }
-    catch (...)
-    {
-      std::cerr << "Exception caught." << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(fractalFilter->Update());
+
+    std::cout << "/" << std::flush;
+    timer.Stop();
+
+    std::cout << "   (elapsed time: " << timer.GetMean() << ")" << std::endl;
 
     using WriterType = itk::ImageFileWriter<ImageType>;
     typename WriterType::Pointer writer = WriterType::New();
     writer->SetInput(fractalFilter->GetOutput());
     writer->SetFileName(argv[3]);
     writer->UseCompressionOn();
-    writer->Update();
+
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
     return EXIT_SUCCESS;
   }
@@ -135,8 +132,9 @@ itkStochasticFractalDimensionImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cout << "Usage: " << argv[0] << " imageDimension "
-              << "inputImage outputImage [radius] [labelImage] [label]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cout << " imageDimension inputImage outputImage [radius] [labelImage] [label]" << std::endl;
     return EXIT_FAILURE;
   }
 

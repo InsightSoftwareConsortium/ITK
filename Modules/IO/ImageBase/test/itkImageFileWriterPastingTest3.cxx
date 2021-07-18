@@ -21,6 +21,7 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
+#include "itkTestingMacros.h"
 
 using PixelType = unsigned char;
 using ImageType = itk::Image<PixelType, 3>;
@@ -60,7 +61,9 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " input output" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -123,21 +126,7 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
     image->GetBufferedRegion(), ioRegion, image->GetLargestPossibleRegion().GetIndex());
   writer->SetIORegion(ioRegion);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    if (argc > 3)
-    {
-      return EXIT_SUCCESS;
-    }
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   ReaderType::Pointer reader = ReaderType::New();

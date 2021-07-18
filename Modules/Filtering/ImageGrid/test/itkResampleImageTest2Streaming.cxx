@@ -64,9 +64,9 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cerr << "Missing arguments ! " << std::endl;
-    std::cerr << "Usage : " << std::endl;
-    std::cerr << argv[0] << "inputImage referenceImage "
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "inputImage referenceImage "
               << "resampledImageLinear resampledImageNonLinear "
               << "resampledImageLinearNearestExtrapolate"
               << "resampledImageNonLinearNearestExtrapolate";

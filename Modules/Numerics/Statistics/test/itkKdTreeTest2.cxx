@@ -18,6 +18,7 @@
 
 #include "itkListSample.h"
 #include "itkKdTreeGenerator.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 #include <fstream>
@@ -29,9 +30,9 @@ itkKdTreeTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing argument" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " pointsInputFile  bucketSize graphvizDotOutputFile" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " pointsInputFile  bucketSize graphvizDotOutputFile" << std::endl;
     return EXIT_FAILURE;
   }
 

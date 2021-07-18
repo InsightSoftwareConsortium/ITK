@@ -19,6 +19,7 @@
 #include "itkQuadEdgeMesh.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -27,9 +28,9 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Usage" << std::endl;
-    std::cerr << argv[0] << " outputFileName.vtk" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " outputFileName.vtk" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -54,16 +55,8 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 
   mySphereMeshSource->Modified();
 
-  try
-  {
-    mySphereMeshSource->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error during source Update() " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(mySphereMeshSource->Update());
+
 
   std::cout << "mySphereMeshSource: " << mySphereMeshSource;
 
@@ -107,16 +100,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   writer->SetInput(mySphereMeshSource->GetOutput());
   writer->SetFileName(argv[1]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error during writer Update() " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   return EXIT_SUCCESS;

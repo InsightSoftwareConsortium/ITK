@@ -323,7 +323,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
           if (lfailed)
           {
             monitor2->GetOutput()->Print(std::cout);
-            exit(1);
+            return EXIT_FAILURE;
           }
         }
         catch (const itk::ExceptionObject & e)

@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkJoinImageFilter.h"
 #include "itkHistogramToProbabilityImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkHistogramToProbabilityImageFilterTest2(int argc, char * argv[])
@@ -29,8 +30,9 @@ itkHistogramToProbabilityImageFilterTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << " inputScalarImageFileName outputImage" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputScalarImageFileName outputImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -129,15 +131,8 @@ itkHistogramToProbabilityImageFilterTest2(int argc, char * argv[])
 
   writer->SetInput(histogramToImageFilter->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

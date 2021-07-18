@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 #include "vnl/vnl_sample.h"
 
 int
@@ -29,8 +30,8 @@ itkConnectedComponentImageFilterTestRGB(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputImage  outputImage threshold_low threshold_hi [fully_connected] [minimum_object_size]"
               << std::endl;
     return EXIT_FAILURE;
@@ -90,15 +91,8 @@ itkConnectedComponentImageFilterTestRGB(int argc, char * argv[])
     std::cerr << "minSize: " << minSize << std::endl;
   }
 
-  try
-  {
-    relabel->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << "Relabel: exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(relabel->Update());
+
 
   // Remap the labels to viewable colors
   RGBImageType::Pointer colored = RGBImageType::New();
@@ -137,17 +131,10 @@ itkConnectedComponentImageFilterTestRGB(int argc, char * argv[])
     ++cit;
   }
 
-  try
-  {
-    writer->SetInput(colored);
-    writer->SetFileName(argv[2]);
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-  }
+  writer->SetInput(colored);
+  writer->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   return EXIT_SUCCESS;

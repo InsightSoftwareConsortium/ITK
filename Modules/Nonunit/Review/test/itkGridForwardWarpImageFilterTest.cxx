@@ -29,7 +29,8 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
   if (argc != 2)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " outputImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " outputImage" << std::endl;
     return EXIT_FAILURE;
   }
 

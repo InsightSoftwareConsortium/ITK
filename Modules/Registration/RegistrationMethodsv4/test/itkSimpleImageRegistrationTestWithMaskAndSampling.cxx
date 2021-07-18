@@ -27,6 +27,7 @@
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkImageMaskSpatialObject.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
+#include "itkTestingMacros.h"
 
 template <typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -117,11 +118,12 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cout << argv[0]
-              << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
                  "numberOfDeformableIterations"
               << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   using PixelType = TPixel;
@@ -367,16 +369,8 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
     DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 
-  try
-  {
-    std::cout << "Displ. txf - gauss update" << std::endl;
-    displacementFieldSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldSimple->Update());
+
 
   using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename ImageMetricType::ConstPointer imageMetric = dynamic_cast<const ImageMetricType *>(affineSimple->GetMetric());
@@ -428,11 +422,12 @@ itkSimpleImageRegistrationTestWithMaskAndSampling(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cout << argv[0]
-              << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
                  "numberOfDeformableIterations"
               << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[2]))
@@ -459,6 +454,6 @@ itkSimpleImageRegistrationTestWithMaskAndSampling(int argc, char * argv[])
 
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
 }

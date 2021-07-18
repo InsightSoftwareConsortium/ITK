@@ -19,13 +19,16 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageFileWriterPastingTest1(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " input output" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -93,16 +96,8 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
     writer->SetIORegion(ioregion);
     writer->SetInput(reader->GetOutput());
 
-    try
-    {
-      writer->Update();
-    }
-    catch (const itk::ExceptionObject & err)
-    {
-      std::cerr << "ExceptionObject caught !" << std::endl;
-      std::cerr << err << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
   } // end for pieces
 
 

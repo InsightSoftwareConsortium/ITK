@@ -32,8 +32,7 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
               << std::endl;
     std::cerr << " input: the input image" << std::endl;
     std::cerr << " noisy: noise with the input image" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   constexpr int dim = 2;
@@ -71,5 +70,5 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
     }
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

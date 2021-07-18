@@ -23,14 +23,15 @@
 
 #include "itkGrayscaleGrindPeakImageFilter.h"
 #include "itkXorImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkRemoveBoundaryObjectsTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  ";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " outputImageFile  " << std::endl;
     return EXIT_FAILURE;
   }
@@ -84,7 +85,9 @@ itkRemoveBoundaryObjectsTest2(int argc, char * argv[])
 
   // Run the filter
   writer->SetInput(xorfilter->GetOutput());
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

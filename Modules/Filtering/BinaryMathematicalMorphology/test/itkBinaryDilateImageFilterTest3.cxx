@@ -21,14 +21,15 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkBinaryDilateImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
+#include "itkTestingMacros.h"
 
 int
 itkBinaryDilateImageFilterTest3(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " InputImage OutputImage Foreground Background BoundaryToForeground Radius" << std::endl;
     return EXIT_FAILURE;
   }
@@ -110,15 +111,8 @@ itkBinaryDilateImageFilterTest3(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

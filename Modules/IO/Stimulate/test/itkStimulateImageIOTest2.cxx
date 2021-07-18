@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkStimulateImageIO.h"
+#include "itkTestingMacros.h"
 
 #include <fstream>
 
@@ -30,7 +31,9 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   // Insight/Testing/Data/Input/BigEndian.spr
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " filename\n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " filename" << std::endl;
     return EXIT_FAILURE;
   }
 

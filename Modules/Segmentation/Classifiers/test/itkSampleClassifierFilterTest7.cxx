@@ -24,6 +24,7 @@
 
 #include "itkGaussianMixtureModelComponent.h"
 #include "itkExpectationMaximizationMixtureModelEstimator.h"
+#include "itkTestingMacros.h"
 
 // Sample classifier test using Gaussian Mixture model and EM estimator
 int
@@ -36,9 +37,9 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cout << "ERROR: Missing arguments.\t" << argv[0] << "Input_data_sample"
-              << "\t"
-              << "Target_data_sample" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cout << "Input_data_sample Target_data_sample" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -282,15 +283,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   filter->SetMembershipFunctions(membershipFunctionsObject);
   filter->SetMembershipFunctionsWeightsArray(weightArrayObjects);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   // Check if the measurement vectors are correctly labelled.

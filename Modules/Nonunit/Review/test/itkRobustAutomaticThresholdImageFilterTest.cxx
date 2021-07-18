@@ -32,8 +32,8 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
   if (argc != 7)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " inputImage outputImage pow insideValue outsideValue expectedThreshold"
-              << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImage outputImage pow insideValue outsideValue expectedThreshold" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -53,7 +53,9 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
   GradientType::Pointer gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
   gradient->SetSigma(10);
-  gradient->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(gradient->Update());
+
 
   using FilterType = itk::RobustAutomaticThresholdImageFilter<ImageType, RealImageType>;
   FilterType::Pointer filter = FilterType::New();

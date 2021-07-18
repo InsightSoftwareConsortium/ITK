@@ -152,16 +152,8 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
   affineSimple->AddObserver(itk::IterationEvent(), affineObserver);
 
-  try
-  {
-    std::cout << "Affine transform" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   //
   // Now do the displacement field transform with gaussian smoothing using
@@ -385,16 +377,8 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
     VelocityFieldRegistrationCommandType::New();
   velocityFieldRegistration->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 
-  try
-  {
-    std::cout << "Time-varying B-spline velocity field transform" << std::endl;
-    velocityFieldRegistration->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(velocityFieldRegistration->Update());
+
 
   compositeTransform->AddTransform(outputTransform);
 
@@ -454,12 +438,13 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cout << itkNameOfTestExecutableMacro(argv)
-              << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
               << "[numberOfDeformableIterationsLevel0 = 10] [numberOfDeformableIterationsLevel1 = 20] "
                  "[numberOfDeformableIterationsLevel2 = 11 ] [learningRate = 0.5]"
               << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[1]))
@@ -472,7 +457,7 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
 }
