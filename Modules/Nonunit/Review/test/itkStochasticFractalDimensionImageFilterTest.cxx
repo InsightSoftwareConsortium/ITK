@@ -42,30 +42,23 @@ public:
 
     using FractalFilterType = itk::StochasticFractalDimensionImageFilter<ImageType>;
     typename FractalFilterType::Pointer fractalFilter = FractalFilterType::New();
+
+    EXERCISE_BASIC_OBJECT_METHODS(fractalFilter, StochasticFractalDimensionImageFilter, ImageToImageFilter);
+
+
     fractalFilter->SetInput(imageReader->GetOutput());
 
     itk::SimpleFilterWatcher watcher(fractalFilter, "FractalDimensionFilter");
 
     typename FractalFilterType::RadiusType radius;
-    typename FractalFilterType::RadiusType radius2;
 
     radius.Fill(5);
     fractalFilter->SetNeighborhoodRadius(radius);
-    radius2 = fractalFilter->GetNeighborhoodRadius();
-    if (radius2[0] != 5)
-    {
-      std::cerr << "Error in Set/GetNeighborhoodRadius()" << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TEST_SET_GET_VALUE(radius, fractalFilter->GetNeighborhoodRadius());
 
     radius.Fill(2);
     fractalFilter->SetNeighborhoodRadius(radius);
-    radius2 = fractalFilter->GetNeighborhoodRadius();
-    if (radius2[0] != 2)
-    {
-      std::cerr << "Error in Set/GetNeighborhoodRadius()" << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TEST_SET_GET_VALUE(radius, fractalFilter->GetNeighborhoodRadius());
 
     if (argc > 4)
     {

@@ -92,6 +92,9 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest4(int argc, char * argv[])
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    levelSetFilter, ScalarChanAndVeseDenseLevelSetImageFilter, MultiphaseDenseFiniteDifferenceImageFilter);
+
 
   levelSetFilter->SetFunctionCount(1); // Protected ?
   levelSetFilter->SetFeatureImage(featureReader->GetOutput());
