@@ -185,8 +185,8 @@ itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0]
-              << "inputFileName"
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "inputFileName"
                  " outputFileName"
                  " order"
                  " sigma"

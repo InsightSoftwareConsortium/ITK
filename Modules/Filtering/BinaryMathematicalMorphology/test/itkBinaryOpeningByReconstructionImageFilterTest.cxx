@@ -30,9 +30,10 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output conn fg kernelSize" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output conn fg kernelSize" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr int dim = 2;
@@ -64,6 +65,9 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(reconstruction->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
-  return 0;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  return EXIT_SUCCESS;
 }

@@ -18,6 +18,7 @@
 
 #include "itkGDCMImageIO.h"
 #include "itkImageFileReader.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -29,7 +30,9 @@ itkGDCMImageIONoPreambleTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " DicomImage\n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " DicomImage" << std::endl;
     return EXIT_FAILURE;
   }
 

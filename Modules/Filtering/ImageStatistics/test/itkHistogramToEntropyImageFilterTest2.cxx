@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkJoinImageFilter.h"
 #include "itkHistogramToEntropyImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
@@ -29,8 +30,9 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << " inputScalarImageFileName outputImage" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputScalarImageFileName outputImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -47,17 +49,9 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
   reader1->SetFileName(argv[1]);
   reader2->SetFileName(argv[2]);
 
-  try
-  {
-    reader1->Update();
-    reader2->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader1->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
+
 
   using JoinFilterType = itk::JoinImageFilter<ScalarImageType, ScalarImageType>;
 
@@ -81,7 +75,8 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
   HistogramMeasurementVectorType imageMax(NumberOfComponents);
 
   minmaxFilter->SetInput(reader1->GetOutput());
-  minmaxFilter->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(minmaxFilter->Update());
 
   imageMin[0] = minmaxFilter->GetMinimum();
   imageMax[0] = minmaxFilter->GetMaximum();
@@ -109,7 +104,7 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
   histogramFilter->SetHistogramBinMinimum(imageMin);
   histogramFilter->SetHistogramBinMaximum(imageMax);
 
-  histogramFilter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(histogramFilter->Update());
 
 
   using HistogramType = HistogramFilterType::HistogramType;
@@ -129,15 +124,8 @@ itkHistogramToEntropyImageFilterTest2(int argc, char * argv[])
 
   writer->SetInput(histogramToImageFilter->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

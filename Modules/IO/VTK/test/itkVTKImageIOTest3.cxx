@@ -28,9 +28,10 @@ itkVTKImageIOTest3(int argc, char * argv[])
 
   if (argc != 2)
   {
+
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  polyDataFile" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "  polyDataFile" << std::endl;
     return EXIT_FAILURE;
   }
 

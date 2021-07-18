@@ -29,7 +29,8 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 9)
   {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputLabelImage inputGrayscaleImage outputStatisticsLabelMap";
     std::cerr << " backgroundValue";
     std::cerr << " feretDiameter, perimeter, histogram, numberOfBins";

@@ -21,14 +21,17 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkHistogramToProbabilityImageFilter.h"
+#include "itkTestingMacros.h"
+
 int
 itkHistogramToProbabilityImageFilterTest1(int argc, char * argv[])
 {
 
   if (argc < 3)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << " inputScalarImageFileName outputImage" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputScalarImageFileName outputImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -41,16 +44,8 @@ itkHistogramToProbabilityImageFilterTest1(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encoutered while reading image file : " << argv[1] << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
     itk::MinimumMaximumImageFilter<ScalarImageType>::New();
@@ -93,15 +88,8 @@ itkHistogramToProbabilityImageFilterTest1(int argc, char * argv[])
 
   writer->SetInput(histogramToImageFilter->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

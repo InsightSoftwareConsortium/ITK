@@ -115,11 +115,12 @@ PerformExpImageRegistration(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout
-      << itkNameOfTestExecutableMacro(argv)
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
       << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   itk::TimeProbesCollectorBase timer;
@@ -201,18 +202,11 @@ PerformExpImageRegistration(int argc, char * argv[])
     imageMetric->SetFloatingPointCorrectionResolution(1e4);
   }
 
-  try
-  {
-    std::cout << "Affine txf:" << std::endl;
-    timer.Start("4 affineSimple");
-    affineSimple->Update();
-    timer.Stop("4 affineSimple");
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  timer.Start("4 affineSimple");
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
+  timer.Stop("4 affineSimple");
 
   {
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
@@ -351,18 +345,12 @@ PerformExpImageRegistration(int argc, char * argv[])
     DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 
-  try
-  {
-    std::cout << "Displ. txf - gauss update" << std::endl;
-    timer.Start("6 displacementFieldSimple");
-    displacementFieldSimple->Update();
-    timer.Stop("6 displacementFieldSimple");
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  timer.Start("6 displacementFieldSimple");
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldSimple->Update());
+
+  timer.Stop("6 displacementFieldSimple");
+
 
   compositeTransform->AddTransform(displacementFieldSimple->GetModifiableTransform());
 
@@ -440,11 +428,12 @@ itkExponentialImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout
-      << itkNameOfTestExecutableMacro(argv)
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
       << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[1]))
@@ -457,7 +446,7 @@ itkExponentialImageRegistrationTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
 }

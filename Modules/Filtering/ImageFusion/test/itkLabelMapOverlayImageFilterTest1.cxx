@@ -21,6 +21,7 @@
 
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkLabelMapOverlayImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -28,9 +29,10 @@ itkLabelMapOverlayImageFilterTest1(int argc, char * argv[])
 {
   if (argc != 5)
   {
-    std::cerr << "usage: " << argv[0] << " input input output opacity" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input input output opacity" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr int dim = 2;

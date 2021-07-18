@@ -19,6 +19,7 @@
 #include "itkImageSeriesWriter.h"
 #include "itkNumericSeriesFileNames.h"
 #include "itkJPEG2000ImageIOFactory.h"
+#include "itkTestingMacros.h"
 
 #include <fstream>
 
@@ -27,7 +28,9 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " input outputdir extension" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input outputdir extension" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -41,16 +44,10 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   // reader->SetUseStreaming( true );
 
-  try
-  {
-    reader->Update();
-    reader->GetOutput()->Print(std::cout);
-  }
-  catch (const itk::ExceptionObject & ex)
-  {
-    std::cout << ex;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  reader->GetOutput()->Print(std::cout);
 
   //  Register the factory
   itk::JPEG2000ImageIOFactory::RegisterOneFactory();
@@ -78,16 +75,8 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
   writer->SetInput(reader->GetOutput());
   writer->SetFileNames(fit->GetFileNames());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while writing the series with SeriesFileNames generator" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

@@ -113,11 +113,12 @@ PerformBSplineExpImageRegistration(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout
-      << itkNameOfTestExecutableMacro(argv)
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
       << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   using PixelType = double;
@@ -190,16 +191,8 @@ PerformBSplineExpImageRegistration(int argc, char * argv[])
     imageMetric->SetFloatingPointCorrectionResolution(1e4);
   }
 
-  try
-  {
-    std::cout << "Affine txf:" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   {
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
@@ -342,16 +335,8 @@ PerformBSplineExpImageRegistration(int argc, char * argv[])
     DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 
-  try
-  {
-    std::cout << "Displ. txf - bspline update" << std::endl;
-    displacementFieldSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldSimple->Update());
+
 
   compositeTransform->AddTransform(displacementFieldSimple->GetModifiableTransform());
 
@@ -417,11 +402,12 @@ itkBSplineExponentialImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout
-      << itkNameOfTestExecutableMacro(argv)
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
       << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[1]))
@@ -434,7 +420,7 @@ itkBSplineExponentialImageRegistrationTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
 }

@@ -21,6 +21,7 @@
 #include "itkVariableLengthVector.h"
 #include "itkVectorImage.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 /*
  * Test itkGradientRecursiveGaussianFilter with various types
@@ -144,8 +145,6 @@ itkGradientRecursiveGaussianFilterTest3Run(typename TImageType::PixelType &   my
   return EXIT_SUCCESS;
 }
 
-////////////////////////////////////////////////////////////////////
-
 template <typename TGradImage1DType, typename TGradImageVectorType>
 int
 itkGradientRecursiveGaussianFilterTest3Compare(typename TGradImage1DType::Pointer     scalarPixelGradImage,
@@ -185,15 +184,13 @@ itkGradientRecursiveGaussianFilterTest3Compare(typename TGradImage1DType::Pointe
   return EXIT_SUCCESS;
 }
 
-////////////////////////////////////////////////////////////////////
-
 int
 itkGradientRecursiveGaussianFilterTest3(int argc, char * argv[])
 {
   if (argc != 8)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " outputImageFile1 outputImageFile2 outputImageFile3 outputImageFile4 outputImageFile5 "
                  "outputImageFile6 outputImageFile7"
               << std::endl;

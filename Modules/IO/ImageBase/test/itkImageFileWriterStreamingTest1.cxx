@@ -20,13 +20,16 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkPipelineMonitorImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageFileWriterStreamingTest1(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " input output [existingFile [ no-streaming 1|0] ]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output [existingFile [ no-streaming 1|0] ]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -79,17 +82,7 @@ itkImageFileWriterStreamingTest1(int argc, char * argv[])
   writer->SetInput(monitor->GetOutput());
   writer->SetNumberOfStreamDivisions(numberOfDataPieces);
 
-
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   bool passed = true;

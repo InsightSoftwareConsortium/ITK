@@ -41,7 +41,9 @@ itkRegionFromReferenceLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cerr << "usage: " << argv[0] << " input reference output" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input reference output" << std::endl;
     return EXIT_FAILURE;
   }
 

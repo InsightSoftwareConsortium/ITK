@@ -30,7 +30,8 @@ itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input output";
     std::cerr << " reverseOrdering attribute numberOfObjectsToKeep";
     std::cerr << std::endl;

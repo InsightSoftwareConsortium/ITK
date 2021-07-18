@@ -28,6 +28,14 @@ int
 itkResampleImageTest5(int argc, char * argv[])
 {
 
+  if (argc < 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cout << " scaling outputFilename" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   // Resample an RGB image
   constexpr unsigned int NDimensions = 2;
 
@@ -45,12 +53,6 @@ itkResampleImageTest5(int argc, char * argv[])
   using AffineTransformType = itk::AffineTransform<CoordRepType, NDimensions>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
-
-  if (argc < 2)
-  {
-    std::cout << "Usage: " << argv[0] << " scaling outputFilename" << std::endl;
-    return EXIT_FAILURE;
-  }
 
   float scaling = std::stod(argv[1]);
 

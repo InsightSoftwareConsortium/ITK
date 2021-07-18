@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int
 itkJPEGImageIOTest2(int argc, char * argv[])
@@ -24,7 +25,9 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   if (argc < 2)
   {
-    std::cerr << "Usage: " << argv[0] << " outputFilename " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " outputFilename " << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -65,29 +68,15 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   writer->SetInput(image);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   const ImageType * readImage = reader->GetOutput();
 

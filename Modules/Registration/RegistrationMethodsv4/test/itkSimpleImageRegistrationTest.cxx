@@ -118,11 +118,12 @@ PerformSimpleImageRegistration(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cout << itkNameOfTestExecutableMacro(argv)
-              << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
                  "numberOfDeformableIterations"
               << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   using PixelType = TPixel;
@@ -351,16 +352,8 @@ PerformSimpleImageRegistration(int argc, char * argv[])
     DisplacementFieldRegistrationCommandType::New();
   displacementFieldSimple->AddObserver(itk::IterationEvent(), displacementFieldObserver);
 
-  try
-  {
-    std::cout << "Displ. txf - gauss update" << std::endl;
-    displacementFieldSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldSimple->Update());
+
 
   using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename ImageMetricType::ConstPointer imageMetric = dynamic_cast<const ImageMetricType *>(affineSimple->GetMetric());
@@ -412,11 +405,12 @@ itkSimpleImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 7)
   {
-    std::cout << itkNameOfTestExecutableMacro(argv)
-              << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations "
                  "numberOfDeformableIterations"
               << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(121212);

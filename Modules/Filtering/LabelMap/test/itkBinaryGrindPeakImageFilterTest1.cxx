@@ -29,7 +29,9 @@ itkBinaryGrindPeakImageFilterTest1(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "Usage: " << argv[0] << " input output fullyConnected foreground background" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output fullyConnected foreground background" << std::endl;
     return EXIT_FAILURE;
   }
 

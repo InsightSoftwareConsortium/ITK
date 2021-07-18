@@ -21,14 +21,17 @@
 #include "itkRescaleIntensityImageFilter.h"
 
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkSignedDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
-    return -1;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " InputImage OutputImage" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr unsigned int ImageDimension = 2;
@@ -67,7 +70,9 @@ itkSignedDanielssonDistanceMapImageFilterTest2(int argc, char * argv[])
   writer->SetInput(rescaler->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

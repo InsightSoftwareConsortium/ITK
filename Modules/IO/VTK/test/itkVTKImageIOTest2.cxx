@@ -18,6 +18,7 @@
 
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -28,8 +29,9 @@ itkVTKImageIOTest2(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  output1 output2 " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "  output1 output2 " << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -52,15 +54,8 @@ itkVTKImageIOTest2(int argc, char * argv[])
 
   writer->SetInput(reader->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

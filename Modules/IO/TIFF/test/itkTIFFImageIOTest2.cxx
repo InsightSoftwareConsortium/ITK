@@ -26,7 +26,9 @@ itkTIFFImageIOTest2(int argc, char * argv[])
 
   if (argc != 2)
   {
-    std::cerr << "Usage: " << argv[0] << " outputFilename" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 

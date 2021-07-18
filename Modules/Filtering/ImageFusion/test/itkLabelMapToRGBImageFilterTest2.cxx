@@ -21,6 +21,7 @@
 
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkLabelMapToRGBImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -28,8 +29,10 @@ itkLabelMapToRGBImageFilterTest2(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "usage: " << argv[0] << " input output" << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr int dim = 2;
@@ -55,6 +58,9 @@ itkLabelMapToRGBImageFilterTest2(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(colorizer->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
-  return 0;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  return EXIT_SUCCESS;
 }

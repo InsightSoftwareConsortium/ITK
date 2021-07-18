@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkDirectFourierReconstructionImageToImageFilter.h"
+#include "itkTestingMacros.h"
 
 using InternalPixelType = double;
 using TestOutputPixelType = short int;
@@ -82,11 +83,10 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
 
   if (argc != 18)
   {
-    std::cerr << "Wrong number of input arguments" << std::endl;
-    std::cerr << "Usage : " << std::endl << "\t";
-    std::cerr << argv[0] << " input output r_dir z_dir alpha_dir nz ng fc nb alpha_range x y z sx sy sz sigma"
-              << std::endl;
-    return 1;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output r_dir z_dir alpha_dir nz ng fc nb alpha_range x y z sx sy sz sigma" << std::endl;
+    return EXIT_FAILURE;
   }
 
   ReaderType::Pointer reader = ReaderType::New();
@@ -100,6 +100,10 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
 
 
   ReconstructionFilterType::Pointer reconstruct = ReconstructionFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(reconstruct, DirectFourierReconstructionImageToImageFilter, ImageToImageFilter);
+
+
   if (std::stod(argv[17]) == 0)
   {
     reconstruct->SetInput(reader->GetOutput());
@@ -152,22 +156,9 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
   writer->UseCompressionOn();
   writer->SetInput(ROIFilter->GetOutput());
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "An error occurred somewhere:" << std::endl;
-    std::cerr << err << std::endl;
-    return 2;
-  }
 
-  std::cout << "Done" << std::endl;
-
-  std::cout << reconstruct << std::endl;
-
-  return 0;
-
-} // main
+  std::cout << "Test finished." << std::endl;
+  return EXIT_SUCCESS;
+}

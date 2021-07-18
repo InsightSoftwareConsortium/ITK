@@ -28,6 +28,7 @@
 #include "itkCorrelationImageToImageMetricv4.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkObjectToObjectMultiMetricv4.h"
+#include "itkTestingMacros.h"
 
 template <unsigned int TImageDimension>
 class RigidTransformTraits
@@ -134,11 +135,12 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout
-      << argv[0]
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
       << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   using PixelType = double;
@@ -308,16 +310,8 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   typename CommandType::Pointer affineObserver = CommandType::New();
   affineSimple->AddObserver(itk::IterationEvent(), affineObserver);
 
-  try
-  {
-    std::cout << "Affine txf:" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   {
     std::cout << "Affine parameters after registration: " << std::endl
@@ -357,8 +351,10 @@ itkSimpleImageRegistrationTest2(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout << argv[0] << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations" << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations" << std::endl;
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[1]))
@@ -371,6 +367,6 @@ itkSimpleImageRegistrationTest2(int argc, char * argv[])
 
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
 }

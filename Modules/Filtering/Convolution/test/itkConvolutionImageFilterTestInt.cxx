@@ -22,6 +22,7 @@
 #include "itkPipelineMonitorImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkConvolutionImageFilterTestInt(int argc, char * argv[])
@@ -29,8 +30,9 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cout << "Usage: " << argv[0] << " inputImage kernelImage outputImage [normalizeImage] [outputRegionMode]"
-              << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImage kernelImage outputImage [normalizeImage] [outputRegionMode]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -95,15 +97,8 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   writer->SetInput(streamingFilter->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   if (!monitor->VerifyAllInputCanStream(numberOfStreamDivisions))
   {

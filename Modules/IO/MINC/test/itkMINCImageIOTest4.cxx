@@ -26,6 +26,7 @@
 
 #include "itkImageMomentsCalculator.h"
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 template <typename ImageType>
 int
@@ -106,9 +107,9 @@ itkMINCImageIOTest4(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing Arguments " << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputfile outputfile [sum mx my mz ]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputfile outputfile [sum mx my mz ]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -133,9 +134,9 @@ itkMINCImageIOTest4(int argc, char * argv[])
     }
     else
     {
-      std::cerr << "Incorrecte number of additional arguments " << std::endl;
-      std::cerr << "Usage: " << std::endl;
-      std::cerr << argv[0] << " inputfile outputfile [sum mx my mz ]" << std::endl;
+      std::cerr << "Missing parameters." << std::endl;
+      std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+      std::cerr << " inputfile outputfile [sum mx my mz ]" << std::endl;
       return EXIT_FAILURE;
     }
   }

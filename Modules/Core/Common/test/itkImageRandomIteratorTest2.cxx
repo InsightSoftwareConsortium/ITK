@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkTestingComparisonImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -29,9 +30,9 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Missing arguments " << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  outputImageFile" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "  outputImageFile" << std::endl;
     std::cerr << "[baselineImage  differenceImage]" << std::endl;
     return EXIT_FAILURE;
   }
@@ -103,15 +104,8 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
     writer2->SetInput(difference->GetOutput());
 
-    try
-    {
-      writer2->Update();
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(writer2->Update());
+
 
     std::cout << "Number of pixels with differences = ";
     std::cout << difference->GetNumberOfPixelsWithDifferences() << std::endl;

@@ -20,6 +20,7 @@
 #include "itkMorphologicalGradientImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 #include <fstream>
 
 int
@@ -27,9 +28,9 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImage outputImage " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImage outputImage " << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -61,56 +62,42 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   writer->SetInput(gradient->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught ! " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  try
-  {
-    structuringElement.SetRadius(4);
-    gradient->SetAlgorithm(GradientType::AlgorithmEnum::BASIC);
-    gradient->Update();
-    const GradientType::AlgorithmEnum algorithmType1 = gradient->GetAlgorithm();
-    std::cout << "algorithmType1 : " << algorithmType1 << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return EXIT_FAILURE;
-  }
 
-  try
-  {
-    using SRType = itk::FlatStructuringElement<dim>;
-    SRType::RadiusType elementRadius;
-    elementRadius.Fill(4);
-    SRType structuringElement2 = SRType::Box(elementRadius);
-    using Gradient1Type = itk::MorphologicalGradientImageFilter<IType, IType, SRType>;
-    Gradient1Type::Pointer gradient1 = Gradient1Type::New();
-    gradient1->SetInput(reader->GetOutput());
-    gradient1->SetKernel(structuringElement2);
-    gradient1->SetAlgorithm(GradientType::AlgorithmEnum::VHGW);
-    gradient1->Update();
-    const GradientType::AlgorithmEnum algorithmType2 = gradient1->GetAlgorithm();
-    std::cout << "algorithmType : " << algorithmType2 << std::endl;
+  structuringElement.SetRadius(4);
+  gradient->SetAlgorithm(GradientType::AlgorithmEnum::BASIC);
 
-    gradient1->SetAlgorithm(GradientType::AlgorithmEnum::ANCHOR);
-    gradient1->Update();
-    const GradientType::AlgorithmEnum algorithmType3 = gradient1->GetAlgorithm();
-    std::cout << "algorithmType : " << algorithmType3 << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(gradient->Update());
+
+
+  const GradientType::AlgorithmEnum algorithmType1 = gradient->GetAlgorithm();
+  std::cout << "algorithmType1 : " << algorithmType1 << std::endl;
+
+
+  using SRType = itk::FlatStructuringElement<dim>;
+  SRType::RadiusType elementRadius;
+  elementRadius.Fill(4);
+  SRType structuringElement2 = SRType::Box(elementRadius);
+
+  using Gradient1Type = itk::MorphologicalGradientImageFilter<IType, IType, SRType>;
+  Gradient1Type::Pointer gradient1 = Gradient1Type::New();
+  gradient1->SetInput(reader->GetOutput());
+  gradient1->SetKernel(structuringElement2);
+  gradient1->SetAlgorithm(GradientType::AlgorithmEnum::VHGW);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(gradient1->Update());
+
+
+  const GradientType::AlgorithmEnum algorithmType2 = gradient1->GetAlgorithm();
+  std::cout << "algorithmType : " << algorithmType2 << std::endl;
+
+  gradient1->SetAlgorithm(GradientType::AlgorithmEnum::ANCHOR);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(gradient1->Update());
+
+  const GradientType::AlgorithmEnum algorithmType3 = gradient1->GetAlgorithm();
+  std::cout << "algorithmType : " << algorithmType3 << std::endl;
 
   return EXIT_SUCCESS;
 }
