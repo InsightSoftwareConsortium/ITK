@@ -20,6 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkScalarChanAndVeseDenseLevelSetImageFilterTest2(int argc, char * argv[])
@@ -75,7 +76,10 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest2(int argc, char * argv[])
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 
-  levelSetReader1->Update();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    levelSetFilter, ScalarChanAndVeseDenseLevelSetImageFilter, MultiphaseDenseFiniteDifferenceImageFilter);
+
+
   levelSetFilter->SetFunctionCount(1); // Protected ?
   levelSetFilter->SetFeatureImage(featureReader->GetOutput());
   levelSetFilter->SetLevelSet(0, levelSetReader1->GetOutput());
