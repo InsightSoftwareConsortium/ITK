@@ -19,6 +19,7 @@
 #include "itkScalarImageToHistogramGenerator.h"
 #include "itkMinimumMaximumImageFilter.h"
 #include "itkImageFileReader.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageToHistogramFilterTest3(int argc, char * argv[])
@@ -26,8 +27,9 @@ itkImageToHistogramFilterTest3(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0] << " inputScalarImageFileName outputHistogramFile.txt" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputScalarImageFileName outputHistogramFile.txt" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -39,16 +41,9 @@ itkImageToHistogramFilterTest3(int argc, char * argv[])
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encountered while reading image file : " << argv[1] << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   itk::MinimumMaximumImageFilter<ScalarImageType>::Pointer minmaxFilter =
     itk::MinimumMaximumImageFilter<ScalarImageType>::New();

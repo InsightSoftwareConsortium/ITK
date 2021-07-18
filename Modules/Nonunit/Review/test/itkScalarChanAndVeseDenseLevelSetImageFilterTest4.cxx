@@ -21,6 +21,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkAtanRegularizedHeavisideStepFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkScalarChanAndVeseDenseLevelSetImageFilterTest4(int argc, char * argv[])
@@ -28,9 +29,9 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest4(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputLevelSetImage inputFeatureImage ";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "inputLevelSetImage inputFeatureImage ";
     std::cerr << " outputLevelSetImage CurvatureWeight AreaWeight";
     std::cerr << " ReinitializationWeight VolumeWeight Volume" << std::endl;
     return EXIT_FAILURE;
@@ -79,15 +80,19 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest4(int argc, char * argv[])
 
   LevelSetReaderType::Pointer levelSetReader1 = LevelSetReaderType::New();
   levelSetReader1->SetFileName(argv[1]);
-  levelSetReader1->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(levelSetReader1->Update());
+
 
   FeatureReaderType::Pointer featureReader = FeatureReaderType::New();
   featureReader->SetFileName(argv[2]);
-  featureReader->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(featureReader->Update());
+
 
   MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
 
-  levelSetReader1->Update();
+
   levelSetFilter->SetFunctionCount(1); // Protected ?
   levelSetFilter->SetFeatureImage(featureReader->GetOutput());
   levelSetFilter->SetLevelSet(0, levelSetReader1->GetOutput());
@@ -105,8 +110,8 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest4(int argc, char * argv[])
   levelSetFilter->GetDifferenceFunction(0)->SetLambda1(l1);
   levelSetFilter->GetDifferenceFunction(0)->SetLambda2(l2);
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(levelSetFilter->Update());
 
-  levelSetFilter->Update();
 
   WriterType::Pointer writer1 = WriterType::New();
 
@@ -115,16 +120,8 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest4(int argc, char * argv[])
 
   writer1->SetFileName(argv[3]);
 
-  try
-  {
-    writer1->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer1->Update());
+
 
   return EXIT_SUCCESS;
 }

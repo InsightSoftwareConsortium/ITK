@@ -28,9 +28,10 @@ itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
 
   if (argc != 3)
   {
-    std::cerr << "usage: " << argv[0] << " label input" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " label input" << std::endl;
+    return EXIT_FAILURE;
   }
 
   // declare the dimension used, and the type of the input image
@@ -76,6 +77,9 @@ itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
     // the label object
     LabelObjectType * labelObject = it.GetLabelObject();
 
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(labelObject, AttributeLabelObject, LabelObject);
+
+
     // init the vars
     double        mean = 0;
     unsigned long size = 0;
@@ -100,9 +104,7 @@ itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
     // make sure that the accessor provide the same values than the GetAttribute() method
     itk::Functor::AttributeLabelObjectAccessor<LabelObjectType> accessor;
     ITK_TEST_SET_GET_VALUE(accessor(labelObject), labelObject->GetAttribute());
-    // exercise the print self method
-    labelObject->Print(std::cout);
   }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

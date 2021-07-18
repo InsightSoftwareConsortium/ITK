@@ -23,6 +23,7 @@
 
 #include "itkBSplineDeformableTransform.h"
 #include "itkSimilarity2DTransform.h"
+#include "itkTestingMacros.h"
 
 #include <fstream>
 
@@ -79,16 +80,7 @@ public:
     typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
     fixedReader->SetFileName(argv[2]);
 
-    try
-    {
-      fixedReader->Update();
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << "Exception thrown " << std::endl;
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
 
 
     typename MovingReaderType::Pointer movingReader = MovingReaderType::New();
@@ -210,16 +202,7 @@ public:
 
     resampler->SetTransform(bsplineTransform);
 
-    try
-    {
-      itk::WriteImage(resampler->GetOutput(), argv[4]);
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << "Exception thrown " << std::endl;
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(resampler->GetOutput(), argv[4]));
 
 
     using VectorType = itk::Vector<float, ImageDimension>;
@@ -255,16 +238,7 @@ public:
 
     if (argc >= 6)
     {
-      try
-      {
-        itk::WriteImage(field, argv[5]);
-      }
-      catch (const itk::ExceptionObject & excp)
-      {
-        std::cerr << "Exception thrown " << std::endl;
-        std::cerr << excp << std::endl;
-        return EXIT_FAILURE;
-      }
+      ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(field, argv[5]));
     }
     return EXIT_SUCCESS;
   }
@@ -277,8 +251,8 @@ itkBSplineDeformableTransformTest3(int argc, char * argv[])
 
   if (argc < 7)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " coefficientsFile fixedImage ";
     std::cerr << "movingImage deformedMovingImage" << std::endl;
     std::cerr << "[deformationField][multithreader use #threads]" << std::endl;

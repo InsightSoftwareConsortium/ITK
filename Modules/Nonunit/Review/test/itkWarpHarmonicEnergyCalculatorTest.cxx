@@ -28,7 +28,8 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   if (argc != 4)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " useImageSpacing"
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " useImageSpacing"
               << " derivativeWeights"
               << " expectedEnergy" << std::endl;
     return EXIT_FAILURE;

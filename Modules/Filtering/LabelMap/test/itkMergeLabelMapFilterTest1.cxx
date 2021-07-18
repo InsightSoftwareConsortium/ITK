@@ -30,7 +30,8 @@ itkMergeLabelMapFilterTest1(int argc, char * argv[])
 {
   if (argc != 8)
   {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input1 input2 output background1 background2 method expectfailure" << std::endl;
     return EXIT_FAILURE;
   }

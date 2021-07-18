@@ -35,6 +35,7 @@
 #include "itkCommand.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 #include <iomanip>
 
@@ -44,8 +45,8 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " fixedImageFile movingImageFile ";
     std::cerr << " outputImageFile ";
     std::cerr << " [gradientTolerance=1e-4] [max function iterations=100] [lineSearchTol=0.9] [stepLength=1.0] "
@@ -187,21 +188,8 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   optimizer->SetDefaultStepLength(stepLength);
   std::cout << "Initial stop description   = " << optimizer->GetStopConditionDescription() << std::endl;
 
-  // optimize
-  try
-  {
-    optimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during deformation Optimization:" << std::endl;
-    std::cerr << e.GetLocation() << std::endl;
-    std::cerr << e.GetDescription() << std::endl;
-    std::cerr << e.what() << std::endl;
-    std::cerr << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
+
 
   std::cout << "Number of threads: metric: " << metric->GetNumberOfWorkUnitsUsed()
             << " optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
@@ -230,7 +218,9 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   caster->SetInput(resample->GetOutput());
   writer->SetInput(caster->GetOutput());
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
   return EXIT_SUCCESS;

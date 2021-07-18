@@ -72,7 +72,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   }
   if (violated)
   {
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   using PixelType = signed short;
@@ -204,16 +204,9 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   kmeansFilter->SetUseNonContiguousLabels(useNonContiguousLabels);
 
   std::cout << "kmeansFilter->Update [[Watch out for infinite loop here!]] " << std::endl;
-  try
-  {
-    kmeansFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encountered while running K-means segmentation ";
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(kmeansFilter->Update());
+
 
   KMeansFilterType::ParametersType estimatedMeans = kmeansFilter->GetFinalMeans();
 
@@ -245,17 +238,8 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   kmeansNonBrainFilter->AddClassWithInitialMean(fatInitialMean);
   kmeansNonBrainFilter->SetUseNonContiguousLabels(useNonContiguousLabels);
 
-  std::cout << "kmeansNonBrainFilter->Update " << std::endl;
-  try
-  {
-    kmeansNonBrainFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Problem encountered while Background K-Means segmentation ";
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(kmeansNonBrainFilter->Update());
+
 
   estimatedMeans = kmeansNonBrainFilter->GetFinalMeans();
 
@@ -334,13 +318,13 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
     }
   }
 
-  /* Write out the resulting Label Image */
+  // Write out the resulting Label Image
   using WriterType = itk::ImageFileWriter<LabelImageType>;
   WriterType::Pointer labelWriter = WriterType::New();
   labelWriter->SetInput(kmeansLabelImage);
   labelWriter->SetFileName(outputLabelMapVolume);
-  std::cout << "labelWriter->Update " << std::endl;
-  labelWriter->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(labelWriter->Update());
 
 
   return EXIT_SUCCESS;

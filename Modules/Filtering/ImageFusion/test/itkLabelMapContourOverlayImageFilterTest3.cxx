@@ -20,6 +20,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkLabelMapContourOverlayImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -27,8 +28,9 @@ itkLabelMapContourOverlayImageFilterTest3(int argc, char * argv[])
 {
   if (argc != 9)
   {
-    std::cerr << "usage: " << argv[0] << " input input output opacity type thickness dilation priority sliceDim"
-              << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input input output opacity type thickness dilation priority sliceDim" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -75,15 +77,9 @@ itkLabelMapContourOverlayImageFilterTest3(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(colorizer->GetOutput());
   writer->SetFileName(argv[3]);
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << "Unexpected exception." << std::endl;
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
-  return 0;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  return EXIT_SUCCESS;
 }

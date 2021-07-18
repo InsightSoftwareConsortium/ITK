@@ -21,7 +21,7 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
+#include "itkTestingMacros.h"
 
 namespace
 {
@@ -56,9 +56,8 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 
   if (argc < 8)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << argv[0] << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "fixedImage movingImage resampledImage" << std::endl;
     std::cerr << "GradientEnum [0=Symmetric,1=Fixed,2=WarpedMoving,3=MappedMoving]" << std::endl;
     std::cerr << "UseFirstOrderExp [0=No,1=Yes]" << std::endl;
@@ -87,16 +86,9 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 
   writer->SetFileName(argv[3]);
 
-  try
-  {
-    fixedReader->Update();
-    movingReader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(movingReader->Update());
+
 
   //-------------------------------------------------------------
   std::cout << "Run registration and warp moving" << std::endl;
@@ -210,15 +202,8 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   writer->SetInput(warper->GetOutput());
   writer->UseCompressionOn();
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   std::cout << "Test passed" << std::endl;
   return EXIT_SUCCESS;

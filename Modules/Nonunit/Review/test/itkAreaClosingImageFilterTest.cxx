@@ -21,6 +21,7 @@
 
 #include "itkSimpleFilterWatcher.h"
 #include "itkAreaClosingImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkAreaClosingImageFilterTest(int argc, char * argv[])
@@ -28,7 +29,9 @@ itkAreaClosingImageFilterTest(int argc, char * argv[])
 
   if (argc != 6)
   {
-    std::cerr << "usage: " << argv[0] << " inputImage outputImage lambda conn use_spacing" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImage outputImage lambda conn use_spacing" << std::endl;
     std::cerr << "  inputImage: The input image." << std::endl;
     std::cerr << "  outputImage: The output image." << std::endl;
     return EXIT_SUCCESS;
@@ -108,15 +111,8 @@ itkAreaClosingImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

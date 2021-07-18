@@ -22,6 +22,7 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 constexpr unsigned int VDimension = 3;
@@ -240,7 +241,9 @@ itkImageFileWriterStreamingPastingCompressingTest1(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " input outputBase outputExtension [expect exception (0|1)] ..." << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input outputBase outputExtension [expect exception (0|1)] ..." << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -31,7 +31,9 @@ itkChangeRegionLabelMapFilterTest1(int argc, char * argv[])
 
   if (argc != 7)
   {
-    std::cerr << "usage: " << argv[0] << " input output idx0 idx1 size0 size1" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output idx0 idx1 size0 size1" << std::endl;
     return EXIT_FAILURE;
   }
 

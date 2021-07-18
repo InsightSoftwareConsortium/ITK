@@ -23,6 +23,7 @@
 
 #include "itkCSVArray2DFileReader.h"
 #include "itkCSVNumericObjectFileWriter.h"
+#include "itkTestingMacros.h"
 
 // Helper function declaration.
 template <const unsigned int NDimension>
@@ -43,8 +44,9 @@ itkLabelGeometryImageFilterTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "labelImage intensityImage outputImage outputFileName [compareFileName]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << "labelImage intensityImage outputImage outputFileName [compareFileName]" << std::endl;
     return EXIT_FAILURE;
   }
   // Legacy compat with older MetaImages
@@ -120,14 +122,8 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   labelGeometryFilter->CalculateOrientedLabelRegionsOn();
   labelGeometryFilter->CalculateOrientedIntensityRegionsOn();
 
-  try
-  {
-    labelGeometryFilter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(labelGeometryFilter->Update());
+
 
   // Write out the oriented image of the first object.
   typename LabelGeometryType::LabelPixelType labelValue = 1;
@@ -135,14 +131,9 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   typename IntensityWriterType::Pointer intensityWriter = IntensityWriterType::New();
   intensityWriter->SetFileName(outputImageName);
   intensityWriter->SetInput(labelGeometryFilter->GetOrientedIntensityImage(labelValue));
-  try
-  {
-    intensityWriter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e << std::endl;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(intensityWriter->Update());
+
 
   // Write all of the object features out to a csv file.
   int numberOfLabels = labelGeometryFilter->GetNumberOfLabels();
@@ -220,16 +211,10 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   MatrixType * matrixPointer;
   matrixPointer = new MatrixType(matrix.data_block(), numberOfLabels, numberOfColumns);
   writer->SetInput(matrixPointer);
-  try
-  {
-    writer->Write();
-  }
-  catch (const itk::ExceptionObject & exp)
-  {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << exp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Write());
+
+
   delete matrixPointer;
 
   // If an optional csv file was passed in, compare the results of this analysis with the values in the file.
@@ -251,17 +236,10 @@ LabelGeometryImageFilterTest(std::string labelImageName,
     compareReader->SetFieldDelimiterCharacter(',');
     compareReader->HasColumnHeadersOn();
     compareReader->HasRowHeadersOff();
-    try
-    {
-      newReader->Parse();
-      compareReader->Parse();
-    }
-    catch (const itk::ExceptionObject & exp)
-    {
-      std::cerr << "Exception caught!" << std::endl;
-      std::cerr << exp << std::endl;
-      return EXIT_FAILURE;
-    }
+
+    ITK_TRY_EXPECT_NO_EXCEPTION(newReader->Parse());
+    ITK_TRY_EXPECT_NO_EXCEPTION(compareReader->Parse());
+
 
     using DataFrameObjectType = itk::CSVArray2DDataObject<double>;
     DataFrameObjectType::Pointer newDFO = DataFrameObjectType::New();

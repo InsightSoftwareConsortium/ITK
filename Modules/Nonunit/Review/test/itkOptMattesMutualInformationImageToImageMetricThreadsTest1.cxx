@@ -19,6 +19,7 @@
 #include "itkTranslationTransform.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
+#include "itkTestingMacros.h"
 
 int
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * argv[])
@@ -26,9 +27,9 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
   if (argc < 3)
   {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage " << std::endl;
-    std::cerr << argv[0] << " fixedImage movingImage [verbose(1/0)] [numberOfSamples]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " fixedImage movingImage [verbose(1/0)] [numberOfSamples]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -64,16 +65,9 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
     verbose = std::stoi(argv[3]);
   }
 
-  try
-  {
-    fixedImageReader->Update();
-    movingImageReader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(fixedImageReader->Update());
+  ITK_TRY_EXPECT_NO_EXCEPTION(movingImageReader->Update());
+
 
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType>;
 

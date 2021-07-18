@@ -102,11 +102,12 @@ PerformBSplineImageRegistration(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout
-      << itkNameOfTestExecutableMacro(argv)
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
       << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   using PixelType = double;
@@ -175,16 +176,8 @@ PerformBSplineImageRegistration(int argc, char * argv[])
     imageMetric->SetFloatingPointCorrectionResolution(1e4);
   }
 
-  try
-  {
-    std::cout << "Affine txf:" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   {
     using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
@@ -318,16 +311,8 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   typename BSplineRegistrationCommandType::Pointer bsplineObserver = BSplineRegistrationCommandType::New();
   bsplineRegistration->AddObserver(itk::IterationEvent(), bsplineObserver);
 
-  try
-  {
-    std::cout << "BSpline. txf - bspline update" << std::endl;
-    bsplineRegistration->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(bsplineRegistration->Update());
+
 
   compositeTransform->AddTransform(bsplineRegistration->GetModifiableTransform());
 
@@ -364,11 +349,12 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 6)
   {
-    std::cout
-      << itkNameOfTestExecutableMacro(argv)
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr
       << " imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations"
       << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[1]))
@@ -381,7 +367,7 @@ itkBSplineImageRegistrationTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
 
   // Test streaming enumeration for ImageRegistrationMethodv4Enums::MetricSamplingStrategy elements

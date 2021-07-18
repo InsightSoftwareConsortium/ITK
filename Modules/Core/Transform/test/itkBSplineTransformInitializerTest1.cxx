@@ -35,8 +35,8 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   if (argc < 5)
   {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " coefficientsFile fixedImage";
     std::cerr << " movingImage deformedMovingImage" << std::endl;
     std::cerr << " [deformationField]" << std::endl;
@@ -55,16 +55,8 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName(argv[2]);
 
-  try
-  {
-    fixedReader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
+
 
   MovingReaderType::Pointer movingReader = MovingReaderType::New();
 
@@ -146,16 +138,8 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   resampler->SetTransform(bsplineTransform);
 
-  try
-  {
-    itk::WriteImage(resampler->GetOutput(), argv[4]);
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(resampler->GetOutput(), argv[4]));
+
 
   using VectorType = itk::Vector<float, ImageDimension>;
   using DeformationFieldType = itk::Image<VectorType, ImageDimension>;
@@ -192,16 +176,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   if (argc >= 6)
   {
-    try
-    {
-      itk::WriteImage(field, argv[5]);
-    }
-    catch (const itk::ExceptionObject & excp)
-    {
-      std::cerr << "Exception thrown " << std::endl;
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(field, argv[5]));
   }
 
   return EXIT_SUCCESS;

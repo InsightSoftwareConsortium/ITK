@@ -22,6 +22,7 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkExtractImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
+#include "itkTestingMacros.h"
 
 using PixelType = unsigned char;
 using ImageType = itk::Image<PixelType, 3>;
@@ -57,7 +58,9 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " input output [existingFile]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output [existingFile]" << std::endl;
     return EXIT_FAILURE;
   }
 

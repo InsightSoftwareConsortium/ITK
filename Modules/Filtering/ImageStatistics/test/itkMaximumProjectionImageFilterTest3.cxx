@@ -20,6 +20,7 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkMaximumProjectionImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -27,8 +28,8 @@ itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << "Dimension Inputimage Outputimage " << std::endl;
     return EXIT_FAILURE;
   }
@@ -57,33 +58,14 @@ itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   // Set ProjectionDimension to a bad value
-  bool caught = false;
-  try
-  {
-    filter->SetProjectionDimension(100);
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << std::endl << "Caught expected exception!";
-    std::cerr << excp << std::endl;
-    caught = true;
-  }
-  if (!caught)
-  {
-    std::cerr << "Failed to catch expected exception!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  filter->SetProjectionDimension(100);
+
+  ITK_TRY_EXPECT_EXCEPTION(writer->Update());
+
+
   return EXIT_SUCCESS;
 }

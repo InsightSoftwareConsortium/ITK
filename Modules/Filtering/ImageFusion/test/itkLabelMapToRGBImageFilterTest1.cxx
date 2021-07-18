@@ -29,9 +29,10 @@ itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "usage: " << argv[0] << " input output" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " input output" << std::endl;
+    return EXIT_FAILURE;
   }
 
   constexpr int dim = 2;
@@ -71,5 +72,5 @@ itkLabelMapToRGBImageFilterTest1(int argc, char * argv[])
   colorizer->GetFunctor().AddColor(0, 255, 0);
   ITK_TEST_EXPECT_TRUE(colorizer->GetFunctor() != functor);
 
-  return 0;
+  return EXIT_SUCCESS;
 }

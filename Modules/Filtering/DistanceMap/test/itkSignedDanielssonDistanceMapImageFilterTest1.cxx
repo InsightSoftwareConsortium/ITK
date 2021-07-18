@@ -19,6 +19,7 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSignedDanielssonDistanceMapImageFilter.h"
+#include "itkTestingMacros.h"
 
 // Convenience function to template over dimension and avoid code duplication.
 template <unsigned int ImageDimension>
@@ -61,7 +62,9 @@ itkSignedDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage [ImageDimension]\n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " InputImage OutputImage [ImageDimension]" << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -128,16 +128,8 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
   typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
   affineSimple->AddObserver(itk::IterationEvent(), affineObserver);
 
-  try
-  {
-    std::cout << "Affine transform" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   //
   // Now do the b-spline syn displacement field transform
@@ -306,16 +298,8 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
   displacementFieldRegistration->SetInitialTransform(outputTransform);
   displacementFieldRegistration->InPlaceOn();
 
-  try
-  {
-    std::cout << "BSpline SyN registration" << std::endl;
-    displacementFieldRegistration->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldRegistration->Update());
+
 
   compositeTransform->AddTransform(outputTransform);
 
@@ -373,10 +357,11 @@ itkBSplineSyNImageRegistrationTest(int argc, char * argv[])
 {
   if (argc < 5)
   {
-    std::cout << itkNameOfTestExecutableMacro(argv)
-              << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate"
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " imageDimension fixedImage movingImage outputPrefix numberOfDeformableIterations learningRate"
               << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
   }
 
   switch (std::stoi(argv[1]))
@@ -389,7 +374,7 @@ itkBSplineSyNImageRegistrationTest(int argc, char * argv[])
       break;
     default:
       std::cerr << "Unsupported dimension" << std::endl;
-      exit(EXIT_FAILURE);
+      return EXIT_FAILURE;
   }
   return EXIT_SUCCESS;
 }

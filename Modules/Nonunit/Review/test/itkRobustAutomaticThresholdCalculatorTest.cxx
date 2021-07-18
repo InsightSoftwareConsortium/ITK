@@ -30,7 +30,8 @@ itkRobustAutomaticThresholdCalculatorTest(int argc, char * argv[])
   if (argc != 4)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << argv[0] << " inputImage pow expectedOutput" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImage pow expectedOutput" << std::endl;
     return EXIT_FAILURE;
   }
 

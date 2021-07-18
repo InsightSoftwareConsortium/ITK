@@ -36,7 +36,8 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   // Then, argc != 6
   if (argc != 7)
   {
-    std::cerr << "Usage: " << argv[0];
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input feature output dilationOutput";
     std::cerr << " reverseOrdering attribute";
     std::cerr << std::endl;
