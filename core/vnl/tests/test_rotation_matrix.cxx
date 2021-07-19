@@ -6,6 +6,7 @@
 
 
 #include <iostream>
+#include <limits>
 
 #include "testlib/testlib_test.h"
 
