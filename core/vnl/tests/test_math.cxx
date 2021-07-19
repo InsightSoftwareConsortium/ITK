@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <limits>
 #include <type_traits>
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_complex.h" // for vnl_math::abs(std::complex)

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <iomanip>
+#include <limits>
 #include <sstream>
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_na.h"

@@ -735,7 +735,7 @@ class VNL_EXPORT vnl_matrix
 //--------------------------------------------------------------------------------
 
  protected:
-  vnl_matrix<T>( unsigned ext_num_rows, unsigned ext_num_cols,
+  vnl_matrix( unsigned ext_num_rows, unsigned ext_num_cols,
       T * continuous_external_memory_block, bool manage_own_memory )
   : num_rows{ ext_num_rows}
   , num_cols{ ext_num_cols}
