@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 #include "testlib/testlib_test.h"
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_random.h"
