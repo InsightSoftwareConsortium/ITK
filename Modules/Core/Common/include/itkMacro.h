@@ -610,15 +610,8 @@ OutputWindowDisplayDebugText(const char *);
 //   Provide legacy methods with no warnings.
 #    define itkLegacyMacro(method) method
 #  else
-//   Setup compile-time warnings for uses of deprecated methods if
-//   possible on this compiler.
-#    if defined(__GNUC__) && !defined(__INTEL_COMPILER)
-#      define itkLegacyMacro(method) method __attribute__((deprecated))
-#    elif defined(_MSC_VER)
-#      define itkLegacyMacro(method) __declspec(deprecated) method
-#    else
-#      define itkLegacyMacro(method) method
-#    endif
+//   Request compile-time warnings for uses of deprecated methods.
+#    define itkLegacyMacro(method) [[deprecated]] method
 #  endif
 #endif
 
