@@ -16,9 +16,6 @@
  *
  *=========================================================================*/
 
-// we need to test the deprecated itkStaticAssert
-#define ITK_LEGACY_TEST
-
 #include "itkMetaProgrammingLibrary.h"
 #include "itkIsSame.h"
 #include "itkStaticAssert.h"
@@ -28,6 +25,8 @@ int
 itkMetaProgrammingLibraryTest(int, char *[])
 {
   using namespace itk::mpl;
+
+#if !defined(ITK_LEGACY_REMOVE)
 
   // Or between constants
   itkStaticAssert((OrC<true, true, true>::Value == true), "Unit test failed");
@@ -88,6 +87,8 @@ itkMetaProgrammingLibraryTest(int, char *[])
   // Not between types
   itkStaticAssert((IsSame<Not<TrueType>::Type, FalseType>::Value), "Unit test failed");
   itkStaticAssert((IsSame<Not<FalseType>::Type, TrueType>::Value), "Unit test failed");
+
+#endif
 
   return EXIT_SUCCESS;
 }
