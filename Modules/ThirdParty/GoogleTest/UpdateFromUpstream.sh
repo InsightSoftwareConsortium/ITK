@@ -1,24 +1,25 @@
 #!/usr/bin/env bash
 
-thirdparty_module_name='GoogleTest'
+set -e
+set -x
+shopt -s dotglob
 
-upstream_git_url='https://github.com/google/googletest.git'
-upstream_git_branch='release-1.10.0'
-
-github_compare=true
-
-snapshot_author_name='GoogleTest Upstream'
-snapshot_author_email='googletestframework@googlegroups.com'
-
-snapshot_redact_cmd=''
-snapshot_relative_path='src/itkgoogletest'
-snapshot_paths='
+readonly name="GoogleTest"
+readonly ownership="GoogleTest Upstream <googletestframework@googlegroups.com>"
+readonly subtree="Modules/ThirdParty/GoogleTest/src/itkgoogletest"
+readonly repo="https://github.com/google/googletest.git"
+readonly tag="master"
+readonly shortlog=false
+readonly paths="
 CMakeLists.txt
 googletest/CMakeLists.txt
 googletest/cmake
 googletest/src
 googletest/include
-'
+"
 
-source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
-update_from_upstream
+extract_source () {
+    git_archive
+}
+
+. "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
