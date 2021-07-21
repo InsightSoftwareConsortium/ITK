@@ -29,15 +29,19 @@ template <typename TParametersValueType, unsigned NDimensions>
 void
 Check_New_MatrixOffsetTransformBase()
 {
-  const auto transformBase = itk::MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>::New();
+  using MatrixOffsetTransformBaseType = itk::MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
+
+  const auto transformBase = MatrixOffsetTransformBaseType::New();
 
   EXPECT_TRUE(transformBase->GetMatrix().GetVnlMatrix().is_identity());
 
-  const auto zeroFilledFixedArray = itk::FixedArray<double, NDimensions>::Filled(0.0);
+  using OutputVectorType = typename MatrixOffsetTransformBaseType::OutputVectorType;
+  using InputPointType = typename MatrixOffsetTransformBaseType::InputPointType;
 
-  EXPECT_EQ(zeroFilledFixedArray, transformBase->GetOffset());
-  EXPECT_EQ(zeroFilledFixedArray, transformBase->GetCenter());
-  EXPECT_EQ(zeroFilledFixedArray, transformBase->GetTranslation());
+  // Expect that the offset, center, and translation are all entirely zero.
+  EXPECT_EQ(transformBase->GetOffset(), OutputVectorType());
+  EXPECT_EQ(transformBase->GetCenter(), InputPointType());
+  EXPECT_EQ(transformBase->GetTranslation(), OutputVectorType());
 }
 
 
