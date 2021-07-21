@@ -141,10 +141,7 @@ public:
   }
 
 protected:
-  AttributeLabelObject()
-  {
-    // how to initialize the attribute ?
-  }
+  AttributeLabelObject() = default;
 
 
   void
@@ -156,7 +153,7 @@ protected:
   }
 
 private:
-  AttributeValueType m_Attribute;
+  AttributeValueType m_Attribute{};
 };
 
 } // end namespace itk
