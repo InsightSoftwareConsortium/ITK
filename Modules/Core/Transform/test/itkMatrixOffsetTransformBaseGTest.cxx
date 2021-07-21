@@ -33,10 +33,11 @@ Check_New_MatrixOffsetTransformBase()
 
   EXPECT_TRUE(transformBase->GetMatrix().GetVnlMatrix().is_identity());
 
-  const auto zeroFilledFixedArray = itk::FixedArray<double, NDimensions>::Filled(0.0);
+  using DoubleFixedArray = itk::FixedArray<double, NDimensions>;
+  const auto zeroFilledFixedArray = DoubleFixedArray::Filled(0.0);
 
   EXPECT_EQ(zeroFilledFixedArray, transformBase->GetOffset());
-  EXPECT_EQ(zeroFilledFixedArray, transformBase->GetCenter());
+  EXPECT_EQ(zeroFilledFixedArray, static_cast<DoubleFixedArray>(transformBase->GetCenter()));
   EXPECT_EQ(zeroFilledFixedArray, transformBase->GetTranslation());
 }
 
