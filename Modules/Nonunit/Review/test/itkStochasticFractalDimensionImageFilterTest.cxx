@@ -43,7 +43,7 @@ public:
     using FractalFilterType = itk::StochasticFractalDimensionImageFilter<ImageType>;
     typename FractalFilterType::Pointer fractalFilter = FractalFilterType::New();
 
-    EXERCISE_BASIC_OBJECT_METHODS(fractalFilter, StochasticFractalDimensionImageFilter, ImageToImageFilter);
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fractalFilter, StochasticFractalDimensionImageFilter, ImageToImageFilter);
 
 
     fractalFilter->SetInput(imageReader->GetOutput());
