@@ -45,7 +45,7 @@ jobs:
 # Note, UsePythonVersion sets PATH to the specified version, so we have to explicitly disable the Windows Registry search in FindPython3
     - bash: |
         cat > dashboard.cmake << EOF
-        set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
+        set(CTEST_BUILD_CONFIGURATION "Debug")
         set(CTEST_CMAKE_GENERATOR "Ninja")
         set(BUILD_NAME_SUFFIX "-Python")
         set(ENV{CC} cl.exe)
