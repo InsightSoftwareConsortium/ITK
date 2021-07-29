@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-template <unsigned int TDimension = 3>
+template <unsigned int TDimension = 3, class TSpatialObjectPointType = SurfaceSpatialObjectPoint<TDimension>>
 class ITK_TEMPLATE_EXPORT SurfaceSpatialObject
   : public PointBasedSpatialObject<TDimension, SurfaceSpatialObjectPoint<TDimension>>
 {
@@ -43,18 +43,18 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(SurfaceSpatialObject);
 
   using Self = SurfaceSpatialObject;
-  using Superclass = PointBasedSpatialObject<TDimension, SurfaceSpatialObjectPoint<TDimension>>;
+  using Superclass = PointBasedSpatialObject<TDimension, TSpatialObjectPointType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   using ScalarType = double;
 
-  using SurfacePointType = SurfaceSpatialObjectPoint<TDimension>;
+  using SurfacePointType = TSpatialObjectPointType;
   using SurfacePointListType = std::vector<SurfacePointType>;
 
-  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointType = typename Superclass::PointType;
   using TransformType = typename Superclass::TransformType;
+  using SpatialObjectPointType = typename Superclass::SpatialObjectPointType;
   using PointContainerType = VectorContainer<IdentifierType, PointType>;
   using PointContainerPointer = SmartPointer<PointContainerType>;
   using BoundingBoxType = typename Superclass::BoundingBoxType;
@@ -71,9 +71,13 @@ public:
   void
   Clear() override;
 
-  /** Compute the normals to the surface from neighboring points */
+/** Compute the normals to the surface from neighboring points */
+#if !defined(ITK_LEGACY_REMOVE)
+  /** Calculate the normalized tangent - Old spelling of function name */
+  itkLegacyMacro(bool Approximate3DNormals());
+#endif
   bool
-  Approximate3DNormals();
+  ComputeNormals();
 
 protected:
   SurfaceSpatialObject();
