@@ -337,7 +337,7 @@ macro(itk_module_examples)
   cmake_dependent_option(Module_${itk-module}_BUILD_EXAMPLES
     "Build the examples for Module_${itk-module}"
     ON
-    "BUILD_EXAMPLES OR ITK_BUILD_EXAMPLES;Module_${itk-module}"
+    "BUILD_EXAMPLES OR ITK_BUILD_EXAMPLES;Module_${itk-module};NOT ITK_BUILD_DOCUMENTATION"
     OFF
   )
   if(Module_${itk-module}_BUILD_EXAMPLES)
