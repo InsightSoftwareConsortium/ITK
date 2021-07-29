@@ -355,6 +355,11 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaScene(Spatial
       currentMeta->ParentID((*it)->GetParent()->GetId());
     }
     currentMeta->Name((*it)->GetProperty().GetName().c_str());
+    currentMeta->Color((*it)->GetProperty().GetRed(),
+                       (*it)->GetProperty().GetGreen(),
+                       (*it)->GetProperty().GetBlue(),
+                       (*it)->GetProperty().GetAlpha());
+
     this->SetTransform(currentMeta, (*it)->GetObjectToParentTransform());
     metaScene->AddObject(currentMeta);
     it++;
