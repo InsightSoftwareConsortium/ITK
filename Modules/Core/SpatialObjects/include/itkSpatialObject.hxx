@@ -357,8 +357,6 @@ template <unsigned int TDimension>
 typename LightObject::Pointer
 SpatialObject<TDimension>::InternalClone() const
 {
-  // Default implementation just copies the parameters from
-  // this to new transform.
   typename LightObject::Pointer loPtr = CreateAnother();
 
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
@@ -366,6 +364,8 @@ SpatialObject<TDimension>::InternalClone() const
   {
     itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
   }
+
+  rval->SetTypeName(this->GetTypeName());
   rval->SetId(this->GetId());
   rval->SetParentId(this->GetParentId());
   rval->SetObjectToParentTransform(this->GetObjectToParentTransform());
@@ -844,7 +844,7 @@ SpatialObject<TDimension>::AddChildrenToList(ChildrenListType *  childrenList,
 
 template <unsigned int TDimension>
 void
-SpatialObject<TDimension>::AddChildrenToConstList(ChildrenConstListType * childrenList,
+SpatialObject<TDimension>::AddChildrenToConstList(ChildrenConstListType * childrenCList,
                                                   unsigned int            depth,
                                                   const std::string &     name) const
 {
@@ -853,7 +853,7 @@ SpatialObject<TDimension>::AddChildrenToConstList(ChildrenConstListType * childr
   {
     if ((*it)->GetTypeName().find(name) != std::string::npos)
     {
-      childrenList->push_back((*it));
+      childrenCList->push_back(*it);
     }
     it++;
   }
@@ -863,7 +863,7 @@ SpatialObject<TDimension>::AddChildrenToConstList(ChildrenConstListType * childr
     it = m_ChildrenList.begin();
     while (it != m_ChildrenList.end())
     {
-      (*it)->AddChildrenToConstList(childrenList, depth - 1, name);
+      (*it)->AddChildrenToConstList(childrenCList, depth - 1, name);
       ++it;
     }
   }
