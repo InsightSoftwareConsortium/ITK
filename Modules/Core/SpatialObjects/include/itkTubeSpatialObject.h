@@ -117,6 +117,9 @@ public:
   /* Avoid hiding the overload that supports depth and name arguments */
   using Superclass::IsInsideInObjectSpace;
 
+  void
+  CopyInformation(const DataObject * data) override;
+
 protected:
   /** Compute the boundaries of the tube. */
   void
@@ -129,7 +132,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  typename LightObject::Pointer
+  virtual typename LightObject::Pointer
   InternalClone() const override;
 
 private:
