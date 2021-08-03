@@ -55,11 +55,11 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
   vesselTubeSO->GetProperty().SetAlpha(vesselTubeMO->Color()[3]);
   if (vesselTubeMO->Artery())
   {
-    vesselTubeSO->GetProperty().SetTagStringValue("Artery", "true");
+    vesselTubeSO->GetProperty().SetTagStringValue("Artery", "True");
   }
   else
   {
-    vesselTubeSO->GetProperty().SetTagStringValue("Artery", "false");
+    vesselTubeSO->GetProperty().SetTagStringValue("Artery", "False");
   }
 
   using VesselTubePointType = itk::TubeSpatialObjectPoint<NDimensions>;
@@ -211,7 +211,7 @@ MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObj
   vesselTubeMO->ID(vesselTubeSO->GetId());
   vesselTubeMO->Root(vesselTubeSO->GetRoot());
   std::string str;
-  if (vesselTubeSO->GetProperty().GetTagStringValue("Artery", str) && str == "True")
+  if (vesselTubeSO->GetProperty().GetTagStringValue("Artery", str) && (str == "True" || str == "true"))
   {
     vesselTubeMO->Artery(true);
   }

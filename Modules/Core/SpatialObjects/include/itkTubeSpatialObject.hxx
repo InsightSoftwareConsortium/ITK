@@ -53,13 +53,46 @@ TubeSpatialObject<TDimension, TTubePointType>::Clear()
   this->Modified();
 }
 
+/** Copy the information from another spatial object */
+template <unsigned int TDimension, typename TTubePointType>
+void
+TubeSpatialObject<TDimension, TTubePointType>::CopyInformation(const DataObject * data)
+{
+  // Standard call to the superclass' method
+  Superclass::CopyInformation(data);
+
+  // Attempt to cast data to an ImageBase
+  const TubeSpatialObject<TDimension> * soData;
+  soData = dynamic_cast<const TubeSpatialObject<TDimension> *>(data);
+
+  if (soData == nullptr)
+  {
+    // pointer could not be cast back down
+    itkExceptionMacro(<< "itk::TubeSpatialObject::CopyInformation() cannot cast " << typeid(data).name() << " to "
+                      << typeid(TubeSpatialObject<TDimension> *).name());
+  }
+
+  // check if we are the same type
+  const auto * source = dynamic_cast<const Self *>(data);
+  if (!source)
+  {
+    std::cerr << "CopyInformation: objects are not of the same type" << std::endl;
+    return;
+  }
+
+  // copy the ivars
+  this->SetRoot(source->GetRoot());
+  this->SetEndRounded(source->GetEndRounded());
+
+  // Don't copy parent info
+  // this->SetParentPoint(source->GetParentPoint());
+}
+
 /** InternalClone */
 template <unsigned int TDimension, typename TTubePointType>
 typename LightObject::Pointer
 TubeSpatialObject<TDimension, TTubePointType>::InternalClone() const
 {
-  // Default implementation just copies the parameters from
-  // this to new transform.
   typename LightObject::Pointer loPtr = Superclass::InternalClone();
 
   typename Self::Pointer rval = dynamic_cast<Self *>(loPtr.GetPointer());
@@ -67,6 +100,7 @@ TubeSpatialObject<TDimension, TTubePointType>::InternalClone() const
   {
     itkExceptionMacro(<< "downcast to type " << this->GetNameOfClass() << " failed.");
   }
+
   rval->SetEndRounded(this->GetEndRounded());
   rval->SetParentPoint(this->GetParentPoint());
   rval->SetRoot(this->GetRoot());
