@@ -226,6 +226,11 @@ itk_add_test(NAME itkEuclideanDistancePointMetricTestSquaredDistanceOff
 itk_add_test(NAME itkEuclideanDistancePointMetricTestSquaredDistanceOn
       COMMAND ITKRegistrationCommonTestDriver itkEuclideanDistancePointMetricTest 1)
 
+set(ITKRegistrationGTests
+  itkTransformInitializersGTest.cxx
+)
+CreateGoogleTestDriver(ITKRegistration "${ITKRegistrationCommon-Test_LIBRARIES}" "${ITKRegistrationGTests}")
+
 if(BUILD_EXAMPLES)
 #The historical examples from RegistrationITKv3 should no longer be used
 #as exemplars for best practices, but do provide reasonable historically

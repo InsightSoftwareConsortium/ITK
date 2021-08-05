@@ -28,14 +28,6 @@ namespace itk
 {
 
 template <typename TTransform, typename TImage>
-BSplineTransformInitializer<TTransform, TImage>::BSplineTransformInitializer()
-  : m_Transform(nullptr)
-
-{
-  this->m_TransformDomainMeshSize.Fill(1);
-}
-
-template <typename TTransform, typename TImage>
 void
 BSplineTransformInitializer<TTransform, TImage>::SetTransformDomainMeshSize(const MeshSizeType meshSize)
 {

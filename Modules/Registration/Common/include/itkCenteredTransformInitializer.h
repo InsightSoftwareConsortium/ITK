@@ -137,7 +137,7 @@ public:
   itkGetModifiableObjectMacro(MovingCalculator, MovingImageCalculatorType);
 
 protected:
-  CenteredTransformInitializer();
+  CenteredTransformInitializer() = default;
   ~CenteredTransformInitializer() override = default;
 
   void
@@ -152,10 +152,10 @@ private:
 
   MovingImagePointer m_MovingImage;
 
-  bool m_UseMoments;
+  bool m_UseMoments{ false };
 
-  FixedImageCalculatorPointer  m_FixedCalculator;
-  MovingImageCalculatorPointer m_MovingCalculator;
+  const FixedImageCalculatorPointer  m_FixedCalculator{ FixedImageCalculatorType::New() };
+  const MovingImageCalculatorPointer m_MovingCalculator{ MovingImageCalculatorType::New() };
 }; // class CenteredTransformInitializer
 } // namespace itk
 

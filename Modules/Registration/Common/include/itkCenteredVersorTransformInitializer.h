@@ -98,7 +98,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool m_ComputeRotation;
+  bool m_ComputeRotation{ false };
 }; // class CenteredVersorTransformInitializer
 } // namespace itk
 

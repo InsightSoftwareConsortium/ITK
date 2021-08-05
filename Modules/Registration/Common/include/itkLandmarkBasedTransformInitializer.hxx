@@ -27,16 +27,6 @@
 
 namespace itk
 {
-template <typename TTransform, typename TFixedImage, typename TMovingImage>
-LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::LandmarkBasedTransformInitializer()
-  : m_ReferenceImage(nullptr)
-  , m_Transform(nullptr)
-  , m_FixedLandmarks(0)
-  , m_MovingLandmarks(0)
-  , m_LandmarkWeight(0)
-
-{}
-
 /** default transform initializer, if transform type isn't
  * specifically handled.
  */
