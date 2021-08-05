@@ -407,7 +407,7 @@ AdaptiveNonLocalMeansDenoisingImageFilter<TInputImage, TOutputImage, TMaskImage>
     typename SmootherType::Pointer                                    smoother = SmootherType::New();
     smoother->SetInput(this->m_RicianBiasImage);
     smoother->SetVariance(this->m_SmoothingVariance);
-    smoother->SetUseImageSpacingOn();
+    smoother->SetUseImageSpacing(true);
     smoother->Update();
 
     ImageRegionConstIterator<RealImageType> ItS(smoother->GetOutput(), smoother->GetOutput()->GetRequestedRegion());
