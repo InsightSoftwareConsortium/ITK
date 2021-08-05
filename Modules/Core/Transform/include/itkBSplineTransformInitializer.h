@@ -99,7 +99,7 @@ public:
   InitializeTransform() const;
 
 protected:
-  BSplineTransformInitializer();
+  BSplineTransformInitializer() = default;
   ~BSplineTransformInitializer() override = default;
 
   void
@@ -109,7 +109,7 @@ private:
   ImagePointer     m_Image;
   TransformPointer m_Transform;
 
-  MeshSizeType m_TransformDomainMeshSize;
+  MeshSizeType m_TransformDomainMeshSize{ MeshSizeType::Filled(1) };
   bool         m_SetTransformDomainMeshSizeViaInitializer{ false };
 
 }; // class BSplineTransformInitializer
