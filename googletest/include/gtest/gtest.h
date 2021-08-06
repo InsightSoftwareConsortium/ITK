@@ -47,8 +47,6 @@
 // registration from Barthelemy Dagenais' (barthelemy@prologique.com)
 // easyUnit framework.
 
-// GOOGLETEST_CM0001 DO NOT DELETE
-
 #ifndef GOOGLETEST_INCLUDE_GTEST_GTEST_H_
 #define GOOGLETEST_INCLUDE_GTEST_GTEST_H_
 
@@ -2383,13 +2381,12 @@ constexpr bool StaticAssertTypeEq() noexcept {
 //     EXPECT_EQ(a_.size(), 0);
 //     EXPECT_EQ(b_.size(), 1);
 //   }
-//
-// GOOGLETEST_CM0011 DO NOT DELETE
-#if !GTEST_DONT_DEFINE_TEST
-#define TEST_F(test_fixture, test_name)\
+#define GTEST_TEST_F(test_fixture, test_name)\
   GTEST_TEST_(test_fixture, test_name, test_fixture, \
               ::testing::internal::GetTypeId<test_fixture>())
-#endif  // !GTEST_DONT_DEFINE_TEST
+#if !GTEST_DONT_DEFINE_TEST_F
+#define TEST_F(test_fixture, test_name) GTEST_TEST_F(test_fixture, test_name)
+#endif
 
 // Returns a path to temporary directory.
 // Tries to determine an appropriate directory for the platform.
