@@ -33,7 +33,7 @@
 
 #if !defined(WIN32) && !defined(_WIN32)
 #  include <sys/resource.h> // getrusage()
-#  if defined(ITK_HAS_MALLINFO)
+#  if defined(ITK_HAS_MALLINFO) || defined(ITK_HAS_MALLINFO2)
 #    include <malloc.h> // mallinfo()
 #  endif                // ITK_HAS_MALLINFO
 #endif                  // !defined(WIN32) && !defined(_WIN32)
@@ -438,7 +438,24 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
   return 0;
 }
 
-#  if defined(ITK_HAS_MALLINFO)
+#  if defined(ITK_HAS_MALLINFO2)
+
+/**         ----         Mallinfo Memory Usage Observer       ----       */
+
+MallinfoMemoryUsageObserver::~MallinfoMemoryUsageObserver() = default;
+
+MemoryUsageObserverBase::MemoryLoadType
+MallinfoMemoryUsageObserver::GetMemoryUsage()
+{
+  struct mallinfo2 minfo = mallinfo2();
+
+  auto mem = static_cast<MemoryLoadType>(static_cast<double>(minfo.uordblks) / 1024.0);
+
+  return mem;
+}
+
+// No mallinfo2, fallback to mallinfo
+#  elif defined(ITK_HAS_MALLINFO)
 
 /**         ----         Mallinfo Memory Usage Observer       ----       */
 

@@ -72,6 +72,11 @@ try_compile(ITK_HAS_MALLINFO
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasMallinfo.cxx
   )
 
+try_compile(ITK_HAS_MALLINFO2
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasMallinfo2.cxx
+  )
+
 try_compile(ITK_HAS_FEENABLEEXCEPT
   ${ITK_BINARY_DIR}
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFeenableexcept.cxx

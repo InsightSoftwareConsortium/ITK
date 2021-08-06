@@ -101,6 +101,8 @@
 
 // defined if the C library as the mallinfo struct
 #cmakedefine ITK_HAS_MALLINFO
+// defined if the C library as the mallinfo2 struct
+#cmakedefine ITK_HAS_MALLINFO2
 // defined if feenableexcept is available
 #cmakedefine ITK_HAS_FEENABLEEXCEPT
 

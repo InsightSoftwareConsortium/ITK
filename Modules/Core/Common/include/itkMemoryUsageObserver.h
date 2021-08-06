@@ -124,7 +124,7 @@ public:
   GetMemoryUsage() override;
 };
 
-#  if defined(ITK_HAS_MALLINFO)
+#  if defined(ITK_HAS_MALLINFO) || defined(ITK_HAS_MALLINFO2)
 /** \class MallinfoMemoryUsageObserver
  * \brief The MallinfoMemoryUsageObserver
  * \ingroup ITKCommon
