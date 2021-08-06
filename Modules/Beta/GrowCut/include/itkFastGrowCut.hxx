@@ -81,6 +81,8 @@ FastGrowCut<TInputImage, TLabelImage>::GenerateData()
     typename ImageMask::Pointer maskSO = ImageMask::New();
     maskSO->SetImage(outputImage);
     RegionType bbRegion = maskSO->ComputeMyBoundingBoxInIndexSpace();
+    bbRegion.PadByRadius(17); // expand it by some padding radius
+    bbRegion.Crop(seedImage->GetLargestPossibleRegion()); // clip it to the original image size
 
     // copy ROI to vector
     m_imROI.resize(6);
