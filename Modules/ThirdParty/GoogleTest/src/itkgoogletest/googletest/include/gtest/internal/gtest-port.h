@@ -38,8 +38,6 @@
 // files are expected to #include this.  Therefore, it cannot #include
 // any other Google Test header.
 
-// GOOGLETEST_CM0001 DO NOT DELETE
-
 #ifndef GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_PORT_H_
 #define GOOGLETEST_INCLUDE_GTEST_INTERNAL_GTEST_PORT_H_
 
@@ -168,7 +166,6 @@
 //   GTEST_HAS_TYPED_TEST   - typed tests
 //   GTEST_HAS_TYPED_TEST_P - type-parameterized tests
 //   GTEST_IS_THREADSAFE    - Google Test is thread-safe.
-//   GOOGLETEST_CM0007 DO NOT DELETE
 //   GTEST_USES_POSIX_RE    - enhanced POSIX regex is used. Do not confuse with
 //                            GTEST_HAS_POSIX_RE (see above) which users can
 //                            define themselves.
@@ -220,7 +217,6 @@
 // Regular expressions:
 //   RE             - a simple regular expression class using the POSIX
 //                    Extended Regular Expression syntax on UNIX-like platforms
-//                    GOOGLETEST_CM0008 DO NOT DELETE
 //                    or a reduced regular exception syntax on other
 //                    platforms, including Windows.
 // Logging:
@@ -2219,29 +2215,29 @@ using TimeInMillis = int64_t;  // Represents time in milliseconds.
 #define GTEST_DECLARE_bool_(name)          \
   namespace testing {                      \
   GTEST_API_ extern bool GTEST_FLAG(name); \
-  }
+  } static_assert(true, "no-op to require trailing semicolon")
 #define GTEST_DECLARE_int32_(name)                 \
   namespace testing {                              \
   GTEST_API_ extern std::int32_t GTEST_FLAG(name); \
-  }
+  } static_assert(true, "no-op to require trailing semicolon")
 #define GTEST_DECLARE_string_(name)                 \
   namespace testing {                               \
   GTEST_API_ extern ::std::string GTEST_FLAG(name); \
-  }
+  } static_assert(true, "no-op to require trailing semicolon")
 
 // Macros for defining flags.
 #define GTEST_DEFINE_bool_(name, default_val, doc)  \
   namespace testing {                               \
   GTEST_API_ bool GTEST_FLAG(name) = (default_val); \
-  }
+  } static_assert(true, "no-op to require trailing semicolon")
 #define GTEST_DEFINE_int32_(name, default_val, doc)         \
   namespace testing {                                       \
   GTEST_API_ std::int32_t GTEST_FLAG(name) = (default_val); \
-  }
+  } static_assert(true, "no-op to require trailing semicolon")
 #define GTEST_DEFINE_string_(name, default_val, doc)         \
   namespace testing {                                        \
   GTEST_API_ ::std::string GTEST_FLAG(name) = (default_val); \
-  }
+  } static_assert(true, "no-op to require trailing semicolon")
 
 #endif  // !defined(GTEST_DECLARE_bool_)
 
