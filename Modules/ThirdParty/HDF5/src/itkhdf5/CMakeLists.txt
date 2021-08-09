@@ -107,9 +107,7 @@ mark_as_advanced (HDF5_EXTERNAL_LIB_PREFIX)
 #   # Add the sub project
 #   add_subdirectory (Utilities/hdf5-1.8)
 #-----------------------------------------------------------------------------
-# ITK --start
-#string(TIMESTAMP CONFIG_DATE "%Y-%m-%d")
-# ITK --stop
+string(TIMESTAMP CONFIG_DATE "%Y-%m-%d")
 
 #-----------------------------------------------------------------------------
 # Allow Visual Studio solution directories
