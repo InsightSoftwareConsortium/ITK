@@ -83,7 +83,7 @@ IntType::IntType(const DataSet& dataset) : AtomType()
 {
     // Calls C function H5Dget_type to get the id of the datatype
     id = H5Dget_type(dataset.getId());
- 
+
     if (id < 0)
     {
         throw DataSetIException("IntType constructor", "H5Dget_type failed");
