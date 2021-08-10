@@ -555,7 +555,7 @@ H5std_string PropList::getClassName() const
         return(class_name);
     }
     else
-        return 0;
+        return "";
 }
 //--------------------------------------------------------------------------
 // Function:    PropList::getNumProps
