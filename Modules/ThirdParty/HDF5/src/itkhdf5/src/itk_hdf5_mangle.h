@@ -30,16 +30,24 @@ The sort commands sorts the lines alphabetically and discards duplicates.
 The following commands are used to generate the suggested symbols on Windows systems:
 
 dumpbin /symbols libitkhdf5* > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
-cat symbol_table.txt | grep "External" | grep -i "H5" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' (Must be done in git bash)
+
+Then execute the following in Git Bash:
+
+export LC_COLLATE=POSIX
+cat symbol_table.txt | grep "UNDEF.*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' | sort -u
 
 For the bash commands:
 
 - `cat` is just used to start piping the symbol_table file.
 - The first grep extracts all the external symbols.
 - The second grep only extracts those symbols with H5 in them (case-insensitive).
-- From awk onwards the process is the same as for Linux and Mac.
+- First awk command keeps only the last column (the symbol name)
+- The second awk command removes any symbols that already have "itk_" prefix.
+- The rest is the same as for Linux and Mac.
 
-The developer will then need to *MANUALLY* add the symbols to the list below.
+The developer will then need to *MANUALLY* clean up the result
+(e.g. remove compiler symbols like __clang_call_terminate)
+and add the symbols to the list below.
 
 Note that running the above procedure will give somewhat different results on
 different platforms and also with different build options. When updating this file
