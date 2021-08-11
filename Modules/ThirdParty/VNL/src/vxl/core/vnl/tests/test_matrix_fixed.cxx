@@ -516,6 +516,18 @@ test_extract(T *)
   TEST("extract into existing matrix", r(0, 0) == 8 && r(0, 1) == 9 && r(0, 2) == 0, true);
 }
 
+
+void
+test_identity()
+{
+  // Test that a matrix value-initialized by `()` is not an identity matrix.
+  TEST("non-identity matrix", (vnl_matrix_fixed<float, 2, 2>().is_identity()), false);
+
+  // Test that set_identity() yields an identity matrix, for two different matrix types.
+  TEST("identity matrix 1", (vnl_matrix_fixed<float, 2, 2>().set_identity().is_identity()), true);
+  TEST("identity matrix 2", (vnl_matrix_fixed<double, 3, 3>().set_identity().is_identity()), true);
+}
+
 } // end anonymous namespace
 
 void
@@ -586,6 +598,7 @@ test_matrix_fixed()
   test_double();
 
   test_extract((double *)nullptr);
+  test_identity();
 }
 
 TESTMAIN(test_matrix_fixed);
