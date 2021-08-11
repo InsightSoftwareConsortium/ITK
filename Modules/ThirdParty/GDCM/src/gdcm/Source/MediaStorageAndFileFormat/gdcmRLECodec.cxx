@@ -396,11 +396,18 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
         {
         DoInvertPlanarConfiguration<char>(bufferrgb, ptr_img, (uint32_t)(image_len / sizeof(char)));
         }
-      else /* ( GetPixelFormat().GetBitsAllocated() == 16 ) */
+      else if ( GetPixelFormat().GetBitsAllocated() == 16 )
         {
-        assert( GetPixelFormat().GetBitsAllocated() == 16 );
-        // should not happen right ?
         DoInvertPlanarConfiguration<short>((short*)(void*)bufferrgb, (const short*)(const void*)ptr_img, (uint32_t)(image_len / sizeof(short)));
+        }
+      else /* ( GetPixelFormat().GetBitsAllocated() == 32 ) */
+        {
+        assert( GetPixelFormat().GetBitsAllocated() == 32 );
+        DoInvertPlanarConfiguration<int32_t>(
+          (int32_t*)(void*)bufferrgb,
+          (const int32_t*)(const void*)ptr_img,
+          (uint32_t)(image_len / sizeof(int32_t))
+        );
         }
       ptr_img = bufferrgb;
       }
@@ -581,7 +588,7 @@ size_t RLECodec::DecodeFragment(Fragment const & frag, char *buffer, size_t llen
     std::streamoff check = bv.GetLength() - p;
     // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
     //assert( check == 0 || check == 1 || check == 2 );
-    if( check ) gdcmDebugMacro( "tiny offset detected in between RLE segments: " << check );
+    if( check ) { gdcmDebugMacro( "tiny offset detected in between RLE segments: " << check ); }
     }
   else
     {

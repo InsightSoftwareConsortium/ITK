@@ -840,6 +840,16 @@ public:
     Parent::SetLength(len);
   }
 };
+template<long long TVR>
+class Element<TVR, VM::VM3_4> : public Element<TVR, VM::VM1_n>
+{
+public:
+  typedef Element<TVR, VM::VM1_n> Parent;
+  void SetLength(int len) {
+    if( len != 3 && len != 4 ) return;
+    Parent::SetLength(len);
+  }
+};
 
 
 //template<int T> struct VRToLength;

@@ -8,7 +8,7 @@ readonly name="GDCM"
 readonly ownership="GDCM Upstream <gdcm-developers@lists.sourceforge.net>"
 readonly subtree="Modules/ThirdParty/GDCM/src/gdcm"
 readonly repo="https://github.com/malaterre/GDCM.git"
-readonly tag="release"
+readonly tag="4404b770"
 readonly shortlog=false
 readonly paths="
   CMake/UseCopyright.cmake

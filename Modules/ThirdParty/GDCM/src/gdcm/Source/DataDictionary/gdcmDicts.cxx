@@ -38,7 +38,6 @@ Dicts::~Dicts()
 
 const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
 {
-  static DictEntry Dummy;
   if( tag.IsGroupLength() )
     {
     const DictEntry & de = PublicDict.GetDictEntry(tag);
@@ -49,12 +48,8 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
       }
     else
       {
-      Dummy.SetName( "Generic Group Length" );
-      Dummy.SetKeyword( "GenericGroupLength" );
       bool retired = true; // Since DICOM 2008, all (but 0002,0004) group length are retired
-      Dummy.SetVR( VR::UL );
-      Dummy.SetVM( VM::VM1 );
-      Dummy.SetRetired( retired );
+      static const DictEntry Dummy("Generic Group Length", "GenericGroupLength", VR::UL, VM::VM1, retired);
       return Dummy;
       }
     }
@@ -78,13 +73,7 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
       // Check special private element: 0x0000 and [0x1,0xFF] are special cases:
       if( tag.IsIllegal() )
         {
-        std::string pc ( "Illegal Element" );
-        Dummy.SetName( pc.c_str() );
-        std::string kw ( "IllegalElement" );
-        Dummy.SetKeyword( kw.c_str() );
-        Dummy.SetVR( VR::INVALID );
-        Dummy.SetVM( VM::VM0 );
-        Dummy.SetRetired( false ); // ??
+        static const DictEntry Dummy("Illegal Element", "IllegalElement", VR::INVALID, VM::VM0, false);
         return Dummy;
         }
       else if( tag.IsPrivateCreator() )
@@ -93,36 +82,23 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
         assert( tag.GetElement() ); // Not a group length !
         assert( tag.IsPrivate() );
         assert( owner == nullptr );
-          {
-          static const char pc[] = "Private Creator";
-          static const char kw[] = "PrivateCreator";
-          Dummy.SetName( pc );
-          Dummy.SetKeyword( kw );
-          }
-        Dummy.SetVR( VR::LO );
-        Dummy.SetVM( VM::VM1 );
-        Dummy.SetRetired( false );
+        static const DictEntry Dummy("Private Creator", "PrivateCreator", VR::LO, VM::VM1, false);
         return Dummy;
         }
       else
         {
         if( owner && *owner )
           {
-          static const char pc[] = "Private Element Without Private Creator";
-          static const char kw[] = "PrivateElementWithoutPrivateCreator";
-          Dummy.SetName( pc );
-          Dummy.SetKeyword( kw );
+          static const DictEntry Dummy("Private Element Without Private Creator",
+                                       "PrivateElementWithoutPrivateCreator", VR::INVALID, VM::VM0);
+          return Dummy;
           }
         else
           {
-          static const char pc[] = "Private Element With Empty Private Creator";
-          static const char kw[] = "PrivateElementWithEmptyPrivateCreator";
-          Dummy.SetName( pc );
-          Dummy.SetKeyword( kw );
+          static const DictEntry Dummy("Private Element With Empty Private Creator",
+                                       "PrivateElementWithEmptyPrivateCreator", VR::INVALID, VM::VM0);
+          return Dummy;
           }
-        Dummy.SetVR( VR::INVALID );
-        Dummy.SetVM( VM::VM0 );
-        return Dummy;
         }
       }
   }

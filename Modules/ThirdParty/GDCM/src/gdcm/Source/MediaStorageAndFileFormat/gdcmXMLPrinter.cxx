@@ -553,7 +553,7 @@ void XMLPrinter::Print(std::ostream& os)
   const FileMetaInformation &header = F->GetHeader();
   const TransferSyntax &ts = header.GetDataSetTransferSyntax();
 
-  os << "<?xml version=\"1.0\" encoding=\"";
+  os << R"(<?xml version="1.0" encoding=")";
   if(ds.FindDataElement(CharacterEncoding))
     {
     const DataElement &de = ds.GetDataElement(CharacterEncoding);

@@ -88,8 +88,9 @@ bool MoveStudyRootQuery::ValidateQuery(bool inStrict) const
   const DataSet &ds = GetQueryDataSet();
   if (ds.Size() == 0)
     {
-    if (inStrict)
+    if (inStrict) {
       gdcmWarningMacro( "Empty DataSet in ValidateQuery" );
+    }
     return false;
     }
 
