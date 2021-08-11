@@ -309,16 +309,16 @@ BMPImageIO::Read(void * buffer)
           {
             if (this->GetNumberOfComponents() == 3)
             {
-              p[l++] = value[i + 2];
-              p[l++] = value[i + 1];
-              p[l++] = value[i];
+              p[l++] = value[i + 2]; // red
+              p[l++] = value[i + 1]; // green
+              p[l++] = value[i];     // blue
             }
             if (this->GetNumberOfComponents() == 4)
             {
-              p[l++] = value[i + 3];
-              p[l++] = value[i + 2];
-              p[l++] = value[i + 1];
-              p[l++] = value[i];
+              p[l++] = value[i + 2]; // red
+              p[l++] = value[i + 1]; // green
+              p[l++] = value[i];     // blue
+              p[l++] = value[i + 3]; // alpha
             }
             i += step - 1;
           }
@@ -904,11 +904,11 @@ BMPImageIO ::Write(const void * buffer)
       for (i = 0; i < m_Dimensions[0]; ++i)
       {
         ptr += 2;
-        m_Ofstream.write(ptr, sizeof(char));
+        m_Ofstream.write(ptr, sizeof(char)); // blue
         ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
+        m_Ofstream.write(ptr, sizeof(char)); // green
         ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
+        m_Ofstream.write(ptr, sizeof(char)); // red
         ptr += 3;
       }
       for (i = 0; i < paddedBytes; ++i)
@@ -920,15 +920,15 @@ BMPImageIO ::Write(const void * buffer)
     {
       for (i = 0; i < m_Dimensions[0]; ++i)
       {
+        ptr += 2;
+        m_Ofstream.write(ptr, sizeof(char)); // blue
+        ptr--;
+        m_Ofstream.write(ptr, sizeof(char)); // green
+        ptr--;
+        m_Ofstream.write(ptr, sizeof(char)); // red
         ptr += 3;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr += 4;
+        m_Ofstream.write(ptr, sizeof(char)); // alpha
+        ptr++;
       }
       for (i = 0; i < paddedBytes; ++i)
       {
