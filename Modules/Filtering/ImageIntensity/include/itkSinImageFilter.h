@@ -66,7 +66,7 @@ public:
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>
-class SinImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT SinImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(SinImageFilter);

@@ -148,7 +148,7 @@ private:
  * \endsphinx
  */
 template <typename TInputImage, typename TMaskImage, typename TOutputImage = TInputImage>
-class MaskImageFilter : public BinaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT MaskImageFilter : public BinaryGeneratorImageFilter<TInputImage, TMaskImage, TOutputImage>
 
 {
 public:

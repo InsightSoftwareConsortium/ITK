@@ -47,7 +47,8 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template <typename TInternalComputationValueType>
-class SingleValuedCostFunctionv4Template : public CostFunctionTemplate<TInternalComputationValueType>
+class ITK_TEMPLATE_EXPORT SingleValuedCostFunctionv4Template
+  : public CostFunctionTemplate<TInternalComputationValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(SingleValuedCostFunctionv4Template);

@@ -52,7 +52,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInputMesh>
-class OnesMatrixCoefficients : public MatrixCoefficients<TInputMesh>
+class ITK_TEMPLATE_EXPORT OnesMatrixCoefficients : public MatrixCoefficients<TInputMesh>
 {
 public:
   using Superclass = MatrixCoefficients<TInputMesh>;
@@ -81,7 +81,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInputMesh>
-class InverseEuclideanDistanceMatrixCoefficients : public MatrixCoefficients<TInputMesh>
+class ITK_TEMPLATE_EXPORT InverseEuclideanDistanceMatrixCoefficients : public MatrixCoefficients<TInputMesh>
 {
 public:
   using Superclass = MatrixCoefficients<TInputMesh>;
@@ -123,7 +123,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInputMesh>
-class ConformalMatrixCoefficients : public MatrixCoefficients<TInputMesh>
+class ITK_TEMPLATE_EXPORT ConformalMatrixCoefficients : public MatrixCoefficients<TInputMesh>
 {
 public:
   using Superclass = MatrixCoefficients<TInputMesh>;
@@ -177,7 +177,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInputMesh>
-class AuthalicMatrixCoefficients : public MatrixCoefficients<TInputMesh>
+class ITK_TEMPLATE_EXPORT AuthalicMatrixCoefficients : public MatrixCoefficients<TInputMesh>
 {
 public:
   using Superclass = MatrixCoefficients<TInputMesh>;
@@ -233,7 +233,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInputMesh>
-class IntrinsicMatrixCoefficients : public MatrixCoefficients<TInputMesh>
+class ITK_TEMPLATE_EXPORT IntrinsicMatrixCoefficients : public MatrixCoefficients<TInputMesh>
 {
 public:
   using Superclass = MatrixCoefficients<TInputMesh>;
@@ -268,7 +268,7 @@ public:
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInputMesh>
-class HarmonicMatrixCoefficients : public MatrixCoefficients<TInputMesh>
+class ITK_TEMPLATE_EXPORT HarmonicMatrixCoefficients : public MatrixCoefficients<TInputMesh>
 {
 public:
   using Superclass = MatrixCoefficients<TInputMesh>;

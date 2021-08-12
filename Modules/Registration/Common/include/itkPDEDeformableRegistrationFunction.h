@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-class PDEDeformableRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
+class ITK_TEMPLATE_EXPORT PDEDeformableRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(PDEDeformableRegistrationFunction);

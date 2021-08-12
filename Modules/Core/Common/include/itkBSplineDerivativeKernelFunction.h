@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <unsigned int VSplineOrder = 3, typename TRealValueType = double>
-class BSplineDerivativeKernelFunction : public KernelFunctionBase<TRealValueType>
+class ITK_TEMPLATE_EXPORT BSplineDerivativeKernelFunction : public KernelFunctionBase<TRealValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineDerivativeKernelFunction);

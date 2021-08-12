@@ -70,7 +70,8 @@ protected:
 // This UI allows the number of iterations and learning rate
 // to be changes at each resolution level.
 template <typename TRegistration>
-class SimpleMultiResolutionImageRegistrationUI2 : public SimpleMultiResolutionImageRegistrationUI<TRegistration>
+class ITK_TEMPLATE_EXPORT SimpleMultiResolutionImageRegistrationUI2
+  : public SimpleMultiResolutionImageRegistrationUI<TRegistration>
 {
 public:
   using Superclass = SimpleMultiResolutionImageRegistrationUI<

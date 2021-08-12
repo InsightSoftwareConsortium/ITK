@@ -40,7 +40,8 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template <typename TInputImage, typename TCoordRep = double>
-class VectorNearestNeighborInterpolateImageFunction : public VectorInterpolateImageFunction<TInputImage, TCoordRep>
+class ITK_TEMPLATE_EXPORT VectorNearestNeighborInterpolateImageFunction
+  : public VectorInterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VectorNearestNeighborInterpolateImageFunction);

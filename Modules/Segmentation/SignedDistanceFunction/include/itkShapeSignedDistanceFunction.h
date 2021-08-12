@@ -50,7 +50,8 @@ namespace itk
  * \ingroup ITKSignedDistanceFunction
  */
 template <typename TCoordRep, unsigned int VSpaceDimension>
-class ShapeSignedDistanceFunction : public SpatialFunction<double, VSpaceDimension, Point<TCoordRep, VSpaceDimension>>
+class ITK_TEMPLATE_EXPORT ShapeSignedDistanceFunction
+  : public SpatialFunction<double, VSpaceDimension, Point<TCoordRep, VSpaceDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ShapeSignedDistanceFunction);

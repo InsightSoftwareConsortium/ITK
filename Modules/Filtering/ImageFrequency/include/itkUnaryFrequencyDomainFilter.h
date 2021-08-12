@@ -58,7 +58,7 @@ namespace itk
  * \ingroup ITKImageFrequency
  */
 template <typename TImageType, typename TFrequencyIterator = FrequencyFFTLayoutImageRegionIteratorWithIndex<TImageType>>
-class UnaryFrequencyDomainFilter : public InPlaceImageFilter<TImageType, TImageType>
+class ITK_TEMPLATE_EXPORT UnaryFrequencyDomainFilter : public InPlaceImageFilter<TImageType, TImageType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(UnaryFrequencyDomainFilter);

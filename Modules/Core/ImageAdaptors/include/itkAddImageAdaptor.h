@@ -34,7 +34,8 @@ namespace itk
  * \ingroup ITKImageAdaptors
  */
 template <typename TImage>
-class AddImageAdaptor : public ImageAdaptor<TImage, Accessor::AddPixelAccessor<typename TImage::PixelType>>
+class ITK_TEMPLATE_EXPORT AddImageAdaptor
+  : public ImageAdaptor<TImage, Accessor::AddPixelAccessor<typename TImage::PixelType>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(AddImageAdaptor);

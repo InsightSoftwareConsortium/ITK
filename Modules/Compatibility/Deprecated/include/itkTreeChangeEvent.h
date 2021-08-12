@@ -94,7 +94,7 @@ protected:
  * \ingroup ITKDeprecated
  */
 template <typename TTreeType>
-class TreeNodeChangeEvent : public TreeChangeEvent<TTreeType>
+class ITK_TEMPLATE_EXPORT TreeNodeChangeEvent : public TreeChangeEvent<TTreeType>
 {
 public:
   using Self = TreeNodeChangeEvent;
