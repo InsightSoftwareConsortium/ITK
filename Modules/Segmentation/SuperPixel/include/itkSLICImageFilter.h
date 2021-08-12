@@ -58,7 +58,7 @@ namespace itk
  * \ingroup Segmentation ITKSuperPixel MultiThreading
  */
 template <typename TInputImage, typename TOutputImage, typename TDistancePixel = float>
-class SLICImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT SLICImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(SLICImageFilter);
