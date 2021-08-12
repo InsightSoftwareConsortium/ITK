@@ -15,12 +15,13 @@
 ### ctest -S HDF5config.cmake,BUILD_GENERATOR=VS201764 -C Release -VV -O hdf5.log         ###
 #############################################################################################
 
-cmake_minimum_required (VERSION 3.10)
+cmake_minimum_required (VERSION 3.12)
 ############################################################################
 # Usage:
 #     ctest -S HDF5config.cmake,OPTION=VALUE -C Release -VV -O test.log
 # where valid options for OPTION are:
 #     BUILD_GENERATOR - The cmake build generator:
+#            MinGW     * MinGW Makefiles
 #            Unix      * Unix Makefiles
 #            VS2019    * Visual Studio 16 2019
 #            VS201964  * Visual Studio 16 2019
@@ -36,15 +37,15 @@ cmake_minimum_required (VERSION 3.10)
 #     CTEST_SOURCE_NAME  -  source folder
 ##############################################################################
 
-set (CTEST_SOURCE_VERSION "1.10.6")
+set (CTEST_SOURCE_VERSION "1.10.7")
 set (CTEST_SOURCE_VERSEXT "")
 
 ##############################################################################
 # handle input parameters to script.
 #BUILD_GENERATOR - which CMake generator to use, required
-#INSTALLDIR - HDF5-1.10.0 root folder
+#INSTALLDIR - HDF5-1.10.x root folder
 #CTEST_CONFIGURATION_TYPE - Release, Debug, RelWithDebInfo
-#CTEST_SOURCE_NAME - name of source folder; HDF5-1.10.0
+#CTEST_SOURCE_NAME - name of source folder; HDF5-1.10.x
 #MODEL - CDash group name
 #HPC - run alternate configurations for HPC machines; sbatch, bsub, raybsub, qsub
 #MPI - enable MPI
@@ -167,7 +168,11 @@ if (NOT DEFINED HPC)
   ##  Set the following to unique id your computer  ##
     set (CTEST_SITE "WIN7${BUILD_GENERATOR}.XXXX")
   else ()
-    set (CTEST_CMAKE_GENERATOR "Unix Makefiles")
+    if (MINGW)
+      set (CTEST_CMAKE_GENERATOR "MinGW Makefiles")
+    else ()
+      set (CTEST_CMAKE_GENERATOR "Unix Makefiles")
+    endif ()
   ##  Set the following to unique id your computer  ##
     if (APPLE)
      set (CTEST_SITE "MAC.XXXX")
@@ -180,29 +185,12 @@ if (NOT DEFINED HPC)
       set (ENV{CC} "${XCODE_CC}")
       set (ENV{CXX} "${XCODE_CXX}")
       set (CTEST_USE_LAUNCHERS        1)
-      set (RR_WARNINGS_COMMON "-Wno-format-nonliteral -Wno-cast-align -Wno-unused -Wno-unused-variable -Wno-unused-function -Wno-self-assign -Wno-unused-parameter -Wno-sign-compare")
-      set (RR_WARNINGS_C "${RR_WARNINGS_COMMON} -Wno-deprecated-declarations -Wno-uninitialized")
-      set (RR_WARNINGS_CXX "${RR_WARNINGS_COMMON} -Woverloaded-virtual -Wshadow -Wwrite-strings -Wc++11-compat")
-      set (RR_FLAGS_COMMON "-g -O0 -fstack-protector-all -D_FORTIFY_SOURCE=2")
-      set (RR_FLAGS_C "${RR_FLAGS_COMMON}")
-      set (RR_FLAGS_CXX "${RR_FLAGS_COMMON}")
-      set (ENV{CFLAGS} "${RR_WARNINGS_C} ${RR_FLAGS_C}")
-      set (ENV{CXXFLAGS} "${RR_WARNINGS_CXX} ${RR_FLAGS_CXX}")
     endif ()
   endif ()
 else ()
   set (CTEST_SITE "${SITE_OS_NAME}")
   set (CTEST_CMAKE_GENERATOR "Unix Makefiles")
 endif ()
-###################################################################
-
-###################################################################
-#########       Following is for submission to CDash   ############
-###################################################################
-if (NOT DEFINED MODEL)
-  set (MODEL "Experimental")
-endif ()
-
 ###################################################################
 
 ###################################################################
@@ -217,7 +205,7 @@ endif ()
 #####       Following controls source update                  #####
 #set (LOCAL_UPDATE "TRUE")
 set (REPOSITORY_URL "https://git@bitbucket.hdfgroup.org/scm/hdffv/hdf5.git")
-set (REPOSITORY_BRANCH "hdf5_1_10_6")
+set (REPOSITORY_BRANCH "hdf5_1_10")
 
 #uncomment to use a compressed source file: *.tar on linux or mac *.zip on windows
 #set(CTEST_USE_TAR_SOURCE "${CTEST_SOURCE_VERSION}")
