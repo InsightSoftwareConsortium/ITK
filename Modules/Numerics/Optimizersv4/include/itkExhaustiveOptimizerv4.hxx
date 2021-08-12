@@ -46,6 +46,10 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::StartWalking()
   m_StopConditionDescription << this->GetNameOfClass() << ": Running";
 
   ParametersType initialPos = this->m_Metric->GetParameters();
+  if (this->m_InitialPosition.GetSize() == initialPos.GetSize())
+  {
+    initialPos = this->m_InitialPosition; // correct size, so must have been set by the user
+  }
   m_MinimumMetricValuePosition = initialPos;
   m_MaximumMetricValuePosition = initialPos;
 
