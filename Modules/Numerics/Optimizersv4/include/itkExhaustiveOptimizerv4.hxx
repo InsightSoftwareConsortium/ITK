@@ -25,12 +25,6 @@ namespace itk
 
 template <typename TInternalComputationValueType>
 ExhaustiveOptimizerv4<TInternalComputationValueType>::ExhaustiveOptimizerv4()
-  : m_CurrentValue(0)
-  , m_NumberOfSteps(0)
-  , m_CurrentIndex(0)
-  , m_MaximumMetricValue(0.0)
-  , m_MinimumMetricValue(0.0)
-  , m_StopConditionDescription("")
 {
   this->m_NumberOfIterations = 0;
 }
