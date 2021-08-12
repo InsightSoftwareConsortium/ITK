@@ -99,7 +99,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template <typename TInputImage, typename TOutputImage>
-class ResampleInPlaceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT ResampleInPlaceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ResampleInPlaceImageFilter);
