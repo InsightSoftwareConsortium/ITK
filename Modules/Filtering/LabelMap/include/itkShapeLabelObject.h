@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template <typename TLabel, unsigned int VImageDimension>
-class ShapeLabelObject : public LabelObject<TLabel, VImageDimension>
+class ITK_TEMPLATE_EXPORT ShapeLabelObject : public LabelObject<TLabel, VImageDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ShapeLabelObject);

@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TRealValueType = double>
-class GaussianKernelFunction : public KernelFunctionBase<TRealValueType>
+class ITK_TEMPLATE_EXPORT GaussianKernelFunction : public KernelFunctionBase<TRealValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(GaussianKernelFunction);

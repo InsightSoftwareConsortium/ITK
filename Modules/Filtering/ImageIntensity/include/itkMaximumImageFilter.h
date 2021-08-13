@@ -78,7 +78,8 @@ public:
  * \endsphinx
  */
 template <typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
-class MaximumImageFilter : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
+class ITK_TEMPLATE_EXPORT MaximumImageFilter
+  : public BinaryGeneratorImageFilter<TInputImage1, TInputImage2, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MaximumImageFilter);

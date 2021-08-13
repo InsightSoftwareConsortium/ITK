@@ -262,7 +262,7 @@ template <typename TInputImage,
           typename TWindowFunction = Function::HammingWindowFunction<VRadius>,
           class TBoundaryCondition = ZeroFluxNeumannBoundaryCondition<TInputImage, TInputImage>,
           class TCoordRep = double>
-class WindowedSincInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
+class ITK_TEMPLATE_EXPORT WindowedSincInterpolateImageFunction : public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(WindowedSincInterpolateImageFunction);

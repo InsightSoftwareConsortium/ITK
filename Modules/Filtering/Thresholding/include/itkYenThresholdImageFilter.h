@@ -48,7 +48,8 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage, typename TMaskImage = TOutputImage>
-class YenThresholdImageFilter : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
+class ITK_TEMPLATE_EXPORT YenThresholdImageFilter
+  : public HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(YenThresholdImageFilter);

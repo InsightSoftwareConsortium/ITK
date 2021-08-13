@@ -75,7 +75,7 @@ namespace itk
  *
  */
 template <typename TImage>
-class FrequencyImageRegionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
+class ITK_TEMPLATE_EXPORT FrequencyImageRegionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class type alias. */

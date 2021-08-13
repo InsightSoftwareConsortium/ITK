@@ -32,7 +32,7 @@ namespace itk
 template <unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
           typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
-class FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>
+class ITK_TEMPLATE_EXPORT FEMSpatialObjectWriter : public SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FEMSpatialObjectWriter);

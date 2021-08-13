@@ -65,7 +65,8 @@ namespace itk
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>
-class VectorCurvatureAnisotropicDiffusionImageFilter : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT VectorCurvatureAnisotropicDiffusionImageFilter
+  : public AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VectorCurvatureAnisotropicDiffusionImageFilter);

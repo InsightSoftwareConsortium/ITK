@@ -405,7 +405,7 @@ class RankHistogram<signed char> : public VectorRankHistogram<signed char>
 {};
 
 template <>
-class RankHistogram<bool> : public VectorRankHistogram<bool>
+class ITK_TEMPLATE_EXPORT RankHistogram<bool> : public VectorRankHistogram<bool>
 {};
 
 /// \endcond

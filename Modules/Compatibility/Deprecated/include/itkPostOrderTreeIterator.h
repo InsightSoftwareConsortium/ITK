@@ -23,7 +23,7 @@
 namespace itk
 {
 template <typename TTreeType>
-class PostOrderTreeIterator : public TreeIteratorBase<TTreeType>
+class ITK_TEMPLATE_EXPORT PostOrderTreeIterator : public TreeIteratorBase<TTreeType>
 {
 public:
   /** Typedefs */
