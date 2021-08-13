@@ -291,4 +291,5 @@ itk_add_test(NAME itkBSplineImageRegistrationTest
               10 # number of deformable iterations
               )
 set_property(TEST itkBSplineImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
+set_property(TEST itkBSplineImageRegistrationTest APPEND PROPERTY RUN_SERIAL True)
 set_tests_properties( itkBSplineImageRegistrationTest PROPERTIES COST 30 )
