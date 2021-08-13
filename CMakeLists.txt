@@ -35,14 +35,14 @@ foreach(pold "CMP0091")
   endif()
 endforeach()
 
+# ====
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeCXXStandard.cmake)
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
+
 # ==== Define language standard configurations requiring at least c++14 standard
 if(CMAKE_CXX_STANDARD EQUAL "98" OR CMAKE_CXX_STANDARD LESS "14")
    message(FATAL_ERROR "C++98 to C++11 are no longer supported in ITK version 5.3 and greater.")
 endif()
-
-# ====
-include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeCXXStandard.cmake)
-include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
 
