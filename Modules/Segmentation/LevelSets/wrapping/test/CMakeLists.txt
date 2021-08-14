@@ -49,4 +49,6 @@ if(ITK_WRAP_float AND wrap_2_index GREATER -1)
 
   itk_python_expression_add_test(NAME itkBinaryMaskToNarrowBandPointSetFilterPythonTest
     EXPRESSION "filt = itk.BinaryMaskToNarrowBandPointSetFilter.New()")
+
+  itk_python_add_test(NAME PythonShapePriorMAPCostFunctionTest COMMAND ShapePriorMAPCostFunctionTest.py)
 endif()
