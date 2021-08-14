@@ -186,5 +186,6 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
     COST 30
     )
   set_property(TEST itkLargeMetaImageWriteReadTest4 APPEND PROPERTY LABELS RUNS_LONG)
+  set_property(TEST itkLargeMetaImageWriteReadTest4 APPEND PROPERTY RUN_SERIAL True)
 
 endif()
