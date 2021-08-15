@@ -189,7 +189,7 @@ namespace itk
 #endif
 #if defined(__APPLE__)
 #  if defined(__clang__) && (__cplusplus < 201402L)
-#    error "Apple LLVM < 5.1 (clang < 3.4) is not supported under ITKv5.3"
+#    error "Apple LLVM < 5.1 (clang < 3.4) or compiling with a standard less than C++14 is not supported under ITKv5.3"
 #  endif
 #elif defined(__clang__) && ((__clang_major__ < 3) || ((__clang_major__ == 3) && (__clang_minor__ < 4)))
 #  error "Clang < 3.4 is not supported under ITKv5.3"
