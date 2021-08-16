@@ -43,10 +43,10 @@ void
 JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
                                                            TJointHistogramMetric>::BeforeThreadedExecution()
 {
-  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   delete[] this->m_JointHistogramMIPerThreadVariables;
-  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[numThreadsUsed];
-  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[numWorkUnitsUsed];
+  for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     if (this->m_JointHistogramMIPerThreadVariables[i].JointHistogram.IsNull())
     {
@@ -117,11 +117,11 @@ void
 JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
                                                            TJointHistogramMetric>::AfterThreadedExecution()
 {
-  const ThreadIdType numberOfThreadsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType numberOfWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 
   using JointHistogramPixelType = typename JointHistogramType::PixelType;
   this->m_Associate->m_JointHistogramTotalCount = NumericTraits<SizeValueType>::ZeroValue();
-  for (ThreadIdType i = 0; i < numberOfThreadsUsed; ++i)
+  for (ThreadIdType i = 0; i < numberOfWorkUnitsUsed; ++i)
   {
     this->m_Associate->m_JointHistogramTotalCount += this->m_JointHistogramMIPerThreadVariables[i].JointHistogramCount;
   }
@@ -137,7 +137,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
   jointPDFIt.GoToBegin();
   using JointHistogramIteratorType = ImageRegionConstIterator<JointHistogramType>;
   std::vector<JointHistogramIteratorType> jointHistogramPerThreadIts;
-  for (ThreadIdType i = 0; i < numberOfThreadsUsed; ++i)
+  for (ThreadIdType i = 0; i < numberOfWorkUnitsUsed; ++i)
   {
     jointHistogramPerThreadIts.push_back(
       JointHistogramIteratorType(this->m_JointHistogramMIPerThreadVariables[i].JointHistogram,
@@ -149,7 +149,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
   while (!jointPDFIt.IsAtEnd())
   {
     jointHistogramPixel = NumericTraits<JointHistogramPixelType>::ZeroValue();
-    for (ThreadIdType i = 0; i < numberOfThreadsUsed; ++i)
+    for (ThreadIdType i = 0; i < numberOfWorkUnitsUsed; ++i)
     {
       jointHistogramPixel += jointHistogramPerThreadIts[i].Get();
       ++jointHistogramPerThreadIts[i];

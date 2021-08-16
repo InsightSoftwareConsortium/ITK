@@ -78,7 +78,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ComparisonImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // Initialize statistics about difference image.
   m_MinimumDifference = NumericTraits<OutputPixelType>::max();
@@ -88,10 +88,10 @@ ComparisonImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
   m_NumberOfPixelsWithDifferences = 0;
 
   // Resize the thread temporaries
-  m_ThreadDifferenceSum.SetSize(numberOfThreads);
-  m_ThreadMinimumDifference.SetSize(numberOfThreads);
-  m_ThreadMaximumDifference.SetSize(numberOfThreads);
-  m_ThreadNumberOfPixels.SetSize(numberOfThreads);
+  m_ThreadDifferenceSum.SetSize(numberOfWorkUnits);
+  m_ThreadMinimumDifference.SetSize(numberOfWorkUnits);
+  m_ThreadMaximumDifference.SetSize(numberOfWorkUnits);
+  m_ThreadNumberOfPixels.SetSize(numberOfWorkUnits);
 
   // Initialize the temporaries
   m_ThreadMinimumDifference.Fill(NumericTraits<OutputPixelType>::max());
@@ -240,9 +240,9 @@ void
 ComparisonImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
 {
   // Set statistics about difference image.
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
-  for (ThreadIdType i = 0; i < numberOfThreads; ++i)
+  for (ThreadIdType i = 0; i < numberOfWorkUnits; ++i)
   {
     m_TotalDifference += m_ThreadDifferenceSum[i];
     m_NumberOfPixelsWithDifferences += m_ThreadNumberOfPixels[i];

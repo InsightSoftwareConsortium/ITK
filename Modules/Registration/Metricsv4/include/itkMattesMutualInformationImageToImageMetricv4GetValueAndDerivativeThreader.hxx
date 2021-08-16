@@ -59,19 +59,20 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
             this->m_MattesAssociate->m_MovingImageMarginalPDF.end(),
             PDFValueType{});
 
-  const ThreadIdType mattesAssociateNumThreadsUsed = this->m_MattesAssociate->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType mattesAssociateNumWorkUnitsUsed = this->m_MattesAssociate->GetNumberOfWorkUnitsUsed();
   const bool         reinitializeThreaderFixedImageMarginalPDF =
-    (this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF.size() != mattesAssociateNumThreadsUsed);
+    (this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF.size() != mattesAssociateNumWorkUnitsUsed);
 
   if (reinitializeThreaderFixedImageMarginalPDF)
   {
     this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF.resize(
-      mattesAssociateNumThreadsUsed, std::vector<PDFValueType>(this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0F));
+      mattesAssociateNumWorkUnitsUsed,
+      std::vector<PDFValueType>(this->m_MattesAssociate->m_NumberOfHistogramBins, 0.0F));
   }
-  for (ThreadIdType threadId = 0; threadId < mattesAssociateNumThreadsUsed; ++threadId)
+  for (ThreadIdType workUnitID = 0; workUnitID < mattesAssociateNumWorkUnitsUsed; ++workUnitID)
   {
-    std::fill(this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].begin(),
-              this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[threadId].end(),
+    std::fill(this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[workUnitID].begin(),
+              this->m_MattesAssociate->m_ThreaderFixedImageMarginalPDF[workUnitID].end(),
               PDFValueType{});
   }
 
@@ -103,10 +104,10 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   if ((this->m_MattesAssociate->m_ThreaderJointPDF.size() == localNumberOfWorkUnitsUsed) &&
       (jointPDFRegion == this->m_MattesAssociate->m_ThreaderJointPDF[0]->GetBufferedRegion()))
   {
-    for (ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId)
+    for (ThreadIdType workUnitID = 0; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
     {
       // Still need to reset to zero for subsequent runs
-      this->m_MattesAssociate->m_ThreaderJointPDF[threadId]->FillBuffer(0.0);
+      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->FillBuffer(0.0);
     }
   }
   else
@@ -121,14 +122,14 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     spacing[1] = this->m_MattesAssociate->m_MovingImageBinSize;
 
     this->m_MattesAssociate->m_ThreaderJointPDF.resize(localNumberOfWorkUnitsUsed);
-    for (ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId)
+    for (ThreadIdType workUnitID = 0; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
     {
-      this->m_MattesAssociate->m_ThreaderJointPDF[threadId] = JointPDFType::New();
-      this->m_MattesAssociate->m_ThreaderJointPDF[threadId]->SetRegions(jointPDFRegion);
-      this->m_MattesAssociate->m_ThreaderJointPDF[threadId]->SetOrigin(origin);
-      this->m_MattesAssociate->m_ThreaderJointPDF[threadId]->SetSpacing(spacing);
+      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID] = JointPDFType::New();
+      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetRegions(jointPDFRegion);
+      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetOrigin(origin);
+      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->SetSpacing(spacing);
       // NOTE: true = initizize to zero
-      this->m_MattesAssociate->m_ThreaderJointPDF[threadId]->Allocate(true);
+      this->m_MattesAssociate->m_ThreaderJointPDF[workUnitID]->Allocate(true);
     }
   }
 
@@ -209,9 +210,9 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
     {
       this->m_MattesAssociate->m_ThreaderDerivativeManager.resize(localNumberOfWorkUnitsUsed);
     }
-    for (ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId)
+    for (ThreadIdType workUnitID = 0; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
     {
-      this->m_MattesAssociate->m_ThreaderDerivativeManager[threadId].Initialize(
+      this->m_MattesAssociate->m_ThreaderDerivativeManager[workUnitID].Initialize(
         // A heuristic that assumues memory for 2x size of
         // m_JointPDFDerivati efficient and easy to make, so
         // split it accross all the threads.  A work unit of at least 400 is needed
@@ -440,10 +441,10 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
    * m_NumberOfValidPoints by collecting the valid points per thread.
    * We do this here because we're skipping Superclass::AfterThreadedExecution*/
   this->m_MattesAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
-  for (ThreadIdType threadId = 0; threadId < localNumberOfWorkUnitsUsed; ++threadId)
+  for (ThreadIdType workUnitID = 0; workUnitID < localNumberOfWorkUnitsUsed; ++workUnitID)
   {
     this->m_MattesAssociate->m_NumberOfValidPoints +=
-      this->m_GetValueAndDerivativePerThreadVariables[threadId].NumberOfValidPoints;
+      this->m_GetValueAndDerivativePerThreadVariables[workUnitID].NumberOfValidPoints;
   }
 
   /* Porting: This code is from

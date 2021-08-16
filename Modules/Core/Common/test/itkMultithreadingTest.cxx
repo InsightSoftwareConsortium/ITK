@@ -28,14 +28,14 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 execute(void * ptr)
 {
   // Here - get any args from ptr.
-  auto * threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(ptr);
+  auto * workUnitInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(ptr);
 
-  auto * data = static_cast<int *>(threadInfo->UserData);
+  auto * data = static_cast<int *>(workUnitInfo->UserData);
 
   sharedMutex->lock();
   if (debugPrint)
   {
-    std::cout << "Pointer:" << ptr << "  Value: " << *data << "  WUID: " << threadInfo->WorkUnitID << std::endl;
+    std::cout << "Pointer:" << ptr << "  Value: " << *data << "  WUID: " << workUnitInfo->WorkUnitID << std::endl;
   }
   sharedMutex->unlock();
 

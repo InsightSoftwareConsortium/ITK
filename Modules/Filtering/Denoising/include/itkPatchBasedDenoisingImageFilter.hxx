@@ -281,8 +281,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
   this->EmptyCaches();
 
   // initialize thread data struct
-  const unsigned int numThreads = this->GetNumberOfWorkUnits();
-  for (unsigned int thread = 0; thread < numThreads; ++thread)
+  const unsigned int numWorkUnits = this->GetNumberOfWorkUnits();
+  for (unsigned int thread = 0; thread < numWorkUnits; ++thread)
   {
     ThreadDataStruct newStruct;
     newStruct.entropyFirstDerivative.SetSize(m_NumIndependentComponents);
@@ -645,8 +645,8 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RiemannianMinMaxThreaderCallback(void * arg)
 {
-  const unsigned int threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
@@ -655,13 +655,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RiemannianMinMaxThrea
   // Using the SplitRequestedRegion method from itk::ImageSource.
   InputImageRegionType splitRegion;
 
-  const unsigned int total = str->Filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+  const unsigned int total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
     str->Filter->SetThreadData(
-      threadId,
-      str->Filter->ThreadedRiemannianMinMax(splitRegion, threadId, str->Img, str->Filter->GetThreadData(threadId)));
+      workUnitID,
+      str->Filter->ThreadedRiemannianMinMax(splitRegion, workUnitID, str->Img, str->Filter->GetThreadData(workUnitID)));
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -1370,8 +1370,8 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ApplyUpdateThreaderCallback(void * arg)
 {
-  const unsigned int threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
@@ -1380,11 +1380,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ApplyUpdateThreaderCa
   // Using the SplitRequestedRegion method from itk::ImageSource.
   InputImageRegionType splitRegion;
 
-  const unsigned int total = str->Filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+  const unsigned int total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    str->Filter->ThreadedApplyUpdate(splitRegion, threadId);
+    str->Filter->ThreadedApplyUpdate(splitRegion, workUnitID);
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -1482,8 +1482,8 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeSigmaUpdateThreaderCallback(void * arg)
 {
-  const unsigned int threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
@@ -1492,12 +1492,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeSigmaUpdateThr
   // Using the SplitRequestedRegion method from itk::ImageSource.
   InputImageRegionType splitRegion;
 
-  const unsigned int total = str->Filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+  const unsigned int total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
     str->Filter->SetThreadData(
-      threadId, str->Filter->ThreadedComputeSigmaUpdate(splitRegion, threadId, str->Filter->GetThreadData(threadId)));
+      workUnitID,
+      str->Filter->ThreadedComputeSigmaUpdate(splitRegion, workUnitID, str->Filter->GetThreadData(workUnitID)));
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -1917,8 +1918,8 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeImageUpdateThreaderCallback(void * arg)
 {
-  const unsigned int threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  const unsigned int threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  const unsigned int workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  const unsigned int workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   const ThreadFilterStruct * str = (ThreadFilterStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
@@ -1927,12 +1928,13 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeImageUpdateThr
   // Using the SplitRequestedRegion method from itk::ImageSource.
   InputImageRegionType splitRegion;
 
-  const unsigned int total = str->Filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+  const unsigned int total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
     str->Filter->SetThreadData(
-      threadId, str->Filter->ThreadedComputeImageUpdate(splitRegion, threadId, str->Filter->GetThreadData(threadId)));
+      workUnitID,
+      str->Filter->ThreadedComputeImageUpdate(splitRegion, workUnitID, str->Filter->GetThreadData(workUnitID)));
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;

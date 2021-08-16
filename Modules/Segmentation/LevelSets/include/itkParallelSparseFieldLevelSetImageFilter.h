@@ -715,8 +715,8 @@ protected:
   std::vector<bool>         m_ValidTimeStepList;
   TimeStepType              m_TimeStep;
 
-  /** The number of threads to use. */
-  ThreadIdType m_NumOfThreads{ 0 };
+  /** The number of work units to use. */
+  ThreadIdType m_NumOfWorkUnits{ 0 };
 
   /** The dimension along which to distribute the load. */
   unsigned int m_SplitAxis{ 0 };

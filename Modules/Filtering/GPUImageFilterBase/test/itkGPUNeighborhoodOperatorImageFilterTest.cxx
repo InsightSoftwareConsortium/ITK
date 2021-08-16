@@ -69,14 +69,14 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
   oper.CreateDirectional();
 
   // test 1~8 work units for CPU
-  for (int nWorkUnits = 1; nWorkUnits <= 8; ++nWorkUnits)
+  for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
     typename NeighborhoodFilterType::Pointer CPUFilter = NeighborhoodFilterType::New();
 
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfWorkUnits(nWorkUnits);
+    CPUFilter->SetNumberOfWorkUnits(numberOfWorkUnits);
 
     CPUFilter->SetInput(reader->GetOutput());
     CPUFilter->SetOperator(oper);
@@ -90,7 +90,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
 
     // -------
 
-    if (nWorkUnits == 8)
+    if (numberOfWorkUnits == 8)
     {
       typename GPUNeighborhoodFilterType::Pointer GPUFilter = GPUNeighborhoodFilterType::New();
 

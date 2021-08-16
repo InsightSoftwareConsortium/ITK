@@ -348,9 +348,9 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
 {
   ThreadStruct * str;
-  int            total, threadId, threadCount;
+  int            total, workUnitID, threadCount;
 
-  threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
   threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
@@ -358,11 +358,11 @@ VideoSource<TOutputVideoStream>::ThreaderCallback(void * arg)
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   typename TOutputVideoStream::SpatialRegionType splitRegion;
-  total = str->Filter->SplitRequestedSpatialRegion(threadId, threadCount, splitRegion);
+  total = str->Filter->SplitRequestedSpatialRegion(workUnitID, threadCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    str->Filter->ThreadedGenerateData(splitRegion, threadId);
+    str->Filter->ThreadedGenerateData(splitRegion, workUnitID);
   }
   // else
   //   {

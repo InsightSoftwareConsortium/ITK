@@ -110,22 +110,22 @@ DomainThreader<TDomainPartitioner, TAssociate>::ThreaderCallback(void * arg)
   auto *             info = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
   auto *             str = static_cast<ThreadStruct *>(info->UserData);
   DomainThreader *   thisDomainThreader = str->domainThreader;
-  const ThreadIdType threadId = info->WorkUnitID;
-  const ThreadIdType threadCount = info->NumberOfWorkUnits;
+  const ThreadIdType workUnitID = info->WorkUnitID;
+  const ThreadIdType workUnitCount = info->NumberOfWorkUnits;
 
   // Get the sub-domain to process for this thread.
   DomainType         subdomain;
   const ThreadIdType total = thisDomainThreader->GetDomainPartitioner()->PartitionDomain(
-    threadId, threadCount, thisDomainThreader->m_CompleteDomain, subdomain);
+    workUnitID, workUnitCount, thisDomainThreader->m_CompleteDomain, subdomain);
 
   // Execute the actual method with appropriate sub-domain.
-  // If the threadId is greater than the total number of regions
+  // If the work unit ID is greater than the total number of regions
   // that PartitionDomain will create, don't use this thread.
   // Sometimes the threads dont break up very well and it is just
   // as efficient to leave a few threads idle.
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    thisDomainThreader->ThreadedExecution(subdomain, threadId);
+    thisDomainThreader->ThreadedExecution(subdomain, workUnitID);
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;

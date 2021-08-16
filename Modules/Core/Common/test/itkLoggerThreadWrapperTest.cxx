@@ -101,21 +101,21 @@ protected:
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ThreadedGenerateLogMessages2(void * arg)
 {
-  const auto * threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(arg);
-  if (threadInfo)
+  const auto * workUnitInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(arg);
+  if (workUnitInfo)
   {
-    const unsigned int threadId = threadInfo->WorkUnitID;
+    const unsigned int workUnitID = workUnitInfo->WorkUnitID;
     std::string        threadPrefix;
     {
       std::ostringstream msg;
-      msg << "<Thread " << threadId << "> ";
+      msg << "<Thread " << workUnitID << "> ";
       threadPrefix = msg.str();
     }
 
-    const ThreadDataVec * dataVec = static_cast<ThreadDataVec *>(threadInfo->UserData);
+    const ThreadDataVec * dataVec = static_cast<ThreadDataVec *>(workUnitInfo->UserData);
     if (dataVec)
     {
-      const ThreadDataStruct threadData = (*dataVec)[threadId];
+      const ThreadDataStruct threadData = (*dataVec)[workUnitID];
       {
         std::ostringstream msg;
         msg << threadPrefix << "unpacked arg\n";

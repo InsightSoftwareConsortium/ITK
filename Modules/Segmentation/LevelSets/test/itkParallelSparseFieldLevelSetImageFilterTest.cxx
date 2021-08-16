@@ -226,8 +226,8 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
 
   using ImageType = ::itk::Image<float, 3>;
 
-  constexpr int n = 100;           // Number of iterations
-  constexpr int numOfThreads = 11; // Number of threads to be used
+  constexpr int n = 100;                // Number of iterations
+  constexpr int numberOfWorkUnits = 11; // Number of work units to be used
 
   ImageType::Pointer im_init = ImageType::New();
   ImageType::Pointer im_target = ImageType::New();
@@ -298,7 +298,7 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   mf->SetDistanceTransform(im_target);
   mf->SetIterations(n);
   mf->SetInput(im_init);
-  mf->SetNumberOfWorkUnits(numOfThreads);
+  mf->SetNumberOfWorkUnits(numberOfWorkUnits);
   mf->SetNumberOfLayers(3);
 
   try

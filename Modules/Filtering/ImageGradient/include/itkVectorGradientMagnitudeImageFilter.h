@@ -497,7 +497,7 @@ private:
   bool m_UseImageSpacing;
   bool m_UsePrincipleComponents;
 
-  ThreadIdType m_RequestedNumberOfThreads;
+  ThreadIdType m_RequestedNumberOfWorkUnits;
 
   typename RealVectorImageType::ConstPointer m_RealValuedInputImage;
 };

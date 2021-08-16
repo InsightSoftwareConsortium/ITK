@@ -379,7 +379,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
             << " Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
             << " Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << std::endl
             << " FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << std::endl
-            << " Number of threads used:" << std::endl
+            << " Number of work units used:" << std::endl
             << "  metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << std::endl
             << "  optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
 
@@ -388,7 +388,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
             << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl
             << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << std::endl
             << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << std::endl
-            << "Number of threads used:" << std::endl
+            << "Number of work units used:" << std::endl
             << "  metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
             << "  optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
 

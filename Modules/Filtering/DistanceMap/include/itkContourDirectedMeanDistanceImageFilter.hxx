@@ -118,11 +118,11 @@ template <typename TInputImage1, typename TInputImage2>
 void
 ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // Resize the thread temporaries
-  m_MeanDistance.SetSize(numberOfThreads);
-  m_Count.SetSize(numberOfThreads);
+  m_MeanDistance.SetSize(numberOfWorkUnits);
+  m_Count.SetSize(numberOfWorkUnits);
 
   // Initialize the temporaries
   m_MeanDistance.Fill(NumericTraits<RealType>::ZeroValue());
@@ -145,13 +145,13 @@ template <typename TInputImage1, typename TInputImage2>
 void
 ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::AfterThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // Find mean over all threads
   IdentifierType count = 0;
   RealType       sum = NumericTraits<RealType>::ZeroValue();
 
-  for (ThreadIdType i = 0; i < numberOfThreads; ++i)
+  for (ThreadIdType i = 0; i < numberOfWorkUnits; ++i)
   {
     sum += m_MeanDistance[i];
     count += m_Count[i];

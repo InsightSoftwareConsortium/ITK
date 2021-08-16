@@ -55,13 +55,13 @@ template <typename TLabelImage>
 void
 LabelOverlapMeasuresImageFilter<TLabelImage>::BeforeThreadedGenerateData()
 {
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   // Resize the thread temporaries
-  this->m_LabelSetMeasuresPerThread.resize(numberOfThreads);
+  this->m_LabelSetMeasuresPerThread.resize(numberOfWorkUnits);
 
   // Initialize the temporaries
-  for (ThreadIdType n = 0; n < numberOfThreads; ++n)
+  for (ThreadIdType n = 0; n < numberOfWorkUnits; ++n)
   {
     this->m_LabelSetMeasuresPerThread[n].clear();
   }

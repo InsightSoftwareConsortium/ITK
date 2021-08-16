@@ -428,29 +428,29 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase::SingleMethodProxy(void * arg)
 {
   // grab the WorkUnitInfo originally prescribed
-  auto * threadInfoStruct = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
+  auto * workUnitInfoStruct = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
 
   // execute the user specified threader callback, catching any exceptions
   try
   {
-    (*threadInfoStruct->ThreadFunction)(arg);
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::SUCCESS;
+    (*workUnitInfoStruct->ThreadFunction)(arg);
+    workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::SUCCESS;
   }
   catch (ProcessAborted &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_PROCESS_ABORTED_EXCEPTION;
+    workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_PROCESS_ABORTED_EXCEPTION;
   }
   catch (ExceptionObject &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_EXCEPTION;
+    workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_EXCEPTION;
   }
   catch (std::exception &)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::STD_EXCEPTION;
+    workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::STD_EXCEPTION;
   }
   catch (...)
   {
-    threadInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::UNKNOWN;
+    workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::UNKNOWN;
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -491,17 +491,17 @@ MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase::ParallelizeArrayHelper(void * arg)
 {
-  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *       threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->WorkUnitID;
-  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
-  auto *       acParams = static_cast<struct ArrayCallback *>(threadInfo->UserData);
+  using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
+  auto *       workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
+  ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
+  auto *       acParams = static_cast<struct ArrayCallback *>(workUnitInfo->UserData);
 
   SizeValueType range = acParams->lastIndexPlus1 - acParams->firstIndex;
-  double        fraction = double(range) / threadCount;
-  SizeValueType first = acParams->firstIndex + fraction * threadId;
-  SizeValueType afterLast = acParams->firstIndex + fraction * (threadId + 1);
-  if (threadId == threadCount - 1) // last thread
+  double        fraction = double(range) / workUnitCount;
+  SizeValueType first = acParams->firstIndex + fraction * workUnitID;
+  SizeValueType afterLast = acParams->firstIndex + fraction * (workUnitID + 1);
+  if (workUnitID == workUnitCount - 1) // last thread
   {
     // Avoid possible problems due to floating point arithmetic
     afterLast = acParams->lastIndexPlus1;
@@ -546,11 +546,11 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
 {
-  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *       threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->WorkUnitID;
-  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
-  auto *       rnc = static_cast<struct RegionAndCallback *>(threadInfo->UserData);
+  using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
+  auto *       workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
+  ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
+  auto *       rnc = static_cast<struct RegionAndCallback *>(workUnitInfo->UserData);
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
   ImageIORegion                   region(rnc->dimension);
@@ -559,11 +559,11 @@ MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
     region.SetIndex(d, rnc->index[d]);
     region.SetSize(d, rnc->size[d]);
   }
-  ThreadIdType total = splitter->GetSplit(threadId, threadCount, region);
+  ThreadIdType total = splitter->GetSplit(workUnitID, workUnitCount, region);
 
   TotalProgressReporter reporter(rnc->filter, 0);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
     rnc->functor(&region.GetIndex()[0], &region.GetSize()[0]);
 

@@ -99,9 +99,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::~ImageToImageMetric()
  */
 template <typename TFixedImage, typename TMovingImage>
 void
-ImageToImageMetric<TFixedImage, TMovingImage>::SetNumberOfWorkUnits(ThreadIdType numberOfThreads)
+ImageToImageMetric<TFixedImage, TMovingImage>::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 {
-  m_Threader->SetNumberOfWorkUnits(numberOfThreads);
+  m_Threader->SetNumberOfWorkUnits(numberOfWorkUnits);
   m_NumberOfWorkUnits = m_Threader->GetNumberOfWorkUnits();
 }
 
