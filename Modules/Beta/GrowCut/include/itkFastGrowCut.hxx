@@ -57,6 +57,24 @@ ExtractITKImageROI(const itk::Image<PixelType, 3> * im,
 namespace itk
 {
 template <typename TInputImage, typename TLabelImage, typename TMaskImage>
+void
+FastGrowCut<TInputImage, TLabelImage, TMaskImage>::Reset()
+{
+  // if (m_Heap != nullptr)
+  // {
+  //   delete m_Heap;
+  //   m_Heap = nullptr;
+  // }
+  // if (m_HeapNodes != nullptr)
+  // {
+  //   delete[] m_HeapNodes;
+  //   m_HeapNodes = nullptr;
+  // }
+  // m_bSegInitialized = false;
+  // m_DistanceVolume = DistanceImageType::New()
+}
+
+template <typename TInputImage, typename TLabelImage, typename TMaskImage>
 bool
 FastGrowCut<TInputImage, TLabelImage, TMaskImage>::InitializationAHP()
 {

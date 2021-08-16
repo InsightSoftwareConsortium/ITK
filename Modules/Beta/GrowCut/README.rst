@@ -38,10 +38,8 @@ In 2014, Zhu et al. presented an `efficient approximation
 Zhu et al. also provided an open source implementation as a Slicer plugin, `based on VTK
 <https://github.com/ljzhu/FastGrowCut>`_.
 Since then, their implementation was integrated into Slicer, `refactored and improved
-<https://github.com/Slicer/Slicer/blob/master/Modules/Loadable/Segmentations/Logic/vtkImageGrowCutSegment.cxx>`_.
-
-
-In this remote module we are providing an ITK-based implementation of the efficient algorithm by Zhu et al.
+<https://github.com/Slicer/Slicer/blob/1a692bf36e9c99c47661fbf5fdba0fd3c3e72f95/Modules/Loadable/Segmentations/Logic/vtkImageGrowCutSegment.cxx>`_.
+In this remote module we are building upon the improved variant from Slicer.
 
 
 Acknowledgements

@@ -25,6 +25,8 @@
 #include <cstdio>
 #include <iostream>
 
+#include "GrowCutExport.h"
+
 // type for cost function - single precision is enough
 typedef float NodeKeyValueType;
 
@@ -47,7 +49,7 @@ typedef unsigned int NodeIndexType;
 // which was significant when one node represented a voxel (and we had
 // hundreds of millions of voxels in an image).
 
-class FibHeapNode
+class GrowCut_EXPORT FibHeapNode
 {
 public:
   static const NodeIndexType NullNodeIndex;
@@ -127,7 +129,7 @@ public:
 
 /// \ingroup Slicer_QtModules_Segmentations
 
-class FibHeap
+class GrowCut_EXPORT FibHeap
 {
 public:
   FibHeap();
