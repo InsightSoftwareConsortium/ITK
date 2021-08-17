@@ -44,8 +44,9 @@ itk_add_test(NAME itkDirectedHausdorffDistanceImageFilterTest1
       COMMAND ITKDistanceMapTestDriver itkDirectedHausdorffDistanceImageFilterTest1)
 itk_add_test(NAME itkDirectedHausdorffDistanceImageFilterTest2
       COMMAND ITKDistanceMapTestDriver
-    itkDirectedHausdorffDistanceImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
-    DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkDirectedHausdorffDistanceImageFilterTest2.png 1)
+      itkDirectedHausdorffDistanceImageFilterTest2
+      DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkDirectedHausdorffDistanceImageFilterTest2.png)
 itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest
       COMMAND ITKDistanceMapTestDriver itkSignedDanielssonDistanceMapImageFilterTest)
 itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest1
