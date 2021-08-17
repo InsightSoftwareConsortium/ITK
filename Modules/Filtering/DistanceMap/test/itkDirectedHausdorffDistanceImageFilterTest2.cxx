@@ -26,7 +26,7 @@ using namespace itk::print_helper;
 
 
 int
-itkDirectedHausdorffDistanceImageFilterTest(int argc, char * argv[])
+itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
 {
   if (argc != 5)
   {

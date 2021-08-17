@@ -3,7 +3,8 @@ set(ITKDistanceMapTests
 itkDanielssonDistanceMapImageFilterTest.cxx
 itkDanielssonDistanceMapImageFilterTest1.cxx
 itkDanielssonDistanceMapImageFilterTest2.cxx
-itkDirectedHausdorffDistanceImageFilterTest.cxx
+itkDirectedHausdorffDistanceImageFilterTest1.cxx
+itkDirectedHausdorffDistanceImageFilterTest2.cxx
 itkSignedDanielssonDistanceMapImageFilterTest.cxx
 itkSignedDanielssonDistanceMapImageFilterTest1.cxx
 itkSignedDanielssonDistanceMapImageFilterTest2.cxx
@@ -39,10 +40,12 @@ itk_add_test(NAME itkDanielssonDistanceMapImageFilterTest2
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/itkDanielssonDistanceMapImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/itkDanielssonDistanceMapImageFilterTest2.png
     itkDanielssonDistanceMapImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkDanielssonDistanceMapImageFilterTest2.png)
-itk_add_test(NAME itkDirectedHausdorffDistanceImageFilterTest
+itk_add_test(NAME itkDirectedHausdorffDistanceImageFilterTest1
+      COMMAND ITKDistanceMapTestDriver itkDirectedHausdorffDistanceImageFilterTest1)
+itk_add_test(NAME itkDirectedHausdorffDistanceImageFilterTest2
       COMMAND ITKDistanceMapTestDriver
-    itkDirectedHausdorffDistanceImageFilterTest DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
-    DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkDirectedHausdorffDistanceImageFilterTest.png 1)
+    itkDirectedHausdorffDistanceImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
+    DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png} ${ITK_TEST_OUTPUT_DIR}/itkDirectedHausdorffDistanceImageFilterTest2.png 1)
 itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest
       COMMAND ITKDistanceMapTestDriver itkSignedDanielssonDistanceMapImageFilterTest)
 itk_add_test(NAME itkSignedDanielssonDistanceMapImageFilterTest1
