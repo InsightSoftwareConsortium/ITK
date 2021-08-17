@@ -28,11 +28,10 @@ using namespace itk::print_helper;
 int
 itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
 {
-  if (argc != 5)
+  if (argc != 3)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputFileName1 inputFileName2 outputFileName useImageSpacing" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -49,7 +48,7 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader1->Update());
 
-  reader2->SetFileName(argv[2]);
+  reader2->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
 
@@ -68,8 +67,7 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
   filter->SetInput2(image2);
   ITK_TEST_SET_GET_VALUE(image2, filter->GetInput2());
 
-  auto useImageSpacing = static_cast<bool>(std::stoi(argv[4]));
-  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, true);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
@@ -84,7 +82,7 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(argv[3]);
+  writer->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
