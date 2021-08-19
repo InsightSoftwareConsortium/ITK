@@ -20,7 +20,6 @@
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
 #include <nifti1_io.h>
-
 #include "itkNiftiImageIOConfigurePrivate.h"
 
 namespace itk
@@ -1759,14 +1758,15 @@ IsAffine(const mat44 & nifti_mat)
       return false;
     }
   }
-  // Get the inverse of this matrix:
-  // Make sure the matrix is invertible to begin with...
-  if (fabs(vnl_determinant(mat)) <= 1e-5)
+
+  const float condition = vnl_matrix_inverse<float>(mat.as_matrix()).well_condition();
+  // Check matrix is invertible by testing condition number of inverse
+  if (!(condition > std::numeric_limits<float>::epsilon()))
   {
     return false;
   }
 
-  // Calculate the inverse and seperate the inverse translation component
+  // Calculate the inverse and separate the inverse translation component
   // and the top 3x3 part of the inverse matrix
   const vnl_matrix_fixed<float, 4, 4> inv4x4Matrix = vnl_matrix_inverse<float>(mat.as_matrix()).as_matrix();
   const vnl_vector_fixed<float, 3>    inv4x4Translation(inv4x4Matrix[0][3], inv4x4Matrix[1][3], inv4x4Matrix[2][3]);
