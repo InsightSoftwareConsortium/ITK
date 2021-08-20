@@ -186,9 +186,10 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
 
   // Define a few variables that will be used to translate from an input pixel
   // to an output pixel
-  PointType outputPoint;      // Coordinates of output pixel
-  PointType transformedPoint; // Coordinates of transformed pixel
-  PixelType displacement;     // the difference
+  PointType outputPoint;       // Coordinates of output pixel
+  PointType transformedPoint;  // Coordinates of transformed pixel
+  PointType displacementPoint; // the difference
+  PixelType displacementPixel; // the difference, cast to pixel type
 
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
@@ -205,8 +206,13 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
       // Compute corresponding input pixel position
       transformedPoint = transform->TransformPoint(outputPoint);
 
-      displacement = transformedPoint - outputPoint;
-      outIt.Set(displacement);
+      displacementPoint = transformedPoint - outputPoint;
+      // Cast PointType -> PixelType
+      for (IndexValueType idx = 0; idx < ImageDimension; ++idx)
+      {
+        displacementPixel[idx] = static_cast<typename PixelType::ValueType>(displacementPoint[idx]);
+      }
+      outIt.Set(displacementPixel);
       ++outIt;
     }
     outIt.NextLine();
