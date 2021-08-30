@@ -603,9 +603,11 @@ str = str
                     } else if (PyFloat_Check(o)) {
                         itks[i] = (type)PyFloat_AsDouble(o);
                     } else {
+                        Py_DECREF(o);
                         PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
                         return NULL;
                     }
+                    Py_DECREF(o);
                 }
                 $1 = &itks;
             }else if (PyInt_Check($input)) {
@@ -649,9 +651,11 @@ str = str
                     } else if (PyFloat_Check(o)) {
                         itks[i] = (type)PyFloat_AsDouble(o);
                     } else {
+                        Py_DECREF(o);
                         PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
                         return NULL;
                     }
+                    Py_DECREF(o);
                 }
                 $1 = itks;
             }else if (PyInt_Check($input)) {
@@ -723,9 +727,11 @@ str = str
                 } else if (PyFloat_Check(o)) {
                     itks[i] = (value_type)PyFloat_AsDouble(o);
                 } else {
+                    Py_DECREF(o);
                     PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
                     return NULL;
                 }
+                Py_DECREF(o);
             }
             $1 = &itks;
         }
@@ -754,9 +760,11 @@ str = str
             } else if (PyFloat_Check(o)) {
                 itks[i] = (value_type)PyFloat_AsDouble(o);
             } else {
+                Py_DECREF(o);
                 PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int or float");
                 return NULL;
             }
+            Py_DECREF(o);
         }
         $1 = itks;
     }
@@ -806,9 +814,11 @@ str = str
                     if (PyInt_Check(o) || PyLong_Check(o)) {
                         itks[i] = PyInt_AsLong(o);
                     } else {
+                        Py_DECREF(o);
                         PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int (or long)");
                         return NULL;
                     }
+                    Py_DECREF(o);
                 }
                 $1 = &itks;
             }else if (PyInt_Check($input) || PyLong_Check($input)) {
@@ -845,9 +855,11 @@ str = str
                     if (PyInt_Check(o) || PyLong_Check(o)) {
                         itks[i] = PyInt_AsLong(o);
                     } else {
+                        Py_DECREF(o);
                         PyErr_SetString(PyExc_ValueError,"Expecting a sequence of int (or long)");
                         return NULL;
                     }
+                    Py_DECREF(o);
                 }
                 $1 = itks;
             }else if (PyInt_Check($input) || PyLong_Check($input)) {
@@ -932,9 +944,11 @@ str = str
                     if(SWIG_ConvertPtr(o,(void **)(&raw_ptr),$descriptor(swig_name *), 0) == 0) {
                         vec_smartptr.push_back(raw_ptr);
                     } else {
+                        Py_DECREF(o);
                         PyErr_SetString(PyExc_ValueError,"Expecting a sequence of raw pointers (" #swig_name ")." );
                         SWIG_fail;
                     }
+                    Py_DECREF(o);
                 }
                 $1 = vec_smartptr;
             }
