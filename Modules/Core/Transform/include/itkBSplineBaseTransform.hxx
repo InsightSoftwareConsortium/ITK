@@ -291,7 +291,7 @@ template <typename TParametersValueType, unsigned int NDimensions, unsigned int 
 unsigned int
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumberOfAffectedWeights() const
 {
-  return this->m_WeightsFunction->GetNumberOfWeights();
+  return WeightsFunctionType::NumberOfWeights;
 }
 
 // This helper class is used to work around a race condition where the dynamically
@@ -315,8 +315,8 @@ typename BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoint(
   const InputPointType & point) const
 {
-  WeightsType             weights(this->m_WeightsFunction->GetNumberOfWeights());
-  ParameterIndexArrayType indices(this->m_WeightsFunction->GetNumberOfWeights());
+  WeightsType             weights(WeightsFunctionType::NumberOfWeights);
+  ParameterIndexArrayType indices(WeightsFunctionType::NumberOfWeights);
   OutputPointType         outputPoint;
   bool                    inside;
 

@@ -23,6 +23,7 @@
 #include "itkBSplineKernelFunction.h"
 #include "itkArray.h"
 #include "itkArray2D.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -69,6 +70,9 @@ public:
   /** Spline order. */
   static constexpr unsigned int SplineOrder = VSplineOrder;
 
+  /** Number of weights. */
+  static constexpr unsigned int NumberOfWeights{ Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension) };
+
   /** OutputType type alias support. */
   using WeightsType = Array<double>;
 
@@ -98,8 +102,10 @@ public:
   /** Get support region size. */
   itkGetConstMacro(SupportSize, SizeType);
 
+#if !defined(ITK_LEGACY_REMOVE)
   /** Get number of weights. */
-  itkGetConstMacro(NumberOfWeights, unsigned int);
+  itkLegacyMacro(unsigned int GetNumberOfWeights() const) { return Self::NumberOfWeights; }
+#endif
 
 protected:
   BSplineInterpolationWeightFunction();
@@ -108,9 +114,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Number of weights. */
-  unsigned int m_NumberOfWeights;
-
   /** Size of support region. */
   SizeType m_SupportSize;
 

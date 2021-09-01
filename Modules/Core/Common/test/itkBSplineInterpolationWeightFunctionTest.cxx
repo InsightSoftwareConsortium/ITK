@@ -26,6 +26,15 @@
 // compiler bug.
 template class itk::BSplineInterpolationWeightFunction<float, 2U, 1U>;
 
+
+// Test NumberOfWeights:
+static_assert((itk::BSplineInterpolationWeightFunction<float, 2, 1>::NumberOfWeights == 4) &&
+                (itk::BSplineInterpolationWeightFunction<float, 2, 2>::NumberOfWeights == 9) &&
+                (itk::BSplineInterpolationWeightFunction<float, 2, 3>::NumberOfWeights == 16) &&
+                (itk::BSplineInterpolationWeightFunction<float, 3, 3>::NumberOfWeights == 64),
+              "NumberOfWeights must be (SplineOrder+1) ^ SpaceDimension");
+
+
 /*
  * This test exercises methods in the
  * BSplineInterpolationWeightFunction class.
@@ -232,7 +241,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     function->Print(std::cout);
 
     SizeType      size = function->GetSupportSize();
-    unsigned long numberOfWeights = function->GetNumberOfWeights();
+    unsigned long numberOfWeights = FunctionType::NumberOfWeights;
 
     std::cout << "Number Of Weights: " << numberOfWeights << std::endl;
 

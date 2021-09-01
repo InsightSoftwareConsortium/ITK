@@ -426,7 +426,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
   else
   {
     m_BSplineTransform = testPtr2;
-    m_NumBSplineWeights = m_BSplineTransform->GetNumberOfWeights();
+    m_NumBSplineWeights = BSplineTransformType::NumberOfWeights;
     itkDebugMacro("Transform is BSplineDeformable");
   }
 
