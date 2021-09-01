@@ -440,6 +440,9 @@ now has signature
 `JacobianPositionType` is publicly exposed in `itk::Transform`.
 See commit [commit 212cae5](https://github.com/InsightSoftwareConsortium/ITK/commit/212cae522d8451ea089c41f8a151279e1dd17042) for details.
 
+With ITK 5.3, the `GetNumberOfWeights()` member functions of `itk::BSplineBaseTransform` and `itk::BSplineInterpolationWeightFunction`
+are replaced by static constexpr data members named `NumberOfWeights`.
+
 Consolidated Vector Filter
 --------------------------
 

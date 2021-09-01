@@ -239,8 +239,8 @@ itkBSplineTransformTest1()
   using WeightsType = TransformType::WeightsType;
   using IndexArrayType = TransformType::ParameterIndexArrayType;
 
-  WeightsType    weights(transform->GetNumberOfWeights());
-  IndexArrayType indices(transform->GetNumberOfWeights());
+  WeightsType    weights(TransformType::NumberOfWeights);
+  IndexArrayType indices(TransformType::NumberOfWeights);
   bool           inside;
 
   inputPoint.Fill(8.3);
@@ -257,7 +257,7 @@ itkBSplineTransformTest1()
 
   // cycling through all the parameters and weights used in the previous
   // transformation
-  unsigned int numberOfCoefficientInSupportRegion = transform->GetNumberOfWeights();
+  unsigned int numberOfCoefficientInSupportRegion = TransformType::NumberOfWeights;
   unsigned int numberOfParametersPerDimension = transform->GetNumberOfParametersPerDimension();
   unsigned int linearIndex;
   unsigned int baseIndex;

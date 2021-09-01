@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#define ITK_LEGACY_TEST
 #include "itkGTest.h"
 #include "itkBSplineTransform.h"
 
@@ -177,4 +178,30 @@ TEST(ITKBSplineTransform, Copying_Clone)
 
   bspline2 = bspline1->Clone();
   bspline_eq(bspline1.GetPointer(), bspline2.GetPointer(), "Clone");
+}
+
+
+TEST(ITKBSplineTransform, NumberOfWeights)
+{
+  const auto testNumberOfWeights = [](const auto & bsplineTransform) {
+    using BSplineTransformType = std::remove_reference_t<decltype(bsplineTransform)>;
+
+    constexpr auto actualNumberOfWeights = BSplineTransformType::NumberOfWeights;
+
+#ifndef ITK_LEGACY_REMOVE
+    EXPECT_EQ(actualNumberOfWeights, bsplineTransform.GetNumberOfWeights());
+#endif
+
+    // Expect the actual value of `NumberOfWeights` to be equal to the value of `m_NumberOfWeights` from ITK 5.2 (before
+    // the introduction of `BSplineTransform::NumberOfWeights`), as was originally initialized at
+    // https://github.com/InsightSoftwareConsortium/ITK/blob/v5.2.0/Modules/Core/Common/include/itkBSplineInterpolationWeightFunction.hxx#L35
+    EXPECT_EQ(actualNumberOfWeights,
+              static_cast<unsigned int>(std::pow(static_cast<double>(BSplineTransformType::SplineOrder + 1),
+                                                 static_cast<double>(BSplineTransformType::SpaceDimension))));
+  };
+
+  testNumberOfWeights(*itk::BSplineTransform<>::New());
+  testNumberOfWeights(*itk::BSplineTransform<float>::New());
+  testNumberOfWeights(*itk::BSplineTransform<float, 2>::New());
+  testNumberOfWeights(*itk::BSplineTransform<float, 2, 2>::New());
 }

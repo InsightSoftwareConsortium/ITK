@@ -237,6 +237,9 @@ public:
   /** Parameter index array type. */
   using ParameterIndexArrayType = Array<unsigned long>;
 
+  /** Number of weights. */
+  static constexpr unsigned int NumberOfWeights{ WeightsFunctionType::NumberOfWeights };
+
   /**
    * Transform points by a BSpline deformable transformation.
    * On return, weights contains the interpolation weights used to compute the
@@ -252,12 +255,10 @@ public:
                  ParameterIndexArrayType & indices,
                  bool &                    inside) const = 0;
 
+#if !defined(ITK_LEGACY_REMOVE)
   /** Get number of weights. */
-  unsigned long
-  GetNumberOfWeights() const
-  {
-    return m_WeightsFunction->GetNumberOfWeights();
-  }
+  itkLegacyMacro(unsigned long GetNumberOfWeights() const) { return m_WeightsFunction->GetNumberOfWeights(); }
+#endif
 
   /** Method to transform a vector -
    *  not applicable for this type of transform. */

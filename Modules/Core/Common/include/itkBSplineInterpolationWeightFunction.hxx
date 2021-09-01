@@ -30,15 +30,11 @@ namespace itk
 template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BSplineInterpolationWeightFunction()
 {
-  // Initialize the number of weights;
-  m_NumberOfWeights =
-    static_cast<unsigned int>(std::pow(static_cast<double>(SplineOrder + 1), static_cast<double>(SpaceDimension)));
-
   // Initialize support region is a hypercube of length SplineOrder + 1
   m_SupportSize.Fill(SplineOrder + 1);
 
   // Initialize offset to index lookup table
-  m_OffsetToIndexTable.set_size(m_NumberOfWeights, SpaceDimension);
+  m_OffsetToIndexTable.set_size(Self::NumberOfWeights, SpaceDimension);
 
   unsigned int counter = 0;
 
@@ -66,7 +62,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfWeights: " << m_NumberOfWeights << std::endl;
+  os << indent << "NumberOfWeights: " << Self::NumberOfWeights << std::endl;
   os << indent << "SupportSize: " << m_SupportSize << std::endl;
 }
 
@@ -76,7 +72,7 @@ typename BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineO
 BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Evaluate(
   const ContinuousIndexType & index) const
 {
-  WeightsType weights(m_NumberOfWeights);
+  WeightsType weights(Self::NumberOfWeights);
   IndexType   startIndex;
 
   this->Evaluate(index, weights, startIndex);
@@ -116,7 +112,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Ev
     }
   }
 
-  for (k = 0; k < m_NumberOfWeights; ++k)
+  for (k = 0; k < Self::NumberOfWeights; ++k)
   {
     weights[k] = 1.0;
 
