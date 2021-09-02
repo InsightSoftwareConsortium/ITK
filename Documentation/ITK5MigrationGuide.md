@@ -441,7 +441,8 @@ now has signature
 See commit [commit 212cae5](https://github.com/InsightSoftwareConsortium/ITK/commit/212cae522d8451ea089c41f8a151279e1dd17042) for details.
 
 With ITK 5.3, the `GetNumberOfWeights()` member functions of `itk::BSplineBaseTransform` and `itk::BSplineInterpolationWeightFunction`
-are replaced by static constexpr data members named `NumberOfWeights`.
+are replaced by static constexpr data members named `NumberOfWeights`, and the `GetSupportSize()` member function of
+`itk::BSplineInterpolationWeightFunction` is replaced by a static constexpr data member named `SupportSize`.
 
 Consolidated Vector Filter
 --------------------------
