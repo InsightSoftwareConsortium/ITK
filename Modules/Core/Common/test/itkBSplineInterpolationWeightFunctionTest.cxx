@@ -240,7 +240,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     FunctionType::Pointer function = FunctionType::New();
     function->Print(std::cout);
 
-    SizeType      size = function->GetSupportSize();
+    SizeType      size = FunctionType::SupportSize;
     unsigned long numberOfWeights = FunctionType::NumberOfWeights;
 
     std::cout << "Number Of Weights: " << numberOfWeights << std::endl;

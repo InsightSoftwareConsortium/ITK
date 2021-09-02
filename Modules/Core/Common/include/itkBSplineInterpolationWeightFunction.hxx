@@ -30,15 +30,13 @@ namespace itk
 template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BSplineInterpolationWeightFunction()
 {
-  // Initialize support region is a hypercube of length SplineOrder + 1
-  m_SupportSize.Fill(SplineOrder + 1);
-
   // Initialize offset to index lookup table
   m_OffsetToIndexTable.set_size(Self::NumberOfWeights, SpaceDimension);
 
-  unsigned int counter = 0;
+  constexpr auto supportSize = Self::SupportSize;
+  unsigned int   counter = 0;
 
-  for (const IndexType index : ZeroBasedIndexRange<VSpaceDimension>(m_SupportSize))
+  for (const IndexType index : ZeroBasedIndexRange<VSpaceDimension>(supportSize))
   {
     for (unsigned int j = 0; j < SpaceDimension; ++j)
     {
@@ -63,7 +61,6 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Pr
   Superclass::PrintSelf(os, indent);
 
   os << indent << "NumberOfWeights: " << Self::NumberOfWeights << std::endl;
-  os << indent << "SupportSize: " << m_SupportSize << std::endl;
 }
 
 /** Compute weights for interpolation at continuous index position */

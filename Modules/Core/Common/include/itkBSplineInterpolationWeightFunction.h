@@ -83,6 +83,9 @@ public:
   /** ContinuousIndex type alias support. */
   using ContinuousIndexType = ContinuousIndex<TCoordRep, VSpaceDimension>;
 
+  /** The support region size: a hypercube of length SplineOrder + 1 */
+  static constexpr SizeType SupportSize{ SizeType::Filled(VSplineOrder + 1) };
+
   /** Evaluate the weights at specified ContinuousIndex position.
    * Subclasses must provide this method. */
   WeightsType
@@ -99,10 +102,10 @@ public:
   virtual void
   Evaluate(const ContinuousIndexType & index, WeightsType & weights, IndexType & startIndex) const;
 
-  /** Get support region size. */
-  itkGetConstMacro(SupportSize, SizeType);
-
 #if !defined(ITK_LEGACY_REMOVE)
+  /** Get support region size. */
+  itkLegacyMacro(SizeType GetSupportSize() const) { return Self::SupportSize; };
+
   /** Get number of weights. */
   itkLegacyMacro(unsigned int GetNumberOfWeights() const) { return Self::NumberOfWeights; }
 #endif
@@ -114,9 +117,6 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Size of support region. */
-  SizeType m_SupportSize;
-
   /** Lookup table type. */
   using TableType = Array2D<unsigned int>;
 
