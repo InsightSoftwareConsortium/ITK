@@ -412,9 +412,9 @@ public:
     return false;
   }
 
-  reference operator[](size_type pos) { return m_InternalArray[pos]; }
+  constexpr reference operator[](size_type pos) { return m_InternalArray[pos]; }
 
-  const_reference operator[](size_type pos) const { return m_InternalArray[pos]; }
+  constexpr const_reference operator[](size_type pos) const { return m_InternalArray[pos]; }
 
   reference
   at(size_type pos)
@@ -469,11 +469,14 @@ public:
 
   /** Returns an Index object, filled with the specified value for each element.
    */
-  static Self
+  static constexpr Self
   Filled(const IndexValueType value)
   {
-    Self result;
-    result.Fill(value);
+    Self result{};
+    for (IndexValueType & indexValue : result.m_InternalArray)
+    {
+      indexValue = value;
+    }
     return result;
   }
 

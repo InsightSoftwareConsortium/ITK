@@ -262,8 +262,8 @@ public:
 #    pragma GCC diagnostic ignored "-Warray-bounds"
 #  endif
 #endif
-  reference       operator[](unsigned int index) { return m_InternalArray[index]; }
-  const_reference operator[](unsigned int index) const { return m_InternalArray[index]; }
+  constexpr reference       operator[](unsigned int index) { return m_InternalArray[index]; }
+  constexpr const_reference operator[](unsigned int index) const { return m_InternalArray[index]; }
 #if defined(__GNUC__)
 #  if (__GNUC__ == 4) && (__GNUC_MINOR__ == 9) || (__GNUC__ >= 7)
 #    pragma GCC diagnostic pop
@@ -425,8 +425,17 @@ private:
   CArray m_InternalArray;
 
 public:
-  static FixedArray
-  Filled(const ValueType &);
+  /** Return an FixedArray with the given value assigned to all elements. */
+  static constexpr FixedArray
+  Filled(const ValueType & value)
+  {
+    FixedArray result{};
+    for (ValueType & element : result.m_InternalArray)
+    {
+      element = value;
+    }
+    return result;
+  }
 };
 
 template <typename TValue, unsigned int VLength>
