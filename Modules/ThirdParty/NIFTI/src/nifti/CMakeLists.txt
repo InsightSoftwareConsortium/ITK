@@ -202,7 +202,7 @@ endif()
 
 # Report installed targets
 get_property(nifti_installed_targets GLOBAL PROPERTY nifti_installed_targets)
-message("nifti_installed_targets: ${nifti_installed_targets}")
+message(STATUS "nifti_installed_targets: ${nifti_installed_targets}")
 
 if(CMAKE_VER_AT_LEAST_3_13)
   # Target installation for CMake versions >=3.13
