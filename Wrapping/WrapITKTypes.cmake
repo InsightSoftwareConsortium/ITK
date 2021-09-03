@@ -148,6 +148,13 @@ WRAP_TYPE("itk::FixedArray" "FA" "itkFixedArray.h")
     ADD_TEMPLATE("${ITKM_SC}${d}" "${ITKT_SC},${d}")
     ADD_TEMPLATE("${ITKM_B}${d}"  "${ITKT_B},${d}")
   endforeach()
+
+  # Wrap FixedArray for BSplineInterpolationWeightFunction:
+  ADD_TEMPLATE("${ITKM_D}9" "${ITKT_D},9")
+  ADD_TEMPLATE("${ITKM_D}16" "${ITKT_D},16")
+  ADD_TEMPLATE("${ITKM_UL}16" "${ITKT_UL},16")
+  ADD_TEMPLATE("${ITKM_D}64" "${ITKT_D},64")
+  ADD_TEMPLATE("${ITKM_UL}64" "${ITKT_UL},64")
 END_WRAP_TYPE()
 set(itk_Wrap_FixedArray ${WRAPPER_TEMPLATES})
 

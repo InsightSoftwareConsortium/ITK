@@ -61,9 +61,6 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     WeightsType weights1;
     WeightsType weights2;
 
-    weights1.SetSize(SplineOrder + 1);
-    weights2.SetSize(SplineOrder + 1);
-
     ContinuousIndexType position1;
     ContinuousIndexType position2;
 
@@ -150,9 +147,6 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
     WeightsType weights1;
     WeightsType weights2;
-
-    weights1.SetSize(SplineOrder + 1);
-    weights2.SetSize(SplineOrder + 1);
 
     ContinuousIndexType position1;
     ContinuousIndexType position2;

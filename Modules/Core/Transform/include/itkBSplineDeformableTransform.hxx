@@ -573,7 +573,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Com
   }
 
   // Compute interpolation weights
-  WeightsType weights(WeightsFunctionType::NumberOfWeights);
+  WeightsType weights;
 
   IndexType supportIndex;
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);

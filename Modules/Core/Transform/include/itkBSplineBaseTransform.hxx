@@ -315,7 +315,7 @@ typename BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoint(
   const InputPointType & point) const
 {
-  WeightsType             weights(WeightsFunctionType::NumberOfWeights);
+  WeightsType             weights;
   ParameterIndexArrayType indices(WeightsFunctionType::NumberOfWeights);
   OutputPointType         outputPoint;
   bool                    inside;

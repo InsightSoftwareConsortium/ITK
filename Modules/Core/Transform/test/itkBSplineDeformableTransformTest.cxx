@@ -203,7 +203,7 @@ itkBSplineDeformableTransformTest1()
   using WeightsType = TransformType::WeightsType;
   using IndexArrayType = TransformType::ParameterIndexArrayType;
 
-  WeightsType    weights(TransformType::NumberOfWeights);
+  WeightsType    weights;
   IndexArrayType indices(TransformType::NumberOfWeights);
   bool           inside;
 
