@@ -234,11 +234,11 @@ public:
   using WeightsType = typename WeightsFunctionType::WeightsType;
   using ContinuousIndexType = typename WeightsFunctionType::ContinuousIndexType;
 
-  /** Parameter index array type. */
-  using ParameterIndexArrayType = Array<unsigned long>;
-
   /** Number of weights. */
   static constexpr unsigned int NumberOfWeights{ WeightsFunctionType::NumberOfWeights };
+
+  /** Parameter index array type. */
+  using ParameterIndexArrayType = FixedArray<unsigned long, NumberOfWeights>;
 
   /**
    * Transform points by a BSpline deformable transformation.

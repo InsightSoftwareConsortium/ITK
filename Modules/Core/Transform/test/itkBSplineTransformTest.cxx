@@ -240,7 +240,7 @@ itkBSplineTransformTest1()
   using IndexArrayType = TransformType::ParameterIndexArrayType;
 
   WeightsType    weights;
-  IndexArrayType indices(TransformType::NumberOfWeights);
+  IndexArrayType indices;
   bool           inside;
 
   inputPoint.Fill(8.3);
