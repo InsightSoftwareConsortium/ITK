@@ -50,19 +50,6 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BS
   m_Kernel = KernelType::New();
 }
 
-/**
- * Standard "PrintSelf" method
- */
-template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
-void
-BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::PrintSelf(std::ostream & os,
-                                                                                        Indent         indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "NumberOfWeights: " << Self::NumberOfWeights << std::endl;
-}
-
 /** Compute weights for interpolation at continuous index position */
 template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 typename BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::WeightsType
