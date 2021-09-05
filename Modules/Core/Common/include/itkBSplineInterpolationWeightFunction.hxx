@@ -19,6 +19,7 @@
 #define itkBSplineInterpolationWeightFunction_hxx
 
 #include "itkBSplineInterpolationWeightFunction.h"
+#include "itkBSplineKernelFunction.h"
 #include "itkImage.h"
 #include "itkMatrix.h"
 #include "itkMath.h"
@@ -44,10 +45,6 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BS
     }
     ++counter;
   }
-
-
-  // Initialize the interpolation kernel
-  m_Kernel = KernelType::New();
 }
 
 /**
@@ -104,7 +101,7 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Ev
 
     for (k = 0; k <= SplineOrder; ++k)
     {
-      weights1D[j][k] = m_Kernel->Evaluate(x);
+      weights1D[j][k] = BSplineKernelFunction<SplineOrder>::FastEvaluate(x);
       x -= 1.0;
     }
   }
