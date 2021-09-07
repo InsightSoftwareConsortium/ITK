@@ -39,9 +39,6 @@ if(NOT ITK_FORBID_DOWNLOADS)
 
     # Data published by developers using git-gerrit-push.
     "https://itk.org/files/ExternalData/%(algo)/%(hash)"
-
-    # Mirror supported by the Slicer community.
-    "https://slicer.kitware.com/midas3/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
     )
 endif()
 
