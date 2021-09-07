@@ -19,13 +19,6 @@
 #include "itkNiftiImageIOTest.h"
 #include "itkEnableIf.h"
 #include <limits>
-/* VS 2015 has a bug when building release with the heavily nested for
- * loops iterating too many times.  This turns off optimization to
- * allow the tests to pass.
- */
-#if defined(_MSC_VER) && (_MSC_VER == 1900)
-#  pragma optimize("", off)
-#endif
 
 template <typename ScalarType>
 void
