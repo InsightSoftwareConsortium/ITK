@@ -26,6 +26,10 @@ itk_wrap_class("itk::FunctionBase" POINTER)
     itk_wrap_template("${ITKM_PD${d}}RGBD" "${ITKT_PD${d}},itk::RGBPixel< double >")
     itk_wrap_template("${ITKM_PD${d}}RGBAD" "${ITKT_PD${d}},itk::RGBAPixel< double >")
 
+    # Required by BSplineInterpolationWeightFunction
+    itk_wrap_template("${ITKM_CID2}${ITKM_FAD9}" "${ITKT_CID2}, ${ITKT_FAD9}")
+    itk_wrap_template("${ITKM_CID3}${ITKM_FAD64}" "${ITKT_CID3}, ${ITKT_FAD64}")
+
   endforeach()
 
   foreach(r ${WRAP_ITK_REAL})

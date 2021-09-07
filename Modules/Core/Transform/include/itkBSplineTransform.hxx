@@ -623,7 +623,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::ComputeJacobi
   }
 
   // Compute interpolation weights
-  WeightsType weights(WeightsFunctionType::NumberOfWeights);
+  WeightsType weights;
 
   IndexType supportIndex;
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);

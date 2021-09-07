@@ -56,7 +56,7 @@ typename BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineO
 BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Evaluate(
   const ContinuousIndexType & index) const
 {
-  WeightsType weights(Self::NumberOfWeights);
+  WeightsType weights;
   IndexType   startIndex;
 
   this->Evaluate(index, weights, startIndex);

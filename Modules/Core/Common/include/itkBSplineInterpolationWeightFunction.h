@@ -46,14 +46,16 @@ namespace itk
  */
 template <typename TCoordRep = float, unsigned int VSpaceDimension = 2, unsigned int VSplineOrder = 3>
 class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction
-  : public FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>, Array<double>>
+  : public FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>,
+                        FixedArray<double, Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension)>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineInterpolationWeightFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineInterpolationWeightFunction;
-  using Superclass = FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>, Array<double>>;
+  using Superclass = FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>,
+                                  FixedArray<double, Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension)>>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -70,11 +72,11 @@ public:
   /** Spline order. */
   static constexpr unsigned int SplineOrder = VSplineOrder;
 
-  /** Number of weights. */
-  static constexpr unsigned int NumberOfWeights{ Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension) };
-
   /** OutputType type alias support. */
-  using WeightsType = Array<double>;
+  using WeightsType = typename Superclass::OutputType;
+
+  /** Number of weights. */
+  static constexpr unsigned int NumberOfWeights{ WeightsType::Length };
 
   /** Index and size type alias support. */
   using IndexType = Index<VSpaceDimension>;
