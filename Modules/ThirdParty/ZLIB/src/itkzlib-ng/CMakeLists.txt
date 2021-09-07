@@ -453,7 +453,7 @@ endmacro()
 set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DZLIB_DEBUG")
 
 if(MSVC)
-    set(CMAKE_DEBUG_POSTFIX "d")
+    # set(CMAKE_DEBUG_POSTFIX "d") # ITK change: ITK handles debug suffixes
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
     add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
 endif()
@@ -940,12 +940,12 @@ if(WITH_GZFILEOP)
 endif()
 
 if(NOT DEFINED BUILD_SHARED_LIBS)
-    add_library(zlib SHARED ${ZLIB_ALL_SRCS})
-    add_library(zlibstatic STATIC ${ZLIB_ALL_SRCS})
+    itk_module_add_library(zlib SHARED ${ZLIB_ALL_SRCS}) # ITK change
+    itk_module_add_library(zlibstatic STATIC ${ZLIB_ALL_SRCS}) # ITK change
 
     set(ZLIB_INSTALL_LIBRARIES zlib zlibstatic)
 else()
-    add_library(zlib ${ZLIB_ALL_SRCS})
+    itk_module_add_library(zlib ${ZLIB_ALL_SRCS}) # ITK change
 
     if(NOT BUILD_SHARED_LIBS)
         add_library(zlibstatic ALIAS zlib)
@@ -960,6 +960,7 @@ foreach(ZLIB_INSTALL_LIBRARY ${ZLIB_INSTALL_LIBRARIES})
         "$<INSTALL_INTERFACE:include>")
 endforeach()
 
+if(FALSE) # ITK change: don't give custom name to the library
 if(WIN32)
     # Shared library
     if(NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
@@ -983,6 +984,7 @@ else()
     # On unix-like platforms the library is almost always called libz
     set_target_properties(${ZLIB_INSTALL_LIBRARIES} PROPERTIES OUTPUT_NAME z${SUFFIX})
 endif()
+endif() # ITK change
 
 if(NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
     set_target_properties(zlib PROPERTIES DEFINE_SYMBOL ZLIB_DLL)
