@@ -17,9 +17,10 @@ if(ITK_USE_SYSTEM_ZLIB)
 else()
   set(ITKZLIB_INCLUDE_DIRS
     ${ITKZLIB_BINARY_DIR}/src
+    ${ITKZLIB_BINARY_DIR}/src/itkzlib-ng
     ${ITKZLIB_SOURCE_DIR}/src
     )
-  set(ITKZLIB_LIBRARIES itkzlib)
+  set(ITKZLIB_LIBRARIES zlib)
 endif()
 
 configure_file(src/itk_zlib.h.in src/itk_zlib.h)
