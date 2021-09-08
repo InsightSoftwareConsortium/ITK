@@ -62,7 +62,22 @@ namespace itk
 #  define TEST_SET_GET_BOOLEAN ITK_TEST_SET_GET_BOOLEAN
 #endif
 
-// object's Class must be specified to build on sun studio
+/* clang-format off */
+#if defined(__GNUC__)
+#define ITK_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName)                                           \
+  object->Print(std::cout);                                                                                            \
+  std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;                                            \
+  if (!std::strcmp(object->GetNameOfClass(), #ClassName))                                                              \
+  {                                                                                                                    \
+    std::cout << "Class name is correct" << std::endl;                                                                 \
+  }                                                                                                                    \
+  else                                                                                                                 \
+  {                                                                                                                    \
+    std::cerr << "Class name provided does not match object's NameOfClass" << std::endl;                               \
+    return EXIT_FAILURE;                                                                                               \
+  }                                                                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
+#else // not GCC
 #define ITK_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName)                                           \
   object->Print(std::cout);                                                                                            \
   std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;                                            \
@@ -86,6 +101,8 @@ namespace itk
     return EXIT_FAILURE;                                                                                               \
   }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
+#endif // GCC
+/* clang-format on */
 
 #define ITK_TRY_EXPECT_EXCEPTION(command)                                                                              \
   try                                                                                                                  \
