@@ -24,18 +24,17 @@
 
 namespace itk
 {
-template <typename TInputImage, typename TOutputImage>
-void
-TransformGeometryImageFilter<TInputImage, TOutputImage>::SetInputImage(const InputImageType * image)
-{
-  this->SetInput(0, image);
-}
+
 
 template <typename TInputImage, typename TOutputImage>
-const typename TransformGeometryImageFilter<TInputImage, TOutputImage>::InputImageType *
-TransformGeometryImageFilter<TInputImage, TOutputImage>::GetInputImage() const
+TransformGeometryImageFilter<TInputImage, TOutputImage>::TransformGeometryImageFilter()
 {
-  return this->GetInput(0);
+  Self::SetPrimaryInputName("InputImage");
+
+  // "RigidTransform" required ( not numbered )
+  Self::AddRequiredInputName("RigidTransform");
+
+  // initialize transform
 }
 
 
@@ -49,6 +48,8 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
     return;
   }
 
+  typename OutputImageType::Pointer outputPtr;
+
   //  SEE HEADER FILE FOR MATH DESCRIPTION
 
   {
@@ -57,10 +58,10 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
     typename DuplicatorType::Pointer CastFilter = DuplicatorType::New();
     CastFilter->SetInput(this->GetInput());
     CastFilter->Update();
-    m_OutputImage = CastFilter->GetOutput();
+    outputPtr = CastFilter->GetOutput();
   }
 
-  RigidTransformConstPointer                    FMTxfm = this->m_RigidTransform.GetPointer();
+  RigidTransformConstPointer                    FMTxfm = this->GetRigidTransform();
   const typename RigidTransformType::MatrixType inverseRotation(FMTxfm->GetMatrix().GetInverse());
 
   // Modify the origin and direction info of the image to reflect the transform.
@@ -73,21 +74,12 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     newOriginPoint[i] = newOriginVector[i];
   }
-  m_OutputImage->SetOrigin(newOriginPoint);
-  m_OutputImage->SetDirection(inverseRotation * this->GetInput()->GetDirection()); // NewDC = [R^-1][DC]
+  outputPtr->SetOrigin(newOriginPoint);
+  outputPtr->SetDirection(inverseRotation * this->GetInput()->GetDirection()); // NewDC = [R^-1][DC]
 
-  this->GraftOutput(m_OutputImage);
+  this->GraftOutput(outputPtr);
 }
 
-template <typename TInputImage, typename TOutputImage>
-void
-TransformGeometryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "Input transform: " << m_RigidTransform << std::endl;
-  os << indent << "Output image: " << m_OutputImage << std::endl;
-}
 } // end namespace itk
 
 #endif

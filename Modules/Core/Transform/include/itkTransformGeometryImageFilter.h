@@ -21,6 +21,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkVersorRigid3DTransform.h"
+#include "itkDataObjectDecorator.h"
 
 namespace itk
 {
@@ -142,29 +143,19 @@ public:
   using RigidTransformConstPointer = typename RigidTransformType::ConstPointer;
 
   /** Set/Get rigid transform. The default is an identity transform */
-  itkSetConstObjectMacro(RigidTransform, RigidTransformType);
-  itkGetConstObjectMacro(RigidTransform, RigidTransformType);
+  itkSetGetDecoratedObjectInputMacro(RigidTransform, RigidTransformType);
 
   /** Set/Get required input image. (A wrapper to this->Set/GetInput()) */
-  void
-  SetInputImage(const InputImageType * image);
+  itkSetInputMacro(InputImage, InputImageType);
 
-  const InputImageType *
-  GetInputImage() const;
+  itkGetInputMacro(InputImage, InputImageType);
 
 protected:
-  TransformGeometryImageFilter() = default;
+  TransformGeometryImageFilter();
   ~TransformGeometryImageFilter() override = default;
 
   void
   GenerateData() override;
-
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
-
-private:
-  OutputImagePointer         m_OutputImage;
-  RigidTransformConstPointer m_RigidTransform;
 };
 } // end namespace itk
 
