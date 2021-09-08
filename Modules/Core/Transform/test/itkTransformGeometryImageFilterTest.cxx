@@ -127,7 +127,7 @@ itkTransformGeometryImageFilterTest(int argc, char * argv[])
 
   // Set up the transform filter
   FilterType::Pointer filter = FilterType::New();
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TransformGeometryImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TransformGeometryImageFilter, InPlaceImageFilter);
 
   // Test the exceptions
   ITK_TRY_EXPECT_EXCEPTION(filter->Update());
