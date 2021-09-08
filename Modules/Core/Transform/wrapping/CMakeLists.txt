@@ -15,7 +15,7 @@ set(WRAPPER_SUBMODULE_ORDER
   itkScalableAffineTransform
   itkScaleTransform
   itkKernelTransform
-  itkResampleInPlaceImageFilter
+  itkTransformGeometryImageFilter
 )
 itk_auto_load_submodules()
 itk_end_wrap_module()
