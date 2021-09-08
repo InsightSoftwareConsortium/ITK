@@ -33,8 +33,35 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::TransformGeometryImageF
 
   // "RigidTransform" required ( not numbered )
   Self::AddRequiredInputName("RigidTransform");
+}
 
-  // initialize transform
+
+template <typename TInputImage, typename TOutputImage>
+void
+TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
+{
+
+  Superclass::GenerateOutputInformation();
+
+  OutputImageType *      outputPtr = this->GetOutput();
+  const InputImageType * inputPtr = this->GetInputImage();
+
+  //  SEE HEADER FILE FOR MATH DESCRIPTION
+  RigidTransformConstPointer                    FMTxfm = this->GetRigidTransform();
+  const typename RigidTransformType::MatrixType inverseRotation(FMTxfm->GetMatrix().GetInverse());
+
+  // Modify the origin and direction info of the image to reflect the transform.
+  Vector<double, 3> newOriginVector =
+    inverseRotation * (inputPtr->GetOrigin().GetVectorFromOrigin() - FMTxfm->GetCenter().GetVectorFromOrigin() -
+                       FMTxfm->GetTranslation()) // NewOrigin = [R^-1] * ( O - C - T ) + C
+    + FMTxfm->GetCenter().GetVectorFromOrigin();
+  Point<double, 3> newOriginPoint;
+  for (int i = 0; i < 3; ++i)
+  {
+    newOriginPoint[i] = newOriginVector[i];
+  }
+  outputPtr->SetOrigin(newOriginPoint);
+  outputPtr->SetDirection(inverseRotation * inputPtr->GetDirection()); // NewDC = [R^-1][DC]
 }
 
 
@@ -42,42 +69,24 @@ template <typename TInputImage, typename TOutputImage>
 void
 TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  if (!this->GetInput())
-  {
-    itkExceptionMacro(<< "Input image has not been connected");
-    return;
-  }
+  OutputImageType * output = this->GetOutput();
 
-  typename OutputImageType::Pointer outputPtr;
+  auto input = InputImageType::New();
+  input->Graft(const_cast<InputImageType *>(this->GetInput()));
 
   //  SEE HEADER FILE FOR MATH DESCRIPTION
 
-  {
-    /** make a cast copied version of the input image **/
-    using DuplicatorType = CastImageFilter<InputImageType, OutputImageType>;
-    typename DuplicatorType::Pointer CastFilter = DuplicatorType::New();
-    CastFilter->SetInput(this->GetInput());
-    CastFilter->Update();
-    outputPtr = CastFilter->GetOutput();
-  }
+  /** make a cast copied version of the input image **/
+  using DuplicatorType = CastImageFilter<InputImageType, OutputImageType>;
+  typename DuplicatorType::Pointer castFilter = DuplicatorType::New();
+  castFilter->SetInput(input);
 
-  RigidTransformConstPointer                    FMTxfm = this->GetRigidTransform();
-  const typename RigidTransformType::MatrixType inverseRotation(FMTxfm->GetMatrix().GetInverse());
+  castFilter->GraftOutput(this->GetOutput());
+  castFilter->Update();
 
-  // Modify the origin and direction info of the image to reflect the transform.
-  itk::Vector<double, 3> newOriginVector =
-    inverseRotation * (this->GetInput()->GetOrigin().GetVectorFromOrigin() - FMTxfm->GetCenter().GetVectorFromOrigin() -
-                       FMTxfm->GetTranslation()) // NewOrigin = [R^-1] * ( O - C - T ) + C
-    + FMTxfm->GetCenter().GetVectorFromOrigin();
-  itk::Point<double, 3> newOriginPoint;
-  for (int i = 0; i < 3; ++i)
-  {
-    newOriginPoint[i] = newOriginVector[i];
-  }
-  outputPtr->SetOrigin(newOriginPoint);
-  outputPtr->SetDirection(inverseRotation * this->GetInput()->GetDirection()); // NewDC = [R^-1][DC]
 
-  this->GraftOutput(outputPtr);
+  // Can't use graft as it will overwrite the new meta-data
+  output->SetPixelContainer(castFilter->GetOutput()->GetPixelContainer());
 }
 
 } // end namespace itk

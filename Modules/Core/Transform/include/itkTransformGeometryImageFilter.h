@@ -142,17 +142,19 @@ public:
   using RigidTransformType = VersorRigid3DTransform<double>;
   using RigidTransformConstPointer = typename RigidTransformType::ConstPointer;
 
-  /** Set/Get rigid transform. The default is an identity transform */
+  /** Set/Get required rigid transform. */
   itkSetGetDecoratedObjectInputMacro(RigidTransform, RigidTransformType);
 
   /** Set/Get required input image. (A wrapper to this->Set/GetInput()) */
   itkSetInputMacro(InputImage, InputImageType);
-
   itkGetInputMacro(InputImage, InputImageType);
 
 protected:
   TransformGeometryImageFilter();
   ~TransformGeometryImageFilter() override = default;
+
+  void
+  GenerateOutputInformation() override;
 
   void
   GenerateData() override;
