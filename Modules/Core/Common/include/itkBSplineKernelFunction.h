@@ -98,17 +98,17 @@ private:
   Evaluate(const Dispatch<0> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
-    if (absValue < static_cast<TRealValueType>(0.5))
+    if (absValue < TRealValueType{ 0.5 })
     {
-      return NumericTraits<TRealValueType>::OneValue();
+      return TRealValueType{ 1.0 };
     }
-    else if (Math::ExactlyEquals(absValue, static_cast<TRealValueType>(0.5)))
+    else if (Math::ExactlyEquals(absValue, TRealValueType{ 0.5 }))
     {
-      return static_cast<TRealValueType>(0.5);
+      return TRealValueType{ 0.5 };
     }
     else
     {
-      return NumericTraits<TRealValueType>::ZeroValue();
+      return TRealValueType{ 0.0 };
     }
   }
 
@@ -117,13 +117,13 @@ private:
   Evaluate(const Dispatch<1> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
-    if (absValue < NumericTraits<TRealValueType>::OneValue())
+    if (absValue < TRealValueType{ 1.0 })
     {
-      return NumericTraits<TRealValueType>::OneValue() - absValue;
+      return TRealValueType{ 1.0 } - absValue;
     }
     else
     {
-      return NumericTraits<TRealValueType>::ZeroValue();
+      return TRealValueType{ 0.0 };
     }
   }
 
@@ -132,22 +132,21 @@ private:
   Evaluate(const Dispatch<2> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
-    if (absValue < static_cast<TRealValueType>(0.5))
+    if (absValue < TRealValueType{ 0.5 })
     {
       const TRealValueType sqrValue = itk::Math::sqr(absValue);
-      return static_cast<TRealValueType>(0.75) - sqrValue;
+      return TRealValueType{ 0.75 } - sqrValue;
     }
-    else if (absValue < static_cast<TRealValueType>(1.5))
+    else if (absValue < TRealValueType{ 1.5 })
     {
       const TRealValueType sqrValue = itk::Math::sqr(absValue);
-      // NOTE: 1.0/8.0 == static_cast< TRealValueType >( 0.125 )
-      return (static_cast<TRealValueType>(9.0) - static_cast<TRealValueType>(12.0) * absValue +
-              static_cast<TRealValueType>(4.0) * sqrValue) *
-             static_cast<TRealValueType>(0.125);
+      // NOTE: 1.0/8.0 == 0.125
+      return (TRealValueType{ 9.0 } - TRealValueType{ 12.0 } * absValue + TRealValueType{ 4.0 } * sqrValue) *
+             TRealValueType{ 0.125 };
     }
     else
     {
-      return NumericTraits<TRealValueType>::ZeroValue();
+      return TRealValueType{ 0.0 };
     }
   }
 
@@ -156,23 +155,22 @@ private:
   Evaluate(const Dispatch<3> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
-    if (absValue < NumericTraits<TRealValueType>::OneValue())
+    if (absValue < TRealValueType{ 1.0 })
     {
       const TRealValueType sqrValue = itk::Math::sqr(absValue);
-      return (static_cast<TRealValueType>(4.0) - static_cast<TRealValueType>(6.0) * sqrValue +
-              static_cast<TRealValueType>(3.0) * sqrValue * absValue) /
-             static_cast<TRealValueType>(6.0);
+      return (TRealValueType{ 4.0 } - TRealValueType{ 6.0 } * sqrValue + TRealValueType{ 3.0 } * sqrValue * absValue) /
+             TRealValueType{ 6.0 };
     }
-    else if (absValue < static_cast<TRealValueType>(2.0))
+    else if (absValue < TRealValueType{ 2.0 })
     {
       const TRealValueType sqrValue = itk::Math::sqr(absValue);
-      return (static_cast<TRealValueType>(8.0) - static_cast<TRealValueType>(12.0) * absValue +
-              static_cast<TRealValueType>(6.0) * sqrValue - sqrValue * absValue) /
-             static_cast<TRealValueType>(6.0);
+      return (TRealValueType{ 8.0 } - TRealValueType{ 12.0 } * absValue + TRealValueType{ 6.0 } * sqrValue -
+              sqrValue * absValue) /
+             TRealValueType{ 6.0 };
     }
     else
     {
-      return NumericTraits<TRealValueType>::ZeroValue();
+      return TRealValueType{ 0.0 };
     }
   }
 
