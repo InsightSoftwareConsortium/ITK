@@ -69,6 +69,11 @@ template <typename TInputImage, typename TOutputImage>
 void
 TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
+  if (this->GetRunningInPlace())
+  {
+    // No need to copy the bulk data
+    return;
+  }
   OutputImageType * output = this->GetOutput();
 
   auto input = InputImageType::New();
@@ -87,6 +92,7 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Can't use graft as it will overwrite the new meta-data
   output->SetPixelContainer(castFilter->GetOutput()->GetPixelContainer());
+  output->SetBufferedRegion(castFilter->GetOutput()->GetBufferedRegion());
 }
 
 } // end namespace itk

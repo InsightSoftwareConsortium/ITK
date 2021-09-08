@@ -19,7 +19,7 @@
 #ifndef itkTransformGeometryImageFilter_h
 #define itkTransformGeometryImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkInPlaceImageFilter.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkDataObjectDecorator.h"
 
@@ -100,14 +100,14 @@ namespace itk
  * \ingroup ITKTransform
  */
 template <typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT TransformGeometryImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT TransformGeometryImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(TransformGeometryImageFilter);
 
   /** Standard class type alias */
   using Self = TransformGeometryImageFilter;
-  using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
+  using Superclass = InPlaceImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -115,7 +115,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(TransformGeometryImageFilter, ImageToImageFilter);
+  itkTypeMacro(TransformGeometryImageFilter, InPlaceImageFilter);
 
   /** input/output image type alias */
   using InputImageType = TInputImage;
