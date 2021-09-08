@@ -22,6 +22,7 @@
 #include "itkContinuousIndex.h"
 #include "itkArray.h"
 #include "itkArray2D.h"
+#include "itkIndexRange.h"
 #include "itkMath.h"
 
 namespace itk
@@ -112,15 +113,21 @@ public:
 #endif
 
 protected:
-  BSplineInterpolationWeightFunction();
+  BSplineInterpolationWeightFunction() = default;
   ~BSplineInterpolationWeightFunction() override = default;
 
 private:
   /** Lookup table type. */
-  using TableType = Array2D<unsigned int>;
+  using TableType = FixedArray<IndexType, NumberOfWeights>;
 
   /** Table mapping linear offset to indices. */
-  TableType m_OffsetToIndexTable;
+  const TableType m_OffsetToIndexTable{ [] {
+    TableType     table;
+    // Note: Copied the constexpr value `SupportSize` to a temporary, `SizeType{ SupportSize }`, to prevent a GCC
+    // (Ubuntu 7.5.0-3ubuntu1~18.04) link error, "undefined reference to `SupportSize`".
+    std::copy_n(ZeroBasedIndexRange<SpaceDimension>(SizeType{ SupportSize }).cbegin(), NumberOfWeights, table.begin());
+    return table;
+  }() };
 };
 } // end namespace itk
 
