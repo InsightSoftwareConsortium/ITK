@@ -439,19 +439,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
     movingDisplacementFieldTransform->SetInverseDisplacementField(
       this->m_OutputTransform->GetModifiableInverseDisplacementField());
 
-    if (timePoint == 0 && this->m_CurrentIteration <= 1)
-    {
-      typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity =
-        DisplacementFieldDuplicatorType::New();
-      fieldDuplicatorIdentity->SetInputImage(movingDisplacementFieldTransform->GetDisplacementField());
-      fieldDuplicatorIdentity->Update();
-      fieldDuplicatorIdentity->GetOutput()->FillBuffer(zeroVector);
-
-      typename DisplacementFieldTransformType::Pointer identityDisplacementFieldTransform =
-        DisplacementFieldTransformType::New();
-      identityDisplacementFieldTransform->SetDisplacementField(fieldDuplicatorIdentity->GetOutput());
-    }
-
     // Set up the moving composite transform for the current time point
 
     typename CompositeTransformType::Pointer movingComposite = CompositeTransformType::New();
