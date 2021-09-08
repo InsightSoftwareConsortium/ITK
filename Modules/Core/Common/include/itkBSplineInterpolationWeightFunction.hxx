@@ -23,30 +23,9 @@
 #include "itkImage.h"
 #include "itkMatrix.h"
 #include "itkMath.h"
-#include "itkIndexRange.h"
 
 namespace itk
 {
-/** Constructor */
-template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
-BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::BSplineInterpolationWeightFunction()
-{
-  // Initialize offset to index lookup table
-  m_OffsetToIndexTable.set_size(Self::NumberOfWeights, SpaceDimension);
-
-  constexpr auto supportSize = Self::SupportSize;
-  unsigned int   counter = 0;
-
-  for (const IndexType index : ZeroBasedIndexRange<VSpaceDimension>(supportSize))
-  {
-    for (unsigned int j = 0; j < SpaceDimension; ++j)
-    {
-      m_OffsetToIndexTable[counter][j] = index[j];
-    }
-    ++counter;
-  }
-}
-
 /** Compute weights for interpolation at continuous index position */
 template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
 typename BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::WeightsType
