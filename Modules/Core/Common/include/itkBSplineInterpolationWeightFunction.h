@@ -20,7 +20,6 @@
 
 #include "itkFunctionBase.h"
 #include "itkContinuousIndex.h"
-#include "itkBSplineKernelFunction.h"
 #include "itkArray.h"
 #include "itkArray2D.h"
 #include "itkMath.h"
@@ -122,12 +121,6 @@ private:
 
   /** Table mapping linear offset to indices. */
   TableType m_OffsetToIndexTable;
-
-  /** Interpolation kernel type. */
-  using KernelType = BSplineKernelFunction<Self::SplineOrder>;
-
-  /** Interpolation kernel. */
-  typename KernelType::Pointer m_Kernel;
 };
 } // end namespace itk
 

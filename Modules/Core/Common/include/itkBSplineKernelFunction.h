@@ -60,11 +60,19 @@ public:
   /** Enum of for spline order. */
   static constexpr unsigned int SplineOrder = VSplineOrder;
 
+  /** Evaluate the function. Faster than the `Evaluate` member function, because it is static (while `Evaluate` is
+   * virtual). */
+  static TRealValueType
+  FastEvaluate(const TRealValueType u)
+  {
+    return Self::Evaluate(Dispatch<VSplineOrder>(), u);
+  }
+
   /** Evaluate the function. */
   TRealValueType
   Evaluate(const TRealValueType & u) const override
   {
-    return this->Evaluate(Dispatch<VSplineOrder>(), u);
+    return Self::FastEvaluate(u);
   }
 
 protected:
@@ -86,8 +94,8 @@ private:
   {};
 
   /** Zeroth order spline. */
-  inline TRealValueType
-  Evaluate(const Dispatch<0> &, const TRealValueType & u) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<0> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
     if (absValue < static_cast<TRealValueType>(0.5))
@@ -105,8 +113,8 @@ private:
   }
 
   /** First order spline */
-  inline TRealValueType
-  Evaluate(const Dispatch<1> &, const TRealValueType & u) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<1> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
     if (absValue < NumericTraits<TRealValueType>::OneValue())
@@ -120,8 +128,8 @@ private:
   }
 
   /** Second order spline. */
-  inline TRealValueType
-  Evaluate(const Dispatch<2> &, const TRealValueType & u) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<2> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
     if (absValue < static_cast<TRealValueType>(0.5))
@@ -144,8 +152,8 @@ private:
   }
 
   /**  Third order spline. */
-  inline TRealValueType
-  Evaluate(const Dispatch<3> &, const TRealValueType & u) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<3> &, const TRealValueType & u)
   {
     const TRealValueType absValue = itk::Math::abs(u);
     if (absValue < NumericTraits<TRealValueType>::OneValue())
@@ -169,10 +177,10 @@ private:
   }
 
   /** Unimplemented spline order */
-  inline TRealValueType
-  Evaluate(const DispatchBase &, const TRealValueType &) const
+  inline static TRealValueType
+  Evaluate(const DispatchBase &, const TRealValueType &)
   {
-    itkExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);
+    itkGenericExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);
   }
 };
 } // end namespace itk
