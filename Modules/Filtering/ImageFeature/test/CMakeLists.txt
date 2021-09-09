@@ -35,7 +35,20 @@ itk_add_test(NAME itkZeroCrossingBasedEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkZeroCrossingBasedEdgeDetectionImageFilterTest 1.0 0.01)
 itk_add_test(NAME itkLaplacianImageFilterTest
       COMMAND ITKImageFeatureTestDriver
-    itkLaplacianImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterTest.png 1)
+      --compare DATA{Baseline/itkLaplacianImageFilterTestBaseline.png}
+                ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterTest.png
+                itkLaplacianImageFilterTest
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterTest.png
+      0)
+itk_add_test(NAME itkLaplacianImageFilterWithSpacingTest
+      COMMAND ITKImageFeatureTestDriver
+      --compare DATA{Baseline/itkLaplacianImageFilterWithSpacingTestBaseline.png}
+                ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterWithSpacingTest.png
+                itkLaplacianImageFilterTest
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterWithSpacingTest.png
+      1)
 itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkSobelEdgeDetectionImageFilterTest)
 itk_add_test(NAME itkUnsharpMaskImageFilterTestSimple
