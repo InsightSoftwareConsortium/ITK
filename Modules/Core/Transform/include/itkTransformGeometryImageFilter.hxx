@@ -32,7 +32,21 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::TransformGeometryImageF
   Self::SetPrimaryInputName("InputImage");
 
   // "RigidTransform" required ( not numbered )
-  Self::AddRequiredInputName("RigidTransform");
+  Self::AddRequiredInputName("Transform");
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+TransformGeometryImageFilter<TInputImage, TOutputImage>::VerifyPreconditions() ITKv5_CONST
+{
+  Superclass::VerifyPreconditions();
+
+  TransformConstPointer tx = this->GetTransform();
+
+  if (!tx->IsLinear())
+  {
+    itkExceptionMacro(<< "Transform set to non-linear transform of type: " << tx->GetNameOfClass());
+  }
 }
 
 
@@ -43,25 +57,10 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateOutputInformati
 
   Superclass::GenerateOutputInformation();
 
-  OutputImageType *      outputPtr = this->GetOutput();
-  const InputImageType * inputPtr = this->GetInputImage();
+  OutputImageType * outputPtr = this->GetOutput();
 
-  //  SEE HEADER FILE FOR MATH DESCRIPTION
-  RigidTransformConstPointer                    FMTxfm = this->GetRigidTransform();
-  const typename RigidTransformType::MatrixType inverseRotation(FMTxfm->GetMatrix().GetInverse());
-
-  // Modify the origin and direction info of the image to reflect the transform.
-  Vector<double, 3> newOriginVector =
-    inverseRotation * (inputPtr->GetOrigin().GetVectorFromOrigin() - FMTxfm->GetCenter().GetVectorFromOrigin() -
-                       FMTxfm->GetTranslation()) // NewOrigin = [R^-1] * ( O - C - T ) + C
-    + FMTxfm->GetCenter().GetVectorFromOrigin();
-  Point<double, 3> newOriginPoint;
-  for (int i = 0; i < 3; ++i)
-  {
-    newOriginPoint[i] = newOriginVector[i];
-  }
-  outputPtr->SetOrigin(newOriginPoint);
-  outputPtr->SetDirection(inverseRotation * inputPtr->GetDirection()); // NewDC = [R^-1][DC]
+  TransformConstPointer tx = this->GetTransform();
+  tx->ApplyToImageMetadata(outputPtr);
 }
 
 
