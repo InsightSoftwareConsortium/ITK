@@ -139,11 +139,11 @@ public:
 #endif
 
   /** Transform type alias */
-  using RigidTransformType = VersorRigid3DTransform<double>;
-  using RigidTransformConstPointer = typename RigidTransformType::ConstPointer;
+  using TransformType = Transform<double, InputImageDimension, OutputImageDimension>;
+  using TransformConstPointer = typename TransformType::ConstPointer;
 
   /** Set/Get required rigid transform. */
-  itkSetGetDecoratedObjectInputMacro(RigidTransform, RigidTransformType);
+  itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
 
   /** Set/Get required input image. (A wrapper to this->Set/GetInput()) */
   itkSetInputMacro(InputImage, InputImageType);
@@ -155,6 +155,9 @@ protected:
 
   void
   GenerateOutputInformation() override;
+
+  void
+  VerifyPreconditions() ITKv5_CONST override;
 
   void
   GenerateData() override;

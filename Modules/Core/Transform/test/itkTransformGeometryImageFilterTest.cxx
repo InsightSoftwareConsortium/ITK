@@ -135,8 +135,8 @@ itkTransformGeometryImageFilterTest(int argc, char * argv[])
 
   filter->SetInputImage(inputImage);
   ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInputImage());
-  filter->SetRigidTransform(transform);
-  ITK_TEST_SET_GET_VALUE(transform, filter->GetRigidTransform());
+  filter->SetTransform(transform);
+  ITK_TEST_SET_GET_VALUE(transform, filter->GetTransform());
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
   ImagePointer outputImage = filter->GetOutput();
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(outputImage, argv[3]));
