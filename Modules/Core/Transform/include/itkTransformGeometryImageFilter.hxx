@@ -16,24 +16,24 @@
  *
  *=========================================================================*/
 
-#ifndef itkResampleInPlaceImageFilter_hxx
-#define itkResampleInPlaceImageFilter_hxx
+#ifndef itkTransformGeometryImageFilter_hxx
+#define itkTransformGeometryImageFilter_hxx
 
-#include "itkResampleInPlaceImageFilter.h"
+#include "itkTransformGeometryImageFilter.h"
 #include "itkCastImageFilter.h"
 
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 void
-ResampleInPlaceImageFilter<TInputImage, TOutputImage>::SetInputImage(const InputImageType * image)
+TransformGeometryImageFilter<TInputImage, TOutputImage>::SetInputImage(const InputImageType * image)
 {
   this->SetInput(0, image);
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename ResampleInPlaceImageFilter<TInputImage, TOutputImage>::InputImageType *
-ResampleInPlaceImageFilter<TInputImage, TOutputImage>::GetInputImage() const
+const typename TransformGeometryImageFilter<TInputImage, TOutputImage>::InputImageType *
+TransformGeometryImageFilter<TInputImage, TOutputImage>::GetInputImage() const
 {
   return this->GetInput(0);
 }
@@ -41,7 +41,7 @@ ResampleInPlaceImageFilter<TInputImage, TOutputImage>::GetInputImage() const
 
 template <typename TInputImage, typename TOutputImage>
 void
-ResampleInPlaceImageFilter<TInputImage, TOutputImage>::GenerateData()
+TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   if (!this->GetInput())
   {
@@ -81,7 +81,7 @@ ResampleInPlaceImageFilter<TInputImage, TOutputImage>::GenerateData()
 
 template <typename TInputImage, typename TOutputImage>
 void
-ResampleInPlaceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+TransformGeometryImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

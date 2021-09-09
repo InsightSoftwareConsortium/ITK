@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkResampleInPlaceImageFilter.h"
+#include "itkTransformGeometryImageFilter.h"
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -78,7 +78,7 @@ imagesDifferent(ImageType * baselineImage, ImageType * outputImage)
 }
 
 int
-itkResampleInPlaceImageFilterTest(int argc, char * argv[])
+itkTransformGeometryImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
@@ -94,7 +94,7 @@ itkResampleInPlaceImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
   using ImagePointer = ImageType::Pointer;
   using TransformType = itk::VersorRigid3DTransform<double>;
-  using FilterType = itk::ResampleInPlaceImageFilter<ImageType, ImageType>;
+  using FilterType = itk::TransformGeometryImageFilter<ImageType, ImageType>;
 
   // Read in input test image
   ImagePointer inputImage;
@@ -125,9 +125,9 @@ itkResampleInPlaceImageFilterTest(int argc, char * argv[])
   transform->Translate(translation);
   transform->SetRotation(rotationAxis, rotationAngle);
 
-  // Set up the resample filter
+  // Set up the transform filter
   FilterType::Pointer filter = FilterType::New();
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ResampleInPlaceImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TransformGeometryImageFilter, ImageToImageFilter);
 
   // Test the exceptions
   ITK_TRY_EXPECT_EXCEPTION(filter->Update());

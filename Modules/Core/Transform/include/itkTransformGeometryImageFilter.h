@@ -16,18 +16,18 @@
  *
  *=========================================================================*/
 
-#ifndef itkResampleInPlaceImageFilter_h
-#define itkResampleInPlaceImageFilter_h
+#ifndef itkTransformGeometryImageFilter_h
+#define itkTransformGeometryImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkVersorRigid3DTransform.h"
 
 namespace itk
 {
-/** \class ResampleInPlaceImageFilter
- * \brief Resample an image in place.
+/** \class TransformGeometryImageFilter
+ * \brief Pseudo-Resample an image by modifying the geometric meta-data and not the pixels.
  *
- * The ResampleImageFilter will generate a physical memory-modified version of
+ * The TransformGeometryImageFilter will generate a physical memory-modified version of
  * the input image if the input transform is not identity. Its neglectful use
  * can be a source of problems: e.g. it can exhaust the memory if the image is
  * very large, and it WILL reduce the image quality when there are lots of
@@ -99,13 +99,13 @@ namespace itk
  * \ingroup ITKTransform
  */
 template <typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT ResampleInPlaceImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT TransformGeometryImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_MOVE(ResampleInPlaceImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(TransformGeometryImageFilter);
 
   /** Standard class type alias */
-  using Self = ResampleInPlaceImageFilter;
+  using Self = TransformGeometryImageFilter;
   using Superclass = ImageToImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -114,7 +114,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(ResampleInPlaceImageFilter, ImageToImageFilter);
+  itkTypeMacro(TransformGeometryImageFilter, ImageToImageFilter);
 
   /** input/output image type alias */
   using InputImageType = TInputImage;
@@ -153,8 +153,8 @@ public:
   GetInputImage() const;
 
 protected:
-  ResampleInPlaceImageFilter() = default;
-  ~ResampleInPlaceImageFilter() override = default;
+  TransformGeometryImageFilter() = default;
+  ~TransformGeometryImageFilter() override = default;
 
   void
   GenerateData() override;
@@ -169,7 +169,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkResampleInPlaceImageFilter.hxx"
+#  include "itkTransformGeometryImageFilter.hxx"
 #endif
 
 #endif
