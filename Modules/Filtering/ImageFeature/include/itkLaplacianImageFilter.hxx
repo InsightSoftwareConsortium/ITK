@@ -100,13 +100,20 @@ LaplacianImageFilter<TInputImage, TOutputImage>::GenerateData()
   LaplacianOperator<OutputPixelType, ImageDimension> oper;
   for (unsigned i = 0; i < ImageDimension; ++i)
   {
-    if (this->GetInput()->GetSpacing()[i] == 0.0)
+    if (m_UseImageSpacing)
     {
-      itkExceptionMacro(<< "Image spacing cannot be zero");
+      if (this->GetInput()->GetSpacing()[i] == 0.0)
+      {
+        itkExceptionMacro(<< "Image spacing cannot be zero");
+      }
+      else
+      {
+        s[i] = 1.0 / this->GetInput()->GetSpacing()[i];
+      }
     }
     else
     {
-      s[i] = 1.0 / this->GetInput()->GetSpacing()[i];
+      s[i] = 1.0;
     }
   }
   oper.SetDerivativeScalings(s);
