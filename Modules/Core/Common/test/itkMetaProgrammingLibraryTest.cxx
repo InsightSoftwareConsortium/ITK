@@ -28,11 +28,12 @@ itkMetaProgrammingLibraryTest(int, char *[])
 
   // Or between constants
   static_assert((OrC<true, true, true>::Value == true), "Unit test failed");
-  static_assert((OrC<true, false, true>::Value == true), "Unit test failed");
   static_assert((OrC<true, true, false>::Value == true), "Unit test failed");
-  static_assert((OrC<false, false, true>::Value == true), "Unit test failed");
+  static_assert((OrC<true, false, true>::Value == true), "Unit test failed");
   static_assert((OrC<true, false, false>::Value == true), "Unit test failed");
+  static_assert((OrC<false, true, true>::Value == true), "Unit test failed");
   static_assert((OrC<false, true, false>::Value == true), "Unit test failed");
+  static_assert((OrC<false, false, true>::Value == true), "Unit test failed");
   static_assert((OrC<false, false, false>::Value == false), "Unit test failed");
 
   static_assert((OrC<true, true>::Value == true), "Unit test failed");
@@ -42,11 +43,12 @@ itkMetaProgrammingLibraryTest(int, char *[])
 
   // Or between types
   static_assert((std::is_same<Or<TrueType, TrueType, TrueType>::Type, TrueType>::value), "Unit test failed");
-  static_assert((std::is_same<Or<TrueType, FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
   static_assert((std::is_same<Or<TrueType, TrueType, FalseType>::Type, TrueType>::value), "Unit test failed");
-  static_assert((std::is_same<Or<FalseType, FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  static_assert((std::is_same<Or<TrueType, FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
   static_assert((std::is_same<Or<TrueType, FalseType, FalseType>::Type, TrueType>::value), "Unit test failed");
+  static_assert((std::is_same<Or<FalseType, TrueType, TrueType>::Type, TrueType>::value), "Unit test failed");
   static_assert((std::is_same<Or<FalseType, TrueType, FalseType>::Type, TrueType>::value), "Unit test failed");
+  static_assert((std::is_same<Or<FalseType, FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
   static_assert((std::is_same<Or<FalseType, FalseType, FalseType>::Type, FalseType>::value), "Unit test failed");
 
   static_assert((std::is_same<Or<TrueType, TrueType>::Type, TrueType>::value), "Unit test failed");
