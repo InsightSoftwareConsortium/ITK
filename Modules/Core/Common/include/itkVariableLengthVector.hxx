@@ -22,7 +22,6 @@
 #include "itkMath.h"
 #include <cstring>
 #include <cstdlib>
-#include "itkIsBaseOf.h"
 #include "itkMath.h"
 
 namespace itk
@@ -292,10 +291,10 @@ void
 VariableLengthVector<TValue>::SetSize(unsigned int sz, TReallocatePolicy reallocatePolicy, TKeepValuesPolicy keepValues)
 {
   static_assert(
-    (itk::mpl::IsBaseOf<AllocateRootPolicy, TReallocatePolicy>::Value),
+    std::is_base_of<AllocateRootPolicy, TReallocatePolicy>::value,
     "The allocation policy does not inherit from itk::VariableLengthVector::AllocateRootPolicy as expected");
   static_assert(
-    (itk::mpl::IsBaseOf<KeepValuesRootPolicy, TKeepValuesPolicy>::Value),
+    std::is_base_of<KeepValuesRootPolicy, TKeepValuesPolicy>::value,
     "The old values keeping policy does not inherit from itk::VariableLengthVector::KeepValuesRootPolicy as expected");
 
   if (reallocatePolicy(sz, m_NumElements) || !m_LetArrayManageMemory)

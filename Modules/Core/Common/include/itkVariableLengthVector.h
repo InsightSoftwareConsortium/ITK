@@ -23,7 +23,6 @@
 #include <type_traits>
 #include "itkNumericTraits.h"
 #include "itkMetaProgrammingLibrary.h"
-#include "itkIsBaseOf.h"
 #include "itkIsNumber.h"
 #include "itkPromoteType.h"
 #include "itkBinaryOperationConcept.h"
@@ -1205,7 +1204,7 @@ struct VariableLengthVectorExpression
   {
     // Not neccessary actually as end-user/developer is not expected to
     // provide new BinaryOperations
-    static_assert((itk::mpl::IsBaseOf<Details::op::BinaryOperationConcept, TBinaryOp>::Value),
+    static_assert(std::is_base_of<Details::op::BinaryOperationConcept, TBinaryOp>::value,
                   "The Binary Operation shall inherit from BinaryOperationConcept");
   }
 
