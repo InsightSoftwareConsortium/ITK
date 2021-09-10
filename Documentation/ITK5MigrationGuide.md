@@ -81,6 +81,7 @@ To modernize your code base, replace:
   * `MutexLock` with `std::mutex`, and `#include "itkMutexLock.h"`  with `#include <mutex>`.
   * `mpl::EnableIf<X>::Type` with `std::enable_if_t<X>`, and `#include "itkEnableIf.h"` with `#include <type_traits>`.
   * `mpl::IsSame<X, Y>::Value` with `std::is_same<X, Y>::value`, and `#include "itkIsSame.h"` with `#include <type_traits>`.
+  * `mpl::IsBaseOf<X, Y>::Value` with `std::is_base_of<X, Y>::value`, and `#include "itkIsBaseOf.h"` with `#include <type_traits>`.
 
 
 Modern CMake requirement
