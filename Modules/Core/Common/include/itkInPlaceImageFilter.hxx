@@ -53,7 +53,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inde
 
 template <typename TInputImage, typename TOutputImage>
 void
-InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs(const TrueType &)
+InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs()
 {
   // Use ProcessObject's GetInput method to get a DataObject pointer,
   // then perform a dynamic_cast to the expected InputImageType. This
@@ -90,10 +90,7 @@ InPlaceImageFilter<TInputImage, TOutputImage>::InternalAllocateOutputs(const Tru
     // remove the input's hold on the bulk data.
     //
     OutputImagePointer inputAsOutput = nullptr;
-    if (IsSame<TInputImage, TOutputImage>())
-    {
-      inputAsOutput = reinterpret_cast<TOutputImage *>(const_cast<TInputImage *>(inputPtr));
-    }
+    inputAsOutput = reinterpret_cast<TOutputImage *>(const_cast<TInputImage *>(inputPtr));
     itkAssertOrThrowMacro(inputAsOutput.IsNotNull(), "Unable to convert input image to output image as expected!");
 
     this->GraftOutput(inputAsOutput);
@@ -131,7 +128,7 @@ template <typename TInputImage, typename TOutputImage>
 bool
 InPlaceImageFilter<TInputImage, TOutputImage>::CanRunInPlace() const
 {
-  return IsSame<TInputImage, TOutputImage>();
+  return std::is_same<TInputImage, TOutputImage>::value;
 }
 
 template <typename TInputImage, typename TOutputImage>

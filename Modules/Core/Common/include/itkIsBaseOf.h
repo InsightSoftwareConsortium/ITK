@@ -19,7 +19,7 @@
 #define itkIsBaseOf_h
 
 #include "itkIsConvertible.h"
-#include "itkIsSame.h"
+#include <type_traits>
 
 namespace itk
 {
@@ -40,7 +40,7 @@ template <typename TBase, typename TDerived>
 struct IsBaseOf
 {
   static constexpr bool Value =
-    IsConvertible<const TDerived *, const TBase *>::Value && !IsSame<const TBase *, const void *>::Value;
+    IsConvertible<const TDerived *, const TBase *>::Value && !std::is_same<const TBase *, const void *>::value;
 };
 } // end namespace mpl
 

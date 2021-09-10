@@ -16,8 +16,9 @@
  *
  *=========================================================================*/
 
+#include <type_traits>
+
 #include "itkMetaProgrammingLibrary.h"
-#include "itkIsSame.h"
 #include "itkStaticAssert.h"
 
 
@@ -43,18 +44,18 @@ itkMetaProgrammingLibraryTest(int, char *[])
   itkStaticAssert((OrC<false, false>::Value == false), "Unit test failed");
 
   // Or between types
-  itkStaticAssert((IsSame<Or<TrueType, TrueType, TrueType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<TrueType, FalseType, TrueType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<TrueType, TrueType, FalseType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<FalseType, FalseType, TrueType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<TrueType, FalseType, FalseType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<FalseType, TrueType, FalseType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<FalseType, FalseType, FalseType>::Type, FalseType>::Value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<TrueType, TrueType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<TrueType, FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<TrueType, TrueType, FalseType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<FalseType, FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<TrueType, FalseType, FalseType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<FalseType, TrueType, FalseType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<FalseType, FalseType, FalseType>::Type, FalseType>::value), "Unit test failed");
 
-  itkStaticAssert((IsSame<Or<TrueType, TrueType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<TrueType, FalseType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<FalseType, TrueType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Or<FalseType, FalseType>::Type, FalseType>::Value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<TrueType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<TrueType, FalseType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Or<FalseType, FalseType>::Type, FalseType>::value), "Unit test failed");
 
   // And between constants
   itkStaticAssert((AndC<true, true>::Value == true), "Unit test failed");
@@ -63,10 +64,10 @@ itkMetaProgrammingLibraryTest(int, char *[])
   itkStaticAssert((AndC<false, false>::Value == false), "Unit test failed");
 
   // And between types
-  itkStaticAssert((IsSame<And<TrueType, TrueType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<And<TrueType, FalseType>::Type, FalseType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<And<FalseType, TrueType>::Type, FalseType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<And<FalseType, FalseType>::Type, FalseType>::Value), "Unit test failed");
+  itkStaticAssert((std::is_same<And<TrueType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<And<TrueType, FalseType>::Type, FalseType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<And<FalseType, TrueType>::Type, FalseType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<And<FalseType, FalseType>::Type, FalseType>::value), "Unit test failed");
 
   // Xor between constants
   itkStaticAssert((XorC<true, true>::Value == false), "Unit test failed");
@@ -75,18 +76,18 @@ itkMetaProgrammingLibraryTest(int, char *[])
   itkStaticAssert((XorC<false, false>::Value == false), "Unit test failed");
 
   // Xor between types
-  itkStaticAssert((IsSame<Xor<TrueType, TrueType>::Type, FalseType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Xor<TrueType, FalseType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Xor<FalseType, TrueType>::Type, TrueType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Xor<FalseType, FalseType>::Type, FalseType>::Value), "Unit test failed");
+  itkStaticAssert((std::is_same<Xor<TrueType, TrueType>::Type, FalseType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Xor<TrueType, FalseType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Xor<FalseType, TrueType>::Type, TrueType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Xor<FalseType, FalseType>::Type, FalseType>::value), "Unit test failed");
 
   // Not between constants
   itkStaticAssert((NotC<true>::Value == false), "Unit test failed");
   itkStaticAssert((NotC<false>::Value == true), "Unit test failed");
 
   // Not between types
-  itkStaticAssert((IsSame<Not<TrueType>::Type, FalseType>::Value), "Unit test failed");
-  itkStaticAssert((IsSame<Not<FalseType>::Type, TrueType>::Value), "Unit test failed");
+  itkStaticAssert((std::is_same<Not<TrueType>::Type, FalseType>::value), "Unit test failed");
+  itkStaticAssert((std::is_same<Not<FalseType>::Type, TrueType>::value), "Unit test failed");
 
 #endif
 
