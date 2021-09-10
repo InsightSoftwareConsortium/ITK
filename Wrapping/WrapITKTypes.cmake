@@ -150,11 +150,15 @@ WRAP_TYPE("itk::FixedArray" "FA" "itkFixedArray.h")
   endforeach()
 
   # Wrap FixedArray for BSplineInterpolationWeightFunction:
-  ADD_TEMPLATE("${ITKM_D}9" "${ITKT_D},9")
-  ADD_TEMPLATE("${ITKM_D}16" "${ITKT_D},16")
-  ADD_TEMPLATE("${ITKM_UL}16" "${ITKT_UL},16")
-  ADD_TEMPLATE("${ITKM_D}64" "${ITKT_D},64")
-  ADD_TEMPLATE("${ITKM_UL}64" "${ITKT_UL},64")
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    # Wrapping for spline order 3, components = (SplineOrder + 1)^SpaceDimension
+    set(comp 1)
+    foreach(i RANGE 1 ${d})
+      math(EXPR comp "${comp}*4")
+    endforeach()
+    ADD_TEMPLATE("${ITKM_D}${comp}" "${ITKT_D},${comp}")
+    ADD_TEMPLATE("${ITKM_UL}${comp}" "${ITKT_UL},${comp}")
+  endforeach()
 END_WRAP_TYPE()
 set(itk_Wrap_FixedArray ${WRAPPER_TEMPLATES})
 
