@@ -26,11 +26,11 @@ struct Child : Base
 int
 itkIsConvertible(int, char *[])
 {
-  static_assert((itk::IsConvertible<char, double>::Value), "Unit test failed");
-  static_assert((!itk::IsConvertible<char, char *>::Value), "Unit test failed");
+  static_assert(itk::IsConvertible<char, double>::Value, "Unit test failed");
+  static_assert(!itk::IsConvertible<char, char *>::Value, "Unit test failed");
 
-  static_assert((itk::IsConvertible<Child *, void *>::Value), "Unit test failed");
-  static_assert((!itk::IsConvertible<void *, Child *>::Value), "Unit test failed");
+  static_assert(itk::IsConvertible<Child *, void *>::Value, "Unit test failed");
+  static_assert(!itk::IsConvertible<void *, Child *>::Value, "Unit test failed");
 
   return EXIT_SUCCESS;
 }
