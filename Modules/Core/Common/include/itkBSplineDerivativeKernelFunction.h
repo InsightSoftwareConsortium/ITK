@@ -60,11 +60,19 @@ public:
   /** Enum of for spline order. */
   static constexpr unsigned int SplineOrder = VSplineOrder;
 
+  /** Evaluate the function. Faster than the `Evaluate` member function, because it is static (while `Evaluate` is
+   * virtual). */
+  static TRealValueType
+  FastEvaluate(const TRealValueType u)
+  {
+    return Self::Evaluate(Dispatch<VSplineOrder>(), u);
+  }
+
   /** Evaluate the function. */
   TRealValueType
   Evaluate(const TRealValueType & u) const override
   {
-    return this->Evaluate(Dispatch<VSplineOrder>(), u);
+    return Self::FastEvaluate(u);
   }
 
 protected:
@@ -87,15 +95,15 @@ private:
   {};
 
   /** Evaluate the function:  zeroth order spline. */
-  inline TRealValueType
-  Evaluate(const Dispatch<0> &, const TRealValueType & itkNotUsed(u)) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<0> &, const TRealValueType & itkNotUsed(u))
   {
     return TRealValueType{ 0.0 };
   }
 
   /** Evaluate the function:  first order spline */
-  inline TRealValueType
-  Evaluate(const Dispatch<1> &, const TRealValueType & u) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<1> &, const TRealValueType & u)
   {
     if (Math::ExactlyEquals(u, TRealValueType{ -1.0 }))
     {
@@ -124,8 +132,8 @@ private:
   }
 
   /** Evaluate the function:  second order spline. */
-  inline TRealValueType
-  Evaluate(const Dispatch<2> &, const TRealValueType & u) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<2> &, const TRealValueType & u)
   {
     if ((u > TRealValueType{ -0.5 }) && (u < TRealValueType{ 0.5 }))
     {
@@ -146,8 +154,8 @@ private:
   }
 
   /** Evaluate the function:  third order spline. */
-  inline TRealValueType
-  Evaluate(const Dispatch<3> &, const TRealValueType & u) const
+  inline static TRealValueType
+  Evaluate(const Dispatch<3> &, const TRealValueType & u)
   {
     if ((u >= TRealValueType{ 0.0 }) && (u < TRealValueType{ 1.0 }))
     {
@@ -172,10 +180,10 @@ private:
   }
 
   /** Evaluate the function:  unimplemented spline order */
-  inline TRealValueType
-  Evaluate(const DispatchBase &, const TRealValueType &) const
+  inline static TRealValueType
+  Evaluate(const DispatchBase &, const TRealValueType &)
   {
-    itkExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);
+    itkGenericExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);
   }
 };
 } // end namespace itk
