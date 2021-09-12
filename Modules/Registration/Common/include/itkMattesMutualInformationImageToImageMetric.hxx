@@ -34,9 +34,7 @@ namespace itk
  */
 template <typename TFixedImage, typename TMovingImage>
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MattesMutualInformationImageToImageMetric()
-  : m_CubicBSplineKernel(nullptr)
-  , m_CubicBSplineDerivativeKernel(nullptr)
-  , m_PRatioArray(0, 0)
+  : m_PRatioArray(0, 0)
   ,
   // Initialize memory
   m_MovingImageMarginalPDF(0)
@@ -338,11 +336,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
       this->m_MMIMetricPerThreadVariables[workUnitID].MetricDerivative.Fill(NumericTraits<MeasureType>::ZeroValue());
     }
   }
-  /**
-   * Setup the kernels used for the Parzen windows.
-   */
-  this->m_CubicBSplineKernel = CubicBSplineFunctionType::New();
-  this->m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();
 
   /**
    * Pre-compute the fixed image parzen window index for
@@ -460,7 +453,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueTh
 
   while (pdfMovingIndex <= pdfMovingIndexMax)
   {
-    *(pdfPtr++) += static_cast<PDFValueType>(this->m_CubicBSplineKernel->Evaluate(movingImageParzenWindowArg));
+    *(pdfPtr++) += CubicBSplineFunctionType::FastEvaluate(movingImageParzenWindowArg);
     movingImageParzenWindowArg += 1;
     ++pdfMovingIndex;
   }
@@ -705,13 +698,13 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
 
   while (pdfMovingIndex <= pdfMovingIndexMax)
   {
-    *(pdfPtr++) += static_cast<PDFValueType>(this->m_CubicBSplineKernel->Evaluate(movingImageParzenWindowArg));
+    *(pdfPtr++) += CubicBSplineFunctionType::FastEvaluate(movingImageParzenWindowArg);
 
     if (this->m_UseExplicitPDFDerivatives || this->m_ImplicitDerivativesSecondPass)
     {
       // Compute the cubicBSplineDerivative for later repeated use.
       const PDFValueType cubicBSplineDerivativeValue =
-        this->m_CubicBSplineDerivativeKernel->Evaluate(movingImageParzenWindowArg);
+        CubicBSplineDerivativeFunctionType::FastEvaluate(movingImageParzenWindowArg);
 
       // Compute PDF derivative contribution.
       this->ComputePDFDerivatives(

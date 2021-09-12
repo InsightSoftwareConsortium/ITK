@@ -43,8 +43,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   , m_MovingImageTrueMax(0.0)
   , m_FixedImageBinSize(0.0)
   , m_MovingImageBinSize(0.0)
-  , m_CubicBSplineKernel(nullptr)
-  , m_CubicBSplineDerivativeKernel(nullptr)
   , m_PRatioArray(0)
   ,
   // Initialize memory
@@ -60,8 +58,6 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
   // ImageToImageMetricv4 to use.
   this->m_DenseGetValueAndDerivativeThreader = MattesMutualInformationDenseGetValueAndDerivativeThreaderType::New();
   this->m_SparseGetValueAndDerivativeThreader = MattesMutualInformationSparseGetValueAndDerivativeThreaderType::New();
-  this->m_CubicBSplineKernel = CubicBSplineFunctionType::New();
-  this->m_CubicBSplineDerivativeKernel = CubicBSplineDerivativeFunctionType::New();
 }
 
 /**

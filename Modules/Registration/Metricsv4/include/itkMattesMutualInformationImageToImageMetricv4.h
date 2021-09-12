@@ -255,10 +255,6 @@ protected:
   PDFValueType  m_FixedImageBinSize;
   PDFValueType  m_MovingImageBinSize;
 
-  /** Cubic BSpline kernel for computing Parzen histograms. */
-  typename CubicBSplineFunctionType::Pointer           m_CubicBSplineKernel;
-  typename CubicBSplineDerivativeFunctionType::Pointer m_CubicBSplineDerivativeKernel;
-
   /** Helper array for storing the values of the JointPDF ratios. */
   using PRatioType = PDFValueType;
   using PRatioArrayType = std::vector<PRatioType>;
