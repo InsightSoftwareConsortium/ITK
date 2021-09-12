@@ -345,16 +345,14 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
                                        MovingTransformType::TransformCategoryEnum::DisplacementField;
   while (pdfMovingIndex <= pdfMovingIndexMax)
   {
-    const auto val =
-      static_cast<PDFValueType>(this->m_MattesAssociate->m_CubicBSplineKernel->Evaluate(movingImageParzenWindowArg));
+    const auto val = CubicBSplineFunctionType::FastEvaluate(movingImageParzenWindowArg);
     *(pdfPtr++) += val;
 
     if (doComputeDerivative)
     {
       // Compute the cubicBSplineDerivative for later repeated use.
       const PDFValueType cubicBSplineDerivativeValue =
-        this->m_MattesAssociate->m_CubicBSplineDerivativeKernel->Evaluate(movingImageParzenWindowArg);
-
+        CubicBSplineDerivativeFunctionType::FastEvaluate(movingImageParzenWindowArg);
 
       if (transformIsDisplacement)
       {
