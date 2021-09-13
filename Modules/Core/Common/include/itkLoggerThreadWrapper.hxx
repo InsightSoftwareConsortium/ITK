@@ -112,18 +112,18 @@ LoggerThreadWrapper<SimpleLoggerType>::Write(PriorityLevelEnum level, std::strin
     this->m_MessageQ.push(content);
     this->m_LevelQ.push(level);
   }
-  this->m_Mutex.unlock();
   if (this->m_LevelForFlushing >= level)
   {
-    this->Flush();
+    this->PrivateFlush();
   }
+  this->m_Mutex.unlock();
 }
 
 template <typename SimpleLoggerType>
 void
-LoggerThreadWrapper<SimpleLoggerType>::Flush()
+LoggerThreadWrapper<SimpleLoggerType>::PrivateFlush()
 {
-  this->m_Mutex.lock();
+  // m_Mutex must already be held here!
 
   while (!this->m_OperationQ.empty())
   {
@@ -149,8 +149,16 @@ LoggerThreadWrapper<SimpleLoggerType>::Flush()
     }
     this->m_OperationQ.pop();
   }
-  this->SimpleLoggerType::Flush();
+  this->SimpleLoggerType::PrivateFlush();
   this->m_Output->Flush();
+}
+
+template <typename SimpleLoggerType>
+void
+LoggerThreadWrapper<SimpleLoggerType>::Flush()
+{
+  this->m_Mutex.lock();
+  this->PrivateFlush();
   this->m_Mutex.unlock();
 }
 
@@ -209,8 +217,8 @@ LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction()
       }
       m_OperationQ.pop();
     }
+    SimpleLoggerType::PrivateFlush();
     m_Mutex.unlock();
-    SimpleLoggerType::Flush();
     itksys::SystemTools::Delay(this->GetDelay());
   }
 }
