@@ -108,11 +108,11 @@ ThreadLogger::Write(PriorityLevelEnum level, std::string const & content)
   this->m_OperationQ.push(WRITE);
   this->m_MessageQ.push(content);
   this->m_LevelQ.push(level);
-  this->m_Mutex.unlock();
   if (this->m_LevelForFlushing >= level)
   {
     this->InternalFlush();
   }
+  this->m_Mutex.unlock();
 }
 
 void
@@ -120,14 +120,14 @@ ThreadLogger::Flush()
 {
   this->m_Mutex.lock();
   this->m_OperationQ.push(FLUSH);
-  this->m_Mutex.unlock();
   this->InternalFlush();
+  this->m_Mutex.unlock();
 }
 
 void
 ThreadLogger::InternalFlush()
 {
-  this->m_Mutex.lock();
+  // m_Mutex must already be held here!
 
   while (!this->m_OperationQ.empty())
   {
@@ -160,7 +160,6 @@ ThreadLogger::InternalFlush()
     this->m_OperationQ.pop();
   }
   this->m_Output->Flush();
-  this->m_Mutex.unlock();
 }
 
 void

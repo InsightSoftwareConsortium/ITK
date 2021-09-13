@@ -20,6 +20,7 @@
 
 #include "itkLogger.h"
 #include <mutex>
+#include <atomic>
 
 #include <string>
 #include <queue>
@@ -135,7 +136,7 @@ private:
 
   std::thread m_Thread;
 
-  bool m_TerminationRequested;
+  std::atomic<bool> m_TerminationRequested;
 
   OperationContainerType m_OperationQ;
 

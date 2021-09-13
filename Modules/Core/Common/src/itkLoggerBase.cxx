@@ -59,6 +59,12 @@ LoggerBase::Write(PriorityLevelEnum level, std::string const & content)
 void
 LoggerBase::Flush()
 {
+  this->PrivateFlush();
+}
+
+void
+LoggerBase::PrivateFlush()
+{
   this->m_Output->Flush();
 }
 

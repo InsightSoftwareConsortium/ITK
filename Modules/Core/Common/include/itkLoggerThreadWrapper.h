@@ -21,6 +21,7 @@
 #include <string>
 #include <queue>
 #include <thread>
+#include <atomic>
 
 #include "itkObjectFactory.h"
 #include <mutex>
@@ -134,6 +135,9 @@ public:
   Flush() override;
 
 protected:
+  void
+  PrivateFlush() override;
+
   /** Constructor */
   LoggerThreadWrapper();
 
@@ -158,7 +162,7 @@ private:
 
   std::thread m_Thread;
 
-  bool m_TerminationRequested;
+  std::atomic<bool> m_TerminationRequested;
 
   OperationContainerType m_OperationQ;
 

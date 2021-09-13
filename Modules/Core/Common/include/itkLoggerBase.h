@@ -220,6 +220,9 @@ public:
   Flush();
 
 protected:
+  virtual void
+  PrivateFlush();
+
   /** Constructor */
   LoggerBase();
 
