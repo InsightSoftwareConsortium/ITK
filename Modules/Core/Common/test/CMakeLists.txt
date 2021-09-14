@@ -121,8 +121,6 @@ itkMultiThreaderParallelizeArrayTest.cxx
 itkMultithreadingTest.cxx
 
 itkMetaProgrammingLibraryTest.cxx
-itkIsConvertible.cxx
-itkIsBaseOf.cxx
 itkPromoteType.cxx
 itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx

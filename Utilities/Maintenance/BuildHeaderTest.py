@@ -49,6 +49,9 @@ BANNED_HEADERS = set(
         "vtkCaptureScreen.h",  # these includes require VTK
         "itkMultiThreader.h",  # Compatibility file, it should not be used
         "itkEnableIf.h", # Compatibility file, it should not be used
+        "itkIsSame.h", # Compatibility file, it should not be used
+        "itkIsBaseOf.h", # Compatibility file, it should not be used
+        "itkIsConvertible.h", # Compatibility file, it should not be used
         "itkViewImage.h",  # Depends on VTK_RENDERING_BACKEND
         "QuickView.h",  # Depends on VTK_RENDERING_BACKEND
         "itkBSplineDeformableTransformInitializer.h",

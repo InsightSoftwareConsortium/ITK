@@ -18,8 +18,11 @@
 #ifndef itkIsBaseOf_h
 #define itkIsBaseOf_h
 
-#include "itkIsConvertible.h"
-#include "itkIsSame.h"
+#include <type_traits>
+
+#include "itkMacro.h"
+
+#if !defined(ITK_LEGACY_REMOVE)
 
 namespace itk
 {
@@ -39,12 +42,15 @@ namespace mpl
 template <typename TBase, typename TDerived>
 struct IsBaseOf
 {
-  static constexpr bool Value =
-    IsConvertible<const TDerived *, const TBase *>::Value && !IsSame<const TBase *, const void *>::Value;
+  static constexpr bool Value = std::is_base_of<const TDerived *, const TBase *>::value;
 };
 } // end namespace mpl
 
 /// \endcond
 } // end namespace itk
+
+#else // ITK_LEGACY_REMOVE
+#  error Use C++ 11 std::is_base_of directly
+#endif
 
 #endif // itkIsBaseOf_h
