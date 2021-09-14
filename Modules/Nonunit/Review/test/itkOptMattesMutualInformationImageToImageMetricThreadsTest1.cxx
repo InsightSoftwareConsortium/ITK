@@ -116,11 +116,11 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
   // By now restrict the number of threads to test to the range 1 to 4.
   const unsigned int maximumNumberOfThreadsToTest = defaultNumberOfThreads;
 
-  for (unsigned int numberOfThreads = 1; numberOfThreads < maximumNumberOfThreadsToTest; ++numberOfThreads)
+  for (unsigned int numberOfWorkUnits = 1; numberOfWorkUnits < maximumNumberOfThreadsToTest; ++numberOfWorkUnits)
   {
     try
     {
-      metric->SetNumberOfWorkUnits(numberOfThreads);
+      metric->SetNumberOfWorkUnits(numberOfWorkUnits);
       metric->ReinitializeSeed(76926294);
       metric->Initialize();
 
@@ -140,7 +140,7 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
     if (verbose)
     {
-      std::cout << numberOfThreads;
+      std::cout << numberOfWorkUnits;
       std::cout << " : " << value_combined;
       std::cout << " : " << value_separate;
       std::cout << " : " << derivative_combined;

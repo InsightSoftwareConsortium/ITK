@@ -26,6 +26,14 @@ itk_wrap_class("itk::FunctionBase" POINTER)
     itk_wrap_template("${ITKM_PD${d}}RGBD" "${ITKT_PD${d}},itk::RGBPixel< double >")
     itk_wrap_template("${ITKM_PD${d}}RGBAD" "${ITKT_PD${d}},itk::RGBAPixel< double >")
 
+    # Required by BSplineInterpolationWeightFunction
+    # Wrapping for spline order 3, components = (SplineOrder + 1)^SpaceDimension
+    set(comp 1)
+    foreach(i RANGE 1 ${d})
+      math(EXPR comp "${comp}*4")
+    endforeach()
+    itk_wrap_template("${ITKM_CID${d}}${ITKM_FAD${comp}}" "${ITKT_CID${d}}, ${ITKT_FAD${comp}}")
+
   endforeach()
 
   foreach(r ${WRAP_ITK_REAL})

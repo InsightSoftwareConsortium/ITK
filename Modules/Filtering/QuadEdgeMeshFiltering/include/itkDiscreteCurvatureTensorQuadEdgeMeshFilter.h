@@ -30,7 +30,8 @@ namespace itk
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInputMesh, typename TOutputMesh = TInputMesh>
-class DiscreteCurvatureTensorQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
+class ITK_TEMPLATE_EXPORT DiscreteCurvatureTensorQuadEdgeMeshFilter
+  : public QuadEdgeMeshToQuadEdgeMeshFilter<TInputMesh, TOutputMesh>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(DiscreteCurvatureTensorQuadEdgeMeshFilter);

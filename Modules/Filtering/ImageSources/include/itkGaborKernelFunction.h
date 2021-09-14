@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template <typename TRealValueType>
-class GaborKernelFunction : public KernelFunctionBase<TRealValueType>
+class ITK_TEMPLATE_EXPORT GaborKernelFunction : public KernelFunctionBase<TRealValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(GaborKernelFunction);
@@ -69,9 +69,8 @@ public:
   Evaluate(const TRealValueType & u) const override
   {
     TRealValueType parameter = itk::Math::sqr(u / this->m_Sigma);
-    TRealValueType envelope = std::exp(static_cast<TRealValueType>(-0.5) * parameter);
-    TRealValueType phase =
-      static_cast<TRealValueType>(2.0 * itk::Math::pi) * this->m_Frequency * u + this->m_PhaseOffset;
+    TRealValueType envelope = std::exp(TRealValueType{ -0.5 } * parameter);
+    TRealValueType phase = TRealValueType{ 2.0 * itk::Math::pi } * this->m_Frequency * u + this->m_PhaseOffset;
 
     if (this->m_CalculateImaginaryPart)
     {
@@ -105,9 +104,9 @@ protected:
   GaborKernelFunction()
   {
     this->m_CalculateImaginaryPart = false;
-    this->m_Sigma = NumericTraits<TRealValueType>::OneValue();
-    this->m_Frequency = static_cast<TRealValueType>(0.4);
-    this->m_PhaseOffset = NumericTraits<TRealValueType>::ZeroValue();
+    this->m_Sigma = TRealValueType{ 1.0 };
+    this->m_Frequency = TRealValueType{ 0.4 };
+    this->m_PhaseOffset = TRealValueType{ 0.0 };
   }
   ~GaborKernelFunction() override = default;
   void

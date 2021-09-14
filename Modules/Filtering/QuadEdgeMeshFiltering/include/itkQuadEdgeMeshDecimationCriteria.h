@@ -111,7 +111,8 @@ template <typename TMesh,
           typename TMeasure = double,
           typename TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper<typename TMesh::QEType *, std::pair<bool, TMeasure>>>
-class NumberOfPointsCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
+class ITK_TEMPLATE_EXPORT NumberOfPointsCriterion
+  : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(NumberOfPointsCriterion);
@@ -154,7 +155,8 @@ template <typename TMesh,
           typename TMeasure = double,
           typename TPriorityQueueWrapper =
             MinPriorityQueueElementWrapper<typename TMesh::QEType *, std::pair<bool, TMeasure>>>
-class NumberOfFacesCriterion : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
+class ITK_TEMPLATE_EXPORT NumberOfFacesCriterion
+  : public QuadEdgeMeshDecimationCriterion<TMesh, TElement, TMeasure, TPriorityQueueWrapper>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(NumberOfFacesCriterion);

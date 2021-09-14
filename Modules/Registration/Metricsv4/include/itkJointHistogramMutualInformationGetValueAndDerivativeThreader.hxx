@@ -58,11 +58,11 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<TDomainPartitioner,
     itkExceptionMacro("Dynamic casting of associate pointer failed.");
   }
 
-  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   delete[] this->m_JointHistogramMIPerThreadVariables;
-  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[numThreadsUsed];
+  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[numWorkUnitsUsed];
 
-  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+  for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     if (this->m_JointHistogramMIPerThreadVariables[i].JointPDFInterpolator.IsNull())
     {

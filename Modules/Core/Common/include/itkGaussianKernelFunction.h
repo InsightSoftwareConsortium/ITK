@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template <typename TRealValueType = double>
-class GaussianKernelFunction : public KernelFunctionBase<TRealValueType>
+class ITK_TEMPLATE_EXPORT GaussianKernelFunction : public KernelFunctionBase<TRealValueType>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(GaussianKernelFunction);
@@ -59,13 +59,12 @@ public:
   TRealValueType
   Evaluate(const TRealValueType & u) const override
   {
-    return (std::exp(static_cast<TRealValueType>(-0.5) * itk::Math::sqr(u)) * m_Factor);
+    return (std::exp(TRealValueType{ -0.5 } * itk::Math::sqr(u)) * m_Factor);
   }
 
 protected:
   GaussianKernelFunction()
-    : m_Factor(NumericTraits<TRealValueType>::OneValue() /
-               std::sqrt(static_cast<TRealValueType>(2.0 * itk::Math::pi))){};
+    : m_Factor(TRealValueType{ 1.0 } / std::sqrt(TRealValueType{ 2.0 * itk::Math::pi })){};
   ~GaussianKernelFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override

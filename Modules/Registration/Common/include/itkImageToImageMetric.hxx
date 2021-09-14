@@ -99,9 +99,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::~ImageToImageMetric()
  */
 template <typename TFixedImage, typename TMovingImage>
 void
-ImageToImageMetric<TFixedImage, TMovingImage>::SetNumberOfWorkUnits(ThreadIdType numberOfThreads)
+ImageToImageMetric<TFixedImage, TMovingImage>::SetNumberOfWorkUnits(ThreadIdType numberOfWorkUnits)
 {
-  m_Threader->SetNumberOfWorkUnits(numberOfThreads);
+  m_Threader->SetNumberOfWorkUnits(numberOfWorkUnits);
   m_NumberOfWorkUnits = m_Threader->GetNumberOfWorkUnits();
 }
 
@@ -426,7 +426,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
   else
   {
     m_BSplineTransform = testPtr2;
-    m_NumBSplineWeights = m_BSplineTransform->GetNumberOfWeights();
+    m_NumBSplineWeights = BSplineTransformType::NumberOfWeights;
     itkDebugMacro("Transform is BSplineDeformable");
   }
 
@@ -437,8 +437,6 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
     this->m_BSplineTransformIndicesArray.SetSize(1, 1);
     this->m_BSplinePreTransformPointsArray.resize(1);
     this->m_WithinBSplineSupportRegionArray.resize(1);
-    this->m_BSplineTransformWeights.SetSize(1);
-    this->m_BSplineTransformIndices.SetSize(1);
 
     delete[] this->m_ThreaderBSplineTransformWeights;
     this->m_ThreaderBSplineTransformWeights = nullptr;
@@ -457,17 +455,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
     }
     else
     {
-      this->m_BSplineTransformWeights.SetSize(this->m_NumBSplineWeights);
-      this->m_BSplineTransformIndices.SetSize(this->m_NumBSplineWeights);
-
       this->m_ThreaderBSplineTransformWeights = new BSplineTransformWeightsType[m_NumberOfWorkUnits - 1];
       this->m_ThreaderBSplineTransformIndices = new BSplineTransformIndexArrayType[m_NumberOfWorkUnits - 1];
-
-      for (ThreadIdType ithread = 0; ithread < m_NumberOfWorkUnits - 1; ++ithread)
-      {
-        this->m_ThreaderBSplineTransformWeights[ithread].SetSize(this->m_NumBSplineWeights);
-        this->m_ThreaderBSplineTransformIndices[ithread].SetSize(this->m_NumBSplineWeights);
-      }
     }
 
     for (unsigned int j = 0; j < FixedImageDimension; ++j)
@@ -797,8 +786,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PreComputeTransformValues()
   m_Transform->SetParameters(dummyParameters);
 
   // Cycle through each sampled fixed image point
-  BSplineTransformWeightsType    weights(m_NumBSplineWeights);
-  BSplineTransformIndexArrayType indices(m_NumBSplineWeights);
+  BSplineTransformWeightsType    weights;
+  BSplineTransformIndexArrayType indices;
   bool                           valid;
   MovingImagePointType           mappedPoint;
 

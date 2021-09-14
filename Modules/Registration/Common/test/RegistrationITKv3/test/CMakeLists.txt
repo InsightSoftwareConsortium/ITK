@@ -394,6 +394,7 @@ if( ITK_USE_BRAINWEB_DATA )
     )
     set_property(TEST ITKv3DeformableRegistration8Test5 PROPERTY DEPENDS BSplineWarping2Test)
     set_property(TEST ITKv3DeformableRegistration8Test5 APPEND PROPERTY LABELS RUNS_LONG)
+    set_property(TEST ITKv3DeformableRegistration8Test5 APPEND PROPERTY RUN_SERIAL True)
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test6 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>
@@ -455,6 +456,7 @@ if( ITK_USE_BRAINWEB_DATA )
     )
     set_property(TEST ITKv3DeformableRegistration8Test9 PROPERTY DEPENDS BSplineWarping2Test)
     set_property(TEST ITKv3DeformableRegistration8Test9 APPEND PROPERTY LABELS RUNS_LONG)
+    set_property(TEST ITKv3DeformableRegistration8Test9 APPEND PROPERTY RUN_SERIAL True)
 
     itk_add_test(NAME ITKv3DeformableRegistration8Test10 COMMAND ${ITK_TEST_DRIVER}
       $<TARGET_FILE:ITKv3DeformableRegistration8>

@@ -29,7 +29,7 @@
 #define itkInPlaceImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkIsSame.h"
+#include <type_traits>
 
 namespace itk
 {
@@ -147,7 +147,15 @@ protected:
   void
   AllocateOutputs() override
   {
-    this->InternalAllocateOutputs(IsSame<TInputImage, TOutputImage>());
+    if (std::is_same<TInputImage, TOutputImage>::value)
+    {
+      this->InternalAllocateOutputs();
+    }
+    else // the type are different we can't run in place
+    {
+      this->m_RunningInPlace = false;
+      this->Superclass::AllocateOutputs();
+    }
   }
 
   /** InPlaceImageFilter may transfer ownership of the input bulk data
@@ -169,16 +177,8 @@ protected:
   itkGetConstMacro(RunningInPlace, bool);
 
 private:
-  // the type are different we can't run in place
   void
-  InternalAllocateOutputs(const FalseType &)
-  {
-    this->m_RunningInPlace = false;
-    this->Superclass::AllocateOutputs();
-  }
-
-  void
-  InternalAllocateOutputs(const TrueType &);
+  InternalAllocateOutputs();
 
   bool m_InPlace{ true }; // enable the possibility of in-place
   bool m_RunningInPlace{ false };

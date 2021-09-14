@@ -470,8 +470,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
 
   // Determine which points should be handled by this particular thread.
 
-  ThreadIdType numberOfThreads = this->GetNumberOfWorkUnits();
-  auto         numberOfPointsPerThread = static_cast<SizeValueType>(input->GetNumberOfPoints() / numberOfThreads);
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
+  auto         numberOfPointsPerThread = static_cast<SizeValueType>(input->GetNumberOfPoints() / numberOfWorkUnits);
 
   unsigned int start = threadId * numberOfPointsPerThread;
   unsigned int end = start + numberOfPointsPerThread;

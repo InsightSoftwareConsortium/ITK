@@ -93,7 +93,7 @@ namespace itk
 template <typename TInputImage,
           typename TMaskImage = Image<unsigned char, TInputImage::ImageDimension>,
           class TOutputImage = TInputImage>
-class N4BiasFieldCorrectionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT N4BiasFieldCorrectionImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(N4BiasFieldCorrectionImageFilter);

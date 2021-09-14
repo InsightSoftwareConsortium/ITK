@@ -22,7 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
 BMPImageIO::BMPImageIO()
   : m_ColorPalette(0) // palette has no element by default
 {
@@ -50,7 +49,6 @@ BMPImageIO::BMPImageIO()
   }
 }
 
-/** Destructor */
 BMPImageIO::~BMPImageIO() = default;
 
 bool
@@ -309,16 +307,16 @@ BMPImageIO::Read(void * buffer)
           {
             if (this->GetNumberOfComponents() == 3)
             {
-              p[l++] = value[i + 2];
-              p[l++] = value[i + 1];
-              p[l++] = value[i];
+              p[l++] = value[i + 2]; // red
+              p[l++] = value[i + 1]; // green
+              p[l++] = value[i];     // blue
             }
             if (this->GetNumberOfComponents() == 4)
             {
-              p[l++] = value[i + 3];
-              p[l++] = value[i + 2];
-              p[l++] = value[i + 1];
-              p[l++] = value[i];
+              p[l++] = value[i + 2]; // red
+              p[l++] = value[i + 1]; // green
+              p[l++] = value[i];     // blue
+              p[l++] = value[i + 3]; // alpha
             }
             i += step - 1;
           }
@@ -599,7 +597,7 @@ BMPImageIO::ReadImageInformation()
 }
 
 void
-BMPImageIO ::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
+BMPImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
@@ -657,7 +655,7 @@ BMPImageIO ::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 }
 
 void
-BMPImageIO ::Write32BitsInteger(unsigned int value)
+BMPImageIO::Write32BitsInteger(unsigned int value)
 {
   auto tmp = static_cast<char>(value % 256);
   m_Ofstream.write(&tmp, sizeof(char));
@@ -670,7 +668,7 @@ BMPImageIO ::Write32BitsInteger(unsigned int value)
 }
 
 void
-BMPImageIO ::Write16BitsInteger(unsigned short value)
+BMPImageIO::Write16BitsInteger(unsigned short value)
 {
   auto tmp = static_cast<char>(value % 256);
   m_Ofstream.write(&tmp, sizeof(char));
@@ -679,7 +677,7 @@ BMPImageIO ::Write16BitsInteger(unsigned short value)
 }
 
 BMPImageIO::RGBPixelType
-BMPImageIO ::GetColorPaletteEntry(const unsigned char entry) const
+BMPImageIO::GetColorPaletteEntry(const unsigned char entry) const
 {
   if (entry < m_ColorPalette.size())
   {
@@ -696,12 +694,11 @@ BMPImageIO ::GetColorPaletteEntry(const unsigned char entry) const
 }
 
 void
-BMPImageIO ::WriteImageInformation()
+BMPImageIO::WriteImageInformation()
 {}
 
-/** The write function is not implemented */
 void
-BMPImageIO ::Write(const void * buffer)
+BMPImageIO::Write(const void * buffer)
 {
   unsigned int nDims = this->GetNumberOfDimensions();
 
@@ -721,8 +718,7 @@ BMPImageIO ::Write(const void * buffer)
 
   this->OpenFileForWriting(m_Ofstream, m_FileName);
 
-  //
-  //
+
   // A BMP file has four sections:
   //
   // * BMP Header                         14 bytes
@@ -733,8 +729,6 @@ BMPImageIO ::Write(const void * buffer)
   // For more details:
   //
   //             http://en.wikipedia.org/wiki/BMP_file_format
-  //
-  //
 
   // Write the BMP header
   //
@@ -752,7 +746,6 @@ BMPImageIO ::Write(const void * buffer)
   //  10      4    Provides an offset from the start of the file
   //               to the first byte of image sample data. This
   //               is normally 54 bytes (Hex: 36)
-  //
   char tmp = 66;
   m_Ofstream.write(&tmp, sizeof(char));
   tmp = 77;
@@ -784,11 +777,8 @@ BMPImageIO ::Write(const void * buffer)
     offsetToBinaryDataStart += 1024;
   }
   this->Write32BitsInteger(offsetToBinaryDataStart);
-  //
   // End of BMP header, 14 bytes written so far
-  //
 
-  //
   // Write the DIB header
   //
   // Offset Length Description
@@ -803,7 +793,6 @@ BMPImageIO ::Write(const void * buffer)
   //  blue, green and red intensities, respectively.
   //
   //  Finally the pixel data
-  //
   constexpr unsigned int bitmapHeaderSize = 40;
   this->Write32BitsInteger(bitmapHeaderSize);
 
@@ -857,15 +846,10 @@ BMPImageIO ::Write(const void * buffer)
   // zero here indicates that all colors in the palette are important.
   constexpr unsigned int numberOfImportantColorsInPalette = 0;
   this->Write32BitsInteger(numberOfImportantColorsInPalette);
-  //
   // End of DIB header, 54 bytes written so far
-  //
 
-  //
   // Write down colour LUT
-  //
   // only when using 1 byte per pixel
-  //
   if (bpp == 1)
   {
     for (unsigned int n = 0; n < 256; ++n)
@@ -878,9 +862,7 @@ BMPImageIO ::Write(const void * buffer)
     }
   }
 
-  //
   // Write down the raw binary pixel data
-  //
   unsigned int i;
   for (unsigned int h = 0; h < m_Dimensions[1]; ++h)
   {
@@ -904,11 +886,11 @@ BMPImageIO ::Write(const void * buffer)
       for (i = 0; i < m_Dimensions[0]; ++i)
       {
         ptr += 2;
-        m_Ofstream.write(ptr, sizeof(char));
+        m_Ofstream.write(ptr, sizeof(char)); // blue
         ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
+        m_Ofstream.write(ptr, sizeof(char)); // green
         ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
+        m_Ofstream.write(ptr, sizeof(char)); // red
         ptr += 3;
       }
       for (i = 0; i < paddedBytes; ++i)
@@ -920,15 +902,15 @@ BMPImageIO ::Write(const void * buffer)
     {
       for (i = 0; i < m_Dimensions[0]; ++i)
       {
+        ptr += 2;
+        m_Ofstream.write(ptr, sizeof(char)); // blue
+        ptr--;
+        m_Ofstream.write(ptr, sizeof(char)); // green
+        ptr--;
+        m_Ofstream.write(ptr, sizeof(char)); // red
         ptr += 3;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr--;
-        m_Ofstream.write(ptr, sizeof(char));
-        ptr += 4;
+        m_Ofstream.write(ptr, sizeof(char)); // alpha
+        ptr++;
       }
       for (i = 0; i < paddedBytes; ++i)
       {

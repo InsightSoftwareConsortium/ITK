@@ -191,7 +191,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
 
 
-  std::cout << "Number of threads: metric: " << metric->GetNumberOfWorkUnitsUsed()
+  std::cout << "Number of work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
             << " optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
   std::cout << "Scales: " << optimizer->GetScales() << " DoEstimateScales: " << optimizer->GetDoEstimateScales()
             << std::endl;

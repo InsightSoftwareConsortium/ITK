@@ -222,7 +222,31 @@ Check_iterators_increment_return_value()
   }
 }
 
+template <int VFillValue>
+constexpr bool
+Is_Filled_FixedArray_correctly_filled()
+{
+  using FixedArrayType = itk::FixedArray<int>;
+
+  constexpr auto filledFixedArray = FixedArrayType::Filled(VFillValue);
+
+  for (unsigned i{}; i < FixedArrayType::Length; ++i)
+  {
+    if (filledFixedArray[i] != VFillValue)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+
 } // End of namespace
+
+static_assert(Is_Filled_FixedArray_correctly_filled<0>() && Is_Filled_FixedArray_correctly_filled<1>() &&
+                Is_Filled_FixedArray_correctly_filled<std::numeric_limits<int>::min()>() &&
+                Is_Filled_FixedArray_correctly_filled<std::numeric_limits<int>::max()>(),
+              "itk::FixedArray::Filled(value) should be correctly filled at compile-time");
 
 
 // Tests that the values of a FixedArray (either const or non-const) can be retrieved by a

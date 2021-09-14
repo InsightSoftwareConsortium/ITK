@@ -178,7 +178,7 @@ public:
   InitializeTransform();
 
 protected:
-  LandmarkBasedTransformInitializer();
+  LandmarkBasedTransformInitializer() = default;
   ~LandmarkBasedTransformInitializer() override = default;
 
   void

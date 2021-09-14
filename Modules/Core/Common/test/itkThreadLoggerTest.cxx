@@ -32,21 +32,21 @@ using ThreadDataVec = std::vector<ThreadDataStruct>;
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ThreadedGenerateLogMessages(void * arg)
 {
-  const auto * threadInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(arg);
-  if (threadInfo)
+  const auto * workUnitInfo = static_cast<itk::MultiThreaderBase::WorkUnitInfo *>(arg);
+  if (workUnitInfo)
   {
-    const unsigned int threadId = threadInfo->WorkUnitID;
+    const unsigned int workUnitID = workUnitInfo->WorkUnitID;
     std::string        threadPrefix;
     {
       std::ostringstream msg;
-      msg << "<Thread " << threadId << "> ";
+      msg << "<Thread " << workUnitID << "> ";
       threadPrefix = msg.str();
     }
 
-    const ThreadDataVec * dataVec = static_cast<ThreadDataVec *>(threadInfo->UserData);
+    const ThreadDataVec * dataVec = static_cast<ThreadDataVec *>(workUnitInfo->UserData);
     if (dataVec)
     {
-      const ThreadDataStruct threadData = (*dataVec)[threadId];
+      const ThreadDataStruct threadData = (*dataVec)[workUnitID];
       {
         std::ostringstream msg;
         msg << threadPrefix << "unpacked arg\n";
@@ -97,10 +97,10 @@ itkThreadLoggerTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
 
-    int numthreads = 10;
+    int numWorkUnits = 10;
     if (argc > 2)
     {
-      numthreads = std::stoi(argv[2]);
+      numWorkUnits = std::stoi(argv[2]);
     }
 
     // Create an ITK StdStreamLogOutputs
@@ -156,10 +156,10 @@ itkThreadLoggerTest(int argc, char * argv[])
     std::cout << "  Flushing by the ThreadLogger is synchronized." << std::endl;
 
     std::cout << "Beginning multi-threaded portion of test." << std::endl;
-    ThreadDataVec                   threadData = create_threaded_data(numthreads, logger);
+    ThreadDataVec                   threadData = create_threaded_data(numWorkUnits, logger);
     itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
-    itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numthreads + 10);
-    threader->SetNumberOfWorkUnits(numthreads);
+    itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(numWorkUnits + 10);
+    threader->SetNumberOfWorkUnits(numWorkUnits);
     threader->SetSingleMethod(ThreadedGenerateLogMessages, &threadData);
     threader->SingleMethodExecute();
     logger->Flush();

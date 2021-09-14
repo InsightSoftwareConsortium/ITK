@@ -73,14 +73,14 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
   }
 
   // test 1~8 threads for CPU
-  for (int nThreads = 1; nThreads <= 8; ++nThreads)
+  for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
     typename MeanFilterType::Pointer CPUFilter = MeanFilterType::New();
 
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfWorkUnits(nThreads);
+    CPUFilter->SetNumberOfWorkUnits(numberOfWorkUnits);
 
     CPUFilter->SetInput(reader->GetOutput());
     CPUFilter->SetRadius(indexRadius);
@@ -89,12 +89,12 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
     cputimer.Stop();
 
     std::cout << "CPU mean filter took " << cputimer.GetMean() << " seconds with " << CPUFilter->GetNumberOfWorkUnits()
-              << " threads.\n"
+              << " work units.\n"
               << std::endl;
 
     // -------
 
-    if (nThreads == 8)
+    if (numberOfWorkUnits == 8)
     {
       typename GPUMeanFilterType::Pointer GPUFilter = GPUMeanFilterType::New();
 

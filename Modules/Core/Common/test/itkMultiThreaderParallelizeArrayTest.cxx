@@ -59,8 +59,8 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
   }
   if (argc >= 2)
   {
-    unsigned threadCount = static_cast<unsigned>(std::stoi(argv[1]));
-    mt->SetNumberOfWorkUnits(threadCount);
+    unsigned workUnitCount = static_cast<unsigned>(std::stoi(argv[1]));
+    mt->SetNumberOfWorkUnits(workUnitCount);
   }
 
   constexpr unsigned    size = 1029;

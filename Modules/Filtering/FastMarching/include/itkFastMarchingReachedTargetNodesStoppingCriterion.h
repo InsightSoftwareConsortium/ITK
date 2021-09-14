@@ -56,7 +56,8 @@ extern ITKFastMarching_EXPORT std::ostream &
  * \ingroup ITKFastMarching
  */
 template <typename TInput, typename TOutput>
-class FastMarchingReachedTargetNodesStoppingCriterion : public FastMarchingStoppingCriterionBase<TInput, TOutput>
+class ITK_TEMPLATE_EXPORT FastMarchingReachedTargetNodesStoppingCriterion
+  : public FastMarchingStoppingCriterionBase<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FastMarchingReachedTargetNodesStoppingCriterion);

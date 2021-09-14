@@ -61,14 +61,14 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
   float variance = 4.0;
 
   // test 1~8 threads for CPU
-  for (int nThreads = 1; nThreads <= 8; ++nThreads)
+  for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
     typename CPUFilterType::Pointer CPUFilter = CPUFilterType::New();
 
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfWorkUnits(nThreads);
+    CPUFilter->SetNumberOfWorkUnits(numberOfWorkUnits);
 
     CPUFilter->SetInput(reader->GetOutput());
     CPUFilter->SetVariance(variance);
@@ -77,12 +77,12 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
     cputimer.Stop();
 
     std::cout << "CPU Gaussian Filter took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n"
+              << CPUFilter->GetNumberOfWorkUnits() << " work units.\n"
               << std::endl;
 
     // -------
 
-    if (nThreads == 8)
+    if (numberOfWorkUnits == 8)
     {
       typename GPUFilterType::Pointer GPUFilter = GPUFilterType::New();
 

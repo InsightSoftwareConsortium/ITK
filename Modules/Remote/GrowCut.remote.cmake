@@ -46,5 +46,5 @@ itk_fetch_module(GrowCut
 "ITKGrowCut segments a 3D image from user-provided foreground and background seeds."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKGrowCut.git
-  GIT_TAG 6c4a4a35ebf605cd20cfc0a1c7d54a5e56cb4a6a
+  GIT_TAG 713c468ce0a61b00677d9f028092f7df1b024f9f
   )

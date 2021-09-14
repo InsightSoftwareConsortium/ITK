@@ -256,21 +256,21 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(void * arg)
 {
   ThreadStruct * str;
-  ThreadIdType   total, threadId, threadCount;
+  ThreadIdType   total, workUnitID, workUnitCount;
 
-  threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   str = (ThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // execute the actual method with appropriate computation region
   // first find out how many pieces extent can be split into.
   FixedImageRegionType splitRegion;
-  total = str->Metric->SplitFixedRegion(threadId, threadCount, splitRegion);
+  total = str->Metric->SplitFixedRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    str->Metric->ThreadedGetValue(splitRegion, threadId);
+    str->Metric->ThreadedGetValue(splitRegion, workUnitID);
   }
   // else
   //   {

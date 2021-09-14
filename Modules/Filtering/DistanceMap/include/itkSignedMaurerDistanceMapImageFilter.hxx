@@ -102,7 +102,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  ThreadIdType nbthreads = this->GetNumberOfWorkUnits();
+  ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnits();
 
   OutputImageType *      outputPtr = this->GetOutput();
   const InputImageType * inputPtr = this->GetInput();
@@ -130,7 +130,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   binaryFilter->SetInsideValue(NumericTraits<OutputPixelType>::max());
   binaryFilter->SetOutsideValue(NumericTraits<OutputPixelType>::ZeroValue());
   binaryFilter->SetInput(inputPtr);
-  binaryFilter->SetNumberOfWorkUnits(nbthreads);
+  binaryFilter->SetNumberOfWorkUnits(numberOfWorkUnits);
   progressAcc->RegisterInternalFilter(binaryFilter, 0.1f);
   binaryFilter->GraftOutput(outputPtr);
   binaryFilter->Update();
@@ -143,7 +143,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   borderFilter->SetForegroundValue(NumericTraits<OutputPixelType>::ZeroValue());
   borderFilter->SetBackgroundValue(NumericTraits<OutputPixelType>::max());
   borderFilter->SetFullyConnected(true);
-  borderFilter->SetNumberOfWorkUnits(nbthreads);
+  borderFilter->SetNumberOfWorkUnits(numberOfWorkUnits);
   progressAcc->RegisterInternalFilter(borderFilter, 0.23f);
   borderFilter->Update();
 
@@ -153,7 +153,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename ImageSource<OutputImageType>::ThreadStruct str;
   str.Filter = this;
 
-  this->GetMultiThreader()->SetNumberOfWorkUnits(nbthreads);
+  this->GetMultiThreader()->SetNumberOfWorkUnits(numberOfWorkUnits);
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
   // multithread the execution

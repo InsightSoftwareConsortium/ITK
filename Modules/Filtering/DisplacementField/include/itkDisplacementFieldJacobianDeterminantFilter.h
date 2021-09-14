@@ -262,7 +262,7 @@ protected:
 private:
   bool m_UseImageSpacing;
 
-  ThreadIdType m_RequestedNumberOfThreads;
+  ThreadIdType m_RequestedNumberOfWorkUnits;
 
   typename ImageBaseType::ConstPointer m_RealValuedInputImage;
 

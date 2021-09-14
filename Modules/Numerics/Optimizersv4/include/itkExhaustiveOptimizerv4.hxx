@@ -25,12 +25,6 @@ namespace itk
 
 template <typename TInternalComputationValueType>
 ExhaustiveOptimizerv4<TInternalComputationValueType>::ExhaustiveOptimizerv4()
-  : m_CurrentValue(0)
-  , m_NumberOfSteps(0)
-  , m_CurrentIndex(0)
-  , m_MaximumMetricValue(0.0)
-  , m_MinimumMetricValue(0.0)
-  , m_StopConditionDescription("")
 {
   this->m_NumberOfIterations = 0;
 }
@@ -52,6 +46,10 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::StartWalking()
   m_StopConditionDescription << this->GetNameOfClass() << ": Running";
 
   ParametersType initialPos = this->m_Metric->GetParameters();
+  if (this->m_InitialPosition.GetSize() == initialPos.GetSize())
+  {
+    initialPos = this->m_InitialPosition; // correct size, so must have been set by the user
+  }
   m_MinimumMetricValuePosition = initialPos;
   m_MaximumMetricValuePosition = initialPos;
 

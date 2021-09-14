@@ -62,7 +62,7 @@ public:
 } // namespace Functor
 
 template <typename TInputImage, typename TOutputImage>
-class RGBToLuminanceImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT RGBToLuminanceImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(RGBToLuminanceImageFilter);

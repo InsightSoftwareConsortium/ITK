@@ -122,7 +122,7 @@ DataType::DataType(const H5Location& loc, const void* ref, H5R_type_t ref_type, 
 {
     id = H5Location::p_dereference(attr.getId(), ref, ref_type, plist, "constructor - by dereference");
 }
- */ 
+ */
 
 //--------------------------------------------------------------------------
 // Function:    DataType copy constructor

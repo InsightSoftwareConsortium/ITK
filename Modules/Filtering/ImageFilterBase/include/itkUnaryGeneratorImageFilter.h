@@ -52,7 +52,7 @@ namespace itk
  *
  */
 template <typename TInputImage, typename TOutputImage>
-class UnaryGeneratorImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT UnaryGeneratorImageFilter : public InPlaceImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(UnaryGeneratorImageFilter);

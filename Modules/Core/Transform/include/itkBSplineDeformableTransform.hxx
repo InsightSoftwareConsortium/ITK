@@ -497,8 +497,8 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Tra
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
   // For each dimension, correlate coefficient with weights
-  RegionType supportRegion;
-  SizeType   supportSize = this->m_WeightsFunction->GetSupportSize();
+  RegionType         supportRegion;
+  constexpr SizeType supportSize = WeightsFunctionType::SupportSize;
   supportRegion.SetSize(supportSize);
   supportRegion.SetIndex(supportIndex);
 
@@ -573,7 +573,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Com
   }
 
   // Compute interpolation weights
-  WeightsType weights(this->m_WeightsFunction->GetNumberOfWeights());
+  WeightsType weights;
 
   IndexType supportIndex;
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);

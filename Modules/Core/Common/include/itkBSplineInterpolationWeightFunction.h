@@ -20,9 +20,10 @@
 
 #include "itkFunctionBase.h"
 #include "itkContinuousIndex.h"
-#include "itkBSplineKernelFunction.h"
 #include "itkArray.h"
 #include "itkArray2D.h"
+#include "itkIndexRange.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -45,14 +46,16 @@ namespace itk
  */
 template <typename TCoordRep = float, unsigned int VSpaceDimension = 2, unsigned int VSplineOrder = 3>
 class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction
-  : public FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>, Array<double>>
+  : public FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>,
+                        FixedArray<double, Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension)>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineInterpolationWeightFunction);
 
   /** Standard class type aliases. */
   using Self = BSplineInterpolationWeightFunction;
-  using Superclass = FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>, Array<double>>;
+  using Superclass = FunctionBase<ContinuousIndex<TCoordRep, VSpaceDimension>,
+                                  FixedArray<double, Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension)>>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -70,7 +73,10 @@ public:
   static constexpr unsigned int SplineOrder = VSplineOrder;
 
   /** OutputType type alias support. */
-  using WeightsType = Array<double>;
+  using WeightsType = typename Superclass::OutputType;
+
+  /** Number of weights. */
+  static constexpr unsigned int NumberOfWeights{ WeightsType::Length };
 
   /** Index and size type alias support. */
   using IndexType = Index<VSpaceDimension>;
@@ -78,6 +84,9 @@ public:
 
   /** ContinuousIndex type alias support. */
   using ContinuousIndexType = ContinuousIndex<TCoordRep, VSpaceDimension>;
+
+  /** The support region size: a hypercube of length SplineOrder + 1 */
+  static constexpr SizeType SupportSize{ SizeType::Filled(VSplineOrder + 1) };
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * Subclasses must provide this method. */
@@ -95,36 +104,30 @@ public:
   virtual void
   Evaluate(const ContinuousIndexType & index, WeightsType & weights, IndexType & startIndex) const;
 
+#if !defined(ITK_LEGACY_REMOVE)
   /** Get support region size. */
-  itkGetConstMacro(SupportSize, SizeType);
+  itkLegacyMacro(SizeType GetSupportSize() const) { return Self::SupportSize; };
 
   /** Get number of weights. */
-  itkGetConstMacro(NumberOfWeights, unsigned int);
+  itkLegacyMacro(unsigned int GetNumberOfWeights() const) { return Self::NumberOfWeights; }
+#endif
 
 protected:
-  BSplineInterpolationWeightFunction();
+  BSplineInterpolationWeightFunction() = default;
   ~BSplineInterpolationWeightFunction() override = default;
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Number of weights. */
-  unsigned int m_NumberOfWeights;
-
-  /** Size of support region. */
-  SizeType m_SupportSize;
-
   /** Lookup table type. */
-  using TableType = Array2D<unsigned int>;
+  using TableType = FixedArray<IndexType, NumberOfWeights>;
 
   /** Table mapping linear offset to indices. */
-  TableType m_OffsetToIndexTable;
-
-  /** Interpolation kernel type. */
-  using KernelType = BSplineKernelFunction<Self::SplineOrder>;
-
-  /** Interpolation kernel. */
-  typename KernelType::Pointer m_Kernel;
+  const TableType m_OffsetToIndexTable{ [] {
+    TableType     table;
+    // Note: Copied the constexpr value `SupportSize` to a temporary, `SizeType{ SupportSize }`, to prevent a GCC
+    // (Ubuntu 7.5.0-3ubuntu1~18.04) link error, "undefined reference to `SupportSize`".
+    std::copy_n(ZeroBasedIndexRange<SpaceDimension>(SizeType{ SupportSize }).cbegin(), NumberOfWeights, table.begin());
+    return table;
+  }() };
 };
 } // end namespace itk
 

@@ -70,7 +70,7 @@ public:
  * \ingroup ITKLabelMap
  */
 template <typename TLabel, unsigned int VImageDimension, typename TAttributeValue>
-class AttributeLabelObject : public LabelObject<TLabel, VImageDimension>
+class ITK_TEMPLATE_EXPORT AttributeLabelObject : public LabelObject<TLabel, VImageDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(AttributeLabelObject);

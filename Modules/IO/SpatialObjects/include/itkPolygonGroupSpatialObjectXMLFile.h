@@ -31,7 +31,7 @@ namespace itk
  * creates a corresponding PolygonGroupSpatialObject
  * \ingroup ITKIOSpatialObjects
  */
-class PolygonGroupSpatialObjectXMLFileReader : public XMLReader<GroupSpatialObject<3>>
+class ITK_TEMPLATE_EXPORT PolygonGroupSpatialObjectXMLFileReader : public XMLReader<GroupSpatialObject<3>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(PolygonGroupSpatialObjectXMLFileReader);
@@ -85,7 +85,7 @@ private:
  * based on a GroupSpatialObject.
  * \ingroup ITKIOSpatialObjects
  */
-class PolygonGroupSpatialObjectXMLFileWriter : public XMLWriterBase<GroupSpatialObject<3>>
+class ITK_TEMPLATE_EXPORT PolygonGroupSpatialObjectXMLFileWriter : public XMLWriterBase<GroupSpatialObject<3>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(PolygonGroupSpatialObjectXMLFileWriter);

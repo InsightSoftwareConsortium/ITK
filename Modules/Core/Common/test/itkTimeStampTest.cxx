@@ -33,16 +33,16 @@ using TimeStampTestHelper = struct TimeStampTestHelperStruct
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 modified_function(void * ptr)
 {
-  using ThreadInfoType = itk::MultiThreaderBase::WorkUnitInfo;
+  using WorkUnitInfoType = itk::MultiThreaderBase::WorkUnitInfo;
 
-  auto * infoStruct = static_cast<ThreadInfoType *>(ptr);
+  auto * infoStruct = static_cast<WorkUnitInfoType *>(ptr);
 
-  const itk::ThreadIdType threadId = infoStruct->WorkUnitID;
+  const itk::ThreadIdType workUnitID = infoStruct->WorkUnitID;
 
   auto * helper = static_cast<TimeStampTestHelper *>(infoStruct->UserData);
 
-  helper->timestamps[threadId].Modified();
-  helper->counters[threadId]++;
+  helper->timestamps[workUnitID].Modified();
+  helper->counters[workUnitID]++;
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }

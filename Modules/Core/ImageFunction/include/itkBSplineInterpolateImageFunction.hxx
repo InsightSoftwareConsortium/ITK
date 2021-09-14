@@ -131,9 +131,10 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetSpl
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
 void
-BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetNumberOfWorkUnits(ThreadIdType numThreads)
+BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetNumberOfWorkUnits(
+  ThreadIdType numWorkUnits)
 {
-  m_NumberOfWorkUnits = numThreads;
+  m_NumberOfWorkUnits = numWorkUnits;
   this->GeneratePointsToIndex();
 }
 

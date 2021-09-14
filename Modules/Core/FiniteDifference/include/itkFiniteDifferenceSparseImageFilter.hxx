@@ -93,10 +93,10 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::ApplyUpdateThreaderCallback(void * arg)
 {
   FDThreadStruct * str;
-  ThreadIdType     total, threadId, threadCount;
+  ThreadIdType     total, workUnitID, workUnitCount;
 
-  threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
   str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
   // Execute the actual method with appropriate output region
@@ -104,11 +104,11 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Appl
   // Use GetSplitRegion to access partition previously computed by
   // the SplitRegions function in the SparseFieldLayer class.
   ThreadRegionType splitRegion;
-  total = str->Filter->GetSplitRegion(threadId, threadCount, splitRegion);
+  total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, threadId);
+    str->Filter->ThreadedApplyUpdate(str->TimeStep, splitRegion, workUnitID);
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -169,10 +169,10 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Calc
   // various threads.  There is one distinct slot for each possible thread,
   // so this data structure is thread-safe.  All of the time steps calculated
   // in each thread will be combined in the ResolveTimeStepMethod.
-  ThreadIdType threadCount = this->GetMultiThreader()->GetNumberOfWorkUnits();
+  ThreadIdType workUnitCount = this->GetMultiThreader()->GetNumberOfWorkUnits();
 
-  str.TimeStepList.resize(threadCount, false);
-  str.ValidTimeStepList.resize(threadCount);
+  str.TimeStepList.resize(workUnitCount, false);
+  str.ValidTimeStepList.resize(workUnitCount);
 
 
   // Multithread the execution
@@ -191,10 +191,10 @@ ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::CalculateChangeThreaderCallback(void * arg)
 {
   FDThreadStruct * str;
-  ThreadIdType     total, threadId, threadCount;
+  ThreadIdType     total, workUnitID, workUnitCount;
 
-  threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
@@ -203,12 +203,12 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Calc
   // Use GetSplitRegion to access partition previously computed by
   // the Splitegions function in the SparseFieldLayer class.
   ThreadRegionType splitRegion;
-  total = str->Filter->GetSplitRegion(threadId, threadCount, splitRegion);
+  total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    str->TimeStepList[threadId] = str->Filter->ThreadedCalculateChange(splitRegion, threadId);
-    str->ValidTimeStepList[threadId] = true;
+    str->TimeStepList[workUnitID] = str->Filter->ThreadedCalculateChange(splitRegion, workUnitID);
+    str->ValidTimeStepList[workUnitID] = true;
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
@@ -220,10 +220,10 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prec
   void * arg)
 {
   FDThreadStruct * str;
-  ThreadIdType     total, threadId, threadCount;
+  ThreadIdType     total, workUnitID, workUnitCount;
 
-  threadId = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
-  threadCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
+  workUnitID = ((MultiThreaderBase::WorkUnitInfo *)(arg))->WorkUnitID;
+  workUnitCount = ((MultiThreaderBase::WorkUnitInfo *)(arg))->NumberOfWorkUnits;
 
   str = (FDThreadStruct *)(((MultiThreaderBase::WorkUnitInfo *)(arg))->UserData);
 
@@ -232,11 +232,11 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prec
   // Use GetSplitRegion to access partition previously computed by
   // the Splitegions function in the SparseFieldLayer class.
   ThreadRegionType splitRegion;
-  total = str->Filter->GetSplitRegion(threadId, threadCount, splitRegion);
+  total = str->Filter->GetSplitRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    str->Filter->ThreadedPrecalculateChange(splitRegion, threadId);
+    str->Filter->ThreadedPrecalculateChange(splitRegion, workUnitID);
   }
 
   return ITK_THREAD_RETURN_DEFAULT_VALUE;

@@ -58,7 +58,8 @@ namespace itk
  * \ingroup ITKReview
  */
 template <typename TInputImage, typename TFeatureImage>
-class ScalarChanAndVeseLevelSetFunctionData : public RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>
+class ITK_TEMPLATE_EXPORT ScalarChanAndVeseLevelSetFunctionData
+  : public RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ScalarChanAndVeseLevelSetFunctionData);

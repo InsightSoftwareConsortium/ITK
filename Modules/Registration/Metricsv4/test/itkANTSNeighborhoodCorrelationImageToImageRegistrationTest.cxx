@@ -229,7 +229,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
   }
   std::cout << "...finished. " << std::endl;
 
-  std::cout << "threads: metric: " << metric->GetNumberOfWorkUnitsUsed()
+  std::cout << "work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
             << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
 
   // try use the sparse sample point set in CC metric
@@ -266,7 +266,7 @@ itkANTSNeighborhoodCorrelationImageToImageRegistrationTest(int argc, char * argv
     return EXIT_FAILURE;
   }
   std::cout << "...finished. " << std::endl;
-  std::cout << "threads: metric: " << metric->GetNumberOfWorkUnitsUsed()
+  std::cout << "work units: metric: " << metric->GetNumberOfWorkUnitsUsed()
             << "  optimizer: " << optimizer->GetNumberOfWorkUnits() << std::endl;
 
   // warp the image with the displacement field

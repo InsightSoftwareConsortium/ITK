@@ -138,7 +138,7 @@ ExtractImageFilterCopyRegion(const typename BinaryUnsignedIntDispatch<T1, T2>::F
  * \ingroup ITKCommon
  */
 template <unsigned int T1, unsigned int T2>
-class ExtractImageFilterRegionCopier : public ImageRegionCopier<T1, T2>
+class ITK_TEMPLATE_EXPORT ExtractImageFilterRegionCopier : public ImageRegionCopier<T1, T2>
 {
 public:
   virtual void

@@ -95,6 +95,12 @@ itkSurfaceSpatialObjectTest(int, char *[])
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
+
+      if (itk::Math::NotExactlyEquals((*it).GetNormalInWorldSpace()[d], d))
+      {
+        std::cout << "[FAILED]" << std::endl;
+        return EXIT_FAILURE;
+      }
     }
     it++;
     i++;
@@ -163,10 +169,29 @@ itkSurfaceSpatialObjectTest(int, char *[])
     pOriginal.SetColor(0.5, 0.4, 0.3, 0.2);
     pOriginal.SetPositionInObjectSpace(42, 41, 43);
 
+
     // itk::SurfaceSpatialObjectPoint
     VectorType normal;
     normal.Fill(276);
     pOriginal.SetNormalInObjectSpace(normal);
+
+    Surface->AddPoint(pOriginal);
+
+    // Must get a copy of the added point. Each point contains a pointer
+    //   to the spatial object that it is a part of.  That assignment is
+    //   needed to determine the WorldSpace of the point - which is defined
+    //   by the tree of spatial objects it is a part of.
+    pOriginal = Surface->GetPoints().back();
+
+    for (size_t j = 0; j < 3; ++j)
+    {
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetNormalInWorldSpace()[j], normal[j]));
+    }
+    pOriginal.SetNormalInWorldSpace(normal);
+    for (size_t j = 0; j < 3; ++j)
+    {
+      ITK_TEST_EXPECT_TRUE(itk::Math::AlmostEquals(pOriginal.GetNormalInObjectSpace()[j], normal[j]));
+    }
 
     // Copy
     SurfacePointType pCopy(pOriginal);
@@ -195,6 +220,8 @@ itkSurfaceSpatialObjectTest(int, char *[])
       {
         ITK_TEST_EXPECT_TRUE(
           itk::Math::AlmostEquals(pOriginal.GetNormalInObjectSpace()[j], pv.GetNormalInObjectSpace()[j]));
+        ITK_TEST_EXPECT_TRUE(
+          itk::Math::AlmostEquals(pOriginal.GetNormalInWorldSpace()[j], pv.GetNormalInObjectSpace()[j]));
       }
     }
   }

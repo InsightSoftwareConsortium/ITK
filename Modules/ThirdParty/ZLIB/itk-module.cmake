@@ -1,6 +1,7 @@
 set(DOCUMENTATION "This module contains the third party <a
-href=\"http://www.zlib.org/\">ZLIB</a> general purpose data compression
-library.")
+href=\"https://github.com/zlib-ng/zlib-ng\">zlib-ng</a>
+general purpose data compression library,
+designed as a drop-in replacement for ZLIB.")
 
 itk_module(ITKZLIB
   DESCRIPTION

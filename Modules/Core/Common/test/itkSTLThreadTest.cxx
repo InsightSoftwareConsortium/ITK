@@ -35,13 +35,13 @@ int
 itkSTLThreadTest(int argc, char * argv[])
 {
   // Choose a number of threads.
-  std::size_t numThreads = 10;
+  std::size_t numWorkUnits = 10;
   if (argc > 1)
   {
     int nt = std::stoi(argv[1]);
     if (nt > 1)
     {
-      numThreads = nt;
+      numWorkUnits = nt;
     }
   }
 
@@ -56,13 +56,13 @@ itkSTLThreadTest(int argc, char * argv[])
   }
 
   // Enforce limit on number of threads.
-  if (numThreads > itk::ITK_MAX_THREADS)
+  if (numWorkUnits > itk::ITK_MAX_THREADS)
   {
-    numThreads = itk::ITK_MAX_THREADS;
+    numWorkUnits = itk::ITK_MAX_THREADS;
   }
 
   // Report what we'll do.
-  std::cout << "Using " << numThreads << " threads.\n";
+  std::cout << "Using " << numWorkUnits << " work units.\n";
   if (itkSTLThreadTestImpl::numberOfIterations)
   {
     std::cout << "Using " << itkSTLThreadTestImpl::numberOfIterations << " iterations.\n";
@@ -73,8 +73,8 @@ itkSTLThreadTest(int argc, char * argv[])
   }
 
   // Create result array.  Assume failure.
-  auto * results = new int[numThreads];
-  for (std::size_t i = 0; i < numThreads; ++i)
+  auto * results = new int[numWorkUnits];
+  for (std::size_t i = 0; i < numWorkUnits; ++i)
   {
     results[i] = 0;
   }
@@ -82,16 +82,16 @@ itkSTLThreadTest(int argc, char * argv[])
   // Create and execute the threads.
   itk::PlatformMultiThreader::Pointer threader = itk::PlatformMultiThreader::New();
   threader->SetSingleMethod(itkSTLThreadTestImpl::Runner, results);
-  threader->SetNumberOfWorkUnits(numThreads);
+  threader->SetNumberOfWorkUnits(numWorkUnits);
   threader->SingleMethodExecute();
 
   // Report results.
   int result = 0;
-  for (std::size_t i = 0; i < numThreads; ++i)
+  for (std::size_t i = 0; i < numWorkUnits; ++i)
   {
     if (!results[i])
     {
-      std::cerr << "Thread " << i << " failed." << std::endl;
+      std::cerr << "Work unit " << i << " failed." << std::endl;
       result = 1;
     }
   }
@@ -122,8 +122,7 @@ namespace itkSTLThreadTestImpl
 static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 Runner(void * infoIn)
 {
-  // Get the thread id and result pointer and run the method for this
-  // thread.
+  // Get the work unit id and result pointer and run the method for this work unit.
   auto *            info = static_cast<itk::PlatformMultiThreader::WorkUnitInfo *>(infoIn);
   itk::ThreadIdType tnum = info->WorkUnitID;
   auto *            results = static_cast<int *>(info->UserData);

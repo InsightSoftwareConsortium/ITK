@@ -72,11 +72,11 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
 
   for (unsigned int idx = 0; idx < nThreadVec.size(); ++idx)
   {
-    int            nThreads = nThreadVec[idx];
+    int            numberOfWorkUnits = nThreadVec[idx];
     itk::TimeProbe cputimer;
     cputimer.Start();
 
-    CPUFilter->SetNumberOfWorkUnits(nThreads);
+    CPUFilter->SetNumberOfWorkUnits(numberOfWorkUnits);
 
     CPUFilter->SetInput(reader->GetOutput());
     CPUFilter->SetNumberOfIterations(10);
@@ -88,7 +88,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
     cputimer.Stop();
 
     std::cout << "CPU Anisotropic diffusion took " << cputimer.GetMean() << " seconds with "
-              << CPUFilter->GetNumberOfWorkUnits() << " threads.\n"
+              << CPUFilter->GetNumberOfWorkUnits() << " work units.\n"
               << std::endl;
 
     // -------

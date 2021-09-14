@@ -75,9 +75,9 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
 
   m_PerThread = new AlignedPerThreadType[this->m_NumberOfWorkUnits];
 
-  for (ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; ++threadId)
+  for (ThreadIdType workUnitID = 0; workUnitID < this->m_NumberOfWorkUnits; ++workUnitID)
   {
-    m_PerThread[threadId].m_MSEDerivative.SetSize(this->m_NumberOfParameters);
+    m_PerThread[workUnitID].m_MSEDerivative.SetSize(this->m_NumberOfParameters);
   }
 }
 
@@ -215,9 +215,9 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
     derivative = DerivativeType(this->m_NumberOfParameters);
   }
   memset(derivative.data_block(), 0, this->m_NumberOfParameters * sizeof(double));
-  for (ThreadIdType threadId = 0; threadId < this->m_NumberOfWorkUnits; ++threadId)
+  for (ThreadIdType workUnitID = 0; workUnitID < this->m_NumberOfWorkUnits; ++workUnitID)
   {
-    memset(m_PerThread[threadId].m_MSEDerivative.data_block(), 0, this->m_NumberOfParameters * sizeof(double));
+    memset(m_PerThread[workUnitID].m_MSEDerivative.data_block(), 0, this->m_NumberOfParameters * sizeof(double));
   }
 
 

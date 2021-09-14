@@ -61,12 +61,12 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   /* This size always comes from the moving image */
   const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
 
-  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   // set size
   delete[] m_CorrelationMetricValueDerivativePerThreadVariables;
   m_CorrelationMetricValueDerivativePerThreadVariables =
-    new AlignedCorrelationMetricValueDerivativePerThreadStruct[numThreadsUsed];
-  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+    new AlignedCorrelationMetricValueDerivativePerThreadStruct[numWorkUnitsUsed];
+  for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm.SetSize(globalDerivativeSize);
     this->m_CorrelationMetricValueDerivativePerThreadVariables[i].mdm.SetSize(globalDerivativeSize);
@@ -74,7 +74,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   //---------------------------------------------------------------
   // Set initial values.
-  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+  for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     m_CorrelationMetricValueDerivativePerThreadVariables[i].fm =
       NumericTraits<InternalComputationValueType>::ZeroValue();
@@ -103,12 +103,12 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   /* This size always comes from the moving image */
   const NumberOfParametersType globalDerivativeSize = this->GetCachedNumberOfParameters();
-  const ThreadIdType           numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType           numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
 
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
   this->m_CorrelationAssociate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
-  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+  for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     this->m_CorrelationAssociate->m_NumberOfValidPoints +=
       this->m_GetValueAndDerivativePerThreadVariables[i].NumberOfValidPoints;
@@ -130,7 +130,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
   InternalComputationValueType fm = NumericTraits<InternalComputationValueType>::ZeroValue();
   InternalComputationValueType f2 = NumericTraits<InternalComputationValueType>::ZeroValue();
   InternalComputationValueType m2 = NumericTraits<InternalComputationValueType>::ZeroValue();
-  for (ThreadIdType threadId = 0; threadId < numThreadsUsed; ++threadId)
+  for (ThreadIdType threadId = 0; threadId < numWorkUnitsUsed; ++threadId)
   {
     fm += this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId].fm;
     m2 += this->m_CorrelationMetricValueDerivativePerThreadVariables[threadId].m2;
@@ -158,7 +158,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
     const auto fc = static_cast<InternalComputationValueType>(2.0);
 
-    for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+    for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
     {
       fdm += this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm;
       mdm += this->m_CorrelationMetricValueDerivativePerThreadVariables[i].mdm;

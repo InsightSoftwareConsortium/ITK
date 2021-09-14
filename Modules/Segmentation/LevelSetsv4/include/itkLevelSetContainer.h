@@ -36,7 +36,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template <typename TIdentifier, typename TLevelSet>
-class LevelSetContainer : public LevelSetContainerBase<TIdentifier, TLevelSet>
+class ITK_TEMPLATE_EXPORT LevelSetContainer : public LevelSetContainerBase<TIdentifier, TLevelSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LevelSetContainer);

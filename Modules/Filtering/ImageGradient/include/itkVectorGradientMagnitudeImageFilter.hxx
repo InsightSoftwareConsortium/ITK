@@ -36,7 +36,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Vector
 {
   m_UseImageSpacing = true;
   m_UsePrincipleComponents = true;
-  m_RequestedNumberOfThreads = this->GetNumberOfWorkUnits();
+  m_RequestedNumberOfWorkUnits = this->GetNumberOfWorkUnits();
   this->DynamicMultiThreadingOn();
   this->ThreaderUpdateProgressOff();
 }
@@ -56,7 +56,7 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::PrintS
   os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
   os << indent << "UsePrincipleComponents: " << m_UsePrincipleComponents << std::endl;
   os << indent << "RequestedNumberOfThreads: "
-     << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfThreads) << std::endl;
+     << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_RequestedNumberOfWorkUnits) << std::endl;
 
   itkPrintSelfObjectMacro(RealValuedInputImage);
 }
@@ -168,12 +168,12 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Before
   // data is ok because we have a special solver.
   if (m_UsePrincipleComponents == true && ImageDimension != 3)
   {
-    m_RequestedNumberOfThreads = this->GetNumberOfWorkUnits();
+    m_RequestedNumberOfWorkUnits = this->GetNumberOfWorkUnits();
     this->SetNumberOfWorkUnits(1);
   }
   else
   {
-    this->SetNumberOfWorkUnits(m_RequestedNumberOfThreads);
+    this->SetNumberOfWorkUnits(m_RequestedNumberOfWorkUnits);
   }
   //
   // cast might not be necessary, but CastImagefilter is optimized for

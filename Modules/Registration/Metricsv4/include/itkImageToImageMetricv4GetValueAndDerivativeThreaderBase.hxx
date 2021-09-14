@@ -52,13 +52,13 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
   this->m_CachedNumberOfLocalParameters = this->m_Associate->GetNumberOfLocalParameters();
 
   /* Per-thread results */
-  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   delete[] m_GetValueAndDerivativePerThreadVariables;
-  this->m_GetValueAndDerivativePerThreadVariables = new AlignedGetValueAndDerivativePerThreadStruct[numThreadsUsed];
+  this->m_GetValueAndDerivativePerThreadVariables = new AlignedGetValueAndDerivativePerThreadStruct[numWorkUnitsUsed];
 
   if (this->m_Associate->GetComputeDerivative())
   {
-    for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+    for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
     {
       /* Allocate intermediary per-thread storage used to get results from
        * derived classes */
@@ -96,11 +96,11 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
 
   //---------------------------------------------------------------
   // Set initial values.
-  for (ThreadIdType thread = 0; thread < numThreadsUsed; ++thread)
+  for (ThreadIdType workUnit = 0; workUnit < numWorkUnitsUsed; ++workUnit)
   {
-    this->m_GetValueAndDerivativePerThreadVariables[thread].NumberOfValidPoints =
+    this->m_GetValueAndDerivativePerThreadVariables[workUnit].NumberOfValidPoints =
       NumericTraits<SizeValueType>::ZeroValue();
-    this->m_GetValueAndDerivativePerThreadVariables[thread].Measure =
+    this->m_GetValueAndDerivativePerThreadVariables[workUnit].Measure =
       NumericTraits<InternalComputationValueType>::ZeroValue();
     if (this->m_Associate->GetComputeDerivative())
     {
@@ -112,7 +112,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
          * subregions. */
         for (NumberOfParametersType p = 0; p < this->m_CachedNumberOfParameters; ++p)
         {
-          this->m_GetValueAndDerivativePerThreadVariables[thread].CompensatedDerivatives[p].ResetToZero();
+          this->m_GetValueAndDerivativePerThreadVariables[workUnit].CompensatedDerivatives[p].ResetToZero();
         }
       }
     }
@@ -124,11 +124,11 @@ void
 ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
                                                       TImageToImageMetricv4>::AfterThreadedExecution()
 {
-  const ThreadIdType numThreadsUsed = this->GetNumberOfWorkUnitsUsed();
+  const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   /* Store the number of valid points the enclosing class \c
    * m_NumberOfValidPoints by collecting the valid points per thread. */
   this->m_Associate->m_NumberOfValidPoints = NumericTraits<SizeValueType>::ZeroValue();
-  for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+  for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     this->m_Associate->m_NumberOfValidPoints += this->m_GetValueAndDerivativePerThreadVariables[i].NumberOfValidPoints;
   }
@@ -145,7 +145,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
         /* Use a compensated sum to be ready for when there is a very large number of threads */
         CompensatedDerivativeValueType sum;
         sum.ResetToZero();
-        for (ThreadIdType i = 0; i < numThreadsUsed; ++i)
+        for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
         {
           sum += this->m_GetValueAndDerivativePerThreadVariables[i].CompensatedDerivatives[p].GetSum();
         }
@@ -162,7 +162,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
   {
     this->m_Associate->m_Value = NumericTraits<MeasureType>::ZeroValue();
     /* Accumulate the metric value from threads and store the average. */
-    for (ThreadIdType threadId = 0; threadId < numThreadsUsed; ++threadId)
+    for (ThreadIdType threadId = 0; threadId < numWorkUnitsUsed; ++threadId)
     {
       this->m_Associate->m_Value += this->m_GetValueAndDerivativePerThreadVariables[threadId].Measure;
     }

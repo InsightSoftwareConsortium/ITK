@@ -120,6 +120,7 @@ if(NOT ITK_INSTALL_PACKAGE_DIR)
   set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 endif()
 
+include(${ITK_CMAKE_DIR}/ITKInitializeCXXStandard.cmake)
 include(${ITK_CMAKE_DIR}/ITKInitializeBuildType.cmake)
 
 # Use ITK's flags.

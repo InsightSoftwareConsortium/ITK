@@ -23,14 +23,6 @@
 namespace itk
 {
 template <typename TTransform, typename TFixedImage, typename TMovingImage>
-CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::CenteredTransformInitializer()
-{
-  m_FixedCalculator = FixedImageCalculatorType::New();
-  m_MovingCalculator = MovingImageCalculatorType::New();
-  m_UseMoments = false;
-}
-
-template <typename TTransform, typename TFixedImage, typename TMovingImage>
 void
 CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeTransform()
 {

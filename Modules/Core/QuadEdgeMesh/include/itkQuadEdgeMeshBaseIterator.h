@@ -227,7 +227,7 @@ protected:
  * \ingroup ITKQuadEdgeMesh
  */
 template <typename TQuadEdge>
-class QuadEdgeMeshIterator : public QuadEdgeMeshBaseIterator<TQuadEdge>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshIterator : public QuadEdgeMeshBaseIterator<TQuadEdge>
 {
 public:
   /** Hierarchy type alias and values. */
@@ -264,7 +264,7 @@ public:
  * \ingroup ITKQuadEdgeMesh
  */
 template <typename TGeometricalQuadEdge>
-class QuadEdgeMeshIteratorGeom : public QuadEdgeMeshIterator<TGeometricalQuadEdge>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshIteratorGeom : public QuadEdgeMeshIterator<TGeometricalQuadEdge>
 {
 public:
   /** Hierarchy type alias and values. */
@@ -293,7 +293,7 @@ public:
  * \ingroup ITKQuadEdgeMesh
  */
 template <typename TQuadEdge>
-class QuadEdgeMeshConstIterator : public QuadEdgeMeshBaseIterator<TQuadEdge>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshConstIterator : public QuadEdgeMeshBaseIterator<TQuadEdge>
 {
 public:
   /** Hierarchy type alias & values. */
@@ -338,7 +338,7 @@ public:
  * \ingroup ITKQuadEdgeMesh
  */
 template <typename TGeometricalQuadEdge>
-class QuadEdgeMeshConstIteratorGeom : public QuadEdgeMeshConstIterator<TGeometricalQuadEdge>
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshConstIteratorGeom : public QuadEdgeMeshConstIterator<TGeometricalQuadEdge>
 {
 public:
   /** Hierarchy type alias and values. */

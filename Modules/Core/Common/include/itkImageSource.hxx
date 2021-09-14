@@ -276,20 +276,20 @@ template <typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 ImageSource<TOutputImage>::ThreaderCallback(void * arg)
 {
-  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *       threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->WorkUnitID;
-  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
-  auto *       str = (ThreadStruct *)(threadInfo->UserData);
+  using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
+  auto *       workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
+  ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
+  auto *       str = (ThreadStruct *)(workUnitInfo->UserData);
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   typename TOutputImage::RegionType splitRegion;
-  ThreadIdType                      total = str->Filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+  ThreadIdType                      total = str->Filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
-    str->Filter->ThreadedGenerateData(splitRegion, threadId);
+    str->Filter->ThreadedGenerateData(splitRegion, workUnitID);
 #if defined(ITKV4_COMPATIBILITY)
     if (str->Filter->GetAbortGenerateData())
     {
@@ -302,7 +302,7 @@ ImageSource<TOutputImage>::ThreaderCallback(void * arg)
     else if (!str->Filter->GetDynamicMultiThreading() // progress reporting is not done in MultiThreaders
              && str->Filter->GetProgress() == 0.0f) // and progress was not set after at least the first chunk finished
     {
-      str->Filter->UpdateProgress(float(threadId + 1) / total); // this will be the only progress update
+      str->Filter->UpdateProgress(float(workUnitID + 1) / total); // this will be the only progress update
     }
 #endif
   }

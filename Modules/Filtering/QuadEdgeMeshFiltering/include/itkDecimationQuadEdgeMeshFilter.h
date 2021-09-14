@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 template <typename TInput, typename TOutput, typename TCriterion>
-class DecimationQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInput, TOutput>
+class ITK_TEMPLATE_EXPORT DecimationQuadEdgeMeshFilter : public QuadEdgeMeshToQuadEdgeMeshFilter<TInput, TOutput>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(DecimationQuadEdgeMeshFilter);

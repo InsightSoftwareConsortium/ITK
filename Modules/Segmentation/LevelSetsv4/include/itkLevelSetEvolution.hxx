@@ -225,9 +225,9 @@ LevelSetEvolution<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDime
 template <typename TEquationContainer, typename TOutput, unsigned int VDimension>
 void
 LevelSetEvolution<TEquationContainer, WhitakerSparseLevelSetImage<TOutput, VDimension>>::SetNumberOfWorkUnits(
-  const ThreadIdType numberOfThreads)
+  const ThreadIdType numberOfWorkUnits)
 {
-  this->m_SplitLevelSetComputeIterationThreader->SetNumberOfWorkUnits(numberOfThreads);
+  this->m_SplitLevelSetComputeIterationThreader->SetNumberOfWorkUnits(numberOfWorkUnits);
 }
 
 template <typename TEquationContainer, typename TOutput, unsigned int VDimension>

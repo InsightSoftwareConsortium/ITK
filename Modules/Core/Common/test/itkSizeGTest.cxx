@@ -46,7 +46,29 @@ Expect_Filled_returns_Size_with_specified_value_for_each_element()
   }
   Expect_Filled_with_value(std::numeric_limits<SizeValueType>::max());
 }
+
+
+template <itk::SizeValueType VFillValue>
+constexpr bool
+Is_Filled_Size_correctly_filled()
+{
+  for (const auto actualValue : itk::Size<>::Filled(VFillValue).m_InternalArray)
+  {
+    if (actualValue != VFillValue)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
+
 } // namespace
+
+
+static_assert(Is_Filled_Size_correctly_filled<0>() && Is_Filled_Size_correctly_filled<1>() &&
+                Is_Filled_Size_correctly_filled<std::numeric_limits<itk::IndexValueType>::max()>(),
+              "itk::Size::Filled(value) should be correctly filled at compile-time");
 
 
 // Tests that itk::Size::Filled(value) returns an itk::Size with the

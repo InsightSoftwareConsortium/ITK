@@ -158,10 +158,10 @@ LevelSetEvolutionComputeIterationThreader<
   ThreadedIteratorRangePartitioner<typename WhitakerSparseLevelSetImage<TOutput, VDimension>::LayerConstIterator>,
   TLevelSetEvolution>::BeforeThreadedExecution()
 {
-  const ThreadIdType numberOfThreads = this->GetNumberOfWorkUnitsUsed();
-  this->m_NodePairsPerThread.resize(numberOfThreads);
+  const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnitsUsed();
+  this->m_NodePairsPerThread.resize(numberOfWorkUnits);
 
-  for (ThreadIdType ii = 0; ii < numberOfThreads; ++ii)
+  for (ThreadIdType ii = 0; ii < numberOfWorkUnits; ++ii)
   {
     this->m_NodePairsPerThread[ii].clear();
   }
@@ -213,8 +213,8 @@ LevelSetEvolutionComputeIterationThreader<
   typename LevelSetEvolutionType::LevelSetLayerType * levelSetLayerUpdateBuffer =
     this->m_Associate->m_UpdateBuffer[levelSetId];
 
-  const ThreadIdType numberOfThreads = this->GetNumberOfWorkUnitsUsed();
-  for (ThreadIdType ii = 0; ii < numberOfThreads; ++ii)
+  const ThreadIdType numberOfWorkUnits = this->GetNumberOfWorkUnitsUsed();
+  for (ThreadIdType ii = 0; ii < numberOfWorkUnits; ++ii)
   {
     typename std::vector<NodePairType>::const_iterator pairIt = this->m_NodePairsPerThread[ii].begin();
     while (pairIt != this->m_NodePairsPerThread[ii].end())

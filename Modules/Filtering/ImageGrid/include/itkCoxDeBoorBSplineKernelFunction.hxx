@@ -46,20 +46,20 @@ template <unsigned int VSplineOrder, typename TRealValueType>
 void
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GenerateBSplineShapeFunctions(const unsigned int order)
 {
-  const auto numberOfPieces = static_cast<unsigned int>(static_cast<TRealValueType>(0.5) * (order + 1));
+  const auto numberOfPieces = static_cast<unsigned int>(TRealValueType{ 0.5 } * (order + 1));
 
   this->m_BSplineShapeFunctions.set_size(numberOfPieces, order);
 
   VectorType knots(order + 1);
   for (unsigned int i = 0; i < knots.size(); ++i)
   {
-    knots[i] = static_cast<TRealValueType>(-0.5) * static_cast<TRealValueType>(order) + static_cast<TRealValueType>(i);
+    knots[i] = TRealValueType{ -0.5 } * static_cast<TRealValueType>(order) + static_cast<TRealValueType>(i);
   }
 
   for (unsigned int i = 0; i < numberOfPieces; ++i)
   {
     const PolynomialType poly =
-      this->CoxDeBoor(order, knots, 0, static_cast<unsigned int>(static_cast<TRealValueType>(0.5) * (order)) + i);
+      this->CoxDeBoor(order, knots, 0, static_cast<unsigned int>(TRealValueType{ 0.5 } * (order)) + i);
     this->m_BSplineShapeFunctions.set_row(i, poly.coefficients());
   }
 }
@@ -72,28 +72,28 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const un
                                                                         const unsigned int   whichPiece)
 {
   VectorType           tmp(2);
-  PolynomialType       poly1(NumericTraits<TRealValueType>::ZeroValue());
-  PolynomialType       poly2(NumericTraits<TRealValueType>::ZeroValue());
+  PolynomialType       poly1(TRealValueType{ 0.0 });
+  PolynomialType       poly2(TRealValueType{ 0.0 });
   const unsigned short p = order - 1;
   const unsigned short i = whichBasisFunction;
 
   if (p == 0 && whichBasisFunction == whichPiece)
   {
-    PolynomialType poly(NumericTraits<TRealValueType>::OneValue());
+    PolynomialType poly(TRealValueType{ 1.0 });
     return poly;
   }
 
   // Term 1
   TRealValueType den = knots(i + p) - knots(i);
 
-  if (itk::Math::AlmostEquals(den, NumericTraits<TRealValueType>::ZeroValue()))
+  if (itk::Math::AlmostEquals(den, TRealValueType{ 0.0 }))
   {
-    PolynomialType poly(NumericTraits<TRealValueType>::ZeroValue());
+    PolynomialType poly(TRealValueType{ 0.0 });
     poly1 = poly;
   }
   else
   {
-    tmp(0) = NumericTraits<TRealValueType>::OneValue();
+    tmp(0) = TRealValueType{ 1.0 };
     tmp(1) = -knots(i);
     tmp /= den;
     poly1 = PolynomialType(tmp) * this->CoxDeBoor(order - 1, knots, i, whichPiece);
@@ -101,14 +101,14 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const un
 
   // Term 2
   den = knots(i + p + 1) - knots(i + 1);
-  if (itk::Math::AlmostEquals(den, NumericTraits<TRealValueType>::ZeroValue()))
+  if (itk::Math::AlmostEquals(den, TRealValueType{ 0.0 }))
   {
-    PolynomialType poly(NumericTraits<TRealValueType>::ZeroValue());
+    PolynomialType poly(TRealValueType{ 0.0 });
     poly2 = poly;
   }
   else
   {
-    tmp(0) = -NumericTraits<TRealValueType>::OneValue();
+    tmp(0) = TRealValueType{ -1.0 };
     tmp(1) = knots(i + p + 1);
     tmp /= den;
     poly2 = PolynomialType(tmp) * this->CoxDeBoor(order - 1, knots, i + 1, whichPiece);
@@ -156,7 +156,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::Evaluate(const TRe
   unsigned int which;
   if (this->m_SplineOrder % 2 == 0)
   {
-    which = static_cast<unsigned int>(absValue + static_cast<TRealValueType>(0.5));
+    which = static_cast<unsigned int>(absValue + TRealValueType{ 0.5 });
   }
   else
   {
@@ -169,7 +169,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::Evaluate(const TRe
   }
   else
   {
-    return NumericTraits<TRealValueType>::ZeroValue();
+    return TRealValueType{ 0.0 };
   }
 }
 
@@ -190,7 +190,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateNthDerivat
   unsigned int which;
   if (this->m_SplineOrder % 2 == 0)
   {
-    which = static_cast<unsigned int>(absValue + static_cast<TRealValueType>(0.5));
+    which = static_cast<unsigned int>(absValue + TRealValueType{ 0.5 });
   }
   else
   {
@@ -205,7 +205,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateNthDerivat
       polynomial = polynomial.derivative();
     }
     const TRealValueType der = polynomial.evaluate(absValue);
-    if (u < NumericTraits<TRealValueType>::ZeroValue() && n % 2 != 0)
+    if (u < TRealValueType{ 0.0 } && n % 2 != 0)
     {
       return -der;
     }
@@ -216,7 +216,7 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::EvaluateNthDerivat
   }
   else
   {
-    return NumericTraits<TRealValueType>::ZeroValue();
+    return TRealValueType{ 0.0 };
   }
 }
 
@@ -228,8 +228,8 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ost
   os << indent << "Spline Order: " << this->m_SplineOrder << std::endl;
   os << indent << "Piecewise Polynomial Pieces: " << std::endl;
 
-  TRealValueType a = NumericTraits<TRealValueType>::ZeroValue();
-  TRealValueType b = NumericTraits<TRealValueType>::ZeroValue();
+  TRealValueType a{ 0.0 };
+  TRealValueType b{ 0.0 };
 
   for (unsigned int i = 0; i < this->m_BSplineShapeFunctions.rows(); ++i)
   {
@@ -241,17 +241,17 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ost
     {
       if (this->m_SplineOrder % 2 == 0)
       {
-        b = static_cast<TRealValueType>(0.5);
+        b = TRealValueType{ 0.5 };
       }
       else
       {
-        b = NumericTraits<TRealValueType>::OneValue();
+        b = TRealValueType{ 1.0 };
       }
     }
     else
     {
       a = b;
-      b += NumericTraits<TRealValueType>::OneValue();
+      b += TRealValueType{ 1.0 };
     }
 
     os << ",  X \\in [" << a << ", " << b << "]" << std::endl;

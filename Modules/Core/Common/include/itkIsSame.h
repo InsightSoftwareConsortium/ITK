@@ -18,7 +18,11 @@
 #ifndef itkIsSame_h
 #define itkIsSame_h
 
-#include "itkMetaProgrammingLibrary.h"
+#include "itkMacro.h"
+
+#if !defined(ITK_LEGACY_REMOVE)
+
+#  include "itkMetaProgrammingLibrary.h"
 
 namespace itk
 {
@@ -49,5 +53,9 @@ using mpl::IsSame;
 /// \endcond
 
 } // end namespace itk
+
+#else // ITK_LEGACY_REMOVE
+#  error Use C++ 11 std::is_same directly
+#endif
 
 #endif // itkIsSame_h

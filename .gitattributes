@@ -59,8 +59,4 @@ Modules/ThirdParty/GDCM/src/gdcm/Utilities/gdcmopenjpeg/src/lib/openjp2/j2k.c ho
 Modules/ThirdParty/GDCM/src/gdcm/Source/InformationObjectDefinition/Part3.xml hooks-max-size=4336000
 Source/InformationObjectDefinition/Part3.xml hooks-max-size=4336000
 
-# Avoid ghostflow-check-master failures
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5C.c      hooks-max-size=400000
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Dchunk.c hooks-max-size=400000
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Shyper.c hooks-max-size=500000
-Modules/ThirdParty/HDF5/src/itkhdf5/src/H5Tconv.c  hooks-max-size=500000
+# HDF5-specific .gitattributes should go into Modules/ThirdParty/HDF5/.gitattributes

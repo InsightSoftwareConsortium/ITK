@@ -68,7 +68,7 @@ public:
 } // namespace Functor
 
 template <typename TInputImage, typename TOutputImage>
-class VectorMagnitudeImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT VectorMagnitudeImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VectorMagnitudeImageFilter);

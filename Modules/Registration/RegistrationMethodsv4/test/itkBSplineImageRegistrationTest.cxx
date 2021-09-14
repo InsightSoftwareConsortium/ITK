@@ -188,7 +188,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
               << "Last LearningRate: " << affineOptimizer->GetLearningRate() << std::endl
               << "Use FltPtCorrex: " << imageMetric->GetUseFloatingPointCorrection() << std::endl
               << "FltPtCorrexRes: " << imageMetric->GetFloatingPointCorrectionResolution() << std::endl
-              << "Number of threads used: metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << std::endl
+              << "Number of work units used: metric: " << imageMetric->GetNumberOfWorkUnitsUsed() << std::endl
               << " optimizer: " << affineOptimizer->GetNumberOfWorkUnits() << std::endl;
   }
 
@@ -320,8 +320,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
             << "Last LearningRate: " << optimizer->GetLearningRate() << std::endl
             << "Use FltPtCorrex: " << correlationMetric->GetUseFloatingPointCorrection() << std::endl
             << "FltPtCorrexRes: " << correlationMetric->GetFloatingPointCorrectionResolution() << std::endl
-            << "Number of threads used: metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
-            << "Number of threads used: metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
+            << "Number of work units used: metric: " << correlationMetric->GetNumberOfWorkUnitsUsed()
             << " optimizer: " << bsplineRegistration->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;

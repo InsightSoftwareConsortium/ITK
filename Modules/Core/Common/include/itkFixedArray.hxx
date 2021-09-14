@@ -172,18 +172,6 @@ FixedArray<TValue, VLength>::Fill(const ValueType & value)
   std::fill_n(m_InternalArray, VLength, value);
 }
 
-/**
- * Return an FixedArray with all elements assigned to the given value.
- */
-template <typename TValue, unsigned int VLength>
-FixedArray<TValue, VLength>
-FixedArray<TValue, VLength>::Filled(const ValueType & value)
-{
-  FixedArray<ValueType, VLength> array;
-  array.Fill(value);
-  return array;
-}
-
 template <typename TValue, unsigned int VLength>
 std::ostream &
 operator<<(std::ostream & os, const FixedArray<TValue, VLength> & arr)

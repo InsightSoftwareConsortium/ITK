@@ -147,7 +147,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
 
     // Also see if vnl_svd is thread safe now...
     std::cout << std::endl
-              << "This filter is using " << tensorReconstructionFilter->GetNumberOfWorkUnits() << " threads "
+              << "This filter is using " << tensorReconstructionFilter->GetNumberOfWorkUnits() << " work units "
               << std::endl;
 
     itk::SimpleFilterWatcher watcher(tensorReconstructionFilter, "Tensor Reconstruction");

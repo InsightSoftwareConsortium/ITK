@@ -129,29 +129,29 @@ template <typename TInputImage, typename TOutputImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreaderFullCallback(void * arg)
 {
-  using ThreadInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *       threadInfo = static_cast<ThreadInfo *>(arg);
-  ThreadIdType threadId = threadInfo->WorkUnitID;
-  ThreadIdType threadCount = threadInfo->NumberOfWorkUnits;
+  using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
+  auto *       workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
+  ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
   using FilterStruct = typename ImageSource<TOutputImage>::ThreadStruct;
-  auto * str = (FilterStruct *)(threadInfo->UserData);
+  auto * str = (FilterStruct *)(workUnitInfo->UserData);
   Self * filter = static_cast<Self *>(str->Filter.GetPointer());
 
   // execute the actual method with appropriate output region
   // first find out how many pieces extent can be split into.
   typename TOutputImage::RegionType splitRegion;
-  ThreadIdType                      total = filter->SplitRequestedRegion(threadId, threadCount, splitRegion);
+  ThreadIdType                      total = filter->SplitRequestedRegion(workUnitID, workUnitCount, splitRegion);
 
-  if (threadId < total)
+  if (workUnitID < total)
   {
     // Iterate over split region or split band as convenient.
     if (!filter->m_NarrowBanding)
     {
-      filter->ThreadedGenerateDataFull(splitRegion, threadId);
+      filter->ThreadedGenerateDataFull(splitRegion, workUnitID);
     }
     else
     {
-      filter->ThreadedGenerateDataBand(splitRegion, threadId);
+      filter->ThreadedGenerateDataBand(splitRegion, workUnitID);
     }
   }
   // else don't use this thread. Threads were not split conveniently.

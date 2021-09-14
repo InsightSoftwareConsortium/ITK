@@ -54,7 +54,7 @@ public:
 } // namespace Functor
 
 template <typename TInputImage, typename TOutputImage>
-class ComplexToRealImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT ComplexToRealImageFilter : public UnaryGeneratorImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ComplexToRealImageFilter);

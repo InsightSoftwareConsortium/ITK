@@ -18,6 +18,10 @@
 #ifndef itkEnableIf_h
 #define itkEnableIf_h
 
+#include "itkMacro.h"
+
+#if !defined(ITK_LEGACY_REMOVE)
+
 namespace itk
 {
 /// \cond HIDE_META_PROGRAMMING
@@ -158,5 +162,9 @@ using mpl::DisableIfC;
 
 /// \endcond
 } // namespace itk
+
+#else // ITK_LEGACY_REMOVE
+#  error Use C++ 11 std::enable_if directly
+#endif
 
 #endif // itkEnableIf_h

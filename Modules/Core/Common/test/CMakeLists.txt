@@ -121,8 +121,6 @@ itkMultiThreaderParallelizeArrayTest.cxx
 itkMultithreadingTest.cxx
 
 itkMetaProgrammingLibraryTest.cxx
-itkIsConvertible.cxx
-itkIsBaseOf.cxx
 itkPromoteType.cxx
 itkMetaDataDictionaryTest.cxx
 itkStdStreamLogOutputTest.cxx
@@ -173,7 +171,6 @@ itkOptimizerParametersTest.cxx
 itkImageVectorOptimizerParametersHelperTest.cxx
 itkCompensatedSummationTest.cxx
 itkCompensatedSummationTest2.cxx
-itkEnableIfTest.cxx
 itkImageRegionConstIteratorWithOnlyIndexTest.cxx
 itkImageRandomConstIteratorWithOnlyIndexTest.cxx
 itkConstNeighborhoodIteratorWithOnlyIndexTest.cxx

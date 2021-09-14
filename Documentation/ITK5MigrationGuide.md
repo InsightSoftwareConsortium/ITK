@@ -79,6 +79,10 @@ To modernize your code base, replace:
   * `SimpleFastMutexLock` with `std::mutex`, and `#include "itkSimpleFastMutexLock.h"`  with `#include <mutex>`.
   * `FastMutexLock` with `std::mutex`, and `#include "itkFastMutexLock.h"`  with `#include <mutex>`.
   * `MutexLock` with `std::mutex`, and `#include "itkMutexLock.h"`  with `#include <mutex>`.
+  * `mpl::EnableIf<X>::Type` with `std::enable_if_t<X>`, and `#include "itkEnableIf.h"` with `#include <type_traits>`.
+  * `mpl::IsSame<X, Y>::Value` with `std::is_same<X, Y>::value`, and `#include "itkIsSame.h"` with `#include <type_traits>`.
+  * `mpl::IsBaseOf<X, Y>::Value` with `std::is_base_of<X, Y>::value`, and `#include "itkIsBaseOf.h"` with `#include <type_traits>`.
+  * `mpl::IsConvertible<X, Y>::Value` with `std::is_convertible<X, Y>::value`, and `#include "itkIsBaseOf.h"` with `#include <type_traits>`.
 
 
 Modern CMake requirement
@@ -439,6 +443,10 @@ now has signature
 `void ComputeJacobianWithRespectToPosition(const PointType &, JacobianPositionType &) const`.
 `JacobianPositionType` is publicly exposed in `itk::Transform`.
 See commit [commit 212cae5](https://github.com/InsightSoftwareConsortium/ITK/commit/212cae522d8451ea089c41f8a151279e1dd17042) for details.
+
+With ITK 5.3, the `GetNumberOfWeights()` member functions of `itk::BSplineBaseTransform` and `itk::BSplineInterpolationWeightFunction`
+are replaced by static constexpr data members named `NumberOfWeights`, and the `GetSupportSize()` member function of
+`itk::BSplineInterpolationWeightFunction` is replaced by a static constexpr data member named `SupportSize`.
 
 Consolidated Vector Filter
 --------------------------

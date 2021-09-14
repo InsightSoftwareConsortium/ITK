@@ -28,8 +28,6 @@ CenteredVersorTransformInitializer<TFixedImage, TMovingImage>::CenteredVersorTra
   // Force to use Moments computation since we need here the second
   // order moments in order to estimate a rotation
   this->Superclass::MomentsOn();
-
-  this->m_ComputeRotation = false;
 }
 
 template <typename TFixedImage, typename TMovingImage>

@@ -368,7 +368,7 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   }
 
   // Check number of threads and valid points
-  std::cout << "--Number of threads used: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+  std::cout << "--Number of work units used: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
   if (metric->GetNumberOfValidPoints() != (expectedNumberOfPoints))
   {
     std::cerr << "Expected number of valid points to be " << expectedNumberOfPoints << " but instead got "

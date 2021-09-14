@@ -36,7 +36,8 @@ namespace itk
  * \ingroup ITKImageIntensity
  */
 template <typename TInputImage1, typename TInputImage2, typename TInputImage3, typename TOutputImage>
-class TernaryAddImageFilter : public TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>
+class ITK_TEMPLATE_EXPORT TernaryAddImageFilter
+  : public TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(TernaryAddImageFilter);

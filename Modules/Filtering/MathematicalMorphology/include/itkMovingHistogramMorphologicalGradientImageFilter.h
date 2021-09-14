@@ -209,7 +209,7 @@ class MorphologicalGradientHistogram<signed char> : public VectorMorphologicalGr
 {};
 
 template <>
-class MorphologicalGradientHistogram<bool> : public VectorMorphologicalGradientHistogram<bool>
+class ITK_TEMPLATE_EXPORT MorphologicalGradientHistogram<bool> : public VectorMorphologicalGradientHistogram<bool>
 {};
 
 /// \endcond

@@ -30,16 +30,24 @@ The sort commands sorts the lines alphabetically and discards duplicates.
 The following commands are used to generate the suggested symbols on Windows systems:
 
 dumpbin /symbols libitkhdf5* > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
-cat symbol_table.txt | grep "External" | grep -i "H5" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' (Must be done in git bash)
+
+Then execute the following in Git Bash:
+
+export LC_COLLATE=POSIX
+cat symbol_table.txt | grep "UNDEF.*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' | sort -u
 
 For the bash commands:
 
 - `cat` is just used to start piping the symbol_table file.
 - The first grep extracts all the external symbols.
 - The second grep only extracts those symbols with H5 in them (case-insensitive).
-- From awk onwards the process is the same as for Linux and Mac.
+- First awk command keeps only the last column (the symbol name)
+- The second awk command removes any symbols that already have "itk_" prefix.
+- The rest is the same as for Linux and Mac.
 
-The developer will then need to *MANUALLY* add the symbols to the list below.
+The developer will then need to *MANUALLY* clean up the result
+(e.g. remove compiler symbols like __clang_call_terminate)
+and add the symbols to the list below.
 
 Note that running the above procedure will give somewhat different results on
 different platforms and also with different build options. When updating this file
@@ -144,6 +152,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5AC_open_trace_file itk_H5AC_open_trace_file
 #define H5AC_pin_protected_entry itk_H5AC_pin_protected_entry
 #define H5AC_prep_for_file_close itk_H5AC_prep_for_file_close
+#define H5AC_prep_for_file_flush itk_H5AC_prep_for_file_flush
 #define H5AC_protect itk_H5AC_protect
 #define H5AC_proxy_entry_add_child itk_H5AC_proxy_entry_add_child
 #define H5AC_proxy_entry_add_parent itk_H5AC_proxy_entry_add_parent
@@ -155,6 +164,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5AC_reset_cache_hit_rate_stats itk_H5AC_reset_cache_hit_rate_stats
 #define H5AC_resize_entry itk_H5AC_resize_entry
 #define H5AC_retag_copied_metadata itk_H5AC_retag_copied_metadata
+#define H5AC_secure_from_file_flush itk_H5AC_secure_from_file_flush
 #define H5AC_set_cache_auto_resize_config itk_H5AC_set_cache_auto_resize_config
 #define H5AC_set_ring itk_H5AC_set_ring
 #define H5AC_stats itk_H5AC_stats
@@ -415,16 +425,23 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5CX_get_bkgr_buf_type itk_H5CX_get_bkgr_buf_type
 #define H5CX_get_btree_split_ratios itk_H5CX_get_btree_split_ratios
 #define H5CX_get_data_transform itk_H5CX_get_data_transform
+#define H5CX_get_dset_min_ohdr_flag itk_H5CX_get_dset_min_ohdr_flag
 #define H5CX_get_dt_conv_cb itk_H5CX_get_dt_conv_cb
 #define H5CX_get_dxpl itk_H5CX_get_dxpl
+#define H5CX_get_encoding itk_H5CX_get_encoding
 #define H5CX_get_err_detect itk_H5CX_get_err_detect
+#define H5CX_get_ext_file_prefix itk_H5CX_get_ext_file_prefix
 #define H5CX_get_filter_cb itk_H5CX_get_filter_cb
+#define H5CX_get_intermediate_group itk_H5CX_get_intermediate_group
 #define H5CX_get_lapl itk_H5CX_get_lapl
+#define H5CX_get_libver_bounds itk_H5CX_get_libver_bounds
 #define H5CX_get_max_temp_buf itk_H5CX_get_max_temp_buf
 #define H5CX_get_nlinks itk_H5CX_get_nlinks
+#define H5CX_get_ohdr_flags itk_H5CX_get_ohdr_flags
 #define H5CX_get_ring itk_H5CX_get_ring
 #define H5CX_get_tag itk_H5CX_get_tag
 #define H5CX_get_tconv_buf itk_H5CX_get_tconv_buf
+#define H5CX_get_vds_prefix itk_H5CX_get_vds_prefix
 #define H5CX_get_vec_size itk_H5CX_get_vec_size
 #define H5CX_get_vlen_alloc_info itk_H5CX_get_vlen_alloc_info
 #define H5CX_init_g itk_H5CX_init_g
@@ -433,8 +450,11 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5CX_push itk_H5CX_push
 #define H5CX_push_special itk_H5CX_push_special
 #define H5CX_set_apl itk_H5CX_set_apl
+#define H5CX_set_dcpl itk_H5CX_set_dcpl
 #define H5CX_set_dxpl itk_H5CX_set_dxpl
 #define H5CX_set_lapl itk_H5CX_set_lapl
+#define H5CX_set_lcpl itk_H5CX_set_lcpl
+#define H5CX_set_libver_bounds itk_H5CX_set_libver_bounds
 #define H5CX_set_loc itk_H5CX_set_loc
 #define H5CX_set_nlinks itk_H5CX_set_nlinks
 #define H5CX_set_ring itk_H5CX_set_ring
@@ -490,6 +510,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_get_ignore_tags itk_H5C_get_ignore_tags
 #define H5C_get_logging_status itk_H5C_get_logging_status
 #define H5C_get_mdc_image_info itk_H5C_get_mdc_image_info
+#define H5C_get_num_objs_corked itk_H5C_get_num_objs_corked
 #define H5C_get_serialization_in_progress itk_H5C_get_serialization_in_progress
 #define H5C_get_tag itk_H5C_get_tag
 #define H5C_get_trace_file_ptr itk_H5C_get_trace_file_ptr
@@ -499,6 +520,30 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_init_g itk_H5C_init_g
 #define H5C_insert_entry itk_H5C_insert_entry
 #define H5C_load_cache_image_on_next_protect itk_H5C_load_cache_image_on_next_protect
+#define H5C_log_json_set_up itk_H5C_log_json_set_up
+#define H5C_log_set_up itk_H5C_log_set_up
+#define H5C_log_tear_down itk_H5C_log_tear_down
+#define H5C_log_trace_set_up itk_H5C_log_trace_set_up
+#define H5C_log_write_create_cache_msg itk_H5C_log_write_create_cache_msg
+#define H5C_log_write_create_fd_msg itk_H5C_log_write_create_fd_msg
+#define H5C_log_write_destroy_cache_msg itk_H5C_log_write_destroy_cache_msg
+#define H5C_log_write_destroy_fd_msg itk_H5C_log_write_destroy_fd_msg
+#define H5C_log_write_evict_cache_msg itk_H5C_log_write_evict_cache_msg
+#define H5C_log_write_expunge_entry_msg itk_H5C_log_write_expunge_entry_msg
+#define H5C_log_write_flush_cache_msg itk_H5C_log_write_flush_cache_msg
+#define H5C_log_write_insert_entry_msg itk_H5C_log_write_insert_entry_msg
+#define H5C_log_write_mark_entry_clean_msg itk_H5C_log_write_mark_entry_clean_msg
+#define H5C_log_write_mark_entry_dirty_msg itk_H5C_log_write_mark_entry_dirty_msg
+#define H5C_log_write_mark_serialized_entry_msg itk_H5C_log_write_mark_serialized_entry_msg
+#define H5C_log_write_mark_unserialized_entry_msg itk_H5C_log_write_mark_unserialized_entry_msg
+#define H5C_log_write_move_entry_msg itk_H5C_log_write_move_entry_msg
+#define H5C_log_write_pin_entry_msg itk_H5C_log_write_pin_entry_msg
+#define H5C_log_write_protect_entry_msg itk_H5C_log_write_protect_entry_msg
+#define H5C_log_write_remove_entry_msg itk_H5C_log_write_remove_entry_msg
+#define H5C_log_write_resize_entry_msg itk_H5C_log_write_resize_entry_msg
+#define H5C_log_write_set_cache_config_msg itk_H5C_log_write_set_cache_config_msg
+#define H5C_log_write_unpin_entry_msg itk_H5C_log_write_unpin_entry_msg
+#define H5C_log_write_unprotect_entry_msg itk_H5C_log_write_unprotect_entry_msg
 #define H5C_mark_entry_clean itk_H5C_mark_entry_clean
 #define H5C_mark_entry_dirty itk_H5C_mark_entry_dirty
 #define H5C_mark_entry_serialized itk_H5C_mark_entry_serialized
@@ -515,6 +560,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_set_cache_image_config itk_H5C_set_cache_image_config
 #define H5C_set_evictions_enabled itk_H5C_set_evictions_enabled
 #define H5C_set_prefix itk_H5C_set_prefix
+#define H5C_set_slist_enabled itk_H5C_set_slist_enabled
 #define H5C_set_trace_file_ptr itk_H5C_set_trace_file_ptr
 #define H5C_set_up_logging itk_H5C_set_up_logging
 #define H5C_start_logging itk_H5C_start_logging
@@ -560,6 +606,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5D__chunk_dump_index itk_H5D__chunk_dump_index
 #define H5D__chunk_file_alloc itk_H5D__chunk_file_alloc
 #define H5D__chunk_format_convert itk_H5D__chunk_format_convert
+#define H5D__chunk_is_data_cached itk_H5D__chunk_is_data_cached
 #define H5D__chunk_is_space_alloc itk_H5D__chunk_is_space_alloc
 #define H5D__chunk_lookup itk_H5D__chunk_lookup
 #define H5D__chunk_prune_by_extent itk_H5D__chunk_prune_by_extent
@@ -573,6 +620,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5D__contig_copy itk_H5D__contig_copy
 #define H5D__contig_delete itk_H5D__contig_delete
 #define H5D__contig_fill itk_H5D__contig_fill
+#define H5D__contig_is_data_cached itk_H5D__contig_is_data_cached
 #define H5D__contig_is_space_alloc itk_H5D__contig_is_space_alloc
 #define H5D__contig_read itk_H5D__contig_read
 #define H5D__contig_write itk_H5D__contig_write
@@ -591,8 +639,11 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5D__flush_sieve_buf itk_H5D__flush_sieve_buf
 #define H5D__format_convert itk_H5D__format_convert
 #define H5D__gather_mem itk_H5D__gather_mem
+#define H5D__get_chunk_info itk_H5D__get_chunk_info
+#define H5D__get_chunk_info_by_coord itk_H5D__get_chunk_info_by_coord
 #define H5D__get_chunk_storage_size itk_H5D__get_chunk_storage_size
 #define H5D__get_create_plist itk_H5D__get_create_plist
+#define H5D__get_num_chunks itk_H5D__get_num_chunks
 #define H5D__get_offset itk_H5D__get_offset
 #define H5D__get_space itk_H5D__get_space
 #define H5D__get_space_status itk_H5D__get_space_status
@@ -734,8 +785,11 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Dgather itk_H5Dgather
 #define H5Dget_access_plist itk_H5Dget_access_plist
 #define H5Dget_chunk_index_type itk_H5Dget_chunk_index_type
+#define H5Dget_chunk_info itk_H5Dget_chunk_info
+#define H5Dget_chunk_info_by_coord itk_H5Dget_chunk_info_by_coord
 #define H5Dget_chunk_storage_size itk_H5Dget_chunk_storage_size
 #define H5Dget_create_plist itk_H5Dget_create_plist
+#define H5Dget_num_chunks itk_H5Dget_num_chunks
 #define H5Dget_offset itk_H5Dget_offset
 #define H5Dget_space itk_H5Dget_space
 #define H5Dget_space_status itk_H5Dget_space_status
@@ -756,6 +810,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5EA_CLS_CHUNK itk_H5EA_CLS_CHUNK
 #define H5EA_CLS_FILT_CHUNK itk_H5EA_CLS_FILT_CHUNK
 #define H5EA_CLS_TEST itk_H5EA_CLS_TEST
+#define H5EA__cmp_cparam_test itk_H5EA__cmp_cparam_test
 #define H5EA__create_flush_depend itk_H5EA__create_flush_depend
 #define H5EA__dblk_page_alloc itk_H5EA__dblk_page_alloc
 #define H5EA__dblk_page_create itk_H5EA__dblk_page_create
@@ -771,6 +826,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5EA__dblock_sblk_idx itk_H5EA__dblock_sblk_idx
 #define H5EA__dblock_unprotect itk_H5EA__dblock_unprotect
 #define H5EA__destroy_flush_depend itk_H5EA__destroy_flush_depend
+#define H5EA__get_cparam_test itk_H5EA__get_cparam_test
 #define H5EA__hdr_alloc itk_H5EA__hdr_alloc
 #define H5EA__hdr_alloc_elmts itk_H5EA__hdr_alloc_elmts
 #define H5EA__hdr_create itk_H5EA__hdr_create
@@ -871,6 +927,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_CANTINS_g itk_H5E_CANTINS_g
 #define H5E_CANTLIST_g itk_H5E_CANTLIST_g
 #define H5E_CANTLOAD_g itk_H5E_CANTLOAD_g
+#define H5E_CANTLOCKFILE_g itk_H5E_CANTLOCKFILE_g
 #define H5E_CANTLOCK_g itk_H5E_CANTLOCK_g
 #define H5E_CANTMARKCLEAN_g itk_H5E_CANTMARKCLEAN_g
 #define H5E_CANTMARKDIRTY_g itk_H5E_CANTMARKDIRTY_g
@@ -907,6 +964,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_CANTTAG_g itk_H5E_CANTTAG_g
 #define H5E_CANTUNCORK_g itk_H5E_CANTUNCORK_g
 #define H5E_CANTUNDEPEND_g itk_H5E_CANTUNDEPEND_g
+#define H5E_CANTUNLOCKFILE_g itk_H5E_CANTUNLOCKFILE_g
 #define H5E_CANTUNLOCK_g itk_H5E_CANTUNLOCK_g
 #define H5E_CANTUNPIN_g itk_H5E_CANTUNPIN_g
 #define H5E_CANTUNPROTECT_g itk_H5E_CANTUNPROTECT_g
@@ -932,11 +990,13 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_FSPACE_g itk_H5E_FSPACE_g
 #define H5E_FUNC_g itk_H5E_FUNC_g
 #define H5E_HEAP_g itk_H5E_HEAP_g
+#define H5E_INCONSISTENTSTATE_g itk_H5E_INCONSISTENTSTATE_g
 #define H5E_INTERNAL_g itk_H5E_INTERNAL_g
 #define H5E_IO_g itk_H5E_IO_g
 #define H5E_LINKCOUNT_g itk_H5E_LINKCOUNT_g
 #define H5E_LINK_g itk_H5E_LINK_g
 #define H5E_LOGFAIL_g itk_H5E_LOGFAIL_g
+#define H5E_LOGGING_g itk_H5E_LOGGING_g
 #define H5E_MOUNT_g itk_H5E_MOUNT_g
 #define H5E_MPIERRSTR_g itk_H5E_MPIERRSTR_g
 #define H5E_MPI_g itk_H5E_MPI_g
@@ -983,8 +1043,14 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_VERSION_g itk_H5E_VERSION_g
 #define H5E_VFL_g itk_H5E_VFL_g
 #define H5E_WRITEERROR_g itk_H5E_WRITEERROR_g
+#define H5E__get_auto itk_H5E__get_auto
+#define H5E__get_msg itk_H5E__get_msg
 #define H5E__init_package itk_H5E__init_package
+#define H5E__pop itk_H5E__pop
+#define H5E__print itk_H5E__print
 #define H5E__push_stack itk_H5E__push_stack
+#define H5E__set_auto itk_H5E__set_auto
+#define H5E__walk itk_H5E__walk
 #define H5E_clear_stack itk_H5E_clear_stack
 #define H5E_dump_api_stack itk_H5E_dump_api_stack
 #define H5E_get_auto itk_H5E_get_auto
@@ -995,8 +1061,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_print itk_H5E_print
 #define H5E_printf_stack itk_H5E_printf_stack
 #define H5E_push_stack itk_H5E_push_stack
-#define H5E_stack_g itk_H5E_stack_g
 #define H5E_set_auto itk_H5E_set_auto
+#define H5E_stack_g itk_H5E_stack_g
 #define H5E_term_interface itk_H5E_term_interface
 #define H5E_term_package itk_H5E_term_package
 #define H5E_walk itk_H5E_walk
@@ -1030,6 +1096,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FA_CLS_CHUNK itk_H5FA_CLS_CHUNK
 #define H5FA_CLS_FILT_CHUNK itk_H5FA_CLS_FILT_CHUNK
 #define H5FA_CLS_TEST itk_H5FA_CLS_TEST
+#define H5FA__cmp_cparam_test itk_H5FA__cmp_cparam_test
 #define H5FA__create_flush_depend itk_H5FA__create_flush_depend
 #define H5FA__dblk_page_alloc itk_H5FA__dblk_page_alloc
 #define H5FA__dblk_page_create itk_H5FA__dblk_page_create
@@ -1044,6 +1111,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FA__dblock_protect itk_H5FA__dblock_protect
 #define H5FA__dblock_unprotect itk_H5FA__dblock_unprotect
 #define H5FA__destroy_flush_depend itk_H5FA__destroy_flush_depend
+#define H5FA__get_cparam_test itk_H5FA__get_cparam_test
 #define H5FA__hdr_alloc itk_H5FA__hdr_alloc
 #define H5FA__hdr_create itk_H5FA__hdr_create
 #define H5FA__hdr_debug itk_H5FA__hdr_debug
@@ -1074,7 +1142,9 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FA_patch_file itk_H5FA_patch_file
 #define H5FA_set itk_H5FA_set
 #define H5FD__alloc_real itk_H5FD__alloc_real
+#define H5FD__free_real itk_H5FD__free_real
 #define H5FD__init_package itk_H5FD__init_package
+#define H5FD__supports_swmr_test itk_H5FD__supports_swmr_test
 #define H5FD_alloc itk_H5FD_alloc
 #define H5FD_alloc_real itk_H5FD_alloc_real
 #define H5FD_close itk_H5FD_close
@@ -1094,6 +1164,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FD_fapl_open itk_H5FD_fapl_open
 #define H5FD_flush itk_H5FD_flush
 #define H5FD_free itk_H5FD_free
+#define H5FD_free_driver_info itk_H5FD_free_driver_info
 #define H5FD_free_real itk_H5FD_free_real
 #define H5FD_get_base_addr itk_H5FD_get_base_addr
 #define H5FD_get_class itk_H5FD_get_class
@@ -1104,6 +1175,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FD_get_fs_type_map itk_H5FD_get_fs_type_map
 #define H5FD_get_maxaddr itk_H5FD_get_maxaddr
 #define H5FD_get_vfd_handle itk_H5FD_get_vfd_handle
+#define H5FD_hdfs_init itk_H5FD_hdfs_init
 #define H5FD_init itk_H5FD_init
 #define H5FD_init_g itk_H5FD_init_g
 #define H5FD_locate_signature itk_H5FD_locate_signature
@@ -1127,6 +1199,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FD_set_eoa itk_H5FD_set_eoa
 #define H5FD_set_feature_flags itk_H5FD_set_feature_flags
 #define H5FD_set_paged_aggr itk_H5FD_set_paged_aggr
+#define H5FD_splitter_init itk_H5FD_splitter_init
 #define H5FD_stdio_init itk_H5FD_stdio_init
 #define H5FD_stdio_term itk_H5FD_stdio_term
 #define H5FD_supports_swmr_test itk_H5FD_supports_swmr_test
@@ -1170,6 +1243,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FL_fac_malloc itk_H5FL_fac_malloc
 #define H5FL_fac_term itk_H5FL_fac_term
 #define H5FL_garbage_coll itk_H5FL_garbage_coll
+#define H5FL_get_free_list_sizes itk_H5FL_get_free_list_sizes
 #define H5FL_init_g itk_H5FL_init_g
 #define H5FL_reg_calloc itk_H5FL_reg_calloc
 #define H5FL_reg_free itk_H5FL_reg_free
@@ -1193,10 +1267,17 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5FO_top_decr itk_H5FO_top_decr
 #define H5FO_top_dest itk_H5FO_top_dest
 #define H5FO_top_incr itk_H5FO_top_incr
+#define H5FS__cmp_cparam_test itk_H5FS__cmp_cparam_test
 #define H5FS__create_flush_depend itk_H5FS__create_flush_depend
+#define H5FS__decr itk_H5FS__decr
 #define H5FS__destroy_flush_depend itk_H5FS__destroy_flush_depend
+#define H5FS__dirty itk_H5FS__dirty
+#define H5FS__get_cparam_test itk_H5FS__get_cparam_test
 #define H5FS__hdr_dest itk_H5FS__hdr_dest
+#define H5FS__incr itk_H5FS__incr
 #define H5FS__new itk_H5FS__new
+#define H5FS__sinfo_dest itk_H5FS__sinfo_dest
+#define H5FS__sinfo_new itk_H5FS__sinfo_new
 #define H5FS_alloc_hdr itk_H5FS_alloc_hdr
 #define H5FS_alloc_sect itk_H5FS_alloc_sect
 #define H5FS_close itk_H5FS_close
@@ -1238,6 +1319,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5F__accum_reset itk_H5F__accum_reset
 #define H5F__accum_write itk_H5F__accum_write
 #define H5F__alloc itk_H5F__alloc
+#define H5F__check_cached_stab_test itk_H5F__check_cached_stab_test
 #define H5F__close itk_H5F__close
 #define H5F__close_cb itk_H5F__close_cb
 #define H5F__close_mounts itk_H5F__close_mounts
@@ -1259,19 +1341,28 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5F__get_freespace itk_H5F__get_freespace
 #define H5F__get_info itk_H5F__get_info
 #define H5F__get_max_eof_eoa itk_H5F__get_max_eof_eoa
+#define H5F__get_maxaddr_test itk_H5F__get_maxaddr_test
 #define H5F__get_metadata_read_retry_info itk_H5F__get_metadata_read_retry_info
+#define H5F__get_sbe_addr_test itk_H5F__get_sbe_addr_test
+#define H5F__get_sohm_mesg_count_test itk_H5F__get_sohm_mesg_count_test
 #define H5F__init_package itk_H5F__init_package
 #define H5F__is_hdf5 itk_H5F__is_hdf5
 #define H5F__mount itk_H5F__mount
 #define H5F__mount_count_ids itk_H5F__mount_count_ids
 #define H5F__new itk_H5F__new
 #define H5F__open itk_H5F__open
+#define H5F__parse_file_lock_env_var itk_H5F__parse_file_lock_env_var
+#define H5F__reparse_file_lock_variable_test itk_H5F__reparse_file_lock_variable_test
 #define H5F__set_base_addr itk_H5F__set_base_addr
 #define H5F__set_eoa itk_H5F__set_eoa
 #define H5F__set_libver_bounds itk_H5F__set_libver_bounds
 #define H5F__set_paged_aggr itk_H5F__set_paged_aggr
+#define H5F__sfile_add itk_H5F__sfile_add
+#define H5F__sfile_remove itk_H5F__sfile_remove
+#define H5F__sfile_search itk_H5F__sfile_search
 #define H5F__start_swmr_write itk_H5F__start_swmr_write
 #define H5F__super_ext_close itk_H5F__super_ext_close
+#define H5F__super_ext_open itk_H5F__super_ext_open
 #define H5F__super_ext_remove_msg itk_H5F__super_ext_remove_msg
 #define H5F__super_ext_write_msg itk_H5F__super_ext_write_msg
 #define H5F__super_free itk_H5F__super_free
@@ -1327,6 +1418,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5F_get_fc_degree itk_H5F_get_fc_degree
 #define H5F_get_fcpl itk_H5F_get_fcpl
 #define H5F_get_file_id itk_H5F_get_file_id
+#define H5F_get_file_locking itk_H5F_get_file_locking
 #define H5F_get_fileno itk_H5F_get_fileno
 #define H5F_get_first_alloc_dealloc itk_H5F_get_first_alloc_dealloc
 #define H5F_get_high_bound itk_H5F_get_high_bound
@@ -1334,6 +1426,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5F_get_intent itk_H5F_get_intent
 #define H5F_get_low_bound itk_H5F_get_low_bound
 #define H5F_get_maxaddr_test itk_H5F_get_maxaddr_test
+#define H5F_get_min_dset_ohdr itk_H5F_get_min_dset_ohdr
 #define H5F_get_nmounts itk_H5F_get_nmounts
 #define H5F_get_nopen_objs itk_H5F_get_nopen_objs
 #define H5F_get_nrefs itk_H5F_get_nrefs
@@ -1371,6 +1464,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5F_rdcc_w0 itk_H5F_rdcc_w0
 #define H5F_same_shared itk_H5F_same_shared
 #define H5F_set_grp_btree_shared itk_H5F_set_grp_btree_shared
+#define H5F_set_min_dset_ohdr itk_H5F_set_min_dset_ohdr
 #define H5F_set_retries itk_H5F_set_retries
 #define H5F_set_sohm_addr itk_H5F_set_sohm_addr
 #define H5F_set_sohm_nindexes itk_H5F_set_sohm_nindexes
@@ -1381,6 +1475,9 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5F_sfile_head_g itk_H5F_sfile_head_g
 #define H5F_sfile_remove itk_H5F_sfile_remove
 #define H5F_sfile_search itk_H5F_sfile_search
+#define H5F_shared_get_eoa itk_H5F_shared_get_eoa
+#define H5F_shared_get_intent itk_H5F_shared_get_intent
+#define H5F_shared_has_feature itk_H5F_shared_has_feature
 #define H5F_sieve_buf_size itk_H5F_sieve_buf_size
 #define H5F_sizeof_addr itk_H5F_sizeof_addr
 #define H5F_sizeof_size itk_H5F_sizeof_size
@@ -1410,6 +1507,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Fformat_convert itk_H5Fformat_convert
 #define H5Fget_access_plist itk_H5Fget_access_plist
 #define H5Fget_create_plist itk_H5Fget_create_plist
+#define H5Fget_dset_no_attrs_hint itk_H5Fget_dset_no_attrs_hint
 #define H5Fget_eoa itk_H5Fget_eoa
 #define H5Fget_file_image itk_H5Fget_file_image
 #define H5Fget_filesize itk_H5Fget_filesize
@@ -1436,6 +1534,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Freopen itk_H5Freopen
 #define H5Freset_mdc_hit_rate_stats itk_H5Freset_mdc_hit_rate_stats
 #define H5Freset_page_buffering_stats itk_H5Freset_page_buffering_stats
+#define H5Fset_dset_no_attrs_hint itk_H5Fset_dset_no_attrs_hint
 #define H5Fset_latest_format itk_H5Fset_latest_format
 #define H5Fset_libver_bounds itk_H5Fset_libver_bounds
 #define H5Fset_mdc_config itk_H5Fset_mdc_config
@@ -1902,6 +2001,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5HF_tiny_read itk_H5HF_tiny_read
 #define H5HF_tiny_remove itk_H5HF_tiny_remove
 #define H5HF_write itk_H5HF_write
+#define H5HG__free itk_H5HG__free
 #define H5HG__protect itk_H5HG__protect
 #define H5HG_debug itk_H5HG_debug
 #define H5HG_extend itk_H5HG_extend
@@ -1958,6 +2058,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5I_dec_ref itk_H5I_dec_ref
 #define H5I_dec_type_ref itk_H5I_dec_type_ref
 #define H5I_destroy_type itk_H5I_destroy_type
+#define H5I_dump_ids_for_type itk_H5I_dump_ids_for_type
 #define H5I_get_file_id itk_H5I_get_file_id
 #define H5I_get_name_test itk_H5I_get_name_test
 #define H5I_get_ref itk_H5I_get_ref
@@ -1972,6 +2073,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5I_object_verify itk_H5I_object_verify
 #define H5I_register itk_H5I_register
 #define H5I_register_type itk_H5I_register_type
+#define H5I_register_using_existing_id itk_H5I_register_using_existing_id
 #define H5I_register_with_id itk_H5I_register_with_id
 #define H5I_remove itk_H5I_remove
 #define H5I_remove_verify itk_H5I_remove_verify
@@ -2087,10 +2189,13 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5MF_try_shrink itk_H5MF_try_shrink
 #define H5MF_xfree itk_H5MF_xfree
 #define H5MM_calloc itk_H5MM_calloc
+#define H5MM_get_alloc_stats itk_H5MM_get_alloc_stats
 #define H5MM_malloc itk_H5MM_malloc
+#define H5MM_memcpy itk_H5MM_memcpy
 #define H5MM_realloc itk_H5MM_realloc
 #define H5MM_strdup itk_H5MM_strdup
 #define H5MM_xfree itk_H5MM_xfree
+#define H5MM_xfree_const itk_H5MM_xfree_const
 #define H5MM_xstrdup itk_H5MM_xstrdup
 #define H5MP_close itk_H5MP_close
 #define H5MP_create itk_H5MP_create
@@ -2132,10 +2237,12 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5O_OBJ_GROUP itk_H5O_OBJ_GROUP
 #define H5O__alloc itk_H5O__alloc
 #define H5O__alloc_chunk itk_H5O__alloc_chunk
+#define H5O__apply_ohdr itk_H5O__apply_ohdr
 #define H5O__attr_bh_info itk_H5O__attr_bh_info
 #define H5O__attr_count itk_H5O__attr_count
 #define H5O__attr_create itk_H5O__attr_create
 #define H5O__attr_delete itk_H5O__attr_delete
+#define H5O__attr_dense_info_test itk_H5O__attr_dense_info_test
 #define H5O__attr_exists itk_H5O__attr_exists
 #define H5O__attr_iterate itk_H5O__attr_iterate
 #define H5O__attr_link itk_H5O__attr_link
@@ -2147,22 +2254,30 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5O__attr_reset itk_H5O__attr_reset
 #define H5O__attr_update_shared itk_H5O__attr_update_shared
 #define H5O__attr_write itk_H5O__attr_write
+#define H5O__check_msg_marked_test itk_H5O__check_msg_marked_test
 #define H5O__chunk_add itk_H5O__chunk_add
 #define H5O__chunk_delete itk_H5O__chunk_delete
 #define H5O__chunk_dest itk_H5O__chunk_dest
 #define H5O__chunk_protect itk_H5O__chunk_protect
+#define H5O__chunk_resize itk_H5O__chunk_resize
 #define H5O__chunk_unprotect itk_H5O__chunk_unprotect
 #define H5O__chunk_update_idx itk_H5O__chunk_update_idx
 #define H5O__create_link itk_H5O__create_link
+#define H5O__create_ohdr itk_H5O__create_ohdr
 #define H5O__dec_rc itk_H5O__dec_rc
 #define H5O__delete_mesg itk_H5O__delete_mesg
 #define H5O__exists_by_name itk_H5O__exists_by_name
+#define H5O__expunge_chunks_test itk_H5O__expunge_chunks_test
 #define H5O__free itk_H5O__free
+#define H5O__fsinfo_set_version itk_H5O__fsinfo_set_version
 #define H5O__get_comment_by_name itk_H5O__get_comment_by_name
 #define H5O__get_info_by_idx itk_H5O__get_info_by_idx
 #define H5O__get_info_by_name itk_H5O__get_info_by_name
+#define H5O__get_rc_test itk_H5O__get_rc_test
 #define H5O__inc_rc itk_H5O__inc_rc
 #define H5O__init_package itk_H5O__init_package
+#define H5O__is_attr_dense_test itk_H5O__is_attr_dense_test
+#define H5O__is_attr_empty_test itk_H5O__is_attr_empty_test
 #define H5O__link itk_H5O__link
 #define H5O__link_oh itk_H5O__link_oh
 #define H5O__msg_alloc itk_H5O__msg_alloc
@@ -2170,9 +2285,12 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5O__msg_copy_file itk_H5O__msg_copy_file
 #define H5O__msg_free_mesg itk_H5O__msg_free_mesg
 #define H5O__msg_free_real itk_H5O__msg_free_real
+#define H5O__msg_get_chunkno_test itk_H5O__msg_get_chunkno_test
 #define H5O__msg_iterate_real itk_H5O__msg_iterate_real
+#define H5O__msg_move_to_new_chunk_test itk_H5O__msg_move_to_new_chunk_test
 #define H5O__msg_remove_real itk_H5O__msg_remove_real
 #define H5O__msg_write_real itk_H5O__msg_write_real
+#define H5O__num_attrs_test itk_H5O__num_attrs_test
 #define H5O__obj_class itk_H5O__obj_class
 #define H5O__open_by_addr itk_H5O__open_by_addr
 #define H5O__open_by_idx itk_H5O__open_by_idx
@@ -2241,6 +2359,9 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5O_get_loc itk_H5O_get_loc
 #define H5O_get_nlinks itk_H5O_get_nlinks
 #define H5O_get_oh_addr itk_H5O_get_oh_addr
+#define H5O_get_oh_flags itk_H5O_get_oh_flags
+#define H5O_get_oh_mtime itk_H5O_get_oh_mtime
+#define H5O_get_oh_version itk_H5O_get_oh_version
 #define H5O_get_proxy itk_H5O_get_proxy
 #define H5O_get_rc itk_H5O_get_rc
 #define H5O_get_rc_and_type itk_H5O_get_rc_and_type
@@ -2253,6 +2374,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5O_link_delete itk_H5O_link_delete
 #define H5O_link_oh itk_H5O_link_oh
 #define H5O_loc_copy itk_H5O_loc_copy
+#define H5O_loc_copy_deep itk_H5O_loc_copy_deep
+#define H5O_loc_copy_shallow itk_H5O_loc_copy_shallow
 #define H5O_loc_free itk_H5O_loc_free
 #define H5O_loc_hold_file itk_H5O_loc_hold_file
 #define H5O_loc_reset itk_H5O_loc_reset
@@ -2341,10 +2464,13 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Oflush itk_H5Oflush
 #define H5Oget_comment itk_H5Oget_comment
 #define H5Oget_comment_by_name itk_H5Oget_comment_by_name
+#define H5Oget_info itk_H5Oget_info
 #define H5Oget_info1 itk_H5Oget_info1
 #define H5Oget_info2 itk_H5Oget_info2
+#define H5Oget_info_by_idx itk_H5Oget_info_by_idx
 #define H5Oget_info_by_idx1 itk_H5Oget_info_by_idx1
 #define H5Oget_info_by_idx2 itk_H5Oget_info_by_idx2
+#define H5Oget_info_by_name itk_H5Oget_info_by_name
 #define H5Oget_info_by_name1 itk_H5Oget_info_by_name1
 #define H5Oget_info_by_name2 itk_H5Oget_info_by_name2
 #define H5Oincr_refcount itk_H5Oincr_refcount
@@ -2355,8 +2481,10 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Orefresh itk_H5Orefresh
 #define H5Oset_comment itk_H5Oset_comment
 #define H5Oset_comment_by_name itk_H5Oset_comment_by_name
+#define H5Ovisit itk_H5Ovisit
 #define H5Ovisit1 itk_H5Ovisit1
 #define H5Ovisit2 itk_H5Ovisit2
+#define H5Ovisit_by_name itk_H5Ovisit_by_name
 #define H5Ovisit_by_name1 itk_H5Ovisit_by_name1
 #define H5Ovisit_by_name2 itk_H5Ovisit_by_name2
 #define H5PB_add_new_page itk_H5PB_add_new_page
@@ -2485,6 +2613,15 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5P_LST_LINK_CREATE_g itk_H5P_LST_LINK_CREATE_g
 #define H5P_LST_OBJECT_COPY_ID_g itk_H5P_LST_OBJECT_COPY_ID_g
 #define H5P_LST_OBJECT_COPY_g itk_H5P_LST_OBJECT_COPY_g
+#define H5P__access_class itk_H5P__access_class
+#define H5P__add_prop itk_H5P__add_prop
+#define H5P__close_class itk_H5P__close_class
+#define H5P__cmp_class itk_H5P__cmp_class
+#define H5P__cmp_plist itk_H5P__cmp_plist
+#define H5P__copy_pclass itk_H5P__copy_pclass
+#define H5P__copy_prop_pclass itk_H5P__copy_prop_pclass
+#define H5P__copy_prop_plist itk_H5P__copy_prop_plist
+#define H5P__create_class itk_H5P__create_class
 #define H5P__decode itk_H5P__decode
 #define H5P__decode_double itk_H5P__decode_double
 #define H5P__decode_hbool_t itk_H5P__decode_hbool_t
@@ -2499,9 +2636,24 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5P__encode_size_t itk_H5P__encode_size_t
 #define H5P__encode_uint8_t itk_H5P__encode_uint8_t
 #define H5P__encode_unsigned itk_H5P__encode_unsigned
+#define H5P__exist_pclass itk_H5P__exist_pclass
 #define H5P__find_prop_plist itk_H5P__find_prop_plist
+#define H5P__get_class_parent itk_H5P__get_class_parent
+#define H5P__get_class_path itk_H5P__get_class_path
+#define H5P__get_class_path_test itk_H5P__get_class_path_test
+#define H5P__get_filter itk_H5P__get_filter
+#define H5P__get_nprops_plist itk_H5P__get_nprops_plist
+#define H5P__get_size_pclass itk_H5P__get_size_pclass
+#define H5P__get_size_plist itk_H5P__get_size_plist
 #define H5P__init_package itk_H5P__init_package
+#define H5P__iterate_pclass itk_H5P__iterate_pclass
+#define H5P__iterate_plist itk_H5P__iterate_plist
 #define H5P__new_plist_of_type itk_H5P__new_plist_of_type
+#define H5P__open_class_path itk_H5P__open_class_path
+#define H5P__open_class_path_test itk_H5P__open_class_path_test
+#define H5P__register itk_H5P__register
+#define H5P__register_real itk_H5P__register_real
+#define H5P__unregister itk_H5P__unregister
 #define H5P_access_class itk_H5P_access_class
 #define H5P_add_prop itk_H5P_add_prop
 #define H5P_class_isa itk_H5P_class_isa
@@ -2603,6 +2755,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Pget_data_transform itk_H5Pget_data_transform
 #define H5Pget_driver itk_H5Pget_driver
 #define H5Pget_driver_info itk_H5Pget_driver_info
+#define H5Pget_dset_no_attrs_hint itk_H5Pget_dset_no_attrs_hint
 #define H5Pget_dxpl_multi itk_H5Pget_dxpl_multi
 #define H5Pget_edc_check itk_H5Pget_edc_check
 #define H5Pget_efile_prefix itk_H5Pget_efile_prefix
@@ -2619,10 +2772,13 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Pget_fapl_core itk_H5Pget_fapl_core
 #define H5Pget_fapl_direct itk_H5Pget_fapl_direct
 #define H5Pget_fapl_family itk_H5Pget_fapl_family
+#define H5Pget_fapl_hdfs itk_H5Pget_fapl_hdfs
 #define H5Pget_fapl_multi itk_H5Pget_fapl_multi
+#define H5Pget_fapl_splitter itk_H5Pget_fapl_splitter
 #define H5Pget_fclose_degree itk_H5Pget_fclose_degree
 #define H5Pget_file_image itk_H5Pget_file_image
 #define H5Pget_file_image_callbacks itk_H5Pget_file_image_callbacks
+#define H5Pget_file_locking itk_H5Pget_file_locking
 #define H5Pget_file_space itk_H5Pget_file_space
 #define H5Pget_file_space_page_size itk_H5Pget_file_space_page_size
 #define H5Pget_file_space_strategy itk_H5Pget_file_space_strategy
@@ -2702,6 +2858,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Pset_data_transform itk_H5Pset_data_transform
 #define H5Pset_deflate itk_H5Pset_deflate
 #define H5Pset_driver itk_H5Pset_driver
+#define H5Pset_dset_no_attrs_hint itk_H5Pset_dset_no_attrs_hint
 #define H5Pset_dxpl_multi itk_H5Pset_dxpl_multi
 #define H5Pset_edc_check itk_H5Pset_edc_check
 #define H5Pset_efile_prefix itk_H5Pset_efile_prefix
@@ -2717,14 +2874,17 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Pset_fapl_core itk_H5Pset_fapl_core
 #define H5Pset_fapl_direct itk_H5Pset_fapl_direct
 #define H5Pset_fapl_family itk_H5Pset_fapl_family
+#define H5Pset_fapl_hdfs itk_H5Pset_fapl_hdfs
 #define H5Pset_fapl_log itk_H5Pset_fapl_log
 #define H5Pset_fapl_multi itk_H5Pset_fapl_multi
 #define H5Pset_fapl_sec2 itk_H5Pset_fapl_sec2
 #define H5Pset_fapl_split itk_H5Pset_fapl_split
+#define H5Pset_fapl_splitter itk_H5Pset_fapl_splitter
 #define H5Pset_fapl_stdio itk_H5Pset_fapl_stdio
 #define H5Pset_fclose_degree itk_H5Pset_fclose_degree
 #define H5Pset_file_image itk_H5Pset_file_image
 #define H5Pset_file_image_callbacks itk_H5Pset_file_image_callbacks
+#define H5Pset_file_locking itk_H5Pset_file_locking
 #define H5Pset_file_space itk_H5Pset_file_space
 #define H5Pset_file_space_page_size itk_H5Pset_file_space_page_size
 #define H5Pset_file_space_strategy itk_H5Pset_file_space_strategy
@@ -2868,11 +3028,20 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5ST_locate itk_H5ST_locate
 #define H5ST_remove itk_H5ST_remove
 #define H5ST_search itk_H5ST_search
+#define H5S__extent_copy_real itk_H5S__extent_copy_real
+#define H5S__extent_release itk_H5S__extent_release
+#define H5S__get_diminfo_status_test itk_H5S__get_diminfo_status_test
+#define H5S__get_rebuild_status_test itk_H5S__get_rebuild_status_test
+#define H5S__hyper_get_op_gen itk_H5S__hyper_get_op_gen
 #define H5S__hyper_project_intersection itk_H5S__hyper_project_intersection
+#define H5S__hyper_rebuild itk_H5S__hyper_rebuild
 #define H5S__hyper_subtract itk_H5S__hyper_subtract
 #define H5S__init_package itk_H5S__init_package
+#define H5S__internal_consistency_test itk_H5S__internal_consistency_test
+#define H5S__modify_select itk_H5S__modify_select
 #define H5S_append itk_H5S_append
 #define H5S_close itk_H5S_close
+#define H5S_combine_hyperslab itk_H5S_combine_hyperslab
 #define H5S_copy itk_H5S_copy
 #define H5S_create itk_H5S_create
 #define H5S_create_simple itk_H5S_create_simple
@@ -2916,8 +3085,10 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5S_read itk_H5S_read
 #define H5S_sel_all itk_H5S_sel_all
 #define H5S_sel_hyper itk_H5S_sel_hyper
+#define H5S_sel_iter_close itk_H5S_sel_iter_close
 #define H5S_sel_none itk_H5S_sel_none
 #define H5S_sel_point itk_H5S_sel_point
+#define H5S_select_adjust_s itk_H5S_select_adjust_s
 #define H5S_select_adjust_u itk_H5S_select_adjust_u
 #define H5S_select_all itk_H5S_select_all
 #define H5S_select_construct_projection itk_H5S_select_construct_projection
@@ -2927,10 +3098,12 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5S_select_fill itk_H5S_select_fill
 #define H5S_select_get_seq_list itk_H5S_select_get_seq_list
 #define H5S_select_hyperslab itk_H5S_select_hyperslab
+#define H5S_select_intersect_block itk_H5S_select_intersect_block
 #define H5S_select_is_contiguous itk_H5S_select_is_contiguous
 #define H5S_select_is_regular itk_H5S_select_is_regular
 #define H5S_select_is_single itk_H5S_select_is_single
 #define H5S_select_iter_coords itk_H5S_select_iter_coords
+#define H5S_select_iter_get_seq_list itk_H5S_select_iter_get_seq_list
 #define H5S_select_iter_init itk_H5S_select_iter_init
 #define H5S_select_iter_nelmts itk_H5S_select_iter_nelmts
 #define H5S_select_iter_next itk_H5S_select_iter_next
@@ -2958,6 +3131,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5S_top_term_package itk_H5S_top_term_package
 #define H5S_write itk_H5S_write
 #define H5Sclose itk_H5Sclose
+#define H5Scombine_hyperslab itk_H5Scombine_hyperslab
+#define H5Scombine_select itk_H5Scombine_select
 #define H5Scopy itk_H5Scopy
 #define H5Screate itk_H5Screate
 #define H5Screate_simple itk_H5Screate_simple
@@ -2979,11 +3154,17 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Sget_simple_extent_type itk_H5Sget_simple_extent_type
 #define H5Sis_regular_hyperslab itk_H5Sis_regular_hyperslab
 #define H5Sis_simple itk_H5Sis_simple
+#define H5Smodify_select itk_H5Smodify_select
 #define H5Soffset_simple itk_H5Soffset_simple
+#define H5Sselect_adjust itk_H5Sselect_adjust
 #define H5Sselect_all itk_H5Sselect_all
+#define H5Sselect_copy itk_H5Sselect_copy
 #define H5Sselect_elements itk_H5Sselect_elements
 #define H5Sselect_hyperslab itk_H5Sselect_hyperslab
+#define H5Sselect_intersect_block itk_H5Sselect_intersect_block
 #define H5Sselect_none itk_H5Sselect_none
+#define H5Sselect_project_intersection itk_H5Sselect_project_intersection
+#define H5Sselect_shape_same itk_H5Sselect_shape_same
 #define H5Sselect_valid itk_H5Sselect_valid
 #define H5Sset_extent_none itk_H5Sset_extent_none
 #define H5Sset_extent_simple itk_H5Sset_extent_simple
@@ -3519,6 +3700,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5T_convert itk_H5T_convert
 #define H5T_convert_committed_datatype itk_H5T_convert_committed_datatype
 #define H5T_copy itk_H5T_copy
+#define H5T_copy_reopen itk_H5T_copy_reopen
 #define H5T_create itk_H5T_create
 #define H5T_debug itk_H5T_debug
 #define H5T_decode itk_H5T_decode
@@ -3552,6 +3734,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5T_is_relocatable itk_H5T_is_relocatable
 #define H5T_is_sensible itk_H5T_is_sensible
 #define H5T_is_variable_str itk_H5T_is_variable_str
+#define H5T_is_vl_storage itk_H5T_is_vl_storage
 #define H5T_link itk_H5T_link
 #define H5T_lock itk_H5T_lock
 #define H5T_nameof itk_H5T_nameof
@@ -3711,6 +3894,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5Z_filter_info itk_H5Z_filter_info
 #define H5Z_find itk_H5Z_find
 #define H5Z_get_filter_info itk_H5Z_get_filter_info
+#define H5Z_ignore_filters itk_H5Z_ignore_filters
 #define H5Z_init_g itk_H5Z_init_g
 #define H5Z_modify itk_H5Z_modify
 #define H5Z_pipeline itk_H5Z_pipeline
@@ -3753,6 +3937,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_H5FS_sinfo_t_reg_free_list itk_H5_H5FS_sinfo_t_reg_free_list
 #define H5_H5FS_t_reg_free_list itk_H5_H5FS_t_reg_free_list
 #define H5_H5F_file_t_reg_free_list itk_H5_H5F_file_t_reg_free_list
+#define H5_H5F_shared_t_reg_free_list itk_H5_H5F_shared_t_reg_free_list
 #define H5_H5F_super_t_reg_free_list itk_H5_H5F_super_t_reg_free_list
 #define H5_H5F_t_reg_free_list itk_H5_H5F_t_reg_free_list
 #define H5_H5G_copy_file_ud_t_reg_free_list itk_H5_H5G_copy_file_ud_t_reg_free_list
@@ -3832,6 +4017,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_nanosleep itk_H5_nanosleep
 #define H5_native_block_blk_free_list itk_H5_native_block_blk_free_list
 #define H5_now itk_H5_now
+#define H5_now_usec itk_H5_now_usec
 #define H5_page_elmts_blk_free_list itk_H5_page_elmts_blk_free_list
 #define H5_page_init_blk_free_list itk_H5_page_init_blk_free_list
 #define H5_sieve_buf_blk_free_list itk_H5_sieve_buf_blk_free_list
@@ -3841,7 +4027,13 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_time_t_reg_free_list itk_H5_time_t_reg_free_list
 #define H5_timer_begin itk_H5_timer_begin
 #define H5_timer_end itk_H5_timer_end
+#define H5_timer_get_time_string itk_H5_timer_get_time_string
+#define H5_timer_get_times itk_H5_timer_get_times
+#define H5_timer_get_total_times itk_H5_timer_get_total_times
+#define H5_timer_init itk_H5_timer_init
 #define H5_timer_reset itk_H5_timer_reset
+#define H5_timer_start itk_H5_timer_start
+#define H5_timer_stop itk_H5_timer_stop
 #define H5_trace itk_H5_trace
 #define H5_type_conv_blk_free_list itk_H5_type_conv_blk_free_list
 #define H5_vlen_fl_buf_blk_free_list itk_H5_vlen_fl_buf_blk_free_list
@@ -3852,6 +4044,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5dont_atexit itk_H5dont_atexit
 #define H5free_memory itk_H5free_memory
 #define H5garbage_collect itk_H5garbage_collect
+#define H5get_alloc_stats itk_H5get_alloc_stats
+#define H5get_free_list_sizes itk_H5get_free_list_sizes
 #define H5get_libversion itk_H5get_libversion
 #define H5is_library_threadsafe itk_H5is_library_threadsafe
 #define H5libhdf5_settings itk_H5libhdf5_settings
@@ -3865,6 +4059,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define Nflock itk_Nflock
 #define Pflock itk_Pflock
 #define epoch_marker_class itk_epoch_marker_class
+#define use_locks_env_g itk_use_locks_env_g
 #define userAttrOpWrpr itk_userAttrOpWrpr
+#define userVisitOpWrpr itk_userVisitOpWrpr
 
 #endif

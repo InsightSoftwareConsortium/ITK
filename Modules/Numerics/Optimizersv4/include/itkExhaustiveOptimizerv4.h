@@ -162,18 +162,18 @@ protected:
 
 protected:
   ParametersType m_InitialPosition;
-  MeasureType    m_CurrentValue;
-  StepsType      m_NumberOfSteps;
+  MeasureType    m_CurrentValue{ 0 };
+  StepsType      m_NumberOfSteps{ 0 };
   bool           m_Stop{ false };
   double         m_StepLength{ 1.0 };
-  ParametersType m_CurrentIndex;
-  MeasureType    m_MaximumMetricValue;
-  MeasureType    m_MinimumMetricValue;
+  ParametersType m_CurrentIndex{ 0 };
+  MeasureType    m_MaximumMetricValue{ 0.0 };
+  MeasureType    m_MinimumMetricValue{ 0.0 };
   ParametersType m_MinimumMetricValuePosition;
   ParametersType m_MaximumMetricValuePosition;
 
 private:
-  std::ostringstream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription{ "" };
 };
 } // end namespace itk
 

@@ -46,7 +46,29 @@ Expect_Filled_returns_Index_with_specified_value_for_each_element()
   }
   Expect_Filled_with_value(std::numeric_limits<IndexValueType>::max());
 }
+
+
+template <itk::IndexValueType VFillValue>
+constexpr bool
+Is_Filled_Index_correctly_filled()
+{
+  for (const auto actualValue : itk::Index<>::Filled(VFillValue).m_InternalArray)
+  {
+    if (actualValue != VFillValue)
+    {
+      return false;
+    }
+  }
+  return true;
+}
+
 } // namespace
+
+
+static_assert(Is_Filled_Index_correctly_filled<0>() && Is_Filled_Index_correctly_filled<1>() &&
+                Is_Filled_Index_correctly_filled<std::numeric_limits<itk::IndexValueType>::min()>() &&
+                Is_Filled_Index_correctly_filled<std::numeric_limits<itk::IndexValueType>::max()>(),
+              "itk::Index::Filled(value) should be correctly filled at compile-time");
 
 
 // Tests that itk::Index::Filled(value) returns an itk::Index with the
