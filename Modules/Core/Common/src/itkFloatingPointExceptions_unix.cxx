@@ -176,8 +176,7 @@ FloatingPointExceptions::Disable()
 {
   itkInitGlobalsMacro(PimplGlobals);
 #if defined(ITK_HAS_FPE_CAPABILITY)
-  itk_fedisableexcept(FE_DIVBYZERO);
-  itk_fedisableexcept(FE_INVALID);
+  itk_fedisableexcept(FE_ALL_EXCEPT);
   FloatingPointExceptions::m_PimplGlobals->m_Enabled = false;
 #else
   itkFloatingPointExceptionsNotSupported();
