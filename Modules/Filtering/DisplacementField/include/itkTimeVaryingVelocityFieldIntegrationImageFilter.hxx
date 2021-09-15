@@ -137,13 +137,11 @@ void
 TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDisplacementField>::
   DynamicThreadedGenerateData(const OutputRegionType & region)
 {
-  if (Math::ExactlyEquals(this->m_LowerTimeBound, this->m_UpperTimeBound))
+  if (Math::ExactlyEquals(this->m_LowerTimeBound, this->m_UpperTimeBound) ||
+      this->m_NumberOfIntegrationSteps == 0)
   {
-    return;
-  }
-
-  if (this->m_NumberOfIntegrationSteps == 0)
-  {
+    this->GetOutput()->FillBuffer(
+      itk::NumericTraits<typename DisplacementFieldType::PixelType>::Zero);
     return;
   }
 
