@@ -174,7 +174,7 @@ public:
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType & jacobian) const override
   {
-    jacobian = this->m_ZeroJacobian;
+    jacobian.SetSize(NDimensions, 0);
   }
 
 
@@ -242,17 +242,9 @@ public:
 protected:
   IdentityTransform()
     : Transform<TParametersValueType, NDimensions, NDimensions>(0)
-    , m_ZeroJacobian(NDimensions, 0)
-  {
-    // The Jacobian is constant, therefore it can be initialized in the
-    // constructor.
-    this->m_ZeroJacobian.Fill(0.0);
-  }
+  {}
 
   ~IdentityTransform() override = default;
-
-private:
-  JacobianType m_ZeroJacobian;
 };
 } // end namespace itk
 
