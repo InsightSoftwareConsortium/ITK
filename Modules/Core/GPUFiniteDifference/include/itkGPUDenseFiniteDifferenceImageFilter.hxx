@@ -147,7 +147,7 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
   this->m_GPUKernelManager->LaunchKernel(
     m_ApplyUpdateGPUKernelHandle, (int)TInputImage::ImageDimension, globalSize, localSize);
 
-  // Explicitely call Modified on GetOutput here. Do we need this?
+  // Explicitly call Modified on GetOutput here. Do we need this?
   // this->GetOutput()->Modified();
 }
 

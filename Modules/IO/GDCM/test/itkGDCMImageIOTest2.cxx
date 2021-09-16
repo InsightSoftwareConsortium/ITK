@@ -119,7 +119,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   writer->UseInputMetaDataDictionaryOff();
 
   // Save as JPEG 2000 Lossless
-  // Explicitely specify which compression type to use
+  // Explicitly specify which compression type to use
   dicomIO->SetCompressionType(itk::GDCMImageIO::CompressionEnum::JPEG2000);
   // Request compression of the ImageIO
   writer->UseCompressionOn();

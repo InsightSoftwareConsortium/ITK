@@ -90,7 +90,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ApplyUpdate(const T
   // Multithread the execution
   this->GetMultiThreader()->SingleMethodExecute();
 
-  // Explicitely call Modified on GetOutput here
+  // Explicitly call Modified on GetOutput here
   // since ThreadedApplyUpdate changes this buffer
   // through iterators which do not increment the
   // output timestamp
@@ -150,7 +150,7 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CalculateChange()
   // Resolve the single value time step to return
   TimeStepType dt = this->ResolveTimeStep(str.TimeStepList, str.ValidTimeStepList);
 
-  // Explicitely call Modified on m_UpdateBuffer here
+  // Explicitly call Modified on m_UpdateBuffer here
   // since ThreadedCalculateChange changes this buffer
   // through iterators which do not increment the
   // update buffer timestamp
