@@ -476,6 +476,11 @@ protected:
   void * m_SingleData{ nullptr };
 
 private:
+  static void
+  SetGlobalDefaultThreaderPrivate(ThreaderEnum threaderType);
+  static ThreaderEnum
+  GetGlobalDefaultThreaderPrivate();
+
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(MultiThreaderBaseGlobals, PimplGlobals);
 

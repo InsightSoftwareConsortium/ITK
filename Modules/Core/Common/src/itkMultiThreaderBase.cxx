@@ -57,10 +57,11 @@ struct MultiThreaderBaseGlobals
 {
   // Initialize static members.
   MultiThreaderBaseGlobals() = default;
+
   // GlobalDefaultThreaderTypeIsInitialized is used only in this
   // file to ensure that the ITK_GLOBAL_DEFAULT_THREADER or
   // ITK_USE_THREADPOOL environmenal variables are
-  // only used as a fall back option.  If the SetGlobalDefaultThreaderType
+  // only used as a fall back option.  If the SetGlobalDefaultThreader
   // API is ever used by the developer, the developers choice is
   // respected over the environmental variable.
   bool       GlobalDefaultThreaderTypeIsInitialized{ false };
@@ -109,67 +110,81 @@ MultiThreaderBase::GetGlobalDefaultUseThreadPool()
 #endif
 
 void
-MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum threaderType)
+MultiThreaderBase::SetGlobalDefaultThreaderPrivate(ThreaderEnum threaderType)
 {
-  itkInitGlobalsMacro(PimplGlobals);
+  // m_PimplGlobals->globalDefaultInitializerLock must be already held here!
 
   m_PimplGlobals->m_GlobalDefaultThreader = threaderType;
   m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized = true;
 }
 
-MultiThreaderBase::ThreaderEnum
-MultiThreaderBase::GetGlobalDefaultThreader()
+void
+MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum threaderType)
 {
-  // This method must be concurrent thread safe
   itkInitGlobalsMacro(PimplGlobals);
+
+  // Acquire mutex then call private method to do the real work.
+  std::lock_guard<std::mutex> lock(m_PimplGlobals->globalDefaultInitializerLock);
+
+  MultiThreaderBase::SetGlobalDefaultThreaderPrivate(threaderType);
+}
+
+MultiThreaderBase::ThreaderEnum
+MultiThreaderBase::GetGlobalDefaultThreaderPrivate()
+{
+  // m_PimplGlobals->globalDefaultInitializerLock must be already held here!
 
   if (!m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized)
   {
-    std::lock_guard<std::mutex> lock(m_PimplGlobals->globalDefaultInitializerLock);
-
-    // After we have the lock, double check the initialization
-    // flag to ensure it hasn't been changed by another thread.
-    if (!m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized)
+    std::string envVar;
+    // first check ITK_GLOBAL_DEFAULT_THREADER
+    if (itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_THREADER", envVar))
     {
-      std::string envVar;
-      // first check ITK_GLOBAL_DEFAULT_THREADER
-      if (itksys::SystemTools::GetEnv("ITK_GLOBAL_DEFAULT_THREADER", envVar))
+      envVar = itksys::SystemTools::UpperCase(envVar);
+      ThreaderEnum threaderT = ThreaderTypeFromString(envVar);
+      if (threaderT != ThreaderEnum::Unknown)
       {
-        envVar = itksys::SystemTools::UpperCase(envVar);
-        ThreaderEnum threaderT = ThreaderTypeFromString(envVar);
-        if (threaderT != ThreaderEnum::Unknown)
-        {
-          MultiThreaderBase::SetGlobalDefaultThreader(threaderT);
-        }
+        MultiThreaderBase::SetGlobalDefaultThreaderPrivate(threaderT);
       }
-      // if that was not set check ITK_USE_THREADPOOL (deprecated)
-      else if (!m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized &&
-               itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL", envVar))
-      {
-        envVar = itksys::SystemTools::UpperCase(envVar);
-        itkGenericOutputMacro("Warning: ITK_USE_THREADPOOL \
+    }
+    // if that was not set check ITK_USE_THREADPOOL (deprecated)
+    else if (!m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized &&
+             itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL", envVar))
+    {
+      envVar = itksys::SystemTools::UpperCase(envVar);
+      itkGenericOutputMacro("Warning: ITK_USE_THREADPOOL \
 has been deprecated since ITK v5.0. \
 You should now use ITK_GLOBAL_DEFAULT_THREADER\
 \nFor example ITK_GLOBAL_DEFAULT_THREADER=Pool");
-        if (envVar != "NO" && envVar != "OFF" && envVar != "FALSE")
-        {
+      if (envVar != "NO" && envVar != "OFF" && envVar != "FALSE")
+      {
 #ifdef __EMSCRIPTEN__
-          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum::Platform);
+        MultiThreaderBase::SetGlobalDefaultThreaderPrivate(ThreaderEnum::Platform);
 #else
-          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum::Pool);
+        MultiThreaderBase::SetGlobalDefaultThreaderPrivate(ThreaderEnum::Pool);
 #endif
-        }
-        else
-        {
-          MultiThreaderBase::SetGlobalDefaultThreader(ThreaderEnum::Platform);
-        }
       }
-
-      // always set that we are initialized
-      m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized = true;
+      else
+      {
+        MultiThreaderBase::SetGlobalDefaultThreaderPrivate(ThreaderEnum::Platform);
+      }
     }
+
+    // always set that we are initialized
+    m_PimplGlobals->GlobalDefaultThreaderTypeIsInitialized = true;
   }
   return m_PimplGlobals->m_GlobalDefaultThreader;
+}
+
+MultiThreaderBase::ThreaderEnum
+MultiThreaderBase::GetGlobalDefaultThreader()
+{
+  itkInitGlobalsMacro(PimplGlobals);
+
+  // Acquire mutex then call private method to do the real work.
+  std::lock_guard<std::mutex> lock(m_PimplGlobals->globalDefaultInitializerLock);
+
+  return MultiThreaderBase::GetGlobalDefaultThreaderPrivate();
 }
 
 MultiThreaderBase::ThreaderEnum
@@ -224,6 +239,8 @@ MultiThreaderBase::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
 {
   itkInitGlobalsMacro(PimplGlobals);
 
+  std::lock_guard<std::mutex> lock(m_PimplGlobals->globalDefaultInitializerLock);
+
   m_PimplGlobals->m_GlobalDefaultNumberOfThreads = val;
 
   // clamp between 1 and m_PimplGlobals->m_GlobalMaximumNumberOfThreads
@@ -273,6 +290,8 @@ ThreadIdType
 MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
 {
   itkInitGlobalsMacro(PimplGlobals);
+
+  std::lock_guard<std::mutex> lock(m_PimplGlobals->globalDefaultInitializerLock);
 
   if (m_PimplGlobals->m_GlobalDefaultNumberOfThreads == 0) // need to initialize
   {
