@@ -34,7 +34,7 @@ namespace itk
 {
 
 LightObject::LightObject()
-  : m_ReferenceCount(1)
+  : m_ReferenceCount(0)
 {}
 
 const char *
@@ -46,15 +46,12 @@ LightObject::GetNameOfClass() const
 LightObject::Pointer
 LightObject::New()
 {
-  Pointer       smartPtr;
-  LightObject * rawPtr = ObjectFactoryBase::CreateInstance(typeid(LightObject).name());
+  Pointer smartPtr{ ObjectFactoryBase::CreateInstance(typeid(LightObject).name()) };
 
-  if (rawPtr == nullptr)
+  if (smartPtr.IsNull())
   {
-    rawPtr = new LightObject;
+    smartPtr = new LightObject;
   }
-  smartPtr = rawPtr;
-  rawPtr->UnRegister();
   return smartPtr;
 }
 
@@ -149,7 +146,7 @@ LightObject::Register() const
 void
 LightObject::UnRegister() const noexcept
 {
-  // As ReferenceCount gets unlocked, we may have a race condition
+  // As m_ReferenceCount gets unlocked, we may have a race condition
   // to delete the object.
 
   if (--m_ReferenceCount <= 0)

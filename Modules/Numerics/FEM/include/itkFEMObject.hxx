@@ -149,7 +149,6 @@ FEMObject<VDimension>::DeepCopy(FEMObject * Copy)
     fem::Element * elCopy = Copy->GetElement(i);
     // create a new object of the correct class
     a = ObjectFactoryBase::CreateInstance(elCopy->GetNameOfClass());
-    a->UnRegister();
     auto * o1 = dynamic_cast<fem::Element *>(a.GetPointer());
     if (o1 == nullptr)
     {

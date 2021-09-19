@@ -101,8 +101,7 @@ ThreadPool::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 
 ThreadPool::ThreadPool()
 {
-  m_PimplGlobals->m_ThreadPoolInstance = this;        // threads need this
-  m_PimplGlobals->m_ThreadPoolInstance->UnRegister(); // Remove extra reference
+  m_PimplGlobals->m_ThreadPoolInstance = this; // threads need this
   ThreadIdType threadCount = MultiThreaderBase::GetGlobalDefaultNumberOfThreads();
   m_Threads.reserve(threadCount);
   for (unsigned int i = 0; i < threadCount; ++i)

@@ -106,9 +106,9 @@ struct ObjectFactoryBasePrivate
     ::itk::ObjectFactoryBase::UnRegisterAllFactories();
     if (m_InternalFactories)
     {
-      for (auto & m_InternalFactorie : *m_InternalFactories)
+      for (auto & m_InternalFactory : *m_InternalFactories)
       {
-        m_InternalFactorie->UnRegister();
+        m_InternalFactory->UnRegister();
       }
       delete m_InternalFactories;
       m_InternalFactories = nullptr;
@@ -200,10 +200,9 @@ ObjectFactoryBase::CreateInstance(const char * itkclassname)
 
   for (auto & registeredFactory : *m_PimplGlobals->m_RegisteredFactories)
   {
-    LightObject::Pointer newobject = registeredFactory->CreateObject(itkclassname);
-    if (newobject)
+    LightObject::Pointer newobject{ registeredFactory->CreateObject(itkclassname) };
+    if (newobject.IsNotNull())
     {
-      newobject->Register();
       return newobject;
     }
   }
@@ -282,6 +281,9 @@ ObjectFactoryBase::RegisterInternal()
   // "RegisterFactoryInternal" method
   for (auto & internalFactory : *m_PimplGlobals->m_InternalFactories)
   {
+    // The list of factories is of regular C++ pointers, not
+    // SmartPointer values, so we manually Register the factory.
+    internalFactory->Register();
     m_PimplGlobals->m_RegisteredFactories->push_back(internalFactory);
   }
 }
@@ -544,11 +546,16 @@ ObjectFactoryBase::RegisterFactoryInternal(ObjectFactoryBase * factory)
   // libraries to be loaded and this method is called during static
   // initialization.
   ObjectFactoryBase::InitializeFactoryList();
-  m_PimplGlobals->m_InternalFactories->push_back(factory);
+  // The list of factories is of regular C++ pointers, not
+  // SmartPointer values, so we manually Register the factory.
   factory->Register();
+  m_PimplGlobals->m_InternalFactories->push_back(factory);
   // if the internal factories have already been register add this one too
   if (m_PimplGlobals->m_Initialized)
   {
+    // The list of factories is of regular C++ pointers, not
+    // SmartPointer values, so we manually Register the factory.
+    factory->Register();
     m_PimplGlobals->m_RegisteredFactories->push_back(factory);
   }
 }
@@ -600,7 +607,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
   ObjectFactoryBase::Initialize();
 
   //
-  //  Register the factory in the internal list at the requested location.
+  //  Register the factory in the noninternal list at the requested location.
   //
   switch (where)
   {
@@ -611,6 +618,9 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
         itkGenericExceptionMacro(
           << "position argument must not be used with InsertionPositionEnum::INSERT_AT_BACK option");
       }
+      // The list of factories is of regular C++ pointers, not
+      // SmartPointer values, so we manually Register the factory.
+      factory->Register();
       m_PimplGlobals->m_RegisteredFactories->push_back(factory);
       break;
     }
@@ -621,6 +631,9 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
         itkGenericExceptionMacro(
           << "position argument must not be used with InsertionPositionEnum::INSERT_AT_FRONT option");
       }
+      // The list of factories is of regular C++ pointers, not
+      // SmartPointer values, so we manually Register the factory.
+      factory->Register();
       m_PimplGlobals->m_RegisteredFactories->push_front(factory);
       break;
     }
@@ -635,6 +648,9 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
           ++fitr;
         }
 
+        // The list of factories is of regular C++ pointers, not
+        // SmartPointer values, so we manually Register the factory.
+        factory->Register();
         m_PimplGlobals->m_RegisteredFactories->insert(fitr, factory);
         break;
       }
@@ -645,7 +661,6 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
       }
     }
   }
-  factory->Register();
   return true;
 }
 
@@ -660,7 +675,7 @@ ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << "\n";
   os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
-  auto num = static_cast<int>(m_OverrideMap->size());
+  int num = static_cast<int>(m_OverrideMap->size());
   os << indent << "Factory overrides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();
@@ -671,22 +686,6 @@ ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "Enable flag: " << i.second.m_EnabledFlag << std::endl;
     os << indent << "Create object: " << i.second.m_CreateObject << std::endl;
     os << std::endl;
-  }
-}
-
-/**
- *
- */
-void
-ObjectFactoryBase::DeleteNonInternalFactory(ObjectFactoryBase * factory)
-{
-  itkInitGlobalsMacro(PimplGlobals);
-
-  // if factory is not internal then delete
-  if (std::find(m_PimplGlobals->m_InternalFactories->begin(), m_PimplGlobals->m_InternalFactories->end(), factory) ==
-      m_PimplGlobals->m_InternalFactories->end())
-  {
-    factory->UnRegister();
   }
 }
 
@@ -705,8 +704,11 @@ ObjectFactoryBase::UnRegisterFactory(ObjectFactoryBase * factory)
     {
       if (factory == *i)
       {
-        DeleteNonInternalFactory(factory);
         m_PimplGlobals->m_RegisteredFactories->remove(factory);
+        // The list of factories is of regular C++ pointers, not
+        // SmartPointer values, so we manually UnRegister the factory.
+        factory->UnRegister();
+
         return;
       }
     }
@@ -733,7 +735,9 @@ ObjectFactoryBase::UnRegisterAllFactories()
     // Unregister each factory
     for (auto & registeredFactory : *m_PimplGlobals->m_RegisteredFactories)
     {
-      DeleteNonInternalFactory(registeredFactory);
+      // The list of factories is of regular C++ pointers, not
+      // SmartPointer values, so we manually UnRegister the factory.
+      registeredFactory->UnRegister();
     }
 #ifdef ITK_DYNAMIC_LOADING
     // And delete the library handles all at once
@@ -867,8 +871,7 @@ ObjectFactoryBase::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate)
   // We keep track of the previoulsy registered factory in `previousObjectFactoryBasePrivate`
   // but assign the new pointer to `m_PimplGlobals` so factories can be
   // registered directly with the new pointer.
-  ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate;
-  previousObjectFactoryBasePrivate = GetPimplGlobalsPointer();
+  ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate = GetPimplGlobalsPointer();
 
   m_PimplGlobals = static_cast<ObjectFactoryBasePrivate *>(objectFactoryBasePrivate);
   if (m_PimplGlobals && previousObjectFactoryBasePrivate)

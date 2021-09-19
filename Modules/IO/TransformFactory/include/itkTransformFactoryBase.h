@@ -98,7 +98,6 @@ public:
     if (test.IsNotNull())
     {
       itkDebugMacro("Refusing to register transform \"" << classOverride << "\" again!");
-      test->UnRegister();
     }
     else
     {

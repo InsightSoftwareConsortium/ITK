@@ -122,8 +122,6 @@ OutputWindow::GetInstance()
     if (!m_PimplGlobals->m_Instance)
     {
       m_PimplGlobals->m_Instance = new OutputWindow;
-      // Remove extra reference from construction.
-      m_PimplGlobals->m_Instance->UnRegister();
     }
   }
   /**

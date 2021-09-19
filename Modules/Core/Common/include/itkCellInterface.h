@@ -168,9 +168,7 @@ public:
     static Pointer
     New()
     {
-      Pointer smartPtr = new Self;
-      smartPtr->UnRegister();
-      return smartPtr;
+      return Pointer{ new Self };
     }
 
     /** Run-time type information (and related methods).   */

@@ -45,13 +45,11 @@ MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator::CreateInstance()
 {
   // Try the factory first
-  MersenneTwisterRandomVariateGenerator::Pointer obj = ObjectFactory<Self>::Create();
+  Pointer obj{ ObjectFactory<Self>::Create() };
   // If the factory did not provide one, then create it here
-  if (!obj)
+  if (obj.IsNull())
   {
     obj = new MersenneTwisterRandomVariateGenerator;
-    // Remove extra reference from construction.
-    obj->UnRegister();
   }
   return obj;
 }

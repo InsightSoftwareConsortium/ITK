@@ -61,8 +61,6 @@ TransformIOBaseTemplate<TParametersValueType>::CreateTransform(TransformPointer 
     }
     itkExceptionMacro(<< msg.str());
   }
-  // Correct extra reference count from CreateInstance()
-  ptr->UnRegister();
 }
 
 template <typename TParametersValueType>

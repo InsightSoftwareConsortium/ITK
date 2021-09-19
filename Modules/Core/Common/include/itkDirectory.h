@@ -51,9 +51,7 @@ public:
   static Pointer
   New()
   {
-    Pointer n = new Self;
-    n->UnRegister();
-    return n;
+    return Pointer{ new Self };
   }
 
   /** Return the class name as a string. */

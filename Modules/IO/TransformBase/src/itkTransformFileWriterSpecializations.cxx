@@ -208,7 +208,6 @@ struct TransformIOHelper
     {
       itkGenericExceptionMacro(<< "Could not create an instance of " << transformName);
     }
-    convertedTransform->UnRegister();
     return convertedTransform;
   }
 

@@ -66,7 +66,6 @@ public:
     {
       smartPtr = new Self(nullptr);
     }
-    smartPtr->UnRegister();
     return smartPtr;
   }
 

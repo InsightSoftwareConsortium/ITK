@@ -119,7 +119,6 @@ BuildInformation
 ::BuildInformation()
 {
   m_PimplGlobals->m_InformationInstance = this; //threads need this
-  m_PimplGlobals->m_InformationInstance->UnRegister(); // Remove extra reference
 
   @MAPPING_VALUES@
 }

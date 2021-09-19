@@ -276,9 +276,6 @@ private:
   static void
   LoadLibrariesInPath(const char *);
 
-  static void
-  DeleteNonInternalFactory(ObjectFactoryBase *);
-
   /** Member variables for a factory set by the base class
    * at load or register time */
   void *        m_LibraryHandle;

@@ -388,7 +388,7 @@ MultiThreaderBase::Pointer
 MultiThreaderBase::New()
 {
   Pointer smartPtr = ::itk::ObjectFactory<MultiThreaderBase>::Create();
-  if (smartPtr == nullptr)
+  if (smartPtr.IsNull())
   {
     ThreaderEnum threaderType = GetGlobalDefaultThreader();
     switch (threaderType)
@@ -411,7 +411,6 @@ MultiThreaderBase::New()
         itkGenericExceptionMacro("MultiThreaderBase::GetGlobalDefaultThreader returned Unknown!");
     }
   }
-  smartPtr->UnRegister();
   return smartPtr;
 }
 
