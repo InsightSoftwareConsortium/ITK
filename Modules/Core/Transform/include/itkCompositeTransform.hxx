@@ -885,7 +885,7 @@ CompositeTransform<TParametersValueType, NDimensions>::UpdateTransformParameters
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename CompositeTransform<TParametersValueType, NDimensions>::TransformQueueType &
+const typename CompositeTransform<TParametersValueType, NDimensions>::TransformQueueType &
 CompositeTransform<TParametersValueType, NDimensions>::GetTransformsToOptimizeQueue() const
 {
   /* Update the list of transforms to use for optimization only if
