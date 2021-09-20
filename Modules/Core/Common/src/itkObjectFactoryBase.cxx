@@ -200,8 +200,8 @@ ObjectFactoryBase::CreateInstance(const char * itkclassname)
 
   for (auto & registeredFactory : *m_PimplGlobals->m_RegisteredFactories)
   {
-    LightObject::Pointer newobject{ registeredFactory->CreateObject(itkclassname) };
-    if (newobject.IsNotNull())
+    LightObject::Pointer newobject = registeredFactory->CreateObject(itkclassname);
+    if (newobject)
     {
       return newobject;
     }
@@ -607,7 +607,7 @@ ObjectFactoryBase::RegisterFactory(ObjectFactoryBase * factory, InsertionPositio
   ObjectFactoryBase::Initialize();
 
   //
-  //  Register the factory in the noninternal list at the requested location.
+  //  Register the factory in the internal list at the requested location.
   //
   switch (where)
   {
@@ -675,7 +675,7 @@ ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Factory DLL path: " << m_LibraryPath.c_str() << "\n";
   os << indent << "Factory description: " << this->GetDescription() << std::endl;
 
-  int num = static_cast<int>(m_OverrideMap->size());
+  auto num = static_cast<int>(m_OverrideMap->size());
   os << indent << "Factory overrides " << num << " classes:" << std::endl;
 
   indent = indent.GetNextIndent();
@@ -871,7 +871,8 @@ ObjectFactoryBase::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate)
   // We keep track of the previoulsy registered factory in `previousObjectFactoryBasePrivate`
   // but assign the new pointer to `m_PimplGlobals` so factories can be
   // registered directly with the new pointer.
-  ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate = GetPimplGlobalsPointer();
+  ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate;
+  previousObjectFactoryBasePrivate = GetPimplGlobalsPointer();
 
   m_PimplGlobals = static_cast<ObjectFactoryBasePrivate *>(objectFactoryBasePrivate);
   if (m_PimplGlobals && previousObjectFactoryBasePrivate)

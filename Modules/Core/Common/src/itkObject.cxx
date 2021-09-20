@@ -293,7 +293,7 @@ Object::New()
 {
   Pointer smartPtr{ ::itk::ObjectFactory<Object>::Create() };
 
-  if (smartPtr.IsNull())
+  if (smartPtr == nullptr)
   {
     smartPtr = new Object;
   }

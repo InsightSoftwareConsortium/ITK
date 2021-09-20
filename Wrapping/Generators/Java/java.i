@@ -157,12 +157,15 @@ SWIG_JAVABODY_METHODS(public, public, SWIGTYPE)
         %extend itkClass {
                 public:
                 itkClass() {
-                        ::itk::SmartPointer<itkClass> smtPtr{ itkClass::New() };
-                        smtPtr->Register();
-                        return smtPtr.GetPointer();
+                        using Pointer = ::itk::SmartPointer<itkLightObject>;
+                        Pointer smtPtr = itkClass::New().GetPointer();
+                        itkClass *rawPtr = dynamic_cast<itkClass *>(smtPtr.GetPointer());
+                        rawPtr->Register();
+                        return rawPtr;
                 };
                 virtual itkLightObject * Clone() const {
-                        ::itk::SmartPointer<itkLightObject> smtPtr{ self->Clone()->GetPointer() };
+                        using Pointer = ::itk::SmartPointer<itkLightObject>;
+                        Pointer smtPtr = self->Clone().GetPointer();
                         smtPtr->Register();
                         return smtPtr.GetPointer();
                 };

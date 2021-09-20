@@ -161,7 +161,7 @@ public:
     static Pointer
     New()
     {
-      Pointer smartPtr{ ::itk::ObjectFactory<Self>::Create() };
+      Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 
       if (smartPtr.IsNull())
       {

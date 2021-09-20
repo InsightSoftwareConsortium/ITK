@@ -316,8 +316,8 @@ namespace itk
 #define itkSimpleNewMacro(x)                                                                                           \
   static Pointer New()                                                                                                 \
   {                                                                                                                    \
-    Pointer smartPtr{ ::itk::ObjectFactory<x>::Create() };                                                             \
-    if (smartPtr.IsNull())                                                                                             \
+    Pointer smartPtr = ::itk::ObjectFactory<x>::Create();                                                              \
+    if (smartPtr == nullptr)                                                                                           \
     {                                                                                                                  \
       smartPtr = new x;                                                                                                \
     }                                                                                                                  \
@@ -328,7 +328,9 @@ namespace itk
 #define itkCreateAnotherMacro(x)                                                                                       \
   ::itk::LightObject::Pointer CreateAnother() const override                                                           \
   {                                                                                                                    \
-    return ::itk::LightObject::Pointer{ x::New().GetPointer() };                                                       \
+    ::itk::LightObject::Pointer smartPtr;                                                                              \
+    smartPtr = x::New().GetPointer();                                                                                  \
+    return smartPtr;                                                                                                   \
   }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 
@@ -349,11 +351,18 @@ namespace itk
  * initializing an object's reference count to 1 (needed for proper
  * initialization of process objects and data objects cycles). */
 #define itkFactorylessNewMacro(x)                                                                                      \
-  static Pointer New() { return Pointer{ new x }; }                                                                    \
-                                                                                                                       \
+  static Pointer New()                                                                                                 \
+  {                                                                                                                    \
+    Pointer smartPtr;                                                                                                  \
+    x *     rawPtr = new x;                                                                                            \
+    smartPtr = rawPtr;                                                                                                 \
+    return smartPtr;                                                                                                   \
+  }                                                                                                                    \
   ::itk::LightObject::Pointer CreateAnother() const override                                                           \
   {                                                                                                                    \
-    return ::itk::LightObject::Pointer{ x::New().GetPointer() };                                                       \
+    ::itk::LightObject::Pointer smartPtr;                                                                              \
+    smartPtr = x::New().GetPointer();                                                                                  \
+    return smartPtr;                                                                                                   \
   }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 

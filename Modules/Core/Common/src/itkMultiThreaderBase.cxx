@@ -388,7 +388,7 @@ MultiThreaderBase::Pointer
 MultiThreaderBase::New()
 {
   Pointer smartPtr = ::itk::ObjectFactory<MultiThreaderBase>::Create();
-  if (smartPtr.IsNull())
+  if (smartPtr == nullptr)
   {
     ThreaderEnum threaderType = GetGlobalDefaultThreader();
     switch (threaderType)

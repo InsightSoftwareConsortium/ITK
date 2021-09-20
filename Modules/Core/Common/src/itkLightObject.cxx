@@ -48,7 +48,7 @@ LightObject::New()
 {
   Pointer smartPtr{ ObjectFactoryBase::CreateInstance(typeid(LightObject).name()) };
 
-  if (smartPtr.IsNull())
+  if (smartPtr == nullptr)
   {
     smartPtr = new LightObject;
   }
@@ -146,7 +146,7 @@ LightObject::Register() const
 void
 LightObject::UnRegister() const noexcept
 {
-  // As m_ReferenceCount gets unlocked, we may have a race condition
+  // As ReferenceCount gets unlocked, we may have a race condition
   // to delete the object.
 
   if (--m_ReferenceCount <= 0)
