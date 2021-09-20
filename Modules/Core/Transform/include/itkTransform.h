@@ -590,8 +590,6 @@ protected:
   PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(const InputDiffusionTensor3DType &,
                                                                  const InverseJacobianPositionType &) const;
 
-  mutable DirectionChangeMatrix m_DirectionChange;
-
 private:
   template <typename TType>
   static std::string
