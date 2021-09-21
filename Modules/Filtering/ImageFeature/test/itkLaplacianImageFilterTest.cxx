@@ -59,7 +59,7 @@ itkLaplacianImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Assign a spacing other than [1,1] for testing
-  itk::Vector<float, 2> spacing({ 0.5, 5.0 });
+  itk::Vector<float, 2> spacing{ { 0.5, 5.0 } };
   reader->GetOutput()->SetSpacing(spacing);
 
   // Set up filter
