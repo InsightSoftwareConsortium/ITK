@@ -30,9 +30,10 @@ ImageRegionSplitterSlowDimension::GetNumberOfSplitsInternal(unsigned int        
                                                             const SizeValueType  regionSize[],
                                                             unsigned int         requestedNumber) const
 {
+  requestedNumber = std::max(1u, requestedNumber);
   // split on the outermost dimension available
   int splitAxis = dim - 1;
-  while (regionSize[splitAxis] == 1)
+  while (regionSize[splitAxis] <= 1)
   {
     --splitAxis;
     if (splitAxis < 0)
@@ -57,10 +58,9 @@ ImageRegionSplitterSlowDimension::GetSplitInternal(unsigned int   dim,
                                                    IndexValueType regionIndex[],
                                                    SizeValueType  regionSize[]) const
 {
-
   // split on the outermost dimension available
   unsigned int splitAxis = dim - 1;
-  while (regionSize[splitAxis] == 1)
+  while (regionSize[splitAxis] <= 1)
   {
     if (splitAxis == 0)
     { // cannot split

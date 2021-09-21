@@ -38,6 +38,7 @@ itkImageRegionSplitterDirectionTest(int, char *[])
 
   const itk::ImageRegion<2> lpRegion = region;
 
+  ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 0), 1);
   ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 1), 1);
   ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 2), 2);
   ITK_TEST_EXPECT_EQUAL(splitter->GetNumberOfSplits(lpRegion, 3), 3);
@@ -65,6 +66,13 @@ itkImageRegionSplitterDirectionTest(int, char *[])
   splitter->GetSplit(1, 2, region);
   ITK_TEST_EXPECT_EQUAL(region.GetSize(0), 5);
   ITK_TEST_EXPECT_EQUAL(region.GetSize(1), 11);
+
+  const itk::ImageRegion<2> lpRegion2{}; // default zero sized
+  region = lpRegion2;
+  ITK_TEST_EXPECT_EQUAL(1, splitter->GetNumberOfSplits(lpRegion2, 1));
+  ITK_TEST_EXPECT_EQUAL(1, splitter->GetSplit(1, 1, region));
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(0), 0);
+  ITK_TEST_EXPECT_EQUAL(region.GetSize(1), 0);
 
 
   return EXIT_SUCCESS;
