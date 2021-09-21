@@ -49,8 +49,8 @@ if(NOT ITK_USE_SYSTEM_FFTW)
 
     include(GNUInstallDirs)
 
-    set(_fftw_target_version 3.3.8)
-    set(_fftw_url_hash "ab918b742a7c7dcb56390a0a0014f517a6dff9a2e4b4591060deeb2c652bf3c6868aa74559a422a276b853289b4b701bdcbd3d4d8c08943acf29167a7be81a38")
+    set(_fftw_target_version 3.3.10)
+    set(_fftw_url_hash "2d34b5ccac7b08740dbdacc6ebe451d8a34cf9d9bfec85a5e776e87adf94abfd803c222412d8e10fbaa4ed46f504aa87180396af1b108666cde4314a55610b40")
     set(_fftw_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_fftw_url_hash}/download")
 
     set(FFTW_STAGED_INSTALL_PREFIX "${ITK_BINARY_DIR}/fftw")
