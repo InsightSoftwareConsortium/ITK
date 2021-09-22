@@ -20,6 +20,19 @@
 #include "itkLabelImageToLabelMapFilter.h"
 #include "itkTestingMacros.h"
 
+void
+zeroSizeCase()
+{
+  // test filter with zero sized image
+  auto p_filter = itk::LabelImageToLabelMapFilter<itk::Image<unsigned char, 3>>::New();
+  auto p_image = itk::Image<unsigned char, 3>::New();
+  p_image->SetRegions(itk::Size<3>{ 0, 0, 0 });
+  p_image->Allocate(true);
+
+  p_filter->SetInput(p_image);
+  p_filter->Update();
+}
+
 int
 itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
 {
@@ -130,6 +143,9 @@ itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
   std::cout << "End - Printing out map." << std::endl << std::endl;
 
   conversion->Print(std::cout);
+
+  zeroSizeCase();
+
 
   return EXIT_SUCCESS;
 }

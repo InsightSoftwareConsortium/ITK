@@ -41,9 +41,10 @@ ImageRegionSplitterDirection::GetNumberOfSplitsInternal(unsigned int         dim
                                                         const SizeValueType  regionSize[],
                                                         unsigned int         requestedNumber) const
 {
+  requestedNumber = std::max(1u, requestedNumber);
   // split on the outermost dimension available
   int splitAxis = dim - 1;
-  while (regionSize[splitAxis] == 1 || splitAxis == (int)m_Direction)
+  while (regionSize[splitAxis] <= 1 || splitAxis == (int)m_Direction)
   {
     --splitAxis;
     if (splitAxis < 0)
@@ -71,7 +72,7 @@ ImageRegionSplitterDirection::GetSplitInternal(unsigned int   dim,
   // split on the outermost dimension available
   // and avoid the current dimension
   int splitAxis = dim - 1;
-  while (regionSize[splitAxis] == 1 || splitAxis == (int)m_Direction)
+  while (regionSize[splitAxis] <= 1 || splitAxis == (int)m_Direction)
   {
     --splitAxis;
     if (splitAxis < 0)
