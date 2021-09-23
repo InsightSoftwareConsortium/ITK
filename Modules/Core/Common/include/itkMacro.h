@@ -784,6 +784,12 @@ compilers.
 //  !!  The ITK Get/Set Macros for various types !!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+#  define itkStaticConstMacro(name, type, value)                                                                       \
+    "Replace itkStaticConstMacro(name, type, value) with `static constexpr type name = value`"
+#  define itkGetStaticConstMacro(name) "Replace itkGetStaticConstMacro(name) with `Self::name`"
+#else
 /** Portable definition of static constants.
  *
  * \pre \c type shall be an integral type (\c bool and enums are accepted as
@@ -798,9 +804,10 @@ compilers.
  * and is beneficial in other cases where a value can be constant.
  *
  * \ingroup ITKCommon */
-#define itkStaticConstMacro(name, type, value) static constexpr type name = value
+#  define itkStaticConstMacro(name, type, value) static constexpr type name = value
 
-#define itkGetStaticConstMacro(name) (Self::name)
+#  define itkGetStaticConstMacro(name) (Self::name)
+#endif
 
 /** Set an input. This defines the Set"name"() method */
 #define itkSetInputMacro(name, type)                                                                                   \
