@@ -39,8 +39,11 @@ class MultiphaseSparseFiniteDifferenceImageFilterTestHelper
 public:
   /** Standard class type aliases. */
   using Self = MultiphaseSparseFiniteDifferenceImageFilterTestHelper;
-  using Superclass =
-    MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputImage, TFiniteDifferenceFunction>;
+  using Superclass = MultiphaseSparseFiniteDifferenceImageFilter<TInputImage,
+                                                                 TFeatureImage,
+                                                                 TOutputImage,
+                                                                 TFiniteDifferenceFunction,
+                                                                 TIdCell>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
