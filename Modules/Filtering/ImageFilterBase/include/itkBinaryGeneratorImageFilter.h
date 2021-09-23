@@ -218,11 +218,9 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck1,
-                  (Concept::SameDimension<itkGetStaticConstMacro(InputImage1Dimension),
-                                          itkGetStaticConstMacro(InputImage2Dimension)>));
+                  (Concept::SameDimension<Self::InputImage1Dimension, Self::InputImage2Dimension>));
   itkConceptMacro(SameDimensionCheck2,
-                  (Concept::SameDimension<itkGetStaticConstMacro(InputImage1Dimension),
-                                          itkGetStaticConstMacro(OutputImageDimension)>));
+                  (Concept::SameDimension<Self::InputImage1Dimension, Self::OutputImageDimension>));
   // End concept checking
 #endif
 
