@@ -11,6 +11,8 @@ foreach(p
   endif()
 endforeach()
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # This project is designed to be built outside the Insight source tree.
 project(HelloWorld)
