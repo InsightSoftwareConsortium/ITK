@@ -804,7 +804,12 @@ compilers.
  * and is beneficial in other cases where a value can be constant.
  *
  * \ingroup ITKCommon */
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+#  define itkStaticConstMacro(name, type, value)                                                                       \
+    "Replace itkStaticConstMacro(name, type, value) with static constexpr type name = value"
+#else
 #  define itkStaticConstMacro(name, type, value) static constexpr type name = value
+#endif
 
 #  define itkGetStaticConstMacro(name) (Self::name)
 #endif
