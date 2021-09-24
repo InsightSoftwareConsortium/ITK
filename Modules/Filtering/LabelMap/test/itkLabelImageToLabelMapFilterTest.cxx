@@ -24,9 +24,13 @@ void
 zeroSizeCase()
 {
   // test filter with zero sized image
-  auto p_filter = itk::LabelImageToLabelMapFilter<itk::Image<unsigned char, 3>>::New();
-  auto p_image = itk::Image<unsigned char, 3>::New();
-  p_image->SetRegions(itk::Size<3>{ 0, 0, 0 });
+  constexpr unsigned int ImageDimension = 3;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, ImageDimension>;
+  auto p_filter = itk::LabelImageToLabelMapFilter<ImageType>::New();
+  auto p_image = ImageType::New();
+
+  // The image region is empty by default: do not set any region to it and allocate memory
   p_image->Allocate(true);
 
   p_filter->SetInput(p_image);
