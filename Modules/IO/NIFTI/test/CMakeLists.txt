@@ -88,3 +88,11 @@ itk_add_test(NAME itkNiftiReadWriteDirectionTest
         DATA{${ITK_DATA_ROOT}/Input/LPSLabels_nosform.nii.gz}
         ${ITK_TEST_OUTPUT_DIR}
         )
+
+itk_add_test(NAME itkNiftiReadWriteDirectionSmallVoxelTest
+        COMMAND ITKIONIFTITestDriver itkNiftiReadWriteDirectionTest
+        DATA{Input/SmallVoxels.nii.gz}
+        DATA{Input/SmallVoxels_noqform.nii.gz}
+        DATA{Input/SmallVoxels_nosform.nii.gz}
+        ${ITK_TEST_OUTPUT_DIR}
+        )
