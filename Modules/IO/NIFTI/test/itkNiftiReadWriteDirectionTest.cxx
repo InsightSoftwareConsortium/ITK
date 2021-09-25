@@ -20,6 +20,7 @@
 #include "itkNiftiImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 // debug
 #include <map>
@@ -29,9 +30,10 @@ itkNiftiReadWriteDirectionTest(int ac, char * av[])
 {
   if (ac < 5)
   {
-    std::cerr << "itkNiftiReadWriteDirectionTest: <ImageWithBoth Q and S forms> <no qform> <no sform> <TestOutputDir>"
-              << std::endl;
-    std::cerr << "5 arguments required, recieved " << ac << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
+              << "imageWithBothQAndSForms imageWithNoQform imageWithNoSform testOutputDir" << std::endl;
+    std::cerr << "5 arguments required, received " << ac << std::endl;
     for (int i = 0; i < ac; ++i)
     {
       std::cerr << "\t" << i << " : " << av[i] << std::endl;
@@ -40,75 +42,76 @@ itkNiftiReadWriteDirectionTest(int ac, char * av[])
   }
 
   using TestImageType = itk::Image<float, 3>;
-  auto reader_lambda = [](std::string filename) -> TestImageType::Pointer {
-    itk::ImageFileReader<TestImageType>::Pointer reader = itk::ImageFileReader<TestImageType>::New();
-    std::string                                  test(filename);
-    reader->SetFileName(test);
-    reader->Update();
-    return reader->GetOutput();
-  };
+  TestImageType::Pointer inputImage = itk::ReadImage<TestImageType>(av[1]);
+  TestImageType::Pointer inputImageNoQform = itk::ReadImage<TestImageType>(av[2]);
+  TestImageType::Pointer inputImageNoSform = itk::ReadImage<TestImageType>(av[3]);
 
-  using TestImageType = itk::Image<float, 3>;
-  TestImageType::Pointer LPSLabel = reader_lambda(av[1]);
-  TestImageType::Pointer LPSLabel_noqform = reader_lambda(av[2]);
-  TestImageType::Pointer LPSLabel_nosform = reader_lambda(av[3]);
+  const auto inputImageDirection = inputImage->GetDirection();
+  const auto inputImageNoQformDirection = inputImageNoQform->GetDirection();
+  const auto inputImageNoSformDirection = inputImageNoSform->GetDirection();
 
-  const auto LPSLabel_direction = LPSLabel->GetDirection();
-  const auto LPSLabel_noqform_direction = LPSLabel_noqform->GetDirection();
-  const auto LPSLabel_nosform_direction = LPSLabel_nosform->GetDirection();
-
-  // Verify that the sform from LPSLabel being used when reading an image with both sform and qform
+  // Verify that the sform from InputImage being used when reading an image with both sform and qform
   // The sforms should be identical in both cases.
-  if (LPSLabel_direction != LPSLabel_noqform_direction)
+  if (inputImageDirection != inputImageNoQformDirection)
   {
+    std::cerr << "Error: direction matrix from the image with sform and qform should be identical to ";
+    std::cerr << "the matrix from the image with sform only" << std::endl;
+    std::cerr << "sform and qform image direction:" << std::endl << inputImageDirection << std::endl;
+    std::cerr << "sform-only image direction:" << std::endl << inputImageNoQformDirection << std::endl;
     return EXIT_FAILURE;
   }
   // Verify that the qform alone is not identical to the sform (due to lossy storage capacity)
   // This difference is small, but periodically causes numerical precision errors,
   // VERIFY THAT THE DIRECTIONS ARE ACTUALLY DIFFERENT, They are expected to be different due to lossy
-  // representaiton of the qform.
-  if (LPSLabel_direction == LPSLabel_nosform_direction)
+  // representation of the qform.
+  if (inputImageDirection == inputImageNoSformDirection)
   {
+    std::cerr << "Error: direction matrices from sform and qform should differ because of lossy ";
+    std::cerr << "storage methods." << std::endl;
+    std::cerr << "sform and qform image direction:" << std::endl << inputImageDirection << std::endl;
+    std::cerr << "qform-only image direction:" << std::endl << inputImageNoSformDirection << std::endl;
     return EXIT_FAILURE;
   }
 
   // Write image that originally had no sform direction representation into a file with both sform and qform
-  const std::string                            test_output_dir = av[4];
-  const std::string                            test_filename = test_output_dir + "/test_filled_sform.nii.gz";
+  const std::string                            testOutputDir = av[4];
+  const std::string                            testFilename = testOutputDir + "/test_filled_sform.nii.gz";
   itk::ImageFileWriter<TestImageType>::Pointer writer = itk::ImageFileWriter<TestImageType>::New();
-  writer->SetFileName(test_filename);
-  writer->SetInput(LPSLabel_nosform);
-  writer->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(inputImageNoSform, testFilename));
 
 
   // This time it should read from the newly written "sform" code in the image, which should
-  // be the same as reading from qform of the original iamge
-  TestImageType::Pointer reread = reader_lambda(test_filename);
-  const auto             reread_direction = reread->GetDirection();
-  const auto             mdd = reread->GetMetaDataDictionary();
-  std::string            sform_code_from_nifti;
-  const bool expose_success = itk::ExposeMetaData<std::string>(mdd, "sform_code_name", sform_code_from_nifti);
-  if (!expose_success || sform_code_from_nifti != "NIFTI_XFORM_SCANNER_ANAT")
+  // be the same as reading from qform of the original image
+  TestImageType::Pointer reReadImage = itk::ReadImage<TestImageType>(testFilename);
+  const auto             reReadImageDirection = reReadImage->GetDirection();
+  const auto             mdd = reReadImage->GetMetaDataDictionary();
+  std::string            sformCodeFromNifti;
+  const bool             exposeSuccess = itk::ExposeMetaData<std::string>(mdd, "sform_code_name", sformCodeFromNifti);
+  if (!exposeSuccess || sformCodeFromNifti != "NIFTI_XFORM_SCANNER_ANAT")
   {
     std::cerr << "Error: sform not set during writing" << std::endl;
     return EXIT_FAILURE;
   }
-  bool is_close_qform_converted = true;
+  bool isCloseQformConverted = true;
   for (int r = 0; r < 3; ++r)
   {
     for (int c = 0; c < 3; ++c)
     {
-      const double diff = std::fabs(LPSLabel_nosform_direction[r][c] - reread_direction[r][c]);
+      const double diff = std::fabs(inputImageNoSformDirection[r][c] - reReadImageDirection[r][c]);
       if (diff > 1e-8)
       {
-        is_close_qform_converted = false;
+        isCloseQformConverted = false;
       }
     }
   }
-  if (!is_close_qform_converted)
+  if (!isCloseQformConverted)
   {
-    std::cerr << LPSLabel_nosform_direction << " \n\n" << reread_direction << std::endl;
+    std::cerr << "Error: sform reconstructed from qform is not sufficiently similar to qform" << std::endl;
+    std::cerr << "qform-only image direction:" << std::endl << inputImageNoSformDirection << std::endl;
+    std::cerr << "Reconstructed sform image direction:" << std::endl << reReadImageDirection << std::endl;
     return EXIT_FAILURE;
   }
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
