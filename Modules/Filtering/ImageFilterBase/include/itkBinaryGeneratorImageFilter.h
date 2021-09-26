@@ -211,9 +211,9 @@ public:
 
 
   /** ImageDimension constants */
-  itkStaticConstMacro(InputImage1Dimension, unsigned int, TInputImage1::ImageDimension);
-  itkStaticConstMacro(InputImage2Dimension, unsigned int, TInputImage2::ImageDimension);
-  itkStaticConstMacro(OutputImageDimension, unsigned int, TOutputImage::ImageDimension);
+  static constexpr unsigned int InputImage1Dimension = TInputImage1::ImageDimension;
+  static constexpr unsigned int InputImage2Dimension = TInputImage2::ImageDimension;
+  static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
