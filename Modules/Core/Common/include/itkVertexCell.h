@@ -80,6 +80,7 @@ public:
 
   void
   SetPointId(int localId, PointIdentifier) override;
+
   PointIdIterator
   PointIdsBegin() override;
 

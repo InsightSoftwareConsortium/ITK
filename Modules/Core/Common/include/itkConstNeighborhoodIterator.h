@@ -67,7 +67,7 @@ public:
   using Superclass = Neighborhood<InternalPixelType *, Self::Dimension>;
 
   /** Inherit type alias from superclass */
-  using typename Superclass::OffsetType;
+  using OffsetType = typename Superclass::OffsetType;
   using typename Superclass::RadiusType;
   using typename Superclass::SizeType;
   using typename Superclass::Iterator;
