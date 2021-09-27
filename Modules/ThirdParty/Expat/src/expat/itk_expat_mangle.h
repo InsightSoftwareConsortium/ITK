@@ -27,16 +27,20 @@ ITK.
 
 The following command was used to obtain the symbol list:
 
-nm libITKEXPAT-4.9.a | grep " [TRD] " |  awk '{ print $3 }' | sort | awk '{ print "#define "$1" itk_expat_"$1 }'
+nm libITKEXPAT-5.3.a | grep " [TRD] " |  awk '{ print $3 }' | sort -df | awk '{ print "#define "$1" itk_expat_"$1 }'
 
 */
 
-#define GetVTKEXpatXMLRole_RCSId itk_expat_GetVTKEXpatXMLRole_RCSId
+#define _INTERNAL_trim_to_complete_utf8_characters itk_expat__INTERNAL_trim_to_complete_utf8_characters
+#define testingAccountingGetCountBytesDirect itk_expat_testingAccountingGetCountBytesDirect
+#define testingAccountingGetCountBytesIndirect itk_expat_testingAccountingGetCountBytesIndirect
+#define unsignedCharToPrintable itk_expat_unsignedCharToPrintable
 #define XML_DefaultCurrent itk_expat_XML_DefaultCurrent
 #define XML_ErrorString itk_expat_XML_ErrorString
 #define XML_ExpatVersion itk_expat_XML_ExpatVersion
 #define XML_ExpatVersionInfo itk_expat_XML_ExpatVersionInfo
 #define XML_ExternalEntityParserCreate itk_expat_XML_ExternalEntityParserCreate
+#define XML_FreeContentModel itk_expat_XML_FreeContentModel
 #define XML_GetBase itk_expat_XML_GetBase
 #define XML_GetBuffer itk_expat_XML_GetBuffer
 #define XML_GetCurrentByteCount itk_expat_XML_GetCurrentByteCount
@@ -44,8 +48,10 @@ nm libITKEXPAT-4.9.a | grep " [TRD] " |  awk '{ print $3 }' | sort | awk '{ prin
 #define XML_GetCurrentColumnNumber itk_expat_XML_GetCurrentColumnNumber
 #define XML_GetCurrentLineNumber itk_expat_XML_GetCurrentLineNumber
 #define XML_GetErrorCode itk_expat_XML_GetErrorCode
+#define XML_GetFeatureList itk_expat_XML_GetFeatureList
 #define XML_GetIdAttributeIndex itk_expat_XML_GetIdAttributeIndex
 #define XML_GetInputContext itk_expat_XML_GetInputContext
+#define XML_GetParsingStatus itk_expat_XML_GetParsingStatus
 #define XML_GetSpecifiedAttributeCount itk_expat_XML_GetSpecifiedAttributeCount
 #define XmlGetUtf16InternalEncoding itk_expat_XmlGetUtf16InternalEncoding
 #define XmlGetUtf16InternalEncodingNS itk_expat_XmlGetUtf16InternalEncodingNS
@@ -55,18 +61,25 @@ nm libITKEXPAT-4.9.a | grep " [TRD] " |  awk '{ print $3 }' | sort | awk '{ prin
 #define XmlInitEncodingNS itk_expat_XmlInitEncodingNS
 #define XmlInitUnknownEncoding itk_expat_XmlInitUnknownEncoding
 #define XmlInitUnknownEncodingNS itk_expat_XmlInitUnknownEncodingNS
+#define XML_MemFree itk_expat_XML_MemFree
+#define XML_MemMalloc itk_expat_XML_MemMalloc
+#define XML_MemRealloc itk_expat_XML_MemRealloc
 #define XML_Parse itk_expat_XML_Parse
 #define XML_ParseBuffer itk_expat_XML_ParseBuffer
 #define XML_ParserCreate itk_expat_XML_ParserCreate
 #define XML_ParserCreate_MM itk_expat_XML_ParserCreate_MM
 #define XML_ParserCreateNS itk_expat_XML_ParserCreateNS
 #define XML_ParserFree itk_expat_XML_ParserFree
+#define XML_ParserReset itk_expat_XML_ParserReset
 #define XmlParseXmlDecl itk_expat_XmlParseXmlDecl
 #define XmlParseXmlDeclNS itk_expat_XmlParseXmlDeclNS
 #define XmlPrologStateInit itk_expat_XmlPrologStateInit
 #define XmlPrologStateInitExternalEntity itk_expat_XmlPrologStateInitExternalEntity
+#define XML_ResumeParser itk_expat_XML_ResumeParser
 #define XML_SetAttlistDeclHandler itk_expat_XML_SetAttlistDeclHandler
 #define XML_SetBase itk_expat_XML_SetBase
+#define XML_SetBillionLaughsAttackProtectionActivationThreshold itk_expat_XML_SetBillionLaughsAttackProtectionActivationThreshold
+#define XML_SetBillionLaughsAttackProtectionMaximumAmplification itk_expat_XML_SetBillionLaughsAttackProtectionMaximumAmplification
 #define XML_SetCdataSectionHandler itk_expat_XML_SetCdataSectionHandler
 #define XML_SetCharacterDataHandler itk_expat_XML_SetCharacterDataHandler
 #define XML_SetCommentHandler itk_expat_XML_SetCommentHandler
@@ -83,12 +96,14 @@ nm libITKEXPAT-4.9.a | grep " [TRD] " |  awk '{ print $3 }' | sort | awk '{ prin
 #define XML_SetEntityDeclHandler itk_expat_XML_SetEntityDeclHandler
 #define XML_SetExternalEntityRefHandler itk_expat_XML_SetExternalEntityRefHandler
 #define XML_SetExternalEntityRefHandlerArg itk_expat_XML_SetExternalEntityRefHandlerArg
+#define XML_SetHashSalt itk_expat_XML_SetHashSalt
 #define XML_SetNamespaceDeclHandler itk_expat_XML_SetNamespaceDeclHandler
 #define XML_SetNotationDeclHandler itk_expat_XML_SetNotationDeclHandler
 #define XML_SetNotStandaloneHandler itk_expat_XML_SetNotStandaloneHandler
 #define XML_SetParamEntityParsing itk_expat_XML_SetParamEntityParsing
 #define XML_SetProcessingInstructionHandler itk_expat_XML_SetProcessingInstructionHandler
 #define XML_SetReturnNSTriplet itk_expat_XML_SetReturnNSTriplet
+#define XML_SetSkippedEntityHandler itk_expat_XML_SetSkippedEntityHandler
 #define XML_SetStartCdataSectionHandler itk_expat_XML_SetStartCdataSectionHandler
 #define XML_SetStartDoctypeDeclHandler itk_expat_XML_SetStartDoctypeDeclHandler
 #define XML_SetStartElementHandler itk_expat_XML_SetStartElementHandler
@@ -98,6 +113,8 @@ nm libITKEXPAT-4.9.a | grep " [TRD] " |  awk '{ print $3 }' | sort | awk '{ prin
 #define XML_SetUserData itk_expat_XML_SetUserData
 #define XML_SetXmlDeclHandler itk_expat_XML_SetXmlDeclHandler
 #define XmlSizeOfUnknownEncoding itk_expat_XmlSizeOfUnknownEncoding
+#define XML_StopParser itk_expat_XML_StopParser
+#define XML_UseForeignDTD itk_expat_XML_UseForeignDTD
 #define XML_UseParserAsHandlerArg itk_expat_XML_UseParserAsHandlerArg
 #define XmlUtf16Encode itk_expat_XmlUtf16Encode
 #define XmlUtf8Encode itk_expat_XmlUtf8Encode
