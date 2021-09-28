@@ -43,6 +43,18 @@
 #include <stdlib.h>
 #include "expat_external.h"
 
+#include "expatDllConfig.h"
+
+#if defined(_WIN32) && !defined(ITK_EXPAT_STATIC)
+#  if defined(ITKEXPAT_EXPORTS)
+#    define XMLPARSEAPI(type) __declspec( dllexport ) type __cdecl
+#  else
+#    define XMLPARSEAPI(type) __declspec( dllimport ) type __cdecl
+#  endif
+#else
+#  define XMLPARSEAPI(type) type
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
