@@ -1,34 +1,25 @@
 #!/usr/bin/env bash
 
-# We can optionally pass in the desired repository and branch. For example,
-#
-# ./Modules/ThirdParty/MetaIO/UpdateFromUpstream.sh \
-#   https://github.com/Kitware/MetaIO.git \
-#   pull/30/head:large-uncompression
-
-thirdparty_module_name='MetaIO'
-
+set -e
 set -x
-if [[ $# -ge 1 ]]; then
-  upstream_git_url=$1
-else
-  upstream_git_url='https://github.com/Kitware/MetaIO.git'
-fi
-if [[ $# -ge 2 ]]; then
-  upstream_git_branch=$2
-else
-  upstream_git_branch='master'
-fi
+shopt -s dotglob
 
-snapshot_author_name='MetaIO Maintainers'
-snapshot_author_email='metaio@itk.org'
-
-snapshot_redact_cmd=''
-snapshot_relative_path='src/MetaIO'
-snapshot_paths='
+readonly name='MetaIO'
+readonly ownership='MetaIO Maintainers <metaio@itk.org>'
+readonly subtree="Modules/ThirdParty/MetaIO/src/MetaIO"
+readonly repo="https://github.com/Kitware/MetaIO.git"
+readonly tag="master"
+readonly shortlog=false
+readonly paths="
   src
   License.txt
-  '
+"
 
-source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
-update_from_upstream
+extract_source () {
+    git_archive
+    pushd "${extractdir}/${name}-reduced"
+    echo "* -whitespace" > .gitattributes
+    popd
+}
+
+. "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
