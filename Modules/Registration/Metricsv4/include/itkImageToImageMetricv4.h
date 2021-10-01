@@ -227,7 +227,7 @@ public:
   using typename Superclass::FixedTransformJacobianType;
   using typename Superclass::MovingTransformJacobianType;
 
-  using typename Superclass::ObjectType;
+  using ObjectType = typename Superclass::ObjectType;
 
   /** Image-accessor type alias */
   using FixedImageType = TFixedImage;
@@ -247,7 +247,7 @@ public:
   using MovingImageIndexType = typename MovingImageType::IndexType;
 
   /** Types for the virtual domain */
-  using typename Superclass::VirtualImageType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
   using typename Superclass::VirtualImagePointer;
   using typename Superclass::VirtualPixelType;
   using typename Superclass::VirtualRegionType;

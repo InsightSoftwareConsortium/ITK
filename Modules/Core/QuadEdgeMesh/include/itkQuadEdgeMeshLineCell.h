@@ -54,12 +54,12 @@ public:
   // itkCellInheritedTypedefs
   using Superclass = TCellInterface;
   using typename Superclass::PixelType;
-  using typename Superclass::CellType;
+  using CellType = typename Superclass::CellType;
   using typename Superclass::CellAutoPointer;
   using typename Superclass::CellConstAutoPointer;
   using typename Superclass::CellRawPointer;
   using typename Superclass::CellConstRawPointer;
-  using typename Superclass::CellTraits;
+  using CellTraits = typename Superclass::CellTraits;
   using typename Superclass::CoordRepType;
   using typename Superclass::InterpolationWeightType;
   using typename Superclass::PointIdentifier;

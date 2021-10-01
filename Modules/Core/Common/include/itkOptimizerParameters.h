@@ -41,7 +41,7 @@ public:
   using Self = OptimizerParameters;
   using Superclass = Array<TParametersValueType>;
   using ArrayType = Superclass;
-  using typename Superclass::VnlVectorType;
+  using VnlVectorType = typename Superclass::VnlVectorType;
   using typename Superclass::SizeValueType;
 
   /** Helper class for managing different types of parameter

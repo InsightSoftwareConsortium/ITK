@@ -156,7 +156,7 @@ public:
   using typename Superclass::LocalDerivativeType;
 
   /** Types for the virtual domain */
-  using typename Superclass::VirtualImageType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
   using typename Superclass::VirtualImagePointer;
   using typename Superclass::VirtualPixelType;
   using typename Superclass::VirtualRegionType;

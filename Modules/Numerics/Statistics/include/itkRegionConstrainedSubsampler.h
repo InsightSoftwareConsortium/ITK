@@ -59,7 +59,7 @@ public:
   /** Standard class type aliases */
   using Self = RegionConstrainedSubsampler<TSample, TRegion>;
   using Superclass = SubsamplerBase<TSample>;
-  using typename Superclass::Baseclass;
+  using Baseclass = typename Superclass::Baseclass;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
