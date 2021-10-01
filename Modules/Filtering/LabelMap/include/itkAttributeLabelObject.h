@@ -79,7 +79,7 @@ public:
   using Self = AttributeLabelObject;
   using Superclass = LabelObject<TLabel, VImageDimension>;
   using Pointer = SmartPointer<Self>;
-  using typename Superclass::LabelObjectType;
+  using LabelObjectType = typename Superclass::LabelObjectType;
   using ConstPointer = SmartPointer<const Self>;
   using ConstWeakPointer = WeakPointer<const Self>;
 

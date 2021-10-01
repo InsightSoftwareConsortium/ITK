@@ -54,7 +54,7 @@ public:
   /** Standard class type aliases */
   using Self = UniformRandomSpatialNeighborSubsampler<TSample, TRegion>;
   using Superclass = SpatialNeighborSubsampler<TSample, TRegion>;
-  using typename Superclass::Baseclass;
+  using Baseclass = typename Superclass::Baseclass;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

@@ -110,7 +110,7 @@ public:
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost. */
-  using typename Superclass::InverseTransformBaseType;
+  using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /** Get an inverse of this transform. */

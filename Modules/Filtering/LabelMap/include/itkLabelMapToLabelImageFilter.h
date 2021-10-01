@@ -60,7 +60,7 @@ public:
   using typename Superclass::InputImageConstPointer;
   using typename Superclass::InputImageRegionType;
   using typename Superclass::InputImagePixelType;
-  using typename Superclass::LabelObjectType;
+  using LabelObjectType = typename Superclass::LabelObjectType;
 
   using typename Superclass::OutputImageType;
   using typename Superclass::OutputImagePointer;

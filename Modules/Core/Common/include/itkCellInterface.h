@@ -55,7 +55,7 @@
 #define itkCellInheritedTypedefs(superclassArg)                                                                        \
   using Superclass = superclassArg;                                                                                    \
   using typename Superclass::PixelType;                                                                                \
-  using typename Superclass::CellType;                                                                                 \
+  using CellType = typename Superclass::CellType;                                                                      \
   using typename Superclass::CellAutoPointer;                                                                          \
   using typename Superclass::CellConstAutoPointer;                                                                     \
   using typename Superclass::CellRawPointer;                                                                           \

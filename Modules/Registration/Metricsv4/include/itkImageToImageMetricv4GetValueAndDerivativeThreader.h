@@ -76,7 +76,7 @@ public:
 
   /** Types of the target class. */
   using ImageToImageMetricv4Type = TImageToImageMetricv4;
-  using typename Superclass::VirtualImageType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
   using typename Superclass::VirtualIndexType;
   using typename Superclass::VirtualPointType;
   using typename Superclass::FixedImagePointType;
@@ -152,8 +152,8 @@ public:
   using typename Superclass::AssociateType;
 
   /** Types of the target class. */
-  using typename Superclass::ImageToImageMetricv4Type;
-  using typename Superclass::VirtualImageType;
+  using ImageToImageMetricv4Type = typename Superclass::ImageToImageMetricv4Type;
+  using VirtualImageType = typename Superclass::VirtualImageType;
   using typename Superclass::VirtualIndexType;
   using typename Superclass::VirtualPointType;
   using typename Superclass::FixedImagePointType;

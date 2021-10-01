@@ -127,7 +127,7 @@ public:
   using MeasureType = typename ImageMetricType::MeasureType;
   using MetricDerivativeType = typename ImageMetricType::DerivativeType;
 
-  using typename Superclass::VirtualImageType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
   using typename Superclass::VirtualImageBaseType;
   using typename Superclass::VirtualImageBaseConstPointer;
 

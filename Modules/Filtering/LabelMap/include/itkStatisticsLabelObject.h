@@ -46,7 +46,7 @@ public:
   /** Standard class type aliases */
   using Self = StatisticsLabelObject;
   using Superclass = ShapeLabelObject<TLabel, VImageDimension>;
-  using typename Superclass::LabelObjectType;
+  using LabelObjectType = typename Superclass::LabelObjectType;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   using ConstWeakPointer = WeakPointer<const Self>;

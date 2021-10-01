@@ -90,7 +90,7 @@ public:
 
   using typename Superclass::MovingTransformType;
   using typename Superclass::JacobianType;
-  using typename Superclass::VirtualImageType;
+  using VirtualImageType = typename Superclass::VirtualImageType;
   using typename Superclass::VirtualIndexType;
   using typename Superclass::VirtualPointType;
   using VirtualSPointSetType = typename Superclass::VirtualPointSetType;
