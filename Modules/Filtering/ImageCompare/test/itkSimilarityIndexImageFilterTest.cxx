@@ -18,6 +18,7 @@
 
 #include "itkSimilarityIndexImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkSimilarityIndexImageFilterTest(int, char *[])
@@ -90,22 +91,14 @@ itkSimilarityIndexImageFilterTest(int, char *[])
   using FilterType = itk::SimilarityIndexImageFilter<Image1Type, Image2Type>;
   FilterType::Pointer filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SimilarityIndexImageFilter, ImageToImageFilter);
+
+
   filter->SetInput1(image1);
   filter->SetInput2(image2);
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "Caught an unexpected exception" << std::endl;
-    std::cout << err;
-    std::cout << "Test failed" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  filter->Print(std::cout);
 
   // check results
   FilterType::RealType trueOverlap = 0.5 / 0.75;
