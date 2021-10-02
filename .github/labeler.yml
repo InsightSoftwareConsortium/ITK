@@ -53,6 +53,10 @@ area:Numerics:
   files:
     - "Modules/Numerics/*"
 
+area:Nonunit:
+  files:
+    - "src/Nonunit/*"
+
 area:Python wrapping:
   files:
     - "Modules/Generators/Python/*"
@@ -80,6 +84,14 @@ area:ThirdParty:
 area:Video:
   files:
     - "Modules/Video/*"
+
+type:Data:
+  files:
+    - ".*.jpeg"
+    - ".*.jpg"
+    - ".*.md5"
+    - ".*.png"
+    - ".*.sha512"
 
 type:Testing:
   files:
