@@ -102,6 +102,6 @@ type:Testing:
 
 type:Infrastructure:
   files:
-    - "CMake/*"
     - ".github/*"
+    - "CMake/*"
     - "Utilities/*"
