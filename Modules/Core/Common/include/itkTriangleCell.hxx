@@ -60,8 +60,8 @@ TriangleCell<TCellInterface>::GetNumberOfPoints() const
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::CellFeatureCount
-TriangleCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
+auto
+TriangleCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -> CellFeatureCount
 {
   switch (dimension)
   {
@@ -169,8 +169,8 @@ TriangleCell<TCellInterface>::SetPointId(int localId, PointIdentifier ptId)
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::PointIdIterator
-TriangleCell<TCellInterface>::PointIdsBegin()
+auto
+TriangleCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
 {
   return &m_PointIds[0];
 }
@@ -181,8 +181,8 @@ TriangleCell<TCellInterface>::PointIdsBegin()
  * by the cell.
  */
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::PointIdConstIterator
-TriangleCell<TCellInterface>::PointIdsBegin() const
+auto
+TriangleCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
 {
   return &m_PointIds[0];
 }
@@ -192,8 +192,8 @@ TriangleCell<TCellInterface>::PointIdsBegin() const
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::PointIdIterator
-TriangleCell<TCellInterface>::PointIdsEnd()
+auto
+TriangleCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -204,8 +204,8 @@ TriangleCell<TCellInterface>::PointIdsEnd()
  * by the cell.
  */
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::PointIdConstIterator
-TriangleCell<TCellInterface>::PointIdsEnd() const
+auto
+TriangleCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -215,8 +215,8 @@ TriangleCell<TCellInterface>::PointIdsEnd() const
  * Get the number of vertices defining the triangle.
  */
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::CellFeatureCount
-TriangleCell<TCellInterface>::GetNumberOfVertices() const
+auto
+TriangleCell<TCellInterface>::GetNumberOfVertices() const -> CellFeatureCount
 {
   return Self::NumberOfVertices;
 }
@@ -226,8 +226,8 @@ TriangleCell<TCellInterface>::GetNumberOfVertices() const
  * Get the number of edges defined for the triangle.
  */
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::CellFeatureCount
-TriangleCell<TCellInterface>::GetNumberOfEdges() const
+auto
+TriangleCell<TCellInterface>::GetNumberOfEdges() const -> CellFeatureCount
 {
   return Self::NumberOfEdges;
 }
@@ -348,8 +348,8 @@ TriangleCell<TCellInterface>::DistanceToLine(PointType   x,
 }
 
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::CoordRepType
-TriangleCell<TCellInterface>::ComputeArea(PointsContainer * iPoints)
+auto
+TriangleCell<TCellInterface>::ComputeArea(PointsContainer * iPoints) -> CoordRepType
 {
   PointType p[3];
 
@@ -367,8 +367,8 @@ TriangleCell<TCellInterface>::ComputeArea(PointsContainer * iPoints)
 }
 
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::PointType
-TriangleCell<TCellInterface>::ComputeBarycenter(CoordRepType * iWeights, PointsContainer * iPoints)
+auto
+TriangleCell<TCellInterface>::ComputeBarycenter(CoordRepType * iWeights, PointsContainer * iPoints) -> PointType
 {
   PointType    p[3];
   CoordRepType sum_weights(0.);
@@ -398,16 +398,16 @@ TriangleCell<TCellInterface>::ComputeBarycenter(CoordRepType * iWeights, PointsC
 }
 
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::PointType
-TriangleCell<TCellInterface>::ComputeCenterOfGravity(PointsContainer * iPoints)
+auto
+TriangleCell<TCellInterface>::ComputeCenterOfGravity(PointsContainer * iPoints) -> PointType
 {
   std::vector<CoordRepType> weights(3, 1. / 3.);
   return ComputeBarycenter(&weights[0], iPoints);
 }
 
 template <typename TCellInterface>
-typename TriangleCell<TCellInterface>::PointType
-TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints)
+auto
+TriangleCell<TCellInterface>::ComputeCircumCenter(PointsContainer * iPoints) -> PointType
 {
   std::vector<CoordRepType> weights(3, 0.);
 

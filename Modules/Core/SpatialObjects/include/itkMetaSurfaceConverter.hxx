@@ -23,16 +23,16 @@
 namespace itk
 {
 template <unsigned int NDimensions>
-typename MetaSurfaceConverter<NDimensions>::MetaObjectType *
-MetaSurfaceConverter<NDimensions>::CreateMetaObject()
+auto
+MetaSurfaceConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new SurfaceMetaObjectType);
 }
 
 /** Convert a metaSurface into an Surface SpatialObject */
 template <unsigned int NDimensions>
-typename MetaSurfaceConverter<NDimensions>::SpatialObjectPointer
-MetaSurfaceConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaSurfaceConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * surfaceMO = dynamic_cast<const SurfaceMetaObjectType *>(mo);
   if (surfaceMO == nullptr)
@@ -89,8 +89,8 @@ MetaSurfaceConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
 /** Convert a Surface SpatialObject into a metaSurface */
 template <unsigned int NDimensions>
-typename MetaSurfaceConverter<NDimensions>::MetaObjectType *
-MetaSurfaceConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaSurfaceConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   SurfaceSpatialObjectConstPointer surfaceSO = dynamic_cast<const SurfaceSpatialObjectType *>(so);
 

@@ -67,8 +67,8 @@ SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>::PrintSelf(std::ostream
 
 // Evaluate the signed distance
 template <typename TCoordRep, unsigned int VSpaceDimension>
-typename SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>::OutputType
-SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>::Evaluate(const PointType & point) const
+auto
+SphereSignedDistanceFunction<TCoordRep, VSpaceDimension>::Evaluate(const PointType & point) const -> OutputType
 {
   using RealType = typename NumericTraits<OutputType>::RealType;
   RealType output = 0.0;

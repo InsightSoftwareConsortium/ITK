@@ -47,8 +47,8 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::~EllipsoidInterior
 }
 
 template <unsigned int VDimension, typename TInput>
-typename EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
-EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
+auto
+EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {
   double distanceSquared = 0;
 

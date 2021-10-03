@@ -52,8 +52,8 @@ typename MeshSource<TOutputMesh>::DataObjectPointer MeshSource<TOutputMesh>::Mak
  *
  */
 template <typename TOutputMesh>
-typename MeshSource<TOutputMesh>::OutputMeshType *
-MeshSource<TOutputMesh>::GetOutput()
+auto
+MeshSource<TOutputMesh>::GetOutput() -> OutputMeshType *
 {
   return itkDynamicCastInDebugMode<TOutputMesh *>(this->GetPrimaryOutput());
 }
@@ -62,8 +62,8 @@ MeshSource<TOutputMesh>::GetOutput()
  *
  */
 template <typename TOutputMesh>
-typename MeshSource<TOutputMesh>::OutputMeshType *
-MeshSource<TOutputMesh>::GetOutput(unsigned int idx)
+auto
+MeshSource<TOutputMesh>::GetOutput(unsigned int idx) -> OutputMeshType *
 {
   return itkDynamicCastInDebugMode<TOutputMesh *>(this->ProcessObject::GetOutput(idx));
 }

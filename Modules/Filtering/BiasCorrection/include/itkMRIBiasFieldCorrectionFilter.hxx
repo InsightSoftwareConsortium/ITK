@@ -62,8 +62,8 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetNumberOfParameters() c
 }
 
 template <typename TImage, typename TImageMask, typename TBiasField>
-typename MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::MeasureType
-MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const ParametersType & parameters) const
+auto
+MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const ParametersType & parameters) const -> MeasureType
 {
   if (m_Image.IsNull())
   {

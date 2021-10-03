@@ -57,8 +57,8 @@ PathToPathFilter<TInputPath, TOutputPath>::SetInput(unsigned int index, const TI
  *
  */
 template <typename TInputPath, typename TOutputPath>
-const typename PathToPathFilter<TInputPath, TOutputPath>::InputPathType *
-PathToPathFilter<TInputPath, TOutputPath>::GetInput()
+auto
+PathToPathFilter<TInputPath, TOutputPath>::GetInput() -> const InputPathType *
 {
   return itkDynamicCastInDebugMode<const TInputPath *>(this->GetPrimaryInput());
 }
@@ -67,8 +67,8 @@ PathToPathFilter<TInputPath, TOutputPath>::GetInput()
  *
  */
 template <typename TInputPath, typename TOutputPath>
-const typename PathToPathFilter<TInputPath, TOutputPath>::InputPathType *
-PathToPathFilter<TInputPath, TOutputPath>::GetInput(unsigned int idx)
+auto
+PathToPathFilter<TInputPath, TOutputPath>::GetInput(unsigned int idx) -> const InputPathType *
 {
   return itkDynamicCastInDebugMode<const TInputPath *>(this->ProcessObject::GetInput(idx));
 }

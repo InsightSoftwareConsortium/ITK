@@ -29,16 +29,17 @@ namespace itk
 {
 
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-typename MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectType *
-MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaObject()
+auto
+MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new MeshMetaObjectType);
 }
 
 /** Convert a metaMesh into an Mesh SpatialObject  */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-typename MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectPointer
+auto
 MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+  -> SpatialObjectPointer
 {
   const auto * _mesh = dynamic_cast<const MeshMetaObjectType *>(mo);
   if (_mesh == nullptr)
@@ -202,8 +203,9 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
 
 /** Convert a Mesh SpatialObject into a metaMesh */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-typename MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectType *
+auto
 MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+  -> MetaObjectType *
 {
   const MeshSpatialObjectConstPointer meshSO = dynamic_cast<const MeshSpatialObjectType *>(so);
 

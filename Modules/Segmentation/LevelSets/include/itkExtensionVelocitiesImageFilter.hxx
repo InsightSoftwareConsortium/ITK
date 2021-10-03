@@ -64,8 +64,9 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::SetInputVel
  *
  */
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
-const typename ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::AuxImageType *
+auto
 ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GetInputVelocityImage(unsigned int idx)
+  -> const AuxImageType *
 {
   if (idx >= VAuxDimension || this->GetNumberOfIndexedInputs() < idx + 2)
   {
@@ -79,8 +80,9 @@ ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GetInputVel
  *
  */
 template <typename TLevelSet, typename TAuxValue, unsigned int VAuxDimension>
-typename ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::AuxImageType *
+auto
 ExtensionVelocitiesImageFilter<TLevelSet, TAuxValue, VAuxDimension>::GetOutputVelocityImage(unsigned int idx)
+  -> AuxImageType *
 {
   if (idx >= VAuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2)
   {

@@ -152,8 +152,8 @@ GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilte
 }
 
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
-typename GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::TimeStepType
-GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUCalculateChange()
+auto
+GPUDenseFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::GPUCalculateChange() -> TimeStepType
 {
   typename OutputImageType::Pointer output = this->GetOutput();
 

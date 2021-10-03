@@ -34,8 +34,8 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::MultiTransfor
 }
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::TransformCategoryEnum
-MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetTransformCategory() const
+auto
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetTransformCategory() const -> TransformCategoryEnum
 {
   // If all sub-transforms are the same, return that type. Otherwise
   // return Unknown.
@@ -79,8 +79,8 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::IsLinear() co
 
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-const typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::ParametersType &
-MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetParameters() const
+auto
+MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetParameters() const -> const ParametersType &
 {
   /* Resize destructively. But if it's already this size, nothing is done so
    * it's efficient. */
@@ -148,8 +148,9 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::SetParameters
 
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-const typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::FixedParametersType &
+auto
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetFixedParameters() const
+  -> const FixedParametersType &
 {
   /* Resize destructively. But if it's already this size, nothing is done so
    * it's efficient. */
@@ -207,8 +208,9 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::SetFixedParam
 
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::NumberOfParametersType
+auto
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfParameters() const
+  -> NumberOfParametersType
 {
   /* Returns to total number of params in all transforms currently
    * set to be used for optimized.
@@ -231,8 +233,9 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfPa
 
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::NumberOfParametersType
+auto
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfLocalParameters() const
+  -> NumberOfParametersType
 {
   if (this->GetMTime() == this->m_LocalParametersUpdateTime)
   {
@@ -257,8 +260,9 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfLo
 
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int NSubDimensions>
-typename MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::NumberOfParametersType
+auto
 MultiTransform<TParametersValueType, NDimensions, NSubDimensions>::GetNumberOfFixedParameters() const
+  -> NumberOfParametersType
 {
   NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
 

@@ -64,8 +64,8 @@ SpatialObjectPoint<TPointDimension>::SetPositionInWorldSpace(const PointType & p
 }
 
 template <unsigned int TPointDimension>
-typename SpatialObjectPoint<TPointDimension>::PointType
-SpatialObjectPoint<TPointDimension>::GetPositionInWorldSpace() const
+auto
+SpatialObjectPoint<TPointDimension>::GetPositionInWorldSpace() const -> PointType
 {
   if (m_SpatialObject == nullptr)
   {
@@ -87,8 +87,8 @@ SpatialObjectPoint<TPointDimension>::SetColor(double r, double g, double b, doub
 }
 
 template <unsigned int TPointDimension>
-typename SpatialObjectPoint<TPointDimension>::Self &
-SpatialObjectPoint<TPointDimension>::operator=(const SpatialObjectPoint & rhs)
+auto
+SpatialObjectPoint<TPointDimension>::operator=(const SpatialObjectPoint & rhs) -> Self &
 {
   if (this != &rhs)
   {

@@ -37,8 +37,8 @@ FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::FastMarchingUpwindGr
 }
 
 template <typename TInput, typename TOutput>
-typename FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::GradientImageType *
-FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::GetGradientImage()
+auto
+FastMarchingUpwindGradientImageFilterBase<TInput, TOutput>::GetGradientImage() -> GradientImageType *
 {
   return dynamic_cast<GradientImageType *>(this->ProcessObject::GetOutput(1));
 }

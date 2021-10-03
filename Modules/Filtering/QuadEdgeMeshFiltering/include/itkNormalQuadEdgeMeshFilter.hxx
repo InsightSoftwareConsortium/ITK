@@ -30,8 +30,8 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::NormalQuadEdgeMeshFilter()
 }
 
 template <typename TInputMesh, typename TOutputMesh>
-typename NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::OutputFaceNormalType
-NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeFaceNormal(OutputPolygonType * iPoly)
+auto
+NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeFaceNormal(OutputPolygonType * iPoly) -> OutputFaceNormalType
 {
   OutputMeshPointer output = this->GetOutput();
 

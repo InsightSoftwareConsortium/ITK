@@ -34,32 +34,32 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::LevelSetEquation
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Iterator
-LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Begin()
+auto
+LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Begin() -> Iterator
 {
   return Iterator(this->m_Container.begin());
 }
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Iterator
-LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::End()
+auto
+LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::End() -> Iterator
 {
   return Iterator(this->m_Container.end());
 }
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::ConstIterator
-LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Begin() const
+auto
+LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Begin() const -> ConstIterator
 {
   return ConstIterator(this->m_Container.begin());
 }
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::ConstIterator
-LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::End() const
+auto
+LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::End() const -> ConstIterator
 {
   return ConstIterator(this->m_Container.end());
 }
@@ -180,8 +180,8 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::PushTerm(TermTyp
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::TermType *
-LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::GetTerm(const std::string & iName)
+auto
+LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::GetTerm(const std::string & iName) -> TermType *
 {
   MapTermContainerIteratorType it = m_Container.find(iName);
 
@@ -195,8 +195,8 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::GetTerm(const st
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::TermType *
-LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::GetTerm(const TermIdType & iId)
+auto
+LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::GetTerm(const TermIdType & iId) -> TermType *
 {
   auto it = m_Container.find(iId);
 
@@ -257,8 +257,9 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::InitializeParame
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const LevelSetInputIndexType & iP)
+  -> LevelSetOutputRealType
 {
   auto term_it = m_Container.begin();
   auto term_end = m_Container.end();
@@ -329,8 +330,8 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Update()
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::LevelSetOutputRealType
-LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::ComputeCFLContribution() const
+auto
+LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::ComputeCFLContribution() const -> LevelSetOutputRealType
 {
   auto term_it = m_Container.begin();
   auto term_end = m_Container.end();

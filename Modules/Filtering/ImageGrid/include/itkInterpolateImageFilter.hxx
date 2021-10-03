@@ -56,8 +56,8 @@ InterpolateImageFilter<TInputImage, TOutputImage>::SetInput2(const InputImageTyp
 
 
 template <typename TInputImage, typename TOutputImage>
-const typename InterpolateImageFilter<TInputImage, TOutputImage>::InputImageType *
-InterpolateImageFilter<TInputImage, TOutputImage>::GetInput2()
+auto
+InterpolateImageFilter<TInputImage, TOutputImage>::GetInput2() -> const InputImageType *
 {
   return static_cast<const TInputImage *>(this->ProcessObject::GetInput(1));
 }

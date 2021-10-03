@@ -284,8 +284,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::ThreadedStreamedGenerateDa
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMinimum(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMinimum(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -302,8 +302,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMinimum(LabelPixelType 
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMaximum(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMaximum(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -320,8 +320,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMaximum(LabelPixelType 
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMean(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMean(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -338,8 +338,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMean(LabelPixelType lab
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSum(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSum(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -356,8 +356,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSum(LabelPixelType labe
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSigma(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSigma(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -374,8 +374,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSigma(LabelPixelType la
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetVariance(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetVariance(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -392,8 +392,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetVariance(LabelPixelType
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::BoundingBoxType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetBoundingBox(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetBoundingBox(LabelPixelType label) const -> BoundingBoxType
 {
   MapConstIterator mapIt;
 
@@ -411,8 +411,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetBoundingBox(LabelPixelT
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RegionType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetRegion(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetRegion(LabelPixelType label) const -> RegionType
 {
   MapConstIterator mapIt;
 
@@ -444,8 +444,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetRegion(LabelPixelType l
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::MapSizeType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetCount(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetCount(LabelPixelType label) const -> MapSizeType
 {
   MapConstIterator mapIt;
 
@@ -462,8 +462,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetCount(LabelPixelType la
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::RealType
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMedian(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMedian(LabelPixelType label) const -> RealType
 {
   RealType         median = 0.0;
   MapConstIterator mapIt;
@@ -501,8 +501,8 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMedian(LabelPixelType l
 }
 
 template <typename TInputImage, typename TLabelImage>
-typename LabelStatisticsImageFilter<TInputImage, TLabelImage>::HistogramPointer
-LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetHistogram(LabelPixelType label) const
+auto
+LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetHistogram(LabelPixelType label) const -> HistogramPointer
 {
   MapConstIterator mapIt;
 

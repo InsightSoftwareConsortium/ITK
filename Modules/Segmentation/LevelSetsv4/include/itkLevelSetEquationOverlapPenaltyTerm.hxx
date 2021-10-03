@@ -61,8 +61,9 @@ LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Initialize(
 {}
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationOverlapPenaltyTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & index)
+  -> LevelSetOutputRealType
 {
   LevelSetOutputRealType value = NumericTraits<LevelSetOutputRealType>::ZeroValue();
   this->ComputeSumTerm(index, value);

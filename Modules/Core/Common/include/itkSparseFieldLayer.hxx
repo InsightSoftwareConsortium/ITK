@@ -55,8 +55,8 @@ SparseFieldLayer<TNodeType>::Size() const
 }
 
 template <typename TNodeType>
-typename SparseFieldLayer<TNodeType>::RegionListType
-SparseFieldLayer<TNodeType>::SplitRegions(int num) const
+auto
+SparseFieldLayer<TNodeType>::SplitRegions(int num) const -> RegionListType
 {
   std::vector<RegionType> regionlist;
   unsigned int            size, regionsize;

@@ -24,8 +24,8 @@
 namespace itk
 {
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename DerivativeOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
+auto
+DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   unsigned int       i;
   unsigned int       j;

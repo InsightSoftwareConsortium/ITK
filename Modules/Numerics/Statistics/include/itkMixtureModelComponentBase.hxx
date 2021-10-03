@@ -113,8 +113,8 @@ MixtureModelComponentBase<TSample>::SetMembershipFunction(MembershipFunctionType
 }
 
 template <typename TSample>
-typename MixtureModelComponentBase<TSample>::MembershipFunctionType *
-MixtureModelComponentBase<TSample>::GetMembershipFunction()
+auto
+MixtureModelComponentBase<TSample>::GetMembershipFunction() -> MembershipFunctionType *
 {
   return m_MembershipFunction;
 }

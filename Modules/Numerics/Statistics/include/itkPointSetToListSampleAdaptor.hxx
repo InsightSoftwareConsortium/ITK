@@ -72,8 +72,8 @@ PointSetToListSampleAdaptor<TPointSet>::GetPointSet()
 
 /** returns the number of measurement vectors in this container*/
 template <typename TPointSet>
-typename PointSetToListSampleAdaptor<TPointSet>::InstanceIdentifier
-PointSetToListSampleAdaptor<TPointSet>::Size() const
+auto
+PointSetToListSampleAdaptor<TPointSet>::Size() const -> InstanceIdentifier
 {
   if (m_PointSet.IsNull())
   {
@@ -109,8 +109,8 @@ inline typename PointSetToListSampleAdaptor<TPointSet>::AbsoluteFrequencyType
 }
 
 template <typename TPointSet>
-typename PointSetToListSampleAdaptor<TPointSet>::TotalAbsoluteFrequencyType
-PointSetToListSampleAdaptor<TPointSet>::GetTotalFrequency() const
+auto
+PointSetToListSampleAdaptor<TPointSet>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   if (m_PointSet.IsNull())
   {

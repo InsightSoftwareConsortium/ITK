@@ -110,8 +110,8 @@ TubeSpatialObjectPoint<TPointDimension>::SetRadiusInWorldSpace(double newR)
 }
 
 template <unsigned int TPointDimension>
-const typename TubeSpatialObjectPoint<TPointDimension>::VectorType
-TubeSpatialObjectPoint<TPointDimension>::GetTangentInWorldSpace() const
+auto
+TubeSpatialObjectPoint<TPointDimension>::GetTangentInWorldSpace() const -> const VectorType
 {
   if (this->m_SpatialObject == nullptr)
   {
@@ -135,8 +135,8 @@ TubeSpatialObjectPoint<TPointDimension>::SetTangentInWorldSpace(const VectorType
 }
 
 template <unsigned int TPointDimension>
-const typename TubeSpatialObjectPoint<TPointDimension>::CovariantVectorType
-TubeSpatialObjectPoint<TPointDimension>::GetNormal1InWorldSpace() const
+auto
+TubeSpatialObjectPoint<TPointDimension>::GetNormal1InWorldSpace() const -> const CovariantVectorType
 {
   if (this->m_SpatialObject == nullptr)
   {
@@ -160,8 +160,8 @@ TubeSpatialObjectPoint<TPointDimension>::SetNormal1InWorldSpace(const CovariantV
 }
 
 template <unsigned int TPointDimension>
-const typename TubeSpatialObjectPoint<TPointDimension>::CovariantVectorType
-TubeSpatialObjectPoint<TPointDimension>::GetNormal2InWorldSpace() const
+auto
+TubeSpatialObjectPoint<TPointDimension>::GetNormal2InWorldSpace() const -> const CovariantVectorType
 {
   if (this->m_SpatialObject == nullptr)
   {
@@ -206,8 +206,8 @@ TubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent ind
 }
 
 template <unsigned int TPointDimension>
-typename TubeSpatialObjectPoint<TPointDimension>::Self &
-TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint & rhs)
+auto
+TubeSpatialObjectPoint<TPointDimension>::operator=(const TubeSpatialObjectPoint & rhs) -> Self &
 {
   if (this != &rhs)
   {

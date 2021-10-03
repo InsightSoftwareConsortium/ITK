@@ -32,8 +32,8 @@ WhitakerSparseLevelSetImage<TOutput, VDimension>::WhitakerSparseLevelSetImage()
 }
 
 template <typename TOutput, unsigned int VDimension>
-typename WhitakerSparseLevelSetImage<TOutput, VDimension>::OutputType
-WhitakerSparseLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inputIndex) const
+auto
+WhitakerSparseLevelSetImage<TOutput, VDimension>::Evaluate(const InputType & inputIndex) const -> OutputType
 {
   InputType mapIndex = inputIndex - this->m_DomainOffset;
   auto      layerIt = this->m_Layers.begin();

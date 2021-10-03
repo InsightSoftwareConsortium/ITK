@@ -55,8 +55,8 @@ ScaleTransform<TParametersValueType, NDimensions>::SetParameters(const Parameter
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-const typename ScaleTransform<TParametersValueType, NDimensions>::ParametersType &
-ScaleTransform<TParametersValueType, NDimensions>::GetParameters() const
+auto
+ScaleTransform<TParametersValueType, NDimensions>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
   // Transfer the translation part
@@ -104,8 +104,8 @@ ScaleTransform<TParametersValueType, NDimensions>::Scale(const ScaleType & scale
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename ScaleTransform<TParametersValueType, NDimensions>::OutputPointType
-ScaleTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & point) const
+auto
+ScaleTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & point) const -> OutputPointType
 {
   OutputPointType        result;
   const InputPointType & center = this->GetCenter();
@@ -119,8 +119,9 @@ ScaleTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPoi
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename ScaleTransform<TParametersValueType, NDimensions>::OutputVectorType
+auto
 ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVectorType & vect) const
+  -> OutputVectorType
 {
   OutputVectorType result;
 
@@ -133,8 +134,9 @@ ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVe
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename ScaleTransform<TParametersValueType, NDimensions>::OutputVnlVectorType
+auto
 ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVnlVectorType & vect) const
+  -> OutputVnlVectorType
 {
   OutputVnlVectorType result;
 
@@ -147,8 +149,9 @@ ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVn
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename ScaleTransform<TParametersValueType, NDimensions>::OutputCovariantVectorType
+auto
 ScaleTransform<TParametersValueType, NDimensions>::TransformCovariantVector(const InputCovariantVectorType & vect) const
+  -> OutputCovariantVectorType
 {
   // Covariant Vectors are scaled by the inverse
   OutputCovariantVectorType result;
@@ -180,8 +183,8 @@ ScaleTransform<TParametersValueType, NDimensions>::GetInverse(Self * inverse) co
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename ScaleTransform<TParametersValueType, NDimensions>::InverseTransformBasePointer
-ScaleTransform<TParametersValueType, NDimensions>::GetInverseTransform() const
+auto
+ScaleTransform<TParametersValueType, NDimensions>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

@@ -103,8 +103,8 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealTyp
  * Get value of Sigma
  */
 template <typename TInputImage, typename TOutputImage>
-typename HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::RealType
-HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
+auto
+HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const -> RealType
 {
   return m_DerivativeFilterA->GetSigma();
 }

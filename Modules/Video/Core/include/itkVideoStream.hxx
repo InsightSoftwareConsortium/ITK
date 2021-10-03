@@ -219,8 +219,9 @@ VideoStream<TFrameType>::SetFrameNumberOfComponentsPerPixel(SizeValueType frameN
 }
 
 template <typename TFrameType>
-const typename VideoStream<TFrameType>::NumberOfComponentsPerPixelType &
+auto
 VideoStream<TFrameType>::GetFrameNumberOfComponentsPerPixel(SizeValueType frameNumber) const
+  -> const NumberOfComponentsPerPixelType &
 {
   return const_cast<Self *>(this)->m_NumberOfComponentsPerPixelCache[frameNumber];
 }
@@ -358,8 +359,8 @@ VideoStream<TFrameType>::SetFrame(SizeValueType frameNumber, FramePointer frame)
 
 
 template <typename TFrameType>
-typename VideoStream<TFrameType>::FrameType *
-VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
+auto
+VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) -> FrameType *
 {
 
   // Fetch the frame
@@ -370,8 +371,8 @@ VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber)
 
 
 template <typename TFrameType>
-const typename VideoStream<TFrameType>::FrameType *
-VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const
+auto
+VideoStream<TFrameType>::GetFrame(SizeValueType frameNumber) const -> const FrameType *
 {
   typename BufferType::ElementPointer element = m_DataObjectBuffer->GetBufferContents(frameNumber);
   FrameConstPointer                   frame = dynamic_cast<FrameType *>(element.GetPointer());

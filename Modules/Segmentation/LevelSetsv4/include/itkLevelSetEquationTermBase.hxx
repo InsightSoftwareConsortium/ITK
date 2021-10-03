@@ -38,8 +38,8 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::LevelSetEquationTermB
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-const typename LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::RequiredDataType &
-LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::GetRequiredData() const
+auto
+LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::GetRequiredData() const -> const RequiredDataType &
 {
   return this->m_RequiredData;
 }
@@ -63,8 +63,9 @@ LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::SetLevelSetContainer(
 
 // ----------------------------------------------------------------------------
 template <typename TInputImage, typename TLevelSetContainer>
-typename LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationTermBase<TInputImage, TLevelSetContainer>::Evaluate(const LevelSetInputIndexType & iP)
+  -> LevelSetOutputRealType
 {
   if (itk::Math::abs(this->m_Coefficient) > NumericTraits<LevelSetOutputRealType>::epsilon())
   {

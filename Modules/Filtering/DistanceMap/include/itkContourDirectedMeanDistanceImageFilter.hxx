@@ -61,15 +61,15 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::SetInput2(co
 }
 
 template <typename TInputImage1, typename TInputImage2>
-const typename ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::InputImage1Type *
-ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::GetInput1()
+auto
+ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::GetInput1() -> const InputImage1Type *
 {
   return this->GetInput();
 }
 
 template <typename TInputImage1, typename TInputImage2>
-const typename ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::InputImage2Type *
-ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::GetInput2()
+auto
+ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::GetInput2() -> const InputImage2Type *
 {
   return itkDynamicCastInDebugMode<const TInputImage2 *>(this->ProcessObject::GetInput(1));
 }

@@ -47,16 +47,16 @@ ImageFileWriter<TInputImage>::SetInput(const InputImageType * input)
 
 //---------------------------------------------------------
 template <typename TInputImage>
-const typename ImageFileWriter<TInputImage>::InputImageType *
-ImageFileWriter<TInputImage>::GetInput()
+auto
+ImageFileWriter<TInputImage>::GetInput() -> const InputImageType *
 {
   return itkDynamicCastInDebugMode<TInputImage *>(this->GetPrimaryInput());
 }
 
 //---------------------------------------------------------
 template <typename TInputImage>
-const typename ImageFileWriter<TInputImage>::InputImageType *
-ImageFileWriter<TInputImage>::GetInput(unsigned int idx)
+auto
+ImageFileWriter<TInputImage>::GetInput(unsigned int idx) -> const InputImageType *
 {
   return itkDynamicCastInDebugMode<TInputImage *>(this->ProcessObject::GetInput(idx));
 }

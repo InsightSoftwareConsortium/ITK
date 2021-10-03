@@ -282,8 +282,8 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::GenerateData()
  *  Get Output
  */
 template <typename TFixedImage, typename TMovingImage>
-const typename ImageRegistrationMethod<TFixedImage, TMovingImage>::TransformOutputType *
-ImageRegistrationMethod<TFixedImage, TMovingImage>::GetOutput() const
+auto
+ImageRegistrationMethod<TFixedImage, TMovingImage>::GetOutput() const -> const TransformOutputType *
 {
   return static_cast<const TransformOutputType *>(this->ProcessObject::GetOutput(0));
 }

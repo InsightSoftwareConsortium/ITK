@@ -137,8 +137,8 @@ Neighborhood<TPixel, VDimension, TContainer>::GetSlice(unsigned int d) const
 }
 
 template <typename TPixel, unsigned int VDimension, typename TContainer>
-typename Neighborhood<TPixel, VDimension, TContainer>::NeighborIndexType
-Neighborhood<TPixel, VDimension, TContainer>::GetNeighborhoodIndex(const OffsetType & o) const
+auto
+Neighborhood<TPixel, VDimension, TContainer>::GetNeighborhoodIndex(const OffsetType & o) const -> NeighborIndexType
 {
   unsigned int idx = (this->Size() / 2);
 

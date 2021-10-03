@@ -157,16 +157,16 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::ClearSeeds2()
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename IsolatedConnectedImageFilter<TInputImage, TOutputImage>::SeedsContainerType &
-IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds1() const
+auto
+IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds1() const -> const SeedsContainerType &
 {
   itkDebugMacro("returning Seeds1");
   return this->m_Seeds1;
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename IsolatedConnectedImageFilter<TInputImage, TOutputImage>::SeedsContainerType &
-IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds2() const
+auto
+IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds2() const -> const SeedsContainerType &
 {
   itkDebugMacro("returning Seeds2");
   return this->m_Seeds2;

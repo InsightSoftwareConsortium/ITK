@@ -32,8 +32,8 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::OtsuMultipleThresholdsCalcula
 }
 
 template <typename TInputHistogram>
-const typename OtsuMultipleThresholdsCalculator<TInputHistogram>::OutputType &
-OtsuMultipleThresholdsCalculator<TInputHistogram>::GetOutput()
+auto
+OtsuMultipleThresholdsCalculator<TInputHistogram>::GetOutput() -> const OutputType &
 {
   return m_Output;
 }

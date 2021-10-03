@@ -194,8 +194,8 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
 }
 
 template <typename TInputImage, typename TOutput>
-typename GaussianDerivativeImageFunction<TInputImage, TOutput>::OutputType
-GaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
+auto
+GaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const -> OutputType
 {
   OutputType gradient;
 
@@ -227,8 +227,8 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const Ind
 }
 
 template <typename TInputImage, typename TOutput>
-typename GaussianDerivativeImageFunction<TInputImage, TOutput>::OutputType
-GaussianDerivativeImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const
+auto
+GaussianDerivativeImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const -> OutputType
 {
   IndexType index;
 

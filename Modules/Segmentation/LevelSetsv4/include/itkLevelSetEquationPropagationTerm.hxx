@@ -77,8 +77,9 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
 }
 
 template <typename TInput, typename TLevelSetContainer, typename TPropagationImage>
-typename LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::LevelSetOutputRealType
+auto
 LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::Value(const LevelSetInputIndexType & iP)
+  -> LevelSetOutputRealType
 {
   LevelSetGradientType backwardGradient = this->m_CurrentLevelSetPointer->EvaluateBackwardGradient(iP);
   LevelSetGradientType forwardGradient = this->m_CurrentLevelSetPointer->EvaluateForwardGradient(iP);

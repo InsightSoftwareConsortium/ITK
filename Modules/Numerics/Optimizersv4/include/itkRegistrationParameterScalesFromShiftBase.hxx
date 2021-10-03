@@ -123,8 +123,8 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateScales(ScalesType & p
  * w.r.t. the step is the shift produced by step.
  */
 template <typename TMetric>
-typename RegistrationParameterScalesFromShiftBase<TMetric>::FloatType
-RegistrationParameterScalesFromShiftBase<TMetric>::EstimateStepScale(const ParametersType & step)
+auto
+RegistrationParameterScalesFromShiftBase<TMetric>::EstimateStepScale(const ParametersType & step) -> FloatType
 {
   this->CheckAndSetInputs();
   this->SetStepScaleSamplingStrategy();
@@ -201,8 +201,9 @@ RegistrationParameterScalesFromShiftBase<TMetric>::EstimateLocalStepScales(const
  * Compute the maximum shift when a transform is changed with deltaParameters
  */
 template <typename TMetric>
-typename RegistrationParameterScalesFromShiftBase<TMetric>::FloatType
+auto
 RegistrationParameterScalesFromShiftBase<TMetric>::ComputeMaximumVoxelShift(const ParametersType & deltaParameters)
+  -> FloatType
 {
   ScalesType sampleShifts;
 

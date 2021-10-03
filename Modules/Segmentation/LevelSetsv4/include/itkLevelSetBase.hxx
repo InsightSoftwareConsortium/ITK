@@ -68,8 +68,8 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const I
 
 // ----------------------------------------------------------------------------
 template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
-typename LevelSetBase<TInput, VDimension, TOutput, TDomain>::OutputRealType
-LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const InputType & iP) const
+auto
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const InputType & iP) const -> OutputRealType
 {
   GradientType grad = this->EvaluateGradient(iP);
   return grad.GetNorm();
@@ -77,8 +77,8 @@ LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateGradientNorm(const I
 
 // ----------------------------------------------------------------------------
 template <typename TInput, unsigned int VDimension, typename TOutput, typename TDomain>
-typename LevelSetBase<TInput, VDimension, TOutput, TDomain>::OutputRealType
-LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const InputType & iP) const
+auto
+LevelSetBase<TInput, VDimension, TOutput, TDomain>::EvaluateMeanCurvature(const InputType & iP) const -> OutputRealType
 {
   OutputRealType oValue = NumericTraits<OutputRealType>::ZeroValue();
 

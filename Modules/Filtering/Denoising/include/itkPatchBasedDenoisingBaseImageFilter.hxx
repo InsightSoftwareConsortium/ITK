@@ -163,15 +163,16 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::SetPatchWeights(c
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchWeightsType
-PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchWeights() const
+auto
+PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchWeights() const -> PatchWeightsType
 {
   return m_PatchWeights;
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchRadiusType::SizeValueType
-PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchLengthInVoxels() const
+auto
+PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchLengthInVoxels() const ->
+  typename PatchRadiusType::SizeValueType
 {
   const PatchRadiusType diameter = this->GetPatchDiameterInVoxels();
 
@@ -184,8 +185,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchLengthInV
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchRadiusType
-PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchDiameterInVoxels() const
+auto
+PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchDiameterInVoxels() const -> PatchRadiusType
 {
   PatchRadiusType one;
   PatchRadiusType two;
@@ -198,8 +199,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchDiameterI
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::PatchRadiusType
-PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchRadiusInVoxels() const
+auto
+PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>::GetPatchRadiusInVoxels() const -> PatchRadiusType
 {
   const typename Self::Pointer thisPtr = const_cast<Self *>(this);
 

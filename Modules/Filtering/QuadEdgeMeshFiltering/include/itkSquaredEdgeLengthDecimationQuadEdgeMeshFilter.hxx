@@ -29,8 +29,9 @@ SquaredEdgeLengthDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::
 {}
 
 template <typename TInput, typename TOutput, typename TCriterion>
-typename SquaredEdgeLengthDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::OutputPointType
+auto
 SquaredEdgeLengthDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Relocate(OutputQEType * iEdge)
+  -> OutputPointType
 {
   OutputMeshPointer     output = this->GetOutput();
   OutputPointIdentifier id_org = iEdge->GetOrigin();

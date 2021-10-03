@@ -26,8 +26,8 @@ namespace itk
 
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
-typename DiscreteLevelSetImage<TOutput, VDimension>::GradientType
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateGradient(const InputType & inputIndex) const
+auto
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateGradient(const InputType & inputIndex) const -> GradientType
 {
   InputType inputIndexA = inputIndex;
   InputType inputIndexB = inputIndex;
@@ -65,8 +65,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateGradient(const InputType & i
 
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
-typename DiscreteLevelSetImage<TOutput, VDimension>::GradientType
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputType & inputIndex) const
+auto
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputType & inputIndex) const -> GradientType
 {
   const auto centerValue = static_cast<OutputRealType>(this->Evaluate(inputIndex));
 
@@ -96,8 +96,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateForwardGradient(const InputT
 
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
-typename DiscreteLevelSetImage<TOutput, VDimension>::GradientType
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateBackwardGradient(const InputType & inputIndex) const
+auto
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateBackwardGradient(const InputType & inputIndex) const -> GradientType
 {
   const auto centerValue = static_cast<OutputRealType>(this->Evaluate(inputIndex));
 
@@ -126,8 +126,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateBackwardGradient(const Input
 
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
-typename DiscreteLevelSetImage<TOutput, VDimension>::HessianType
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateHessian(const InputType & inputIndex) const
+auto
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateHessian(const InputType & inputIndex) const -> HessianType
 {
   HessianType oHessian;
 
@@ -219,8 +219,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateHessian(const InputType & in
 
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
-typename DiscreteLevelSetImage<TOutput, VDimension>::OutputRealType
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateLaplacian(const InputType & inputIndex) const
+auto
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateLaplacian(const InputType & inputIndex) const -> OutputRealType
 {
   OutputRealType oLaplacian = NumericTraits<OutputRealType>::ZeroValue();
 
@@ -438,8 +438,8 @@ DiscreteLevelSetImage<TOutput, VDimension>::EvaluateHessian(const InputType & in
 
 // ----------------------------------------------------------------------------
 template <typename TOutput, unsigned int VDimension>
-typename DiscreteLevelSetImage<TOutput, VDimension>::OutputRealType
-DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputType & inputIndex) const
+auto
+DiscreteLevelSetImage<TOutput, VDimension>::EvaluateMeanCurvature(const InputType & inputIndex) const -> OutputRealType
 {
   OutputRealType oValue = NumericTraits<OutputRealType>::ZeroValue();
 

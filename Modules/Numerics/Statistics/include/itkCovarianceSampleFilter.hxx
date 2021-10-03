@@ -57,8 +57,8 @@ CovarianceSampleFilter<TSample>::GetInput() const
 }
 
 template <typename TSample>
-typename CovarianceSampleFilter<TSample>::DataObjectPointer
-CovarianceSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType index)
+auto
+CovarianceSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType index) -> DataObjectPointer
 {
   MeasurementVectorSizeType measurementVectorSize = this->GetMeasurementVectorSize();
 
@@ -85,8 +85,8 @@ CovarianceSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType index
 }
 
 template <typename TSample>
-typename CovarianceSampleFilter<TSample>::MeasurementVectorSizeType
-CovarianceSampleFilter<TSample>::GetMeasurementVectorSize() const
+auto
+CovarianceSampleFilter<TSample>::GetMeasurementVectorSize() const -> MeasurementVectorSizeType
 {
   const SampleType * input = this->GetInput();
 
@@ -198,29 +198,29 @@ CovarianceSampleFilter<TSample>::GenerateData()
 }
 
 template <typename TSample>
-const typename CovarianceSampleFilter<TSample>::MatrixDecoratedType *
-CovarianceSampleFilter<TSample>::GetCovarianceMatrixOutput() const
+auto
+CovarianceSampleFilter<TSample>::GetCovarianceMatrixOutput() const -> const MatrixDecoratedType *
 {
   return static_cast<const MatrixDecoratedType *>(this->ProcessObject::GetOutput(0));
 }
 
 template <typename TSample>
-const typename CovarianceSampleFilter<TSample>::MatrixType
-CovarianceSampleFilter<TSample>::GetCovarianceMatrix() const
+auto
+CovarianceSampleFilter<TSample>::GetCovarianceMatrix() const -> const MatrixType
 {
   return this->GetCovarianceMatrixOutput()->Get();
 }
 
 template <typename TSample>
-const typename CovarianceSampleFilter<TSample>::MeasurementVectorDecoratedType *
-CovarianceSampleFilter<TSample>::GetMeanOutput() const
+auto
+CovarianceSampleFilter<TSample>::GetMeanOutput() const -> const MeasurementVectorDecoratedType *
 {
   return static_cast<const MeasurementVectorDecoratedType *>(this->ProcessObject::GetOutput(1));
 }
 
 template <typename TSample>
-const typename CovarianceSampleFilter<TSample>::MeasurementVectorRealType
-CovarianceSampleFilter<TSample>::GetMean() const
+auto
+CovarianceSampleFilter<TSample>::GetMean() const -> const MeasurementVectorRealType
 {
   return this->GetMeanOutput()->Get();
 }

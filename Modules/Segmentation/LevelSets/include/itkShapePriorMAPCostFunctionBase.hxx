@@ -50,8 +50,9 @@ ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::PrintSelf(std::ostre
  *
  */
 template <typename TFeatureImage, typename TOutputPixel>
-typename ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::MeasureType
+auto
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::GetValue(const ParametersType & parameters) const
+  -> MeasureType
 {
   return (this->ComputeLogInsideTerm(parameters) + this->ComputeLogGradientTerm(parameters) +
           this->ComputeLogShapePriorTerm(parameters) + this->ComputeLogPosePriorTerm(parameters));

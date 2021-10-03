@@ -23,8 +23,8 @@
 namespace itk
 {
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshEulerOperatorSplitFacetFunction<TMesh, TQEType>::OutputType
-QuadEdgeMeshEulerOperatorSplitFacetFunction<TMesh, TQEType>::Evaluate(QEType * h, QEType * g)
+auto
+QuadEdgeMeshEulerOperatorSplitFacetFunction<TMesh, TQEType>::Evaluate(QEType * h, QEType * g) -> OutputType
 {
   //
   //  g->Dest() ---<----- X                    destPid  --------- X        //

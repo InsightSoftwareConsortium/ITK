@@ -57,8 +57,8 @@ ConstantBoundaryCondition<TInputImage, TOutputImage>::SetConstant(const OutputPi
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename ConstantBoundaryCondition<TInputImage, TOutputImage>::OutputPixelType &
-ConstantBoundaryCondition<TInputImage, TOutputImage>::GetConstant() const
+auto
+ConstantBoundaryCondition<TInputImage, TOutputImage>::GetConstant() const -> const OutputPixelType &
 {
   return m_Constant;
 }
@@ -86,8 +86,9 @@ ConstantBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRegion(
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename ConstantBoundaryCondition<TInputImage, TOutputImage>::OutputPixelType
+auto
 ConstantBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const IndexType & index, const TInputImage * image) const
+  -> OutputPixelType
 {
   RegionType imageRegion = image->GetLargestPossibleRegion();
   if (imageRegion.IsInside(index))

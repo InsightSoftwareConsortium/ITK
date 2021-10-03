@@ -42,8 +42,8 @@ HistogramToImageFilter<THistogram, TImage, TFunction>::SetInput(const HistogramT
 }
 
 template <typename THistogram, typename TImage, typename TFunction>
-const typename HistogramToImageFilter<THistogram, TImage, TFunction>::HistogramType *
-HistogramToImageFilter<THistogram, TImage, TFunction>::GetInput()
+auto
+HistogramToImageFilter<THistogram, TImage, TFunction>::GetInput() -> const HistogramType *
 {
   return itkDynamicCastInDebugMode<const HistogramType *>(this->GetPrimaryInput());
 }

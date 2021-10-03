@@ -100,8 +100,9 @@ ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer>:
 }
 
 template <typename TImageType, typename THistogramFrequencyContainer>
-const typename ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer>::HistogramType *
+auto
 ScalarImageToCooccurrenceMatrixFilter<TImageType, THistogramFrequencyContainer>::GetOutput() const
+  -> const HistogramType *
 {
   const auto * output = static_cast<const HistogramType *>(this->ProcessObject::GetOutput(0));
 

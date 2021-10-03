@@ -102,8 +102,8 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::SetInput
 }
 
 template <typename TOutputImage, typename TParametersValueType>
-const typename TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::TransformInputType *
-TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::GetInput() const
+auto
+TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::GetInput() const -> const TransformInputType *
 {
   return itkDynamicCastInDebugMode<const TransformInputType *>(this->GetPrimaryInput());
 }

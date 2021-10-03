@@ -71,8 +71,9 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::S
 }
 
 template <typename TInputImage1, typename TInputImage2, typename TOutputImage, typename TFunction>
-const typename BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::Input1ImagePixelType &
+auto
 BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::GetConstant1() const
+  -> const Input1ImagePixelType &
 {
   const auto * input = dynamic_cast<const DecoratedInput1ImagePixelType *>(this->ProcessObject::GetInput(0));
   if (input == nullptr)
@@ -118,8 +119,9 @@ BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::S
 }
 
 template <typename TInputImage1, typename TInputImage2, typename TOutputImage, typename TFunction>
-const typename BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::Input2ImagePixelType &
+auto
 BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage, TFunction>::GetConstant2() const
+  -> const Input2ImagePixelType &
 {
   const auto * input = dynamic_cast<const DecoratedInput2ImagePixelType *>(this->ProcessObject::GetInput(1));
   if (input == nullptr)

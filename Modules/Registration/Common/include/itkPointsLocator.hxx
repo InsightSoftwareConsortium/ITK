@@ -59,8 +59,8 @@ PointsLocator<TPointsContainer>::Initialize()
 }
 
 template <typename TPointsContainer>
-typename PointsLocator<TPointsContainer>::PointIdentifier
-PointsLocator<TPointsContainer>::FindClosestPoint(const PointType & query) const
+auto
+PointsLocator<TPointsContainer>::FindClosestPoint(const PointType & query) const -> PointIdentifier
 {
   NeighborsIdentifierType identifiers;
   this->m_Tree->Search(query, 1u, identifiers);

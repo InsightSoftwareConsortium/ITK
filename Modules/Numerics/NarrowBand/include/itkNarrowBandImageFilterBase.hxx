@@ -242,8 +242,9 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedApplyUpdate(const 
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename NarrowBandImageFilterBase<TInputImage, TOutputImage>::TimeStepType
+auto
 NarrowBandImageFilterBase<TInputImage, TOutputImage>::ThreadedCalculateChange(const ThreadRegionType & regionToProcess)
+  -> TimeStepType
 {
   using OutputSizeType = typename OutputImageType::SizeType;
 

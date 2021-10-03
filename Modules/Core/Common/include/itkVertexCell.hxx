@@ -51,8 +51,8 @@ VertexCell<TCellInterface>::GetNumberOfPoints() const
 /** Standard CellInterface:
  *  A vertex has no boundary entities of any dimension. */
 template <typename TCellInterface>
-typename VertexCell<TCellInterface>::CellFeatureCount
-VertexCell<TCellInterface>::GetNumberOfBoundaryFeatures(int) const
+auto
+VertexCell<TCellInterface>::GetNumberOfBoundaryFeatures(int) const -> CellFeatureCount
 {
   return 0;
 }
@@ -114,8 +114,8 @@ VertexCell<TCellInterface>::SetPointId(int localId, PointIdentifier ptId)
  *  Get a begin iterator to the list of point identifiers used by the
  *  cell. */
 template <typename TCellInterface>
-typename VertexCell<TCellInterface>::PointIdIterator
-VertexCell<TCellInterface>::PointIdsBegin()
+auto
+VertexCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
 {
   return &m_PointIds[0];
 }
@@ -124,8 +124,8 @@ VertexCell<TCellInterface>::PointIdsBegin()
  *  Get a const begin iterator to the list of point identifiers used
  *  by the cell. */
 template <typename TCellInterface>
-typename VertexCell<TCellInterface>::PointIdConstIterator
-VertexCell<TCellInterface>::PointIdsBegin() const
+auto
+VertexCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
 {
   return &m_PointIds[0];
 }
@@ -133,8 +133,8 @@ VertexCell<TCellInterface>::PointIdsBegin() const
 /** Standard CellInterface:
  *  Get an end iterator to the list of point identifiers used by the cell. */
 template <typename TCellInterface>
-typename VertexCell<TCellInterface>::PointIdIterator
-VertexCell<TCellInterface>::PointIdsEnd()
+auto
+VertexCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -143,8 +143,8 @@ VertexCell<TCellInterface>::PointIdsEnd()
  *  Get a const end iterator to the list of point identifiers used
  *  by the cell. */
 template <typename TCellInterface>
-typename VertexCell<TCellInterface>::PointIdConstIterator
-VertexCell<TCellInterface>::PointIdsEnd() const
+auto
+VertexCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -161,8 +161,8 @@ VertexCell<TCellInterface>::SetPointId(PointIdentifier ptId)
 /** Vertex-specific:
  *  Get the identifier of the point defining the vertex. */
 template <typename TCellInterface>
-typename VertexCell<TCellInterface>::PointIdentifier
-VertexCell<TCellInterface>::GetPointId()
+auto
+VertexCell<TCellInterface>::GetPointId() -> PointIdentifier
 {
   return m_PointIds[0];
 }

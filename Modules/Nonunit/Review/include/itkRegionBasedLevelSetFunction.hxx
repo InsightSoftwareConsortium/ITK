@@ -56,8 +56,8 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::RegionBasedLevelSetF
 }
 
 template <typename TInput, typename TFeature, typename TSharedData>
-typename RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::VectorType
-RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::InitializeZeroVectorConstant()
+auto
+RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::InitializeZeroVectorConstant() -> VectorType
 {
   VectorType ans;
 
@@ -126,8 +126,9 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::UpdateSharedData(boo
 }
 
 template <typename TInput, typename TFeature, typename TSharedData>
-typename RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::TimeStepType
+auto
 RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeGlobalTimeStep(void * GlobalData) const
+  -> TimeStepType
 {
   /* Computing the time-step for stable curve evolution */
 
@@ -325,8 +326,8 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeUpdate(const 
 }
 
 template <typename TInput, typename TFeature, typename TSharedData>
-typename RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ScalarValueType
-RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeLaplacian(GlobalDataStruct * gd)
+auto
+RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeLaplacian(GlobalDataStruct * gd) -> ScalarValueType
 {
   ScalarValueType laplacian = 0.;
 
@@ -340,8 +341,8 @@ RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeLaplacian(Glo
 }
 
 template <typename TInput, typename TFeature, typename TSharedData>
-typename RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ScalarValueType
-RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeVolumeRegularizationTerm()
+auto
+RegionBasedLevelSetFunction<TInput, TFeature, TSharedData>::ComputeVolumeRegularizationTerm() -> ScalarValueType
 {
   return 2 *
          (this->m_SharedData->m_LevelSetDataPointerVector[this->m_FunctionId]->m_WeightedNumberOfPixelsInsideLevelSet -

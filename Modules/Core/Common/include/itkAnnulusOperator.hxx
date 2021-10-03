@@ -57,8 +57,8 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::Fill(const CoefficientVector & 
 }
 
 template <typename TPixel, unsigned int TDimension, typename TAllocator>
-typename AnnulusOperator<TPixel, TDimension, TAllocator>::CoefficientVector
-AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients()
+auto
+AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   // Determine the initial kernel values...
   double interiorV, annulusV, exteriorV;

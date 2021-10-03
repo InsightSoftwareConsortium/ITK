@@ -24,8 +24,8 @@
 namespace itk
 {
 template <typename TInput, typename TOutput>
-typename SinRegularizedHeavisideStepFunction<TInput, TOutput>::OutputType
-SinRegularizedHeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType & input) const
+auto
+SinRegularizedHeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType & input) const -> OutputType
 {
   if (static_cast<RealType>(input) >= this->GetEpsilon())
   {
@@ -48,8 +48,8 @@ SinRegularizedHeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType &
 }
 
 template <typename TInput, typename TOutput>
-typename SinRegularizedHeavisideStepFunction<TInput, TOutput>::OutputType
-SinRegularizedHeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const
+auto
+SinRegularizedHeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const -> OutputType
 {
   if (itk::Math::abs(static_cast<RealType>(input)) >= this->GetEpsilon())
   {

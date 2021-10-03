@@ -63,8 +63,8 @@ struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, float>
 #endif
 
 template <typename TInputImage, typename TOutputImage>
-typename HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Pointer
-HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New()
+auto
+HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
 {
   Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 

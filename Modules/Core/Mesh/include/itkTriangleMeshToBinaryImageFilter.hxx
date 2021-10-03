@@ -58,16 +58,16 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::SetInput(TInputMesh *
 
 /** Get the input Mesh */
 template <typename TInputMesh, typename TOutputImage>
-typename TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::InputMeshType *
-TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GetInput()
+auto
+TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GetInput() -> InputMeshType *
 {
   return static_cast<TInputMesh *>(this->ProcessObject::GetInput(0));
 }
 
 /** Get the input Mesh */
 template <typename TInputMesh, typename TOutputImage>
-typename TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::InputMeshType *
-TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GetInput(unsigned int idx)
+auto
+TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GetInput(unsigned int idx) -> InputMeshType *
 {
   return itkDynamicCastInDebugMode<TInputMesh *>(this->ProcessObject::GetInput(idx));
 }

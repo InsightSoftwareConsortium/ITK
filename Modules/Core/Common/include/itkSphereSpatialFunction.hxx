@@ -31,8 +31,8 @@ SphereSpatialFunction<VImageDimension, TInput>::SphereSpatialFunction()
 }
 
 template <unsigned int VImageDimension, typename TInput>
-typename SphereSpatialFunction<VImageDimension, TInput>::OutputType
-SphereSpatialFunction<VImageDimension, TInput>::Evaluate(const InputType & position) const
+auto
+SphereSpatialFunction<VImageDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {
   double acc = 0;
 

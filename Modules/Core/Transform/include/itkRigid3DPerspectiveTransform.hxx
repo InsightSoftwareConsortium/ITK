@@ -109,8 +109,8 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetParameters(const Parameter
 
 // Set Parameters
 template <typename TParametersValueType>
-const typename Rigid3DPerspectiveTransform<TParametersValueType>::ParametersType &
-Rigid3DPerspectiveTransform<TParametersValueType>::GetParameters() const
+auto
+Rigid3DPerspectiveTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 
@@ -164,8 +164,8 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetRotation(const Vector<TPar
 
 // Transform a point
 template <typename TParametersValueType>
-typename Rigid3DPerspectiveTransform<TParametersValueType>::OutputPointType
-Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPointType & point) const
+auto
+Rigid3DPerspectiveTransform<TParametersValueType>::TransformPoint(const InputPointType & point) const -> OutputPointType
 {
   unsigned int   i;
   InputPointType centered;

@@ -138,15 +138,17 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::UpdatePixel(
 {}
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::VectorType
+auto
 LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::AdvectionSpeed(const LevelSetInputIndexType & iP) const
+  -> VectorType
 {
   return this->m_AdvectionImage->GetPixel(iP);
 }
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & iP)
+  -> LevelSetOutputRealType
 {
   VectorType             advectionField = this->AdvectionSpeed(iP);
   LevelSetOutputRealType oValue = NumericTraits<LevelSetOutputRealType>::ZeroValue();

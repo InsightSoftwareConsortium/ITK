@@ -46,8 +46,8 @@ PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::SetPathInput(con
 }
 
 template <typename TInputPath, typename TInputImage, typename TOutputPath>
-const typename PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::InputPathType *
-PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::GetPathInput()
+auto
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::GetPathInput() -> const InputPathType *
 {
   return itkDynamicCastInDebugMode<const TInputPath *>(this->GetPrimaryInput());
 }
@@ -63,8 +63,8 @@ PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::SetImageInput(co
 }
 
 template <typename TInputPath, typename TInputImage, typename TOutputPath>
-const typename PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::InputImageType *
-PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::GetImageInput()
+auto
+PathAndImageToPathFilter<TInputPath, TInputImage, TOutputPath>::GetImageInput() -> const InputImageType *
 {
   return static_cast<const TInputImage *>(this->ProcessObject::GetInput(1));
 }

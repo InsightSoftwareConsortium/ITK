@@ -74,8 +74,8 @@ SobelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & co
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename SobelOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
+auto
+SobelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   std::vector<double> coeff;
   if (VDimension == 2 && this->GetDirection() == 0)

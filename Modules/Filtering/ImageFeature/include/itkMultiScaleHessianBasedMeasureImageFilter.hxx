@@ -334,8 +334,9 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 /** Get the image containing the Hessian at which each pixel gave the
  * best response */
 template <typename TInputImage, typename THessianImage, typename TOutputImage>
-const typename MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImage>::HessianImageType *
+auto
 MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImage>::GetHessianOutput() const
+  -> const HessianImageType *
 {
   return static_cast<const HessianImageType *>(this->ProcessObject::GetOutput(2));
 }
@@ -344,8 +345,9 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 /** Get the image containing the scales at which each pixel gave the
  * best response */
 template <typename TInputImage, typename THessianImage, typename TOutputImage>
-const typename MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImage>::ScalesImageType *
+auto
 MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImage>::GetScalesOutput() const
+  -> const ScalesImageType *
 {
   return static_cast<const ScalesImageType *>(this->ProcessObject::GetOutput(1));
 }

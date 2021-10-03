@@ -51,16 +51,16 @@ ImageSeriesWriter<TInputImage, TOutputImage>::SetInput(const InputImageType * in
 
 //---------------------------------------------------------
 template <typename TInputImage, typename TOutputImage>
-const typename ImageSeriesWriter<TInputImage, TOutputImage>::InputImageType *
-ImageSeriesWriter<TInputImage, TOutputImage>::GetInput()
+auto
+ImageSeriesWriter<TInputImage, TOutputImage>::GetInput() -> const InputImageType *
 {
   return itkDynamicCastInDebugMode<TInputImage *>(this->GetPrimaryInput());
 }
 
 //---------------------------------------------------------
 template <typename TInputImage, typename TOutputImage>
-const typename ImageSeriesWriter<TInputImage, TOutputImage>::InputImageType *
-ImageSeriesWriter<TInputImage, TOutputImage>::GetInput(unsigned int idx)
+auto
+ImageSeriesWriter<TInputImage, TOutputImage>::GetInput(unsigned int idx) -> const InputImageType *
 {
   return itkDynamicCastInDebugMode<TInputImage *>(this->ProcessObject::GetInput(idx));
 }

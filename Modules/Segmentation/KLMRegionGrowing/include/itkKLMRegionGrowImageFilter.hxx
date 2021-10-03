@@ -168,8 +168,8 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateOutputImage()
 } // end GenerateOutputImage()
 
 template <typename TInputImage, typename TOutputImage>
-typename KLMRegionGrowImageFilter<TInputImage, TOutputImage>::LabelImagePointer
-KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GetLabelledImage()
+auto
+KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GetLabelledImage() -> LabelImagePointer
 {
   // Allocate the memory for the labelled image
 
@@ -195,8 +195,9 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GetLabelledImage()
 } // end GetLabelledImage()
 
 template <typename TInputImage, typename TOutputImage>
-typename KLMRegionGrowImageFilter<TInputImage, TOutputImage>::LabelImagePointer
+auto
 KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateLabelledImage(LabelImageType * labelImagePtr)
+  -> LabelImagePointer
 {
   InputImageConstPointer inputImage = this->GetInput();
   InputImageSizeType     inputImageSize = inputImage->GetBufferedRegion().GetSize();

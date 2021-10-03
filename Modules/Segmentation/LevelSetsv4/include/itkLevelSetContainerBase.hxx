@@ -25,8 +25,8 @@ namespace itk
 {
 
 template <typename TIdentifier, typename TLevelSet>
-const typename LevelSetContainerBase<TIdentifier, TLevelSet>::LevelSetContainerType &
-LevelSetContainerBase<TIdentifier, TLevelSet>::GetContainer() const
+auto
+LevelSetContainerBase<TIdentifier, TLevelSet>::GetContainer() const -> const LevelSetContainerType &
 {
   return m_Container;
 }
@@ -39,43 +39,43 @@ LevelSetContainerBase<TIdentifier, TLevelSet>::SetContainer(const LevelSetContai
 }
 
 template <typename TIdentifier, typename TLevelSet>
-typename LevelSetContainerBase<TIdentifier, TLevelSet>::Iterator
-LevelSetContainerBase<TIdentifier, TLevelSet>::Begin()
+auto
+LevelSetContainerBase<TIdentifier, TLevelSet>::Begin() -> Iterator
 {
   return Iterator(m_Container.begin());
 }
 
 template <typename TIdentifier, typename TLevelSet>
-typename LevelSetContainerBase<TIdentifier, TLevelSet>::ConstIterator
-LevelSetContainerBase<TIdentifier, TLevelSet>::Begin() const
+auto
+LevelSetContainerBase<TIdentifier, TLevelSet>::Begin() const -> ConstIterator
 {
   return ConstIterator(m_Container.begin());
 }
 
 template <typename TIdentifier, typename TLevelSet>
-typename LevelSetContainerBase<TIdentifier, TLevelSet>::Iterator
-LevelSetContainerBase<TIdentifier, TLevelSet>::End()
+auto
+LevelSetContainerBase<TIdentifier, TLevelSet>::End() -> Iterator
 {
   return Iterator(m_Container.end());
 }
 
 template <typename TIdentifier, typename TLevelSet>
-typename LevelSetContainerBase<TIdentifier, TLevelSet>::ConstIterator
-LevelSetContainerBase<TIdentifier, TLevelSet>::End() const
+auto
+LevelSetContainerBase<TIdentifier, TLevelSet>::End() const -> ConstIterator
 {
   return ConstIterator(m_Container.end());
 }
 
 template <typename TIdentifier, typename TLevelSet>
-typename LevelSetContainerBase<TIdentifier, TLevelSet>::LevelSetIdentifierType
-LevelSetContainerBase<TIdentifier, TLevelSet>::Size() const
+auto
+LevelSetContainerBase<TIdentifier, TLevelSet>::Size() const -> LevelSetIdentifierType
 {
   return static_cast<LevelSetIdentifierType>(m_Container.size());
 }
 
 template <typename TIdentifier, typename TLevelSet>
-typename LevelSetContainerBase<TIdentifier, TLevelSet>::LevelSetPointer
-LevelSetContainerBase<TIdentifier, TLevelSet>::GetLevelSet(const LevelSetIdentifierType & iId) const
+auto
+LevelSetContainerBase<TIdentifier, TLevelSet>::GetLevelSet(const LevelSetIdentifierType & iId) const -> LevelSetPointer
 {
   auto it = m_Container.find(iId);
 

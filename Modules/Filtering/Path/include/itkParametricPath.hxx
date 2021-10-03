@@ -33,8 +33,8 @@ ParametricPath<VDimension>::ParametricPath()
 }
 
 template <unsigned int VDimension>
-typename ParametricPath<VDimension>::IndexType
-ParametricPath<VDimension>::EvaluateToIndex(const InputType & input) const
+auto
+ParametricPath<VDimension>::EvaluateToIndex(const InputType & input) const -> IndexType
 {
   ContinuousIndexType continuousIndex;
   IndexType           index;
@@ -51,8 +51,8 @@ ParametricPath<VDimension>::EvaluateToIndex(const InputType & input) const
 }
 
 template <unsigned int VDimension>
-typename ParametricPath<VDimension>::OffsetType
-ParametricPath<VDimension>::IncrementInput(InputType & input) const
+auto
+ParametricPath<VDimension>::IncrementInput(InputType & input) const -> OffsetType
 {
   int        iterationCount;
   bool       tooSmall;
@@ -119,8 +119,8 @@ ParametricPath<VDimension>::IncrementInput(InputType & input) const
 }
 
 template <unsigned int VDimension>
-typename ParametricPath<VDimension>::VectorType
-ParametricPath<VDimension>::EvaluateDerivative(const InputType & input) const
+auto
+ParametricPath<VDimension>::EvaluateDerivative(const InputType & input) const -> VectorType
 {
   InputType inputStepSize;
 

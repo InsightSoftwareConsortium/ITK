@@ -86,8 +86,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::SetThreadData(int thr
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadDataStruct
-PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GetThreadData(int threadId)
+auto
+PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::GetThreadData(int threadId) -> ThreadDataStruct
 {
   if (threadId < static_cast<int>(m_ThreadData.size()))
   {
@@ -1143,8 +1143,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ComputeLogMapAndWeigh
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealType
+auto
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::AddEuclideanUpdate(const RealType & a, const RealType & b)
+  -> RealType
 {
   RealType result = m_ZeroPixel;
 
@@ -1816,8 +1817,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::RealArrayType
-PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate()
+auto
+PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ResolveSigmaUpdate() -> RealArrayType
 {
   RealArrayType sigmaUpdate(m_NumIndependentComponents);
 

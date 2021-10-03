@@ -207,16 +207,17 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::WrapAsIma
 
 // Get the parameters
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-const typename BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::ParametersType &
-BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::GetParameters() const
+auto
+BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::GetParameters() const -> const ParametersType &
 {
   return this->m_InternalParametersBuffer;
 }
 
 // Get the parameters
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-const typename BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::FixedParametersType &
+auto
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::GetFixedParameters() const
+  -> const FixedParametersType &
 {
   // HACK:  This should not be necessary if the
   //       class is kept in a consistent state
@@ -297,8 +298,9 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumber
 // This helper class is used to work around a race condition where the dynamically
 // generated images must exist before the references to the sub-sections are created.
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::CoefficientImageArray
+auto
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::ArrayOfImagePointerGeneratorHelper()
+  -> CoefficientImageArray
 {
   CoefficientImageArray tempArrayOfPointers;
 

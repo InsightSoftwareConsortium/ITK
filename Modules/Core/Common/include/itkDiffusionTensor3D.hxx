@@ -96,8 +96,8 @@ DiffusionTensor3D<T>::operator=(const Superclass & r)
  *
  */
 template <typename T>
-typename DiffusionTensor3D<T>::AccumulateValueType
-DiffusionTensor3D<T>::GetTrace() const
+auto
+DiffusionTensor3D<T>::GetTrace() const -> AccumulateValueType
 {
   AccumulateValueType trace = (*this)[0];
 
@@ -110,8 +110,8 @@ DiffusionTensor3D<T>::GetTrace() const
  *  Compute the value of fractional anisotropy
  */
 template <typename T>
-typename DiffusionTensor3D<T>::RealValueType
-DiffusionTensor3D<T>::GetFractionalAnisotropy() const
+auto
+DiffusionTensor3D<T>::GetFractionalAnisotropy() const -> RealValueType
 {
   // Computed as
   // FA = std::sqrt(1.5*sum(sum(N.*N))/sum((sum(D.*D))))
@@ -144,8 +144,8 @@ DiffusionTensor3D<T>::GetFractionalAnisotropy() const
  *  Compute the value of relative anisotropy
  */
 template <typename T>
-typename DiffusionTensor3D<T>::RealValueType
-DiffusionTensor3D<T>::GetRelativeAnisotropy() const
+auto
+DiffusionTensor3D<T>::GetRelativeAnisotropy() const -> RealValueType
 {
   const RealValueType trace = this->GetTrace();
   const RealValueType isp = this->GetInnerScalarProduct();
@@ -175,8 +175,8 @@ DiffusionTensor3D<T>::GetRelativeAnisotropy() const
  *  Compute the inner scalar product
  */
 template <typename T>
-typename DiffusionTensor3D<T>::RealValueType
-DiffusionTensor3D<T>::GetInnerScalarProduct() const
+auto
+DiffusionTensor3D<T>::GetInnerScalarProduct() const -> RealValueType
 {
   const RealValueType xx = (*this)[0];
   const RealValueType xy = (*this)[1];

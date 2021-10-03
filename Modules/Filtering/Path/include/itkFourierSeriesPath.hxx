@@ -24,8 +24,8 @@
 namespace itk
 {
 template <unsigned int VDimension>
-typename FourierSeriesPath<VDimension>::OutputType
-FourierSeriesPath<VDimension>::Evaluate(const InputType & input) const
+auto
+FourierSeriesPath<VDimension>::Evaluate(const InputType & input) const -> OutputType
 {
   InputType  theta;
   OutputType output;
@@ -53,8 +53,8 @@ FourierSeriesPath<VDimension>::Evaluate(const InputType & input) const
 }
 
 template <unsigned int VDimension>
-typename FourierSeriesPath<VDimension>::VectorType
-FourierSeriesPath<VDimension>::EvaluateDerivative(const InputType & input) const
+auto
+FourierSeriesPath<VDimension>::EvaluateDerivative(const InputType & input) const -> VectorType
 {
   InputType  theta;
   VectorType output;

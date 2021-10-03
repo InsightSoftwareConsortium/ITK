@@ -39,8 +39,8 @@ Vector<T, TVectorDimension>::operator=(const ValueType r[TVectorDimension])
 }
 
 template <typename T, unsigned int TVectorDimension>
-const typename Vector<T, TVectorDimension>::Self &
-Vector<T, TVectorDimension>::operator+=(const Self & vec)
+auto
+Vector<T, TVectorDimension>::operator+=(const Self & vec) -> const Self &
 {
   for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
@@ -50,8 +50,8 @@ Vector<T, TVectorDimension>::operator+=(const Self & vec)
 }
 
 template <typename T, unsigned int TVectorDimension>
-const typename Vector<T, TVectorDimension>::Self &
-Vector<T, TVectorDimension>::operator-=(const Self & vec)
+auto
+Vector<T, TVectorDimension>::operator-=(const Self & vec) -> const Self &
 {
   for (unsigned int i = 0; i < TVectorDimension; ++i)
   {
@@ -100,8 +100,8 @@ Vector<T, TVectorDimension>::operator-(const Self & vec) const
 }
 
 template <typename T, unsigned int TVectorDimension>
-typename Vector<T, TVectorDimension>::RealValueType
-Vector<T, TVectorDimension>::GetSquaredNorm() const
+auto
+Vector<T, TVectorDimension>::GetSquaredNorm() const -> RealValueType
 {
   typename NumericTraits<RealValueType>::AccumulateType sum = NumericTraits<T>::ZeroValue();
   for (unsigned int i = 0; i < TVectorDimension; ++i)
@@ -113,15 +113,15 @@ Vector<T, TVectorDimension>::GetSquaredNorm() const
 }
 
 template <typename T, unsigned int TVectorDimension>
-typename Vector<T, TVectorDimension>::RealValueType
-Vector<T, TVectorDimension>::GetNorm() const
+auto
+Vector<T, TVectorDimension>::GetNorm() const -> RealValueType
 {
   return RealValueType(std::sqrt(double(this->GetSquaredNorm())));
 }
 
 template <typename T, unsigned int TVectorDimension>
-typename Vector<T, TVectorDimension>::RealValueType
-Vector<T, TVectorDimension>::Normalize()
+auto
+Vector<T, TVectorDimension>::Normalize() -> RealValueType
 {
   const RealValueType norm = this->GetNorm();
   if (norm < NumericTraits<RealValueType>::epsilon())

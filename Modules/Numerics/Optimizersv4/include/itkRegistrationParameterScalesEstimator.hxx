@@ -47,8 +47,8 @@ RegistrationParameterScalesEstimator<TMetric>::RegistrationParameterScalesEstima
 
 /** Estimate the trusted scale for steps. It returns the voxel spacing. */
 template <typename TMetric>
-typename RegistrationParameterScalesEstimator<TMetric>::FloatType
-RegistrationParameterScalesEstimator<TMetric>::EstimateMaximumStepSize()
+auto
+RegistrationParameterScalesEstimator<TMetric>::EstimateMaximumStepSize() -> FloatType
 {
   this->CheckAndSetInputs();
 
@@ -479,8 +479,8 @@ RegistrationParameterScalesEstimator<TMetric>::CheckGeneralAffineTransformTempla
  *  Get the index of the virtual image center.
  */
 template <typename TMetric>
-typename RegistrationParameterScalesEstimator<TMetric>::VirtualIndexType
-RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex()
+auto
+RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex() -> VirtualIndexType
 {
   VirtualRegionType   region = this->m_Metric->GetVirtualRegion();
   const SizeValueType dim = this->GetDimension();
@@ -501,8 +501,8 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex()
  *  Get the region around the virtual image center.
  */
 template <typename TMetric>
-typename RegistrationParameterScalesEstimator<TMetric>::VirtualRegionType
-RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion()
+auto
+RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion() -> VirtualRegionType
 {
   VirtualIndexType centralIndex = this->GetVirtualDomainCentralIndex();
 

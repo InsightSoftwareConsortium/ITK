@@ -381,8 +381,9 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::SplitRequestedRegion(
 }
 
 template <typename TInputPointImage, typename TOutputImage>
-typename BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::ControlPointLatticeType::Pointer
-BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPointLattice(ArrayType numberOfLevels)
+auto
+BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPointLattice(ArrayType numberOfLevels) ->
+  typename ControlPointLatticeType::Pointer
 {
   this->SetNumberOfLevels(numberOfLevels);
 

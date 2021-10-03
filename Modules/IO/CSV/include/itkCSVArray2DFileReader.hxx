@@ -132,8 +132,8 @@ CSVArray2DFileReader<TData>::Update()
 
 /** Get the output */
 template <typename TData>
-typename CSVArray2DFileReader<TData>::Array2DDataObjectPointer
-CSVArray2DFileReader<TData>::GetOutput()
+auto
+CSVArray2DFileReader<TData>::GetOutput() -> Array2DDataObjectPointer
 {
   return this->GetModifiableArray2DDataObject();
 }

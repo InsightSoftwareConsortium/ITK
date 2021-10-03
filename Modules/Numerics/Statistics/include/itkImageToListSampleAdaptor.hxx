@@ -31,8 +31,8 @@ ImageToListSampleAdaptor<TImage>::ImageToListSampleAdaptor()
 }
 
 template <typename TImage>
-const typename ImageToListSampleAdaptor<TImage>::MeasurementVectorType &
-ImageToListSampleAdaptor<TImage>::GetMeasurementVector(InstanceIdentifier id) const
+auto
+ImageToListSampleAdaptor<TImage>::GetMeasurementVector(InstanceIdentifier id) const -> const MeasurementVectorType &
 {
   if (m_Image.IsNull())
   {
@@ -45,8 +45,8 @@ ImageToListSampleAdaptor<TImage>::GetMeasurementVector(InstanceIdentifier id) co
 
 /** returns the number of measurement vectors in this container*/
 template <typename TImage>
-typename ImageToListSampleAdaptor<TImage>::InstanceIdentifier
-ImageToListSampleAdaptor<TImage>::Size() const
+auto
+ImageToListSampleAdaptor<TImage>::Size() const -> InstanceIdentifier
 {
   if (m_Image.IsNull())
   {
@@ -115,8 +115,8 @@ ImageToListSampleAdaptor<TImage>::GetImage() const
 }
 
 template <typename TImage>
-typename ImageToListSampleAdaptor<TImage>::TotalAbsoluteFrequencyType
-ImageToListSampleAdaptor<TImage>::GetTotalFrequency() const
+auto
+ImageToListSampleAdaptor<TImage>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   if (m_Image.IsNull())
   {

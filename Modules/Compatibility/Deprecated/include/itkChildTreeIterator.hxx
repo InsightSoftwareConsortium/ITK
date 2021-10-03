@@ -81,8 +81,8 @@ ChildTreeIterator<TTreeType>::GoToParent()
 
 /** Return the type of the iterator */
 template <typename TTreeType>
-typename ChildTreeIterator<TTreeType>::NodeType
-ChildTreeIterator<TTreeType>::GetType() const
+auto
+ChildTreeIterator<TTreeType>::GetType() const -> NodeType
 {
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::CHILD;
 }
@@ -104,8 +104,8 @@ ChildTreeIterator<TTreeType>::HasNext() const
 
 /** Return the next node */
 template <typename TTreeType>
-const typename ChildTreeIterator<TTreeType>::ValueType &
-ChildTreeIterator<TTreeType>::Next()
+auto
+ChildTreeIterator<TTreeType>::Next() -> const ValueType &
 {
   m_ListPosition++;
   this->m_Position = m_ParentNode->GetChild(m_ListPosition);

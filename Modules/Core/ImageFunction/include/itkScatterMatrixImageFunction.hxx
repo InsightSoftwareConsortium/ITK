@@ -47,8 +47,8 @@ ScatterMatrixImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os,
  *
  */
 template <typename TInputImage, typename TCoordRep>
-typename ScatterMatrixImageFunction<TInputImage, TCoordRep>::RealType
-ScatterMatrixImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
+auto
+ScatterMatrixImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
   RealType covariance;
 

@@ -56,8 +56,8 @@ VideoFileWriter<TInputVideoStream>::SetInput(const VideoStreamType * input)
 }
 
 template <typename TInputVideoStream>
-const typename VideoFileWriter<TInputVideoStream>::VideoStreamType *
-VideoFileWriter<TInputVideoStream>::GetInput()
+auto
+VideoFileWriter<TInputVideoStream>::GetInput() -> const VideoStreamType *
 {
   if (this->GetNumberOfInputs() < 1)
   {

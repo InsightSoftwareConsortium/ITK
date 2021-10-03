@@ -67,8 +67,8 @@ QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::DeletePoint(
 }
 
 template <typename TInput, typename TOutput, typename TCriterion>
-typename QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::OutputPointType
-QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Relocate(OutputQEType * iEdge)
+auto
+QuadricDecimationQuadEdgeMeshFilter<TInput, TOutput, TCriterion>::Relocate(OutputQEType * iEdge) -> OutputPointType
 {
   OutputPointIdentifier id_org = iEdge->GetOrigin();
   OutputPointIdentifier id_dest = iEdge->GetDestination();

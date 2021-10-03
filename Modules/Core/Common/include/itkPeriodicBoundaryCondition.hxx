@@ -180,8 +180,9 @@ PeriodicBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRegion(
 
 
 template <typename TInputImage, typename TOutputImage>
-typename PeriodicBoundaryCondition<TInputImage, TOutputImage>::OutputPixelType
+auto
 PeriodicBoundaryCondition<TInputImage, TOutputImage>::GetPixel(const IndexType & index, const TInputImage * image) const
+  -> OutputPixelType
 {
   RegionType imageRegion = image->GetLargestPossibleRegion();
   IndexType  imageIndex = imageRegion.GetIndex();

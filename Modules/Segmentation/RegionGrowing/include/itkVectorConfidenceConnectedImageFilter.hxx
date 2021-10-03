@@ -346,22 +346,22 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::CovarianceMatrixType &
-VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetCovariance() const
+auto
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetCovariance() const -> const CovarianceMatrixType &
 {
   return m_ThresholdFunction->GetCovariance();
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::MeanVectorType &
-VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetMean() const
+auto
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetMean() const -> const MeanVectorType &
 {
   return m_ThresholdFunction->GetMean();
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::SeedsContainerType &
-VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const
+auto
+VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const -> const SeedsContainerType &
 {
   itkDebugMacro("returning Seeds");
   return this->m_Seeds;

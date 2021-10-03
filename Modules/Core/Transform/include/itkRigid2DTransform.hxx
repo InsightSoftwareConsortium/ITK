@@ -150,8 +150,8 @@ Rigid2DTransform<TParametersValueType>::GetInverse(Self * inverse) const
 
 
 template <typename TParametersValueType>
-typename Rigid2DTransform<TParametersValueType>::InverseTransformBasePointer
-Rigid2DTransform<TParametersValueType>::GetInverseTransform() const
+auto
+Rigid2DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 
@@ -255,8 +255,8 @@ Rigid2DTransform<TParametersValueType>::SetParameters(const ParametersType & par
 
 
 template <typename TParametersValueType>
-const typename Rigid2DTransform<TParametersValueType>::ParametersType &
-Rigid2DTransform<TParametersValueType>::GetParameters() const
+auto
+Rigid2DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 

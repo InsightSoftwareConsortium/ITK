@@ -48,8 +48,8 @@ VarianceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Inde
  *
  */
 template <typename TInputImage, typename TCoordRep>
-typename VarianceImageFunction<TInputImage, TCoordRep>::RealType
-VarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
+auto
+VarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
   RealType sum;
   RealType sumOfSquares;

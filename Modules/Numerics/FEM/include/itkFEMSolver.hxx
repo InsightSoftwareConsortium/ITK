@@ -83,8 +83,8 @@ Solver<VDimension>::SetInput(unsigned int index, FEMObjectType * fem)
 }
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::FEMObjectType *
-Solver<VDimension>::GetInput()
+auto
+Solver<VDimension>::GetInput() -> FEMObjectType *
 {
   if (this->GetNumberOfInputs() < 1)
   {
@@ -95,15 +95,15 @@ Solver<VDimension>::GetInput()
 }
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::FEMObjectType *
-Solver<VDimension>::GetInput(unsigned int idx)
+auto
+Solver<VDimension>::GetInput(unsigned int idx) -> FEMObjectType *
 {
   return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetInput(idx));
 }
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::Float
-Solver<VDimension>::GetTimeStep() const
+auto
+Solver<VDimension>::GetTimeStep() const -> Float
 {
   return NumericTraits<Float>::ZeroValue();
 }
@@ -114,22 +114,22 @@ Solver<VDimension>::SetTimeStep(Float itkNotUsed(dt))
 {}
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::Float
-Solver<VDimension>::GetSolution(unsigned int i, unsigned int which)
+auto
+Solver<VDimension>::GetSolution(unsigned int i, unsigned int which) -> Float
 {
   return this->m_LinearSystem->GetSolutionValue(i, which);
 }
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::DataObjectPointer
-Solver<VDimension>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
+auto
+Solver<VDimension>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx)) -> DataObjectPointer
 {
   return FEMObjectType::New().GetPointer();
 }
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::FEMObjectType *
-Solver<VDimension>::GetOutput()
+auto
+Solver<VDimension>::GetOutput() -> FEMObjectType *
 {
   if (this->GetNumberOfOutputs() < 1)
   {
@@ -140,8 +140,8 @@ Solver<VDimension>::GetOutput()
 }
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::FEMObjectType *
-Solver<VDimension>::GetOutput(unsigned int idx)
+auto
+Solver<VDimension>::GetOutput(unsigned int idx) -> FEMObjectType *
 {
   auto * out = dynamic_cast<FEMObjectType *>(this->ProcessObject::GetOutput(idx));
 
@@ -586,8 +586,8 @@ Solver<VDimension>::UpdateDisplacements()
 }
 
 template <unsigned int VDimension>
-typename Solver<VDimension>::Float
-Solver<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex)
+auto
+Solver<VDimension>::GetDeformationEnergy(unsigned int SolutionIndex) -> Float
 {
   Float               U = 0.0f;
   Element::MatrixType LocalSolution;

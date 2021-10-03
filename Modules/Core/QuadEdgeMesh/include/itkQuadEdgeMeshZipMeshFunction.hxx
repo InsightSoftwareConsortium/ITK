@@ -23,8 +23,8 @@
 namespace itk
 {
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::OutputType
-QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e)
+auto
+QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
 {
   if (!this->m_Mesh)
   {

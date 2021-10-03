@@ -318,8 +318,8 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
 }
 
 template <typename TOutputMesh>
-typename RegularSphereMeshSource<TOutputMesh>::PointType
-RegularSphereMeshSource<TOutputMesh>::Divide(const PointType & p1, const PointType & p2) const
+auto
+RegularSphereMeshSource<TOutputMesh>::Divide(const PointType & p1, const PointType & p2) const -> PointType
 {
   PointType p;
   PointType f;

@@ -107,8 +107,8 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::CheckStatus(QEType * 
 }
 
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::OutputType
-QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Evaluate(QEType * h)
+auto
+QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Evaluate(QEType * h) -> OutputType
 {
   //
   //    X ---<-G---- X              X ---<-G---- X
@@ -153,8 +153,8 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Evaluate(QEType * h)
 }
 
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::OutputType
-QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Process(QEType * h)
+auto
+QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Process(QEType * h) -> OutputType
 {
   // The following is not optimum, since we create a new face (with JoinFacet)
   // that is immediately deleted (with SplitFacet). Still we chose to write it

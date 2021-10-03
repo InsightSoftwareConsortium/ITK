@@ -59,8 +59,8 @@ MeanSampleFilter<TSample>::GetInput() const
 }
 
 template <typename TSample>
-typename MeanSampleFilter<TSample>::DataObjectPointer
-MeanSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
+auto
+MeanSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx)) -> DataObjectPointer
 {
   MeasurementVectorRealType mean;
   (void)mean; // for complainty pants : valgrind
@@ -72,23 +72,23 @@ MeanSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(
 }
 
 template <typename TSample>
-const typename MeanSampleFilter<TSample>::MeasurementVectorDecoratedType *
-MeanSampleFilter<TSample>::GetOutput() const
+auto
+MeanSampleFilter<TSample>::GetOutput() const -> const MeasurementVectorDecoratedType *
 {
   return itkDynamicCastInDebugMode<const MeasurementVectorDecoratedType *>(this->ProcessObject::GetOutput(0));
 }
 
 template <typename TSample>
-const typename MeanSampleFilter<TSample>::MeasurementVectorRealType
-MeanSampleFilter<TSample>::GetMean() const
+auto
+MeanSampleFilter<TSample>::GetMean() const -> const MeasurementVectorRealType
 {
   const MeasurementVectorDecoratedType * decorator = this->GetOutput();
   return decorator->Get();
 }
 
 template <typename TSample>
-typename MeanSampleFilter<TSample>::MeasurementVectorSizeType
-MeanSampleFilter<TSample>::GetMeasurementVectorSize() const
+auto
+MeanSampleFilter<TSample>::GetMeasurementVectorSize() const -> MeasurementVectorSizeType
 {
   const SampleType * input = this->GetInput();
 

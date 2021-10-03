@@ -35,16 +35,16 @@ template <unsigned int NDimensions>
 MetaFEMObjectConverter<NDimensions>::MetaFEMObjectConverter() = default;
 
 template <unsigned int NDimensions>
-typename MetaFEMObjectConverter<NDimensions>::MetaObjectType *
-MetaFEMObjectConverter<NDimensions>::CreateMetaObject()
+auto
+MetaFEMObjectConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new FEMObjectMetaObjectType);
 }
 
 /** Convert a metaFEMObject into an FEMObject SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaFEMObjectConverter<NDimensions>::SpatialObjectPointer
-MetaFEMObjectConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaFEMObjectConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * FEMmo = dynamic_cast<const MetaFEMObject *>(mo);
   if (FEMmo == nullptr)
@@ -315,8 +315,8 @@ MetaFEMObjectConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectT
 
 /** Convert an FEMObject SpatialObject into a metaFEMObject */
 template <unsigned int NDimensions>
-typename MetaFEMObjectConverter<NDimensions>::MetaObjectType *
-MetaFEMObjectConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaFEMObjectConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   FEMObjectSpatialObjectConstPointer FEMSO = dynamic_cast<const FEMObjectSpatialObjectType *>(so);
   if (FEMSO.IsNull())

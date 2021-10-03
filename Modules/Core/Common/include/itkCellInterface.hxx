@@ -38,15 +38,15 @@ CellInterface<TPixelType, TCellTraits>::GetInterpolationOrder() const
  * PointIdsBegin() const.
  */
 template <typename TPixelType, typename TCellTraits>
-typename CellInterface<TPixelType, TCellTraits>::PointIdConstIterator
-CellInterface<TPixelType, TCellTraits>::GetPointIds() const
+auto
+CellInterface<TPixelType, TCellTraits>::GetPointIds() const -> PointIdConstIterator
 {
   return this->PointIdsBegin();
 }
 
 template <typename TPixelType, typename TCellTraits>
-typename CellInterface<TPixelType, TCellTraits>::PointIdentifierContainerType
-CellInterface<TPixelType, TCellTraits>::GetPointIdsContainer() const
+auto
+CellInterface<TPixelType, TCellTraits>::GetPointIdsContainer() const -> PointIdentifierContainerType
 {
   PointIdentifierContainerType res;
   res.SetSize(this->GetNumberOfPoints());
@@ -136,8 +136,8 @@ CellInterface<TPixelType, TCellTraits>::GetNumberOfUsingCells()
  * Get a begin iterator for the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
-typename CellInterface<TPixelType, TCellTraits>::UsingCellsContainerIterator
-CellInterface<TPixelType, TCellTraits>::UsingCellsBegin()
+auto
+CellInterface<TPixelType, TCellTraits>::UsingCellsBegin() -> UsingCellsContainerIterator
 {
   return m_UsingCells.begin();
 }
@@ -146,8 +146,8 @@ CellInterface<TPixelType, TCellTraits>::UsingCellsBegin()
  * Get an end iterator for the UsingCellsContainer.
  */
 template <typename TPixelType, typename TCellTraits>
-typename CellInterface<TPixelType, TCellTraits>::UsingCellsContainerIterator
-CellInterface<TPixelType, TCellTraits>::UsingCellsEnd()
+auto
+CellInterface<TPixelType, TCellTraits>::UsingCellsEnd() -> UsingCellsContainerIterator
 {
   return m_UsingCells.end();
 }

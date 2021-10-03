@@ -74,8 +74,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::AddSeed(const IndexTy
 
 /** Method to access seed container */
 template <typename TInputImage, typename TOutputImage>
-const typename ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::SeedsContainerType &
-ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const
+auto
+ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const -> const SeedsContainerType &
 {
   itkDebugMacro("returning Seeds");
   return this->m_Seeds;

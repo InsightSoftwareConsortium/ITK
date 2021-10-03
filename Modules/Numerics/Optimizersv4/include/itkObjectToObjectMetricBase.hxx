@@ -52,8 +52,8 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::GetGradientSour
 
 //-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
-typename ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::MeasureType
-ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::GetCurrentValue() const
+auto
+ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::GetCurrentValue() const -> MeasureType
 {
   return m_Value;
 }

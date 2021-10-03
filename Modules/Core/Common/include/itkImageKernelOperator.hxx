@@ -44,15 +44,15 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::SetImageKernel(const ImageT
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-const typename ImageKernelOperator<TPixel, VDimension, TAllocator>::ImageType *
-ImageKernelOperator<TPixel, VDimension, TAllocator>::GetImageKernel() const
+auto
+ImageKernelOperator<TPixel, VDimension, TAllocator>::GetImageKernel() const -> const ImageType *
 {
   return m_ImageKernel;
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename ImageKernelOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
+auto
+ImageKernelOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   // Check that the input image is fully buffered.
   if (m_ImageKernel->GetBufferedRegion() != m_ImageKernel->GetLargestPossibleRegion())

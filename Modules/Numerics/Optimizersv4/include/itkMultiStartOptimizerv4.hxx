@@ -50,8 +50,8 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ost
 
 //-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
-typename MultiStartOptimizerv4Template<TInternalComputationValueType>::ParametersListType &
-MultiStartOptimizerv4Template<TInternalComputationValueType>::GetParametersList()
+auto
+MultiStartOptimizerv4Template<TInternalComputationValueType>::GetParametersList() -> ParametersListType &
 {
   return this->m_ParametersList;
 }
@@ -71,16 +71,17 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::SetParametersList(
 
 /** Get the list of metric values that we produced after the multi-start search.  */
 template <typename TInternalComputationValueType>
-const typename MultiStartOptimizerv4Template<TInternalComputationValueType>::MetricValuesListType &
+auto
 MultiStartOptimizerv4Template<TInternalComputationValueType>::GetMetricValuesList() const
+  -> const MetricValuesListType &
 {
   return this->m_MetricValuesList;
 }
 
 //-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
-typename MultiStartOptimizerv4Template<TInternalComputationValueType>::ParametersType
-MultiStartOptimizerv4Template<TInternalComputationValueType>::GetBestParameters()
+auto
+MultiStartOptimizerv4Template<TInternalComputationValueType>::GetBestParameters() -> ParametersType
 {
   return this->m_ParametersList[m_BestParametersIndex];
 }
@@ -99,8 +100,9 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::InstantiateLocalOp
 
 //-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
-const typename MultiStartOptimizerv4Template<TInternalComputationValueType>::StopConditionReturnStringType
+auto
 MultiStartOptimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
+  -> const StopConditionReturnStringType
 {
   return this->m_StopConditionDescription.str();
 }

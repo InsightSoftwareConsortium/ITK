@@ -204,8 +204,8 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelNeedsP
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
-typename ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::KernelSizeType
-ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelPadSize() const
+auto
+ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelPadSize() const -> KernelSizeType
 {
   const KernelImageType * kernel = this->GetKernelImage();
   KernelRegionType        kernelRegion = kernel->GetLargestPossibleRegion();
@@ -223,8 +223,9 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelPadSiz
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
 template <typename TImage>
-typename ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::KernelSizeType
+auto
 ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::GetKernelRadius(const TImage * kernelImage) const
+  -> KernelSizeType
 {
   // Compute the kernel radius.
   KernelSizeType radius;

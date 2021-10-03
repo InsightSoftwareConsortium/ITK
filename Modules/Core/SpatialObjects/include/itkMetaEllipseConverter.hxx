@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaEllipseConverter<NDimensions>::MetaObjectType *
-MetaEllipseConverter<NDimensions>::CreateMetaObject()
+auto
+MetaEllipseConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new EllipseMetaObjectType);
 }
 
 /** Convert a metaEllipse into an ellipse SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaEllipseConverter<NDimensions>::SpatialObjectPointer
-MetaEllipseConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaEllipseConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * ellipseMO = dynamic_cast<const EllipseMetaObjectType *>(mo);
   if (ellipseMO == nullptr)
@@ -63,8 +63,8 @@ MetaEllipseConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
 /** Convert an ellipse SpatialObject into a metaEllipse */
 template <unsigned int NDimensions>
-typename MetaEllipseConverter<NDimensions>::MetaObjectType *
-MetaEllipseConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaEllipseConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   EllipseSpatialObjectConstPointer ellipseSO = dynamic_cast<const EllipseSpatialObjectType *>(so);
   if (ellipseSO.IsNull())

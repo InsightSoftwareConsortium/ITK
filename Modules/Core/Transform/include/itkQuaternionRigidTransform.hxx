@@ -114,8 +114,8 @@ QuaternionRigidTransform<TParametersValueType>::SetParameters(const ParametersTy
 
 // Set Parameters
 template <typename TParametersValueType>
-const typename QuaternionRigidTransform<TParametersValueType>::ParametersType &
-QuaternionRigidTransform<TParametersValueType>::GetParameters() const
+auto
+QuaternionRigidTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   VnlQuaternionType quaternion = this->GetRotation();
   OutputVectorType  translation = this->GetTranslation();
@@ -175,8 +175,8 @@ QuaternionRigidTransform<TParametersValueType>::ComputeJacobianWithRespectToPara
 }
 
 template <typename TParametersValueType>
-const typename QuaternionRigidTransform<TParametersValueType>::InverseMatrixType &
-QuaternionRigidTransform<TParametersValueType>::GetInverseMatrix() const
+auto
+QuaternionRigidTransform<TParametersValueType>::GetInverseMatrix() const -> const InverseMatrixType &
 {
   // If the transform has been modified we recompute the inverse
   if (this->InverseMatrixIsOld())

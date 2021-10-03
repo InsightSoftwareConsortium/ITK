@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaVesselTubeConverter<NDimensions>::MetaObjectType *
-MetaVesselTubeConverter<NDimensions>::CreateMetaObject()
+auto
+MetaVesselTubeConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new VesselTubeMetaObjectType);
 }
 
 /** Convert a MetaVesselTube into an Tube SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaVesselTubeConverter<NDimensions>::SpatialObjectPointer
-MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * vesselTubeMO = dynamic_cast<const VesselTubeMetaObjectType *>(mo);
   if (vesselTubeMO == nullptr)
@@ -134,8 +134,8 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
 
 /** Convert a Tube SpatialObject into a MetaVesselTube */
 template <unsigned int NDimensions>
-typename MetaVesselTubeConverter<NDimensions>::MetaObjectType *
-MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaVesselTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   const typename VesselTubeSpatialObjectType::ConstPointer vesselTubeSO =
     dynamic_cast<const VesselTubeSpatialObjectType *>(so);

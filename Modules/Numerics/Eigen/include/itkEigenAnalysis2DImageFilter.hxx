@@ -74,8 +74,9 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Se
  * Get the largest eigenvalue considering the sign
  */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
-typename EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::EigenValueImageType *
+auto
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::GetMaxEigenValue()
+  -> EigenValueImageType *
 {
   return dynamic_cast<EigenValueImageType *>(this->ProcessObject::GetOutput(0));
 }
@@ -84,8 +85,9 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
  * Get the smallest eigenvalue considering the sign
  */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
-typename EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::EigenValueImageType *
+auto
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::GetMinEigenValue()
+  -> EigenValueImageType *
 {
   return dynamic_cast<EigenValueImageType *>(this->ProcessObject::GetOutput(1));
 }
@@ -94,8 +96,9 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
  * Get the eigenvector corresponding to the largest eigenvalue (considering the sign)
  */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
-typename EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::EigenVectorImageType *
+auto
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::GetMaxEigenVector()
+  -> EigenVectorImageType *
 {
   auto * eigenVector = dynamic_cast<EigenVectorImageType *>(this->ProcessObject::GetOutput(2));
 

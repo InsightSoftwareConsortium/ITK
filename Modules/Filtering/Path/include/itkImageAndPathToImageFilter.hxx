@@ -46,15 +46,15 @@ ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::SetImageInput(
 }
 
 template <typename TInputImage, typename TInputPath, typename TOutputImage>
-const typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputImageType *
-ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetImageInput()
+auto
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetImageInput() -> const InputImageType *
 {
   return this->GetNonConstImageInput();
 }
 
 template <typename TInputImage, typename TInputPath, typename TOutputImage>
-typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputImageType *
-ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstImageInput()
+auto
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstImageInput() -> InputImageType *
 {
   auto * temp_return = dynamic_cast<TInputImage *>(this->ProcessObject::GetInput(0));
   if (temp_return == nullptr)
@@ -75,15 +75,15 @@ ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::SetPathInput(c
 }
 
 template <typename TInputImage, typename TInputPath, typename TOutputImage>
-const typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputPathType *
-ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetPathInput()
+auto
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetPathInput() -> const InputPathType *
 {
   return this->GetNonConstPathInput();
 }
 
 template <typename TInputImage, typename TInputPath, typename TOutputImage>
-typename ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::InputPathType *
-ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstPathInput()
+auto
+ImageAndPathToImageFilter<TInputImage, TInputPath, TOutputImage>::GetNonConstPathInput() -> InputPathType *
 {
   auto * temp_return = dynamic_cast<TInputPath *>(this->ProcessObject::GetInput(1));
   if (temp_return == nullptr)

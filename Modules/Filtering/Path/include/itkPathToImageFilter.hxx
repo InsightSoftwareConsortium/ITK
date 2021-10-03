@@ -64,16 +64,16 @@ PathToImageFilter<TInputPath, TOutputImage>::SetInput(unsigned int index, const 
 
 /** Get the input Path */
 template <typename TInputPath, typename TOutputImage>
-const typename PathToImageFilter<TInputPath, TOutputImage>::InputPathType *
-PathToImageFilter<TInputPath, TOutputImage>::GetInput()
+auto
+PathToImageFilter<TInputPath, TOutputImage>::GetInput() -> const InputPathType *
 {
   return itkDynamicCastInDebugMode<const TInputPath *>(this->GetPrimaryInput());
 }
 
 /** Get the input Path */
 template <typename TInputPath, typename TOutputImage>
-const typename PathToImageFilter<TInputPath, TOutputImage>::InputPathType *
-PathToImageFilter<TInputPath, TOutputImage>::GetInput(unsigned int idx)
+auto
+PathToImageFilter<TInputPath, TOutputImage>::GetInput(unsigned int idx) -> const InputPathType *
 {
   return itkDynamicCastInDebugMode<const TInputPath *>(this->ProcessObject::GetInput(idx));
 }

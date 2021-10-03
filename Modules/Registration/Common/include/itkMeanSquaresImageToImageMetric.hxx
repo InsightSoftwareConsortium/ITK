@@ -97,8 +97,9 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueThreadProcessS
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const ParametersType & parameters) const
+  -> MeasureType
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 

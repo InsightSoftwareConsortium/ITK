@@ -139,8 +139,8 @@ ScaleVersor3DTransform<TParametersValueType>::SetParameters(const ParametersType
 //
 
 template <typename TParametersValueType>
-const typename ScaleVersor3DTransform<TParametersValueType>::ParametersType &
-ScaleVersor3DTransform<TParametersValueType>::GetParameters() const
+auto
+ScaleVersor3DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 

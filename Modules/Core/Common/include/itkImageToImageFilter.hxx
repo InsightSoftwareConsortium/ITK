@@ -64,16 +64,16 @@ ImageToImageFilter<TInputImage, TOutputImage>::SetInput(unsigned int index, cons
 
 
 template <typename TInputImage, typename TOutputImage>
-const typename ImageToImageFilter<TInputImage, TOutputImage>::InputImageType *
-ImageToImageFilter<TInputImage, TOutputImage>::GetInput() const
+auto
+ImageToImageFilter<TInputImage, TOutputImage>::GetInput() const -> const InputImageType *
 {
   return itkDynamicCastInDebugMode<const TInputImage *>(this->GetPrimaryInput());
 }
 
 
 template <typename TInputImage, typename TOutputImage>
-const typename ImageToImageFilter<TInputImage, TOutputImage>::InputImageType *
-ImageToImageFilter<TInputImage, TOutputImage>::GetInput(unsigned int idx) const
+auto
+ImageToImageFilter<TInputImage, TOutputImage>::GetInput(unsigned int idx) const -> const InputImageType *
 {
   const auto * in = dynamic_cast<const TInputImage *>(this->ProcessObject::GetInput(idx));
 

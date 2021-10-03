@@ -75,8 +75,9 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::BSp
 
 // Get the number of parameters
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType
+auto
 BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumberOfParameters() const
+  -> NumberOfParametersType
 {
   // The number of parameters equal SpaceDimension * number of
   // of pixels in the grid region.
@@ -85,8 +86,9 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Get
 
 // Get the number of parameters per dimension
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType
+auto
 BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumberOfParametersPerDimension() const
+  -> NumberOfParametersType
 {
   // The number of parameters per dimension equal number of
   // of pixels in the grid region.

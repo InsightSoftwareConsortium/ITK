@@ -56,8 +56,9 @@ LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::PrintSelf(std::ostr
 }
 
 template <typename TImageType, typename TSparseImageType>
-typename LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::TimeStepType
+auto
 LevelSetFunctionWithRefitTerm<TImageType, TSparseImageType>::ComputeGlobalTimeStep(void * GlobalData) const
+  -> TimeStepType
 {
   TimeStepType dt = Superclass::ComputeGlobalTimeStep(GlobalData);
 

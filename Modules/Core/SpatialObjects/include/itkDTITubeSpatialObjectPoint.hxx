@@ -179,8 +179,8 @@ DTITubeSpatialObjectPoint<TPointDimension>::GetField(DTITubeSpatialObjectPointFi
 }
 
 template <unsigned int TPointDimension>
-typename DTITubeSpatialObjectPoint<TPointDimension>::Self &
-DTITubeSpatialObjectPoint<TPointDimension>::operator=(const DTITubeSpatialObjectPoint & rhs)
+auto
+DTITubeSpatialObjectPoint<TPointDimension>::operator=(const DTITubeSpatialObjectPoint & rhs) -> Self &
 {
   if (this != &rhs)
   {

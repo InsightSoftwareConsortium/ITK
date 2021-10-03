@@ -23,8 +23,8 @@
 namespace itk
 {
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshEulerOperatorSplitVertexFunction<TMesh, TQEType>::OutputType
-QuadEdgeMeshEulerOperatorSplitVertexFunction<TMesh, TQEType>::Evaluate(QEType * h, QEType * g)
+auto
+QuadEdgeMeshEulerOperatorSplitVertexFunction<TMesh, TQEType>::Evaluate(QEType * h, QEType * g) -> OutputType
 {
   if (!this->m_Mesh)
   {

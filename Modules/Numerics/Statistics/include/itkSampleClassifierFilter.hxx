@@ -177,8 +177,8 @@ SampleClassifierFilter<TSample>::GenerateData()
 }
 
 template <typename TSample>
-const typename SampleClassifierFilter<TSample>::MembershipSampleType *
-SampleClassifierFilter<TSample>::GetOutput() const
+auto
+SampleClassifierFilter<TSample>::GetOutput() const -> const MembershipSampleType *
 {
   return static_cast<const MembershipSampleType *>(this->ProcessObject::GetOutput(0));
 }

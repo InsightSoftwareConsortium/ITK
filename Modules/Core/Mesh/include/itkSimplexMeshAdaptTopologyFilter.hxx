@@ -388,8 +388,9 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream 
 }
 
 template <typename TInputMesh, typename TOutputMesh>
-typename SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::InputPointType
+auto
 SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellCenter(InputCellAutoPointer & simplexCell)
+  -> InputPointType
 {
   OutputMeshPointer           outputMesh = this->GetOutput();
   InputPolygonPointIdIterator pointIt = simplexCell->PointIdsBegin();

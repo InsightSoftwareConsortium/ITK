@@ -42,8 +42,8 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::BinaryThinningImageFilter(
  *  Return the thinning Image pointer
  */
 template <typename TInputImage, typename TOutputImage>
-typename BinaryThinningImageFilter<TInputImage, TOutputImage>::OutputImageType *
-BinaryThinningImageFilter<TInputImage, TOutputImage>::GetThinning()
+auto
+BinaryThinningImageFilter<TInputImage, TOutputImage>::GetThinning() -> OutputImageType *
 {
   return dynamic_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
 }

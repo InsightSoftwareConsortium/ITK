@@ -27,15 +27,15 @@ namespace itk
 {
 
 template <typename TData>
-typename CSVArray2DDataObject<TData>::StringVectorType
-CSVArray2DDataObject<TData>::GetColumnHeaders() const
+auto
+CSVArray2DDataObject<TData>::GetColumnHeaders() const -> StringVectorType
 {
   return this->m_ColumnHeaders;
 }
 
 template <typename TData>
-typename CSVArray2DDataObject<TData>::StringVectorType
-CSVArray2DDataObject<TData>::GetRowHeaders() const
+auto
+CSVArray2DDataObject<TData>::GetRowHeaders() const -> StringVectorType
 {
   return this->m_RowHeaders;
 }
@@ -79,8 +79,8 @@ CSVArray2DDataObject<TData>::GetColumnIndexByName(const std::string & column_nam
 }
 
 template <typename TData>
-typename CSVArray2DDataObject<TData>::NumericVectorType
-CSVArray2DDataObject<TData>::GetRow(const unsigned int & row_index) const
+auto
+CSVArray2DDataObject<TData>::GetRow(const unsigned int & row_index) const -> NumericVectorType
 {
   NumericVectorType row;
   unsigned int      max_rows = this->m_Matrix.rows() - 1;
@@ -97,8 +97,8 @@ CSVArray2DDataObject<TData>::GetRow(const unsigned int & row_index) const
 }
 
 template <typename TData>
-typename CSVArray2DDataObject<TData>::NumericVectorType
-CSVArray2DDataObject<TData>::GetRow(const std::string & row_name) const
+auto
+CSVArray2DDataObject<TData>::GetRow(const std::string & row_name) const -> NumericVectorType
 {
   NumericVectorType row;
   unsigned int      index = this->GetRowIndexByName(row_name);
@@ -107,8 +107,8 @@ CSVArray2DDataObject<TData>::GetRow(const std::string & row_name) const
 }
 
 template <typename TData>
-typename CSVArray2DDataObject<TData>::NumericVectorType
-CSVArray2DDataObject<TData>::GetColumn(const unsigned int & column_index) const
+auto
+CSVArray2DDataObject<TData>::GetColumn(const unsigned int & column_index) const -> NumericVectorType
 {
   NumericVectorType column;
   unsigned int      max_columns = this->m_Matrix.columns() - 1;
@@ -125,8 +125,8 @@ CSVArray2DDataObject<TData>::GetColumn(const unsigned int & column_index) const
 }
 
 template <typename TData>
-typename CSVArray2DDataObject<TData>::NumericVectorType
-CSVArray2DDataObject<TData>::GetColumn(const std::string & column_name) const
+auto
+CSVArray2DDataObject<TData>::GetColumn(const std::string & column_name) const -> NumericVectorType
 {
   NumericVectorType column;
   unsigned int      index = this->GetColumnIndexByName(column_name);

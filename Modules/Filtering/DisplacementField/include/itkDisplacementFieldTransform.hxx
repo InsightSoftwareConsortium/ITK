@@ -63,8 +63,9 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::DisplacementField
 }
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename DisplacementFieldTransform<TParametersValueType, NDimensions>::OutputPointType
+auto
 DisplacementFieldTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & inputPoint) const
+  -> OutputPointType
 {
   if (!this->m_DisplacementField)
   {
@@ -118,8 +119,9 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::GetInverse(Self *
 }
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename DisplacementFieldTransform<TParametersValueType, NDimensions>::InverseTransformBasePointer
+auto
 DisplacementFieldTransform<TParametersValueType, NDimensions>::GetInverseTransform() const
+  -> InverseTransformBasePointer
 {
   Pointer inverseTransform = New();
 

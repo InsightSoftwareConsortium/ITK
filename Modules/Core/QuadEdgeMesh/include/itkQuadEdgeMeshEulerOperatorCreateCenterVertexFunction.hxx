@@ -23,8 +23,8 @@
 namespace itk
 {
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::OutputType
-QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::Evaluate(QEType * e)
+auto
+QuadEdgeMeshEulerOperatorCreateCenterVertexFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
 {
   // Is there any input ?
 #ifndef NDEBUG

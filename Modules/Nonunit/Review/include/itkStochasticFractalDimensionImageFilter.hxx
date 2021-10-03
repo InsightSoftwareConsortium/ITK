@@ -47,8 +47,9 @@ StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::Se
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
-const typename StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::MaskImageType *
+auto
 StochasticFractalDimensionImageFilter<TInputImage, TMaskImage, TOutputImage>::GetMaskImage() const
+  -> const MaskImageType *
 {
   const auto * maskImage = dynamic_cast<const MaskImageType *>(this->ProcessObject::GetInput(1));
 

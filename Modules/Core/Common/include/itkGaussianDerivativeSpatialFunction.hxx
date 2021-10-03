@@ -35,8 +35,9 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::GaussianDer
 }
 
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
-typename GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::OutputType
+auto
 GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(const TInput & position) const
+  -> OutputType
 {
   // Normalizing the Gaussian is important for statistical applications
   // but is generally not desirable for creating images because of the
@@ -75,8 +76,9 @@ GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(co
 
 /** Evaluate the function at a given position and return a vector */
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
-typename GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::VectorType
+auto
 GaussianDerivativeSpatialFunction<TOutput, VImageDimension, TInput>::EvaluateVector(const TInput & position) const
+  -> VectorType
 {
   VectorType gradient;
 

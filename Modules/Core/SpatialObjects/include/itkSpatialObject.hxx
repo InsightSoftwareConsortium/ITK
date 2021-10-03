@@ -411,8 +411,8 @@ SpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 
 /** Get the bounds of the object */
 template <unsigned int TDimension>
-const typename SpatialObject<TDimension>::BoundingBoxType *
-SpatialObject<TDimension>::GetFamilyBoundingBoxInWorldSpace() const
+auto
+SpatialObject<TDimension>::GetFamilyBoundingBoxInWorldSpace() const -> const BoundingBoxType *
 {
   // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
@@ -522,8 +522,8 @@ SpatialObject<TDimension>::SetObjectToParentTransform(const TransformType * tran
 
 /** Set the local to global transformation */
 template <unsigned int TDimension>
-const typename SpatialObject<TDimension>::TransformType *
-SpatialObject<TDimension>::GetObjectToParentTransformInverse() const
+auto
+SpatialObject<TDimension>::GetObjectToParentTransformInverse() const -> const TransformType *
 {
   if (m_ObjectToParentTransform->GetMTime() > m_ObjectToParentTransformInverse->GetMTime())
   {
@@ -579,8 +579,8 @@ SpatialObject<TDimension>::SetObjectToWorldTransform(const TransformType * trans
 
 /** Set the local to global transformation */
 template <unsigned int TDimension>
-const typename SpatialObject<TDimension>::TransformType *
-SpatialObject<TDimension>::GetObjectToWorldTransformInverse() const
+auto
+SpatialObject<TDimension>::GetObjectToWorldTransformInverse() const -> const TransformType *
 {
   if (m_ObjectToWorldTransform->GetMTime() > m_ObjectToWorldTransformInverse->GetMTime())
   {
@@ -659,8 +659,8 @@ SpatialObject<TDimension>::ComputeMyBoundingBox()
 
 /** Get the bounds of the object */
 template <unsigned int TDimension>
-const typename SpatialObject<TDimension>::BoundingBoxType *
-SpatialObject<TDimension>::GetMyBoundingBoxInWorldSpace() const
+auto
+SpatialObject<TDimension>::GetMyBoundingBoxInWorldSpace() const -> const BoundingBoxType *
 {
   // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
@@ -755,8 +755,8 @@ SpatialObject<TDimension>::ComputeFamilyBoundingBox(unsigned int depth, const st
  * User is responsible for freeing the list, but not the elements of
  * the list. */
 template <unsigned int TDimension>
-typename SpatialObject<TDimension>::ChildrenListType *
-SpatialObject<TDimension>::GetChildren(unsigned int depth, const std::string & name) const
+auto
+SpatialObject<TDimension>::GetChildren(unsigned int depth, const std::string & name) const -> ChildrenListType *
 {
   auto * childrenSO = new ChildrenListType;
 
@@ -787,8 +787,9 @@ SpatialObject<TDimension>::GetChildren(unsigned int depth, const std::string & n
  * User is responsible for freeing the list, but not the elements of
  * the list. */
 template <unsigned int TDimension>
-typename SpatialObject<TDimension>::ChildrenConstListType *
+auto
 SpatialObject<TDimension>::GetConstChildren(unsigned int depth, const std::string & name) const
+  -> ChildrenConstListType *
 {
   auto * childrenSO = new ChildrenConstListType;
 

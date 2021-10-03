@@ -84,8 +84,8 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealT
  * Get value of Sigma
  */
 template <typename TInputImage, typename TOutputImage>
-typename LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::RealType
-LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
+auto
+LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const -> RealType
 {
   return m_DerivativeFilter->GetSigma();
 }

@@ -61,16 +61,16 @@ DOMReader<TOutput>::SetOutput(OutputType * output)
 
 /** Get the output object for full access. */
 template <typename TOutput>
-typename DOMReader<TOutput>::OutputType *
-DOMReader<TOutput>::GetOutput()
+auto
+DOMReader<TOutput>::GetOutput() -> OutputType *
 {
   return this->m_Output;
 }
 
 /** Get the output object for read-only access. */
 template <typename TOutput>
-const typename DOMReader<TOutput>::OutputType *
-DOMReader<TOutput>::GetOutput() const
+auto
+DOMReader<TOutput>::GetOutput() const -> const OutputType *
 {
   return this->m_Output;
 }

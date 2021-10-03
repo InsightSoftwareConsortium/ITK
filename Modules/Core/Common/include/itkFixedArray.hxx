@@ -72,8 +72,8 @@ FixedArray<TValue, VLength>::operator==(const FixedArray & r) const
  * Get an Iterator for the beginning of the FixedArray.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::Iterator
-FixedArray<TValue, VLength>::Begin()
+auto
+FixedArray<TValue, VLength>::Begin() -> Iterator
 {
   return Iterator(m_InternalArray);
 }
@@ -82,8 +82,8 @@ FixedArray<TValue, VLength>::Begin()
  * Get a ConstIterator for the beginning of the FixedArray.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::ConstIterator
-FixedArray<TValue, VLength>::Begin() const
+auto
+FixedArray<TValue, VLength>::Begin() const -> ConstIterator
 {
   return ConstIterator(m_InternalArray);
 }
@@ -92,8 +92,8 @@ FixedArray<TValue, VLength>::Begin() const
  * Get an Iterator for the end of the FixedArray.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::Iterator
-FixedArray<TValue, VLength>::End()
+auto
+FixedArray<TValue, VLength>::End() -> Iterator
 {
   return Iterator(m_InternalArray + VLength);
 }
@@ -102,8 +102,8 @@ FixedArray<TValue, VLength>::End()
  * Get a ConstIterator for the end of the FixedArray.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::ConstIterator
-FixedArray<TValue, VLength>::End() const
+auto
+FixedArray<TValue, VLength>::End() const -> ConstIterator
 {
   return ConstIterator(m_InternalArray + VLength);
 }
@@ -114,8 +114,8 @@ FixedArray<TValue, VLength>::End() const
  * Get a begin ReverseIterator.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::ReverseIterator
-FixedArray<TValue, VLength>::rBegin()
+auto
+FixedArray<TValue, VLength>::rBegin() -> ReverseIterator
 {
   return ReverseIterator(m_InternalArray + VLength);
 }
@@ -124,8 +124,8 @@ FixedArray<TValue, VLength>::rBegin()
  * Get a begin ConstReverseIterator.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::ConstReverseIterator
-FixedArray<TValue, VLength>::rBegin() const
+auto
+FixedArray<TValue, VLength>::rBegin() const -> ConstReverseIterator
 {
   return ConstReverseIterator(m_InternalArray + VLength);
 }
@@ -134,8 +134,8 @@ FixedArray<TValue, VLength>::rBegin() const
  * Get an end ReverseIterator.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::ReverseIterator
-FixedArray<TValue, VLength>::rEnd()
+auto
+FixedArray<TValue, VLength>::rEnd() -> ReverseIterator
 {
   return ReverseIterator(m_InternalArray);
 }
@@ -144,8 +144,8 @@ FixedArray<TValue, VLength>::rEnd()
  * Get an end ConstReverseIterator.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::ConstReverseIterator
-FixedArray<TValue, VLength>::rEnd() const
+auto
+FixedArray<TValue, VLength>::rEnd() const -> ConstReverseIterator
 {
   return ConstReverseIterator(m_InternalArray);
 }
@@ -156,8 +156,8 @@ FixedArray<TValue, VLength>::rEnd() const
  * Get the size of the FixedArray.
  */
 template <typename TValue, unsigned int VLength>
-typename FixedArray<TValue, VLength>::SizeType
-FixedArray<TValue, VLength>::Size() const
+auto
+FixedArray<TValue, VLength>::Size() const -> SizeType
 {
   return VLength;
 }

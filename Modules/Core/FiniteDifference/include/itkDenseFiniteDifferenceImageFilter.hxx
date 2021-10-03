@@ -121,8 +121,8 @@ DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::ApplyUpdateThreader
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
-DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CalculateChange()
+auto
+DenseFiniteDifferenceImageFilter<TInputImage, TOutputImage>::CalculateChange() -> TimeStepType
 {
   // Set up for multithreaded processing.
   DenseFDThreadStruct str;

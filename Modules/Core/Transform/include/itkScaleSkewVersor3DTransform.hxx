@@ -151,8 +151,8 @@ ScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Parameters
 //
 
 template <typename TParametersValueType>
-const typename ScaleSkewVersor3DTransform<TParametersValueType>::ParametersType &
-ScaleSkewVersor3DTransform<TParametersValueType>::GetParameters() const
+auto
+ScaleSkewVersor3DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 

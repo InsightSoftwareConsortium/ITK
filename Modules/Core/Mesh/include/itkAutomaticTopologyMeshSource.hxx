@@ -40,8 +40,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AutomaticTopologyMeshSource()
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const PointType & p0)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const PointType & p0) -> IdentifierType
 {
   IdentifierType   nextNewPointID = m_OutputMesh->GetNumberOfPoints();
   IdentifierType & pointIDPlusOne = m_PointsHashTable[p0];
@@ -61,8 +61,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const PointType & p0)
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const CoordinateType * p0)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(const CoordinateType * p0) -> IdentifierType
 {
   PointType    newPoint;
   unsigned int i;
@@ -100,8 +100,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddPoint(CoordinateType x0,
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const IdentifierArrayType & pointIDs)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const IdentifierArrayType & pointIDs) -> IdentifierType
 {
   // pointIDs is an array with one element; this is for consistency.
 
@@ -133,8 +133,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const IdentifierArrayType & 
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & pointIDs)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & pointIDs) -> IdentifierType
 {
   // Check to see if the cell is already referenced in the hash table.
   IdentifierType * cellIDPlusOne = &m_CellsHashTable[pointIDs];
@@ -181,8 +181,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const IdentifierArrayType & po
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType & pointIDs)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType & pointIDs) -> IdentifierType
 {
   // Check to see if the cell is already referenced in the hash table.
   IdentifierType * cellIDPlusOne = &m_CellsHashTable[pointIDs];
@@ -243,8 +243,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const IdentifierArrayType 
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const IdentifierArrayType & pointIDs)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const IdentifierArrayType & pointIDs) -> IdentifierType
 {
   // Check to see if the cell is already referenced in the hash table.
   IdentifierType * cellIDPlusOne = &m_CellsHashTable[pointIDs];
@@ -304,8 +304,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddQuadrilateral(const IdentifierArray
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const IdentifierArrayType & pointIDs)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const IdentifierArrayType & pointIDs) -> IdentifierType
 {
   // Check to see if the cell is already referenced in the hash table.
   IdentifierType * cellIDPlusOne = &m_CellsHashTable[pointIDs];
@@ -381,8 +381,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddTetrahedron(const IdentifierArrayTy
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const IdentifierArrayType & pointIDs)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const IdentifierArrayType & pointIDs) -> IdentifierType
 {
   // Check to see if the cell is already referenced in the hash table.
   IdentifierType * cellIDPlusOne = &m_CellsHashTable[pointIDs];
@@ -466,8 +466,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const IdentifierArrayTyp
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(IdentifierType pointId0)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(IdentifierType pointId0) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(1);
   pointIDs[0] = pointId0;
@@ -475,8 +475,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(IdentifierType pointId0)
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddLine(IdentifierType pointId0, IdentifierType pointId1)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddLine(IdentifierType pointId0, IdentifierType pointId1) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(2);
   pointIDs[0] = pointId0;
@@ -551,8 +551,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(IdentifierType pointId0,
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const PointType & p0)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const PointType & p0) -> IdentifierType
 {
   IdentifierType pointId = AddPoint(p0);
 
@@ -560,8 +560,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const PointType & p0)
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const PointType & p0, const PointType & p1)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const PointType & p0, const PointType & p1) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(2);
   pointIDs[0] = AddPoint(p0);
@@ -570,8 +570,9 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const PointType & p0, const Po
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddTriangle(const PointType & p0, const PointType & p1, const PointType & p2)
+  -> IdentifierType
 {
   Array<IdentifierType> pointIDs(3);
   pointIDs[0] = AddPoint(p0);
@@ -634,8 +635,8 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddHexahedron(const PointType & p0,
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
-AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const CoordinateType * p0)
+auto
+AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const CoordinateType * p0) -> IdentifierType
 {
   Array<IdentifierType> pointIDs(1);
   pointIDs[0] = AddPoint(p0);
@@ -643,8 +644,9 @@ AutomaticTopologyMeshSource<TOutputMesh>::AddVertex(const CoordinateType * p0)
 }
 
 template <typename TOutputMesh>
-typename AutomaticTopologyMeshSource<TOutputMesh>::IdentifierType
+auto
 AutomaticTopologyMeshSource<TOutputMesh>::AddLine(const CoordinateType * p0, const CoordinateType * p1)
+  -> IdentifierType
 {
   Array<IdentifierType> pointIDs(2);
   pointIDs[0] = AddPoint(p0);

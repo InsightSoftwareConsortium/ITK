@@ -198,8 +198,9 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
  * Get the match Measure
  */
 template <typename TFixedImage, typename TMovingImage>
-typename MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const ParametersType & parameters) const
+  -> MeasureType
 {
   // make sure the transform has the current parameters
   this->m_Transform->SetParameters(parameters);

@@ -67,8 +67,8 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::SetOrientation(const InputTyp
 }
 
 template <unsigned int VDimension, typename TInput>
-typename FiniteCylinderSpatialFunction<VDimension, TInput>::OutputType
-FiniteCylinderSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
+auto
+FiniteCylinderSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {
   const double halfAxisLength = 0.5 * m_AxisLength;
 

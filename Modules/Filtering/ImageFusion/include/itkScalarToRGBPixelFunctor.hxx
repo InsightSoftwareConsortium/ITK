@@ -45,8 +45,8 @@ ScalarToRGBPixelFunctor<TScalar>::ScalarToRGBPixelFunctor()
 }
 
 template <typename TScalar>
-typename ScalarToRGBPixelFunctor<TScalar>::RGBPixelType
-ScalarToRGBPixelFunctor<TScalar>::operator()(const TScalar & v) const
+auto
+ScalarToRGBPixelFunctor<TScalar>::operator()(const TScalar & v) const -> RGBPixelType
 {
   TScalar      buf = v;
   const auto * bytes = reinterpret_cast<const unsigned char *>(&buf);

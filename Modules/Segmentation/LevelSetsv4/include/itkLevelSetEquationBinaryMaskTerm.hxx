@@ -59,8 +59,9 @@ LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::UpdatePixel(
 {}
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationBinaryMaskTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & index)
+  -> LevelSetOutputRealType
 {
   const InputPixelType   pixel = this->m_Mask->GetPixel(index);
   LevelSetOutputRealType value;

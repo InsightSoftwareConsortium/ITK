@@ -52,8 +52,8 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::SetMarkerImage(con
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::MarkerImageType *
-GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GetMarkerImage()
+auto
+GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GetMarkerImage() -> const MarkerImageType *
 {
   return this->GetInput(0);
 }
@@ -67,8 +67,8 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::SetMaskImage(const
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::MaskImageType *
-GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GetMaskImage()
+auto
+GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GetMaskImage() -> const MaskImageType *
 {
   return this->GetInput(1);
 }

@@ -29,8 +29,8 @@ FrustumSpatialFunction<VDimension, TInput>::FrustumSpatialFunction()
 }
 
 template <unsigned int VDimension, typename TInput>
-typename FrustumSpatialFunction<VDimension, TInput>::OutputType
-FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
+auto
+FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {
   using PointType = InputType;
   using VectorType = typename PointType::VectorType;

@@ -79,8 +79,8 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::SetLabelImage(c
  * Get Label Image
  */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
-const typename LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::LabelImageType *
-LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::GetLabelImage() const
+auto
+LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::GetLabelImage() const -> const LabelImageType *
 {
   return itkDynamicCastInDebugMode<LabelImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
 }

@@ -33,8 +33,8 @@
 namespace itk
 {
 template <unsigned int VImageDimension>
-typename ImageRegion<VImageDimension>::IndexType
-ImageRegion<VImageDimension>::GetUpperIndex() const
+auto
+ImageRegion<VImageDimension>::GetUpperIndex() const -> IndexType
 {
   IndexType idx;
   for (unsigned int i = 0; i < VImageDimension; ++i)
@@ -70,8 +70,8 @@ ImageRegion<VImageDimension>::ComputeOffsetTable(OffsetTableType offsetTable) co
 }
 
 template <unsigned int VImageDimension>
-typename ImageRegion<VImageDimension>::SizeValueType
-ImageRegion<VImageDimension>::GetNumberOfPixels() const
+auto
+ImageRegion<VImageDimension>::GetNumberOfPixels() const -> SizeValueType
 {
   SizeValueType numPixels = 1;
 
@@ -245,8 +245,8 @@ ImageRegion<VImageDimension>::Crop(const Self & region)
 }
 
 template <unsigned int VImageDimension>
-typename ImageRegion<VImageDimension>::SliceRegion
-ImageRegion<VImageDimension>::Slice(const unsigned int dim) const
+auto
+ImageRegion<VImageDimension>::Slice(const unsigned int dim) const -> SliceRegion
 {
   if (dim >= VImageDimension)
   {

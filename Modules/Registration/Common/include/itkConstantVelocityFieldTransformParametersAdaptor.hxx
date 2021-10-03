@@ -57,8 +57,8 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSize(con
 }
 
 template <typename TTransform>
-const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SizeType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSize() const
+auto
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSize() const -> const SizeType
 {
   SizeType size;
   for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; ++d)
@@ -90,8 +90,8 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredOrigin(c
 }
 
 template <typename TTransform>
-const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::PointType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredOrigin() const
+auto
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredOrigin() const -> const PointType
 {
   PointType origin;
   for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; ++d)
@@ -123,8 +123,8 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSpacing(
 }
 
 template <typename TTransform>
-const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SpacingType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() const
+auto
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() const -> const SpacingType
 {
   SpacingType spacing;
   for (SizeValueType d = 0; d < ConstantVelocityFieldDimension; ++d)
@@ -162,8 +162,8 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredDirectio
 }
 
 template <typename TTransform>
-const typename ConstantVelocityFieldTransformParametersAdaptor<TTransform>::DirectionType
-ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() const
+auto
+ConstantVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() const -> const DirectionType
 {
   DirectionType direction;
   for (SizeValueType di = 0; di < ConstantVelocityFieldDimension; ++di)

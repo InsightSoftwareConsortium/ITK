@@ -148,8 +148,8 @@ FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::Prec
 }
 
 template <typename TInputImageType, typename TSparseOutputImageType>
-typename FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::TimeStepType
-FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::CalculateChange()
+auto
+FiniteDifferenceSparseImageFilter<TInputImageType, TSparseOutputImageType>::CalculateChange() -> TimeStepType
 {
   if (m_PrecomputeFlag == true)
   {

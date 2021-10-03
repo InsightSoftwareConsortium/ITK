@@ -35,8 +35,9 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Ev
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeanX(HistogramType & histogram) const
+  -> MeasureType
 {
   MeasureType meanX = NumericTraits<MeasureType>::ZeroValue();
 
@@ -53,8 +54,9 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Me
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeanY(HistogramType & histogram) const
+  -> MeasureType
 {
   MeasureType meanY = NumericTraits<MeasureType>::ZeroValue();
 
@@ -71,8 +73,9 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Me
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::VarianceX(HistogramType & histogram) const
+  -> MeasureType
 {
   MeasureType varX = NumericTraits<MeasureType>::ZeroValue();
 
@@ -86,8 +89,9 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Va
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::VarianceY(HistogramType & histogram) const
+  -> MeasureType
 {
   MeasureType varY = NumericTraits<MeasureType>::ZeroValue();
 

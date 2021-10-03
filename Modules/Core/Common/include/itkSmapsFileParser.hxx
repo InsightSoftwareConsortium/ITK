@@ -43,8 +43,8 @@ MapFileParser<TMapDataType>::Update()
 }
 
 template <typename TMapDataType>
-typename MapFileParser<TMapDataType>::MemoryLoadType
-MapFileParser<TMapDataType>::GetHeapUsage()
+auto
+MapFileParser<TMapDataType>::GetHeapUsage() -> MemoryLoadType
 {
   if (m_MapData.Empty())
   {
@@ -54,8 +54,8 @@ MapFileParser<TMapDataType>::GetHeapUsage()
 }
 
 template <typename TMapDataType>
-typename MapFileParser<TMapDataType>::MemoryLoadType
-MapFileParser<TMapDataType>::GetStackUsage()
+auto
+MapFileParser<TMapDataType>::GetStackUsage() -> MemoryLoadType
 {
   if (m_MapData.Empty())
   {
@@ -65,8 +65,8 @@ MapFileParser<TMapDataType>::GetStackUsage()
 }
 
 template <typename TMapDataType>
-typename MapFileParser<TMapDataType>::MemoryLoadType
-MapFileParser<TMapDataType>::GetTotalMemoryUsage()
+auto
+MapFileParser<TMapDataType>::GetTotalMemoryUsage() -> MemoryLoadType
 {
   if (m_MapData.Empty())
   {
@@ -76,8 +76,8 @@ MapFileParser<TMapDataType>::GetTotalMemoryUsage()
 }
 
 template <typename TMapDataType>
-typename MapFileParser<TMapDataType>::MemoryLoadType
-MapFileParser<TMapDataType>::GetMemoryUsage(const char * filter, const char * token)
+auto
+MapFileParser<TMapDataType>::GetMemoryUsage(const char * filter, const char * token) -> MemoryLoadType
 {
   if (m_MapData.Empty())
   {

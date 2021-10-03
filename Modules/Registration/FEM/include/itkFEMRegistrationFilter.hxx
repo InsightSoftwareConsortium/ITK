@@ -193,8 +193,8 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SetInputFEMObject(
 }
 
 template <typename TMovingImage, typename TFixedImage, typename TFemObject>
-typename FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMObjectType *
-FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GetInputFEMObject(unsigned int level)
+auto
+FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GetInputFEMObject(unsigned int level) -> FEMObjectType *
 {
   return static_cast<FEMObjectType *>(this->ProcessObject::GetInput(2 + level));
 }

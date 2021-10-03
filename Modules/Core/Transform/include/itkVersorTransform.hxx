@@ -83,8 +83,8 @@ VersorTransform<TParametersValueType>::SetParameters(const ParametersType & para
 
 /** Set Parameters */
 template <typename TParametersValueType>
-const typename VersorTransform<TParametersValueType>::ParametersType &
-VersorTransform<TParametersValueType>::GetParameters() const
+auto
+VersorTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   this->m_Parameters[0] = this->m_Versor.GetRight()[0];
   this->m_Parameters[1] = this->m_Versor.GetRight()[1];

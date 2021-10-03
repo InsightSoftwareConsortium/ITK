@@ -87,8 +87,9 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUp
  * Compute the global time step.
  */
 template <typename TImageType, typename TFeatureImageType>
-typename ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::TimeStepType
+auto
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeGlobalTimeStep(void * gd) const
+  -> TimeStepType
 {
   TimeStepType dt;
 

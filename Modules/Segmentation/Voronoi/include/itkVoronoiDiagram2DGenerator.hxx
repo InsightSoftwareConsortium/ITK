@@ -144,8 +144,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::AddOneSeed(PointType inputSeed)
 }
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::PointType
-VoronoiDiagram2DGenerator<TCoordRepType>::GetSeed(int SeedID)
+auto
+VoronoiDiagram2DGenerator<TCoordRepType>::GetSeed(int SeedID) -> PointType
 {
   PointType answer;
 
@@ -587,8 +587,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::dist(FortuneSite * s1, FortuneSite * s
 }
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge *
-VoronoiDiagram2DGenerator<TCoordRepType>::ELgethash(int b)
+auto
+VoronoiDiagram2DGenerator<TCoordRepType>::ELgethash(int b) -> FortuneHalfEdge *
 {
   if ((b < 0) || (b >= static_cast<int>(m_ELhashsize)))
   {
@@ -613,8 +613,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::ELgethash(int b)
 }
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge *
-VoronoiDiagram2DGenerator<TCoordRepType>::findLeftHE(PointType * p)
+auto
+VoronoiDiagram2DGenerator<TCoordRepType>::findLeftHE(PointType * p) -> FortuneHalfEdge *
 {
   int  i;
   auto bucket = (int)((((*p)[0]) - m_Pxmin) / m_Deltax * m_ELhashsize);
@@ -667,8 +667,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::findLeftHE(PointType * p)
 }
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
-VoronoiDiagram2DGenerator<TCoordRepType>::getRightReg(FortuneHalfEdge * he)
+auto
+VoronoiDiagram2DGenerator<TCoordRepType>::getRightReg(FortuneHalfEdge * he) -> FortuneSite *
 {
   if ((he->m_Edge) == nullptr)
   {
@@ -685,8 +685,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::getRightReg(FortuneHalfEdge * he)
 }
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneSite *
-VoronoiDiagram2DGenerator<TCoordRepType>::getLeftReg(FortuneHalfEdge * he)
+auto
+VoronoiDiagram2DGenerator<TCoordRepType>::getLeftReg(FortuneHalfEdge * he) -> FortuneSite *
 {
   if ((he->m_Edge) == nullptr)
   {
@@ -807,8 +807,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::intersect(FortuneSite * newV, FortuneH
 }
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2DGenerator<TCoordRepType>::FortuneHalfEdge *
-VoronoiDiagram2DGenerator<TCoordRepType>::getPQmin()
+auto
+VoronoiDiagram2DGenerator<TCoordRepType>::getPQmin() -> FortuneHalfEdge *
 {
   FortuneHalfEdge * curr = m_PQHash[m_PQmin].m_Next;
 

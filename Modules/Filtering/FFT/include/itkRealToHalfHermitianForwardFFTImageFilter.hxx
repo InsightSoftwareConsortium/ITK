@@ -62,8 +62,8 @@ struct DispatchFFTW_R2C_New<TSelfPointer, TInputImage, TOutputImage, float>
 #endif
 
 template <typename TInputImage, typename TOutputImage>
-typename RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::Pointer
-RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::New()
+auto
+RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
 {
   Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 

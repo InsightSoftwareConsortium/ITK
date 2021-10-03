@@ -113,8 +113,8 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(c
  * Get the Sigma array.
  */
 template <typename TInputImage, typename TOutputImage>
-typename GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SigmaArrayType
-GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray() const
+auto
+GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray() const -> SigmaArrayType
 {
   return m_Sigma;
 }
@@ -123,8 +123,8 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray()
  * Get value of Sigma. Returns the sigma along the first dimension.
  */
 template <typename TInputImage, typename TOutputImage>
-typename GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::ScalarRealType
-GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
+auto
+GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const -> ScalarRealType
 {
   return m_Sigma[0];
 }

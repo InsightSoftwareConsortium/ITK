@@ -148,8 +148,8 @@ PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::GenerateData()
 }
 
 template <typename TFixedPointSet, typename TMovingImage>
-const typename PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::TransformOutputType *
-PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::GetOutput() const
+auto
+PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::GetOutput() const -> const TransformOutputType *
 {
   return static_cast<const TransformOutputType *>(this->ProcessObject::GetOutput(0));
 }

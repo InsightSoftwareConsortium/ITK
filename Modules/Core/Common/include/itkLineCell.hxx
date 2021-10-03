@@ -59,8 +59,8 @@ LineCell<TCellInterface>::GetNumberOfPoints() const
  * Get the number of boundary entities of the given dimension.
  */
 template <typename TCellInterface>
-typename LineCell<TCellInterface>::CellFeatureCount
-LineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
+auto
+LineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -> CellFeatureCount
 {
   switch (dimension)
   {
@@ -148,8 +148,8 @@ LineCell<TCellInterface>::SetPointId(int localId, PointIdentifier ptId)
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-typename LineCell<TCellInterface>::PointIdIterator
-LineCell<TCellInterface>::PointIdsBegin()
+auto
+LineCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
 {
   return &m_PointIds[0];
 }
@@ -160,8 +160,8 @@ LineCell<TCellInterface>::PointIdsBegin()
  * by the cell.
  */
 template <typename TCellInterface>
-typename LineCell<TCellInterface>::PointIdConstIterator
-LineCell<TCellInterface>::PointIdsBegin() const
+auto
+LineCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
 {
   return &m_PointIds[0];
 }
@@ -171,8 +171,8 @@ LineCell<TCellInterface>::PointIdsBegin() const
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-typename LineCell<TCellInterface>::PointIdIterator
-LineCell<TCellInterface>::PointIdsEnd()
+auto
+LineCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -183,8 +183,8 @@ LineCell<TCellInterface>::PointIdsEnd()
  * by the cell.
  */
 template <typename TCellInterface>
-typename LineCell<TCellInterface>::PointIdConstIterator
-LineCell<TCellInterface>::PointIdsEnd() const
+auto
+LineCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -194,8 +194,8 @@ LineCell<TCellInterface>::PointIdsEnd() const
  * Get the number of vertices for this line.
  */
 template <typename TCellInterface>
-typename LineCell<TCellInterface>::CellFeatureCount
-LineCell<TCellInterface>::GetNumberOfVertices() const
+auto
+LineCell<TCellInterface>::GetNumberOfVertices() const -> CellFeatureCount
 {
   return Self::NumberOfPoints;
 }

@@ -122,8 +122,8 @@ TreeNode<TValue>::HasChildren() const
 
 /** Return the number of children */
 template <typename TValue>
-typename TreeNode<TValue>::ChildIdentifier
-TreeNode<TValue>::CountChildren() const
+auto
+TreeNode<TValue>::CountChildren() const -> ChildIdentifier
 {
   return static_cast<ChildIdentifier>(m_Children.size());
 }
@@ -183,8 +183,8 @@ TreeNode<TValue>::ChildPosition(const Self * node) const
 
 /** Return the child position given an element, the first child found. */
 template <typename TValue>
-typename TreeNode<TValue>::ChildIdentifier
-TreeNode<TValue>::ChildPosition(TValue element) const
+auto
+TreeNode<TValue>::ChildPosition(TValue element) const -> ChildIdentifier
 {
   const auto numberOfChildren = static_cast<ChildIdentifier>(m_Children.size());
 
@@ -233,8 +233,8 @@ TreeNode<TValue>::AddChild(ChildIdentifier number, Self * node)
 
 /** Get the number of children given a name and a depth */
 template <typename TValue>
-typename TreeNode<TValue>::ChildIdentifier
-TreeNode<TValue>::GetNumberOfChildren(unsigned int depth, char * name) const
+auto
+TreeNode<TValue>::GetNumberOfChildren(unsigned int depth, char * name) const -> ChildIdentifier
 {
   auto it = m_Children.begin();
   auto itEnd = m_Children.end();
@@ -266,8 +266,8 @@ TreeNode<TValue>::GetNumberOfChildren(unsigned int depth, char * name) const
 /** Get children given a name and a depth */
 #if !defined(ITK_WRAPPING_PARSER)
 template <typename TValue>
-typename TreeNode<TValue>::ChildrenListType *
-TreeNode<TValue>::GetChildren(unsigned int depth, char * name) const
+auto
+TreeNode<TValue>::GetChildren(unsigned int depth, char * name) const -> ChildrenListType *
 {
   auto * children = new ChildrenListType;
 

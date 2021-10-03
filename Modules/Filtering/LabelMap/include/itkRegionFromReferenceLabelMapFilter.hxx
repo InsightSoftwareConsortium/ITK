@@ -54,8 +54,8 @@ RegionFromReferenceLabelMapFilter<TInputImage>::SetReferenceImage(const Referenc
 }
 
 template <typename TInputImage>
-const typename RegionFromReferenceLabelMapFilter<TInputImage>::ReferenceImageType *
-RegionFromReferenceLabelMapFilter<TInputImage>::GetReferenceImage() const
+auto
+RegionFromReferenceLabelMapFilter<TInputImage>::GetReferenceImage() const -> const ReferenceImageType *
 {
   auto * surrogate = const_cast<Self *>(this);
 

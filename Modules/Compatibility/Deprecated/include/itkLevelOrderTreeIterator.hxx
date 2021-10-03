@@ -73,8 +73,8 @@ LevelOrderTreeIterator<TTreeType>::LevelOrderTreeIterator(TTreeType *          t
 
 /** Return the type of iterator */
 template <typename TTreeType>
-typename LevelOrderTreeIterator<TTreeType>::NodeType
-LevelOrderTreeIterator<TTreeType>::GetType() const
+auto
+LevelOrderTreeIterator<TTreeType>::GetType() const -> NodeType
 {
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::LEVELORDER;
 }
@@ -93,8 +93,8 @@ LevelOrderTreeIterator<TTreeType>::HasNext() const
 
 /** Return the next node */
 template <typename TTreeType>
-const typename LevelOrderTreeIterator<TTreeType>::ValueType &
-LevelOrderTreeIterator<TTreeType>::Next()
+auto
+LevelOrderTreeIterator<TTreeType>::Next() -> const ValueType &
 {
   this->m_Position = const_cast<TreeNodeType *>(FindNextNode());
   if (this->m_Position == nullptr)
@@ -122,8 +122,8 @@ LevelOrderTreeIterator<TTreeType>::GetEndLevel() const
 
 /** Find the next available node */
 template <typename TTreeType>
-const typename LevelOrderTreeIterator<TTreeType>::TreeNodeType *
-LevelOrderTreeIterator<TTreeType>::FindNextNode() const
+auto
+LevelOrderTreeIterator<TTreeType>::FindNextNode() const -> const TreeNodeType *
 {
   int                  level;
   const TreeNodeType * node;
@@ -186,8 +186,8 @@ LevelOrderTreeIterator<TTreeType>::GetLevel(const TreeNodeType * node) const
 
 /** Helper function to find the next node */
 template <typename TTreeType>
-const typename LevelOrderTreeIterator<TTreeType>::TreeNodeType *
-LevelOrderTreeIterator<TTreeType>::FindNextNodeHelp() const
+auto
+LevelOrderTreeIterator<TTreeType>::FindNextNodeHelp() const -> const TreeNodeType *
 {
   if (m_Queue.empty())
   {

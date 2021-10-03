@@ -52,8 +52,8 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::SetMarkerImage(co
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::MarkerImageType *
-GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GetMarkerImage()
+auto
+GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GetMarkerImage() -> const MarkerImageType *
 {
   return this->GetInput(0);
 }
@@ -67,8 +67,8 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::SetMaskImage(cons
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::MaskImageType *
-GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GetMaskImage()
+auto
+GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::GetMaskImage() -> const MaskImageType *
 {
   return this->GetInput(1);
 }

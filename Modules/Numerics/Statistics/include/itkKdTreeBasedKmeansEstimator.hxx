@@ -401,8 +401,8 @@ KdTreeBasedKmeansEstimator<TKdTree>::GetKdTree() const
 }
 
 template <typename TKdTree>
-const typename KdTreeBasedKmeansEstimator<TKdTree>::MembershipFunctionVectorObjectType *
-KdTreeBasedKmeansEstimator<TKdTree>::GetOutput() const
+auto
+KdTreeBasedKmeansEstimator<TKdTree>::GetOutput() const -> const MembershipFunctionVectorObjectType *
 {
   // INSERT CHECKS if all the required inputs are set and optmization has been
   // run.

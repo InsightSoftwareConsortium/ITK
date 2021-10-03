@@ -142,8 +142,8 @@ PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::GenerateD
 }
 
 template <typename TFixedPointSet, typename TMovingPointSet>
-const typename PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::TransformOutputType *
-PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::GetOutput() const
+auto
+PointSetToPointSetRegistrationMethod<TFixedPointSet, TMovingPointSet>::GetOutput() const -> const TransformOutputType *
 {
   return static_cast<const TransformOutputType *>(this->ProcessObject::GetOutput(0));
 }

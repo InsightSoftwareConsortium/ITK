@@ -1433,8 +1433,8 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream 
    ----------------------------------------------------------------------- */
 
 template <typename TInputImage, typename TCoordRep>
-typename RayCastInterpolateImageFunction<TInputImage, TCoordRep>::OutputType
-RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & point) const
+auto
+RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & point) const -> OutputType
 {
   double integral = 0;
 

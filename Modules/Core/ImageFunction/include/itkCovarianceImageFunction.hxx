@@ -31,8 +31,8 @@ CovarianceImageFunction<TInputImage, TCoordRep>::CovarianceImageFunction()
   = default;
 
 template <typename TInputImage, typename TCoordRep>
-typename CovarianceImageFunction<TInputImage, TCoordRep>::RealType
-CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
+auto
+CovarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
   using PixelType = typename TInputImage::PixelType;
   using PixelComponentType = typename PixelType::ValueType;

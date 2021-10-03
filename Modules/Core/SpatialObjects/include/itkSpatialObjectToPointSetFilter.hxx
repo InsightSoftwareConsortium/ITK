@@ -48,15 +48,16 @@ SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::SetInp
 }
 
 template <typename TPointBasedSpatialObject, typename TOutputPointSet>
-const typename SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::SpatialObjectType *
-SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::GetInput()
+auto
+SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::GetInput() -> const SpatialObjectType *
 {
   return static_cast<const SpatialObjectType *>(this->GetPrimaryInput());
 }
 
 template <typename TPointBasedSpatialObject, typename TOutputPointSet>
-const typename SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::SpatialObjectType *
+auto
 SpatialObjectToPointSetFilter<TPointBasedSpatialObject, TOutputPointSet>::GetInput(unsigned int idx)
+  -> const SpatialObjectType *
 {
   return static_cast<const SpatialObjectType *>(this->ProcessObject::GetInput(idx));
 }

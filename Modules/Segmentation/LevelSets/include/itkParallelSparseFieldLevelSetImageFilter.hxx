@@ -1252,8 +1252,9 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::TimeStepType
+auto
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedCalculateChange(ThreadIdType ThreadId)
+  -> TimeStepType
 {
   typename FiniteDifferenceFunctionType::Pointer         df = this->GetDifferenceFunction();
   typename FiniteDifferenceFunctionType::FloatOffsetType offset;

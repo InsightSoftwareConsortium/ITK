@@ -46,8 +46,8 @@ CurvatureFlowFunction<TImage>::CurvatureFlowFunction()
  * Compute the global time step
  */
 template <typename TImage>
-typename CurvatureFlowFunction<TImage>::TimeStepType
-CurvatureFlowFunction<TImage>::ComputeGlobalTimeStep(void * itkNotUsed(gd)) const
+auto
+CurvatureFlowFunction<TImage>::ComputeGlobalTimeStep(void * itkNotUsed(gd)) const -> TimeStepType
 {
   return this->GetTimeStep();
 }

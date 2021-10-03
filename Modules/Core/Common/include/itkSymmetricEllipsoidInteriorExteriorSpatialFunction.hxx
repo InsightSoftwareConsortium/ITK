@@ -32,8 +32,9 @@ SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension,
 }
 
 template <unsigned int VDimension, typename TInput>
-typename SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
+auto
 SymmetricEllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
+  -> OutputType
 {
   double uniqueTerm;    // Term in ellipsoid equation for unique axis
   double symmetricTerm; // Term in ellipsoid equation for symmetric axes

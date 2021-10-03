@@ -116,8 +116,8 @@ LabelMap<TLabelObject>::Graft(const DataObject * data)
 
 
 template <typename TLabelObject>
-typename LabelMap<TLabelObject>::LabelObjectType *
-LabelMap<TLabelObject>::GetLabelObject(const LabelType & label)
+auto
+LabelMap<TLabelObject>::GetLabelObject(const LabelType & label) -> LabelObjectType *
 {
   if (m_BackgroundValue == label)
   {
@@ -136,8 +136,8 @@ LabelMap<TLabelObject>::GetLabelObject(const LabelType & label)
 
 
 template <typename TLabelObject>
-const typename LabelMap<TLabelObject>::LabelObjectType *
-LabelMap<TLabelObject>::GetLabelObject(const LabelType & label) const
+auto
+LabelMap<TLabelObject>::GetLabelObject(const LabelType & label) const -> const LabelObjectType *
 {
   if (m_BackgroundValue == label)
   {
@@ -164,8 +164,8 @@ LabelMap<TLabelObject>::HasLabel(const LabelType label) const
 
 
 template <typename TLabelObject>
-const typename LabelMap<TLabelObject>::LabelType &
-LabelMap<TLabelObject>::GetPixel(const IndexType & idx) const
+auto
+LabelMap<TLabelObject>::GetPixel(const IndexType & idx) const -> const LabelType &
 {
   auto end = m_LabelObjectContainer.end();
 
@@ -181,8 +181,8 @@ LabelMap<TLabelObject>::GetPixel(const IndexType & idx) const
 
 
 template <typename TLabelObject>
-typename LabelMap<TLabelObject>::LabelObjectType *
-LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos)
+auto
+LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) -> LabelObjectType *
 {
   SizeValueType i = 0;
 
@@ -200,8 +200,8 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos)
 
 
 template <typename TLabelObject>
-const typename LabelMap<TLabelObject>::LabelObjectType *
-LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) const
+auto
+LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) const -> const LabelObjectType *
 {
   SizeValueType i = 0;
 
@@ -370,8 +370,8 @@ LabelMap<TLabelObject>::SetLine(const IndexType & idx, const LengthType & length
 
 
 template <typename TLabelObject>
-typename LabelMap<TLabelObject>::LabelObjectType *
-LabelMap<TLabelObject>::GetLabelObject(const IndexType & idx) const
+auto
+LabelMap<TLabelObject>::GetLabelObject(const IndexType & idx) const -> LabelObjectType *
 {
   for (auto it = m_LabelObjectContainer.begin(); it != m_LabelObjectContainer.end(); ++it)
   {
@@ -496,16 +496,16 @@ LabelMap<TLabelObject>::ClearLabels()
 
 
 template <typename TLabelObject>
-typename LabelMap<TLabelObject>::SizeValueType
-LabelMap<TLabelObject>::GetNumberOfLabelObjects() const
+auto
+LabelMap<TLabelObject>::GetNumberOfLabelObjects() const -> SizeValueType
 {
   return static_cast<typename LabelMap<TLabelObject>::SizeValueType>(m_LabelObjectContainer.size());
 }
 
 
 template <typename TLabelObject>
-typename LabelMap<TLabelObject>::LabelVectorType
-LabelMap<TLabelObject>::GetLabels() const
+auto
+LabelMap<TLabelObject>::GetLabels() const -> LabelVectorType
 {
   LabelVectorType res;
 
@@ -519,8 +519,8 @@ LabelMap<TLabelObject>::GetLabels() const
 
 
 template <typename TLabelObject>
-typename LabelMap<TLabelObject>::LabelObjectVectorType
-LabelMap<TLabelObject>::GetLabelObjects() const
+auto
+LabelMap<TLabelObject>::GetLabelObjects() const -> LabelObjectVectorType
 {
   LabelObjectVectorType res;
 

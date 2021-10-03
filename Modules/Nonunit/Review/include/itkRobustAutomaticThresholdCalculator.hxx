@@ -62,8 +62,8 @@ RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::Compute()
 }
 
 template <typename TInputImage, typename TGradientImage>
-const typename RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::InputPixelType &
-RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::GetOutput() const
+auto
+RobustAutomaticThresholdCalculator<TInputImage, TGradientImage>::GetOutput() const -> const InputPixelType &
 {
   if (!m_Valid)
   {

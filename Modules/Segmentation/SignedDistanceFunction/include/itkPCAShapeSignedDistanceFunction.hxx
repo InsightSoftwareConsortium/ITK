@@ -162,8 +162,9 @@ PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension, TImage>::Initialize()
 
 // Evaluate the signed distance
 template <typename TCoordRep, unsigned int VSpaceDimension, typename TImage>
-typename PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension, TImage>::OutputType
+auto
 PCAShapeSignedDistanceFunction<TCoordRep, VSpaceDimension, TImage>::Evaluate(const PointType & point) const
+  -> OutputType
 {
   // transform the point into the shape model space
   PointType mappedPoint = m_Transform->TransformPoint(point);

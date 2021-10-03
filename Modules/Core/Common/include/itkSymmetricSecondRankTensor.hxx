@@ -168,8 +168,8 @@ SymmetricSecondRankTensor<T, NDimension>::operator/(const RealValueType & r) con
  * Matrix notation access to elements
  */
 template <typename T, unsigned int NDimension>
-const typename SymmetricSecondRankTensor<T, NDimension>::ValueType &
-SymmetricSecondRankTensor<T, NDimension>::operator()(unsigned int row, unsigned int col) const
+auto
+SymmetricSecondRankTensor<T, NDimension>::operator()(unsigned int row, unsigned int col) const -> const ValueType &
 {
   unsigned int k;
 
@@ -194,8 +194,8 @@ SymmetricSecondRankTensor<T, NDimension>::operator()(unsigned int row, unsigned 
  * Matrix notation access to elements
  */
 template <typename T, unsigned int NDimension>
-typename SymmetricSecondRankTensor<T, NDimension>::ValueType &
-SymmetricSecondRankTensor<T, NDimension>::operator()(unsigned int row, unsigned int col)
+auto
+SymmetricSecondRankTensor<T, NDimension>::operator()(unsigned int row, unsigned int col) -> ValueType &
 {
   unsigned int k;
 
@@ -235,8 +235,8 @@ SymmetricSecondRankTensor<T, NDimension>::SetIdentity()
  * Get the Trace
  */
 template <typename T, unsigned int NDimension>
-typename SymmetricSecondRankTensor<T, NDimension>::AccumulateValueType
-SymmetricSecondRankTensor<T, NDimension>::GetTrace() const
+auto
+SymmetricSecondRankTensor<T, NDimension>::GetTrace() const -> AccumulateValueType
 {
   AccumulateValueType trace = NumericTraits<AccumulateValueType>::ZeroValue();
   unsigned int        k = 0;
@@ -340,8 +340,8 @@ SymmetricSecondRankTensor<T, NDimension>::Rotate(const Matrix<TMatrixValueType, 
  * Pre-multiply the Tensor by a Matrix
  */
 template <typename T, unsigned int NDimension>
-typename SymmetricSecondRankTensor<T, NDimension>::MatrixType
-SymmetricSecondRankTensor<T, NDimension>::PreMultiply(const MatrixType & m) const
+auto
+SymmetricSecondRankTensor<T, NDimension>::PreMultiply(const MatrixType & m) const -> MatrixType
 {
   MatrixType result;
 
@@ -365,8 +365,8 @@ SymmetricSecondRankTensor<T, NDimension>::PreMultiply(const MatrixType & m) cons
  * Post-multiply the Tensor by a Matrix
  */
 template <typename T, unsigned int NDimension>
-typename SymmetricSecondRankTensor<T, NDimension>::MatrixType
-SymmetricSecondRankTensor<T, NDimension>::PostMultiply(const MatrixType & m) const
+auto
+SymmetricSecondRankTensor<T, NDimension>::PostMultiply(const MatrixType & m) const -> MatrixType
 {
   MatrixType result;
 

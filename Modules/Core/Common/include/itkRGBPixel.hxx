@@ -150,8 +150,8 @@ RGBPixel<T>::operator<(const Self & r) const
 }
 
 template <typename T>
-typename RGBPixel<T>::LuminanceType
-RGBPixel<T>::GetLuminance() const
+auto
+RGBPixel<T>::GetLuminance() const -> LuminanceType
 {
   const LuminanceType luminance = 0.30 * static_cast<LuminanceType>(this->GetRed()) +
                                   0.59 * static_cast<LuminanceType>(this->GetGreen()) +

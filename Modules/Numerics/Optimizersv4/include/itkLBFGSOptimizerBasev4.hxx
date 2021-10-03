@@ -187,8 +187,8 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::StartOptimization(bool /* doOnl
 }
 
 template <typename TInternalVnlOptimizerType>
-typename LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::InternalOptimizerType *
-LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetOptimizer()
+auto
+LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetOptimizer() -> InternalOptimizerType *
 {
   return m_VnlOptimizer.get();
 }

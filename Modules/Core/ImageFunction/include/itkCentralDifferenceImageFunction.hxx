@@ -102,8 +102,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::PrintSelf(s
  * EvaluateAtIndex
  */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
-typename CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::OutputType
+auto
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtIndex(const IndexType & index) const
+  -> OutputType
 {
   OutputType derivative;
 
@@ -260,8 +261,9 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
  *
  */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
-typename CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::OutputType
+auto
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::Evaluate(const PointType & point) const
+  -> OutputType
 {
   OutputType derivative;
 

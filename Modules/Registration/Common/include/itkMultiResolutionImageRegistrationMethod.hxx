@@ -440,8 +440,8 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::GetMTime() co
  *  Get Output
  */
 template <typename TFixedImage, typename TMovingImage>
-const typename MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::TransformOutputType *
-MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::GetOutput() const
+auto
+MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::GetOutput() const -> const TransformOutputType *
 {
   return static_cast<const TransformOutputType *>(this->ProcessObject::GetOutput(0));
 }

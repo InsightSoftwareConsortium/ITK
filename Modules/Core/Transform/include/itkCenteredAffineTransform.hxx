@@ -32,8 +32,8 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::CenteredAffineTransf
 
 // Get parameters
 template <typename TParametersValueType, unsigned int NDimensions>
-const typename CenteredAffineTransform<TParametersValueType, NDimensions>::ParametersType &
-CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters() const
+auto
+CenteredAffineTransform<TParametersValueType, NDimensions>::GetParameters() const -> const ParametersType &
 {
   // Transfer the linear part
   unsigned int par = 0;
@@ -168,8 +168,8 @@ CenteredAffineTransform<TParametersValueType, NDimensions>::GetInverse(Self * in
 
 // Return an inverse of this transform
 template <typename TParametersValueType, unsigned int NDimensions>
-typename CenteredAffineTransform<TParametersValueType, NDimensions>::InverseTransformBasePointer
-CenteredAffineTransform<TParametersValueType, NDimensions>::GetInverseTransform() const
+auto
+CenteredAffineTransform<TParametersValueType, NDimensions>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 
