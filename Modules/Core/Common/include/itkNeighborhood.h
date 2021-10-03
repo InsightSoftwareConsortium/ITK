@@ -348,10 +348,4 @@ operator<<(std::ostream & os, const Neighborhood<TPixel, VDimension, TContainer>
 #  include "itkNeighborhood.hxx"
 #endif
 
-/*
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNeighborhood.hxx"
-#endif
-*/
-
 #endif
