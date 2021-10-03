@@ -47,8 +47,8 @@ VectorMeanImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, In
  *
  */
 template <typename TInputImage, typename TCoordRep>
-typename VectorMeanImageFunction<TInputImage, TCoordRep>::RealType
-VectorMeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
+auto
+VectorMeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
 
   using PixelType = typename TInputImage::PixelType;

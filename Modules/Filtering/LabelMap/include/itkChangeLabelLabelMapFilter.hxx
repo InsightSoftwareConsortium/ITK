@@ -37,8 +37,8 @@ ChangeLabelLabelMapFilter<TImage>::SetChangeMap(const ChangeMapType & changeMap)
 }
 
 template <typename TImage>
-const typename ChangeLabelLabelMapFilter<TImage>::ChangeMapType &
-ChangeLabelLabelMapFilter<TImage>::GetChangeMap() const
+auto
+ChangeLabelLabelMapFilter<TImage>::GetChangeMap() const -> const ChangeMapType &
 {
   return m_MapOfLabelToBeReplaced;
 }

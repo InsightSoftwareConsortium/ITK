@@ -158,8 +158,9 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
 
 /** Evaluate the function at the specified index */
 template <typename TInputImage, typename TOutput>
-typename DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::OutputType
+auto
 DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
+  -> OutputType
 {
   OutputType derivative;
 
@@ -172,8 +173,8 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::EvaluateAtIndex(c
 
 /** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
-typename DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::OutputType
-DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const
+auto
+DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const -> OutputType
 {
   if (m_InterpolationMode == InterpolationModeEnum::NearestNeighbourInterpolation)
   {

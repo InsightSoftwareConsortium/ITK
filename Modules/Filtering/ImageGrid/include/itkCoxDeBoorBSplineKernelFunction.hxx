@@ -117,8 +117,8 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::CoxDeBoor(const un
 }
 
 template <unsigned int VSplineOrder, typename TRealValueType>
-typename CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::MatrixType
-CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GetShapeFunctionsInZeroToOneInterval()
+auto
+CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GetShapeFunctionsInZeroToOneInterval() -> MatrixType
 {
   const int  order = this->m_SplineOrder + 1;
   const auto numberOfPieces = static_cast<unsigned int>(order);
@@ -140,8 +140,8 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GetShapeFunctionsI
 }
 
 template <unsigned int VSplineOrder, typename TRealValueType>
-typename CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::MatrixType
-CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GetShapeFunctions()
+auto
+CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::GetShapeFunctions() -> MatrixType
 {
   return this->m_BSplineShapeFunctions;
 }

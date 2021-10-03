@@ -121,8 +121,9 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::SetCurrentEnergy(double e)
 }
 
 template <typename TMoving, typename TFixed>
-typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Float
+auto
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(ElementContainerType * el, Float step)
+  -> Float
 {
   Float energy = 0.0, defe = 0.0;
 
@@ -199,8 +200,8 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Eleme
 }
 
 template <typename TMoving, typename TFixed>
-typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::FEMVectorType
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe(FEMVectorType Gpos)
+auto
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe(FEMVectorType Gpos) -> FEMVectorType
 {
 
   // We assume the vector input is of size 2*ImageDimension.

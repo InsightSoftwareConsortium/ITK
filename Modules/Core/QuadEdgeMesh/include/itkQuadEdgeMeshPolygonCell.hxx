@@ -94,8 +94,8 @@ QuadEdgeMeshPolygonCell<TCellInterface>::~QuadEdgeMeshPolygonCell()
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::SelfAutoPointer
-QuadEdgeMeshPolygonCell<TCellInterface>::New()
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::New() -> SelfAutoPointer
 {
   SelfAutoPointer ptr(new Self);
 
@@ -144,8 +144,8 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetNumberOfPoints() const
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::CellFeatureCount
-QuadEdgeMeshPolygonCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -> CellFeatureCount
 {
   switch (dimension)
   {
@@ -270,8 +270,8 @@ QuadEdgeMeshPolygonCell<TCellInterface>::SetPointId(int localId, PointIdentifier
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::PointIdentifier
-QuadEdgeMeshPolygonCell<TCellInterface>::GetPointId(int localId) const
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::GetPointId(int localId) const -> PointIdentifier
 {
   int                          n = 0;
   PointIdInternalConstIterator it = this->InternalPointIdsBegin();
@@ -290,24 +290,24 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetPointId(int localId) const
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::PointIdInternalIterator
-QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsBegin()
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsBegin() -> PointIdInternalIterator
 {
   return m_EdgeRingEntry->BeginGeomLnext();
 }
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::PointIdInternalIterator
-QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsEnd()
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsEnd() -> PointIdInternalIterator
 {
   return m_EdgeRingEntry->EndGeomLnext();
 }
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::PointIdInternalConstIterator
-QuadEdgeMeshPolygonCell<TCellInterface>::InternalGetPointIds() const
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::InternalGetPointIds() const -> PointIdInternalConstIterator
 {
   const QuadEdgeType *         edge = const_cast<QuadEdgeType *>(m_EdgeRingEntry);
   PointIdInternalConstIterator iterator(edge->BeginGeomLnext());
@@ -317,8 +317,8 @@ QuadEdgeMeshPolygonCell<TCellInterface>::InternalGetPointIds() const
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::PointIdInternalConstIterator
-QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsBegin() const
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsBegin() const -> PointIdInternalConstIterator
 {
   const QuadEdgeType *         edge = const_cast<QuadEdgeType *>(m_EdgeRingEntry);
   PointIdInternalConstIterator iterator(edge->BeginGeomLnext());
@@ -328,8 +328,8 @@ QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsBegin() const
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshPolygonCell<TCellInterface>::PointIdInternalConstIterator
-QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsEnd() const
+auto
+QuadEdgeMeshPolygonCell<TCellInterface>::InternalPointIdsEnd() const -> PointIdInternalConstIterator
 {
   const auto *                 edge = const_cast<const QuadEdgeType *>(m_EdgeRingEntry);
   PointIdInternalConstIterator iterator = edge->EndGeomLnext();

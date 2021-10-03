@@ -97,8 +97,8 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSig
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::RealType
-GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma()
+auto
+GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() -> RealType
 {
   // just return the sigma value of one filter
   return m_DerivativeFilter->GetSigma();

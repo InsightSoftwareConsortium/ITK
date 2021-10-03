@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaBlobConverter<NDimensions>::MetaObjectType *
-MetaBlobConverter<NDimensions>::CreateMetaObject()
+auto
+MetaBlobConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new BlobMetaObjectType);
 }
 
 /** Convert a metaBlob into an Blob SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaBlobConverter<NDimensions>::SpatialObjectPointer
-MetaBlobConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaBlobConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * Blob = dynamic_cast<const BlobMetaObjectType *>(mo);
   if (Blob == nullptr)
@@ -85,8 +85,8 @@ MetaBlobConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
 /** Convert a Blob SpatialObject into a metaBlob */
 template <unsigned int NDimensions>
-typename MetaBlobConverter<NDimensions>::MetaObjectType *
-MetaBlobConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject)
+auto
+MetaBlobConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
   BlobSpatialObjectConstPointer blobSO = dynamic_cast<const BlobSpatialObjectType *>(spatialObject);
   if (blobSO.IsNull())

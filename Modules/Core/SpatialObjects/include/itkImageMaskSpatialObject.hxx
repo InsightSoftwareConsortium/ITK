@@ -144,8 +144,8 @@ ImageMaskSpatialObject<TDimension, TPixel>::PrintSelf(std::ostream & os, Indent 
 
 
 template <unsigned int TDimension, typename TPixel>
-typename ImageMaskSpatialObject<TDimension, TPixel>::RegionType
-ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() const
+auto
+ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() const -> RegionType
 {
   const ImagePointer imagePointer = this->GetImage();
 
@@ -231,8 +231,8 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() c
 
 #if !defined(ITK_LEGACY_REMOVE)
 template <unsigned int TDimension, typename TPixel>
-typename ImageMaskSpatialObject<TDimension, TPixel>::RegionType
-ImageMaskSpatialObject<TDimension, TPixel>::GetAxisAlignedBoundingBoxRegion() const
+auto
+ImageMaskSpatialObject<TDimension, TPixel>::GetAxisAlignedBoundingBoxRegion() const -> RegionType
 {
   return ComputeMyBoundingBoxInIndexSpace();
 }

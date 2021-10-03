@@ -514,8 +514,9 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueTh
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const ParametersType & parameters) const
+  -> MeasureType
 {
   // Set up the parameters in the transform
   this->m_Transform->SetParameters(parameters);

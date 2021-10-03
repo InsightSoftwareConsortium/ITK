@@ -25,8 +25,8 @@ namespace itk
 namespace Function
 {
 template <typename TScalar, typename TRGBPixel>
-typename CoolColormapFunction<TScalar, TRGBPixel>::RGBPixelType
-CoolColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const
+auto
+CoolColormapFunction<TScalar, TRGBPixel>::operator()(const TScalar & v) const -> RGBPixelType
 {
   // Map the input scalar between [0, 1].
   RealType value = this->RescaleInputValue(v);

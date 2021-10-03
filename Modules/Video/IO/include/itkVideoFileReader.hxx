@@ -116,8 +116,8 @@ VideoFileReader<TOutputVideoStream>::UpdateOutputInformation()
 }
 
 template <typename TOutputVideoStream>
-typename VideoFileReader<TOutputVideoStream>::FrameOffsetType
-VideoFileReader<TOutputVideoStream>::GetCurrentPositionFrame()
+auto
+VideoFileReader<TOutputVideoStream>::GetCurrentPositionFrame() -> FrameOffsetType
 {
   if (m_VideoIO.IsNull())
   {
@@ -127,8 +127,8 @@ VideoFileReader<TOutputVideoStream>::GetCurrentPositionFrame()
 }
 
 template <typename TOutputVideoStream>
-typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
-VideoFileReader<TOutputVideoStream>::GetCurrentPositionRatio()
+auto
+VideoFileReader<TOutputVideoStream>::GetCurrentPositionRatio() -> TemporalRatioType
 {
   if (m_VideoIO.IsNull())
   {
@@ -138,8 +138,8 @@ VideoFileReader<TOutputVideoStream>::GetCurrentPositionRatio()
 }
 
 template <typename TOutputVideoStream>
-typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
-VideoFileReader<TOutputVideoStream>::GetCurrentPositionMSec()
+auto
+VideoFileReader<TOutputVideoStream>::GetCurrentPositionMSec() -> TemporalRatioType
 {
   if (m_VideoIO.IsNull())
   {
@@ -149,8 +149,8 @@ VideoFileReader<TOutputVideoStream>::GetCurrentPositionMSec()
 }
 
 template <typename TOutputVideoStream>
-typename VideoFileReader<TOutputVideoStream>::FrameOffsetType
-VideoFileReader<TOutputVideoStream>::GetNumberOfFrames()
+auto
+VideoFileReader<TOutputVideoStream>::GetNumberOfFrames() -> FrameOffsetType
 {
   if (m_VideoIO.IsNull())
   {
@@ -160,8 +160,8 @@ VideoFileReader<TOutputVideoStream>::GetNumberOfFrames()
 }
 
 template <typename TOutputVideoStream>
-typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
-VideoFileReader<TOutputVideoStream>::GetFramesPerSecond()
+auto
+VideoFileReader<TOutputVideoStream>::GetFramesPerSecond() -> TemporalRatioType
 {
   if (m_VideoIO.IsNull())
   {

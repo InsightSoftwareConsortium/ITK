@@ -99,8 +99,8 @@ CenteredEuler3DTransform<TParametersValueType>::SetParameters(const ParametersTy
 //
 
 template <typename TParametersValueType>
-const typename CenteredEuler3DTransform<TParametersValueType>::ParametersType &
-CenteredEuler3DTransform<TParametersValueType>::GetParameters() const
+auto
+CenteredEuler3DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   ParametersType parameters;
 
@@ -192,8 +192,8 @@ CenteredEuler3DTransform<TParametersValueType>::GetInverse(Self * inverse) const
 
 // Return an inverse of this transform
 template <typename TParametersValueType>
-typename CenteredEuler3DTransform<TParametersValueType>::InverseTransformBasePointer
-CenteredEuler3DTransform<TParametersValueType>::GetInverseTransform() const
+auto
+CenteredEuler3DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

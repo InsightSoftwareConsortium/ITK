@@ -319,8 +319,9 @@ KernelTransform<TParametersValueType, NDimensions>::ReorganizeW()
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename KernelTransform<TParametersValueType, NDimensions>::OutputPointType
+auto
 KernelTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & thisPoint) const
+  -> OutputPointType
 {
   OutputPointType result;
 
@@ -473,8 +474,8 @@ KernelTransform<TParametersValueType, NDimensions>::UpdateParameters() const
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-const typename KernelTransform<TParametersValueType, NDimensions>::ParametersType &
-KernelTransform<TParametersValueType, NDimensions>::GetParameters() const
+auto
+KernelTransform<TParametersValueType, NDimensions>::GetParameters() const -> const ParametersType &
 {
   this->UpdateParameters();
   return this->m_Parameters;
@@ -482,8 +483,8 @@ KernelTransform<TParametersValueType, NDimensions>::GetParameters() const
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-const typename KernelTransform<TParametersValueType, NDimensions>::FixedParametersType &
-KernelTransform<TParametersValueType, NDimensions>::GetFixedParameters() const
+auto
+KernelTransform<TParametersValueType, NDimensions>::GetFixedParameters() const -> const FixedParametersType &
 {
   // Get the fixed parameters
   // This returns the target landmark locations

@@ -81,8 +81,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetTransformT
 
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType
+auto
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumberOfParameters() const
+  -> NumberOfParametersType
 {
   // The number of parameters equals SpaceDimension * number of
   // of pixels in the grid region.
@@ -91,8 +92,9 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumberOfPa
 
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-typename BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType
+auto
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::GetNumberOfParametersPerDimension() const
+  -> NumberOfParametersType
 {
   // The number of parameters per dimension equals the number of
   // of pixels in the grid region.

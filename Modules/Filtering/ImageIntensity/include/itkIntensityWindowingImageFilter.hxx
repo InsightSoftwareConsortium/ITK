@@ -69,15 +69,15 @@ IntensityWindowingImageFilter<TInputImage, TOutputImage>::SetWindowLevel(const I
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename IntensityWindowingImageFilter<TInputImage, TOutputImage>::InputPixelType
-IntensityWindowingImageFilter<TInputImage, TOutputImage>::GetWindow() const
+auto
+IntensityWindowingImageFilter<TInputImage, TOutputImage>::GetWindow() const -> InputPixelType
 {
   return this->m_WindowMaximum - this->m_WindowMinimum;
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename IntensityWindowingImageFilter<TInputImage, TOutputImage>::InputPixelType
-IntensityWindowingImageFilter<TInputImage, TOutputImage>::GetLevel() const
+auto
+IntensityWindowingImageFilter<TInputImage, TOutputImage>::GetLevel() const -> InputPixelType
 {
   return (this->m_WindowMaximum + this->m_WindowMinimum) / 2;
 }

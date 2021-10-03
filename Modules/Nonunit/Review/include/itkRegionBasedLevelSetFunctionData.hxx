@@ -56,8 +56,9 @@ RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::CreateHeavisideFunc
 }
 
 template <typename TInputImage, typename TFeatureImage>
-typename RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::InputIndexType
+auto
 RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::GetIndex(const FeatureIndexType & featureIndex)
+  -> InputIndexType
 {
   InputIndexType index;
 
@@ -70,8 +71,9 @@ RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::GetIndex(const Feat
 }
 
 template <typename TInputImage, typename TFeatureImage>
-typename RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::FeatureIndexType
+auto
 RegionBasedLevelSetFunctionData<TInputImage, TFeatureImage>::GetFeatureIndex(const InputIndexType & inputIndex)
+  -> FeatureIndexType
 {
   FeatureIndexType index;
 

@@ -24,8 +24,8 @@
 namespace itk
 {
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename ForwardDifferenceOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-ForwardDifferenceOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
+auto
+ForwardDifferenceOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   CoefficientVector coeff(3);
 

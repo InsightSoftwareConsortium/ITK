@@ -124,8 +124,9 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
 }
 
 template <typename TInputImage, typename TPolyline, typename TVector, typename TOutputImage>
-typename PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::ProjPlanePointType
+auto
 PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::TransformProjectPoint(PointType inputPoint)
+  -> ProjPlanePointType
 {
   PointType centered;
 

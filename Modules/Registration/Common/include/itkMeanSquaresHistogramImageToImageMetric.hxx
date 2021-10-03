@@ -23,8 +23,9 @@
 namespace itk
 {
 template <typename TFixedImage, typename TMovingImage>
-typename MeanSquaresHistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 MeanSquaresHistogramImageToImageMetric<TFixedImage, TMovingImage>::EvaluateMeasure(HistogramType & histogram) const
+  -> MeasureType
 {
   MeasureType            measure = NumericTraits<MeasureType>::ZeroValue();
   HistogramIteratorType  it = histogram.Begin();

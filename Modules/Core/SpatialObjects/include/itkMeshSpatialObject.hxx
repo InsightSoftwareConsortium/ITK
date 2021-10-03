@@ -127,15 +127,15 @@ MeshSpatialObject<TMesh>::SetMesh(MeshType * mesh)
 
 /** Get the Mesh inside the spatial object */
 template <typename TMesh>
-typename MeshSpatialObject<TMesh>::MeshType *
-MeshSpatialObject<TMesh>::GetMesh()
+auto
+MeshSpatialObject<TMesh>::GetMesh() -> MeshType *
 {
   return m_Mesh.GetPointer();
 }
 
 template <typename TMesh>
-const typename MeshSpatialObject<TMesh>::MeshType *
-MeshSpatialObject<TMesh>::GetMesh() const
+auto
+MeshSpatialObject<TMesh>::GetMesh() const -> const MeshType *
 {
   return m_Mesh.GetPointer();
 }

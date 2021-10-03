@@ -46,8 +46,8 @@ SimilarityIndexImageFilter<TInputImage1, TInputImage2>::SetInput2(const TInputIm
 }
 
 template <typename TInputImage1, typename TInputImage2>
-const typename SimilarityIndexImageFilter<TInputImage1, TInputImage2>::InputImage2Type *
-SimilarityIndexImageFilter<TInputImage1, TInputImage2>::GetInput2()
+auto
+SimilarityIndexImageFilter<TInputImage1, TInputImage2>::GetInput2() -> const InputImage2Type *
 {
   return itkDynamicCastInDebugMode<const TInputImage2 *>(this->ProcessObject::GetInput(1));
 }

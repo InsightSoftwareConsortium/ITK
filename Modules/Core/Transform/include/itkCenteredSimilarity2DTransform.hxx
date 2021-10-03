@@ -84,8 +84,8 @@ CenteredSimilarity2DTransform<TParametersValueType>::SetParameters(const Paramet
 
 
 template <typename TParametersValueType>
-const typename CenteredSimilarity2DTransform<TParametersValueType>::ParametersType &
-CenteredSimilarity2DTransform<TParametersValueType>::GetParameters() const
+auto
+CenteredSimilarity2DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 
@@ -163,8 +163,8 @@ CenteredSimilarity2DTransform<TParametersValueType>::SetFixedParameters(
 
 
 template <typename TParametersValueType>
-const typename CenteredSimilarity2DTransform<TParametersValueType>::FixedParametersType &
-CenteredSimilarity2DTransform<TParametersValueType>::GetFixedParameters() const
+auto
+CenteredSimilarity2DTransform<TParametersValueType>::GetFixedParameters() const -> const FixedParametersType &
 {
   // return dummy parameters
   return this->m_FixedParameters;
@@ -212,8 +212,8 @@ CenteredSimilarity2DTransform<TParametersValueType>::GetInverse(Self * inverse) 
 
 
 template <typename TParametersValueType>
-typename CenteredSimilarity2DTransform<TParametersValueType>::InverseTransformBasePointer
-CenteredSimilarity2DTransform<TParametersValueType>::GetInverseTransform() const
+auto
+CenteredSimilarity2DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

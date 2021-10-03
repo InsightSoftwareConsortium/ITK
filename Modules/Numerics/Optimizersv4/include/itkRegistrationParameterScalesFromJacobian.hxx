@@ -71,8 +71,8 @@ RegistrationParameterScalesFromJacobian<TMetric>::EstimateScales(ScalesType & pa
  *  Compute the scale for a STEP, the impact of a STEP on the transform.
  */
 template <typename TMetric>
-typename RegistrationParameterScalesFromJacobian<TMetric>::FloatType
-RegistrationParameterScalesFromJacobian<TMetric>::EstimateStepScale(const ParametersType & step)
+auto
+RegistrationParameterScalesFromJacobian<TMetric>::EstimateStepScale(const ParametersType & step) -> FloatType
 {
   this->CheckAndSetInputs();
   this->SetStepScaleSamplingStrategy();

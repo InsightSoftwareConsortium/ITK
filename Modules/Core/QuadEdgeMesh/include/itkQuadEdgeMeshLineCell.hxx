@@ -117,8 +117,8 @@ QuadEdgeMeshLineCell<TCellInterface>::Accept(CellIdentifier cellId, MultiVisitor
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshLineCell<TCellInterface>::CellFeatureCount
-QuadEdgeMeshLineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
+auto
+QuadEdgeMeshLineCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -> CellFeatureCount
 {
   if (dimension == 0)
   {
@@ -211,40 +211,40 @@ QuadEdgeMeshLineCell<TCellInterface>::SetPointId(int localId, PointIdentifier pI
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalIterator
-QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsBegin()
+auto
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsBegin() -> PointIdInternalIterator
 {
   return (PointIdInternalIterator(this->m_QuadEdgeGeom, PointIdInternalIterator::OperatorSym, true));
 }
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalIterator
-QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsEnd()
+auto
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsEnd() -> PointIdInternalIterator
 {
   return (PointIdInternalIterator(this->m_QuadEdgeGeom, PointIdInternalIterator::OperatorSym, false));
 }
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalConstIterator
-QuadEdgeMeshLineCell<TCellInterface>::InternalGetPointIds() const
+auto
+QuadEdgeMeshLineCell<TCellInterface>::InternalGetPointIds() const -> PointIdInternalConstIterator
 {
   return (PointIdInternalConstIterator(this->m_QuadEdgeGeom, PointIdInternalConstIterator::OperatorSym, true));
 }
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalConstIterator
-QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsBegin() const
+auto
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsBegin() const -> PointIdInternalConstIterator
 {
   return (PointIdInternalConstIterator(this->m_QuadEdgeGeom, PointIdInternalConstIterator::OperatorSym, true));
 }
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshLineCell<TCellInterface>::PointIdInternalConstIterator
-QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsEnd() const
+auto
+QuadEdgeMeshLineCell<TCellInterface>::InternalPointIdsEnd() const -> PointIdInternalConstIterator
 {
   return (PointIdInternalConstIterator(this->m_QuadEdgeGeom, PointIdInternalConstIterator::OperatorSym, false));
 }
@@ -261,8 +261,8 @@ QuadEdgeMeshLineCell<TCellInterface>::SetIdent(CellIdentifier cid)
 
 // ---------------------------------------------------------------------
 template <typename TCellInterface>
-typename QuadEdgeMeshLineCell<TCellInterface>::CellIdentifier
-QuadEdgeMeshLineCell<TCellInterface>::GetIdent()
+auto
+QuadEdgeMeshLineCell<TCellInterface>::GetIdent() -> CellIdentifier
 {
   return this->m_Identifier;
 }

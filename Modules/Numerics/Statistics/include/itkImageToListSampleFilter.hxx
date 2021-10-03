@@ -75,8 +75,9 @@ ImageToListSampleFilter<TImage, TMaskImage>::GetMaskImage() const
 }
 
 template <typename TImage, typename TMaskImage>
-typename ImageToListSampleFilter<TImage, TMaskImage>::DataObjectPointer
+auto
 ImageToListSampleFilter<TImage, TMaskImage>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
+  -> DataObjectPointer
 {
   return ListSampleType::New().GetPointer();
 }
@@ -184,8 +185,8 @@ ImageToListSampleFilter<TImage, TMaskImage>::GenerateInputRequestedRegion()
 }
 
 template <typename TImage, typename TMaskImage>
-const typename ImageToListSampleFilter<TImage, TMaskImage>::ListSampleType *
-ImageToListSampleFilter<TImage, TMaskImage>::GetOutput() const
+auto
+ImageToListSampleFilter<TImage, TMaskImage>::GetOutput() const -> const ListSampleType *
 {
   const auto * output = static_cast<const ListSampleType *>(this->ProcessObject::GetOutput(0));
 

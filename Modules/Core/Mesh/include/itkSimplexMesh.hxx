@@ -93,8 +93,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SetBarycentricCoordinates(Poin
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::PointType
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetBarycentricCoordinates(PointIdentifier idx) const
+auto
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetBarycentricCoordinates(PointIdentifier idx) const -> PointType
 {
   return m_GeometryData->GetElement(idx)->eps;
 }
@@ -109,8 +109,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SetReferenceMetrics(PointIdent
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::PointType
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetReferenceMetrics(PointIdentifier idx) const
+auto
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetReferenceMetrics(PointIdentifier idx) const -> PointType
 {
   return m_GeometryData->GetElement(idx)->referenceMetrics;
 }
@@ -184,8 +184,9 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetDistance(PointIdentifier id
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::CellIdentifier
+auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startPointId, PointIdentifier endPointId)
+  -> CellIdentifier
 {
   CellAutoPointer NewCellPointer(new LineType, true);
   CellIdentifier  edgeId = m_LastCellId;
@@ -199,8 +200,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startP
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::CellIdentifier
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddFace(CellAutoPointer & cellPointer)
+auto
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddFace(CellAutoPointer & cellPointer) -> CellIdentifier
 {
   this->SetCell(m_LastCellId, cellPointer);
   m_LastCellId++;
@@ -251,8 +252,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SetGeometryData(PointIdentifie
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::IndexArray
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier idx) const
+auto
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::GetNeighbors(PointIdentifier idx) const -> IndexArray
 {
   return m_GeometryData->GetElement(idx)->neighborIndices;
 }
@@ -399,8 +400,8 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SwapNeighbors(PointIdentifier 
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename SimplexMesh<TPixelType, VDimension, TMeshTraits>::CovariantVectorType
-SimplexMesh<TPixelType, VDimension, TMeshTraits>::ComputeNormal(PointIdentifier idx) const
+auto
+SimplexMesh<TPixelType, VDimension, TMeshTraits>::ComputeNormal(PointIdentifier idx) const -> CovariantVectorType
 {
   PointType p, n1, n2, n3;
 

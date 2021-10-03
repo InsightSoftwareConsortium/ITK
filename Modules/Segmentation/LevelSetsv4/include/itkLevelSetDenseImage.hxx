@@ -42,8 +42,8 @@ LevelSetDenseImage<TImage>::SetImage(ImageType * inputImage)
 
 // ----------------------------------------------------------------------------
 template <typename TImage>
-typename LevelSetDenseImage<TImage>::OutputType
-LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex) const
+auto
+LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex) const -> OutputType
 {
   InputType mapIndex = inputIndex - this->m_DomainOffset;
   return this->m_Image->GetPixel(mapIndex);

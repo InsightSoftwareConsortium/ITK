@@ -65,8 +65,8 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::SetInput(unsigned int index, Inp
  *
  */
 template <typename TInputImage>
-typename ImageToRectilinearFEMObjectFilter<TInputImage>::InputImageType *
-ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput()
+auto
+ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput() -> InputImageType *
 {
   if (this->GetNumberOfInputs() < 1)
   {
@@ -80,8 +80,8 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput()
  *
  */
 template <typename TInputImage>
-typename ImageToRectilinearFEMObjectFilter<TInputImage>::InputImageType *
-ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput(unsigned int idx)
+auto
+ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput(unsigned int idx) -> InputImageType *
 {
   return itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(idx));
 }
@@ -90,8 +90,9 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput(unsigned int idx)
  *
  */
 template <typename TInputImage>
-typename ImageToRectilinearFEMObjectFilter<TInputImage>::DataObjectPointer
+auto
 ImageToRectilinearFEMObjectFilter<TInputImage>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
+  -> DataObjectPointer
 {
   return FEMObjectType::New().GetPointer();
 }
@@ -100,8 +101,8 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::MakeOutput(DataObjectPointerArra
  *
  */
 template <typename TInputImage>
-typename ImageToRectilinearFEMObjectFilter<TInputImage>::FEMObjectType *
-ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput()
+auto
+ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput() -> FEMObjectType *
 {
   if (this->GetNumberOfOutputs() < 1)
   {
@@ -115,8 +116,8 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput()
  *
  */
 template <typename TInputImage>
-typename ImageToRectilinearFEMObjectFilter<TInputImage>::FEMObjectType *
-ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput(unsigned int idx)
+auto
+ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput(unsigned int idx) -> FEMObjectType *
 {
   auto * out = dynamic_cast<FEMObjectType *>(this->ProcessObject::GetOutput(idx));
 

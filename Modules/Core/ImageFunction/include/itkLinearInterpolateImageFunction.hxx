@@ -26,8 +26,9 @@
 namespace itk
 {
 template <typename TInputImage, typename TCoordRep>
-typename LinearInterpolateImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 LinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateUnoptimized(const ContinuousIndexType & index) const
+  -> OutputType
 {
   // Avoid the smartpointer de-reference in the loop for
   // "return m_InputImage.GetPointer()"

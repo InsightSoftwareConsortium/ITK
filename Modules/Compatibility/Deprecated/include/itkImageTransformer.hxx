@@ -71,8 +71,8 @@ ImageTransformer<TInputImage>::SetInput(unsigned int index, const TInputImage * 
  *
  */
 template <typename TInputImage>
-const typename ImageTransformer<TInputImage>::InputImageType *
-ImageTransformer<TInputImage>::GetInput() const
+auto
+ImageTransformer<TInputImage>::GetInput() const -> const InputImageType *
 {
   if (this->GetNumberOfInputs() < 1)
   {
@@ -86,8 +86,8 @@ ImageTransformer<TInputImage>::GetInput() const
  *
  */
 template <typename TInputImage>
-typename ImageTransformer<TInputImage>::InputImageType *
-ImageTransformer<TInputImage>::GetInput()
+auto
+ImageTransformer<TInputImage>::GetInput() -> InputImageType *
 {
   if (this->GetNumberOfInputs() < 1)
   {
@@ -101,8 +101,8 @@ ImageTransformer<TInputImage>::GetInput()
  *
  */
 template <typename TInputImage>
-const typename ImageTransformer<TInputImage>::InputImageType *
-ImageTransformer<TInputImage>::GetInput(unsigned int idx) const
+auto
+ImageTransformer<TInputImage>::GetInput(unsigned int idx) const -> const InputImageType *
 {
   return itkDynamicCastInDebugMode<const TInputImage *>(this->ProcessObject::GetInput(idx));
 }

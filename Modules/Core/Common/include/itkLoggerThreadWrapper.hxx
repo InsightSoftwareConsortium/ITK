@@ -81,8 +81,8 @@ LoggerThreadWrapper<SimpleLoggerType>::SetDelay(DelayType delay)
 }
 
 template <typename SimpleLoggerType>
-typename LoggerThreadWrapper<SimpleLoggerType>::DelayType
-LoggerThreadWrapper<SimpleLoggerType>::GetDelay() const
+auto
+LoggerThreadWrapper<SimpleLoggerType>::GetDelay() const -> DelayType
 {
   this->m_Mutex.lock();
   DelayType delay = this->m_Delay;

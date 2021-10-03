@@ -93,8 +93,8 @@ VTKImageToImageFilter<TOutputImage>::GetExporter() const
  * Get the importer filter
  */
 template <typename TOutputImage>
-const typename VTKImageToImageFilter<TOutputImage>::Superclass *
-VTKImageToImageFilter<TOutputImage>::GetImporter() const
+auto
+VTKImageToImageFilter<TOutputImage>::GetImporter() const -> const Superclass *
 {
   return this;
 }

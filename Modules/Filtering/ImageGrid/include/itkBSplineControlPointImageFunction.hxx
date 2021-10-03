@@ -120,8 +120,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::SetInputImage(const In
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtParametricPoint(const PointType & point) const
+  -> OutputType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -133,8 +134,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtParametricPo
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::OutputType
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & idx) const
+auto
+BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & idx) const -> OutputType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -160,8 +161,8 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIn
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::OutputType
-BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & params) const
+auto
+BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointType & params) const -> OutputType
 {
   vnl_vector<CoordRepType> p(ImageDimension);
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -279,8 +280,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtPara
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::GradientType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtIndex(const IndexType & idx) const
+  -> GradientType
 {
   PointType params;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -306,8 +308,9 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradientAtCont
 }
 
 template <typename TInputImage, typename TCoordRep>
-typename BSplineControlPointImageFunction<TInputImage, TCoordRep>::GradientType
+auto
 BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const PointType & params) const
+  -> GradientType
 {
   vnl_vector<CoordRepType> p(ImageDimension);
   for (unsigned int i = 0; i < ImageDimension; ++i)

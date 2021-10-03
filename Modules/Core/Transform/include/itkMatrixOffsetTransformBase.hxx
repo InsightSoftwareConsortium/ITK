@@ -392,8 +392,9 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
 
 template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-const typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::InverseMatrixType &
+auto
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetInverseMatrix() const
+  -> const InverseMatrixType &
 {
   // If the transform has been modified we recompute the inverse
   if (m_InverseMatrixMTime != m_MatrixMTime)
@@ -485,8 +486,9 @@ const typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions,
 
 
 template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-const typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::ParametersType &
+auto
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetParameters() const
+  -> const ParametersType &
 {
   // Transfer the linear part
   unsigned int par = 0;

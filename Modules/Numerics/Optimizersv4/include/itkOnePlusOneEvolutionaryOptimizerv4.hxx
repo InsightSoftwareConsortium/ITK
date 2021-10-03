@@ -282,8 +282,8 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::GetStopConditi
 }
 
 template <typename TInternalComputationValueType>
-const typename OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::MeasureType &
-OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::GetValue() const
+auto
+OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::GetValue() const -> const MeasureType &
 {
   return this->GetCurrentCost();
 }

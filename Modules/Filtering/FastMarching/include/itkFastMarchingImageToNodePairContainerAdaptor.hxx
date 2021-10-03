@@ -61,22 +61,22 @@ FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::SetForbidd
 }
 
 template <typename TInput, typename TOutput, typename TImage>
-typename FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::NodePairContainerType *
-FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GetAlivePoints()
+auto
+FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GetAlivePoints() -> NodePairContainerType *
 {
   return m_AlivePoints.GetPointer();
 }
 
 template <typename TInput, typename TOutput, typename TImage>
-typename FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::NodePairContainerType *
-FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GetTrialPoints()
+auto
+FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GetTrialPoints() -> NodePairContainerType *
 {
   return m_TrialPoints.GetPointer();
 }
 
 template <typename TInput, typename TOutput, typename TImage>
-typename FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::NodePairContainerType *
-FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GetForbiddenPoints()
+auto
+FastMarchingImageToNodePairContainerAdaptor<TInput, TOutput, TImage>::GetForbiddenPoints() -> NodePairContainerType *
 {
   return m_ForbiddenPoints.GetPointer();
 }

@@ -24,8 +24,8 @@
 namespace itk
 {
 template <typename TMesh>
-typename QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::OutputType
-QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) const
+auto
+QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) const -> OutputType
 {
   // Push on a list all the non internal edges:
   using CellsContainerConstIterator = typename MeshType::CellsContainerConstIterator;

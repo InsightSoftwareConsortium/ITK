@@ -158,8 +158,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedGenerateData(const RegionT
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetTotalOverlap() const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetTotalOverlap() const -> RealType
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
@@ -185,8 +185,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTotalOverlap() const
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetTargetOverlap(LabelType label) const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetTargetOverlap(LabelType label) const -> RealType
 {
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
@@ -209,8 +209,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTargetOverlap(LabelType label) 
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap() const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap() const -> RealType
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
@@ -236,8 +236,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap() const
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap(LabelType label) const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap(LabelType label) const -> RealType
 {
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
@@ -260,24 +260,24 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap(LabelType label) c
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap() const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap() const -> RealType
 {
   RealType uo = this->GetUnionOverlap();
   return (2.0 * uo / (1.0 + uo));
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap(LabelType label) const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetMeanOverlap(LabelType label) const -> RealType
 {
   RealType uo = this->GetUnionOverlap(label);
   return (2.0 * uo / (1.0 + uo));
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity() const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity() const -> RealType
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
@@ -304,8 +304,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity() const
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity(LabelType label) const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity(LabelType label) const -> RealType
 {
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
@@ -320,8 +320,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity(LabelType labe
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError() const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError() const -> RealType
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
@@ -347,8 +347,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError() const
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError(LabelType label) const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError(LabelType label) const -> RealType
 {
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
@@ -371,8 +371,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError(LabelType la
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> RealType
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
@@ -398,8 +398,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const
 }
 
 template <typename TLabelImage>
-typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
-LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType label) const
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType label) const -> RealType
 {
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())

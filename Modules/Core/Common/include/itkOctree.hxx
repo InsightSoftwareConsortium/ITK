@@ -257,8 +257,8 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::BuildFromImage(ImageType * 
 }
 
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
-typename Octree<TPixel, ColorTableSize, MappingFunctionType>::ImageTypePointer
-Octree<TPixel, ColorTableSize, MappingFunctionType>::GetImage()
+auto
+Octree<TPixel, ColorTableSize, MappingFunctionType>::GetImage() -> ImageTypePointer
 {
   typename ImageType::SizeType imageSize = { { 0, 0, 0 } };
   SizeValueType                sizes[3];

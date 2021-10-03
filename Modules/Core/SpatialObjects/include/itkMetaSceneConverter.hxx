@@ -112,8 +112,9 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SetTransform(SpatialObj
 /** Convert a metaScene into a Composite Spatial Object
  *  Also Managed Composite Spatial Object to keep a hierarchy */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-typename MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectPointer
+auto
 MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateSpatialObjectScene(MetaScene * mScene)
+  -> SpatialObjectPointer
 {
   SpatialObjectPointer soScene = nullptr;
 
@@ -232,8 +233,8 @@ MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::CreateSpatialObjectScen
 
 /** Read a meta file give the type */
 template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-typename MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectPointer
-MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ReadMeta(const std::string & name)
+auto
+MetaSceneConverter<NDimensions, PixelType, TMeshTraits>::ReadMeta(const std::string & name) -> SpatialObjectPointer
 {
   auto * mScene = new MetaScene;
 

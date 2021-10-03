@@ -64,8 +64,9 @@ LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LaplacianSpeed(
 }
 
 template <typename TInput, typename TLevelSetContainer>
-typename LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::LevelSetOutputRealType
+auto
 LevelSetEquationLaplacianTerm<TInput, TLevelSetContainer>::Value(const LevelSetInputIndexType & iP)
+  -> LevelSetOutputRealType
 {
   LevelSetOutputRealType laplacian = this->m_CurrentLevelSetPointer->EvaluateLaplacian(iP);
 

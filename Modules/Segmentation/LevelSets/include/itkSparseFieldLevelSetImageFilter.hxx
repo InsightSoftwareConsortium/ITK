@@ -845,8 +845,8 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::AllocateUpdateBuffer(
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::TimeStepType
-SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CalculateChange()
+auto
+SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CalculateChange() -> TimeStepType
 {
   const typename Superclass::FiniteDifferenceFunctionType::Pointer   df = this->GetDifferenceFunction();
   typename Superclass::FiniteDifferenceFunctionType::FloatOffsetType offset;

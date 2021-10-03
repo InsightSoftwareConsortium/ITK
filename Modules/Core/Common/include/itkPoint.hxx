@@ -136,8 +136,8 @@ Point<T, TPointDimension>::GetVnlVector() const
 }
 
 template <typename T, unsigned int TPointDimension>
-typename Point<T, TPointDimension>::VectorType
-Point<T, TPointDimension>::GetVectorFromOrigin() const
+auto
+Point<T, TPointDimension>::GetVectorFromOrigin() const -> VectorType
 {
   // VectorType knows how to construct from ValueType*.
   return &(*this)[0];

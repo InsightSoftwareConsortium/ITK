@@ -40,8 +40,8 @@ ScalarImageToHistogramGenerator<TImage>::SetInput(const ImageType * image)
 }
 
 template <typename TImage>
-const typename ScalarImageToHistogramGenerator<TImage>::HistogramType *
-ScalarImageToHistogramGenerator<TImage>::GetOutput() const
+auto
+ScalarImageToHistogramGenerator<TImage>::GetOutput() const -> const HistogramType *
 {
   return m_HistogramGenerator->GetOutput();
 }

@@ -218,8 +218,8 @@ HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::Simplify()
 
 
 template <typename TInputPixelType, typename TOutputPixelType>
-typename HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::LinesListType &
-HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines()
+auto
+HoughTransform2DLinesImageFilter<TInputPixelType, TOutputPixelType>::GetLines() -> LinesListType &
 {
   // If the filter has not been updated.
   if (this->GetMTime() == m_OldModifiedTime)

@@ -59,8 +59,8 @@ DOMWriter<TInput>::SetInput(const InputType * input)
 
 /** Get the input object to be written. */
 template <typename TInput>
-const typename DOMWriter<TInput>::InputType *
-DOMWriter<TInput>::GetInput() const
+auto
+DOMWriter<TInput>::GetInput() const -> const InputType *
 {
   return this->m_Input;
 }

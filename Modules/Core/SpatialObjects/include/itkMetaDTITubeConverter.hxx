@@ -25,16 +25,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaDTITubeConverter<NDimensions>::MetaObjectType *
-MetaDTITubeConverter<NDimensions>::CreateMetaObject()
+auto
+MetaDTITubeConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new DTITubeMetaObjectType);
 }
 
 /** Convert a MetaDTITube into an Tube SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaDTITubeConverter<NDimensions>::SpatialObjectPointer
-MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * tube = dynamic_cast<const MetaDTITube *>(mo);
   if (tube == nullptr)
@@ -180,8 +180,9 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
 /** Convert a Tube SpatialObject into a MetaDTITube */
 template <unsigned int NDimensions>
-typename MetaDTITubeConverter<NDimensions>::MetaObjectType *
+auto
 MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject)
+  -> MetaObjectType *
 {
   DTITubeSpatialObjectConstPointer DTITubeSO = dynamic_cast<const DTITubeSpatialObjectType *>(spatialObject);
   if (DTITubeSO.IsNull())

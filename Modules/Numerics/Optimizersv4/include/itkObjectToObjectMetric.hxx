@@ -434,8 +434,9 @@ template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
           typename TParametersValueType>
-typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::VirtualOriginType
+auto
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::GetVirtualOrigin() const
+  -> VirtualOriginType
 {
   if (this->m_VirtualImage)
   {

@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaLineConverter<NDimensions>::MetaObjectType *
-MetaLineConverter<NDimensions>::CreateMetaObject()
+auto
+MetaLineConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new LineMetaObjectType);
 }
 
 /** Convert a metaLine into an Line SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaLineConverter<NDimensions>::SpatialObjectPointer
-MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * lineMO = dynamic_cast<const LineMetaObjectType *>(mo);
   if (lineMO == nullptr)
@@ -93,8 +93,8 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
 /** Convert a Line SpatialObject into a metaLine */
 template <unsigned int NDimensions>
-typename MetaLineConverter<NDimensions>::MetaObjectType *
-MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject)
+auto
+MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
   LineSpatialObjectConstPointer lineSO = dynamic_cast<const LineSpatialObjectType *>(spatialObject);
   if (lineSO.IsNull())

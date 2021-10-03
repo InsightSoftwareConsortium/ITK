@@ -172,8 +172,8 @@ ImageSpatialObject<TDimension, PixelType>::SetImage(const ImageType * image)
 
 /** Get the image inside the spatial object */
 template <unsigned int TDimension, typename PixelType>
-const typename ImageSpatialObject<TDimension, PixelType>::ImageType *
-ImageSpatialObject<TDimension, PixelType>::GetImage() const
+auto
+ImageSpatialObject<TDimension, PixelType>::GetImage() const -> const ImageType *
 {
   return m_Image.GetPointer();
 }

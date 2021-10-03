@@ -152,8 +152,8 @@ ComposeScaleSkewVersor3DTransform<TParametersValueType>::SetParameters(const Par
 //
 
 template <typename TParametersValueType>
-const typename ComposeScaleSkewVersor3DTransform<TParametersValueType>::ParametersType &
-ComposeScaleSkewVersor3DTransform<TParametersValueType>::GetParameters() const
+auto
+ComposeScaleSkewVersor3DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 

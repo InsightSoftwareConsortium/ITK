@@ -90,8 +90,8 @@ VoronoiDiagram2D<TCoordRepType>::GetCellId(CellIdentifier cellId, CellAutoPointe
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::EdgeInfo
-VoronoiDiagram2D<TCoordRepType>::GetSeedsIDAroundEdge(VoronoiEdge * task)
+auto
+VoronoiDiagram2D<TCoordRepType>::GetSeedsIDAroundEdge(VoronoiEdge * task) -> EdgeInfo
 {
   EdgeInfo answer;
 
@@ -102,56 +102,56 @@ VoronoiDiagram2D<TCoordRepType>::GetSeedsIDAroundEdge(VoronoiEdge * task)
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::VoronoiEdgeIterator
-VoronoiDiagram2D<TCoordRepType>::EdgeBegin()
+auto
+VoronoiDiagram2D<TCoordRepType>::EdgeBegin() -> VoronoiEdgeIterator
 {
   return m_EdgeList.begin();
 }
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::VoronoiEdgeIterator
-VoronoiDiagram2D<TCoordRepType>::EdgeEnd()
+auto
+VoronoiDiagram2D<TCoordRepType>::EdgeEnd() -> VoronoiEdgeIterator
 {
   return m_EdgeList.end();
 }
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::NeighborIdIterator
-VoronoiDiagram2D<TCoordRepType>::NeighborIdsBegin(int seeds)
+auto
+VoronoiDiagram2D<TCoordRepType>::NeighborIdsBegin(int seeds) -> NeighborIdIterator
 {
   return m_CellNeighborsID[seeds].begin();
 }
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::NeighborIdIterator
-VoronoiDiagram2D<TCoordRepType>::NeighborIdsEnd(int seeds)
+auto
+VoronoiDiagram2D<TCoordRepType>::NeighborIdsEnd(int seeds) -> NeighborIdIterator
 {
   return m_CellNeighborsID[seeds].end();
 }
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::VertexIterator
-VoronoiDiagram2D<TCoordRepType>::VertexBegin()
+auto
+VoronoiDiagram2D<TCoordRepType>::VertexBegin() -> VertexIterator
 {
   return this->m_PointsContainer->Begin();
 }
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::VertexIterator
-VoronoiDiagram2D<TCoordRepType>::VertexEnd()
+auto
+VoronoiDiagram2D<TCoordRepType>::VertexEnd() -> VertexIterator
 {
   return this->m_PointsContainer->End();
 }
 
 
 template <typename TCoordRepType>
-typename VoronoiDiagram2D<TCoordRepType>::PointType
-VoronoiDiagram2D<TCoordRepType>::GetSeed(int SeedID)
+auto
+VoronoiDiagram2D<TCoordRepType>::GetSeed(int SeedID) -> PointType
 {
   PointType answer;
 

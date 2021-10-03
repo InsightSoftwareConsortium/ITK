@@ -54,8 +54,9 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::PrintSelf(std::ostream &
  *
  */
 template <typename TFeatureImage, typename TOutputPixel>
-typename ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::MeasureType
+auto
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogInsideTerm(const ParametersType & parameters) const
+  -> MeasureType
 {
   this->m_ShapeFunction->SetParameters(parameters);
 
@@ -116,8 +117,9 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogShapePriorTerm
  *
  */
 template <typename TFeatureImage, typename TOutputPixel>
-typename ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::MeasureType
+auto
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogGradientTerm(const ParametersType & parameters) const
+  -> MeasureType
 {
   this->m_ShapeFunction->SetParameters(parameters);
 

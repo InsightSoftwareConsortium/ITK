@@ -87,8 +87,8 @@ CenteredRigid2DTransform<TParametersValueType>::SetParameters(const ParametersTy
 
 
 template <typename TParametersValueType>
-const typename CenteredRigid2DTransform<TParametersValueType>::ParametersType &
-CenteredRigid2DTransform<TParametersValueType>::GetParameters() const
+auto
+CenteredRigid2DTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
   // Parameters are ordered as:
@@ -162,8 +162,8 @@ CenteredRigid2DTransform<TParametersValueType>::SetFixedParameters(const FixedPa
 
 
 template <typename TParametersValueType>
-const typename CenteredRigid2DTransform<TParametersValueType>::FixedParametersType &
-CenteredRigid2DTransform<TParametersValueType>::GetFixedParameters() const
+auto
+CenteredRigid2DTransform<TParametersValueType>::GetFixedParameters() const -> const FixedParametersType &
 {
   // return dummy parameters
   return this->m_FixedParameters;
@@ -197,8 +197,8 @@ CenteredRigid2DTransform<TParametersValueType>::GetInverse(Self * inverse) const
 
 
 template <typename TParametersValueType>
-typename CenteredRigid2DTransform<TParametersValueType>::InverseTransformBasePointer
-CenteredRigid2DTransform<TParametersValueType>::GetInverseTransform() const
+auto
+CenteredRigid2DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

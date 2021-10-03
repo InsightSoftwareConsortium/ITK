@@ -104,8 +104,8 @@ Subsample<TSample>::AddInstance(InstanceIdentifier id)
 }
 
 template <typename TSample>
-typename Subsample<TSample>::InstanceIdentifier
-Subsample<TSample>::Size() const
+auto
+Subsample<TSample>::Size() const -> InstanceIdentifier
 {
   return static_cast<unsigned int>(m_IdHolder.size());
 }
@@ -120,8 +120,8 @@ Subsample<TSample>::Clear()
 }
 
 template <typename TSample>
-const typename Subsample<TSample>::MeasurementVectorType &
-Subsample<TSample>::GetMeasurementVector(InstanceIdentifier id) const
+auto
+Subsample<TSample>::GetMeasurementVector(InstanceIdentifier id) const -> const MeasurementVectorType &
 {
   if (id >= m_IdHolder.size())
   {
@@ -193,8 +193,8 @@ Subsample<TSample>::GetFrequencyByIndex(unsigned int index) const
 }
 
 template <typename TSample>
-typename Subsample<TSample>::InstanceIdentifier
-Subsample<TSample>::GetInstanceIdentifier(unsigned int index)
+auto
+Subsample<TSample>::GetInstanceIdentifier(unsigned int index) -> InstanceIdentifier
 {
   if (index >= m_IdHolder.size())
   {

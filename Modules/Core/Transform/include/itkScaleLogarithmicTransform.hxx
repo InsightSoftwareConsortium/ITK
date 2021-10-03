@@ -47,8 +47,8 @@ ScaleLogarithmicTransform<TParametersValueType, NDimensions>::SetParameters(cons
 
 // Get Parameters
 template <typename TParametersValueType, unsigned int NDimensions>
-const typename ScaleLogarithmicTransform<TParametersValueType, NDimensions>::ParametersType &
-ScaleLogarithmicTransform<TParametersValueType, NDimensions>::GetParameters() const
+auto
+ScaleLogarithmicTransform<TParametersValueType, NDimensions>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 

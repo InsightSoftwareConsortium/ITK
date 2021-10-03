@@ -62,8 +62,8 @@ WindowConvergenceMonitoringFunction<TScalar>::ClearEnergyValues()
 }
 
 template <typename TScalar>
-typename WindowConvergenceMonitoringFunction<TScalar>::RealType
-WindowConvergenceMonitoringFunction<TScalar>::GetConvergenceValue() const
+auto
+WindowConvergenceMonitoringFunction<TScalar>::GetConvergenceValue() const -> RealType
 {
   if (this->GetNumberOfEnergyValues() < this->m_WindowSize)
   {

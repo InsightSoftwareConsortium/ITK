@@ -174,8 +174,8 @@ LevelSetFunction<TImageType>::ComputeMeanCurvature(const NeighborhoodType & itkN
 }
 
 template <typename TImageType>
-typename LevelSetFunction<TImageType>::VectorType
-LevelSetFunction<TImageType>::InitializeZeroVectorConstant()
+auto
+LevelSetFunction<TImageType>::InitializeZeroVectorConstant() -> VectorType
 {
   VectorType ans;
 
@@ -213,8 +213,8 @@ template <typename TImageType>
 double LevelSetFunction<TImageType>::m_DT = 1.0 / (2.0 * ImageDimension);
 
 template <typename TImageType>
-typename LevelSetFunction<TImageType>::TimeStepType
-LevelSetFunction<TImageType>::ComputeGlobalTimeStep(void * GlobalData) const
+auto
+LevelSetFunction<TImageType>::ComputeGlobalTimeStep(void * GlobalData) const -> TimeStepType
 {
   TimeStepType dt;
 

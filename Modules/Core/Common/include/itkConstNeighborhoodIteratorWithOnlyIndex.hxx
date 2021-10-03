@@ -104,8 +104,8 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::IndexInBounds(const NeighborInde
 }
 
 template <typename TImage>
-typename ConstNeighborhoodIteratorWithOnlyIndex<TImage>::OffsetType
-ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ComputeInternalIndex(NeighborIndexType n) const
+auto
+ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ComputeInternalIndex(NeighborIndexType n) const -> OffsetType
 {
   OffsetType ans;
   auto       r = (unsigned long)n;
@@ -118,8 +118,8 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ComputeInternalIndex(NeighborInd
 }
 
 template <typename TImage>
-typename ConstNeighborhoodIteratorWithOnlyIndex<TImage>::RegionType
-ConstNeighborhoodIteratorWithOnlyIndex<TImage>::GetBoundingBoxAsImageRegion() const
+auto
+ConstNeighborhoodIteratorWithOnlyIndex<TImage>::GetBoundingBoxAsImageRegion() const -> RegionType
 {
   const IndexValueType zero = NumericTraits<IndexValueType>::ZeroValue();
   RegionType           ans;

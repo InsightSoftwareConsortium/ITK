@@ -56,8 +56,8 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GetInput() const
 }
 
 template <typename TImage>
-const typename ScalarImageToCooccurrenceListSampleFilter<TImage>::SampleType *
-ScalarImageToCooccurrenceListSampleFilter<TImage>::GetOutput() const
+auto
+ScalarImageToCooccurrenceListSampleFilter<TImage>::GetOutput() const -> const SampleType *
 {
   const auto * output = static_cast<const SampleType *>(this->ProcessObject::GetOutput(0));
 

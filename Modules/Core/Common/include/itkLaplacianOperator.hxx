@@ -66,8 +66,8 @@ LaplacianOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector 
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename LaplacianOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-LaplacianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
+auto
+LaplacianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   unsigned int i, w;
 

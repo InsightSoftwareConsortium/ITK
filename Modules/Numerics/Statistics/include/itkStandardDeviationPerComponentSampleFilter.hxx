@@ -58,8 +58,9 @@ StandardDeviationPerComponentSampleFilter<TSample>::GetInput() const
 }
 
 template <typename TSample>
-typename StandardDeviationPerComponentSampleFilter<TSample>::DataObjectPointer
+auto
 StandardDeviationPerComponentSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType index)
+  -> DataObjectPointer
 {
   if (index == 0)
   {
@@ -89,8 +90,8 @@ StandardDeviationPerComponentSampleFilter<TSample>::MakeOutput(DataObjectPointer
 }
 
 template <typename TSample>
-typename StandardDeviationPerComponentSampleFilter<TSample>::MeasurementVectorSizeType
-StandardDeviationPerComponentSampleFilter<TSample>::GetMeasurementVectorSize() const
+auto
+StandardDeviationPerComponentSampleFilter<TSample>::GetMeasurementVectorSize() const -> MeasurementVectorSizeType
 {
   const SampleType * input = this->GetInput();
 
@@ -185,29 +186,32 @@ StandardDeviationPerComponentSampleFilter<TSample>::GenerateData()
 }
 
 template <typename TSample>
-const typename StandardDeviationPerComponentSampleFilter<TSample>::MeasurementVectorRealDecoratedType *
+auto
 StandardDeviationPerComponentSampleFilter<TSample>::GetStandardDeviationPerComponentOutput() const
+  -> const MeasurementVectorRealDecoratedType *
 {
   return static_cast<const MeasurementVectorRealDecoratedType *>(this->ProcessObject::GetOutput(0));
 }
 
 template <typename TSample>
-const typename StandardDeviationPerComponentSampleFilter<TSample>::MeasurementVectorRealType
+auto
 StandardDeviationPerComponentSampleFilter<TSample>::GetStandardDeviationPerComponent() const
+  -> const MeasurementVectorRealType
 {
   return this->GetStandardDeviationPerComponentOutput()->Get();
 }
 
 template <typename TSample>
-const typename StandardDeviationPerComponentSampleFilter<TSample>::MeasurementVectorRealDecoratedType *
+auto
 StandardDeviationPerComponentSampleFilter<TSample>::GetMeanPerComponentOutput() const
+  -> const MeasurementVectorRealDecoratedType *
 {
   return static_cast<const MeasurementVectorRealDecoratedType *>(this->ProcessObject::GetOutput(1));
 }
 
 template <typename TSample>
-const typename StandardDeviationPerComponentSampleFilter<TSample>::MeasurementVectorRealType
-StandardDeviationPerComponentSampleFilter<TSample>::GetMeanPerComponent() const
+auto
+StandardDeviationPerComponentSampleFilter<TSample>::GetMeanPerComponent() const -> const MeasurementVectorRealType
 {
   return this->GetMeanPerComponentOutput()->Get();
 }

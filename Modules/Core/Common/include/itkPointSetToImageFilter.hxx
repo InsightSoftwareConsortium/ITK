@@ -59,16 +59,16 @@ PointSetToImageFilter<TInputPointSet, TOutputImage>::SetInput(unsigned int index
 
 /** Get the input point-set */
 template <typename TInputPointSet, typename TOutputImage>
-const typename PointSetToImageFilter<TInputPointSet, TOutputImage>::InputPointSetType *
-PointSetToImageFilter<TInputPointSet, TOutputImage>::GetInput()
+auto
+PointSetToImageFilter<TInputPointSet, TOutputImage>::GetInput() -> const InputPointSetType *
 {
   return itkDynamicCastInDebugMode<const TInputPointSet *>(this->GetPrimaryInput());
 }
 
 /** Get the input point-set */
 template <typename TInputPointSet, typename TOutputImage>
-const typename PointSetToImageFilter<TInputPointSet, TOutputImage>::InputPointSetType *
-PointSetToImageFilter<TInputPointSet, TOutputImage>::GetInput(unsigned int idx)
+auto
+PointSetToImageFilter<TInputPointSet, TOutputImage>::GetInput(unsigned int idx) -> const InputPointSetType *
 {
   return itkDynamicCastInDebugMode<const TInputPointSet *>(this->ProcessObject::GetInput(idx));
 }

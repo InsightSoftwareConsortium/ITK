@@ -56,8 +56,8 @@ TriangleHelper<TPoint>::IsObtuse(const PointType & iA, const PointType & iB, con
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::VectorType
-TriangleHelper<TPoint>::ComputeNormal(const PointType & iA, const PointType & iB, const PointType & iC)
+auto
+TriangleHelper<TPoint>::ComputeNormal(const PointType & iA, const PointType & iB, const PointType & iC) -> VectorType
 {
   CrossVectorType cross;
   VectorType      w = cross(iB - iA, iC - iA);
@@ -72,8 +72,8 @@ TriangleHelper<TPoint>::ComputeNormal(const PointType & iA, const PointType & iB
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::CoordRepType
-TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, const PointType & iC)
+auto
+TriangleHelper<TPoint>::Cotangent(const PointType & iA, const PointType & iB, const PointType & iC) -> CoordRepType
 {
   VectorType v21 = iA - iB;
 
@@ -132,8 +132,9 @@ TriangleHelper<TPoint>::ComputeBarycenter(const CoordRepType & iA1,
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::CoordRepType
+auto
 TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1, const PointType & iP2, const PointType & iP3)
+  -> CoordRepType
 {
   VectorType v21 = iP1 - iP2;
   VectorType v23 = iP3 - iP2;
@@ -158,15 +159,17 @@ TriangleHelper<TPoint>::ComputeAngle(const PointType & iP1, const PointType & iP
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::PointType
+auto
 TriangleHelper<TPoint>::ComputeGravityCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3)
+  -> PointType
 {
   return ComputeBarycenter(1., iP1, 1., iP2, 1., iP3);
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::PointType
+auto
 TriangleHelper<TPoint>::ComputeCircumCenter(const PointType & iP1, const PointType & iP2, const PointType & iP3)
+  -> PointType
 {
   PointType oPt;
 
@@ -208,8 +211,8 @@ TriangleHelper<TPoint>::ComputeConstrainedCircumCenter(const PointType & iP1,
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::CoordRepType
-TriangleHelper<TPoint>::ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3)
+auto
+TriangleHelper<TPoint>::ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3) -> CoordRepType
 {
   CoordRepType a = iP2.EuclideanDistanceTo(iP3);
   CoordRepType b = iP1.EuclideanDistanceTo(iP3);
@@ -221,8 +224,9 @@ TriangleHelper<TPoint>::ComputeArea(const PointType & iP1, const PointType & iP2
 }
 
 template <typename TPoint>
-typename TriangleHelper<TPoint>::CoordRepType
+auto
 TriangleHelper<TPoint>::ComputeMixedArea(const PointType & iP1, const PointType & iP2, const PointType & iP3)
+  -> CoordRepType
 {
   using TriangleType = TriangleHelper<TPoint>;
 

@@ -67,8 +67,8 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::SetRegionToProcess(co
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename FastChamferDistanceImageFilter<TInputImage, TOutputImage>::RegionType
-FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GetRegionToProcess() const
+auto
+FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GetRegionToProcess() const -> RegionType
 {
   return m_RegionToProcess;
 }
@@ -85,8 +85,8 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::SetNarrowBand(NarrowB
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename FastChamferDistanceImageFilter<TInputImage, TOutputImage>::NarrowBandPointer
-FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GetNarrowBand() const
+auto
+FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GetNarrowBand() const -> NarrowBandPointer
 {
   return m_NarrowBand;
 }

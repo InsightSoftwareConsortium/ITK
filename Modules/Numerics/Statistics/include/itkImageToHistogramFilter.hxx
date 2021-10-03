@@ -55,8 +55,8 @@ ImageToHistogramFilter<TImage>::MakeOutput(DataObjectPointerArraySizeType itkNot
 }
 
 template <typename TImage>
-const typename ImageToHistogramFilter<TImage>::HistogramType *
-ImageToHistogramFilter<TImage>::GetOutput() const
+auto
+ImageToHistogramFilter<TImage>::GetOutput() const -> const HistogramType *
 {
   auto * output = itkDynamicCastInDebugMode<const HistogramType *>(this->ProcessObject::GetPrimaryOutput());
 
@@ -64,8 +64,8 @@ ImageToHistogramFilter<TImage>::GetOutput() const
 }
 
 template <typename TImage>
-typename ImageToHistogramFilter<TImage>::HistogramType *
-ImageToHistogramFilter<TImage>::GetOutput()
+auto
+ImageToHistogramFilter<TImage>::GetOutput() -> HistogramType *
 {
 
   auto * output = itkDynamicCastInDebugMode<HistogramType *>(this->ProcessObject::GetPrimaryOutput());

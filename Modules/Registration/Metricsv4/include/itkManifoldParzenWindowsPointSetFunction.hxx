@@ -178,8 +178,9 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::Evaluate(c
 }
 
 template <typename TPointSet, typename TOutput, typename TCoordRep>
-typename ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::GaussianConstPointer
+auto
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::GetGaussian(PointIdentifier i) const
+  -> GaussianConstPointer
 {
   if (i < this->m_Gaussians.size())
   {

@@ -34,8 +34,8 @@ Relabeler<TScalar, TImageDimension>::Relabeler()
 }
 
 template <typename TScalar, unsigned int TImageDimension>
-typename Relabeler<TScalar, TImageDimension>::DataObjectPointer
-Relabeler<TScalar, TImageDimension>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
+auto
+Relabeler<TScalar, TImageDimension>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx)) -> DataObjectPointer
 {
   return ImageType::New().GetPointer();
 }

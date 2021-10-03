@@ -66,16 +66,17 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(unsigned
 
 /** Get the input Spatial Object */
 template <typename TInputSpatialObject, typename TOutputImage>
-const typename SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::InputSpatialObjectType *
-SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetInput()
+auto
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetInput() -> const InputSpatialObjectType *
 {
   return static_cast<const TInputSpatialObject *>(this->GetPrimaryInput());
 }
 
 /** Get the input Spatial Object */
 template <typename TInputSpatialObject, typename TOutputImage>
-const typename SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::InputSpatialObjectType *
+auto
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetInput(unsigned int idx)
+  -> const InputSpatialObjectType *
 {
   return static_cast<const TInputSpatialObject *>(this->ProcessObject::GetInput(idx));
 }
@@ -255,8 +256,8 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetDirection(cons
 }
 
 template <typename TInputSpatialObject, typename TOutputImage>
-const typename SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::DirectionType &
-SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetDirection() const
+auto
+SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetDirection() const -> const DirectionType &
 {
   return m_Direction;
 }

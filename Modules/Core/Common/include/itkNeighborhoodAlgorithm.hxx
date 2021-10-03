@@ -166,8 +166,9 @@ ImageBoundaryFacesCalculator<TImage>::Compute(const TImage & img, RegionType reg
 
 
 template <typename TImage>
-typename ImageBoundaryFacesCalculator<TImage>::FaceListType
+auto
 ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType regionToProcess, RadiusType radius)
+  -> FaceListType
 {
   const auto result = Compute(*img, regionToProcess, radius);
 
@@ -185,8 +186,8 @@ ImageBoundaryFacesCalculator<TImage>::operator()(const TImage * img, RegionType 
 
 
 template <typename TImage>
-typename CalculateOutputWrapOffsetModifiers<TImage>::OffsetType
-CalculateOutputWrapOffsetModifiers<TImage>::operator()(TImage * input, TImage * output) const
+auto
+CalculateOutputWrapOffsetModifiers<TImage>::operator()(TImage * input, TImage * output) const -> OffsetType
 {
   OffsetType ans;
 

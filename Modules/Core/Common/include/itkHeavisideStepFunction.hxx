@@ -29,16 +29,16 @@ HeavisideStepFunction<TInput, TOutput>::HeavisideStepFunction()
 {}
 
 template <typename TInput, typename TOutput>
-typename HeavisideStepFunction<TInput, TOutput>::OutputType
-HeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType & input) const
+auto
+HeavisideStepFunction<TInput, TOutput>::Evaluate(const InputType & input) const -> OutputType
 {
   return (input >= NumericTraits<InputType>::ZeroValue()) ? NumericTraits<OutputType>::OneValue()
                                                           : NumericTraits<OutputType>::ZeroValue();
 }
 
 template <typename TInput, typename TOutput>
-typename HeavisideStepFunction<TInput, TOutput>::OutputType
-HeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const
+auto
+HeavisideStepFunction<TInput, TOutput>::EvaluateDerivative(const InputType & input) const -> OutputType
 {
   return (Math::ExactlyEquals(input, NumericTraits<InputType>::ZeroValue())) ? NumericTraits<OutputType>::OneValue()
                                                                              : NumericTraits<OutputType>::ZeroValue();

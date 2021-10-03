@@ -80,8 +80,8 @@ CompensatedSummation<TFloat>::CompensatedSummation(const Self & rhs)
 }
 
 template <typename TFloat>
-typename CompensatedSummation<TFloat>::Self &
-CompensatedSummation<TFloat>::operator=(const Self & rhs)
+auto
+CompensatedSummation<TFloat>::operator=(const Self & rhs) -> Self &
 {
   if (this != &rhs)
   {
@@ -161,8 +161,8 @@ CompensatedSummation<TFloat>::operator=(const FloatType & rhs)
 }
 
 template <typename TFloat>
-const typename CompensatedSummation<TFloat>::AccumulateType &
-CompensatedSummation<TFloat>::GetSum() const
+auto
+CompensatedSummation<TFloat>::GetSum() const -> const AccumulateType &
 {
   return this->m_Sum;
 }

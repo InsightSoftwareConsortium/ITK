@@ -42,8 +42,8 @@ SampleToSubsampleFilter<TSample>::SetInput(const SampleType * sample)
 }
 
 template <typename TSample>
-const typename SampleToSubsampleFilter<TSample>::SampleType *
-SampleToSubsampleFilter<TSample>::GetInput() const
+auto
+SampleToSubsampleFilter<TSample>::GetInput() const -> const SampleType *
 {
   const auto * input = static_cast<const SampleType *>(this->ProcessObject::GetInput(0));
 
@@ -58,8 +58,8 @@ typename SampleToSubsampleFilter<TSample>::DataObjectPointer SampleToSubsampleFi
 }
 
 template <typename TSample>
-const typename SampleToSubsampleFilter<TSample>::OutputType *
-SampleToSubsampleFilter<TSample>::GetOutput() const
+auto
+SampleToSubsampleFilter<TSample>::GetOutput() const -> const OutputType *
 {
   const auto * output = static_cast<const SubsampleType *>(this->ProcessObject::GetOutput(0));
 

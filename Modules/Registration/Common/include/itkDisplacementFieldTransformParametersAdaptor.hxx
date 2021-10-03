@@ -57,8 +57,8 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::SetRequiredSize(const S
 }
 
 template <typename TTransform>
-const typename DisplacementFieldTransformParametersAdaptor<TTransform>::SizeType
-DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredSize() const
+auto
+DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredSize() const -> const SizeType
 {
   SizeType size;
   for (SizeValueType d = 0; d < SpaceDimension; ++d)
@@ -90,8 +90,8 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::SetRequiredOrigin(const
 }
 
 template <typename TTransform>
-const typename DisplacementFieldTransformParametersAdaptor<TTransform>::PointType
-DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredOrigin() const
+auto
+DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredOrigin() const -> const PointType
 {
   PointType origin;
   for (SizeValueType d = 0; d < SpaceDimension; ++d)
@@ -123,8 +123,8 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::SetRequiredSpacing(cons
 }
 
 template <typename TTransform>
-const typename DisplacementFieldTransformParametersAdaptor<TTransform>::SpacingType
-DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() const
+auto
+DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() const -> const SpacingType
 {
   SpacingType spacing;
   for (SizeValueType d = 0; d < SpaceDimension; ++d)
@@ -160,8 +160,8 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::SetRequiredDirection(co
 }
 
 template <typename TTransform>
-const typename DisplacementFieldTransformParametersAdaptor<TTransform>::DirectionType
-DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() const
+auto
+DisplacementFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() const -> const DirectionType
 {
   DirectionType direction;
   for (SizeValueType di = 0; di < SpaceDimension; ++di)

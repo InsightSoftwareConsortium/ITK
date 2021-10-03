@@ -47,8 +47,8 @@ SampleToHistogramFilter<TSample, THistogram>::SetInput(const SampleType * sample
 }
 
 template <typename TSample, typename THistogram>
-const typename SampleToHistogramFilter<TSample, THistogram>::SampleType *
-SampleToHistogramFilter<TSample, THistogram>::GetInput() const
+auto
+SampleToHistogramFilter<TSample, THistogram>::GetInput() const -> const SampleType *
 {
   const auto * input = static_cast<const SampleType *>(this->ProcessObject::GetInput(0));
 
@@ -56,8 +56,8 @@ SampleToHistogramFilter<TSample, THistogram>::GetInput() const
 }
 
 template <typename TSample, typename THistogram>
-const typename SampleToHistogramFilter<TSample, THistogram>::HistogramType *
-SampleToHistogramFilter<TSample, THistogram>::GetOutput() const
+auto
+SampleToHistogramFilter<TSample, THistogram>::GetOutput() const -> const HistogramType *
 {
   const auto * output = static_cast<const HistogramType *>(this->ProcessObject::GetOutput(0));
 

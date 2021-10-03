@@ -56,8 +56,8 @@ GaussianImageSource<TOutputImage>::SetParameters(const ParametersType & paramete
 }
 
 template <typename TOutputImage>
-typename GaussianImageSource<TOutputImage>::ParametersType
-GaussianImageSource<TOutputImage>::GetParameters() const
+auto
+GaussianImageSource<TOutputImage>::GetParameters() const -> ParametersType
 {
   ParametersType parameters(2 * ArrayType::Length + 1);
   for (unsigned int i = 0; i < ArrayType::Length; ++i)

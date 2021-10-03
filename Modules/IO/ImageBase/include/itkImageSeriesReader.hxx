@@ -495,8 +495,8 @@ ImageSeriesReader<TOutputImage>::GenerateData()
 }
 
 template <typename TOutputImage>
-typename ImageSeriesReader<TOutputImage>::DictionaryArrayRawPointer
-ImageSeriesReader<TOutputImage>::GetMetaDataDictionaryArray() const
+auto
+ImageSeriesReader<TOutputImage>::GetMetaDataDictionaryArray() const -> DictionaryArrayRawPointer
 {
   // this warning has been introduced in 3.17 due to a change in
   // behavior. It may be removed in the future.

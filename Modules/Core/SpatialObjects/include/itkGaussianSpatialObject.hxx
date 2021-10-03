@@ -51,8 +51,8 @@ GaussianSpatialObject<TDimension>::Clear()
 /** The z-score is the root mean square of the z-scores along
  *  each principal axis. */
 template <unsigned int TDimension>
-typename GaussianSpatialObject<TDimension>::ScalarType
-GaussianSpatialObject<TDimension>::SquaredZScoreInObjectSpace(const PointType & point) const
+auto
+GaussianSpatialObject<TDimension>::SquaredZScoreInObjectSpace(const PointType & point) const -> ScalarType
 {
   ScalarType r = 0;
   for (unsigned int i = 0; i < TDimension; ++i)
@@ -65,8 +65,8 @@ GaussianSpatialObject<TDimension>::SquaredZScoreInObjectSpace(const PointType & 
 /** The z-score is the root mean square of the z-scores along
  *  each principal axis. */
 template <unsigned int TDimension>
-typename GaussianSpatialObject<TDimension>::ScalarType
-GaussianSpatialObject<TDimension>::SquaredZScoreInWorldSpace(const PointType & point) const
+auto
+GaussianSpatialObject<TDimension>::SquaredZScoreInWorldSpace(const PointType & point) const -> ScalarType
 {
   PointType transformedPoint = this->GetObjectToWorldTransformInverse()->TransformPoint(point);
 

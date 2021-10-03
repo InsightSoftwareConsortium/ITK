@@ -66,8 +66,9 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Set
 
 /** Access routine to get the points container. */
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-const typename BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::PointsContainer *
+auto
 BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetPoints() const
+  -> const PointsContainer *
 {
   itkDebugMacro("returning Points container of " << m_PointsContainer);
 
@@ -107,8 +108,8 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Com
 #if !defined(ITK_LEGACY_REMOVE)
 /** Compute and get the corners of the bounding box */
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-const typename BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::PointsContainer *
-BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetCorners()
+auto
+BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetCorners() -> const PointsContainer *
 {
   m_CornersContainer->clear();
   m_CornersContainer->Reserve(NumberOfCorners);
@@ -191,8 +192,8 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Com
 }
 
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::PointType
-BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetCenter() const
+auto
+BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetCenter() const -> PointType
 {
   this->ComputeBoundingBox();
 
@@ -206,8 +207,8 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
 }
 
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::PointType
-BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetMinimum() const
+auto
+BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetMinimum() const -> PointType
 {
   this->ComputeBoundingBox();
 
@@ -233,8 +234,8 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Set
 }
 
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::PointType
-BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetMaximum() const
+auto
+BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetMaximum() const -> PointType
 {
   this->ComputeBoundingBox();
 
@@ -286,8 +287,9 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Con
 }
 
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::AccumulateType
+auto
 BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::GetDiagonalLength2() const
+  -> AccumulateType
 {
   typename NumericTraits<CoordRepType>::AccumulateType dist2 = NumericTraits<CoordRepType>::ZeroValue();
 
@@ -341,8 +343,8 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
 }
 
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-typename BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Pointer
-BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::DeepCopy() const
+auto
+BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::DeepCopy() const -> Pointer
 {
   Pointer clone = Self::New();
 

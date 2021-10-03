@@ -46,8 +46,8 @@ LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint(const LineSpatia
 
 /** Get the specified normal */
 template <unsigned int TPointDimension>
-const typename LineSpatialObjectPoint<TPointDimension>::CovariantVectorType &
-LineSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace(unsigned int index) const
+auto
+LineSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace(unsigned int index) const -> const CovariantVectorType &
 {
   return m_NormalArrayInObjectSpace[index];
 }
@@ -77,8 +77,8 @@ LineSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(CovariantVectorT
 
 /** Copy a point to another */
 template <unsigned int TPointDimension>
-typename LineSpatialObjectPoint<TPointDimension>::Self &
-LineSpatialObjectPoint<TPointDimension>::operator=(const LineSpatialObjectPoint & rhs)
+auto
+LineSpatialObjectPoint<TPointDimension>::operator=(const LineSpatialObjectPoint & rhs) -> Self &
 {
   if (this != &rhs)
   {

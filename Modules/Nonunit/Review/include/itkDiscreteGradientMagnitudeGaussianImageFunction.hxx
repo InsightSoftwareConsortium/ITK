@@ -179,8 +179,9 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
 
 /** Evaluate the function at the specified index */
 template <typename TInputImage, typename TOutput>
-typename DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::OutputType
+auto
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
+  -> OutputType
 {
   OutputType gradientMagnitude = itk::NumericTraits<OutputType>::ZeroValue();
   OutputType temp;
@@ -205,8 +206,9 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::EvaluateAt
 
 /** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
-typename DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::OutputType
+auto
 DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const
+  -> OutputType
 {
   if (m_InterpolationMode == InterpolationModeEnum::NearestNeighbourInterpolation)
   {

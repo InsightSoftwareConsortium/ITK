@@ -214,8 +214,9 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextSh
 /**
  */
 template <typename TVRef, typename TFRef, typename TPrimalData, typename TDualData, bool PrimalDual>
-typename GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Self *
+auto
 GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBorderEdgeWithUnsetLeft(Self * edgeTest)
+  -> Self *
 {
   // Definition: an edge is said to be a boundary edge when it is adjacent to
   // noface i.e. when at least one of the faces edge->GetLeft() or

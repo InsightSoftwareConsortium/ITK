@@ -1241,8 +1241,8 @@ Segmenter<TInputImage>::Threshold(InputImageTypePointer destination,
   ----------------------------------------------------------------------------
 */
 template <typename TInputImage>
-typename Segmenter<TInputImage>::DataObjectPointer
-Segmenter<TInputImage>::MakeOutput(DataObjectPointerArraySizeType idx)
+auto
+Segmenter<TInputImage>::MakeOutput(DataObjectPointerArraySizeType idx) -> DataObjectPointer
 {
   if (idx == 0)
   {

@@ -54,8 +54,8 @@ VideoSource<TOutputVideoStream>::PrintSelf(std::ostream & os, Indent indent) con
 // GetOutput()
 //
 template <typename TOutputVideoStream>
-typename VideoSource<TOutputVideoStream>::OutputVideoStreamType *
-VideoSource<TOutputVideoStream>::GetOutput()
+auto
+VideoSource<TOutputVideoStream>::GetOutput() -> OutputVideoStreamType *
 {
   // Make sure there is at least 1 output
   if (this->GetNumberOfOutputs() < 1)

@@ -97,8 +97,9 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::GetInverse(Se
 
 // Return an inverse of this transform
 template <typename TParametersValueType, unsigned int NDimensions>
-typename ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::InverseTransformBasePointer
+auto
 ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::GetInverseTransform() const
+  -> InverseTransformBasePointer
 {
   Pointer inverseTransform = New();
   if (this->GetInverse(inverseTransform))

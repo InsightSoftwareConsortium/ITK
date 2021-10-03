@@ -41,8 +41,8 @@ BinaryThresholdSpatialFunction<TFunction>::PrintSelf(std::ostream & os, Indent i
 }
 
 template <typename TFunction>
-typename BinaryThresholdSpatialFunction<TFunction>::OutputType
-BinaryThresholdSpatialFunction<TFunction>::Evaluate(const InputType & point) const
+auto
+BinaryThresholdSpatialFunction<TFunction>::Evaluate(const InputType & point) const -> OutputType
 {
   FunctionOutputType value = m_Function->Evaluate(point);
 

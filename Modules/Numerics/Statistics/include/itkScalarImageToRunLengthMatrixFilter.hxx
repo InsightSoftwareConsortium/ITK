@@ -106,8 +106,8 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
 }
 
 template <typename TImageType, typename THistogramFrequencyContainer>
-const typename ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::HistogramType *
-ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::GetOutput() const
+auto
+ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::GetOutput() const -> const HistogramType *
 {
   const auto * output = static_cast<const HistogramType *>(this->ProcessObject::GetOutput(0));
   return output;

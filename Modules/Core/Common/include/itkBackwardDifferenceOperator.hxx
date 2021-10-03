@@ -23,8 +23,8 @@
 namespace itk
 {
 template <typename TPixel, unsigned int TDimension, typename TAllocator>
-typename BackwardDifferenceOperator<TPixel, TDimension, TAllocator>::CoefficientVector
-BackwardDifferenceOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients()
+auto
+BackwardDifferenceOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   CoefficientVector coeff(3);
 

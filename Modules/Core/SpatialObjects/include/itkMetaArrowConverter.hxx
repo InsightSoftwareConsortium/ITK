@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaArrowConverter<NDimensions>::MetaObjectType *
-MetaArrowConverter<NDimensions>::CreateMetaObject()
+auto
+MetaArrowConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new ArrowMetaObjectType);
 }
 
 /** Convert a metaArrow into an arrow SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaArrowConverter<NDimensions>::SpatialObjectPointer
-MetaArrowConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaArrowConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * metaArrow = dynamic_cast<const MetaArrow *>(mo);
   if (metaArrow == nullptr)
@@ -72,8 +72,8 @@ MetaArrowConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType 
 
 /** Convert an arrow SpatialObject into a metaArrow */
 template <unsigned int NDimensions>
-typename MetaArrowConverter<NDimensions>::MetaObjectType *
-MetaArrowConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject)
+auto
+MetaArrowConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
   ArrowSpatialObjectConstPointer arrowSO = dynamic_cast<const ArrowSpatialObjectType *>(spatialObject);
   if (arrowSO.IsNull())

@@ -28,8 +28,8 @@ namespace itk
 {
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
+auto
+GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
 
   // compute gaussian kernel of 0-order
@@ -101,8 +101,8 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients
 }
 
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateGaussianCoefficients() const
+auto
+GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::GenerateGaussianCoefficients() const -> CoefficientVector
 {
 
   CoefficientVector coeff;

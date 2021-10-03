@@ -61,8 +61,8 @@ MedianImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent
  *
  */
 template <typename TInputImage, typename TCoordRep>
-typename MedianImageFunction<TInputImage, TCoordRep>::OutputType
-MedianImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
+auto
+MedianImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> OutputType
 {
   const InputImageType * const image = this->GetInputImage();
 

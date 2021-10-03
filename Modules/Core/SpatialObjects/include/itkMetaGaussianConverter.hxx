@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaGaussianConverter<NDimensions>::MetaObjectType *
-MetaGaussianConverter<NDimensions>::CreateMetaObject()
+auto
+MetaGaussianConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new GaussianMetaObjectType);
 }
 
 /** Convert a metaGaussian into a gaussian SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaGaussianConverter<NDimensions>::SpatialObjectPointer
-MetaGaussianConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaGaussianConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * metaGaussian = dynamic_cast<const GaussianMetaObjectType *>(mo);
   if (metaGaussian == nullptr)
@@ -59,8 +59,8 @@ MetaGaussianConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTy
 
 /** Convert a gaussian SpatialObject into a metaGaussian */
 template <unsigned int NDimensions>
-typename MetaGaussianConverter<NDimensions>::MetaObjectType *
-MetaGaussianConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaGaussianConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   GaussianSpatialObjectConstPointer gaussianSO = dynamic_cast<const GaussianSpatialObjectType *>(so);
   auto *                            metaGaussian = new GaussianMetaObjectType;

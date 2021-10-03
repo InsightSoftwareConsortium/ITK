@@ -23,8 +23,8 @@
 namespace itk
 {
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
-typename GaussianOperator<TPixel, VDimension, TAllocator>::CoefficientVector
-GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients()
+auto
+GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> CoefficientVector
 {
   CoefficientVector coeff;
   double            sum;

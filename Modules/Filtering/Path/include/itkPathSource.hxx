@@ -42,8 +42,8 @@ PathSource<TOutputPath>::PathSource()
  *
  */
 template <typename TOutputPath>
-typename PathSource<TOutputPath>::OutputPathType *
-PathSource<TOutputPath>::GetOutput()
+auto
+PathSource<TOutputPath>::GetOutput() -> OutputPathType *
 {
   return itkDynamicCastInDebugMode<TOutputPath *>(this->GetPrimaryOutput());
 }
@@ -52,8 +52,8 @@ PathSource<TOutputPath>::GetOutput()
  *
  */
 template <typename TOutputPath>
-typename PathSource<TOutputPath>::OutputPathType *
-PathSource<TOutputPath>::GetOutput(unsigned int idx)
+auto
+PathSource<TOutputPath>::GetOutput(unsigned int idx) -> OutputPathType *
 {
   return itkDynamicCastInDebugMode<TOutputPath *>(this->ProcessObject::GetOutput(idx));
 }

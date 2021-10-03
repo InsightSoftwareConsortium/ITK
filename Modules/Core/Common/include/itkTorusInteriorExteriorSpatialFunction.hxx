@@ -30,8 +30,8 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>::TorusInteriorExteriorS
 }
 
 template <unsigned int VDimension, typename TInput>
-typename TorusInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
-TorusInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
+auto
+TorusInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {
   double x = position[0] - m_Origin[0];
   double y = position[1] - m_Origin[1];

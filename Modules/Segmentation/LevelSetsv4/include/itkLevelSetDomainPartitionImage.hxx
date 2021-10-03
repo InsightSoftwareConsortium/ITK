@@ -30,8 +30,8 @@ LevelSetDomainPartitionImage<TImage>::SetLevelSetDomainRegionVector(const LevelS
 }
 
 template <typename TImage>
-const typename LevelSetDomainPartitionImage<TImage>::LevelSetDomainRegionVectorType &
-LevelSetDomainPartitionImage<TImage>::GetLevelSetDomainRegionVector() const
+auto
+LevelSetDomainPartitionImage<TImage>::GetLevelSetDomainRegionVector() const -> const LevelSetDomainRegionVectorType &
 {
   return m_LevelSetDomainRegionVector;
 }

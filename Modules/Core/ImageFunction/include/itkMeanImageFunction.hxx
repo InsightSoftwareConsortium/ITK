@@ -32,8 +32,8 @@ MeanImageFunction<TInputImage, TCoordRep>::MeanImageFunction()
   = default;
 
 template <typename TInputImage, typename TCoordRep>
-typename MeanImageFunction<TInputImage, TCoordRep>::RealType
-MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
+auto
+MeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType
 {
   RealType sum;
 

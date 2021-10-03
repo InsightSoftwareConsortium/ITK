@@ -41,8 +41,8 @@ ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::SetOriginGradient
 }
 
 template <unsigned int VDimension, typename TInput>
-typename ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::OutputType
-ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const
+auto
+ConicShellInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {
   using VectorType = Vector<double, VDimension>;
 

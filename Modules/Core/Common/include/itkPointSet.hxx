@@ -71,8 +71,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsContainer * point
  * Access routine to get the points container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainer *
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints()
+auto
+PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() -> PointsContainer *
 {
   itkDebugMacro("Starting GetPoints()");
   if (!m_PointsContainer)
@@ -87,8 +87,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints()
  * Access routine to get the points container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename PointSet<TPixelType, VDimension, TMeshTraits>::PointsContainer *
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() const
+auto
+PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() const -> const PointsContainer *
 {
   itkDebugMacro("returning Points container of " << m_PointsContainer);
   return m_PointsContainer.GetPointer();
@@ -113,8 +113,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPointData(PointDataContainer *
  * Access routine to get the point data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainer *
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData()
+auto
+PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() -> PointDataContainer *
 {
   if (!m_PointDataContainer)
   {
@@ -128,8 +128,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData()
  * Access routine to get the point data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename PointSet<TPixelType, VDimension, TMeshTraits>::PointDataContainer *
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() const
+auto
+PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() const -> const PointDataContainer *
 {
   itkDebugMacro("returning PointData container of " << m_PointDataContainer);
   return m_PointDataContainer.GetPointer();
@@ -183,8 +183,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPoint(PointIdentifier ptId, Po
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename PointSet<TPixelType, VDimension, TMeshTraits>::PointType
-PointSet<TPixelType, VDimension, TMeshTraits>::GetPoint(PointIdentifier ptId) const
+auto
+PointSet<TPixelType, VDimension, TMeshTraits>::GetPoint(PointIdentifier ptId) const -> PointType
 {
   /**
    * If the points container doesn't exist, then the point doesn't either.
@@ -270,8 +270,8 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PassStructure(Self *)
  * Get the number of points in the PointsContainer.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename PointSet<TPixelType, VDimension, TMeshTraits>::PointIdentifier
-PointSet<TPixelType, VDimension, TMeshTraits>::GetNumberOfPoints() const
+auto
+PointSet<TPixelType, VDimension, TMeshTraits>::GetNumberOfPoints() const -> PointIdentifier
 {
   if (m_PointsContainer)
   {

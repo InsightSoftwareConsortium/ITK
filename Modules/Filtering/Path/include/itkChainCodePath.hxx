@@ -24,8 +24,8 @@
 namespace itk
 {
 template <unsigned int VDimension>
-typename ChainCodePath<VDimension>::IndexType
-ChainCodePath<VDimension>::EvaluateToIndex(const InputType & input) const
+auto
+ChainCodePath<VDimension>::EvaluateToIndex(const InputType & input) const -> IndexType
 {
   /* We could do something fancy here, such as "secretly" store the input and
    * total offset from the last time this function was called, and use such
@@ -72,8 +72,8 @@ ChainCodePath<VDimension>::EvaluateToIndex(const InputType & input) const
 }
 
 template <unsigned int VDimension>
-typename ChainCodePath<VDimension>::OffsetType
-ChainCodePath<VDimension>::IncrementInput(InputType & input) const
+auto
+ChainCodePath<VDimension>::IncrementInput(InputType & input) const -> OffsetType
 {
   if (input < NumberOfSteps())
   {

@@ -24,8 +24,8 @@
 namespace itk
 {
 template <typename TMesh>
-typename LevelSetQuadEdgeMesh<TMesh>::OutputType
-LevelSetQuadEdgeMesh<TMesh>::Evaluate(const InputType & iP) const
+auto
+LevelSetQuadEdgeMesh<TMesh>::Evaluate(const InputType & iP) const -> OutputType
 {
   OutputType oValue = 0.;
   this->m_Mesh->GetPointData(iP, &oValue);
@@ -33,16 +33,16 @@ LevelSetQuadEdgeMesh<TMesh>::Evaluate(const InputType & iP) const
 }
 
 template <typename TMesh>
-typename LevelSetQuadEdgeMesh<TMesh>::GradientType
-LevelSetQuadEdgeMesh<TMesh>::EvaluateGradient(const InputType & itkNotUsed(iP)) const
+auto
+LevelSetQuadEdgeMesh<TMesh>::EvaluateGradient(const InputType & itkNotUsed(iP)) const -> GradientType
 {
   itkWarningMacro(<< "to be implemented");
   return Self::GradientType(); // Create a new object with default initializer
 }
 
 template <typename TMesh>
-typename LevelSetQuadEdgeMesh<TMesh>::HessianType
-LevelSetQuadEdgeMesh<TMesh>::EvaluateHessian(const InputType & itkNotUsed(iP)) const
+auto
+LevelSetQuadEdgeMesh<TMesh>::EvaluateHessian(const InputType & itkNotUsed(iP)) const -> HessianType
 {
   itkWarningMacro(<< "to be implemented");
   return Self::HessianType(); // Create a new objet with default initializer

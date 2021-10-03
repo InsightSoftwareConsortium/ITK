@@ -47,8 +47,8 @@ ContourSpatialObjectPoint<TPointDimension>::SetPickedPointInObjectSpace(const Po
 }
 
 template <unsigned int TPointDimension>
-const typename ContourSpatialObjectPoint<TPointDimension>::PointType &
-ContourSpatialObjectPoint<TPointDimension>::GetPickedPointInObjectSpace() const
+auto
+ContourSpatialObjectPoint<TPointDimension>::GetPickedPointInObjectSpace() const -> const PointType &
 {
   return m_PickedPointInObjectSpace;
 }
@@ -61,15 +61,15 @@ ContourSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(const Covaria
 }
 
 template <unsigned int TPointDimension>
-const typename ContourSpatialObjectPoint<TPointDimension>::CovariantVectorType &
-ContourSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const
+auto
+ContourSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const -> const CovariantVectorType &
 {
   return m_NormalInObjectSpace;
 }
 
 template <unsigned int TPointDimension>
-typename ContourSpatialObjectPoint<TPointDimension>::Self &
-ContourSpatialObjectPoint<TPointDimension>::operator=(const ContourSpatialObjectPoint & rhs)
+auto
+ContourSpatialObjectPoint<TPointDimension>::operator=(const ContourSpatialObjectPoint & rhs) -> Self &
 {
   if (this != &rhs)
   {

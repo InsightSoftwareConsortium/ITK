@@ -36,8 +36,8 @@ SegmentTreeGenerator<TScalar>::SegmentTreeGenerator()
 }
 
 template <typename TScalar>
-typename SegmentTreeGenerator<TScalar>::DataObjectPointer
-SegmentTreeGenerator<TScalar>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
+auto
+SegmentTreeGenerator<TScalar>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx)) -> DataObjectPointer
 {
   return SegmentTreeType::New().GetPointer();
 }

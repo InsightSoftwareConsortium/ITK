@@ -57,8 +57,8 @@ PyVnl<TElement>::_GetArrayViewFromVnlVector(VectorType * vector)
 }
 
 template <class TElement>
-const typename PyVnl<TElement>::VectorType
-PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape)
+auto
+PyVnl<TElement>::_GetVnlVectorFromArray(PyObject * arr, PyObject * shape) -> const VectorType
 {
   PyObject * obj = NULL;
   PyObject * shapeseq = NULL;
@@ -144,8 +144,8 @@ PyVnl<TElement>::_GetArrayViewFromVnlMatrix(MatrixType * matrix)
 }
 
 template <class TElement>
-const typename PyVnl<TElement>::MatrixType
-PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape)
+auto
+PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> const MatrixType
 {
   PyObject * obj = NULL;
   PyObject * shapeseq = NULL;

@@ -48,8 +48,8 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::
 
 //-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
-typename MultiGradientOptimizerv4Template<TInternalComputationValueType>::OptimizersListType &
-MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetOptimizersList()
+auto
+MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetOptimizersList() -> OptimizersListType &
 {
   return this->m_OptimizersList;
 }
@@ -69,16 +69,18 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::SetOptimizersLi
 
 /** Get the list of metric values that we produced after the multi-gradient optimization.  */
 template <typename TInternalComputationValueType>
-const typename MultiGradientOptimizerv4Template<TInternalComputationValueType>::MetricValuesListType &
+auto
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetMetricValuesList() const
+  -> const MetricValuesListType &
 {
   return this->m_MetricValuesList;
 }
 
 //-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
-const typename MultiGradientOptimizerv4Template<TInternalComputationValueType>::StopConditionReturnStringType
+auto
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
+  -> const StopConditionReturnStringType
 {
   return this->m_StopConditionDescription.str();
 }

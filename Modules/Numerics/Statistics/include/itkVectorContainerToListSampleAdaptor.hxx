@@ -40,8 +40,8 @@ VectorContainerToListSampleAdaptor<TVectorContainer>::PrintSelf(std::ostream & o
 }
 
 template <typename TVectorContainer>
-typename VectorContainerToListSampleAdaptor<TVectorContainer>::InstanceIdentifier
-VectorContainerToListSampleAdaptor<TVectorContainer>::Size() const
+auto
+VectorContainerToListSampleAdaptor<TVectorContainer>::Size() const -> InstanceIdentifier
 {
   if (this->m_VectorContainer.IsNull())
   {
@@ -76,8 +76,8 @@ inline typename VectorContainerToListSampleAdaptor<TVectorContainer>::AbsoluteFr
 }
 
 template <typename TVectorContainer>
-typename VectorContainerToListSampleAdaptor<TVectorContainer>::TotalAbsoluteFrequencyType
-VectorContainerToListSampleAdaptor<TVectorContainer>::GetTotalFrequency() const
+auto
+VectorContainerToListSampleAdaptor<TVectorContainer>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   if (this->m_VectorContainer.IsNull())
   {

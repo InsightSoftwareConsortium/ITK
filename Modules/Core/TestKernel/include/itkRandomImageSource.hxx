@@ -80,8 +80,8 @@ RandomImageSource<TOutputImage>::SetSize(SizeValueArrayType sizeArray)
 }
 
 template <typename TOutputImage>
-const typename RandomImageSource<TOutputImage>::SizeValueType *
-RandomImageSource<TOutputImage>::GetSize() const
+auto
+RandomImageSource<TOutputImage>::GetSize() const -> const SizeValueType *
 {
   return this->m_Size.GetSize();
 }
@@ -135,8 +135,8 @@ RandomImageSource<TOutputImage>::SetOrigin(PointValueArrayType originArray)
 }
 
 template <typename TOutputImage>
-const typename RandomImageSource<TOutputImage>::PointValueType *
-RandomImageSource<TOutputImage>::GetOrigin() const
+auto
+RandomImageSource<TOutputImage>::GetOrigin() const -> const PointValueType *
 {
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
@@ -146,8 +146,8 @@ RandomImageSource<TOutputImage>::GetOrigin() const
 }
 
 template <typename TOutputImage>
-const typename RandomImageSource<TOutputImage>::SpacingValueType *
-RandomImageSource<TOutputImage>::GetSpacing() const
+auto
+RandomImageSource<TOutputImage>::GetSpacing() const -> const SpacingValueType *
 {
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {

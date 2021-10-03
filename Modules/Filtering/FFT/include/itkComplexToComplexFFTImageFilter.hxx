@@ -76,8 +76,8 @@ struct DispatchFFTW_Complex_New<TSelfPointer, TImage, float>
 #endif
 
 template <typename TImage>
-typename ComplexToComplexFFTImageFilter<TImage>::Pointer
-ComplexToComplexFFTImageFilter<TImage>::New()
+auto
+ComplexToComplexFFTImageFilter<TImage>::New() -> Pointer
 {
   Pointer smartPtr = ObjectFactory<Self>::Create();
 

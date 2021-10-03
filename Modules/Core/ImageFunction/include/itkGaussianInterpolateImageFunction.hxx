@@ -215,8 +215,8 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>::ComputeErrorFunctionArr
 
 
 template <typename TImageType, typename TCoordRep>
-typename GaussianInterpolateImageFunction<TImageType, TCoordRep>::SizeType
-GaussianInterpolateImageFunction<TImageType, TCoordRep>::GetRadius() const
+auto
+GaussianInterpolateImageFunction<TImageType, TCoordRep>::GetRadius() const -> SizeType
 {
   SizeType radius;
 

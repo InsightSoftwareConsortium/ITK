@@ -144,8 +144,9 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::IndexInBounds(const Neigh
 }
 
 template <typename TImage, typename TBoundaryCondition>
-typename ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PixelType
+auto
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexType n, bool & IsInBounds) const
+  -> PixelType
 {
   // If the region the iterator is walking (padded by the neighborhood size)
   // never bumps up against the bounds of the buffered region, then don't
@@ -182,8 +183,9 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetPixel(NeighborIndexTyp
 }
 
 template <typename TImage, typename TBoundaryCondition>
-typename ConstNeighborhoodIterator<TImage, TBoundaryCondition>::OffsetType
+auto
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ComputeInternalIndex(const NeighborIndexType n) const
+  -> OffsetType
 {
   OffsetType ans;
   auto       r = (unsigned long)n;
@@ -196,8 +198,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ComputeInternalIndex(cons
 }
 
 template <typename TImage, typename TBoundaryCondition>
-typename ConstNeighborhoodIterator<TImage, TBoundaryCondition>::RegionType
-ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegion() const
+auto
+ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegion() const -> RegionType
 {
   const IndexValueType zero = NumericTraits<IndexValueType>::ZeroValue();
   RegionType           ans;
@@ -297,8 +299,8 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::SetEndIndex()
 }
 
 template <typename TImage, typename TBoundaryCondition>
-typename ConstNeighborhoodIterator<TImage, TBoundaryCondition>::NeighborhoodType
-ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetNeighborhood() const
+auto
+ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetNeighborhood() const -> NeighborhoodType
 {
   OffsetType OverlapLow, OverlapHigh, temp, offset;
 

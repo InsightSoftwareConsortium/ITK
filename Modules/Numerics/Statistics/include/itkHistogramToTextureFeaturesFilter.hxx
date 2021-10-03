@@ -50,15 +50,16 @@ HistogramToTextureFeaturesFilter<THistogram>::SetInput(const HistogramType * his
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::HistogramType *
-HistogramToTextureFeaturesFilter<THistogram>::GetInput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetInput() const -> const HistogramType *
 {
   return itkDynamicCastInDebugMode<const HistogramType *>(this->GetPrimaryInput());
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::DataObjectPointer
+auto
 HistogramToTextureFeaturesFilter<THistogram>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
+  -> DataObjectPointer
 {
   return MeasurementObjectType::New().GetPointer();
 }
@@ -247,120 +248,120 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetEnergyOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetEnergyOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(0));
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetEntropyOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetEntropyOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(1));
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetCorrelationOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetCorrelationOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(2));
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetInverseDifferenceMomentOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetInverseDifferenceMomentOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(3));
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetInertiaOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetInertiaOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(4));
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetClusterShadeOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetClusterShadeOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(5));
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetClusterProminenceOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetClusterProminenceOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(6));
 }
 
 template <typename THistogram>
-const typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementObjectType *
-HistogramToTextureFeaturesFilter<THistogram>::GetHaralickCorrelationOutput() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetHaralickCorrelationOutput() const -> const MeasurementObjectType *
 {
   return static_cast<const MeasurementObjectType *>(this->ProcessObject::GetOutput(7));
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetEnergy() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetEnergy() const -> MeasurementType
 {
   return this->GetEnergyOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetEntropy() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetEntropy() const -> MeasurementType
 {
   return this->GetEntropyOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetCorrelation() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetCorrelation() const -> MeasurementType
 {
   return this->GetCorrelationOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetInverseDifferenceMoment() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetInverseDifferenceMoment() const -> MeasurementType
 {
   return this->GetInverseDifferenceMomentOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetInertia() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetInertia() const -> MeasurementType
 {
   return this->GetInertiaOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetClusterShade() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetClusterShade() const -> MeasurementType
 {
   return this->GetClusterShadeOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetClusterProminence() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetClusterProminence() const -> MeasurementType
 {
   return this->GetClusterProminenceOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetHaralickCorrelation() const
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetHaralickCorrelation() const -> MeasurementType
 {
   return this->GetHaralickCorrelationOutput()->Get();
 }
 
 template <typename THistogram>
-typename HistogramToTextureFeaturesFilter<THistogram>::MeasurementType
-HistogramToTextureFeaturesFilter<THistogram>::GetFeature(TextureFeatureEnum feature)
+auto
+HistogramToTextureFeaturesFilter<THistogram>::GetFeature(TextureFeatureEnum feature) -> MeasurementType
 {
   switch (feature)
   {

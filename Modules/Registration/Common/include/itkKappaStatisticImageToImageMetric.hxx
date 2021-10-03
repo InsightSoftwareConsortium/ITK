@@ -34,8 +34,9 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::KappaStatisticImage
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const TransformParametersType & parameters) const
+  -> MeasureType
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 

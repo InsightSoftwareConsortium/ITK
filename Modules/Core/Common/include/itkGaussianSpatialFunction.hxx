@@ -33,8 +33,8 @@ GaussianSpatialFunction<TOutput, VImageDimension, TInput>::GaussianSpatialFuncti
 }
 
 template <typename TOutput, unsigned int VImageDimension, typename TInput>
-typename GaussianSpatialFunction<TOutput, VImageDimension, TInput>::OutputType
-GaussianSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(const TInput & position) const
+auto
+GaussianSpatialFunction<TOutput, VImageDimension, TInput>::Evaluate(const TInput & position) const -> OutputType
 {
   // We have to compute the Gaussian in several stages, because of the
   // n-dimensional generalization

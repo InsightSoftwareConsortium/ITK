@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaLandmarkConverter<NDimensions>::MetaObjectType *
-MetaLandmarkConverter<NDimensions>::CreateMetaObject()
+auto
+MetaLandmarkConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new LandmarkMetaObjectType);
 }
 
 /** Convert a metaLandmark into an Landmark SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaLandmarkConverter<NDimensions>::SpatialObjectPointer
-MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * landmarkMO = dynamic_cast<const LandmarkMetaObjectType *>(mo);
   if (landmarkMO == nullptr)
@@ -83,8 +83,8 @@ MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTy
 
 /** Convert a Landmark SpatialObject into a metaLandmark */
 template <unsigned int NDimensions>
-typename MetaLandmarkConverter<NDimensions>::MetaObjectType *
-MetaLandmarkConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaLandmarkConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   const LandmarkSpatialObjectConstPointer landmarkSO = dynamic_cast<const LandmarkSpatialObjectType *>(so);
 

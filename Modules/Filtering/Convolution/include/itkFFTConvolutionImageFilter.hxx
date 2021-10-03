@@ -358,8 +358,9 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
-typename FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::InputSizeType
+auto
 FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::GetPadLowerBound() const
+  -> InputSizeType
 {
   typename InputImageType::ConstPointer inputImage = this->GetInput();
   InputSizeType                         inputSize = inputImage->GetLargestPossibleRegion().GetSize();
@@ -375,8 +376,9 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage, typename TInternalPrecision>
-typename FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::InputSizeType
+auto
 FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::GetPadSize() const
+  -> InputSizeType
 {
   typename InputImageType::ConstPointer  inputImage = this->GetInput();
   InputSizeType                          inputSize = inputImage->GetLargestPossibleRegion().GetSize();

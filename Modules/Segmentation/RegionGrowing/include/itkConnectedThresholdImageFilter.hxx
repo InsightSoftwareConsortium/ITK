@@ -70,8 +70,8 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::ClearSeeds()
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::SeedContainerType &
-ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetSeeds() const
+auto
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetSeeds() const -> const SeedContainerType &
 {
   return this->m_Seeds;
 }
@@ -165,8 +165,8 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::SetLower(const InputIm
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
-ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetLowerInput()
+auto
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetLowerInput() -> InputPixelObjectType *
 {
   typename InputPixelObjectType::Pointer lower = static_cast<InputPixelObjectType *>(this->ProcessObject::GetInput(1));
   if (!lower)
@@ -182,8 +182,8 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetLowerInput()
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputPixelObjectType *
-ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetUpperInput()
+auto
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetUpperInput() -> InputPixelObjectType *
 {
   typename InputPixelObjectType::Pointer upper = static_cast<InputPixelObjectType *>(this->ProcessObject::GetInput(2));
   if (!upper)
@@ -199,8 +199,8 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetUpperInput()
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputImagePixelType
-ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetLower() const
+auto
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetLower() const -> InputImagePixelType
 {
   typename InputPixelObjectType::Pointer lower = const_cast<Self *>(this)->GetLowerInput();
 
@@ -208,8 +208,8 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetLower() const
 }
 
 template <typename TInputImage, typename TOutputImage>
-typename ConnectedThresholdImageFilter<TInputImage, TOutputImage>::InputImagePixelType
-ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetUpper() const
+auto
+ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GetUpper() const -> InputImagePixelType
 {
   typename InputPixelObjectType::Pointer upper = const_cast<Self *>(this)->GetUpperInput();
 

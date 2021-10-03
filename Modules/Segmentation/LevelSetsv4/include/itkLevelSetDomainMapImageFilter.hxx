@@ -33,8 +33,8 @@ LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::LevelSetDomainMapImageF
 }
 
 template <typename TInputImage, typename TOutputImage>
-const typename LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::DomainMapType &
-LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GetDomainMap() const
+auto
+LevelSetDomainMapImageFilter<TInputImage, TOutputImage>::GetDomainMap() const -> const DomainMapType &
 {
   return this->m_DomainMap;
 }

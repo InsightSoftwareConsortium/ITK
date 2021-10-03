@@ -48,8 +48,8 @@ ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GenerateOut
 }
 
 template <typename TInputImage, typename TKernelImage, typename TOutputImage>
-typename ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::OutputRegionType
-ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GetValidRegion() const
+auto
+ConvolutionImageFilterBase<TInputImage, TKernelImage, TOutputImage>::GetValidRegion() const -> OutputRegionType
 {
   typename InputImageType::ConstPointer inputPtr = this->GetInput();
 

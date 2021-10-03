@@ -38,8 +38,8 @@ CovariantVector<T, NVectorDimension>::operator=(const ValueType r[NVectorDimensi
 }
 
 template <typename T, unsigned int NVectorDimension>
-const typename CovariantVector<T, NVectorDimension>::Self &
-CovariantVector<T, NVectorDimension>::operator+=(const Self & vec)
+auto
+CovariantVector<T, NVectorDimension>::operator+=(const Self & vec) -> const Self &
 {
   for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
@@ -49,8 +49,8 @@ CovariantVector<T, NVectorDimension>::operator+=(const Self & vec)
 }
 
 template <typename T, unsigned int NVectorDimension>
-const typename CovariantVector<T, NVectorDimension>::Self &
-CovariantVector<T, NVectorDimension>::operator-=(const Self & vec)
+auto
+CovariantVector<T, NVectorDimension>::operator-=(const Self & vec) -> const Self &
 {
   for (unsigned int i = 0; i < NVectorDimension; ++i)
   {
@@ -73,8 +73,8 @@ CovariantVector<T, NVectorDimension>::operator-() const
 }
 
 template <typename T, unsigned int NVectorDimension>
-typename CovariantVector<T, NVectorDimension>::Self
-CovariantVector<T, NVectorDimension>::operator+(const Self & vec) const
+auto
+CovariantVector<T, NVectorDimension>::operator+(const Self & vec) const -> Self
 {
   Self result;
 
@@ -86,8 +86,8 @@ CovariantVector<T, NVectorDimension>::operator+(const Self & vec) const
 }
 
 template <typename T, unsigned int NVectorDimension>
-typename CovariantVector<T, NVectorDimension>::Self
-CovariantVector<T, NVectorDimension>::operator-(const Self & vec) const
+auto
+CovariantVector<T, NVectorDimension>::operator-(const Self & vec) const -> Self
 {
   Self result;
 
@@ -123,8 +123,8 @@ typename CovariantVector<T, NVectorDimension>::ValueType CovariantVector<T, NVec
 }
 
 template <typename T, unsigned int NVectorDimension>
-typename CovariantVector<T, NVectorDimension>::RealValueType
-CovariantVector<T, NVectorDimension>::GetSquaredNorm() const
+auto
+CovariantVector<T, NVectorDimension>::GetSquaredNorm() const -> RealValueType
 {
   RealValueType sum = NumericTraits<RealValueType>::ZeroValue();
 
@@ -137,15 +137,15 @@ CovariantVector<T, NVectorDimension>::GetSquaredNorm() const
 }
 
 template <typename T, unsigned int NVectorDimension>
-typename CovariantVector<T, NVectorDimension>::RealValueType
-CovariantVector<T, NVectorDimension>::GetNorm() const
+auto
+CovariantVector<T, NVectorDimension>::GetNorm() const -> RealValueType
 {
   return std::sqrt(this->GetSquaredNorm());
 }
 
 template <typename T, unsigned int NVectorDimension>
-typename CovariantVector<T, NVectorDimension>::RealValueType
-CovariantVector<T, NVectorDimension>::Normalize()
+auto
+CovariantVector<T, NVectorDimension>::Normalize() -> RealValueType
 {
   const RealValueType norm = this->GetNorm();
 

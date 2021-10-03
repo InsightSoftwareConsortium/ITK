@@ -189,8 +189,8 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
 
 /** Evaluate the function at the specified index */
 template <typename TInputImage, typename TOutput>
-typename DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::OutputType
-DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const
+auto
+DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const -> OutputType
 {
   OutputType hessian;
 
@@ -204,8 +204,8 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::EvaluateAtIndex(cons
 
 /** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
-typename DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::OutputType
-DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const
+auto
+DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::Evaluate(const PointType & point) const -> OutputType
 {
   if (m_InterpolationMode == InterpolationModeEnum::NearestNeighbourInterpolation)
   {

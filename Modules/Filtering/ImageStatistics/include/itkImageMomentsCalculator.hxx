@@ -179,8 +179,8 @@ ImageMomentsCalculator<TImage>::Compute()
 //---------------------------------------------------------------------
 // Get sum of intensities
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::ScalarType
-ImageMomentsCalculator<TImage>::GetTotalMass() const
+auto
+ImageMomentsCalculator<TImage>::GetTotalMass() const -> ScalarType
 {
   if (!m_Valid)
   {
@@ -192,8 +192,8 @@ ImageMomentsCalculator<TImage>::GetTotalMass() const
 //--------------------------------------------------------------------
 // Get first moments about origin, in index coordinates
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::VectorType
-ImageMomentsCalculator<TImage>::GetFirstMoments() const
+auto
+ImageMomentsCalculator<TImage>::GetFirstMoments() const -> VectorType
 {
   if (!m_Valid)
   {
@@ -205,8 +205,8 @@ ImageMomentsCalculator<TImage>::GetFirstMoments() const
 //--------------------------------------------------------------------
 // Get second moments about origin, in index coordinates
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::MatrixType
-ImageMomentsCalculator<TImage>::GetSecondMoments() const
+auto
+ImageMomentsCalculator<TImage>::GetSecondMoments() const -> MatrixType
 {
   if (!m_Valid)
   {
@@ -218,8 +218,8 @@ ImageMomentsCalculator<TImage>::GetSecondMoments() const
 //--------------------------------------------------------------------
 // Get center of gravity, in physical coordinates
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::VectorType
-ImageMomentsCalculator<TImage>::GetCenterOfGravity() const
+auto
+ImageMomentsCalculator<TImage>::GetCenterOfGravity() const -> VectorType
 {
   if (!m_Valid)
   {
@@ -231,8 +231,8 @@ ImageMomentsCalculator<TImage>::GetCenterOfGravity() const
 //--------------------------------------------------------------------
 // Get second central moments, in physical coordinates
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::MatrixType
-ImageMomentsCalculator<TImage>::GetCentralMoments() const
+auto
+ImageMomentsCalculator<TImage>::GetCentralMoments() const -> MatrixType
 {
   if (!m_Valid)
   {
@@ -244,8 +244,8 @@ ImageMomentsCalculator<TImage>::GetCentralMoments() const
 //--------------------------------------------------------------------
 // Get principal moments, in physical coordinates
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::VectorType
-ImageMomentsCalculator<TImage>::GetPrincipalMoments() const
+auto
+ImageMomentsCalculator<TImage>::GetPrincipalMoments() const -> VectorType
 {
   if (!m_Valid)
   {
@@ -258,8 +258,8 @@ ImageMomentsCalculator<TImage>::GetPrincipalMoments() const
 //--------------------------------------------------------------------
 // Get principal axes, in physical coordinates
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::MatrixType
-ImageMomentsCalculator<TImage>::GetPrincipalAxes() const
+auto
+ImageMomentsCalculator<TImage>::GetPrincipalAxes() const -> MatrixType
 {
   if (!m_Valid)
   {
@@ -271,8 +271,8 @@ ImageMomentsCalculator<TImage>::GetPrincipalAxes() const
 //--------------------------------------------------------------------
 // Get principal axes to physical axes transform
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::AffineTransformPointer
-ImageMomentsCalculator<TImage>::GetPrincipalAxesToPhysicalAxesTransform() const
+auto
+ImageMomentsCalculator<TImage>::GetPrincipalAxesToPhysicalAxesTransform() const -> AffineTransformPointer
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;
@@ -297,8 +297,8 @@ ImageMomentsCalculator<TImage>::GetPrincipalAxesToPhysicalAxesTransform() const
 // Get physical axes to principal axes transform
 
 template <typename TImage>
-typename ImageMomentsCalculator<TImage>::AffineTransformPointer
-ImageMomentsCalculator<TImage>::GetPhysicalAxesToPrincipalAxesTransform() const
+auto
+ImageMomentsCalculator<TImage>::GetPhysicalAxesToPrincipalAxesTransform() const -> AffineTransformPointer
 {
   typename AffineTransformType::MatrixType matrix;
   typename AffineTransformType::OffsetType offset;

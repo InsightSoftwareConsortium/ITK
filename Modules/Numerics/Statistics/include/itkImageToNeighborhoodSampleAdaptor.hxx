@@ -44,8 +44,9 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::ImageToNeighborhoo
 }
 
 template <typename TImage, typename TBoundaryCondition>
-const typename ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::MeasurementVectorType &
+auto
 ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetMeasurementVector(InstanceIdentifier id) const
+  -> const MeasurementVectorType &
 {
   if (m_Image.IsNull())
   {
@@ -74,8 +75,8 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetMeasurementVect
 
 /** returns the number of measurement vectors in this container*/
 template <typename TImage, typename TBoundaryCondition>
-typename ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::InstanceIdentifier
-ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::Size() const
+auto
+ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::Size() const -> InstanceIdentifier
 {
   if (m_Image.IsNull())
   {
@@ -173,8 +174,8 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetRadius(const Ne
 }
 
 template <typename TImage, typename TBoundaryCondition>
-typename ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::NeighborhoodRadiusType
-ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetRadius() const
+auto
+ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetRadius() const -> NeighborhoodRadiusType
 {
   return m_Radius;
 }
@@ -203,8 +204,8 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetRegion(const Re
 }
 
 template <typename TImage, typename TBoundaryCondition>
-typename ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::RegionType
-ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetRegion() const
+auto
+ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetRegion() const -> RegionType
 {
   return m_Region;
 }
@@ -224,8 +225,8 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetUseImageRegion(
 }
 
 template <typename TImage, typename TBoundaryCondition>
-typename ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::TotalAbsoluteFrequencyType
-ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetTotalFrequency() const
+auto
+ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetTotalFrequency() const -> TotalAbsoluteFrequencyType
 {
   if (m_Image.IsNull())
   {

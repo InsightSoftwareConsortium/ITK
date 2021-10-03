@@ -1247,8 +1247,9 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
 
 /** Check if size of input Image is odd in all dimensions, throwing exception if even */
 template <unsigned int VDimension>
-typename FlatStructuringElement<VDimension>::RadiusType
+auto
 FlatStructuringElement<VDimension>::CheckImageSize(const typename FlatStructuringElement<VDimension>::ImageType * image)
+  -> RadiusType
 {
   const RadiusType & size = image->GetLargestPossibleRegion().GetSize();
 

@@ -25,8 +25,8 @@ namespace itk
 {
 
 template <unsigned VDimension>
-typename MetaConverterBase<VDimension>::SpatialObjectPointer
-MetaConverterBase<VDimension>::ReadMeta(const char * name)
+auto
+MetaConverterBase<VDimension>::ReadMeta(const char * name) -> SpatialObjectPointer
 {
   SpatialObjectPointer rval;
   MetaObjectType *     mo = this->CreateMetaObject();

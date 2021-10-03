@@ -169,8 +169,8 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
 }
 
 template <typename TInputImage>
-typename MRASlabIdentifier<TInputImage>::SlabRegionVectorType
-MRASlabIdentifier<TInputImage>::GetSlabRegionVector()
+auto
+MRASlabIdentifier<TInputImage>::GetSlabRegionVector() -> SlabRegionVectorType
 {
   return m_Slabs;
 }

@@ -39,8 +39,8 @@ HashImageFilter<TImageType>::HashImageFilter()
 
 
 template <typename TImageType>
-typename HashImageFilter<TImageType>::DataObjectPointer
-HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx)
+auto
+HashImageFilter<TImageType>::MakeOutput(DataObjectPointerArraySizeType idx) -> DataObjectPointer
 {
   if (idx == 1)
   {

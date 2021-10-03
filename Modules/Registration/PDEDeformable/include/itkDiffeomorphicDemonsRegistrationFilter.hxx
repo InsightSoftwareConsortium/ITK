@@ -183,8 +183,9 @@ DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementFi
  *
  */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
-typename DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GradientType
+auto
 DiffeomorphicDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetUseGradientType() const
+  -> GradientType
 {
   const DemonsRegistrationFunctionType * drfp = this->DownCastDifferenceFunctionType();
 

@@ -53,8 +53,8 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::SetUpperBound(const Meas
 }
 
 template <typename TFixedImage, typename TMovingImage>
-const typename HistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasurementVectorType &
-HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetUpperBound() const
+auto
+HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetUpperBound() const -> const MeasurementVectorType &
 {
   return m_UpperBound;
 }
@@ -69,8 +69,8 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::SetLowerBound(const Meas
 }
 
 template <typename TFixedImage, typename TMovingImage>
-const typename HistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasurementVectorType &
-HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetLowerBound() const
+auto
+HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetLowerBound() const -> const MeasurementVectorType &
 {
   return m_LowerBound;
 }
@@ -167,8 +167,9 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::SetTransform(TransformTy
 }
 
 template <typename TFixedImage, typename TMovingImage>
-typename HistogramImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
+auto
 HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const TransformParametersType & parameters) const
+  -> MeasureType
 {
   itkDebugMacro("GetValue( " << parameters << " ) ");
 

@@ -63,8 +63,8 @@ Euler2DTransform<TParametersValueType>::GetInverse(Self * inverse) const
 
 // Return an inverse of this transform
 template <typename TParametersValueType>
-typename Euler2DTransform<TParametersValueType>::InverseTransformBasePointer
-Euler2DTransform<TParametersValueType>::GetInverseTransform() const
+auto
+Euler2DTransform<TParametersValueType>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

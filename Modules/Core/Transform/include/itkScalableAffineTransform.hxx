@@ -150,8 +150,8 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::GetInverse(Self * in
 
 // Return an inverse of this transform
 template <typename TParametersValueType, unsigned int NDimensions>
-typename ScalableAffineTransform<TParametersValueType, NDimensions>::InverseTransformBasePointer
-ScalableAffineTransform<TParametersValueType, NDimensions>::GetInverseTransform() const
+auto
+ScalableAffineTransform<TParametersValueType, NDimensions>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

@@ -73,16 +73,16 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellLinks(CellLinksContainer * cel
  * Access routines to get the cell links container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainer *
-Mesh<TPixelType, VDimension, TMeshTraits>::GetCellLinks()
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCellLinks() -> CellLinksContainer *
 {
   itkDebugMacro("returning CellLinks container of " << m_CellLinksContainer);
   return m_CellLinksContainer;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellLinksContainer *
-Mesh<TPixelType, VDimension, TMeshTraits>::GetCellLinks() const
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCellLinks() const -> const CellLinksContainer *
 {
   itkDebugMacro("returning CellLinks container of " << m_CellLinksContainer);
   return m_CellLinksContainer;
@@ -108,16 +108,16 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCells(CellsContainer * cells)
  * Access routines to get the cells container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainer *
-Mesh<TPixelType, VDimension, TMeshTraits>::GetCells()
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCells() -> CellsContainer *
 {
   itkDebugMacro("returning Cells container of " << m_CellsContainer);
   return m_CellsContainer;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellsContainer *
-Mesh<TPixelType, VDimension, TMeshTraits>::GetCells() const
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCells() const -> const CellsContainer *
 {
   itkDebugMacro("returning Cells container of " << m_CellsContainer);
   return m_CellsContainer;
@@ -142,24 +142,24 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellData(CellDataContainer * cellD
  * Access routines to get the cell data container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainer *
-Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData()
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData() -> CellDataContainer *
 {
   itkDebugMacro("returning CellData container of " << m_CellDataContainer);
   return m_CellDataContainer;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::CellDataContainer *
-Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData() const
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData() const -> const CellDataContainer *
 {
   itkDebugMacro("returning CellData container of " << m_CellDataContainer);
   return m_CellDataContainer;
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundingBoxType *
-Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundingBox() const
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundingBox() const -> const BoundingBoxType *
 {
   m_BoundingBox->SetPoints(this->m_PointsContainer.GetPointer());
   if (m_BoundingBox->GetMTime() > this->GetMTime())
@@ -191,8 +191,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetBoundaryAssignments(int           
  * dimension.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryAssignmentsContainerPointer
-Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignments(int dimension)
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignments(int dimension) -> BoundaryAssignmentsContainerPointer
 {
   itkDebugMacro("returning BoundaryAssignments[" << dimension << "] container of "
                                                  << m_BoundaryAssignmentsContainers[dimension]);
@@ -200,8 +200,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignments(int dimension)
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-const typename Mesh<TPixelType, VDimension, TMeshTraits>::BoundaryAssignmentsContainerPointer
+auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignments(int dimension) const
+  -> const BoundaryAssignmentsContainerPointer
 {
   itkDebugMacro("returning BoundaryAssignments[" << dimension << "] container of "
                                                  << m_BoundaryAssignmentsContainers[dimension]);
@@ -425,8 +426,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>::RemoveBoundaryAssignment(int         
  * on the cell with the given identifier.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellFeatureCount
+auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCellBoundaryFeatures(int dimension, CellIdentifier cellId) const
+  -> CellFeatureCount
 {
   /**
    * Make sure the cell container exists and contains the given cell Id.
@@ -461,8 +463,8 @@ Mesh<TPixelType, VDimension, TMeshTraits>::PassStructure(Self *)
  * Get the number of cells in the CellsContainer.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellIdentifier
-Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCells() const
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCells() const -> CellIdentifier
 {
   if (!m_CellsContainer)
   {
@@ -716,8 +718,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
  * though, and we are not sure how wide-spread this support is.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
-typename Mesh<TPixelType, VDimension, TMeshTraits>::CellIdentifier
+auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier cellId, std::set<CellIdentifier> * cellSet)
+  -> CellIdentifier
 {
   /**
    * Sanity check on mesh status.

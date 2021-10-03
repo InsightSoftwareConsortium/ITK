@@ -61,8 +61,8 @@ QuadrilateralCell<TCellInterface>::GetNumberOfPoints() const
  * Get the number of boundary features of the given dimension.
  */
 template <typename TCellInterface>
-typename QuadrilateralCell<TCellInterface>::CellFeatureCount
-QuadrilateralCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const
+auto
+QuadrilateralCell<TCellInterface>::GetNumberOfBoundaryFeatures(int dimension) const -> CellFeatureCount
 {
   switch (dimension)
   {
@@ -170,8 +170,8 @@ QuadrilateralCell<TCellInterface>::SetPointId(int localId, PointIdentifier ptId)
  * Get a begin iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-typename QuadrilateralCell<TCellInterface>::PointIdIterator
-QuadrilateralCell<TCellInterface>::PointIdsBegin()
+auto
+QuadrilateralCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
 {
   return &m_PointIds[0];
 }
@@ -182,8 +182,8 @@ QuadrilateralCell<TCellInterface>::PointIdsBegin()
  * by the cell.
  */
 template <typename TCellInterface>
-typename QuadrilateralCell<TCellInterface>::PointIdConstIterator
-QuadrilateralCell<TCellInterface>::PointIdsBegin() const
+auto
+QuadrilateralCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
 {
   return &m_PointIds[0];
 }
@@ -193,8 +193,8 @@ QuadrilateralCell<TCellInterface>::PointIdsBegin() const
  * Get an end iterator to the list of point identifiers used by the cell.
  */
 template <typename TCellInterface>
-typename QuadrilateralCell<TCellInterface>::PointIdIterator
-QuadrilateralCell<TCellInterface>::PointIdsEnd()
+auto
+QuadrilateralCell<TCellInterface>::PointIdsEnd() -> PointIdIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -205,8 +205,8 @@ QuadrilateralCell<TCellInterface>::PointIdsEnd()
  * by the cell.
  */
 template <typename TCellInterface>
-typename QuadrilateralCell<TCellInterface>::PointIdConstIterator
-QuadrilateralCell<TCellInterface>::PointIdsEnd() const
+auto
+QuadrilateralCell<TCellInterface>::PointIdsEnd() const -> PointIdConstIterator
 {
   return &m_PointIds[Self::NumberOfPoints - 1] + 1;
 }
@@ -216,8 +216,8 @@ QuadrilateralCell<TCellInterface>::PointIdsEnd() const
  * Get the number of vertices defining the quadrilateral.
  */
 template <typename TCellInterface>
-typename QuadrilateralCell<TCellInterface>::CellFeatureCount
-QuadrilateralCell<TCellInterface>::GetNumberOfVertices() const
+auto
+QuadrilateralCell<TCellInterface>::GetNumberOfVertices() const -> CellFeatureCount
 {
   return NumberOfVertices;
 }
@@ -227,8 +227,8 @@ QuadrilateralCell<TCellInterface>::GetNumberOfVertices() const
  * Get the number of edges defined for the quadrilateral.
  */
 template <typename TCellInterface>
-typename QuadrilateralCell<TCellInterface>::CellFeatureCount
-QuadrilateralCell<TCellInterface>::GetNumberOfEdges() const
+auto
+QuadrilateralCell<TCellInterface>::GetNumberOfEdges() const -> CellFeatureCount
 {
   return Self::NumberOfEdges;
 }

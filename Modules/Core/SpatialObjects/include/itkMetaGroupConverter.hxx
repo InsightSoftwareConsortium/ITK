@@ -23,16 +23,16 @@
 namespace itk
 {
 template <unsigned int NDimensions>
-typename MetaGroupConverter<NDimensions>::MetaObjectType *
-MetaGroupConverter<NDimensions>::CreateMetaObject()
+auto
+MetaGroupConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new GroupMetaObjectType);
 }
 
 /** Convert a metaGroup into an group SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaGroupConverter<NDimensions>::SpatialObjectPointer
-MetaGroupConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaGroupConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * group = dynamic_cast<const GroupMetaObjectType *>(mo);
   if (group == nullptr)
@@ -54,8 +54,8 @@ MetaGroupConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType 
 
 /** Convert a group SpatialObject into a metaGroup */
 template <unsigned int NDimensions>
-typename MetaGroupConverter<NDimensions>::MetaObjectType *
-MetaGroupConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaGroupConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   GroupSpatialObjectConstPointer groupSO = dynamic_cast<const GroupSpatialObjectType *>(so);
   if (groupSO.IsNull())

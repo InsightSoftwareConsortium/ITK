@@ -24,16 +24,16 @@ namespace itk
 {
 
 template <unsigned int NDimensions>
-typename MetaContourConverter<NDimensions>::MetaObjectType *
-MetaContourConverter<NDimensions>::CreateMetaObject()
+auto
+MetaContourConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new ContourMetaObjectType);
 }
 
 /** Convert a metaContour into an Contour SpatialObject  */
 template <unsigned int NDimensions>
-typename MetaContourConverter<NDimensions>::SpatialObjectPointer
-MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+auto
+MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * contourMO = dynamic_cast<const MetaContour *>(mo);
   if (contourMO == nullptr)
@@ -130,8 +130,8 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 
 /** Convert a Contour SpatialObject into a metaContour */
 template <unsigned int NDimensions>
-typename MetaContourConverter<NDimensions>::MetaObjectType *
-MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+auto
+MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   ContourSpatialObjectConstPointer contourSO = dynamic_cast<const ContourSpatialObjectType *>(so);
   if (contourSO.IsNull())

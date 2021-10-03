@@ -35,8 +35,9 @@ WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::WarpMeshFilter()
 }
 
 template <typename TInputMesh, typename TOutputMesh, typename TDisplacementField>
-const typename WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::DisplacementFieldType *
+auto
 WarpMeshFilter<TInputMesh, TOutputMesh, TDisplacementField>::GetDisplacementField() const
+  -> const DisplacementFieldType *
 {
   return itkDynamicCastInDebugMode<const DisplacementFieldType *>(this->ProcessObject::GetInput(1));
 }

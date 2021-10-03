@@ -46,8 +46,9 @@ VectorCentralDifferenceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ost
  *
  */
 template <typename TInputImage, typename TCoordRep>
-typename VectorCentralDifferenceImageFunction<TInputImage, TCoordRep>::OutputType
+auto
 VectorCentralDifferenceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const
+  -> OutputType
 {
   OutputType derivative;
 

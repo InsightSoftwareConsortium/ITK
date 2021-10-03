@@ -51,15 +51,15 @@ HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::SetInput2(const TInput
 }
 
 template <typename TInputImage1, typename TInputImage2>
-const typename HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::InputImage1Type *
-HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GetInput1()
+auto
+HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GetInput1() -> const InputImage1Type *
 {
   return this->GetInput();
 }
 
 template <typename TInputImage1, typename TInputImage2>
-const typename HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::InputImage2Type *
-HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GetInput2()
+auto
+HausdorffDistanceImageFilter<TInputImage1, TInputImage2>::GetInput2() -> const InputImage2Type *
 {
   return itkDynamicCastInDebugMode<const TInputImage2 *>(this->ProcessObject::GetInput(1));
 }

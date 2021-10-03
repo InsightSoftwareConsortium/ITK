@@ -32,8 +32,8 @@ ShiSparseLevelSetImage<VDimension>::ShiSparseLevelSetImage()
 }
 
 template <unsigned int VDimension>
-typename ShiSparseLevelSetImage<VDimension>::OutputType
-ShiSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputIndex) const
+auto
+ShiSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputIndex) const -> OutputType
 {
   InputType mapIndex = inputIndex - this->m_DomainOffset;
   auto      layerIt = this->m_Layers.begin();
@@ -70,8 +70,8 @@ ShiSparseLevelSetImage<VDimension>::Evaluate(const InputType & inputIndex) const
 
 
 template <unsigned int VDimension>
-typename ShiSparseLevelSetImage<VDimension>::HessianType
-ShiSparseLevelSetImage<VDimension>::EvaluateHessian(const InputType & itkNotUsed(inputIndex)) const
+auto
+ShiSparseLevelSetImage<VDimension>::EvaluateHessian(const InputType & itkNotUsed(inputIndex)) const -> HessianType
 {
   itkGenericExceptionMacro(<< "The approximation of the hessian in the Shi's"
                            << " representation is poor, and far to be representative."
@@ -82,8 +82,8 @@ ShiSparseLevelSetImage<VDimension>::EvaluateHessian(const InputType & itkNotUsed
 
 
 template <unsigned int VDimension>
-typename ShiSparseLevelSetImage<VDimension>::OutputRealType
-ShiSparseLevelSetImage<VDimension>::EvaluateLaplacian(const InputType & itkNotUsed(inputIndex)) const
+auto
+ShiSparseLevelSetImage<VDimension>::EvaluateLaplacian(const InputType & itkNotUsed(inputIndex)) const -> OutputRealType
 {
   itkGenericExceptionMacro(<< "The approximation of the hessian in the Shi's"
                            << " representation is poor, and far to be representative."
@@ -94,8 +94,9 @@ ShiSparseLevelSetImage<VDimension>::EvaluateLaplacian(const InputType & itkNotUs
 
 
 template <unsigned int VDimension>
-typename ShiSparseLevelSetImage<VDimension>::OutputRealType
+auto
 ShiSparseLevelSetImage<VDimension>::EvaluateMeanCurvature(const InputType & itkNotUsed(inputIndex)) const
+  -> OutputRealType
 {
   itkGenericExceptionMacro(<< "The approximation of the hessian in the Shi's"
                            << " representation is poor, and far to be representative."

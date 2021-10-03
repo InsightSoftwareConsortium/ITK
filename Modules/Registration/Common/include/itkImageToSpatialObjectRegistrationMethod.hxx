@@ -150,8 +150,9 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::Gener
 }
 
 template <typename TFixedImage, typename TMovingSpatialObject>
-const typename ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::TransformOutputType *
+auto
 ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::GetOutput() const
+  -> const TransformOutputType *
 {
   return static_cast<const TransformOutputType *>(this->ProcessObject::GetOutput(0));
 }

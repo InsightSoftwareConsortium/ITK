@@ -74,8 +74,8 @@ TreeIteratorBase<TTreeType>::TreeIteratorBase(const TTreeType * tree, const Tree
 
 /** Return the current value of the node */
 template <typename TTreeType>
-const typename TreeIteratorBase<TTreeType>::ValueType &
-TreeIteratorBase<TTreeType>::Get() const
+auto
+TreeIteratorBase<TTreeType>::Get() const -> const ValueType &
 {
   return m_Position->Get();
 }
@@ -342,8 +342,8 @@ TreeIteratorBase<TTreeType>::Children()
 
 /** Return the first parent found */
 template <typename TTreeType>
-const typename TreeIteratorBase<TTreeType>::TreeNodeType *
-TreeIteratorBase<TTreeType>::GetParent() const
+auto
+TreeIteratorBase<TTreeType>::GetParent() const -> const TreeNodeType *
 {
   if (m_Position == nullptr)
   {
@@ -445,32 +445,32 @@ TreeIteratorBase<TTreeType>::Count()
 
 /** Get the node pointed by the iterator */
 template <typename TTreeType>
-typename TreeIteratorBase<TTreeType>::TreeNodeType *
-TreeIteratorBase<TTreeType>::GetNode()
+auto
+TreeIteratorBase<TTreeType>::GetNode() -> TreeNodeType *
 {
   return const_cast<TreeNodeType *>(m_Position);
 }
 
 /** Get the node pointed by the iterator */
 template <typename TTreeType>
-const typename TreeIteratorBase<TTreeType>::TreeNodeType *
-TreeIteratorBase<TTreeType>::GetNode() const
+auto
+TreeIteratorBase<TTreeType>::GetNode() const -> const TreeNodeType *
 {
   return m_Position;
 }
 
 /** Get the root */
 template <typename TTreeType>
-typename TreeIteratorBase<TTreeType>::TreeNodeType *
-TreeIteratorBase<TTreeType>::GetRoot()
+auto
+TreeIteratorBase<TTreeType>::GetRoot() -> TreeNodeType *
 {
   return const_cast<TreeNodeType *>(m_Root);
 }
 
 /** Get the root (const) */
 template <typename TTreeType>
-const typename TreeIteratorBase<TTreeType>::TreeNodeType *
-TreeIteratorBase<TTreeType>::GetRoot() const
+auto
+TreeIteratorBase<TTreeType>::GetRoot() const -> const TreeNodeType *
 {
   return m_Root;
 }

@@ -57,8 +57,8 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSize(
 }
 
 template <typename TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SizeType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSize() const
+auto
+TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSize() const -> const SizeType
 {
   SizeType size;
   for (SizeValueType d = 0; d < TotalDimension; ++d)
@@ -90,8 +90,8 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredOrigi
 }
 
 template <typename TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::PointType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredOrigin() const
+auto
+TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredOrigin() const -> const PointType
 {
   PointType origin;
   for (SizeValueType d = 0; d < TotalDimension; ++d)
@@ -123,8 +123,8 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredSpaci
 }
 
 template <typename TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SpacingType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() const
+auto
+TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredSpacing() const -> const SpacingType
 {
   SpacingType spacing;
   for (SizeValueType d = 0; d < TotalDimension; ++d)
@@ -160,8 +160,8 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::SetRequiredDirec
 }
 
 template <typename TTransform>
-const typename TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::DirectionType
-TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() const
+auto
+TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::GetRequiredDirection() const -> const DirectionType
 {
   DirectionType direction;
   for (SizeValueType di = 0; di < TotalDimension; ++di)

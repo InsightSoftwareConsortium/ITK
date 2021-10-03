@@ -43,8 +43,8 @@ BinaryPruningImageFilter<TInputImage, TOutputImage>::BinaryPruningImageFilter()
  *  Return the pruning Image pointer
  */
 template <typename TInputImage, typename TOutputImage>
-typename BinaryPruningImageFilter<TInputImage, TOutputImage>::OutputImageType *
-BinaryPruningImageFilter<TInputImage, TOutputImage>::GetPruning()
+auto
+BinaryPruningImageFilter<TInputImage, TOutputImage>::GetPruning() -> OutputImageType *
 {
   return dynamic_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
 }

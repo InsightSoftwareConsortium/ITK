@@ -575,8 +575,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::CalculateOrientedBoundin
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelIndicesType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetPixelIndices(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetPixelIndices(LabelPixelType label) const -> LabelIndicesType
 {
   MapConstIterator mapIt;
 
@@ -613,8 +613,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetVolume(LabelPixelType
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetIntegratedIntensity(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetIntegratedIntensity(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -631,8 +631,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetIntegratedIntensity(L
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelPointType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetCentroid(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetCentroid(LabelPixelType label) const -> LabelPointType
 {
   MapConstIterator mapIt;
 
@@ -651,8 +651,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetCentroid(LabelPixelTy
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelPointType
+auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetWeightedCentroid(LabelPixelType label) const
+  -> LabelPointType
 {
   MapConstIterator mapIt;
 
@@ -671,8 +672,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetWeightedCentroid(Labe
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::VectorType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEigenvalues(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEigenvalues(LabelPixelType label) const -> VectorType
 {
   MapConstIterator mapIt;
 
@@ -690,8 +691,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEigenvalues(LabelPixe
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::MatrixType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEigenvectors(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEigenvectors(LabelPixelType label) const -> MatrixType
 {
   MapConstIterator mapIt;
 
@@ -709,8 +710,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEigenvectors(LabelPix
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::AxesLengthType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetAxesLength(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetAxesLength(LabelPixelType label) const -> AxesLengthType
 {
   MapConstIterator mapIt;
 
@@ -729,8 +730,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetAxesLength(LabelPixel
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetMinorAxisLength(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetMinorAxisLength(LabelPixelType label) const -> RealType
 {
   AxesLengthType axisLength = GetAxesLength(label);
 
@@ -738,8 +739,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetMinorAxisLength(Label
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetMajorAxisLength(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetMajorAxisLength(LabelPixelType label) const -> RealType
 {
   AxesLengthType axisLength = GetAxesLength(label);
 
@@ -747,8 +748,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetMajorAxisLength(Label
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEccentricity(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEccentricity(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -765,8 +766,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetEccentricity(LabelPix
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetElongation(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetElongation(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -783,8 +784,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetElongation(LabelPixel
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientation(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientation(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -801,8 +802,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientation(LabelPixe
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::BoundingBoxType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBox(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBox(LabelPixelType label) const -> BoundingBoxType
 {
   MapConstIterator mapIt;
 
@@ -821,8 +822,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBox(LabelPixe
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxVolume(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxVolume(LabelPixelType label) const -> RealType
 {
   MapConstIterator mapIt;
 
@@ -839,8 +840,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxVolume(Lab
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelSizeType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxSize(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxSize(LabelPixelType label) const -> LabelSizeType
 {
   MapConstIterator mapIt;
 
@@ -859,8 +860,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetBoundingBoxSize(Label
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::BoundingBoxVerticesType
+auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxVertices(LabelPixelType label) const
+  -> BoundingBoxVerticesType
 {
   unsigned int     numberOfVertices = 1 << ImageDimension;
   MapConstIterator mapIt = m_LabelGeometryMapper.find(label);
@@ -880,8 +882,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxVe
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RealType
+auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxVolume(LabelPixelType label) const
+  -> RealType
 {
   MapConstIterator mapIt;
 
@@ -898,8 +901,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxVo
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelPointType
+auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxSize(LabelPixelType label) const
+  -> LabelPointType
 {
   MapConstIterator mapIt;
 
@@ -921,8 +925,9 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxSi
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::LabelPointType
+auto
 LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxOrigin(LabelPixelType label) const
+  -> LabelPointType
 {
   MapConstIterator mapIt;
 
@@ -941,8 +946,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetOrientedBoundingBoxOr
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::MatrixType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRotationMatrix(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRotationMatrix(LabelPixelType label) const -> MatrixType
 {
   MapConstIterator mapIt;
 
@@ -960,8 +965,8 @@ LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRotationMatrix(LabelP
 }
 
 template <typename TLabelImage, typename TIntensityImage>
-typename LabelGeometryImageFilter<TLabelImage, TIntensityImage>::RegionType
-LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRegion(LabelPixelType label) const
+auto
+LabelGeometryImageFilter<TLabelImage, TIntensityImage>::GetRegion(LabelPixelType label) const -> RegionType
 {
   MapConstIterator mapIt;
 

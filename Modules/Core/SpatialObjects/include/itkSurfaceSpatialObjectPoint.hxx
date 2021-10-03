@@ -61,16 +61,16 @@ SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInWorldSpace(const Covarian
 
 /** Get the normal at one point */
 template <unsigned int TPointDimension>
-const typename SurfaceSpatialObjectPoint<TPointDimension>::CovariantVectorType &
-SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const
+auto
+SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const -> const CovariantVectorType &
 {
   return m_NormalInObjectSpace;
 }
 
 /** Get the normal at one point */
 template <unsigned int TPointDimension>
-const typename SurfaceSpatialObjectPoint<TPointDimension>::CovariantVectorType
-SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInWorldSpace() const
+auto
+SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInWorldSpace() const -> const CovariantVectorType
 {
   if (this->m_SpatialObject == nullptr)
   {
@@ -93,8 +93,8 @@ SurfaceSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent 
 
 /** Copy a surface point to another */
 template <unsigned int TPointDimension>
-typename SurfaceSpatialObjectPoint<TPointDimension>::Self &
-SurfaceSpatialObjectPoint<TPointDimension>::operator=(const SurfaceSpatialObjectPoint & rhs)
+auto
+SurfaceSpatialObjectPoint<TPointDimension>::operator=(const SurfaceSpatialObjectPoint & rhs) -> Self &
 {
   if (this != &rhs)
   {

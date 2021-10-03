@@ -137,16 +137,16 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(
 
 
 template <typename TInputImage, typename TOutputImage>
-typename SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SigmaArrayType
-SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray() const
+auto
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray() const -> SigmaArrayType
 {
   return m_Sigma;
 }
 
 
 template <typename TInputImage, typename TOutputImage>
-typename SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::ScalarRealType
-SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
+auto
+SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const -> ScalarRealType
 {
   return m_Sigma[0];
 }

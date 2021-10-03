@@ -179,8 +179,9 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 }
 
 template <typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType>
-typename HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::CirclesListType &
+auto
 HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPixelType>::GetCircles()
+  -> CirclesListType &
 {
   // Make sure that all the required inputs exist and have a non-null value
   this->VerifyPreconditions();

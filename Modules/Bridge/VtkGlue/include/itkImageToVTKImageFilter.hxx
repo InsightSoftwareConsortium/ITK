@@ -73,8 +73,8 @@ ImageToVTKImageFilter<TInputImage>::SetInput(const InputImageType * inputImage)
 }
 
 template <typename TInputImage>
-typename ImageToVTKImageFilter<TInputImage>::InputImageType *
-ImageToVTKImageFilter<TInputImage>::GetInput()
+auto
+ImageToVTKImageFilter<TInputImage>::GetInput() -> InputImageType *
 {
   return m_Exporter->GetInput();
 }
@@ -103,8 +103,8 @@ ImageToVTKImageFilter<TInputImage>::GetImporter() const
  * Get the exporter filter
  */
 template <typename TInputImage>
-typename ImageToVTKImageFilter<TInputImage>::ExporterFilterType *
-ImageToVTKImageFilter<TInputImage>::GetExporter() const
+auto
+ImageToVTKImageFilter<TInputImage>::GetExporter() const -> ExporterFilterType *
 {
   return m_Exporter.GetPointer();
 }

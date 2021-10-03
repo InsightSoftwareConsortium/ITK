@@ -47,8 +47,8 @@ MeshFileWriter<TInputMesh>::SetInput(const InputMeshType * input)
 }
 
 template <typename TInputMesh>
-const typename MeshFileWriter<TInputMesh>::InputMeshType *
-MeshFileWriter<TInputMesh>::GetInput()
+auto
+MeshFileWriter<TInputMesh>::GetInput() -> const InputMeshType *
 {
   if (this->GetNumberOfInputs() < 1)
   {
@@ -59,8 +59,8 @@ MeshFileWriter<TInputMesh>::GetInput()
 }
 
 template <typename TInputMesh>
-const typename MeshFileWriter<TInputMesh>::InputMeshType *
-MeshFileWriter<TInputMesh>::GetInput(unsigned int idx)
+auto
+MeshFileWriter<TInputMesh>::GetInput(unsigned int idx) -> const InputMeshType *
 {
   return static_cast<TInputMesh *>(this->ProcessObject::GetInput(idx));
 }

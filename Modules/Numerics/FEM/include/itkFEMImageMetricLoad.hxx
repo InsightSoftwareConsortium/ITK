@@ -141,8 +141,8 @@ ImageMetricLoad<TMoving, TFixed>::ImageMetricLoad()
 }
 
 template <typename TMoving, typename TFixed>
-typename ImageMetricLoad<TMoving, TFixed>::Float
-ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType * element, Float step)
+auto
+ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType * element, Float step) -> Float
 {
   Float energy = 0.0, defe = 0.0;
 
@@ -209,8 +209,8 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
 }
 
 template <typename TMoving, typename TFixed>
-typename ImageMetricLoad<TMoving, TFixed>::Float
-ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayType * element, Float step)
+auto
+ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayType * element, Float step) -> Float
 {
   Float energy = 0.0, defe = 0.0;
 
@@ -276,8 +276,8 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
 }
 
 template <typename TMoving, typename TFixed>
-typename ImageMetricLoad<TMoving, TFixed>::VectorType
-ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol)
+auto
+ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> VectorType
 {
   // We assume the vector input is of size 2*ImageDimension.
   // The 0 to ImageDimension-1 elements contain the position, p,
@@ -392,8 +392,8 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol)
 }
 
 template <typename TMoving, typename TFixed>
-typename ImageMetricLoad<TMoving, TFixed>::Float
-ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec)
+auto
+ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
 {
   // We assume the vector input is of size 2*ImageDimension.
   // The 0 to ImageDimension-1 elements contain the position, p,
@@ -491,8 +491,8 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec)
 }
 
 template <typename TMoving, typename TFixed>
-typename ImageMetricLoad<TMoving, TFixed>::VectorType
-ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType Gsol)
+auto
+ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType Gsol) -> VectorType
 {
   typename MetricBaseType::MeasureType measure;
 
@@ -590,8 +590,8 @@ ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType G
 }
 
 template <typename TMoving, typename TFixed>
-typename ImageMetricLoad<TMoving, TFixed>::VectorType
-ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, VectorType Gsol)
+auto
+ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, VectorType Gsol) -> VectorType
 {
   // discrete orthogonal polynomial fitting
   // see p.394-403 haralick computer and robot vision

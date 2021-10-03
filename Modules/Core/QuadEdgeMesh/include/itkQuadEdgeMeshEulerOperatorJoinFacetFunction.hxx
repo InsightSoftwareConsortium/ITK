@@ -23,8 +23,8 @@
 namespace itk
 {
 template <typename TMesh, typename TQEType>
-typename QuadEdgeMeshEulerOperatorJoinFacetFunction<TMesh, TQEType>::OutputType
-QuadEdgeMeshEulerOperatorJoinFacetFunction<TMesh, TQEType>::Evaluate(QEType * e)
+auto
+QuadEdgeMeshEulerOperatorJoinFacetFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
 {
 #ifndef NDEBUG
   if (!e)

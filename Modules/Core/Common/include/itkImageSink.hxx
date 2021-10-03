@@ -47,16 +47,16 @@ ImageSink<TInputImage>::SetInput(const InputImageType * input)
 
 
 template <typename TInputImage>
-const typename ImageSink<TInputImage>::InputImageType *
-ImageSink<TInputImage>::GetInput() const
+auto
+ImageSink<TInputImage>::GetInput() const -> const InputImageType *
 {
   return itkDynamicCastInDebugMode<const TInputImage *>(this->ProcessObject::GetPrimaryInput());
 }
 
 
 template <typename TInputImage>
-const typename ImageSink<TInputImage>::InputImageType *
-ImageSink<TInputImage>::GetInput(unsigned int idx) const
+auto
+ImageSink<TInputImage>::GetInput(unsigned int idx) const -> const InputImageType *
 {
   const auto * in = dynamic_cast<const TInputImage *>(this->ProcessObject::GetInput(idx));
 
@@ -69,8 +69,8 @@ ImageSink<TInputImage>::GetInput(unsigned int idx) const
 
 
 template <typename TInputImage>
-const typename ImageSink<TInputImage>::InputImageType *
-ImageSink<TInputImage>::GetInput(const DataObjectIdentifierType & key) const
+auto
+ImageSink<TInputImage>::GetInput(const DataObjectIdentifierType & key) const -> const InputImageType *
 {
   const auto * in = dynamic_cast<const TInputImage *>(this->ProcessObject::GetInput(key));
 

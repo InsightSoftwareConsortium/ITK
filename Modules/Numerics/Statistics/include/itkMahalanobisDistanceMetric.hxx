@@ -47,8 +47,8 @@ MahalanobisDistanceMetric<TVector>::SetMean(const MeanVectorType & mean)
 }
 
 template <typename TVector>
-const typename MahalanobisDistanceMetric<TVector>::MeanVectorType &
-MahalanobisDistanceMetric<TVector>::GetMean() const
+auto
+MahalanobisDistanceMetric<TVector>::GetMean() const -> const MeanVectorType &
 {
   return Superclass::GetOrigin();
 }

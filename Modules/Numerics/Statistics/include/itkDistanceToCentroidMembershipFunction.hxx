@@ -53,8 +53,8 @@ DistanceToCentroidMembershipFunction<TVector>::SetMeasurementVectorSize(Measurem
 }
 
 template <typename TVector>
-const typename DistanceToCentroidMembershipFunction<TVector>::CentroidType &
-DistanceToCentroidMembershipFunction<TVector>::GetCentroid() const
+auto
+DistanceToCentroidMembershipFunction<TVector>::GetCentroid() const -> const CentroidType &
 {
   return m_DistanceMetric->GetOrigin();
 }

@@ -81,15 +81,15 @@ MembershipSample<TSample>::GetInternalClassLabel(const ClassLabelType classLabel
 }
 
 template <typename TSample>
-const typename MembershipSample<TSample>::ClassLabelHolderType
-MembershipSample<TSample>::GetClassLabelHolder() const
+auto
+MembershipSample<TSample>::GetClassLabelHolder() const -> const ClassLabelHolderType
 {
   return m_ClassLabelHolder;
 }
 
 template <typename TSample>
-const typename MembershipSample<TSample>::ClassSampleType *
-MembershipSample<TSample>::GetClassSample(const ClassLabelType & classLabel) const
+auto
+MembershipSample<TSample>::GetClassSample(const ClassLabelType & classLabel) const -> const ClassSampleType *
 {
   int classIndex = this->GetInternalClassLabel(classLabel);
   if (classIndex < 0)

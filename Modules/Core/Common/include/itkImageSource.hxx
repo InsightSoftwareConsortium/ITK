@@ -72,24 +72,24 @@ ImageSource<TOutputImage>::MakeOutput(const ProcessObject::DataObjectIdentifierT
 }
 
 template <typename TOutputImage>
-typename ImageSource<TOutputImage>::OutputImageType *
-ImageSource<TOutputImage>::GetOutput()
+auto
+ImageSource<TOutputImage>::GetOutput() -> OutputImageType *
 {
   // we assume that the first output is of the templated type
   return itkDynamicCastInDebugMode<TOutputImage *>(this->GetPrimaryOutput());
 }
 
 template <typename TOutputImage>
-const typename ImageSource<TOutputImage>::OutputImageType *
-ImageSource<TOutputImage>::GetOutput() const
+auto
+ImageSource<TOutputImage>::GetOutput() const -> const OutputImageType *
 {
   // we assume that the first output is of the templated type
   return itkDynamicCastInDebugMode<const TOutputImage *>(this->GetPrimaryOutput());
 }
 
 template <typename TOutputImage>
-typename ImageSource<TOutputImage>::OutputImageType *
-ImageSource<TOutputImage>::GetOutput(unsigned int idx)
+auto
+ImageSource<TOutputImage>::GetOutput(unsigned int idx) -> OutputImageType *
 {
   auto * out = dynamic_cast<TOutputImage *>(this->ProcessObject::GetOutput(idx));
 

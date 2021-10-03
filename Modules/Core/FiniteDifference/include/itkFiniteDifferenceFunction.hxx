@@ -41,8 +41,8 @@ FiniteDifferenceFunction<TImageType>::SetRadius(const RadiusType & r)
 }
 
 template <typename TImageType>
-const typename FiniteDifferenceFunction<TImageType>::RadiusType &
-FiniteDifferenceFunction<TImageType>::GetRadius() const
+auto
+FiniteDifferenceFunction<TImageType>::GetRadius() const -> const RadiusType &
 {
   return m_Radius;
 }
@@ -77,8 +77,8 @@ FiniteDifferenceFunction<TImageType>::PrintSelf(std::ostream & os, Indent indent
 }
 
 template <typename TImageType>
-const typename FiniteDifferenceFunction<TImageType>::NeighborhoodScalesType
-FiniteDifferenceFunction<TImageType>::ComputeNeighborhoodScales() const
+auto
+FiniteDifferenceFunction<TImageType>::ComputeNeighborhoodScales() const -> const NeighborhoodScalesType
 {
   NeighborhoodScalesType neighborhoodScales;
 

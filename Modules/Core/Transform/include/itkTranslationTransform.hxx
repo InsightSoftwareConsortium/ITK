@@ -75,8 +75,8 @@ TranslationTransform<TParametersValueType, NDimensions>::SetParameters(const Par
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-const typename TranslationTransform<TParametersValueType, NDimensions>::ParametersType &
-TranslationTransform<TParametersValueType, NDimensions>::GetParameters() const
+auto
+TranslationTransform<TParametersValueType, NDimensions>::GetParameters() const -> const ParametersType &
 {
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -119,24 +119,27 @@ TranslationTransform<TParametersValueType, NDimensions>::Translate(const OutputV
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename TranslationTransform<TParametersValueType, NDimensions>::OutputPointType
+auto
 TranslationTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & point) const
+  -> OutputPointType
 {
   return point + m_Offset;
 }
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename TranslationTransform<TParametersValueType, NDimensions>::OutputVectorType
+auto
 TranslationTransform<TParametersValueType, NDimensions>::TransformVector(const InputVectorType & vect) const
+  -> OutputVectorType
 {
   return vect;
 }
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename TranslationTransform<TParametersValueType, NDimensions>::OutputVnlVectorType
+auto
 TranslationTransform<TParametersValueType, NDimensions>::TransformVector(const InputVnlVectorType & vect) const
+  -> OutputVnlVectorType
 {
   return vect;
 }
@@ -167,8 +170,8 @@ TranslationTransform<TParametersValueType, NDimensions>::GetInverse(Self * inver
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
-typename TranslationTransform<TParametersValueType, NDimensions>::InverseTransformBasePointer
-TranslationTransform<TParametersValueType, NDimensions>::GetInverseTransform() const
+auto
+TranslationTransform<TParametersValueType, NDimensions>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 

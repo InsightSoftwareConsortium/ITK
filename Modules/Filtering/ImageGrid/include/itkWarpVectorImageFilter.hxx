@@ -111,8 +111,8 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::SetDisplac
 
 
 template <typename TInputImage, typename TOutputImage, typename TDisplacementField>
-typename WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::DisplacementFieldType *
-WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::GetDisplacementField()
+auto
+WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::GetDisplacementField() -> DisplacementFieldType *
 {
   return itkDynamicCastInDebugMode<DisplacementFieldType *>(this->ProcessObject::GetInput(1));
 }

@@ -60,8 +60,8 @@ ObjectStore<TObjectType>::Reserve(SizeValueType n)
 }
 
 template <typename TObjectType>
-typename ObjectStore<TObjectType>::ObjectType *
-ObjectStore<TObjectType>::Borrow()
+auto
+ObjectStore<TObjectType>::Borrow() -> ObjectType *
 {
   ObjectType * p;
 

@@ -139,8 +139,8 @@ RingBuffer<TElement>::SetBufferContents(OffsetValueType offset, ElementPointer e
 // GetNumberOfBuffers
 //
 template <typename TElement>
-typename RingBuffer<TElement>::SizeValueType
-RingBuffer<TElement>::GetNumberOfBuffers()
+auto
+RingBuffer<TElement>::GetNumberOfBuffers() -> SizeValueType
 {
   return static_cast<typename RingBuffer<TElement>::SizeValueType>(this->m_PointerVector.size());
 }
@@ -197,8 +197,8 @@ RingBuffer<TElement>::SetNumberOfBuffers(SizeValueType n)
 // GetOffsetBufferIndex
 //
 template <typename TElement>
-typename RingBuffer<TElement>::OffsetValueType
-RingBuffer<TElement>::GetOffsetBufferIndex(OffsetValueType offset)
+auto
+RingBuffer<TElement>::GetOffsetBufferIndex(OffsetValueType offset) -> OffsetValueType
 {
   OffsetValueType moddedOffset = itk::Math::abs(offset) % this->GetNumberOfBuffers();
   auto            signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);

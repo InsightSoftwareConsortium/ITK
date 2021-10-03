@@ -101,8 +101,8 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::Compute()
 }
 
 template <typename TInputImage, typename TMaskImage>
-const typename KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::InputPixelType &
-KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::GetOutput() const
+auto
+KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::GetOutput() const -> const InputPixelType &
 {
   if (!this->m_Valid)
   {

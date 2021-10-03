@@ -411,8 +411,8 @@ VariableLengthVector<TValue>::operator==(const Self & v) const
  * Returns vector's Euclidean Norm
  */
 template <typename TValue>
-typename VariableLengthVector<TValue>::RealValueType
-VariableLengthVector<TValue>::GetNorm() const
+auto
+VariableLengthVector<TValue>::GetNorm() const -> RealValueType
 {
   using std::sqrt;
   return static_cast<RealValueType>(sqrt(this->GetSquaredNorm()));
@@ -422,8 +422,8 @@ VariableLengthVector<TValue>::GetNorm() const
  * Returns vector's Squared Euclidean Norm
  */
 template <typename TValue>
-typename VariableLengthVector<TValue>::RealValueType
-VariableLengthVector<TValue>::GetSquaredNorm() const
+auto
+VariableLengthVector<TValue>::GetSquaredNorm() const -> RealValueType
 {
   RealValueType sum = 0.0;
 
@@ -436,15 +436,15 @@ VariableLengthVector<TValue>::GetSquaredNorm() const
 }
 
 template <typename TExpr1, typename TExpr2, typename TBinaryOp>
-typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
-VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::GetNorm() const
+auto
+VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::GetNorm() const -> RealValueType
 {
   return itk::GetNorm(*this);
 }
 
 template <typename TExpr1, typename TExpr2, typename TBinaryOp>
-typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
-VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::GetSquaredNorm() const
+auto
+VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::GetSquaredNorm() const -> RealValueType
 {
   return itk::GetSquaredNorm(*this);
 }

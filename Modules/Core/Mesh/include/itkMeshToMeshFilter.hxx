@@ -58,8 +58,8 @@ MeshToMeshFilter<TInputMesh, TOutputMesh>::SetInput(const TInputMesh * input)
  *
  */
 template <typename TInputMesh, typename TOutputMesh>
-const typename MeshToMeshFilter<TInputMesh, TOutputMesh>::InputMeshType *
-MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput() const
+auto
+MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput() const -> const InputMeshType *
 {
   return itkDynamicCastInDebugMode<const TInputMesh *>(this->GetPrimaryInput());
 }
@@ -68,8 +68,8 @@ MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput() const
  *
  */
 template <typename TInputMesh, typename TOutputMesh>
-const typename MeshToMeshFilter<TInputMesh, TOutputMesh>::InputMeshType *
-MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput(unsigned int idx) const
+auto
+MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput(unsigned int idx) const -> const InputMeshType *
 {
   return dynamic_cast<const TInputMesh *>(this->ProcessObject::GetInput(idx));
 }
