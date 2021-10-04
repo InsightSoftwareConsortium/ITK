@@ -1019,7 +1019,7 @@ compilers.
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine.
- * This versions returns a const reference to the variable. */
+ * This version returns a const reference to the variable. */
 #define itkGetConstReferenceMacro(name, type)                       \
   virtual const type & Get##name() const { return this->m_##name; } \
   ITK_MACROEND_NOOP_STATEMENT
