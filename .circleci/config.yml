@@ -15,7 +15,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/python:3.7-stretch
+      - image: cimg/python:3.9
     working_directory: ~/
     resource_class: medium
     branches:
@@ -46,9 +46,11 @@ jobs:
       - run:
           name: Dependencies
           command: |
-            sudo apt-get install -y  rsync ninja-build ccache
-            sudo pip install --upgrade pip
-            sudo pip install cmake==3.16.3 scikit-ci-addons numpy
+            sudo apt-get update
+            sudo apt-get upgrade -y
+            sudo apt-get install -y  rsync ninja-build ccache python3-pip
+            sudo pip3 install --upgrade pip
+            sudo pip3 install cmake==3.16.3 scikit-ci-addons numpy lxml
       - run:
           name: CCache initialization
           command: |
@@ -61,8 +63,8 @@ jobs:
           environment:
             ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS: 2
             CTEST_OUTPUT_ON_FAILURE: 1
-            CTEST_CONFIGURATION_TYPE: "Release"
-            CTEST_BUILD_FLAGS: "-j 2"
+            CTEST_CONFIGURATION_TYPE: "MinSizeRel"
+            CTEST_BUILD_FLAGS: "-j 3"
             PARALLEL_LEVEL: 2
             CTEST_CMAKE_GENERATOR: "Ninja"
           command: |
