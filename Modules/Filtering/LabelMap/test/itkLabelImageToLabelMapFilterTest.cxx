@@ -38,22 +38,15 @@ zeroSizeCase()
 }
 
 int
-itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
+itkLabelImageToLabelMapFilterTest(int, char *[])
 {
+  constexpr int Dimension = 2;
 
-  if (argc != 1)
-  {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << "" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  constexpr int dim = 2;
-
-  using LabelObjectType = itk::LabelObject<unsigned long, dim>;
+  using LabelObjectType = itk::LabelObject<unsigned long, Dimension>;
   using IndexType = LabelObjectType::IndexType;
   using LabelMapType = itk::LabelMap<LabelObjectType>;
   using SizeType = LabelMapType::SizeType;
-  using ImageType = itk::Image<unsigned char, dim>;
+  using ImageType = itk::Image<unsigned char, Dimension>;
 
   using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
 
@@ -94,6 +87,10 @@ itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
   image->SetPixel(idxHorizontal, 3);
 
   LabelImageToLabelMapFilterType::Pointer conversion = LabelImageToLabelMapFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(conversion, LabelImageToLabelMapFilter, ImageToImageFilter);
+
+
   conversion->SetInput(image);
   conversion->SetBackgroundValue(255);
   conversion->Update();
@@ -144,12 +141,10 @@ itkLabelImageToLabelMapFilterTest(int argc, char * argv[])
       }
     }
   }
-  std::cout << "End - Printing out map." << std::endl << std::endl;
-
-  conversion->Print(std::cout);
 
   zeroSizeCase();
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
