@@ -58,13 +58,11 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageKernelOperator, NeighborhoodOperator);
 
-  /** Set the image kernel. Only images with odd size in all
+  /** Set/Get the image kernel. Only images with odd size in all
    * dimensions are allowed. If an image with an even size is passed
    * as an argument, an exception will be thrown. */
   void
   SetImageKernel(const ImageType * kernel);
-
-  /** Get the image kernel. */
   const ImageType *
   GetImageKernel() const;
 
