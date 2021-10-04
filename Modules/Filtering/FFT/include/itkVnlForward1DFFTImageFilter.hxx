@@ -58,7 +58,7 @@ VnlForward1DFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   multiThreader->template ParallelizeImageRegionRestrictDirection<TOutputImage::ImageDimension>(
     direction,
     output->GetRequestedRegion(),
-    [this, input, output, direction, vectorSize](const typename OutputImageType::RegionType & lambdaRegion) {
+    [input, output, direction, vectorSize](const typename OutputImageType::RegionType & lambdaRegion) {
       using InputIteratorType = ImageLinearConstIteratorWithIndex<InputImageType>;
       using OutputIteratorType = ImageLinearIteratorWithIndex<OutputImageType>;
       InputIteratorType  inputIt(input, lambdaRegion);

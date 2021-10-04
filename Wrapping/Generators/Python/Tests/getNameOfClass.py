@@ -41,11 +41,14 @@ def wrongClassName(cl, name):
 # method, which return a subclass of the current class
 exclude = [
     "ForwardFFTImageFilter",
+    "Forward1DFFTImageFilter",
     "InverseFFTImageFilter",
+    "Inverse1DFFTImageFilter",
     "OutputWindow",
     "MultiThreaderBase",
     "FFTComplexToComplexImageFilter",
     "ComplexToComplexFFTImageFilter",
+    "ComplexToComplex1DImageFilter",
     "templated_class",
     "HalfHermitianToRealInverseFFTImageFilter",
     "RealToHalfHermitianForwardFFTImageFilter",

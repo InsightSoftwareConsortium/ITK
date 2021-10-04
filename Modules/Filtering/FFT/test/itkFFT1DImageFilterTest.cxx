@@ -31,10 +31,6 @@
 #  include "itkFFTWForward1DFFTImageFilter.h"
 #  include "itkFFTWInverse1DFFTImageFilter.h"
 #endif
-#if defined(ITKUltrasound_USE_clFFT)
-#  include "itkOpenCLForward1DFFTImageFilter.h"
-#  include "itkOpenCLInverse1DFFTImageFilter.h"
-#endif
 
 template <typename FFTForwardType, typename FFTInverseType>
 int
@@ -89,7 +85,6 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
     std::cerr << "  0 default\n";
     std::cerr << "  1 VNL\n";
     std::cerr << "  2 FFTW\n";
-    std::cerr << "  3 OpenCL via clFFT\n";
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }
@@ -123,14 +118,6 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
     using FFTForwardType = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
     using FFTInverseType = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
-    return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
-#endif
-  }
-  else if (backend == 3)
-  {
-#if defined(ITKUltrasound_USE_clFFT)
-    using FFTForwardType = itk::OpenCLForward1DFFTImageFilter<ImageType, ComplexImageType>;
-    using FFTInverseType = itk::OpenCLInverse1DFFTImageFilter<ComplexImageType, ImageType>;
     return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
 #endif
   }

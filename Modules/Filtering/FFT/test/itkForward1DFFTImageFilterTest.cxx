@@ -29,9 +29,6 @@
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWForward1DFFTImageFilter.h"
 #endif
-#if defined(ITKUltrasound_USE_clFFT)
-#  include "itkOpenCLForward1DFFTImageFilter.h"
-#endif
 
 template <typename FFTType>
 int
@@ -89,7 +86,6 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
     std::cerr << "  0 default\n";
     std::cerr << "  1 VNL\n";
     std::cerr << "  2 FFTW\n";
-    std::cerr << "  3 OpenCL via clFFT\n";
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }
@@ -120,13 +116,6 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
   {
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
     using FFTForwardType = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
-    return doTest<FFTForwardType>(argv[1], argv[2]);
-#endif
-  }
-  else if (backend == 3)
-  {
-#if defined(ITKUltrasound_USE_clFFT)
-    using FFTForwardType = itk::OpenCLForward1DFFTImageFilter<ImageType, ComplexImageType>;
     return doTest<FFTForwardType>(argv[1], argv[2]);
 #endif
   }

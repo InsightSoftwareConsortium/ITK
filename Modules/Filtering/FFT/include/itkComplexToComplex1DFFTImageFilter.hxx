@@ -26,10 +26,6 @@
 #  include "itkFFTWComplexToComplex1DFFTImageFilter.h"
 #endif
 
-#if defined(ITKUltrasound_USE_clFFT)
-#  include "itkOpenCLComplexToComplex1DFFTImageFilter.h"
-#endif
-
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 
@@ -42,13 +38,12 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::New()
 {
   Pointer smartPtr = ObjectFactory<Self>::Create();
 
-#ifdef ITKUltrasound_USE_clFFT
-  if (smartPtr.IsNull())
+  if (smartPtr.IsNotNull())
   {
-    smartPtr =
-      dynamic_cast<Self *>(OpenCLComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer());
+    // Decrement ITK SmartPointer produced from object factory
+    smartPtr->UnRegister();
   }
-#endif
+
 #ifdef ITK_USE_FFTWD
   if (smartPtr.IsNull())
   {
