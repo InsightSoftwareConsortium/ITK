@@ -108,8 +108,10 @@ endmacro ()
 
 #-------------------------------------------------------------------------------
 macro (HDF_SET_LIB_OPTIONS libtarget libname libtype)
-  # ITK: use ITK library naming
+# ITK --start
+# ITK: use ITK library naming
   if(FALSE)
+# ITK --stop
   if (${libtype} MATCHES "SHARED")
     set (LIB_RELEASE_NAME "${libname}")
     set (LIB_DEBUG_NAME "${libname}${CMAKE_DEBUG_POSTFIX}")
@@ -151,8 +153,9 @@ macro (HDF_SET_LIB_OPTIONS libtarget libname libtype)
         PREFIX ""
     )
   endif ()
-  # ITK: use ITK library naming
+# ITK --start
   endif()
+# ITK --stop
 endmacro ()
 
 #-------------------------------------------------------------------------------

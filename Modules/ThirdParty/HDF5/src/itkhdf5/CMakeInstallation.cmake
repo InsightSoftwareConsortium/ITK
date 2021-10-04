@@ -23,7 +23,9 @@ if (WIN32)
   find_program (WIX_EXECUTABLE candle  PATHS "${CPACK_WIX_ROOT}/bin")
 endif ()
 
+# ITK --start
 if(0) # Skip for ITK internal build
+# ITK --stop
 
 #-----------------------------------------------------------------------------
 # Add Target(s) to CMake Install for import into other projects
@@ -114,7 +116,9 @@ if (NOT HDF5_EXTERNALLY_CONFIGURED)
       COMPONENT configinstall
   )
 endif ()
+# ITK --start
 endif() # Skip for ITK internal build
+# ITK --stop
 
 #-----------------------------------------------------------------------------
 # Configure the libhdf5.settings file for the lib info

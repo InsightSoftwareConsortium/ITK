@@ -2082,7 +2082,7 @@ H5_DLL herr_t H5CX_push(void);
 H5_DLL herr_t H5CX_pop(void);
 
 /* ITK --start */
-#ifndef NDEBUG && 0 //ITK's symbol name mangling always fails this check
+#if 0 //ITK's symbol name mangling always fails this check
 /* ITK --stop */
 #define FUNC_ENTER_CHECK_NAME(asrt)                                                                          \
     {                                                                                                        \

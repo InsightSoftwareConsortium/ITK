@@ -13,6 +13,9 @@ endif ()
 #-----------------------------------------------------------------------------
 # Build the CPP unit tests
 #-----------------------------------------------------------------------------
-#ITK REMOVED if (BUILD_TESTING)
-#ITK REMOVED  add_subdirectory (test)
-#ITK REMOVEDendif ()
+# ITK --start
+# ITK removed
+#if (BUILD_TESTING)
+#  add_subdirectory (test)
+#endif ()
+# ITK --stop
