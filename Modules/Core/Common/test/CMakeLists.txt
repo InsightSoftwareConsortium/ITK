@@ -119,6 +119,7 @@ itkMultiThreaderTypeFromEnvironmentTest.cxx
 itkMultiThreadingEnvironmentTest.cxx
 itkMultiThreaderParallelizeArrayTest.cxx
 itkMultithreadingTest.cxx
+itkMultiThreaderExceptionsTest.cxx
 
 itkMetaProgrammingLibraryTest.cxx
 itkPromoteType.cxx
@@ -573,6 +574,8 @@ itk_add_test(NAME itkRegionSplitterMultidimensionalTest COMMAND ITKCommon2TestDr
 itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaDataObjectTest)
 
 itk_add_test(NAME itkMultithreadingTest COMMAND ITKCommon2TestDriver itkMultithreadingTest 100)
+
+itk_add_test(NAME itkMultiThreaderExceptionsTest COMMAND ITKCommon2TestDriver itkMultiThreaderExceptionsTest)
 
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   macro(BuildClientTestLibrary _name _type)
