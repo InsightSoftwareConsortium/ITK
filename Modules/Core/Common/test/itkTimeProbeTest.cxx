@@ -46,6 +46,7 @@ itkTimeProbeTest(int, char *[])
   {
     sum += i;
   }
+  std::cout << "Dummy sum: " << sum << std::endl;
   localTimer.Stop();
 
   // Print current values

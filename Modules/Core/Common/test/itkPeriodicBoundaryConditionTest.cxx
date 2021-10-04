@@ -302,16 +302,17 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   back.push_back({ { 0, 0 } });
   testIter.SetNeedToUseBoundaryCondition(true);
   testIter.GoToBegin();
+  float sum = 0.0f;
   while (!testIter.IsAtEnd())
   {
-    float sum = 0;
     for (auto & j : back)
     {
       const float d = testIter.GetPixel(j);
-      sum += d * d;
+      sum += d;
     }
     ++testIter;
   }
+  std::cout << "Dummy sum: " << sum << std::endl;
 
   return EXIT_SUCCESS;
 }

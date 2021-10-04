@@ -138,7 +138,6 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
   }
 
   float addb = 0;
-  float addbb = 0;
   int   numb = 0;
 
   ait.GoToBegin();
@@ -172,7 +171,6 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
         numb++;
         currp = (float)(iit.Get());
         addb += currp;
-        addbb += currp * currp;
       }
       ++ait;
       ++iit;
