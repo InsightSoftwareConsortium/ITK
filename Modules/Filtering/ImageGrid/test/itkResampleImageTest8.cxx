@@ -43,20 +43,20 @@ public:
   using typename Superclass::FixedParametersType;
 
   /** Standard vector type for this class. */
-  using InputVectorType = itk::Vector<double, itkGetStaticConstMacro(InputSpaceDimension)>;
-  using OutputVectorType = itk::Vector<double, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputVectorType = itk::Vector<double, Self::InputSpaceDimension>;
+  using OutputVectorType = itk::Vector<double, Self::OutputSpaceDimension>;
 
   /** Standard covariant vector type for this class. */
-  using InputCovariantVectorType = itk::CovariantVector<double, itkGetStaticConstMacro(InputSpaceDimension)>;
-  using OutputCovariantVectorType = itk::CovariantVector<double, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputCovariantVectorType = itk::CovariantVector<double, Self::InputSpaceDimension>;
+  using OutputCovariantVectorType = itk::CovariantVector<double, Self::OutputSpaceDimension>;
 
   /** Standard vnl_vector type for this class. */
-  using InputVnlVectorType = vnl_vector_fixed<double, itkGetStaticConstMacro(InputSpaceDimension)>;
-  using OutputVnlVectorType = vnl_vector_fixed<double, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputVnlVectorType = vnl_vector_fixed<double, Self::InputSpaceDimension>;
+  using OutputVnlVectorType = vnl_vector_fixed<double, Self::OutputSpaceDimension>;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = itk::Point<double, itkGetStaticConstMacro(InputSpaceDimension)>;
-  using OutputPointType = itk::Point<double, itkGetStaticConstMacro(OutputSpaceDimension)>;
+  using InputPointType = itk::Point<double, Self::InputSpaceDimension>;
+  using OutputPointType = itk::Point<double, Self::OutputSpaceDimension>;
 
   using Superclass::TransformCovariantVector;
   using Superclass::TransformVector;
