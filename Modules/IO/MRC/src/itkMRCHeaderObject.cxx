@@ -155,6 +155,9 @@ MRCHeaderObject::SetHeader(const Header * buffer)
   {
     extendedHeaderBytes += 2;
   }
+  // TODO: all the above to set extendedHeaderBytes, yet extendedHeaderBytes is unused!
+  itkWarningMacro(<< "extendedHeaderBytes is: " << extendedHeaderBytes
+                  << "If you see this log please contact https://github.com/InsightSoftwareConsortium/ITK/pull/2778");
 
   this->m_ExtendedHeaderSize = this->m_Header.next;
 
