@@ -302,6 +302,7 @@ PoolMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
               filter->IncrementProgress(0);
             }
           } while (status != std::future_status::ready);
+          m_ThreadInfoArray[i].Future.get();
           reporter.CompletedPixel();
         });
       }
