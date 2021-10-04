@@ -245,7 +245,10 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     if (peakMethodToUse >= 0)
     {
       auto peakMethodNumber = static_cast<PeakMethodUnderlying>(peakMethodToUse);
-      interpolationMethods = { static_cast<PeakInterpolationType>(peakMethodNumber) };
+      std::initializer_list<itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod> interpMethods = {
+        static_cast<PeakInterpolationType>(peakMethodNumber)
+      };
+      interpolationMethods = interpMethods;
     }
     for (auto peakMethod : interpolationMethods)
     {
