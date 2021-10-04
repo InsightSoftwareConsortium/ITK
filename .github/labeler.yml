@@ -53,6 +53,10 @@ area:Numerics:
   files:
     - "Modules/Numerics/*"
 
+area:Nonunit:
+  files:
+    - "src/Nonunit/*"
+
 area:Python wrapping:
   files:
     - "Modules/Generators/Python/*"
@@ -81,6 +85,14 @@ area:Video:
   files:
     - "Modules/Video/*"
 
+type:Data:
+  files:
+    - ".*.jpeg"
+    - ".*.jpg"
+    - ".*.md5"
+    - ".*.png"
+    - ".*.sha512"
+
 type:Testing:
   files:
     - "Testing/*"
@@ -90,6 +102,6 @@ type:Testing:
 
 type:Infrastructure:
   files:
-    - "CMake/*"
     - ".github/*"
+    - "CMake/*"
     - "Utilities/*"
