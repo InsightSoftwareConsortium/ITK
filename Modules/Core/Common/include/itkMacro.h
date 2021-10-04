@@ -1008,12 +1008,36 @@ compilers.
   virtual type Get##name() const { return this->m_##name; } \
   ITK_MACROEND_NOOP_STATEMENT
 
+/** Get built-in type.  Creates a non-virtual member Get"name"() (e.g., GetVisibility());
+ * This is the "non-virtual, const" form of the itkGetMacro. It should be used unless
+ * the member can be changed through the "Get" access routine and in situations where the
+ * method is not required to be overriden. */
+#define itkGetConstNonVirtualMacro(name, type)                                                                         \
+  type Get##name() const { return this->m_##name; }                                                                    \
+  ITK_MACROEND_NOOP_STATEMENT
+
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine.
  * This versions returns a const reference to the variable. */
 #define itkGetConstReferenceMacro(name, type)                       \
   virtual const type & Get##name() const { return this->m_##name; } \
+  ITK_MACROEND_NOOP_STATEMENT
+
+/** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
+ * This is the "non-virtual, const" form of the itkGetMacro. It should be used unless
+ * the member can be changed through the "Get" access routine and in situations where the
+ * method is not required to be overriden.
+ * This version returns a const reference to the variable. */
+#define itkGetConstNonVirtualReferenceMacro(name, type)                                                                \
+  const type & Get##name() const { return this->m_##name; }                                                            \
+  ITK_MACROEND_NOOP_STATEMENT
+
+/** Get built-in type.  Creates a non-virtual member Get"name"() (e.g., GetVisibility());
+ * This is the "non-virtual" form of the itkGetMacro. It should be used in situations where the
+ * method is not required to be overriden. */
+#define itkGetNonVirtualMacro(name, type)                                                                              \
+  type Get##name() { return this->m_##name; }                                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
@@ -1199,6 +1223,12 @@ compilers.
   virtual void name##On() { this->Set##name(true); }   \
   virtual void name##Off() { this->Set##name(false); } \
   ITK_MACROEND_NOOP_STATEMENT
+
+/** Create non-virtual members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
+ * Set method must be defined to use this macro. */
+#define itkBooleanNonVirtualMacro(name)                                                                                \
+  void name##On() { this->Set##name(true); }                                                                           \
+  void name##Off() { this->Set##name(false); }
 
 // clang-format off
 /** General set vector macro creates a single method that copies specified

@@ -96,11 +96,7 @@ public:
   {
     m_InnerRadius = r;
   }
-  double
-  GetInnerRadius() const
-  {
-    return m_InnerRadius;
-  }
+  itkGetConstNonVirtualMacro(InnerRadius, double);
 
   /** Set/Get the thickness of the annulus.  The outer radius of the
    * annulus is defined as r = InnerRadius + Thickness. Thickness is
@@ -110,47 +106,26 @@ public:
   {
     m_Thickness = t;
   }
-  double
-  GetThickness() const
-  {
-    return m_Thickness;
-  }
+  itkGetConstNonVirtualMacro(Thickness, double);
 
-  /** Set/Get the pixel spacings.  Setting these ensures the annulus
+  /** Set/Get the pixel spacings. Setting these ensures the annulus
    * is round in physical space. Defaults to 1. */
   void
   SetSpacing(SpacingType & s)
   {
     m_Spacing = s;
   }
-  const SpacingType &
-  GetSpacing() const
-  {
-    return m_Spacing;
-  }
+  itkGetConstNonVirtualReferenceMacro(Spacing, SpacingType);
 
   /** Set/Get whether kernel values are computed automatically or
-   * specified manually */
+   * specified manually. */
   void
   SetNormalize(bool b)
   {
     m_Normalize = b;
   }
-  bool
-  GetNormalize() const
-  {
-    return m_Normalize;
-  }
-  void
-  NormalizeOn()
-  {
-    this->SetNormalize(true);
-  }
-  void
-  NormalizeOff()
-  {
-    this->SetNormalize(false);
-  }
+  itkGetConstNonVirtualMacro(Normalize, bool);
+  itkBooleanNonVirtualMacro(Normalize);
 
   /** If Normalize is on, you define the annulus to have a bright
    * center or a dark center. */
@@ -159,21 +134,8 @@ public:
   {
     m_BrightCenter = b;
   }
-  bool
-  GetBrightCenter() const
-  {
-    return m_BrightCenter;
-  }
-  void
-  BrightCenterOn()
-  {
-    this->SetBrightCenter(true);
-  }
-  void
-  BrightCenterOff()
-  {
-    this->SetBrightCenter(false);
-  }
+  itkGetConstNonVirtualMacro(BrightCenter, bool);
+  itkBooleanNonVirtualMacro(BrightCenter);
 
   /** If Normalize is off, the interior to annulus, the
    * annulus (region between the two circles), and the region exterior to the
@@ -184,31 +146,19 @@ public:
   {
     m_InteriorValue = v;
   }
-  TPixel
-  GetInteriorValue() const
-  {
-    return m_InteriorValue;
-  }
+  itkGetConstNonVirtualMacro(InteriorValue, TPixel);
   void
   SetAnnulusValue(TPixel v)
   {
     m_AnnulusValue = v;
   }
-  TPixel
-  GetAnnulusValue() const
-  {
-    return m_AnnulusValue;
-  }
+  itkGetConstNonVirtualMacro(AnnulusValue, TPixel);
   void
   SetExteriorValue(TPixel v)
   {
     m_ExteriorValue = v;
   }
-  TPixel
-  GetExteriorValue() const
-  {
-    return m_ExteriorValue;
-  }
+  itkGetConstNonVirtualMacro(ExteriorValue, TPixel);
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override
