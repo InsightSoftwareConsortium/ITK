@@ -173,7 +173,7 @@ public:
   using RealImageType = Image<InternalPixelType, ImageDimension>;
 
   /** Type of the image, that is passed between the internal components. */
-  using ComplexConjugateImageType = Image<std::complex<InternalPixelType>, itkGetStaticConstMacro(ImageDimension)>;
+  using ComplexConjugateImageType = Image<std::complex<InternalPixelType>, Self::ImageDimension>;
 
   /**  Type of the Operator */
   using OperatorType = PhaseCorrelationOperator<InternalPixelType, ImageDimension>;
