@@ -86,6 +86,7 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
 
 
   auto epsilon = 1e-12;
+  metric->SetEpsilon(epsilon);
   ITK_TEST_SET_GET_VALUE(epsilon, metric->GetEpsilon());
 
   unsigned int                        nBins = 256;
