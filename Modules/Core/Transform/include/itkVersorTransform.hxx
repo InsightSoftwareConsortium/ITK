@@ -73,6 +73,7 @@ VersorTransform<TParametersValueType>::SetParameters(const ParametersType & para
   itkDebugMacro(<< "Versor is now " << m_Versor);
 
   this->ComputeMatrix();
+  this->ComputeOffset();
 
   // Modified is always called since we just have a pointer to the
   // parameters and cannot know if the parameters have changed.
