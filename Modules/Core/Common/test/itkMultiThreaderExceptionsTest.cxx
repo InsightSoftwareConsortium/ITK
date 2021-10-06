@@ -56,7 +56,7 @@ protected:
     TOutputImage * output = nullptr;
     output = this->GetOutput(0);
     typename TOutputImage::RegionType largestPossibleRegion;
-    largestPossibleRegion.SetSize({ 4 });
+    largestPossibleRegion.SetSize({ { 4 } });
     output->SetLargestPossibleRegion(largestPossibleRegion);
   }
 
