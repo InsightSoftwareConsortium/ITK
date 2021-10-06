@@ -7,6 +7,403 @@ import re
 from argparse import ArgumentParser
 from io import StringIO
 from pathlib import Path
+from keyword import iskeyword
+from typing import List
+
+class ITKClass:
+    def __init__(self, class_name):
+        self.python_method_headers = {}
+        self.has_new_method = False
+        self.number_of_typedefs = 0
+        self.typed = False
+        self.parent_class = ""
+        self.is_abstract = False
+        self.class_name = class_name
+        self.is_enum = False
+        self.has_superclass = False
+        self.enums = []
+
+
+def remove_class_type(itkclass: str) -> (str, bool):
+    typed = False
+    if itkclass.startswith("itk"):
+        itkclass = itkclass[3:]
+    if itkclass.endswith("vnl_lbfgs") and itkclass != "vnl_lbfgs":
+        itkclass = itkclass.replace("vnl_lbfgs", "")
+        typed = True
+    elif itkclass.endswith("vnl_lbfgsb") and itkclass != "vnl_lbfgsb":
+        itkclass = itkclass.replace("vnl_lbfgsb", "")
+        typed = True
+
+    match = list(
+        re.finditer(
+            "[A-Z_0-9]+(Lanczos|Cosine|Welch|Hamming|Neighborhood)*[A-Z_0-9]*$",
+            itkclass,
+        )
+    )
+
+    if itkclass.startswith("Array2D"):
+        return "Array2D", True
+    elif itkclass.startswith("DiffusionTensor3D"):
+        return "DiffusionTensor3D", True
+    elif itkclass.startswith("KdTreeBasedKmeansEstimatorKdTree"):
+        return "KdTreeBasedKmeansEstimator", True
+    elif itkclass.startswith("MapContainerIstring"):
+        return "MapContainer", True
+    elif itkclass.startswith("Point1D"):
+        return "Point1D", False
+    elif itkclass.startswith("PointBasedSpatialObject"):
+        return "PointBasedSpatialObject", True
+    elif itkclass.startswith("MetaDataObject") and not itkclass.startswith(
+        "MetaDataObjectBase"
+    ):
+        return "MetaDataObject", True
+    elif itkclass.startswith("SimpleDataObjectDecorator"):
+        return "SimpleDataObjectDecorator", True
+    elif "IO" in itkclass or ("v4" in itkclass and "Div" not in itkclass):
+        itk_string = "IO" if "IO" in itkclass else "v4"
+        position = itkclass.find(itk_string) + 2
+        if len(itkclass) > position:
+            end, is_typed = remove_class_type(itkclass[position:])
+            if end == "REGv4":
+                end = ""
+                is_typed = True
+            return itkclass[: itkclass.find(itk_string) + 2] + end, is_typed
+        else:
+            return itkclass[: itkclass.find(itk_string) + 2], False or typed
+    elif len(match) > 0:
+        itkclass = itkclass[: match[0].start(0)]
+        return itkclass, True
+    else:
+        return itkclass, False or typed
+
+
+def convert_cpp_to_python_value(cpp_value: str):
+    if cpp_value.isnumeric():
+        return cpp_value
+    elif "." in cpp_value and cpp_value.replace(".", "", 1).isnumeric():
+        if "." == cpp_value[-1]:
+            return cpp_value[:-1]
+        else:
+            return cpp_value
+    elif cpp_value == "false" or cpp_value == "true":
+        return cpp_value.capitalize()
+    else:
+        return "..."
+
+
+def get_arg_type(decls, arg_type, for_snake_case_hints=True):
+    arg_type = decls.remove_alias(arg_type)
+    arg_type = decls.remove_reference(arg_type)
+    arg_type = decls.remove_cv(arg_type)
+    arg_type_str = str(arg_type)
+
+    lib = ""
+    if for_snake_case_hints:
+        lib = "itkt."
+
+    if decls.is_bool(arg_type):
+        return "bool"
+    elif decls.is_integral(arg_type):
+        return "int"
+    elif decls.is_floating_point(arg_type):
+        return "float"
+    elif decls.is_std_string(arg_type):
+        return "str"
+    elif decls.is_array(arg_type):
+        item_type = decls.array_item_type(arg_type)
+        python_type = SwigInputGenerator.cpp_to_python(str(item_type))
+        if python_type is not None:
+            return f"Sequence[{python_type}]"
+    elif not for_snake_case_hints and arg_type_str.endswith("::Iterator"):
+        return None
+    elif not for_snake_case_hints and decls.is_pointer(arg_type):
+        return None
+    elif (
+        arg_type_str.startswith("itk::FixedArray")
+        or arg_type_str.startswith("itk::Vector<")
+        or arg_type_str.startswith("itk::CovariantVector<")
+        or arg_type_str.startswith("itk::Point<")
+        or arg_type_str.startswith("itk::Array<")
+    ):
+        item_type = decls.templates.split(arg_type_str)[1][0]
+        python_type = SwigInputGenerator.cpp_to_python(item_type)
+        if python_type is not None:
+            return f"Sequence[{python_type}]"
+    elif arg_type_str.startswith("itk::VectorContainer<"):
+        item_type = decls.templates.split(arg_type_str)[1][1]
+        python_type = SwigInputGenerator.cpp_to_python(item_type)
+        if python_type is not None:
+            return f"Sequence[{python_type}]"
+        elif item_type.startswith("itk::Offset<"):
+            return f"Sequence[Sequence[int]]"
+    elif arg_type_str.startswith("std::vector<"):
+        item_type = decls.templates.split(arg_type_str)[1][0]
+        python_type = SwigInputGenerator.cpp_to_python(item_type)
+        if python_type is not None:
+            return f"Sequence[{python_type}]"
+    elif (
+        arg_type_str.startswith("itk::Size<")
+        or arg_type_str.startswith("itk::Offset<")
+        or arg_type_str.startswith("itk::Index<")
+    ):
+        return "Sequence[int]"
+    elif arg_type_str.startswith("itk::ImageRegion<"):
+        return lib + "ImageRegion"
+    elif arg_type_str.startswith("itk::InterpolateImageFunction<"):
+        return lib + "InterpolateImageFunction"
+    elif arg_type_str.startswith("itk::ExtrapolateImageFunction<"):
+        return lib + "ExtrapolateImageFunction"
+    elif arg_type_str.startswith("itk::Image<"):
+        return lib + "Image"
+    elif arg_type_str.startswith("itk::VectorImage<"):
+        return lib + "VectorImage"
+    elif arg_type_str.startswith("itk::ImageBase<"):
+        return lib + "ImageBase"
+    elif arg_type_str.startswith("itk::PointSet<"):
+        return lib + "PointSet"
+    elif arg_type_str.startswith("itk::Mesh<"):
+        return lib + "Mesh"
+    elif arg_type_str.startswith("itk::QuadEdgeMesh<"):
+        return lib + "QuadEdgeMesh"
+    elif arg_type_str.startswith("itk::Transform<"):
+        return lib + "Transform"
+    elif arg_type_str.startswith("itk::ImageBoundaryCondition<"):
+        return lib + "ImageBoundaryCondition"
+    elif arg_type_str.startswith("itk::FlatStructuringElement<"):
+        return lib + "FlatStructuringElement"
+    elif arg_type_str.startswith("itk::RGBPixel<"):
+        return "Tuple[int, int, int]"
+    elif arg_type_str.startswith("itk::RGBAPixel<"):
+        return "Tuple[int, int, int, int]"
+    elif not for_snake_case_hints and arg_type_str == "void":
+        return "None"
+    elif not for_snake_case_hints and arg_type_str.startswith("vnl_"):
+        return arg_type_str.split("<")[0]
+    return None
+
+
+def generate_class_pyi_def(
+    outputPYIHeaderFile, outputPYIMethodFile, itk_class: ITKClass
+):
+    class_name = itk_class.class_name
+
+    if itk_class.is_enum:
+        outputPYIHeaderFile.write(f"itk.{class_name} =  _{class_name}Proxy\n\n\n")
+    elif not itk_class.is_abstract:
+        outputPYIHeaderFile.write(
+            generate_class_pyi_header(
+                class_name, itk_class.has_new_method, itk_class.typed
+            )
+        )
+
+    outputPYIMethodFile.write(
+        f"class _{class_name}Proxy({itk_class.parent_class}):\n"  # if
+    )
+
+    if itk_class.is_enum and len(itk_class.enums) > 0:
+        for enum in itk_class.enums:
+            outputPYIMethodFile.write(f"\t{enum} = ...\n")
+        outputPYIMethodFile.write(f"\n\n")
+    else:
+        if len(itk_class.python_method_headers.keys()) == 0:
+            outputPYIMethodFile.write(f"\t...\n\n")
+
+        for method in itk_class.python_method_headers.keys():
+            is_overloaded = len(itk_class.python_method_headers[method]) > 1
+            for method_variation in itk_class.python_method_headers[method]:
+                method_name = method
+                attributes = method_variation
+                params = ""
+                return_type = attributes[len(attributes) - 1][1]
+
+                is_a_static_method: bool = attributes[len(attributes) - 1][2]
+
+                # remove special case containing the return type from the end of the attributes list
+                attributes = attributes[:-1]
+                if len(attributes) > 0:
+                    params += ", "
+
+                for attribute in attributes:
+                    # name of the argument
+                    params += attribute[0]
+
+                    # type of the argument
+                    if attribute[1] is None:
+                        pass
+                    else:
+                        params += f": {attribute[1]}"
+
+                    # default value of the argument (if any)
+                    if attribute[2] is not None:
+                        params += f" = {attribute[2]}, "
+                    else:
+                        params += ", "
+
+                params = params[:-2]  # remove extra comma
+
+                self_str = "self"
+                if is_a_static_method:
+                    outputPYIMethodFile.write("\t@staticmethod\n")
+                    self_str = ""
+                    params = params[2:]  # remove comma from beginning
+
+                if is_overloaded:
+                    outputPYIMethodFile.write("\t@overload\n")
+
+                outputPYIMethodFile.write(f"\tdef {method_name}({self_str}{params})")
+                if return_type is not None:
+                    outputPYIMethodFile.write(f" -> {return_type}")
+                outputPYIMethodFile.write(f":\n" f'\t\t""""""\n' f"\t\t...\n\n")
+
+
+not_callable = [
+    "ImageToImageMetricv4",
+    "NarrowBandLevelSetImageFilter",
+    "ShapePriorSegmentationLevelSetImageFilter",
+    "ImageToImageFilter",
+    "ImageSource",
+    "NarrowBandImageFilterBase",
+    "NoiseBaseImageFilter",
+    "ImageToMeshFilter",
+    "ImageToPathFilter",
+    "GenerateImageSource",
+    "DenseFiniteDifferenceImageFilter",
+    "InPlaceImageFilter",
+    "AnisotropicDiffusionImageFilter",  # you must use snake_case method to properly use this class
+    "ConvolutionImageFilterBase",
+    "SparseFieldFourthOrderLevelSetImageFilter",
+    "SegmentationLevelSetImageFilter",
+    "TemporalProcessObject",
+    "ProcessObject",
+    "SegmentationLevelSetFunction",
+    "LBFGSOptimizerBasev4",
+]
+
+
+def generate_class_pyi_header(class_name: str, has_new_method: bool, typed: bool):
+    """Return a string containing the definition of a pyi class header.
+    Supports both typed and non-typed classes."""
+    if not typed:
+        if has_new_method:
+            class_header = (
+                f"class _{class_name}Template(_itkTemplate):\n"
+                f'    """Interface for instantiating itk::{class_name}'
+                f"\n        Create a new {class_name} Object:\n"
+                f"            'itk.{class_name}.New(**kwargs)"
+                f'"""\n\n'
+                f"    @staticmethod\n"
+                f"    def New(**kwargs) -> _{class_name}Proxy:\n"
+                f'        """Instantiate itk::{class_name}"""\n'
+                f"        ...\n"
+                f"\n"
+                f"{class_name} = _{class_name}Template\n"
+                f"\n"
+                f"\n"
+            )
+        elif class_name not in not_callable:
+            class_header = (
+                f"class _{class_name}Template(_itkTemplate):\n"
+                f'    """Interface for instantiating itk::{class_name}'
+                f'"""\n\n'
+                f"    def __new__(cls, *args: Any) -> _{class_name}Proxy:\n"
+                f'        """Instantiate itk::{class_name}"""\n'
+                f"        ...\n\n"
+                f"    def __call__(self, *args: Any) -> _{class_name}Proxy:\n"
+                f'        """Instantiate itk::{class_name}"""\n'
+                f"        ...\n"
+                f"\n"
+                f"{class_name} = _{class_name}Template"
+                f"\n"
+                f"\n"
+            )
+        else:
+            class_header = (
+                f"class _{class_name}Template(_itkTemplate):\n"
+                f'    """Interface for instantiating itk::{class_name}"""\n'
+                f"    ...\n"
+                f"\n"
+                f"{class_name} = _{class_name}Template"
+                f"\n"
+                f"\n"
+            )
+        return class_header
+
+    types = "INSERT_TYPE_NAMES_HERE"
+    if has_new_method:
+        class_header = (
+            f"class _{class_name}TemplateGetter():\n"
+            f"    def __getitem__(self, parameters) -> _{class_name}Template:\n"
+            f'        """Specify class type with:\n'
+            f"            \t[{types}]\n"
+            f"            :return: {class_name}Template\n"
+            f'            """\n'
+            f"        ...\n"
+            f"\n"
+            f"\n"
+            f"class _{class_name}Template(_itkTemplate, metaclass=_{class_name}TemplateGetter):\n"
+            f'    """Interface for instantiating itk::{class_name}< {types} >\n'
+            f"        Create a new {class_name} Object (of default type):\n"
+            f"            'itk.{class_name}.New(**kwargs)\n"
+            f"        Supports type specification through dictionary access:\n"
+            f'            \'itk.{class_name}[{types}].New(**kwargs)"""\n'
+            f"\n"
+            f"    @staticmethod\n"
+            f"    def New(**kwargs) -> _{class_name}Proxy:\n"
+            f'        """Instantiate itk::{class_name}< {types} >"""\n'
+            f"        ...\n"
+            f"\n"
+            f"{class_name} = _{class_name}Template"
+            f"\n"
+            f"\n"
+        )
+    elif class_name not in not_callable:
+        class_header = (
+            f"class _{class_name}TemplateGetter():\n"
+            f"    def __getitem__(self, parameters) -> _{class_name}Template:\n"
+            f'        """Specify class type with:\n'
+            f"            \t[{types}]\n"
+            f"            :return: {class_name}Template\n"
+            f'            """\n'
+            f"        ...\n"
+            f"\n"
+            f"\n"
+            f"class _{class_name}Template(_itkTemplate, metaclass=_{class_name}TemplateGetter):\n"
+            f'    """Interface for instantiating itk::{class_name}< {types} >\n'
+            f"        Supports type specification through dictionary access:\n"
+            f'            \'itk.{class_name}[{types}]()"""\n'
+            f"\n"
+            f"    def __new__(cls, *args: Any) -> _{class_name}Proxy:\n"
+            f'        """Instantiate itk::{class_name}< {types} >"""\n'
+            f"        ...\n\n"
+            f"    def __call__(self, *args: Any) -> _{class_name}Proxy:\n"
+            f'        """Instantiate itk::{class_name}< {types} >"""\n'
+            f"        ...\n"
+            f"\n"
+            f"{class_name} = _{class_name}Template"
+            f"\n"
+            f"\n"
+        )
+    else:
+        class_header = (
+            f"class _{class_name}TemplateGetter():\n"
+            f"    def __getitem__(self, parameters) -> _{class_name}Template:\n"
+            f'        """Specify class type with:\n'
+            f"            \t[{types}]\n"
+            f"            :return: {class_name}Template\n"
+            f'            """\n'
+            f"        ...\n"
+            f"\n"
+            f"\n"
+            f"class _{class_name}Template(_itkTemplate, metaclass=_{class_name}TemplateGetter):\n"
+            f'    """Interface for instantiating itk::{class_name}< {types} >"""\n'
+            f"    ...\n"
+            f"\n"
+            f"{class_name} = _{class_name}Template"
+            f"\n"
+            f"\n"
+        )
+    return class_header
 
 
 def getType(v):
@@ -88,6 +485,22 @@ class SwigInputGenerator(object):
     forceSnakeCase = ["ImageDuplicator"]
 
     notWrappedRegExp = re.compile("|".join(["^" + s + "$" for s in notWrapped]))
+
+    notWrappedMethods = [
+        "IsNull",
+        "IsNotNull",
+        "GetPointer",
+        "Swap",
+        "Register",
+        "UnRegister",
+        "CreateAnother",
+        "PrintSelf",
+        "Delete",
+        "SetReferenceCount",
+        "PrintHeader",
+        "PrintTrailer",
+        "InternalClone",
+    ]
 
     # stdcomplex code
 
@@ -209,6 +622,7 @@ class SwigInputGenerator(object):
         "long double": "float",
         "char": "int",
         "unsigned char": "int",
+        "signed char": "int",
         "short": "int",
         "unsigned short": "int",
         "int": "int",
@@ -219,7 +633,7 @@ class SwigInputGenerator(object):
         "unsigned long long": "int",
     }
 
-    def __init__(self, submoduleName, options):
+    def __init__(self, submoduleName, options, classes):
         self.submoduleName = submoduleName
         # The first mdx file is the master index file for this module.
         self.moduleName = Path(options.mdx[0]).stem
@@ -227,6 +641,10 @@ class SwigInputGenerator(object):
 
         self.outputFile = StringIO()
         self.applyFileNames = []
+
+        # A dict of sets containing the .pyi python equivalent for all class methods and params
+        self.classes = classes
+        self.current_class = ""
 
         # a dict to let us use the alias name instead of the full c++ name. Without
         # that, in many cases, swig don't know that's the same type
@@ -532,6 +950,9 @@ class SwigInputGenerator(object):
 
         decls = pygccxml.declarations
 
+        if typedef.name == "itkLightObject" and self.current_class is not None:
+            self.classes[self.current_class].has_new_method = True
+
         s = ""  # Set default superclass name to an empty string
         if not typedef.name.startswith("stdcomplex"):
             for member in getType(typedef).get_members(
@@ -542,6 +963,8 @@ class SwigInputGenerator(object):
                     and member.name == "New"
                     and not typedef.name == "itkLightObject"
                 ):
+                    if self.current_class is not None:
+                        self.classes[self.current_class].has_new_method = True
                     if typedef.name == "itkPyCommand":
                         self.outputFile.write(
                             self.new_override_pycommand.format(class_name=typedef.name)
@@ -588,7 +1011,9 @@ class SwigInputGenerator(object):
                     elif isinstance(member, decls.constructor_t):
                         self.generate_constructor(typedef, member, indent, w)
                     elif isinstance(member, decls.member_operator_t):
-                        self.generate_method(typedef, member, indent, w)
+                        self.generate_method(
+                            typedef, member, indent, w, is_operator=True
+                        )
                     elif isinstance(member, decls.destructor_t):
                         self.generate_destructor(typedef, member, indent, w)
                     elif isinstance(member, decls.enumeration_t):
@@ -720,82 +1145,9 @@ class SwigInputGenerator(object):
                     kwargs_typehints += f" {kwarg_snake}"
                     kwarg_types = []
                     for arg_type in arg_types:
-                        arg_type = decls.remove_alias(arg_type)
-                        arg_type = decls.remove_reference(arg_type)
-                        arg_type = decls.remove_cv(arg_type)
-                        arg_type_str = str(arg_type)
-                        if decls.is_bool(arg_type):
-                            kwarg_types.append("bool")
-                        elif decls.is_integral(arg_type):
-                            kwarg_types.append("int")
-                        elif decls.is_floating_point(arg_type):
-                            kwarg_types.append("float")
-                        elif decls.is_std_string(arg_type):
-                            kwarg_types.append("str")
-                        elif decls.is_array(arg_type):
-                            item_type = decls.array_item_type(arg_type)
-                            python_type = SwigInputGenerator.cpp_to_python(
-                                str(item_type)
-                            )
-                            if python_type is not None:
-                                kwarg_types.append(f"Sequence[{python_type}]")
-                        elif (
-                            arg_type_str.startswith("itk::FixedArray")
-                            or arg_type_str.startswith("itk::Vector<")
-                            or arg_type_str.startswith("itk::CovariantVector<")
-                            or arg_type_str.startswith("itk::Point<")
-                            or arg_type_str.startswith("itk::Array<")
-                        ):
-                            item_type = decls.templates.split(arg_type_str)[1][0]
-                            python_type = SwigInputGenerator.cpp_to_python(item_type)
-                            if python_type is not None:
-                                kwarg_types.append(f"Sequence[{python_type}]")
-                        elif arg_type_str.startswith("itk::VectorContainer<"):
-                            item_type = decls.templates.split(arg_type_str)[1][1]
-                            python_type = SwigInputGenerator.cpp_to_python(item_type)
-                            if python_type is not None:
-                                kwarg_types.append(f"Sequence[{python_type}]")
-                            elif item_type.startswith("itk::Offset<"):
-                                kwarg_types.append(f"Sequence[Sequence[int]]")
-                        elif arg_type_str.startswith("std::vector<"):
-                            item_type = decls.templates.split(arg_type_str)[1][0]
-                            python_type = SwigInputGenerator.cpp_to_python(item_type)
-                            if python_type is not None:
-                                kwarg_types.append(f"Sequence[{python_type}]")
-                        elif (
-                            arg_type_str.startswith("itk::Size<")
-                            or arg_type_str.startswith("itk::Offset<")
-                            or arg_type_str.startswith("itk::Index<")
-                        ):
-                            kwarg_types.append("Sequence[int]")
-                        elif arg_type_str.startswith("itk::ImageRegion<"):
-                            kwarg_types.append("itkt.ImageRegion")
-                        elif arg_type_str.startswith("itk::InterpolateImageFunction<"):
-                            kwarg_types.append("itkt.InterpolateImageFunction")
-                        elif arg_type_str.startswith("itk::ExtrapolateImageFunction<"):
-                            kwarg_types.append("itkt.ExtrapolateImageFunction")
-                        elif arg_type_str.startswith("itk::Image<"):
-                            kwarg_types.append("itkt.Image")
-                        elif arg_type_str.startswith("itk::VectorImage<"):
-                            kwarg_types.append("itkt.VectorImage")
-                        elif arg_type_str.startswith("itk::ImageBase<"):
-                            kwarg_types.append("itkt.ImageBase")
-                        elif arg_type_str.startswith("itk::PointSet<"):
-                            kwarg_types.append("itkt.PointSet")
-                        elif arg_type_str.startswith("itk::Mesh<"):
-                            kwarg_types.append("itkt.Mesh")
-                        elif arg_type_str.startswith("itk::QuadEdgeMesh<"):
-                            kwarg_types.append("itkt.QuadEdgeMesh")
-                        elif arg_type_str.startswith("itk::Transform<"):
-                            kwarg_types.append("itkt.Transform")
-                        elif arg_type_str.startswith("itk::ImageBoundaryCondition<"):
-                            kwarg_types.append("itkt.ImageBoundaryCondition")
-                        elif arg_type_str.startswith("itk::FlatStructuringElement<"):
-                            kwarg_types.append("itkt.FlatStructuringElement")
-                        elif arg_type_str.startswith("itk::RGBPixel<"):
-                            kwarg_types.append("Tuple[int, int, int]")
-                        elif arg_type_str.startswith("itk::RGBAPixel<"):
-                            kwarg_types.append("Tuple[int, int, int, int]")
+                        arg_type = get_arg_type(decls, arg_type)
+                        if arg_type is not None:
+                            kwarg_types.append(arg_type)
                     if len(kwarg_types) == 0:
                         pass
                     elif len(kwarg_types) == 1:
@@ -895,10 +1247,19 @@ def {snakeCase}_init_docstring():
             "    enum class %s: uint8_t { %s };\n\n" % (enum.name, ", ".join(content))
         )
 
-    def generate_method(self, typedef, method, indent, w):
+        if self.current_class is not None and self.classes[self.current_class].is_enum:
+            python_enum_names = [f"{enum.name}_{name.strip()}" for name in content]
+            self.classes[self.current_class].enums += python_enum_names
+
+    def generate_method(self, typedef, method, indent, w, is_operator=False):
         self.info(f"Generating interface for method  '{typedef.name}::{method.name}'.")
         # avoid the apply method for the class vnl_c_vector: the signature is
         # quite strange and currently confuse swig :-/
+
+        # Allow call operator to be hinted
+        if is_operator and method.name == "operator()":
+            is_operator = False
+
         if "(" in getType(method.return_type).decl_string:
             self.warn(
                 1,
@@ -927,8 +1288,11 @@ def {snakeCase}_init_docstring():
 
         # iterate over the arguments
         args = []
-        for arg in method.arguments:
-            s = f"{self.get_alias(self.getDeclarationString(arg), w)} {arg.name}"
+        method_hints = []
+        for argIndex in range(len(method.arguments)):
+            arg = method.arguments[argIndex]
+            arg_type = self.get_alias(self.getDeclarationString(arg), w)
+            s = f"{arg_type} {arg.name}"
             if "unknown" in s:
                 continue
             if "(" in s:
@@ -939,6 +1303,35 @@ def {snakeCase}_init_docstring():
                     w,
                 )
                 return
+
+            if (
+                self.current_class is not None
+                and not is_operator
+                and method.name not in self.notWrappedMethods
+                and method.access_type == "public"
+            ):
+                decls = pygccxml.declarations
+                python_arg_type = get_arg_type(
+                    decls, method.argument_types[argIndex], False
+                )
+                name = arg.name
+
+                # prepend underscores to invalid keyword names
+                if iskeyword(name):
+                    name = "_" + name
+
+                if arg.default_value:
+                    # unknown value conversions can just be replaced with "..."
+                    method_hints.append(
+                        (
+                            name,
+                            python_arg_type,
+                            convert_cpp_to_python_value(arg.default_value),
+                        )
+                    )
+                else:
+                    method_hints.append((name, python_arg_type, None))
+
             # append the default value if it exists
             if arg.default_value:
                 s += f" = {arg.default_value}"
@@ -958,16 +1351,42 @@ def {snakeCase}_init_docstring():
             const += " = 0"
 
         self.outputFile.write("  " * indent)
-        self.outputFile.write(
-            "    %s%s %s(%s)%s;\n"
-            % (
-                static,
-                self.get_alias(self.getDeclarationString(method.return_type), w),
-                method.name,
-                ", ".join(args),
-                const,
-            )
+
+        method_definition = "    %s%s %s(%s)%s;\n" % (
+            static,
+            self.get_alias(self.getDeclarationString(method.return_type), w),
+            method.name,
+            ", ".join(args),
+            const,
         )
+        self.outputFile.write(method_definition)
+
+        if (
+            self.current_class is not None
+            and not is_operator
+            and method.name not in self.notWrappedMethods
+            and method.access_type == "public"
+        ):
+            # declare return type and save header changes to the class
+            decls = pygccxml.declarations
+            return_type = get_arg_type(decls, method.return_type, False)
+
+            # last element in methods arg list contains special values
+            method_hints.append((None, return_type, method.has_static))
+
+            name = "__call__" if "operator()" == method.name else method.name
+
+            if name not in self.classes[self.current_class].python_method_headers:
+                self.classes[self.current_class].python_method_headers[name] = [
+                    method_hints
+                ]
+            elif (
+                method_hints
+                not in self.classes[self.current_class].python_method_headers[name]
+            ):
+                self.classes[self.current_class].python_method_headers[name].append(
+                    method_hints
+                )
 
         # Check the method arguments for std::string passed by reference.
         # In this case, save the name of the argument in the applyFileNames list
@@ -1190,8 +1609,72 @@ if _version_info < (3, 7, 0):
 
         # now really generate the swig interface
         for typedef in typedefs:
+            self.current_class, typed = remove_class_type(
+                typedef.name.replace("_Superclass", "")
+            )
+            # Skip wrapping for the following
+            if (
+                typedef.name.endswith(
+                    (
+                        "_Pointer",
+                        "_AutoPointer",
+                        "_ConstPointer",
+                        "Factory",
+                    )
+                )
+                or self.current_class in ["stdcomplex", "stdnumeric_limits"]
+            ):
+                self.current_class = None
+            elif self.current_class not in self.classes:
+                self.classes[self.current_class] = ITKClass(self.current_class)
+                self.classes[self.current_class].typed = typed
+                if typedef.name.endswith("Enums"):
+                    self.classes[self.current_class].is_enum = True
+                if typedef.name.endswith("_Superclass"):
+                    self.classes[self.current_class].has_superclass = True
+
             # begin a new class
             self.generate_class(typedef)
+
+            if (
+                self.current_class is not None
+                and self.classes[self.current_class].parent_class == ""
+                and (
+                    not self.classes[self.current_class].has_superclass
+                    or typedef.name.startswith("itk" + self.current_class)
+                    and typedef.name.endswith("_Superclass")
+                )
+            ):
+
+                for base in getType(typedef).bases:
+                    base = base.related_class.decl_string
+                    if base.startswith("::"):
+                        base = base[2:]
+                    if "itk::" in base:
+                        base = base[base.find("itk::") + len("itk::") :]
+
+                    if "<" in base:
+                        base = base[: base.find("<")]
+
+                    # at this point if a : is in base it is std or some other class we have no reference to
+                    # just ignore it
+                    if ":" in base:
+                        continue
+
+                    if self.classes[self.current_class].parent_class == "":
+                        self.classes[self.current_class].parent_class = f"_{base}Proxy"
+
+                    else:
+                        self.classes[
+                            self.current_class
+                        ].parent_class += f", _{base}Proxy"
+
+            if (
+                self.current_class is not None
+                and getType(typedef).is_abstract
+                and not self.classes[self.current_class].is_abstract
+            ):
+                self.classes[self.current_class].is_abstract = True
 
         self.generate_process_object_snake_case_functions(typedefs)
 
@@ -1240,6 +1723,64 @@ if _version_info < (3, 7, 0):
             self.info(f"Writing {interfaceFile}.")
             with open(interfaceFile, "w") as f:
                 f.write(content)
+
+
+def write_submodule_pyi_file(
+    pyiFile: Path, submodule_name: str, header_code: str, interfaces_code: str
+) -> None:
+    # Write interface files to the stub directory to support editor autocompletions
+    with open(pyiFile, "w") as pyiFile:
+        pyiFile.write(
+            """#
+from typing import Union, Any
+# additional imports
+from .support.template_class import itkTemplate as _itkTemplate
+
+\n"""
+        )
+        pyiFile.write(f"# Interface for submodule: {submodule_name}\n")
+        pyiFile.write(header_code)
+        pyiFile.write(f"# Interface methods for submodule: {submodule_name}\n")
+        pyiFile.write(interfaces_code)
+
+
+def write_common_init_interface_file(interface_dir_path: Path) -> None:
+    # This code may still be problematic due to possible parallel runs overwriting
+    # the file each time.  As long as the last write is successful, this code
+    # works.  Initial testing demonstrated that igenerator.py was never run
+    # in parallel, so that also makes this OK.
+    with open(interface_dir_path / "__init__.pyi", "w") as pyiIndexFile:
+        # This is a bit of a hack to re-write this file every time
+        # a new .pyi file is written.
+        # Keeping track of these generated files from CMake is
+        # very convoluted, and the cmake custom command dependencies
+        # caused circular dependencies.
+        #
+        # This __init__.pyi file needs a small preamble
+        # and then import all the auto-generated .pyi files
+        # statically.
+        preamble = """
+# Create/Clear .pyi file and add boilerplate import content
+# Python Header Interface File
+# imports as they appear in __init__.py
+from typing import Union, Any
+from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__Ï
+
+## Must import using relative paths so that symbols are imported successfully
+from .support.extras import *
+from .support.types import *
+
+### All items below are written out statically during
+
+"""
+        pyiIndexFile.write(preamble)
+
+        # If we could keep track of the interface files in CMake, we could avoid
+        # rewriting the __init__.pyi file every time a new version is created.
+        for interface_file in Path(f"{interface_dir_path}").glob(f"i*.pyi"):
+            pyiIndexFile.write(
+                f"from .{interface_file.name.replace('.pyi', '')} import *\n"
+            )
 
 
 if __name__ == "__main__":
@@ -1353,6 +1894,14 @@ if __name__ == "__main__":
         dest="snake_case_file",
         help="The configuration file to be appended to if snake_case_functions are found",
     )
+
+    argParser.add_argument(
+        "--pyi_dir",
+        action="store",
+        dest="pyi_dir",
+        help="The directory for .pyi files to be generated",
+    )
+
     options = argParser.parse_args()
 
     sys.path.insert(1, options.pygccxml_path)
@@ -1415,7 +1964,7 @@ if __name__ == "__main__":
 
     snake_case_process_object_functions = set()
 
-    def generate_swig_input(submoduleName):
+    def generate_swig_input(submoduleName, classes):
         if submoduleName in wrappingNamespaces:
             wrappersNamespace = wrappingNamespaces[submoduleName]
         else:
@@ -1426,7 +1975,7 @@ if __name__ == "__main__":
             options.interface_output_dir, submoduleName + ".i"
         )
 
-        swig_input_generator = SwigInputGenerator(submoduleName, options)
+        swig_input_generator = SwigInputGenerator(submoduleName, options, classes)
         swig_input_generator.create_interfacefile(
             swigInputFilePath, idxFilePath, wrappersNamespace
         )
@@ -1434,12 +1983,37 @@ if __name__ == "__main__":
             swig_input_generator.snakeCaseProcessObjectFunctions
         )
 
+    outputPYIHeaderFile = StringIO()
+    outputPYIMethodFile = StringIO()
+
+    classes = {}
+
+    ordered_submodule_list: List[str] = []
     if options.submodule_order:
         for submoduleName in options.submodule_order.split(";"):
-            generate_swig_input(submoduleName)
-            submoduleNames.remove(submoduleName)
-    for submoduleName in submoduleNames:
-        generate_swig_input(submoduleName)
+            if submoduleName not in ordered_submodule_list:
+                ordered_submodule_list.append(submoduleName)
+        for submoduleName in submoduleNames:
+            if submoduleName not in ordered_submodule_list:
+                ordered_submodule_list.append(submoduleName)
+    del submoduleNames
+
+    for submoduleName in ordered_submodule_list:
+        generate_swig_input(submoduleName, classes)
+
+        for itk_class in classes.keys():
+            generate_class_pyi_def(
+                outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
+            )
+
+        write_submodule_pyi_file(
+            Path(f"{options.pyi_dir}/{submoduleName}.pyi"),
+            submoduleName,
+            outputPYIHeaderFile.getvalue(),
+            outputPYIMethodFile.getvalue(),
+        )
+
+        write_common_init_interface_file(Path(options.pyi_dir))
 
     snake_case_file = options.snake_case_file
     if len(snake_case_file) > 1:

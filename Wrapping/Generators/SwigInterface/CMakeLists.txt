@@ -315,6 +315,9 @@ macro(itk_end_wrap_module_swig_interface)
   set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
   set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
   set(module_interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}_ext.i")
+  set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
+
+  set(ITK_STUB_PYI_FILE "${ITK_STUB_DIR}/${WRAPPER_LIBRARY_NAME}.pyi")
 
   foreach(module ${SWIG_INTERFACE_MODULES})
     # create the swig interface
@@ -361,8 +364,9 @@ macro(itk_end_wrap_module_swig_interface)
       else()
         unset(snake_case_config_file)
       endif()
+
     add_custom_command(
-      OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file}
+      OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file} ${ITK_STUB_PYI_FILE}
       COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
         ${mdx_opts}
         ${swig_libs}
@@ -374,6 +378,7 @@ macro(itk_end_wrap_module_swig_interface)
         --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
         --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
         --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
+        --pyi_dir "${ITK_STUB_DIR}"
         DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
         WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
       VERBATIM
