@@ -470,6 +470,35 @@ itkVersorTransformTest(int, char *[])
     }
 
     {
+      // Check that setting parameters updates the transformation offset
+      t = TransformType::New();
+
+      const TransformType::InputPointType center = itk::MakePoint(2, 4, 8);
+
+      // 90 degree rotation around x axis
+      ParametersType q(3);
+      q[0] = itk::Math::sqrt1_2;
+      q[1] = 0.0;
+      q[2] = 0.0;
+
+      t->SetCenter(center);
+      t->SetParameters(q);
+
+      const double expectedOffset[] = { 0.0, 12.0, 4.0 };
+
+      TransformType::OffsetType offset = t->GetOffset();
+      for (unsigned int k = 0; k < 3; ++k)
+      {
+        if (std::fabs(expectedOffset[k] - offset[k]) > epsilon)
+        {
+          std::cerr << " [ FAILED ] " << std::endl;
+          std::cerr << "Expected offset: " << expectedOffset << std::endl;
+          std::cerr << "but got: " << offset << std::endl;
+          return EXIT_FAILURE;
+        }
+      }
+    }
+    {
       TransformType::Pointer tInverse = TransformType::New();
       if (!t->GetInverse(tInverse))
       {
