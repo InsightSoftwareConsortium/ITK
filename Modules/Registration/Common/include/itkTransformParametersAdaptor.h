@@ -105,13 +105,6 @@ public:
     }
   }
 
-  /** Get the fixed parameters */
-  const FixedParametersType &
-  GetRequiredFixedParameters() const override
-  {
-    return this->m_RequiredFixedParameters;
-  }
-
   /** Initialize the transform using the specified fixed parameters */
   void
   AdaptTransformParameters() override{};

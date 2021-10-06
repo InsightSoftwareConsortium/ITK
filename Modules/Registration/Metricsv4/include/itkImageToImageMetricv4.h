@@ -525,13 +525,6 @@ public:
   /** Get Moving Gradient Image. */
   itkGetModifiableObjectMacro(MovingImageGradientImage, MovingImageGradientImageType);
 
-  /** Get number of valid points from most recent update */
-  SizeValueType
-  GetNumberOfValidPoints() const override
-  {
-    return this->m_NumberOfValidPoints;
-  }
-
   /** Get the number of points in the domain used to evaluate
    * the metric. This will differ depending on whether a sampled
    * point set or dense sampling is used, and will be greater than
