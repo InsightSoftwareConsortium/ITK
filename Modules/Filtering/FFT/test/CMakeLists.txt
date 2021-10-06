@@ -1,14 +1,18 @@
 itk_module_test()
 set(ITKFFTTests
+itkComplexToComplex1DFFTImageFilterTest.cxx
+itkComplexToComplexFFTImageFilterTest.cxx
+itkFFT1DImageFilterTest.cxx
+itkFFTPadImageFilterTest.cxx
 itkFFTShiftImageFilterTest.cxx
-itkHalfToFullHermitianImageFilterTest.cxx
+itkForward1DFFTImageFilterTest.cxx
+itkForwardInverseFFTImageFilterTest.cxx
 itkFullToHalfHermitianImageFilterTest.cxx
+itkHalfToFullHermitianImageFilterTest.cxx
+itkInverse1DFFTImageFilterTest.cxx
 itkVnlFFTTest.cxx
 itkVnlRealFFTTest.cxx
-itkForwardInverseFFTImageFilterTest.cxx
-itkComplexToComplexFFTImageFilterTest.cxx
 itkVnlComplexToComplexFFTImageFilterTest.cxx
-itkFFTPadImageFilterTest.cxx
 )
 
 if(ITK_USE_FFTWF)
@@ -269,3 +273,119 @@ endforeach()
 add_executable(ITKFFTTestCircularDependency itkTestCircularDependency.cxx)
 target_link_libraries(ITKFFTTestCircularDependency ${ITKFFT-Test_LIBRARIES})
 itk_add_test(NAME itkFFTTestCircularDependency COMMAND ITKFFTTestCircularDependency)
+
+# Get test data input directory for test parameter
+itk_add_test(NAME itkComplexToComplex1DFFTImageFilterTest
+  COMMAND ITKFFTTestDriver
+  --compare
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplex1DFFTImageFilterTestOutput.mha
+  itkComplexToComplex1DFFTImageFilterTest
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd}
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd}
+    ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplex1DFFTImageFilterTestOutput.mha
+    )
+# use a forward fft, then inverse fft for this instead because of the FullMatrix
+# issue
+itk_add_test(NAME itkFFT1DImageFilterTest
+  COMMAND ITKFFTTestDriver
+  --compare
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFFT1DImageFilterTestOutput.mha
+  itkFFT1DImageFilterTest
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkFFT1DImageFilterTestOutput.mha
+    )
+itk_add_test(NAME itkVnlComplexToComplex1DFFTImageFilterTest
+  COMMAND ITKFFTTestDriver
+  --compare
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplex1DFFTImageFilterTestOutput.mhd
+  itkComplexToComplex1DFFTImageFilterTest
+    DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
+    DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlComplexToComplex1DFFTImageFilterTestOutput.mhd
+    1
+    )
+itk_add_test(NAME itkVnlForward1DFFTImageFilterTest
+  COMMAND ITKFFTTestDriver
+  --compare
+    DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputReal.mha
+  --compare
+    DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutputImaginary.mha
+  itkForward1DFFTImageFilterTest
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutput
+    1
+    )
+itk_add_test( NAME itkVnlInverse1DFFTImageFilterTest
+  COMMAND ITKFFTTestDriver
+  --compare
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlInverse1DFFTImageFilterTestOutput.mhd
+  itkInverse1DFFTImageFilterTest
+    DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
+    DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlInverse1DFFTImageFilterTestOutput.mhd
+    1
+    )
+itk_add_test(NAME itkVnlFFT1DImageFilterTest
+  COMMAND ITKFFTTestDriver
+  --compare
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlFFT1DImageFilterTestOutput.mha
+  itkFFT1DImageFilterTest
+    DATA{Input/TreeBarkTexture.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkVnlFFT1DImageFilterTestOutput.mha
+    1
+    )
+
+if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
+  itk_add_test(NAME itkFFTWForward1DFFTImageFilterTest
+    COMMAND ITKFFTTestDriver
+    --compare
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWForward1DFFTImageFilterTestOutputReal.mha
+    --compare
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWForward1DFFTImageFilterTestOutputImaginary.mha
+    itkForward1DFFTImageFilterTest
+      DATA{Input/TreeBarkTexture.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWForward1DFFTImageFilterTestOutput
+      2
+      )
+  itk_add_test(NAME itkFFTWInverse1DFFTImageFilterTest
+    COMMAND ITKFFTTestDriver
+    --compare
+      DATA{Input/TreeBarkTexture.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWInverse1DFFTImageFilterTestOutput.mha
+    itkInverse1DFFTImageFilterTest
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd,itkForward1DFFTImageFilterTestBaselineRealFull.raw}
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd,itkForward1DFFTImageFilterTestBaselineImaginaryFull.raw}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWInverse1DFFTImageFilterTestOutput.mha
+      2
+      )
+  itk_add_test(NAME itkFFTWComplexToComplex1DFFTImageFilterTest
+    COMMAND ITKFFTTestDriver
+    --compare
+      DATA{Input/TreeBarkTexture.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplex1DFFTImageFilterTestOutput.mha
+    itkComplexToComplex1DFFTImageFilterTest
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineRealFull.mhd}
+      DATA{Input/itkForward1DFFTImageFilterTestBaselineImaginaryFull.mhd}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTWComplexToComplex1DFFTImageFilterTestOutput.mha
+      2
+      )
+  itk_add_test(NAME itkFFTW1DImageFilterTest
+    COMMAND ITKFFTTestDriver
+    --compare
+      DATA{Input/TreeBarkTexture.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTW1DImageFilterTestOutput.mha
+    itkFFT1DImageFilterTest
+      DATA{Input/TreeBarkTexture.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTW1DImageFilterTestOutput.mha
+      2
+      )
+endif()
