@@ -102,32 +102,6 @@ public:
   /** Get stop condition enum */
   itkGetConstReferenceMacro(StopCondition, StopConditionObjectToObjectOptimizerEnum);
 
-  /** Set the number of iterations. */
-  void
-  SetNumberOfIterations(const SizeValueType numberOfIterations) override
-  {
-    itkDebugMacro("setting NumberOfIterations to " << numberOfIterations);
-    if (this->m_NumberOfIterations != numberOfIterations)
-    {
-      this->m_NumberOfIterations = numberOfIterations;
-      this->Modified();
-    }
-  }
-
-  /** Get the number of iterations. */
-  SizeValueType
-  GetNumberOfIterations() const override
-  {
-    return this->m_NumberOfIterations;
-  }
-
-  /** Get the current iteration number. */
-  SizeValueType
-  GetCurrentIteration() const override
-  {
-    return this->m_CurrentIteration;
-  }
-
   /** Start and run the optimization */
   void
   StartOptimization(bool doOnlyInitialization = false) override;
