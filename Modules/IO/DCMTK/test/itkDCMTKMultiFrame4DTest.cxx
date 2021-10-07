@@ -21,15 +21,16 @@
 #include "itkDCMTKImageIO.h"
 #include "itkSubtractImageFilter.h"
 #include "itkStatisticsImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkDCMTKMultiFrame4DTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "Missing filenames" << std::endl
-              << "itkDCMTKMultiFram4DTest"
-              << " <inputDicomFile> <outputFile>" << std::endl;
+    std::cerr << "Missing Parameters" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " itkDCMTKMultiFram4DTest"
+              << " inputDicomFile" << std::endl;
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<unsigned short, 4>;
@@ -37,41 +38,21 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
   reader->SetImageIO(itk::DCMTKImageIO::New());
   reader->SetFileName(argv[1]);
-  writer->SetFileName(argv[2]);
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader" << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
 
   ImageType::Pointer im = reader->GetOutput();
   std::cout << im;
-  writer->SetInput(im);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file writer" << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (...)
-  {
-    return EXIT_FAILURE;
-  }
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetInput(im);
+  writer->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   // don't want to set imageIO so re-instantiate reader
   reader = ReaderType::New();
@@ -87,21 +68,17 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
 
   statisticsFilter->SetInput(subtractFilter->GetOutput());
-  try
-  {
-    statisticsFilter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception checking files " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(statisticsFilter->Update());
+
+
   if (statisticsFilter->GetMinimum() != 0.0 || statisticsFilter->GetMaximum() != 0.0)
   {
     std::cerr << "file written doesn't match file read." << std::endl
               << "min(" << statisticsFilter->GetMinimum() << ") max(" << statisticsFilter->GetMaximum() << std::endl;
     return EXIT_FAILURE;
   }
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -18,6 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkDCMTKImageIO.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -30,7 +31,8 @@ itkDCMTKImageIONoPreambleTest(int ac, char * av[])
 
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " DicomImage\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -51,16 +53,8 @@ itkDCMTKImageIONoPreambleTest(int ac, char * av[])
   reader->SetFileName(av[1]);
   reader->SetImageIO(dcmImageIO);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   InputImageType::SizeType extentSize;
   extentSize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
@@ -72,5 +66,7 @@ itkDCMTKImageIONoPreambleTest(int ac, char * av[])
     return EXIT_FAILURE;
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

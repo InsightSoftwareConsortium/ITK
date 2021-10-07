@@ -21,6 +21,7 @@
 #include "itkDCMTKImageIO.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRGBPixel.h"
+#include "itkTestingMacros.h"
 
 #include <fstream>
 
@@ -32,7 +33,8 @@ itkDCMTKRGBImageIOTest(int ac, char * av[])
 
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " DicomImage OutputImage\n";
+    std::cerr << "Missing Parameters" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage OutputImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -47,16 +49,8 @@ itkDCMTKRGBImageIOTest(int ac, char * av[])
   reader->SetFileName(av[1]);
   reader->SetImageIO(dcmtkImageIO);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   using WriteImageType = itk::Image<PixelType, 2>;
   using Writer2Type = itk::ImageFileWriter<WriteImageType>;
@@ -64,18 +58,12 @@ itkDCMTKRGBImageIOTest(int ac, char * av[])
   writer2->SetFileName(av[2]);
   writer2->SetInput(reader->GetOutput());
 
-  try
-  {
-    writer2->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer2->Update());
+
 
   dcmtkImageIO->Print(std::cout);
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
