@@ -23,13 +23,15 @@
 #include "itkAddImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkStatisticsImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
 {
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " <original image> <slope intercept image>" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " originalImage slopeInterceptImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -50,16 +52,9 @@ itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
     reader->SetFileName(av[i + 1]);
     reader->SetImageIO(dcmImageIO);
 
-    try
-    {
-      reader->Update();
-    }
-    catch (const itk::ExceptionObject & e)
-    {
-      std::cerr << "exception in file reader " << std::endl;
-      std::cerr << e << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
     images[i] = reader->GetOutput();
   }
 
@@ -84,5 +79,8 @@ itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
       return EXIT_FAILURE;
     }
   }
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

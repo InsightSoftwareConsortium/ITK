@@ -24,6 +24,7 @@
 #include "itkSubtractImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 using PixelType = short;
 using ImageType = itk::Image<PixelType, 3>;
@@ -87,7 +88,8 @@ itkDCMTKImageIOMultiFrameImageTest(int ac, char * av[])
 {
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " <multiframe image>" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " multiframeImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -97,16 +99,9 @@ itkDCMTKImageIOMultiFrameImageTest(int ac, char * av[])
   reader->SetFileName(av[1]);
   reader->SetImageIO(dcmImageIO);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
   ImageType::Pointer im = reader->GetOutput();
   DirectionType      dir = im->GetDirection();
   SpacingType        spacing = im->GetSpacing();
@@ -143,5 +138,8 @@ itkDCMTKImageIOMultiFrameImageTest(int ac, char * av[])
               << spacing << std::endl;
     return EXIT_FAILURE;
   }
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

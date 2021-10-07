@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include <iostream>
 #include "itkDCMTKImageIO.h"
+#include "itkTestingMacros.h"
 
 static int
 TestLogLevel(itk::DCMTKImageIO::Pointer & io, itk::DCMTKImageIO::LogLevelEnum ll)
@@ -56,19 +57,13 @@ itkDCMTKLoggerTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
-  try
-  {
-    // use C-style cast because C++ casts complain.
-    auto illegalVal = (itk::DCMTKImageIO::LogLevelEnum)((unsigned)itk::DCMTKImageIO::LogLevelEnum::OFF_LOG_LEVEL + 99);
-    TestLogLevel(io, illegalVal);
-    //
-    // expected exception
-    std::cerr << "Failed to detect invalid assignment of " << static_cast<int>(illegalVal) << " to LogLevel"
-              << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Expected exception (illegal log level assignment)" << std::endl << e << std::endl;
-  }
+
+  // use C-style cast because C++ casts complain.
+  auto illegalVal = (itk::DCMTKImageIO::LogLevelEnum)((unsigned)itk::DCMTKImageIO::LogLevelEnum::OFF_LOG_LEVEL + 99);
+
+  ITK_TRY_EXPECT_EXCEPTION(TestLogLevel(io, illegalVal));
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
