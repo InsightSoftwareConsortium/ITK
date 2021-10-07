@@ -182,7 +182,7 @@ public:
   itkSetObjectMacro(DifferenceFunction, FiniteDifferenceFunctionType);
 
   /** Set/Get the number of iterations that the filter will run. */
-  itkSetMacro(NumberOfIterations, IdentifierType);
+  itkVirtualSetMacro(NumberOfIterations, IdentifierType);
   itkGetConstReferenceMacro(NumberOfIterations, IdentifierType);
 
   /** Use the image spacing information in calculations. Use this option if you
@@ -193,13 +193,13 @@ public:
 
   /** Set/Get the maximum error allowed in the solution.  This may not be
       defined for all solvers and its meaning may change with the application. */
-  itkSetMacro(MaximumRMSError, double);
+  itkVirtualSetMacro(MaximumRMSError, double);
   itkGetConstReferenceMacro(MaximumRMSError, double);
 
   /** Set/Get the root mean squared change of the previous iteration. May not
       be used by all solvers. */
   itkSetMacro(RMSChange, double);
-  itkGetConstReferenceMacro(RMSChange, double);
+  itkVirtualGetConstReferenceMacro(RMSChange, double);
 
   /** Require the filter to be manually reinitialized (by calling
       SetStateToUninitialized() */

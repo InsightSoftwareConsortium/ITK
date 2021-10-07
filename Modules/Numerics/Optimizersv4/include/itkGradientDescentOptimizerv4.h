@@ -153,7 +153,7 @@ public:
    *  tests. It is suggested to use 1e-6 for less stringent convergence
    *  checking.
    */
-  itkSetMacro(MinimumConvergenceValue, TInternalComputationValueType);
+  itkVirtualSetMacro(MinimumConvergenceValue, TInternalComputationValueType);
 
   /** Window size for the convergence checker.
    *  The convergence checker calculates convergence value by fitting to
@@ -163,12 +163,12 @@ public:
    *  tests. It is suggested to use 10 for less stringent convergence
    *  checking.
    */
-  itkSetMacro(ConvergenceWindowSize, SizeValueType);
+  itkVirtualSetMacro(ConvergenceWindowSize, SizeValueType);
 
   /** Get current convergence value.
    *  WindowConvergenceMonitoringFunction always returns output convergence
    *  value in 'TInternalComputationValueType' precision. */
-  itkGetConstReferenceMacro(ConvergenceValue, TInternalComputationValueType);
+  itkVirtualGetConstReferenceMacro(ConvergenceValue, TInternalComputationValueType);
 
   /** Flag. Set to have the optimizer track and return the best
    *  best metric value and corresponding best parameters that were

@@ -142,7 +142,7 @@ public:
   itkGetConstObjectMacro(MovingImage, MovingImageType);
 
   /** Connect the Transform. */
-  itkSetObjectMacro(Transform, TransformType);
+  itkVirtualSetObjectMacro(Transform, TransformType);
 
   /** Get a pointer to the Transform.  */
   itkGetModifiableObjectMacro(Transform, TransformType);

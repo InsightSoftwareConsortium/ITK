@@ -89,7 +89,7 @@ public:
   itkTypeMacro(ImageIOBase, Superclass);
 
   /** Set/Get the name of the file to be read. */
-  itkSetStringMacro(FileName);
+  itkVirtualSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
   /** Types for managing image size and image index components. */

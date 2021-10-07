@@ -90,7 +90,7 @@ public:
   /** Provide an interface to set the seed.
    *  The seed value will be used by subclasses where appropriate.
    */
-  itkSetMacro(Seed, SeedType);
+  itkVirtualSetMacro(Seed, SeedType);
   itkGetConstReferenceMacro(Seed, SeedType);
 
 

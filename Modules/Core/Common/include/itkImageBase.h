@@ -176,7 +176,7 @@ public:
    * coordinates of the image origin (pixel [0,0]).  It is stored internally
    * as SpacePrecisionType but may be set from float or double.
    * \sa GetOrigin() */
-  itkSetMacro(Origin, PointType);
+  itkVirtualSetMacro(Origin, PointType);
   virtual void
   SetOrigin(const double origin[VImageDimension]);
   virtual void
@@ -213,7 +213,7 @@ public:
   /** Get the direction cosines of the image. The direction cosines
    * are vectors that point from one pixel to the next.
    * For ImageBase and Image, the default direction is identity. */
-  itkGetConstReferenceMacro(Direction, DirectionType);
+  itkVirtualGetConstReferenceMacro(Direction, DirectionType);
 
   /** Get the inverse direction cosines of the image.
    * These are calculated automatically in SetDirection, thus there
@@ -224,13 +224,13 @@ public:
    * spacing is the geometric distance between image samples along
    * each dimension. The value returned is a Vector<double, VImageDimension>.
    * For ImageBase and Image, the default data spacing is unity. */
-  itkGetConstReferenceMacro(Spacing, SpacingType);
+  itkVirtualGetConstReferenceMacro(Spacing, SpacingType);
 
   /** Get the origin of the image. The origin is the geometric
    * coordinates of the index (0,0).  The value returned is a
    * Point<double, VImageDimension>. For ImageBase and Image, the
    * default origin is 0. */
-  itkGetConstReferenceMacro(Origin, PointType);
+  itkVirtualGetConstReferenceMacro(Origin, PointType);
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions() or SetBufferedRegion().

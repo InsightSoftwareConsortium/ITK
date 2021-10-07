@@ -204,7 +204,7 @@ public:
   /** Set/Get the maximum number of iterations after which the STAPLE algorithm
    *  will be considered to have converged.  In general this SHOULD NOT be set and
    *  the algorithm should be allowed to converge on its own. */
-  itkSetMacro(MaximumIterations, unsigned int);
+  itkVirtualSetMacro(MaximumIterations, unsigned int);
   itkGetConstMacro(MaximumIterations, unsigned int);
 
   /** Scales the estimated prior probability that a pixel will be inside the
