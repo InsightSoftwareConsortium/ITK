@@ -683,7 +683,7 @@ mark_as_advanced(FORCE
   Module_VariationalRegistration)
 
 # Create an IDE folder structure similar to our source structure
-if(MSVC)
+if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop")
   set_property(GLOBAL PROPERTY USE_FOLDERS ON)
   function(itk_organize_targets dir folder)
     itk_get_all_targets_recursive(targets ${dir})
