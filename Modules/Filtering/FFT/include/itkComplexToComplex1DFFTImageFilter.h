@@ -42,7 +42,7 @@ template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT ComplexToComplex1DFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToComplex1DFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(ComplexToComplex1DFFTImageFilter);
 
   /** Standard class type alias. */
   using InputImageType = TInputImage;

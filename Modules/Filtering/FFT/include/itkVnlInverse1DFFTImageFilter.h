@@ -37,7 +37,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT VnlInverse1DFFTImageFilter : public Inverse1DFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlInverse1DFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VnlInverse1DFFTImageFilter);
 
   /** Standard class type alias. */
   using Self = VnlInverse1DFFTImageFilter;

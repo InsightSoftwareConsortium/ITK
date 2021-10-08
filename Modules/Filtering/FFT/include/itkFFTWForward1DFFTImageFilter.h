@@ -38,7 +38,7 @@ template <typename TInputImage,
 class ITK_TEMPLATE_EXPORT FFTWForward1DFFTImageFilter : public Forward1DFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWForward1DFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(FFTWForward1DFFTImageFilter);
 
   using Self = FFTWForward1DFFTImageFilter;
   using Superclass = Forward1DFFTImageFilter<TInputImage, TOutputImage>;

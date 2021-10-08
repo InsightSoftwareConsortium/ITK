@@ -36,7 +36,7 @@ class ITK_TEMPLATE_EXPORT VnlComplexToComplex1DFFTImageFilter
   : public ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VnlComplexToComplex1DFFTImageFilter);
+  ITK_DISALLOW_COPY_AND_MOVE(VnlComplexToComplex1DFFTImageFilter);
 
   /** Standard class type alias. */
   using Self = VnlComplexToComplex1DFFTImageFilter;
