@@ -27,13 +27,13 @@ using DisplacementFieldType = itk::Image<itk::Vector<double, 3>, 3>;
 using WarpFilterType = itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldType>;
 
 using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-#define AllocateImageFromRegionAndSpacing(ImageType, rval, region, spacing)                                            \
-  {                                                                                                                    \
-    rval = ImageType::New();                                                                                           \
-    rval->SetSpacing(spacing);                                                                                         \
-    rval->SetRegions(region);                                                                                          \
-    rval->Allocate();                                                                                                  \
-  }                                                                                                                    \
+#define AllocateImageFromRegionAndSpacing(ImageType, rval, region, spacing) \
+  {                                                                         \
+    rval = ImageType::New();                                                \
+    rval->SetSpacing(spacing);                                              \
+    rval->SetRegions(region);                                               \
+    rval->Allocate();                                                       \
+  }                                                                         \
   ITK_MACROEND_NOOP_STATEMENT
 
 namespace

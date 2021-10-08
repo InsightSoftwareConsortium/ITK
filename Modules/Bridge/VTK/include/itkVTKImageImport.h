@@ -21,15 +21,15 @@
 #include "itkImageSource.h"
 #include "itkImportImageContainer.h"
 
-#define itkSetMacro2(name, type)                                                                                       \
-  virtual void Set##name(type _arg)                                                                                    \
-  {                                                                                                                    \
-    itkDebugMacro("setting " #name " to " << _arg);                                                                    \
-    if (this->m_##name != _arg)                                                                                        \
-    {                                                                                                                  \
-      this->m_##name = _arg;                                                                                           \
-      this->Modified();                                                                                                \
-    }                                                                                                                  \
+#define itkSetMacro2(name, type)                    \
+  virtual void Set##name(type _arg)                 \
+  {                                                 \
+    itkDebugMacro("setting " #name " to " << _arg); \
+    if (this->m_##name != _arg)                     \
+    {                                               \
+      this->m_##name = _arg;                        \
+      this->Modified();                             \
+    }                                               \
   }
 
 namespace itk

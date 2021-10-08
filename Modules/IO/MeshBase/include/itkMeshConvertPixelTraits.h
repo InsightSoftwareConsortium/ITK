@@ -84,37 +84,37 @@ public:
   }
 };
 
-#define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)                                                                  \
-  template <>                                                                                                          \
-  class MeshConvertPixelTraits<type>                                                                                   \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using ComponentType = type;                                                                                        \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return 1;                                                                                                        \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const type & itkNotUsed(pixel))                                                              \
-    {                                                                                                                  \
-      return 1;                                                                                                        \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetNthComponent(int itkNotUsed(c), const type & pixel)                                                             \
-    {                                                                                                                  \
-      return pixel;                                                                                                    \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int, type & pixel, const ComponentType & v)                                                        \
-    {                                                                                                                  \
-      pixel = v;                                                                                                       \
-    }                                                                                                                  \
-    static type                                                                                                        \
-    GetScalarValue(const type & pixel)                                                                                 \
-    {                                                                                                                  \
-      return pixel;                                                                                                    \
-    }                                                                                                                  \
+#define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)           \
+  template <>                                                   \
+  class MeshConvertPixelTraits<type>                            \
+  {                                                             \
+  public:                                                       \
+    using ComponentType = type;                                 \
+    static unsigned int                                         \
+    GetNumberOfComponents()                                     \
+    {                                                           \
+      return 1;                                                 \
+    }                                                           \
+    static unsigned int                                         \
+    GetNumberOfComponents(const type & itkNotUsed(pixel))       \
+    {                                                           \
+      return 1;                                                 \
+    }                                                           \
+    static ComponentType                                        \
+    GetNthComponent(int itkNotUsed(c), const type & pixel)      \
+    {                                                           \
+      return pixel;                                             \
+    }                                                           \
+    static void                                                 \
+    SetNthComponent(int, type & pixel, const ComponentType & v) \
+    {                                                           \
+      pixel = v;                                                \
+    }                                                           \
+    static type                                                 \
+    GetScalarValue(const type & pixel)                          \
+    {                                                           \
+      return pixel;                                             \
+    }                                                           \
   }
 
 ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(char);
@@ -138,38 +138,38 @@ ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(double);
 //  Default traits for the Offset<> pixel type
 //
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(dimension)                                                           \
-  template <>                                                                                                          \
-  class MeshConvertPixelTraits<Offset<dimension>>                                                                      \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using TargetType = Offset<dimension>;                                                                              \
-    using ComponentType = TargetType::OffsetValueType;                                                                 \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return dimension;                                                                                                \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))                                                        \
-    {                                                                                                                  \
-      return dimension;                                                                                                \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetNthComponent(int c, const TargetType & pixel)                                                                   \
-    {                                                                                                                  \
-      return pixel[c];                                                                                                 \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)                                                \
-    {                                                                                                                  \
-      pixel[i] = v;                                                                                                    \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetScalarValue(const TargetType & pixel)                                                                           \
-    {                                                                                                                  \
-      return pixel[0];                                                                                                 \
-    }                                                                                                                  \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(dimension)            \
+  template <>                                                           \
+  class MeshConvertPixelTraits<Offset<dimension>>                       \
+  {                                                                     \
+  public:                                                               \
+    using TargetType = Offset<dimension>;                               \
+    using ComponentType = TargetType::OffsetValueType;                  \
+    static unsigned int                                                 \
+    GetNumberOfComponents()                                             \
+    {                                                                   \
+      return dimension;                                                 \
+    }                                                                   \
+    static unsigned int                                                 \
+    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))         \
+    {                                                                   \
+      return dimension;                                                 \
+    }                                                                   \
+    static ComponentType                                                \
+    GetNthComponent(int c, const TargetType & pixel)                    \
+    {                                                                   \
+      return pixel[c];                                                  \
+    }                                                                   \
+    static void                                                         \
+    SetNthComponent(int i, TargetType & pixel, const ComponentType & v) \
+    {                                                                   \
+      pixel[i] = v;                                                     \
+    }                                                                   \
+    static ComponentType                                                \
+    GetScalarValue(const TargetType & pixel)                            \
+    {                                                                   \
+      return pixel[0];                                                  \
+    }                                                                   \
   };
 
 
@@ -184,38 +184,38 @@ ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
 //  Default traits for the pixel types deriving from FixedArray<>
 //
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type, componenttype, dimension)                                  \
-  template <>                                                                                                          \
-  class MeshConvertPixelTraits<type<componenttype, dimension>>                                                         \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using TargetType = type<componenttype, dimension>;                                                                 \
-    using ComponentType = componenttype;                                                                               \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return dimension;                                                                                                \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))                                                        \
-    {                                                                                                                  \
-      return dimension;                                                                                                \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetNthComponent(int c, const TargetType & pixel)                                                                   \
-    {                                                                                                                  \
-      return pixel[c];                                                                                                 \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)                                                \
-    {                                                                                                                  \
-      pixel[i] = v;                                                                                                    \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetScalarValue(const TargetType & pixel)                                                                           \
-    {                                                                                                                  \
-      return pixel[0];                                                                                                 \
-    }                                                                                                                  \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type, componenttype, dimension) \
+  template <>                                                                         \
+  class MeshConvertPixelTraits<type<componenttype, dimension>>                        \
+  {                                                                                   \
+  public:                                                                             \
+    using TargetType = type<componenttype, dimension>;                                \
+    using ComponentType = componenttype;                                              \
+    static unsigned int                                                               \
+    GetNumberOfComponents()                                                           \
+    {                                                                                 \
+      return dimension;                                                               \
+    }                                                                                 \
+    static unsigned int                                                               \
+    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))                       \
+    {                                                                                 \
+      return dimension;                                                               \
+    }                                                                                 \
+    static ComponentType                                                              \
+    GetNthComponent(int c, const TargetType & pixel)                                  \
+    {                                                                                 \
+      return pixel[c];                                                                \
+    }                                                                                 \
+    static void                                                                       \
+    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)               \
+    {                                                                                 \
+      pixel[i] = v;                                                                   \
+    }                                                                                 \
+    static ComponentType                                                              \
+    GetScalarValue(const TargetType & pixel)                                          \
+    {                                                                                 \
+      return pixel[0];                                                                \
+    }                                                                                 \
   };
 
 //
@@ -224,27 +224,27 @@ ITK_MESH_DEFAULTCONVERTTRAITS_OFFSET_TYPE(5)
 // These classes include: Vector, CovariantVector and Point.
 //
 //
-#define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, Type)                                       \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 1)                                                    \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 2)                                                    \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 3)                                                    \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 4)                                                    \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 5)                                                    \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, Type) \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 1)              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 2)              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 3)              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 4)              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 5)              \
   ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(ArrayType, Type, 6)
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(ArrayType)                                       \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, char);                                            \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, signed char);                                     \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned char);                                   \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, short int);                                       \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned short int);                              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, int);                                             \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned int);                                    \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, long int);                                        \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned long int);                               \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, long long int);                                   \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned long long int);                          \
-  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, float);                                           \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(ArrayType)              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, char);                   \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, signed char);            \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned char);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, short int);              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned short int);     \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, int);                    \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned int);           \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, long int);               \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned long int);      \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, long long int);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, unsigned long long int); \
+  ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, float);                  \
   ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_MACRO(ArrayType, double);
 
 ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(Vector);
@@ -262,42 +262,42 @@ ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(FixedArray);
 //  Default traits for the pixel types deriving from Matrix<>
 //
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(type, componenttype, rows, cols)                                     \
-  template <>                                                                                                          \
-  class MeshConvertPixelTraits<type<componenttype, rows, cols>>                                                        \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using TargetType = type<componenttype, rows, cols>;                                                                \
-    using ComponentType = componenttype;                                                                               \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return rows * cols;                                                                                              \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))                                                        \
-    {                                                                                                                  \
-      return rows * cols;                                                                                              \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetNthComponent(int c, const TargetType & pixel)                                                                   \
-    {                                                                                                                  \
-      const unsigned int row = c / cols;                                                                               \
-      const unsigned int col = c % cols;                                                                               \
-      return pixel[row][col];                                                                                          \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)                                                \
-    {                                                                                                                  \
-      const unsigned int row = i / cols;                                                                               \
-      const unsigned int col = i % cols;                                                                               \
-      pixel[row][col] = v;                                                                                             \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetScalarValue(const TargetType & pixel)                                                                           \
-    {                                                                                                                  \
-      return pixel[0][0];                                                                                              \
-    }                                                                                                                  \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(type, componenttype, rows, cols) \
+  template <>                                                                      \
+  class MeshConvertPixelTraits<type<componenttype, rows, cols>>                    \
+  {                                                                                \
+  public:                                                                          \
+    using TargetType = type<componenttype, rows, cols>;                            \
+    using ComponentType = componenttype;                                           \
+    static unsigned int                                                            \
+    GetNumberOfComponents()                                                        \
+    {                                                                              \
+      return rows * cols;                                                          \
+    }                                                                              \
+    static unsigned int                                                            \
+    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))                    \
+    {                                                                              \
+      return rows * cols;                                                          \
+    }                                                                              \
+    static ComponentType                                                           \
+    GetNthComponent(int c, const TargetType & pixel)                               \
+    {                                                                              \
+      const unsigned int row = c / cols;                                           \
+      const unsigned int col = c % cols;                                           \
+      return pixel[row][col];                                                      \
+    }                                                                              \
+    static void                                                                    \
+    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)            \
+    {                                                                              \
+      const unsigned int row = i / cols;                                           \
+      const unsigned int col = i % cols;                                           \
+      pixel[row][col] = v;                                                         \
+    }                                                                              \
+    static ComponentType                                                           \
+    GetScalarValue(const TargetType & pixel)                                       \
+    {                                                                              \
+      return pixel[0][0];                                                          \
+    }                                                                              \
   };
 
 //
@@ -305,27 +305,27 @@ ITK_MESH_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE_ALL_TYPES_MACRO(FixedArray);
 // Define traits for Classed deriving from Matrix from dimensions 1 to 6
 //
 //
-#define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, Type)                                           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 1, 1)                                                     \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 2, 2)                                                     \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 3, 3)                                                     \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 4, 4)                                                     \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 5, 5)                                                     \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, Type) \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 1, 1)           \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 2, 2)           \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 3, 3)           \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 4, 4)           \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 5, 5)           \
   ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE(ArrayType, Type, 6, 6)
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(ArrayType)                                           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, char);                                                \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, signed char);                                         \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned char);                                       \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, short int);                                           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned short int);                                  \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, int);                                                 \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned int);                                        \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, long int);                                            \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned long int);                                   \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, long long int);                                       \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned long long int);                              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, float);                                               \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(ArrayType)              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, char);                   \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, signed char);            \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned char);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, short int);              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned short int);     \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, int);                    \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned int);           \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, long int);               \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned long int);      \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, long long int);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, unsigned long long int); \
+  ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, float);                  \
   ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_MACRO(ArrayType, double);
 
 //
@@ -343,104 +343,104 @@ ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(Matrix);
 //  Default traits for the pixel types deriving from std::complex<>
 //
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(componenttype)                                                      \
-  template <>                                                                                                          \
-  class MeshConvertPixelTraits<::std::complex<componenttype>>                                                          \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using TargetType = ::std::complex<componenttype>;                                                                  \
-    using ComponentType = componenttype;                                                                               \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return 2;                                                                                                        \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))                                                        \
-    {                                                                                                                  \
-      return 2;                                                                                                        \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetNthComponent(int i, TargetType & pixel)                                                                         \
-    {                                                                                                                  \
-      if (i == 0)                                                                                                      \
-      {                                                                                                                \
-        return pixel.imag();                                                                                           \
-      }                                                                                                                \
-      else                                                                                                             \
-      {                                                                                                                \
-        return pixel.real();                                                                                           \
-      }                                                                                                                \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)                                                \
-    {                                                                                                                  \
-      if (i == 0)                                                                                                      \
-      {                                                                                                                \
-        pixel = TargetType(v, pixel.imag());                                                                           \
-      }                                                                                                                \
-      else                                                                                                             \
-      {                                                                                                                \
-        pixel = TargetType(pixel.real(), v);                                                                           \
-      }                                                                                                                \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetScalarValue(const TargetType & pixel)                                                                           \
-    {                                                                                                                  \
-      return std::norm(pixel);                                                                                         \
-    }                                                                                                                  \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(componenttype)       \
+  template <>                                                           \
+  class MeshConvertPixelTraits<::std::complex<componenttype>>           \
+  {                                                                     \
+  public:                                                               \
+    using TargetType = ::std::complex<componenttype>;                   \
+    using ComponentType = componenttype;                                \
+    static unsigned int                                                 \
+    GetNumberOfComponents()                                             \
+    {                                                                   \
+      return 2;                                                         \
+    }                                                                   \
+    static unsigned int                                                 \
+    GetNumberOfComponents(const TargetType & itkNotUsed(pixel))         \
+    {                                                                   \
+      return 2;                                                         \
+    }                                                                   \
+    static ComponentType                                                \
+    GetNthComponent(int i, TargetType & pixel)                          \
+    {                                                                   \
+      if (i == 0)                                                       \
+      {                                                                 \
+        return pixel.imag();                                            \
+      }                                                                 \
+      else                                                              \
+      {                                                                 \
+        return pixel.real();                                            \
+      }                                                                 \
+    }                                                                   \
+    static void                                                         \
+    SetNthComponent(int i, TargetType & pixel, const ComponentType & v) \
+    {                                                                   \
+      if (i == 0)                                                       \
+      {                                                                 \
+        pixel = TargetType(v, pixel.imag());                            \
+      }                                                                 \
+      else                                                              \
+      {                                                                 \
+        pixel = TargetType(pixel.real(), v);                            \
+      }                                                                 \
+    }                                                                   \
+    static ComponentType                                                \
+    GetScalarValue(const TargetType & pixel)                            \
+    {                                                                   \
+      return std::norm(pixel);                                          \
+    }                                                                   \
   };
 
 ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(float);
 ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(double);
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(type, componenttype)                                                  \
-  template <>                                                                                                          \
-  class MeshConvertPixelTraits<type<componenttype>>                                                                    \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using TargetType = type<componenttype>;                                                                            \
-    using ComponentType = componenttype;                                                                               \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return 0;                                                                                                        \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const TargetType & pixel)                                                                    \
-    {                                                                                                                  \
-      return pixel.Size();                                                                                             \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetNthComponent(int c, const TargetType & pixel)                                                                   \
-    {                                                                                                                  \
-      return pixel[c];                                                                                                 \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)                                                \
-    {                                                                                                                  \
-      pixel[i] = v;                                                                                                    \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetScalarValue(const TargetType & pixel)                                                                           \
-    {                                                                                                                  \
-      return pixel[0];                                                                                                 \
-    }                                                                                                                  \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(type, componenttype)   \
+  template <>                                                           \
+  class MeshConvertPixelTraits<type<componenttype>>                     \
+  {                                                                     \
+  public:                                                               \
+    using TargetType = type<componenttype>;                             \
+    using ComponentType = componenttype;                                \
+    static unsigned int                                                 \
+    GetNumberOfComponents()                                             \
+    {                                                                   \
+      return 0;                                                         \
+    }                                                                   \
+    static unsigned int                                                 \
+    GetNumberOfComponents(const TargetType & pixel)                     \
+    {                                                                   \
+      return pixel.Size();                                              \
+    }                                                                   \
+    static ComponentType                                                \
+    GetNthComponent(int c, const TargetType & pixel)                    \
+    {                                                                   \
+      return pixel[c];                                                  \
+    }                                                                   \
+    static void                                                         \
+    SetNthComponent(int i, TargetType & pixel, const ComponentType & v) \
+    {                                                                   \
+      pixel[i] = v;                                                     \
+    }                                                                   \
+    static ComponentType                                                \
+    GetScalarValue(const TargetType & pixel)                            \
+    {                                                                   \
+      return pixel[0];                                                  \
+    }                                                                   \
   };
 
-#define ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE_ALL_TYPES_MACRO(ArrayType)                                            \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, char);                                                           \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, signed char);                                                    \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned char);                                                  \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, short int);                                                      \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned short int);                                             \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, int);                                                            \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned int);                                                   \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, long int);                                                       \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned long int);                                              \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, long long int);                                                  \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned long long int);                                         \
-  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, float);                                                          \
+#define ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE_ALL_TYPES_MACRO(ArrayType)    \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, char);                   \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, signed char);            \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned char);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, short int);              \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned short int);     \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, int);                    \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned int);           \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, long int);               \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned long int);      \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, long long int);          \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, unsigned long long int); \
+  ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, float);                  \
   ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE(ArrayType, double);
 
 ITK_MESH_DEFAULTCONVERTTRAITS_ARRAY_TYPE_ALL_TYPES_MACRO(Array);

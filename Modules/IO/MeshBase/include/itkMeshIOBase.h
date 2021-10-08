@@ -856,11 +856,11 @@ private:
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
 };
-#define MESHIOBASE_TYPEMAP(type, ctype)                                                                                \
-  template <>                                                                                                          \
-  struct MeshIOBase::MapComponentType<type>                                                                            \
-  {                                                                                                                    \
-    static constexpr IOComponentEnum CType = ctype;                                                                    \
+#define MESHIOBASE_TYPEMAP(type, ctype)             \
+  template <>                                       \
+  struct MeshIOBase::MapComponentType<type>         \
+  {                                                 \
+    static constexpr IOComponentEnum CType = ctype; \
   }
 
 MESHIOBASE_TYPEMAP(unsigned char, IOComponentEnum::UCHAR);

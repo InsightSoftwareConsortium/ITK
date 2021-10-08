@@ -253,9 +253,9 @@ itkBSplineDeformableTransformTest1()
    */
   using JacobianType = TransformType::JacobianType;
 
-#define PRINT_VALUE(R, C)                                                                                              \
-  std::cout << "Jacobian[" #R "," #C "] = ";                                                                           \
-  std::cout << jacobian[R][C] << std::endl;                                                                            \
+#define PRINT_VALUE(R, C)                    \
+  std::cout << "Jacobian[" #R "," #C "] = "; \
+  std::cout << jacobian[R][C] << std::endl;  \
   ITK_MACROEND_NOOP_STATEMENT
 
   {

@@ -50,14 +50,14 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage * in)
   // Do the conversion
   typename ImageType::Pointer out = ImageType::New();
 
-#define CONVERSION_CASE(iplInputDepthID, itkOutputPixelType)                                                           \
-  case (iplInputDepthID):                                                                                              \
-  {                                                                                                                    \
-    static_assert((iplInputDepthID) <= NumericTraits<DepthIDType>::max() &&                                            \
-                    (iplInputDepthID) >= NumericTraits<DepthIDType>::min(),                                            \
-                  "Invalid IPL depth ID: " #iplInputDepthID);                                                          \
-    ITKConvertIplImageBuffer<ImageType, itkOutputPixelType>(in, out.GetPointer(), (iplInputDepthID));                  \
-    break;                                                                                                             \
+#define CONVERSION_CASE(iplInputDepthID, itkOutputPixelType)                                          \
+  case (iplInputDepthID):                                                                             \
+  {                                                                                                   \
+    static_assert((iplInputDepthID) <= NumericTraits<DepthIDType>::max() &&                           \
+                    (iplInputDepthID) >= NumericTraits<DepthIDType>::min(),                           \
+                  "Invalid IPL depth ID: " #iplInputDepthID);                                         \
+    ITKConvertIplImageBuffer<ImageType, itkOutputPixelType>(in, out.GetPointer(), (iplInputDepthID)); \
+    break;                                                                                            \
   }
 
   switch (static_cast<DepthIDType>(in->depth))
@@ -92,14 +92,14 @@ OpenCVImageBridge::CVMatToITKImage(const cv::Mat & in)
 
   typename ImageType::Pointer out = ImageType::New();
 
-#define CONVERSION_CASE(inputDepthID, itkOutputPixelType)                                                              \
-  case (inputDepthID):                                                                                                 \
-  {                                                                                                                    \
-    static_assert((inputDepthID) <= NumericTraits<DepthIDType>::max() &&                                               \
-                    (inputDepthID) >= NumericTraits<DepthIDType>::min(),                                               \
-                  "Invalid Mat depth ID: " #inputDepthID);                                                             \
-    ITKConvertMatImageBuffer<ImageType, itkOutputPixelType>(in, out.GetPointer());                                     \
-    break;                                                                                                             \
+#define CONVERSION_CASE(inputDepthID, itkOutputPixelType)                          \
+  case (inputDepthID):                                                             \
+  {                                                                                \
+    static_assert((inputDepthID) <= NumericTraits<DepthIDType>::max() &&           \
+                    (inputDepthID) >= NumericTraits<DepthIDType>::min(),           \
+                  "Invalid Mat depth ID: " #inputDepthID);                         \
+    ITKConvertMatImageBuffer<ImageType, itkOutputPixelType>(in, out.GetPointer()); \
+    break;                                                                         \
   }
 
   switch (static_cast<DepthIDType>(in.depth()))

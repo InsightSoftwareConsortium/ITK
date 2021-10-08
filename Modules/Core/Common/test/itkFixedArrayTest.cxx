@@ -137,15 +137,15 @@ itkFixedArrayTest(int, char *[])
   }
 
   // Try all index types
-#define TRY_INDEX_CONST(T)                                                                                             \
-  {                                                                                                                    \
-    T in = 10;                                                                                                         \
-    if (array20[in] != 10)                                                                                             \
-    {                                                                                                                  \
-      std::cerr << "index failed" << std::endl;                                                                        \
-      return EXIT_FAILURE;                                                                                             \
-    }                                                                                                                  \
-  }                                                                                                                    \
+#define TRY_INDEX_CONST(T)                      \
+  {                                             \
+    T in = 10;                                  \
+    if (array20[in] != 10)                      \
+    {                                           \
+      std::cerr << "index failed" << std::endl; \
+      return EXIT_FAILURE;                      \
+    }                                           \
+  }                                             \
   ITK_MACROEND_NOOP_STATEMENT
 
   TRY_INDEX_CONST(short);
@@ -156,11 +156,11 @@ itkFixedArrayTest(int, char *[])
   TRY_INDEX_CONST(unsigned long);
   TRY_INDEX_CONST(long long);
   TRY_INDEX_CONST(unsigned long long);
-#define TRY_INDEX(T)                                                                                                   \
-  {                                                                                                                    \
-    T in = 10;                                                                                                         \
-    array20[in] = 10;                                                                                                  \
-  }                                                                                                                    \
+#define TRY_INDEX(T)  \
+  {                   \
+    T in = 10;        \
+    array20[in] = 10; \
+  }                   \
   ITK_MACROEND_NOOP_STATEMENT
 
   TRY_INDEX(short);

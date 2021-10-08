@@ -21,31 +21,31 @@
 #include "itkMacro.h"
 
 // -------------------------------------------------------------------------
-#define itkQEDefineIteratorMethodsMacro(Op)                                                                            \
-  virtual Iterator Begin##Op() { return Iterator(this, Self::Iterator::Operator##Op, true); }                          \
-                                                                                                                       \
-  virtual ConstIterator Begin##Op() const { return ConstIterator(this, Self::ConstIterator::Operator##Op, true); }     \
-                                                                                                                       \
-  virtual Iterator End##Op() { return Iterator(this, Self::Iterator::Operator##Op, false); }                           \
-                                                                                                                       \
-  virtual ConstIterator End##Op() const { return ConstIterator(this, Self::ConstIterator::Operator##Op, false); }      \
+#define itkQEDefineIteratorMethodsMacro(Op)                                                                        \
+  virtual Iterator Begin##Op() { return Iterator(this, Self::Iterator::Operator##Op, true); }                      \
+                                                                                                                   \
+  virtual ConstIterator Begin##Op() const { return ConstIterator(this, Self::ConstIterator::Operator##Op, true); } \
+                                                                                                                   \
+  virtual Iterator End##Op() { return Iterator(this, Self::Iterator::Operator##Op, false); }                       \
+                                                                                                                   \
+  virtual ConstIterator End##Op() const { return ConstIterator(this, Self::ConstIterator::Operator##Op, false); }  \
   ITK_MACROEND_NOOP_STATEMENT
 
 // -------------------------------------------------------------------------
-#define itkQEDefineIteratorGeomMethodsMacro(Op)                                                                        \
-  virtual IteratorGeom BeginGeom##Op() { return IteratorGeom(this, Self::IteratorGeom::Operator##Op, true); }          \
-                                                                                                                       \
-  virtual ConstIteratorGeom BeginGeom##Op() const                                                                      \
-  {                                                                                                                    \
-    return ConstIteratorGeom(this, Self::ConstIteratorGeom::Operator##Op, true);                                       \
-  }                                                                                                                    \
-                                                                                                                       \
-  virtual IteratorGeom EndGeom##Op() { return IteratorGeom(this, Self::IteratorGeom::Operator##Op, false); }           \
-                                                                                                                       \
-  virtual ConstIteratorGeom EndGeom##Op() const                                                                        \
-  {                                                                                                                    \
-    return ConstIteratorGeom(this, Self::ConstIteratorGeom::Operator##Op, false);                                      \
-  }                                                                                                                    \
+#define itkQEDefineIteratorGeomMethodsMacro(Op)                                                               \
+  virtual IteratorGeom BeginGeom##Op() { return IteratorGeom(this, Self::IteratorGeom::Operator##Op, true); } \
+                                                                                                              \
+  virtual ConstIteratorGeom BeginGeom##Op() const                                                             \
+  {                                                                                                           \
+    return ConstIteratorGeom(this, Self::ConstIteratorGeom::Operator##Op, true);                              \
+  }                                                                                                           \
+                                                                                                              \
+  virtual IteratorGeom EndGeom##Op() { return IteratorGeom(this, Self::IteratorGeom::Operator##Op, false); }  \
+                                                                                                              \
+  virtual ConstIteratorGeom EndGeom##Op() const                                                               \
+  {                                                                                                           \
+    return ConstIteratorGeom(this, Self::ConstIteratorGeom::Operator##Op, false);                             \
+  }                                                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk

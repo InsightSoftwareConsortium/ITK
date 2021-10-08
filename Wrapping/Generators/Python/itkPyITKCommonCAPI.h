@@ -57,8 +57,8 @@ extern "C"
 
 static void ** _ITKCommonPython_API;
 
-#  define _ITKCommonPython_GetGlobalSingletonIndex                                                                     \
-    (*(_ITKCommonPython_GetGlobalSingletonIndex_RETURN(*) _ITKCommonPython_GetGlobalSingletonIndex_PROTO)              \
+#  define _ITKCommonPython_GetGlobalSingletonIndex                                                        \
+    (*(_ITKCommonPython_GetGlobalSingletonIndex_RETURN(*) _ITKCommonPython_GetGlobalSingletonIndex_PROTO) \
        _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM])
 /* Return -1 on error, 0 on success.
  * PyCapsule_Import will set an exception if there's an error.

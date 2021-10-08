@@ -118,14 +118,14 @@ protected:
 } // end namespace itk
 
 // Define instantiation macro for this template.
-#define ITK_TEMPLATE_PointSetFunction(_, EXPORT, x, y)                                                                 \
-  namespace itk                                                                                                        \
-  {                                                                                                                    \
-  _(3(class EXPORT PointSetFunction<ITK_TEMPLATE_3 x>))                                                                \
-  namespace Templates                                                                                                  \
-  {                                                                                                                    \
-  using PointSetFunction##y = PointSetFunction<ITK_TEMPLATE_3 x>;                                                      \
-  }                                                                                                                    \
+#define ITK_TEMPLATE_PointSetFunction(_, EXPORT, x, y)            \
+  namespace itk                                                   \
+  {                                                               \
+  _(3(class EXPORT PointSetFunction<ITK_TEMPLATE_3 x>))           \
+  namespace Templates                                             \
+  {                                                               \
+  using PointSetFunction##y = PointSetFunction<ITK_TEMPLATE_3 x>; \
+  }                                                               \
   }
 
 

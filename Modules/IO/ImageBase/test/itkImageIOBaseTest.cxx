@@ -28,7 +28,7 @@
 // Macro to check that two arrays have the same size at compile time. It doesn't compile if they don't
 // as it tries to create an array of size(-1)
 // https://scaryreasoner.wordpress.com/2009/02/28/checking-sizeof-at-compile-time/
-#define CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(array1, array2)                                                    \
+#define CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(array1, array2) \
   ((void)sizeof(char[1 - 2 * !!(sizeof(array1) / sizeof(*array1) - sizeof(array2) / sizeof(*array2))]))
 
 int

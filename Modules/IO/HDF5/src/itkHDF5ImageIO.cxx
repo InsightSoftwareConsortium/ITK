@@ -79,11 +79,11 @@ GetType()
   itkGenericExceptionMacro(<< "Type not handled "
                            << "in HDF5 File: " << typeid(TScalar).name());
 }
-#define GetH5TypeSpecialize(CXXType, H5Type)                                                                           \
-  template <>                                                                                                          \
-  H5::PredType GetType<CXXType>()                                                                                      \
-  {                                                                                                                    \
-    return H5Type;                                                                                                     \
+#define GetH5TypeSpecialize(CXXType, H5Type) \
+  template <>                                \
+  H5::PredType GetType<CXXType>()            \
+  {                                          \
+    return H5Type;                           \
   }
 
 GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(double, H5::PredType::NATIVE_DOUBLE)
@@ -1015,7 +1015,7 @@ HDF5ImageIO ::WriteImageInformation()
     this->CloseDataSet();
 
     H5::FileAccPropList fapl;
-#if (H5_VERS_MAJOR > 1) || (H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 10) ||                                             \
+#if (H5_VERS_MAJOR > 1) || (H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 10) || \
   (H5_VERS_MAJOR == 1) && (H5_VERS_MINOR == 10) && (H5_VERS_RELEASE >= 2)
     // File format which is backwards compatible with HDF5 version 1.8
     // Only HDF5 v1.10.2 has both setLibverBounds method and H5F_LIBVER_V18 constant

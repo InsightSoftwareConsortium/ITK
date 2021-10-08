@@ -68,16 +68,16 @@ public:
   }
 
 private:
-#define GradientAnisotropicDiffusionImageFilterTypeMacro(ipt, opt, dm)                                                 \
-  {                                                                                                                    \
-    using InputImageType = itk::Image<ipt, dm>;                                                                        \
-    using OutputImageType = itk::Image<opt, dm>;                                                                       \
-    this->RegisterOverride(                                                                                            \
-      typeid(itk::GradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>).name(),                    \
-      typeid(itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>).name(),                 \
-      "GPU GradientAnisotropicDiffusionImageFilter Override",                                                          \
-      true,                                                                                                            \
-      itk::CreateObjectFunction<GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>>::New());  \
+#define GradientAnisotropicDiffusionImageFilterTypeMacro(ipt, opt, dm)                                                \
+  {                                                                                                                   \
+    using InputImageType = itk::Image<ipt, dm>;                                                                       \
+    using OutputImageType = itk::Image<opt, dm>;                                                                      \
+    this->RegisterOverride(                                                                                           \
+      typeid(itk::GradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>).name(),                   \
+      typeid(itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>).name(),                \
+      "GPU GradientAnisotropicDiffusionImageFilter Override",                                                         \
+      true,                                                                                                           \
+      itk::CreateObjectFunction<GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>>::New()); \
   }
 
   GPUGradientAnisotropicDiffusionImageFilterFactory()

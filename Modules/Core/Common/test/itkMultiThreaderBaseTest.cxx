@@ -88,16 +88,16 @@ SetAndVerify(int number)
   return result;
 }
 
-#define TEST_SINGLE_CLASS(ClassName)                                                                                   \
-  {                                                                                                                    \
-    itk::ClassName::Pointer threader = itk::ClassName::New();                                                          \
-    if (threader.IsNull())                                                                                             \
-    {                                                                                                                  \
-      result = false;                                                                                                  \
-    }                                                                                                                  \
-                                                                                                                       \
-    ITK_EXERCISE_BASIC_OBJECT_METHODS(threader, ClassName, MultiThreaderBase);                                         \
-  }                                                                                                                    \
+#define TEST_SINGLE_CLASS(ClassName)                                           \
+  {                                                                            \
+    itk::ClassName::Pointer threader = itk::ClassName::New();                  \
+    if (threader.IsNull())                                                     \
+    {                                                                          \
+      result = false;                                                          \
+    }                                                                          \
+                                                                               \
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(threader, ClassName, MultiThreaderBase); \
+  }                                                                            \
   ITK_MACROEND_NOOP_STATEMENT
 
 int

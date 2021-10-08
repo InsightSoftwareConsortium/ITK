@@ -43,16 +43,16 @@ class DcmDictEntry;
 // Don't print error messages if you're not throwing
 // an exception
 //     std::cerr body;
-#define DCMTKExceptionOrErrorReturn(body)                                                                              \
-  {                                                                                                                    \
-    if (throwException)                                                                                                \
-    {                                                                                                                  \
-      itkGenericExceptionMacro(body);                                                                                  \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-      return EXIT_FAILURE;                                                                                             \
-    }                                                                                                                  \
+#define DCMTKExceptionOrErrorReturn(body) \
+  {                                       \
+    if (throwException)                   \
+    {                                     \
+      itkGenericExceptionMacro(body);     \
+    }                                     \
+    else                                  \
+    {                                     \
+      return EXIT_FAILURE;                \
+    }                                     \
   }
 
 namespace itk

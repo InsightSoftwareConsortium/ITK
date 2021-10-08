@@ -1190,21 +1190,21 @@ TIFFImageIO::ReadTIFFTags()
                   << value_count << " " << raw_data);
 
 
-#define itkEncapsulate(T1, T2)                                                                                         \
-  if (value_count > 1)                                                                                                 \
-  {                                                                                                                    \
-    auto      v_c = static_cast<size_t>(value_count);                                                                  \
-    Array<T1> a(v_c);                                                                                                  \
-    for (unsigned int cnt = 0; cnt < v_c; ++cnt)                                                                       \
-    {                                                                                                                  \
-      a[cnt] = (static_cast<const T2 *>(raw_data))[cnt];                                                               \
-    }                                                                                                                  \
-    EncapsulateMetaData<itk::Array<T1>>(dict, field_name, a);                                                          \
-  }                                                                                                                    \
-  else                                                                                                                 \
-  {                                                                                                                    \
-    EncapsulateMetaData<T1>(dict, field_name, (static_cast<const T2 *>(raw_data))[0]);                                 \
-  }                                                                                                                    \
+#define itkEncapsulate(T1, T2)                                                         \
+  if (value_count > 1)                                                                 \
+  {                                                                                    \
+    auto      v_c = static_cast<size_t>(value_count);                                  \
+    Array<T1> a(v_c);                                                                  \
+    for (unsigned int cnt = 0; cnt < v_c; ++cnt)                                       \
+    {                                                                                  \
+      a[cnt] = (static_cast<const T2 *>(raw_data))[cnt];                               \
+    }                                                                                  \
+    EncapsulateMetaData<itk::Array<T1>>(dict, field_name, a);                          \
+  }                                                                                    \
+  else                                                                                 \
+  {                                                                                    \
+    EncapsulateMetaData<T1>(dict, field_name, (static_cast<const T2 *>(raw_data))[0]); \
+  }                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 
     try

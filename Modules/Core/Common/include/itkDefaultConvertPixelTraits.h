@@ -79,37 +79,37 @@ public:
   }
 };
 
-#define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)                                                                  \
-  template <>                                                                                                          \
-  class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<type>                                                            \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using ComponentType = type;                                                                                        \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return 1;                                                                                                        \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const type)                                                                                  \
-    {                                                                                                                  \
-      return 1;                                                                                                        \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int, type & pixel, const ComponentType & v)                                                        \
-    {                                                                                                                  \
-      pixel = v;                                                                                                       \
-    }                                                                                                                  \
-    static type                                                                                                        \
-    GetNthComponent(int, const type pixel)                                                                             \
-    {                                                                                                                  \
-      return pixel;                                                                                                    \
-    }                                                                                                                  \
-    static type                                                                                                        \
-    GetScalarValue(const type & pixel)                                                                                 \
-    {                                                                                                                  \
-      return pixel;                                                                                                    \
-    }                                                                                                                  \
+#define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)           \
+  template <>                                                   \
+  class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<type>     \
+  {                                                             \
+  public:                                                       \
+    using ComponentType = type;                                 \
+    static unsigned int                                         \
+    GetNumberOfComponents()                                     \
+    {                                                           \
+      return 1;                                                 \
+    }                                                           \
+    static unsigned int                                         \
+    GetNumberOfComponents(const type)                           \
+    {                                                           \
+      return 1;                                                 \
+    }                                                           \
+    static void                                                 \
+    SetNthComponent(int, type & pixel, const ComponentType & v) \
+    {                                                           \
+      pixel = v;                                                \
+    }                                                           \
+    static type                                                 \
+    GetNthComponent(int, const type pixel)                      \
+    {                                                           \
+      return pixel;                                             \
+    }                                                           \
+    static type                                                 \
+    GetScalarValue(const type & pixel)                          \
+    {                                                           \
+      return pixel;                                             \
+    }                                                           \
   };
 
 ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(float)
@@ -161,38 +161,38 @@ public:
 //  Default traits for the pixel types deriving from FixedArray<>
 //
 
-#define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type)                                                                 \
-  template <typename TComponentType, unsigned VDimension>                                                              \
-  class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<type<TComponentType, VDimension>>                                \
-  {                                                                                                                    \
-  public:                                                                                                              \
-    using TargetType = type<TComponentType, VDimension>;                                                               \
-    using ComponentType = TComponentType;                                                                              \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents()                                                                                            \
-    {                                                                                                                  \
-      return VDimension;                                                                                               \
-    }                                                                                                                  \
-    static unsigned int                                                                                                \
-    GetNumberOfComponents(const TargetType)                                                                            \
-    {                                                                                                                  \
-      return VDimension;                                                                                               \
-    }                                                                                                                  \
-    static void                                                                                                        \
-    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)                                                \
-    {                                                                                                                  \
-      pixel[i] = v;                                                                                                    \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetNthComponent(int i, const TargetType pixel)                                                                     \
-    {                                                                                                                  \
-      return pixel[i];                                                                                                 \
-    }                                                                                                                  \
-    static ComponentType                                                                                               \
-    GetScalarValue(const TargetType & pixel)                                                                           \
-    {                                                                                                                  \
-      return pixel[0];                                                                                                 \
-    }                                                                                                                  \
+#define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type)                                  \
+  template <typename TComponentType, unsigned VDimension>                               \
+  class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<type<TComponentType, VDimension>> \
+  {                                                                                     \
+  public:                                                                               \
+    using TargetType = type<TComponentType, VDimension>;                                \
+    using ComponentType = TComponentType;                                               \
+    static unsigned int                                                                 \
+    GetNumberOfComponents()                                                             \
+    {                                                                                   \
+      return VDimension;                                                                \
+    }                                                                                   \
+    static unsigned int                                                                 \
+    GetNumberOfComponents(const TargetType)                                             \
+    {                                                                                   \
+      return VDimension;                                                                \
+    }                                                                                   \
+    static void                                                                         \
+    SetNthComponent(int i, TargetType & pixel, const ComponentType & v)                 \
+    {                                                                                   \
+      pixel[i] = v;                                                                     \
+    }                                                                                   \
+    static ComponentType                                                                \
+    GetNthComponent(int i, const TargetType pixel)                                      \
+    {                                                                                   \
+      return pixel[i];                                                                  \
+    }                                                                                   \
+    static ComponentType                                                                \
+    GetScalarValue(const TargetType & pixel)                                            \
+    {                                                                                   \
+      return pixel[0];                                                                  \
+    }                                                                                   \
   }
 
 ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(Vector);

@@ -61,7 +61,7 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 
 // We do not have ITK_HAS_FEENABLEEXCEPT, and we do not have a workaround
 // implemented, e.g. ARMv8 with MUSL
-#if !defined(ITK_HAS_FEENABLEEXCEPT) && !defined(__ppc__) && !defined(__ppc64__) && !defined(__i386__) &&              \
+#if !defined(ITK_HAS_FEENABLEEXCEPT) && !defined(__ppc__) && !defined(__ppc64__) && !defined(__i386__) && \
   !defined(__x86_64__)
 #  define ITK_FEENABLEEXCEPT_NOOP
 #endif

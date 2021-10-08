@@ -190,20 +190,20 @@ public:
   }
 
 private:
-#define OverrideDemonsRegistrationFilterTypeMacro(ipt, opt, dm)                                                        \
-  {                                                                                                                    \
-    using InputImageType = GPUImage<ipt, dm>;                                                                          \
-    using OutputImageType = GPUImage<opt, dm>;                                                                         \
-    using VectorPixelType = Vector<float, dm>;                                                                         \
-    using DisplacementFieldType = GPUImage<VectorPixelType, dm>;                                                       \
-    this->RegisterOverride(                                                                                            \
-      typeid(DemonsRegistrationFilter<InputImageType, OutputImageType, DisplacementFieldType>).name(),                 \
-      typeid(GPUDemonsRegistrationFilter<InputImageType, OutputImageType, DisplacementFieldType>).name(),              \
-      "GPU Demons Registration Filter Override",                                                                       \
-      true,                                                                                                            \
-      CreateObjectFunction<                                                                                            \
-        GPUDemonsRegistrationFilter<InputImageType, OutputImageType, DisplacementFieldType>>::New());                  \
-  }                                                                                                                    \
+#define OverrideDemonsRegistrationFilterTypeMacro(ipt, opt, dm)                                           \
+  {                                                                                                       \
+    using InputImageType = GPUImage<ipt, dm>;                                                             \
+    using OutputImageType = GPUImage<opt, dm>;                                                            \
+    using VectorPixelType = Vector<float, dm>;                                                            \
+    using DisplacementFieldType = GPUImage<VectorPixelType, dm>;                                          \
+    this->RegisterOverride(                                                                               \
+      typeid(DemonsRegistrationFilter<InputImageType, OutputImageType, DisplacementFieldType>).name(),    \
+      typeid(GPUDemonsRegistrationFilter<InputImageType, OutputImageType, DisplacementFieldType>).name(), \
+      "GPU Demons Registration Filter Override",                                                          \
+      true,                                                                                               \
+      CreateObjectFunction<                                                                               \
+        GPUDemonsRegistrationFilter<InputImageType, OutputImageType, DisplacementFieldType>>::New());     \
+  }                                                                                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
   GPUDemonsRegistrationFilterFactory()

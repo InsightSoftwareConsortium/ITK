@@ -55,11 +55,11 @@ struct Identity
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-#define ITK_ASSOCIATE(N, Typed)                                                                                        \
-  template <typename TA, typename TB>                                                                                  \
-  struct SizeToType<N, TA, TB>                                                                                         \
-  {                                                                                                                    \
-    using Type = Typed;                                                                                                \
+#define ITK_ASSOCIATE(N, Typed)       \
+  template <typename TA, typename TB> \
+  struct SizeToType<N, TA, TB>        \
+  {                                   \
+    using Type = Typed;               \
   };
 
 ITK_ASSOCIATE(1, TA);

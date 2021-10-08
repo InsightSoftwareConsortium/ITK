@@ -30,7 +30,7 @@ main()
   (void)sizeof(fenv.__cw);
 #else
   (void)fenv;
-#  error                                                                                                               \
+#  error \
     "Unknown fenv_t struct member test: Make sure to specify a compile definition of the form -DITK_CHECK_FENV_T_xxx"
 #endif
   return 0;

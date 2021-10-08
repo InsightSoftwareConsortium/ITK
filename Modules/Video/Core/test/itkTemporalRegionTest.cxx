@@ -24,14 +24,14 @@ int
 itkTemporalRegionTest(int, char *[])
 {
 
-#define CHECK_FOR_VALUE(a, b)                                                                                          \
-  {                                                                                                                    \
-    if (a != b)                                                                                                        \
-    {                                                                                                                  \
-      std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl;                               \
-      return EXIT_FAILURE;                                                                                             \
-    }                                                                                                                  \
-  }                                                                                                                    \
+#define CHECK_FOR_VALUE(a, b)                                                            \
+  {                                                                                      \
+    if (a != b)                                                                          \
+    {                                                                                    \
+      std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \
+      return EXIT_FAILURE;                                                               \
+    }                                                                                    \
+  }                                                                                      \
   ITK_MACROEND_NOOP_STATEMENT
 
   // Test arrays for frame durations

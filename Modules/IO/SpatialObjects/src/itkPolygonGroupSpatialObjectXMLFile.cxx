@@ -20,12 +20,12 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
-#define RAISE_EXCEPTION(s)                                                                                             \
-  {                                                                                                                    \
-    ExceptionObject exception(__FILE__, __LINE__);                                                                     \
-    exception.SetDescription(s);                                                                                       \
-    throw exception;                                                                                                   \
-  }                                                                                                                    \
+#define RAISE_EXCEPTION(s)                         \
+  {                                                \
+    ExceptionObject exception(__FILE__, __LINE__); \
+    exception.SetDescription(s);                   \
+    throw exception;                               \
+  }                                                \
   ITK_MACROEND_NOOP_STATEMENT
 
 namespace itk
