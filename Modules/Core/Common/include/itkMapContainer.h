@@ -110,9 +110,13 @@ public:
   }
 
   using STLContainerType::begin;
+  using STLContainerType::cbegin;
   using STLContainerType::end;
+  using STLContainerType::cend;
   using STLContainerType::rbegin;
+  using STLContainerType::crbegin;
   using STLContainerType::rend;
+  using STLContainerType::crend;
 
   using STLContainerType::empty;
   using STLContainerType::size;
