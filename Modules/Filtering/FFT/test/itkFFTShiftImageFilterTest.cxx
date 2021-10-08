@@ -49,50 +49,20 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
   using FilterType = itk::FFTShiftImageFilter<IType, IType>;
   FilterType::Pointer filter = FilterType::New();
   // test default values
-  if (filter->GetInverse() != false)
-  {
-    std::cerr << "Wrong default Inverse." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_EXPECT_TRUE(!filter->GetInverse());
+
 
   //
   // Tests for raising code coverage
   //
-  try
-  {
-    filter->Update();
-    std::cerr << "Failed to throw expected exception" << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cout << excp << std::endl;
-    std::cout << "catched EXPECTED exception for emtpy image as input" << std::endl;
-  }
-
-  filter->InverseOn();
-  if (!filter->GetInverse())
-  {
-    std::cerr << "Set/GetInverse() error" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  filter->InverseOff();
-  if (filter->GetInverse())
-  {
-    std::cerr << "Set/GetInverse() error" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
 
   filter->SetInput(reader->GetOutput());
 
-  filter->SetInverse(static_cast<bool>(std::stoi(argv[3])));
-  if (filter->GetInverse() != static_cast<bool>(std::stoi(argv[3])))
-  {
-    std::cerr << "Set/Get Inverse problem." << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto inverse = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, Inverse, inverse);
+
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
@@ -101,15 +71,8 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

@@ -29,6 +29,7 @@
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWComplexToComplex1DFFTImageFilter.h"
 #endif
+#include "itkTestingMacros.h"
 
 template <typename FFTType>
 int
@@ -60,16 +61,8 @@ doTest(const char * inputRealFullImage, const char * inputImaginaryFullImage, co
   writer->SetInput(toReal->GetOutput());
   writer->SetFileName(outputImage);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   fft.Print(std::cout);
 
@@ -81,12 +74,13 @@ itkComplexToComplex1DFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImageRealFull inputImageImaginaryFull outputImage [backend]\n";
-    std::cerr << "backend implementation options:\n";
-    std::cerr << "  0 default\n";
-    std::cerr << "  1 VNL\n";
-    std::cerr << "  2 FFTW\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImageRealFull inputImageImaginaryFull outputImage [backend]" << std::endl;
+    std::cerr << "backend implementation options:" << std::endl;
+    std::cerr << "  0 default" << std::endl;
+    std::cerr << "  1 VNL" << std::endl;
+    std::cerr << "  2 FFTW" << std::endl;
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }
