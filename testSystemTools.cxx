@@ -436,7 +436,7 @@ static bool CheckFileOperations()
   if (symlinkStatus.GetWindows() != ERROR_PRIVILEGE_NOT_HELD)
 #endif
   {
-    if (!symlinkStatus) {
+    if (!symlinkStatus.IsSuccess()) {
       std::cerr << "CreateSymlink for: " << testBadSymlink << " -> "
                 << testBadSymlinkTgt
                 << " failed: " << symlinkStatus.GetString() << std::endl;
@@ -623,6 +623,16 @@ static bool CheckStringOperations()
       lines[3] != "Little" || lines[4] != "Lamb.") {
     std::cerr << "Problem with Split "
               << "\"Mary Had A Little Lamb.\"" << std::endl;
+    res = false;
+  }
+
+  std::vector<std::string> linesToJoin = { "Mary", "Had", "A", "Little",
+                                           "Lamb." };
+  std::string joinResult = kwsys::SystemTools::Join(linesToJoin, " ");
+  if (joinResult != "Mary Had A Little Lamb.") {
+    std::cerr << "Problem with Join "
+                 "\"Mary Had A Little Lamb.\""
+              << std::endl;
     res = false;
   }
 
