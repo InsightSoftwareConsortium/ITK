@@ -811,11 +811,11 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   // class to convert the data block to TOutputMesh's pixel type
   // see DefaultConvertPixelTraits and ConvertPixelBuffer
 
-#define ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(CType, type)                                                           \
-  else if (m_MeshIO->GetPointPixelComponentType() == CType)                                                            \
-  {                                                                                                                    \
-    ConvertPixelBuffer<type, OutputPointPixelType, ConvertPointPixelTraits>::Convert(                                  \
-      static_cast<type *>(inputData), m_MeshIO->GetNumberOfPointPixelComponents(), outputData, numberOfPixels);        \
+#define ITK_CONVERT_POINT_PIXEL_BUFFER_IF_BLOCK(CType, type)                                                    \
+  else if (m_MeshIO->GetPointPixelComponentType() == CType)                                                     \
+  {                                                                                                             \
+    ConvertPixelBuffer<type, OutputPointPixelType, ConvertPointPixelTraits>::Convert(                           \
+      static_cast<type *>(inputData), m_MeshIO->GetNumberOfPointPixelComponents(), outputData, numberOfPixels); \
   }
 
   if (false)
@@ -883,11 +883,11 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   // class to convert the data block to TOutputMesh's pixel type
   // see DefaultConvertPixelTraits and ConvertPixelBuffer
 
-#define ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(CType, type)                                                            \
-  else if (m_MeshIO->GetCellPixelComponentType() == CType)                                                             \
-  {                                                                                                                    \
-    ConvertPixelBuffer<type, OutputCellPixelType, ConvertCellPixelTraits>::Convert(                                    \
-      static_cast<type *>(inputData), m_MeshIO->GetNumberOfCellPixelComponents(), outputData, numberOfPixels);         \
+#define ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK(CType, type)                                                    \
+  else if (m_MeshIO->GetCellPixelComponentType() == CType)                                                     \
+  {                                                                                                            \
+    ConvertPixelBuffer<type, OutputCellPixelType, ConvertCellPixelTraits>::Convert(                            \
+      static_cast<type *>(inputData), m_MeshIO->GetNumberOfCellPixelComponents(), outputData, numberOfPixels); \
   }
 
   if (false)

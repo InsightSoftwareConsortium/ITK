@@ -816,43 +816,43 @@ VTKImageIO::WriteBufferAsASCII(std::ostream &              os,
   }
 }
 
-#define WriteVTKImageBinaryBlockMACRO(storageType)                                                                     \
-  {                                                                                                                    \
-    const ImageIOBase::BufferSizeType numbytes =                                                                       \
-      static_cast<ImageIOBase::BufferSizeType>(this->GetImageSizeInBytes());                                           \
-    const ImageIOBase::BufferSizeType numberImageComponents =                                                          \
-      static_cast<ImageIOBase::BufferSizeType>(this->GetImageSizeInComponents());                                      \
-    const bool    isSymmetricSecondRankTensor = (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR);      \
-    storageType * tempmemory = new storageType[numberImageComponents];                                                 \
-    memcpy(tempmemory, buffer, numbytes);                                                                              \
-    ByteSwapper<storageType>::SwapRangeFromSystemToBigEndian(tempmemory, numberImageComponents);                       \
-    /* write the image */                                                                                              \
-    if (isSymmetricSecondRankTensor)                                                                                   \
-    {                                                                                                                  \
-      this->WriteSymmetricTensorBufferAsBinary(file, tempmemory, numbytes);                                            \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-      if (!this->WriteBufferAsBinary(file, tempmemory, numbytes))                                                      \
-      {                                                                                                                \
-        itkExceptionMacro(<< "Could not write file: " << m_FileName);                                                  \
-      }                                                                                                                \
-    }                                                                                                                  \
-    delete[] tempmemory;                                                                                               \
+#define WriteVTKImageBinaryBlockMACRO(storageType)                                                                \
+  {                                                                                                               \
+    const ImageIOBase::BufferSizeType numbytes =                                                                  \
+      static_cast<ImageIOBase::BufferSizeType>(this->GetImageSizeInBytes());                                      \
+    const ImageIOBase::BufferSizeType numberImageComponents =                                                     \
+      static_cast<ImageIOBase::BufferSizeType>(this->GetImageSizeInComponents());                                 \
+    const bool    isSymmetricSecondRankTensor = (this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR); \
+    storageType * tempmemory = new storageType[numberImageComponents];                                            \
+    memcpy(tempmemory, buffer, numbytes);                                                                         \
+    ByteSwapper<storageType>::SwapRangeFromSystemToBigEndian(tempmemory, numberImageComponents);                  \
+    /* write the image */                                                                                         \
+    if (isSymmetricSecondRankTensor)                                                                              \
+    {                                                                                                             \
+      this->WriteSymmetricTensorBufferAsBinary(file, tempmemory, numbytes);                                       \
+    }                                                                                                             \
+    else                                                                                                          \
+    {                                                                                                             \
+      if (!this->WriteBufferAsBinary(file, tempmemory, numbytes))                                                 \
+      {                                                                                                           \
+        itkExceptionMacro(<< "Could not write file: " << m_FileName);                                             \
+      }                                                                                                           \
+    }                                                                                                             \
+    delete[] tempmemory;                                                                                          \
   }
 
-#define StreamWriteVTKImageBinaryBlockMACRO(storageType)                                                               \
-  {                                                                                                                    \
-    const ImageIOBase::BufferSizeType numbytes =                                                                       \
-      static_cast<ImageIOBase::BufferSizeType>(this->GetIORegionSizeInBytes());                                        \
-    const ImageIOBase::BufferSizeType numberImageComponents =                                                          \
-      static_cast<ImageIOBase::BufferSizeType>(this->GetIORegionSizeInComponents());                                   \
-    storageType * tempmemory = new storageType[numberImageComponents];                                                 \
-    memcpy(tempmemory, buffer, numbytes);                                                                              \
-    ByteSwapper<storageType>::SwapRangeFromSystemToBigEndian(tempmemory, numberImageComponents);                       \
-    /* write the image */                                                                                              \
-    this->StreamWriteBufferAsBinary(file, tempmemory);                                                                 \
-    delete[] tempmemory;                                                                                               \
+#define StreamWriteVTKImageBinaryBlockMACRO(storageType)                                         \
+  {                                                                                              \
+    const ImageIOBase::BufferSizeType numbytes =                                                 \
+      static_cast<ImageIOBase::BufferSizeType>(this->GetIORegionSizeInBytes());                  \
+    const ImageIOBase::BufferSizeType numberImageComponents =                                    \
+      static_cast<ImageIOBase::BufferSizeType>(this->GetIORegionSizeInComponents());             \
+    storageType * tempmemory = new storageType[numberImageComponents];                           \
+    memcpy(tempmemory, buffer, numbytes);                                                        \
+    ByteSwapper<storageType>::SwapRangeFromSystemToBigEndian(tempmemory, numberImageComponents); \
+    /* write the image */                                                                        \
+    this->StreamWriteBufferAsBinary(file, tempmemory);                                           \
+    delete[] tempmemory;                                                                         \
   }
 
 void

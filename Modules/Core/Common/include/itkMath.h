@@ -101,23 +101,23 @@ static constexpr float float_sqrteps = vnl_math::float_sqrteps;
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32
  *  bit, the 64 bit or the vanilla version */
-#define itkTemplateFloatingToIntegerMacro(name)                                                                        \
-  template <typename TReturn, typename TInput>                                                                         \
-  inline TReturn name(TInput x)                                                                                        \
-  {                                                                                                                    \
-                                                                                                                       \
-    if (sizeof(TReturn) <= 4)                                                                                          \
-    {                                                                                                                  \
-      return static_cast<TReturn>(Detail::name##_32(x));                                                               \
-    }                                                                                                                  \
-    else if (sizeof(TReturn) <= 8)                                                                                     \
-    {                                                                                                                  \
-      return static_cast<TReturn>(Detail::name##_64(x));                                                               \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-      return static_cast<TReturn>(Detail::name##_base<TReturn, TInput>(x));                                            \
-    }                                                                                                                  \
+#define itkTemplateFloatingToIntegerMacro(name)                             \
+  template <typename TReturn, typename TInput>                              \
+  inline TReturn name(TInput x)                                             \
+  {                                                                         \
+                                                                            \
+    if (sizeof(TReturn) <= 4)                                               \
+    {                                                                       \
+      return static_cast<TReturn>(Detail::name##_32(x));                    \
+    }                                                                       \
+    else if (sizeof(TReturn) <= 8)                                          \
+    {                                                                       \
+      return static_cast<TReturn>(Detail::name##_64(x));                    \
+    }                                                                       \
+    else                                                                    \
+    {                                                                       \
+      return static_cast<TReturn>(Detail::name##_base<TReturn, TInput>(x)); \
+    }                                                                       \
   }
 
 /** \brief Round towards nearest integer

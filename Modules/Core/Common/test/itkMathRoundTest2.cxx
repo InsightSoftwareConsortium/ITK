@@ -19,13 +19,13 @@
 #include "itkMath.h"
 #include <iostream>
 
-#define RoundTestHelperMacro(rndname, input, output)                                                                   \
-  if (rndname((input)) != (output))                                                                                    \
-  {                                                                                                                    \
-    std::cout << "Failure! " << #rndname << "(" << (int)(input) << ") expected " << (int)(output) << " but got "       \
-              << (int)rndname((input)) << std::endl;                                                                   \
-    ok = false;                                                                                                        \
-  }                                                                                                                    \
+#define RoundTestHelperMacro(rndname, input, output)                                                             \
+  if (rndname((input)) != (output))                                                                              \
+  {                                                                                                              \
+    std::cout << "Failure! " << #rndname << "(" << (int)(input) << ") expected " << (int)(output) << " but got " \
+              << (int)rndname((input)) << std::endl;                                                             \
+    ok = false;                                                                                                  \
+  }                                                                                                              \
   ITK_MACROEND_NOOP_STATEMENT
 
 namespace

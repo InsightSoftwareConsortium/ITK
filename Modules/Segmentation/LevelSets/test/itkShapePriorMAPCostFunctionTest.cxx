@@ -225,26 +225,26 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
 
   bool pass;
 
-#define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent)                                          \
-  costFunction->Set##ComponentName(badComponent);                                                                      \
-  try                                                                                                                  \
-  {                                                                                                                    \
-    pass = false;                                                                                                      \
-    costFunction->Initialize();                                                                                        \
-  }                                                                                                                    \
-  catch (const itk::ExceptionObject & err)                                                                             \
-  {                                                                                                                    \
-    std::cout << "Caught expected ExceptionObject" << std::endl;                                                       \
-    std::cout << err << std::endl;                                                                                     \
-    pass = true;                                                                                                       \
-  }                                                                                                                    \
-  costFunction->Set##ComponentName(goodComponent);                                                                     \
-                                                                                                                       \
-  if (!pass)                                                                                                           \
-  {                                                                                                                    \
-    std::cout << "Test failed." << std::endl;                                                                          \
-    return EXIT_FAILURE;                                                                                               \
-  }                                                                                                                    \
+#define TEST_INITIALIZATION_ERROR(ComponentName, badComponent, goodComponent) \
+  costFunction->Set##ComponentName(badComponent);                             \
+  try                                                                         \
+  {                                                                           \
+    pass = false;                                                             \
+    costFunction->Initialize();                                               \
+  }                                                                           \
+  catch (const itk::ExceptionObject & err)                                    \
+  {                                                                           \
+    std::cout << "Caught expected ExceptionObject" << std::endl;              \
+    std::cout << err << std::endl;                                            \
+    pass = true;                                                              \
+  }                                                                           \
+  costFunction->Set##ComponentName(goodComponent);                            \
+                                                                              \
+  if (!pass)                                                                  \
+  {                                                                           \
+    std::cout << "Test failed." << std::endl;                                 \
+    return EXIT_FAILURE;                                                      \
+  }                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
 
   TEST_INITIALIZATION_ERROR(ShapeFunction, nullptr, shape);

@@ -54,7 +54,7 @@
 // Turn on 32-bit and 64-bit asm impl when using GCC/clang on x86 platform with the
 // following exception:
 //   GCCXML
-#if defined(__GNUC__) && !defined(ITK_WRAPPING_PARSER) &&                                                              \
+#if defined(__GNUC__) && !defined(ITK_WRAPPING_PARSER) && \
   (defined(__i386__) || defined(__i386) || defined(__x86_64__) || defined(__x86_64))
 #  define GCC_USE_ASM_32IMPL 1
 #  define GCC_USE_ASM_64IMPL 1

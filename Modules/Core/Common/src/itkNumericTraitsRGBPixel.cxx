@@ -27,10 +27,10 @@ namespace itk
 // Helper macro for initializing the Zero and One static member of the
 // NumericTraits<>.
 //
-#define RGBPIXELSTATICTRAITSMACRO(T)                                                                                   \
-  template <>                                                                                                          \
-  ITKCommon_EXPORT const RGBPixel<T> NumericTraits<RGBPixel<T>>::Zero = RGBPixel<T>(NumericTraits<T>::Zero);           \
-  template <>                                                                                                          \
+#define RGBPIXELSTATICTRAITSMACRO(T)                                                                         \
+  template <>                                                                                                \
+  ITKCommon_EXPORT const RGBPixel<T> NumericTraits<RGBPixel<T>>::Zero = RGBPixel<T>(NumericTraits<T>::Zero); \
+  template <>                                                                                                \
   ITKCommon_EXPORT const RGBPixel<T> NumericTraits<RGBPixel<T>>::One = RGBPixel<T>(NumericTraits<T>::One);
 
 //

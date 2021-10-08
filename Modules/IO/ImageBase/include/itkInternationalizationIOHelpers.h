@@ -45,7 +45,7 @@
 // * VS7.x and MinGW have _wopen and _wfopen but cannot open a
 //   (i/o)fstream using a wide string. They can however compile fdstream
 
-#if defined(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO) &&                                                                 \
+#if defined(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO) && \
   (defined(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS) || defined(ITK_SUPPORTS_FDSTREAM_HPP))
 #  define LOCAL_USE_WIN32_WOPEN 1
 #  include <windows.h> // required by winnls.h

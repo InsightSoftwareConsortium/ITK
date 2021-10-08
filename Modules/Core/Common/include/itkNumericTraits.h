@@ -23,10 +23,10 @@
 #undef min
 #undef max
 
-#define itkNUMERIC_TRAITS_MIN_MAX_MACRO()                                                                              \
-  static constexpr ValueType min(ValueType) { return std::numeric_limits<ValueType>::min(); }                          \
-  static constexpr ValueType max(ValueType) { return std::numeric_limits<ValueType>::max(); }                          \
-  static constexpr ValueType min() { return std::numeric_limits<ValueType>::min(); }                                   \
+#define itkNUMERIC_TRAITS_MIN_MAX_MACRO()                                                     \
+  static constexpr ValueType min(ValueType) { return std::numeric_limits<ValueType>::min(); } \
+  static constexpr ValueType max(ValueType) { return std::numeric_limits<ValueType>::max(); } \
+  static constexpr ValueType min() { return std::numeric_limits<ValueType>::min(); }          \
   static constexpr ValueType max() { return std::numeric_limits<ValueType>::max(); }
 
 #include <limits> // for std::numeric_limits

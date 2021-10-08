@@ -911,11 +911,11 @@ ReadRawBytesAfterSwapping(IOComponentEnum componentType,
                           IOByteOrderEnum byteOrder,
                           SizeValueType   numberOfComponents);
 
-#define IMAGEIOBASE_TYPEMAP(type, ctype)                                                                               \
-  template <>                                                                                                          \
-  struct ImageIOBase::MapPixelType<type>                                                                               \
-  {                                                                                                                    \
-    static constexpr IOComponentEnum CType = ctype;                                                                    \
+#define IMAGEIOBASE_TYPEMAP(type, ctype)            \
+  template <>                                       \
+  struct ImageIOBase::MapPixelType<type>            \
+  {                                                 \
+    static constexpr IOComponentEnum CType = ctype; \
   }
 
 // the following typemaps are not platform independent

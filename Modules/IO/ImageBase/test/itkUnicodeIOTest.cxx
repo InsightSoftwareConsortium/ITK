@@ -20,7 +20,7 @@
 #include <cstring>
 
 // Some utility functions for the test
-#if defined(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO) &&                                                                 \
+#if defined(ITK_SUPPORTS_WCHAR_T_FILENAME_CSTYLEIO) && \
   (defined(ITK_SUPPORTS_WCHAR_T_FILENAME_IOSTREAMS_CONSTRUCTORS) || defined(ITK_SUPPORTS_FDSTREAM_HPP))
 #  define LOCAL_USE_WIN32_WOPEN 1
 #else

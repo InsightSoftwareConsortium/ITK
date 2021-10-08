@@ -292,14 +292,14 @@ itkVTKImageIOStreamTest(int argc, char * argv[])
   unsigned int numberOfStreams = 2;
   int          status = 0;
 
-#define ReadWriteTestMACRO(scalarType)                                                                                 \
-  status += TestStreamWrite<scalarType, 2>(argv[1], 0);                                                                \
-  status += TestStreamWrite<scalarType, 2>(argv[1], numberOfStreams);                                                  \
-  status += TestStreamWrite<scalarType, 3>(argv[1], 0);                                                                \
-  status += TestStreamWrite<scalarType, 3>(argv[1], numberOfStreams);                                                  \
-  status += TestStreamRead<scalarType, 2>(argv[1], 0);                                                                 \
-  status += TestStreamRead<scalarType, 2>(argv[1], numberOfStreams);                                                   \
-  status += TestStreamRead<scalarType, 3>(argv[1], 0);                                                                 \
+#define ReadWriteTestMACRO(scalarType)                                \
+  status += TestStreamWrite<scalarType, 2>(argv[1], 0);               \
+  status += TestStreamWrite<scalarType, 2>(argv[1], numberOfStreams); \
+  status += TestStreamWrite<scalarType, 3>(argv[1], 0);               \
+  status += TestStreamWrite<scalarType, 3>(argv[1], numberOfStreams); \
+  status += TestStreamRead<scalarType, 2>(argv[1], 0);                \
+  status += TestStreamRead<scalarType, 2>(argv[1], numberOfStreams);  \
+  status += TestStreamRead<scalarType, 3>(argv[1], 0);                \
   status += TestStreamRead<scalarType, 3>(argv[1], numberOfStreams);
 
   ReadWriteTestMACRO(float) ReadWriteTestMACRO(double) ReadWriteTestMACRO(unsigned char) ReadWriteTestMACRO(char)

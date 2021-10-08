@@ -171,11 +171,11 @@ public:
   }
 
 private:
-#define OverrideTypeMacro(t)                                                                                           \
-  this->RegisterOverride(typeid(itk::ImportImageContainer<unsigned long, t>).name(),                                   \
-                         typeid(TestImportImageContainer<unsigned long, t>).name(),                                    \
-                         "Test ImportImageContainerOverride",                                                          \
-                         true,                                                                                         \
+#define OverrideTypeMacro(t)                                                         \
+  this->RegisterOverride(typeid(itk::ImportImageContainer<unsigned long, t>).name(), \
+                         typeid(TestImportImageContainer<unsigned long, t>).name(),  \
+                         "Test ImportImageContainerOverride",                        \
+                         true,                                                       \
                          itk::CreateObjectFunction<TestImportImageContainer<unsigned long, t>>::New())
 
 

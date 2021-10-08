@@ -30,7 +30,7 @@
  * verifies that the root mean squares error between the two array-like
  * objects doesn't exceed the given error.
  */
-#define ITK_EXPECT_VECTOR_NEAR(val1, val2, rmsError)                                                                   \
+#define ITK_EXPECT_VECTOR_NEAR(val1, val2, rmsError) \
   EXPECT_PRED_FORMAT3(itk::GTest::Predicate::VectorDoubleRMSPredFormat, val1, val2, rmsError)
 
 

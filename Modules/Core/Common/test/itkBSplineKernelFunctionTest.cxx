@@ -61,26 +61,26 @@ itkBSplineKernelFunctionTest(int, char *[])
 
 
   // Testing the output of BSplineKernelFunction
-#define TEST_BSPLINE_KERNEL(ORDERNUM)                                                                                  \
-  {                                                                                                                    \
-    using FunctionType = itk::BSplineKernelFunction<ORDERNUM>;                                                         \
-    FunctionType::Pointer function = FunctionType::New();                                                              \
-                                                                                                                       \
-    function->Print(std::cout);                                                                                        \
-    for (unsigned j = 0; j < npoints; ++j)                                                                             \
-    {                                                                                                                  \
-      double results = function->Evaluate(x[j]);                                                                       \
-      /* compare with external results */                                                                              \
-      if (itk::Math::abs(results - b##ORDERNUM[j]) > 1e-6)                                                             \
-      {                                                                                                                \
-        std::cout << "Error with " << ORDERNUM << " order BSplineKernelFunction" << std::endl;                         \
-        std::cout << "Expected: " << b##ORDERNUM[j] << " but got " << results;                                         \
-        std::cout << " at x = " << x[j] << std::endl;                                                                  \
-        std::cout << "Test failed" << std::endl;                                                                       \
-        return EXIT_FAILURE;                                                                                           \
-      }                                                                                                                \
-    }                                                                                                                  \
-  }                                                                                                                    \
+#define TEST_BSPLINE_KERNEL(ORDERNUM)                                                          \
+  {                                                                                            \
+    using FunctionType = itk::BSplineKernelFunction<ORDERNUM>;                                 \
+    FunctionType::Pointer function = FunctionType::New();                                      \
+                                                                                               \
+    function->Print(std::cout);                                                                \
+    for (unsigned j = 0; j < npoints; ++j)                                                     \
+    {                                                                                          \
+      double results = function->Evaluate(x[j]);                                               \
+      /* compare with external results */                                                      \
+      if (itk::Math::abs(results - b##ORDERNUM[j]) > 1e-6)                                     \
+      {                                                                                        \
+        std::cout << "Error with " << ORDERNUM << " order BSplineKernelFunction" << std::endl; \
+        std::cout << "Expected: " << b##ORDERNUM[j] << " but got " << results;                 \
+        std::cout << " at x = " << x[j] << std::endl;                                          \
+        std::cout << "Test failed" << std::endl;                                               \
+        return EXIT_FAILURE;                                                                   \
+      }                                                                                        \
+    }                                                                                          \
+  }                                                                                            \
   ITK_MACROEND_NOOP_STATEMENT
 
   TEST_BSPLINE_KERNEL(0);

@@ -56,17 +56,17 @@
 // Leave ()'s off the sizeof to force the caller to pass them in the
 // concept argument of the itkConceptMacro.  This is necessary because
 // the argument may contain commas.
-#  define itkConceptConstraintsMacro()                                                                                 \
-    template <void (Constraints::*)()>                                                                                 \
-    struct Enforcer                                                                                                    \
-    {};                                                                                                                \
-    using EnforcerInstantiation = Enforcer<&Constraints::constraints>;                                                 \
+#  define itkConceptConstraintsMacro()                                 \
+    template <void (Constraints::*)()>                                 \
+    struct Enforcer                                                    \
+    {};                                                                \
+    using EnforcerInstantiation = Enforcer<&Constraints::constraints>; \
     ITK_MACROEND_NOOP_STATEMENT
-#  define itkConceptMacro(name, concept)                                                                               \
-    enum                                                                                                               \
-    {                                                                                                                  \
-      name = sizeof concept                                                                                            \
-    };                                                                                                                 \
+#  define itkConceptMacro(name, concept) \
+    enum                                 \
+    {                                    \
+      name = sizeof concept              \
+    };                                   \
     ITK_MACROEND_NOOP_STATEMENT
 
 #elif defined(ITK_CONCEPT_IMPLEMENTATION_VTABLE)
@@ -76,32 +76,32 @@
  * run-time overhead.  The "vtable" approach was invented for this
  * project by Brad King at Kitware.
  */
-#  define itkConceptConstraintsMacro()                                                                                 \
+#  define itkConceptConstraintsMacro() \
     virtual void Enforcer() { &Constraints::constraints; }
-#  define itkConceptMacro(name, concept)                                                                               \
-    enum                                                                                                               \
-    {                                                                                                                  \
-      name = sizeof concept                                                                                            \
+#  define itkConceptMacro(name, concept) \
+    enum                                 \
+    {                                    \
+      name = sizeof concept              \
     }
 
 #elif defined(ITK_CONCEPT_IMPLEMENTATION_CALL)
 
 /** Not implemented.  */
 #  define itkConceptConstraintsMacro()
-#  define itkConceptMacro(name, concept)                                                                               \
-    enum                                                                                                               \
-    {                                                                                                                  \
-      name = 0                                                                                                         \
+#  define itkConceptMacro(name, concept) \
+    enum                                 \
+    {                                    \
+      name = 0                           \
     }
 
 #else
 
 /** Disable concept checking.  */
 #  define itkConceptConstraintsMacro()
-#  define itkConceptMacro(name, concept)                                                                               \
-    enum                                                                                                               \
-    {                                                                                                                  \
-      name = 0                                                                                                         \
+#  define itkConceptMacro(name, concept) \
+    enum                                 \
+    {                                    \
+      name = 0                           \
     }
 
 #endif

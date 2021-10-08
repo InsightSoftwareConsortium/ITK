@@ -250,11 +250,11 @@ public:
   }
 
 private:
-#define OverrideImageTypeMacro(pt, dm)                                                                                 \
-  this->RegisterOverride(typeid(itk::Image<pt, dm>).name(),                                                            \
-                         typeid(itk::GPUImage<pt, dm>).name(),                                                         \
-                         "GPU Image Override",                                                                         \
-                         true,                                                                                         \
+#define OverrideImageTypeMacro(pt, dm)                         \
+  this->RegisterOverride(typeid(itk::Image<pt, dm>).name(),    \
+                         typeid(itk::GPUImage<pt, dm>).name(), \
+                         "GPU Image Override",                 \
+                         true,                                 \
                          itk::CreateObjectFunction<GPUImage<pt, dm>>::New())
 
   GPUImageFactory()

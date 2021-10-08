@@ -137,16 +137,16 @@ public:
   }
 
 private:
-#define OverrideMeanFilterTypeMacro(ipt, opt, dm)                                                                      \
-  {                                                                                                                    \
-    using InputImageType = Image<ipt, dm>;                                                                             \
-    using OutputImageType = Image<opt, dm>;                                                                            \
-    this->RegisterOverride(typeid(MeanImageFilter<InputImageType, OutputImageType>).name(),                            \
-                           typeid(GPUMeanImageFilter<InputImageType, OutputImageType>).name(),                         \
-                           "GPU Mean Image Filter Override",                                                           \
-                           true,                                                                                       \
-                           CreateObjectFunction<GPUMeanImageFilter<InputImageType, OutputImageType>>::New());          \
-  }                                                                                                                    \
+#define OverrideMeanFilterTypeMacro(ipt, opt, dm)                                                             \
+  {                                                                                                           \
+    using InputImageType = Image<ipt, dm>;                                                                    \
+    using OutputImageType = Image<opt, dm>;                                                                   \
+    this->RegisterOverride(typeid(MeanImageFilter<InputImageType, OutputImageType>).name(),                   \
+                           typeid(GPUMeanImageFilter<InputImageType, OutputImageType>).name(),                \
+                           "GPU Mean Image Filter Override",                                                  \
+                           true,                                                                              \
+                           CreateObjectFunction<GPUMeanImageFilter<InputImageType, OutputImageType>>::New()); \
+  }                                                                                                           \
   ITK_MACROEND_NOOP_STATEMENT
 
   GPUMeanImageFilterFactory()

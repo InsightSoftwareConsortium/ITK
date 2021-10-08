@@ -154,25 +154,25 @@ test_RegionGrowKLMExceptionHandling()
   bool passed;
 
 #undef LOCAL_TEST_EXCEPTION_MACRO
-#define LOCAL_TEST_EXCEPTION_MACRO(MSG, FILTER)                                                                        \
-  passed = false;                                                                                                      \
-  try                                                                                                                  \
-  {                                                                                                                    \
-    std::cout << MSG << std::endl;                                                                                     \
-    FILTER->Update();                                                                                                  \
-  }                                                                                                                    \
-  catch (const itk::ExceptionObject & err)                                                                             \
-  {                                                                                                                    \
-    std::cout << "Caught expected error." << std::endl;                                                                \
-    std::cout << err << std::endl;                                                                                     \
-    FILTER->ResetPipeline();                                                                                           \
-    passed = true;                                                                                                     \
-  }                                                                                                                    \
-  if (!passed)                                                                                                         \
-  {                                                                                                                    \
-    std::cout << "Test FAILED" << std::endl;                                                                           \
-    return EXIT_FAILURE;                                                                                               \
-  }                                                                                                                    \
+#define LOCAL_TEST_EXCEPTION_MACRO(MSG, FILTER)         \
+  passed = false;                                       \
+  try                                                   \
+  {                                                     \
+    std::cout << MSG << std::endl;                      \
+    FILTER->Update();                                   \
+  }                                                     \
+  catch (const itk::ExceptionObject & err)              \
+  {                                                     \
+    std::cout << "Caught expected error." << std::endl; \
+    std::cout << err << std::endl;                      \
+    FILTER->ResetPipeline();                            \
+    passed = true;                                      \
+  }                                                     \
+  if (!passed)                                          \
+  {                                                     \
+    std::cout << "Test FAILED" << std::endl;            \
+    return EXIT_FAILURE;                                \
+  }                                                     \
   ITK_MACROEND_NOOP_STATEMENT
 
   // maximum number of regions must be greater than 1
@@ -285,17 +285,17 @@ test_regiongrowKLM1D()
   KLMFilter->SetGridSize(gridSize);
 
 #undef LOCAL_TEST_EXCEPTION_MACRO
-#define LOCAL_TEST_EXCEPTION_MACRO(FILTER)                                                                             \
-  try                                                                                                                  \
-  {                                                                                                                    \
-    FILTER->Update();                                                                                                  \
-  }                                                                                                                    \
-  catch (const itk::ExceptionObject & err)                                                                             \
-  {                                                                                                                    \
-    std::cout << "Caught unexpected error." << std::endl;                                                              \
-    std::cout << err << std::endl;                                                                                     \
-    return EXIT_FAILURE;                                                                                               \
-  }                                                                                                                    \
+#define LOCAL_TEST_EXCEPTION_MACRO(FILTER)                \
+  try                                                     \
+  {                                                       \
+    FILTER->Update();                                     \
+  }                                                       \
+  catch (const itk::ExceptionObject & err)                \
+  {                                                       \
+    std::cout << "Caught unexpected error." << std::endl; \
+    std::cout << err << std::endl;                        \
+    return EXIT_FAILURE;                                  \
+  }                                                       \
   std::cout << std::endl << "Filter has been udpated" << std::endl
 
   std::cout << std::endl << "First test, lambda = 0" << std::endl;

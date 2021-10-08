@@ -18,17 +18,17 @@
 
 #include "itkMeasurementVectorTraits.h"
 
-#define declareType(_x)                                                                                                \
-  using _x = itk::Statistics::MeasurementVectorTraits::_x;                                                             \
-  std::cout << #_x << " = " << sizeof(_x) << " bytes ";                                                                \
-  if (itk::NumericTraits<_x>::is_integer)                                                                              \
-  {                                                                                                                    \
-    std::cout << " Integer type " << std::endl;                                                                        \
-  }                                                                                                                    \
-  else                                                                                                                 \
-  {                                                                                                                    \
-    std::cout << " Real type " << std::endl;                                                                           \
-  }                                                                                                                    \
+#define declareType(_x)                                    \
+  using _x = itk::Statistics::MeasurementVectorTraits::_x; \
+  std::cout << #_x << " = " << sizeof(_x) << " bytes ";    \
+  if (itk::NumericTraits<_x>::is_integer)                  \
+  {                                                        \
+    std::cout << " Integer type " << std::endl;            \
+  }                                                        \
+  else                                                     \
+  {                                                        \
+    std::cout << " Real type " << std::endl;               \
+  }                                                        \
   ITK_MACROEND_NOOP_STATEMENT
 
 int

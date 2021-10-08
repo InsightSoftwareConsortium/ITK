@@ -22,7 +22,7 @@
 #include "itkVersion.h"
 #include "itkTransformFactoryBase.h"
 
-#define itkPushIfTransformDim(str, D)                                                                                  \
+#define itkPushIfTransformDim(str, D) \
   (D <= (ITK_TRANSFORM_FACTORY_MAX_DIM)) ? defaultTransforms.push_back(str) : ((void)0)
 
 int
