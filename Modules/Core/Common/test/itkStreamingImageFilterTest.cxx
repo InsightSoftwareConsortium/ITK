@@ -20,6 +20,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkPipelineMonitorImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkStreamingImageFilterTest(int, char *[])
@@ -68,6 +69,9 @@ itkStreamingImageFilterTest(int, char *[])
 
   itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;
   streamer = itk::StreamingImageFilter<ShortImage, ShortImage>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(streamer, StreamingImageFilter, ImageToImageFilter);
+
 
   // test MakeOutput by name
   streamer->MakeOutput(streamer->GetOutputNames()[0]);

@@ -216,7 +216,11 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(ddFilter->Update());
 
-  metric->SetDistanceMap(ddFilter->GetOutput());
+
+  typename DDFilterType::OutputImageType::Pointer distanceMap = ddFilter->GetOutput();
+  metric->SetDistanceMap(distanceMap);
+  ITK_TEST_SET_GET_VALUE(distanceMap, metric->GetDistanceMap());
+
   metric->ComputeSquaredDistanceOn();
 
   // Initialize the offset/vector part

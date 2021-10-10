@@ -31,16 +31,29 @@ operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
 int
 itkZeroCrossingImageFilterTest(int, char *[])
 {
-  using ImageType = itk::Image<float, 2>;
+
+  constexpr unsigned int Dimension = 2;
+  using PixelType = float;
+
+  using ImageType = itk::Image<PixelType, Dimension>;
+  using FilterType = itk::ZeroCrossingImageFilter<ImageType, ImageType>;
 
   // Set up filter
-  itk::ZeroCrossingImageFilter<ImageType, ImageType>::Pointer filter =
-    itk::ZeroCrossingImageFilter<ImageType, ImageType>::New();
+  FilterType::Pointer filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ZeroCrossingImageFilter, ImageToImageFilter);
 
 
-  std::cout << "filter: " << filter;
+  typename FilterType::OutputImagePixelType foregroundValue =
+    itk::NumericTraits<typename FilterType::OutputImagePixelType>::OneValue();
+  filter->SetForegroundValue(foregroundValue);
+  ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
+
+  typename FilterType::OutputImagePixelType backgroundValue =
+    itk::NumericTraits<typename FilterType::OutputImagePixelType>::ZeroValue();
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
+
   // Run Test
   itk::Size<2> sz;
   sz[0] = 100;

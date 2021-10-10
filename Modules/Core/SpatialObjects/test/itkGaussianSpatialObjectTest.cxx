@@ -41,6 +41,11 @@ itkGaussianSpatialObjectTest(int, char *[])
   myGaussian->SetSigmaInObjectSpace(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, myGaussian->GetSigmaInObjectSpace());
 
+  GaussianType::PointType center;
+  center.Fill(0.0);
+  myGaussian->SetCenterInObjectSpace(center);
+  ITK_TEST_SET_GET_VALUE(center, myGaussian->GetCenterInObjectSpace());
+
   // Point consistency
 
   itk::Point<double, 4> in;

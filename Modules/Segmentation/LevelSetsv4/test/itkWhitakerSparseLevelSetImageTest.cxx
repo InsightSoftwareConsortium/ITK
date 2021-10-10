@@ -18,6 +18,7 @@
 
 #include "itkWhitakerSparseLevelSetImage.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkWhitakerSparseLevelSetImageTest(int, char *[])
@@ -42,6 +43,10 @@ itkWhitakerSparseLevelSetImageTest(int, char *[])
   }
 
   SparseLevelSetType::Pointer phi = SparseLevelSetType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(phi, WhitakerSparseLevelSetImage, LevelSetSparseImage);
+
+
   phi->SetLabelMap(labelMap);
 
   index[0] = 3;

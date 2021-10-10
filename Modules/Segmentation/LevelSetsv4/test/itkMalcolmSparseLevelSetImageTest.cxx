@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkMalcolmSparseLevelSetImage.h"
+#include "itkTestingMacros.h"
 
 int
 itkMalcolmSparseLevelSetImageTest(int, char *[])
@@ -40,6 +41,10 @@ itkMalcolmSparseLevelSetImageTest(int, char *[])
   }
 
   SparseLevelSetType::Pointer phi = SparseLevelSetType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(phi, MalcolmSparseLevelSetImage, LevelSetSparseImage);
+
+
   phi->SetLabelMap(labelMap);
 
   index[0] = 3;

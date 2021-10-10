@@ -116,7 +116,16 @@ itkProjectionImageFilterTest(int argc, char * argv[])
   using FilterType = itk::ProjectionImageFilter<ImageType, ImageType, FunctionType>;
 
   FilterType::Pointer filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ProjectionImageFilter, ImageToImageFilter);
+
+
   filter->SetInput(change->GetOutput());
+
+  unsigned int projectionDimension = ImageType::ImageDimension - 1;
+  filter->SetProjectionDimension(projectionDimension);
+  ITK_TEST_SET_GET_VALUE(projectionDimension, filter->GetProjectionDimension());
+
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkShiSparseLevelSetImage.h"
+#include "itkTestingMacros.h"
 
 int
 itkShiSparseLevelSetImageTest(int, char *[])
@@ -52,6 +53,10 @@ itkShiSparseLevelSetImageTest(int, char *[])
   labelMap->SetPixel(index, 1);
 
   SparseLevelSetType::Pointer phi = SparseLevelSetType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(phi, ShiSparseLevelSetImage, LevelSetSparseImage);
+
+
   phi->SetLabelMap(labelMap);
 
   index[0] = 3;

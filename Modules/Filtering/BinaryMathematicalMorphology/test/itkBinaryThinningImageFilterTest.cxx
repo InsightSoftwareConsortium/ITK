@@ -52,7 +52,9 @@ itkBinaryThinningImageFilterTest(int argc, char * argv[])
   // Set up the reader
   reader->SetFileName(argv[1]);
 
-  // Set up the filter parameters.
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(thinning, BinaryThinningImageFilter, ImageToImageFilter);
+
+
   thinning->SetInput(reader->GetOutput());
 
   // Rescale the image so that it can be seen.
