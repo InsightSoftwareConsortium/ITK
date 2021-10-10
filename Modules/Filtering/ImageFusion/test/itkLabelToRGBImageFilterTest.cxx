@@ -26,15 +26,17 @@
 int
 itkLabelToRGBImageFilterTest(int argc, char * argv[])
 {
-  constexpr int Dimension = 2;
 
   if (argc < 3)
   {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " LabelImage OutputImage" << std::endl;
-    return 1;
+    return EXIT_FAILURE;
   }
+
+
+  constexpr int Dimension = 2;
 
   using PixelType = unsigned char;
   using ImageType = itk::Image<PixelType, Dimension>;
@@ -80,15 +82,8 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   // exercise the methods to change the colors
   unsigned int numberOfColors1 = filter->GetNumberOfColors();
@@ -113,5 +108,6 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

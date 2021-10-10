@@ -40,11 +40,14 @@ itkSplineKernelTransformTest(int, char *[])
   // 2-D case
   int i, j;
 
-  using EBSTransform2DType = itk::ElasticBodySplineKernelTransform<double, 2>;
-  using EBRSTransform2DType = itk::ElasticBodyReciprocalSplineKernelTransform<double, 2>;
-  using TPSTransform2DType = itk::ThinPlateSplineKernelTransform<double, 2>;
-  using TPR2LRSTransform2DType = itk::ThinPlateR2LogRSplineKernelTransform<double, 2>;
-  using VSTransform2DType = itk::VolumeSplineKernelTransform<double, 2>;
+  constexpr unsigned int Dimension = 2;
+  using ParametersValueType = double;
+
+  using EBSTransform2DType = itk::ElasticBodySplineKernelTransform<ParametersValueType, Dimension>;
+  using EBRSTransform2DType = itk::ElasticBodyReciprocalSplineKernelTransform<ParametersValueType, Dimension>;
+  using TPSTransform2DType = itk::ThinPlateSplineKernelTransform<ParametersValueType, Dimension>;
+  using TPR2LRSTransform2DType = itk::ThinPlateR2LogRSplineKernelTransform<ParametersValueType, Dimension>;
+  using VSTransform2DType = itk::VolumeSplineKernelTransform<ParametersValueType, Dimension>;
 
   using PointType2D = EBSTransform2DType::InputPointType;
   using Points2DIteratorType = EBSTransform2DType::PointsIterator;

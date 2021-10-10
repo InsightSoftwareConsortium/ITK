@@ -32,20 +32,18 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
 
   if (argc != 4)
   {
-    std::cout << "Usage: itkVoronoiPartitioningImageFilterTest input output show_boundaries" << std::endl;
+    std::cerr << "Missing Parameters " << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cout << " input output showBoundaries" << std::endl;
     return EXIT_FAILURE;
   }
 
 
-  /* ------------------------------------------------
-   * Load an image
-   */
+  // Load an image
   itk::ImageFileReader<FloatImage>::Pointer original = itk::ImageFileReader<FloatImage>::New();
   original->SetFileName(argv[1]);
 
-  /* -------------------------------------------------
-   * Preprocess the image
-   */
+  // Preprocess the image
   itk::DiscreteGaussianImageFilter<FloatImage, FloatImage>::Pointer gaussian3 =
     itk::DiscreteGaussianImageFilter<FloatImage, FloatImage>::New();
   // itk::SimpleFilterWatcher gaussian3Watcher(gaussian3);
@@ -85,20 +83,13 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
 
   WriterType::Pointer         writer = WriterType::New();
   ColormapFilterType::Pointer colormapper = ColormapFilterType::New();
+  colormapper->SetInput(voronoi->GetOutput());
+  writer->SetInput(colormapper->GetOutput());
+  writer->SetFileName(argv[2]);
 
-  try
-  {
-    colormapper->SetInput(voronoi->GetOutput());
-    writer->SetInput(colormapper->GetOutput());
-    writer->SetFileName(argv[2]);
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  //
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

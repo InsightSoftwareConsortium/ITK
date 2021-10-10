@@ -86,10 +86,10 @@ itkProjectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr int dim = 3;
+  constexpr unsigned int Dimension = 3;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image<PixelType, dim>;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   ReaderType::Pointer reader = ReaderType::New();
@@ -134,15 +134,9 @@ itkProjectionImageFilterTest(int argc, char * argv[])
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
