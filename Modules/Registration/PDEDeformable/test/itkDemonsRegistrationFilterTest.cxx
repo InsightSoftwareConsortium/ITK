@@ -22,6 +22,7 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkCommand.h"
 #include "itkCastImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 namespace
@@ -190,7 +191,8 @@ itkDemonsRegistrationFilterTest(int, char *[])
   registrator->InPlaceOn();
 
   // turn on/off use moving image gradient
-  registrator->UseMovingImageGradientOff();
+  auto useMovingImageGradient = false;
+  ITK_TEST_SET_GET_BOOLEAN(registrator, UseMovingImageGradient, useMovingImageGradient);
 
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
   auto * fptr = dynamic_cast<FunctionType *>(registrator->GetDifferenceFunction().GetPointer());

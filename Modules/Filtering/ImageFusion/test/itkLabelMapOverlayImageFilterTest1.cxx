@@ -57,7 +57,10 @@ itkLabelMapOverlayImageFilterTest1(int argc, char * argv[])
   ColorizerType::Pointer colorizer = ColorizerType::New();
   colorizer->SetInput(converter->GetOutput());
   colorizer->SetFeatureImage(reader2->GetOutput());
-  colorizer->SetOpacity(std::stod(argv[4]));
+
+  double opacity = std::stod(argv[4]);
+  colorizer->SetOpacity(opacity);
+  ITK_TEST_SET_GET_VALUE(opacity, colorizer->GetOpacity());
 
   itk::SimpleFilterWatcher watcher(colorizer, "filter");
 

@@ -72,8 +72,13 @@ itkLevelSetDomainPartitionImageTest(int, char *[])
 
   DomainPartitionSourceType::Pointer partitionSource = DomainPartitionSourceType::New();
   partitionSource->SetNumberOfLevelSetFunctions(numberOfLevelSetFunctions);
-  partitionSource->SetImage(binary);
+
   partitionSource->SetLevelSetDomainRegionVector(regionVector);
+
+  // Exercise exceptions
+  ITK_TRY_EXPECT_EXCEPTION(partitionSource->PopulateListDomain());
+
+  partitionSource->SetImage(binary);
   partitionSource->PopulateListDomain();
 
 

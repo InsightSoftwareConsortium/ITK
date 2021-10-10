@@ -54,16 +54,8 @@ CompareMeshSources(bool computeSquaredDistance)
   metric->SetComputeSquaredDistance(computeSquaredDistance);
   ITK_TEST_SET_GET_VALUE(computeSquaredDistance, metric->GetComputeSquaredDistance());
 
-  if (computeSquaredDistance)
-  {
-    metric->ComputeSquaredDistanceOn();
-    ITK_TEST_EXPECT_TRUE(metric->GetComputeSquaredDistance());
-  }
-  else
-  {
-    metric->ComputeSquaredDistanceOff();
-    ITK_TEST_EXPECT_TRUE(!metric->GetComputeSquaredDistance());
-  }
+  ITK_TEST_SET_GET_BOOLEAN(metric, ComputeSquaredDistance, computeSquaredDistance);
+
 
   metric->SetFixedPointSet(fixed->GetOutput());
   metric->SetMovingPointSet(moving->GetOutput());

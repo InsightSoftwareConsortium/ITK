@@ -23,6 +23,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkScalarToRGBPixelFunctor.h"
+#include "itkTestingMacros.h"
 
 int
 itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
@@ -57,11 +58,19 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
   using VoronoiSegmentationType = itk::VoronoiPartitioningImageFilter<FloatImage, FloatImage>;
 
   VoronoiSegmentationType::Pointer voronoi = VoronoiSegmentationType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(voronoi, VoronoiPartitioningImageFilter, VoronoiSegmentationImageFilterBase);
+
+
   voronoi->SetInput(gaussian3->GetOutput());
   voronoi->SetNumberOfSeeds(6);
   voronoi->SetOutputBoundary(std::stoi(argv[3]) == 1);
   voronoi->SetSteps(7);
-  voronoi->SetSigmaThreshold(4.0);
+
+  double sigmaThreshold = 4.0;
+  voronoi->SetSigmaThreshold(sigmaThreshold);
+  ITK_TEST_SET_GET_VALUE(sigmaThreshold, voronoi->GetSigmaThreshold());
+
   voronoi->SetMinRegion(10);
   voronoi->InteractiveSegmentationOn();
 

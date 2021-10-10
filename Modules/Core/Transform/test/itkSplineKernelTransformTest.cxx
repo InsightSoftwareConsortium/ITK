@@ -28,6 +28,7 @@
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkVolumeSplineKernelTransform.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -92,7 +93,12 @@ itkSplineKernelTransformTest(int, char *[])
   // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
   ebs2D->SetSourceLandmarks(sourceLandmarks2D);
   ebs2D->SetTargetLandmarks(targetLandmarks2D);
-  ebs2D->SetAlpha(12.0 * (1 - 0.25) - 1.0);
+
+  ParametersValueType alpha = 12.0 * (1 - 0.25) - 1.0;
+  ebs2D->SetAlpha(alpha);
+  ITK_TEST_SET_GET_VALUE(alpha, ebs2D->GetAlpha());
+
+
   ebs2D->ComputeWMatrix();
 
   { // Testing the number of parameters
@@ -132,7 +138,12 @@ itkSplineKernelTransformTest(int, char *[])
   std::cout << "EBRS 2D Test:" << std::endl;
   ebrs2D->SetSourceLandmarks(sourceLandmarks2D);
   ebrs2D->SetTargetLandmarks(targetLandmarks2D);
-  ebrs2D->SetAlpha(12.0 * (1 - 0.25) - 1.0);
+
+  alpha = 12.0 * (1 - 0.25) - 1.0;
+  ebrs2D->SetAlpha(alpha);
+  ITK_TEST_SET_GET_VALUE(alpha, ebrs2D->GetAlpha());
+
+
   ebrs2D->ComputeWMatrix();
 
   source2Dit = sourceLandmarks2D->GetPoints()->Begin();
@@ -388,7 +399,12 @@ itkSplineKernelTransformTest(int, char *[])
 
   std::cout << "EBS 3D Test:" << std::endl;
   // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
-  ebs3D->SetAlpha(12.0 * (1 - 0.25) - 1.0);
+
+  alpha = 12.0 * (1 - 0.25) - 1.0;
+  ebs3D->SetAlpha(alpha);
+  ITK_TEST_SET_GET_VALUE(alpha, ebs3D->GetAlpha());
+
+
   ebs3D->ComputeWMatrix();
 
   ebs3Ds = ebs3D->GetModifiableSourceLandmarks()->GetPoints()->Begin();
@@ -513,7 +529,12 @@ itkSplineKernelTransformTest(int, char *[])
   }
   std::cout << "EBS 4D Test:" << std::endl;
   // Poisson's ration = 0.25, Alpha = 12.0 * ( 1 - \nu ) - 1
-  ebs4D->SetAlpha(12.0 * (1 - 0.25) - 1.0);
+
+  alpha = 12.0 * (1 - 0.25) - 1.0;
+  ebs4D->SetAlpha(alpha);
+  ITK_TEST_SET_GET_VALUE(alpha, ebs4D->GetAlpha());
+
+
   ebs4D->ComputeWMatrix();
 
   ebs4Ds = ebs4D->GetModifiableSourceLandmarks()->GetPoints()->Begin();

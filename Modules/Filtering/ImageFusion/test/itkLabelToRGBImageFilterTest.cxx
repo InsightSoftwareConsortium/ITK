@@ -50,18 +50,26 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
   using FilterType = itk::LabelToRGBImageFilter<ImageType, ColorImageType>;
   FilterType::Pointer filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelToRGBImageFilter, UnaryFunctorImageFilter);
+
+
   // Exercising Background Value methods
-  filter->SetBackgroundValue(10);
-  if (filter->GetBackgroundValue() != 10)
-  {
-    std::cerr << "Background value Set/Get Problem" << std::endl;
-    return EXIT_FAILURE;
-  }
+  typename FilterType::LabelPixelType backgroundValue = 10;
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
+
+  typename FilterType::OutputPixelType backgroundColor;
+  backgroundColor.Fill(itk::NumericTraits<typename FilterType::OutputPixelValueType>::ZeroValue());
+  filter->SetBackgroundColor(backgroundColor);
+  ITK_TEST_SET_GET_VALUE(backgroundColor, filter->GetBackgroundColor());
 
 
   // Set the filter input and label images
   filter->SetInput(reader->GetOutput());
-  filter->SetBackgroundValue(0);
+
+  backgroundValue = 0;
+  filter->SetBackgroundValue(backgroundValue);
+
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
