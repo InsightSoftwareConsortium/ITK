@@ -68,6 +68,10 @@ itkLabelMapOverlayImageFilterTest1(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(colorizer->GetOutput());
   writer->SetFileName(argv[3]);
-  writer->Update();
-  return 0;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
+  return EXIT_SUCCESS;
 }
