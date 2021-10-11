@@ -72,7 +72,7 @@ public:
   using typename Superclass::Float;
   using typename Superclass::MatrixType;
   using typename Superclass::VectorType;
-  using typename Superclass::LoadType;
+  using LoadType = typename Superclass::LoadType;
   using typename Superclass::LoadPointer;
   using typename Superclass::NodeIDType;
   using typename Superclass::DegreeOfFreedomIDType;
