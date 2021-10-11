@@ -29,13 +29,13 @@ If curl and python3 are available, the pull request number can be omitted, and
 a list of open pull requests will be presented.
 '
 
-# Suggest hub
-if ! type hub >/dev/null 2>&1; then
+# Suggest gh
+if ! type gh >/dev/null 2>&1; then
 	echo '
-`hub` is a useful command line tool for working with GitHub. For installation
+`gh` is a useful command line tool for working with GitHub. For installation
 and usage instructions, see:
 
-  https://hub.github.com/
+  https://cli.github.com/
 '
 fi
 
