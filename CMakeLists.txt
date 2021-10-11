@@ -681,3 +681,25 @@ mark_as_advanced(FORCE
   Module_TwoProjectionRegistration
   Module_Ultrasound
   Module_VariationalRegistration)
+
+# Create an IDE folder structure similar to our source structure
+if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop")
+  set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+  function(itk_organize_targets dir folder)
+    itk_get_all_targets_recursive(targets ${dir})
+    foreach(t ${targets})
+      get_target_property(f ${t} SOURCE_DIR)
+      string(REPLACE ${dir} "" f ${f})
+      set_target_properties (${t} PROPERTIES FOLDER "${folder}/${f}")
+    endforeach()
+  endfunction()
+  macro(itk_get_all_targets_recursive targets dir)
+      get_property(subdirectories DIRECTORY ${dir} PROPERTY SUBDIRECTORIES)
+      foreach(subdir ${subdirectories})
+          itk_get_all_targets_recursive(${targets} ${subdir})
+      endforeach()
+      get_property(current_targets DIRECTORY ${dir} PROPERTY BUILDSYSTEM_TARGETS)
+      list(APPEND ${targets} ${current_targets})
+  endmacro()
+  itk_organize_targets(${CMAKE_SOURCE_DIR} ITK)
+endif()
