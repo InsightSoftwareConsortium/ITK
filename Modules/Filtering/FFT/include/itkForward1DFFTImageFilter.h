@@ -64,7 +64,7 @@ public:
   itkGetMacro(Direction, unsigned int);
 
   /** Set the direction in which the filter is to be applied. */
-  itkSetClampMacro(Direction, unsigned int, 0, ImageDimension - 1);
+  itkSetClampMacro(Direction, unsigned int, 0, InputImageType::ImageDimension - 1);
 
   /** Get the greatest supported prime factor. */
   virtual SizeValueType
