@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-//
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -86,7 +85,9 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput(fftpad->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   // Ensure we can build with a different output image type.
   using OutputImageType = itk::Image<double, Dimension>;

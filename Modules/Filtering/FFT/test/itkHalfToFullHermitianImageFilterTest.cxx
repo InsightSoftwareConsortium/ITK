@@ -30,8 +30,8 @@ itkHalfToFullHermitianImageFilterTest(int argc, char * argv[])
   // Print usage information.
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <test image size x> <test image size y>"
-              << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testImageSizeX testImageSizeY" << std::endl;
     return EXIT_FAILURE;
   }
 

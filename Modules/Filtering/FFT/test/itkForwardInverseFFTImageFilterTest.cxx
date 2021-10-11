@@ -35,6 +35,7 @@ itkForwardInverseFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
+    std::cerr << "Missing Parameters." << std::endl;
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <input file> " << std::endl;
     return EXIT_FAILURE;
   }

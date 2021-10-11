@@ -78,15 +78,8 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
   writer->SetFileName(outputImageFileName);
   writer->SetInput(inverseFilter->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & error)
-  {
-    std::cerr << error << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }
@@ -96,7 +89,8 @@ itkComplexToComplexFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <InputImage> <OutputImage> <float|double>"
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage <float|double>"
               << std::endl;
     return EXIT_FAILURE;
   }

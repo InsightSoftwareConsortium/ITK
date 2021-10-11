@@ -28,6 +28,7 @@
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWInverse1DFFTImageFilter.h"
 #endif
+#include "itkTestingMacros.h"
 
 template <typename FFTType>
 int
@@ -54,18 +55,7 @@ doTest(const char * inputRealFullImage, const char * inputImaginaryFullImage, co
   writer->SetInput(fft->GetOutput());
   writer->SetFileName(outputImage);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  fft.Print(std::cout);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
@@ -75,12 +65,13 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImagePrefix outputImage [backend]\n";
-    std::cerr << "backend implementation options:\n";
-    std::cerr << "  0 default\n";
-    std::cerr << "  1 VNL\n";
-    std::cerr << "  2 FFTW\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImagePrefix outputImage [backend]" << std::endl;
+    std::cerr << "backend implementation options:" << std::endl;
+    std::cerr << "  0 default" << std::endl;
+    std::cerr << "  1 VNL" << std::endl;
+    std::cerr << "  2 FFTW" << std::endl;
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }
@@ -104,17 +95,38 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
   if (backend == 0)
   {
     using FFTInverseType = itk::Inverse1DFFTImageFilter<ComplexImageType, ImageType>;
+
+    // Instantiate a filter to exercise basic object methods
+    typename FFTInverseType::Pointer fft = FFTInverseType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Inverse1DFFTImageFilter, ImageToImageFilter);
+
+    itk::SizeValueType sizeGreatestPrimeFactor = 2;
+    ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fft->GetSizeGreatestPrimeFactor());
+
+
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);
   }
   else if (backend == 1)
   {
     using FFTInverseType = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+
+    // Instantiate a filter to exercise basic object methods
+    typename FFTInverseType::Pointer fft = FFTInverseType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, VnlInverse1DFFTImageFilter, Inverse1DFFTImageFilter);
+
+
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);
   }
   else if (backend == 2)
   {
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
     using FFTInverseType = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+
+    // Instantiate a filter to exercise basic object methods
+    typename FFTInverseType::Pointer fft = FFTInverseType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, FFTWInverse1DFFTImageFilter, Inverse1DFFTImageFilter);
+
+
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);
 #endif
   }

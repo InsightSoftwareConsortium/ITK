@@ -31,6 +31,7 @@
 #  include "itkFFTWForward1DFFTImageFilter.h"
 #  include "itkFFTWInverse1DFFTImageFilter.h"
 #endif
+#include "itkTestingMacros.h"
 
 template <typename FFTForwardType, typename FFTInverseType>
 int
@@ -57,16 +58,8 @@ doTest(const char * inputImage, const char * outputImage)
   writer->SetInput(fftInverse->GetOutput());
   writer->SetFileName(outputImage);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   fftForward.Print(std::cout);
   fftInverse.Print(std::cout);
@@ -79,12 +72,13 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage outputImage [backend]\n";
-    std::cerr << "backend implementation options:\n";
-    std::cerr << "  0 default\n";
-    std::cerr << "  1 VNL\n";
-    std::cerr << "  2 FFTW\n";
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputImage outputImage [backend]" << std::endl;
+    std::cerr << "backend implementation options:" << std::endl;
+    std::cerr << "  0 default" << std::endl;
+    std::cerr << "  1 VNL" << std::endl;
+    std::cerr << "  2 FFTW" << std::endl;
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }

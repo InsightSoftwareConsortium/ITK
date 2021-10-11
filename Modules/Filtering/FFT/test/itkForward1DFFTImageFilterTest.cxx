@@ -29,6 +29,7 @@
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWForward1DFFTImageFilter.h"
 #endif
+#include "itkTestingMacros.h"
 
 template <typename FFTType>
 int
@@ -53,24 +54,16 @@ doTest(const char * inputImage, const char * outputImagePrefix)
   realFilter->SetInput(fft->GetOutput());
   imaginaryFilter->SetInput(fft->GetOutput());
 
-  try
-  {
-    writer->SetInput(realFilter->GetOutput());
-    writer->SetFileName(std::string(outputImagePrefix) + "Real.mha");
-    writer->Update();
+  writer->SetInput(realFilter->GetOutput());
+  writer->SetFileName(std::string(outputImagePrefix) + "Real.mha");
 
-    writer->SetInput(imaginaryFilter->GetOutput());
-    writer->SetFileName(std::string(outputImagePrefix) + "Imaginary.mha");
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  fft.Print(std::cout);
+
+  writer->SetInput(imaginaryFilter->GetOutput());
+  writer->SetFileName(std::string(outputImagePrefix) + "Imaginary.mha");
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
@@ -80,12 +73,13 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
+    std::cerr << "Missing Parameters." << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage outputImagePrefix [backend]\n";
-    std::cerr << "backend implementation options:\n";
-    std::cerr << "  0 default\n";
-    std::cerr << "  1 VNL\n";
-    std::cerr << "  2 FFTW\n";
+    std::cerr << " inputImage outputImagePrefix [backend]" << std::endl;
+    std::cerr << "backend implementation options:" << std::endl;
+    std::cerr << "  0 default" << std::endl;
+    std::cerr << "  1 VNL" << std::endl;
+    std::cerr << "  2 FFTW" << std::endl;
     std::cerr << std::flush;
     return EXIT_FAILURE;
   }
@@ -105,17 +99,37 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
   if (backend == 0)
   {
     using FFTForwardType = itk::Forward1DFFTImageFilter<ImageType, ComplexImageType>;
+
+    // Instantiate a filter to exercise basic object methods
+    typename FFTForwardType::Pointer fft = FFTForwardType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Forward1DFFTImageFilter, ImageToImageFilter);
+
+    itk::SizeValueType sizeGreatestPrimeFactor = 2;
+    ITK_TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fft->GetSizeGreatestPrimeFactor());
+
     return doTest<FFTForwardType>(argv[1], argv[2]);
   }
   else if (backend == 1)
   {
     using FFTForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
+
+    // Instantiate a filter to exercise basic object methods
+    typename FFTForwardType::Pointer fft = FFTForwardType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, VnlForward1DFFTImageFilter, Forward1DFFTImageFilter);
+
+
     return doTest<FFTForwardType>(argv[1], argv[2]);
   }
   else if (backend == 2)
   {
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
     using FFTForwardType = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
+
+    // Instantiate a filter to exercise basic object methods
+    typename FFTForwardType::Pointer fft = FFTForwardType::New();
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, FFTWForward1DFFTImageFilter, Forward1DFFTImageFilter);
+
+
     return doTest<FFTForwardType>(argv[1], argv[2]);
 #endif
   }
