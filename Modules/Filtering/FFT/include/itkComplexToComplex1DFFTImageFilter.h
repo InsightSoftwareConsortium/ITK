@@ -92,7 +92,7 @@ public:
 
 protected:
   ComplexToComplex1DFFTImageFilter();
-  virtual ~ComplexToComplex1DFFTImageFilter() {}
+  ~ComplexToComplex1DFFTImageFilter() override{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

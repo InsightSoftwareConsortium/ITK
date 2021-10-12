@@ -76,7 +76,7 @@ public:
 
 protected:
   Inverse1DFFTImageFilter();
-  virtual ~Inverse1DFFTImageFilter() {}
+  ~Inverse1DFFTImageFilter() override{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

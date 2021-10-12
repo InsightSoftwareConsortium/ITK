@@ -60,7 +60,7 @@ protected:
   GenerateData() override;
 
   VnlInverse1DFFTImageFilter() {}
-  virtual ~VnlInverse1DFFTImageFilter() {}
+  ~VnlInverse1DFFTImageFilter() override{};
 };
 
 } // end namespace itk
