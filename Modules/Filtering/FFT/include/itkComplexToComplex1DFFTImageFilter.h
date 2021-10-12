@@ -79,7 +79,7 @@ public:
   itkGetConstMacro(TransformDirection, TransformDirectionType);
 
   /** Get the direction in which the filter is to be applied. */
-  itkGetMacro(Direction, unsigned int);
+  itkGetConstMacro(Direction, unsigned int);
 
   /** Set the direction in which the filter is to be applied. */
   itkSetClampMacro(Direction, unsigned int, 0, InputImageType::ImageDimension - 1);
