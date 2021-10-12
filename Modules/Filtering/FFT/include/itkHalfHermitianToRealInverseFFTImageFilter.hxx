@@ -72,6 +72,11 @@ HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New() -> Po
   {
     smartPtr = Dispatch_C2R_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
   }
+  else
+  {
+    // Correct extra reference count from ::itk::ObjectFactory<Self>::Create()
+    smartPtr->UnRegister();
+  }
 
   return smartPtr;
 }

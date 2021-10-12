@@ -73,6 +73,11 @@ InverseFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
   {
     smartPtr = Dispatch_Inverse_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
   }
+  else
+  {
+    // Correct extra reference count from ::itk::ObjectFactory<Self>::Create()
+    smartPtr->UnRegister();
+  }
 
   return smartPtr;
 }
