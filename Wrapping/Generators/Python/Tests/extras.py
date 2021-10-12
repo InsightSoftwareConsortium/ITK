@@ -21,6 +21,7 @@
 import sys
 import os
 import numpy as np
+import pathlib
 
 import itk
 
@@ -142,7 +143,7 @@ itk.imwrite(reader, sys.argv[4], imageio=itk.PNGImageIO.New())
 itk.imwrite(reader, sys.argv[4], True)
 
 # test read
-image = itk.imread(filename)
+image = itk.imread(pathlib.Path(filename))
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 image = itk.imread(filename, itk.F)
 assert type(image) == itk.Image[itk.F, 2]
@@ -206,7 +207,7 @@ reader.Update()
 assert png_io.GetFileName() == filename
 
 # test reading image series
-series_reader = itk.ImageSeriesReader.New(FileNames=[filename, filename])
+series_reader = itk.ImageSeriesReader.New(FileNames=[pathlib.Path(filename), pathlib.Path(filename)])
 series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 assert series_reader.GetOutput().GetLargestPossibleRegion().GetSize()[2] == 2

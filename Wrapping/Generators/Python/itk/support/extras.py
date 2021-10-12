@@ -865,7 +865,7 @@ def imwrite(
     tmp_auto_pipeline = auto_pipeline.current
     auto_pipeline.current = None
     writer = itk.ImageFileWriter[type(img)].New(
-        Input=img, FileName=filename, UseCompression=compression
+        Input=img, FileName=f"{filename}", UseCompression=compression
     )
     auto_pipeline.current = tmp_auto_pipeline
     if imageio:
@@ -942,7 +942,7 @@ def imread(
             names_generator = itk.GDCMSeriesFileNames.New()
             names_generator.SetUseSeriesDetails(True)
             names_generator.AddSeriesRestriction("0008|0021")  # Series Date
-            names_generator.SetDirectory(filename)
+            names_generator.SetDirectory(f"{filename}")
             series_uid = names_generator.GetSeriesUIDs()
             if len(series_uid) == 0:
                 raise FileNotFoundError(f"no DICOMs in: {filename}.")
@@ -954,14 +954,14 @@ def imread(
             filename = names_generator.GetFileNames(series_identifier)
     if type(filename) in [list, tuple]:
         template_reader_type = itk.ImageSeriesReader
-        io_filename = filename[0]
+        io_filename = f"{filename[0]}"
         increase_dimension = True
-        kwargs = {"FileNames": filename}
+        kwargs = {"FileNames": [f"{f}" for f in filename]}
     else:
         template_reader_type = itk.ImageFileReader
-        io_filename = filename
+        io_filename = f"{filename}"
         increase_dimension = False
-        kwargs = {"FileName": filename}
+        kwargs = {"FileName": f"{filename}"}
     if imageio:
         kwargs["ImageIO"] = imageio
     if pixel_type:
@@ -1006,7 +1006,7 @@ def meshwrite(
     tmp_auto_pipeline = auto_pipeline.current
     auto_pipeline.current = None
     writer = itk.MeshFileWriter[type(mesh)].New(
-        Input=mesh, FileName=filename, UseCompression=compression
+        Input=mesh, FileName=f"{filename}", UseCompression=compression
     )
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
@@ -1041,9 +1041,9 @@ def meshread(
         except (KeyError, itk.TemplateTypeError):
             pass
     TemplateReaderType = itk.MeshFileReader
-    io_filename = filename
+    io_filename = f"{filename}"
     increase_dimension = False
-    kwargs = {"FileName": filename}
+    kwargs = {"FileName": f"{filename}"}
     if pixel_type:
         meshIO = itk.MeshIOFactory.CreateMeshIO(
             io_filename, itk.CommonEnums.IOFileMode_ReadMode
@@ -1081,7 +1081,7 @@ def transformread(filename: fileiotype) -> List["itkt.TransformBase"]:
     import itk
 
     reader = itk.TransformFileReaderTemplate[itk.D].New()
-    reader.SetFileName(str(filename))
+    reader.SetFileName(f"{filename}")
     reader.Update()
 
     transforms = []
@@ -1116,7 +1116,7 @@ def transformwrite(
     import itk
 
     writer = itk.TransformFileWriterTemplate[itk.D].New()
-    writer.SetFileName(filename)
+    writer.SetFileName(f"{filename}")
     writer.SetUseCompression(compression)
     for transform in transforms:
         writer.AddTransform(transform)
