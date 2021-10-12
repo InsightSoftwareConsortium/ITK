@@ -59,8 +59,8 @@ protected:
   void
   GenerateData() override;
 
-  VnlInverse1DFFTImageFilter() {}
-  ~VnlInverse1DFFTImageFilter() override{};
+  VnlInverse1DFFTImageFilter() = default;
+  ~VnlInverse1DFFTImageFilter() override = default;
 };
 
 } // end namespace itk

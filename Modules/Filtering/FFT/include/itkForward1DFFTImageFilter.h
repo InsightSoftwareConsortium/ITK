@@ -75,7 +75,7 @@ public:
 
 protected:
   Forward1DFFTImageFilter();
-  ~Forward1DFFTImageFilter() override{};
+  ~Forward1DFFTImageFilter() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
