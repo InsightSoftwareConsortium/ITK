@@ -508,6 +508,7 @@ if( ITK_USE_BRAINWEB_DATA )
           ${TEMP}/BSplineWarping2TestTransform.txt
   )
   set_property(TEST BSplineWarping2Test APPEND PROPERTY LABELS RUNS_LONG)
+  set_property(TEST BSplineWarping2Test APPEND PROPERTY RUN_SERIAL True)
 
   set( NUMBER_OF_BSPLINE_GRID_NODES 5 )
 
