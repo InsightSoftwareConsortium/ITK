@@ -24,7 +24,7 @@ namespace itk {
 class MeshIOFactoryRegisterManager
 {
   public:
-  MeshIOFactoryRegisterManager(void (*list[])(void))
+  explicit MeshIOFactoryRegisterManager(void (*list[])(void))
     {
     for(;*list; ++list)
       {

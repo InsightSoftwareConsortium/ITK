@@ -24,7 +24,7 @@ namespace itk {
 class TransformIOFactoryRegisterManager
 {
   public:
-  TransformIOFactoryRegisterManager(void (*list[])(void))
+  explicit TransformIOFactoryRegisterManager(void (*list[])(void))
     {
     for(;*list; ++list)
       {
