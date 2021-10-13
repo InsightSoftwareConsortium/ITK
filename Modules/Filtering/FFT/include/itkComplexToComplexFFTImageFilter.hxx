@@ -86,6 +86,11 @@ ComplexToComplexFFTImageFilter<TImage>::New() -> Pointer
     smartPtr =
       DispatchFFTW_Complex_New<Pointer, TImage, typename NumericTraits<typename TImage::PixelType>::ValueType>::Apply();
   }
+  else
+  {
+    // Correct extra reference count from ObjectFactory<Self>::Create()
+    smartPtr->UnRegister();
+  }
 
   return smartPtr;
 }

@@ -74,6 +74,11 @@ ForwardFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
       DispatchFFTW_Forward_New<Pointer, TInputImage, TOutputImage, typename NumericTraits<OutputPixelType>::ValueType>::
         Apply();
   }
+  else
+  {
+    // Correct extra reference count from ::itk::ObjectFactory<Self>::Create()
+    smartPtr->UnRegister();
+  }
 
   return smartPtr;
 }

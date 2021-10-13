@@ -73,6 +73,11 @@ RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::New() -> Po
       DispatchFFTW_R2C_New<Pointer, TInputImage, TOutputImage, typename NumericTraits<OutputPixelType>::ValueType>::
         Apply();
   }
+  else
+  {
+    // Correct extra reference count from ::itk::ObjectFactory<Self>::Create()
+    smartPtr->UnRegister();
+  }
 
   return smartPtr;
 }
