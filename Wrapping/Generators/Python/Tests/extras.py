@@ -207,7 +207,7 @@ reader.Update()
 assert png_io.GetFileName() == filename
 
 # test reading image series
-series_reader = itk.ImageSeriesReader.New(FileNames=[pathlib.Path(filename), pathlib.Path(filename)])
+series_reader = itk.ImageSeriesReader.New(FileNames=[filename, filename])
 series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 assert series_reader.GetOutput().GetLargestPossibleRegion().GetSize()[2] == 2
@@ -227,7 +227,7 @@ series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 
 # test reading image series with itk.imread()
-image_series = itk.imread([filename, filename])
+image_series = itk.imread([pathlib.Path(filename), pathlib.Path(filename)])
 assert image_series.GetImageDimension() == 3
 
 # Numeric series filename generation without any integer index. It is
