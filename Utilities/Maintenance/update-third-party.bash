@@ -85,7 +85,8 @@ disable_custom_gitattributes() {
     pushd "${extractdir}/${name}-reduced"
     # Git does not allow custom attributes in a subdirectory where we
     # are about to merge the `.gitattributes` file, so disable them.
-    sed -i '/^\[attr\]/ {s/^/#/;}' .gitattributes
+    sed -i.bak -e '/^\[attr\]/ {s/^/#/;}' .gitattributes
+    rm .gitattributes.bak
     popd
 }
 
