@@ -21,6 +21,7 @@
 import sys
 import os
 import numpy as np
+import pathlib
 
 import itk
 
@@ -142,7 +143,7 @@ itk.imwrite(reader, sys.argv[4], imageio=itk.PNGImageIO.New())
 itk.imwrite(reader, sys.argv[4], True)
 
 # test read
-image = itk.imread(filename)
+image = itk.imread(pathlib.Path(filename))
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
 image = itk.imread(filename, itk.F)
 assert type(image) == itk.Image[itk.F, 2]
@@ -226,7 +227,7 @@ series_reader.Update()
 assert series_reader.GetOutput().GetImageDimension() == 3
 
 # test reading image series with itk.imread()
-image_series = itk.imread([filename, filename])
+image_series = itk.imread([pathlib.Path(filename), pathlib.Path(filename)])
 assert image_series.GetImageDimension() == 3
 
 # Numeric series filename generation without any integer index. It is
