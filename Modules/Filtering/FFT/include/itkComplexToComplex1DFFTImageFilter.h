@@ -54,7 +54,8 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
+  /** Dimension of the underlying image. */
+  static constexpr unsigned int ImageDimension = InputImageType::ImageDimension;
 
   itkTypeMacro(ComplexToComplex1DFFTImageFilter, ImageToImageFilter);
 
