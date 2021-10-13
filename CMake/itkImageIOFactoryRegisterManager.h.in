@@ -26,7 +26,7 @@ class ImageIOFactoryRegisterManager
   public:
   explicit ImageIOFactoryRegisterManager(void (*list[])(void))
     {
-    for(;*list; ++list)
+    for(;*list != nullptr; ++list)
       {
       (*list)();
       }
