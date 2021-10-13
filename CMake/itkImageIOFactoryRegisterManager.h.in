@@ -24,7 +24,7 @@ namespace itk {
 class ImageIOFactoryRegisterManager
 {
   public:
-  explicit ImageIOFactoryRegisterManager(void (*list[])(void))
+  explicit ImageIOFactoryRegisterManager(void (* const list[])(void))
     {
     for(;*list != nullptr; ++list)
       {
@@ -45,14 +45,11 @@ class ImageIOFactoryRegisterManager
 // application translation units. Note that this code will be expanded in the
 // ITK-based applications and not in ITK itself.
 //
-namespace {
 
-  void (*ImageIOFactoryRegisterRegisterList[])(void) = {
-    @LIST_OF_FACTORY_NAMES@
-    nullptr};
-  ImageIOFactoryRegisterManager ImageIOFactoryRegisterManagerInstance(ImageIOFactoryRegisterRegisterList);
-
-}
+constexpr void (*ImageIOFactoryRegisterRegisterList[])(void) = {
+  @LIST_OF_FACTORY_NAMES@
+  nullptr};
+const ImageIOFactoryRegisterManager ImageIOFactoryRegisterManagerInstance(ImageIOFactoryRegisterRegisterList);
 
 }
 
