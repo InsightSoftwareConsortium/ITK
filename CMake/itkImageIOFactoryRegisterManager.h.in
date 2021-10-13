@@ -24,7 +24,7 @@ namespace itk {
 class ImageIOFactoryRegisterManager
 {
   public:
-  ImageIOFactoryRegisterManager(void (*list[])(void))
+  explicit ImageIOFactoryRegisterManager(void (*list[])(void))
     {
     for(;*list; ++list)
       {
