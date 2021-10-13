@@ -84,3 +84,5 @@ e94ba003e6d27b0c70c114a7f1177ba7bbe7f538
 fbbc7aa38cf23d0966b1dbd0f9825797e84c2502
 # DOC: Update copyright assignment to NumFOCUS
 344e9bc58e69ed921f540c67d87dbb66fee4c466
+# STYLE: clang-format AlignEscapedNewlines Left (for macro definitions)
+7829ef68adb9e45b92da69017235aa35c92f0c64
