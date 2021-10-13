@@ -24,7 +24,7 @@ namespace itk {
 class TransformIOFactoryRegisterManager
 {
   public:
-  explicit TransformIOFactoryRegisterManager(void (*list[])(void))
+  explicit TransformIOFactoryRegisterManager(void (* const list[])(void))
     {
     for(;*list != nullptr; ++list)
       {
@@ -45,14 +45,11 @@ class TransformIOFactoryRegisterManager
 // application translation units. Note that this code will be expanded in the
 // ITK-based applications and not in ITK itself.
 //
-namespace {
 
-  void (*TransformIOFactoryRegisterRegisterList[])(void) = {
-    @LIST_OF_FACTORY_NAMES@
-    nullptr};
-  TransformIOFactoryRegisterManager TransformIOFactoryRegisterManagerInstance(TransformIOFactoryRegisterRegisterList);
-
-}
+constexpr void (*TransformIOFactoryRegisterRegisterList[])(void) = {
+  @LIST_OF_FACTORY_NAMES@
+  nullptr};
+const TransformIOFactoryRegisterManager TransformIOFactoryRegisterManagerInstance(TransformIOFactoryRegisterRegisterList);
 
 }
 

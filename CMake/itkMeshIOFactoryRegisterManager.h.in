@@ -24,7 +24,7 @@ namespace itk {
 class MeshIOFactoryRegisterManager
 {
   public:
-  explicit MeshIOFactoryRegisterManager(void (*list[])(void))
+  explicit MeshIOFactoryRegisterManager(void (* const list[])(void))
     {
     for(;*list != nullptr; ++list)
       {
@@ -45,14 +45,11 @@ class MeshIOFactoryRegisterManager
 // application translation units. Note that this code will be expanded in the
 // ITK-based applications and not in ITK itself.
 //
-namespace {
 
-  void (*MeshIOFactoryRegisterRegisterList[])(void) = {
-    @LIST_OF_FACTORY_NAMES@
-    nullptr};
-  MeshIOFactoryRegisterManager MeshIOFactoryRegisterManagerInstance(MeshIOFactoryRegisterRegisterList);
-
-}
+constexpr void (*MeshIOFactoryRegisterRegisterList[])(void) = {
+  @LIST_OF_FACTORY_NAMES@
+  nullptr};
+const MeshIOFactoryRegisterManager MeshIOFactoryRegisterManagerInstance(MeshIOFactoryRegisterRegisterList);
 
 }
 
