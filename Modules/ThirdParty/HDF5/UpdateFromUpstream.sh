@@ -39,7 +39,8 @@ readonly paths="
 extract_source () {
     git_archive
     pushd "$extractdir/$name-reduced"
-    sed -i '1 s| /bin/sh|/bin/sh|' c++/src/h5c++.in config/cmake/libh5cc.in
+    sed -i.bak -e '1 s| /bin/sh|/bin/sh|' c++/src/h5c++.in config/cmake/libh5cc.in
+    rm c++/src/h5c++.in.bak config/cmake/libh5cc.in.bak
     chmod a+x c++/src/h5c++.in config/cmake/libh5cc.in
     chmod a-x README.txt
     chmod a-x config/cmake/CTestScript.cmake
