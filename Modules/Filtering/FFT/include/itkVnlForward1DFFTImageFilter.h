@@ -58,8 +58,8 @@ protected:
   void
   GenerateData() override;
 
-  VnlForward1DFFTImageFilter() {}
-  ~VnlForward1DFFTImageFilter() override{};
+  VnlForward1DFFTImageFilter() = default;
+  ~VnlForward1DFFTImageFilter() override = default;
 
 private:
 };
