@@ -68,7 +68,7 @@ public:
 
 protected:
   FFTWComplexToComplex1DFFTImageFilter();
-  virtual ~FFTWComplexToComplex1DFFTImageFilter();
+  ~FFTWComplexToComplex1DFFTImageFilter() override;
 
   void
   BeforeThreadedGenerateData() override;

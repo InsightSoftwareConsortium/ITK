@@ -70,7 +70,7 @@ public:
 
 protected:
   FFTWInverse1DFFTImageFilter();
-  virtual ~FFTWInverse1DFFTImageFilter();
+  ~FFTWInverse1DFFTImageFilter() override;
 
   void
   BeforeThreadedGenerateData() override;
