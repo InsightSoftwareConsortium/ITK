@@ -58,7 +58,7 @@ public:
 
 protected:
   VnlComplexToComplex1DFFTImageFilter() {}
-  virtual ~VnlComplexToComplex1DFFTImageFilter() {}
+  ~VnlComplexToComplex1DFFTImageFilter() override{};
 
   void
   GenerateData() override;

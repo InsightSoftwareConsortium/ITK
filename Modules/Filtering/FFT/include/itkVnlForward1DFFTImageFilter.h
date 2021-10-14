@@ -59,7 +59,7 @@ protected:
   GenerateData() override;
 
   VnlForward1DFFTImageFilter() {}
-  virtual ~VnlForward1DFFTImageFilter() {}
+  ~VnlForward1DFFTImageFilter() override{};
 
 private:
 };
