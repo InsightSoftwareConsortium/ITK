@@ -57,8 +57,8 @@ public:
   itkTypeMacro(VnlComplexToComplex1DFFTImageFilter, ComplexToComplex1DFFTImageFilter);
 
 protected:
-  VnlComplexToComplex1DFFTImageFilter() {}
-  virtual ~VnlComplexToComplex1DFFTImageFilter() {}
+  VnlComplexToComplex1DFFTImageFilter() = default;
+  ~VnlComplexToComplex1DFFTImageFilter() override = default;
 
   void
   GenerateData() override;
