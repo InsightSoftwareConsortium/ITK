@@ -7,7 +7,7 @@ shopt -s dotglob
 readonly name="zlib-ng"
 readonly ownership="Zlib-ng Upstream <kwrobot@kitware.com>"
 readonly subtree="Modules/ThirdParty/ZLIB/src/itk$name"
-readonly repo="https://github.com/dzenanz/zlib-ng.git"
+readonly repo="https://github.com/zlib-ng/zlib-ng.git"
 readonly tag="develop"
 readonly paths="
 CMakeLists.txt
@@ -24,9 +24,9 @@ zlib_name_mangling.h.empty
 zlib.pc.cmakein
 
 zlib.map
-win32/zlibcompat.def
+win32/zlibcompat.def.in
 win32/zlib1.rc
-win32/zlib.def
+win32/zlib.def.in
 
 .gitattributes
 README.md
