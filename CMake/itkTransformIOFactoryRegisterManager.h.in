@@ -46,7 +46,7 @@ class TransformIOFactoryRegisterManager
 // ITK-based applications and not in ITK itself.
 //
 
-constexpr void (*TransformIOFactoryRegisterRegisterList[])(void) = {
+void (* const TransformIOFactoryRegisterRegisterList[])(void) = {
   @LIST_OF_FACTORY_NAMES@
   nullptr};
 const TransformIOFactoryRegisterManager TransformIOFactoryRegisterManagerInstance(TransformIOFactoryRegisterRegisterList);
