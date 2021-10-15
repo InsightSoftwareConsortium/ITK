@@ -70,7 +70,7 @@ public:
 
 protected:
   FFTWForward1DFFTImageFilter();
-  virtual ~FFTWForward1DFFTImageFilter();
+  ~FFTWForward1DFFTImageFilter() override;
 
   void
   BeforeThreadedGenerateData() override;
