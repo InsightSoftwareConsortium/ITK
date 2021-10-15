@@ -52,16 +52,10 @@ FreeSurferBinaryMeshIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool FreeSurferBinaryMeshIOFactoryHasBeenRegistered;
-
 void ITKIOMeshFreeSurfer_EXPORT
      FreeSurferBinaryMeshIOFactoryRegister__Private()
 {
-  if (!FreeSurferBinaryMeshIOFactoryHasBeenRegistered)
-  {
-    FreeSurferBinaryMeshIOFactoryHasBeenRegistered = true;
-    FreeSurferBinaryMeshIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FreeSurferBinaryMeshIOFactory>();
 }
 
 } // end namespace itk

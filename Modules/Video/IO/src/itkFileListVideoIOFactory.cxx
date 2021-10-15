@@ -43,17 +43,10 @@ FileListVideoIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool FileListVideoIOFactoryHasBeenRegistered;
-
 void
 FileListVideoIOFactoryRegister__Private()
 {
-  if (!FileListVideoIOFactoryHasBeenRegistered)
-  {
-    FileListVideoIOFactoryHasBeenRegistered = true;
-    FileListVideoIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FileListVideoIOFactory>();
 }
 
 } // end namespace itk

@@ -57,15 +57,9 @@ TxtTransformIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool TxtTransformIOFactoryHasBeenRegistered;
-
 void ITKIOTransformInsightLegacy_EXPORT
      TxtTransformIOFactoryRegister__Private()
 {
-  if (!TxtTransformIOFactoryHasBeenRegistered)
-  {
-    TxtTransformIOFactoryHasBeenRegistered = true;
-    TxtTransformIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<TxtTransformIOFactory>();
 }
 } // end namespace itk

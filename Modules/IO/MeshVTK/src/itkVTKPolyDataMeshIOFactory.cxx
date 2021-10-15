@@ -54,16 +54,10 @@ VTKPolyDataMeshIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool VTKPolyDataMeshIOFactoryHasBeenRegistered;
-
 void ITKIOMeshVTK_EXPORT
      VTKPolyDataMeshIOFactoryRegister__Private()
 {
-  if (!VTKPolyDataMeshIOFactoryHasBeenRegistered)
-  {
-    VTKPolyDataMeshIOFactoryHasBeenRegistered = true;
-    VTKPolyDataMeshIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<VTKPolyDataMeshIOFactory>();
 }
 
 } // end namespace itk

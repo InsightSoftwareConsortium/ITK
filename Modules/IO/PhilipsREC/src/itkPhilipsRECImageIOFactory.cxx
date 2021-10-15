@@ -58,17 +58,10 @@ PhilipsRECImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool PhilipsRECImageIOFactoryHasBeenRegistered;
-
 void ITKIOPhilipsREC_EXPORT
      PhilipsRECImageIOFactoryRegister__Private()
 {
-  if (!PhilipsRECImageIOFactoryHasBeenRegistered)
-  {
-    PhilipsRECImageIOFactoryHasBeenRegistered = true;
-    PhilipsRECImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<PhilipsRECImageIOFactory>();
 }
 
 } // end namespace itk

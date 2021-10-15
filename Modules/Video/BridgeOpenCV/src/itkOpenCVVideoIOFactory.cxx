@@ -43,17 +43,10 @@ OpenCVVideoIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool OpenCVVideoIOFactoryHasBeenRegistered;
-
 void
 OpenCVVideoIOFactoryRegister__Private()
 {
-  if (!OpenCVVideoIOFactoryHasBeenRegistered)
-  {
-    OpenCVVideoIOFactoryHasBeenRegistered = true;
-    OpenCVVideoIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<OpenCVVideoIOFactory>();
 }
 
 } // end namespace itk

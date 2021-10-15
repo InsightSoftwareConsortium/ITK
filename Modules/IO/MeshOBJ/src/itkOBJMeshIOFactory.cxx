@@ -48,16 +48,10 @@ OBJMeshIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool OBJMeshIOFactoryHasBeenRegistered;
-
 void ITKIOMeshOBJ_EXPORT
      OBJMeshIOFactoryRegister__Private()
 {
-  if (!OBJMeshIOFactoryHasBeenRegistered)
-  {
-    OBJMeshIOFactoryHasBeenRegistered = true;
-    OBJMeshIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<OBJMeshIOFactory>();
 }
 
 } // end namespace itk

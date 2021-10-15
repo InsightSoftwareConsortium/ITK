@@ -43,17 +43,10 @@ GDCMImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool GDCMImageIOFactoryHasBeenRegistered;
-
 void ITKIOGDCM_EXPORT
      GDCMImageIOFactoryRegister__Private()
 {
-  if (!GDCMImageIOFactoryHasBeenRegistered)
-  {
-    GDCMImageIOFactoryHasBeenRegistered = true;
-    GDCMImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<GDCMImageIOFactory>();
 }
 
 } // end namespace itk

@@ -43,17 +43,10 @@ PNGImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool PNGImageIOFactoryHasBeenRegistered;
-
 void ITKIOPNG_EXPORT
      PNGImageIOFactoryRegister__Private()
 {
-  if (!PNGImageIOFactoryHasBeenRegistered)
-  {
-    PNGImageIOFactoryHasBeenRegistered = true;
-    PNGImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<PNGImageIOFactory>();
 }
 
 } // end namespace itk

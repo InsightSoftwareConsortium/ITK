@@ -47,17 +47,10 @@ NiftiImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool NiftiImageIOFactoryHasBeenRegistered;
-
 void ITKIONIFTI_EXPORT
      NiftiImageIOFactoryRegister__Private()
 {
-  if (!NiftiImageIOFactoryHasBeenRegistered)
-  {
-    NiftiImageIOFactoryHasBeenRegistered = true;
-    NiftiImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<NiftiImageIOFactory>();
 }
 
 } // end namespace itk

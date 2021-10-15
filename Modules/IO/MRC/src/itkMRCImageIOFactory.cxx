@@ -53,17 +53,10 @@ MRCImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool MRCImageIOFactoryHasBeenRegistered;
-
 void ITKIOMRC_EXPORT
      MRCImageIOFactoryRegister__Private()
 {
-  if (!MRCImageIOFactoryHasBeenRegistered)
-  {
-    MRCImageIOFactoryHasBeenRegistered = true;
-    MRCImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<MRCImageIOFactory>();
 }
 
 } // end namespace itk

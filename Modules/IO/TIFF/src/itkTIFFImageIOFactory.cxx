@@ -43,17 +43,10 @@ TIFFImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool TIFFImageIOFactoryHasBeenRegistered;
-
 void ITKIOTIFF_EXPORT
      TIFFImageIOFactoryRegister__Private()
 {
-  if (!TIFFImageIOFactoryHasBeenRegistered)
-  {
-    TIFFImageIOFactoryHasBeenRegistered = true;
-    TIFFImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<TIFFImageIOFactory>();
 }
 
 } // end namespace itk

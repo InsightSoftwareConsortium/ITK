@@ -43,17 +43,10 @@ GiplImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool GiplImageIOFactoryHasBeenRegistered;
-
 void ITKIOGIPL_EXPORT
      GiplImageIOFactoryRegister__Private()
 {
-  if (!GiplImageIOFactoryHasBeenRegistered)
-  {
-    GiplImageIOFactoryHasBeenRegistered = true;
-    GiplImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<GiplImageIOFactory>();
 }
 
 } // end namespace itk

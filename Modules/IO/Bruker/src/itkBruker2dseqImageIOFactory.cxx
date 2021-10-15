@@ -56,16 +56,9 @@ Bruker2dseqImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool Bruker2dseqImageIOFactoryHasBeenRegistered;
-
 void ITKIOBruker_EXPORT
      Bruker2dseqImageIOFactoryRegister__Private()
 {
-  if (!Bruker2dseqImageIOFactoryHasBeenRegistered)
-  {
-    Bruker2dseqImageIOFactoryHasBeenRegistered = true;
-    Bruker2dseqImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<Bruker2dseqImageIOFactory>();
 }
 } // end namespace itk

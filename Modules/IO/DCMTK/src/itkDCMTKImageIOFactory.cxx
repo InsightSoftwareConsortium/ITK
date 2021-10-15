@@ -43,17 +43,10 @@ DCMTKImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool DCMTKImageIOFactoryHasBeenRegistered;
-
 void ITKIODCMTK_EXPORT
      DCMTKImageIOFactoryRegister__Private()
 {
-  if (!DCMTKImageIOFactoryHasBeenRegistered)
-  {
-    DCMTKImageIOFactoryHasBeenRegistered = true;
-    DCMTKImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<DCMTKImageIOFactory>();
 }
 
 } // end namespace itk

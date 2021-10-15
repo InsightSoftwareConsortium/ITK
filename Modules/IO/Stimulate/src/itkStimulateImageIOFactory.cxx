@@ -53,17 +53,10 @@ StimulateImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool StimulateImageIOFactoryHasBeenRegistered;
-
 void ITKIOStimulate_EXPORT
      StimulateImageIOFactoryRegister__Private()
 {
-  if (!StimulateImageIOFactoryHasBeenRegistered)
-  {
-    StimulateImageIOFactoryHasBeenRegistered = true;
-    StimulateImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<StimulateImageIOFactory>();
 }
 
 } // end namespace itk
