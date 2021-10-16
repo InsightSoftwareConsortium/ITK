@@ -9,7 +9,7 @@ include(CMakeParseArguments)
 
 
 if(DCMTK_USE_ICU)
-  option(ITK_USE_SYSTEM_ICU "Use an installed version of icu" OFF)
+  option(ITK_USE_SYSTEM_ICU "Use an installed version of ICU" OFF)
   if(NOT ITK_USE_SYSTEM_ICU)
     set(ITKDCMTK_PREREQS ${ITKDCMTK_BINARY_DIR}/DCMTK_Prereqs)
     set(ITKDCMTK_ICU_LIBRARIES )
