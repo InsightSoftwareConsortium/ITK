@@ -560,7 +560,7 @@ str = str
                   [vnl_mat.get(i, j) for j in range(vnl_mat.cols())]
                   for i in range(vnl_mat.rows())
                 ]
-                return repr(type(self)).split("'")[1] + "(" + repr(python_list_mat) + ")"
+                return type(self).__name__ + " (" + repr(python_list_mat) + ")"
             %}
         }
 
