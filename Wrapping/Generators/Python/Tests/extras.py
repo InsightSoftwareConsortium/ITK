@@ -395,6 +395,8 @@ arr2[0, 0] = 2
 assert arr2[0, 0] == 2
 # and make sure that the matrix hasn't changed.
 assert m_itk(0, 0) == 1
+# Test __repr__
+assert repr(m_itk) == "itk.itkMatrixPython.itkMatrixD33([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])"
 
 # test .astype for itk.Image
 numpyImage = np.random.randint(0, 256, (8, 12, 5)).astype(np.uint8)

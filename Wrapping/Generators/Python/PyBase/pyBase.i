@@ -554,6 +554,13 @@ str = str
                 vnl_reference = self.__GetVnlMatrix_orig__()
                 vnl_copy = type(vnl_reference)(vnl_reference)
                 return vnl_copy
+            def __repr__(self):
+                vnl_mat = self.GetVnlMatrix()
+                python_list_mat = [
+                  [vnl_mat.get(i, j) for j in range(vnl_mat.cols())]
+                  for i in range(vnl_mat.rows())
+                ]
+                return repr(type(self)).split("'")[1] + "(" + repr(python_list_mat) + ")"
             %}
         }
 
